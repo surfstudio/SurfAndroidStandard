@@ -2,11 +2,11 @@
 <template
     format="1"
     revision="1"
-    name="ItemController"
+    name="ssItemController"
     description="Creating ItemController for EasyAdapter ">
 
     <category value="Surf" />
-    <formfactor value="ItemController" />
+    <formfactor value="ssItemController" />
 
     <parameter
         id="nameController"
@@ -14,7 +14,7 @@
         type="string"
         constraints="class|nonempty"
         default=""
-        help="Имя контроллера"/>
+        help="Имя контроллера без суффикса ItemController"/>
     
     <parameter
         id="typeController"
