@@ -7,4 +7,5 @@
     <global id="nameParam" value="${extractLetters(nameTypeData?lower_case)}" />
     
     <global id="defPostfixController" value="ItemController" />
+    <global id="ktOrJavaExt" type="string" value="${generateKotlin?string('kt','java')}" />
 </globals>
