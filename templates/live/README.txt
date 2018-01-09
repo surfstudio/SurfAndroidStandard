@@ -1,0 +1,1 @@
+Для добавления шаблонов необходимо импортировать натройки из SurfLiveTemplates.jar через: File->ImportSettings

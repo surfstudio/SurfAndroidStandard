@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+
+def config = rootProject.extensions.getByName("ext")
+
+android {
+    def applicationName = config["applicationName"]
+
+    compileSdkVersion config["compileSdkVersion"]
+    buildToolsVersion config["buildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion config["minSdkVersion"]
+        targetSdkVersion config["targetSdkVersion"]
+
+        applicationId config["applicationId"]
+        versionCode config["versionCode"]
+        versionName config["versionName"]
+
+        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    //-------------------------------------- versions ----------------------------------------------
+
+    // Library, Apt versions
+    def daggerVersion = config["daggerVersion"]
+    def lombokVersion = config["lombokVersion"]
+    def appcompatVersion = config["appcompatVersion"]
+    def retrofitVersion = '2.1.0'
+    def okHttpVersion = '3.4.1'
+    def playServicesVersion = config["playServicesVersion"]
+
+    //Testing Library, Apt Versions
+    def mockitoVersion = '1.10.19'
+    def assertJVersion = '3.5.1'
+
+    //------------------------------------ dependencies --------------------------------------------
+    implementation project(':core')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.google.dagger:dagger:${daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+
+    //provided
+    compileOnly "org.projectlombok:lombok:${lombokVersion}"
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+
+    //network
+    implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    implementation 'com.google.code.gson:gson:2.8.1'
+    implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true
+    }
+
+    //other
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    implementation 'com.google.guava:guava:23.0-android'
+
+    //--------------------------------- test dependencies ------------------------------------------
+
+    //tests
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    testImplementation 'junit:junit:4.12'
+
+    //unit test
+    testAnnotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+
+    //instrumental test
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    androidTestImplementation "com.android.support:support-annotations:${appcompatVersion}"
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+
+    implementation 'com.google.code.findbugs:jsr305:3.0.1'
+}

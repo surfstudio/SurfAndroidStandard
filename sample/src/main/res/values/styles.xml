@@ -1,0 +1,30 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Widget" />
+
+    <style name="Widget.PlaceHolder">
+        <item name="opaqueBackgroundColor">?placeHolderOpaqueBackgroundColor</item>
+        <item name="transparentBackgroundColor">?placeHolderTransparentBackgroundColor</item>
+        <item name="placeHolderTitleStyle">@style/Widget.PlaceHolder.Title</item>
+        <item name="placeHolderSubtitleStyle">@style/Widget.PlaceHolder.Subtitle</item>
+        <item name="placeHolderButtonStyle">@style/Widget.PlaceHolder.Button</item>
+    </style>
+
+    <style name="Widget.PlaceHolder.Title">
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="Widget.PlaceHolder.Subtitle">
+        <item name="android:gravity">center_horizontal</item>
+    </style>
+
+    <style name="Widget.PlaceHolder.Button" parent="@style/Widget.AppCompat.Button" />
+</resources>

@@ -1,0 +1,152 @@
+<?xml version="1.0"?>
+<template
+    format="4"
+    revision="1"
+    name="Screen"
+    description="Создание экрана">
+
+    <dependency
+        name="ru.surfstudio.android.core"
+        revision="1" />
+
+    <category value="SurfStudio" />
+    <formfactor value="Screen" />
+
+    <parameter
+        id="className"
+        type="string"
+        name="Наименование экрана (без окончания)"
+        constraints="class|nonempty" />
+
+    <parameter
+        id="screenType"
+        type="enum"
+        name="Тип экрана"
+        default="activity">
+        <option id="activity">Activity</option>
+        <option id="fragment">Fragment</option>
+    </parameter>
+
+    <parameter
+        id="layoutName"
+        type="string"
+        name="Наименование файла разметки"
+        constraints="layout|unique|nonempty"
+        suggest="${classToResource(screenType)}_${classToResource(className)}" />
+
+    <parameter
+        id="typeViewActivity"
+        type="enum"
+        name="Родитель"
+        default="1"
+        visibility="screenType=='activity'">
+        <option id="1">BaseHandleableErrorActivityView</option>
+        <option id="2">BaseRenderableHandleableErrorActivityView</option>
+        <option id="3">BaseLdsActivityView</option>
+        <option id="4">BaseLdsSwrActivityView</option>
+        <option id="5">BaseLdsSwrPgnActivityView</option>
+    </parameter>
+
+    <parameter
+        id="typeViewFragment"
+        type="enum"
+        name="Родитель"
+        default="1"
+        visibility="screenType=='fragment'">
+        <option id="1">BaseHandleableErrorFragmentView</option>
+        <option id="2">BaseRenderableHandleableErrorFragmentView</option>
+        <option id="3">BaseLdsFragmentView</option>
+        <option id="4">BaseLdsSwrFragmentView</option>
+        <option id="5">BaseLdsSwrPgnFragmentView</option>
+    </parameter>
+
+    <parameter
+        id="typeRouteActivity"
+        type="enum"
+        name="Тип маршрута экрана"
+        default="1"
+        visibility="screenType=='activity'">
+        <option id="1">ActivityRoute</option>
+        <option id="2">ActivityWithParamsRoute</option>
+        <option id="3">ActivityWithResultRoute</option>
+        <option id="4">ActivityWithParamsAndResultRoute</option>
+    </parameter>
+
+    <parameter
+        id="typeRouteFragment"
+        type="enum"
+        name="Тип маршрута экрана"
+        default="1"
+        visibility="screenType=='fragment'">
+        <option id="1">FragmentRoute</option>
+        <option id="2">FragmentWithParamsRoute</option>
+    </parameter>
+
+    <parameter
+        id="routeResult"
+        type="string"
+        name="Тип результата экрана"
+        constraints="class|nonempty"
+        visibility="screenType=='activity' &amp;&amp; (typeRouteActivity=='3' || typeRouteActivity=='4')" />
+
+    <parameter
+        id="generateToolbar"
+        type="boolean"
+        name="Сгенерировать Toolbar"
+        default="false"
+        help="Использовать на экране Toolbar" />
+
+    <parameter
+        id="generateRecyclerView"
+        type="boolean"
+        name="Сгенерировать RecyclerView"
+        default="false"
+        help="Использовать на экране RecyclerView" />
+
+    <parameter
+        id="generateController"
+        type="boolean"
+        name="Сгенерировать Controller"
+        default="false"
+        help="Сгенерировать Controller"
+        visibility="generateRecyclerView" />
+
+    <parameter
+        id="nameController"
+        type="string"
+        name="Имя контроллера (без окончания)"
+        constraints="class|nonempty"
+        help="Имя контроллера"
+        visibility="generateController" />
+
+    <parameter
+        id="typeController"
+        type="enum"
+        name="Тип контроллера"
+        default="1"
+        visibility="generateController">
+        <option id="1">BindableItemController</option>
+        <option id="2">NoDataItemController</option>
+    </parameter>
+
+    <parameter
+        id="nameItemControllerData"
+        type="string"
+        name="Тип данных в Controller'е"
+        constraints="class|nonempty"
+        help="Тип данных"
+        visibility="generateController &amp;&amp; typeController=='1'" />
+
+    <parameter
+        id="layoutItemControllerData"
+        type="string"
+        name="Наименование файла разметки Controller'а"
+        constraints="layout|unique"
+        help="Имя файла, где будет содержаться разметка для ViewHolder'а"
+        suggest="item_list_${classToResource(nameController)}"
+        visibility="generateController" />
+
+    <globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+
+</template>

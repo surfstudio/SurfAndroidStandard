@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<template
+    format="1"
+    revision="1"
+    name="Route"
+    description="Создание маршрута экрана">
+
+    <category value="SurfStudio" />
+    <formfactor value="Route" />
+
+    <parameter
+        id="className"
+        name="Наименование класса (без окончания)"
+        type="string"
+        constraints="class|nonempty"
+        default="" />
+
+    <parameter
+        id="typeRoute"
+        name="Для чего строим маршрут"
+        type="enum"
+        default="1">
+        <option id="1">Activity</option>
+        <option id="2" >Fragment</option>
+        <option id="3" >Dialog</option>
+    </parameter>
+
+    <parameter
+        id="typeActivityRoute"
+        name="Тип маршрута для Activity"
+        type="enum"
+        default="1"
+        visibility="typeRoute=='1'">
+        <option id="1">ActivityRoute</option>
+        <option id="2" >ActivityWithParamsRoute</option>
+        <option id="3" >ActivityWithResultRoute</option>
+        <option id="4" >ActivityWithParamsAndResultRoute</option>
+    </parameter>
+
+    <parameter
+        id="typeFragmentRoute"
+        name="Тип маршрута для Fragment"
+        type="enum"
+        default="1"
+        visibility="typeRoute=='2'">
+        <option id="1">FragmentRoute</option>
+        <option id="2" >FragmentWithParamsRoute</option>
+    </parameter>
+
+    <parameter
+        id="typeDialogRoute"
+        name="Тип маршрута для Dialog"
+        type="enum"
+        default="1"
+        visibility="typeRoute=='3'">
+        <option id="1">DialogRoute</option>
+        <option id="2" >DialogWithParamsRoute</option>
+    </parameter>
+
+    <parameter
+        id="nameClassRoute"
+        name="Тип результата"
+        type="string"
+        constraints="class"
+        help="Тип данных, который будет возвращаться в качестве результата"
+        visibility="typeActivityRoute=='3' || typeActivityRoute=='4'" />
+
+    <globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+     
+
+</template>
