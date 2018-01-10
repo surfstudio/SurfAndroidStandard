@@ -88,6 +88,45 @@
         name="Тип результата экрана"
         constraints="class|nonempty"
         visibility="screenType=='activity' &amp;&amp; (typeRouteActivity=='3' || typeRouteActivity=='4')" />
+    
+    <parameter
+        id="routeParamType1"
+        type="string"
+        name="Тип параметра маршрута #1"
+        constraints="class"
+        visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
+
+    <parameter
+        id="routeParam1"
+        type="string"
+        name="Переменная параметра маршрута #1"
+        visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
+
+    <parameter
+        id="routeParamType2"
+        type="string"
+        name="Тип параметра маршрута #2"
+        constraints="class"
+        visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
+
+    <parameter
+        id="routeParam2"
+        type="string"
+        name="Переменная параметра маршрута #2"
+        visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
+
+    <parameter
+        id="routeParamType3"
+        type="string"
+        name="Тип параметра маршрута #3"
+        constraints="class"
+        visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
+
+    <parameter
+        id="routeParam3"
+        type="string"
+        name="Переменная параметра маршрута #3"
+        visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
 
     <parameter
         id="generateToolbar"
@@ -104,27 +143,19 @@
         help="Использовать на экране RecyclerView" />
 
     <parameter
-        id="generateController"
-        type="boolean"
-        name="Сгенерировать Controller"
-        default="false"
-        help="Сгенерировать Controller"
-        visibility="generateRecyclerView" />
-
-    <parameter
         id="nameController"
         type="string"
         name="Имя контроллера (без окончания)"
         constraints="class|nonempty"
         help="Имя контроллера"
-        visibility="generateController" />
+        visibility="generateRecyclerView" />
 
     <parameter
         id="typeController"
         type="enum"
         name="Тип контроллера"
         default="1"
-        visibility="generateController">
+        visibility="generateRecyclerView">
         <option id="1">BindableItemController</option>
         <option id="2">NoDataItemController</option>
     </parameter>
@@ -135,7 +166,7 @@
         name="Тип данных в Controller'е"
         constraints="class|nonempty"
         help="Тип данных"
-        visibility="generateController &amp;&amp; typeController=='1'" />
+        visibility="generateRecyclerView &amp;&amp; typeController=='1'" />
 
     <parameter
         id="layoutItemControllerData"
@@ -144,7 +175,7 @@
         constraints="layout|unique"
         help="Имя файла, где будет содержаться разметка для ViewHolder'а"
         suggest="item_list_${classToResource(nameController)}"
-        visibility="generateController" />
+        visibility="generateRecyclerView" />
 
     <globals file="globals.xml.ftl" />
     <execute file="recipe.xml.ftl" />
