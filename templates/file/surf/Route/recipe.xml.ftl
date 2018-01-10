@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
+<#import "root://activities/common/kotlin_macros.ftl" as kt>
 <recipe>
+  <@kt.addAllKotlinDependencies />
+
   <#if typeRoute=='1'>
     <instantiate from="src/app_package/${defPostfixActivityRoute}.java.ftl"
              to="${escapeXmlAttribute(srcOut)}/${className}${defPostfixActivityRoute}.java" />
