@@ -9,11 +9,10 @@ import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.ui.base.message.MessageController;
 import ru.surfstudio.standard.R;
-import ru.surfstudio.standard.interactor.common.network.error.ConversionException;
-import ru.surfstudio.standard.interactor.common.network.error.HttpCodes;
-import ru.surfstudio.standard.interactor.common.network.error.HttpProtocolException;
-import ru.surfstudio.standard.interactor.common.network.error.NoContentException;
-import ru.surfstudio.standard.interactor.common.network.error.NoInternetException;
+import ru.surfstudio.standard.interactor.common.error.ConversionException;
+import ru.surfstudio.standard.interactor.common.error.HttpCodes;
+import ru.surfstudio.standard.interactor.common.error.HttpProtocolException;
+import ru.surfstudio.standard.interactor.common.error.NoInternetException;
 
 /**
  * Стандартный обработчик ошибок, возникающих при работе с сервером
@@ -30,13 +29,13 @@ public class StandardErrorHandler extends NetworkErrorHandler {
 
     @Override
     protected void handleHttpProtocolException(HttpProtocolException e) {
-        if (e.getHttpCode() >= HttpCodes.CODE_500) {
+        if (e.getCode() >= HttpCodes.CODE_500) {
             messageController.show(R.string.server_error_message);
-        } else if (e.getHttpCode() == HttpCodes.CODE_403) {
+        } else if (e.getCode() == HttpCodes.CODE_403) {
             messageController.show(R.string.forbidden_error_error_message);
-        } else if (!TextUtils.isEmpty(e.getServerMessage())) {
-            messageController.show(e.getServerMessage());
-        } else if (e.getHttpCode() == HttpCodes.CODE_404) {
+        } else if (!TextUtils.isEmpty(e.getHttpMessage())) {
+            messageController.show(e.getHttpMessage());
+        } else if (e.getCode() == HttpCodes.CODE_404) {
             messageController.show(R.string.server_error_not_found);
         } else {
             messageController.show(R.string.default_http_error_message);
@@ -46,11 +45,6 @@ public class StandardErrorHandler extends NetworkErrorHandler {
     @Override
     protected void handleNoInternetError(NoInternetException e) {
         messageController.show(R.string.no_internet_connection_error_message);
-    }
-
-    @Override
-    protected void handleNoContentError(NoContentException e) {
-        messageController.show(R.string.no_content_error_message);
     }
 
     @Override

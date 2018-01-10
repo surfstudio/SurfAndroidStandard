@@ -17,6 +17,7 @@ import ru.surfstudio.android.core.util.DefaultActivityLifecycleCallbacks;
 import ru.surfstudio.standard.app.dagger.ActiveActivityHolderModule;
 import ru.surfstudio.standard.app.dagger.AppComponent;
 import ru.surfstudio.standard.app.dagger.AppModule;
+import ru.surfstudio.standard.app.dagger.DaggerAppComponent;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**

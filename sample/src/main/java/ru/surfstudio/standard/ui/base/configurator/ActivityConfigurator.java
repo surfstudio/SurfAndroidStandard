@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfig
 import ru.surfstudio.standard.app.App;
 import ru.surfstudio.standard.app.dagger.ActivityComponent;
 import ru.surfstudio.standard.app.dagger.AppComponent;
+import ru.surfstudio.standard.app.dagger.DaggerActivityComponent;
 
 
 public class ActivityConfigurator extends BaseActivityConfigurator<ActivityComponent, AppComponent> {

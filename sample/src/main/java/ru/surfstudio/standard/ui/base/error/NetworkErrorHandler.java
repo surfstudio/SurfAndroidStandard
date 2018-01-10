@@ -4,11 +4,10 @@ import java.util.List;
 
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.ui.base.error.ErrorHandler;
-import ru.surfstudio.standard.interactor.common.network.error.ConversionException;
-import ru.surfstudio.standard.interactor.common.network.error.HttpProtocolException;
-import ru.surfstudio.standard.interactor.common.network.error.NetworkException;
-import ru.surfstudio.standard.interactor.common.network.error.NoContentException;
-import ru.surfstudio.standard.interactor.common.network.error.NoInternetException;
+import ru.surfstudio.standard.interactor.common.error.ConversionException;
+import ru.surfstudio.standard.interactor.common.error.HttpProtocolException;
+import ru.surfstudio.standard.interactor.common.error.NetworkException;
+import ru.surfstudio.standard.interactor.common.error.NoInternetException;
 import rx.exceptions.CompositeException;
 
 /**
@@ -27,8 +26,6 @@ public abstract class NetworkErrorHandler implements ErrorHandler {
             handleHttpProtocolException((HttpProtocolException) err);
         } else if (err instanceof NoInternetException) {
             handleNoInternetError((NoInternetException) err);
-        } else if (err instanceof NoContentException) {
-            handleNoContentError((NoContentException) err);
         } else {
             handleOtherError(err);
         }
@@ -61,8 +58,6 @@ public abstract class NetworkErrorHandler implements ErrorHandler {
     protected abstract void handleHttpProtocolException(HttpProtocolException e);
 
     protected abstract void handleNoInternetError(NoInternetException e);
-
-    protected abstract void handleNoContentError(NoContentException e);
 
     protected abstract void handleConversionError(ConversionException e);
 
