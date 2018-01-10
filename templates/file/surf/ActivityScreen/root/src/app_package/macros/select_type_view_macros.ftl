@@ -4,25 +4,25 @@
 		<#if typeViewActivity=='1'>
     		BaseHandleableErrorActivityView
 		<#elseif typeViewActivity=='2'>
-   			BaseRenderableHandleableErrorActivityView
+   			BaseRenderableHandleableErrorActivityView<${className}ScreenModel>
 		<#elseif typeViewActivity=='3'>
-   			BaseLdsActivityView
+   			BaseLdsActivityView<${className}ScreenModel>
 		<#elseif typeViewActivity=='4'>
-			BaseLdsSwrActivityView
+			BaseLdsSwrActivityView<${className}ScreenModel>
 		<#elseif typeViewActivity=='5'>
-			BaseLdsSwrPgnActivityView
+			BaseLdsSwrPgnActivityView<${className}ScreenModel>
 		</#if>
 	<#else>
 		<#if typeViewFragment=='1'>
     		BaseHandleableErrorFragmentView
 		<#elseif typeViewFragment=='2'>
-   			BaseRenderableHandleableErrorFragmentView
+   			BaseRenderableHandleableErrorFragmentView<${className}ScreenModel>
 		<#elseif typeViewFragment=='3'>
-   			BaseLdsFragmentView
+   			BaseLdsFragmentView<${className}ScreenModel>
 		<#elseif typeViewFragment=='4'>
-			BaseLdsSwrFragmentView
+			BaseLdsSwrFragmentView<${className}ScreenModel>
 		<#elseif typeViewFragment=='5'>
-			BaseLdsSwrPgnFragmentView
+			BaseLdsSwrPgnFragmentView<${className}ScreenModel>
 		</#if>
 	</#if>
 </#macro>

@@ -2,14 +2,14 @@
 <template
     format="4"
     revision="1"
-    name="Screen"
+    name="ssScreen"
     description="Создание экрана">
 
     <dependency
         name="ru.surfstudio.android.core"
         revision="1" />
 
-    <category value="SurfStudio" />
+    <category value="Surf" />
     <formfactor value="Screen" />
 
     <parameter
