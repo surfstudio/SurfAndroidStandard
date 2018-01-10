@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
-
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -16,8 +17,8 @@ android {
     defaultConfig {
         minSdkVersion config["minSdkVersion"]
         targetSdkVersion config["targetSdkVersion"]
-        versionCode 1
-        versionName "0.1"
+        versionCode config["versionCode"]
+        versionName  config["versionName"]
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -85,7 +86,6 @@ dependencies {
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "javax.annotation:jsr250-api:1.0"
 
-
     //main
     api "com.agna.ferro:ferro-rx:1.0.2"
     api "com.android.support:design:${appcompatVersion}"
@@ -112,4 +112,20 @@ dependencies {
 
     //test
     testImplementation 'junit:junit:4.12'
+
+    publishing {
+        publications {
+            aar(MavenPublication) {
+                groupId = applicationId
+                version = android.defaultConfig.versionName
+                artifactId project.getName()
+                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
+            }
+        }
+    }
+
+    artifactoryPublish {
+        publications(publishing.publications.aar)
+    }
+
 }
