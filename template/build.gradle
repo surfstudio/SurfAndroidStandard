@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -38,16 +39,18 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
     //-------------------------------------- versions ----------------------------------------------
 
     // Library, Apt versions
     def daggerVersion = config["daggerVersion"]
-    def lombokVersion = config["lombokVersion"]
     def appcompatVersion = config["appcompatVersion"]
     def retrofitVersion = '2.1.0'
     def okHttpVersion = '3.4.1'
-    def playServicesVersion = config["playServicesVersion"]
 
     //Testing Library, Apt Versions
     def mockitoVersion = '1.10.19'
@@ -56,13 +59,12 @@ dependencies {
     //------------------------------------ dependencies --------------------------------------------
     implementation project(':core')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "com.google.dagger:dagger:${daggerVersion}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+    api "com.google.dagger:dagger:${daggerVersion}"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //provided
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
-    compileOnly 'javax.annotation:jsr250-api:1.0'
+    kapt'javax.annotation:jsr250-api:1.0'
+    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
 
     //network
     implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
