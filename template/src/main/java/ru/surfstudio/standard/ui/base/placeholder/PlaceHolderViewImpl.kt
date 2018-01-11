@@ -19,20 +19,12 @@ import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ProgressBar
-import android.widget.TextView
-
-import java.util.HashMap
-
+import android.widget.*
 import ru.surfstudio.android.core.ui.base.placeholder.PlaceHolderView
 import ru.surfstudio.android.core.ui.base.screen.model.state.LoadState
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.util.ViewUtils
-import uk.co.chrisjenx.calligraphy.CalligraphyUtils
+import java.util.*
 
 
 /**
@@ -209,10 +201,6 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
 
         ta.recycle()
 
-        //todo recommit
-//        applyTextAppearanceAttributes(titleTv)
-//        applyTextAppearanceAttributes(subtitleTv)
-
         contentContainer!!.addView(titleTv)
         contentContainer!!.addView(subtitleTv)
         contentContainer!!.addView(submitBtn)
@@ -302,20 +290,6 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         private val MSG_SHOW = 1
         private val MSG_HIDE = 0
 
-        private fun applyTextAppearanceAttributes(textView: TextView) {
-            val context = textView.context
-
-            val textAppearanceTypedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.textAppearance))
-            val textAppearanceResid = textAppearanceTypedArray.getResourceId(0, -1)
-
-            val fontPathTypedArray = context.obtainStyledAttributes(textAppearanceResid, intArrayOf(R.attr.fontPath))
-            val fontPath = fontPathTypedArray.getString(0)
-
-            CalligraphyUtils.applyFontToTextView(context, textView, fontPath)
-
-            textAppearanceTypedArray.recycle()
-            fontPathTypedArray.recycle()
-        }
 
         private fun setContentTextOrHide(textView: TextView?, text: String?) {
             val visibility = textView!!.visibility
