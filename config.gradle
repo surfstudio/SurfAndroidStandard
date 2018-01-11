@@ -12,6 +12,6 @@ ext {
 
     daggerVersion = '2.11'
     lombokVersion = '1.16.10'
-    appcompatVersion = '27.0.1'
+    appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
 }
