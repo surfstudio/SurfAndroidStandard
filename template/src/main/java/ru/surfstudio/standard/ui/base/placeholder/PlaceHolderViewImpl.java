@@ -34,7 +34,6 @@ import ru.surfstudio.android.core.ui.base.placeholder.PlaceHolderView;
 import ru.surfstudio.android.core.ui.base.screen.model.state.LoadState;
 import ru.surfstudio.standard.R;
 import ru.surfstudio.standard.ui.util.ViewUtils;
-import uk.co.chrisjenx.calligraphy.CalligraphyUtils;
 
 
 /**
@@ -47,7 +46,20 @@ public class PlaceHolderViewImpl extends FrameLayout implements PlaceHolderView 
 
     private static final int MSG_SHOW = 1;
     private static final int MSG_HIDE = 0;
+    Map<LoadState, ViewData> viewDataMap = new HashMap<>();
+    private ImageView iconIv;
+    private TextView titleTv;
+    private TextView subtitleTv;
+    private Button submitBtn;
+    private ProgressBar loadingPb;
+    private ViewGroup contentContainer;
 
+    private OnActionClickListener listener;
+    private ViewData defaultViewData;
+    private int opaqueBackgroundColor = Color.TRANSPARENT;
+    private int transparentBackgroundColor = Color.TRANSPARENT;
+    private LoadState state = LoadState.UNSPECIFIED;
+    private long visibleUptime;
     private final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -86,29 +98,6 @@ public class PlaceHolderViewImpl extends FrameLayout implements PlaceHolderView 
         }
     };
 
-    private ImageView iconIv;
-    private TextView titleTv;
-    private TextView subtitleTv;
-    private Button submitBtn;
-    private ProgressBar loadingPb;
-    private ViewGroup contentContainer;
-
-    private OnActionClickListener listener;
-
-    Map<LoadState, ViewData> viewDataMap = new HashMap<>();
-    private ViewData defaultViewData;
-
-    private int opaqueBackgroundColor = Color.TRANSPARENT;
-    private int transparentBackgroundColor = Color.TRANSPARENT;
-
-    private LoadState state = LoadState.UNSPECIFIED;
-
-    private long visibleUptime;
-
-    public interface OnActionClickListener {
-        void onActionClick(LoadState state);
-    }
-
     public PlaceHolderViewImpl(Context context, AttributeSet attrs) {
         this(context, attrs, R.attr.placeHolderStyle);
     }
@@ -116,6 +105,41 @@ public class PlaceHolderViewImpl extends FrameLayout implements PlaceHolderView 
     public PlaceHolderViewImpl(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context, attrs, defStyle);
+    }
+
+    private static void setContentTextOrHide(TextView textView, String text) {
+        final int visibility = textView.getVisibility();
+        if (!TextUtils.isEmpty(text)) {
+            textView.setText(text);
+            if (visibility != VISIBLE) {
+                textView.setVisibility(VISIBLE);
+            }
+        } else if (visibility != GONE) {
+            textView.setVisibility(GONE);
+        }
+    }
+
+    private static int obtainColorAttribute(TypedArray ta, int idx, int fallback) {
+        int color = fallback;
+        try {
+            color = ta.getColor(idx, fallback);
+        } catch (UnsupportedOperationException e) {
+            TypedValue tv = new TypedValue();
+            ta.getValue(idx, tv);
+            Log.w("PlaceHolderView", "неопознанный тип цвета. " +
+                    "Забылу установить в стилях?\n" + tv.coerceToString(), e);
+        }
+
+        return color;
+    }
+
+    private static Drawable obtainDrawableAttribute(TypedArray ta, int idx, Context context) {
+        int resId = ta.getResourceId(idx, 0);
+        if (resId == 0) {
+            return null;
+        }
+
+        return ContextCompat.getDrawable(context, resId);
     }
 
     /**
@@ -230,9 +254,6 @@ public class PlaceHolderViewImpl extends FrameLayout implements PlaceHolderView 
 
         ta.recycle();
 
-        applyTextAppearanceAttributes(titleTv);
-        applyTextAppearanceAttributes(subtitleTv);
-
         contentContainer.addView(titleTv);
         contentContainer.addView(subtitleTv);
         contentContainer.addView(submitBtn);
@@ -282,21 +303,6 @@ public class PlaceHolderViewImpl extends FrameLayout implements PlaceHolderView 
         appTypedArray.recycle();
     }
 
-    private static void applyTextAppearanceAttributes(TextView textView) {
-        Context context = textView.getContext();
-
-        TypedArray textAppearanceTypedArray = context.obtainStyledAttributes(new int[]{android.R.attr.textAppearance});
-        final int textAppearanceResid = textAppearanceTypedArray.getResourceId(0, -1);
-
-        TypedArray fontPathTypedArray = context.obtainStyledAttributes(textAppearanceResid, new int[]{R.attr.fontPath});
-        String fontPath = fontPathTypedArray.getString(0);
-
-        CalligraphyUtils.applyFontToTextView(context, textView, fontPath);
-
-        textAppearanceTypedArray.recycle();
-        fontPathTypedArray.recycle();
-    }
-
     private void updateContentState() {
         ViewData viewData = viewDataMap.get(state);
         if (viewData == null || viewData.isEmpty()) {
@@ -317,39 +323,8 @@ public class PlaceHolderViewImpl extends FrameLayout implements PlaceHolderView 
         setContentTextOrHide(submitBtn, viewData.buttonText);
     }
 
-    private static void setContentTextOrHide(TextView textView, String text) {
-        final int visibility = textView.getVisibility();
-        if (!TextUtils.isEmpty(text)) {
-            textView.setText(text);
-            if (visibility != VISIBLE) {
-                textView.setVisibility(VISIBLE);
-            }
-        } else if (visibility != GONE) {
-            textView.setVisibility(GONE);
-        }
-    }
-
-    private static int obtainColorAttribute(TypedArray ta, int idx, int fallback) {
-        int color = fallback;
-        try {
-            color = ta.getColor(idx, fallback);
-        } catch (UnsupportedOperationException e) {
-            TypedValue tv = new TypedValue();
-            ta.getValue(idx, tv);
-            Log.w("PlaceHolderView", "неопознанный тип цвета. " +
-                    "Забылу установить в стилях?\n" + tv.coerceToString(), e);
-        }
-
-        return color;
-    }
-
-    private static Drawable obtainDrawableAttribute(TypedArray ta, int idx, Context context) {
-        int resId = ta.getResourceId(idx, 0);
-        if (resId == 0) {
-            return null;
-        }
-
-        return ContextCompat.getDrawable(context, resId);
+    public interface OnActionClickListener {
+        void onActionClick(LoadState state);
     }
 
     @AllArgsConstructor

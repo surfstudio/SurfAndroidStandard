@@ -108,9 +108,6 @@ dependencies {
 //        transitive = true
 //    }
 
-    //other
-    api 'uk.co.chrisjenx:calligraphy:2.2.0'
-
     //test
     testImplementation 'junit:junit:4.12'
 
