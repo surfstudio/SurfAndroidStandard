@@ -71,7 +71,6 @@ android {
 dependencies {
     // Library, Apt versions
     def daggerVersion = config["daggerVersion"]
-    def lombokVersion = config["lombokVersion"]
     def appcompatVersion = config["appcompatVersion"]
     def rxBindingVersion = '1.0.1'
 
@@ -79,11 +78,9 @@ dependencies {
 
     //
     api "com.google.dagger:dagger:${daggerVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
 
     //annotations
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "javax.annotation:jsr250-api:1.0"
 
     //main
