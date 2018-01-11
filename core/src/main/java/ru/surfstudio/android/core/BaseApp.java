@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core;
 
 import android.app.Activity;
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.github.anrwatchdog.ANRWatchDog;
@@ -16,7 +16,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
  * Базовый класс приложения
  */
 
-public abstract class BaseApp extends Application {
+public abstract class BaseApp extends MultiDexApplication {
 
     private ActiveActivityHolder activeActivityHolder = new ActiveActivityHolder();
 
