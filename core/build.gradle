@@ -98,7 +98,7 @@ dependencies {
     api "com.annimon:stream:1.1.7"
     api "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
     api "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
-    api "com.intellij:annotations:12.0"
+    api 'org.jetbrains:annotations:15.0'
     api 'com.android.support:multidex:1.0.2'
 
     //logging
