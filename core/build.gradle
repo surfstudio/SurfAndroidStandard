@@ -96,6 +96,7 @@ dependencies {
     api "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
     api "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
     api 'org.jetbrains:annotations:15.0'
+    api 'com.android.support:multidex:1.0.2'
 
     //logging
     api "com.jakewharton.timber:timber:4.5.1"
