@@ -2,7 +2,6 @@ package ru.surfstudio.standard.ui.screen.splash
 
 
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen
-import ru.surfstudio.android.core.domain.Unit
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
@@ -32,9 +31,8 @@ constructor(private val activityNavigator: ActivityNavigator,
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         if (!viewRecreated) {
-
             val delay = Observable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
-            val work = Observable.just(Unit.INSTANCE)// полезная работа
+            val work = Observable.just({ initializeAppInteractor.initialize() })// полезная работа выполняется в этом Observable
             subscribeIoHandleError(delay.zipWith(work, { _, t2 -> t2 }), { activityNavigator.start(nextRoute) })
         }
     }
