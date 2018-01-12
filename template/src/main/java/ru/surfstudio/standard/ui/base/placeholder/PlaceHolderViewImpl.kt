@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.ui.base.placeholder
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
@@ -14,18 +15,16 @@ import android.support.v7.widget.AppCompatButton
 import android.support.v7.widget.AppCompatTextView
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.ui.base.placeholder.PlaceHolderView
 import ru.surfstudio.android.core.ui.base.screen.model.state.LoadState
 import ru.surfstudio.standard.R
-import ru.surfstudio.standard.ui.util.ViewUtils
 import java.util.*
-
 
 /**
  * плейсхолдер с состояниями: PlaceHolderView.State#LOADING, LOADING_TRANSPARENT, EMPTY, ERROR, NOT_FOUND, NONE.
@@ -33,6 +32,7 @@ import java.util.*
  */
 class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: AttributeSet, defStyle: Int = R.attr.placeHolderStyle) : FrameLayout(context, attrs, defStyle), PlaceHolderView {
 
+    @SuppressLint("HandlerLeak")
     private val handler = object : Handler() {
         override fun handleMessage(msg: Message) {
             if (msg.what == MSG_SHOW || msg.what == MSG_HIDE) {
@@ -48,8 +48,10 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
                         .setDuration(VISIBILITY_TOGGLE_ANIMATION_DURATION)
                         .setListener(object : ViewPropertyAnimatorListener {
                             override fun onAnimationStart(view: View) {
-                                view.alpha = if (msgWhat == MSG_SHOW) 0f else 1.0f
-                                super@PlaceHolderViewImpl.setVisibility(View.VISIBLE)
+                                if (view.visibility != View.GONE && view.visibility != View.INVISIBLE) {
+                                    view.alpha = if (msgWhat == MSG_SHOW) 0f else 1.0f
+                                    super@PlaceHolderViewImpl.setVisibility(View.VISIBLE)
+                                }
                             }
 
                             override fun onAnimationEnd(view: View) {
@@ -181,7 +183,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         val titleLayoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
-        titleLayoutParams.bottomMargin = ViewUtils.convertDpToPx(context, 12f)
+        titleLayoutParams.bottomMargin = resources.getDimensionPixelOffset(R.dimen.dp12)
         titleTv = AppCompatTextView(ContextThemeWrapper(context, titleStyle), null, 0)
         titleTv!!.layoutParams = titleLayoutParams
 
@@ -195,9 +197,10 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         val submitLayoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
-        submitLayoutParams.topMargin = ViewUtils.convertDpToPx(context, 24f)
+        submitLayoutParams.topMargin = resources.getDimensionPixelOffset(R.dimen.dp24)
         submitBtn = AppCompatButton(ContextThemeWrapper(context, buttonStyle), null, 0)
         submitBtn!!.layoutParams = submitLayoutParams
+        submitBtn!!.visibility = View.GONE
 
         ta.recycle()
 
@@ -270,13 +273,9 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         setContentTextOrHide(submitBtn, viewData.buttonText)
     }
 
-    private class ViewData(
-        val title: String? = null,
-        val subtitle: String? = null,
-        val buttonText: String? = null,
-        val icon: Drawable? = null) {
+    private class ViewData(internal val title: String, internal val subtitle: String, internal val buttonText: String, internal val icon: Drawable?) {
 
-        val isEmpty: Boolean
+        internal val isEmpty: Boolean
             get() = TextUtils.isEmpty(title) &&
                     TextUtils.isEmpty(subtitle) &&
                     TextUtils.isEmpty(buttonText) &&
@@ -284,14 +283,13 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     companion object {
-        private val VISIBILITY_TOGGLE_ANIMATION_DURATION: Long = 120
-        private val VISIBILITY_TOGGLE_DELAY_MS: Long = 150
+        private val VISIBILITY_TOGGLE_ANIMATION_DURATION: Long = 250
+        private val VISIBILITY_TOGGLE_DELAY_MS: Long = 250
 
         private val MSG_SHOW = 1
         private val MSG_HIDE = 0
 
-
-        private fun setContentTextOrHide(textView: TextView?, text: String?) {
+        private fun setContentTextOrHide(textView: TextView?, text: String) {
             val visibility = textView!!.visibility
             if (!TextUtils.isEmpty(text)) {
                 textView.text = text
@@ -310,8 +308,8 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
             } catch (e: UnsupportedOperationException) {
                 val tv = TypedValue()
                 ta.getValue(idx, tv)
-                Log.w("PlaceHolderView", "неопознанный тип цвета. " +
-                        "Забылу установить в стилях?\n" + tv.coerceToString(), e)
+                Logger.w("PlaceHolderView : неопознанный тип цвета. " +
+                        "Забыл установить в стилях?\n" + tv.coerceToString(), e)
             }
 
             return color
