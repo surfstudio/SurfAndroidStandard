@@ -7,6 +7,7 @@ import ru.surfstudio.android.core.ui.base.screen.activity.BaseHandleableErrorAct
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
+import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityConfigurator
 import javax.inject.Inject
 

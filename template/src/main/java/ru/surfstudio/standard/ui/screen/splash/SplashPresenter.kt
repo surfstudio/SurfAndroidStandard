@@ -35,7 +35,7 @@ constructor(private val activityNavigator: ActivityNavigator,
 
             val delay = Observable.just(Unit.INSTANCE).delay(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
             val work = Observable.just(Unit.INSTANCE).delay(0, TimeUnit.MILLISECONDS) // полезная работа
-            subscribeIoHandleError(delay.zipWith(work, { t1, t2 -> t2 }), { t -> activityNavigator.start(nextRoute) })
+            subscribeIoHandleError(delay.zipWith(work, { _, t2 -> t2 }), { activityNavigator.start(nextRoute) })
         }
     }
 
