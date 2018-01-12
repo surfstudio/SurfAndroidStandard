@@ -33,8 +33,8 @@ constructor(private val activityNavigator: ActivityNavigator,
         super.onLoad(viewRecreated)
         if (!viewRecreated) {
 
-            val delay = Observable.just(Unit.INSTANCE).delay(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
-            val work = Observable.just(Unit.INSTANCE).delay(0, TimeUnit.MILLISECONDS) // полезная работа
+            val delay = Observable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
+            val work = Observable.just(Unit.INSTANCE)// полезная работа
             subscribeIoHandleError(delay.zipWith(work, { _, t2 -> t2 }), { activityNavigator.start(nextRoute) })
         }
     }

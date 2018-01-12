@@ -1,18 +1,14 @@
 package ru.surfstudio.standard.app.intialization.migration
 
 
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
 import ru.surfstudio.android.core.app.intialization.migration.AppMigration
 import ru.surfstudio.android.core.app.intialization.migration.AppMigrationStorage
 import ru.surfstudio.android.core.app.log.Logger
-import javax.inject.Inject
 
 /**
  * хранилище [AppMigration]
  */
-@PerApplication
-class AppMigrationStorageImpl
-@Inject constructor() : AppMigrationStorage {
+class AppMigrationStorageImpl : AppMigrationStorage {
 
     override fun getMigrations(): Array<AppMigration> {
         return MIGRATIONS
