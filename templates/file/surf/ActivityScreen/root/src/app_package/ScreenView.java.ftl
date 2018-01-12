@@ -92,12 +92,14 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
                 protected SwipeRefreshLayout getSwipeRefreshLayout() {
                     return swipeRefreshLayout;
                 }
+
                 <#if (screenType='activity' && typeViewActivity!='4') || (screenType=='fragment' && typeViewFragment!='4')>
                     @Override
                     protected BasePaginationableAdapter getPaginationableAdapter() {
                         return null;
                     }
                 </#if>
+            </#if>
         </#if>
 
         @Override
@@ -121,6 +123,9 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     private void initToolbar() {
     }
     </#if>
+
+    private void initListeners() {
+    }
 
     <#if generateRecyclerView>
     private void initRecyclerView() {
