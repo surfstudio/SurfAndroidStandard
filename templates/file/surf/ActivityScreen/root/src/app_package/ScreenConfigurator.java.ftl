@@ -13,7 +13,7 @@ import dagger.Component;
 public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}ScreenConfigurator {
 
     @PerScreen
-    @Component(dependencies = AppComponent.class, modules = {${screenTypeCapitalized}ScreenModule.class<#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>, ${className}ScreenModule.class</#if>})
+    @Component(dependencies = ActivityComponent.class, modules = {${screenTypeCapitalized}ScreenModule.class<#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>, ${className}ScreenModule.class</#if>})
     public interface ${className}ScreenComponent extends ScreenComponent<${className}${screenTypeCapitalized}View> {
     }
 
