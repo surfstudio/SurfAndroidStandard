@@ -3,7 +3,6 @@ package ru.surfstudio.android.core.util.analytics.event;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.Getter;
 
 /**
  * Вспомагательный класс для создания события аналитики
@@ -15,12 +14,10 @@ public class EventData implements Event {
     /**
      * Ключ события
      */
-    @Getter
     private final String event;
     /**
      * Параметры события
      */
-    @Getter
     private final Map<String, String> params;
 
     public EventData(String event, int numberOfParams) {
@@ -74,6 +71,14 @@ public class EventData implements Event {
 
     public EventData addDefaultCurrency() {
         return add("currency", CURRENCY_RUB);
+    }
+
+    public String getEvent() {
+        return event;
+    }
+
+    public Map<String, String> getParams() {
+        return params;
     }
 
     public interface Predicate {

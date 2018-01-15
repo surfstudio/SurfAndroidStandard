@@ -71,7 +71,6 @@ android {
 dependencies {
     // Library, Apt versions
     def daggerVersion = config["daggerVersion"]
-    def lombokVersion = config["lombokVersion"]
     def appcompatVersion = config["appcompatVersion"]
     def rxBindingVersion = '1.0.1'
 
@@ -79,11 +78,9 @@ dependencies {
 
     //
     api "com.google.dagger:dagger:${daggerVersion}"
-    annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
 
     //annotations
-    compileOnly "org.projectlombok:lombok:${lombokVersion}"
     compileOnly "javax.annotation:jsr250-api:1.0"
 
     //main
@@ -98,7 +95,8 @@ dependencies {
     api "com.annimon:stream:1.1.7"
     api "com.jakewharton.rxbinding:rxbinding:${rxBindingVersion}"
     api "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
-    api "com.intellij:annotations:12.0"
+    api 'org.jetbrains:annotations:15.0'
+    api 'com.android.support:multidex:1.0.2'
 
     //logging
     api "com.jakewharton.timber:timber:4.5.1"
@@ -106,9 +104,6 @@ dependencies {
 //    api('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
 //        transitive = true
 //    }
-
-    //other
-    api 'uk.co.chrisjenx:calligraphy:2.2.0'
 
     //test
     testImplementation 'junit:junit:4.12'

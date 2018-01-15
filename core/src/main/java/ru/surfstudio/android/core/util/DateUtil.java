@@ -1,5 +1,7 @@
 package ru.surfstudio.android.core.util;
 
+import android.support.annotation.NonNull;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.SoftReference;
@@ -10,8 +12,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
-
-import lombok.NonNull;
 
 public class DateUtil {
 

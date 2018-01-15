@@ -93,7 +93,6 @@
         id="routeParamType1"
         type="string"
         name="Тип параметра маршрута #1"
-        constraints="class"
         visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
 
     <parameter
@@ -106,7 +105,6 @@
         id="routeParamType2"
         type="string"
         name="Тип параметра маршрута #2"
-        constraints="class"
         visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
 
     <parameter
@@ -119,7 +117,6 @@
         id="routeParamType3"
         type="string"
         name="Тип параметра маршрута #3"
-        constraints="class"
         visibility="(screenType=='activity' &amp;&amp; (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' &amp;&amp; typeRouteFragment='2')" />
 
     <parameter
