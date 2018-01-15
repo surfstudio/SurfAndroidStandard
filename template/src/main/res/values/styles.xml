@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textViewStyle">@style/AppTextViewStyle</item>
+        <item name="android:buttonStyle">@style/AppButtonStyle</item>
     </style>
 
     <style name="Widget" />
@@ -27,4 +30,13 @@
     </style>
 
     <style name="Widget.PlaceHolder.Button" parent="@style/Widget.AppCompat.Button" />
+
+    <style name="AppTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+    <style name="AppButtonStyle" parent="android:Widget.Button">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
 </resources>

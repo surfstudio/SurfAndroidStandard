@@ -10,7 +10,6 @@ import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.app.log.RemoteLogger;
 import ru.surfstudio.android.core.util.ActiveActivityHolder;
 import ru.surfstudio.android.core.util.DefaultActivityLifecycleCallbacks;
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 
 /**
  * Базовый класс приложения
@@ -26,7 +25,6 @@ public abstract class BaseApp extends Application {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         initAnrWatchDog();
         initLog();
-        initCalligraphy();
         registerActiveActivityListener();
     }
 
@@ -42,16 +40,6 @@ public abstract class BaseApp extends Application {
 
     private void initLog() {
         Logger.init();
-    }
-
-    /**
-     * Инициализация шрифтовой библиотеки Calligraphy
-     */
-    private void initCalligraphy() {
-        CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                .setDefaultFontPath("fonts/Roboto-Regular.ttf")
-                .setFontAttrId(R.attr.fontPath)
-                .build());
     }
 
     /**
