@@ -21,7 +21,8 @@ internal class SplashPresenter @Inject
 constructor(private val activityNavigator: ActivityNavigator,
             private val initializeAppInteractor: InitializeAppInteractor,
             basePresenterDependency: BasePresenterDependency,
-            private val route: SplashRoute) : BasePresenter<SplashActivityView>(basePresenterDependency) {
+            private val route: SplashRoute)
+    : BasePresenter<SplashActivityView>(basePresenterDependency) {
 
     private val nextRoute: ActivityRoute
         get() {
