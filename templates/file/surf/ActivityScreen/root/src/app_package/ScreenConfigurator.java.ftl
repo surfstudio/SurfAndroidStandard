@@ -10,11 +10,11 @@ import android.os.Bundle;
 import dagger.Component;
 
 
-class ${className}ScreenConfigurator extends ${screenTypeCapitalized}ScreenConfigurator {
+public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}ScreenConfigurator {
 
     @PerScreen
     @Component(dependencies = AppComponent.class, modules = {${screenTypeCapitalized}ScreenModule.class<#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>, ${className}ScreenModule.class</#if>})
-    interface ${className}ScreenComponent extends ScreenComponent<${className}${screenTypeCapitalized}View> {
+    public interface ${className}ScreenComponent extends ScreenComponent<${className}${screenTypeCapitalized}View> {
     }
 
     <#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>
