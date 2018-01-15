@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<template
+    format="4"
+    revision="1"
+    name="ssDialog"
+    description="Создание диалога">
+
+    <dependency
+        name="ru.surfstudio.android.core"
+        revision="1" />
+
+    <category value="Surf" />
+    <formfactor value="Dialog" />
+
+    <parameter
+        id="className"
+        type="string"
+        name="Наименование диалога"
+        constraints="class|nonempty" />
+
+    <parameter
+        id="layoutName"
+        type="string"
+        name="Наименование файла разметки"
+        constraints="layout|unique|nonempty"
+        suggest="dialog_${classToResource(className)}" />
+
+    <parameter
+        id="screenName"
+        type="string"
+        name="Наименование родительского экрана без окончания (если CartActivityView -> Написать 'Cart')"
+        constraints="class|nonempty" />
+
+    <parameter
+        id="typeRoute"
+        type="enum"
+        name="Тип маршрута диалога"
+        default="1">
+        <option id="1">DialogRoute</option>
+        <option id="2">DialogWithParamsRoute</option>
+    </parameter>
+    
+    <parameter
+        id="routeParamType1"
+        type="string"
+        name="Тип параметра маршрута #1"
+        visibility="typeRoute=='2'" />
+
+    <parameter
+        id="routeParam1"
+        type="string"
+        name="Переменная параметра маршрута #1"
+        visibility="typeRoute=='2'" />
+
+    <parameter
+        id="routeParamType2"
+        type="string"
+        name="Тип параметра маршрута #2"
+        visibility="typeRoute=='2'" />
+
+    <parameter
+        id="routeParam2"
+        type="string"
+        name="Переменная параметра маршрута #2"
+        visibility="typeRoute=='2'" />
+
+    <parameter
+        id="routeParamType3"
+        type="string"
+        name="Тип параметра маршрута #3"
+        visibility="typeRoute=='2'" />
+
+    <parameter
+        id="routeParam3"
+        type="string"
+        name="Переменная параметра маршрута #3"
+        visibility="typeRoute=='2'" />
+
+    <globals file="globals.xml.ftl" />
+    <execute file="recipe.xml.ftl" />
+
+</template>
