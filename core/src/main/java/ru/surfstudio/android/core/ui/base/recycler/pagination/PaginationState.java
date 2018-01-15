@@ -13,23 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ru.surfstudio.android.core.ui.base.recycler.item;
-
-
-import android.support.v7.widget.RecyclerView;
-
-import ru.surfstudio.android.core.ui.base.recycler.ItemList;
-import ru.surfstudio.android.core.ui.base.recycler.controller.NoDataItemController;
+package ru.surfstudio.android.core.ui.base.recycler.pagination;
 
 /**
- * Item for {@link ItemList} without data
- *
- * @param <H> type of ViewHolder
+ * states of {@link BasePaginationableAdapter}
  */
-public final class NoDataItem<H extends RecyclerView.ViewHolder>
-        extends BaseItem<H> {
+public enum PaginationState {
+    COMPLETE(false), // none
+    READY(true),     //footer loader
+    ERROR(true);     //footer button "show more"
 
-    public NoDataItem(NoDataItemController<H> itemController) {
-        super(itemController);
+    /**
+     * means that list has pagination footer
+     */
+    boolean visible;
+
+    PaginationState(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean isVisible() {
+        return visible;
     }
 }

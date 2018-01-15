@@ -1,10 +1,10 @@
 package ru.surfstudio.android.core.ui.base.screen.activity;
 
 
-import ru.surfstudio.android.core.ui.base.recycler.BasePaginationableAdapter;
+import ru.surfstudio.android.core.ui.base.recycler.pagination.BasePaginationableAdapter;
+import ru.surfstudio.android.core.ui.base.recycler.pagination.PaginationState;
 import ru.surfstudio.android.core.ui.base.screen.model.LdsSwrPgnScreenModel;
 import ru.surfstudio.android.core.ui.base.screen.model.state.LoadState;
-import ru.surfstudio.android.core.ui.base.screen.model.state.PaginationState;
 import ru.surfstudio.android.core.ui.base.screen.model.state.SwipeRefreshState;
 
 /**
