@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.ui.base.screen.activity;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,7 +17,6 @@ import ru.surfstudio.android.core.ui.base.delegate.manager.ScreenEventDelegateMa
 import ru.surfstudio.android.core.ui.base.screen.delegate.BaseActivityDelegate;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
 import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * базовая активити для всего приложения
@@ -65,11 +63,6 @@ public abstract class BaseActivity extends AppCompatActivity implements SupportS
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         eventDelegateManager.onNewIntent(intent);
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
     @Override

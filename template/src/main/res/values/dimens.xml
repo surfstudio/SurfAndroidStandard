@@ -2,4 +2,6 @@
 <resources>
     <dimen name="screen_horizontal_padding">16dp</dimen>
     <dimen name="screen_vertical_padding">16dp</dimen>
+    <dimen name="dp12">12dp</dimen>
+    <dimen name="dp24">24dp</dimen>
 </resources>
