@@ -1,10 +1,9 @@
 package ru.surfstudio.standard.ui.screen.main
 
-import javax.inject.Inject
-
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenterDependency
+import javax.inject.Inject
 
 /**
  * Презентер главного экрана
