@@ -141,38 +141,55 @@
 
     <parameter
         id="nameController"
+        name="Controller name without postfix"
         type="string"
-        name="Имя контроллера (без окончания)"
         constraints="class|nonempty"
-        help="Имя контроллера"
-        visibility="generateRecyclerView" />
-
+        visibility="generateRecyclerView" 
+        help="Имя контроллера без суффикса ItemController"/>
+    
     <parameter
         id="typeController"
+        name="Controller type"
         type="enum"
-        name="Тип контроллера"
         default="1"
         visibility="generateRecyclerView">
-        <option id="1">BindableItemController</option>
-        <option id="2">NoDataItemController</option>
+        <option id="1" >Bindable</option>
+        <option id="2" >NoData</option>
     </parameter>
 
     <parameter
-        id="nameItemControllerData"
+        id="nameTypeData"
+        name="Тип данных в контроллере"
         type="string"
-        name="Тип данных в Controller'е"
         constraints="class|nonempty"
+        default=""
         help="Тип данных"
         visibility="generateRecyclerView &amp;&amp; typeController=='1'" />
 
     <parameter
-        id="layoutItemControllerData"
+        id="hasListener"
+        name="Add Listener"
+        type="boolean"
+        default="true"
+        visibility="generateRecyclerView"
+        help="Создает для контроллера интерфейс Listener и поле"/>
+
+    <parameter
+        id="generateLayout"
+        name="Add Layout"
+        type="boolean"
+        default="true"
+        visibility="generateRecyclerView"
+        help="Создает для контроллера xml разметку"/>
+
+    <parameter
+        id="nameRes"
+        name="Layout file name"
         type="string"
-        name="Наименование файла разметки Controller'а"
-        constraints="layout|unique"
-        help="Имя файла, где будет содержаться разметка для ViewHolder'а"
         suggest="item_list_${classToResource(nameController)}"
-        visibility="generateRecyclerView" />
+        constraints="layout|unique"
+        visibility="generateRecyclerView &amp;&amp; generateLayout"
+        help="Имя файла, где будет содержаться разметка для ViewHolder'а" />
 
     <globals file="globals.xml.ftl" />
     <execute file="recipe.xml.ftl" />

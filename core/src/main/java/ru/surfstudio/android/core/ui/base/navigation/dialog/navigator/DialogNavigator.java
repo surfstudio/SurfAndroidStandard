@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.ui.base.navigation.dialog.navigator;
 
 
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
@@ -21,7 +22,7 @@ public abstract class DialogNavigator implements Navigator {
     }
 
     public void show(DialogRoute dialogRoute){
-        BaseDialogFragment dialog = dialogRoute.createFragment();
+        DialogFragment dialog = dialogRoute.createFragment();
         if(dialog instanceof BaseSimpleDialogFragment) {
             show((BaseSimpleDialogFragment) dialog);
         } else {

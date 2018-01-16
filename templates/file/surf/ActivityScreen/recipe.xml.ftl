@@ -42,4 +42,20 @@
      <instantiate from="res/layout/layout.xml.ftl"
                 to="${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml" />
 
+    <open file="${escapeXmlAttribute(srcOut)}/${className}${screenTypeCapitalized}View.java" />
+
+    <#if generateRecyclerView>
+	    <#if generateKotlin>
+            <instantiate from="src/app_package/Controller.kt.ftl"
+                to="${escapeXmlAttribute(srcOut)}/${nameController}${defPostfixController}.kt" />
+	    <#else>
+            <instantiate from="src/app_package/Controller.java.ftl"
+                to="${escapeXmlAttribute(srcOut)}/${nameController}${defPostfixController}.java" />
+	    </#if>
+
+        <#if generateLayout>
+            <instantiate from="res/layout/layout.xml.ftl"
+                to="${escapeXmlAttribute(resOut)}/layout/${nameRes}.xml" />
+        </#if>
+    </#if>
 </recipe>

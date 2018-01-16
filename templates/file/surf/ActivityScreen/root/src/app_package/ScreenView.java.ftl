@@ -18,12 +18,12 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     </#if>
 
     <#if generateRecyclerView>
-    private RecyclerView recyclerView;
-    </#if>
-    <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
-    private PaginationableAdapter adapter;
-    <#else>
-    private EasyAdapter adapter;
+        private RecyclerView recyclerView;
+        <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+            private PaginationableAdapter adapter;
+        <#else>
+            private EasyAdapter adapter;
+        </#if>
     </#if>
 
     @Override
