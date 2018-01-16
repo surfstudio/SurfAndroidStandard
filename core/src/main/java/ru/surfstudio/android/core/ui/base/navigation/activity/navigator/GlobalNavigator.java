@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 
 import javax.inject.Inject;
 
@@ -35,26 +34,6 @@ public class GlobalNavigator implements Navigator {
         Bundle bundle = route.prepareBundle();
         if (intent.resolveActivity(localContext.getPackageManager()) != null) {
             localContext.startActivity(intent, bundle);
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean finishCurrent() {
-        Activity activity = activityHolder.getActivity();
-        if (activity != null && activity.isFinishing()) {
-            activity.finish();
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean finishAffinity() {
-        Activity activity = activityHolder.getActivity();
-        if (activity != null) {
-            ActivityCompat.finishAffinity(activity);
             return true;
         }
 
