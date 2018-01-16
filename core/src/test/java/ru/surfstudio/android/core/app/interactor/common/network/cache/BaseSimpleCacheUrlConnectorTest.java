@@ -18,6 +18,7 @@ import ru.surfstudio.android.core.app.interactor.common.network.HttpMethods;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 
 /**
@@ -27,17 +28,24 @@ import static org.mockito.Matchers.any;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(TextUtils.class)
 public class BaseSimpleCacheUrlConnectorTest {
+
+    private SimpleCacheInfo yaSci = new SimpleCacheInfo(HttpMethods.GET, "me/fu", "ya_test", 1);
+    private SimpleCacheInfo paramPath = new SimpleCacheInfo(HttpMethods.GET, "me/{param_one}/like", "param_test", 1);
+    private SimpleCacheInfo paramVal = new SimpleCacheInfo(HttpMethods.GET, "me/job&ginger=1", "param_test", 1);
+
     private BaseSimpleCacheUrlConnector connector = new BaseSimpleCacheUrlConnector() {
         @Override
         Collection<SimpleCacheInfo> getSimpleCacheInfo() {
             Set<SimpleCacheInfo> set = new HashSet<>();
-            set.add(new SimpleCacheInfo(HttpMethods.GET, "http://ya.ru/v2/me/fu", "ya_test", 1));
+            set.add(yaSci);
+            set.add(paramPath);
+            set.add(paramVal);
             return set;
         }
 
         @Override
         int getApiVersionSegmentOrder() {
-            return 3;
+            return 4;
         }
     };
 
@@ -62,7 +70,14 @@ public class BaseSimpleCacheUrlConnectorTest {
 
     @Test
     public void getByUrl() throws Exception {
-        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/fu"), HttpMethods.GET), "");
+        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/fu"), HttpMethods.GET), yaSci);
+        assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/ful"), HttpMethods.GET));
+
+        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/123/like"), HttpMethods.GET), paramPath);
+        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/321/like"), HttpMethods.GET), paramPath);
+
+        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=1"), HttpMethods.GET), paramVal);
+        assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=2"), HttpMethods.GET));
     }
 
 }
