@@ -97,6 +97,7 @@ dependencies {
     api "com.jakewharton.rxbinding:rxbinding-appcompat-v7:${rxBindingVersion}"
     api 'org.jetbrains:annotations:15.0'
     api 'com.android.support:multidex:1.0.2'
+    api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
 
     //logging
     api "com.jakewharton.timber:timber:4.5.1"
@@ -107,6 +108,10 @@ dependencies {
 
     //test
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.powermock:powermock-module-junit4:1.6.2"
+    testImplementation "org.powermock:powermock-module-junit4-rule:1.6.2"
+    testImplementation "org.powermock:powermock-api-mockito:1.6.2"
+    testImplementation "org.powermock:powermock-classloading-xstream:1.6.2"
 
     publishing {
         publications {

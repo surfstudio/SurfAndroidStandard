@@ -14,4 +14,5 @@ ext {
     lombokVersion = '1.16.10'
     appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
+    retrofitVersion = '2.1.0'
 }
