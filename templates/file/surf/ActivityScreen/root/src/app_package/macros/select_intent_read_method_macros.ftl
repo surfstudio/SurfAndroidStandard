@@ -1,26 +1,26 @@
-<#-- Макрос выбора от какого класcа наследоваться в Route -->
+<#-- Макрос выбора intent.get в Route -->
 <#macro selectIntentReadMethod paramType extra>
-	<#if paramType=='String'>
-        intent.getStringExtra(${extra});
+  <#if paramType=='String'>
+        intent.getStringExtra(${extra})<#if !generateKotlin>;</#if>
     <#elseif paramType=='CharSequence'>
-        intent.getCharSequenceExtra(${extra});
-    <#elseif paramType=='boolean'>
-        intent.getBooleanExtra(${extra}, false);
-    <#elseif paramType=='byte'>
-        intent.getByteExtra(${extra}, -1);
-    <#elseif paramType=='char'>
-        intent.getCharExtra(${extra}, ' ');
-    <#elseif paramType=='short'>
-        intent.getShortExtra(${extra}, -1);
-    <#elseif paramType=='int'>
-        intent.getIntExtra(${extra}, -1);
-    <#elseif paramType=='long'>
-        intent.getLongExtra(${extra}, -1);
-    <#elseif paramType=='float'>
-        intent.getFloatExtra (${extra}, -1);
-    <#elseif paramType=='double'>
-        intent.getDoubleExtra(${extra}, -1);
+        intent.getCharSequenceExtra(${extra})<#if !generateKotlin>;</#if>
+    <#elseif paramType=='boolean' || paramType=='Boolean'>
+        intent.getBooleanExtra(${extra}, false)<#if !generateKotlin>;</#if>
+    <#elseif paramType=='byte' || paramType=='Byte'>
+        intent.getByteExtra(${extra}, -1)<#if !generateKotlin>;</#if>
+    <#elseif paramType=='char' || paramType=='Char'>
+        intent.getCharExtra(${extra}, ' ')<#if !generateKotlin>;</#if>
+    <#elseif paramType=='short' || paramType=='Short'>
+        intent.getShortExtra(${extra}, -1)<#if !generateKotlin>;</#if>
+    <#elseif paramType=='int' || paramType=='Int'>
+        intent.getIntExtra(${extra}, -1)<#if !generateKotlin>;</#if>
+    <#elseif paramType=='long' || paramType=='Long'>
+        intent.getLongExtra(${extra}, -1)<#if !generateKotlin>;</#if>
+    <#elseif paramType=='float' || paramType=='Float'>
+        intent.getFloatExtra (${extra}, -1)<#if !generateKotlin>;</#if>
+    <#elseif paramType=='double' || paramType=='Double'>
+        intent.getDoubleExtra(${extra}, -1)<#if !generateKotlin>;</#if>
 	<#else>
-        intent.getSerializableExtra(${extra});
+        intent.getSerializableExtra(${extra})<#if !generateKotlin>;</#if>
 	</#if>
 </#macro>
