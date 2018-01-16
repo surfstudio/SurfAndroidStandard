@@ -58,6 +58,7 @@ dependencies {
 
     //------------------------------------ dependencies --------------------------------------------
     implementation project(':core')
+    implementation project(':analytics')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api "com.google.dagger:dagger:${daggerVersion}"
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"

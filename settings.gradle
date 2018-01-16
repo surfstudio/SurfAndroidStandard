@@ -1,1 +1,1 @@
-include ':template', ':core'
+include ':template', ':core', ':analytics'

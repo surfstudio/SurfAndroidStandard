@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.artifactory'
-apply plugin: 'maven-publish'
+apply from: '../publish.gradle'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -18,7 +18,7 @@ android {
         minSdkVersion config["minSdkVersion"]
         targetSdkVersion config["targetSdkVersion"]
         versionCode config["versionCode"]
-        versionName  config["versionName"]
+        versionName config["versionName"]
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -101,26 +101,11 @@ dependencies {
     //logging
     api "com.jakewharton.timber:timber:4.5.1"
     api "com.github.anrwatchdog:anrwatchdog:1.3.0"
-//    api('com.crashlytics.sdk.android:crashlytics:2.6.6@aar') {
-//        transitive = true
-//    }
 
     //test
     testImplementation 'junit:junit:4.12'
+}
 
-    publishing {
-        publications {
-            aar(MavenPublication) {
-                groupId = applicationId
-                version = android.defaultConfig.versionName
-                artifactId project.getName()
-                artifact("$buildDir/outputs/aar/${project.getName()}-release.aar")
-            }
-        }
-    }
-
-    artifactoryPublish {
-        publications(publishing.publications.aar)
-    }
-
+artifactoryPublish {
+    publications(publishing.publications.aar)
 }
