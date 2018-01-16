@@ -18,12 +18,12 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
     </#if>
 
     <#if generateRecyclerView>
-    lateinit var recyclerView: RecyclerView
-    </#if>
-    <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
-    lateinit var adapter: PaginationableAdapter
-    <#else>
-    lateinit var adapter: EasyAdapter
+        lateinit var recyclerView: RecyclerView
+        <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+            lateinit var adapter: PaginationableAdapter
+        <#else>
+            lateinit var adapter: EasyAdapter
+        </#if>
     </#if>
 
     override fun getPresenters() = arrayOf(presenter)
