@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.ui.base.navigation.dialog.route;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 
 import ru.surfstudio.android.core.ui.base.screen.dialog.BaseDialogFragment;
 
@@ -10,13 +11,13 @@ import ru.surfstudio.android.core.ui.base.screen.dialog.BaseDialogFragment;
 public abstract class DialogWithParamsRoute extends DialogRoute {
 
     @Override
-    protected abstract Class<? extends BaseDialogFragment> getFragmentClass();
+    protected abstract Class<? extends DialogFragment> getFragmentClass();
 
     protected abstract Bundle prepareBundle();
 
     @Override
-    public BaseDialogFragment createFragment(){
-        BaseDialogFragment fragment = super.createFragment();
+    public DialogFragment createFragment(){
+        DialogFragment fragment = super.createFragment();
         fragment.setArguments(prepareBundle());
         return fragment;
     }
