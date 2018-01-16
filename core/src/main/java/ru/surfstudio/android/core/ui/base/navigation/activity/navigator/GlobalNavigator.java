@@ -27,6 +27,12 @@ public class GlobalNavigator implements Navigator {
         this.activityHolder = activityHolder;
     }
 
+    /**
+     * Запуск активити.
+     *
+     * @param route роутер
+     * @return {@code true} если активити успешно запущен, иначе {@code false}
+     */
     public boolean start(ActivityRoute route) {
         Activity activity = activityHolder.getActivity();
         Context localContext = activity != null ? activity : context;
