@@ -33,7 +33,7 @@ artifactory {
 
     publish {
         repository {
-            repoKey = "libs-release-local"
+            repoKey = "ext-release-local"
             username = "build"
             password = "T4eMKUFL4HQabI_qn7N2"
         }
