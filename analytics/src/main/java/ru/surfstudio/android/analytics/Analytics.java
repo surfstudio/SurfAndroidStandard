@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.util.analytics;
+package ru.surfstudio.android.analytics;
 
 
 import android.support.annotation.NonNull;
