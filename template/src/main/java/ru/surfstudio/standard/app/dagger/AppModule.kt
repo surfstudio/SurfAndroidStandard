@@ -1,7 +1,6 @@
 package ru.surfstudio.standard.app.dagger
 
 import android.content.Context
-
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.app.dagger.CoreAppModule
