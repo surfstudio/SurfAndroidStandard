@@ -7,5 +7,6 @@ package ru.surfstudio.android.core.app.interactor.common;
 public enum DataPriority {
     CACHE,
     SERVER,
+    ONLY_ACTUAL,
     AUTO
 }
