@@ -65,10 +65,6 @@ public class BaseSimpleCacheUrlConnectorTest {
     }
 
     @Test
-    public void getApiVersionSegmentOrder() throws Exception {
-    }
-
-    @Test
     public void getByUrl() throws Exception {
         assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/fu"), HttpMethods.GET), yaSci);
         assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/ful"), HttpMethods.GET));

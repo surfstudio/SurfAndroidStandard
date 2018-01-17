@@ -15,4 +15,6 @@ ext {
     appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
     retrofitVersion = '2.1.0'
+    okHttpVersion = '3.4.1'
+    gsonVersion = '2.8.1'
 }
