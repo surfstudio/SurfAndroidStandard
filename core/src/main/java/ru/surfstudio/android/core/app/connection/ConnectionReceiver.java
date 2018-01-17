@@ -15,17 +15,18 @@ import rx.subjects.PublishSubject;
 
 public class ConnectionReceiver extends BroadcastReceiver {
 
+    private Context context;
     private PublishSubject<Boolean> connectionStateSubject = PublishSubject.create();
     private boolean isConnected;
 
-    public ConnectionReceiver() {
+    public ConnectionReceiver(Context context) {
+        this.context = context;
+        this.isConnected = checkActiveConnection();
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();// возвращает null при отсутствии соединения
-        isConnected = netInfo != null && netInfo.isConnected();
+        isConnected = checkActiveConnection();
         connectionStateSubject.onNext(isConnected);
     }
 
@@ -35,5 +36,11 @@ public class ConnectionReceiver extends BroadcastReceiver {
 
     public boolean isConnected() {
         return isConnected;
+    }
+
+    private boolean checkActiveConnection() {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();// возвращает null при отсутствии соединения
+        return netInfo != null && netInfo.isConnected();
     }
 }
