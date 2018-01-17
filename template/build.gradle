@@ -52,6 +52,9 @@ dependencies {
     def retrofitVersion = '2.1.0'
     def okHttpVersion = '3.4.1'
 
+    //Kotlin
+    def ankoVersion = config["ankoVersion"]
+
     //Testing Library, Apt Versions
     def mockitoVersion = '1.10.19'
     def assertJVersion = '3.5.1'
@@ -63,7 +66,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //provided
-    kapt'javax.annotation:jsr250-api:1.0'
+    kapt 'javax.annotation:jsr250-api:1.0'
     kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
 
     //network
@@ -79,6 +82,9 @@ dependencies {
     //other
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     implementation 'com.google.guava:guava:23.0-android'
+
+    //kotlin
+    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 
     //--------------------------------- test dependencies ------------------------------------------
 

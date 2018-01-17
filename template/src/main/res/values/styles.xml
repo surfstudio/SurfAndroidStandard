@@ -9,6 +9,8 @@
 
         <item name="android:textViewStyle">@style/AppTextViewStyle</item>
         <item name="android:buttonStyle">@style/AppButtonStyle</item>
+        <item name="placeHolderStyle">@style/Widget.PlaceHolder</item>
+                
     </style>
 
     <style name="Widget" />
