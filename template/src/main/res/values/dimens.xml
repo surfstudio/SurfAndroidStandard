@@ -4,4 +4,12 @@
     <dimen name="screen_vertical_padding">16dp</dimen>
     <dimen name="dp12">12dp</dimen>
     <dimen name="dp24">24dp</dimen>
+
+    <dimen name="button_horizontal_inset">4dp</dimen>
+    <dimen name="button_vertical_inset">6dp</dimen>
+    <dimen name="button_horizontal_padding">8dp</dimen>
+    <dimen name="button_vertical_padding">4dp</dimen>
+    <dimen name="button_outline_radius">2dp</dimen>
+    <dimen name="button_outline_stroke_weight">2dp</dimen>
+
 </resources>
