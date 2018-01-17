@@ -4,6 +4,7 @@ import dagger.Module;
 import ru.surfstudio.android.core.app.SharedPrefModule;
 import ru.surfstudio.android.core.app.interactor.common.network.NetworkModule;
 import ru.surfstudio.android.core.app.interactor.common.network.OkHttpModule;
+import ru.surfstudio.android.core.app.connection.ConnectionModule;
 import ru.surfstudio.android.core.app.intialization.InitializationModule;
 import ru.surfstudio.android.core.app.scheduler.SchedulerModule;
 
@@ -16,7 +17,8 @@ import ru.surfstudio.android.core.app.scheduler.SchedulerModule;
         NetworkModule.class,
         InitializationModule.class,
         SharedPrefModule.class,
-        SchedulerModule.class
+        SchedulerModule.class,
+        ConnectionModule.class
 })
 public interface CoreAppModule {
 }

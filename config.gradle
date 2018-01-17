@@ -14,6 +14,7 @@ ext {
     lombokVersion = '1.16.10'
     appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
+    ankoVersion = '0.10.4'                      //https://goo.gl/XGJGR7
     retrofitVersion = '2.1.0'
     okHttpVersion = '3.4.1'
     gsonVersion = '2.8.1'
