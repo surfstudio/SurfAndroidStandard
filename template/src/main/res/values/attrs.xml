@@ -34,4 +34,8 @@
         <attr name="errorButtonText" format="string" />
         <attr name="errorIcon" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="CarouselView">
+        <attr name="isLooped" format="boolean" />
+    </declare-styleable>
 </resources>
