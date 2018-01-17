@@ -1,6 +1,6 @@
-package ru.surfstudio.android.core.util.analytics.event;
+package ru.surfstudio.android.analytics.event;
 
-import ru.surfstudio.android.core.util.analytics.Analytics;
+import ru.surfstudio.android.analytics.Analytics;
 
 /**
  * Позволяет отправить событие аналитики

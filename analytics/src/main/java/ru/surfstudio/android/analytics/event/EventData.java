@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.util.analytics.event;
+package ru.surfstudio.android.analytics.event;
 
 import java.util.HashMap;
 import java.util.Map;

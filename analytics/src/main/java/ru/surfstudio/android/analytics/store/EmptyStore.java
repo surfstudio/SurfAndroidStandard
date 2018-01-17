@@ -1,11 +1,11 @@
-package ru.surfstudio.android.core.util.analytics.store;
+package ru.surfstudio.android.analytics.store;
 
 
 import android.support.annotation.NonNull;
 
 import java.util.Map;
 
-import ru.surfstudio.android.core.util.analytics.Analytics;
+import ru.surfstudio.android.analytics.Analytics;
 
 /**
  * Делает ничего.
