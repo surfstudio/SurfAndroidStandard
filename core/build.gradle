@@ -46,8 +46,7 @@ android {
         }
         qa {
             signingConfig signingConfigs.test
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
             debuggable = true
             ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
             ext.betaDistributionGroupAliases = "Surf"
