@@ -12,9 +12,11 @@ import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
  */
 public class ConnectionProvider {
 
-    private ConnectionReceiver receiver = new ConnectionReceiver();
+    private ConnectionReceiver receiver;
 
     public ConnectionProvider(Context context) {
+        this.receiver = new ConnectionReceiver(context);
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(CONNECTIVITY_ACTION);
         context.registerReceiver(receiver, intentFilter);
