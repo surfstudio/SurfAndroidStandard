@@ -14,4 +14,6 @@ ext {
     lombokVersion = '1.16.10'
     appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
+
+    ankoVersion = '0.10.4'                      //https://goo.gl/XGJGR7
 }
