@@ -110,10 +110,10 @@ dependencies {
 
     //test
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.powermock:powermock-module-junit4:1.6.2"
-    testImplementation "org.powermock:powermock-module-junit4-rule:1.6.2"
-    testImplementation "org.powermock:powermock-api-mockito:1.6.2"
-    testImplementation "org.powermock:powermock-classloading-xstream:1.6.2"
+    testImplementation "org.powermock:powermock-module-junit4:${porwerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4-rule:${porwerMockVersion}"
+    testImplementation "org.powermock:powermock-api-mockito:${porwerMockVersion}"
+    testImplementation "org.powermock:powermock-classloading-xstream:${porwerMockVersion}"
 }
 
 artifactoryPublish {
