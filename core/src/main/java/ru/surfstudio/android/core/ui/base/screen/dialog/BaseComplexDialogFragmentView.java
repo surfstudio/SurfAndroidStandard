@@ -3,18 +3,17 @@ package ru.surfstudio.android.core.ui.base.screen.dialog;
 
 import android.os.Bundle;
 
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 import javax.inject.Inject;
 
-import ru.surfstudio.android.core.ui.base.delegate.SupportScreenEventDelegation;
-import ru.surfstudio.android.core.ui.base.delegate.manager.ActivityScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.base.delegate.manager.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.event.delegate.SupportScreenEventDelegation;
+import ru.surfstudio.android.core.ui.base.event.delegate.manager.ActivityScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.event.delegate.manager.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.error.ErrorHandler;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.MvpFragmentViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.MvpViewDelegate;
-import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderFragmentCoreView;
 
@@ -47,7 +46,7 @@ public abstract class BaseComplexDialogFragmentView extends BaseDialogFragment i
         getErrorHandler().handleError(error);
     }
 
-    public PersistentScreenScope getScreenScope() {
+    public PersistentScope getScreenScope() {
         return viewDelegate.getScreenScope();
     }
 

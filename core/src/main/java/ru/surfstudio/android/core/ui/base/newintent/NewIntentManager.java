@@ -10,13 +10,14 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
-import ru.surfstudio.android.core.ui.base.delegate.NewIntentDelegate;
+import ru.surfstudio.android.core.ui.base.event.delegate.NewIntentDelegate;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
 
 /**
  * позволяет регистрировать обработчики на событие onNewIntent
+ * todo слить с ActivityNavigator
  */
 @PerScreen
 public class NewIntentManager implements NewIntentDelegate {

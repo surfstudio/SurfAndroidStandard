@@ -4,14 +4,13 @@ package ru.surfstudio.android.core.ui.base.screen.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivity;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentScreenConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.MvpFragmentViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.MvpViewDelegate;
-import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderFragmentCoreView;
 
@@ -124,7 +123,7 @@ public abstract class CoreFragmentView extends BaseFragment implements
                 if (fragment instanceof CoreFragmentView) {
                     // успешное удалив фрагмент из стека, нужно и презентер очистить
                     // т.к., у презентера свой фрагмент с instance retained
-                    PersistentScreenScope.destroyImmediately((BaseActivity) getActivity(),
+                    PersistentScope.destroyImmediately((BaseActivity) getActivity(),
                             ((CoreFragmentView) fragment).getScreenConfigurator().getName());
                 }
 

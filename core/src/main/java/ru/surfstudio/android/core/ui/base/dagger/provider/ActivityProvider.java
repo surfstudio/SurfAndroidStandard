@@ -17,7 +17,7 @@ package ru.surfstudio.android.core.ui.base.dagger.provider;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 
 /**
@@ -25,7 +25,7 @@ import com.agna.ferro.core.PersistentScreenScope;
  * every call {@link this#get()} return actual Activity
  */
 public class ActivityProvider extends Provider<AppCompatActivity> {
-    public ActivityProvider(PersistentScreenScope screenScope) {
+    public ActivityProvider(PersistentScope screenScope) {
         super(screenScope);
     }
 
@@ -34,6 +34,6 @@ public class ActivityProvider extends Provider<AppCompatActivity> {
      */
     @Override
     public AppCompatActivity get() {
-        return (AppCompatActivity) screenScope.getParentActivity();
+        return (AppCompatActivity) screenScope.getActivity();
     }
 }

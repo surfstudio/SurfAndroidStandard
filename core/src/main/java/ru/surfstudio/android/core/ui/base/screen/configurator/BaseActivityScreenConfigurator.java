@@ -29,7 +29,7 @@ public abstract class BaseActivityScreenConfigurator<P, M> extends ScreenConfigu
         return createScreenComponent(
                 getParentComponent(),
                 getActivityScreenModule(),
-                new CoreActivityScreenModule(getPersistentScreenScope()),
+                new CoreActivityScreenModule(getPersistentScope()),
                 intent);
     }
 

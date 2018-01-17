@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.agna.ferro.core.HasName;
+import ru.surfstudio.android.core.HasName;
 
 import ru.surfstudio.android.core.app.log.LogConstants;
 import ru.surfstudio.android.core.app.log.RemoteLogger;

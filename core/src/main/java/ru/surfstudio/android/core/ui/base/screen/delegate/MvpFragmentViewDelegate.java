@@ -1,63 +1,50 @@
 package ru.surfstudio.android.core.ui.base.screen.delegate;
 
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
-import com.agna.ferro.core.PSSDelegate;
-import com.agna.ferro.core.PSSFragmentDelegate;
-
+import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEvent;
+import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderFragmentCoreView;
+import ru.surfstudio.android.core.ui.base.screen.fragment.BaseFragmentInterface;
+import ru.surfstudio.android.core.ui.base.screen.view.core.FragmentCoreView;
 
-public class MvpFragmentViewDelegate extends MvpViewDelegate {
+public class MvpFragmentViewDelegate extends BaseFragmentDelegate {
 
-    private final Fragment fragment;
-    private final PresenterHolderFragmentCoreView view;
-    private PSSDelegate pssDelegate;
+    private FragmentCoreView view;
+    private BaseActivityInterface baseActivity;
+    private ScreenConfigurator screenConfigurator;
 
-    public MvpFragmentViewDelegate(Activity activity, Fragment fragmentView, PresenterHolderFragmentCoreView view) {
-        super(activity, view);
-        fragment = fragmentView;
-        this.view = view;
-    }
-
-
-    @Override
-    protected PSSDelegate getPssDelegate() {
-        return pssDelegate;
+    public <F extends Fragment & BaseFragmentInterface & FragmentCoreView> MvpFragmentViewDelegate(F fragment, BaseActivityInterface baseActivity) {
+        super(fragment);
+        this.view = fragment;
+        this.baseActivity = baseActivity;
     }
 
     @Override
-    protected ScreenConfigurator createScreenConfigurator(Activity activity) {
-        return getView().createScreenConfigurator(activity, getView().getStartArgs());
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        view.bindPresenters();
+        view.onActivityCreated(savedInstanceState, getPersistentScope().isActivityRecreated());
+        getEventDelegateManager().sendEvent(new OnViewReadyEvent());
     }
 
     @Override
-    protected PresenterHolderFragmentCoreView getView() {
-        return (PresenterHolderFragmentCoreView) super.getView();
+    protected void createConfigurators() {
+        super.createConfigurators();
+        screenConfigurator = view.createScreenConfigurator(baseActivity, view.getStartArgs());
     }
 
     @Override
-    protected void initPssDelegate() {
-        pssDelegate = new PSSFragmentDelegate(view, fragment);
-        pssDelegate.init();
+    protected void runConfigurators() {
+        super.runConfigurators();
+        screenConfigurator.satisfyDependencies(getPersistentScope(), view);
     }
 
     @Override
-    protected void onPostBindPresenters(Bundle savedInstanceState, PersistableBundle persistentState, boolean screenRecreated) {
-        getView().onActivityCreated(savedInstanceState, screenRecreated);
+    public String getName() {
+        return screenConfigurator.getName();
     }
-
-    @Override
-    protected void onPreBindPresenters(Bundle savedInstanceState, PersistableBundle persistentState, boolean screenRecreated) {
-        //empty
-    }
-
-    public void onDestroy() {
-        getPssDelegate().onDestroy();
-    }
-
 }

@@ -1,13 +1,13 @@
 package ru.surfstudio.android.core.ui.base.dagger.provider;
 
 
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 
 public abstract class Provider<T> {
-    final PersistentScreenScope screenScope;
+    final PersistentScope screenScope;
 
-    Provider(PersistentScreenScope screenScope) {
+    Provider(PersistentScope screenScope) {
         this.screenScope = screenScope;
     }
 

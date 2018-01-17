@@ -1,8 +1,8 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
 
-import com.agna.ferro.core.HasName;
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.HasName;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreView;
 
@@ -12,15 +12,15 @@ import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreVi
  */
 public abstract class ScreenConfigurator<V extends PresenterHolderCoreView> implements HasName {
 
-    private PersistentScreenScope persistentScreenScope;
+    private PersistentScope persistentScreenScope;
 
     public abstract ScreenComponent createScreenComponent();
 
-    public void setPersistentScreenScope(PersistentScreenScope persistentScreenScope) {
+    public void setPersistentScope(PersistentScope persistentScreenScope) {
         this.persistentScreenScope = persistentScreenScope;
     }
 
-    protected PersistentScreenScope getPersistentScreenScope() {
+    protected PersistentScope getPersistentScope() {
         return persistentScreenScope;
     }
 

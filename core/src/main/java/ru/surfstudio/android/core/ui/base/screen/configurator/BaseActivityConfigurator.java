@@ -1,13 +1,13 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 public abstract class BaseActivityConfigurator<C, P> {
     private final String ACTIVITY_COMPONENT_TAG = "ACTIVITY_COMPONENT_TAG";
 
-    private PersistentScreenScope persistentScreenScope;
+    private PersistentScope persistentScreenScope;
 
-    public void setPersistentScreenScope(PersistentScreenScope persistentScreenScope) {
+    public void setPersistentScope(PersistentScope persistentScreenScope) {
         this.persistentScreenScope = persistentScreenScope;
     }
 

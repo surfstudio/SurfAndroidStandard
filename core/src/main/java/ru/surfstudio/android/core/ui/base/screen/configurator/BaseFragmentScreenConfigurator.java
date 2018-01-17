@@ -28,7 +28,7 @@ public abstract class BaseFragmentScreenConfigurator<P, M> extends ScreenConfigu
         return createScreenComponent(
                 getParentComponent(),
                 getFragmentScreenModule(),
-                new CoreFragmentScreenModule(getPersistentScreenScope()),
+                new CoreFragmentScreenModule(getPersistentScope()),
                 args);
     }
 

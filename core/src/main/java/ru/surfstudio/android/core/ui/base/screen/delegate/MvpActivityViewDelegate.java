@@ -3,59 +3,49 @@ package ru.surfstudio.android.core.ui.base.screen.delegate;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
-import com.agna.ferro.core.PSSDelegate;
-
+import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEvent;
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderActivityCoreView;
 
-public class MvpActivityViewDelegate extends MvpViewDelegate {
+public class MvpActivityViewDelegate extends BaseActivityDelegate {
 
-    private BaseActivityInterface baseActivity;
+    private Activity activity;
+    private ActivityCoreView view;
+    private ScreenConfigurator screenConfigurator;
 
-    public MvpActivityViewDelegate(FragmentActivity activity,
-                                   PresenterHolderActivityCoreView view,
-                                   BaseActivityInterface baseActivityInterface) {
-        super(activity, view);
-        this.baseActivity = baseActivityInterface;
+    public <A extends FragmentActivity & BaseActivityInterface & ActivityCoreView> MvpActivityViewDelegate(A activity) {
+        super(activity);
+        this.activity = activity;
+        this.view = activity;
     }
 
     @Override
-    protected ScreenConfigurator createScreenConfigurator(Activity activity) {
-        return getView().createScreenConfigurator(activity, getView().getStartIntent());
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        view.onPreCreate(savedInstanceState, getPersistentScope().isActivityRecreated());
+        view.setContentView(view.getContentView());
+        super.onCreate(savedInstanceState);
+        view.bindPresenters();
+        view.onCreate(savedInstanceState, getPersistentScope().isActivityRecreated());
+        getEventDelegateManager().sendEvent(new OnViewReadyEvent());
     }
 
     @Override
-    protected PresenterHolderActivityCoreView getView() {
-        return (PresenterHolderActivityCoreView) super.getView();
+    protected void createConfigurators() {
+        super.createConfigurators();
+        screenConfigurator = view.createScreenConfigurator(activity, view.getStartIntent());
     }
 
     @Override
-    protected PSSDelegate getPssDelegate() {
-        return baseActivity.getBaseActivityDelegate().getPssDelegate();
+    protected void runConfigurators() {
+        super.runConfigurators();
+        screenConfigurator.satisfyDependencies(getPersistentScope(), view);
     }
 
     @Override
-    protected void initPssDelegate() {
-        //empty т.к уже проинициализировано в BaseActivityDelegate
+    protected String getName() {
+        return screenConfigurator.getName();
     }
-
-    @Override
-    protected void onPostBindPresenters(Bundle savedInstanceState, PersistableBundle persistentState, boolean screenRecreated) {
-        getView().onCreate(savedInstanceState, persistentState, screenRecreated);
-    }
-
-    @Override
-    protected void onPreBindPresenters(Bundle savedInstanceState, PersistableBundle persistentState, boolean screenRecreated) {
-        getView().onPreCreate(savedInstanceState, persistentState, screenRecreated);
-        getView().setContentView(getView().getContentView());
-    }
-
-    public void onDestroy() {
-        //empty т.к уже обработано в BaseActivityDelegate
-    }
-
 }

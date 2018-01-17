@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -88,7 +88,7 @@ public class FragmentNavigator implements Navigator {
                 .commit();
 
         if (fragment instanceof CoreFragmentView) {
-            PersistentScreenScope.destroyImmediately(activityProvider.get(),
+            PersistentScope.destroyImmediately(activityProvider.get(),
                     ((CoreFragmentView) fragment).getScreenConfigurator().getName());
         }
 
@@ -119,7 +119,7 @@ public class FragmentNavigator implements Navigator {
         int viewContainerId = getViewContainerIdOrThrow();
         Fragment fragment = fragmentManager.findFragmentById(viewContainerId);
         if (fragment instanceof CoreFragmentView) {
-            PersistentScreenScope.destroyImmediately(activityProvider.get(),
+            PersistentScope.destroyImmediately(activityProvider.get(),
                     ((CoreFragmentView) fragment).getScreenConfigurator().getName());
         }
 
@@ -167,7 +167,7 @@ public class FragmentNavigator implements Navigator {
             Fragment backStackFragment = fragmentManager.findFragmentByTag(backStack.getName());
             if (backStackFragment == fragment) {
                 if (inclusive && backStackFragment instanceof CoreFragmentView) {
-                    PersistentScreenScope.destroyImmediately(activityProvider.get(),
+                    PersistentScope.destroyImmediately(activityProvider.get(),
                             ((CoreFragmentView) backStackFragment).getScreenConfigurator().getName());
                 }
 
@@ -175,7 +175,7 @@ public class FragmentNavigator implements Navigator {
             }
 
             if (backStackFragment instanceof CoreFragmentView) {
-                PersistentScreenScope.destroyImmediately(activityProvider.get(),
+                PersistentScope.destroyImmediately(activityProvider.get(),
                         ((CoreFragmentView) backStackFragment).getScreenConfigurator().getName());
             }
         }
@@ -204,7 +204,7 @@ public class FragmentNavigator implements Navigator {
             if (fragment instanceof CoreFragmentView) {
                 ScreenConfigurator screenConfigurator =((CoreFragmentView) fragment).getScreenConfigurator();
                 if (screenConfigurator != null) {
-                    PersistentScreenScope.destroyImmediately(activityProvider.get(),
+                    PersistentScope.destroyImmediately(activityProvider.get(),
                             screenConfigurator.getName());
                 }
             }

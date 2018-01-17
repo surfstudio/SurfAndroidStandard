@@ -3,17 +3,14 @@ package ru.surfstudio.android.core.ui.base.screen.presenter;
 
 import android.support.annotation.CallSuper;
 
-import com.agna.ferro.core.PersistentScreenScope;
 import com.agna.ferro.rx.OperatorFreeze;
 
-import ru.surfstudio.android.core.ui.base.delegate.ScreenEventDelegate;
-import ru.surfstudio.android.core.ui.base.delegate.manager.ScreenEventDelegateManagerProvider;
+import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
-import ru.surfstudio.android.core.util.rx.ObservableUtil;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
-import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func2;
 import rx.internal.util.InternalObservableUtils;
@@ -27,19 +24,15 @@ import rx.subscriptions.CompositeSubscription;
  * Также все подписки освобождаются при полном уничтожении экрана
  * @param <V>
  */
-public abstract class CorePresenter<V extends CoreView> implements
-    PersistentScreenScope.OnScopeDestroyListener {
+public abstract class CorePresenter<V extends CoreView> {
 
+    private V view;
     private final CompositeSubscription subscriptions = new CompositeSubscription();
     private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.create(false);
-    private final ScreenEventDelegateManagerProvider delegateManagerProvider;
-    private final ScreenEventDelegate[] delegates;
-    private V view;
     private boolean freezeEventsOnPause = true;
 
-    public CorePresenter(ScreenEventDelegateManagerProvider delegateManagerProvider, ScreenEventDelegate[] screenEventDelegates) {
-        this.delegateManagerProvider = delegateManagerProvider;
-        this.delegates = screenEventDelegates;
+    public CorePresenter(ScreenEventDelegateManager delegateManager, PersistentScope persistentScope) {
+        delegateManager.registerDelegate(new CorePresenterGateway(this, persistentScope));
     }
 
     public void attachView(V view) {
@@ -53,28 +46,31 @@ public abstract class CorePresenter<V extends CoreView> implements
         return view;
     }
 
+    //todo comment
+    protected void onFirstLoad() {
+
+    }
+
     /**
      * This method is called, when view is ready
      * @param viewRecreated - show whether view created in first time or recreated after
      *                        changing configuration
      */
     @CallSuper
-    public void onLoad(boolean viewRecreated) {
-        for (ScreenEventDelegate delegate : delegates) {
-            delegateManagerProvider.get().registerDelegate(delegate);
-        }
+    protected void onLoad(boolean viewRecreated) {
+
     }
 
     /**
      * Called after {@link this#onLoad}
      */
-    public void onLoadFinished() {
+    protected void onLoadFinished() {
     }
 
     /**
      * Called when view is started
      */
-    public void onStart(){
+    protected void onStart(){
 
     }
 
@@ -82,14 +78,14 @@ public abstract class CorePresenter<V extends CoreView> implements
      * Called when view is resumed
      */
     @CallSuper
-    public void onResume(){
+    protected void onResume(){
         freezeSelector.onNext(false);
     }
 
     /**
      * Called when view is paused
      */
-    public void onPause(){
+    protected void onPause(){
         if(freezeEventsOnPause) {
             freezeSelector.onNext(true);
         }
@@ -98,13 +94,8 @@ public abstract class CorePresenter<V extends CoreView> implements
     /**
      * Called when view is stopped
      */
-    public void onStop(){
+    protected void onStop(){
 
-    }
-
-    public final void detachView() {
-        view = null;
-        onViewDetached();
     }
 
     /**
@@ -112,6 +103,7 @@ public abstract class CorePresenter<V extends CoreView> implements
      */
     @CallSuper
     protected void onViewDetached() {
+        view = null;
         freezeSelector.onNext(true);
     }
 
@@ -119,9 +111,13 @@ public abstract class CorePresenter<V extends CoreView> implements
      * Called when screen is finally destroyed
      */
     @CallSuper
-    @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         subscriptions.unsubscribe();
+    }
+
+    //todo коммент
+    protected StateRestorer getStateRestorer(){
+        return null;
     }
 
     /**
@@ -157,22 +153,11 @@ public abstract class CorePresenter<V extends CoreView> implements
                                        final OperatorFreeze<T> operator,
                                        final Action1<T> onNext,
                                        final Action1<Throwable> onError) {
-        return subscribe(observable, operator, onNext, ObservableUtil.EMPTY_ACTION, onError);
-    }
-
-    /**
-     * @see #subscribe(Observable, OperatorFreeze, Subscriber)
-     */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final OperatorFreeze<T> operator,
-                                         final Action1<T> onNext,
-                                         final Action0 onCompleted,
-                                         final Action1<Throwable> onError) {
         return subscribe(observable, operator,
                 new Subscriber<T>() {
                     @Override
                     public void onCompleted() {
-                        onCompleted.call();
+                        // do nothing
                     }
 
                     @Override
@@ -227,7 +212,7 @@ public abstract class CorePresenter<V extends CoreView> implements
     protected <T> Subscription subscribe(final Observable<T> observable,
                                          final Action1<T> onNext) {
 
-        return subscribe(observable, this.<T>createOperatorFreeze(), onNext, InternalObservableUtils.ERROR_NOT_IMPLEMENTED);
+        return subscribe(observable, this.<T>createOperatorFreeze(), onNext, InternalObservableUtils.ERROR_NOT_IMPLEMENTED); //todo crash
     }
 
 
@@ -238,20 +223,8 @@ public abstract class CorePresenter<V extends CoreView> implements
                                          final Action1<T> onNext,
                                          final Action1<Throwable> onError) {
 
-        return subscribe(observable, onNext, ObservableUtil.EMPTY_ACTION, onError);
+        return subscribe(observable, this.<T>createOperatorFreeze(), onNext, onError);
     }
-
-    /**
-     * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
-     */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final Action1<T> onNext,
-                                         final Action0 onCompleted,
-                                         final Action1<Throwable> onError) {
-
-        return subscribe(observable, this.<T>createOperatorFreeze(), onNext, onCompleted, onError);
-    }
-
 
     /**
      * Subscribe subscriber to the observable without applying {@link OperatorFreeze}
@@ -301,12 +274,13 @@ public abstract class CorePresenter<V extends CoreView> implements
         return new OperatorFreeze<>(freezeSelector);
     }
 
-    protected boolean isSubscriptionInactive(Subscription subscription) {
+    protected boolean isInactive(Subscription subscription) {
         return subscription == null || subscription.isUnsubscribed();
     }
 
-    protected boolean isSubscriptionActive(Subscription subscription) {
-        return subscription != null && !subscription.isUnsubscribed();
+    protected boolean isActive(Subscription subscription) {
+        return !isInactive(subscription);
     }
+
 
 }
