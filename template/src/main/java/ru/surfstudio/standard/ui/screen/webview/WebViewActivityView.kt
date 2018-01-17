@@ -15,6 +15,7 @@ import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderViewImpl
 import javax.inject.Inject
 
 /**
+ *  Заготовка экрана с вебвью, без логики
  *  Активити с экрана с вебвью
  **/
 class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
