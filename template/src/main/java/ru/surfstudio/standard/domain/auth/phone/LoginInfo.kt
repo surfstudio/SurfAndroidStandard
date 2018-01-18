@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.domain.phone
+package ru.surfstudio.standard.domain.auth.phone
 
 
 /**

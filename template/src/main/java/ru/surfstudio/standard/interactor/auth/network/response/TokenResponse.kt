@@ -3,7 +3,7 @@ package ru.surfstudio.standard.interactor.auth.network.response
 import com.google.gson.annotations.SerializedName
 
 import ru.surfstudio.android.core.util.Transformable
-import ru.surfstudio.standard.domain.phone.LoginInfo
+import ru.surfstudio.standard.domain.auth.phone.LoginInfo
 
 /**
  * сущность для ответа сервера с токенами

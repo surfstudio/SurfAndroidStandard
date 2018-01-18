@@ -25,7 +25,7 @@ private fun prepareMessage(httpMessage: String, code: Int, url: String, develope
  */
 class HttpProtocolException(cause: HttpException, val httpMessage: String, val httpCode: Int, url: String)
     : NetworkException(prepareMessage(httpMessage, httpCode, url, null, 0), cause) {
-    private val innerCode: String? //дополнительный внутренний код сервера
+    val innerCode: String? //дополнительный внутренний код сервера
     private val serverMessage: String?
 
     init {

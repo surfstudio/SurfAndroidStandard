@@ -1,24 +1,18 @@
 package ru.surfstudio.standard.interactor.auth
 
-import com.google.common.collect.ImmutableMap
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication
 import ru.surfstudio.android.core.app.interactor.common.network.TransformUtil
-import ru.surfstudio.standard.domain.phone.KeyInfo
-import ru.surfstudio.standard.domain.phone.LoginInfo
-import ru.surfstudio.standard.interactor.auth.network.*
-import ru.surfstudio.standard.interactor.auth.network.request.LoginByPhoneRequest
+import ru.surfstudio.standard.domain.auth.phone.KeyInfo
+import ru.surfstudio.standard.domain.auth.phone.LoginInfo
+import ru.surfstudio.standard.domain.auth.recover.RecoverByEmailStatus
+import ru.surfstudio.standard.domain.auth.recover.RecoverByPhoneStatus
+import ru.surfstudio.standard.interactor.auth.network.AuthApi
+import ru.surfstudio.standard.interactor.auth.network.request.*
 import ru.surfstudio.standard.interactor.auth.network.service.BaseNetworkService
 import rx.Observable
-import java.lang.Boolean.FALSE
-import java.lang.Boolean.TRUE
 import javax.inject.Inject
 
-const val IS_REFRESHING_TOKEN_KEY = "is_refreshing_key" //используется для опеределения поптыки обновления токена
-private const val GRAND_TYPE_KEY = "grant_type"
-private const val CLIENT_ID_KEY = "client_id"
-private const val REFRESH_TOKEN_KEY = "refresh_token"
-private const val CODE_KEY = "code"
-private const val REDIRECT_URI_KEY = "redirect_uri"
+private const val CODE_FORMAT = "%s:%s"
 
 /**
  * Сервис, отвечающий за авторизацию и регистрацию пользователя
@@ -28,11 +22,18 @@ class AuthRepository @Inject
 constructor(private val authApi: AuthApi) : BaseNetworkService() {
 
     /**
-     * Отсылка номера телефона, для получения токена
+     * Отсылка номера телефона, для получения кода авторизации
      */
-    fun sendPhoneNumber(phoneNumber: String): Observable<KeyInfo> {
-        return authApi.loginByPhoneNumber(LoginByPhoneRequest(phoneNumber, CLIENT_ID))
+    fun requestCode(phoneNumber: String): Observable<KeyInfo> {
+        return authApi.requestCode(LoginByPhoneRequest(phoneNumber))
                 .map({ TransformUtil.transform(it) })
+    }
+
+    /**
+     * Вход по паре email и пароль
+     */
+    fun loginByEmail(email: String, password: String): Observable<LoginInfo> {
+        return authApi.loginByEmail(LoginByEmailRequest(email, password))
     }
 
     /**
@@ -40,39 +41,31 @@ constructor(private val authApi: AuthApi) : BaseNetworkService() {
      */
     fun loginByCode(key: String, smsCode: String): Observable<LoginInfo> {
         val code = String.format(CODE_FORMAT, key, smsCode)
-        return authApi.loginByCode(FALSE.toString(), getFieldsForReceiveToken(code))
+        return authApi.loginByCode(LoginByCodeRequest(code))
                 .map({ TransformUtil.transform(it) })
     }
 
     /**
-     * Обновление токена
+     * Выход текущего авторизованного пользователя
      */
-    fun refreshToken(refreshToken: String): Observable<LoginInfo> {
-        return authApi.loginByCode(TRUE.toString(), getFieldsForRefreshToken(refreshToken))
-                .map({ TransformUtil.transform(it) })
+    fun logout(): Observable<Unit> {
+        return authApi.logout()
     }
 
     /**
-     * Вход только по key, для временного пользователя.
+     * Восстановление доступа через телефон
      */
-    fun loginByKey(key: String): Observable<LoginInfo> {
-        return authApi.loginByCode(FALSE.toString(), getFieldsForReceiveToken(key))
-                .map({ TransformUtil.transform(it) })
+    fun recoverByPhone(phone: String): Observable<RecoverByPhoneStatus> {
+        return authApi.recoverByPhone(RecoverByPhoneRequest(phone))
+                .map { TransformUtil.transform(it) as RecoverByPhoneStatus }
     }
 
-    private fun getFieldsForReceiveToken(code: String): Map<String, String> {
-        return ImmutableMap.of(
-                GRAND_TYPE_KEY, GRANT_TYPE_AUTH,
-                CLIENT_ID_KEY, CLIENT_ID,
-                CODE_KEY, code,
-                REDIRECT_URI_KEY, REDIRECT_URI)
+    /**
+     * Восстановление доступа через почту
+     */
+    fun recoverByEmail(email: String): Observable<RecoverByEmailStatus> {
+        return authApi.recoverByEmail(RecoverByEmailRequest(email))
+                .map { TransformUtil.transform(it) }
     }
 
-    private fun getFieldsForRefreshToken(refreshToken: String): Map<String, String> {
-        return ImmutableMap.of(
-                GRAND_TYPE_KEY, GRANT_TYPE_REFRESH,
-                CLIENT_ID_KEY, CLIENT_ID,
-                REFRESH_TOKEN_KEY, refreshToken,
-                REDIRECT_URI_KEY, REDIRECT_URI)
-    }
 }
