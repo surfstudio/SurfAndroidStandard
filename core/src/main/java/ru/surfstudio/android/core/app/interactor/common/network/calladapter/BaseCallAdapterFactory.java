@@ -35,7 +35,10 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
         return new ResultCallAdapter(rxCallAdapter, returnType);
     }
 
-    abstract void onHttpException();
+    /**
+     * Метод обработки ошибки {@link HttpException}
+     */
+    abstract <R> Observable<R> onHttpException(HttpException e);
 
     private final class ResultCallAdapter implements CallAdapter<Observable<?>> {
         private final Type responseType;
@@ -65,13 +68,10 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
             } else if (e instanceof CacheEmptyException) {
                 return Observable.just(null); //кеш пуст
             } else if (e instanceof HttpException) {
-                onHttpException();
+                return onHttpException((HttpException) e);
             } else {
                 return Observable.error(e);
             }
-            return Observable.empty();
         }
-
     }
-
 }
