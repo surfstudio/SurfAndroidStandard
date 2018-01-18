@@ -10,7 +10,8 @@ import javax.inject.Inject
  * инкапсулирует действия, которые необходимо выполнить при смене сессии/пользователя
  */
 @PerApplication
-class SessionChangedInteractor @Inject
+class SessionChangedInteractor
+@Inject
 constructor(private val tokenStorage: TokenStorage) {
     private val sessionChangedPublishSubject = PublishSubject.create<LoginState>()
 
@@ -19,7 +20,7 @@ constructor(private val tokenStorage: TokenStorage) {
     }
 
     fun onLogin(authInfo: LoginInfo) {
-        tokenStorage.saveTokens(authInfo.accessToken!!, authInfo.refreshToken!!)
+        tokenStorage.authToken = authInfo.accessToken!!
         sessionChangedPublishSubject.onNext(LoginState.LOGGED_IN)
     }
 

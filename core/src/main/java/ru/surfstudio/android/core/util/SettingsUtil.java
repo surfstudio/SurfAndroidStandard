@@ -3,6 +3,7 @@ package ru.surfstudio.android.core.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,6 +52,7 @@ public class SettingsUtil {
         return getBoolean(getDefaultSharedPreferences(context), key, defaultValue);
     }
 
+    @NonNull
     public static String getString(SharedPreferences sp, String key) {
         return sp.getString(key, EMPTY_STRING_SETTING);
     }

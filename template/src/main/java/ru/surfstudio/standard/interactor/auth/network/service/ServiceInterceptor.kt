@@ -14,7 +14,8 @@ const val HEADER_AUTH_KEY = "Authorization"
  * добавляет необходимые для каждого запроса параметры, такие как token
  */
 @PerApplication
-class ServiceInterceptor @Inject
+class ServiceInterceptor
+@Inject
 constructor(private val tokenStorage: TokenStorage) : Interceptor {
 
     @Throws(IOException::class)
