@@ -78,7 +78,7 @@ public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
                 }
             }
 
-            private T parseElement(JsonElement jsonElement) {
+            protected T parseElement(JsonElement jsonElement) {
                 return delegate.fromJsonTree(jsonElement);
             }
         }.nullSafe();
