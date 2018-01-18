@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.interactor.common
+package ru.surfstudio.standard.interactor.common.network
 
 import android.app.DownloadManager
 import android.content.Context
