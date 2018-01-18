@@ -8,16 +8,18 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-public class PersistentScopeManagerContainer extends Fragment {
-    private static final String SCOPE_MANAGER_CONTAINER_FRAGMENT_TAG = "scope_manager_container";
-    private PersistentScopeManager persistentScopeManager;
+import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.destroy.OnDestroyEvent;
 
-    public static PersistentScopeManagerContainer getOrCreate(FragmentActivity activity) {
+public class PersistentScopeStorageContainer extends Fragment {
+    private static final String SCOPE_MANAGER_CONTAINER_FRAGMENT_TAG = "scope_manager_container";
+    private PersistentScopeStorage persistentScopeStorage;
+
+    public static PersistentScopeStorageContainer getOrCreate(FragmentActivity activity) {
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        PersistentScopeManagerContainer container = (PersistentScopeManagerContainer) fragmentManager
+        PersistentScopeStorageContainer container = (PersistentScopeStorageContainer) fragmentManager
                 .findFragmentByTag(SCOPE_MANAGER_CONTAINER_FRAGMENT_TAG);
         if (container == null) {
-            container = new PersistentScopeManagerContainer();
+            container = new PersistentScopeStorageContainer();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.add(container, SCOPE_MANAGER_CONTAINER_FRAGMENT_TAG);
             ft.commit();
@@ -34,17 +36,18 @@ public class PersistentScopeManagerContainer extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (persistentScopeManager != null) {
-            persistentScopeManager.onFinallyDestroy(); //todo каждый сам определяет
+        if (persistentScopeStorage != null) {
+            persistentScopeStorage.getActivityScope().getScreenEventDelegateManager()
+                    .sendEvent(new OnDestroyEvent());
         }
     }
 
-    public PersistentScopeManager getPersistentScopeManager() {
-        return persistentScopeManager;
+    public PersistentScopeStorage getPersistentScopeStorage() {
+        return persistentScopeStorage;
     }
 
-    public void setPersistentScopeManager(PersistentScopeManager persistentScopeManager) {
-        this.persistentScopeManager = persistentScopeManager;
+    public void setPersistentScopeStorage(PersistentScopeStorage persistentScopeStorage) {
+        this.persistentScopeStorage = persistentScopeStorage;
     }
 
 

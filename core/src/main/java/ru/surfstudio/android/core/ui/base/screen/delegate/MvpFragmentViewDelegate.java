@@ -9,7 +9,6 @@ import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewR
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.fragment.BaseFragmentInterface;
-import ru.surfstudio.android.core.ui.base.screen.view.core.FragmentCoreView;
 
 public class MvpFragmentViewDelegate extends BaseFragmentDelegate {
 

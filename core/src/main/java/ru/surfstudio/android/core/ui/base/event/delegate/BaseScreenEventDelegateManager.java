@@ -22,7 +22,7 @@ import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEve
 public class BaseScreenEventDelegateManager implements ScreenEventDelegateManager {
 
     private Set<ScreenEventDelegate> delegates = new HashSet<>();
-    private Set<ScreenEventDelegate> throughDelegates = new HashSet<>();
+    private Set<ScreenEventDelegate> throughDelegates = new HashSet<>(); //todo
     private List<ScreenEventResolver> eventResolvers;
     private ScreenEventDelegateManager parentDelegateManger;
     private ScreenType screenType;
@@ -37,12 +37,18 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public void registerDelegate(ScreenEventDelegate delegate) {
+        registerDelegate(delegate, null);
+    }
+
+    @Override
+    public void registerDelegate(ScreenEventDelegate delegate, ScreenType emitterType) {
         ScreenEventResolver eventResolver = getEventResolverForDelegate(delegate);
         if (eventResolver == null) {
             throw new IllegalArgumentException(String.format("No EventResolver for this delegate %s",
                     delegate.getClass().getCanonicalName()));
         }
-        if (eventResolver.getEventEmitterScreenTypes().contains(screenType)) {
+        if (eventResolver.getEventEmitterScreenTypes().contains(screenType)
+                && (emitterType == null || screenType != emitterType)) {
             delegates.add(delegate);
         } else {
             if (parentDelegateManger == null) {

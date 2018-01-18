@@ -7,15 +7,15 @@ import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventResolverHelp
 
 public class PersistentScopeManagerInitializer {
 
-    public PersistentScopeManager init(FragmentActivity fragmentActivity) {
-        PersistentScopeManagerContainer container = PersistentScopeManagerContainer.getOrCreate(fragmentActivity);
-        if(container.getPersistentScopeManager() == null){
-            container.setPersistentScopeManager(createPersistentScopeManager());
+    public PersistentScopeStorage init(FragmentActivity fragmentActivity) {
+        PersistentScopeStorageContainer container = PersistentScopeStorageContainer.getOrCreate(fragmentActivity);
+        if (container.getPersistentScopeStorage() == null) {
+            container.setPersistentScopeStorage(createPersistentScopeManager());
         }
-        return container.getPersistentScopeManager();
+        return container.getPersistentScopeStorage();
     }
 
-    protected PersistentScopeManager createPersistentScopeManager() {
-        return new PersistentScopeManager(ScreenEventResolverHelper.standardEventResolvers());
+    protected PersistentScopeStorage createPersistentScopeManager() {
+        return new PersistentScopeStorage(ScreenEventResolverHelper.standardEventResolvers());
     }
 }

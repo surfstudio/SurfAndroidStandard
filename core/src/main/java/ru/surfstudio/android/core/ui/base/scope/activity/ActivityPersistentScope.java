@@ -9,12 +9,13 @@ import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
 
 public class ActivityPersistentScope extends PersistentScope<ActivityScreenEventDelegateManager> {
+    public static final String ACTIVITY_SCOPE_NAME = "activity_scope";
     private Activity activity;
     private boolean activityRecreated;
     private boolean activityRestoredFromDisk;
 
-    public ActivityPersistentScope(String name, ActivityScreenEventDelegateManager screenEventDelegateManager) {
-        super(name, ScreenType.ACTIVITY, screenEventDelegateManager);
+    public ActivityPersistentScope(ActivityScreenEventDelegateManager screenEventDelegateManager) {
+        super(ACTIVITY_SCOPE_NAME, ScreenType.ACTIVITY, screenEventDelegateManager);
         screenEventDelegateManager.registerDelegate(new ActivityPersistentScopeChangeObserver(this));
     }
 

@@ -15,7 +15,7 @@ public abstract class BaseActivityConfigurator<C, P> {
     protected abstract P getParentComponent();
 
     public void init() {
-        C activityComponent = persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+        C activityComponent = (C) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
         if (activityComponent == null) {
             activityComponent = createActivityComponent(getParentComponent());
             persistentScreenScope.putObject(activityComponent, ACTIVITY_COMPONENT_TAG);
@@ -23,7 +23,7 @@ public abstract class BaseActivityConfigurator<C, P> {
     }
 
     public C getActivityComponent() {
-        return persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+        return (C) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
     }
 
 }
