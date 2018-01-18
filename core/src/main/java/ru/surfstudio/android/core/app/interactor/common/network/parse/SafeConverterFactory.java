@@ -31,7 +31,7 @@ public class SafeConverterFactory {
     }
 
     @Nullable
-    public <T> SafeConverter<T> getSafeConverter(TypeToken<T> type) {
+    <T> SafeConverter<T> getSafeConverter(TypeToken<T> type) {
         Class<? super T> rawType = type.getRawType();
         SafeConverter<T> result = initializedSafeConverters.get(rawType);
         if (result == null) {
