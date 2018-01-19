@@ -6,7 +6,7 @@
 # Импорт атефактов
 ## build.gradle(app)
 ```
-implementation 'ru.surfstudio.standard:{$artifactId}:{$artVersion}'
+implementation 'ru.surfstudio.android:{$artifactId}:{$artVersion}'
 ```
 ## build.gradle(root)
 ```       
