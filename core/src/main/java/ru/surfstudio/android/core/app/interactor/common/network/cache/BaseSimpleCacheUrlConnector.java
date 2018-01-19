@@ -4,11 +4,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
-import java.util.ArrayList;
+import com.annimon.stream.Stream;
+
 import java.util.Collection;
 import java.util.List;
 
 import okhttp3.HttpUrl;
+import ru.surfstudio.android.core.domain.network.url.BaseUrl;
 
 /**
  * ищет {@link SimpleCacheInfo} для url запроса
@@ -19,15 +21,17 @@ public abstract class BaseSimpleCacheUrlConnector {
     private static final String URL_SPLIT_REGEX = "[/?&]";
     private static final String BRACE = "{";
 
+    @NonNull
+    private final BaseUrl baseUrl;
+
+    public BaseSimpleCacheUrlConnector(@NonNull BaseUrl baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     /**
      * @return набор {@link SimpleCacheInfo}
      */
     abstract Collection<SimpleCacheInfo> getSimpleCacheInfo();
-
-    /**
-     * @return позиция сегмента в url запроса, содержащая номер версии api. Так надо.
-     */
-    abstract int getApiVersionSegmentOrder();
 
     @SuppressWarnings("squid:S134")
     @Nullable
@@ -84,16 +88,13 @@ public abstract class BaseSimpleCacheUrlConnector {
 
     @NonNull
     private List<String> getNetworkUrlSegments(HttpUrl url) {
-        String[] rawNetworkUrlSegments = url.toString().split(URL_SPLIT_REGEX);
-        List<String> networkUrlSegments = new ArrayList<>();
-        for (int i = 0; i < rawNetworkUrlSegments.length; i++) {
-            String rawPathSegment = rawNetworkUrlSegments[i];
-            if (i >= getApiVersionSegmentOrder()
-                    && !TextUtils.isEmpty(rawPathSegment)) { //пропускаем все до версии api включительно
-                networkUrlSegments.add(rawPathSegment);
-            }
-        }
-        return networkUrlSegments;
+        String httpUrl = url.toString();
+        String path = httpUrl.replaceAll(baseUrl.getBase(), "");
+        int skip = baseUrl.getApiVersion() == null ? 0 : 1; //пропускаем сегмент версии
+        return Stream.of(path.split(URL_SPLIT_REGEX))
+                .filterNot(TextUtils::isEmpty)
+                .skip(skip)
+                .toList();
     }
 
     private boolean isCacheUrlSegmentParameter(String cacheUrlPathSegment) {

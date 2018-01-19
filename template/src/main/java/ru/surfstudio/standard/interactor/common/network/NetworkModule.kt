@@ -15,10 +15,9 @@ import ru.surfstudio.android.core.app.dagger.scope.PerApplication
 import ru.surfstudio.android.core.app.interactor.common.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.android.core.app.interactor.common.network.parse.ResponseTypeAdapterFactory
 import ru.surfstudio.android.core.app.log.Logger
-import javax.inject.Named
+import ru.surfstudio.android.core.domain.network.url.BaseUrl
 
 const val HTTP_LOG_TAG = "OkHttp"
-const val DI_API_URL = "DI_API_URL"
 
 @Module
 class NetworkModule {
@@ -28,10 +27,10 @@ class NetworkModule {
     internal fun provideRetrofit(okHttpClient: OkHttpClient,
                                  callAdapterFactory: BaseCallAdapterFactory,
                                  gson: Gson,
-                                 @Named(DI_API_URL) apiUrl: String): Retrofit {
+                                 apiUrl: BaseUrl): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
-                .baseUrl(apiUrl)
+                .baseUrl(apiUrl.toString())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(callAdapterFactory)
                 .build()
