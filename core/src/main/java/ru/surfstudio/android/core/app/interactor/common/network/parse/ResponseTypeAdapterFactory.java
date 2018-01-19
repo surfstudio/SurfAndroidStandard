@@ -20,10 +20,8 @@ import ru.surfstudio.android.core.app.interactor.common.network.response.BaseRes
 import ru.surfstudio.android.core.app.log.Logger;
 
 /**
- * ResponseTypeAdapterFactory - кроме парсинга ответа выполняет 3 дополнительные функции:
- * Логгирование ошибок парсинга в RemoteLogger
- * Конвертирование JsonSyntaxException -> ConversionException
- * Выбрасывание ApiServiceException - ошибки сервиса, приходящие в теле ответа
+ * ResponseTypeAdapterFactory - кроме парсинга ответа,
+ * конвертирует JsonSyntaxException -> ConversionException
  */
 @PerApplication
 public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
@@ -48,7 +46,6 @@ public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
                 delegate.write(out, value);
             }
 
-            @Override
             public T read(JsonReader in) throws IOException {
                 JsonElement jsonElement = elementAdapter.read(in);
                 //пытаемся применить безопасный парсинг для известных нарушений структуры Json
@@ -59,26 +56,26 @@ public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
                 //если пытаемся распарсить элемент, производный от {@link BaseResponse} то в
                 // случае ошибки эмитим ConversionException с текстом ответа
                 if (BaseResponse.class.isAssignableFrom(type.getRawType())) {
-                    return parseElementLogAndThrowConversionError(jsonElement);
-                } else {
-                    return parseElement(jsonElement);
+                    try {
+                        return parseElement(jsonElement, true);
+                    } catch (JsonSyntaxException e) {
+                        String body = jsonElement != null ? jsonElement.toString() : "";
+                        String errorMessage = String.format(PARSE_ERROR_MESSAGE_FORMAT, body);
+                        ConversionException conversionException = new ConversionException(errorMessage, e);
+                        Logger.e(e, "parse error");
+                        throw conversionException;
+
+                    }
                 }
+                return parseElement(jsonElement, false);
             }
 
-            private T parseElementLogAndThrowConversionError(JsonElement jsonElement) {
-                try {
-                    return parseElement(jsonElement);
-                } catch (JsonSyntaxException e) {
-                    String body = jsonElement != null ? jsonElement.toString() : "";
-                    String errorMessage = String.format(PARSE_ERROR_MESSAGE_FORMAT, body);
-                    ConversionException conversionException = new ConversionException(errorMessage, e);
-                    Logger.e(e, "parse error");
-                    throw conversionException;
-
-                }
-            }
-
-            protected T parseElement(JsonElement jsonElement) {
+            /**
+             * Метод для кастомизации парсинга элементов.
+             *
+             * @param isBaseResponse элемент, производный от {@link BaseResponse}
+             */
+            protected T parseElement(JsonElement jsonElement, boolean isBaseResponse) {
                 return delegate.fromJsonTree(jsonElement);
             }
         }.nullSafe();
