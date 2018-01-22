@@ -1,6 +1,9 @@
 <#import "macros/select_type_view_macros.ftl" as superClass>
 package ${packageName};
 
+import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+
 
 public class ${className}${screenTypeCapitalized}View extends <@superClass.selectTypeView /> {
 
@@ -24,6 +27,7 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         <#else>
             private EasyAdapter adapter;
         </#if>
+        private ${nameController}${defPostfixController} ${nameController?uncap_first}${defPostfixController};
     </#if>
 
     @Override
@@ -62,7 +66,7 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
 
     <#if screenType=='activity'>
     @Override
-    public void onCreate(Bundle savedInstanceState,
+    public void onCreate(@Nullable Bundle savedInstanceState,
                          @Nullable PersistableBundle persistentState,
                          boolean viewRecreated) {
         findViews(getWindow().getDecorView());
@@ -104,6 +108,15 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
 
         @Override
         protected void renderInternal(${className}ScreenModel screenModel) {
+            <#if generateRecyclerView>
+                <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+                    adapter.setItems(ItemList.create()
+                        .addAll(${nameController?uncap_first}${defPostfixController}, screenModel.getItemList()), screenModel.getPaginationState());
+                    <#else>
+                    adapter.setItems(ItemList.create()
+                        .addAll(${nameController?uncap_first}${defPostfixController}, screenModel.getItemList()));
+                </#if>
+            </#if>
         }
     </#if>
 
@@ -117,18 +130,41 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
         </#if>
+        <#if generateRecyclerView>
+        recyclerView = view.findViewById(R.id.recycler);
+        </#if>
     }
 
     <#if generateToolbar>
     private void initToolbar() {
+        toolbar.setTitle(null); // todo поправить тайтл тулбара
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+        toolbar.setNavigationOnClickListener(v -> presenter.finish());
     }
     </#if>
 
     private void initListeners() {
+        <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+            placeHolderView.setOnActionClickListener(state -> presenter.reloadData());
+        </#if>
+        <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
+            swipeRefreshLayout.setOnRefreshListener(() -> presenter.reloadData());
+        </#if>
     }
 
     <#if generateRecyclerView>
     private void initRecyclerView() {
+        ${nameController?uncap_first}${defPostfixController} = new ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>);
+
+        <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+        adapter = new PaginationableAdapter();
+        adapter.setOnShowMoreListener(() -> presenter.loadMore());
+        <#else>
+        adapter = new EasyAdapter();
+        </#if>
+
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(<#if screenType=='activity'>this<#else>getContext()</#if>));
     }
     </#if>
 }
