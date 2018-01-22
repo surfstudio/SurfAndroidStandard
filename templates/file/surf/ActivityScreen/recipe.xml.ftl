@@ -22,7 +22,7 @@
             to="${escapeXmlAttribute(srcOut)}/${className}ScreenModel.java" />
     </#if>
 
-    <instantiate from="res/layout/layout.xml.ftl"
+    <instantiate from="res/layout/view_layout.xml.ftl"
         to="${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml" />
 
     <open file="${escapeXmlAttribute(srcOut)}/${className}${screenTypeCapitalized}View.java" />
