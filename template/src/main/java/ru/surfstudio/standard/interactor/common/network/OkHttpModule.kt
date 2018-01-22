@@ -7,8 +7,8 @@ import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication
-import ru.surfstudio.android.core.app.interactor.common.network.cache.SimpleCacheInterceptor
-import ru.surfstudio.android.core.app.interactor.common.network.etag.EtagInterceptor
+import ru.surfstudio.android.network.cache.SimpleCacheInterceptor
+import ru.surfstudio.android.network.etag.EtagInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 

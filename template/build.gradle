@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -60,9 +61,13 @@ dependencies {
     def assertJVersion = '3.5.1'
 
     //------------------------------------ dependencies --------------------------------------------
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     implementation project(':core')
     implementation project(':analytics')
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':network')
+
     api "com.google.dagger:dagger:${daggerVersion}"
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 

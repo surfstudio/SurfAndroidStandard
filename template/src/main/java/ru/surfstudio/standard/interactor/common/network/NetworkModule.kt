@@ -12,10 +12,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.surfstudio.android.core.BuildConfig
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication
-import ru.surfstudio.android.core.app.interactor.common.network.calladapter.BaseCallAdapterFactory
-import ru.surfstudio.android.core.app.interactor.common.network.parse.ResponseTypeAdapterFactory
 import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.domain.network.url.BaseUrl
+import ru.surfstudio.android.network.calladapter.BaseCallAdapterFactory
+import ru.surfstudio.android.network.parse.ResponseTypeAdapterFactory
 
 const val HTTP_LOG_TAG = "OkHttp"
 
