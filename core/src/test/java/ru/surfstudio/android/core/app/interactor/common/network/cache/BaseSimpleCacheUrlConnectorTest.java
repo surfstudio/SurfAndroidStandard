@@ -15,6 +15,7 @@ import java.util.Set;
 
 import okhttp3.HttpUrl;
 import ru.surfstudio.android.core.app.interactor.common.network.HttpMethods;
+import ru.surfstudio.android.core.domain.network.url.BaseUrl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -29,11 +30,11 @@ import static org.mockito.Matchers.any;
 @PrepareForTest(TextUtils.class)
 public class BaseSimpleCacheUrlConnectorTest {
 
+    private final BaseUrl baseUrl = new BaseUrl("http://ya.ru/", "v2");
     private SimpleCacheInfo yaSci = new SimpleCacheInfo(HttpMethods.GET, "me/fu", "ya_test", 1);
     private SimpleCacheInfo paramPath = new SimpleCacheInfo(HttpMethods.GET, "me/{param_one}/like", "param_test", 1);
     private SimpleCacheInfo paramVal = new SimpleCacheInfo(HttpMethods.GET, "me/job&ginger=1", "param_test", 1);
-
-    private BaseSimpleCacheUrlConnector connector = new BaseSimpleCacheUrlConnector() {
+    private BaseSimpleCacheUrlConnector connector = new BaseSimpleCacheUrlConnector(baseUrl) {
         @Override
         Collection<SimpleCacheInfo> getSimpleCacheInfo() {
             Set<SimpleCacheInfo> set = new HashSet<>();
@@ -41,11 +42,6 @@ public class BaseSimpleCacheUrlConnectorTest {
             set.add(paramPath);
             set.add(paramVal);
             return set;
-        }
-
-        @Override
-        int getApiVersionSegmentOrder() {
-            return 4;
         }
     };
 
@@ -74,6 +70,8 @@ public class BaseSimpleCacheUrlConnectorTest {
 
         assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=1"), HttpMethods.GET), paramVal);
         assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=2"), HttpMethods.GET));
+
+        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v3/me/fu"), HttpMethods.GET), yaSci); //api version template
     }
 
 }

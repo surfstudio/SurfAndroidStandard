@@ -8,10 +8,13 @@ import javax.inject.Inject;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
+import ru.surfstudio.android.core.app.interactor.common.network.error.CacheEmptyException;
+import ru.surfstudio.android.core.app.interactor.common.network.error.HttpCodes;
 import ru.surfstudio.android.core.app.log.Logger;
 
 import static ru.surfstudio.android.core.app.interactor.common.network.ServerConstants.HEADER_QUERY_MODE;
@@ -71,9 +74,9 @@ public class SimpleCacheInterceptor implements Interceptor {
             cachedResponseBody = simpleCache.get(cacheKey);
             Logger.d("cached data exist=" + (cachedResponseBody != null) + " for url " + url);
             if (cachedResponseBody != null) {
-//                return createCachedResponse(cachedResponseBody, originalRequest);
-//            } else {
-//                throw new CacheEmptyException();
+                return createCachedResponse(cachedResponseBody, originalRequest);
+            } else {
+                throw new CacheEmptyException();
             }
         } else {
             //производим запрос на сервер и кешируем результат
@@ -88,17 +91,16 @@ public class SimpleCacheInterceptor implements Interceptor {
             }
             return response;
         }
-        return null;
     }
 
-//    private Response createCachedResponse(String cachedResponseBody, Request originalRequest) {
-//        return new Response.Builder()
-//                .code(HttpCodes.CODE_200)
-//                .body(ResponseBody.create(MediaType.parse(MEDIA_TYPE_APPLICATION_JSON), cachedResponseBody))
-//                .request(originalRequest)
-//                .protocol(Protocol.HTTP_1_1)
-//                .build();
-//    }
+    private Response createCachedResponse(String cachedResponseBody, Request originalRequest) {
+        return new Response.Builder()
+                .code(HttpCodes.CODE_200)
+                .body(ResponseBody.create(MediaType.parse(MEDIA_TYPE_APPLICATION_JSON), cachedResponseBody))
+                .request(originalRequest)
+                .protocol(Protocol.HTTP_1_1)
+                .build();
+    }
 
     private String getCacheKeyFromUrl(HttpUrl url) {
         String rawUrl = url.toString();

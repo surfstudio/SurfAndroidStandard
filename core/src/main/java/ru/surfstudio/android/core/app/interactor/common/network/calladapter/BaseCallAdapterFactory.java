@@ -18,9 +18,6 @@ import rx.Observable;
 /**
  * кроме конвертирования запроса в Observable, выполняет следующие функции:
  * Конвертирует IOException в NoConnectionException
- * В случае HttpException с кодом 304 возвращает пустой Observable
- * В случае HttpException c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
- * В случае HttpException c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
  * Имплементация провайдится через модуль со скоупом {@link ru.surfstudio.android.core.app.dagger.scope.PerApplication}
  */
 public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
@@ -35,7 +32,13 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
         return new ResultCallAdapter(rxCallAdapter, returnType);
     }
 
-    abstract void onHttpException();
+    /**
+     * Метод обработки ошибки {@link HttpException}
+     * Здесь определеяется поведение на различные коды ошибок. Например:
+     *      * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
+     *      * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
+     */
+    abstract <R> Observable<R> onHttpException(HttpException e);
 
     private final class ResultCallAdapter implements CallAdapter<Observable<?>> {
         private final Type responseType;
@@ -65,13 +68,10 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
             } else if (e instanceof CacheEmptyException) {
                 return Observable.just(null); //кеш пуст
             } else if (e instanceof HttpException) {
-                onHttpException();
+                return onHttpException((HttpException) e);
             } else {
                 return Observable.error(e);
             }
-            return Observable.empty();
         }
-
     }
-
 }
