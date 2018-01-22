@@ -4,12 +4,11 @@ package ru.surfstudio.android.network.cache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import ru.surfstudio.android.core.app.interactor.common.cache.file.BaseTextLocalCache;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.naming.NamingProcessor;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.naming.Sha256NamingProcessor;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.naming.SimpleNamingProcessor;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.processor.CacheFileProcessor;
-
+import ru.surfstudio.android.filestorage.BaseTextLocalCache;
+import ru.surfstudio.android.filestorage.naming.NamingProcessor;
+import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
+import ru.surfstudio.android.filestorage.naming.SimpleNamingProcessor;
+import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 
 /**
  * простой кеш, кеширует сырой ответ сервера

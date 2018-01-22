@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.app.interactor.common.cache.file;
+package ru.surfstudio.android.filestorage;
 
 public class CacheConstant {
     /**

@@ -10,7 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.CacheConstant;
+import ru.surfstudio.android.filestorage.CacheConstant;
 
 /**
  * фабрика простых кешей

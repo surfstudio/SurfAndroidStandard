@@ -4,10 +4,10 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.BaseTextLocalCache;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.CacheConstant;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.naming.Sha256NamingProcessor;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.BaseTextLocalCache;
+import ru.surfstudio.android.filestorage.CacheConstant;
+import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
+import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 
 
 @PerApplication

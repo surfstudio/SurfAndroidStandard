@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.app.interactor.common.cache.file.naming;
+package ru.surfstudio.android.filestorage.naming;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

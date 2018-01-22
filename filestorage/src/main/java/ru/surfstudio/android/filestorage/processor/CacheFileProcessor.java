@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.app.interactor.common.cache.file.processor;
+package ru.surfstudio.android.filestorage.processor;
 
 import android.support.annotation.Nullable;
 

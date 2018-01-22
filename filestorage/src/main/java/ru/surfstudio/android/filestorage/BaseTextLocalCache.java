@@ -1,8 +1,8 @@
-package ru.surfstudio.android.core.app.interactor.common.cache.file;
+package ru.surfstudio.android.filestorage;
 
 
-import ru.surfstudio.android.core.app.interactor.common.cache.file.naming.NamingProcessor;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.naming.NamingProcessor;
+import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 
 /**
  * базовый класс текстового кеша

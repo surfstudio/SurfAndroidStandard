@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.app.interactor.common.cache.file;
+package ru.surfstudio.android.filestorage;
 
 import android.support.annotation.Nullable;
 
@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import ru.surfstudio.android.core.app.interactor.common.cache.file.naming.NamingProcessor;
-import ru.surfstudio.android.core.app.interactor.common.cache.file.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.naming.NamingProcessor;
+import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 
 
 /**

@@ -1,1 +1,1 @@
-include ':template', ':core', ':analytics', ':network'
+include ':template', ':core', ':analytics', ':network', ':filestorage'
