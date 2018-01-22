@@ -9,6 +9,8 @@ import okhttp3.logging.HttpLoggingInterceptor
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication
 import ru.surfstudio.android.network.cache.SimpleCacheInterceptor
 import ru.surfstudio.android.network.etag.EtagInterceptor
+import ru.surfstudio.standard.interactor.auth.TokenStorage
+import ru.surfstudio.standard.interactor.auth.network.service.ServiceInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 
@@ -20,6 +22,13 @@ private const val NETWORK_TIMEOUT = 10 //sec
  */
 @Module
 class OkHttpModule {
+
+    @Provides
+    @PerApplication
+    @Named(DI_NAME_SERVICE_INTERCEPTOR)
+    internal fun provideServiceInterceptor(tokenStorage: TokenStorage): Interceptor {
+        return ServiceInterceptor(tokenStorage)
+    }
 
     @Provides
     @PerApplication

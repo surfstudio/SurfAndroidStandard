@@ -1,11 +1,11 @@
 package ru.surfstudio.standard.ui.base.error
 
+import ru.surfstudio.android.core.app.interactor.common.network.error.ConversionException
+import ru.surfstudio.android.core.app.interactor.common.network.error.NetworkException
+import ru.surfstudio.android.core.app.interactor.common.network.error.NoInternetException
 import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.ui.base.error.ErrorHandler
-import ru.surfstudio.standard.interactor.common.error.ConversionException
-import ru.surfstudio.standard.interactor.common.error.HttpProtocolException
-import ru.surfstudio.standard.interactor.common.error.NetworkException
-import ru.surfstudio.standard.interactor.common.error.NoInternetException
+import ru.surfstudio.standard.interactor.common.network.error.HttpProtocolException
 import rx.exceptions.CompositeException
 
 /**
