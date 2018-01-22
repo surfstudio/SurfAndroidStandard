@@ -4,15 +4,19 @@ apply plugin: 'com.jfrog.artifactory'
 
 buildscript {
     ext.kotlin_version = '1.2.10'
+    ext.fabricToolsVersion = '1.24.4'
+
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
     }
 }
 
@@ -20,6 +24,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://maven.fabric.io/public' }
     }
 }
 
