@@ -8,7 +8,7 @@ import ru.surfstudio.standard.interactor.common.network.error.InvalidServerValue
 /**
  * ответ от сервера при попытке восстановления доступа через почту
  */
-
+//todo Обновить или удалить класс в соответствии с нуждами приложения
 data class RecoverByEmailResponse(@SerializedName("email") private val email: String?) : Transformable<RecoverByEmailStatus> {
     override fun transform(): RecoverByEmailStatus {
         if (email == null) {

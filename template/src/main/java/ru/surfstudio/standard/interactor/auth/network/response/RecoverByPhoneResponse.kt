@@ -8,7 +8,7 @@ import ru.surfstudio.standard.interactor.common.network.error.InvalidServerValue
 /**
  * ответ от сервера при попытке восстановления доступа
  */
-
+//todo Обновить или удалить класс в соответствии с нуждами приложения
 data class RecoverByPhoneResponse(@SerializedName("phone") val phone: String?)
     : Transformable<RecoverByPhoneStatus> {
     override fun transform(): RecoverByPhoneStatus {

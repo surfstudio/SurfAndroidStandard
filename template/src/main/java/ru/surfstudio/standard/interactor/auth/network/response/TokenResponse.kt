@@ -8,6 +8,7 @@ import ru.surfstudio.standard.domain.auth.phone.LoginInfo
 /**
  * сущность для ответа сервера с токенами
  */
+//todo Обновить или удалить класс в соответствии с нуждами приложения
 data class TokenResponse(@SerializedName("access_token")
                          private val accessToken: String? = null,
                          @SerializedName("expires_in")
