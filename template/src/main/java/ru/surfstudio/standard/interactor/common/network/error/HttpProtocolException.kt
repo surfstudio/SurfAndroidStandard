@@ -5,7 +5,7 @@ import com.google.gson.Gson
 import okhttp3.ResponseBody
 import retrofit2.adapter.rxjava.HttpException
 import ru.surfstudio.android.core.app.interactor.common.network.error.NetworkException
-import ru.surfstudio.standard.interactor.auth.network.LOGIN_PATH
+import ru.surfstudio.standard.interactor.auth.network.GET_TOKEN_PATH
 import ru.surfstudio.standard.interactor.common.network.response.AuthErrorObj
 import ru.surfstudio.standard.interactor.common.network.response.ErrorObj
 import ru.surfstudio.standard.interactor.common.network.response.ErrorResponse
@@ -32,7 +32,7 @@ class HttpProtocolException(cause: HttpException, val httpMessage: String, val h
         val responseBody = cause.response().errorBody()
         val response: ErrorResponse?
 
-        if (url.contains(LOGIN_PATH)) {
+        if (url.contains(GET_TOKEN_PATH)) {
             val authErrorObj = getFromError(responseBody, AuthErrorObj::class.java)
             response = ErrorResponse(ErrorObj(if (authErrorObj != null) authErrorObj.error else "", ""))
         } else {
