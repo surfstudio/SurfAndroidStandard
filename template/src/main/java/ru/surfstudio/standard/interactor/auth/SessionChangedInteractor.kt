@@ -20,7 +20,7 @@ constructor(private val tokenStorage: TokenStorage) {
     }
 
     fun onLogin(authInfo: LoginInfo) {
-        tokenStorage.authToken = authInfo.accessToken!!
+        tokenStorage.authToken = authInfo.accessToken
         sessionChangedPublishSubject.onNext(LoginState.LOGGED_IN)
     }
 
