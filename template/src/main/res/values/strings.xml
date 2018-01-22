@@ -18,22 +18,4 @@
     <string name="placeholder_default_subtitle">Нет подключения к интернету.\nПроверьте соединение и обновите экран.</string>
     <string name="placeholder_default_btn">Обновить</string>
 
-    <!--Авторизация-->
-    <string name="invalid_phone_number">Невалидный номер</string>
-
-    <string name="fragment_auth_phone_continue_btn">Продолжить</string>
-    <string name="fragment_auth_login_title">Вход</string>
-    <string name="fragment_auth_phone_title">Ваш телефон</string>
-    <string name="fragment_auth_sms_title">Код из СМС</string>
-    <string name="fragment_auth_sms_input_hint">****</string>
-    <string name="fragment_auth_phone_sms_message">Код отправлен на номер\n%s</string>
-    <string name="fragment_auth_sms_resend_btn">Выслать код еще раз</string>
-    <string name="fragment_auth_sms_code_chronometer_fmt" formatted="false">Выслать еще раз через %d с</string>
-    <string name="fragment_auth_sms_code_error_code_message">Код из СМС не подходит. Попробуйте еще раз.</string>
-    <string name="fragment_auth_agreement_auth_text">Я принимаю оферту и даю согласие на обработку своих персональных данных</string>
-    <string name="fragment_auth_start_span_word">оферту</string>
-    <string name="fragment_auth_sms_code_error_only_invited">Сейчас мы работаем в режиме закрытого клуба. Мы обязательно пришлем Вам приглашение, когда в нашем клубе появятся новые места!</string>
-
-    <string name="sms_allow_chars">0123456789</string>
-
 </resources>
