@@ -30,11 +30,11 @@ public class SimpleCacheInterceptor implements Interceptor {
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
     private static final String SLASH = "/";
     private SimpleCacheFactory simpleCacheFactory;
-    private BaseSimpleCacheUrlConnector simpleCacheUrlConnector;
+    private SimpleCacheUrlConnector simpleCacheUrlConnector;
 
     @Inject
     public SimpleCacheInterceptor(SimpleCacheFactory simpleCacheFactory,
-                                  BaseSimpleCacheUrlConnector simpleCacheUrlConnector) {
+                                  SimpleCacheUrlConnector simpleCacheUrlConnector) {
         this.simpleCacheFactory = simpleCacheFactory;
         this.simpleCacheUrlConnector = simpleCacheUrlConnector;
     }

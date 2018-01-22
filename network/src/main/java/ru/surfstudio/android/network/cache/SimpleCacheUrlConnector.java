@@ -17,27 +17,26 @@ import ru.surfstudio.android.core.domain.network.url.BaseUrl;
  * Базовый класс для хранения информации об Url простого кеша.
  * Имплементация провайдится через модуль со скоупом {@link ru.surfstudio.android.core.app.dagger.scope.PerApplication}
  */
-public abstract class BaseSimpleCacheUrlConnector {
+public class SimpleCacheUrlConnector {
     private static final String URL_SPLIT_REGEX = "[/?&]";
     private static final String BRACE = "{";
 
     @NonNull
     private final BaseUrl baseUrl;
 
-    public BaseSimpleCacheUrlConnector(@NonNull BaseUrl baseUrl) {
-        this.baseUrl = baseUrl;
-    }
+    @NonNull
+    private final Collection<SimpleCacheInfo> simpleCacheInfo;
 
-    /**
-     * @return набор {@link SimpleCacheInfo}
-     */
-    abstract Collection<SimpleCacheInfo> getSimpleCacheInfo();
+    public SimpleCacheUrlConnector(@NonNull BaseUrl baseUrl, @NonNull Collection<SimpleCacheInfo> simpleCacheInfo) {
+        this.baseUrl = baseUrl;
+        this.simpleCacheInfo = simpleCacheInfo;
+    }
 
     @SuppressWarnings("squid:S134")
     @Nullable
     public SimpleCacheInfo getByUrl(HttpUrl url, String method) {
         List<String> networkUrlSegments = getNetworkUrlSegments(url);
-        for (SimpleCacheInfo cacheInfo : getSimpleCacheInfo()) {
+        for (SimpleCacheInfo cacheInfo : simpleCacheInfo) {
             boolean baseCacheMethodCorresponds = checkApiMethod(
                     method, networkUrlSegments, cacheInfo.getBaseApiMethod());
             if (baseCacheMethodCorresponds) {
@@ -106,5 +105,10 @@ public abstract class BaseSimpleCacheUrlConnector {
      */
     private boolean isNetworkUrlSegmentParameter(String cacheUrlPathSegment) {
         return !cacheUrlPathSegment.contains("=");
+    }
+
+    @NonNull
+    public Collection<SimpleCacheInfo> getSimpleCacheInfo() {
+        return simpleCacheInfo;
     }
 }

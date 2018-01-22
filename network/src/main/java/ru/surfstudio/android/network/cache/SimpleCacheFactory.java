@@ -19,12 +19,12 @@ import ru.surfstudio.android.filestorage.CacheConstant;
 public class SimpleCacheFactory {
 
     private final String cacheDir;
-    private final BaseSimpleCacheUrlConnector cacheUrlConnector;
+    private final SimpleCacheUrlConnector cacheUrlConnector;
     private Map<SimpleCacheInfo, SimpleCache> caches = new HashMap<>();
 
     @Inject
     public SimpleCacheFactory(@Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir,
-                              BaseSimpleCacheUrlConnector cacheUrlConnector) {
+                              SimpleCacheUrlConnector cacheUrlConnector) {
         this.cacheDir = cacheDir;
         this.cacheUrlConnector = cacheUrlConnector;
     }

@@ -4,7 +4,7 @@ package ru.surfstudio.standard.interactor.common.network.error
 import com.google.gson.Gson
 import okhttp3.ResponseBody
 import retrofit2.adapter.rxjava.HttpException
-import ru.surfstudio.android.core.app.interactor.common.network.error.NetworkException
+import ru.surfstudio.android.network.error.NetworkException
 import ru.surfstudio.standard.interactor.auth.network.GET_TOKEN_PATH
 import ru.surfstudio.standard.interactor.common.network.response.AuthErrorObj
 import ru.surfstudio.standard.interactor.common.network.response.ErrorObj

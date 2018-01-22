@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.interactor.auth.network.service;
 
 
-import ru.surfstudio.android.core.app.interactor.common.network.error.HttpCodes;
+import ru.surfstudio.android.network.error.HttpCodes;
 import ru.surfstudio.standard.interactor.common.network.error.HttpProtocolException;
 import ru.surfstudio.standard.interactor.common.network.error.handler.BaseErrorHandler;
 import rx.Observable;

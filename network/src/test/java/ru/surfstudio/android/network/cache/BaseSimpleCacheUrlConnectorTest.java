@@ -9,7 +9,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,16 +33,7 @@ public class BaseSimpleCacheUrlConnectorTest {
     private SimpleCacheInfo yaSci = new SimpleCacheInfo(HttpMethods.GET, "me/fu", "ya_test", 1);
     private SimpleCacheInfo paramPath = new SimpleCacheInfo(HttpMethods.GET, "me/{param_one}/like", "param_test", 1);
     private SimpleCacheInfo paramVal = new SimpleCacheInfo(HttpMethods.GET, "me/job&ginger=1", "param_test", 1);
-    private BaseSimpleCacheUrlConnector connector = new BaseSimpleCacheUrlConnector(baseUrl) {
-        @Override
-        Collection<SimpleCacheInfo> getSimpleCacheInfo() {
-            Set<SimpleCacheInfo> set = new HashSet<>();
-            set.add(yaSci);
-            set.add(paramPath);
-            set.add(paramVal);
-            return set;
-        }
-    };
+    private SimpleCacheUrlConnector connector;
 
     @Before
     public void setup() {
@@ -53,6 +43,12 @@ public class BaseSimpleCacheUrlConnectorTest {
                     CharSequence a = (CharSequence) invocation.getArguments()[0];
                     return !(a != null && a.length() > 0);
                 });
+        Set<SimpleCacheInfo> set = new HashSet<>();
+        set.add(yaSci);
+        set.add(paramPath);
+        set.add(paramVal);
+
+        connector = new SimpleCacheUrlConnector(baseUrl, set);
     }
 
     @Test
