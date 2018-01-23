@@ -1,10 +1,11 @@
 package ru.surfstudio.android.core.ui.util;
 
+import com.annimon.stream.function.Function;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import ru.surfstudio.android.core.domain.datalist.DataList;
 import ru.surfstudio.android.core.util.rx.ObservableUtil;
