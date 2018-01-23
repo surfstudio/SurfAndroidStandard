@@ -4,34 +4,34 @@ package ru.surfstudio.android.core.ui.base.screen.presenter;
 import android.support.annotation.CallSuper;
 
 import com.agna.ferro.core.PersistentScreenScope;
-import com.agna.ferro.rx.OperatorFreeze;
+import com.agna.ferro.rx.ObservableOperatorFreeze;
 
+import io.reactivex.Observable;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
+import io.reactivex.internal.functions.Functions;
+import io.reactivex.internal.observers.LambdaObserver;
+import io.reactivex.subjects.BehaviorSubject;
 import ru.surfstudio.android.core.ui.base.delegate.ScreenEventDelegate;
 import ru.surfstudio.android.core.ui.base.delegate.manager.ScreenEventDelegateManagerProvider;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
-import ru.surfstudio.android.core.util.rx.ObservableUtil;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Func2;
-import rx.internal.util.InternalObservableUtils;
-import rx.subjects.BehaviorSubject;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * базовый класс презентера, содержащий всю корневую логику
  * Методы {@link #subscribe} добавляют логику замораживания
- * Rx событий на время пересоздания вью или когда экран находится в фоне, см {@link OperatorFreeze}
+ * Rx событий на время пересоздания вью или когда экран находится в фоне, см {@link ObservableOperatorFreeze}
  * Также все подписки освобождаются при полном уничтожении экрана
+ *
  * @param <V>
  */
 public abstract class CorePresenter<V extends CoreView> implements
-    PersistentScreenScope.OnScopeDestroyListener {
+        PersistentScreenScope.OnScopeDestroyListener {
 
-    private final CompositeSubscription subscriptions = new CompositeSubscription();
-    private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.create(false);
+    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);
     private final ScreenEventDelegateManagerProvider delegateManagerProvider;
     private final ScreenEventDelegate[] delegates;
     private V view;
@@ -55,8 +55,9 @@ public abstract class CorePresenter<V extends CoreView> implements
 
     /**
      * This method is called, when view is ready
+     *
      * @param viewRecreated - show whether view created in first time or recreated after
-     *                        changing configuration
+     *                      changing configuration
      */
     @CallSuper
     public void onLoad(boolean viewRecreated) {
@@ -74,7 +75,7 @@ public abstract class CorePresenter<V extends CoreView> implements
     /**
      * Called when view is started
      */
-    public void onStart(){
+    public void onStart() {
 
     }
 
@@ -82,15 +83,15 @@ public abstract class CorePresenter<V extends CoreView> implements
      * Called when view is resumed
      */
     @CallSuper
-    public void onResume(){
+    public void onResume() {
         freezeSelector.onNext(false);
     }
 
     /**
      * Called when view is paused
      */
-    public void onPause(){
-        if(freezeEventsOnPause) {
+    public void onPause() {
+        if (freezeEventsOnPause) {
             freezeSelector.onNext(true);
         }
     }
@@ -98,7 +99,7 @@ public abstract class CorePresenter<V extends CoreView> implements
     /**
      * Called when view is stopped
      */
-    public void onStop(){
+    public void onStop() {
 
     }
 
@@ -121,13 +122,14 @@ public abstract class CorePresenter<V extends CoreView> implements
     @CallSuper
     @Override
     public void onDestroy() {
-        subscriptions.unsubscribe();
+        disposables.dispose();
     }
 
     /**
      * If true, all rx event would be frozen when screen paused, and unfrozen when screen resumed,
      * otherwise event would be frozen when {@link #onViewDetached()} called.
      * Default enabled.
+     *
      * @param enabled
      */
     public void setFreezeOnPauseEnabled(boolean enabled) {
@@ -135,79 +137,64 @@ public abstract class CorePresenter<V extends CoreView> implements
     }
 
     /**
-     * Apply {@link OperatorFreeze} and subscribe subscriber to the observable.
+     * Apply {@link ObservableOperatorFreeze} and subscribe subscriber to the observable.
      * When screen finally destroyed, all subscriptions would be automatically unsubscribed.
      * For more information see description of this class.
+     *
      * @return subscription
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                       final OperatorFreeze<T> operator,
-                                       final Subscriber<T> subscriber) {
-        Subscription subscription = observable
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final ObservableOperatorFreeze<T> operator,
+                                       final LambdaObserver<T> observer) {
+        Disposable disposable = observable
                 .lift(operator)
-                .subscribe(subscriber);
-        subscriptions.add(subscription);
-        return subscription;
+                .subscribeWith(observer);
+        disposables.add(disposable);
+        return disposable;
     }
 
     /**
-     * @see #subscribe(Observable, OperatorFreeze, Subscriber)
+     * @see #subscribe(Observable, ObservableOperatorFreeze, LambdaObserver)
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                       final OperatorFreeze<T> operator,
-                                       final Action1<T> onNext,
-                                       final Action1<Throwable> onError) {
-        return subscribe(observable, operator, onNext, ObservableUtil.EMPTY_ACTION, onError);
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final ObservableOperatorFreeze<T> operator,
+                                       final Consumer<T> onNext,
+                                       final Consumer<Throwable> onError) {
+        return subscribe(observable, operator, onNext, Functions.EMPTY_ACTION, onError);
     }
 
     /**
-     * @see #subscribe(Observable, OperatorFreeze, Subscriber)
+     * @see #subscribe(Observable, ObservableOperatorFreeze, LambdaObserver)
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final OperatorFreeze<T> operator,
-                                         final Action1<T> onNext,
-                                         final Action0 onCompleted,
-                                         final Action1<Throwable> onError) {
-        return subscribe(observable, operator,
-                new Subscriber<T>() {
-                    @Override
-                    public void onCompleted() {
-                        onCompleted.call();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        onError.call(e);
-                    }
-
-                    @Override
-                    public void onNext(T t) {
-                        onNext.call(t);
-                    }
-                });
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final ObservableOperatorFreeze<T> operator,
+                                       final Consumer<T> onNext,
+                                       final Action onComplete,
+                                       final Consumer<Throwable> onError) {
+        return subscribe(observable, operator, new LambdaObserver<>(onNext, onError, onComplete, Functions.emptyConsumer()));
     }
 
     /**
-     * @see #subscribe(Observable, OperatorFreeze, Subscriber)
      * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
-     *                                    @see OperatorFreeze
+     * @see #subscribe(Observable, ObservableOperatorFreeze, LambdaObserver)
+     * @see ObservableOperatorFreeze
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final Func2<T, T, Boolean> replaceFrozenEventPredicate,
-                                         final Subscriber<T> subscriber) {
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final BiFunction<T, T, Boolean> replaceFrozenEventPredicate,
+                                       final LambdaObserver<T> observer) {
 
-        return subscribe(observable, createOperatorFreeze(replaceFrozenEventPredicate), subscriber);
+        return subscribe(observable, createOperatorFreeze(replaceFrozenEventPredicate), observer);
     }
 
     /**
+     * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
-     * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
-     *                                    @see @link OperatorFreeze
+     * @see @link OperatorFreeze
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final Func2<T, T, Boolean> replaceFrozenEventPredicate,
-                                         final Action1<T> onNext,
-                                         final Action1<Throwable> onError) {
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final BiFunction<T, T, Boolean> replaceFrozenEventPredicate,
+                                       final Consumer<T> onNext,
+                                       final Consumer<Throwable> onError) {
 
         return subscribe(observable, createOperatorFreeze(replaceFrozenEventPredicate), onNext, onError);
     }
@@ -215,98 +202,83 @@ public abstract class CorePresenter<V extends CoreView> implements
     /**
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final Subscriber<T> subscriber) {
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final LambdaObserver<T> observer) {
 
-        return subscribe(observable, this.<T>createOperatorFreeze(), subscriber);
+        return subscribe(observable, this.createOperatorFreeze(), observer);
     }
 
     /**
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final Action1<T> onNext) {
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final Consumer<T> onNext) {
 
-        return subscribe(observable, this.<T>createOperatorFreeze(), onNext, InternalObservableUtils.ERROR_NOT_IMPLEMENTED);
+        return subscribe(observable, this.createOperatorFreeze(), onNext, Functions.ON_ERROR_MISSING);
     }
 
 
     /**
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final Action1<T> onNext,
-                                         final Action1<Throwable> onError) {
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final Consumer<T> onNext,
+                                       final Consumer<Throwable> onError) {
 
-        return subscribe(observable, onNext, ObservableUtil.EMPTY_ACTION, onError);
+        return subscribe(observable, onNext, Functions.EMPTY_ACTION, onError);
     }
 
     /**
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
-    protected <T> Subscription subscribe(final Observable<T> observable,
-                                         final Action1<T> onNext,
-                                         final Action0 onCompleted,
-                                         final Action1<Throwable> onError) {
+    protected <T> Disposable subscribe(final Observable<T> observable,
+                                       final Consumer<T> onNext,
+                                       final Action onComplete,
+                                       final Consumer<Throwable> onError) {
 
-        return subscribe(observable, this.<T>createOperatorFreeze(), onNext, onCompleted, onError);
+        return subscribe(observable, this.createOperatorFreeze(), onNext, onComplete, onError);
     }
 
 
     /**
-     * Subscribe subscriber to the observable without applying {@link OperatorFreeze}
+     * Subscribe subscriber to the observable without applying {@link ObservableOperatorFreeze}
      * When screen finally destroyed, all subscriptions would be automatically unsubscribed.
+     *
      * @return subscription
      */
-    protected <T> Subscription subscribeWithoutFreezing(final Observable<T> observable,
-                                                        final Subscriber<T> subscriber) {
+    protected <T> Disposable subscribeWithoutFreezing(final Observable<T> observable,
+                                                      final LambdaObserver<T> subscriber) {
 
-        Subscription subscription = observable
-                .subscribe(subscriber);
-        subscriptions.add(subscription);
-        return subscription;
+        Disposable disposable = observable.subscribeWith(subscriber);
+        disposables.add(disposable);
+        return disposable;
     }
 
     /**
      * @see @link #subscribeWithoutFreezing(Observable, Subscriber)
      */
-    protected <T> Subscription subscribeWithoutFreezing(final Observable<T> observable,
-                                                        final Action1<T> onNext,
-                                                        final Action1<Throwable> onError) {
-
-        return subscribeWithoutFreezing(observable, new Subscriber<T>() {
-            @Override
-            public void onCompleted() {
-                // do nothing
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                onError.call(e);
-            }
-
-            @Override
-            public void onNext(T t) {
-                onNext.call(t);
-            }
-        });
+    protected <T> Disposable subscribeWithoutFreezing(final Observable<T> observable,
+                                                      final Consumer<T> onNext,
+                                                      final Consumer<Throwable> onError) {
+        return subscribeWithoutFreezing(observable, new LambdaObserver<>(onNext, onError,
+                Functions.EMPTY_ACTION, Functions.emptyConsumer()));
     }
 
 
-    protected <T> OperatorFreeze<T> createOperatorFreeze(Func2<T, T, Boolean> replaceFrozenEventPredicate) {
-        return new OperatorFreeze<>(freezeSelector, replaceFrozenEventPredicate);
+    protected <T> ObservableOperatorFreeze<T> createOperatorFreeze(BiFunction<T, T, Boolean> replaceFrozenEventPredicate) {
+        return new ObservableOperatorFreeze<>(freezeSelector, replaceFrozenEventPredicate);
     }
 
-    protected <T> OperatorFreeze<T> createOperatorFreeze() {
-        return new OperatorFreeze<>(freezeSelector);
+    protected <T> ObservableOperatorFreeze<T> createOperatorFreeze() {
+        return new ObservableOperatorFreeze<>(freezeSelector);
     }
 
-    protected boolean isSubscriptionInactive(Subscription subscription) {
-        return subscription == null || subscription.isUnsubscribed();
+    protected boolean isDisposableInactive(Disposable disposable) {
+        return disposable == null || disposable.isDisposed();
     }
 
-    protected boolean isSubscriptionActive(Subscription subscription) {
-        return subscription != null && !subscription.isUnsubscribed();
+    protected boolean isDisposableActive(Disposable disposable) {
+        return disposable != null && !disposable.isDisposed();
     }
 
 }
