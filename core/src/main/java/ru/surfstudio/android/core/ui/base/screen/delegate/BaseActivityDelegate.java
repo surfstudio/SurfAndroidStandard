@@ -26,7 +26,6 @@ import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.view.destroy.
 import ru.surfstudio.android.core.ui.base.event.delegate.newintent.NewIntentEvent;
 import ru.surfstudio.android.core.ui.base.event.delegate.permission.result.RequestPermissionsResultEvent;
 import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorage;
-import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorageContainer;
 import ru.surfstudio.android.core.ui.base.scope.activity.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
@@ -39,20 +38,21 @@ public class BaseActivityDelegate {
     private BaseActivityInterface baseActivity;
     private List<ScreenEventResolver> eventResolvers;
     private FragmentActivity activity;
-    private BaseActivityConfigurator baseActivityConfigurator;
-    private PersistentScopeStorage scopeManager;
+    private BaseActivityConfigurator activityConfigurator;
+    private PersistentScopeStorage scopeStorage;
 
     public <A extends FragmentActivity & BaseActivityInterface> BaseActivityDelegate(
             A activity,
+            PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers) {
         this.activity = activity;
         this.baseActivity = activity;
         this.eventResolvers = eventResolvers;
+        this.scopeStorage = scopeStorage;
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        initScopeManager();
-        createConfigurators();
+        initConfigurator();
         initPersistentScope();
         runConfigurators();
         getEventDelegateManager().sendEvent(new OnCreateEvent());
@@ -60,32 +60,28 @@ public class BaseActivityDelegate {
         getEventDelegateManager().sendEvent(new OnRestoreStateEvent(savedInstanceState));
     }
 
-    private void initScopeManager() {
-        PersistentScopeStorageContainer container = PersistentScopeStorageContainer.getOrCreate(activity);
-        if (container.getPersistentScopeStorage() == null) {
-            scopeManager = new PersistentScopeStorage();
-            container.setPersistentScopeStorage(scopeManager);
-        }
+    private void initConfigurator() {
+        activityConfigurator = createConfigurator();
     }
 
     protected void runConfigurators() {
-        baseActivityConfigurator.init(getPersistentScope());
+        activityConfigurator.run();
     }
 
     private void initPersistentScope() {
         if (getPersistentScope() == null) {
             ActivityPersistentScope activityScope = new ActivityPersistentScope(
                     new ActivityScreenEventDelegateManager(eventResolvers));
-            scopeManager.putActivityScope(activityScope);
+            scopeStorage.putActivityScope(activityScope);
         }
     }
 
-    protected void createConfigurators() {
-        baseActivityConfigurator = baseActivity.createActivityConfigurator();
+    protected BaseActivityConfigurator createConfigurator() {
+        return baseActivity.createActivityConfigurator();
     }
 
-    public BaseActivityConfigurator getBaseActivityConfigurator() {
-        return baseActivityConfigurator;
+    public BaseActivityConfigurator getConfigurator() {
+        return activityConfigurator;
     }
 
     protected BaseScreenEventDelegateManager getEventDelegateManager() {
@@ -93,12 +89,12 @@ public class BaseActivityDelegate {
     }
 
     public String getName() {
-        return baseActivityConfigurator.getName();
-    } //todo зачем?
+        return activityConfigurator.getName();
+    }
 
     public ActivityPersistentScope getPersistentScope() {
-        return scopeManager.getActivityScope();
-    }
+        return scopeStorage.getActivityScope();
+    } //todo delete
 
     public void onStart() {
         getEventDelegateManager().sendEvent(new OnStartEvent());

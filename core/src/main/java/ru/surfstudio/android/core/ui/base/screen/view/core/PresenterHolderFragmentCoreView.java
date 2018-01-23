@@ -1,8 +1,8 @@
 package ru.surfstudio.android.core.ui.base.screen.view.core;
 
-import android.app.Activity;
 import android.os.Bundle;
 
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
 
 /**
@@ -10,7 +10,8 @@ import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator
  */
 public interface PresenterHolderFragmentCoreView extends PresenterHolderCoreView {
 
-    ScreenConfigurator createScreenConfigurator(Activity activity, Bundle bundle);
+    ScreenConfigurator createScreenConfigurator(BaseActivityConfigurator parentConfigurator,
+                                                Bundle bundle);
 
     /**
      * @return fragment arguments

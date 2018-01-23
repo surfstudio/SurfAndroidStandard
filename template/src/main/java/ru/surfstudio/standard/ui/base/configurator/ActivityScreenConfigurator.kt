@@ -2,8 +2,8 @@ package ru.surfstudio.standard.ui.base.configurator
 
 import android.app.Activity
 import android.content.Intent
-
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface
+
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityScreenConfigurator
 import ru.surfstudio.standard.app.dagger.ActivityComponent
 import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule

@@ -1,23 +1,28 @@
 package ru.surfstudio.android.core.ui.base.screen.delegate;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
+import java.util.List;
+
+import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEvent;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityScreenConfigurator;
 
-public class MvpActivityViewDelegate extends BaseActivityDelegate {
+public class MvpActivityViewDelegate extends BaseActivityDelegate { //todo именование BaseActivityScreenConfigurator vs MvpActivtyViewDelegate
 
-    private Activity activity;
+    private FragmentActivity activity;
     private ActivityCoreView view;
-    private ScreenConfigurator screenConfigurator;
 
-    public <A extends FragmentActivity & BaseActivityInterface & ActivityCoreView> MvpActivityViewDelegate(A activity) {
-        super(activity);
+    public <A extends FragmentActivity & BaseActivityInterface & ActivityCoreView> MvpActivityViewDelegate(
+            A activity,
+            PersistentScopeStorage scopeStorage,
+            List<ScreenEventResolver> eventResolvers) {
+        super(activity, scopeStorage, eventResolvers);
         this.activity = activity;
         this.view = activity;
     }
@@ -33,19 +38,14 @@ public class MvpActivityViewDelegate extends BaseActivityDelegate {
     }
 
     @Override
-    protected void createConfigurators() {
-        super.createConfigurators();
-        screenConfigurator = view.createScreenConfigurator(activity, view.getStartIntent());
+    protected BaseActivityScreenConfigurator createConfigurator() {
+        return view.createScreenConfigurator(activity, view.getStartIntent());
     }
 
     @Override
-    protected void runConfigurators() {
-        super.runConfigurators();
-        screenConfigurator.satisfyDependencies(getPersistentScope(), view);
+    public BaseActivityScreenConfigurator getConfigurator() { //todo safe check
+        return (BaseActivityScreenConfigurator)super.getConfigurator();
     }
 
-    @Override
-    protected String getName() {
-        return screenConfigurator.getName();
-    }
+
 }

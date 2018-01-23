@@ -24,9 +24,9 @@ import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.stop.OnStopEv
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.view.destroy.OnViewDestroyEvent;
 import ru.surfstudio.android.core.ui.base.event.delegate.permission.result.RequestPermissionsResultEvent;
 import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorage;
-import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorageContainer;
 import ru.surfstudio.android.core.ui.base.scope.activity.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.scope.fragment.FragmentPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.fragment.BaseFragmentInterface;
 
 /**
@@ -38,32 +38,32 @@ public class BaseFragmentDelegate {
     private Fragment fragment;
     private List<ScreenEventResolver> eventResolvers;
     private PersistentScopeStorage scopeStorage;
-    private BaseFragmentConfigurator baseFragmentConfigurator;
+    private BaseFragmentConfigurator fragmentConfigurator;
 
     public <F extends Fragment & BaseFragmentInterface> BaseFragmentDelegate(
             F baseFragment,
+            PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers) {
         this.fragment = baseFragment;
+        this.scopeStorage = scopeStorage;
         this.eventResolvers = eventResolvers;
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        initScopeManager();
-        createConfigurators();
+        initConfigurator();
         initPersistentScope();
-        runConfigurators();
+        runConfigurator();
         getEventDelegateManager().sendEvent(new OnCreateEvent());
         getEventDelegateManager().sendEvent(new OnCreateFragmentEvent(fragment));
         getEventDelegateManager().sendEvent(new OnRestoreStateEvent(savedInstanceState));
     }
 
-    private void initScopeManager() {
-        scopeStorage = PersistentScopeStorageContainer.getOrCreate(fragment.getActivity())
-                .getPersistentScopeStorage();
+    private void initConfigurator() {
+        fragmentConfigurator = createConfigurator();
     }
 
-    protected void runConfigurators() {
-        //empty
+    protected void runConfigurator() {
+        fragmentConfigurator.run();
     }
 
     private void initPersistentScope() {
@@ -82,8 +82,8 @@ public class BaseFragmentDelegate {
         }
     }
 
-    protected void createConfigurators() {
-        baseFragmentConfigurator = new BaseFragmentConfigurator(fragment);
+    protected BaseFragmentConfigurator createConfigurator() {
+        return new BaseFragmentConfigurator(fragment);
     }
 
     protected BaseScreenEventDelegateManager getEventDelegateManager(){
@@ -91,11 +91,15 @@ public class BaseFragmentDelegate {
     }
 
     public String getName(){
-        return baseFragmentConfigurator.getName();
+        return fragmentConfigurator.getName();
     }
 
     public FragmentPersistentScope getPersistentScope() {
         return scopeStorage.getFragmentScope(getName());
+    }
+
+    public BaseFragmentConfigurator getConfigurator() {
+        return fragmentConfigurator;
     }
 
     public void onStart(){

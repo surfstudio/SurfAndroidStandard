@@ -1,29 +1,50 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
+import android.support.v4.app.FragmentActivity;
+
 import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
 
-public abstract class BaseActivityConfigurator<C, P> {
+public abstract class BaseActivityConfigurator<A, P> implements Configurator {
     private final String ACTIVITY_COMPONENT_TAG = "ACTIVITY_COMPONENT_TAG";
 
     private PersistentScope persistentScreenScope;
+    private FragmentActivity target;
 
-    public void setPersistentScope(PersistentScope persistentScreenScope) {
-        this.persistentScreenScope = persistentScreenScope;
+    public BaseActivityConfigurator(FragmentActivity target){
+        this.target = target;
     }
 
-    protected abstract C createActivityComponent(P parentComponent);
+    protected abstract A createActivityComponent(P parentComponent);
     protected abstract P getParentComponent();
 
-    public void init() {
-        C activityComponent = (C) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+    @Override
+    public void run(){
+        init();
+    }
+
+    @Override
+    public String getName() {
+        return target.getClass().getCanonicalName();
+    }
+
+    protected PersistentScope getPersistentScope() {
+        return persistentScreenScope;
+    }
+
+    protected void init() {
+        A activityComponent = (A) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
         if (activityComponent == null) {
             activityComponent = createActivityComponent(getParentComponent());
             persistentScreenScope.putObject(activityComponent, ACTIVITY_COMPONENT_TAG);
         }
     }
 
-    public C getActivityComponent() {
-        return (C) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+    public A getActivityComponent() {
+        return (A) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+    }
+
+    public void setPersistentScope(PersistentScope persistentScreenScope) {
+        this.persistentScreenScope = persistentScreenScope;
     }
 
 }

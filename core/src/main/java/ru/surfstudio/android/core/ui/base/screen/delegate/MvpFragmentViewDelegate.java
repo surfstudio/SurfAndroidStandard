@@ -5,19 +5,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
+import java.util.List;
+
+import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEvent;
+import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentScreenConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.fragment.BaseFragmentInterface;
 
 public class MvpFragmentViewDelegate extends BaseFragmentDelegate {
 
     private FragmentCoreView view;
     private BaseActivityInterface baseActivity;
-    private ScreenConfigurator screenConfigurator;
 
-    public <F extends Fragment & BaseFragmentInterface & FragmentCoreView> MvpFragmentViewDelegate(F fragment, BaseActivityInterface baseActivity) {
-        super(fragment);
+    public <F extends Fragment & BaseFragmentInterface & FragmentCoreView> MvpFragmentViewDelegate(
+            F fragment,
+            PersistentScopeStorage scopeStorage,
+            List<ScreenEventResolver> eventResolvers) {
+        super(fragment, scopeStorage, eventResolvers);
         this.view = fragment;
         this.baseActivity = baseActivity;
     }
@@ -31,19 +37,12 @@ public class MvpFragmentViewDelegate extends BaseFragmentDelegate {
     }
 
     @Override
-    protected void createConfigurators() {
-        super.createConfigurators();
-        screenConfigurator = view.createScreenConfigurator(baseActivity, view.getStartArgs());
+    protected BaseFragmentScreenConfigurator createConfigurator() {
+        return view.createScreenConfigurator(baseActivity, view.getStartArgs());
     }
 
     @Override
-    protected void runConfigurators() {
-        super.runConfigurators();
-        screenConfigurator.satisfyDependencies(getPersistentScope(), view);
-    }
-
-    @Override
-    public String getName() {
-        return screenConfigurator.getName();
+    public BaseFragmentScreenConfigurator getConfigurator() { //todo safe check
+        return (BaseFragmentScreenConfigurator)super.getConfigurator();
     }
 }
