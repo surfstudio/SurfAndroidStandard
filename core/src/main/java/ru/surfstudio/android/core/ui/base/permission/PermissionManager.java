@@ -7,10 +7,10 @@ import android.support.v4.content.ContextCompat;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.delegate.RequestPermissionsResultDelegate;
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 

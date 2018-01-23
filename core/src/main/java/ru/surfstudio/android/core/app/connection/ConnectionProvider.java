@@ -3,7 +3,8 @@ package ru.surfstudio.android.core.app.connection;
 import android.content.Context;
 import android.content.IntentFilter;
 
-import rx.Observable;
+
+import io.reactivex.Observable;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 
