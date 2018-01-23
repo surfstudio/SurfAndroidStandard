@@ -9,12 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.List;
+
+import ru.surfstudio.android.core.CoreApp;
 import ru.surfstudio.android.core.ui.base.screen.delegate.BaseActivityDelegate;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
 import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
-
-import java.util.List;
-
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -33,10 +33,6 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
         return baseActivityDelegate;
     }
 
-    @Override
-    public BaseActivityDelegate createBaseActivityDelegate() {
-        return new BaseActivityDelegate(this);
-    }
 
     @Override
     public String getName() {
@@ -46,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseActi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        baseActivityDelegate = createBaseActivityDelegate();
+        baseActivityDelegate = CoreApp.getScreenDelegateFactory(this).createBaseActivtyDelegate(this);
         baseActivityDelegate.onCreate(savedInstanceState);
     }
 

@@ -51,7 +51,7 @@ public class BaseFragmentDelegate {
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         initConfigurator();
-        initPersistentScope();
+        initPersistentScope(); //todo set to configurator
         runConfigurator();
         getEventDelegateManager().sendEvent(new OnCreateEvent());
         getEventDelegateManager().sendEvent(new OnCreateFragmentEvent(fragment));
@@ -118,7 +118,7 @@ public class BaseFragmentDelegate {
         getEventDelegateManager().sendEvent(new OnStopEvent());
     }
 
-    public void onOnSaveInstantState(Bundle outState) { //todo use
+    public void onOnSaveInstantState(Bundle outState) { //todo check use and other
         getEventDelegateManager().sendEvent(new OnSaveStateEvent(outState));
     }
 

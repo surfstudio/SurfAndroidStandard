@@ -3,15 +3,16 @@ package ru.surfstudio.android.core.ui.base.screen.view.core;
 import android.os.Bundle;
 
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentScreenConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.fragment.BaseFragmentInterface;
 
 /**
  * инрефейс для вью, которая оповещает презентер о событиях жизненного цикла экрана
  */
-public interface PresenterHolderFragmentCoreView extends PresenterHolderCoreView {
+public interface PresenterHolderFragmentCoreView extends PresenterHolderCoreView, BaseFragmentInterface {
 
-    ScreenConfigurator createScreenConfigurator(BaseActivityConfigurator parentConfigurator,
-                                                Bundle bundle);
+    BaseFragmentScreenConfigurator createScreenConfigurator(BaseActivityConfigurator parentConfigurator,
+                                                            Bundle bundle);
 
     /**
      * @return fragment arguments

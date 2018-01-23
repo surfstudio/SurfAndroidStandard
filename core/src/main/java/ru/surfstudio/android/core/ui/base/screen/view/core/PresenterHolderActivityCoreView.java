@@ -3,18 +3,17 @@ package ru.surfstudio.android.core.ui.base.screen.view.core;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityScreenConfigurator;
 
 /**
  * инрефейс для вью, которая оповещает презентер о событиях жизненного цикла экрана
  */
-public interface PresenterHolderActivityCoreView extends PresenterHolderCoreView {
+public interface PresenterHolderActivityCoreView extends PresenterHolderCoreView, BaseActivityInterface {
 
-    ScreenConfigurator createScreenConfigurator(Activity activity, Intent intent);
+    BaseActivityScreenConfigurator createScreenConfigurator(Activity activity, Intent intent);
 
     /**
      * @return activity intent
@@ -33,7 +32,7 @@ public interface PresenterHolderActivityCoreView extends PresenterHolderCoreView
      * @param viewRecreated render whether view created in first time or recreated after
      *                      changing configuration
      */
-    void onCreate(Bundle savedInstanceState, @Nullable PersistableBundle persistentState, boolean viewRecreated);
+    void onCreate(Bundle savedInstanceState, boolean viewRecreated);
 
     /**
      * Called before Presenter is bound to the View and content view is created
@@ -41,6 +40,6 @@ public interface PresenterHolderActivityCoreView extends PresenterHolderCoreView
      * @param savedInstanceState
      * @param viewRecreated
      */
-    void onPreCreate(Bundle savedInstanceState, @Nullable PersistableBundle persistentState, boolean viewRecreated);
+    void onPreCreate(Bundle savedInstanceState, boolean viewRecreated);
 
 }

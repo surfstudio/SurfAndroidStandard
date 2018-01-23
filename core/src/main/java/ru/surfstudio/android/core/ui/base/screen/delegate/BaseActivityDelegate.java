@@ -53,7 +53,7 @@ public class BaseActivityDelegate {
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         initConfigurator();
-        initPersistentScope();
+        initPersistentScope(); //todo set to configurator
         runConfigurators();
         getEventDelegateManager().sendEvent(new OnCreateEvent());
         getEventDelegateManager().sendEvent(new OnCreateActivityEvent(activity));

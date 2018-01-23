@@ -4,21 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import ru.surfstudio.android.core.ui.base.screen.delegate.BaseActivityDelegate;
-import ru.surfstudio.android.core.ui.base.screen.delegate.MvpActivityViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
+import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderActivityCoreView;
 
 /**
  * Base class with core logic for view, based on Activity
  */
 public abstract class CoreActivityView extends BaseActivity implements
-        ActivityCoreView {
+        PresenterHolderActivityCoreView {
 
-
-    @Override
-    public BaseActivityDelegate createBaseActivityDelegate() {
-        return new MvpActivityViewDelegate(this);
-    }
 
     /**
      * Override this instead {@link #onCreate(Bundle)}

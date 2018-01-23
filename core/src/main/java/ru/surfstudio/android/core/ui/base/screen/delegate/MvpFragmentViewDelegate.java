@@ -11,21 +11,22 @@ import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEve
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEvent;
 import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentScreenConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.fragment.BaseFragmentInterface;
+import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderFragmentCoreView;
 
 public class MvpFragmentViewDelegate extends BaseFragmentDelegate {
 
-    private FragmentCoreView view;
-    private BaseActivityInterface baseActivity;
+    private Fragment fragment;
+    private PresenterHolderFragmentCoreView view;
 
-    public <F extends Fragment & BaseFragmentInterface & FragmentCoreView> MvpFragmentViewDelegate(
+    public <F extends Fragment & PresenterHolderFragmentCoreView> MvpFragmentViewDelegate(
             F fragment,
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers) {
         super(fragment, scopeStorage, eventResolvers);
         this.view = fragment;
-        this.baseActivity = baseActivity;
+        this.fragment = fragment;
     }
 
     @Override
@@ -37,8 +38,9 @@ public class MvpFragmentViewDelegate extends BaseFragmentDelegate {
     }
 
     @Override
-    protected BaseFragmentScreenConfigurator createConfigurator() {
-        return view.createScreenConfigurator(baseActivity, view.getStartArgs());
+    protected BaseFragmentScreenConfigurator createConfigurator() { //todo safe check
+        BaseActivityConfigurator parentConfigurator = ((BaseActivityInterface) fragment.getActivity()).getBaseActivityDelegate().getConfigurator();
+        return view.createScreenConfigurator(parentConfigurator, view.getStartArgs());
     }
 
     @Override

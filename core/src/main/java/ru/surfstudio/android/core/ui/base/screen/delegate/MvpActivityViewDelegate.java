@@ -10,15 +10,15 @@ import java.util.List;
 import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEvent;
 import ru.surfstudio.android.core.ui.base.scope.PersistentScopeStorage;
-import ru.surfstudio.android.core.ui.base.screen.activity.BaseActivityInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityScreenConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderActivityCoreView;
 
 public class MvpActivityViewDelegate extends BaseActivityDelegate { //todo именование BaseActivityScreenConfigurator vs MvpActivtyViewDelegate
 
     private FragmentActivity activity;
-    private ActivityCoreView view;
+    private PresenterHolderActivityCoreView view;
 
-    public <A extends FragmentActivity & BaseActivityInterface & ActivityCoreView> MvpActivityViewDelegate(
+    public <A extends FragmentActivity & PresenterHolderActivityCoreView> MvpActivityViewDelegate(
             A activity,
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers) {

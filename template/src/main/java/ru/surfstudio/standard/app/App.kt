@@ -2,19 +2,17 @@ package ru.surfstudio.standard.app
 
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
-
 import io.fabric.sdk.android.Fabric
 import io.fabric.sdk.android.Kit
-import ru.surfstudio.android.core.BaseApp
+import ru.surfstudio.android.core.CoreApp
 import ru.surfstudio.standard.app.dagger.ActiveActivityHolderModule
 import ru.surfstudio.standard.app.dagger.AppComponent
 import ru.surfstudio.standard.app.dagger.AppModule
-import ru.surfstudio.standard.app.dagger.DaggerAppComponent
 
 /**
  * Класс приложения
  */
-class App : BaseApp() {
+class App : CoreApp() {
 
     var appComponent: AppComponent? = null
 
