@@ -2,6 +2,7 @@ package ru.surfstudio.android.network.parse;
 
 import android.support.annotation.Nullable;
 
+import com.annimon.stream.function.Function;
 import com.google.gson.reflect.TypeToken;
 
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +14,6 @@ import javax.inject.Inject;
 
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
 import ru.surfstudio.android.network.parse.safe.SafeConverter;
-import rx.functions.Func1;
 
 /**
  * предоставляет доступ к безопасным парсерам, которые предназначены для правильного парсинга ошибочных
@@ -22,7 +22,7 @@ import rx.functions.Func1;
 @PerApplication
 public class SafeConverterFactory {
 
-    private Map<Class, Func1<TypeToken, SafeConverter>> safeConverterCreators = new HashMap<>();
+    private Map<Class, Function<TypeToken, SafeConverter>> safeConverterCreators = new HashMap<>();
     private Map<Class, SafeConverter> initializedSafeConverters = new HashMap<>();
 
     @Inject
@@ -43,16 +43,16 @@ public class SafeConverterFactory {
         return result;
     }
 
-    public void putSafeConvertor(@NotNull Class clazz, @NotNull Func1<TypeToken, SafeConverter> converter) {
+    public void putSafeConvertor(@NotNull Class clazz, @NotNull Function<TypeToken, SafeConverter> converter) {
         safeConverterCreators.put(clazz, converter);
     }
 
     @Nullable
     private <T> SafeConverter<T> tryCreateSafeConverter(TypeToken<T> type) {
         Class<? super T> rawType = type.getRawType();
-        Func1<TypeToken, SafeConverter> safeConverterCreator = safeConverterCreators.get(rawType);
+        Function<TypeToken, SafeConverter> safeConverterCreator = safeConverterCreators.get(rawType);
         if (safeConverterCreator != null) {
-            return safeConverterCreator.call(type);
+            return safeConverterCreator.apply(type);
         }
         return null;
     }

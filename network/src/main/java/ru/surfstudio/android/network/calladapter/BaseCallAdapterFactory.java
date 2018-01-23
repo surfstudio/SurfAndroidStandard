@@ -6,6 +6,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
@@ -13,7 +14,6 @@ import retrofit2.adapter.rxjava.HttpException;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.NoInternetException;
-import rx.Observable;
 
 /**
  * кроме конвертирования запроса в Observable, выполняет следующие функции:
@@ -59,7 +59,7 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
         @Override
         public <R> Observable<R> adapt(Call<R> call) {
             Observable<R> observable = (Observable<R>) rxCallAdapter.adapt(call);
-            return observable.onErrorResumeNext(this::handleNetworkError);
+            return observable.onErrorResumeNext((Throwable e) -> handleNetworkError(e));
         }
 
         private <R> Observable<R> handleNetworkError(Throwable e) {
