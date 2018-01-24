@@ -16,4 +16,10 @@ ext {
     playServicesVersion = '11.6.0'
 
     ankoVersion = '0.10.4'                      //https://goo.gl/XGJGR7
+    javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
+    ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
+    rxJava2Version = '2.1.8'                    //https://goo.gl/uzna2x
+    rxAndroid2Version = '2.0.1'                 //https://goo.gl/3Kd3iP
+    rxBinding2Version = '2.0.0'                 //https://goo.gl/KQ5Vga
+
 }
