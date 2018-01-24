@@ -3,9 +3,9 @@ package ru.surfstudio.android.network;
 import io.reactivex.Observable;
 import ru.surfstudio.android.core.app.interactor.common.DataPriority;
 import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.core.util.rx.SafeFunction;
 import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.NotModifiedException;
-import rx.functions.Func1;
 
 import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FORCE;
 import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
@@ -42,7 +42,7 @@ public class BaseRepository {
      */
     protected <T> Observable<T> hybridQuery(DataPriority priority,
                                             Observable<T> cacheRequest,
-                                            Func1<Integer, Observable<T>> networkRequestCreator) {
+                                            SafeFunction<Integer, Observable<T>> networkRequestCreator) {
         return cacheRequest
                 //оборачиваем ошибку получения кеша чтобы обработать ее в конце чейна
                 .onErrorResumeNext((Throwable e) -> Observable.error(new CacheExceptionWrapper(e)))
@@ -56,14 +56,14 @@ public class BaseRepository {
                             : priority == DataPriority.CACHE;
                     boolean onlyActual = priority == DataPriority.ONLY_ACTUAL;
                     Observable<T> cacheResultObservable = cacheExist ? Observable.just(cache) : Observable.empty();
-                    Observable<T> networkRequestObservable = networkRequestCreator.call(queryMode);
+                    Observable<T> networkRequestObservable = networkRequestCreator.apply(queryMode);
 
                     return getDataObservable(cacheFirst, onlyActual, cacheResultObservable, networkRequestObservable);
                 })
                 .onErrorResumeNext((Throwable throwable) ->
                         this.processErrorFinal(
                                 throwable,
-                                networkRequestCreator.call(QUERY_MODE_FORCE)));
+                                networkRequestCreator.apply(QUERY_MODE_FORCE)));
     }
 
     private <T> Observable<T> getDataObservable(boolean cacheFirst, boolean onlyActual, Observable<T> cacheResultObservable,
@@ -95,7 +95,7 @@ public class BaseRepository {
     }
 
     protected <T> Observable<T> hybridQuery(Observable<T> cacheRequest,
-                                            Func1<Integer, Observable<T>> networkRequestCreator) {
+                                            SafeFunction<Integer, Observable<T>> networkRequestCreator) {
         return hybridQuery(DataPriority.AUTO, cacheRequest, networkRequestCreator);
     }
 
@@ -107,11 +107,11 @@ public class BaseRepository {
      * @param <T>            тип ответа сервера
      */
     protected <T> Observable<T> hybridQueryWithSimpleCache(DataPriority priority,
-                                                           Func1<Integer, Observable<T>> requestCreator) {
-        return hybridQuery(priority, requestCreator.call(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
+                                                           SafeFunction<Integer, Observable<T>> requestCreator) {
+        return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
     }
 
-    protected <T> Observable<T> hybridQueryWithSimpleCache(Func1<Integer, Observable<T>> requestCreator) {
+    protected <T> Observable<T> hybridQueryWithSimpleCache(SafeFunction<Integer, Observable<T>> requestCreator) {
         return hybridQueryWithSimpleCache(DataPriority.AUTO, requestCreator);
     }
 
@@ -125,7 +125,7 @@ public class BaseRepository {
      * оборачивает ошибку, полученную при получении данных из кеша
      */
     private class CacheExceptionWrapper extends Exception {
-        public CacheExceptionWrapper(Throwable cause) {
+        CacheExceptionWrapper(Throwable cause) {
             super(cause);
         }
     }
