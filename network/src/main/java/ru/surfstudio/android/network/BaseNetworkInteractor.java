@@ -1,7 +1,7 @@
 package ru.surfstudio.android.network;
 
 import io.reactivex.Observable;
-import ru.surfstudio.android.core.app.interactor.common.DataPriority;
+import ru.surfstudio.android.core.app.interactor.common.DataStrategy;
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.util.rx.SafeFunction;
 import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
@@ -40,60 +40,74 @@ public class BaseNetworkInteractor {
      *                              Integer параметр этой функции определяет {@link ServerConstants.QueryMode}
      * @param <T>                   тип возвращаемого значения
      */
-    protected <T> Observable<T> hybridQuery(DataPriority priority,
+    protected <T> Observable<T> hybridQuery(DataStrategy priority,
                                             Observable<T> cacheRequest,
                                             SafeFunction<Integer, Observable<T>> networkRequestCreator) {
         return cacheRequest
-                //оборачиваем ошибку получения кеша чтобы обработать ее в конце чейна
-                .onErrorResumeNext((Throwable e) -> Observable.error(new CacheExceptionWrapper(e)))
                 .flatMap(cache -> {
-                    @ServerConstants.QueryMode int queryMode = QUERY_MODE_ONLY_IF_CHANGED;
-                    boolean cacheFirst = priority == DataPriority.AUTO
-                            ? !connectionQualityProvider.isConnectedFast()
-                            : priority == DataPriority.CACHE;
-                    boolean onlyActual = priority == DataPriority.ONLY_ACTUAL;
-                    Observable<T> cacheResultObservable = Observable.just(cache);
-                    Observable<T> networkRequestObservable = networkRequestCreator.apply(queryMode);
+                    Observable<T> cacheObservable = Observable.just(cache);
+                    Observable<T> networkObservable = networkRequestCreator.apply(QUERY_MODE_ONLY_IF_CHANGED);
 
-                    return getDataObservable(cacheFirst, onlyActual, cacheResultObservable, networkRequestObservable);
+                    return getDataObservable(priority, cacheObservable, networkObservable);
                 })
-                .onErrorResumeNext((Throwable throwable) ->
-                        this.processErrorFinal(
-                                throwable,
-                                networkRequestCreator.apply(QUERY_MODE_FORCE)));
+                .onErrorResumeNext((Throwable e) -> {
+                    Logger.e(e.getCause(), "Error when getting data from cache");
+
+                    Observable<T> cacheObservable = Observable.error(e);
+                    Observable<T> networkObservable = networkRequestCreator.apply(QUERY_MODE_FORCE);
+
+                    return getDataObservable(priority, cacheObservable, networkObservable);
+                });
     }
 
-    private <T> Observable<T> getDataObservable(boolean cacheFirst, boolean onlyActual, Observable<T> cacheResultObservable,
-                                                Observable<T> networkRequestObservable) {
-        if (cacheFirst) {
-            return Observable.concat(
-                    cacheResultObservable,
-                    networkRequestObservable.onErrorResumeNext((Throwable e) -> processNetworkException(e)));
-        } else if (onlyActual) {
-            return networkRequestObservable.onErrorResumeNext(e -> e instanceof NotModifiedException ?
-                    cacheResultObservable :
-                    Observable.error(e));
-        } else {
-            return networkRequestObservable.onErrorResumeNext((Throwable e) ->
-                    Observable.concat(
-                            cacheResultObservable,
-                            processNetworkException(e)));
+    @SuppressWarnings("squid:S1612")
+    private <T> Observable<T> getDataObservable(DataStrategy strategy, Observable<T> cache,
+                                                Observable<T> network) {
+        DataStrategy actualStrategy = resolveStrategy(strategy);
+        Observable<T> first;
+        Observable<T> second;
+
+        switch (actualStrategy) {
+            case CACHE:
+                first = cache;
+                second = network.onErrorResumeNext((Throwable e) -> processNetworkException(e));
+                break;
+            case SERVER:
+                first = network.onErrorResumeNext((Throwable e) -> processNetworkException(e));
+                second = Observable.empty();
+                break;
+            case ONLY_ACTUAL:
+                first = network.onErrorResumeNext(e -> e instanceof NotModifiedException ?
+                        cache :
+                        Observable.error(e));
+                second = Observable.empty();
+                break;
+            default:
+                return Observable.error(new IllegalStateException("недопустимая стратегия: " + strategy));
         }
+        return Observable.concat(first, second);
     }
 
-    private <T> Observable<T> processErrorFinal(Throwable e, Observable<T> networkRequest) {
-        if (e instanceof CacheExceptionWrapper) {
-            //в случае ошибки получения данных из кеша производим запрос на сервер
-            Logger.e(e.getCause(), "Error when getting data from cache");
-            return networkRequest;
-        } else {
-            return Observable.error(e);
+    private DataStrategy resolveStrategy(DataStrategy strategy) {
+        if (strategy == DataStrategy.AUTO) {
+            if (connectionQualityProvider.isConnectedFast())
+                return DataStrategy.SERVER;
+            else {
+                return DataStrategy.CACHE;
+            }
         }
+        return strategy;
+    }
+
+    private <T> Observable<T> processNetworkException(Throwable e) {
+        return e instanceof NotModifiedException
+                ? Observable.empty()
+                : Observable.error(e);
     }
 
     protected <T> Observable<T> hybridQuery(Observable<T> cacheRequest,
                                             SafeFunction<Integer, Observable<T>> networkRequestCreator) {
-        return hybridQuery(DataPriority.AUTO, cacheRequest, networkRequestCreator);
+        return hybridQuery(DataStrategy.AUTO, cacheRequest, networkRequestCreator);
     }
 
     /**
@@ -103,27 +117,12 @@ public class BaseNetworkInteractor {
      *                       Integer параметр этой функции определяет {@link ServerConstants.QueryMode}
      * @param <T>            тип ответа сервера
      */
-    protected <T> Observable<T> hybridQueryWithSimpleCache(DataPriority priority,
+    protected <T> Observable<T> hybridQueryWithSimpleCache(DataStrategy priority,
                                                            SafeFunction<Integer, Observable<T>> requestCreator) {
         return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
     }
 
     protected <T> Observable<T> hybridQueryWithSimpleCache(SafeFunction<Integer, Observable<T>> requestCreator) {
-        return hybridQueryWithSimpleCache(DataPriority.AUTO, requestCreator);
-    }
-
-    private <T> Observable<T> processNetworkException(Throwable e) {
-        return e instanceof NotModifiedException
-                ? Observable.empty()
-                : Observable.error(e);
-    }
-
-    /**
-     * оборачивает ошибку, полученную при получении данных из кеша
-     */
-    private class CacheExceptionWrapper extends Exception {
-        CacheExceptionWrapper(Throwable cause) {
-            super(cause);
-        }
+        return hybridQueryWithSimpleCache(DataStrategy.AUTO, requestCreator);
     }
 }

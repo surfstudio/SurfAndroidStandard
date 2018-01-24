@@ -11,7 +11,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import io.reactivex.Observable;
-import ru.surfstudio.android.core.app.interactor.common.DataPriority;
+import ru.surfstudio.android.core.app.interactor.common.DataStrategy;
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.util.rx.SafeFunction;
 import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
@@ -36,7 +36,7 @@ import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_ONLY_IF_C
 @PrepareForTest(Logger.class)
 public class BaseNetworkInteractorTest {
     @Mock
-    ConnectionQualityProvider qualityProvider;
+    private ConnectionQualityProvider qualityProvider;
 
     private BaseNetworkInteractor repository;
     private Observable<Response> cacheRequest;
@@ -67,28 +67,28 @@ public class BaseNetworkInteractorTest {
 
     @Test
     public void testFromCache() throws Exception {
-        repository.hybridQuery(DataPriority.CACHE, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.CACHE, cacheRequest, queryResolver)
                 .test()
                 .assertValues(CACHE, SERVER_QM_ONLY_IF_CHANGED);
     }
 
     @Test
     public void testFromServer() {
-        repository.hybridQuery(DataPriority.SERVER, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.SERVER, cacheRequest, queryResolver)
                 .test().assertValues(SERVER_QM_ONLY_IF_CHANGED);
     }
 
     @Test
     public void testNonActualFastConnection() throws Exception {
         queryResolver = integer -> Observable.error(new NotModifiedException(new IllegalArgumentException(), 300, "http://ya.ru"));
-        repository.hybridQuery(DataPriority.ONLY_ACTUAL, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, queryResolver)
                 .test()
                 .assertValues(CACHE);
     }
 
     @Test
     public void testActualFastConnection() throws Exception {
-        repository.hybridQuery(DataPriority.ONLY_ACTUAL, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, queryResolver)
                 .test()
                 .assertValues(SERVER_QM_ONLY_IF_CHANGED);
     }
@@ -96,14 +96,29 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testActualSlowConnection() throws Exception {
         doReturn(false).when(qualityProvider).isConnectedFast();
-        repository.hybridQuery(DataPriority.ONLY_ACTUAL, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, queryResolver)
                 .test()
                 .assertValues(SERVER_QM_ONLY_IF_CHANGED);
     }
 
     @Test
+    public void testActualNonModified() throws Exception {
+        queryResolver = integer -> Observable.error(new NotModifiedException(new TestServerException(), 1, ""));
+
+        doReturn(false).when(qualityProvider).isConnectedFast();
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, queryResolver)
+                .test()
+                .assertValues(CACHE);
+
+        doReturn(true).when(qualityProvider).isConnectedFast();
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, queryResolver)
+                .test()
+                .assertValues(CACHE);
+    }
+
+    @Test
     public void testAutoFastConnection() {
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertValues(SERVER_QM_ONLY_IF_CHANGED);
     }
@@ -111,7 +126,7 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testAutoSlowConnection() {
         doReturn(false).when(qualityProvider).isConnectedFast();
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertValues(CACHE, SERVER_QM_ONLY_IF_CHANGED);
     }
@@ -120,7 +135,7 @@ public class BaseNetworkInteractorTest {
     public void testException() {
         cacheRequest = Observable.error(new TestCacheException());
         queryResolver = integer -> Observable.error(new TestServerException());
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertError(new TestServerException());
     }
@@ -128,7 +143,7 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testCacheException() {
         cacheRequest = Observable.error(new TestCacheException());
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertNoErrors() // ошибка проглатывается, но логгируется
                 .assertValues(SERVER_QM_FORCE);
@@ -139,7 +154,7 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testEmptyCacheException() {
         cacheRequest = Observable.error(new CacheEmptyException());
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, queryResolver)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertNoErrors() // ошибка проглатывается, но логгируется
                 .assertValues(SERVER_QM_FORCE);
