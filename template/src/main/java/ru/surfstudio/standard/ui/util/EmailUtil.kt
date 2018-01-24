@@ -1,16 +1,9 @@
 package ru.surfstudio.standard.ui.util
 
-
-import ru.surfstudio.standard.interactor.common.error.NonInstanceClassCreateException
-
 /**
  * Утилиты для работы с email
  */
 class EmailUtil private constructor() {
-
-    init {
-        throw NonInstanceClassCreateException(EmailUtil::class.java)
-    }
 
     companion object {
 

@@ -1,5 +1,7 @@
 package ru.surfstudio.android.core.ui.util;
 
+import com.annimon.stream.function.Function;
+
 import java.util.ArrayList;
 import java.util.List;
 
