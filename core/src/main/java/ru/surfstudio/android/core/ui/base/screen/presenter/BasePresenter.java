@@ -12,6 +12,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.internal.observers.LambdaObserver;
 import ru.surfstudio.android.core.app.connection.ConnectionProvider;
+import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
@@ -140,7 +141,11 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
     private void handleError(Throwable e, Consumer<Throwable> onError) {
         getView().handleError(e);
         if (onError != null) {
-            onError.accept(e);
+            try {
+                onError.accept(e);
+            } catch (Exception ex) {
+                Logger.w("Ошибка при обработке ошибки: ", ex);
+            }
         }
     }
 
@@ -157,7 +162,8 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
             if (connectionProvider.isDisconnected()) {
                 autoReloadDisposable = subscribe(connectionProvider.observeConnectionChanges()
                                 .filter(connected -> connected)
-                                .first(),
+                                .firstElement()
+                                .toObservable(),
                         connected -> reloadAction.run());
             }
         });
