@@ -8,13 +8,13 @@ import com.agna.ferro.rx.ObservableOperatorFreeze;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
 import io.reactivex.internal.observers.LambdaObserver;
 import ru.surfstudio.android.core.app.connection.ConnectionProvider;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
+import ru.surfstudio.android.core.util.rx.SafeAction;
 import ru.surfstudio.android.core.util.rx.SafeConsumer;
 
 
@@ -101,7 +101,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      */
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
                                                     final SafeConsumer<T> onNext,
-                                                    final Action onComplete,
+                                                    final SafeAction onComplete,
                                                     final SafeConsumer<Throwable> onError) {
         observable = observable.subscribeOn(schedulersProvider.worker());
         return subscribe(observable, onNext, onComplete, e -> handleError(e, onError));
@@ -121,7 +121,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      * observable не было подключения к интернету
      */
     protected <T> Disposable subscribeIoAutoReload(Observable<T> observable,
-                                                   final Action autoReloadAction,
+                                                   final SafeAction autoReloadAction,
                                                    final SafeConsumer<T> onNext,
                                                    final SafeConsumer<Throwable> onError) {
         return subscribe(initializeAutoReload(observable, autoReloadAction), onNext, onError);
@@ -131,7 +131,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      * {@see subscribeIoAutoReload} кроме того автоматически обрабатывает ошибки
      */
     protected <T> Disposable subscribeIoHandleErrorAutoReload(Observable<T> observable,
-                                                              final Action autoReloadAction,
+                                                              final SafeAction autoReloadAction,
                                                               final SafeConsumer<T> onNext,
                                                               @Nullable final SafeConsumer<Throwable> onError) {
         return subscribeIoHandleError(initializeAutoReload(observable, autoReloadAction), onNext, onError);
@@ -151,7 +151,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
     }
 
     @NonNull
-    private <T> Observable<T> initializeAutoReload(Observable<T> observable, Action reloadAction) {
+    private <T> Observable<T> initializeAutoReload(Observable<T> observable, SafeAction reloadAction) {
         return observable.doOnError(e -> {
             cancelAutoReload();
             if (connectionProvider.isDisconnected()) {

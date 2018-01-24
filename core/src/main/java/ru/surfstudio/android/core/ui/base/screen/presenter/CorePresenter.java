@@ -9,15 +9,16 @@ import com.agna.ferro.rx.ObservableOperatorFreeze;
 import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Consumer;
 import io.reactivex.internal.functions.Functions;
 import io.reactivex.internal.observers.LambdaObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import ru.surfstudio.android.core.ui.base.delegate.ScreenEventDelegate;
 import ru.surfstudio.android.core.ui.base.delegate.manager.ScreenEventDelegateManagerProvider;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
+import ru.surfstudio.android.core.util.rx.ObservableUtil;
+import ru.surfstudio.android.core.util.rx.SafeAction;
+import ru.surfstudio.android.core.util.rx.SafeBiFunction;
+import ru.surfstudio.android.core.util.rx.SafeConsumer;
 
 /**
  * базовый класс презентера, содержащий всю корневую логику
@@ -158,9 +159,9 @@ public abstract class CorePresenter<V extends CoreView> implements
      */
     protected <T> Disposable subscribe(final Observable<T> observable,
                                        final ObservableOperatorFreeze<T> operator,
-                                       final Consumer<T> onNext,
-                                       final Consumer<Throwable> onError) {
-        return subscribe(observable, operator, onNext, Functions.EMPTY_ACTION, onError);
+                                       final SafeConsumer<T> onNext,
+                                       final SafeConsumer<Throwable> onError) {
+        return subscribe(observable, operator, onNext, ObservableUtil.EMPTY_ACTION, onError);
     }
 
     /**
@@ -168,9 +169,9 @@ public abstract class CorePresenter<V extends CoreView> implements
      */
     protected <T> Disposable subscribe(final Observable<T> observable,
                                        final ObservableOperatorFreeze<T> operator,
-                                       final Consumer<T> onNext,
-                                       final Action onComplete,
-                                       final Consumer<Throwable> onError) {
+                                       final SafeConsumer<T> onNext,
+                                       final SafeAction onComplete,
+                                       final SafeConsumer<Throwable> onError) {
         return subscribe(observable, operator, new LambdaObserver<>(onNext, onError, onComplete, Functions.emptyConsumer()));
     }
 
@@ -180,7 +181,7 @@ public abstract class CorePresenter<V extends CoreView> implements
      * @see ObservableOperatorFreeze
      */
     protected <T> Disposable subscribe(final Observable<T> observable,
-                                       final BiFunction<T, T, Boolean> replaceFrozenEventPredicate,
+                                       final SafeBiFunction<T, T, Boolean> replaceFrozenEventPredicate,
                                        final LambdaObserver<T> observer) {
 
         return subscribe(observable, createOperatorFreeze(replaceFrozenEventPredicate), observer);
@@ -192,9 +193,9 @@ public abstract class CorePresenter<V extends CoreView> implements
      * @see @link OperatorFreeze
      */
     protected <T> Disposable subscribe(final Observable<T> observable,
-                                       final BiFunction<T, T, Boolean> replaceFrozenEventPredicate,
-                                       final Consumer<T> onNext,
-                                       final Consumer<Throwable> onError) {
+                                       final SafeBiFunction<T, T, Boolean> replaceFrozenEventPredicate,
+                                       final SafeConsumer<T> onNext,
+                                       final SafeConsumer<Throwable> onError) {
 
         return subscribe(observable, createOperatorFreeze(replaceFrozenEventPredicate), onNext, onError);
     }
@@ -212,9 +213,9 @@ public abstract class CorePresenter<V extends CoreView> implements
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
     protected <T> Disposable subscribe(final Observable<T> observable,
-                                       final Consumer<T> onNext) {
+                                       final SafeConsumer<T> onNext) {
 
-        return subscribe(observable, this.createOperatorFreeze(), onNext, Functions.ON_ERROR_MISSING);
+        return subscribe(observable, this.createOperatorFreeze(), onNext, ObservableUtil.ON_ERROR_MISSING);
     }
 
 
@@ -222,19 +223,19 @@ public abstract class CorePresenter<V extends CoreView> implements
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
     protected <T> Disposable subscribe(final Observable<T> observable,
-                                       final Consumer<T> onNext,
-                                       final Consumer<Throwable> onError) {
+                                       final SafeConsumer<T> onNext,
+                                       final SafeConsumer<Throwable> onError) {
 
-        return subscribe(observable, onNext, Functions.EMPTY_ACTION, onError);
+        return subscribe(observable, onNext, ObservableUtil.EMPTY_ACTION, onError);
     }
 
     /**
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
     protected <T> Disposable subscribe(final Observable<T> observable,
-                                       final Consumer<T> onNext,
-                                       final Action onComplete,
-                                       final Consumer<Throwable> onError) {
+                                       final SafeConsumer<T> onNext,
+                                       final SafeAction onComplete,
+                                       final SafeConsumer<Throwable> onError) {
 
         return subscribe(observable, this.createOperatorFreeze(), onNext, onComplete, onError);
     }
@@ -258,14 +259,14 @@ public abstract class CorePresenter<V extends CoreView> implements
      * @see @link #subscribeWithoutFreezing(Observable, Subscriber)
      */
     protected <T> Disposable subscribeWithoutFreezing(final Observable<T> observable,
-                                                      final Consumer<T> onNext,
-                                                      final Consumer<Throwable> onError) {
+                                                      final SafeConsumer<T> onNext,
+                                                      final SafeConsumer<Throwable> onError) {
         return subscribeWithoutFreezing(observable, new LambdaObserver<>(onNext, onError,
                 Functions.EMPTY_ACTION, Functions.emptyConsumer()));
     }
 
 
-    protected <T> ObservableOperatorFreeze<T> createOperatorFreeze(BiFunction<T, T, Boolean> replaceFrozenEventPredicate) {
+    protected <T> ObservableOperatorFreeze<T> createOperatorFreeze(SafeBiFunction<T, T, Boolean> replaceFrozenEventPredicate) {
         return new ObservableOperatorFreeze<>(freezeSelector, replaceFrozenEventPredicate);
     }
 
