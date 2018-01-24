@@ -22,12 +22,12 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 
 /**
- *
+ * unit test for {@link SimpleCacheUrlConnector}
  */
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(TextUtils.class)
-public class BaseSimpleCacheUrlConnectorTest {
+public class SimpleCacheUrlConnectorTest {
 
     private final BaseUrl baseUrl = new BaseUrl("http://ya.ru/", "v2");
     private SimpleCacheInfo yaSci = new SimpleCacheInfo(HttpMethods.GET, "me/fu", "ya_test", 1);

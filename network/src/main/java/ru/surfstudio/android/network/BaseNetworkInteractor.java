@@ -15,11 +15,11 @@ import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_ONLY_IF_C
 /**
  * Базовый класс репозитория
  */
-public class BaseRepository {
+public class BaseNetworkInteractor {
 
     private ConnectionQualityProvider connectionQualityProvider;
 
-    public BaseRepository(ConnectionQualityProvider connectionQualityProvider) {
+    public BaseNetworkInteractor(ConnectionQualityProvider connectionQualityProvider) {
         this.connectionQualityProvider = connectionQualityProvider;
     }
 

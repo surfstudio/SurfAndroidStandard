@@ -20,19 +20,19 @@ import ru.surfstudio.android.network.error.NotModifiedException;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doReturn;
-import static ru.surfstudio.android.network.BaseRepositoryTest.Response.CACHE;
-import static ru.surfstudio.android.network.BaseRepositoryTest.Response.SERVER;
+import static ru.surfstudio.android.network.BaseNetworkInteractorTest.Response.CACHE;
+import static ru.surfstudio.android.network.BaseNetworkInteractorTest.Response.SERVER;
 
 /**
- * unit tests for {@link BaseRepository}
+ * unit tests for {@link BaseNetworkInteractor}
  */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Logger.class)
-public class BaseRepositoryTest {
+public class BaseNetworkInteractorTest {
     @Mock
     ConnectionQualityProvider qualityProvider;
 
-    private BaseRepository repository;
+    private BaseNetworkInteractor repository;
     private Observable<Response> cacheRequest;
     private Observable<Response> networkRequest;
 
@@ -43,7 +43,7 @@ public class BaseRepositoryTest {
 
         networkRequest = Observable.just(SERVER);
         cacheRequest = Observable.just(CACHE);
-        repository = new BaseRepository(qualityProvider);
+        repository = new BaseNetworkInteractor(qualityProvider);
 
         doReturn(true).when(qualityProvider).isConnectedFast();
     }

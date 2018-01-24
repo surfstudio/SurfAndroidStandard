@@ -12,7 +12,6 @@ import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.HttpException;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.NoInternetException;
 
 /**
@@ -65,8 +64,6 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
         private <R> Observable<R> handleNetworkError(Throwable e) {
             if (e instanceof IOException) {
                 return Observable.error(new NoInternetException(e));
-            } else if (e instanceof CacheEmptyException) {
-                return Observable.just(null); //кеш пуст
             } else if (e instanceof HttpException) {
                 return onHttpException((HttpException) e);
             } else {
