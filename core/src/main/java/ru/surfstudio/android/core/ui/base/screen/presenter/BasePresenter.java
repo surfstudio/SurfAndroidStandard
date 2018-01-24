@@ -9,13 +9,13 @@ import com.agna.ferro.rx.ObservableOperatorFreeze;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.internal.observers.LambdaObserver;
 import ru.surfstudio.android.core.app.connection.ConnectionProvider;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
+import ru.surfstudio.android.core.util.rx.SafeConsumer;
 
 
 /**
@@ -80,7 +80,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      * см {@link HandleableErrorView} и переводит выполенения потока в фон
      */
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
-                                                    final Consumer<T> onNext) {
+                                                    final SafeConsumer<T> onNext) {
         return subscribeIoHandleError(observable, onNext, null);
     }
 
@@ -89,8 +89,8 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      * см {@link HandleableErrorView} и переводит выполенения потока в фон
      */
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
-                                                    final Consumer<T> onNext,
-                                                    final Consumer<Throwable> onError) {
+                                                    final SafeConsumer<T> onNext,
+                                                    final SafeConsumer<Throwable> onError) {
         observable = observable.subscribeOn(schedulersProvider.worker());
         return subscribe(observable, onNext, e -> handleError(e, onError));
     }
@@ -100,17 +100,17 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      * см {@link HandleableErrorView} и переводит выполенения потока в фон
      */
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
-                                                    final Consumer<T> onNext,
+                                                    final SafeConsumer<T> onNext,
                                                     final Action onComplete,
-                                                    final Consumer<Throwable> onError) {
+                                                    final SafeConsumer<Throwable> onError) {
         observable = observable.subscribeOn(schedulersProvider.worker());
         return subscribe(observable, onNext, onComplete, e -> handleError(e, onError));
     }
 
 
     protected <T> Disposable subscribeIo(Observable<T> observable,
-                                         final Consumer<T> onNext,
-                                         final Consumer<Throwable> onError) {
+                                         final SafeConsumer<T> onNext,
+                                         final SafeConsumer<Throwable> onError) {
         observable = observable.subscribeOn(schedulersProvider.worker());
         return subscribe(observable, onNext, onError);
     }
@@ -122,8 +122,8 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      */
     protected <T> Disposable subscribeIoAutoReload(Observable<T> observable,
                                                    final Action autoReloadAction,
-                                                   final Consumer<T> onNext,
-                                                   final Consumer<Throwable> onError) {
+                                                   final SafeConsumer<T> onNext,
+                                                   final SafeConsumer<Throwable> onError) {
         return subscribe(initializeAutoReload(observable, autoReloadAction), onNext, onError);
     }
 
@@ -132,12 +132,12 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      */
     protected <T> Disposable subscribeIoHandleErrorAutoReload(Observable<T> observable,
                                                               final Action autoReloadAction,
-                                                              final Consumer<T> onNext,
-                                                              @Nullable final Consumer<Throwable> onError) {
+                                                              final SafeConsumer<T> onNext,
+                                                              @Nullable final SafeConsumer<Throwable> onError) {
         return subscribeIoHandleError(initializeAutoReload(observable, autoReloadAction), onNext, onError);
     }
 
-    private void handleError(Throwable e, Consumer<Throwable> onError) {
+    private void handleError(Throwable e, @Nullable SafeConsumer<Throwable> onError) {
         getView().handleError(e);
         if (onError != null) {
             onError.accept(e);
@@ -157,7 +157,8 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
             if (connectionProvider.isDisconnected()) {
                 autoReloadDisposable = subscribe(connectionProvider.observeConnectionChanges()
                                 .filter(connected -> connected)
-                                .first(),
+                                .firstElement()
+                                .toObservable(),
                         connected -> reloadAction.run());
             }
         });
