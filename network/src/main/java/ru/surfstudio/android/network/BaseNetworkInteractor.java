@@ -47,15 +47,12 @@ public class BaseNetworkInteractor {
                 //оборачиваем ошибку получения кеша чтобы обработать ее в конце чейна
                 .onErrorResumeNext((Throwable e) -> Observable.error(new CacheExceptionWrapper(e)))
                 .flatMap(cache -> {
-                    boolean cacheExist = cache != null;
-                    @ServerConstants.QueryMode int queryMode = cacheExist
-                            ? QUERY_MODE_ONLY_IF_CHANGED
-                            : QUERY_MODE_FORCE;
+                    @ServerConstants.QueryMode int queryMode = QUERY_MODE_ONLY_IF_CHANGED;
                     boolean cacheFirst = priority == DataPriority.AUTO
                             ? !connectionQualityProvider.isConnectedFast()
                             : priority == DataPriority.CACHE;
                     boolean onlyActual = priority == DataPriority.ONLY_ACTUAL;
-                    Observable<T> cacheResultObservable = cacheExist ? Observable.just(cache) : Observable.empty();
+                    Observable<T> cacheResultObservable = Observable.just(cache);
                     Observable<T> networkRequestObservable = networkRequestCreator.apply(queryMode);
 
                     return getDataObservable(cacheFirst, onlyActual, cacheResultObservable, networkRequestObservable);
