@@ -1,15 +1,11 @@
 package ru.surfstudio.android.network;
 
-import com.annimon.stream.function.Function;
-
-import io.reactivex.Maybe;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.Observer;
-import io.reactivex.Single;
 import ru.surfstudio.android.core.app.interactor.common.DataPriority;
+import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.NotModifiedException;
+import rx.functions.Func1;
 
 import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FORCE;
 import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
@@ -45,47 +41,61 @@ public class BaseRepository {
      * @param <T>                   тип возвращаемого значения
      */
     protected <T> Observable<T> hybridQuery(DataPriority priority,
-                                            Maybe<T> cacheRequest,
-                                            Function<Integer, Single<T>> networkRequestCreator) {
+                                            Observable<T> cacheRequest,
+                                            Func1<Integer, Observable<T>> networkRequestCreator) {
         return cacheRequest
-                .switchIfEmpty(networkRequestCreator.apply(QUERY_MODE_FORCE)) //в случае ошибки получения данных из кеша производим запрос на сервер
-                .flatMapObservable(cache -> {
-                    @ServerConstants.QueryMode int queryMode = QUERY_MODE_ONLY_IF_CHANGED;
+                //оборачиваем ошибку получения кеша чтобы обработать ее в конце чейна
+                .onErrorResumeNext((Throwable e) -> Observable.error(new CacheExceptionWrapper(e)))
+                .flatMap(cache -> {
+                    boolean cacheExist = cache != null;
+                    @ServerConstants.QueryMode int queryMode = cacheExist
+                            ? QUERY_MODE_ONLY_IF_CHANGED
+                            : QUERY_MODE_FORCE;
                     boolean cacheFirst = priority == DataPriority.AUTO
                             ? !connectionQualityProvider.isConnectedFast()
                             : priority == DataPriority.CACHE;
                     boolean onlyActual = priority == DataPriority.ONLY_ACTUAL;
-                    Single<T> cacheResultObservable = Single.just(cache);
-                    Single<T> networkRequestObservable = networkRequestCreator.apply(queryMode);
+                    Observable<T> cacheResultObservable = cacheExist ? Observable.just(cache) : Observable.empty();
+                    Observable<T> networkRequestObservable = networkRequestCreator.call(queryMode);
 
                     return getDataObservable(cacheFirst, onlyActual, cacheResultObservable, networkRequestObservable);
-                });
+                })
+                .onErrorResumeNext((Throwable throwable) ->
+                        this.processErrorFinal(
+                                throwable,
+                                networkRequestCreator.call(QUERY_MODE_FORCE)));
     }
 
-    private <T> Observable<T> getDataObservable(boolean cacheFirst, boolean onlyActual, Single<T> cacheResultObservable,
-                                                Single<T> networkRequestObservable) {
+    private <T> Observable<T> getDataObservable(boolean cacheFirst, boolean onlyActual, Observable<T> cacheResultObservable,
+                                                Observable<T> networkRequestObservable) {
         if (cacheFirst) {
-            return Single.concat(cacheResultObservable, networkRequestObservable)
-                    .toObservable()
-                    .onErrorResumeNext((Throwable e) -> processNetworkException(e));
+            return Observable.concat(
+                    cacheResultObservable,
+                    networkRequestObservable.onErrorResumeNext((Throwable e) -> processNetworkException(e)));
         } else if (onlyActual) {
             return networkRequestObservable.onErrorResumeNext(e -> e instanceof NotModifiedException ?
                     cacheResultObservable :
-                    Single.error(e))
-                    .toObservable();
+                    Observable.error(e));
         } else {
-            return Single.concat(networkRequestObservable, cacheResultObservable)
-                    .toObservable()
-                    .onErrorResumeNext((Throwable e) -> processNetworkException(e));
+            return networkRequestObservable.onErrorResumeNext((Throwable e) ->
+                    Observable.concat(
+                            cacheResultObservable,
+                            processNetworkException(e)));
         }
     }
 
-    private <T> ObservableSource<? extends T> processNetworkException(Observer<? super T> observer) {
-        return null;
+    private <T> Observable<T> processErrorFinal(Throwable e, Observable<T> networkRequest) {
+        if (e instanceof CacheExceptionWrapper) {
+            //в случае ошибки получения данных из кеша производим запрос на сервер
+            Logger.e(e.getCause(), "Error when getting data from cache");
+            return networkRequest;
+        } else {
+            return Observable.error(e);
+        }
     }
 
-    protected <T> Observable<T> hybridQuery(Maybe<T> cacheRequest,
-                                            Function<Integer, Single<T>> networkRequestCreator) {
+    protected <T> Observable<T> hybridQuery(Observable<T> cacheRequest,
+                                            Func1<Integer, Observable<T>> networkRequestCreator) {
         return hybridQuery(DataPriority.AUTO, cacheRequest, networkRequestCreator);
     }
 
@@ -97,17 +107,26 @@ public class BaseRepository {
      * @param <T>            тип ответа сервера
      */
     protected <T> Observable<T> hybridQueryWithSimpleCache(DataPriority priority,
-                                                           Function<Integer, Single<T>> requestCreator) {
-        return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE).toMaybe(), requestCreator);
+                                                           Func1<Integer, Observable<T>> requestCreator) {
+        return hybridQuery(priority, requestCreator.call(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
     }
 
-    protected <T> Observable<T> hybridQueryWithSimpleCache(Function<Integer, Single<T>> requestCreator) {
+    protected <T> Observable<T> hybridQueryWithSimpleCache(Func1<Integer, Observable<T>> requestCreator) {
         return hybridQueryWithSimpleCache(DataPriority.AUTO, requestCreator);
     }
 
-    private <T> ObservableSource<? extends T> processNetworkException(Throwable e) {
+    private <T> Observable<T> processNetworkException(Throwable e) {
         return e instanceof NotModifiedException
                 ? Observable.empty()
                 : Observable.error(e);
+    }
+
+    /**
+     * оборачивает ошибку, полученную при получении данных из кеша
+     */
+    private class CacheExceptionWrapper extends Exception {
+        public CacheExceptionWrapper(Throwable cause) {
+            super(cause);
+        }
     }
 }
