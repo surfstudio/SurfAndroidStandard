@@ -1,6 +1,7 @@
 package ru.surfstudio.android.network;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.surfstudio.android.core.app.interactor.common.DataStrategy;
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.util.rx.SafeFunction;
@@ -41,45 +42,47 @@ public class BaseNetworkInteractor {
      * @param <T>                   тип возвращаемого значения
      */
     protected <T> Observable<T> hybridQuery(DataStrategy priority,
-                                            Observable<T> cacheRequest,
-                                            SafeFunction<Integer, Observable<T>> networkRequestCreator) {
+                                            Single<T> cacheRequest,
+                                            SafeFunction<Integer, Single<T>> networkRequestCreator) {
         return cacheRequest
-                .flatMap(cache -> {
-                    Observable<T> cacheObservable = Observable.just(cache);
-                    Observable<T> networkObservable = networkRequestCreator.apply(QUERY_MODE_ONLY_IF_CHANGED);
+                .flatMapObservable(cache -> {
+                    Single<T> cacheObservable = Single.just(cache);
+                    Single<T> networkObservable = networkRequestCreator.apply(QUERY_MODE_ONLY_IF_CHANGED);
 
                     return getDataObservable(priority, cacheObservable, networkObservable);
                 })
                 .onErrorResumeNext((Throwable e) -> {
                     Logger.e(e.getCause(), "Error when getting data from cache");
 
-                    Observable<T> cacheObservable = Observable.error(e);
-                    Observable<T> networkObservable = networkRequestCreator.apply(QUERY_MODE_FORCE);
+                    Single<T> cacheObservable = Single.error(e);
+                    Single<T> networkObservable = networkRequestCreator.apply(QUERY_MODE_FORCE);
 
                     return getDataObservable(priority, cacheObservable, networkObservable);
                 });
     }
 
     @SuppressWarnings("squid:S1612")
-    private <T> Observable<T> getDataObservable(DataStrategy strategy, Observable<T> cache,
-                                                Observable<T> network) {
+    private <T> Observable<T> getDataObservable(DataStrategy strategy, Single<T> cache, Single<T> network) {
         DataStrategy actualStrategy = resolveStrategy(strategy);
         Observable<T> first;
         Observable<T> second;
 
         switch (actualStrategy) {
             case CACHE:
-                first = cache;
-                second = network.onErrorResumeNext((Throwable e) -> processNetworkException(e));
+                first = cache.toObservable();
+                second = network.toObservable()
+                        .onErrorResumeNext((Throwable e) -> processNetworkException(e));
                 break;
             case SERVER:
-                first = network.onErrorResumeNext((Throwable e) -> processNetworkException(e));
+                first = network.toObservable()
+                        .onErrorResumeNext((Throwable e) -> processNetworkException(e));
                 second = Observable.empty();
                 break;
             case ONLY_ACTUAL:
                 first = network.onErrorResumeNext(e -> e instanceof NotModifiedException ?
                         cache :
-                        Observable.error(e));
+                        Single.error(e))
+                        .toObservable();
                 second = Observable.empty();
                 break;
             default:
@@ -105,8 +108,8 @@ public class BaseNetworkInteractor {
                 : Observable.error(e);
     }
 
-    protected <T> Observable<T> hybridQuery(Observable<T> cacheRequest,
-                                            SafeFunction<Integer, Observable<T>> networkRequestCreator) {
+    protected <T> Observable<T> hybridQuery(Single<T> cacheRequest,
+                                            SafeFunction<Integer, Single<T>> networkRequestCreator) {
         return hybridQuery(DataStrategy.AUTO, cacheRequest, networkRequestCreator);
     }
 
@@ -118,11 +121,11 @@ public class BaseNetworkInteractor {
      * @param <T>            тип ответа сервера
      */
     protected <T> Observable<T> hybridQueryWithSimpleCache(DataStrategy priority,
-                                                           SafeFunction<Integer, Observable<T>> requestCreator) {
+                                                           SafeFunction<Integer, Single<T>> requestCreator) {
         return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
     }
 
-    protected <T> Observable<T> hybridQueryWithSimpleCache(SafeFunction<Integer, Observable<T>> requestCreator) {
+    protected <T> Observable<T> hybridQueryWithSimpleCache(SafeFunction<Integer, Single<T>> requestCreator) {
         return hybridQueryWithSimpleCache(DataStrategy.AUTO, requestCreator);
     }
 }

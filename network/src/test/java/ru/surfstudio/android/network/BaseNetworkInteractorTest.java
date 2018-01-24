@@ -10,7 +10,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.surfstudio.android.core.app.interactor.common.DataStrategy;
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.util.rx.SafeFunction;
@@ -39,24 +39,24 @@ public class BaseNetworkInteractorTest {
     private ConnectionQualityProvider qualityProvider;
 
     private BaseNetworkInteractor repository;
-    private Observable<Response> cacheRequest;
-    private SafeFunction<Integer, Observable<Response>> queryResolver;
+    private Single<Response> cacheRequest;
+    private SafeFunction<Integer, Single<Response>> queryResolver;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
         PowerMockito.mockStatic(Logger.class);
 
-        cacheRequest = Observable.just(CACHE);
+        cacheRequest = Single.just(CACHE);
         repository = new BaseNetworkInteractor(qualityProvider);
         queryResolver = integer -> {
             switch (integer) {
                 case QUERY_MODE_ONLY_IF_CHANGED:
-                    return Observable.just(SERVER_QM_ONLY_IF_CHANGED);
+                    return Single.just(SERVER_QM_ONLY_IF_CHANGED);
                 case QUERY_MODE_FORCE:
-                    return Observable.just(SERVER_QM_FORCE);
+                    return Single.just(SERVER_QM_FORCE);
                 case QUERY_MODE_FROM_SIMPLE_CACHE:
-                    return Observable.just(SERVER_QM_SIMPLE_CACHE);
+                    return Single.just(SERVER_QM_SIMPLE_CACHE);
                 default:
                     throw new IllegalStateException();
             }
@@ -80,7 +80,7 @@ public class BaseNetworkInteractorTest {
 
     @Test
     public void testNonActualFastConnection() throws Exception {
-        queryResolver = integer -> Observable.error(new NotModifiedException(new IllegalArgumentException(), 300, "http://ya.ru"));
+        queryResolver = integer -> Single.error(new NotModifiedException(new IllegalArgumentException(), 300, "http://ya.ru"));
         repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, queryResolver)
                 .test()
                 .assertValues(CACHE);
@@ -103,7 +103,7 @@ public class BaseNetworkInteractorTest {
 
     @Test
     public void testActualNonModified() throws Exception {
-        queryResolver = integer -> Observable.error(new NotModifiedException(new TestServerException(), 1, ""));
+        queryResolver = integer -> Single.error(new NotModifiedException(new TestServerException(), 1, ""));
 
         doReturn(false).when(qualityProvider).isConnectedFast();
         repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, queryResolver)
@@ -133,8 +133,8 @@ public class BaseNetworkInteractorTest {
 
     @Test
     public void testException() {
-        cacheRequest = Observable.error(new TestCacheException());
-        queryResolver = integer -> Observable.error(new TestServerException());
+        cacheRequest = Single.error(new TestCacheException());
+        queryResolver = integer -> Single.error(new TestServerException());
         repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertError(new TestServerException());
@@ -142,7 +142,7 @@ public class BaseNetworkInteractorTest {
 
     @Test
     public void testCacheException() {
-        cacheRequest = Observable.error(new TestCacheException());
+        cacheRequest = Single.error(new TestCacheException());
         repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertNoErrors() // ошибка проглатывается, но логгируется
@@ -153,7 +153,7 @@ public class BaseNetworkInteractorTest {
 
     @Test
     public void testEmptyCacheException() {
-        cacheRequest = Observable.error(new CacheEmptyException());
+        cacheRequest = Single.error(new CacheEmptyException());
         repository.hybridQuery(DataStrategy.AUTO, cacheRequest, queryResolver)
                 .test()
                 .assertNoErrors() // ошибка проглатывается, но логгируется
