@@ -30,5 +30,5 @@ ext {
 
     // версия наших внутренних модулей
     moduleVersionCode = 3
-    moduleVersionName = '0.0.3'
+    moduleVersionName = '0.0.1'
 }
