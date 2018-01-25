@@ -2,15 +2,23 @@
   "modules": [
     {
       "name": "template",
-      "path": "git@git_bey_client:android/dev/modules/app.git"
+      "path": ""
     },
     {
       "name": "core",
-      "path": "git@git_bey_client:android/dev/modules/util.git"
+      "path": ""
     },
     {
       "name": "analytics",
-      "path": "git@git_bey_client:android/dev/modules/registration.git"
+      "path": ""
+    },
+    {
+      "name": "network",
+      "path": ""
+    },
+    {
+      "name": "filestorage",
+      "path": ""
     }
   ]
 }

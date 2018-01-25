@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply from: '../publish.gradle'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -42,15 +40,11 @@ android {
 }
 
 dependencies {
-    implementation project(':core')
-    implementation 'com.android.support:support-annotations:27.0.2'
-    implementation 'com.annimon:stream:1.1.8'
+    provided project(':core')
+    provided "com.android.support:support-annotations:${appcompatVersion}"
+    provided "com.annimon:stream:${annimonStreamVersion}"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-}
-
-artifactoryPublish {
-    publications(publishing.publications.aar)
 }
