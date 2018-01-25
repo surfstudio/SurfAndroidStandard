@@ -15,8 +15,8 @@ android {
         targetSdkVersion config["targetSdkVersion"]
 
         applicationId config["applicationId"]
-        versionCode config["versionCode"]
-        versionName config["versionName"]
+        versionCode rootProject.ext.moduleVersionCode
+        versionName rootProject.ext.moduleVersionName
 
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

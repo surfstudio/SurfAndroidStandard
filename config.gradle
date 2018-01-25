@@ -1,7 +1,7 @@
 ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
-    applicationId = "ru.surfstudio.android.core"
+    applicationId = "ru.surfstudio.standard"
     versionCode = 1
     versionName = "0.0.1"
     buildToolsVersion = "26.0.2"
@@ -28,4 +28,7 @@ ext {
     rxAndroid2Version = '2.0.1'                 //https://goo.gl/3Kd3iP
     rxBinding2Version = '2.0.0'                 //https://goo.gl/KQ5Vga
 
+    // версия наших внутренних модулей
+    moduleVersionCode = 3
+    moduleVersionName = '0.0.3'
 }

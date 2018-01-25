@@ -2,8 +2,8 @@ apply plugin: 'maven'
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "http://artifactory.surfstudio.ru/artifactory/libs-release-local") {
-            authentication(userName: "shgalym", password: "jw4dyjdQpHYzX9AY")
+        repository(url: "${surf_maven_libs_url}") {
+            authentication(userName: "${surf_maven_username}", password: "${surf_maven_password}")
         }
 
         pom.groupId = 'ru.surfstudio.standard'

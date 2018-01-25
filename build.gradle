@@ -18,7 +18,7 @@ allprojects {
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
         maven {
-            url 'http://artifactory.surfstudio.ru/artifactory/libs-release-local'
+            url "${surf_maven_libs_url}"
             credentials {
                 username "${surf_maven_username}"
                 password "${surf_maven_password}"
