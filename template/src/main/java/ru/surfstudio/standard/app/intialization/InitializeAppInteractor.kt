@@ -1,10 +1,10 @@
 package ru.surfstudio.standard.app.intialization
 
 
+import io.reactivex.Observable
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication
 import ru.surfstudio.android.core.app.intialization.migration.AppMigrationManager
 import ru.surfstudio.android.core.domain.Unit
-import rx.Observable
 import javax.inject.Inject
 
 /**

@@ -1,6 +1,32 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'maven'
 apply from: 'config.gradle'
-apply plugin: 'com.jfrog.artifactory'
+
+import com.android.build.gradle.LibraryPlugin
+
+allprojects {
+    if (it != rootProject && !"template".equals(it.name)) {
+        it.afterEvaluate {
+            if (it.plugins.hasPlugin(LibraryPlugin)) {
+                it.apply from: "$rootDir/deploy.gradle"
+            }
+        }
+    }
+
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+        maven {
+            url "${surf_maven_libs_url}"
+            credentials {
+                username "${surf_maven_username}"
+                password "${surf_maven_password}"
+            }
+        }
+    }
+}
+
 
 buildscript {
     ext.kotlin_version = '1.2.10'
@@ -14,33 +40,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:latest.release"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "io.fabric.tools:gradle:$fabricToolsVersion"
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url 'https://maven.fabric.io/public' }
-    }
-}
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
-
-
-artifactory {
-    contextUrl = 'http://artifactory.surfstudio.ru/artifactory'
-
-    publish {
-        repository {
-            repoKey = "ext-release-local"
-            username = "build"
-            password = "T4eMKUFL4HQabI_qn7N2"
-        }
     }
 }
