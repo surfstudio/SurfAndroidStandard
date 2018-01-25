@@ -1,12 +1,11 @@
 # Деплой в репозиторий артефактов
-## Core
 ```
-./gradlew clean core:assemble core:artifactoryPublish
+./gradlew clean uploadArchives
 ```
 # Импорт атефактов
 ## build.gradle(app)
 ```
-implementation 'ru.surfstudio.android:{$artifactId}:{$artVersion}'
+implementation 'ru.surfstudio.android:{$artifactId}:{$moduleVersionName}'
 ```
 ## build.gradle(root)
 ```       
