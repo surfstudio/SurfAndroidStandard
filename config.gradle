@@ -1,7 +1,7 @@
 ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
-    applicationId = "ru.surfstudio.standard"
+    applicationId = "ru.surfstudio.android.template"
     versionCode = 1
     versionName = "0.0.1"
     buildToolsVersion = "26.0.2"

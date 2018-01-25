@@ -55,5 +55,4 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4-rule:${porwerMockVersion}"
     testImplementation "org.powermock:powermock-api-mockito:${porwerMockVersion}"
     testImplementation "org.powermock:powermock-classloading-xstream:${porwerMockVersion}"
-    compile project(path: ':filestorage')
 }
