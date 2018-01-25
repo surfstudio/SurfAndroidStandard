@@ -1,8 +1,7 @@
 package ru.surfstudio.standard.ui.screen.splash
 
 
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
+import io.reactivex.Completable
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute
@@ -33,9 +32,13 @@ constructor(private val activityNavigator: ActivityNavigator,
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         if (!viewRecreated) {
-            val delay = Observable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
-            val work = initializeAppInteractor.initialize().toObservable<Unit>() // полезная работа выполняется в этом Observable
-            subscribeIoHandleError(delay.zipWith(work, BiFunction<Long, Unit, Unit> { _, _ -> }), { activityNavigator.start(nextRoute) })
+            val delay = Completable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
+            val work = initializeAppInteractor.initialize()// полезная работа выполняется в этом Observable
+            val merge = Completable.merge(arrayListOf(delay, work))
+            subscribeIoHandleError(merge.toObservable<Unit>(),
+                    { },
+                    { activityNavigator.start(nextRoute) },
+                    null)
         }
     }
 
