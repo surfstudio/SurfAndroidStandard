@@ -1,0 +1,13 @@
+apply plugin: 'maven'
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "http://artifactory.surfstudio.ru/artifactory/libs-release-local") {
+            authentication(userName: "shgalym", password: "jw4dyjdQpHYzX9AY")
+        }
+
+        pom.groupId = 'ru.surfstudio.standard'
+        pom.artifactId = project.name
+        pom.version = "${project.android.defaultConfig.versionName}"
+    }
+}

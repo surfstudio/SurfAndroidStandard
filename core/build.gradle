@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply from: '../publish.gradle'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -106,8 +104,4 @@ dependencies {
 
     //test
     testImplementation 'junit:junit:4.12'
-}
-
-artifactoryPublish {
-    publications(publishing.publications.aar)
 }

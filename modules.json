@@ -1,0 +1,16 @@
+{
+  "modules": [
+    {
+      "name": "template",
+      "path": "git@git_bey_client:android/dev/modules/app.git"
+    },
+    {
+      "name": "core",
+      "path": "git@git_bey_client:android/dev/modules/util.git"
+    },
+    {
+      "name": "analytics",
+      "path": "git@git_bey_client:android/dev/modules/registration.git"
+    }
+  ]
+}

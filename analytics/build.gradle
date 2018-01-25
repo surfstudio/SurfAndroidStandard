@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.artifactory'
-apply from: '../publish.gradle'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -48,8 +46,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-}
-
-artifactoryPublish {
-    publications(publishing.publications.aar)
 }
