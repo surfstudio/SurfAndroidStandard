@@ -61,11 +61,14 @@ dependencies {
     def assertJVersion = '3.5.1'
 
     //------------------------------------ dependencies --------------------------------------------
-//    implementation project(':core')
-//    implementation project(':analytics')
-    implementation 'ru.surfstudio.standard:core:0.0.1'
-    implementation 'ru.surfstudio.standard:analytics:0.0.1'
+    implementation project(':core')
+    implementation project(':analytics')
+    implementation project(':network')
+    implementation project(':filestorage')
+//    implementation 'ru.surfstudio.standard:core:0.0.1'
+//    implementation 'ru.surfstudio.standard:analytics:0.0.1'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+
     api "com.google.dagger:dagger:${daggerVersion}"
     api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 

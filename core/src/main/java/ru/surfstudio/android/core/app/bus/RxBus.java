@@ -3,9 +3,9 @@ package ru.surfstudio.android.core.app.bus;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 import ru.surfstudio.android.core.app.dagger.scope.PerActivity;
-import rx.Observable;
-import rx.subjects.PublishSubject;
 
 /**
  * Шина сообшений работающая на Rx. Может истользоваться только в контексте одной активити
