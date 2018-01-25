@@ -1,28 +1,27 @@
 # Деплой в репозиторий артефактов
-## Core
 ```
-./gradlew clean core:assemble core:artifactoryPublish
+./gradlew clean uploadArchives
 ```
 # Импорт атефактов
 ## build.gradle(app)
 ```
-implementation 'ru.surfstudio.android:{$artifactId}:{$artVersion}'
+implementation 'ru.surfstudio.android:{$artifactId}:{$moduleVersionName}'
 ```
 ## build.gradle(root)
 ```       
 maven {
-	url "${artifactory_context_url}"
+	url "${surf_maven_libs_url}"
     credentials {
-    username = "${artifactory_user}"
-    password = "${artifactory_password}"
+    username = "${surf_maven_username}"
+    password = "${surf_maven_password}"
     }
 }
 ```
 ## gradle.properties
 ```properties
-artifactory_context_url = http://artifactory.surfstudio.ru/artifactory/ext-release-local
-artifactory_user = build
-artifactory_password = AP5oyEgS8WyzJ37itfGvKvUSxdgFA8KGvyM9WJ
+surf_maven_libs_url = http://artifactory.surfstudio.ru/artifactory/libs-release-local
+surf_maven_username = build
+surf_maven_password = AP5oyEgS8WyzJ37itfGvKvUSxdgFA8KGvyM9WJ
 ```
 
 

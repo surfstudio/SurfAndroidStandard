@@ -1,1 +1,4 @@
-include ':template', ':core', ':analytics', ':network', ':filestorage'
+apply from: 'modules.gradle'
+gradle.ext.modules.each {
+    include it.name
+}

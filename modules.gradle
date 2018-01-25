@@ -1,0 +1,33 @@
+import groovy.json.JsonSlurper
+
+gradle.ext {
+    modules = Module.modules('modules.json')
+}
+
+class Module {
+    final String name
+    final String path
+
+    private def Module(String name, String path) {
+        this.name = name
+        this.path = path
+    }
+
+    static def modules(final String fileName) {
+        try {
+            def jsonObject = new JsonSlurper().parse(new File(fileName), 'utf-8')
+            assert jsonObject instanceof Map
+            assert jsonObject.modules instanceof List
+
+            def list = []
+            jsonObject.modules.each {
+                list.add(new Module(it.name, it.path))
+            }
+
+            return list
+        } catch (Exception ignored) {
+            throw new GradleException("missing $fileName file or " +
+                    "file is not well formatted in json")
+        }
+    }
+}
