@@ -1,10 +1,9 @@
 package ru.surfstudio.standard.app.intialization
 
 
-import io.reactivex.Observable
+import io.reactivex.Completable
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication
 import ru.surfstudio.android.core.app.intialization.migration.AppMigrationManager
-import ru.surfstudio.android.core.domain.Unit
 import javax.inject.Inject
 
 /**
@@ -19,9 +18,8 @@ constructor(private val appMigrationManager: AppMigrationManager) {
      *
      * @return observable, который всегда завершается успешно
      */
-    fun initialize(): Observable<Unit> {
+    fun initialize(): Completable {
         return appMigrationManager.tryMigrateApp()
-                .onErrorReturn { e -> Unit.INSTANCE }
     }
 
 }
