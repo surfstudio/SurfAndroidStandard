@@ -1,6 +1,8 @@
 # Деплой в репозиторий артефактов
 ```
-./gradlew clean uploadArchives
+1. Поднимаем moduleVersionCode и moduleVersionName в файле config.gradle 
+2. Вополняем ./gradlew clean uploadArchives
+3. Profit
 ```
 # Импорт атефактов
 ## build.gradle(app)
