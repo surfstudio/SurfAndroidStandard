@@ -2,8 +2,8 @@
 ```
 1. Поднимаем moduleVersionCode и moduleVersionName в файле config.gradle 
 3. Ставим тег с соответствующей версией
-2. Вополняем ./gradlew clean uploadArchives
-3. Profit
+3. Вополняем ./gradlew clean uploadArchives
+4. Profit
 ```
 # Импорт атефактов
 ## build.gradle(app)
