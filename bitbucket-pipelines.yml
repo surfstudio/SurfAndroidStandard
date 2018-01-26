@@ -6,7 +6,7 @@
 image: java:7
 pipelines:
   tags:                         
-    '*':                 
+    '*.*.*':                 
       - step:                   
           script:
-          - bash ./gradlew assemble
+            - bash ./gradlew assemble
