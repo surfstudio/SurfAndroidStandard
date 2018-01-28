@@ -13,7 +13,7 @@ import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnResto
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnSaveStateDelegate;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.stop.OnStopDelegate;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.view.destroy.OnViewDestroyDelegate;
-import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 
 
 public class CorePresenterGateway implements

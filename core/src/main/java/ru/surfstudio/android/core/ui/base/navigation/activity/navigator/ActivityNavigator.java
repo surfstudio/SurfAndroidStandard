@@ -21,7 +21,7 @@ import rx.Observable;
 /**
  * позволяет осуществлять навигацияю между активити
  */
-public abstract class ActivityNavigator extends BaseActivityResultDelegate
+public abstract class ActivityNavigator extends BaseActivityResultDelegate //todo unique start from screen name?
         implements Navigator {
 
     private final ActivityProvider activityProvider;

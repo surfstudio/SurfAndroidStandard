@@ -1,16 +1,10 @@
 package ru.surfstudio.android.core.ui.base.screen.view.core;
 
 
-import ru.surfstudio.android.core.ui.HasName;
-import ru.surfstudio.android.core.ui.base.screen.configurator.HasScreenConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
-
 /**
  *  инрефейс для вью, которая оповещает презентер о событиях жизненного цикла экрана
  */
-public interface PresenterHolderCoreView extends CoreView, HasName, HasScreenConfigurator {
-
-    CorePresenter[] getPresenters();
+public interface PresenterHolderCoreView extends CoreView {
 
     void bindPresenters();
 

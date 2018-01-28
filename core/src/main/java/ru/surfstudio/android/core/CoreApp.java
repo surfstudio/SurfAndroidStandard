@@ -9,8 +9,8 @@ import com.github.anrwatchdog.ANRWatchDog;
 
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.app.log.RemoteLogger;
-import ru.surfstudio.android.core.ui.base.screen.delegate.DefaultScreenDelegateFactory;
-import ru.surfstudio.android.core.ui.base.screen.delegate.ScreenDelegateFactory;
+import ru.surfstudio.android.core.ui.base.screen.delegate.factory.DefaultScreenDelegateFactory;
+import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactory;
 import ru.surfstudio.android.core.util.ActiveActivityHolder;
 import ru.surfstudio.android.core.util.DefaultActivityLifecycleCallbacks;
 

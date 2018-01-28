@@ -16,7 +16,7 @@ import ru.surfstudio.android.core.ui.base.navigation.fragment.ChildFragmentNavig
 import ru.surfstudio.android.core.ui.base.navigation.fragment.FragmentNavigator;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForFragment;
-import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 
 @Module
 public class CoreFragmentScreenModule {

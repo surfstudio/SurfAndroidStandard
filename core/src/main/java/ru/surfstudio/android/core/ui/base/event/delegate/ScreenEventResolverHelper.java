@@ -9,9 +9,7 @@ import ru.surfstudio.android.core.ui.base.event.delegate.activity.result.Activit
 import ru.surfstudio.android.core.ui.base.event.delegate.back.OnBackPressedEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.completely.destroy.OnCompletelyDestroyEventResolver;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.create.activity.OnCreateActivityEventResolver;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.create.common.OnCreateEventResolver;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.create.fragment.OnCreateFragmentEventResolver;
+import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.create.OnCreateEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.destroy.OnDestroyEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.resume.OnResumeEventResolver;
@@ -26,13 +24,11 @@ import ru.surfstudio.android.core.ui.base.event.delegate.permission.result.Reque
 public class ScreenEventResolverHelper {
 
     public static List<ScreenEventResolver> standardEventResolvers(){
-        return new ArrayList<ScreenEventResolver>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 new ActivityResultEventResolver(),
                 new NewIntentEventResolver(),
                 new RequestPermissionsResultEventResolver(),
                 new OnCreateEventResolver(),
-                new OnCreateActivityEventResolver(),
-                new OnCreateFragmentEventResolver(),
                 new OnViewReadyEventResolver(),
                 new OnRestoreStateEventResolver(),
                 new OnSaveStateStateEventResolver(),

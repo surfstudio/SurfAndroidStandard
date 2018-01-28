@@ -18,7 +18,7 @@ package ru.surfstudio.android.core.ui.base.dagger.provider;
 
 import android.support.v4.app.Fragment;
 
-import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 
 /**
  * Provider for Fragment

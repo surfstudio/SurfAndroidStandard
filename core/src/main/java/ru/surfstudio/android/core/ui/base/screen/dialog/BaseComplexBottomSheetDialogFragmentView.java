@@ -4,19 +4,19 @@ package ru.surfstudio.android.core.ui.base.screen.dialog;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialogFragment;
 
-import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
-
 import javax.inject.Inject;
 
+import ru.surfstudio.android.core.ui.base.error.ErrorHandler;
 import ru.surfstudio.android.core.ui.base.event.delegate.SupportScreenEventDelegation;
 import ru.surfstudio.android.core.ui.base.event.delegate.manager.ActivityScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.event.delegate.manager.ScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.base.error.ErrorHandler;
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.delegate.MvpFragmentViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.configurator.ViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.MvpViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
-import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderFragmentCoreView;
 
 /**
  * Базовый класс диалога с презентером
@@ -28,7 +28,7 @@ import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderFragme
  * Для возвращения результата следует использовать RxBus
  */
 public abstract class BaseComplexBottomSheetDialogFragmentView extends BottomSheetDialogFragment implements
-        PresenterHolderFragmentCoreView, SupportScreenEventDelegation, HandleableErrorView {
+        CoreFragmentViewInterface, SupportScreenEventDelegation, HandleableErrorView {
 
     @Inject
     ErrorHandler standardErrorHandler;
@@ -69,13 +69,13 @@ public abstract class BaseComplexBottomSheetDialogFragmentView extends BottomShe
     @Override
     public final void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewDelegate = new MvpFragmentViewDelegate(getActivity(), this, this);
+        viewDelegate = new FragmentViewDelegate(getActivity(), this, this);
         viewDelegate.onPreMvpViewCreate();
         viewDelegate.onMvpViewCreate(savedInstanceState, null);
     }
 
     @Override
-    public ScreenConfigurator getScreenConfigurator() {
+    public ViewConfigurator getScreenConfigurator() {
         return viewDelegate.getScreenConfigurator();
     }
 

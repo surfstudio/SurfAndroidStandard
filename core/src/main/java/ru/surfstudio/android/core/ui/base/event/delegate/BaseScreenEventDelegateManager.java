@@ -26,6 +26,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     private List<ScreenEventResolver> eventResolvers;
     private ScreenEventDelegateManager parentDelegateManger;
     private ScreenType screenType;
+    private boolean destroyed = false;
 
     public BaseScreenEventDelegateManager(List<ScreenEventResolver> eventResolvers,
                                           @Nullable ScreenEventDelegateManager parentDelegateManger,
@@ -41,7 +42,8 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     }
 
     @Override
-    public void registerDelegate(ScreenEventDelegate delegate, ScreenType emitterType) {
+    public void registerDelegate(ScreenEventDelegate delegate, @Nullable ScreenType emitterType) {
+        assertNotDestroyed();
         ScreenEventResolver eventResolver = getEventResolverForDelegate(delegate);
         if (eventResolver == null) {
             throw new IllegalArgumentException(String.format("No EventResolver for this delegate %s",
@@ -63,6 +65,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public <E extends ScreenEvent, D extends ScreenEventDelegate, R> R sendEvent(E event) {
+        assertNotDestroyed();
         ScreenEventResolver<E, D, R> eventResolver = getEventResolverForEvent(event);
         if (eventResolver == null) {
             throw new IllegalArgumentException(String.format("No EventResolver for this event %s",
@@ -75,6 +78,25 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         Class<D> delegateType = eventResolver.getDelegateType();
         List<D> delegates = getDelegates(delegateType);
         return eventResolver.resolve(delegates, event);
+    }
+
+    @Override
+    public boolean unregisterDelegate(ScreenEventDelegate delegate) {
+        boolean removedFromCurrent = delegates.remove(delegate);
+        boolean removedFromParent = parentDelegateManger != null
+                && parentDelegateManger.unregisterDelegate(delegate);
+        return removedFromCurrent || removedFromParent;
+    }
+
+    @Override
+    public void destroy() {
+        destroyed = true;
+        for (ScreenEventDelegate delegate : throughDelegates) {
+            if (parentDelegateManger != null) {
+                parentDelegateManger.unregisterDelegate(delegate);
+            }
+        }
+        throughDelegates.clear();
     }
 
     private <D extends ScreenEventDelegate> List<D> getDelegates(Class<? extends D> clazz) {
@@ -102,5 +124,11 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
             }
         }
         return null;
+    }
+
+    private void assertNotDestroyed() {
+        if (destroyed) {
+            throw new IllegalStateException(String.format("Unsupported operation, EventDelegateManager %s is destroyed", this));
+        }
     }
 }

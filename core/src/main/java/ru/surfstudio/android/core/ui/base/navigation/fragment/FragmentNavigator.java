@@ -8,16 +8,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.fragment.route.FragmentRoute;
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.configurator.ViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
 
 import static android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
@@ -202,10 +201,10 @@ public class FragmentNavigator implements Navigator {
             FragmentManager.BackStackEntry backStack = fragmentManager.getBackStackEntryAt(i);
             Fragment fragment = fragmentManager.findFragmentByTag(backStack.getName());
             if (fragment instanceof CoreFragmentView) {
-                ScreenConfigurator screenConfigurator =((CoreFragmentView) fragment).getScreenConfigurator();
-                if (screenConfigurator != null) {
+                ViewConfigurator viewConfigurator = ((CoreFragmentView) fragment).getScreenConfigurator();
+                if (viewConfigurator != null) {
                     PersistentScope.destroyImmediately(activityProvider.get(),
-                            screenConfigurator.getName());
+                            viewConfigurator.getName());
                 }
             }
         }

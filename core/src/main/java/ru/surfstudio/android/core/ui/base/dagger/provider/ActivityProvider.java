@@ -17,7 +17,7 @@ package ru.surfstudio.android.core.ui.base.dagger.provider;
 
 import android.support.v7.app.AppCompatActivity;
 
-import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 
 
 /**

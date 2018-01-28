@@ -6,7 +6,7 @@ import android.support.annotation.CallSuper;
 import com.agna.ferro.rx.OperatorFreeze;
 
 import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.base.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
 import rx.Observable;
 import rx.Subscriber;

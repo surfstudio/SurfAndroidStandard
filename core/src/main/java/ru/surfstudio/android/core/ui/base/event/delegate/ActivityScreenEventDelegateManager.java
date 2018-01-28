@@ -10,6 +10,4 @@ public class ActivityScreenEventDelegateManager extends BaseScreenEventDelegateM
     public ActivityScreenEventDelegateManager(List<ScreenEventResolver> eventResolvers) {
         super(eventResolvers, null, ScreenType.ACTIVITY);
     }
-
-
 }
