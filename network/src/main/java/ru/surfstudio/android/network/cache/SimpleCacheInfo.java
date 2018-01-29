@@ -10,11 +10,11 @@ public class SimpleCacheInfo {
     private int maxSize;
     private ApiMethod[] extraMethods;
 
-    SimpleCacheInfo(String method, String baseUrl, String cacheName, int maxSize) {
+    public SimpleCacheInfo(String method, String baseUrl, String cacheName, int maxSize) {
         this(new ApiMethod(method, baseUrl), cacheName, maxSize);
     }
 
-    SimpleCacheInfo(String method, String baseUrl, String cacheName, ApiMethod... extraMethods) {
+    public SimpleCacheInfo(String method, String baseUrl, String cacheName, ApiMethod... extraMethods) {
         this(new ApiMethod(method, baseUrl), cacheName, 1, extraMethods);
     }
 
