@@ -29,6 +29,6 @@ ext {
     rxBinding2Version = '2.0.0'                 //https://goo.gl/KQ5Vga
 
     // версия наших внутренних модулей
-    moduleVersionCode = 5
-    moduleVersionName = '0.0.2-rc2'
+    moduleVersionCode = 6
+    moduleVersionName = '0.0.2-rc3'
 }
