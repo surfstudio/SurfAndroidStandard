@@ -20,14 +20,14 @@ public class CacheModule {
     @Provides
     @PerApplication
     @Named(CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME)
-    String provideInternalCacheDir(final Context context) {
+    public String provideInternalCacheDir(final Context context) {
         return ContextCompat.getNoBackupFilesDir(context).getAbsolutePath();
     }
 
     @Provides
     @PerApplication
     @Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME)
-    String provideExternalCacheDir(final Context context) {
+    public String provideExternalCacheDir(final Context context) {
         File[] externalFilesDirs = ContextCompat.getExternalFilesDirs(context, null);
         // могут возвращаться null элементы, убираем их
         List<File> filtered = CollectionUtils.filter(Arrays.asList(externalFilesDirs), file -> file != null);
