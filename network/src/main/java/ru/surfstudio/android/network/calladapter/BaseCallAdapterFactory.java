@@ -37,7 +37,7 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
      *      * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
      *      * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
      */
-    abstract <R> Observable<R> onHttpException(HttpException e);
+    public abstract <R> Observable<R> onHttpException(HttpException e);
 
     private final class ResultCallAdapter implements CallAdapter<Observable<?>> {
         private final Type responseType;
