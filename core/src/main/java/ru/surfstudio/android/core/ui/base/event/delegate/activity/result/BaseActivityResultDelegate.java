@@ -1,11 +1,8 @@
-package ru.surfstudio.android.core.ui.base.event.delegate.activity.result;
+package ru.surfstudio.android.core.ui.base.delegate.activity.result;
 
 
 import android.app.Activity;
 import android.content.Intent;
-
-import ru.surfstudio.android.core.app.log.Logger;
-import ru.surfstudio.android.core.ui.base.navigation.ScreenResult;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -13,8 +10,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.core.ui.base.navigation.ScreenResult;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
@@ -22,15 +19,8 @@ import rx.subjects.Subject;
 /**
  * базовый класс делегата, позволяющий регистрировать обработчики на событие onActivityResult
  */
-public class BaseActivityResultDelegate implements ru.surfstudio.android.core.ui.base.delegate.activity.result.ActivityResultDelegate {
+public class BaseActivityResultDelegate implements ActivityResultDelegate {
     private Map<Integer, ActivityResultRegistration> activityResultSubjects = new HashMap<>();
-
-    @Data
-    @AllArgsConstructor
-    private class ActivityResultRegistration<T extends Serializable> {
-        private  SupportOnActivityResultRoute<T> route;
-        private PublishSubject<ScreenResult<T>> subject;
-    }
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -76,6 +66,24 @@ public class BaseActivityResultDelegate implements ru.surfstudio.android.core.ui
         //удаляем ключи здесь, чтобы не было ConcurrentModificationException
         for (Integer key : toDeleteKeys) {
             activityResultSubjects.remove(key);
+        }
+    }
+
+    private class ActivityResultRegistration<T extends Serializable> {
+        private SupportOnActivityResultRoute<T> route;
+        private PublishSubject<ScreenResult<T>> subject;
+
+        public ActivityResultRegistration(SupportOnActivityResultRoute<T> route, PublishSubject<ScreenResult<T>> subject) {
+            this.route = route;
+            this.subject = subject;
+        }
+
+        public SupportOnActivityResultRoute<T> getRoute() {
+            return route;
+        }
+
+        public PublishSubject<ScreenResult<T>> getSubject() {
+            return subject;
         }
     }
 
