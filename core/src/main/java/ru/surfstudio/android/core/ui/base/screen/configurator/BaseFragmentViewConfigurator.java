@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import ru.surfstudio.android.core.ui.base.dagger.CoreFragmentScreenModule;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
 
 /**
  * Базовый класс конфигуратора экрана, основанного на Fragment, см {@link ViewConfigurator}
@@ -14,7 +15,7 @@ import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterf
  */
 public abstract class BaseFragmentViewConfigurator<P, M>
         extends BaseFragmentConfigurator
-        implements ViewConfigurator {
+        implements ViewConfigurator<FragmentPersistentScope> {
 
     private Bundle args;
     private CoreFragmentViewInterface target;

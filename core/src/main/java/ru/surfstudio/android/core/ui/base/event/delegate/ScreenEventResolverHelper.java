@@ -9,7 +9,6 @@ import ru.surfstudio.android.core.ui.base.event.delegate.activity.result.Activit
 import ru.surfstudio.android.core.ui.base.event.delegate.back.OnBackPressedEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.completely.destroy.OnCompletelyDestroyEventResolver;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.create.OnCreateEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.destroy.OnDestroyEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEventResolver;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.resume.OnResumeEventResolver;
@@ -28,7 +27,6 @@ public class ScreenEventResolverHelper {
                 new ActivityResultEventResolver(),
                 new NewIntentEventResolver(),
                 new RequestPermissionsResultEventResolver(),
-                new OnCreateEventResolver(),
                 new OnViewReadyEventResolver(),
                 new OnRestoreStateEventResolver(),
                 new OnSaveStateStateEventResolver(),

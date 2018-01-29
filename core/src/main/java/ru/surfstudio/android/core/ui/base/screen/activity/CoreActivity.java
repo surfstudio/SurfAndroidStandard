@@ -1,23 +1,16 @@
 package ru.surfstudio.android.core.ui.base.screen.activity;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-
-import java.util.List;
 
 import ru.surfstudio.android.core.CoreApp;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityDelegate;
-import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
-import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
  * базовая активити для всего приложения
@@ -131,24 +124,8 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
 
     @Override
     public void onBackPressed() {
-        if (activityDelegate.onBackPressed()) {
-            return;
+        if (!activityDelegate.onBackPressed()) { //поддерживается пока только один обработчик
+            super.onBackPressed();
         }
-        if (this instanceof ContentContainerView) { //todo
-            List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-            for (int i = fragmentList.size() - 1; i >= 0; i--) {
-                Fragment fragment = fragmentList.get(i);
-                if (fragment.isVisible() && fragment instanceof CoreFragmentView
-                        && ((CoreFragmentView) fragment).onBackPressed()) {
-                    return;
-                }
-            }
-        }
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) { //todo
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 }

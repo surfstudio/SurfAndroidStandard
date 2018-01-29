@@ -2,13 +2,13 @@ package ru.surfstudio.android.core.ui.base.screen.configurator;
 
 import android.support.v4.app.Fragment;
 
-import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
 
 //todo для фрагмента контейнера
-public class BaseFragmentConfigurator implements Configurator {
+public class BaseFragmentConfigurator implements Configurator<FragmentPersistentScope> {
 
     private Fragment target;
-    private PersistentScope persistentScreenScope;
+    private FragmentPersistentScope persistentScreenScope;
 
     public BaseFragmentConfigurator(Fragment target) {
         this.target = target;
@@ -20,11 +20,11 @@ public class BaseFragmentConfigurator implements Configurator {
     }
 
     @Override
-    public void setPersistentScope(PersistentScope persistentScreenScope) {
+    public void setPersistentScope(FragmentPersistentScope persistentScreenScope) {
         this.persistentScreenScope = persistentScreenScope;
     }
 
-    protected PersistentScope getPersistentScope() {
+    protected FragmentPersistentScope getPersistentScope() {
         return persistentScreenScope;
     }
 

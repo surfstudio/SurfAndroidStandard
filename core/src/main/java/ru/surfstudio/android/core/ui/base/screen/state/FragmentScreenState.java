@@ -8,7 +8,7 @@ import android.support.v4.app.Fragment;
  * Created by makstuev on 25.01.2018.
  */
 
-public class FragmentScreenState extends ScreenState {
+public class FragmentScreenState extends BaseScreenState {
     private Fragment fragment;
 
     public void onCreate(Fragment fragment, Bundle savedInstanceState) {

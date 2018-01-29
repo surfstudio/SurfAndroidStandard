@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
  * Created by makstuev on 25.01.2018.
  */
 
-public class ActivityScreenState extends ScreenState {
+public class ActivityScreenState extends BaseScreenState {
     private Activity activity;
 
     public void onDestroy() {

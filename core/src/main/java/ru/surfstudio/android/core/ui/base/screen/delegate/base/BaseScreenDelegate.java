@@ -24,7 +24,7 @@ import ru.surfstudio.android.core.ui.base.event.delegate.permission.result.Reque
 import ru.surfstudio.android.core.ui.base.screen.configurator.Configurator;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
-import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
+import ru.surfstudio.android.core.ui.base.screen.state.BaseScreenState;
 
 /**
  * Created by makstuev on 27.01.2018.
@@ -32,7 +32,7 @@ import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
 public abstract class BaseScreenDelegate<
         P extends PersistentScope<? extends ScreenEventDelegateManager, S>,
-        S extends ScreenState,
+        S extends BaseScreenState,
         C extends Configurator,
         D extends CompletelyDestroyChecker> {
 

@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 
 import ru.surfstudio.android.core.ui.base.dagger.CoreActivityScreenModule;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 
 /**
  * Базовый класс конфигуратора экрана, основанного на Activity, см {@link ViewConfigurator}
@@ -15,7 +16,7 @@ import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterf
  */
 public abstract class BaseActivityViewConfigurator<P, A, M>
         extends BaseActivityConfigurator<A, P>
-        implements ViewConfigurator {
+        implements ViewConfigurator<ActivityPersistentScope> {
 
     private CoreActivityViewInterface target;
     private Intent intent;
@@ -67,7 +68,7 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
         return createScreenComponent(
                 getActivityComponent(),
                 getActivityScreenModule(),
-                new CoreActivityScreenModule(getPersistentScope()),
+                new CoreActivityScreenModule(),
                 getIntent());
     }
 }

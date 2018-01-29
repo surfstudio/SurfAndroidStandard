@@ -6,7 +6,8 @@ import java.util.List;
 
 public enum ScreenType {
     ACTIVITY,
-    FRAGMENT;
+    FRAGMENT,
+    WIDGET;
 
     public static List<ScreenType> allTypes(){
         return Arrays.asList(ScreenType.values());

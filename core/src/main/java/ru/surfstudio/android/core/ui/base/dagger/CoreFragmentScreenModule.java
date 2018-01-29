@@ -12,31 +12,38 @@ import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.Activity
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigatorForFragment;
 import ru.surfstudio.android.core.ui.base.navigation.dialog.navigator.DialogNavigator;
 import ru.surfstudio.android.core.ui.base.navigation.dialog.navigator.DialogNavigatorForFragmentScreen;
-import ru.surfstudio.android.core.ui.base.navigation.fragment.ChildFragmentNavigator;
 import ru.surfstudio.android.core.ui.base.navigation.fragment.FragmentNavigator;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForFragment;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
 @Module
 public class CoreFragmentScreenModule {
 
-    private PersistentScope persistentScreenScope;
+    private FragmentPersistentScope persistentScope;
 
-    public CoreFragmentScreenModule(PersistentScope persistentScreenScope) {
-        this.persistentScreenScope = persistentScreenScope;
+    public CoreFragmentScreenModule(FragmentPersistentScope persistentScope) {
+        this.persistentScope = persistentScope;
     }
 
     @Provides
     @PerScreen
-    ActivityProvider provideActivityProvider() {
-        return new ActivityProvider(persistentScreenScope);
+    PersistentScope providePersistentScope() {
+        return persistentScope;
+    }
+
+    @Provides
+    @PerScreen
+    ScreenState provideScreenState(PersistentScope persistentScope) {
+        return persistentScope.getScreenState();
     }
 
     @Provides
     @PerScreen
     FragmentProvider provideFragmentProvider() {
-        return new FragmentProvider(persistentScreenScope);
+        return new FragmentProvider(persistentScope.getScreenState());
     }
 
     @Provides
@@ -59,21 +66,8 @@ public class CoreFragmentScreenModule {
 
     @Provides
     @PerScreen
-    ChildFragmentNavigator provideChildFragmentNavigator(ActivityProvider activityProvider,
-                                                         FragmentProvider fragmentProvider) {
-        return new ChildFragmentNavigator(activityProvider, fragmentProvider);
-    }
-
-    @Provides
-    @PerScreen
     ScreenEventDelegateManager provideEventDelegateManager() {
-        return persistentScreenScope.getScreenEventDelegateManager();
-    }
-
-    @Provides
-    @PerScreen
-    ActivityScreenEventDelegateManagerProvider provideActivityEventDelegateManagerProvider(ActivityProvider activityProvider) {
-        return new ActivityScreenEventDelegateManagerProvider(activityProvider);
+        return persistentScope.getScreenEventDelegateManager();
     }
 
     @Provides

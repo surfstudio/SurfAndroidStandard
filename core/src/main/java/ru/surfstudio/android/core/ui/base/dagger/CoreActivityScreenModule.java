@@ -1,11 +1,11 @@
 package ru.surfstudio.android.core.ui.base.dagger;
 
 
-
 import dagger.Module;
 import dagger.Provides;
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.message.DefaultMessageController;
 import ru.surfstudio.android.core.ui.base.message.MessageController;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
@@ -15,21 +15,23 @@ import ru.surfstudio.android.core.ui.base.navigation.dialog.navigator.DialogNavi
 import ru.surfstudio.android.core.ui.base.navigation.fragment.FragmentNavigator;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForActivity;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
 @Module
 public class CoreActivityScreenModule {
 
-    private PersistentScope persistentScreenScope;
-
-    public CoreActivityScreenModule(PersistentScope persistentScreenScope) {
-        this.persistentScreenScope = persistentScreenScope;
+    @Provides
+    @PerScreen
+    PersistentScope providePersistentScope(ActivityPersistentScope persistentScope) {
+        return persistentScope;
     }
 
     @Provides
     @PerScreen
-    ActivityProvider provideActivityProvider() {
-        return new ActivityProvider(persistentScreenScope);
+    ScreenState provideScreenState(ActivityPersistentScope persistentScope) {
+        return persistentScope.getScreenState();
     }
 
     @Provides
@@ -52,8 +54,8 @@ public class CoreActivityScreenModule {
 
     @Provides
     @PerScreen
-    ScreenEventDelegateManagerProvider provideEventDelegateManagerProvider(ActivityProvider activityProvider){
-        return new ActivityScreenEventDelegateManagerProvider(activityProvider);
+    ScreenEventDelegateManager provideEventDelegateManagerProvider(PersistentScope persistentScope) {
+        return persistentScope.getScreenEventDelegateManager();
     }
 
     @Provides

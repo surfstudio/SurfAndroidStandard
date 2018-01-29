@@ -50,4 +50,8 @@ public class PersistentScopeStorage {
         return (FragmentPersistentScope) persistentScope;
     }
 
+    public WidgetPersistentScope getWidgetScope(String name) {
+        PersistentScope persistentScope = getByName(name);
+        return (WidgetPersistentScope) persistentScope;
+    }
 }

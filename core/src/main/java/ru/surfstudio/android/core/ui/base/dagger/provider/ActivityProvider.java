@@ -17,16 +17,19 @@ package ru.surfstudio.android.core.ui.base.dagger.provider;
 
 import android.support.v7.app.AppCompatActivity;
 
-import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
 
 
 /**
  * Provider for Activity
  * every call {@link this#get()} return actual Activity
  */
-public class ActivityProvider extends Provider<AppCompatActivity> {
-    public ActivityProvider(PersistentScope screenScope) {
-        super(screenScope);
+public class ActivityProvider implements Provider<AppCompatActivity> {
+    private ActivityScreenState screenState;
+
+    public ActivityProvider(ActivityScreenState screenState) {
+
+        this.screenState = screenState;
     }
 
     /**
@@ -34,6 +37,6 @@ public class ActivityProvider extends Provider<AppCompatActivity> {
      */
     @Override
     public AppCompatActivity get() {
-        return (AppCompatActivity) screenScope.getActivity();
+        return (AppCompatActivity) screenState.getActivity();
     }
 }

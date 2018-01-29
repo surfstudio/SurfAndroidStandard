@@ -5,6 +5,7 @@ package ru.surfstudio.android.core.ui.base.screen.delegate.factory;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import java.util.List;
 
@@ -18,10 +19,13 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityViewD
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentCompletelyDestroyChecker;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.delegate.widget.ParentPersistentScopeFinder;
+import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorageContainer;
+import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 
 public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
@@ -66,13 +70,22 @@ public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
         );
     }
 
+    @Override
+    public <W extends View & CoreWidgetViewInterface> WidgetViewDelegate createWidgetViewDelegate(W widget) {
+        PersistentScopeStorage scopeStorage = getScopeStorage((FragmentActivity) widget.getContext());
+        return new WidgetViewDelegate(
+                widget,
+                scopeStorage,
+                new ParentPersistentScopeFinder(widget, scopeStorage));
+    }
+
     @NonNull
     protected List<ScreenEventResolver> getEventResolvers() {
         return ScreenEventResolverHelper.standardEventResolvers();
     }
 
     @NonNull
-    private PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
+    protected PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
         return PersistentScopeStorageContainer.getFrom(activity);
     }
 }

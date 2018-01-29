@@ -2,12 +2,12 @@ package ru.surfstudio.android.core.ui.base.screen.configurator;
 
 import android.support.v4.app.FragmentActivity;
 
-import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 
-public abstract class BaseActivityConfigurator<A, P> implements Configurator {
+public abstract class BaseActivityConfigurator<A, P> implements Configurator<ActivityPersistentScope> {
     private final String ACTIVITY_COMPONENT_TAG = "ACTIVITY_COMPONENT_TAG";
 
-    private PersistentScope persistentScreenScope;
+    private ActivityPersistentScope persistentScreenScope;
     private FragmentActivity target;
 
     public BaseActivityConfigurator(FragmentActivity target) {
@@ -27,7 +27,7 @@ public abstract class BaseActivityConfigurator<A, P> implements Configurator {
         return target.getClass().getCanonicalName();
     }
 
-    protected PersistentScope getPersistentScope() {
+    protected ActivityPersistentScope getPersistentScope() {
         return persistentScreenScope;
     }
 
@@ -44,7 +44,7 @@ public abstract class BaseActivityConfigurator<A, P> implements Configurator {
     }
 
     @Override
-    public void setPersistentScope(PersistentScope persistentScreenScope) {
+    public void setPersistentScope(ActivityPersistentScope persistentScreenScope) {
         this.persistentScreenScope = persistentScreenScope;
     }
 
