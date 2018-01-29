@@ -1,10 +1,12 @@
 # Деплой в репозиторий артефактов
-```
 1. Поднимаем moduleVersionCode и moduleVersionName в файле config.gradle 
 3. Ставим тег с соответствующей версией
-3. Вополняем ./gradlew clean uploadArchives
-4. Profit
+3. Выполняем 
 ```
+./gradlew clean uploadArchives
+```
+4. Profit
+
 # Импорт атефактов
 ## build.gradle(app)
 ```
