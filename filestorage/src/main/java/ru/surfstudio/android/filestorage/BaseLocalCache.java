@@ -28,7 +28,7 @@ public abstract class BaseLocalCache<T> {
         this.namingProcessor = namingProcessor;
     }
 
-    abstract ObjectConverter<T> getConverter();
+    public abstract ObjectConverter<T> getConverter();
 
     /**
      * Метод, который очищает все элементы кэша в конкретном кэш класс-типе
