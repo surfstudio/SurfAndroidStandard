@@ -10,11 +10,11 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.ui.base.navigation.ScreenResult;
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.Subject;
 
 /**
  * базовый класс делегата, позволяющий регистрировать обработчики на событие onActivityResult
@@ -57,7 +57,7 @@ public class BaseActivityResultDelegate implements ActivityResultDelegate {
         Set<Integer> toDeleteKeys = new HashSet<>();
         for (Map.Entry<Integer, ActivityResultRegistration> registeredRouteEntry : activityResultSubjects.entrySet()) {
             if (registeredRouteEntry.getKey() == route.getRequestCode()) {
-                registeredRouteEntry.getValue().getSubject().onCompleted();
+                registeredRouteEntry.getValue().getSubject().onComplete();
                 toDeleteKeys.add(registeredRouteEntry.getKey());
                 Logger.v(this.getClass().getName(), "duplicate registered SupportOnActivityResultRoute: "
                         + registeredRouteEntry.getValue().getRoute() + " old route unregistered");

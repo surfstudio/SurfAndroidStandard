@@ -1,3 +1,18 @@
+/*
+ * Copyright 2016 Maxim Tuev.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.base.recycler;
 
 
@@ -7,12 +22,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import ru.surfstudio.android.core.ui.base.recycler.controller.BindableItemController;
+import ru.surfstudio.android.core.ui.base.recycler.controller.DoubleBindableItemController;
 import ru.surfstudio.android.core.ui.base.recycler.controller.NoDataItemController;
 import ru.surfstudio.android.core.ui.base.recycler.holder.BindableViewHolder;
 import ru.surfstudio.android.core.ui.base.recycler.item.BaseItem;
 import ru.surfstudio.android.core.ui.base.recycler.item.BindableItem;
+import ru.surfstudio.android.core.ui.base.recycler.item.DoubleBindableItem;
 import ru.surfstudio.android.core.ui.base.recycler.item.NoDataItem;
 
+/**
+ * List of items for RecyclerView, used with {@link EasyAdapter}
+ */
 public class ItemList extends ArrayList<BaseItem> {
 
     public interface BindableItemControllerProvider<T> {
@@ -39,8 +59,13 @@ public class ItemList extends ArrayList<BaseItem> {
     }
 
     public static <T> ItemList create(Collection<T> data,
-                                      BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
-        return create(data, itemData -> itemController);
+                                      final BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
+        return create(data, new BindableItemControllerProvider<T>() {
+            @Override
+            public BindableItemController<T, ? extends BindableViewHolder<T>> provide(T data) {
+                return itemController;
+            }
+        });
     }
 
     public static <T> ItemList create(Collection<T> data,
@@ -50,6 +75,10 @@ public class ItemList extends ArrayList<BaseItem> {
             items.addItem(new BindableItem<>(dataItem, itemControllerProvider.provide(dataItem)));
         }
         return items;
+    }
+
+    public static ItemList create(NoDataItemController<? extends RecyclerView.ViewHolder> itemController) {
+        return create().add(itemController);
     }
 
     //single insert
@@ -76,6 +105,21 @@ public class ItemList extends ArrayList<BaseItem> {
                                  T data,
                                  BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
         return insertIf(condition, index, new BindableItem<>(data, itemController));
+    }
+
+    public <T1, T2> ItemList insert(int index,
+                                    T1 firstData,
+                                    T2 secondData,
+                                    DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return insert(index, new DoubleBindableItem<>(firstData, secondData, itemController));
+    }
+
+    public <T1, T2> ItemList insertIf(boolean condition,
+                                      int index,
+                                      T1 firstData,
+                                      T2 secondData,
+                                      DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return insertIf(condition, index, new DoubleBindableItem<>(firstData, secondData, itemController));
     }
 
     public ItemList insert(int index,
@@ -111,6 +155,19 @@ public class ItemList extends ArrayList<BaseItem> {
         return addIf(condition, new BindableItem<>(data, itemController));
     }
 
+    public <T1, T2> ItemList add(T1 firstData,
+                                 T2 secondData,
+                                 DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return addItem(new DoubleBindableItem<>(firstData, secondData, itemController));
+    }
+
+    public <T1, T2> ItemList addIf(boolean condition,
+                                   T1 firstData,
+                                   T2 secondData,
+                                   DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return addIf(condition, new DoubleBindableItem<>(firstData, secondData, itemController));
+    }
+
     public ItemList add(NoDataItemController<? extends RecyclerView.ViewHolder> itemController) {
         return addItem(new NoDataItem<>(itemController));
     }
@@ -144,8 +201,13 @@ public class ItemList extends ArrayList<BaseItem> {
 
     public <T> ItemList insertAll(int index,
                                   Collection<T> data,
-                                  BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
-        return insertAll(index, data, dataItem -> itemController);
+                                  final BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
+        return insertAll(index, data, new BindableItemControllerProvider<T>() {
+            @Override
+            public BindableItemController<T, ? extends BindableViewHolder<T>> provide(T data) {
+                return itemController;
+            }
+        });
     }
 
     public <T> ItemList addAll(Collection<T> data,
@@ -156,8 +218,13 @@ public class ItemList extends ArrayList<BaseItem> {
     public <T> ItemList insertAllIf(boolean condition,
                                     int index,
                                     Collection<T> data,
-                                    BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
-        return insertAllIf(condition, index, data, dataItem -> itemController);
+                                    final BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
+        return insertAllIf(condition, index, data, new BindableItemControllerProvider<T>() {
+            @Override
+            public BindableItemController<T, ? extends BindableViewHolder<T>> provide(T data) {
+                return itemController;
+            }
+        });
     }
 
     public <T> ItemList addAllIf(boolean condition,
@@ -211,6 +278,19 @@ public class ItemList extends ArrayList<BaseItem> {
         return addHeaderIf(condition, new BindableItem<>(data, itemController));
     }
 
+    public <T1, T2> ItemList addHeader(T1 firstData,
+                                       T2 secondData,
+                                       DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return addHeader(new DoubleBindableItem<>(firstData, secondData, itemController));
+    }
+
+    public <T1, T2> ItemList addHeaderIf(boolean condition,
+                                         T1 firstData,
+                                         T2 secondData,
+                                         DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return addHeaderIf(condition, new DoubleBindableItem<>(firstData, secondData, itemController));
+    }
+
     public ItemList addHeader(NoDataItemController<? extends RecyclerView.ViewHolder> itemController) {
         return addHeader(new NoDataItem<>(itemController));
     }
@@ -239,6 +319,19 @@ public class ItemList extends ArrayList<BaseItem> {
                                     T data,
                                     BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
         return condition ? addFooter(data, itemController) : this;
+    }
+
+    public <T1, T2> ItemList addFooter(T1 firstData,
+                                       T2 secondData,
+                                       DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return addFooter(new DoubleBindableItem<>(firstData, secondData, itemController));
+    }
+
+    public <T1, T2> ItemList addFooterIf(boolean condition,
+                                         T1 firstData,
+                                         T2 secondData,
+                                         DoubleBindableItemController<T1, T2, ? extends RecyclerView.ViewHolder> itemController) {
+        return addFooterIf(condition, new DoubleBindableItem<>(firstData, secondData, itemController));
     }
 
     public ItemList addFooter(NoDataItemController<? extends RecyclerView.ViewHolder> itemController) {
