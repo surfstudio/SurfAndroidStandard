@@ -208,7 +208,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         contentContainer!!.addView(subtitleTv)
         contentContainer!!.addView(submitBtn)
 
-        submitBtn!!.setOnClickListener { v ->
+        submitBtn!!.setOnClickListener { _ ->
             if (listener != null) {
                 listener!!.onActionClick(state)
             }

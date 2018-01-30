@@ -3,11 +3,13 @@ package ru.surfstudio.standard.ui.base.configurator;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 
+import ru.surfstudio.android.core.ui.base.dagger.CoreActivityModule;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.standard.app.App;
 import ru.surfstudio.standard.app.dagger.ActivityComponent;
 import ru.surfstudio.standard.app.dagger.AppComponent;
+import ru.surfstudio.standard.app.dagger.DaggerActivityComponent;
 import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule;
 
 /**
@@ -28,6 +30,7 @@ public abstract class ActivityScreenConfigurator
     protected ActivityComponent createActivityComponent(AppComponent parentComponent) {
         return DaggerActivityComponent.builder()
                 .appComponent(parentComponent)
+                .coreActivityModule(new CoreActivityModule(getPersistentScope()))
                 .build();
     }
 

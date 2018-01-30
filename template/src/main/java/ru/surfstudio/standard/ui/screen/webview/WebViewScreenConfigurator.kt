@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.ui.screen.webview
 
-import android.app.Activity
 import android.content.Intent
 import dagger.Component
 import dagger.Module
@@ -9,12 +8,13 @@ import ru.surfstudio.android.core.ui.base.dagger.CoreActivityScreenModule
 import ru.surfstudio.android.core.ui.base.dagger.CustomScreenModule
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenComponent
 import ru.surfstudio.standard.app.dagger.ActivityComponent
+import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule
 
 /**
  * Конфигуратор экрана с вебвью
  */
-class WebViewScreenConfigurator(activity: Activity, intent: Intent) :
+class WebViewScreenConfigurator(activity: WebViewActivityView, intent: Intent) :
         ActivityScreenConfigurator(activity, intent) {
 
     override fun createScreenComponent(parentComponent: ActivityComponent?,

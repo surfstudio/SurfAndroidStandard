@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.ui.base.screen.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityViewDelegate;
@@ -32,7 +33,7 @@ public abstract class CoreActivityView extends CoreActivity implements
      *                      changing configuration
      */
     @Override
-    public void onCreate(Bundle savedInstanceState, boolean viewRecreated) {
+    public void onCreate(@Nullable Bundle savedInstanceState, boolean viewRecreated) {
 
     }
 

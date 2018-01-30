@@ -35,9 +35,12 @@ constructor(private val activityNavigator: ActivityNavigator,
             val delay = Completable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
             val work = initializeAppInteractor.initialize()// полезная работа выполняется в этом Observable
             val merge = Completable.merge(arrayListOf(delay, work))
-            subscribeIoHandleError(merge.toObservable<Unit>(),
+            subscribeIoHandleError(merge.toObservable<Unit>(), //todo добавить перегрузки на onComplete
                     { },
-                    { activityNavigator.start(nextRoute) },
+                    {
+                        activityNavigator.finishCurrent()
+                        activityNavigator.start(nextRoute)
+                    },
                     null)
         }
     }
