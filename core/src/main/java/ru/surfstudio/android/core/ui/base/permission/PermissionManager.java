@@ -7,10 +7,11 @@ import android.support.v4.content.ContextCompat;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.event.delegate.permission.result.RequestPermissionsResultDelegate;
-import rx.Observable;
-import rx.subjects.BehaviorSubject;
 
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
@@ -22,7 +23,9 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
 
     private Map<Integer, BehaviorSubject<Boolean>> requestSubjects = new HashMap<>();
 
-    public PermissionManager(ActivityProvider activityProvider) {
+    public PermissionManager(ActivityProvider activityProvider,
+                             ScreenEventDelegateManager eventDelegateManager) {
+        eventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
     }
 

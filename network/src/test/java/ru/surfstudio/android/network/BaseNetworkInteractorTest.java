@@ -12,7 +12,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import io.reactivex.Observable;
 import ru.surfstudio.android.core.app.interactor.common.DataPriority;
-import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.NotModifiedException;

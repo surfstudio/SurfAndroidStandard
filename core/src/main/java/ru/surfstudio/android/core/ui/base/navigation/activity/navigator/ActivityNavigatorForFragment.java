@@ -7,14 +7,17 @@ import android.support.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
+import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 
 
 public class ActivityNavigatorForFragment extends ActivityNavigator {
 
     private FragmentProvider fragmentProvider;
 
-    public ActivityNavigatorForFragment(ActivityProvider activityProvider, FragmentProvider fragmentProvider) {
-        super(activityProvider);
+    public ActivityNavigatorForFragment(ActivityProvider activityProvider,
+                                        FragmentProvider fragmentProvider,
+                                        ScreenEventDelegateManager eventDelegateManager) {
+        super(activityProvider, eventDelegateManager);
         this.fragmentProvider = fragmentProvider;
     }
 

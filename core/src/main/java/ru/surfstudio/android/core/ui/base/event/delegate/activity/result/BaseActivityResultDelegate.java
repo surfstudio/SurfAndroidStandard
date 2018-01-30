@@ -13,8 +13,8 @@ import java.util.Set;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
-import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.ui.base.navigation.ScreenResult;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * базовый класс делегата, позволяющий регистрировать обработчики на событие onActivityResult

@@ -2,7 +2,6 @@ package ru.surfstudio.android.core.ui.base.dagger;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
 import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
@@ -18,6 +17,7 @@ import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForFragmen
 import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
+import ru.surfstudio.android.dagger.scope.PerScreen;
 
 @Module
 public class CoreFragmentScreenModule {
@@ -54,8 +54,10 @@ public class CoreFragmentScreenModule {
 
     @Provides
     @PerScreen
-    ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider, FragmentProvider fragmentProvider) {
-        return new ActivityNavigatorForFragment(activityProvider, fragmentProvider);
+    ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider,
+                                               FragmentProvider fragmentProvider,
+                                               ScreenEventDelegateManager eventDelegateManager) {
+        return new ActivityNavigatorForFragment(activityProvider, fragmentProvider, eventDelegateManager);
     }
 
     @Provides
@@ -72,8 +74,10 @@ public class CoreFragmentScreenModule {
 
     @Provides
     @PerScreen
-    PermissionManager providePermissionManager(ActivityProvider activityProvider, FragmentProvider fragmentProvider) {
-        return new PermissionManagerForFragment(activityProvider, fragmentProvider);
+    PermissionManager providePermissionManager(ActivityProvider activityProvider,
+                                               FragmentProvider fragmentProvider,
+                                               ScreenEventDelegateManager eventDelegateManager) {
+        return new PermissionManagerForFragment(activityProvider, fragmentProvider, eventDelegateManager);
     }
 
     @Provides

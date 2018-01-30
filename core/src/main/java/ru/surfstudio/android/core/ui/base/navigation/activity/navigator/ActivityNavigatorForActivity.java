@@ -6,14 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 
 
 public class ActivityNavigatorForActivity extends ActivityNavigator {
 
     private ActivityProvider activityProvider;
 
-    public ActivityNavigatorForActivity(ActivityProvider activityProvider) {
-        super(activityProvider);
+    public ActivityNavigatorForActivity(ActivityProvider activityProvider,
+                                        ScreenEventDelegateManager eventDelegateManager) {
+        super(activityProvider, eventDelegateManager);
         this.activityProvider = activityProvider;
     }
 

@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.interactor.auth
 
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
+import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.network.TransformUtil
 import ru.surfstudio.standard.domain.auth.phone.KeyInfo
 import ru.surfstudio.standard.domain.auth.phone.LoginInfo

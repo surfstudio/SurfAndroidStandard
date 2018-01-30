@@ -3,7 +3,7 @@ package ru.surfstudio.android.network.etag.storage;
 
 import javax.inject.Inject;
 
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
+import ru.surfstudio.android.dagger.scope.PerApplication;
 
 /**
  *

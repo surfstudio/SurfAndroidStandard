@@ -2,8 +2,8 @@ package ru.surfstudio.standard.ui.base.error
 
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.error.ErrorHandler
+import ru.surfstudio.android.dagger.scope.PerScreen
 
 @Module
 class ErrorHandlerModule {

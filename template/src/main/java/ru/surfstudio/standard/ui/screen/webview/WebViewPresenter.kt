@@ -1,8 +1,8 @@
 package ru.surfstudio.standard.ui.screen.webview
 
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenterDependency
+import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**

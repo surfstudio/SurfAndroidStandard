@@ -13,9 +13,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import ru.surfstudio.android.core.R;
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
+import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * Для нахождения view использует fragment и затем activity провайдеры

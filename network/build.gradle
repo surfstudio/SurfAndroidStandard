@@ -41,9 +41,17 @@ android {
 dependencies {
     provided project(':core')
     provided project(':filestorage')
+    provided project(':logger')
+    provided project (':dagger-scope')
 
     provided "com.android.support:support-annotations:${appcompatVersion}"
     provided "com.annimon:stream:${annimonStreamVersion}"
+
+    // network
+    api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    api "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
+    api "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

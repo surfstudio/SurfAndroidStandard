@@ -3,7 +3,6 @@ package ru.surfstudio.android.core.ui.base.dagger;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.message.DefaultMessageController;
@@ -18,6 +17,7 @@ import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForActivit
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
+import ru.surfstudio.android.dagger.scope.PerScreen;
 
 @Module
 public class CoreActivityScreenModule {
@@ -42,8 +42,9 @@ public class CoreActivityScreenModule {
 
     @Provides
     @PerScreen
-    ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider){
-        return new ActivityNavigatorForActivity(activityProvider);
+    ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider,
+                                               ScreenEventDelegateManager eventDelegateManager) {
+        return new ActivityNavigatorForActivity(activityProvider, eventDelegateManager);
     }
 
     @Provides
@@ -60,8 +61,9 @@ public class CoreActivityScreenModule {
 
     @Provides
     @PerScreen
-    PermissionManager providePermissionManager(ActivityProvider activityProvider){
-        return new PermissionManagerForActivity(activityProvider);
+    PermissionManager providePermissionManager(ActivityProvider activityProvider,
+                                               ScreenEventDelegateManager eventDelegateManager) {
+        return new PermissionManagerForActivity(activityProvider, eventDelegateManager);
     }
 
     @Provides

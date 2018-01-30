@@ -10,13 +10,13 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.observers.LambdaObserver;
 import ru.surfstudio.android.core.app.connection.ConnectionProvider;
-import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
 import ru.surfstudio.android.core.util.rx.SafeAction;
 import ru.surfstudio.android.core.util.rx.SafeConsumer;
+import ru.surfstudio.android.logger.Logger;
 
 
 /**

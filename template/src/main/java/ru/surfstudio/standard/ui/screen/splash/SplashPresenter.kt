@@ -2,11 +2,11 @@ package ru.surfstudio.standard.ui.screen.splash
 
 
 import io.reactivex.Completable
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenterDependency
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
 import ru.surfstudio.standard.ui.screen.main.MainActivityRoute
 import java.util.concurrent.TimeUnit

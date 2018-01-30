@@ -1,9 +1,9 @@
 package ru.surfstudio.standard.app.dagger
 
 import dagger.Component
-import ru.surfstudio.android.core.app.dagger.scope.PerActivity
 import ru.surfstudio.android.core.ui.base.dagger.BaseCoreActivityComponent
 import ru.surfstudio.android.core.ui.base.dagger.CoreActivityModule
+import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
 
 /**

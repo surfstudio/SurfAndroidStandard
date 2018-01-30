@@ -3,10 +3,10 @@ package ru.surfstudio.standard.ui.screen.splash
 import android.content.Intent
 import dagger.Component
 import dagger.Module
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.dagger.CoreActivityScreenModule
 import ru.surfstudio.android.core.ui.base.dagger.CustomScreenModule
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenComponent
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.app.dagger.ActivityComponent
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule

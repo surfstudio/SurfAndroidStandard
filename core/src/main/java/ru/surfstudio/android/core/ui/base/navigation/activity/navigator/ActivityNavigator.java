@@ -7,27 +7,38 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.event.delegate.activity.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.base.event.delegate.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute;
+import ru.surfstudio.android.core.ui.base.navigation.activity.route.NewIntentRoute;
 
 /**
  * позволяет осуществлять навигацияю между активити
  */
 public abstract class ActivityNavigator extends BaseActivityResultDelegate //todo unique start from screen name?
-        implements Navigator {
+        implements Navigator, NewIntentDelegate {
 
+    private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
 
 
-    public ActivityNavigator(ActivityProvider activityProvider) {
+    public ActivityNavigator(ActivityProvider activityProvider,
+                             ScreenEventDelegateManager eventDelegateManager) {
+        eventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
     }
 
@@ -114,5 +125,46 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate //tod
         }
 
         return false;
+    }
+
+    // =========================  NEW INTENT =================================
+
+    @Override
+    public boolean onNewIntent(Intent intent) {
+        for (NewIntentRoute route : newIntentSubjects.keySet()) {
+            if (route.parseIntent(intent)) {
+                Subject resultSubject = newIntentSubjects.get(route);
+                resultSubject.onNext(route);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public <T extends NewIntentRoute> Observable<T> observeNewIntent(Class<T> newIntentRouteClass) {
+        try {
+            return this.observeNewIntent(newIntentRouteClass.newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new IllegalArgumentException("route class " + newIntentRouteClass.getCanonicalName()
+                    + "must have default constructor", e);
+        }
+    }
+
+    public <T extends NewIntentRoute> Observable<T> observeNewIntent(T newIntentRoute) {
+        tryRemoveDuplicateEventSubjects(newIntentRoute);
+        PublishSubject<T> eventSubject = PublishSubject.create();
+        newIntentSubjects.put(newIntentRoute, eventSubject);
+        return eventSubject;
+    }
+
+    private void tryRemoveDuplicateEventSubjects(NewIntentRoute eventParser) {
+        for (NewIntentRoute registeredRoute : newIntentSubjects.keySet()) {
+            if (registeredRoute.getClass().getCanonicalName().equals(eventParser.getClass().getCanonicalName())) {
+                newIntentSubjects.get(registeredRoute).onComplete();
+                newIntentSubjects.remove(registeredRoute);
+                Log.v(this.getClass().getName(), "duplicate registered NewIntentRoute :"
+                        + registeredRoute + " old route unregistered");
+            }
+        }
     }
 }

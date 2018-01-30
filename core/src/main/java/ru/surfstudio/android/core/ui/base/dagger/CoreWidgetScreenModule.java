@@ -4,7 +4,6 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
@@ -25,6 +24,7 @@ import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.WidgetPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
+import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * Created by makstuev on 29.01.2018.
@@ -71,10 +71,11 @@ public class CoreWidgetScreenModule {
     @Provides
     @PerScreen
     ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider,
+                                               ScreenEventDelegateManager eventDelegateManager,
                                                @Named(PARENT_TYPE_DAGGER_NAME) ScreenType parentType) {
         return parentType == ScreenType.FRAGMENT
-                ? new ActivityNavigatorForFragment(activityProvider, createFragmentProvider())
-                : new ActivityNavigatorForActivity(activityProvider);
+                ? new ActivityNavigatorForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
+                : new ActivityNavigatorForActivity(activityProvider, eventDelegateManager);
     }
 
     @Provides
@@ -92,10 +93,11 @@ public class CoreWidgetScreenModule {
     @Provides
     @PerScreen
     PermissionManager providePermissionManager(ActivityProvider activityProvider,
+                                               ScreenEventDelegateManager eventDelegateManager,
                                                @Named(PARENT_TYPE_DAGGER_NAME) ScreenType parentType) {
         return parentType == ScreenType.FRAGMENT
-                ? new PermissionManagerForFragment(activityProvider, createFragmentProvider())
-                : new PermissionManagerForActivity(activityProvider);
+                ? new PermissionManagerForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
+                : new PermissionManagerForActivity(activityProvider, eventDelegateManager);
     }
 
     @Provides

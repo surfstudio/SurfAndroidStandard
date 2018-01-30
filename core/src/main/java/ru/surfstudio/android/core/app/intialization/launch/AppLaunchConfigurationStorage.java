@@ -6,8 +6,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ru.surfstudio.android.core.app.SharedPrefModule;
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
 import ru.surfstudio.android.core.util.SettingsUtil;
+import ru.surfstudio.android.dagger.scope.PerApplication;
 
 /**
  * хранилище конфигурации запуска устройства

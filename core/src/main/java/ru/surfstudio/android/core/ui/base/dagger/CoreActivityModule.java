@@ -2,8 +2,6 @@ package ru.surfstudio.android.core.ui.base.dagger;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.surfstudio.android.core.app.dagger.scope.PerActivity;
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.message.DefaultMessageController;
@@ -15,6 +13,8 @@ import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForActivit
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
+import ru.surfstudio.android.dagger.scope.PerActivity;
+import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * Created by makstuev on 28.01.2018.
@@ -56,8 +56,9 @@ public class CoreActivityModule {
     @Provides
     @PerActivity
         //todo описать зачем все это
-    ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider) {
-        return new ActivityNavigatorForActivity(activityProvider);
+    ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider,
+                                               ScreenEventDelegateManager eventDelegateManager) {
+        return new ActivityNavigatorForActivity(activityProvider, eventDelegateManager);
     }
 
     @Provides
@@ -68,8 +69,9 @@ public class CoreActivityModule {
 
     @Provides
     @PerActivity
-    PermissionManager providePermissionManager(ActivityProvider activityProvider) {
-        return new PermissionManagerForActivity(activityProvider);
+    PermissionManager providePermissionManager(ActivityProvider activityProvider,
+                                               ScreenEventDelegateManager eventDelegateManager) {
+        return new PermissionManagerForActivity(activityProvider, eventDelegateManager);
     }
 
     @Provides

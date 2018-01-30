@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,21 +45,23 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     @Override
     public void registerDelegate(ScreenEventDelegate delegate, @Nullable ScreenType emitterType) {
         assertNotDestroyed();
-        ScreenEventResolver eventResolver = getEventResolverForDelegate(delegate);
-        if (eventResolver == null) {
+        List<ScreenEventResolver> supportedResolvers = getEventResolversForDelegate(delegate);
+        if (supportedResolvers.isEmpty()) {
             throw new IllegalArgumentException(String.format("No EventResolver for this delegate %s",
                     delegate.getClass().getCanonicalName()));
         }
-        if (eventResolver.getEventEmitterScreenTypes().contains(screenType)
-                && (emitterType == null || screenType != emitterType)) {
-            delegates.add(delegate);
-        } else {
-            if (parentDelegateManger == null) {
-                throw new IllegalStateException(String.format("No BaseScreenEventDelegateManager for register delegate %s",
-                        delegate.getClass().getCanonicalName()));
+        for (ScreenEventResolver eventResolver : supportedResolvers) {
+            if (eventResolver.getEventEmitterScreenTypes().contains(screenType)
+                    && (emitterType == null || screenType != emitterType)) { //todo check logic
+                delegates.add(delegate);
+            } else {
+                if (parentDelegateManger == null) {
+                    throw new IllegalStateException(String.format("No BaseScreenEventDelegateManager for register delegate %s",
+                            delegate.getClass().getCanonicalName()));
+                }
+                throughDelegates.add(delegate);
+                parentDelegateManger.registerDelegate(delegate);
             }
-            throughDelegates.add(delegate);
-            parentDelegateManger.registerDelegate(delegate);
         }
     }
 
@@ -106,14 +109,14 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
                 .collect(Collectors.toList());
     }
 
-    @Nullable
-    private ScreenEventResolver getEventResolverForDelegate(ScreenEventDelegate delegate) {
+    private List<ScreenEventResolver> getEventResolversForDelegate(ScreenEventDelegate delegate) {
+        List<ScreenEventResolver> resultResolvers = new ArrayList<>();
         for (ScreenEventResolver eventResolver : eventResolvers) {
             if (eventResolver.getDelegateType().isInstance(delegate)) {
-                return eventResolver;
+                resultResolvers.add(eventResolver);
             }
         }
-        return null;
+        return resultResolvers;
     }
 
     @Nullable
