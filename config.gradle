@@ -18,7 +18,7 @@ ext {
 
     ankoVersion = '0.10.4'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.1.8'
-    retrofitVersion = '2.1.0'
+    retrofitVersion = '2.3.0'
     okHttpVersion = '3.4.1'
     gsonVersion = '2.8.1'
     porwerMockVersion = '1.6.2'
