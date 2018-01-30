@@ -10,7 +10,6 @@ import org.jetbrains.anko.find
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseLdsActivityView
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator
 import ru.surfstudio.standard.R
-import ru.surfstudio.standard.ui.base.configurator.ActivityConfigurator
 import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderViewImpl
 import javax.inject.Inject
 

@@ -5,8 +5,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import ru.surfstudio.android.core.CoreApp;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseWidgetViewConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
@@ -51,7 +51,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
 
     @Override
     public WidgetViewDelegate createWidgetViewDelegate() {
-        return CoreApp.getScreenDelegateFactory(this.getContext()).createWidgetViewDelegate(this);
+        return ScreenDelegateFactoryContainer.get().createWidgetViewDelegate(this);
     }
 
     @Override

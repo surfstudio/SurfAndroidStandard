@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
-import ru.surfstudio.android.core.ui.base.delegate.RequestPermissionsResultDelegate;
+import ru.surfstudio.android.core.ui.base.event.delegate.permission.result.RequestPermissionsResultDelegate;
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
 

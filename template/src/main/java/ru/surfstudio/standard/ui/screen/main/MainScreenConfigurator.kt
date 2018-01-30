@@ -9,7 +9,6 @@ import ru.surfstudio.android.core.ui.base.dagger.CoreActivityScreenModule
 import ru.surfstudio.android.core.ui.base.dagger.CustomScreenModule
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenComponent
 import ru.surfstudio.standard.app.dagger.ActivityComponent
-import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule
 
 /**

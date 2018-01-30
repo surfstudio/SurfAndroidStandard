@@ -2,9 +2,9 @@ package ru.surfstudio.android.core.ui.base.screen.activity;
 
 import android.os.Bundle;
 
-import ru.surfstudio.android.core.CoreApp;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
 /**
@@ -17,7 +17,7 @@ public abstract class CoreActivityView extends CoreActivity implements
 
     @Override
     public ActivityViewDelegate createActivityDelegate() {
-        return CoreApp.getScreenDelegateFactory(this).createActivityViewDelegate(this);
+        return ScreenDelegateFactoryContainer.get().createActivityViewDelegate(this);
     }
 
     @Override

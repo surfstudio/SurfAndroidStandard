@@ -5,14 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import javax.inject.Inject
-
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator
+import ru.surfstudio.android.core.ui.base.screen.configurator.ViewConfigurator
 import ru.surfstudio.android.core.ui.base.screen.fragment.BaseHandleableErrorFragmentView
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
 import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView
 import ru.surfstudio.standard.R
+import javax.inject.Inject
 
 
 /**
@@ -26,7 +24,7 @@ class ContentContainerFragmentView : BaseHandleableErrorFragmentView(), ContentC
         return arrayOf(presenter as CorePresenter<*>)
     }
 
-    override fun createScreenConfigurator(activity: Activity, args: Bundle): ScreenConfigurator<*> {
+    override fun createScreenConfigurator(activity: Activity, args: Bundle): ViewConfigurator<*> {
         return ContentContainerScreenConfigurator(activity, args)
     }
 

@@ -13,7 +13,7 @@ import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnResto
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnSaveStateDelegate;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.stop.OnStopDelegate;
 import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.view.destroy.OnViewDestroyDelegate;
-import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
 
 public class CorePresenterGateway implements
@@ -29,12 +29,12 @@ public class CorePresenterGateway implements
 
     private static final String KEY_STATE = "KEY_STATE";
     private CorePresenter presenter;
-    private PersistentScope persistentScope;
+    private ScreenState screenState;
 
     public CorePresenterGateway(CorePresenter presenter,
-                                PersistentScope persistentScope) {
+                                ScreenState screenState) {
         this.presenter = presenter;
-        this.persistentScope = persistentScope;
+        this.screenState = screenState;
     }
 
 
@@ -60,11 +60,10 @@ public class CorePresenterGateway implements
 
     @Override
     public void onViewReady() {
-        if (!persistentScope.isViewRecreated()) {
+        if (!screenState.isViewRecreated()) {
             presenter.onFirstLoad();
         }
-        presenter.onLoad(persistentScope.isViewRecreated());
-        presenter.onLoadFinished();
+        presenter.onLoad(screenState.isViewRecreated());
     }
 
     @Override

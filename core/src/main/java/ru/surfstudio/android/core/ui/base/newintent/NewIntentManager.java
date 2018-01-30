@@ -10,7 +10,7 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
-import ru.surfstudio.android.core.ui.base.delegate.NewIntentDelegate;
+import ru.surfstudio.android.core.ui.base.event.delegate.newintent.NewIntentDelegate;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;

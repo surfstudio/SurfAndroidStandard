@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.base.delegate.activity.result;
+package ru.surfstudio.android.core.ui.base.event.delegate.activity.result;
 
 
 import android.app.Activity;

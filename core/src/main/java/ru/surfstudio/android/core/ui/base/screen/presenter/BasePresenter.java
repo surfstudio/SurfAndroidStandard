@@ -42,7 +42,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
     private Disposable autoReloadDisposable;
 
     public BasePresenter(BasePresenterDependency basePresenterDependency) {
-        super(basePresenterDependency.getDelegateManagerProvider(), basePresenterDependency.getScreenEventDelegates());
+        super(basePresenterDependency.getEventDelegateManager(), basePresenterDependency.getScreenState());
         this.schedulersProvider = basePresenterDependency.getSchedulersProvider();
         this.activityNavigator = basePresenterDependency.getActivityNavigator();
         this.connectionProvider = basePresenterDependency.getConnectionProvider();
@@ -54,13 +54,6 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      */
     public void finish() {
         activityNavigator.finishCurrent();
-    }
-
-    /**
-     * Закрывает все Affinity Activity.
-     */
-    public void finishAffinity() {
-        activityNavigator.finishAffinity();
     }
 
     @Override

@@ -3,8 +3,8 @@ package ru.surfstudio.android.core.ui.base.screen.fragment;
 
 import android.os.Bundle;
 
-import ru.surfstudio.android.core.CoreApp;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentViewConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
@@ -21,7 +21,7 @@ public abstract class CoreFragmentView extends CoreFragment
 
     @Override
     public FragmentViewDelegate createFragmentDelegate() {
-        return CoreApp.getScreenDelegateFactory(getContext()).createFragmentViewDelegate(this);
+        return ScreenDelegateFactoryContainer.get().createFragmentViewDelegate(this);
     }
 
     @Override

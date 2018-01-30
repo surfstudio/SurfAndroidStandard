@@ -1,37 +1,68 @@
-package ru.surfstudio.android.core.ui.base.screen.fragment;
+package ru.surfstudio.android.core.ui.base.screen.dialog;
+
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.BottomSheetDialogFragment;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentConfigurator;
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDelegate;
+import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
 /**
- * базовый фрагмент для всего приложения
- * поддерживает механизм делегирования обработки событий экрана {@link ScreenEventDelegate}
+ * Базовый класс диалога с презентером
+ * <p>
+ * Этот диалог рассматривается как самостаятельный экран
+ * Этот диалог следует расширять когда требуется реализовать сложную логику или обращаться к
+ * слою Interactor
+ * <p>
+ * Для возвращения результата следует использовать RxBus
  */
-public abstract class CoreFragment extends Fragment implements CoreFragmentInterface {
+public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialogFragment implements
+        CoreFragmentViewInterface {
 
     private FragmentDelegate fragmentDelegate;
 
+    protected abstract CorePresenter[] getPresenters();
+
     @Override
-    public FragmentDelegate createFragmentDelegate() {
-        return ScreenDelegateFactoryContainer.get().createFragmentDelegate(this);
+    public abstract BaseFragmentViewConfigurator createConfigurator();
+
+    @Override
+    public FragmentViewDelegate createFragmentDelegate() {
+        return ScreenDelegateFactoryContainer.get().createFragmentViewDelegate(this);
     }
 
     @Override
-    public BaseFragmentConfigurator createConfigurator() {
-        //используется базовый конфигуратор, предоставляющий только имя экрана
-        return new BaseFragmentConfigurator(this);
+    public BaseFragmentViewConfigurator getConfigurator() {
+        return (BaseFragmentViewConfigurator) fragmentDelegate.getConfigurator();
     }
 
+    /**
+     * Override this instead {@link #onActivityCreated(Bundle)}
+     *
+     * @param viewRecreated show whether view created in first time or recreated after
+     *                      changing configuration
+     */
     @Override
-    public BaseFragmentConfigurator getConfigurator() {
-        return fragmentDelegate.getConfigurator();
+    public void onActivityCreated(Bundle savedInstanceState, boolean viewRecreated) {
+
+    }
+
+    /**
+     * Bind presenter to this view
+     * You can override this method for support different presenters for different views
+     */
+    @Override
+    public void bindPresenters() {
+        for (CorePresenter presenter : getPresenters()) {
+            presenter.attachView(this);
+        }
     }
 
     @Override
@@ -99,6 +130,5 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         fragmentDelegate.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
 
 }

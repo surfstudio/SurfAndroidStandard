@@ -5,10 +5,8 @@ import android.content.Intent
 import android.support.annotation.LayoutRes
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseHandleableErrorActivityView
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator
-import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
+import ru.surfstudio.android.core.ui.base.screen.configurator.ViewConfigurator
 import ru.surfstudio.standard.R
-import ru.surfstudio.standard.ui.base.configurator.ActivityConfigurator
 import javax.inject.Inject
 
 /**
@@ -21,7 +19,7 @@ class SplashActivityView : BaseHandleableErrorActivityView() {
         return arrayOf(presenter)
     }
 
-    override fun createScreenConfigurator(activity: Activity, intent: Intent): ScreenConfigurator<*> {
+    override fun createScreenConfigurator(activity: Activity, intent: Intent): ViewConfigurator<*> {
         return SplashScreenConfigurator(activity, intent)
     }
 

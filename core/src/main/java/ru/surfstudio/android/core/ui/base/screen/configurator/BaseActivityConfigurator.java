@@ -2,6 +2,7 @@ package ru.surfstudio.android.core.ui.base.screen.configurator;
 
 import android.support.v4.app.FragmentActivity;
 
+import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 
 public abstract class BaseActivityConfigurator<A, P> implements Configurator<ActivityPersistentScope> {
@@ -10,7 +11,7 @@ public abstract class BaseActivityConfigurator<A, P> implements Configurator<Act
     private ActivityPersistentScope persistentScreenScope;
     private FragmentActivity target;
 
-    public BaseActivityConfigurator(FragmentActivity target) {
+    public <T extends FragmentActivity & CoreActivityViewInterface> BaseActivityConfigurator(T target) {
         this.target = target;
     }
 
