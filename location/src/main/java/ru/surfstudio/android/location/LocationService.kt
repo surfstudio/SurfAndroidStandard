@@ -4,11 +4,7 @@ import android.content.Context
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.subjects.BehaviorSubject
-import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider
-import ru.surfstudio.android.location.LocationData
-import ru.surfstudio.android.location.LocationListener
-import ru.surfstudio.android.location.LocationProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -20,7 +16,8 @@ class LocationService @Inject constructor(val context: Context,
                                           val locationProvider: LocationProvider) {
 
     private val locationDetectionTimeout = 30L              //тайм-аут на запрос геопозиции в секундах
-    @Volatile private var activeLocationRequestsCount = 0   //количество активных запросов геопозиции
+    @Volatile
+    private var activeLocationRequestsCount = 0   //количество активных запросов геопозиции
         get() = if (field < 0) 0 else field
 
     private var locationSubject = BehaviorSubject.create<LocationData>()
@@ -33,10 +30,12 @@ class LocationService @Inject constructor(val context: Context,
      * на устройстве или произошла ошибка при запросе последней известной геопозиции - вернутся
      * координаты центра Москвы.
      */
-    fun getLocation(timeout: Long = locationDetectionTimeout, shouldReset: Boolean = false): Observable<LocationData?> {
+    fun getLocation(timeout: Long = locationDetectionTimeout,
+                    shouldReset: Boolean = false,
+                    locationOnFail: LocationData = UNKNOWN_LOCATION): Observable<LocationData?> {
         if (shouldReset) reset()
 
-        return createLocationDataObservable(timeout)
+        return createLocationDataObservable(timeout, locationOnFail)
                 .doOnDispose { reset() }
                 .subscribeOn(schedulersProvider.worker())
     }
@@ -48,7 +47,7 @@ class LocationService @Inject constructor(val context: Context,
      * блокиратора одновременных запросов, освобождение ресурсов по итогам определения.
      */
     @Synchronized
-    private fun createLocationDataObservable(timeout: Long): Observable<LocationData?> {
+    private fun createLocationDataObservable(timeout: Long, locationOnFail: LocationData = UNKNOWN_LOCATION): Observable<LocationData?> {
         val request = if (activeLocationRequestsCount == 0) {
             Observable.fromCallable { locationProvider.startLocationDetector(LocationProviderListener()) }
                     .flatMap({ locationSubject })
@@ -58,11 +57,10 @@ class LocationService @Inject constructor(val context: Context,
         activeLocationRequestsCount++
 
         return request
-                .doOnError { Logger.d("2222 createLocationDataObservable $it") }
                 .onErrorResumeNext { next: Observer<in LocationData?> ->
-                    locationProvider.getLastKnownLocation { next.onNext(it) }
+                    locationProvider.getLastKnownLocation(locationOnFail) { next.onNext(it) }
                 }
-                .first(LocationData())
+                .first(locationOnFail)
                 .timeout(timeout, TimeUnit.SECONDS)
                 .toObservable()
     }

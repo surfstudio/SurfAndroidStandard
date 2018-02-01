@@ -22,8 +22,8 @@ import ru.surfstudio.android.core.ui.base.delegate.activity.result.ActivityResul
 import ru.surfstudio.android.core.ui.base.delegate.activity.result.SupportOnActivityResultRoute.EXTRA_RESULT
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager
-import ru.surfstudio.android.location.storage.LocationPermissionStorage
-import ru.trinitydigital.poison.interactor.location.LocationPermissionRequest
+import ru.surfstudio.android.location.dialog.LocationDeniedDialogData
+import ru.surfstudio.android.location.dialog.LocationDeniedDialogRoute
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -37,14 +37,12 @@ import javax.inject.Inject
  */
 @PerScreen
 class LocationServiceChecker @Inject constructor(private val activityProvider: ActivityProvider,
-                                                 private val locationPermissionRoute: ActivityWithResultRoute<Boolean>,
-                                                 private val locationPermissionManager: PermissionManager)
-    : ActivityResultDelegate {
+                                                 private val locationPermissionManager: PermissionManager) : ActivityResultDelegate {
 
     private val requestGooglePlayServices = 201
-    private val requestCustomPermissionDialogCode = 123
+    private val requestPermissionDialogCode = 123
+
     private val requestEnableLocation = Math.abs(this.hashCode() % 32768)
-    private val locationPermissionStorage = LocationPermissionStorage(activityProvider.get().applicationContext)
     private val locationEnablePublishSubject = PublishSubject.create<Boolean>()
     private val checkPlayServicesResultSubject = BehaviorSubject.create<Boolean>()
     private val permissionsPublishSubject = BehaviorSubject.create<Boolean>()
@@ -53,7 +51,6 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
             .build()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-
         when (requestCode) {
             requestGooglePlayServices -> {
                 checkPlayServicesResultSubject.onNext(resultCode == Activity.RESULT_OK)
@@ -63,9 +60,10 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
                 locationEnablePublishSubject.onNext(resultCode == Activity.RESULT_OK)
                 return true
             }
-            requestCustomPermissionDialogCode -> {
+            requestPermissionDialogCode -> {
                 val customDialogResult = data?.extras?.getBoolean(EXTRA_RESULT) ?: false
                 permissionsPublishSubject.onNext((resultCode == Activity.RESULT_OK) && customDialogResult)
+                Logger.i("Сервис локации: ответ включения разрешения через системные настройки - " + (customDialogResult && resultCode == Activity.RESULT_OK))
                 return true
             }
 
@@ -74,17 +72,17 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
     }
 
     /**
-     * Тихая проверка доступности геолокационного сервиса без диалогов и попыток разрешения проблем
-     */
-    fun isLocationServiceAvailable(): Observable<Boolean> {
-        return checkAndResolveLocationServiceAvailability(false)
-    }
-
-    /**
      * Тихая проверка статуса пермишнов на доступ к геолокационному сервису
      */
     fun areLocationServicePermissionsGranted(): Boolean {
         return locationPermissionManager.check(LocationPermissionRequest())
+    }
+
+    /**
+     * Тихая проверка доступности геолокационного сервиса без диалогов и попыток разрешения проблем
+     */
+    fun checkLocationServiceAvailability(): Observable<Boolean> {
+        return checkAndResolveLocationServiceAvailability(false, null)
     }
 
     /**
@@ -98,18 +96,29 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
      * При расхождению хотя бы по одному из пунктов - пользователь информируется об этом и ему
      * предлагается решить проблему соответствующим образом.
      *
-     * @param tryToResolve попытаться ли разрешить проблемы. Если true - то будет запрашиваться
-     * пермишн и показываться диалог ошибки в случае отсутствия Google Play Services на девайсе, а
-     * также системный диалог включения GPS
+     * @param data данные для заполнения UI контента если доступ к геолокационному сервису у приложения нет
      *
      * @return эмитит LocationPermissionRequestResult c isServiceAvailable == true, если геолокация доступна,
      * и с isServiceAvailable == false в противном случае
      */
-    fun checkAndResolveLocationServiceAvailability(tryToResolve: Boolean = true): Observable<Boolean> {
-        Logger.d("checkAndResolveLocationServiceAvailability")
+    fun checkAndResolveLocationServiceAvailability(data: LocationDeniedDialogData): Observable<Boolean> {
+        return checkAndResolveLocationServiceAvailability(true, LocationDeniedDialogRoute(data))
+    }
+
+    /**
+     * @see checkAndResolveLocationServiceAvailability(LocationDeniedDialogData)
+     *
+     * @param route открывается этот роут если разрешение на доступ к геолокационному сервису у приложения нет
+     *              !!! route должен вернуть результат, true - если есть разрешение
+     */
+    fun checkAndResolveLocationServiceAvailability(route: ActivityWithResultRoute<Boolean>): Observable<Boolean> {
+        return checkAndResolveLocationServiceAvailability(true, route)
+    }
+
+    private fun checkAndResolveLocationServiceAvailability(tryToResolve: Boolean, route: ActivityWithResultRoute<Boolean>?): Observable<Boolean> {
         checkAndResolveGooglePlayServices(tryToResolve)
         checkAndResolveLocationAvailability(tryToResolve)
-        checkAndResolveLocationPermission(tryToResolve)
+        checkAndResolveLocationPermission(tryToResolve, route)
         return Observable.zip(
                 permissionsPublishSubject,
                 checkPlayServicesResultSubject,
@@ -128,7 +137,7 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
      * Не выводит диалоги.
      */
     fun observeLocationEnabled(): Observable<Boolean> {
-        checkAndResolveLocationServiceAvailability(false)
+        checkAndResolveLocationServiceAvailability(false, null)
         return locationEnablePublishSubject
     }
 
@@ -137,21 +146,15 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
      *
      * @param tryToResolve показывать ли диалог при ошибке
      */
-    private fun checkAndResolveLocationPermission(tryToResolve: Boolean = true) {
+    private fun checkAndResolveLocationPermission(tryToResolve: Boolean, route: ActivityWithResultRoute<Boolean>?) {
         if (tryToResolve) {
             locationPermissionManager.request(LocationPermissionRequest()).subscribe({ result ->
                 //true если стандартнй диалог можно еще показывать
                 val showRequestPermissionRationale = locationPermissionManager.shouldShowRequestPermissionRationale(LocationPermissionRequest())
 
-                if (showRequestPermissionRationale) {
-                    locationPermissionStorage.saveShowDialogValue(true)
-                }
-
-                val needToShowDialog = locationPermissionStorage.getShowDialogValue()
-
                 //срабатывает, если пользователь не дал разрешение в стандартном диалоге и запретил его показывать
-                if (!result && !showRequestPermissionRationale && needToShowDialog) {
-                    activityProvider.get().startActivityForResult(locationPermissionRoute.prepareIntent(activityProvider.get()), requestCustomPermissionDialogCode)
+                if (!result && !showRequestPermissionRationale) {
+                    activityProvider.get().startActivityForResult(route?.prepareIntent(activityProvider.get()), requestPermissionDialogCode)
                 } else {
                     permissionsPublishSubject.onNext(result)
                 }
@@ -166,7 +169,7 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
      *
      * @param tryToResolve показывать ли диалог включения геолокации при необходимости
      */
-    private fun checkAndResolveLocationAvailability(tryToResolve: Boolean = true) {
+    private fun checkAndResolveLocationAvailability(tryToResolve: Boolean) {
         val builder = LocationSettingsRequest.Builder().addLocationRequest(LocationRequest())
         val client = LocationServices.getSettingsClient(activityProvider.get())
         val task = client.checkLocationSettings(builder.build())
@@ -228,19 +231,16 @@ class LocationServiceChecker @Inject constructor(private val activityProvider: A
      *
      * @param showErrorDialog показывать ли диалог при ошибке
      */
-    private fun checkAndResolveGooglePlayServices(showErrorDialog: Boolean = true) {
+    private fun checkAndResolveGooglePlayServices(showErrorDialog: Boolean) {
         val api = GoogleApiAvailability.getInstance()
         val code = api.isGooglePlayServicesAvailable(activityProvider.get())
         if (code == ConnectionResult.SUCCESS) {
-            Logger.i("Google Play Services доступны")
             checkPlayServicesResultSubject.onNext(true)
         } else if (showErrorDialog && api.isUserResolvableError(code) &&
                 api.showErrorDialogFragment(activityProvider.get(), code, requestGooglePlayServices)) {
-            Logger.i("Google Play Services недоступны")
             checkPlayServicesResultSubject.onNext(false)
             //wait for handleIntent call (see below)
         } else {
-            Logger.i("Google Play Services недоступны")
             checkPlayServicesResultSubject.onNext(false)
         }
     }

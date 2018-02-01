@@ -4,6 +4,8 @@ import android.content.Intent
 import io.reactivex.Observable
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.delegate.activity.result.ActivityResultDelegate
+import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.location.dialog.LocationDeniedDialogData
 import javax.inject.Inject
 
 /**
@@ -21,18 +23,34 @@ class LocationSafeInteractor @Inject constructor(val locationServiceChecker: Loc
      * Безопасное определение текущей геолокации пользователя.
      * Перед попыткой получить данные о текущей геолокации пользователя происходит проверка:
      *
-     * * наличия на устройстве установленных Google Play Services;
-     * * разрешения на доступ к геолокационному сервису у приложения;
-     * * включённости GPS на устройстве.
+     * наличия на устройстве установленных Google Play Services;
+     * разрешения на доступ к геолокационному сервису у приложения;
+     * включённости GPS на устройстве.
      *
      * @param shouldReset - необходимо ли обновить данные сервиса
+     *
+     * @see LocationServiceChecker.checkAndResolveLocationServiceAvailability(LocationDeniedDialogData)
      */
-    fun getLocation(shouldReset: Boolean = false): Observable<LocationData> =
-            locationServiceChecker.checkAndResolveLocationServiceAvailability(true)
+    fun getLocation(data: LocationDeniedDialogData, shouldReset: Boolean = false, locationOnFail: LocationData = UNKNOWN_LOCATION): Observable<LocationData> =
+            locationServiceChecker.checkAndResolveLocationServiceAvailability(data)
                     .flatMap { isLocationServiceAvailable: Boolean ->
                         when (isLocationServiceAvailable) {
                             true -> locationService.getLocation(shouldReset = shouldReset)
-                            false -> Observable.just(LocationData())
+                            false -> Observable.just(locationOnFail)
+                        }
+                    }
+
+
+    /**
+     * @see getLocation(LocationDeniedDialogData, Boolean)
+     * @see LocationServiceChecker.checkAndResolveLocationServiceAvailability(ActivityWithResult)
+     */
+    fun getLocation(route: ActivityWithResultRoute<Boolean>, shouldReset: Boolean = false, locationOnFail: LocationData = UNKNOWN_LOCATION): Observable<LocationData> =
+            locationServiceChecker.checkAndResolveLocationServiceAvailability(route)
+                    .flatMap { isLocationServiceAvailable: Boolean ->
+                        when (isLocationServiceAvailable) {
+                            true -> locationService.getLocation(shouldReset = shouldReset)
+                            false -> Observable.just(locationOnFail)
                         }
                     }
 

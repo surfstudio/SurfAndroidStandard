@@ -71,6 +71,7 @@ dependencies {
     implementation project(':analytics')
     implementation project(':network')
     implementation project(':filestorage')
+    implementation project(':location')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     provided "com.google.dagger:dagger:${daggerVersion}"

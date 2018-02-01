@@ -74,19 +74,18 @@ class LocationProvider @Inject constructor(private val appContext: Context) {
      * доступной геопозиции и возвращает её
      */
     @SuppressLint("MissingPermission")
-    fun getLastKnownLocation(lastKnownLocationCallback: (LocationData) -> Unit) {
+    fun getLastKnownLocation(locationOnFail: LocationData = UNKNOWN_LOCATION, lastKnownLocationCallback: (LocationData) -> Unit) {
         if (!areLocationPermissionsGranted()) {
             Logger.e("Последняя известная локация недоступна без предоставленных " +
                     "пермишнов ACCESS_COARSE_LOCATION или ACCESS_FINE_LOCATION.")
-            lastKnownLocationCallback(LocationData())
+            lastKnownLocationCallback(locationOnFail)
             return
         }
         val lastKnownLocationTask = LocationServices.getFusedLocationProviderClient(appContext).lastLocation
         lastKnownLocationTask.addOnSuccessListener { lastKnownLocation: Location? ->
             val locationData: LocationData =
                     if (lastKnownLocation == null) {
-                        Logger.d("22222 getLastKnownLocation lastLoc == null")
-                        LocationData()
+                        locationOnFail
                     } else {
                         LocationData(
                                 lastKnownLocation.provider,
@@ -98,7 +97,7 @@ class LocationProvider @Inject constructor(private val appContext: Context) {
         }
         lastKnownLocationTask.addOnFailureListener { exception ->
             Logger.e(exception, "Ошибка получения последней известной локации.")
-            lastKnownLocationCallback(LocationData())
+            lastKnownLocationCallback(locationOnFail)
         }
     }
 

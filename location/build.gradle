@@ -48,6 +48,7 @@ kapt {
 
 dependencies {
     provided project(':core')
+    implementation "com.android.support:appcompat-v7:${appcompatVersion}"
     provided "com.android.support:support-annotations:${appcompatVersion}"
 
     implementation "com.google.android.gms:play-services-location:${playServicesVersion}"
@@ -58,3 +59,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+
+apply plugin: 'kotlin-android-extensions'

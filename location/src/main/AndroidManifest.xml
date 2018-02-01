@@ -1,2 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.surfstudio.android" />
+    package="ru.surfstudio.android">
+
+    <application>
+        <activity
+            android:name=".location.dialog.LocationDeniedDialogView"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
+    </application>
+
+</manifest>
