@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ui.screen.splash.SplashActivityView">
+        <activity android:name=".ui.screen.main.MainActivityView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.screen.main.MainActivityView" />
+        <activity android:name=".ui.screen.splash.SplashActivityView" />
 
     </application>
 </manifest>

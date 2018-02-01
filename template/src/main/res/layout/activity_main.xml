@@ -9,4 +9,9 @@
         android:layout_height="wrap_content"
         android:text="Hello World" />
 
+    <ru.surfstudio.standard.ui.common.widget.carousel.CarouselView
+        android:id="@+id/activity_main_cv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

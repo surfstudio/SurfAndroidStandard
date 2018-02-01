@@ -4,8 +4,7 @@ import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
+import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.ui.base.recycler.EasyAdapter
 import ru.surfstudio.android.core.ui.base.recycler.ItemList
 import ru.surfstudio.android.core.ui.base.recycler.controller.BindableItemController
@@ -16,28 +15,46 @@ import ru.surfstudio.standard.R
  * Вью-карусель элементов
  */
 //TODO: сделать наследником RecyclerView
-class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : ViewGroup(context, attributeSet) {
+class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : RecyclerView(context, attributeSet) {
 
-    lateinit var itemController: BindableItemController<T, BindableViewHolder<T>>
+    var centerItem: T? = null
 
-    private lateinit var recycler: RecyclerView
-    private val adapter: EasyAdapter = EasyAdapter()
+    var elements: List<T> = emptyList()
+
+    private val easyAdapter: EasyAdapter = EasyAdapter()
 
     private var isLooped = false
 
+    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
     init {
-        View.inflate(context, R.layout.carousel_view, null)
         initAttrs(context, attributeSet)
-        initRecycler()
+        this.layoutManager = linearLayoutManager
+        this.adapter = easyAdapter
+
+        this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                updateCenterPosition()
+            }
+        })
     }
 
-    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun render(elements: ItemList) {
+        easyAdapter.setItems(elements)
     }
 
-    fun render(elements: List<T>) {
-        adapter.setItems(ItemList.create()
-                .addAll(elements, itemController)) //itemController может быть не проинициализирован в данный момент TODO: обработать это
+    fun render(elements: List<T>, itemController: BindableItemController<T, out BindableViewHolder<T>>) {
+        this.elements = elements
+        easyAdapter.setItems(ItemList.create()
+                .addAll(elements, itemController))
+    }
+
+    /**
+     * Устанавливает бесконечную прокрутку списка
+     */
+    fun setInfinite(isLooped: Boolean) {
+        this.isLooped = isLooped
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
@@ -49,10 +66,14 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
         }
     }
 
-    private fun initRecycler() {
-        recycler = findViewById(R.id.carousel_view_rv)//TODO:  переделать на anko, когда зальют ветку с ней
-        recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recycler.adapter = adapter
+    private fun updateCenterPosition() {
+        val lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition()
+        val firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition()
+        val centerItemPosition = if (elements.isNotEmpty())
+            (lastVisibleItemPosition + firstVisibleItemPosition) / 2 % elements.size
+        else 0
+        this.centerItem = elements[centerItemPosition]
+        Logger.d("Center Position = " + centerItemPosition)
     }
 
 }
