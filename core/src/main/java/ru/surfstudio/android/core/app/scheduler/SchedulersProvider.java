@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.app.scheduler;
 
-import rx.Scheduler;
+
+import io.reactivex.Scheduler;
 
 public interface SchedulersProvider {
     Scheduler main();

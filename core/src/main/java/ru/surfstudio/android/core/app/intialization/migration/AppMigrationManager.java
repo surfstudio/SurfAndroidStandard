@@ -4,12 +4,12 @@ package ru.surfstudio.android.core.app.intialization.migration;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import io.reactivex.Completable;
 import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
 import ru.surfstudio.android.core.app.intialization.InitializationModule;
 import ru.surfstudio.android.core.app.intialization.launch.AppLaunchConfigurationStorage;
 import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.domain.Unit;
-import rx.Observable;
 
 /**
  * Осуществляет миграцию приложения на новую версию
@@ -29,8 +29,8 @@ public class AppMigrationManager {
         this.versionCode = versionCode;
     }
 
-    public Observable<Unit> tryMigrateApp() {
-        return Observable.fromCallable(() -> {
+    public Completable tryMigrateApp() {
+        return Completable.fromCallable(() -> {
             int currentVersion = versionCode;
             int lastLaunchVersion = appLaunchConfiguration.getLastLaunchVersion();
             if (lastLaunchVersion != currentVersion) {

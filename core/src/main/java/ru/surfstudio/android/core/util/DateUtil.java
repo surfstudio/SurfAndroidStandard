@@ -1,10 +1,12 @@
 package ru.surfstudio.android.core.util;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.SoftReference;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +17,23 @@ import java.util.TimeZone;
 
 public class DateUtil {
 
+    /**
+     * формат даты и времени ISO8601 https://en.wikipedia.org/wiki/ISO_8601
+     */
+    public static final String DATE_PATTERN_ISO8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+
+    public static final String DATE_FORMAT_FULL = "dd.MM.yyyy";
+    public static final String DATE_FORMAT_TEXT_FULL = "d MMMM yyyy";
+    public static final String DATE_FORMAT_WITH_TIME_FULL = "d MMMM yyyy HH:mm:ss";
+    private static final String DATE_DEFAULT_FORMAT = DATE_FORMAT_FULL;
+
+    /**
+     * список стандартных форматов поддерживаемых для парсинга
+     */
+    private static final String[] DATE_DEFAULT_PATTERNS = new String[]{
+            DATE_PATTERN_ISO8601
+    };
+
     private DateUtil() {
         throw new IllegalStateException(DateUtil.class.getSimpleName()
                 + " синглтон");
@@ -22,6 +41,84 @@ public class DateUtil {
 
     public static SimpleDateFormat formatFor(final String pattern) {
         return DateFormatHolder.formatFor(pattern);
+    }
+
+    /**
+     * @return сконвертированное время с форматом для сервера, -1 если ошибка
+     */
+    public static long convertServerDate(@Nullable String dateValue) {
+        if (dateValue == null) {
+            return -1;
+        }
+
+        return convertDateTime(dateValue, DATE_PATTERN_ISO8601);
+    }
+
+    public static long convertDateTime(@NonNull final String dateValue) {
+        return convertDateTime(dateValue, (String[]) null);
+    }
+
+    public static long convertDateTime(@NonNull final String dateValue, @NonNull final String dateFormat) {
+        return convertDateTime(dateValue, new String[]{dateFormat});
+    }
+
+    public static long convertDateTime(@NonNull final String dateValue, @Nullable final String[] dateFormats) {
+        Date date = parseDate(dateValue, dateFormats);
+        return date != null ? date.getTime() : -1;
+    }
+
+    public static String formatDate(long date) {
+        return formatDate(new Date(date));
+    }
+
+    public static String formatDate(@NonNull final String dateFormat) {
+        return formatDate(getCurrentDate(), dateFormat);
+    }
+
+    public static String formatDate(@NonNull Date date) {
+        return formatDate(date, DATE_DEFAULT_FORMAT);
+    }
+
+    public static String formatDate(long date, @NonNull final String dateFormat) {
+        return formatDate(new Date(date), dateFormat);
+    }
+
+    public static String formatDate(@NonNull Date date, @NonNull final String dateFormat) {
+        return DateFormatHolder.formatFor(dateFormat).format(date);
+    }
+
+    @Nullable
+    public static Date parseDate(@NonNull final String dateValue) {
+        return parseDate(dateValue, (String[]) null);
+    }
+
+    @Nullable
+    public static Date parseDate(@NonNull final String dateValue, @NonNull final String dateFormat) {
+        return parseDate(dateValue, new String[]{dateFormat});
+    }
+
+    // endregion
+
+    @Nullable
+    public static Date parseDate(@NonNull final String dateValue, @Nullable final String[] dateFormats) {
+        final String[] localDateFormats = dateFormats != null ? dateFormats : DATE_DEFAULT_PATTERNS;
+        String v = dateValue;
+        // trim single quotes around date if present
+        // see issue #5279
+        if (v.length() > 1 && v.startsWith("'") && v.endsWith("'")) {
+            v = v.substring(1, v.length() - 1);
+        }
+
+        for (final String dateFormat : localDateFormats) {
+            final SimpleDateFormat dateParser = DateFormatHolder.formatFor(dateFormat);
+            final ParsePosition pos = new ParsePosition(0);
+            final Date result = dateParser.parse(v, pos);
+            if (pos.getIndex() != 0) {
+                return result;
+            }
+        }
+
+        return null;
     }
 
     // ---------- скопироваино из Apache commons DateUtils.java --------------- //

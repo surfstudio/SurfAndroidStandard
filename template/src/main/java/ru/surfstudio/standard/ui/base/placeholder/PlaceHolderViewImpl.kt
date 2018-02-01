@@ -183,7 +183,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         val titleLayoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
-        titleLayoutParams.bottomMargin = resources.getDimensionPixelOffset(R.dimen.dp12)
+        titleLayoutParams.bottomMargin = resources.getDimensionPixelOffset(R.dimen.default_placeholder_title_margin)
         titleTv = AppCompatTextView(ContextThemeWrapper(context, titleStyle), null, 0)
         titleTv!!.layoutParams = titleLayoutParams
 
@@ -197,7 +197,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         val submitLayoutParams = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT)
-        submitLayoutParams.topMargin = resources.getDimensionPixelOffset(R.dimen.dp24)
+        submitLayoutParams.topMargin = resources.getDimensionPixelOffset(R.dimen.default_placeholder_button_margin)
         submitBtn = AppCompatButton(ContextThemeWrapper(context, buttonStyle), null, 0)
         submitBtn!!.layoutParams = submitLayoutParams
         submitBtn!!.visibility = View.GONE

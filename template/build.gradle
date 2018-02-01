@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -14,11 +15,13 @@ android {
         targetSdkVersion config["targetSdkVersion"]
 
         applicationId config["applicationId"]
-        versionCode config["versionCode"]
-        versionName config["versionName"]
+        versionCode rootProject.ext.moduleVersionCode
+        versionName rootProject.ext.moduleVersionName
 
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -52,33 +55,45 @@ dependencies {
     def retrofitVersion = '2.1.0'
     def okHttpVersion = '3.4.1'
 
+    //Kotlin
+    def ankoVersion = config["ankoVersion"]
+
     //Testing Library, Apt Versions
     def mockitoVersion = '1.10.19'
     def assertJVersion = '3.5.1'
 
     //------------------------------------ dependencies --------------------------------------------
+//    implementation 'ru.surfstudio.standard:core:0.0.1'
+//    implementation 'ru.surfstudio.standard:analytics:0.0.1'
     implementation project(':core')
+    implementation project(':analytics')
+    implementation project(':core')
+    implementation project(':analytics')
+    implementation project(':network')
+    implementation project(':filestorage')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api "com.google.dagger:dagger:${daggerVersion}"
-    api "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    provided "com.google.dagger:dagger:${daggerVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //provided
-    kapt'javax.annotation:jsr250-api:1.0'
+    kapt 'javax.annotation:jsr250-api:1.0'
     kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
 
     //network
-    implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
-    implementation "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
-    implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
-    implementation 'com.google.code.gson:gson:2.8.1'
-    implementation('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true
-    }
+    provided "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    provided "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
+    provided "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    provided "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    provided "com.google.code.gson:gson:${gsonVersion}"
+    provided("com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}")
 
     //other
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     implementation 'com.google.guava:guava:23.0-android'
+
+    //kotlin
+    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 
     //--------------------------------- test dependencies ------------------------------------------
 

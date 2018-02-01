@@ -10,13 +10,13 @@ import android.support.v4.app.ActivityCompat;
 
 import java.io.Serializable;
 
+import io.reactivex.Observable;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.delegate.activity.result.BaseActivityResultDelegate;
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute;
-import rx.Observable;
 
 /**
  * позволяет осуществлять навигацияю между активити

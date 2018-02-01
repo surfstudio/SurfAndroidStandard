@@ -1,7 +1,8 @@
 package ru.surfstudio.android.core.util.push.interactor;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
+
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 /**
  * Логика работы с пушами
