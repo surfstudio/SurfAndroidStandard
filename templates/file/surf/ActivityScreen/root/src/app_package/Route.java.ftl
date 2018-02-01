@@ -4,6 +4,9 @@
 <#import "macros/select_bundle_write_method_macros.ftl" as bundleWrite>
 package ${packageName};
 
+<#if screenType=='fragment'>
+import android.support.v4.app.Fragment
+</#if>
 
 @Data
 public class ${className}${screenTypeCapitalized}Route extends <@superClass.selectTypeRoute /> {
@@ -82,7 +85,6 @@ public class ${className}${screenTypeCapitalized}Route extends <@superClass.sele
                 ${routeParam3} = <@bundleRead.selectBundleReadMethod paramType=routeParamType3 extra='EXTRA_THIRD' />
                 </#if>
     }
-        </#if>
     
     @Override
     public Bundle prepareBundle() {
@@ -98,6 +100,7 @@ public class ${className}${screenTypeCapitalized}Route extends <@superClass.sele
         </#if>
         return args;
     }
+        </#if>
 
     @Override
     protected Class<? extends Fragment> getFragmentClass() {

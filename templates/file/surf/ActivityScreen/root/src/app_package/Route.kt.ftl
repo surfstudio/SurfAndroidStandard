@@ -5,20 +5,19 @@
 <#import "macros/select_args_constructor_macros.ftl" as argsConstructor>
 package ${packageName}
 
-class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@superClass.selectTypeRoute />() {
+<#if screenType=='fragment'>
+import android.support.v4.app.Fragment
+</#if>
+
+class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@superClass.selectTypeRoute /> {
 
     <#if screenType=='activity'>
-
         <#if typeRouteActivity=='2' || typeRouteActivity=='4'>
             constructor(intent: Intent) : this(
             <#if routeParamType1!='' && routeParam1!=''>
-                ${routeParam1} = <@intentRead.selectIntentReadMethod paramType=routeParamType1 extra='EXTRA_FIRST' />
-            </#if>
-            <#if routeParamType2!='' && routeParam2!=''>
-                , ${routeParam2} = <@intentRead.selectIntentReadMethod paramType=routeParamType2 extra='EXTRA_SECOND' />
-            </#if>
-            <#if routeParamType3!='' && routeParam3!=''>
-                , ${routeParam3} = <@intentRead.selectIntentReadMethod paramType=routeParamType3 extra='EXTRA_THIRD' />
+                ${routeParam1} = <@intentRead.selectIntentReadMethod paramType=routeParamType1 extra='EXTRA_FIRST' /></#if><#if routeParamType2!='' && routeParam2!=''>, 
+                ${routeParam2} = <@intentRead.selectIntentReadMethod paramType=routeParamType2 extra='EXTRA_SECOND' /></#if><#if routeParamType3!='' && routeParam3!=''>, 
+                ${routeParam3} = <@intentRead.selectIntentReadMethod paramType=routeParamType3 extra='EXTRA_THIRD' />
             </#if>)
         </#if>
 
@@ -39,15 +38,9 @@ class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@s
         <#if typeRouteFragment=='2'>
     constructor(args: Bundle) : this (
                 <#if routeParamType1!='' && routeParam1!=''>
-                ${routeParam1} = <@bundleRead.selectBundleReadMethod paramType=routeParamType1 extra='EXTRA_FIRST' />
-                </#if>
-                <#if routeParamType2!='' && routeParam2!=''>
-                , ${routeParam2} = <@bundleRead.selectBundleReadMethod paramType=routeParamType2 extra='EXTRA_SECOND' />
-                </#if>
-                <#if routeParamType3!='' && routeParam3!=''>
-                , ${routeParam3} = <@bundleRead.selectBundleReadMethod paramType=routeParamType3 extra='EXTRA_THIRD' />
-                </#if>)
-        </#if>
+                ${routeParam1} = <@bundleRead.selectBundleReadMethod paramType=routeParamType1 extra='EXTRA_FIRST' /></#if><#if routeParamType2!='' && routeParam2!=''>, 
+                ${routeParam2} = <@bundleRead.selectBundleReadMethod paramType=routeParamType2 extra='EXTRA_SECOND' /></#if><#if routeParamType3!='' && routeParam3!=''>, 
+                ${routeParam3} = <@bundleRead.selectBundleReadMethod paramType=routeParamType3 extra='EXTRA_THIRD' /></#if>)
 
     override fun prepareBundle(): Bundle {
         val args = Bundle()
@@ -62,6 +55,7 @@ class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@s
         </#if>
         return args
     }
+        </#if>
 
     override fun getFragmentClass(): Class<out Fragment>  = ${className}${screenTypeCapitalized}View::class.java
     </#if>
