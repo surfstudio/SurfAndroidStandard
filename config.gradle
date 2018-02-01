@@ -1,7 +1,7 @@
 ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
-    applicationId = "ru.surfstudio.android.core"
+    applicationId = "ru.surfstudio.android.template"
     versionCode = 1
     versionName = "0.0.1"
     buildToolsVersion = "26.0.2"
@@ -14,4 +14,21 @@ ext {
     lombokVersion = '1.16.10'
     appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
+    crashlyticsVersion = '2.8.0'
+
+    ankoVersion = '0.10.4'                      //https://goo.gl/XGJGR7
+    annimonStreamVersion = '1.1.8'
+    retrofitVersion = '2.1.0'
+    okHttpVersion = '3.4.1'
+    gsonVersion = '2.8.1'
+    porwerMockVersion = '1.6.2'
+    javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
+    ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
+    rxJava2Version = '2.1.8'                    //https://goo.gl/uzna2x
+    rxAndroid2Version = '2.0.1'                 //https://goo.gl/3Kd3iP
+    rxBinding2Version = '2.0.0'                 //https://goo.gl/KQ5Vga
+
+    // версия наших внутренних модулей
+    moduleVersionCode = 7
+    moduleVersionName = '0.0.2-SNAPSHOT'
 }

@@ -19,5 +19,7 @@
 
         <activity android:name=".ui.screen.splash.SplashActivityView" />
 
+        <activity android:name=".ui.screen.webview.WebViewActivityView" />
+
     </application>
 </manifest>

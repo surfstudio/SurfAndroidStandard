@@ -9,11 +9,11 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.base.delegate.NewIntentDelegate;
-import rx.Observable;
-import rx.subjects.PublishSubject;
-import rx.subjects.Subject;
 
 /**
  * позволяет регистрировать обработчики на событие onNewIntent
@@ -59,7 +59,7 @@ public class NewIntentManager implements NewIntentDelegate {
     private void tryRemoveDuplicateEventSubjects(NewIntentRoute eventParser) {
         for (NewIntentRoute registeredRoute : newIntentSubjects.keySet()) {
             if (registeredRoute.getClass().getCanonicalName().equals(eventParser.getClass().getCanonicalName())) {
-                newIntentSubjects.get(registeredRoute).onCompleted();
+                newIntentSubjects.get(registeredRoute).onComplete();
                 newIntentSubjects.remove(registeredRoute);
                 Log.v(this.getClass().getName(), "duplicate registered NewIntentRoute :"
                         + registeredRoute + " old route unregistered");

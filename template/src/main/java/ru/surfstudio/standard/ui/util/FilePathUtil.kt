@@ -2,27 +2,18 @@ package ru.surfstudio.standard.ui.util
 
 import android.app.Activity
 import android.content.Context
-import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
-
+import ru.surfstudio.android.core.app.log.Logger
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
-import java.io.InputStream
-
-import ru.surfstudio.android.core.app.log.Logger
-import ru.surfstudio.standard.interactor.common.error.NonInstanceClassCreateException
 
 /**
  * утилита получения абсолютного пути по content uri
  */
 class FilePathUtil private constructor() {
-
-    init {
-        throw NonInstanceClassCreateException(FilePathUtil::class.java)
-    }
 
     companion object {
 

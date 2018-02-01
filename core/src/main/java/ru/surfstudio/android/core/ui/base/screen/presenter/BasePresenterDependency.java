@@ -3,6 +3,7 @@ package ru.surfstudio.android.core.ui.base.screen.presenter;
 
 import javax.inject.Inject;
 
+import ru.surfstudio.android.core.app.connection.ConnectionProvider;
 import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
 import ru.surfstudio.android.core.ui.base.delegate.ScreenEventDelegate;
@@ -24,18 +25,21 @@ public class BasePresenterDependency {
     private ActivityNavigator activityNavigator;
     private PermissionManager permissionManager;
     private NewIntentManager newIntentManager;
+    private ConnectionProvider connectionProvider;
 
     @Inject
     public BasePresenterDependency(SchedulersProvider schedulersProvider,
                                    ScreenEventDelegateManagerProvider delegateManagerProvider,
                                    ActivityNavigator activityNavigator,
                                    PermissionManager permissionManager,
-                                   NewIntentManager newIntentManager) {
+                                   NewIntentManager newIntentManager,
+                                   ConnectionProvider connectionProvider) {
         this.schedulersProvider = schedulersProvider;
         this.delegateManagerProvider = delegateManagerProvider;
         this.activityNavigator = activityNavigator;
         this.permissionManager = permissionManager;
         this.newIntentManager = newIntentManager;
+        this.connectionProvider = connectionProvider;
     }
 
     public SchedulersProvider getSchedulersProvider() {
@@ -52,5 +56,9 @@ public class BasePresenterDependency {
 
     public ActivityNavigator getActivityNavigator() {
         return activityNavigator;
+    }
+
+    public ConnectionProvider getConnectionProvider() {
+        return connectionProvider;
     }
 }
