@@ -10,8 +10,8 @@ import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
 
 /**
  * Базовый класс конфигуратора экрана, основанного на Fragment, см {@link ViewConfigurator}
- * @param <P> родительский даггер компонент
- * @param <M> даггер модуль для активити
+ * @param <P> родительский даггер компонент (ActivityComponent)
+ * @param <M> даггер модуль для фрагмента
  */
 public abstract class BaseFragmentViewConfigurator<P, M>
         extends BaseFragmentConfigurator

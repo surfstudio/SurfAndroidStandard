@@ -13,7 +13,7 @@ import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
- * Created by makstuev on 28.01.2018.
+ * ищет родительский PersistentScope для WidgetView
  */
 
 public class ParentPersistentScopeFinder {
@@ -45,9 +45,6 @@ public class ParentPersistentScopeFinder {
         }
         if (parentScope == null) {
             parentScope = scopeStorage.getActivityScope();
-        }
-        if (parentScope == null) {
-            throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
         }
         return parentScope;
     }

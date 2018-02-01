@@ -1,16 +1,17 @@
 package ru.surfstudio.android.core.ui.base.screen.delegate.fragment;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import java.util.List;
 
-import ru.surfstudio.android.core.ui.base.event.delegate.FragmentScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.base.BaseScreenDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.FragmentScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
@@ -18,8 +19,12 @@ import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
 
 /**
- * делегат для любой активити, создает и управляет @PerActivity scope
-
+ * делегат для базового фрагмента,
+ * управляет ключевыми сущностями внутренней логики экрана:
+ * - PersistentScope
+ * - ScreenEventDelegateManager
+ * - ScreenState
+ * - ScreenConfigurator
  */
 public class FragmentDelegate extends BaseScreenDelegate<
         FragmentPersistentScope,
@@ -48,7 +53,7 @@ public class FragmentDelegate extends BaseScreenDelegate<
     }
 
     @Override
-    protected void prepareView(@Nullable Bundle savedInstanceState) {
+    protected void prepareView(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle ignore) {
         coreFragment.onActivityCreated(savedInstanceState, getScreenState().isViewRecreated());
     }
 

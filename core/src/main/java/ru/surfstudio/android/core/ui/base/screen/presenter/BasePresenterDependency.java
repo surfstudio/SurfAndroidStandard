@@ -5,8 +5,8 @@ import javax.inject.Inject;
 
 import ru.surfstudio.android.core.app.connection.ConnectionProvider;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 import ru.surfstudio.android.dagger.scope.PerScreen;
 

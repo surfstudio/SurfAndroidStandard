@@ -9,7 +9,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import ru.surfstudio.android.core.app.log.Logger
+import ru.surfstudio.android.logger.Logger
 import timber.log.Timber
 import java.io.File
 import java.util.*

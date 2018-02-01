@@ -1,7 +1,5 @@
 package ru.surfstudio.android.core.ui.base.screen.delegate.factory;
 
-//todo
-
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,8 +7,6 @@ import android.view.View;
 
 import java.util.List;
 
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventResolverHelper;
-import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityInterface;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityCompletelyDestroyChecker;
@@ -21,13 +17,17 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDeleg
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.widget.ParentPersistentScopeFinder;
 import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventResolverHelper;
+import ru.surfstudio.android.core.ui.base.screen.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorageContainer;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
-
+/**
+ * Фабрика делегатов экранов по умолчанию, предоставляет стандартные делегаты
+ */
 public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
 
     @Override

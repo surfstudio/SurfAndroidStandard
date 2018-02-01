@@ -11,8 +11,9 @@ import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 /**
  * Базовый класс конфигуратора экрана, основанного на Activity, см {@link ViewConfigurator}
  *
- * @param <P> родительский даггер компонент
+ * @param <P> родительский корневой даггер компонент
  * @param <M> даггер модуль для активити
+ * @param <A> родительский ActivityComponent
  */
 public abstract class BaseActivityViewConfigurator<P, A, M>
         extends BaseActivityConfigurator<A, P>

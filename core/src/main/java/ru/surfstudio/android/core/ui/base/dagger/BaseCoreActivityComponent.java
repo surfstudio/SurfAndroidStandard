@@ -10,7 +10,8 @@ import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
 
 /**
- * Created by makstuev on 29.01.2018.
+ * Базовый компонент для dagger Activity компонента,
+ * пробрасывает необходимые сущности в дочерний компонент
  */
 
 public interface BaseCoreActivityComponent {

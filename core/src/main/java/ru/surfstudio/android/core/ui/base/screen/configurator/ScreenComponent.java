@@ -19,7 +19,7 @@ package ru.surfstudio.android.core.ui.base.screen.configurator;
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreView;
 
 /**
- * Base class for all screen components
+ * Base class for all dagger screen components
  */
 public interface ScreenComponent<V extends PresenterHolderCoreView> {
     void inject(V view);

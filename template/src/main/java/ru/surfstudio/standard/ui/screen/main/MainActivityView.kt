@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.ui.screen.main
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseRenderableHandleableErrorActivityView
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
@@ -29,8 +30,9 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
     }
 
     override fun onCreate(savedInstanceState: Bundle?,
+                          persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
-        super.onCreate(savedInstanceState, viewRecreated)
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}

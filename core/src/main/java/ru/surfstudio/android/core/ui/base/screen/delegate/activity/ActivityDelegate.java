@@ -2,25 +2,31 @@ package ru.surfstudio.android.core.ui.base.screen.delegate.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
 import java.util.List;
 
-import ru.surfstudio.android.core.ui.base.event.delegate.ActivityScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.base.event.delegate.back.OnBackPressedEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
-import ru.surfstudio.android.core.ui.base.event.delegate.newintent.NewIntentEvent;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.base.BaseScreenDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.ActivityScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.back.OnBackPressedEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.core.ui.base.screen.event.newintent.NewIntentEvent;
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
 
 /**
- * делегат для любой активити, создает и управляет @PerActivity scope
+ * делегат для базовой активити,
+ * управляет ключевыми сущностями внутренней логики экрана:
+ * - PersistentScope
+ * - ScreenEventDelegateManager
+ * - ScreenState
+ * - ScreenConfigurator
  */
 public class ActivityDelegate extends BaseScreenDelegate<
         ActivityPersistentScope,
@@ -49,8 +55,8 @@ public class ActivityDelegate extends BaseScreenDelegate<
     }
 
     @Override
-    protected void prepareView(@Nullable Bundle savedInstanceState) {
-        coreActivity.onCreate(savedInstanceState, getScreenState().isViewRecreated());
+    protected void prepareView(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
+        coreActivity.onCreate(savedInstanceState, persistableBundle, getScreenState().isViewRecreated());
     }
 
     @Override

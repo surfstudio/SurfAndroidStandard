@@ -43,7 +43,7 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fragmentDelegate = createFragmentDelegate();
-        fragmentDelegate.onCreate(savedInstanceState);
+        fragmentDelegate.onCreate(savedInstanceState, null);
     }
 
     @Override

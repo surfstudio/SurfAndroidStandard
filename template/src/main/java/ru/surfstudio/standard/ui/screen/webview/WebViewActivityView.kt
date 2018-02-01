@@ -24,8 +24,10 @@ class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
     private lateinit var webView: WebView
     private lateinit var toolbar: Toolbar
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override fun onCreate(savedInstanceState: Bundle?,
+                          persistentState: PersistableBundle?,
+                          viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
         findViews()
     }
 

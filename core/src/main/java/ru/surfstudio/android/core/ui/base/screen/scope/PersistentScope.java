@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
 public abstract class PersistentScope<

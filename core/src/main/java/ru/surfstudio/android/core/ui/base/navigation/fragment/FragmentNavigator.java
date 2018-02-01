@@ -181,24 +181,6 @@ public class FragmentNavigator implements Navigator {
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
-    /**
-     * Вызывает принудительно onResume
-     *
-     * @return true если успешно
-     * */
-    public boolean onResume(FragmentRoute route) {
-        FragmentManager fragmentManager = getFragmentManager();
-
-        Fragment fragment = fragmentManager.findFragmentByTag(route.getTag());
-        if (fragment != null) {
-            fragment.onResume();
-        } else {
-            return false;
-        }
-
-        return true;
-    }
-
     protected FragmentManager getFragmentManager() {
         return activityProvider.get().getSupportFragmentManager();
     }

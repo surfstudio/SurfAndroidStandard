@@ -73,7 +73,7 @@ public abstract class CoreDialogFragmentView extends BaseDialogFragment implemen
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         fragmentDelegate = createFragmentDelegate();
-        fragmentDelegate.onCreate(savedInstanceState);
+        fragmentDelegate.onCreate(savedInstanceState, null);
     }
 
     @Override

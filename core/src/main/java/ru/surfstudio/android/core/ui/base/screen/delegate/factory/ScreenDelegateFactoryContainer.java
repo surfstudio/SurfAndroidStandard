@@ -1,7 +1,9 @@
 package ru.surfstudio.android.core.ui.base.screen.delegate.factory;
 
 /**
- * Created by makstuev on 30.01.2018.
+ * Контейнер для {@link ScreenDelegateFactory}
+ * Позволяет заменить фабрику делегатов для всего приложения,
+ * тем самым изменить логику всех экранов
  */
 
 public class ScreenDelegateFactoryContainer {

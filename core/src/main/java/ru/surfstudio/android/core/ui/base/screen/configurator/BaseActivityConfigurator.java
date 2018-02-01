@@ -5,6 +5,13 @@ import android.support.v4.app.FragmentActivity;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 
+/**
+ * Базовый конфигуратор для активити
+ * Создает ActivityComponent
+ * Предоставляет уникальное имя экрана, для корневой логики экрана
+ * @param <A> тип ActivityComponent
+ * @param <P> тип родительского компонента, обычно AppComponent
+ */
 public abstract class BaseActivityConfigurator<A, P> implements Configurator<ActivityPersistentScope> {
     private final String ACTIVITY_COMPONENT_TAG = "ACTIVITY_COMPONENT_TAG";
 

@@ -2,32 +2,40 @@ package ru.surfstudio.android.core.ui.base.screen.delegate.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
 
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.base.event.delegate.activity.result.ActivityResultEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.base.resolver.ScreenEventResolver;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.completely.destroy.OnCompletelyDestroyEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.destroy.OnDestroyEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.pause.OnPauseEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.resume.OnResumeEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.start.OnStartEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnRestoreStateEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnSaveStateEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.stop.OnStopEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.view.destroy.OnViewDestroyEvent;
-import ru.surfstudio.android.core.ui.base.event.delegate.permission.result.RequestPermissionsResultEvent;
 import ru.surfstudio.android.core.ui.base.screen.configurator.Configurator;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.destroy.OnDestroyEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.pause.OnPauseEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.ready.OnViewReadyEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.resume.OnResumeEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.start.OnStartEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.state.OnRestoreStateEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.state.OnSaveStateEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.stop.OnStopEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.view.destroy.OnViewDestroyEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.result.ActivityResultEvent;
+import ru.surfstudio.android.core.ui.base.screen.event.result.RequestPermissionsResultEvent;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.state.BaseScreenState;
+import ru.surfstudio.android.logger.LogConstants;
+import ru.surfstudio.android.logger.Logger;
 
 /**
- * Created by makstuev on 27.01.2018.
+ * делегат для базовых активити и фрагмента,
+ * управляет ключевыми сущностями внутренней логики экрана:
+ * - PersistentScope
+ * - ScreenEventDelegateManager
+ * - ScreenState
+ * - ScreenConfigurator
  */
 
 public abstract class BaseScreenDelegate<
@@ -43,7 +51,7 @@ public abstract class BaseScreenDelegate<
 
     protected abstract void notifyScreenStateAboutOnCreate(@Nullable Bundle savedInstanceState);
 
-    protected abstract void prepareView(@Nullable Bundle savedInstanceState);
+    protected abstract void prepareView(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle);
 
     protected abstract P createPersistentScope(List<ScreenEventResolver> eventResolvers);
 
@@ -62,12 +70,12 @@ public abstract class BaseScreenDelegate<
         this.completelyDestroyChecker = completelyDestroyChecker;
     }
 
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
         initConfigurator();
         initPersistentScope();
         notifyScreenStateAboutOnCreate(savedInstanceState);
         runConfigurator();
-        prepareView(savedInstanceState);
+        prepareView(savedInstanceState, persistableBundle);
         getEventDelegateManager().sendEvent(new OnRestoreStateEvent(savedInstanceState));
         getEventDelegateManager().sendEvent(new OnViewReadyEvent());
     }
@@ -129,10 +137,12 @@ public abstract class BaseScreenDelegate<
     }
 
     public void onResume() {
+        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getName());
         getEventDelegateManager().sendEvent(new OnResumeEvent());
     }
 
     public void onPause() {
+        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getName());
         getEventDelegateManager().sendEvent(new OnPauseEvent());
     }
 

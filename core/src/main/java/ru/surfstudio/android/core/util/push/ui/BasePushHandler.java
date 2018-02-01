@@ -3,8 +3,8 @@ package ru.surfstudio.android.core.util.push.ui;
 
 import android.app.Activity;
 
-import ru.surfstudio.android.core.app.log.RemoteLogger;
 import ru.surfstudio.android.core.util.push.interactor.BasePushInteractor;
+import ru.surfstudio.android.logger.RemoteLogger;
 
 /**
  * Выполняем необходимые действия при пуше на ui
@@ -24,7 +24,7 @@ public abstract class BasePushHandler<T extends BasePushInteractor> {
         if (activity != null) {
             createPushHandleStrategy(data).handle(activity, getPushInteractor(), data);
         } else {
-            RemoteLogger.logMessage("Cant handle push body no active activity " + data);
+            RemoteLogger.logMessage("Cant handle push body no active activity " + data); //todo обычный логгер
         }
     }
 }

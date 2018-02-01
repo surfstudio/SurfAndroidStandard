@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityViewD
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreView;
 
 /**
- * инрефейс для вью, которая оповещает презентер о событиях жизненного цикла экрана
+ * инрефейс для вью, основанной на активити
  */
 public interface CoreActivityViewInterface extends
         PresenterHolderCoreView,

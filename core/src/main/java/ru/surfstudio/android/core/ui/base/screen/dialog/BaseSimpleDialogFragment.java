@@ -8,12 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import ru.surfstudio.android.core.app.log.LogConstants;
-import ru.surfstudio.android.core.app.log.RemoteLogger;
 import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenComponent;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.logger.LogConstants;
+import ru.surfstudio.android.logger.RemoteLogger;
 
 /**
  * Базовый класс простого диалога который может возвращать результат
@@ -28,7 +28,7 @@ import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterf
  * к слою Interactor
  */
 public abstract class BaseSimpleDialogFragment extends BaseDialogFragment implements HasName {
-    public static final String EXTRA_PARENT = "EXTRA_PARENT";
+    public static final String EXTRA_PARENT = "EXTRA_PARENT"; //todo parent widget
     private Parent parentType;
 
     public <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView) {

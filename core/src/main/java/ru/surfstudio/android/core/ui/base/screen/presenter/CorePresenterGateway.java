@@ -4,15 +4,15 @@ package ru.surfstudio.android.core.ui.base.screen.presenter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.pause.OnPauseDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.ready.OnViewReadyDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.resume.OnResumeDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.start.OnStartDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnRestoreStateDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.state.OnSaveStateDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.stop.OnStopDelegate;
-import ru.surfstudio.android.core.ui.base.event.delegate.lifecycle.view.destroy.OnViewDestroyDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.pause.OnPauseDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.ready.OnViewReadyDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.resume.OnResumeDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.start.OnStartDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.state.OnRestoreStateDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.state.OnSaveStateDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.stop.OnStopDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.view.destroy.OnViewDestroyDelegate;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
 

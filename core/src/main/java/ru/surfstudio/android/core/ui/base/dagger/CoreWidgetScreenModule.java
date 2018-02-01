@@ -7,7 +7,6 @@ import dagger.Provides;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.message.DefaultMessageController;
 import ru.surfstudio.android.core.ui.base.message.MessageController;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
@@ -20,6 +19,7 @@ import ru.surfstudio.android.core.ui.base.navigation.fragment.FragmentNavigator;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForActivity;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForFragment;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.WidgetPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
@@ -27,7 +27,7 @@ import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
- * Created by makstuev on 29.01.2018.
+ * Модуль для dagger Widget Screen Component
  */
 
 @Module

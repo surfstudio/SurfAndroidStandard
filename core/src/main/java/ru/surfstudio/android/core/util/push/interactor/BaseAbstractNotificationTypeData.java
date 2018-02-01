@@ -14,7 +14,7 @@ import java.util.Map;
 public abstract class BaseAbstractNotificationTypeData<T extends Serializable, A extends BasePresenterActions> implements Serializable {
     public static final String EXTRA_KEY = "extra_notification_key";
 
-    private final NotificationTypeKey type;
+    private final NotificationTypeKey type; //todo wtf
     private T data;
 
     public BaseAbstractNotificationTypeData(Map<String, String> map) {

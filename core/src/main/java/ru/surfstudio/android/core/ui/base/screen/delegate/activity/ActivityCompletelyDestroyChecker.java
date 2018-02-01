@@ -5,7 +5,7 @@ import android.app.Activity;
 import ru.surfstudio.android.core.ui.base.screen.delegate.base.CompletelyDestroyChecker;
 
 /**
- * Created by makstuev on 25.01.2018.
+ * проверяет что активити полностю уничтожена
  */
 
 public class ActivityCompletelyDestroyChecker implements CompletelyDestroyChecker {

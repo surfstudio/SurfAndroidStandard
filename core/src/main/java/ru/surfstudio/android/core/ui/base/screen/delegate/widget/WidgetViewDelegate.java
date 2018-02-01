@@ -8,6 +8,14 @@ import ru.surfstudio.android.core.ui.base.screen.scope.WidgetPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
+/**
+ * делегат для widget вью,
+ * управляет ключевыми сущностями внутренней логики виджета:
+ * - PersistentScope
+ * - ScreenEventDelegateManager - соответствует менеджеру экрана-контейнера
+ * - ScreenState - соответствует ScreenState экрана-контейнера
+ * - ScreenConfigurator
+ */
 public class WidgetViewDelegate {
 
     private CoreWidgetViewInterface coreWidgetView;
@@ -52,6 +60,9 @@ public class WidgetViewDelegate {
     private void initPersistentScope() {
         if (getPersistentScope() == null) {
             PersistentScope parentScope = parentPersistentScopeFinder.find();
+            if (parentScope == null) {
+                throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
+            }
             WidgetPersistentScope persistentScope = new WidgetPersistentScope(
                     getName(),
                     parentScope.getScreenEventDelegateManager(),

@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.ui.base.screen.delegate.base;
 
 /**
- * Created by makstuev on 27.01.2018.
+ * поределяет когда сущность полностью уничтожена
  */
 
 public interface CompletelyDestroyChecker {

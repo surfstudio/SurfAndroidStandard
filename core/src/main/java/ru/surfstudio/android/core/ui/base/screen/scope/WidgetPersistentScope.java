@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.ui.base.screen.scope;
 
 import ru.surfstudio.android.core.ui.ScreenType;
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 

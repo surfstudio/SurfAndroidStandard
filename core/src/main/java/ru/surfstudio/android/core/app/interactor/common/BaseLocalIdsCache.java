@@ -17,7 +17,7 @@ import ru.surfstudio.android.core.util.SettingsUtil;
 /**
  * Хранилище для сохранения набора id
  */
-public abstract class BaseLocalIdsCache {
+public abstract class BaseLocalIdsCache { //todo wtf
 
     private static final String SEPARATOR = ",";
 

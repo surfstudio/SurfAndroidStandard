@@ -3,8 +3,11 @@ package ru.surfstudio.android.core.ui.base.permission;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 
+/**
+ * PermissionManager, работающий из фрагмента
+ */
 public class PermissionManagerForFragment extends PermissionManager {
 
     private final FragmentProvider fragmentProvider;

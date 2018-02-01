@@ -3,6 +3,7 @@ package ru.surfstudio.android.core.ui.base.screen.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
+import ru.surfstudio.android.core.ui.base.screen.event.base.ScreenEventDelegate;
 
 /**
  * базовая активити для всего приложения
@@ -44,11 +46,13 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
         activityDelegate = createActivityDelegate();
         onPreCreate(savedInstanceState);
         setContentView(getContentView());
-        activityDelegate.onCreate(savedInstanceState);
+        activityDelegate.onCreate(savedInstanceState, null);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState, boolean viewRecreated) {
+    public void onCreate(@Nullable Bundle savedInstanceState,
+                         @Nullable PersistableBundle persistentState,
+                         boolean viewRecreated) {
         //empty
     }
 

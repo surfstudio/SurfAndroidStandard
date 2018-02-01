@@ -7,9 +7,10 @@ import ru.surfstudio.android.core.ui.base.screen.scope.WidgetPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
- * Created by makstuev on 28.01.2018.
+ * Базовый класс конфигуратора экрана, основанного на android.View, см {@link ViewConfigurator}
+ * @param <P> родительский даггер компонент (ActivityComponent)
+ * @param <M> даггер модуль для виджета
  */
-
 public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurator<WidgetPersistentScope> {
 
     private CoreWidgetViewInterface target;

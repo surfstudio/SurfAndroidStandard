@@ -1,8 +1,5 @@
 package ru.surfstudio.android.core.ui.base.screen.activity;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
@@ -24,17 +21,6 @@ public abstract class CoreActivityView extends CoreActivity implements
     @Override
     public BaseActivityViewConfigurator getConfigurator() {
         return (BaseActivityViewConfigurator) super.getConfigurator();
-    }
-
-    /**
-     * Override this instead {@link #onCreate(Bundle)}
-     *
-     * @param viewRecreated render whether view created in first time or recreated after
-     *                      changing configuration
-     */
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, boolean viewRecreated) {
-
     }
 
     /**

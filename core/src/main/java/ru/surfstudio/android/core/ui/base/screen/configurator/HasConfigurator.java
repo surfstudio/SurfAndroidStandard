@@ -1,9 +1,8 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
 /**
- * Created by makstuev on 25.01.2018.
+ * Интерфейс для экранов, имеющих конфигуратор
  */
-
 public interface HasConfigurator {
     Configurator createConfigurator();
 

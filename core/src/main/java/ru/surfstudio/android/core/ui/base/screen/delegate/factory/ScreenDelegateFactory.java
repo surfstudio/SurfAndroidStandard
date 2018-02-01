@@ -16,7 +16,8 @@ import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterf
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
- * Created by makstuev on 24.01.2018.
+ * Фабрика делегатов экранов, создана для того чтобы была возможность применить некоторую
+ * логику ко всем экранам конкретного приложения
  */
 
 public interface ScreenDelegateFactory {

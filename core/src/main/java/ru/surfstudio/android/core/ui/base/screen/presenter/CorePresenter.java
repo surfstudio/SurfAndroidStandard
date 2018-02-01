@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.functions.Functions;
 import io.reactivex.internal.observers.LambdaObserver;
 import io.reactivex.subjects.BehaviorSubject;
-import ru.surfstudio.android.core.ui.base.event.delegate.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
 import ru.surfstudio.android.core.util.rx.ObservableUtil;

@@ -4,7 +4,10 @@ import android.support.v4.app.Fragment;
 
 import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
 
-//todo для фрагмента контейнера
+/**
+ * Базовый конфигуратор для активити
+ * Предоставляет уникальное имя экрана, для корневой логики экрана
+ */
 public class BaseFragmentConfigurator implements Configurator<FragmentPersistentScope> {
 
     private Fragment target;
