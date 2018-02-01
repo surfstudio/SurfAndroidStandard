@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import android.support.v7.widget.LinearSnapHelper
+import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseRenderableHandleableErrorActivityView
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator
@@ -13,7 +14,6 @@ import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityConfigurator
 import ru.surfstudio.standard.ui.common.widget.carousel.CarouselView
-import ru.surfstudio.standard.ui.common.widget.carousel.snapHelpers.StartSnapHelper
 import javax.inject.Inject
 
 /**
@@ -52,18 +52,25 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
 
     fun initViews() {
         val carousel: CarouselView<TestItem> = findViewById(R.id.activity_main_cv)
-        val itemList = mutableListOf(TestItem("1"),
-                TestItem("2"),
-                TestItem("3"),
-                TestItem("4"),
-                TestItem("5"),
-                TestItem("6"))
+        val itemList = mutableListOf(TestItem(0, "0"),
+                TestItem(1, "1"),
+                TestItem(2, "2"),
+                TestItem(3, "3"),
+                TestItem(4, "4"),
+                TestItem(5, "5"),
+                TestItem(6, "6"),
+                TestItem(7, "7"),
+                TestItem(8, "8"),
+                TestItem(9, "9"),
+                TestItem(10, "10"),
+                TestItem(11, "11"))
 
         val controller = TestController()
 
-        val snapHelper: LinearSnapHelper = StartSnapHelper()
+        val snapHelper: LinearSnapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(carousel)
 
         carousel.render(itemList, controller)
+        carousel.centerItemChangedListener = { item -> Logger.d("Centered!" + item.title) }
     }
 }

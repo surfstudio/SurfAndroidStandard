@@ -14,7 +14,7 @@ class TestController : BindableItemController<TestItem, TestController.Holder>()
     override fun createViewHolder(parent: ViewGroup) = Holder(parent)
 
     override fun getItemId(data: TestItem): Long {
-        return data.title.hashCode().toLong()
+        return data.id
     }
 
     inner class Holder(parent: ViewGroup) : BindableViewHolder<TestItem>(parent, R.layout.item_test_controller) {

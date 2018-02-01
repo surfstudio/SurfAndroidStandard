@@ -18,12 +18,29 @@ import ru.surfstudio.standard.R
 class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : RecyclerView(context, attributeSet) {
 
     var centerItem: T? = null
+        set(value) {
+            value?.let {
+                if (it != field) { //нас интересуют только отличающиеся от старого значения
+                    centerItemChangedListener.invoke(value)
+                }
+            }
+            field = value
+        }
 
     var elements: List<T> = emptyList()
+
+    var centerItemChangedListener: (T) -> Unit = {}
 
     private val easyAdapter: EasyAdapter = EasyAdapter()
 
     private var isLooped = false
+        set(value) {
+            easyAdapter.setInfiniteScroll(value)
+            if (value) {
+                this.linearLayoutManager.scrollToPosition(EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2 - ((EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2) % 9))
+            }
+            field = value
+        }
 
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 

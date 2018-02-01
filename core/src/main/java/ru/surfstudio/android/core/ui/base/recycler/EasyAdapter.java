@@ -45,18 +45,17 @@ import ru.surfstudio.android.core.ui.base.recycler.item.NoDataItem;
  */
 public class EasyAdapter extends RecyclerView.Adapter {
 
+    public static final int INFINITE_SCROLL_FAKE_COUNT = 1000;
+
     private List<BaseItem> items = new ArrayList<>();
     private List<ItemInfo> lastItemsInfo = new ArrayList<>();
     private SparseArray<BaseItemController> supportedItemControllers = new SparseArray<>();
     private boolean autoNotifyOnSetItemsEnabled = true;
+    private boolean infiniteScroll = false;
     private BaseItem<BaseViewHolder> firstInvisibleItem = new NoDataItem<>(new FirstInvisibleItemController());
 
     public EasyAdapter() {
         setHasStableIds(true);
-    }
-
-    public void setAutoNotifyOnSetItemsEnabled(boolean enableAutoNotifyOnSetItems) {
-        this.autoNotifyOnSetItemsEnabled = enableAutoNotifyOnSetItems;
     }
 
     @Override
@@ -64,6 +63,124 @@ public class EasyAdapter extends RecyclerView.Adapter {
         super.onAttachedToRecyclerView(recyclerView);
         LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
         initLayoutManager(layoutManager);
+    }
+
+    @Override
+    public final int getItemViewType(int position) {
+        return items.get(getListPosition(position)).getItemController().viewType();
+    }
+
+    @Override
+    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return supportedItemControllers.get(viewType).createViewHolder(parent);
+    }
+
+    @Override
+    public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        BaseItem item = items.get(getListPosition(position));
+        item.getItemController().bind(holder, item);
+    }
+
+    @Override
+    public final int getItemCount() {
+        return infiniteScroll ? INFINITE_SCROLL_FAKE_COUNT : items.size();
+    }
+
+    @Override
+    public final long getItemId(int position) {
+        BaseItem item = items.get(getListPosition(position));
+        return item.getItemController().getItemId(item);
+    }
+
+    /**
+     * set data with controller for rendering
+     * adapter automatically calls necessary methods notify... if {@link #autoNotifyOnSetItemsEnabled} sets
+     *
+     * @param data
+     * @param itemController controller for data
+     * @param <T>            type of data
+     */
+    public <T> void setData(@NonNull Collection<T> data, @NonNull BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
+        setItems(ItemList.create(data, itemController));
+    }
+
+    public void setAutoNotifyOnSetItemsEnabled(boolean enableAutoNotifyOnSetItems) {
+        this.autoNotifyOnSetItemsEnabled = enableAutoNotifyOnSetItems;
+    }
+
+    /**
+     * @param infiniteScroll make list infinite scrolling
+     */
+    public void setInfiniteScroll(boolean infiniteScroll) {
+        this.infiniteScroll = infiniteScroll;
+    }
+
+    /**
+     * automatically calls necessary methods notify...
+     */
+    public void autoNotify() {
+        final List<ItemInfo> newItemInfo = extractItemInfo();
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
+                new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
+        diffResult.dispatchUpdatesTo(this);
+        lastItemsInfo = newItemInfo;
+    }
+
+
+    public final long getItemHash(int position) {
+        BaseItem item = items.get(getListPosition(position));
+        return item.getItemController().getItemHash(item);
+    }
+
+    /**
+     * set Items for rendering
+     *
+     * @param items
+     * @param autoNotify need call {@link #autoNotify()}
+     */
+    protected void setItems(@NonNull ItemList items, boolean autoNotify) {
+        this.items.clear();
+        if (items.isEmpty() || items.get(0) != firstInvisibleItem) {
+            this.items.add(firstInvisibleItem);
+        }
+        this.items.addAll(items);
+        if (autoNotify) {
+            autoNotify();
+        }
+        updateSupportedItemControllers(this.items);
+    }
+
+    protected ItemList getItems() {
+        return new ItemList(items);
+    }
+
+    /**
+     * set Items for rendering
+     * adapter automatically calls necessary methods notify... if {@link #autoNotifyOnSetItemsEnabled} sets
+     *
+     * @param items
+     */
+    public void setItems(@NonNull ItemList items) {
+        setItems(items, autoNotifyOnSetItemsEnabled);
+    }
+
+    private void updateSupportedItemControllers(List<BaseItem> items) {
+        supportedItemControllers.clear();
+        for (BaseItem item : items) {
+            BaseItemController itemController = item.getItemController();
+            supportedItemControllers.put(itemController.viewType(), itemController);
+        }
+    }
+
+    private List<ItemInfo> extractItemInfo() {
+        int itemCount = getItemCount();
+        List<ItemInfo> currentItemsInfo = new ArrayList<>(itemCount);
+        for (int i = 0; i < itemCount; i++) {
+            currentItemsInfo.add(new ItemInfo(
+                    getItemId(i),
+                    getItemHash(i)));
+        }
+        return currentItemsInfo;
     }
 
     private void initLayoutManager(LinearLayoutManager layoutManager) {
@@ -85,110 +202,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
         }
     }
 
-    @Override
-    public final int getItemViewType(int position) {
-        return items.get(position).getItemController().viewType();
-    }
-
-    @Override
-    public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return supportedItemControllers.get(viewType).createViewHolder(parent);
-    }
-
-    @Override
-    public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        BaseItem item = items.get(position);
-        item.getItemController().bind(holder, item);
-    }
-
-    @Override
-    public final int getItemCount() {
-        return items.size();
-    }
-
-    /**
-     * set data with controller for rendering
-     * adapter automatically calls necessary methods notify... if {@link #autoNotifyOnSetItemsEnabled} sets
-     *
-     * @param data
-     * @param itemController controller for data
-     * @param <T>            type of data
-     */
-    public <T> void setData(@NonNull Collection<T> data, @NonNull BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
-        setItems(ItemList.create(data, itemController));
-    }
-
-    /**
-     * set Items for rendering
-     * adapter automatically calls necessary methods notify... if {@link #autoNotifyOnSetItemsEnabled} sets
-     *
-     * @param items
-     */
-    public void setItems(@NonNull ItemList items) {
-        setItems(items, autoNotifyOnSetItemsEnabled);
-    }
-
-    /**
-     * set Items for rendering
-     *
-     * @param items
-     * @param autoNotify need call {@link #autoNotify()}
-     */
-    protected void setItems(@NonNull ItemList items, boolean autoNotify) {
-        this.items.clear();
-        if (items.isEmpty() || items.get(0) != firstInvisibleItem) {
-            this.items.add(firstInvisibleItem);
-        }
-        this.items.addAll(items);
-        if (autoNotify) {
-            autoNotify();
-        }
-        updateSupportedItemControllers(this.items);
-    }
-
-    /**
-     * automatically calls necessary methods notify...
-     */
-    public void autoNotify() {
-        final List<ItemInfo> newItemInfo = extractItemInfo();
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
-                new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
-        diffResult.dispatchUpdatesTo(this);
-        lastItemsInfo = newItemInfo;
-    }
-
-    protected ItemList getItems() {
-        return new ItemList(items);
-    }
-
-    private void updateSupportedItemControllers(List<BaseItem> items) {
-        supportedItemControllers.clear();
-        for (BaseItem item : items) {
-            BaseItemController itemController = item.getItemController();
-            supportedItemControllers.put(itemController.viewType(), itemController);
-        }
-    }
-
-    @Override
-    public final long getItemId(int position) {
-        BaseItem item = items.get(position);
-        return item.getItemController().getItemId(item);
-    }
-
-    public final long getItemHash(int position) {
-        BaseItem item = items.get(position);
-        return item.getItemController().getItemHash(item);
-    }
-
-    private List<ItemInfo> extractItemInfo() {
-        int itemCount = getItemCount();
-        List<ItemInfo> currentItemsInfo = new ArrayList<>(itemCount);
-        for (int i = 0; i < itemCount; i++) {
-            currentItemsInfo.add(new ItemInfo(
-                    getItemId(i),
-                    getItemHash(i)));
-        }
-        return currentItemsInfo;
+    private int getListPosition(int adapterPosition) {
+        return infiniteScroll ? adapterPosition % items.size() : adapterPosition;
     }
 
     private class ItemInfo {
