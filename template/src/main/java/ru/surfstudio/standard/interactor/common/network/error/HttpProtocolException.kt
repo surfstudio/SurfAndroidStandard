@@ -3,7 +3,7 @@ package ru.surfstudio.standard.interactor.common.network.error
 
 import com.google.gson.Gson
 import okhttp3.ResponseBody
-import retrofit2.adapter.rxjava.HttpException
+import retrofit2.HttpException
 import ru.surfstudio.android.network.error.NetworkException
 import ru.surfstudio.standard.interactor.auth.network.GET_TOKEN_PATH
 import ru.surfstudio.standard.interactor.common.network.response.AuthErrorObj
@@ -47,10 +47,10 @@ class HttpProtocolException(cause: HttpException, val httpMessage: String, val h
         }
     }
 
-    private fun <T> getFromError(responseBody: ResponseBody, type: Class<T>): T? {
+    private fun <T> getFromError(responseBody: ResponseBody?, type: Class<T>): T? {
         var jsonString: String? = null
         try {
-            jsonString = responseBody.string()
+            jsonString = responseBody?.string()
         } catch (e: IOException) {
             Timber.w(e, "Не возможно распарсить ответ сервера об ошибке")
         }
