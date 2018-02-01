@@ -14,7 +14,7 @@ public abstract class BaseTextLocalCache extends BaseLocalCache<String> {
     }
 
     @Override
-    ObjectConverter<String> getConverter() {
+    public ObjectConverter<String> getConverter() {
         return new ObjectConverter<String>() {
             @Override
             public byte[] encode(String value) {
