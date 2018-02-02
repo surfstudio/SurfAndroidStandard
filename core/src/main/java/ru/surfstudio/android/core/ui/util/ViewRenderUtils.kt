@@ -9,6 +9,6 @@ fun <T> View.actionIfChanged(data: T, action: (data: T) -> Unit) {
     val hash = data?.hashCode()
     if (this.tag != hash) {
         action.invoke(data)
+        this.tag = hash
     }
-    this.tag = hash
 }
