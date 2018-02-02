@@ -5,10 +5,10 @@ import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManage
 import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
-/**
- * Created by makstuev on 28.01.2018.
- */
 
+/**
+ * {@link PersistentScope} для WidgetView
+ */
 public class WidgetPersistentScope extends
         PersistentScope<ScreenEventDelegateManager, ScreenState> {
     private ScreenType parentType;

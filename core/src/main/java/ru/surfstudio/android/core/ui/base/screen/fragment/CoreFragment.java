@@ -11,8 +11,8 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegate
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDelegate;
 
 /**
- * базовый фрагмент для всего приложения
- * поддерживает механизм делегирования обработки событий экрана {@link ScreenEventDelegate}
+ * базовая активити для всего приложения
+ * см {@link FragmentDelegate}
  */
 public abstract class CoreFragment extends Fragment implements CoreFragmentInterface {
 

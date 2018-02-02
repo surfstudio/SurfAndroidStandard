@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewD
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
 /**
- * Base class with core logic for view, based on Fragment
+ * Base class with core logic for view, based on {@link CoreFragment}
  */
 public abstract class CoreFragmentView extends CoreFragment
         implements CoreFragmentViewInterface {

@@ -20,11 +20,12 @@ public abstract class BaseScreenState implements ScreenState { //todo описа
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         viewRecreated = viewDestroyedAtListOnce;
         screenRecreated = screenDestroyedAtListOnce;
-        restoredFromDisk = !screenDestroyedAtListOnce && savedInstanceState != null;
+        restoredFromDisk = restoredFromDisk ||
+                !screenDestroyedAtListOnce && savedInstanceState != null;
     }
 
     public void onDestroyView() {
-        screenDestroyedAtListOnce = true;
+        viewDestroyedAtListOnce = true;
     }
 
     public void onDestroy() {

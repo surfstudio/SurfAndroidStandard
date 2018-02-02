@@ -11,8 +11,15 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDeleg
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
 /**
- * Created by makstuev on 29.01.2018.
+ * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
+ *
+ * !!!ВАЖНО!!!
+ * 1) Необходимо вызвать метод init во время onCreate() Activity или onActivityCreated() Fragment
+ * 2) кастомная вьюшка с презентером может быть только в статической иерархии вью,
+ *      то есть должна создаваться при старте экрана, и не может быть использована при
+ *      динамическом создании вью, в том числе внутри элементов RecyclerView
  */
+
 
 public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWidgetViewInterface {
 
@@ -55,7 +62,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
-    public void init() {
+    public final void init() {
         widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.onCreate();
     }

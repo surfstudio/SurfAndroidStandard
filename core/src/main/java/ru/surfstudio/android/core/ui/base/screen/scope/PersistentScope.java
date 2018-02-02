@@ -9,6 +9,16 @@ import java.util.Map;
 import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
+/**
+ * Хранилище основных обьектов экрана, необходимых для внутренней логики ядра
+ * Также хранит соответствующие даггер компоненты
+ * Для каждого активити, фрагмента и WidgetView создается инстанс PersistentScope
+ * Не уничтожается при смене конфигурации
+ * Для Доступа к этому обьекту следует использовать {@link PersistentScopeStorage}
+ *
+ * @param <DM> ScreenEventDelegateManager
+ * @param <S> ScreenState
+ */
 public abstract class PersistentScope<
         DM extends ScreenEventDelegateManager,
         S extends ScreenState> {

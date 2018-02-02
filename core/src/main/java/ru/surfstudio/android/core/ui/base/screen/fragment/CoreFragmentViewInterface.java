@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewD
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreView;
 
 /**
- * инрефейс для вью, которая оповещает презентер о событиях жизненного цикла экрана
+ * инрефейс для вью, основанной на фрагменте
  */
 public interface CoreFragmentViewInterface extends PresenterHolderCoreView, CoreFragmentInterface {
 

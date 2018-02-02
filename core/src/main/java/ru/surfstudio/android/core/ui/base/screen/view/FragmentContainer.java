@@ -5,7 +5,7 @@ import android.support.annotation.IdRes;
 /**
  * интерфейс для вью, поддерживающей навигацию фрагментов
  */
-public interface ContentContainerView {
+public interface FragmentContainer {
     /**
      * @return вью контейнер id или 0
      */

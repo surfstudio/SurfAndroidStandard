@@ -27,7 +27,7 @@ import ru.surfstudio.android.core.util.rx.SafeConsumer;
  *
  * @param <V>
  */
-public abstract class CorePresenter<V extends CoreView> {
+public abstract class CorePresenter<V extends CoreView> { //todo детально все просмотреть
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);
@@ -59,7 +59,8 @@ public abstract class CorePresenter<V extends CoreView> {
     }
 
     /**
-     *  //todo
+     *  вызывается при первом запуске экрана, если экран восстановлен с диска,
+     *  то это тоже считается первым запуском
      */
     public void onFirstLoad() {
     }
@@ -116,7 +117,10 @@ public abstract class CorePresenter<V extends CoreView> {
         disposables.dispose();
     }
 
-    //todo коммент
+    /**
+     * см {@link StateRestorer}
+     * @return
+     */
     protected StateRestorer getStateRestorer() {
         return null;
     }

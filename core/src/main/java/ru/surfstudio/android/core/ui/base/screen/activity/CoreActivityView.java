@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegate
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
 /**
- * Base class with core logic for view, based on Activity
+ * Base class with core logic for view, based on {@link CoreActivity}
  */
 public abstract class CoreActivityView extends CoreActivity implements
         CoreActivityViewInterface {

@@ -6,7 +6,16 @@ import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDeleg
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreView;
 
 /**
- * Created by makstuev on 28.01.2018.
+ * Интерфейс для всех кастомных вьюшек с презентером
+ *
+ * !!!ВАЖНО!!!
+ * 1) Необходимо вызвать метод init во время onCreate() Activity или onActivityCreated() Fragment
+ * 2) кастомная вьюшка с презентером может быть только в статической иерархии вью,
+ *      то есть должна создаваться при старте экрана, и не может быть использована при
+ *      динамическом создании вью, в том числе внутри элементов RecyclerView
+ *
+ * Эти ограничения связаны с большими сложностями реализации делегирования событий экрана
+ * для динамических вью
  */
 
 public interface CoreWidgetViewInterface extends PresenterHolderCoreView, HasConfigurator {

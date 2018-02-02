@@ -1,10 +1,10 @@
 package ru.surfstudio.android.core.ui.base.screen.scope;
 
 
+import android.support.annotation.Nullable;
+
 import java.util.HashMap;
 import java.util.Map;
-
-//todo package local constructor
 
 /**
  * Хранилище всех PersistentScope в контексте одной активити
@@ -15,7 +15,11 @@ public class PersistentScopeStorage {
     public PersistentScopeStorage() {
     }
 
-    public void putScope(PersistentScope scope) { //todo check activity
+    /**
+     * сохраняет PersistentScope в хранилище
+     * @param scope
+     */
+    public void putScope(PersistentScope scope) {
         if (scopes.get(scope.getName()) != null) {
             throw new IllegalStateException(String.format(
                     "ScreenScope with name %s already created", scope.getName()));
@@ -28,11 +32,20 @@ public class PersistentScopeStorage {
         scopes.put(scope.getName(), scope);
     }
 
+    /**
+     * удаляет PersistentScope из хранилища
+     * @param name
+     */
     public void removeScope(String name) {
         scopes.remove(name);
     }
 
-    public PersistentScope getByName(String name) {
+    /**
+     *
+     * @param name
+     * @return PersistentScope с указанным именем
+     */
+    public @Nullable PersistentScope getByName(String name) {
         return scopes.get(name);
     }
 

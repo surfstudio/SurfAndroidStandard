@@ -21,10 +21,10 @@ import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
 /**
  * делегат для базового фрагмента,
  * управляет ключевыми сущностями внутренней логики экрана:
- * - PersistentScope
- * - ScreenEventDelegateManager
- * - ScreenState
- * - ScreenConfigurator
+ * - PersistentScope            - хранилище для всех остальных обьектов, переживает смену конфигурации
+ * - ScreenEventDelegateManager - позволяет подписываться на события экрана
+ * - ScreenState                - хранит текущее состояние экрана
+ * - ScreenConfigurator         - управляет компонентами даггера, предоставляет уникальное имя экрана
  */
 public class FragmentDelegate extends BaseScreenDelegate<
         FragmentPersistentScope,

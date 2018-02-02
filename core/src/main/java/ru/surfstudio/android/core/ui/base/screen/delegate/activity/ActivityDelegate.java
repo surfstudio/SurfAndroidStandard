@@ -23,10 +23,10 @@ import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
 /**
  * делегат для базовой активити,
  * управляет ключевыми сущностями внутренней логики экрана:
- * - PersistentScope
- * - ScreenEventDelegateManager
- * - ScreenState
- * - ScreenConfigurator
+ * - PersistentScope            - хранилище для всех остальных обьектов, переживает смену конфигурации
+ * - ScreenEventDelegateManager - позволяет подписываться на события экрана
+ * - ScreenState                - хранит текущее состояние экрана
+ * - ScreenConfigurator         - управляет компонентами даггера, предоставляет уникальное имя экрана
  */
 public class ActivityDelegate extends BaseScreenDelegate<
         ActivityPersistentScope,

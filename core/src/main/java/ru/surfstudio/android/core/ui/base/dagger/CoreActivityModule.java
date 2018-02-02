@@ -7,6 +7,7 @@ import ru.surfstudio.android.core.ui.base.message.DefaultMessageController;
 import ru.surfstudio.android.core.ui.base.message.MessageController;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigatorForActivity;
+import ru.surfstudio.android.core.ui.base.navigation.fragment.FragmentNavigator;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForActivity;
 import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
@@ -78,6 +79,12 @@ public class CoreActivityModule {
     @PerActivity
     MessageController provideMessageController(ActivityProvider activityProvider) {
         return new DefaultMessageController(activityProvider);
+    }
+
+    @Provides
+    @PerScreen
+    FragmentNavigator provideFragmentNavigator(ActivityProvider activityProvider){
+        return new FragmentNavigator(activityProvider);
     }
 
 }
