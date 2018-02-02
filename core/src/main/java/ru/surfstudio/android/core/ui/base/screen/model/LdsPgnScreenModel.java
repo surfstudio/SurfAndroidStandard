@@ -1,16 +1,12 @@
-package ru.surfstudio.android.easyadapter.screen.model;
+package ru.surfstudio.android.core.ui.base.screen.model;
 
 
-import ru.surfstudio.android.core.ui.base.screen.model.LdsSwrScreenModel;
-import ru.surfstudio.android.core.ui.base.screen.model.ScreenModel;
 import ru.surfstudio.android.core.ui.base.screen.model.state.LoadState;
-import ru.surfstudio.android.core.ui.base.screen.model.state.SwipeRefreshState;
 import ru.surfstudio.android.easyadapter.impl.pagination.PaginationState;
 
 /**
  * модель экрана с поддержкой
  * {@link LoadState}
- * {@link SwipeRefreshState}
  * {@link PaginationState}
  * <p>
  * работает в связке c BaseLdsSwrPgn...View
@@ -18,7 +14,7 @@ import ru.surfstudio.android.easyadapter.impl.pagination.PaginationState;
  * <p>
  * также см {@link ScreenModel}
  */
-public class LdsSwrPgnScreenModel extends LdsSwrScreenModel {
+public class LdsPgnScreenModel extends LdsScreenModel {
     private PaginationState paginationState = PaginationState.COMPLETE;
 
     public PaginationState getPaginationState() {
@@ -33,7 +29,7 @@ public class LdsSwrPgnScreenModel extends LdsSwrScreenModel {
         setPaginationState(canLoadMore ? PaginationState.READY : PaginationState.COMPLETE);
     }
 
-    public void setErrorPaginationState(){
+    public void setErrorPaginationState() {
         setPaginationState(PaginationState.ERROR);
     }
 }

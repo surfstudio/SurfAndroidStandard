@@ -39,13 +39,10 @@ android {
 }
 
 dependencies {
-    provided project(':core')
-
     provided "com.android.support:support-annotations:${appcompatVersion}"
-    implementation "com.android.support:recyclerview-v7:${appcompatVersion}"
+    api "com.android.support:recyclerview-v7:${appcompatVersion}"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile project(path: ':core')
 }

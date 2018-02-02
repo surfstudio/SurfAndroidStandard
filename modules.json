@@ -27,6 +27,18 @@
     {
       "name": "easyadapter-carousel",
       "path": ""
+    },
+    {
+      "name": "converter-gson",
+      "path": ""
+    },
+    {
+      "name": "dagger-scope",
+      "path": ""
+    },
+    {
+      "name": "logger",
+      "path": ""
     }
   ]
 }
