@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,5 +9,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World" />
+
+    <ru.surfstudio.android.core.ui.base.screen.widjet.TitleSubtitleView
+        android:id="@+id/title_subtitle_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:titlePaddingStart="8dp"
+        app:titleTextAppearance="@style/Text.Light.24.PrimaryColor"
+        app:subTitleTextAppearance="@style/Text.Light.24.PrimaryColor"
+        app:subTitleEllipsize="end"
+        app:subTitlePaddingTop="4dp"
+        app:subTitlePaddingStart="8dp"/>
 
 </LinearLayout>
