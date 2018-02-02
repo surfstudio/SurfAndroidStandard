@@ -10,13 +10,13 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.observers.LambdaObserver;
 import ru.surfstudio.android.core.app.connection.ConnectionProvider;
-import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
 import ru.surfstudio.android.core.util.rx.SafeAction;
 import ru.surfstudio.android.core.util.rx.SafeConsumer;
+import ru.surfstudio.android.logger.Logger;
 
 
 /**
@@ -42,7 +42,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
     private Disposable autoReloadDisposable;
 
     public BasePresenter(BasePresenterDependency basePresenterDependency) {
-        super(basePresenterDependency.getDelegateManagerProvider(), basePresenterDependency.getScreenEventDelegates());
+        super(basePresenterDependency.getEventDelegateManager(), basePresenterDependency.getScreenState());
         this.schedulersProvider = basePresenterDependency.getSchedulersProvider();
         this.activityNavigator = basePresenterDependency.getActivityNavigator();
         this.connectionProvider = basePresenterDependency.getConnectionProvider();
@@ -54,13 +54,6 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
      */
     public void finish() {
         activityNavigator.finishCurrent();
-    }
-
-    /**
-     * Закрывает все Affinity Activity.
-     */
-    public void finishAffinity() {
-        activityNavigator.finishAffinity();
     }
 
     @Override

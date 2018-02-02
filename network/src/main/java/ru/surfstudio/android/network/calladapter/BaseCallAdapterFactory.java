@@ -9,7 +9,6 @@ import java.lang.reflect.Type;
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
-import retrofit2.HttpException;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import ru.surfstudio.android.network.error.NoInternetException;
@@ -34,8 +33,8 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
     /**
      * Метод обработки ошибки {@link HttpException}
      * Здесь определеяется поведение на различные коды ошибок. Например:
-     * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
-     * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
+     *      * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
+     *      * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
      */
     public abstract <R> Observable<R> onHttpException(HttpException e);
 

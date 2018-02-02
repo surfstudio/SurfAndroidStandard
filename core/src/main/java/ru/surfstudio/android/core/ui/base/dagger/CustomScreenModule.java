@@ -3,8 +3,8 @@ package ru.surfstudio.android.core.ui.base.dagger;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.ui.base.navigation.Route;
+import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * базовый класс для дополнительного модуля конкретного экрана (обычно используется для поставки

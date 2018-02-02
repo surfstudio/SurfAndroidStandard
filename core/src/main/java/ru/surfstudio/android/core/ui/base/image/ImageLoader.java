@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import ru.surfstudio.android.core.R;
-import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.ui.base.image.RoundedCornersTransformation.CornerType;
 import ru.surfstudio.android.core.ui.base.image.blur.BlurTransformation;
+import ru.surfstudio.android.logger.Logger;
 
 
 /**

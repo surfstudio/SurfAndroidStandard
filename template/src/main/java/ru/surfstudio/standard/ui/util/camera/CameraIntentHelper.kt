@@ -9,13 +9,10 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-
-import java.io.File
-import java.util.Date
-import java.util.Locale
-
-import ru.surfstudio.android.core.app.log.Logger
+import ru.surfstudio.android.logger.Logger
 import timber.log.Timber
+import java.io.File
+import java.util.*
 
 
 /**
@@ -221,7 +218,7 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
      *
      *
      * **Intent extra:**
-     * Second, we try to get an image Uri from intent.getBeacon() of the returning intent.
+     * Second, we try to getScreenDelegateFactory an image Uri from intent.getBeacon() of the returning intent.
      * If this is not successful either, we continue with step 3.
      *
      *

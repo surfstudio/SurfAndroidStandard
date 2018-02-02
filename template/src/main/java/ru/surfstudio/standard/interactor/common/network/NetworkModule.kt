@@ -11,11 +11,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.surfstudio.android.core.BuildConfig
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
-import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.domain.network.url.BaseUrl
+import ru.surfstudio.android.dagger.scope.PerApplication
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.network.calladapter.BaseCallAdapterFactory
-import ru.surfstudio.android.network.parse.ResponseTypeAdapterFactory
 
 const val HTTP_LOG_TAG = "OkHttp"
 
@@ -38,7 +37,7 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    internal fun provideGson(responseTypeAdapterFactory: ResponseTypeAdapterFactory): Gson {
+    internal fun provideGson(responseTypeAdapterFactory: ru.surfstudio.android.converter.gson.ResponseTypeAdapterFactory): Gson {
         return GsonBuilder()
                 .registerTypeAdapterFactory(responseTypeAdapterFactory)
                 .create()

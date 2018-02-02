@@ -4,13 +4,11 @@ package ru.surfstudio.android.core.ui.base.screen.presenter;
 import javax.inject.Inject;
 
 import ru.surfstudio.android.core.app.connection.ConnectionProvider;
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
-import ru.surfstudio.android.core.ui.base.delegate.ScreenEventDelegate;
-import ru.surfstudio.android.core.ui.base.delegate.manager.ScreenEventDelegateManagerProvider;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
-import ru.surfstudio.android.core.ui.base.newintent.NewIntentManager;
-import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
+import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * зависимости базового презентера
@@ -20,38 +18,31 @@ import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
 public class BasePresenterDependency {
 
     private SchedulersProvider schedulersProvider;
-    private ScreenEventDelegateManagerProvider delegateManagerProvider;
+    private ScreenState screenState;
+    private ScreenEventDelegateManager eventDelegateManager;
 
     private ActivityNavigator activityNavigator;
-    private PermissionManager permissionManager;
-    private NewIntentManager newIntentManager;
     private ConnectionProvider connectionProvider;
 
     @Inject
     public BasePresenterDependency(SchedulersProvider schedulersProvider,
-                                   ScreenEventDelegateManagerProvider delegateManagerProvider,
-                                   ActivityNavigator activityNavigator,
-                                   PermissionManager permissionManager,
-                                   NewIntentManager newIntentManager,
-                                   ConnectionProvider connectionProvider) {
+                                   ScreenState screenState,
+                                   ScreenEventDelegateManager eventDelegateManager,
+                                   ConnectionProvider connectionProvider,
+                                   ActivityNavigator activityNavigator) {
         this.schedulersProvider = schedulersProvider;
-        this.delegateManagerProvider = delegateManagerProvider;
-        this.activityNavigator = activityNavigator;
-        this.permissionManager = permissionManager;
-        this.newIntentManager = newIntentManager;
+        this.screenState = screenState;
+        this.eventDelegateManager = eventDelegateManager;
         this.connectionProvider = connectionProvider;
+        this.activityNavigator = activityNavigator;
     }
 
     public SchedulersProvider getSchedulersProvider() {
         return schedulersProvider;
     }
 
-    public ScreenEventDelegateManagerProvider getDelegateManagerProvider() {
-        return delegateManagerProvider;
-    }
-
-    public ScreenEventDelegate[] getScreenEventDelegates() {
-        return new ScreenEventDelegate[]{ activityNavigator, permissionManager, newIntentManager };
+    public ScreenEventDelegateManager getEventDelegateManager() {
+        return eventDelegateManager;
     }
 
     public ActivityNavigator getActivityNavigator() {
@@ -60,5 +51,9 @@ public class BasePresenterDependency {
 
     public ConnectionProvider getConnectionProvider() {
         return connectionProvider;
+    }
+
+    public ScreenState getScreenState() {
+        return screenState;
     }
 }

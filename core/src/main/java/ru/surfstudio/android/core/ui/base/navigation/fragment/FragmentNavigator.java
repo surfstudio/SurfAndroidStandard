@@ -8,16 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.agna.ferro.core.PersistentScreenScope;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.fragment.route.FragmentRoute;
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
 import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
 
 import static android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
@@ -87,11 +83,6 @@ public class FragmentNavigator implements Navigator {
                 .remove(fragment)
                 .commit();
 
-        if (fragment instanceof CoreFragmentView) {
-            PersistentScreenScope.destroyImmediately(activityProvider.get(),
-                    ((CoreFragmentView) fragment).getScreenConfigurator().getName());
-        }
-
         return true;
     }
 
@@ -115,13 +106,6 @@ public class FragmentNavigator implements Navigator {
     public boolean popBackStack() {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
-
-        int viewContainerId = getViewContainerIdOrThrow();
-        Fragment fragment = fragmentManager.findFragmentById(viewContainerId);
-        if (fragment instanceof CoreFragmentView) {
-            PersistentScreenScope.destroyImmediately(activityProvider.get(),
-                    ((CoreFragmentView) fragment).getScreenConfigurator().getName());
-        }
 
         return fragmentManager.popBackStackImmediate();
     }
@@ -166,17 +150,7 @@ public class FragmentNavigator implements Navigator {
             FragmentManager.BackStackEntry backStack = fragmentManager.getBackStackEntryAt(i);
             Fragment backStackFragment = fragmentManager.findFragmentByTag(backStack.getName());
             if (backStackFragment == fragment) {
-                if (inclusive && backStackFragment instanceof CoreFragmentView) {
-                    PersistentScreenScope.destroyImmediately(activityProvider.get(),
-                            ((CoreFragmentView) backStackFragment).getScreenConfigurator().getName());
-                }
-
                 break;
-            }
-
-            if (backStackFragment instanceof CoreFragmentView) {
-                PersistentScreenScope.destroyImmediately(activityProvider.get(),
-                        ((CoreFragmentView) backStackFragment).getScreenConfigurator().getName());
             }
         }
 
@@ -201,35 +175,10 @@ public class FragmentNavigator implements Navigator {
         for (int i = 0; i < backStackCount; i++) {
             FragmentManager.BackStackEntry backStack = fragmentManager.getBackStackEntryAt(i);
             Fragment fragment = fragmentManager.findFragmentByTag(backStack.getName());
-            if (fragment instanceof CoreFragmentView) {
-                ScreenConfigurator screenConfigurator =((CoreFragmentView) fragment).getScreenConfigurator();
-                if (screenConfigurator != null) {
-                    PersistentScreenScope.destroyImmediately(activityProvider.get(),
-                            screenConfigurator.getName());
-                }
-            }
         }
 
         return fragmentManager.popBackStackImmediate(fragmentManager.getBackStackEntryAt(backStackCount - 1).getName(),
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    }
-
-    /**
-     * Вызывает принудительно onResume
-     *
-     * @return true если успешно
-     * */
-    public boolean onResume(FragmentRoute route) {
-        FragmentManager fragmentManager = getFragmentManager();
-
-        Fragment fragment = fragmentManager.findFragmentByTag(route.getTag());
-        if (fragment != null) {
-            fragment.onResume();
-        } else {
-            return false;
-        }
-
-        return true;
     }
 
     protected FragmentManager getFragmentManager() {

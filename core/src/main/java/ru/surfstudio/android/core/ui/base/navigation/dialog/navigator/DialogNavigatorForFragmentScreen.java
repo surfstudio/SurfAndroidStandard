@@ -6,6 +6,9 @@ import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
 import ru.surfstudio.android.core.ui.base.screen.dialog.BaseSimpleDialogFragment;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
 
+/**
+ * DialogNavigator работающий из фрагмента
+ */
 public class DialogNavigatorForFragmentScreen extends DialogNavigator {
 
     private FragmentProvider fragmentProvider;

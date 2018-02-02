@@ -2,14 +2,14 @@ package ru.surfstudio.android.network;
 
 import io.reactivex.Observable;
 import ru.surfstudio.android.core.app.interactor.common.DataPriority;
-import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.util.rx.SafeFunction;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.NotModifiedException;
 
-import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FORCE;
-import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
-import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_ONLY_IF_CHANGED;
+import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FORCE;
+import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
+import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_ONLY_IF_CHANGED;
 
 
 /**
@@ -37,7 +37,7 @@ public class BaseNetworkInteractor {
      *                              Observable в первую очередь
      * @param cacheRequest          запрос к кешу
      * @param networkRequestCreator функция, которая должна вернуть запрос к серверу,
-     *                              Integer параметр этой функции определяет {@link ServerConstants.QueryMode}
+     *                              Integer параметр этой функции определяет {@link BaseServerConstants.QueryMode}
      * @param <T>                   тип возвращаемого значения
      */
     protected <T> Observable<T> hybridQuery(DataPriority priority,
@@ -47,7 +47,7 @@ public class BaseNetworkInteractor {
                 //оборачиваем ошибку получения кеша чтобы обработать ее в конце чейна
                 .onErrorResumeNext((Throwable e) -> Observable.error(new CacheExceptionWrapper(e)))
                 .flatMap(cache -> {
-                    @ServerConstants.QueryMode int queryMode = QUERY_MODE_ONLY_IF_CHANGED;
+                    @BaseServerConstants.QueryMode int queryMode = QUERY_MODE_ONLY_IF_CHANGED;
                     boolean cacheFirst = priority == DataPriority.AUTO
                             ? !connectionQualityProvider.isConnectedFast()
                             : priority == DataPriority.CACHE;
@@ -100,7 +100,7 @@ public class BaseNetworkInteractor {
      * Осуществляет гибридный запрос, в методе происходит объединение данных приходящих с сервера и из кеша
      *
      * @param requestCreator функция, которая должна вернуть запрос к серверу, поддерживающий механизм простого кеширования
-     *                       Integer параметр этой функции определяет {@link ServerConstants.QueryMode}
+     *                       Integer параметр этой функции определяет {@link BaseServerConstants.QueryMode}
      * @param <T>            тип ответа сервера
      */
     protected <T> Observable<T> hybridQueryWithSimpleCache(DataPriority priority,

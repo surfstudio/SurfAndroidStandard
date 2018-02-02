@@ -10,12 +10,12 @@ import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
-import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.dagger.scope.PerApplication;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.etag.storage.EtagStorage;
 
-import static ru.surfstudio.android.network.ServerConstants.HEADER_QUERY_MODE;
-import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_ONLY_IF_CHANGED;
+import static ru.surfstudio.android.network.BaseServerConstants.HEADER_QUERY_MODE;
+import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_ONLY_IF_CHANGED;
 import static ru.surfstudio.android.network.etag.EtagConstants.HEADER_REQUEST_ETAG;
 import static ru.surfstudio.android.network.etag.EtagConstants.HEADER_RESPONSE_ETAG;
 

@@ -10,7 +10,8 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.subjects.BehaviorSubject;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
-import ru.surfstudio.android.core.ui.base.delegate.RequestPermissionsResultDelegate;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.event.result.RequestPermissionsResultDelegate;
 
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
 
@@ -22,7 +23,9 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
 
     private Map<Integer, BehaviorSubject<Boolean>> requestSubjects = new HashMap<>();
 
-    public PermissionManager(ActivityProvider activityProvider) {
+    public PermissionManager(ActivityProvider activityProvider,
+                             ScreenEventDelegateManager eventDelegateManager) {
+        eventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
     }
 
@@ -38,6 +41,11 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
 
     protected abstract void requestPermission(PermissionRequest request);
 
+    /**
+     * проверяет наличие разрешений без запрашивания RuntimePermission
+     * @param request
+     * @return выдано ли разрешение
+     */
     public boolean check(PermissionRequest request){
         boolean result = true;
         for(String permission: request.getPermissions()){
@@ -47,7 +55,11 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
     }
 
 
-
+    /**
+     * запрашивает разрешение
+     * @param request
+     * @return Observable, эмитящий событие о том, выдано ли разрешение
+     */
     public Observable<Boolean> request(PermissionRequest request) {
         BehaviorSubject<Boolean> requestPermissionResultSubject = BehaviorSubject.create();
         int requestCode = request.getRequestCode();

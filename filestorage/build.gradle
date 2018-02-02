@@ -41,6 +41,8 @@ android {
 
 dependencies {
     provided project(':core')
+    provided project(':logger')
+    provided project (':dagger-scope')
     provided "com.android.support:support-annotations:${appcompatVersion}"
     provided "com.annimon:stream:${annimonStreamVersion}"
 
