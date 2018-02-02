@@ -5,10 +5,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SnapHelper
 import android.util.AttributeSet
-import ru.surfstudio.android.core.ui.base.recycler.EasyAdapter
-import ru.surfstudio.android.core.ui.base.recycler.ItemList
-import ru.surfstudio.android.core.ui.base.recycler.controller.BindableItemController
-import ru.surfstudio.android.core.ui.base.recycler.holder.BindableViewHolder
+import ru.surfstudio.android.easyadapter.EasyAdapter
+import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.easyadapter.impl.controller.BindableItemController
+import ru.surfstudio.android.easyadapter.impl.holder.BindableViewHolder
 import ru.surfstudio.standard.R
 
 /**

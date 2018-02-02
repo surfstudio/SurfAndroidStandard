@@ -71,6 +71,7 @@ dependencies {
     implementation project(':analytics')
     implementation project(':network')
     implementation project(':filestorage')
+    implementation project(':easyadapter')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     provided "com.google.dagger:dagger:${daggerVersion}"
@@ -116,3 +117,5 @@ dependencies {
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
 }
+
+apply plugin: 'kotlin-android-extensions'

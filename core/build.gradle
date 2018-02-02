@@ -88,7 +88,6 @@ dependencies {
     api "com.agna.ferro:ferro-rx:${ferroRxVersion}"
     api "com.android.support:design:${appcompatVersion}"
     api "com.android.support:appcompat-v7:${appcompatVersion}"
-    api "com.android.support:recyclerview-v7:${appcompatVersion}"
     api "io.reactivex.rxjava2:rxjava:${rxJava2Version}"
     api "io.reactivex.rxjava2:rxandroid:${rxAndroid2Version}"
     api "javax.inject:javax.inject:${javaInjectVersion}"
