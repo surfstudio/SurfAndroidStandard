@@ -3,8 +3,8 @@ package ru.surfstudio.standard.ui.common.widget.carousel
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SnapHelper
 import android.util.AttributeSet
-import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.ui.base.recycler.EasyAdapter
 import ru.surfstudio.android.core.ui.base.recycler.ItemList
 import ru.surfstudio.android.core.ui.base.recycler.controller.BindableItemController
@@ -14,34 +14,29 @@ import ru.surfstudio.standard.R
 /**
  * Вью-карусель элементов
  */
-//TODO: сделать наследником RecyclerView
 class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : RecyclerView(context, attributeSet) {
 
-    var centerItem: T? = null
+    var centerItemPosition: Int = 0
         set(value) {
-            value?.let {
-                if (it != field) { //нас интересуют только отличающиеся от старого значения
-                    centerItemChangedListener.invoke(value)
-                }
+            if (value != field) { //нас интересуют только отличающиеся от старого значения
+                centerItemChangedListener.invoke(value)
             }
             field = value
         }
 
-    var elements: List<T> = emptyList()
+    var centerItemChangedListener: (position: Int) -> Unit = {}
 
-    var centerItemChangedListener: (T) -> Unit = {}
-
-    private val easyAdapter: EasyAdapter = EasyAdapter()
-
-    private var isLooped = false
+    var isInfinite = false
         set(value) {
+            field = value
             easyAdapter.setInfiniteScroll(value)
             if (value) {
-                this.linearLayoutManager.scrollToPosition(EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2 - ((EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2) % 9))
+                applyInfiniteScroll()
             }
-            field = value
         }
 
+    private var realItemsCount = 0
+    private val easyAdapter: EasyAdapter = EasyAdapter()
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
     init {
@@ -59,38 +54,43 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
 
     fun render(elements: ItemList) {
         easyAdapter.setItems(elements)
+        realItemsCount = elements.size
+        if (isInfinite) applyInfiniteScroll()
     }
 
     fun render(elements: List<T>, itemController: BindableItemController<T, out BindableViewHolder<T>>) {
-        this.elements = elements
         easyAdapter.setItems(ItemList.create()
                 .addAll(elements, itemController))
+        realItemsCount = elements.size
+        if (isInfinite) applyInfiniteScroll()
     }
 
-    /**
-     * Устанавливает бесконечную прокрутку списка
-     */
-    fun setInfinite(isLooped: Boolean) {
-        this.isLooped = isLooped
+    fun setSnapHelper(snapHelper: SnapHelper) {
+        snapHelper.attachToRecyclerView(this)
+//      TODO: при начальном подцеплении SnapHelper состояние центрирования не устанавливается
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.CarouselView, 0, 0)
         try {
-            isLooped = ta.getBoolean(R.styleable.CarouselView_isLooped, false) //должна ли быть карусель зацикленной
+            isInfinite = ta.getBoolean(R.styleable.CarouselView_isInfinite, false) //должна ли быть карусель зацикленной
         } finally {
             ta.recycle()
         }
     }
 
     private fun updateCenterPosition() {
-        val lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition()
-        val firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition()
-        val centerItemPosition = if (elements.isNotEmpty())
-            (lastVisibleItemPosition + firstVisibleItemPosition) / 2 % elements.size
-        else 0
-        this.centerItem = elements[centerItemPosition]
-        Logger.d("Center Position = " + centerItemPosition)
+        if (realItemsCount != 0) {
+            val lastVisiblePosition = linearLayoutManager.findLastVisibleItemPosition()
+            val firstVisiblePosition = linearLayoutManager.findFirstVisibleItemPosition()
+            this.centerItemPosition = (lastVisiblePosition + firstVisiblePosition) / 2 % realItemsCount
+        }
     }
 
+    private fun applyInfiniteScroll() {
+        if (realItemsCount != 0) { //предотвращает % 0
+            val startPosition = EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2 - (EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2 % realItemsCount)
+            this.linearLayoutManager.scrollToPosition(startPosition)
+        }
+    }
 }

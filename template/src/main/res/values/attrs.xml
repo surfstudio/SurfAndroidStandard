@@ -36,6 +36,6 @@
     </declare-styleable>
 
     <declare-styleable name="CarouselView">
-        <attr name="isLooped" format="boolean" />
+        <attr name="isInfinite" format="boolean" />
     </declare-styleable>
 </resources>

@@ -10,8 +10,6 @@ import android.view.View
 /**
  * SnapHelper прибивающий элемент к левому краю экрана
  */
-
-
 class StartSnapHelper : LinearSnapHelper() {
 
     private var mVerticalHelper: OrientationHelper? = null

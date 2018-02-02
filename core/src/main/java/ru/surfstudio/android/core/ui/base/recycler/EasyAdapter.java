@@ -51,7 +51,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private List<ItemInfo> lastItemsInfo = new ArrayList<>();
     private SparseArray<BaseItemController> supportedItemControllers = new SparseArray<>();
     private boolean autoNotifyOnSetItemsEnabled = true;
-    private boolean infiniteScroll = false;
+    private boolean infiniteScroll;
     private BaseItem<BaseViewHolder> firstInvisibleItem = new NoDataItem<>(new FirstInvisibleItemController());
 
     public EasyAdapter() {
@@ -140,9 +140,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
      */
     protected void setItems(@NonNull ItemList items, boolean autoNotify) {
         this.items.clear();
-        if (items.isEmpty() || items.get(0) != firstInvisibleItem) {
-            this.items.add(firstInvisibleItem);
-        }
+        // TODO:убрать, когда можно будет отключить этот 1й невидимый элемент
+//        if (items.isEmpty() || items.get(0) != firstInvisibleItem) {
+//            this.items.add(firstInvisibleItem);
+//        }
         this.items.addAll(items);
         if (autoNotify) {
             autoNotify();
@@ -203,7 +204,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private int getListPosition(int adapterPosition) {
-        return infiniteScroll ? adapterPosition % items.size() : adapterPosition;
+        return infiniteScroll
+                ? adapterPosition % items.size()
+                : adapterPosition;
     }
 
     private class ItemInfo {
