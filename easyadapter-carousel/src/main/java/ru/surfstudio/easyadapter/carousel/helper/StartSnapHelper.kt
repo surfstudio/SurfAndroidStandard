@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.common.widget.carousel.snapHelpers
+package ru.surfstudio.easyadapter.carousel.helper
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.LinearSnapHelper

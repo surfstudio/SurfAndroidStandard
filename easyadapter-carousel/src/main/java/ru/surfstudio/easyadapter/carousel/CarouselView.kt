@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.common.widget.carousel
+package ru.surfstudio.easyadapter.carousel
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -9,7 +9,6 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.impl.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.impl.holder.BindableViewHolder
-import ru.surfstudio.standard.R
 
 /**
  * Вью-карусель элементов

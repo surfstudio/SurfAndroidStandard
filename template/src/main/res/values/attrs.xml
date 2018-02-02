@@ -34,8 +34,4 @@
         <attr name="errorButtonText" format="string" />
         <attr name="errorIcon" format="reference" />
     </declare-styleable>
-
-    <declare-styleable name="CarouselView">
-        <attr name="isInfinite" format="boolean" />
-    </declare-styleable>
 </resources>

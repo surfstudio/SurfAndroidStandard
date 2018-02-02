@@ -23,6 +23,10 @@
     {
       "name": "easyadapter",
       "path": ""
+    },
+    {
+      "name": "easyadapter-carousel",
+      "path": ""
     }
   ]
 }
