@@ -2,10 +2,11 @@
 package ${packageName};
 
 import android.support.annotation.Nullable;
+<#if generateToolbar>
 import android.support.v7.widget.Toolbar;
+</#if>
 
-
-public class ${className}${screenTypeCapitalized}View extends <@superClass.selectTypeView /> {
+public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> {
 
     @Inject
     ${className}Presenter presenter;
@@ -100,7 +101,7 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
                 <#if (screenType='activity' && typeViewActivity!='4') || (screenType=='fragment' && typeViewFragment!='4')>
                     @Override
                     protected BasePaginationableAdapter getPaginationableAdapter() {
-                        return null;
+                        return adapter;
                     }
                 </#if>
             </#if>
