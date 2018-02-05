@@ -24,8 +24,8 @@ class TitleSubtitleView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : LinearLayout(context, attributeSet, defStyleAttr) {
 
-    private var titleView: TextView
-    private var subTitleView: TextView
+    private var titleView: TextView = TextView(context)
+    private var subTitleView: TextView = TextView(context)
 
     private var defaultTitle: String = "Title"
         set(value) {
@@ -55,12 +55,9 @@ class TitleSubtitleView @JvmOverloads constructor(
     var onSubTitleClickListenerCallback: (String) -> Unit = {}
 
     init {
-        inflate(context, R.layout.layout_title_subtitle_view, this)
         orientation = LinearLayout.VERTICAL
 
-        titleView = findViewById(R.id.view_title_subtitle_title_tv)
-        subTitleView = findViewById(R.id.view_title_subtitle_subtitle_tv)
-//        addViews()
+        addViews()
         applyAttrs(attributeSet)
         initListeners()
     }
@@ -95,19 +92,14 @@ class TitleSubtitleView @JvmOverloads constructor(
         with(titleView) {
             defaultTitle = ta.getString(R.styleable.TitleSubtitleView_titleText) ?: defaultTitle
 
-            val ap = ta.getResourceId(R.styleable.TitleSubtitleView_titleTextAppearance, -1)
-            Logger.d("TitleSubtitleView ttleTextAppearance $ap")
-            if (ap != -1) {
-                TextViewCompat.setTextAppearance(this, ap)
-            }
-
-            textSize = ta.getDimensionPixelSize(R.styleable.TitleSubtitleView_titleTextSize, -1).toFloat()
+            setupTextAppearance(ta, R.styleable.TitleSubtitleView_titleTextAppearance)
+            setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
 
             setTextColor(ta.getColor(
                     R.styleable.TitleSubtitleView_titleTextColor,
                     ContextCompat.getColor(context, android.R.color.black)
             ))
-            Logger.d("TitleSubtitleView ttleTextAppearance after $ap")
+
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_titleLineSpacingExtra, 0f), 1f)
             setPadding(
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titlePaddingStart, 0),
@@ -134,15 +126,9 @@ class TitleSubtitleView @JvmOverloads constructor(
         with(subTitleView) {
             defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText) ?: defaultSubTitle
 
-            val ap = ta.getResourceId(R.styleable.TitleSubtitleView_subTitleTextAppearance, -1)
-            if (ap != -1) {
-                TextViewCompat.setTextAppearance(this, ap)
-            }
+            setupTextAppearance(ta, R.styleable.TitleSubtitleView_subTitleTextAppearance)
+            setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
 
-            val size = ta.getDimensionPixelSize(R.styleable.TitleSubtitleView_subTitleTextSize, textSize.toInt()).toFloat()
-            if (size > 0) {
-                setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
-            }
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_subTitleLineSpacingExtra, 0f), 1f)
 
             setTextColor(ta.getColor(
@@ -167,6 +153,20 @@ class TitleSubtitleView @JvmOverloads constructor(
             ))
 
             ellipsize = getEllipsizeFromResource(ta, R.styleable.TitleSubtitleView_subTitleEllipsize)
+        }
+    }
+
+    private fun TextView.setupTextAppearance(ta: TypedArray, index: Int) {
+        val ap = ta.getResourceId(index, -1)
+        if (ap != -1) {
+            TextViewCompat.setTextAppearance(this, ap)
+        }
+    }
+
+    private fun TextView.setupTextSize(ta: TypedArray, index: Int) {
+        val size = ta.getDimensionPixelSize(index, -1).toFloat()
+        if (size > 0) {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, size)
         }
     }
 
