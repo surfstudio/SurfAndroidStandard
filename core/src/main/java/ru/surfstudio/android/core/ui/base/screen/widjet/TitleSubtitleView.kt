@@ -10,14 +10,15 @@ import android.util.TypedValue
 import android.widget.LinearLayout
 import android.widget.TextView
 import ru.surfstudio.android.core.R
-import ru.surfstudio.android.logger.Logger
-
-/**
- * Виджет для отображения текста с подписью
- */
 
 private const val DEFAULT_MAX_LINES: Int = 5
 
+/**
+ * Виджет для отображения текста с подписью
+ *
+ * Изменять параметры форматирования текста можно посредством атрибутов в xml.
+ * Возможно изменение заголовка и подписи по отдельности.
+ */
 class TitleSubtitleView @JvmOverloads constructor(
         context: Context,
         attributeSet: AttributeSet? = null,
