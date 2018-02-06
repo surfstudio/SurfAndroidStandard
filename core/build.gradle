@@ -111,8 +111,5 @@ dependencies {
     testImplementation "org.powermock:powermock-classloading-xstream:${porwerMockVersion}"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
-repositories {
-    mavenCentral()
-}
 
 apply plugin: 'kotlin-android-extensions'

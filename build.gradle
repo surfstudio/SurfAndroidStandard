@@ -30,7 +30,6 @@ allprojects {
 
 buildscript {
     ext.kotlin_version = '1.2.21'
-    ext.kotlin_version = '1.2.10'
     ext.fabricToolsVersion = '1.24.4'
 
     repositories {
