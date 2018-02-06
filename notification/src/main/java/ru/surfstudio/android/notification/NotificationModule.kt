@@ -1,8 +1,8 @@
-package ru.surf.android.notification
+package ru.surfstudio.android.notification
 
 import dagger.Module
 import dagger.Provides
-import ru.surf.android.notification.ui.notification.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.core.util.ActiveActivityHolder
 
 /**

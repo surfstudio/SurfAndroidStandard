@@ -1,10 +1,10 @@
-package ru.surf.android.notification.ui.notification
+package ru.surfstudio.android.notification.ui.notification
 
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
-import ru.surf.android.notification.interactor.push.BaseNotificationTypeData
-import ru.surf.android.notification.interactor.push.PushInteractor
+import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
+import ru.surfstudio.android.notification.interactor.push.PushInteractor
 
 /**
  * Стратегия обработки пуша

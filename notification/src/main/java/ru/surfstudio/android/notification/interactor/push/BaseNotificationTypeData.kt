@@ -1,4 +1,4 @@
-package ru.surf.android.notification.interactor.push
+package ru.surfstudio.android.notification.interactor.push
 
 import java.io.Serializable
 

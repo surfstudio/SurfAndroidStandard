@@ -19,6 +19,22 @@
     {
       "name": "filestorage",
       "path": ""
+    },
+    {
+      "name": "notification",
+      "path": ""
+    },
+    {
+      "name": "dagger-scope",
+      "path": ""
+    },
+    {
+      "name": "logger",
+      "path": ""
+    },
+    {
+      "name": "converter-gson",
+      "path": ""
     }
   ]
 }

@@ -1,4 +1,4 @@
-package ru.surf.android.notification.ui.notification
+package ru.surfstudio.android.notification.ui.notification
 
 import ru.surfstudio.android.logger.Logger
 import java.util.*

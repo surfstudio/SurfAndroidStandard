@@ -1,4 +1,4 @@
-package ru.surf.android.notification.interactor.push
+package ru.surfstudio.android.notification.interactor.push
 
 import ru.surfstudio.android.core.domain.Unit
 import java.io.Serializable

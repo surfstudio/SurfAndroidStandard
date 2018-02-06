@@ -1,12 +1,8 @@
-package ru.surf.android.notification.ui.notification
+package ru.surfstudio.android.notification.ui.notification
 
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.support.v4.app.NotificationCompat
-import ru.surf.android.notification.R
-import ru.surf.android.notification.interactor.push.BaseNotificationTypeData
-import java.io.Serializable
 
 /**
  * Помошник создания нотификации в системном трее
