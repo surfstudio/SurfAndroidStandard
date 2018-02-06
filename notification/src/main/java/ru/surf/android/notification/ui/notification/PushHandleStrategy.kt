@@ -39,7 +39,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     /**
      * Требуемое действие нотификации
      *
-     * @param activity       текущая активная активити
+     * @param context      текущий контекст
      * @param pushInteractor пуш интерактор
      * @param title          заголвок пуша
      * @param body           сообщение пуша
@@ -47,7 +47,8 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
      */
     fun handle(context: Context,
                pushInteractor: PushInteractor,
-               title: String, body: String,
+               title: String,
+               body: String,
                data: Map<String, String>) {
 
         typeData.setDataFromMap(data)
