@@ -63,6 +63,20 @@ class TitleSubtitleView @JvmOverloads constructor(
         initListeners()
     }
 
+    /**
+     * Возвращает заголовок к дефолтному значению
+     */
+    fun resetTitleText() {
+        titleText = defaultTitle
+    }
+
+    /**
+     * Возвращает подзаголовок к дефолтному значению
+     */
+    fun resetSubTitleText() {
+        subTitleText = defaultSubTitle
+    }
+
     private fun addViews() {
         addView(titleView)
         addView(subTitleView)
