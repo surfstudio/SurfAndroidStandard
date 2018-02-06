@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+def config = rootProject.extensions.getByName("ext")
+
+android {
+    compileSdkVersion 26
+
+    kapt {
+        generateStubs = true
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+
+    def daggerVersion = config["daggerVersion"]
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //firebase
+    provided "com.google.firebase:firebase-core:${playServicesVersion}"
+    provided "com.google.firebase:firebase-messaging:${playServicesVersion}"
+
+    //di
+    provided "com.google.dagger:dagger:${daggerVersion}"
+    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
+
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    provided "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    provided project(path: ':core')
+    provided project(path: ':dagger-scope')
+    compile project(path: ':logger')
+}
+repositories {
+    mavenCentral()
+}
