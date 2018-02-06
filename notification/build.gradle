@@ -35,10 +35,6 @@ dependencies {
     def daggerVersion = config["daggerVersion"]
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    //firebase
-    provided "com.google.firebase:firebase-core:${playServicesVersion}"
-    provided "com.google.firebase:firebase-messaging:${playServicesVersion}"
-
     //di
     provided "com.google.dagger:dagger:${daggerVersion}"
     kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
