@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.domain.datalist;
+package ru.surfstudio.android.datalistpagecount.domain.datalist;
 
 /**
  * результат изменения списка после {@link DataList#merge(DataList)}

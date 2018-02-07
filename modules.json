@@ -19,6 +19,26 @@
     {
       "name": "filestorage",
       "path": ""
+    },
+    {
+      "name": "datalist-limit-offset",
+      "path": ""
+    },
+    {
+      "name": "datalist-page-count",
+      "path": ""
+    },
+    {
+      "name": "dagger-scope",
+      "path": ""
+    },
+    {
+      "name": "logger",
+      "path": ""
+    },
+    {
+      "name": "converter-gson",
+      "path": ""
     }
   ]
 }

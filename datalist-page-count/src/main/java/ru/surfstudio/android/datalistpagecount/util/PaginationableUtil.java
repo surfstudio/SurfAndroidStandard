@@ -1,13 +1,14 @@
-package ru.surfstudio.android.core.ui.util;
+package ru.surfstudio.android.datalistpagecount.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import ru.surfstudio.android.core.domain.datalist.DataList;
 import ru.surfstudio.android.core.util.rx.ObservableUtil;
 import ru.surfstudio.android.core.util.rx.SafeFunction;
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList;
+
 
 public class PaginationableUtil {
 
