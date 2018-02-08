@@ -1,6 +1,5 @@
 package ru.surfstudio.android.network.calladapter;
 
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -10,6 +9,7 @@ import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.HttpException;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import ru.surfstudio.android.network.error.NoInternetException;
 
