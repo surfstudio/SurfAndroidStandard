@@ -9,7 +9,7 @@
     <item name="toolbar" type="id" />
     <item name="tab_layout" type="id" />
 
-    <!-- ключ для тэгов в ImageLoader -->
+    <!-- ключ для тэгоImageLoaderOldader -->
     <item name="image_loader_tag" type="id" />
 
     <item name="shadow_from_top" type="id" />

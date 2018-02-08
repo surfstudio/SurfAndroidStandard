@@ -39,7 +39,8 @@ import ru.surfstudio.android.logger.Logger;
  * Класс-прокси, реализующий загрузку изображений с необходимостью абстрагироваться от реализации контракта библиотеки
  * Необходимо проксировать абсолютно все запросы на отображение изображения
  */
-public final class ImageLoader {
+@Deprecated
+public final class ImageLoaderOld {
 
     public static final int NO_SIZE = -1;
 
@@ -103,12 +104,12 @@ public final class ImageLoader {
         }
     };
 
-    private ImageLoader(Context context) {
+    private ImageLoaderOld(Context context) {
         this.context = context;
     }
 
-    public static ImageLoader with(Context context) {
-        return new ImageLoader(context);
+    public static ImageLoaderOld with(Context context) {
+        return new ImageLoaderOld(context);
     }
 
     private static Bitmap getBitmap(VectorDrawableCompat vectorDrawable) {
@@ -129,22 +130,22 @@ public final class ImageLoader {
         return bitmap;
     }
 
-    public ImageLoader url(String url) {
+    public ImageLoaderOld url(String url) {
         this.url = url;
         return this;
     }
 
-    public ImageLoader url(@DrawableRes int drawableUri) {
+    public ImageLoaderOld url(@DrawableRes int drawableUri) {
         this.drawableUri = drawableUri;
         return this;
     }
 
-    public ImageLoader centerCrop(boolean centerCrop) {
+    public ImageLoaderOld centerCrop(boolean centerCrop) {
         this.centerCrop = centerCrop;
         return this;
     }
 
-    public ImageLoader circle(boolean circle) {
+    public ImageLoaderOld circle(boolean circle) {
         this.circle = circle;
         return this;
     }
@@ -153,7 +154,7 @@ public final class ImageLoader {
      * устанавливает максимальный размер изображения
      * отношение ширины и высоты останется неизменным
      */
-    public ImageLoader maxWidth(int maxWidth) {
+    public ImageLoaderOld maxWidth(int maxWidth) {
         this.maxWidth = maxWidth;
         return this;
     }
@@ -162,7 +163,7 @@ public final class ImageLoader {
      * устанавливает максимальный размер изображения
      * отношение ширины и высоты останется неизменным
      */
-    public ImageLoader maxHeight(int maxHeight) {
+    public ImageLoaderOld maxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
         return this;
     }
@@ -173,26 +174,26 @@ public final class ImageLoader {
      * @param radius радиус угла в пикселях
      * @param margin отступ от края в пикселях
      */
-    public ImageLoader roundedCorners(int radius, int margin, CornerType cornerType) {
+    public ImageLoaderOld roundedCorners(int radius, int margin, CornerType cornerType) {
         this.cornerRadius = radius;
         this.cornerMargin = margin;
         this.cornerType = cornerType;
         return this;
     }
 
-    public ImageLoader roundedAllCorners(int radius, int margin) {
+    public ImageLoaderOld roundedAllCorners(int radius, int margin) {
         this.cornerRadius = radius;
         this.cornerMargin = margin;
         this.cornerType = CornerType.ALL;
         return this;
     }
 
-    public ImageLoader blur(boolean blurTransform) {
+    public ImageLoaderOld blur(boolean blurTransform) {
         this.blurTransform = blurTransform;
         return this;
     }
 
-    public ImageLoader blur(int radius, int sampling) {
+    public ImageLoaderOld blur(int radius, int sampling) {
         blurTransform = true;
         blurRadius = radius;
         blurSampling = sampling;
@@ -202,7 +203,7 @@ public final class ImageLoader {
     /**
      * Наложение drawable с {@code PorterDuff.Mode.DST_ATOP}
      */
-    public ImageLoader overlay(@DrawableRes int resId) {
+    public ImageLoaderOld overlay(@DrawableRes int resId) {
         overlayResId = resId;
         return this;
     }
@@ -210,22 +211,22 @@ public final class ImageLoader {
     /**
      * Масковая трансформация, может работать с NinePatch
      */
-    public ImageLoader mask(@DrawableRes int resId) {
+    public ImageLoaderOld mask(@DrawableRes int resId) {
         maskResId = resId;
         return this;
     }
 
-    public ImageLoader preview(@DrawableRes int resId) {
+    public ImageLoaderOld preview(@DrawableRes int resId) {
         this.previewResId = resId;
         return this;
     }
 
-    public ImageLoader error(@DrawableRes int resId) {
+    public ImageLoaderOld error(@DrawableRes int resId) {
         this.errorResId = resId;
         return this;
     }
 
-    public ImageLoader skipCache(boolean skipCache) {
+    public ImageLoaderOld skipCache(boolean skipCache) {
         this.skipCache = skipCache;
         return this;
     }
@@ -235,7 +236,7 @@ public final class ImageLoader {
      *
      * @see Bitmap#createScaledBitmap(Bitmap, int, int, boolean)
      */
-    public ImageLoader filterBitMapOnScale(boolean filterBitmapOnScale) {
+    public ImageLoaderOld filterBitMapOnScale(boolean filterBitmapOnScale) {
         this.filterBitmapOnScale = filterBitmapOnScale;
         return this;
     }
@@ -267,7 +268,7 @@ public final class ImageLoader {
                 .downloadOnly(new SimpleTarget<File>() {
                     @Override
                     public void onResourceReady(File resource, GlideAnimation<? super File> glideAnimation) {
-                        Logger.d("Image loaded to cache " + (resource != null ? resource.getAbsolutePath() : "null" ));
+                        Logger.d("Image loaded to cache " + (resource != null ? resource.getAbsolutePath() : "null"));
                     }
 
                     @Override
@@ -331,7 +332,7 @@ public final class ImageLoader {
         });
     }
 
-    public ImageLoader clear(ImageView imageView) {
+    public ImageLoaderOld clear(ImageView imageView) {
         Glide.clear(imageView);
         return this;
     }
@@ -342,12 +343,12 @@ public final class ImageLoader {
                 : null;
     }
 
-    public ImageLoader listener(OnImageLoadedListener listener) {
+    public ImageLoaderOld listener(OnImageLoadedListener listener) {
         this.listener = listener;
         return this;
     }
 
-    public ImageLoader errorlistener(OnImageErrorLoadListener errorLoadListener) {
+    public ImageLoaderOld errorlistener(OnImageErrorLoadListener errorLoadListener) {
         this.errorLoadLisner = errorLoadListener;
         return this;
     }

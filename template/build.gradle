@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 def config = rootProject.extensions.getByName("ext")
@@ -56,6 +57,7 @@ dependencies {
     def okHttpVersion = '3.4.1'
 
     //Kotlin
+    def kotlinVersion = config["kotlinVersion"]
     def ankoVersion = config["ankoVersion"]
 
     //Testing Library, Apt Versions
@@ -67,17 +69,16 @@ dependencies {
 //    implementation 'ru.surfstudio.standard:analytics:0.0.1'//todo
     implementation project(':core')
     implementation project(':analytics')
-    implementation project(':core')
-    implementation project(':analytics')
     implementation project(':network')
     implementation project(':converter-gson')
     implementation project(':filestorage')
     implementation project(':logger')
     implementation project(':dagger-scope')
+    implementation project(':imageloader')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     provided "com.google.dagger:dagger:${daggerVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlinVersion}"
 
     //provided
     kapt 'javax.annotation:jsr250-api:1.0'

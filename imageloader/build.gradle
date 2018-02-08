@@ -24,10 +24,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
-    /*def appcompatVersion = config["appcompatVersion"]
-    implementation "com.android.support:appcompat-v7:${appcompatVersion}"*/
+    def kotlinVersion = config["kotlinVersion"]
+    def glideVersion = config["glideVersion"]
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+
+    api "com.github.bumptech.glide:glide:${glideVersion}"
+}
+repositories {
+    mavenCentral()
 }

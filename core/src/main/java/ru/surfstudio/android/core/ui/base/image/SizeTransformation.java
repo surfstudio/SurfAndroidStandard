@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
-import static ru.surfstudio.android.core.ui.base.image.ImageLoader.NO_SIZE;
+import static ru.surfstudio.android.core.ui.base.image.ImageLoaderOld.NO_SIZE;
 
 
 /**
