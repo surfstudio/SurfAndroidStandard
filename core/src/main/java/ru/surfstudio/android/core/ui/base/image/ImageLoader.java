@@ -35,7 +35,6 @@ import ru.surfstudio.android.core.ui.base.image.RoundedCornersTransformation.Cor
 import ru.surfstudio.android.core.ui.base.image.blur.BlurTransformation;
 import ru.surfstudio.android.logger.Logger;
 
-
 /**
  * Класс-прокси, реализующий загрузку изображений с необходимостью абстрагироваться от реализации контракта библиотеки
  * Необходимо проксировать абсолютно все запросы на отображение изображения

@@ -6,8 +6,8 @@ ext {
     versionName = "0.0.1"
     buildToolsVersion = "26.0.2"
     minSdkVersion = 19
-    targetSdkVersion = 26
-    compileSdkVersion = 26
+    targetSdkVersion = 27
+    compileSdkVersion = 27
     debugVersionNameSuffix = ".debug"
 
     daggerVersion = '2.11'
