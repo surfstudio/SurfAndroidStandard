@@ -68,7 +68,6 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
 
     fun setSnapHelper(snapHelper: SnapHelper) {
         snapHelper.attachToRecyclerView(this)
-//      TODO: при начальном подцеплении SnapHelper состояние центрирования не устанавливается
     }
 
     private fun initAttrs(context: Context, attrs: AttributeSet?) {
