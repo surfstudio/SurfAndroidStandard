@@ -10,12 +10,12 @@ import ru.surfstudio.android.core.util.ActiveActivityHolder
  */
 @Module
 class NotificationModule(
-        private val activeActivityHoder: ActiveActivityHolder,
+        private val activeActivityHolder: ActiveActivityHolder,
         private val pushHandleStrategyFactory: AbstractPushHandleStrategyFactory
 ) {
 
     @Provides
-    fun provideActiveActivityHolder(): ActiveActivityHolder = activeActivityHoder
+    fun provideActiveActivityHolder(): ActiveActivityHolder = activeActivityHolder
 
     @Provides
     fun providePushHanleFactory(): AbstractPushHandleStrategyFactory = pushHandleStrategyFactory
