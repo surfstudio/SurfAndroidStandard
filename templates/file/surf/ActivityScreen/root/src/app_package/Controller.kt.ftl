@@ -1,5 +1,5 @@
 <#import "macros/select_type_controller_macros.ftl" as controllerMacros>
-package ${packageName};
+package ${packageName}
 
 class ${nameController}${defPostfixController}(<#if hasListener>
         private val onClickListener: (<#if typeController='1'>${nameParam}: ${nameTypeData} </#if>) -> Unit

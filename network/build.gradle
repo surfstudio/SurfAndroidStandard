@@ -57,6 +57,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    // network
+    implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    api "com.google.code.gson:gson:${gsonVersion}"
+
     //tests
     testImplementation 'junit:junit:4.12'
     testImplementation "org.powermock:powermock-module-junit4:${porwerMockVersion}"

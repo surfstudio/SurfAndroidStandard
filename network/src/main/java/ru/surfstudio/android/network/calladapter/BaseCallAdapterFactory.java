@@ -1,6 +1,5 @@
 package ru.surfstudio.android.network.calladapter;
 
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -11,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.HttpException;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import ru.surfstudio.android.network.error.NoInternetException;
 
 /**
@@ -21,29 +20,29 @@ import ru.surfstudio.android.network.error.NoInternetException;
  */
 public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 
-    private RxJavaCallAdapterFactory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
+    private RxJava2CallAdapterFactory rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create();
 
     @SuppressWarnings("unchecked")
     @Override
-    public CallAdapter<?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
-        CallAdapter<Observable<?>> rxCallAdapter =
-                (CallAdapter<Observable<?>>) rxJavaCallAdapterFactory.get(returnType, annotations, retrofit);
+    public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
+        CallAdapter<Observable<?>, Observable<?>> rxCallAdapter =
+                (CallAdapter<Observable<?>, Observable<?>>) rxJavaCallAdapterFactory.get(returnType, annotations, retrofit);
         return new ResultCallAdapter(rxCallAdapter, returnType);
     }
 
     /**
      * Метод обработки ошибки {@link HttpException}
      * Здесь определеяется поведение на различные коды ошибок. Например:
-     * * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
-     * * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
+     *      * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
+     *      * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
      */
     public abstract <R> Observable<R> onHttpException(HttpException e);
 
-    private final class ResultCallAdapter implements CallAdapter<Observable<?>> {
+    private final class ResultCallAdapter implements CallAdapter<Observable<?>, Observable<?>> {
         private final Type responseType;
-        private final CallAdapter<Observable<?>> rxCallAdapter;
+        private final CallAdapter<Observable<?>, Observable<?>> rxCallAdapter;
 
-        protected ResultCallAdapter(CallAdapter<Observable<?>> rxCallAdapter, Type returnType) {
+        protected ResultCallAdapter(CallAdapter<Observable<?>, Observable<?>> rxCallAdapter, Type returnType) {
             Type observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
             this.rxCallAdapter = rxCallAdapter;
             this.responseType = observableType;
@@ -56,8 +55,8 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 
         @SuppressWarnings("unchecked")
         @Override
-        public <R> Observable<R> adapt(Call<R> call) {
-            Observable<R> observable = (Observable<R>) rxCallAdapter.adapt(call);
+        public Observable<?> adapt(Call<Observable<?>> call) {
+            Observable<?> observable = rxCallAdapter.adapt(call);
             return observable.onErrorResumeNext((Throwable e) -> handleNetworkError(e));
         }
 

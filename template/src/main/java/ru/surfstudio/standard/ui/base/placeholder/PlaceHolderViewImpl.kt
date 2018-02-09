@@ -76,7 +76,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
     private var loadingPb: ProgressBar? = null
     private var contentContainer: ViewGroup? = null
 
-    private var listener: OnActionClickListener? = null
+    private var listener: ((LoadState) -> Unit)? = null
 
     private var viewDataMap: MutableMap<LoadState, ViewData> = HashMap()
     private var defaultViewData: ViewData? = null
@@ -87,10 +87,6 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
     private var state = LoadState.UNSPECIFIED
 
     private var visibleUptime: Long = 0
-
-    interface OnActionClickListener {
-        fun onActionClick(state: LoadState)
-    }
 
     init {
         init(context, attrs, defStyle)
@@ -125,7 +121,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         visibility = View.VISIBLE
     }
 
-    fun setOnActionClickListener(listener: OnActionClickListener) {
+    fun setOnActionClickListener(listener: ((LoadState) -> Unit)?) {
         this.listener = listener
     }
 
@@ -208,10 +204,8 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         contentContainer!!.addView(subtitleTv)
         contentContainer!!.addView(submitBtn)
 
-        submitBtn!!.setOnClickListener { _ ->
-            if (listener != null) {
-                listener!!.onActionClick(state)
-            }
+        submitBtn!!.setOnClickListener { v ->
+            listener?.invoke(state)
         }
     }
 
