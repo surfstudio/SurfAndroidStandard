@@ -8,7 +8,6 @@ import ru.surfstudio.android.core.ui.base.screen.activity.BaseRenderableHandleab
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
 import ru.surfstudio.android.imageloader.ImageLoader
 import ru.surfstudio.standard.R
-import ru.surfstudio.standard.R.id.image_view
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 
 import javax.inject.Inject
@@ -40,7 +39,6 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         ImageLoader
                 .with(this)
-                .url("url")
                 .into(image_view)
     }
 

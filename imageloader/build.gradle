@@ -30,10 +30,12 @@ dependencies {
     def kotlinVersion = config["kotlinVersion"]
     def glideVersion = config["glideVersion"]
 
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+    provided project(':logger')
 
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
     api "com.github.bumptech.glide:glide:${glideVersion}"
 }
+
 repositories {
     mavenCentral()
 }

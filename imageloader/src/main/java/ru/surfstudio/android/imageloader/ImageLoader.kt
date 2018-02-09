@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import ru.surfstudio.android.logger.Logger
 
 /**
  * Загрузчик изображений.
@@ -18,7 +19,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var targetView: View? = null    //целевая View, в которой отрисовывается изображение
     private var url: String = ""            //сетевая ссылка на изображение
     @DrawableRes
-    private var drawableUri: Int = DEFAULT_DRAWABLE_URI //ссылка на drawable-ресурс
+    private var drawableResId: Int = DEFAULT_DRAWABLE_URI   //ссылка на drawable-ресурс
+    @DrawableRes
+    private var errorResId: Int = DEFAULT_DRAWABLE_URI      //ссылка на drawable-ресурс при ошибке
 
     companion object {
         fun with(context: Context) = ImageLoader(context)
@@ -30,13 +33,29 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param url сетевая ссылка на изображение
      */
     @Throws(IllegalArgumentException::class)
-    override fun url(url: String): ImageLoader {
-        if (!Patterns.WEB_URL.matcher(url).matches()) {
-            throw IllegalArgumentException("ImageLoader.url() / Некорректная ссылка на изображение: $url")
-        }
-        this.url = url
-        return this
-    }
+    override fun url(url: String) =
+            this.apply {
+                if (isUrlValid(url)) {
+                    Logger.e("ImageLoader.url() / Некорректная ссылка на изображение: $url")
+                }
+                this.url = url
+            }
+
+    /**
+     * Загрузка изображения из ресурсов
+     *
+     * @param drawableResId ссылка на ресурс из папки res/drawable
+     */
+    override fun url(@DrawableRes drawableResId: Int) =
+            this.apply { this.drawableResId = drawableResId }
+
+    /**
+     * Указание графического ресурса, отображаемого в случае ошибки загрузки
+     *
+     * @param drawableResId ссылка на ресурс из папки res/drawable
+     */
+    override fun error(@DrawableRes drawableResId: Int) =
+            this.apply { this.errorResId = drawableResId }
 
     /**
      * Указание целевой [ImageView]
@@ -45,16 +64,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun into(imageView: ImageView) {
         this.targetView = imageView
-        /*if (drawableUri == 0 && url == null) {
-            imageView.setImageDrawable(getCompatDrawable(errorResId))
-            return
-        }*/
 
-        /*if (imageView.getTag(R.id.image_loader_tag) != null && url == imageView.getTag(R.id.image_loader_tag)) {
-            return
-        }*/
+        if (!isImagePresented(imageView)) return
+        if (isTagUsed(imageView)) return
 
-        imageView.setTag(R.id.image_loader_tag, url)
+        setTag(imageView)
         buildRequest().into(imageView)
     }
 
@@ -106,7 +120,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         //.bitmapTransform(new Transform());*/
         return Glide.with(context)
                 .asBitmap()
-                .load(if (isImageFromResources()) drawableUri else url)
+                .load(if (isImageFromResourcesPresented()) drawableResId else url)
         /*.error(errorBitmap)
         .thumbnail(placeholderBitmap)
         .apply(RequestOptions()
@@ -117,7 +131,66 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     /**
+     * Проверка на наличие изображения для загрузки (из ресурсов или из сети).
+     *
+     * Если изображение не предоставлено - устанавливается [errorResId].
+     */
+    private fun isImagePresented(imageView: ImageView): Boolean {
+        if (!isImageFromResourcesPresented() && !isImageFromNetworkPresented()) {
+            if (isErrorPresented()) {
+                setErrorImage(imageView)
+            }
+            return false
+        }
+        return true
+    }
+
+    /**
+     * Установка заглушки ошибки для [ImageView]
+     *
+     * @param imageView экземпляр [ImageView], куда устанавливается заглушка
+     */
+    private fun setErrorImage(imageView: ImageView) {
+        imageView.setImageResource(errorResId)
+    }
+
+    /**
      * Загружается ли изображение из res/drawable
      */
-    private fun isImageFromResources() = drawableUri != DEFAULT_DRAWABLE_URI
+    private fun isImageFromResourcesPresented() = drawableResId != DEFAULT_DRAWABLE_URI
+
+    /**
+     * Загружается ли изображение из сети
+     */
+    private fun isImageFromNetworkPresented() = url.isNotEmpty()
+
+    /**
+     * Предоставлено ли изображение для ошибки
+     */
+    private fun isErrorPresented() = errorResId != DEFAULT_DRAWABLE_URI
+
+    /**
+     * Проверка валидность URL
+     *
+     * @param url проверяемая ссылка
+     */
+    private fun isUrlValid(url: String) = !Patterns.WEB_URL.matcher(url).matches()
+
+    /**
+     * Установка тэга на [ImageView]
+     */
+    private fun setTag(imageView: ImageView) {
+        imageView.setTag(R.id.image_loader_tag, url)
+    }
+
+    /**
+     * Извлечения тэга
+     */
+    private fun getTag(imageView: ImageView) = imageView.getTag(R.id.image_loader_tag)
+
+    /**
+     * Проверка тэга на то, был ли он ранее уже использован
+     */
+    private fun isTagUsed(imageView: ImageView) =
+            getTag(imageView) != null && url == getTag(imageView)
 }
