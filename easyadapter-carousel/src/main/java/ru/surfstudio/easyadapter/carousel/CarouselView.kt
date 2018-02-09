@@ -15,6 +15,12 @@ import ru.surfstudio.android.easyadapter.impl.holder.BindableViewHolder
  */
 class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : RecyclerView(context, attributeSet) {
 
+    var centerItemChangedListener: (position: Int) -> Unit = {}
+
+    private var realItemsCount = 0
+    private val easyAdapter: EasyAdapter = EasyAdapter()
+    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
     var centerItemPosition: Int = 0
         set(value) {
             if (value != field) { //нас интересуют только отличающиеся от старого значения
@@ -22,8 +28,6 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
             }
             field = value
         }
-
-    var centerItemChangedListener: (position: Int) -> Unit = {}
 
     var isInfinite = false
         set(value) {
@@ -34,12 +38,10 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
             }
         }
 
-    private var realItemsCount = 0
-    private val easyAdapter: EasyAdapter = EasyAdapter()
-    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
     init {
         initAttrs(context, attributeSet)
+        easyAdapter.setFirstInvisibleItemEnabled(false)
+
         this.layoutManager = linearLayoutManager
         this.adapter = easyAdapter
 
@@ -87,9 +89,7 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
     }
 
     private fun applyInfiniteScroll() {
-        if (realItemsCount != 0) { //предотвращает % 0
-            val startPosition = EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2 - (EasyAdapter.INFINITE_SCROLL_FAKE_COUNT / 2 % realItemsCount)
-            this.linearLayoutManager.scrollToPosition(startPosition)
-        }
+        val startPosition = EasyAdapter.INFINITE_SCROLL_LOOPS_COUNT / 2 * realItemsCount
+        this.linearLayoutManager.scrollToPosition(startPosition)
     }
 }

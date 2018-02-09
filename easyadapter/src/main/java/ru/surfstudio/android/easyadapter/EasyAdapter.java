@@ -46,15 +46,16 @@ import ru.surfstudio.android.easyadapter.impl.item.NoDataItem;
  */
 public class EasyAdapter extends RecyclerView.Adapter {
 
-    public static final int INFINITE_SCROLL_FAKE_COUNT = 1000;
+    public static final int INFINITE_SCROLL_LOOPS_COUNT = 100;
 
     private List<BaseItem> items = new ArrayList<>();
     private List<ItemInfo> lastItemsInfo = new ArrayList<>();
     private SparseArray<BaseItemController> supportedItemControllers = new SparseArray<>();
     private boolean autoNotifyOnSetItemsEnabled = true;
     private boolean firstInvisibleItemEnabled = true;
-    private boolean infiniteScroll;
     private BaseItem<BaseViewHolder> firstInvisibleItem = new NoDataItem<>(new FirstInvisibleItemController());
+
+    private boolean infiniteScroll;
 
     public EasyAdapter() {
         setHasStableIds(true);
@@ -85,7 +86,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     @Override
     public final int getItemCount() {
-        return infiniteScroll ? INFINITE_SCROLL_FAKE_COUNT : items.size();
+        return infiniteScroll ? INFINITE_SCROLL_LOOPS_COUNT * items.size() : items.size();
     }
 
     @Override
@@ -135,7 +136,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * automatically calls necessary methods notify...
      */
     public void autoNotify() {
-        final List<ItemInfo> newItemInfo = extractItemInfo();
+        final List<ItemInfo> newItemInfo = extractRealItemInfo();
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
                 new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
         diffResult.dispatchUpdatesTo(this);
@@ -160,6 +161,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
             this.items.add(firstInvisibleItem);
         }
         this.items.addAll(items);
+
         if (autoNotify) {
             autoNotify();
         }
@@ -188,8 +190,11 @@ public class EasyAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private List<ItemInfo> extractItemInfo() {
-        int itemCount = getItemCount();
+    /**
+     * extract real items info, despite of infinite or ordinary scroll
+     */
+    private List<ItemInfo> extractRealItemInfo() {
+        int itemCount = items.size();
         List<ItemInfo> currentItemsInfo = new ArrayList<>(itemCount);
         for (int i = 0; i < itemCount; i++) {
             currentItemsInfo.add(new ItemInfo(
@@ -224,6 +229,59 @@ public class EasyAdapter extends RecyclerView.Adapter {
                 : adapterPosition;
     }
 
+    private class AutoNotifyDiffCallback extends DiffUtil.Callback {
+
+        private final List<ItemInfo> lastItemsInfo;
+        private final List<ItemInfo> newItemsInfo;
+
+        AutoNotifyDiffCallback(List<ItemInfo> lastItemsInfo,
+                               List<ItemInfo> newItemsInfo) {
+            this.lastItemsInfo = lastItemsInfo;
+            this.newItemsInfo = newItemsInfo;
+        }
+
+        @Override
+        public int getOldListSize() {
+            if (infiniteScroll) {
+                return lastItemsInfo.size() * INFINITE_SCROLL_LOOPS_COUNT;
+            } else {
+                return lastItemsInfo.size();
+            }
+        }
+
+        @Override
+        public int getNewListSize() {
+            if (infiniteScroll) {
+                return newItemsInfo.size() * INFINITE_SCROLL_LOOPS_COUNT;
+            } else {
+                return newItemsInfo.size();
+            }
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            if (infiniteScroll) {
+                //magic numbers make every element id unique
+                long lastItemsFakeItemId = lastItemsInfo.get(oldItemPosition % lastItemsInfo.size()).getId() + oldItemPosition + 3578121127L;
+                long newItemsFakeItemId = newItemsInfo.get(newItemPosition % newItemsInfo.size()).getId() + newItemPosition + 3578121127L;
+
+                return lastItemsFakeItemId == newItemsFakeItemId;
+            }
+            return lastItemsInfo.get(oldItemPosition).getId() ==
+                    newItemsInfo.get(newItemPosition).getId();
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            if (infiniteScroll) {
+                oldItemPosition = oldItemPosition % lastItemsInfo.size();
+                newItemPosition = newItemPosition % newItemsInfo.size();
+            }
+            return lastItemsInfo.get(oldItemPosition).getHash() ==
+                    newItemsInfo.get(newItemPosition).getHash();
+        }
+    }
+
     private class ItemInfo {
         private long id;
         private long hash;
@@ -239,39 +297,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
         long getHash() {
             return hash;
-        }
-    }
-
-    private class AutoNotifyDiffCallback extends DiffUtil.Callback {
-
-        private final List<ItemInfo> lastItemsInfo;
-        private final List<ItemInfo> newItemsInfo;
-
-        AutoNotifyDiffCallback(List<ItemInfo> lastItemsInfo, List<ItemInfo> newItemsInfo) {
-            this.lastItemsInfo = lastItemsInfo;
-            this.newItemsInfo = newItemsInfo;
-        }
-
-        @Override
-        public int getOldListSize() {
-            return lastItemsInfo.size();
-        }
-
-        @Override
-        public int getNewListSize() {
-            return newItemsInfo.size();
-        }
-
-        @Override
-        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return lastItemsInfo.get(oldItemPosition).getId() ==
-                    newItemsInfo.get(newItemPosition).getId();
-        }
-
-        @Override
-        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            return lastItemsInfo.get(oldItemPosition).getHash() ==
-                    newItemsInfo.get(newItemPosition).getHash();
         }
     }
 
