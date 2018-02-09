@@ -13,7 +13,7 @@ import java.util.ListIterator;
 
 /**
  * List для работы с пагинацией
- * Имеет лимит и смещение
+ * Механизм limit-offset
  * Можно сливать с другим DataList
  *
  * @param <T> Item
@@ -56,7 +56,7 @@ public class DataList<T> implements List<T>, Serializable {
         ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
         if (merged == null) {
             //Отрезки данных не совпадают, слияние не возможно
-            throw new IllegalArgumentException("incorrect data range");
+            throw new IncompatibleRangesException("incorrect data range");
         }
         this.data.clear();
         this.data.addAll(merged);
@@ -72,6 +72,13 @@ public class DataList<T> implements List<T>, Serializable {
         return this;
     }
 
+    /**
+     * Преобразует dataList одного типа в dataList другого типа
+     *
+     * @param mapFunc функция преобразования
+     * @param <R>     тип данных нового списка
+     * @return DataList с элементами типа R
+     */
     public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
         List<R> resultData = new ArrayList<>();
         for (T item : this) {
@@ -92,7 +99,7 @@ public class DataList<T> implements List<T>, Serializable {
         return limit;
     }
 
-    public int getSkip() {
+    public int getOffset() {
         return offset;
     }
 

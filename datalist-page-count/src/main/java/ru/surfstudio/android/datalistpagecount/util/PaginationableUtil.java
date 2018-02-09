@@ -9,7 +9,6 @@ import ru.surfstudio.android.core.util.rx.ObservableUtil;
 import ru.surfstudio.android.core.util.rx.SafeFunction;
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList;
 
-
 public class PaginationableUtil {
 
     /**
@@ -18,7 +17,7 @@ public class PaginationableUtil {
      * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
      * который используется при подгрузке новых данных.
      *
-     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
+     * @param paginationRequestCreator функция, создающая один из подзапросов, имеет 1 параметр page
      * @param numPages                 Клоличество страниц которые необходимо загрузить
      * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
      * combineLatestDelayError

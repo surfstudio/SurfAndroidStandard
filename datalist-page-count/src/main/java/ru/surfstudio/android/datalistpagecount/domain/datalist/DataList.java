@@ -18,7 +18,7 @@ import ru.surfstudio.android.logger.Logger;
 
 /**
  * List для работы с пагинацией
- * Имеет лимит и смещение
+ * Механизм page-count
  * Можно сливать с другим DataList
  *
  * @param <T> Item
@@ -43,10 +43,27 @@ public class DataList<T> implements List<T>, Serializable {
         R call(T item);
     }
 
+    /**
+     * Создает dataList, начиная с некоторой страницы
+     *
+     * @param data     коллекция данных
+     * @param page     номер страницы
+     * @param pageSize размер страницы(кол-во элементов)
+     */
     public DataList(Collection<T> data, int page, int pageSize) {
         this(data, page, 1, pageSize);
     }
 
+    /**
+     * Создает DataList , начиная с некоторой страницы ,
+     * с возможностью задавать максимальное количество элементов и страниц
+     *
+     * @param data            коллекция данных
+     * @param page            номер страницы
+     * @param pageSize        размер страницы
+     * @param totalItemsCount максимальное количество элементов
+     * @param totalPagesCount максимальное количество страниц
+     */
     public DataList(Collection<T> data, int page, int pageSize, int totalItemsCount, int totalPagesCount) {
         this(data, page, 1, pageSize, totalItemsCount, totalPagesCount);
     }
@@ -65,6 +82,12 @@ public class DataList<T> implements List<T>, Serializable {
         this.totalPagesCount = totalPagesCount;
     }
 
+    /**
+     * Создает пустой DataList
+     *
+     * @param <T> тип данных в листе
+     * @return пустой дата-лист
+     */
     public static <T> DataList<T> empty() {
         return new DataList<>(new ArrayList<>(), UNSPECIFIED_PAGE, 0, UNSPECIFIED_PAGE_SIZE, 0, 0);
     }
@@ -90,7 +113,7 @@ public class DataList<T> implements List<T>, Serializable {
 
         ArrayList<T> newData = new ArrayList<>();
         int lastPage = UNSPECIFIED_PAGE;
-        int lastPageItemsSize = -1;
+        int lastPageItemsSize = UNSPECIFIED_PAGE_SIZE;
         for (Map.Entry<Integer, List<T>> pageData : resultPagesData.entrySet()) {
             Integer pageNumber = pageData.getKey();
             List<T> pageItems = pageData.getValue();
@@ -136,6 +159,13 @@ public class DataList<T> implements List<T>, Serializable {
         return result;
     }
 
+    /**
+     * Преобразует dataList одного типа в dataList другого типа
+     *
+     * @param mapFunc функция преобразования
+     * @param <R>     тип данных нового списка
+     * @return DataList с элементами типа R
+     */
     public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
         List<R> resultData = new ArrayList<R>();
         for (T item : this) {
