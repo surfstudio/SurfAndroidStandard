@@ -68,7 +68,15 @@ public class DataList<T> implements List<T>, Serializable {
         this(data, page, 1, pageSize, totalItemsCount, totalPagesCount);
     }
 
-    private DataList(Collection<T> data, int page, int numPages, int pageSize) {
+    /**
+     * Создает dataList, начиная с некоторой страницы
+     *
+     * @param data     коллекция данных
+     * @param page     номер страницы
+     * @param numPages количество страниц
+     * @param pageSize размер страницы(кол-во элементов)
+     */
+    public DataList(Collection<T> data, int page, int numPages, int pageSize) {
         this(data, page, numPages, pageSize, UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
     }
 
@@ -98,7 +106,7 @@ public class DataList<T> implements List<T>, Serializable {
      * @param inputDataList DataList для слияния с текущим
      * @return текущий экземпляр
      */
-    public DataListMergeChanges merge(DataList<T> inputDataList) {
+    public DataList<T> merge(DataList<T> inputDataList) {
         if (this.startPage != UNSPECIFIED_PAGE
                 && inputDataList.startPage != UNSPECIFIED_PAGE
                 && this.pageSize != inputDataList.pageSize) {
@@ -139,7 +147,7 @@ public class DataList<T> implements List<T>, Serializable {
         if (inputDataList.pageSize != UNSPECIFIED_PAGE_SIZE) {
             this.pageSize = inputDataList.pageSize;
         }
-        return new DataListMergeChanges(lastSize, inputDataList.size(), inputDataList.getStartPage(), pageSize);
+        return this;
     }
 
     /**
