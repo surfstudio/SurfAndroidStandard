@@ -30,10 +30,15 @@ public class DataList<T> implements List<T>, Serializable {
     public static final int UNSPECIFIED_TOTAL_ITEMS_COUNT = -1;
     public static final int UNSPECIFIED_TOTAL_PAGES_COUNT = -1;
 
+    //размер страницы
     private int pageSize;
+    //с какой страницы начинается
     private int startPage;
+    //количество страниц
     private int numPages;
+    //максимальное количество элементов(опционально)
     private int totalItemsCount;
+    //максимальное количество страниц(опционально)
     private int totalPagesCount;
 
     private ArrayList<T> data;
@@ -80,7 +85,7 @@ public class DataList<T> implements List<T>, Serializable {
         this(data, page, numPages, pageSize, UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
     }
 
-    private DataList(Collection<T> data, int page, int numPages, int pageSize, int totalItemsCount, int totalPagesCount) {
+    public DataList(Collection<T> data, int page, int numPages, int pageSize, int totalItemsCount, int totalPagesCount) {
         this.data = new ArrayList<>();
         this.data.addAll(data);
         this.startPage = page;
@@ -97,7 +102,30 @@ public class DataList<T> implements List<T>, Serializable {
      * @return пустой дата-лист
      */
     public static <T> DataList<T> empty() {
-        return new DataList<>(new ArrayList<>(), UNSPECIFIED_PAGE, 0, UNSPECIFIED_PAGE_SIZE, 0, 0);
+        return emptyWithTotalCount(0, 0);
+    }
+
+    /**
+     * Создает пустой DataList
+     *
+     * @param <T> тип данных в листе
+     * @return пустой дата-лист
+     */
+    public static <T> DataList<T> emptyUnspecifiedTotal() {
+        return emptyWithTotalCount(UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
+    }
+
+
+    /**
+     * Создает пустой DataList
+     *
+     * @param <T>             тип данных в листе
+     * @param totalItemsCount максимальное количество элементов
+     * @param totalPagesCount максимальное количество страниц
+     * @return пустой дата-лист
+     */
+    public static <T> DataList<T> emptyWithTotalCount(Integer totalItemsCount, Integer totalPagesCount) {
+        return new DataList<>(new ArrayList<>(), UNSPECIFIED_PAGE, 0, UNSPECIFIED_PAGE_SIZE, totalItemsCount, totalPagesCount);
     }
 
     /**

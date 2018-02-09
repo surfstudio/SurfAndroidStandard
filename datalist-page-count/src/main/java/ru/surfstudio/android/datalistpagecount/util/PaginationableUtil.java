@@ -27,7 +27,7 @@ public class PaginationableUtil {
             L emptyValue,
             int numPages) {
         List<Observable<? extends L>> portionRequests = new ArrayList<>();
-        for (int i = 1; i <= numPages; i++) {
+        for (int i = 0; i < numPages; i++) {
             portionRequests.add(paginationRequestCreator.apply(i));
         }
         if (portionRequests.isEmpty()) {
