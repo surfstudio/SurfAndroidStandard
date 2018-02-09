@@ -35,7 +35,7 @@ public class SimpleCacheUrlConnector {
     @SuppressWarnings("squid:S134")
     @Nullable
     public SimpleCacheInfo getByUrl(HttpUrl url, String method) {
-        List<String> networkUrlSegments = getNetworkUrlSegments(url);
+        List<String> networkUrlSegments = getNetworkUrlSegments(url.toString());
         for (SimpleCacheInfo cacheInfo : simpleCacheInfo) {
             boolean baseCacheMethodCorresponds = checkApiMethod(
                     method, networkUrlSegments, cacheInfo.getBaseApiMethod());
@@ -61,13 +61,13 @@ public class SimpleCacheUrlConnector {
         if (!networkMethod.equals(cacheApiMethod.getMethod())) {
             return false;
         }
-        String[] cacheUrlSegments = cacheApiMethod.getUrl().split(URL_SPLIT_REGEX);
-        if (cacheUrlSegments.length > networkUrlSegments.size()) {
+        List<String> cacheUrlSegments = getNetworkUrlSegments(cacheApiMethod.getUrl());
+        if (cacheUrlSegments.size() > networkUrlSegments.size()) {
             return false;
         }
         boolean urlsIdentical = true;
-        for (int i = 0; i < cacheUrlSegments.length; i++) {
-            String cacheUrlSegment = cacheUrlSegments[i];
+        for (int i = 0; i < cacheUrlSegments.size(); i++) {
+            String cacheUrlSegment = cacheUrlSegments.get(i);
             if (isCacheUrlSegmentParameter(cacheUrlSegment)) {
                 //в url адреса кэша идут скобки {}, в таком случае в результирующем сегменте не должно быть параметра
                 if (isNetworkUrlSegmentParameter(networkUrlSegments.get(i))) {
@@ -86,8 +86,7 @@ public class SimpleCacheUrlConnector {
     }
 
     @NonNull
-    private List<String> getNetworkUrlSegments(HttpUrl url) {
-        String httpUrl = url.toString();
+    private List<String> getNetworkUrlSegments(String httpUrl) {
         String path = httpUrl.replaceAll(baseUrl.getBase(), "");
         int skip = baseUrl.getApiVersion() == null ? 0 : 1; //пропускаем сегмент версии
         return Stream.of(path.split(URL_SPLIT_REGEX))
