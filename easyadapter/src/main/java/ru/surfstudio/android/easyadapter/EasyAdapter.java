@@ -230,6 +230,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private class AutoNotifyDiffCallback extends DiffUtil.Callback {
+        private static final long MAGIC_NUMBER = 3578121127L; // used for making ids unique
 
         private final List<ItemInfo> lastItemsInfo;
         private final List<ItemInfo> newItemsInfo;
@@ -262,8 +263,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
             if (infiniteScroll) {
                 //magic numbers make every element id unique
-                long lastItemsFakeItemId = lastItemsInfo.get(oldItemPosition % lastItemsInfo.size()).getId() + oldItemPosition + 3578121127L;
-                long newItemsFakeItemId = newItemsInfo.get(newItemPosition % newItemsInfo.size()).getId() + newItemPosition + 3578121127L;
+                long lastItemsFakeItemId = lastItemsInfo.get(oldItemPosition % lastItemsInfo.size()).getId() + oldItemPosition + MAGIC_NUMBER;
+                long newItemsFakeItemId = newItemsInfo.get(newItemPosition % newItemsInfo.size()).getId() + newItemPosition + MAGIC_NUMBER;
 
                 return lastItemsFakeItemId == newItemsFakeItemId;
             }
