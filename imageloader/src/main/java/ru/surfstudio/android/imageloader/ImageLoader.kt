@@ -1,12 +1,17 @@
 package ru.surfstudio.android.imageloader
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.support.annotation.DrawableRes
 import android.util.Patterns
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import ru.surfstudio.android.logger.Logger
 
 /**
@@ -22,6 +27,24 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var drawableResId: Int = DEFAULT_DRAWABLE_URI   //ссылка на drawable-ресурс
     @DrawableRes
     private var errorResId: Int = DEFAULT_DRAWABLE_URI      //ссылка на drawable-ресурс при ошибке
+
+    private var skipCache: Boolean = false  //использовать ли закэшированные данные
+
+    private var onImageLoadedLambda: ((bitmap: Bitmap) -> (Unit))? = null
+
+    private val glideDownloadListener = object : RequestListener<Bitmap> {
+        override fun onLoadFailed(e: GlideException?,
+                                  model: Any?,
+                                  target: Target<Bitmap>?,
+                                  isFirstResource: Boolean) = false.apply { setTag(targetView, null) }
+
+        override fun onResourceReady(resource: Bitmap,
+                                     model: Any?,
+                                     target: Target<Bitmap>?,
+                                     dataSource: DataSource?,
+                                     isFirstResource: Boolean): Boolean =
+                false.apply { onImageLoadedLambda?.invoke(resource) }
+    }
 
     companion object {
         fun with(context: Context) = ImageLoader(context)
@@ -58,6 +81,14 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             this.apply { this.errorResId = drawableResId }
 
     /**
+     * Установка лямбды для отслеживания загрузки изображения
+     *
+     * @param lambda лямбда, возвращающая загруженный [Bitmap]
+     */
+    override fun listener(lambda: ((bitmap: Bitmap) -> (Unit))) =
+            this.apply { this.onImageLoadedLambda = lambda }
+
+    /**
      * Указание целевой [ImageView]
      *
      * @param imageView экземпляр [ImageView] для загрузки изображения
@@ -68,7 +99,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         if (!isImagePresented(imageView)) return
         if (isTagUsed(imageView)) return
 
-        setTag(imageView)
+        setTag(imageView, url)
         buildRequest().into(imageView)
     }
 
@@ -121,13 +152,13 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         return Glide.with(context)
                 .asBitmap()
                 .load(if (isImageFromResourcesPresented()) drawableResId else url)
+                .listener(glideDownloadListener)
         /*.error(errorBitmap)
         .thumbnail(placeholderBitmap)
         .apply(RequestOptions()
                 .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                 .skipMemoryCache(skipCache)
-                .transforms(*transformations))
-        .listener(glideListener)*/
+                .transforms(*transformations))*/
     }
 
     /**
@@ -177,10 +208,10 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private fun isUrlValid(url: String) = !Patterns.WEB_URL.matcher(url).matches()
 
     /**
-     * Установка тэга на [ImageView]
+     * Установка тэга на целевую [View]
      */
-    private fun setTag(imageView: ImageView) {
-        imageView.setTag(R.id.image_loader_tag, url)
+    private fun setTag(targetView: View?, url: String?) {
+        targetView?.setTag(R.id.image_loader_tag, url)
     }
 
     /**

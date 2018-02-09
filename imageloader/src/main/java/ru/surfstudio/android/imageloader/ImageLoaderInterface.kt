@@ -1,5 +1,6 @@
 package ru.surfstudio.android.imageloader
 
+import android.graphics.Bitmap
 import android.support.annotation.DrawableRes
 import android.widget.ImageView
 
@@ -26,6 +27,13 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     fun error(@DrawableRes drawableResId: Int): ImageLoader
+
+    /**
+     * Установка лямбды для отслеживания загрузки изображения
+     *
+     * @param lambda лямбда, возвращающая загруженный [Bitmap]
+     */
+    fun listener(lambda: ((bitmap: Bitmap) -> (Unit))): ImageLoader
 
     /**
      * Указание целевой [ImageView]
