@@ -20,8 +20,11 @@ import java.util.ListIterator;
  */
 public class DataList<T> implements List<T>, Serializable {
 
+    //количество элементов в списке
     private int limit;
+    //сдвиг относительно первого элемента
     private int offset;
+    //максимально возможное количество эелементов списка
     private int totalCount;
 
     private ArrayList<T> data;
@@ -81,7 +84,7 @@ public class DataList<T> implements List<T>, Serializable {
     /**
      * возвращает значение offset c которого нужно начать чтобы подгрузить слкдующий блок данных
      */
-    public int getNextSkip() {
+    public int getNextOffset() {
         return limit + offset;
     }
 
