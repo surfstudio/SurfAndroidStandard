@@ -61,6 +61,16 @@ class DataListTest {
         Assert.assertEquals(list1, list3)
     }
 
+    @Test
+    fun checkMergeEmptyWithNormal() {
+        val list1: DataList<Int> = DataList.empty()
+        val list2: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5)), 5, 0, 10)
+        val list3: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5)), 5, 0, 10)
+
+        list1.merge(list2)
+        Assert.assertEquals(list3, list1)
+    }
+
     @Test(expected = IllegalArgumentException::class)
     fun checkInvalidData() {
         val list1: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3)), 3, 0, 10)
