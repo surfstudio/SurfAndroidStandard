@@ -10,6 +10,7 @@ ext {
     compileSdkVersion = 26
     debugVersionNameSuffix = ".debug"
 
+    kotlinVersion = '1.2.21'                    //https://goo.gl/2Epeje
     daggerVersion = '2.11'
     lombokVersion = '1.16.10'
     appcompatVersion = '27.0.2'
@@ -21,7 +22,7 @@ ext {
     retrofitVersion = '2.3.0'
     okHttpVersion = '3.4.1'
     gsonVersion = '2.8.1'
-    porwerMockVersion = '1.6.2'
+    powerMockVersion = '1.6.2'
     javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
     rxJava2Version = '2.1.8'                    //https://goo.gl/uzna2x
@@ -29,6 +30,6 @@ ext {
     rxBinding2Version = '2.0.0'                 //https://goo.gl/KQ5Vga
 
     // версия наших внутренних модулей
-    moduleVersionCode = 7
-    moduleVersionName = '0.0.2-SNAPSHOT'
+    moduleVersionCode = 8
+    moduleVersionName = '0.0.3-SNAPSHOT'
 }

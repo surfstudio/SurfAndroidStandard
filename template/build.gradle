@@ -50,6 +50,7 @@ dependencies {
     //-------------------------------------- versions ----------------------------------------------
 
     // Library, Apt versions
+    def kotlinVersion = config["kotlinVersion"]
     def daggerVersion = config["daggerVersion"]
     def appcompatVersion = config["appcompatVersion"]
     def retrofitVersion = '2.1.0'
@@ -77,7 +78,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     provided "com.google.dagger:dagger:${daggerVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     //provided
     kapt 'javax.annotation:jsr250-api:1.0'

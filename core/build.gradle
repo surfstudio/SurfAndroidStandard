@@ -73,6 +73,7 @@ dependencies {
     def rxJava2Version = config["rxJava2Version"]
     def rxAndroid2Version = config["rxAndroid2Version"]
     def rxBinding2Version = config["rxBinding2Version"]
+    def powerMockVersion = config["powerMockVersion"]
 
     provided project(':dagger-scope')
     provided project(':logger')
@@ -104,8 +105,8 @@ dependencies {
 
     //test
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.powermock:powermock-module-junit4:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-module-junit4-rule:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-api-mockito:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-classloading-xstream:${porwerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4-rule:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-api-mockito:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
 }

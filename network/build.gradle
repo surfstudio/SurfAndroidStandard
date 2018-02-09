@@ -39,6 +39,13 @@ android {
 }
 
 dependencies {
+    def appcompatVersion = config["appcompatVersion"]
+    def annimonStreamVersion = config["annimonStreamVersion"]
+    def retrofitVersion = config["retrofitVersion"]
+    def okHttpVersion = config["okHttpVersion"]
+    def gsonVersion = config["gsonVersion"]
+    def powerMockVersion = config["powerMockVersion"]
+
     provided project(':core')
     provided project(':filestorage')
     provided project(':logger')
@@ -66,8 +73,8 @@ dependencies {
 
     //tests
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.powermock:powermock-module-junit4:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-module-junit4-rule:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-api-mockito:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-classloading-xstream:${porwerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4-rule:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-api-mockito:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
 }
