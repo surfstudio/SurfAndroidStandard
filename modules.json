@@ -35,6 +35,14 @@
     {
       "name": "converter-gson",
       "path": ""
+    },
+    {
+      "name": "easyadapter",
+      "path": ""
+    },
+    {
+      "name": "easyadapter-carousel",
+      "path": ""
     }
   ]
 }
