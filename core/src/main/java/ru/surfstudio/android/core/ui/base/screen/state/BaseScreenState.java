@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 /**
- * Created by makstuev on 25.01.2018.
+ * базовый {@link ScreenState} для активити и фрагмента, для виджета свой делегат
  */
 
-public abstract class BaseScreenState implements ScreenState { //todo описать что флаги для смены конфигурации
+public abstract class BaseScreenState implements ScreenState {
     private boolean viewRecreated = false;
     private boolean screenRecreated = false;
     private boolean completelyDestroyed = false;

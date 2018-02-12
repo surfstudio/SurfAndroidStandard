@@ -50,7 +50,7 @@ public class CoreWidgetScreenModule {
     @PerScreen
     @Named(PARENT_TYPE_DAGGER_NAME)
     ScreenType provideParentScreenType() {
-        return persistentScope.getParentType();
+        return persistentScope.getScreenState().getParentType();
     }
 
     @Provides
@@ -107,10 +107,10 @@ public class CoreWidgetScreenModule {
     }
 
     private FragmentProvider createFragmentProvider() {
-        if (persistentScope.getParentType() != ScreenType.FRAGMENT) {
+        if (persistentScope.getScreenState().getParentType() != ScreenType.FRAGMENT) {
             throw new IllegalStateException("FragmentProvider can be created only if parent id Fragment");
         }
-        return new FragmentProvider((FragmentScreenState) persistentScope.getScreenState());
+        return new FragmentProvider((FragmentScreenState) persistentScope.getScreenState().getParentState());
     }
 
 

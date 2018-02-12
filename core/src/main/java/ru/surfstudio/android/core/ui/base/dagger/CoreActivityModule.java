@@ -19,6 +19,11 @@ import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * Модуль для dagger Activity Component
+ * поставляет ряд сущностей, например навигаторы, причем они находятся в @PerActivity scope
+ * и не пробрасываются в дочерние scope, эти обьекты могут быть использованы без презентера,
+ * например открытие необходимого фрагмента с помощью FragmentNavigator из активити контейнера.
+ * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
+ * принадлежащих скоупу @PerScreen
  */
 
 @Module
@@ -56,7 +61,6 @@ public class CoreActivityModule {
 
     @Provides
     @PerActivity
-        //todo описать зачем все это
     ActivityNavigator provideActivityNavigator(ActivityProvider activityProvider,
                                                ScreenEventDelegateManager eventDelegateManager) {
         return new ActivityNavigatorForActivity(activityProvider, eventDelegateManager);

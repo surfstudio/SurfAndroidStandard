@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.base.screen.dialog;
+package ru.surfstudio.android.core.ui.base.screen.dialog.simple;
 
 
 import android.os.Bundle;
@@ -7,13 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
-import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenComponent;
+import ru.surfstudio.android.core.ui.base.screen.dialog.BaseDialogFragment;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
-import ru.surfstudio.android.logger.LogConstants;
-import ru.surfstudio.android.logger.RemoteLogger;
+import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
  * Базовый класс простого диалога который может возвращать результат
@@ -27,23 +26,21 @@ import ru.surfstudio.android.logger.RemoteLogger;
  * Этот диалог следует расширять если не требуется реализация сложной логики в диалоге и обращение
  * к слою Interactor
  */
-public abstract class BaseSimpleDialogFragment extends BaseDialogFragment implements HasName {
-    public static final String EXTRA_PARENT = "EXTRA_PARENT"; //todo parent widget
-    private Parent parentType;
+public abstract class CoreSimpleDialogFragment extends BaseDialogFragment implements CoreSimpleDialogInterface {
+
+    private SimpleDialogDelegate delegate;
+
 
     public <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView) {
-        parentType = Parent.ACTIVITY;
-        show(parentActivityView.getSupportFragmentManager());
+        delegate.show(parentActivityView);
     }
 
-    public <F extends Fragment & CoreFragmentViewInterface> void show(F parentFragment) {
-        parentType = Parent.FRAGMENT;
-        this.setTargetFragment(parentFragment, 0);
-        show(parentFragment.getFragmentManager());
+    public <F extends Fragment & CoreFragmentViewInterface> void show(F parentFragmentView) {
+        delegate.show(parentFragmentView);
     }
 
-    protected void show(FragmentManager fragmentManager) {
-        super.show(fragmentManager, getName());
+    public <W extends View & CoreWidgetViewInterface> void show(W parentWidgetView) {
+        delegate.show(parentWidgetView);
     }
 
     @Override
@@ -58,50 +55,33 @@ public abstract class BaseSimpleDialogFragment extends BaseDialogFragment implem
                 "or render(parentActivity)");
     }
 
-    protected <T> T getScreenComponent(Class<T> componentClass) {
-        ScreenComponent screenComponent;
-        switch (parentType) {
-            case ACTIVITY:
-                screenComponent = ((CoreActivityViewInterface) getActivity()).getConfigurator().getScreenComponent();
-                break;
-            case FRAGMENT:
-                screenComponent = ((CoreFragmentViewInterface) getTargetFragment()).getConfigurator().getScreenComponent();
-                break;
-            default:
-                throw new IllegalStateException("Unsupported parent type: " + parentType);
-        }
-        return componentClass.cast(screenComponent);
+    public <T> T getScreenComponent(Class<T> componentClass) {
+        return delegate.getScreenComponent(componentClass);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (parentType == null) {
-            parentType = (Parent)savedInstanceState.getSerializable(EXTRA_PARENT);
-        }
+        delegate = new SimpleDialogDelegate(this);
+        delegate.onCreate(savedInstanceState);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(EXTRA_PARENT, parentType);
+        delegate.onSaveInstanceState(outState);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        RemoteLogger.logMessage(String.format(LogConstants.LOG_DIALOG_RESUME_FORMAT, getName()));
+        delegate.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        RemoteLogger.logMessage(String.format(LogConstants.LOG_DIALOG_PAUSE_FORMAT, getName()));
-    }
-
-    private enum Parent {
-        ACTIVITY,
-        FRAGMENT
+        delegate.onPause();
     }
 
 }

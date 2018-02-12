@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 /**
- * Created by makstuev on 25.01.2018.
+ * Created by makstuev on 25.01.2018. //todo
  */
 
 public class FragmentScreenState extends BaseScreenState {

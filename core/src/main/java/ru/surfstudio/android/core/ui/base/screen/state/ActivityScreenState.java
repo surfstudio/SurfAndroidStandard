@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
  */
 
 public class ActivityScreenState extends BaseScreenState {
-    private Activity activity;
+    private Activity activity; //todo generic
 
     public void onDestroy() {
         super.onDestroy();

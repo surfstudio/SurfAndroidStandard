@@ -1,5 +1,6 @@
 package ru.surfstudio.android.core.ui.base.screen.widjet;
 
+import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.HasConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDelegate;
@@ -18,7 +19,10 @@ import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreVi
  * для динамических вью
  */
 
-public interface CoreWidgetViewInterface extends PresenterHolderCoreView, HasConfigurator {
+public interface CoreWidgetViewInterface extends
+        PresenterHolderCoreView,
+        HasConfigurator,
+        HasName {
 
     @Override
     BaseWidgetViewConfigurator createConfigurator();

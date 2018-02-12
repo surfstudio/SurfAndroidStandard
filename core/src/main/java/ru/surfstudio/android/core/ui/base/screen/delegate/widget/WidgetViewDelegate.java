@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.ui.base.screen.configurator.BaseWidgetViewConf
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.scope.WidgetPersistentScope;
-import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
+import ru.surfstudio.android.core.ui.base.screen.state.WidgetScreenState;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
@@ -63,10 +63,11 @@ public class WidgetViewDelegate {
             if (parentScope == null) {
                 throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
             }
+            WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
             WidgetPersistentScope persistentScope = new WidgetPersistentScope(
                     getName(),
                     parentScope.getScreenEventDelegateManager(),
-                    parentScope.getScreenState());
+                    screenState);
             scopeStorage.putScope(persistentScope);
         }
         configurator.setPersistentScope(getPersistentScope());
@@ -78,7 +79,7 @@ public class WidgetViewDelegate {
         return configurator;
     }
 
-    private ScreenState getScreenState() {
+    private WidgetScreenState getScreenState() {
         return getPersistentScope().getScreenState();
     }
 

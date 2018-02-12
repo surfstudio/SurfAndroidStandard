@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.ui.base.navigation.dialog.navigator;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
-import ru.surfstudio.android.core.ui.base.screen.dialog.BaseSimpleDialogFragment;
+import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogFragment;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
 
 /**
@@ -19,7 +19,7 @@ public class DialogNavigatorForFragmentScreen extends DialogNavigator {
     }
 
     @Override
-    protected void show(BaseSimpleDialogFragment fragment) {
+    protected void show(CoreSimpleDialogFragment fragment) {
         fragment.show((CoreFragmentView) fragmentProvider.get());
     }
 }

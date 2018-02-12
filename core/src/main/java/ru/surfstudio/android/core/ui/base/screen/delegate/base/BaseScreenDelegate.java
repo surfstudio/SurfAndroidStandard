@@ -30,12 +30,12 @@ import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
 
 /**
- * делегат для базовых активити и фрагмента,
+ * базовый делегат для базовых активити и фрагмента, для виджета свой делегат
  * управляет ключевыми сущностями внутренней логики экрана:
- * - PersistentScope
- * - ScreenEventDelegateManager
- * - ScreenState
- * - ScreenConfigurator
+ * - PersistentScope            - хранилище для всех остальных обьектов, переживает смену конфигурации
+ * - ScreenEventDelegateManager - позволяет подписываться на события экрана
+ * - ScreenState                - хранит текущее состояние экрана
+ * - ScreenConfigurator         - управляет компонентами даггера, предоставляет уникальное имя экрана
  */
 
 public abstract class BaseScreenDelegate<

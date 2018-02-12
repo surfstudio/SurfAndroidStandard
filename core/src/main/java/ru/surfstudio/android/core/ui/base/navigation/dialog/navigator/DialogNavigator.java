@@ -8,7 +8,7 @@ import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.dialog.route.DialogRoute;
 import ru.surfstudio.android.core.ui.base.screen.dialog.BaseDialogFragment;
-import ru.surfstudio.android.core.ui.base.screen.dialog.BaseSimpleDialogFragment;
+import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogFragment;
 
 /**
  * позволяет открывать диалоги
@@ -23,8 +23,8 @@ public abstract class DialogNavigator implements Navigator { //todo сделат
 
     public void show(DialogRoute dialogRoute){
         DialogFragment dialog = dialogRoute.createFragment();
-        if(dialog instanceof BaseSimpleDialogFragment) {
-            show((BaseSimpleDialogFragment) dialog);
+        if(dialog instanceof CoreSimpleDialogFragment) {
+            show((CoreSimpleDialogFragment) dialog);
         } else {
             dialog.show(activityProvider.get().getSupportFragmentManager(), dialogRoute.getTag());
         }
@@ -37,6 +37,6 @@ public abstract class DialogNavigator implements Navigator { //todo сделат
         dialogFragment.dismiss();
     }
 
-    protected abstract void show(BaseSimpleDialogFragment fragment);
+    protected abstract void show(CoreSimpleDialogFragment fragment);
     
 }
