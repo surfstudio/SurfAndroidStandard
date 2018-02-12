@@ -77,7 +77,7 @@ dependencies {
 
     provided project(':dagger-scope')
     provided project(':logger')
-    implementation project(':easyadapter')
+    provided project(':easyadapter')
     api fileTree(dir: 'libs', include: ['*.jar'])
 
     //
