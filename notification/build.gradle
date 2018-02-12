@@ -45,7 +45,7 @@ dependencies {
 
     provided project(path: ':core')
     provided project(path: ':dagger-scope')
-    compile project(path: ':logger')
+    provided project(path: ':logger')
 }
 repositories {
     mavenCentral()
