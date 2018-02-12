@@ -22,7 +22,7 @@ ext {
     retrofitVersion = '2.3.0'
     okHttpVersion = '3.4.1'
     gsonVersion = '2.8.1'
-    porwerMockVersion = '1.6.2'
+    powerMockVersion = '1.6.2'
     javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
     rxJava2Version = '2.1.8'                    //https://goo.gl/uzna2x
@@ -32,6 +32,6 @@ ext {
     glideVersion = '4.6.1'                      //https://goo.gl/2BHro1
 
     // версия наших внутренних модулей
-    moduleVersionCode = 7
-    moduleVersionName = '0.0.2-SNAPSHOT'
+    moduleVersionCode = 8
+    moduleVersionName = '0.0.4-SNAPSHOT'
 }

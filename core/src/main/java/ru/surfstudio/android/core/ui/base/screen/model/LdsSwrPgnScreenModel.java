@@ -1,9 +1,9 @@
 package ru.surfstudio.android.core.ui.base.screen.model;
 
 
-import ru.surfstudio.android.core.ui.base.recycler.pagination.PaginationState;
 import ru.surfstudio.android.core.ui.base.screen.model.state.LoadState;
 import ru.surfstudio.android.core.ui.base.screen.model.state.SwipeRefreshState;
+import ru.surfstudio.android.easyadapter.impl.pagination.PaginationState;
 
 /**
  * модель экрана с поддержкой

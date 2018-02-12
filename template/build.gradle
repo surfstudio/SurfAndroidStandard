@@ -66,12 +66,14 @@ dependencies {
 
     //------------------------------------ dependencies --------------------------------------------
 //    implementation 'ru.surfstudio.standard:core:0.0.1'
-//    implementation 'ru.surfstudio.standard:analytics:0.0.1'//todo
+    //implementation 'ru.surfstudio.standard:easyadapter:0.0.4-SNAPSHOT'//todo
     implementation project(':core')
     implementation project(':analytics')
     implementation project(':network')
     implementation project(':converter-gson')
     implementation project(':filestorage')
+    implementation project(':easyadapter')
+    implementation project(':easyadapter-carousel')
     implementation project(':logger')
     implementation project(':dagger-scope')
     implementation project(':imageloader')
