@@ -1,15 +1,15 @@
 #Список артефактов
-1. core - основная часть приложения.  
-1. analytics - модуль для фиксирования событий в приложении
-1. network - модуль для работы с сетью.
-1. filestorage - модуль для построения кеша на основе фалов.
-1. template - модуль для инициализации нового приложения. Не провайдится в репозиторий артефактов
-1. push - модуль для работы с push-сообщениями от сервера
-1. dagger-scope - модуль с набором скоупов для DI dagger
-1. logger - модуль для логирования в logcat и на сервер
-1. converter-gson - модуль для парсинга json ответов сервера
-1. easyadapter - модуль с адаптером для RecycleView 
-1. easyadapter-carousel - модуль c view-каруселью, основанной на easy adapter
+1. [core](core/README.md) - основная часть приложения.  
+1. [analytics](analytics/README.md) - модуль для фиксирования событий в приложении
+1. [network](network/README.md) - модуль для работы с сетью.
+1. [filestorage](filestorage/README.md) - модуль для построения кеша на основе фалов.
+1. [template](template/README.md) - модуль для инициализации нового приложения. Не провайдится в репозиторий артефактов
+1. [push](push/README.md) - модуль для работы с push-сообщениями от сервера
+1. [dagger-scope](dagger-scope/README.md) - модуль с набором скоупов для DI dagger
+1. [logger](logger/README.md) - модуль для логирования в logcat и на сервер
+1. [converter-gson](converter-gson/README.md) - модуль для парсинга json ответов сервера
+1. [easyadapter](easyadapter/README.md) - модуль с адаптером для RecycleView 
+1. [easyadapter-carousel](easyadapter-carousel/README.md) - модуль c view-каруселью, основанной на easy adapter
 
 #Деплой в репозиторий артефактов
 1. Поднимаем moduleVersionCode и moduleVersionName в файле config.gradle 
