@@ -9,9 +9,14 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.Transformation
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
+import ru.surfstudio.android.imageloader.data.ImageResourceHolder
+import ru.surfstudio.android.imageloader.data.ImageSizeHolder
 import ru.surfstudio.android.logger.Logger
 
 /**
@@ -22,11 +27,11 @@ import ru.surfstudio.android.logger.Logger
 class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
     private var targetView: View? = null    //целевая View, в которой отрисовывается изображение
-    private var url: String = ""            //сетевая ссылка на изображение
-    @DrawableRes
-    private var drawableResId: Int = DEFAULT_DRAWABLE_URI   //ссылка на drawable-ресурс
-    @DrawableRes
-    private var errorResId: Int = DEFAULT_DRAWABLE_URI      //ссылка на drawable-ресурс при ошибке
+
+    private var imageResourceHolder: ImageResourceHolder = ImageResourceHolder()
+    private var imageSizeHolder: ImageSizeHolder = ImageSizeHolder()
+
+    private var transformations = emptyArray<Transformation<Bitmap>>()   //список всех применяемых трансформаций
 
     private var skipCache: Boolean = false  //использовать ли закэшированные данные
 
@@ -57,11 +62,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     @Throws(IllegalArgumentException::class)
     override fun url(url: String) =
-            this.apply {
-                if (isUrlValid(url)) {
+            apply {
+                if (imageResourceHolder.isUrlValid(url)) {
                     Logger.e("ImageLoader.url() / Некорректная ссылка на изображение: $url")
                 }
-                this.url = url
+                this.imageResourceHolder.url = url
             }
 
     /**
@@ -70,7 +75,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     override fun url(@DrawableRes drawableResId: Int) =
-            this.apply { this.drawableResId = drawableResId }
+            apply { this.imageResourceHolder.drawableResId = drawableResId }
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
@@ -78,7 +83,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     override fun error(@DrawableRes drawableResId: Int) =
-            this.apply { this.errorResId = drawableResId }
+            apply { this.imageResourceHolder.errorResId = drawableResId }
 
     /**
      * Установка лямбды для отслеживания загрузки изображения
@@ -86,7 +91,33 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param lambda лямбда, возвращающая загруженный [Bitmap]
      */
     override fun listener(lambda: ((bitmap: Bitmap) -> (Unit))) =
-            this.apply { this.onImageLoadedLambda = lambda }
+            apply { this.onImageLoadedLambda = lambda }
+
+    /**
+     * Указание политики кэширования.
+     * Метод предоставляет возможность отключить кэширование загруженных изображений в памяти и на диске.
+     *
+     * В данной реализации кэшируется только финальное изображение (прошедшее необходимую постобработку и трансформации).
+     * @param skipCache true - игнорировать кэш в памяти и на диске, false - использовать кэш в памяти и на диске
+     */
+    override fun skipCache(skipCache: Boolean) =
+            apply { this.skipCache = skipCache }
+
+    /**
+     * Установка максимальной ширины изображения в px.
+     *
+     * Необходима для пережатия изображения без искажения пропорций.
+     */
+    override fun maxWidth(maxWidth: Int) =
+            apply { this.imageSizeHolder.maxWidth = maxWidth }
+
+    /**
+     * Установка максимальной высоты изображения в px.
+     *
+     * Необходима для пережатия изображения без искажения пропорций.
+     */
+    override fun maxHeight(maxHeight: Int) =
+            apply { this.imageSizeHolder.maxHeight = maxHeight }
 
     /**
      * Указание целевой [ImageView]
@@ -96,85 +127,95 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun into(imageView: ImageView) {
         this.targetView = imageView
 
-        if (!isImagePresented(imageView)) return
+        if (imageResourceHolder.isErrorState()) {
+            setErrorImage(imageView)
+        }
+
         if (isTagUsed(imageView)) return
 
-        setTag(imageView, url)
+        setTag(imageView, imageResourceHolder.url)
         buildRequest().into(imageView)
     }
 
     private fun buildRequest(): RequestBuilder<*> {
-        /*val transforms = ArrayList<Transformation<*>>()
-        transforms.add(SizeTransformation(context,
+        /*
+        transformations.add(SizeTransformation(context,
                 maxWidth, maxHeight, filterBitmapOnScale))
 
         if (centerCrop) {
-            transforms.add(CenterCrop())
+            transformations.add(CenterCrop())
         }
 
         if (circle) {
-            transforms.add(CircleCropTransformation(context))
+            transformations.add(CircleCropTransformation(context))
         }
 
         if (cornerRadius > 0 || cornerMargin > 0) {
-            transforms.add(RoundedCornersTransformation(context,
+            transformations.add(RoundedCornersTransformation(context,
                     cornerRadius, cornerMargin, cornerType))
         }
 
         if (blurTransform) {
-            transforms.add(BlurTransformation(context, blurRadius, blurSampling))
+            transformations.add(BlurTransformation(context, blurRadius, blurSampling))
         }
 
         if (overlayResId > 0) {
-            transforms.add(OverlayTransformation(context, overlayResId))
+            transformations.add(OverlayTransformation(context, overlayResId))
         }
 
         // масковая трансформация должна накладываться последней
         // для обрезания конечного результата
         if (maskResId > 0) {
-            transforms.add(MaskTransformation(context, maskResId))
+            transformations.add(MaskTransformation(context, maskResId))
         }
 
-        val transformations = arrayOfNulls<Transformation<*>>(transforms.size)
-        transforms.toTypedArray<Transformation>()
+        val transformations = arrayOfNulls<Transformation<*>>(transformations.size)
+        transformations.toTypedArray<Transformation>()
 
-        val errorBitmap = Glide.with(context)
-                .asBitmap()
-                .load(errorResId)
-                .apply(RequestOptions()
-                        .transforms(*transformations))
         val placeholderBitmap = Glide.with(context)
                 .asBitmap()
-                .load(previewResId)
+                .toLoad(previewResId)
                 .apply(RequestOptions()
-                        .transforms(*transformations))
+                        .transformations(*transformations))
         //.bitmapTransform(new Transform());*/
+
+        //val transformations = arrayOfNulls<Transformation<*>>(transformations.size)
+
+        //val transformations = ArrayList<Transformation<*>>()
+
         return Glide.with(context)
                 .asBitmap()
-                .load(if (isImageFromResourcesPresented()) drawableResId else url)
+                .load(imageResourceHolder.toLoad())
+                .error(prepareErrorBitmap())
+                .apply(
+                        RequestOptions()
+                                .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.RESOURCE)
+                                .skipMemoryCache(skipCache)
+                                .transforms(*transformations)
+                )
                 .listener(glideDownloadListener)
-        /*.error(errorBitmap)
+        /*
         .thumbnail(placeholderBitmap)
         .apply(RequestOptions()
-                .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
-                .skipMemoryCache(skipCache)
-                .transforms(*transformations))*/
+                .transformations(*transformations))*/
     }
 
     /**
-     * Проверка на наличие изображения для загрузки (из ресурсов или из сети).
-     *
-     * Если изображение не предоставлено - устанавливается [errorResId].
+     * Подготовка всех требуемых трансформаций.
      */
-    private fun isImagePresented(imageView: ImageView): Boolean {
-        if (!isImageFromResourcesPresented() && !isImageFromNetworkPresented()) {
-            if (isErrorPresented()) {
-                setErrorImage(imageView)
-            }
-            return false
-        }
-        return true
-    }
+    /*private fun prepareTransformations() =*/
+
+    /**
+     * Подготовка заглушки для ошибки.
+     *
+     * К заглушке применяются все трансформации, применяемые и к исходному изображению.
+     */
+    private fun prepareErrorBitmap() =
+            Glide.with(context)
+                    .asBitmap()
+                    .load(imageResourceHolder.errorResId)
+                    .apply(RequestOptions()
+                            .transforms(*transformations))
 
     /**
      * Установка заглушки ошибки для [ImageView]
@@ -182,30 +223,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param imageView экземпляр [ImageView], куда устанавливается заглушка
      */
     private fun setErrorImage(imageView: ImageView) {
-        imageView.setImageResource(errorResId)
+        imageView.setImageResource(imageResourceHolder.errorResId)
     }
-
-    /**
-     * Загружается ли изображение из res/drawable
-     */
-    private fun isImageFromResourcesPresented() = drawableResId != DEFAULT_DRAWABLE_URI
-
-    /**
-     * Загружается ли изображение из сети
-     */
-    private fun isImageFromNetworkPresented() = url.isNotEmpty()
-
-    /**
-     * Предоставлено ли изображение для ошибки
-     */
-    private fun isErrorPresented() = errorResId != DEFAULT_DRAWABLE_URI
-
-    /**
-     * Проверка валидность URL
-     *
-     * @param url проверяемая ссылка
-     */
-    private fun isUrlValid(url: String) = !Patterns.WEB_URL.matcher(url).matches()
 
     /**
      * Установка тэга на целевую [View]
@@ -223,5 +242,5 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Проверка тэга на то, был ли он ранее уже использован
      */
     private fun isTagUsed(imageView: ImageView) =
-            getTag(imageView) != null && url == getTag(imageView)
+            getTag(imageView) != null && imageResourceHolder.url == getTag(imageView)
 }

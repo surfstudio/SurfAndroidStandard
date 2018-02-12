@@ -41,6 +41,7 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
         ImageLoader
                 .with(this)
                 .url("https://pp.userapi.com/c834204/v834204860/3291c/rp3f6C3B6T4.jpg")
+                .error(R.drawable.placeholder)
                 .listener { bitmap -> Logger.d("1111 bitmap loaded = $bitmap") }
                 .into(image_view)
     }
