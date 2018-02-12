@@ -37,6 +37,10 @@ public class DataList<T> implements List<T>, Serializable {
         return new DataList(new ArrayList<>(), 0, 0, 0);
     }
 
+    public static <T> DataList<T> emptyWithTotal(int totalCount) {
+        return new DataList(new ArrayList<>(), 0, 0, totalCount);
+    }
+
     public DataList(Collection<T> data, int limit, int offset) {
         this(data, limit, offset, 0);
     }
