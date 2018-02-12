@@ -56,4 +56,11 @@ surf_maven_password = AP5oyEgS8WyzJ37itfGvKvUSxdgFA8KGvyM9WJ
 1. Версия snapshot-артефакта обозначается как ```{version}-SNAPSHOT```. Например: *0.1.2-SNAPSHOT*
 1. Перед началом изменений в модулях, стоит поднять версию по [правилам](https://semver.org/)
 1. После завершения работ по изменению модулей, необходимо зафиксировать текущую версию артефатов, [задеплоив](#деплой-в-репозиторий-артефактов) версию без суффикса -SNAPSHOT
+1. Для автоматического обновления snapshot зависимости должны быть помечены `{changing = true}` Пример: `implementation("ru.surfstudio.standard:core:$surfArtefactoryVersion")  { changing=true }`
+1. Для оперативного обновления нужно добавить в *build.gradle(root)*
+```
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+```
 
