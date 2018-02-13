@@ -39,6 +39,13 @@ android {
 }
 
 dependencies {
+    def appcompatVersion = config["appcompatVersion"]
+    def annimonStreamVersion = config["annimonStreamVersion"]
+    def retrofitVersion = config["retrofitVersion"]
+    def okHttpVersion = config["okHttpVersion"]
+    def gsonVersion = config["gsonVersion"]
+    def powerMockVersion = config["powerMockVersion"]
+
     provided project(':core')
     provided project(':filestorage')
     provided project(':logger')
@@ -50,8 +57,9 @@ dependencies {
     // network
     api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
     api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
-    api "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
+    api "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
     api "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
+    api "com.google.code.gson:gson:${gsonVersion}"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
@@ -59,8 +67,8 @@ dependencies {
 
     //tests
     testImplementation 'junit:junit:4.12'
-    testImplementation "org.powermock:powermock-module-junit4:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-module-junit4-rule:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-api-mockito:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-classloading-xstream:${porwerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-module-junit4-rule:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-api-mockito:${powerMockVersion}"
+    testImplementation "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
 }

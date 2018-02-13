@@ -19,6 +19,30 @@
     {
       "name": "filestorage",
       "path": ""
+    },
+    {
+      "name": "push",
+      "path": ""
+    },
+    {
+      "name": "dagger-scope",
+      "path": ""
+    },
+    {
+      "name": "logger",
+      "path": ""
+    },
+    {
+      "name": "converter-gson",
+      "path": ""
+    },
+    {
+      "name": "easyadapter",
+      "path": ""
+    },
+    {
+      "name": "easyadapter-carousel",
+      "path": ""
     }
   ]
 }
