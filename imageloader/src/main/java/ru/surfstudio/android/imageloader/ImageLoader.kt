@@ -185,7 +185,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 .error(prepareErrorBitmap())
                 .apply(
                         RequestOptions()
-                                .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.RESOURCE)
+                                .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                                 .skipMemoryCache(skipCache)
                                 .transforms(*imageTransformationsHolder.prepareTransformations())
                 )
