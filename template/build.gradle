@@ -77,6 +77,7 @@ dependencies {
     implementation project(':easyadapter-carousel')
     implementation project(':logger')
     implementation project(':dagger-scope')
+    implementation project(':firebase-analytics')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     provided "com.google.dagger:dagger:${daggerVersion}"
@@ -101,6 +102,9 @@ dependencies {
     //kotlin
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 
+    //firebase
+    api "com.google.firebase:firebase-core:${playServicesVersion}"
+
     //--------------------------------- test dependencies ------------------------------------------
 
     //tests
@@ -124,3 +128,4 @@ dependencies {
 }
 
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.google.gms.google-services'

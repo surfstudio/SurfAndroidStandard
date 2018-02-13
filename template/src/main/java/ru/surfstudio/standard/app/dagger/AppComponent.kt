@@ -8,6 +8,8 @@ import ru.surfstudio.android.core.util.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
 import ru.surfstudio.standard.app.intialization.migration.MigrationModule
+import ru.surfstudio.standard.interactor.analytics.AnalyticsModule
+import ru.surfstudio.standard.interactor.analytics.AnalyticsService
 import ru.surfstudio.standard.interactor.auth.AuthModule
 import ru.surfstudio.standard.interactor.auth.SessionChangedInteractor
 import ru.surfstudio.standard.interactor.common.network.NetworkModule
@@ -20,7 +22,8 @@ import ru.surfstudio.standard.interactor.common.network.OkHttpModule
 (ActiveActivityHolderModule::class),
 (AuthModule::class),
 (NetworkModule::class),
-(OkHttpModule::class)])
+(OkHttpModule::class),
+AnalyticsModule::class])
 interface AppComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
     fun context(): Context
@@ -28,4 +31,5 @@ interface AppComponent {
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
     fun sessionChangeInteractor(): SessionChangedInteractor
+    fun analyticsService(): AnalyticsService
 }
