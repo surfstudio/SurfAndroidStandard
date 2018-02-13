@@ -93,7 +93,7 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
     }
 
     private fun applyInfiniteScroll() {
-        val startPosition = (EasyAdapter.INFINITE_SCROLL_LOOPS_COUNT / 2 * realItemsCount)
+        val startPosition = EasyAdapter.INFINITE_SCROLL_LOOPS_COUNT / 2 * realItemsCount
         this.linearLayoutManager.scrollToPosition(startPosition)
     }
 }
