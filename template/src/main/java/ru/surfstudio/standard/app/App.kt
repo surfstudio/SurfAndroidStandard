@@ -3,8 +3,8 @@ package ru.surfstudio.standard.app
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
+import io.fabric.sdk.android.Kit
 import ru.surfstudio.android.core.app.CoreApp
-import ru.surfstudio.standard.BuildConfig
 import ru.surfstudio.standard.app.dagger.ActiveActivityHolderModule
 import ru.surfstudio.standard.app.dagger.AppComponent
 import ru.surfstudio.standard.app.dagger.AppModule
@@ -22,10 +22,10 @@ class App : CoreApp() {
         initFabric()
         initInjector()
     }
+
     private fun initFabric() {
-        val core = CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()
-        val kit = Crashlytics.Builder().core(core).build()
-        Fabric.with(this, kit)
+        val kits = arrayOf<Kit<*>>(Crashlytics.Builder().core(CrashlyticsCore.Builder().build()).build())
+        Fabric.with(this, *kits)
     }
 
     private fun initInjector() {
