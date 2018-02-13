@@ -22,6 +22,7 @@ internal class MainPresenter @Inject constructor(
         super.onLoad(viewRecreated)
         view.render(screenModel)
 
+
         analyticsService.sendEvent(EnterEvent())
     }
 }

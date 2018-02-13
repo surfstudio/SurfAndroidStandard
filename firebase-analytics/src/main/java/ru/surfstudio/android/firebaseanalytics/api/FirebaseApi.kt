@@ -1,7 +1,6 @@
 package ru.surfstudio.android.firebaseanalytics.api
 
 import android.os.Bundle
-import com.annimon.stream.Stream
 import com.google.firebase.analytics.FirebaseAnalytics
 import ru.surfstudio.android.analytics.Analytics
 
