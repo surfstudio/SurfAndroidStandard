@@ -1,0 +1,50 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+def config = rootProject.extensions.getByName("ext")
+
+android {
+    compileSdkVersion config["compileSdkVersion"]
+    buildToolsVersion config["buildToolsVersion"]
+
+    kapt {
+        generateStubs = true
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode rootProject.ext.moduleVersionCode
+        versionName rootProject.ext.moduleVersionName
+    }
+
+    buildTypes {
+        qa {
+            debuggable = true
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    def kotlinVersion = config["kotlinVersion"]
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    provided "com.google.firebase:firebase-core:${playServicesVersion}"
+
+    provided "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    provided project(path: ':core')
+    provided project(path: ':analytics')
+}
+repositories {
+    mavenCentral()
+}
+
