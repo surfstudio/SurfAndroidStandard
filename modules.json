@@ -43,6 +43,10 @@
     {
       "name": "easyadapter-carousel",
       "path": ""
+    },
+    {
+      "name": "firebase-analytics",
+      "path": ""
     }
   ]
 }
