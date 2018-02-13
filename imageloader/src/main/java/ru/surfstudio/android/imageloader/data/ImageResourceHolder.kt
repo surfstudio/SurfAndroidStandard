@@ -46,13 +46,8 @@ data class ImageResourceHolder(
      *
      * Если изображение не предоставлено - устанавливается [errorResId].
      */
-    private fun isImagePresented(): Boolean {
-        if (!isImageFromResourcesPresented() &&
-                !isImageFromNetworkPresented()) {
-            return false
-        }
-        return true
-    }
+    private fun isImagePresented() =
+            isImageFromResourcesPresented() || isImageFromNetworkPresented()
 
     /**
      * Загружается ли изображение из сети

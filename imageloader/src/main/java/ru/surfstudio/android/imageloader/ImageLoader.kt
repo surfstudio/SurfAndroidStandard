@@ -3,20 +3,18 @@ package ru.surfstudio.android.imageloader
 import android.content.Context
 import android.graphics.Bitmap
 import android.support.annotation.DrawableRes
-import android.util.Patterns
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import ru.surfstudio.android.imageloader.data.ImageResourceHolder
-import ru.surfstudio.android.imageloader.data.ImageSizeHolder
+import ru.surfstudio.android.imageloader.data.ImageTransformationsHolder
 import ru.surfstudio.android.logger.Logger
 
 /**
@@ -29,9 +27,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var targetView: View? = null    //целевая View, в которой отрисовывается изображение
 
     private var imageResourceHolder: ImageResourceHolder = ImageResourceHolder()
-    private var imageSizeHolder: ImageSizeHolder = ImageSizeHolder()
-
-    private var transformations = emptyArray<Transformation<Bitmap>>()   //список всех применяемых трансформаций
+    private var imageTransformationsHolder: ImageTransformationsHolder = ImageTransformationsHolder()
 
     private var skipCache: Boolean = false  //использовать ли закэшированные данные
 
@@ -109,7 +105,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Необходима для пережатия изображения без искажения пропорций.
      */
     override fun maxWidth(maxWidth: Int) =
-            apply { this.imageSizeHolder.maxWidth = maxWidth }
+            apply { this.imageTransformationsHolder.imageSizeHolder.maxWidth = maxWidth }
 
     /**
      * Установка максимальной высоты изображения в px.
@@ -117,7 +113,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Необходима для пережатия изображения без искажения пропорций.
      */
     override fun maxHeight(maxHeight: Int) =
-            apply { this.imageSizeHolder.maxHeight = maxHeight }
+            apply { this.imageTransformationsHolder.imageSizeHolder.maxHeight = maxHeight }
 
     /**
      * Указание целевой [ImageView]
@@ -191,7 +187,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                         RequestOptions()
                                 .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.RESOURCE)
                                 .skipMemoryCache(skipCache)
-                                .transforms(*transformations)
+                                .transforms(*imageTransformationsHolder.prepareTransformations())
                 )
                 .listener(glideDownloadListener)
         /*
@@ -199,11 +195,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         .apply(RequestOptions()
                 .transformations(*transformations))*/
     }
-
-    /**
-     * Подготовка всех требуемых трансформаций.
-     */
-    /*private fun prepareTransformations() =*/
 
     /**
      * Подготовка заглушки для ошибки.
@@ -215,7 +206,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                     .asBitmap()
                     .load(imageResourceHolder.errorResId)
                     .apply(RequestOptions()
-                            .transforms(*transformations))
+                            .transforms(*imageTransformationsHolder.prepareTransformations()))
 
     /**
      * Установка заглушки ошибки для [ImageView]
