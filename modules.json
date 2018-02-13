@@ -21,7 +21,7 @@
       "path": ""
     },
     {
-      "name": "notification",
+      "name": "push",
       "path": ""
     },
     {
@@ -34,6 +34,14 @@
     },
     {
       "name": "converter-gson",
+      "path": ""
+    },
+    {
+      "name": "easyadapter",
+      "path": ""
+    },
+    {
+      "name": "easyadapter-carousel",
       "path": ""
     },
     {

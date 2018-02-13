@@ -50,6 +50,7 @@ dependencies {
     //-------------------------------------- versions ----------------------------------------------
 
     // Library, Apt versions
+    def kotlinVersion = config["kotlinVersion"]
     def daggerVersion = config["daggerVersion"]
     def appcompatVersion = config["appcompatVersion"]
     def retrofitVersion = '2.1.0'
@@ -64,7 +65,7 @@ dependencies {
 
     //------------------------------------ dependencies --------------------------------------------
 //    implementation 'ru.surfstudio.standard:core:0.0.1'
-//    implementation 'ru.surfstudio.standard:analytics:0.0.1'//todo
+    //implementation 'ru.surfstudio.standard:easyadapter:0.0.4-SNAPSHOT'//todo
     implementation project(':core')
     implementation project(':analytics')
     implementation project(':core')
@@ -72,12 +73,14 @@ dependencies {
     implementation project(':network')
     implementation project(':converter-gson')
     implementation project(':filestorage')
+    implementation project(':easyadapter')
+    implementation project(':easyadapter-carousel')
     implementation project(':logger')
     implementation project(':dagger-scope')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     provided "com.google.dagger:dagger:${daggerVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     //provided
     kapt 'javax.annotation:jsr250-api:1.0'
@@ -119,3 +122,5 @@ dependencies {
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
 }
+
+apply plugin: 'kotlin-android-extensions'

@@ -13,7 +13,6 @@ android {
         versionName rootProject.ext.moduleVersionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -40,10 +39,9 @@ android {
 }
 
 dependencies {
-    provided "com.android.support:support-annotations:${appcompatVersion}"
-    provided "com.annimon:stream:${annimonStreamVersion}"
+    def appcompatVersion = config["appcompatVersion"]
+    def annimonStreamVersion = config["annimonStreamVersion"]
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    compileOnly "com.android.support:support-annotations:${appcompatVersion}"
+    compileOnly "com.annimon:stream:${annimonStreamVersion}"
 }
