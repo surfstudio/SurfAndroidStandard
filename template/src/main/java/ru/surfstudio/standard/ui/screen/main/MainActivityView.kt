@@ -5,6 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import android.widget.Button
+import org.jetbrains.anko.find
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseRenderableHandleableErrorActivityView
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator
 import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenConfigurator
@@ -41,6 +43,9 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+
+        val openCameraBtn: Button = find(R.id.camera_btn)
+        openCameraBtn.setOnClickListener({ presenter.openCamera() })
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}

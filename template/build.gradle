@@ -115,4 +115,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
+    compile project(path: ':camera')
 }

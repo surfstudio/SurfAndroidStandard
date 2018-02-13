@@ -16,4 +16,5 @@ interface ActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
     fun rxBus(): RxBus
+    fun photoPresenter(): PhotoProvider
 }

@@ -46,7 +46,9 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
         return result;
     }
 
-
+    public Observable<Boolean> checkObservable(PermissionRequest request) {
+        return Observable.just(check(request));
+    }
 
     public Observable<Boolean> request(PermissionRequest request) {
         BehaviorSubject<Boolean> requestPermissionResultSubject = BehaviorSubject.create();
