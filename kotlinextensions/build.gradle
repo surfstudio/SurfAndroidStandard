@@ -1,0 +1,46 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+def config = rootProject.extensions.getByName("ext")
+
+android {
+    compileSdkVersion config["compileSdkVersion"]
+    buildToolsVersion config["buildToolsVersion"]
+
+    kapt {
+        generateStubs = true
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode rootProject.ext.moduleVersionCode
+        versionName rootProject.ext.moduleVersionName
+    }
+
+    buildTypes {
+        qa {
+            debuggable = true
+            minifyEnabled false
+        }
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    def kotlinVersion = config["kotlinVersion"]
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
+    provided "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+}

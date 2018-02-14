@@ -52,38 +52,10 @@ object StringUtil {
     }
 
     /**
-     * @return пустая строка?
-     */
-    fun isEmpty(source: CharSequence): Boolean {
-        return TextUtils.isEmpty(source)
-    }
-
-    /**
-     * @return пустая строка?
-     */
-    fun isTrimEmpty(source: String?): Boolean {
-        return source == null || source.trim { it <= ' ' }.length == 0
-    }
-
-    /**
-     * @return НЕ пустая строка?
-     */
-    fun isNotEmpty(source: CharSequence): Boolean {
-        return !isEmpty(source)
-    }
-
-    /**
      * Удалить нули в начале строки
      */
     fun removeLeadingZeros(source: String): String {
         return source.replaceFirst("^0+(?!$)".toRegex(), "")
-    }
-
-    /**
-     * @return возвращает пустую строку, если исходная null
-     */
-    fun emptyIfNull(s: String): String {
-        return if (isEmpty(s)) "" else s
     }
 
     /**
@@ -113,22 +85,6 @@ object StringUtil {
         return if (value > 0) getDecimalFormat(wholeFormat).format(value.toLong()) else 0.toString()
     }
 
-    /**
-     * Обрезать строку, если она больше определенного значения
-     *
-     * @param source    исходная строка
-     * @param maxLength максимальная длинна строки
-     * @return строка не превышающая максимального размера
-     */
-    fun cut(source: String, maxLength: Int): String? {
-        if (TextUtils.isEmpty(source)) {
-            return source
-        }
-        return if (source.length > maxLength)
-            source.substring(0, maxLength)
-        else
-            source
-    }
 
     private fun getDecimalFormat(pattern: String): DecimalFormat {
         val symbols = DecimalFormatSymbols(Locale.US)
