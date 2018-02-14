@@ -89,8 +89,7 @@ public class CorePresenterGateway implements
     @Override
     public void onRestoreState(@Nullable Bundle savedInstanceState) {
         if (presenter.getStateRestorer() != null
-                && screenState.isRestoredFromDisk()
-                && !screenState.isViewRecreated()) {
+                && screenState.isRestoredFromDiskJustNow()) {
             //восстанавливаем состояние только если экран восстановлен с диска
             // и этот обработчик не был вызван после смены конфигурации
             presenter.getStateRestorer().restoreState(savedInstanceState.getSerializable(KEY_STATE));

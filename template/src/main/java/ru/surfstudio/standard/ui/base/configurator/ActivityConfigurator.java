@@ -1,9 +1,6 @@
 package ru.surfstudio.standard.ui.base.configurator;
 
-import android.support.v4.app.FragmentActivity;
-
 import ru.surfstudio.android.core.ui.base.dagger.CoreActivityModule;
-import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.standard.app.App;
 import ru.surfstudio.standard.app.dagger.ActivityComponent;
@@ -16,14 +13,6 @@ import ru.surfstudio.standard.app.dagger.DaggerActivityComponent;
 
 public class ActivityConfigurator extends BaseActivityConfigurator<ActivityComponent, AppComponent> {
 
-
-    private FragmentActivity target;
-
-    public <T extends FragmentActivity & CoreActivityViewInterface> ActivityConfigurator(T target) {
-        super(target);
-        this.target = target;
-    }
-
     @Override
     protected ActivityComponent createActivityComponent(AppComponent parentComponent) {
         return DaggerActivityComponent.builder()
@@ -34,7 +23,7 @@ public class ActivityConfigurator extends BaseActivityConfigurator<ActivityCompo
 
     @Override
     protected AppComponent getParentComponent() {
-        return ((App) target.getApplicationContext()).getAppComponent();
+        return ((App) getTargetActivity().getApplicationContext()).getAppComponent();
 
     }
 }

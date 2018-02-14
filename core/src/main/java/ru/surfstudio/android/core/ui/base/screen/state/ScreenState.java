@@ -29,4 +29,11 @@ public interface ScreenState {
      * с диска
      */
     boolean isRestoredFromDisk();
+
+    /**
+     * @return восстановлен ли экран с диска
+     * после смены конфигурации метод вернет false если раньше он был восстановлен
+     * с диска
+     */
+    boolean isRestoredFromDiskJustNow();
 }

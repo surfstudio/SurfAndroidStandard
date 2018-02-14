@@ -9,9 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 
 /**
  * базовая активити для всего приложения
@@ -27,13 +27,13 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     }
 
     @Override
-    public BaseActivityConfigurator getConfigurator() {
-        return activityDelegate.getConfigurator();
+    public ActivityPersistentScope getPersistentScope() {
+        return activityDelegate.getPersistentScope();
     }
 
     @Override
-    public final String getName() {
-        return getConfigurator().getName();
+    public String getName() {
+        return this.getClass().getCanonicalName();
     }
 
     @Override

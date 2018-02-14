@@ -1,27 +1,36 @@
 package ru.surfstudio.android.core.ui.base.screen.state;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+
+import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityInterface;
 
 /**
- * Created by makstuev on 25.01.2018.
+ * Предоставляет текущее состояние экрана и живую активити - контейнер
  */
 
 public class ActivityScreenState extends BaseScreenState {
-    private Activity activity; //todo generic
+    private FragmentActivity activity;
+    private CoreActivityInterface coreActivity;
 
     public void onDestroy() {
         super.onDestroy();
         activity = null;
+        coreActivity = null;
     }
 
-    public void onCreate(Activity activity, @Nullable Bundle savedInstanceState) {
+    public void onCreate(FragmentActivity activity, CoreActivityInterface coreActivity,  @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.activity = activity;
+        this.coreActivity = coreActivity;
     }
 
-    public Activity getActivity() {
+    public FragmentActivity getActivity() {
         return activity;
+    }
+
+    public CoreActivityInterface getCoreActivity() {
+        return coreActivity;
     }
 }

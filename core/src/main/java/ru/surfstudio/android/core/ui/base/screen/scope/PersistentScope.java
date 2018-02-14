@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+import ru.surfstudio.android.core.ui.base.screen.configurator.Configurator;
 import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
@@ -16,31 +17,34 @@ import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
  * Не уничтожается при смене конфигурации
  * Для Доступа к этому обьекту следует использовать {@link PersistentScopeStorage}
  *
- * @param <DM> ScreenEventDelegateManager
- * @param <S> ScreenState
  */
-public abstract class PersistentScope<
-        DM extends ScreenEventDelegateManager,
-        S extends ScreenState> {
+public abstract class PersistentScope {
     private final Map<ObjectKey, Object> objects = new HashMap<>();
-    private final DM screenEventDelegateManager;
-    private final S screenState;
-    private String name;
+    private final ScreenEventDelegateManager screenEventDelegateManager;
+    private final ScreenState screenState;
+    private final Configurator configurator;
+    private final String name;
 
-    public PersistentScope(String name,
-                           DM screenEventDelegateManager,
-                           S screenState) {
-        this.name = name;
+    public PersistentScope(ScreenEventDelegateManager screenEventDelegateManager,
+                           ScreenState screenState,
+                           Configurator configurator,
+                           String name) {
         this.screenEventDelegateManager = screenEventDelegateManager;
         this.screenState = screenState;
+        this.configurator = configurator;
+        this.name = name;
     }
 
-    public DM getScreenEventDelegateManager() {
+    public ScreenEventDelegateManager getScreenEventDelegateManager() {
         return screenEventDelegateManager;
     }
 
-    public S getScreenState() {
+    public ScreenState getScreenState() {
         return screenState;
+    }
+
+    public Configurator getConfigurator() {
+        return configurator;
     }
 
     /**

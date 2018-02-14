@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 /**
- * базовый {@link ScreenState} для активити и фрагмента, для виджета свой делегат
+ * базовый {@link ScreenState} для активити и фрагмента, для виджета свой ScreenState
  */
 
 public abstract class BaseScreenState implements ScreenState {
@@ -54,5 +54,10 @@ public abstract class BaseScreenState implements ScreenState {
     @Override
     public boolean isRestoredFromDisk() {
         return restoredFromDisk;
+    }
+
+    @Override
+    public boolean isRestoredFromDiskJustNow() {
+        return isRestoredFromDisk() && !isViewRecreated();
     }
 }

@@ -9,6 +9,6 @@ import io.reactivex.functions.Action;
  *
  * @see Action
  */
-public interface SafeAction extends Action {
+public interface ActionSafe extends Action {
     void run();
 }

@@ -10,15 +10,11 @@ import android.view.View;
 
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
-import ru.surfstudio.android.core.ui.base.screen.configurator.HasConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.ViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorageContainer;
-import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
-import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
-import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
-import ru.surfstudio.android.core.ui.base.screen.state.WidgetScreenState;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.RemoteLogger;
@@ -30,8 +26,10 @@ import ru.surfstudio.android.logger.RemoteLogger;
 public class SimpleDialogDelegate {
     private static final String EXTRA_PARENT_TYPE = "EXTRA_PARENT_TYPE";
     private static final String EXTRA_PARENT_NAME = "EXTRA_PARENT_NAME";
+
     private ScreenType parentType;
     private String parentName;
+
     private CoreSimpleDialogInterface simpleDialog;
     private DialogFragment dialogFragment;
 
@@ -66,22 +64,9 @@ public class SimpleDialogDelegate {
 
     public <T> T getScreenComponent(Class<T> componentClass) {
         PersistentScopeStorage scopeStorage = PersistentScopeStorageContainer.getFrom(dialogFragment.getActivity());
-        ScreenState parentScreenState = scopeStorage.getByName(parentName).getScreenState();
-        HasConfigurator hasConfigurator;
-        switch (parentType) {
-            case ACTIVITY:
-                hasConfigurator = (HasConfigurator)((ActivityScreenState)parentScreenState).getActivity();
-                break;
-            case FRAGMENT:
-                hasConfigurator = (HasConfigurator)((FragmentScreenState)parentScreenState).getFragment();
-                break;
-            case WIDGET:
-                hasConfigurator = (HasConfigurator)((WidgetScreenState)parentScreenState).getWidget();
-                break;
-            default:
-                throw new IllegalStateException("Unsupported parent type: " + parentType);
-        }
-        return componentClass.cast(((ViewConfigurator)hasConfigurator.getConfigurator()).getScreenComponent());
+        PersistentScope persistentScope = scopeStorage.get(parentName);
+        ViewConfigurator viewConfigurator = (ViewConfigurator)persistentScope.getConfigurator();
+        return componentClass.cast(viewConfigurator.getScreenComponent());
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -10,7 +10,7 @@ import io.reactivex.functions.Function;
  *
  * @see Function
  */
-public interface SafeFunction<T, R> extends Function<T, R> {
+public interface FunctionSafe<T, R> extends Function<T, R> {
     @Override
     R apply(@NonNull T t);
 }

@@ -7,13 +7,12 @@ import android.support.v4.app.FragmentManager;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.dialog.route.DialogRoute;
-import ru.surfstudio.android.core.ui.base.screen.dialog.BaseDialogFragment;
-import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogFragment;
+import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogInterface;
 
 /**
  * позволяет открывать диалоги
  */
-public abstract class DialogNavigator implements Navigator { //todo сделать поддержку widget(через ScopeStorage?)
+public abstract class DialogNavigator implements Navigator {
 
     private ActivityProvider activityProvider;
 
@@ -23,8 +22,8 @@ public abstract class DialogNavigator implements Navigator { //todo сделат
 
     public void show(DialogRoute dialogRoute){
         DialogFragment dialog = dialogRoute.createFragment();
-        if(dialog instanceof CoreSimpleDialogFragment) {
-            show((CoreSimpleDialogFragment) dialog);
+        if(dialog instanceof CoreSimpleDialogInterface) {
+            showSimpleDialog((DialogFragment & CoreSimpleDialogInterface) dialog);
         } else {
             dialog.show(activityProvider.get().getSupportFragmentManager(), dialogRoute.getTag());
         }
@@ -32,11 +31,11 @@ public abstract class DialogNavigator implements Navigator { //todo сделат
 
     public void dismiss(DialogRoute dialogRoute){
         FragmentManager fragmentManager = activityProvider.get().getSupportFragmentManager();
-        BaseDialogFragment dialogFragment = (BaseDialogFragment) fragmentManager
+        DialogFragment dialogFragment = (DialogFragment) fragmentManager
                 .findFragmentByTag(dialogRoute.getTag());
         dialogFragment.dismiss();
     }
 
-    protected abstract void show(CoreSimpleDialogFragment fragment);
+    protected abstract <D extends DialogFragment & CoreSimpleDialogInterface>void showSimpleDialog(D fragment);
     
 }

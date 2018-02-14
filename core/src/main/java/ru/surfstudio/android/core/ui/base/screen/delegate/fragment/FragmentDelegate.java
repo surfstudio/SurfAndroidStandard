@@ -26,11 +26,7 @@ import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
  * - ScreenState                - хранит текущее состояние экрана
  * - ScreenConfigurator         - управляет компонентами даггера, предоставляет уникальное имя экрана
  */
-public class FragmentDelegate extends BaseScreenDelegate<
-        FragmentPersistentScope,
-        FragmentScreenState,
-        BaseFragmentConfigurator,
-        FragmentCompletelyDestroyChecker> {
+public class FragmentDelegate extends BaseScreenDelegate {
 
     private Fragment fragment;
     private CoreFragmentInterface coreFragment;
@@ -41,15 +37,25 @@ public class FragmentDelegate extends BaseScreenDelegate<
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             FragmentCompletelyDestroyChecker completelyDestroyChecker) {
-        super(scopeStorage, eventResolvers, completelyDestroyChecker);
+        super(fragment, scopeStorage, eventResolvers, completelyDestroyChecker);
         this.fragment = fragment;
         this.coreFragment = fragment;
         this.scopeStorage = scopeStorage;
     }
 
     @Override
+    public FragmentPersistentScope getPersistentScope() {
+        return scopeStorage.get(getName(), FragmentPersistentScope.class);
+    }
+
+    @Override
+    public FragmentScreenState getScreenState() {
+        return getPersistentScope().getScreenState();
+    }
+
+    @Override
     protected void notifyScreenStateAboutOnCreate(@Nullable Bundle savedInstanceState) {
-        getScreenState().onCreate(fragment, savedInstanceState);
+        this.getScreenState().onCreate(fragment, coreFragment, savedInstanceState);
     }
 
     @Override
@@ -57,30 +63,28 @@ public class FragmentDelegate extends BaseScreenDelegate<
         coreFragment.onActivityCreated(savedInstanceState, getScreenState().isViewRecreated());
     }
 
-    @Override
-    protected BaseFragmentConfigurator createConfigurator() {
-        return coreFragment.createConfigurator();
-    }
-
     @NonNull
     @Override
     protected FragmentPersistentScope createPersistentScope(List<ScreenEventResolver> eventResolvers) {
+        FragmentScreenEventDelegateManager eventDelegateManager = createFragmentScreenEventDelegateManager(eventResolvers);
+        FragmentScreenState screenState = new FragmentScreenState();
+        BaseFragmentConfigurator configurator = coreFragment.createConfigurator();
+        FragmentPersistentScope persistentScope = new FragmentPersistentScope(
+                eventDelegateManager,
+                screenState,
+                configurator,
+                coreFragment.getName());
+        return persistentScope;
+    }
+
+    @NonNull
+    protected FragmentScreenEventDelegateManager createFragmentScreenEventDelegateManager(List<ScreenEventResolver> eventResolvers) {
         ActivityPersistentScope activityPersistentScope = scopeStorage.getActivityScope();
         if (activityPersistentScope == null) {
             throw new IllegalStateException("FragmentPersistentScope cannot be created without ActivityPersistentScope");
         }
-        FragmentScreenEventDelegateManager eventDelegateManager = new FragmentScreenEventDelegateManager(
+        return new FragmentScreenEventDelegateManager(
                 eventResolvers,
                 activityPersistentScope.getScreenEventDelegateManager());
-        FragmentScreenState screenState = new FragmentScreenState();
-        return new FragmentPersistentScope(
-                getName(),
-                eventDelegateManager,
-                screenState);
-    }
-
-    @Override
-    protected FragmentPersistentScope getPersistentScope() {
-        return scopeStorage.getFragmentScope(getName());
     }
 }

@@ -4,6 +4,8 @@ import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.HasConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.scope.HasPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreView;
 
 /**
@@ -22,16 +24,21 @@ import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreVi
 public interface CoreWidgetViewInterface extends
         PresenterHolderCoreView,
         HasConfigurator,
+        HasPersistentScope,
         HasName {
 
     @Override
     BaseWidgetViewConfigurator createConfigurator();
 
     @Override
-    BaseWidgetViewConfigurator getConfigurator();
+    WidgetViewPersistentScope getPersistentScope();
 
     WidgetViewDelegate createWidgetViewDelegate();
 
+    /**
+     * Необходимо вызвать метод init во время Activity.onCreate() или Fragment.onActivityCreated()
+     * или CoreWidgetView.onCreate()
+     */
     void init();
 
     void onCreate();

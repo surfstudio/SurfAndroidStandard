@@ -2,7 +2,7 @@ package ru.surfstudio.android.network;
 
 import io.reactivex.Observable;
 import ru.surfstudio.android.core.app.interactor.common.DataPriority;
-import ru.surfstudio.android.core.util.rx.SafeFunction;
+import ru.surfstudio.android.core.util.rx.FunctionSafe;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.NotModifiedException;
@@ -42,7 +42,7 @@ public class BaseNetworkInteractor {
      */
     protected <T> Observable<T> hybridQuery(DataPriority priority,
                                             Observable<T> cacheRequest,
-                                            SafeFunction<Integer, Observable<T>> networkRequestCreator) {
+                                            FunctionSafe<Integer, Observable<T>> networkRequestCreator) {
         return cacheRequest
                 //оборачиваем ошибку получения кеша чтобы обработать ее в конце чейна
                 .onErrorResumeNext((Throwable e) -> Observable.error(new CacheExceptionWrapper(e)))
@@ -92,7 +92,7 @@ public class BaseNetworkInteractor {
     }
 
     protected <T> Observable<T> hybridQuery(Observable<T> cacheRequest,
-                                            SafeFunction<Integer, Observable<T>> networkRequestCreator) {
+                                            FunctionSafe<Integer, Observable<T>> networkRequestCreator) {
         return hybridQuery(DataPriority.AUTO, cacheRequest, networkRequestCreator);
     }
 
@@ -104,11 +104,11 @@ public class BaseNetworkInteractor {
      * @param <T>            тип ответа сервера
      */
     protected <T> Observable<T> hybridQueryWithSimpleCache(DataPriority priority,
-                                                           SafeFunction<Integer, Observable<T>> requestCreator) {
+                                                           FunctionSafe<Integer, Observable<T>> requestCreator) {
         return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
     }
 
-    protected <T> Observable<T> hybridQueryWithSimpleCache(SafeFunction<Integer, Observable<T>> requestCreator) {
+    protected <T> Observable<T> hybridQueryWithSimpleCache(FunctionSafe<Integer, Observable<T>> requestCreator) {
         return hybridQueryWithSimpleCache(DataPriority.AUTO, requestCreator);
     }
 

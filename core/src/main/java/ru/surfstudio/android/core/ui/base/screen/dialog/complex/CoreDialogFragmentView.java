@@ -1,17 +1,18 @@
-package ru.surfstudio.android.core.ui.base.screen.dialog;
+package ru.surfstudio.android.core.ui.base.screen.dialog.complex;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
-import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentViewPersistentScope;
 
 /**
  * Базовый класс диалога с презентером
@@ -22,10 +23,10 @@ import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
  *
  * Для возвращения результата следует использовать RxBus
  */
-public abstract class CoreDialogFragmentView extends BaseDialogFragment implements
+public abstract class CoreDialogFragmentView extends DialogFragment implements
         CoreFragmentViewInterface {
 
-    private FragmentDelegate fragmentDelegate;
+    private FragmentViewDelegate fragmentDelegate;
 
     protected abstract CorePresenter[] getPresenters();
 
@@ -37,15 +38,10 @@ public abstract class CoreDialogFragmentView extends BaseDialogFragment implemen
         return ScreenDelegateFactoryContainer.get().createFragmentViewDelegate(this);
     }
 
-    @Override
-    public BaseFragmentViewConfigurator getConfigurator() {
-        return (BaseFragmentViewConfigurator) fragmentDelegate.getConfigurator();
-    }
-
     /**
      * Override this instead {@link #onActivityCreated(Bundle)}
      *
-     * @param viewRecreated show whether view created in first time or recreated after
+     * @param viewRecreated showSimpleDialog whether view created in first time or recreated after
      *                      changing configuration
      */
     @Override
@@ -65,8 +61,8 @@ public abstract class CoreDialogFragmentView extends BaseDialogFragment implemen
     }
 
     @Override
-    public final String getName() {
-        return getConfigurator().getName();
+    public FragmentViewPersistentScope getPersistentScope() {
+        return fragmentDelegate.getPersistentScope();
     }
 
     @Override

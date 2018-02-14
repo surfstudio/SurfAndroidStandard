@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.ui.base.screen.scope;
 
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.HashMap;
@@ -12,20 +13,17 @@ import java.util.Map;
 public class PersistentScopeStorage {
     private final Map<String, PersistentScope> scopes = new HashMap<>();
 
-    public PersistentScopeStorage() {
-    }
-
     /**
      * сохраняет PersistentScope в хранилище
      * @param scope
      */
-    public void putScope(PersistentScope scope) {
+    public void put(PersistentScope scope) {
         if (scopes.get(scope.getName()) != null) {
             throw new IllegalStateException(String.format(
                     "ScreenScope with name %s already created", scope.getName()));
         }
 
-        if (scope instanceof ActivityPersistentScope && getActivityScope() != null) {
+        if (scope instanceof ActivityPersistentScope && getActivityScopeName() != null) {
             throw new IllegalStateException("ActivityPersistentScope already created");
         }
 
@@ -36,35 +34,49 @@ public class PersistentScopeStorage {
      * удаляет PersistentScope из хранилища
      * @param name
      */
-    public void removeScope(String name) {
+    public void remove(String name) {
         scopes.remove(name);
     }
 
+    public boolean isExist(String name){
+        return scopes.containsKey(name);
+    }
+
     /**
-     *
      * @param name
      * @return PersistentScope с указанным именем
      */
-    public @Nullable PersistentScope getByName(String name) {
-        return scopes.get(name);
+    public @NonNull PersistentScope get(String name) {
+        PersistentScope persistentScope = scopes.get(name);
+        if(persistentScope == null) {
+            throw new IllegalStateException(String.format("Something went wrong, PersistentScope with name %s doest not exist", name));
+        }
+        return persistentScope;
     }
 
-    public ActivityPersistentScope getActivityScope() {
-        for (PersistentScope scope : scopes.values()) {
-            if (scope instanceof ActivityPersistentScope) {
-                return (ActivityPersistentScope) scope;
+    public @NonNull <P extends PersistentScope> P get(String name,
+                                        Class<P> scopeClass) {
+        PersistentScope persistentScope = get(name);
+        if(!scopeClass.isInstance(persistentScope)){
+            throw new IllegalStateException(String.format("PersistentScope with name %s is not instance of %s", name, scopeClass.getCanonicalName()));
+        }
+        return scopeClass.cast(persistentScope);
+    }
+
+    public @NonNull ActivityPersistentScope getActivityScope() {
+        String activityScopeName = getActivityScopeName();
+        if(activityScopeName == null) {
+            throw new IllegalStateException("ActivityPersistentScope doest not exist");
+        }
+        return get(activityScopeName, ActivityPersistentScope.class);
+    }
+
+    private @Nullable String getActivityScopeName() {
+        for (Map.Entry<String, PersistentScope> entry : scopes.entrySet()) {
+            if (entry.getValue() instanceof ActivityPersistentScope) {
+                entry.getKey();
             }
         }
         return null;
-    }
-
-    public FragmentPersistentScope getFragmentScope(String name) {
-        PersistentScope persistentScope = getByName(name);
-        return (FragmentPersistentScope) persistentScope;
-    }
-
-    public WidgetPersistentScope getWidgetScope(String name) {
-        PersistentScope persistentScope = getByName(name);
-        return (WidgetPersistentScope) persistentScope;
     }
 }

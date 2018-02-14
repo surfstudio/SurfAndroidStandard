@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.base.screen.dialog;
+package ru.surfstudio.android.core.ui.base.screen.dialog.complex;
 
 
 import android.content.Intent;
@@ -9,10 +9,10 @@ import android.support.design.widget.BottomSheetDialogFragment;
 
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
-import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentViewPersistentScope;
 
 /**
  * Базовый класс диалога с презентером
@@ -26,7 +26,7 @@ import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialogFragment implements
         CoreFragmentViewInterface {
 
-    private FragmentDelegate fragmentDelegate;
+    private FragmentViewDelegate fragmentDelegate;
 
     protected abstract CorePresenter[] getPresenters();
 
@@ -34,19 +34,19 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
     public abstract BaseFragmentViewConfigurator createConfigurator();
 
     @Override
-    public FragmentViewDelegate createFragmentDelegate() {
-        return ScreenDelegateFactoryContainer.get().createFragmentViewDelegate(this);
+    public FragmentViewPersistentScope getPersistentScope() {
+        return fragmentDelegate.getPersistentScope();
     }
 
     @Override
-    public BaseFragmentViewConfigurator getConfigurator() {
-        return (BaseFragmentViewConfigurator) fragmentDelegate.getConfigurator();
+    public FragmentViewDelegate createFragmentDelegate() {
+        return ScreenDelegateFactoryContainer.get().createFragmentViewDelegate(this);
     }
 
     /**
      * Override this instead {@link #onActivityCreated(Bundle)}
      *
-     * @param viewRecreated show whether view created in first time or recreated after
+     * @param viewRecreated showSimpleDialog whether view created in first time or recreated after
      *                      changing configuration
      */
     @Override
@@ -63,11 +63,6 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
         for (CorePresenter presenter : getPresenters()) {
             presenter.attachView(this);
         }
-    }
-
-    @Override
-    public final String getName() {
-        return getConfigurator().getName();
     }
 
     @Override

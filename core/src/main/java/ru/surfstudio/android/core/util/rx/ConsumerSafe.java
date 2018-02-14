@@ -9,6 +9,6 @@ import io.reactivex.functions.Consumer;
  *
  * @see Consumer
  */
-public interface SafeConsumer<T> extends Consumer<T> {
+public interface ConsumerSafe<T> extends Consumer<T> {
     void accept(T t);
 }

@@ -3,6 +3,7 @@ package ru.surfstudio.android.core.ui.base.screen.dialog.simple;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +11,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
-import ru.surfstudio.android.core.ui.base.screen.dialog.BaseDialogFragment;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
@@ -26,7 +26,7 @@ import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
  * Этот диалог следует расширять если не требуется реализация сложной логики в диалоге и обращение
  * к слою Interactor
  */
-public abstract class CoreSimpleDialogFragment extends BaseDialogFragment implements CoreSimpleDialogInterface {
+public abstract class CoreSimpleDialogFragment extends DialogFragment implements CoreSimpleDialogInterface {
 
     private SimpleDialogDelegate delegate;
 

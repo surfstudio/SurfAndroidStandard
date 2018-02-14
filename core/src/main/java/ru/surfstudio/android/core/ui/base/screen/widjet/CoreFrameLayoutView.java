@@ -2,10 +2,10 @@ package ru.surfstudio.android.core.ui.base.screen.widjet;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
@@ -24,10 +24,6 @@ import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWidgetViewInterface {
 
     WidgetViewDelegate widgetViewDelegate;
-
-    public CoreFrameLayoutView(Context context) {
-        super(context);
-    }
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -52,8 +48,8 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
-    public BaseWidgetViewConfigurator getConfigurator() {
-        return widgetViewDelegate.getConfigurator();
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
     }
 
     @Override

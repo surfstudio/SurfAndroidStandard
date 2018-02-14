@@ -31,10 +31,6 @@ class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
         findViews()
     }
 
-    override fun createConfigurator(): ActivityScreenConfigurator = WebViewScreenConfigurator(this, intent)
-
-    override fun getPresenters() = arrayOf(presenter)
-
     override fun getPlaceHolderView(): PlaceHolderViewImpl = find(R.id.placeholder)
 
     override fun renderInternal(screenModel: WebViewScreenModel) {
@@ -48,4 +44,10 @@ class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
         webView = find(R.id.activity_webview_wv)
         toolbar = find(R.id.toolbar)
     }
+
+    override fun createConfigurator(): ActivityScreenConfigurator = WebViewScreenConfigurator(intent)
+
+    override fun getPresenters() = arrayOf(presenter)
+
+    override fun getName() = "Web View Screen"
 }

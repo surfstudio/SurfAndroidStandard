@@ -4,6 +4,7 @@ package ru.surfstudio.android.core.ui.base.screen.state;
 import android.view.View;
 
 import ru.surfstudio.android.core.ui.ScreenType;
+import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
  * {@link ScreenState} для кастомной вью с презентером
@@ -12,6 +13,7 @@ import ru.surfstudio.android.core.ui.ScreenType;
 
 public class WidgetScreenState implements ScreenState {
     private View widget;
+    private CoreWidgetViewInterface coreWidget;
     private ScreenType parentType;
     private ScreenState parentState;
 
@@ -22,16 +24,14 @@ public class WidgetScreenState implements ScreenState {
                 : ScreenType.FRAGMENT;
     }
 
-    public void onCreate(View widget) {
+    public void onCreate(View widget, CoreWidgetViewInterface coreWidget) {
         this.widget = widget;
+        this.coreWidget = coreWidget;
     }
 
     public void onDestroy() {
         this.widget = null;
-    }
-
-    public View getView() {
-        return widget;
+        this.coreWidget = null;
     }
 
     @Override
@@ -54,6 +54,11 @@ public class WidgetScreenState implements ScreenState {
         return parentState.isRestoredFromDisk();
     }
 
+    @Override
+    public boolean isRestoredFromDiskJustNow() {
+        return parentState.isRestoredFromDiskJustNow();
+    }
+
     public ScreenType getParentType() {
         return parentType;
     }
@@ -64,5 +69,9 @@ public class WidgetScreenState implements ScreenState {
 
     public View getWidget() {
         return widget;
+    }
+
+    public CoreWidgetViewInterface getCoreWidget() {
+        return coreWidget;
     }
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDelegate;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
 
 /**
  * базовая активити для всего приложения
@@ -25,18 +26,19 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
 
     @Override
     public BaseFragmentConfigurator createConfigurator() {
-        //используется базовый конфигуратор, предоставляющий только имя экрана
-        return new BaseFragmentConfigurator(this);
+        //используется базовый конфигуратор
+        return new BaseFragmentConfigurator();
     }
 
     @Override
-    public BaseFragmentConfigurator getConfigurator() {
-        return fragmentDelegate.getConfigurator();
+    public FragmentPersistentScope getPersistentScope() {
+        return fragmentDelegate.getPersistentScope();
     }
 
     @Override
-    public final String getName() {
-        return getConfigurator().getName();
+    public String getName() {
+        //уникальное имя по умолчанию для фрагмента контейнера
+        return this.getClass().getCanonicalName() + getTag() + getId();
     }
 
     @Override
