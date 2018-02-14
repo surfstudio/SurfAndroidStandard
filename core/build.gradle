@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -109,4 +110,7 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4-rule:${powerMockVersion}"
     testImplementation "org.powermock:powermock-api-mockito:${powerMockVersion}"
     testImplementation "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
+
+apply plugin: 'kotlin-android-extensions'
