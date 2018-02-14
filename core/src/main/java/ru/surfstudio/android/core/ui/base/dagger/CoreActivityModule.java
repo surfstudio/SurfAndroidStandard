@@ -77,7 +77,7 @@ public class CoreActivityModule {
     @Provides
     @PerActivity
     MessageController provideMessageController(ActivityProvider activityProvider) {
-        return new DefaultMessageController(activityProvider);
+        return new DefaultMessageController(activityProvider, null);
     }
 
 }

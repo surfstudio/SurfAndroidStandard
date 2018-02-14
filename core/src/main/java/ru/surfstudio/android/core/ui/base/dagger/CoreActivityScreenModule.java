@@ -72,7 +72,7 @@ public class CoreActivityScreenModule {
     @Provides
     @PerScreen
     MessageController provideMessageController(ActivityProvider activityProvider){
-        return new DefaultMessageController(activityProvider);
+        return new DefaultMessageController(activityProvider, null);
     }
 
 }
