@@ -1,7 +1,7 @@
-package ru.surfstudio.android.ktx.convert
+package ru.surfstudio.android.ktx.util
 
 import android.annotation.SuppressLint
-import ru.surfstudio.android.ktx.text.EMPTY_STRING
+import ru.surfstudio.android.ktx.extensions.text.EMPTY_STRING
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*

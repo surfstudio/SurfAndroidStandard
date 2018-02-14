@@ -1,4 +1,4 @@
-package ru.surfstudio.android.ktx
+package ru.surfstudio.android.ktx.extensions
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.util.Transformable

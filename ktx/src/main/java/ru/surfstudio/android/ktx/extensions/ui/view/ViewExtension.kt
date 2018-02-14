@@ -1,4 +1,4 @@
-package ru.surfstudio.android.ktx.ui.view
+package ru.surfstudio.android.ktx.extensions.ui.view
 
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
@@ -23,9 +23,8 @@ fun View.changeViewBackgroundColor(@ColorInt color: Int) {
     }
 }
 
-
-fun View.setVisible(visible: Boolean) {
-    if (visible) {
+fun View.invisibleIf(invisible: Boolean) {
+    if (invisible) {
         visibility = View.VISIBLE
         isEnabled = true
     } else {
@@ -34,12 +33,23 @@ fun View.setVisible(visible: Boolean) {
     }
 }
 
-fun View.setVisibleOrGone(visible: Boolean) {
-    if (visible) {
-        visibility = View.VISIBLE
-        isEnabled = true
-    } else {
+fun View.goneIf(gone: Boolean) {
+    if (gone) {
         visibility = View.GONE
         isEnabled = false
+    } else {
+        visibility = View.VISIBLE
+        isEnabled = true
+    }
+}
+
+/**
+ * Extension метод, который запускает action если данные изменились
+ */
+fun <T : View, R> T.actionIfChanged(data: R, action: T.(data: R) -> Unit) {
+    val hash = data?.hashCode()
+    if (this.tag != hash) {
+        action(data)
+        this.tag = hash
     }
 }

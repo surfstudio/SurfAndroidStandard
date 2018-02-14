@@ -77,6 +77,7 @@ dependencies {
     implementation project(':easyadapter-carousel')
     implementation project(':logger')
     implementation project(':dagger-scope')
+    implementation project(':ktx')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     provided "com.google.dagger:dagger:${daggerVersion}"

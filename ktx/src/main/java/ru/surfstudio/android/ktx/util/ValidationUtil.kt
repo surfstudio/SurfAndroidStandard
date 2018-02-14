@@ -1,4 +1,4 @@
-package ru.surfstudio.android.ktx
+package ru.surfstudio.android.ktx.util
 
 import ru.surfstudio.android.logger.Logger
 

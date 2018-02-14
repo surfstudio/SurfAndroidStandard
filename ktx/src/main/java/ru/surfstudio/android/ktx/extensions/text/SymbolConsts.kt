@@ -1,4 +1,4 @@
-package ru.surfstudio.android.ktx.text
+package ru.surfstudio.android.ktx.extensions.text
 
 /**
  * Файл с символьными константами

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.ktx.text
+package ru.surfstudio.android.ktx.util
 
 
 import android.support.annotation.StyleRes
@@ -10,7 +10,10 @@ import android.text.style.TextAppearanceSpan
 import android.text.style.URLSpan
 import android.widget.TextView
 import ru.surfstudio.android.core.util.SdkUtils
-
+import ru.surfstudio.android.ktx.extensions.text.DECIMAL_VALUE_FORMAT
+import ru.surfstudio.android.ktx.extensions.text.VALID_VALUE
+import ru.surfstudio.android.ktx.extensions.text.fractionalFormat
+import ru.surfstudio.android.ktx.extensions.text.wholeFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.ktx.text
+package ru.surfstudio.android.ktx.util
 
 
 import android.annotation.SuppressLint

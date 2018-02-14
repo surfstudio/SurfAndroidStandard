@@ -1,4 +1,4 @@
-package ru.surfstudio.android.ktx.ui.context
+package ru.surfstudio.android.ktx.extensions.ui.context
 
 import android.content.Context
 import android.graphics.Bitmap
