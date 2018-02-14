@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 /**
  * Пример сервиса аналитики
+ *
  */
 @PerApplication
 class AnalyticsService @Inject constructor(apiStore: Analytics) : BaseAnalyticsService(apiStore) {
