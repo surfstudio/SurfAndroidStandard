@@ -45,6 +45,14 @@
       "path": ""
     },
     {
+      "name": "datalist-limit-offset",
+      "path": ""
+    },
+    {
+      "name": "datalist-page-count",
+      "path": ""
+    },
+    {
       "name": "firebase-analytics",
       "path": ""
     }
