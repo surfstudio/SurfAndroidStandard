@@ -3,8 +3,13 @@
 <recipe>
 	<@kt.addAllKotlinDependencies />
 
-    <instantiate from="src/app_package/View.java.ftl"
-        to="${escapeXmlAttribute(srcOut)}/${className}.java" />
+    <#if generateKotlin>
+        <instantiate from="src/app_package/View.kt.ftl"
+            to="${escapeXmlAttribute(srcOut)}/${className}.kt" />
+    <#else>
+        <instantiate from="src/app_package/View.java.ftl"
+            to="${escapeXmlAttribute(srcOut)}/${className}.java" />
+    </#if>
 
     <instantiate from="res/layout/layout.xml.ftl"
         to="${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml" />

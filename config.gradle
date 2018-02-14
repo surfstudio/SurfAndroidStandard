@@ -10,25 +10,41 @@ ext {
     compileSdkVersion = 26
     debugVersionNameSuffix = ".debug"
 
-    daggerVersion = '2.11'
-    lombokVersion = '1.16.10'
-    appcompatVersion = '27.0.2'
-    playServicesVersion = '11.6.0'
-    crashlyticsVersion = '2.8.0'
-
+    //lang
+    kotlinVersion = '1.2.21'                    //https://goo.gl/2Epeje
     ankoVersion = '0.10.4'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.1.8'
-    retrofitVersion = '2.1.0'
-    okHttpVersion = '3.4.1'
     gsonVersion = '2.8.1'
-    porwerMockVersion = '1.6.2'
+
+    //injections
     javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
+    daggerVersion = '2.11'
+
+    //network
+    okHttpVersion = '3.4.1'
+    retrofitVersion = '2.3.0'
+
+    //rx
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
     rxJava2Version = '2.1.8'                    //https://goo.gl/uzna2x
     rxAndroid2Version = '2.0.1'                 //https://goo.gl/3Kd3iP
     rxBinding2Version = '2.0.0'                 //https://goo.gl/KQ5Vga
 
+    //android framework
+    androidGradleToolsVersion = '3.0.1'
+    appcompatVersion = '27.0.2'
+    playServicesVersion = '11.6.0'
+    crashlyticsVersion = '2.9.0'
+
+    //test
+    junitVersion = '4.12'
+    testRunnerVersion = '1.0.1'
+    espressoVersion = '3.0.1'
+    mockitoVersion = '1.10.19'
+    powerMockVersion = '1.6.2'
+    assertJVersion = '3.5.1'
+
     // версия наших внутренних модулей
-    moduleVersionCode = 7
-    moduleVersionName = '0.0.2-SNAPSHOT'
+    moduleVersionCode = 8
+    moduleVersionName = '0.0.4-SNAPSHOT'
 }

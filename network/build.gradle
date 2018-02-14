@@ -1,66 +1,28 @@
-apply plugin: 'com.android.library'
-
-def config = rootProject.extensions.getByName("ext")
-
-android {
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
-
-    defaultConfig {
-        minSdkVersion 19
-        targetSdkVersion 27
-        versionCode rootProject.ext.moduleVersionCode
-        versionName rootProject.ext.moduleVersionName
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        qa {
-            debuggable = true
-            minifyEnabled false
-        }
-
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-}
+apply from: '../androidModule.gradle'
 
 dependencies {
-    provided project(':core')
-    provided project(':filestorage')
-    provided project(':logger')
-    provided project (':dagger-scope')
+    compileOnly project(':core')
+    compileOnly project(':filestorage')
+    compileOnly project(':logger')
+    compileOnly project (':dagger-scope')
 
-    provided "com.android.support:support-annotations:${appcompatVersion}"
-    provided "com.annimon:stream:${annimonStreamVersion}"
+    compileOnly "com.android.support:support-annotations:$appcompatVersion"
+    compileOnly "com.annimon:stream:$annimonStreamVersion"
 
     // network
-    api "com.squareup.retrofit2:retrofit:${retrofitVersion}"
-    api "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
-    api "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
-    api "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
-
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    api "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    api "com.google.code.gson:gson:$gsonVersion"
 
     //tests
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.powermock:powermock-module-junit4:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-module-junit4-rule:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-api-mockito:${porwerMockVersion}"
-    testImplementation "org.powermock:powermock-classloading-xstream:${porwerMockVersion}"
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
+    testImplementation "org.powermock:powermock-api-mockito:$powerMockVersion"
+    testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
+
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }

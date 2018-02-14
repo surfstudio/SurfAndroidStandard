@@ -14,7 +14,8 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenModel>() {
 
-    @Inject internal lateinit var presenter: MainPresenter
+    @Inject
+    internal lateinit var presenter: MainPresenter
 
     @IdRes
     override fun getContentView(): Int {
