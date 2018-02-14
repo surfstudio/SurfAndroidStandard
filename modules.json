@@ -43,6 +43,14 @@
     {
       "name": "easyadapter-carousel",
       "path": ""
+    },
+    {
+      "name": "datalist-limit-offset",
+      "path": ""
+    },
+    {
+      "name": "datalist-page-count",
+      "path": ""
     }
   ]
 }

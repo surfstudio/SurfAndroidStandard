@@ -1,13 +1,13 @@
-package ru.surfstudio.android.core.ui.util;
+package ru.surfstudio.android.datalistlimitoffset.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import ru.surfstudio.android.core.domain.datalist.DataList;
 import ru.surfstudio.android.core.util.rx.ObservableUtil;
-import ru.surfstudio.android.core.util.rx.SafeFunction;
+import ru.surfstudio.android.core.util.rx.SafeBiFunction;
+import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList;
 
 public class PaginationableUtil {
 
@@ -18,19 +18,21 @@ public class PaginationableUtil {
      * который используется при подгрузке новых данных.
      *
      * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
-     * @param numPages                 Клоличество страниц которые необходимо загрузить
+     * @param offset                   смещение с которого следует подгрузить данные
+     * @param limit                    размер загружаемых данных
+     * @param blockSize                размер подгружаемого блока
      * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
      * combineLatestDelayError
      */
     private static <T, L extends DataList<T>> Observable<L> getPaginationRequestPortions(
-            SafeFunction<Integer, Observable<L>> paginationRequestCreator,
+            SafeBiFunction<Integer, Integer, Observable<L>> paginationRequestCreator,
             L emptyValue,
-            int numPages) {
+            int offset, int limit, int blockSize) {
         List<Observable<? extends L>> portionRequests = new ArrayList<>();
-        for (int i = 1; i <= numPages; i++) {
-            portionRequests.add(paginationRequestCreator.apply(i));
+        for (; offset < limit; offset += blockSize) {
+            portionRequests.add(paginationRequestCreator.apply(blockSize, offset));
         }
-        if (portionRequests.isEmpty()) {
+        if (portionRequests.size() == 0) {
             portionRequests.add(Observable.just(emptyValue));
         }
         return ObservableUtil.combineLatestDelayError(Schedulers.trampoline(), portionRequests,
@@ -49,12 +51,19 @@ public class PaginationableUtil {
     }
 
     public static <T> Observable<DataList<T>> getPaginationRequestPortions(
-            SafeFunction<Integer, Observable<DataList<T>>> paginationRequestCreator,
-            int numPages) {
-        return getPaginationRequestPortions(
-                paginationRequestCreator,
-                DataList.empty(),
-                numPages);
+            SafeBiFunction<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
+            int offset, int limit, int blockSize) {
+        return getPaginationRequestPortions(paginationRequestCreator,
+                new DataList<>(new ArrayList<>(), limit, offset, 0),
+                offset, limit, blockSize);
+    }
+
+    public static <T> Observable<DataList<T>> getPaginationRequestPortionsWithTotal(
+            SafeBiFunction<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
+            int offset, int limit, int blockSize, int totalCount) {
+        return getPaginationRequestPortions(paginationRequestCreator,
+                new DataList<>(new ArrayList<>(), limit, offset, totalCount),
+                offset, limit, blockSize);
     }
 
 }

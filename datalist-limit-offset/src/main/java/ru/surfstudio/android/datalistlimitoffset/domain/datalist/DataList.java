@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.domain.datalist;
+package ru.surfstudio.android.datalistlimitoffset.domain.datalist;
 
 
 import android.support.annotation.NonNull;
@@ -13,15 +13,18 @@ import java.util.ListIterator;
 
 /**
  * List для работы с пагинацией
- * Имеет лимит и смещение
+ * Механизм limit-offset
  * Можно сливать с другим DataList
  *
  * @param <T> Item
  */
 public class DataList<T> implements List<T>, Serializable {
 
+    //количество элементов в списке
     private int limit;
-    private int skip;
+    //сдвиг относительно первого элемента
+    private int offset;
+    //максимально возможное количество эелементов списка
     private int totalCount;
 
     private ArrayList<T> data;
@@ -31,14 +34,22 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     public static <T> DataList<T> empty() {
-        return new DataList<>(new ArrayList<>(), 0, 0, 0);
+        return new DataList(new ArrayList<>(), 0, 0, 0);
     }
 
-    public DataList(Collection<T> data, int limit, int skip, int totalCount) {
+    public static <T> DataList<T> emptyWithTotal(int totalCount) {
+        return new DataList(new ArrayList<>(), 0, 0, totalCount);
+    }
+
+    public DataList(Collection<T> data, int limit, int offset) {
+        this(data, limit, offset, 0);
+    }
+
+    public DataList(Collection<T> data, int limit, int offset, int totalCount) {
         this.data = new ArrayList<>();
         this.data.addAll(data);
         this.limit = limit;
-        this.skip = skip;
+        this.offset = offset;
         this.totalCount = totalCount;
     }
 
@@ -49,48 +60,55 @@ public class DataList<T> implements List<T>, Serializable {
      * @return текущий экземпляр
      */
     public DataList<T> merge(DataList<T> data) {
-        boolean reverse = data.skip < this.skip;
+        boolean reverse = data.offset < this.offset;
         ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
         if (merged == null) {
             //Отрезки данных не совпадают, слияние не возможно
-            throw new IllegalArgumentException("incorrect data range");
+            throw new IncompatibleRangesException("incorrect data range");
         }
         this.data.clear();
         this.data.addAll(merged);
-        if (this.skip < data.skip) {
-            this.limit = data.skip + data.limit - this.skip;
-        } else if (this.skip == data.skip) {
+        if (this.offset < data.offset) {
+            this.limit = data.offset + data.limit - this.offset;
+        } else if (this.offset == data.offset) {
             this.limit = data.limit;
         } else {
-            this.skip = data.skip;
+            this.offset = data.offset;
         }
 
         this.totalCount = data.totalCount;
         return this;
     }
 
+    /**
+     * Преобразует dataList одного типа в dataList другого типа
+     *
+     * @param mapFunc функция преобразования
+     * @param <R>     тип данных нового списка
+     * @return DataList с элементами типа R
+     */
     public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
         List<R> resultData = new ArrayList<>();
         for (T item : this) {
             resultData.add(mapFunc.call(item));
         }
 
-        return new DataList<>(resultData, skip, limit, totalCount);
+        return new DataList<>(resultData, limit, offset, totalCount);
     }
 
     /**
-     * возвращает значение skip c которого нужно начать чтобы подгрузить слкдующий блок данных
+     * возвращает значение offset c которого нужно начать чтобы подгрузить слкдующий блок данных
      */
-    public int getNextSkip() {
-        return limit + skip;
+    public int getNextOffset() {
+        return limit + offset;
     }
 
     public int getLimit() {
         return limit;
     }
 
-    public int getSkip() {
-        return skip;
+    public int getOffset() {
+        return offset;
     }
 
     public int getTotalCount() {
@@ -108,8 +126,8 @@ public class DataList<T> implements List<T>, Serializable {
 
     @Nullable
     private ArrayList<T> tryMerge(DataList<T> to, DataList<T> from) {
-        if ((to.skip + to.limit) >= from.skip) {
-            return merge(to.data, from.data, from.skip - to.skip);
+        if ((to.offset + to.limit) >= from.offset) {
+            return merge(to.data, from.data, from.offset - to.offset);
         }
 
         return null;
@@ -194,7 +212,7 @@ public class DataList<T> implements List<T>, Serializable {
     public void clear() {
         this.data.clear();
         limit = 0;
-        skip = 0;
+        offset = 0;
     }
 
     @Override
@@ -252,7 +270,7 @@ public class DataList<T> implements List<T>, Serializable {
 
         DataList<?> dataList = (DataList<?>) o;
 
-        return limit == dataList.limit && skip == dataList.skip &&
+        return limit == dataList.limit && offset == dataList.offset &&
                 (data != null ? data.equals(dataList.data) : dataList.data == null);
 
     }
@@ -260,7 +278,7 @@ public class DataList<T> implements List<T>, Serializable {
     @Override
     public int hashCode() {
         int result = limit;
-        result = 31 * result + skip;
+        result = 31 * result + offset;
         result = 31 * result + (data != null ? data.hashCode() : 0);
         return result;
     }
@@ -269,7 +287,7 @@ public class DataList<T> implements List<T>, Serializable {
     public String toString() {
         return "DataList" +
                 "{limit=" + limit +
-                ", skip=" + skip +
+                ", offset=" + offset +
                 ", data=" + data +
                 '}';
     }
