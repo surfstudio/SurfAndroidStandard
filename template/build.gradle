@@ -96,19 +96,10 @@ dependencies {
     compileOnly "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
-    //provided
-    kapt 'javax.annotation:jsr250-api:1.0'
-    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    //network
-    compileOnly "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compileOnly "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
-    compileOnly "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compileOnly "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    compileOnly "com.google.code.gson:gson:$gsonVersion"
-    compileOnly "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 
-    //other
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     implementation 'com.google.guava:guava:23.0-android'
 
