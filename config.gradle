@@ -37,6 +37,9 @@ ext {
     crashlyticsVersion = '2.9.0'
 
     //test
+    junitVersion = '4.12'
+    testRunnerVersion = '1.0.1'
+    espressoVersion = '3.0.1'
     mockitoVersion = '1.10.19'
     powerMockVersion = '1.6.2'
     assertJVersion = '3.5.1'

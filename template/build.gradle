@@ -109,11 +109,11 @@ dependencies {
     //--------------------------------- test dependencies ------------------------------------------
 
     //tests
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$junitVersion"
 
     //unit test
     testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -123,7 +123,7 @@ dependencies {
     //instrumental test
     androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     androidTestImplementation "com.android.support:support-annotations:$appcompatVersion"
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
 }
