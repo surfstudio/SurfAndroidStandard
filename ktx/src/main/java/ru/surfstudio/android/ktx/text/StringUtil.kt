@@ -1,14 +1,15 @@
-package ru.surfstudio.standard.ui.util
+package ru.surfstudio.android.ktx.text
 
 
 import android.support.annotation.StyleRes
+import android.telephony.PhoneNumberUtils
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.TextUtils
 import android.text.style.TextAppearanceSpan
 import android.text.style.URLSpan
 import android.widget.TextView
+import ru.surfstudio.android.core.util.SdkUtils
 
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -18,14 +19,6 @@ import java.util.Locale
  * Вспомогательные методы работы со строками
  */
 object StringUtil {
-
-    private val DECIMAL_VALUE_FORMAT = "%.2f"
-    private val wholeFormat = "#,###"
-    private val fractionalFormat = "###,###.##"
-    private val VALID_VALUE = 0.00000001
-
-    private val symbols = arrayOf<CharSequence>("&", "<", ">", "...", "™")
-    private val tags = arrayOf<CharSequence>("&amp;", "&lt;", "&gt;", "&hellip;", "&trade;")
 
     //todo
 //    fun htmlSimpleDecode(htmlText: String): String {
@@ -85,6 +78,13 @@ object StringUtil {
         return if (value > 0) getDecimalFormat(wholeFormat).format(value.toLong()) else 0.toString()
     }
 
+    fun formatPhone(source: String): String? {
+        return if (SdkUtils.isAtLeastLollipop()) {
+            PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)
+        } else {
+            PhoneNumberUtils.formatNumber(source)
+        }
+    }
 
     private fun getDecimalFormat(pattern: String): DecimalFormat {
         val symbols = DecimalFormatSymbols(Locale.US)

@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.util
+package ru.surfstudio.android.ktx.ui.activity
 
 
 /**

@@ -1,4 +1,3 @@
-include ':kotlinextensions'
 apply from: 'modules.gradle'
 gradle.ext.modules.each {
     include it.name

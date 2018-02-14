@@ -1,21 +1,15 @@
-package ru.surfstudio.android.kotlinextensions.ui.input
+package ru.surfstudio.android.ktx.ui.textview
 
-import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.support.annotation.ColorRes
 import android.support.annotation.IntegerRes
-import android.support.design.widget.TextInputLayout
 import android.support.v4.content.ContextCompat
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
-import com.jakewharton.rxbinding2.widget.RxTextView
-import ru.surfstudio.android.kotlinextensions.ui.view.setVisibleOrGone
-import ru.trinitydigital.poison.R
-import ru.trinitydigital.poison.util.APOSTROPHE_STRING
-import ru.trinitydigital.poison.util.HYPHEN_STRING
-import ru.trinitydigital.poison.util.PHONE_NUMBER_CHARS
+import ru.surfstudio.android.ktx.text.PHONE_NUMBER_CHARS
+import ru.surfstudio.android.ktx.ui.view.setVisibleOrGone
 
 /**
  * Extension-функции для настроек ввода (установки лимитов, допустимых и запрещённых символов и т.д.)
@@ -27,8 +21,17 @@ import ru.trinitydigital.poison.util.PHONE_NUMBER_CHARS
  * Если текст пустой - [TextView] скрывается.
  */
 fun TextView.setTextOrGone(text: String?) {
-    setVisibleOrGone(text?.trim().isNullOrEmpty().not())
+    setVisibleOrGone(!text.isNullOrBlank())
     setText(text)
+}
+
+/**
+ * Задать цвет Drawable у TextView
+ */
+fun TextView.setDrawableColor(color: Int) {
+    this.compoundDrawablesRelative
+            .filterNotNull()
+            .forEach { it.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN) }
 }
 
 /**
@@ -43,21 +46,48 @@ fun EditText.setMaxLength(@IntegerRes length: Int) {
 }
 
 /**
+ * Установка текста + выключение подчеркивания
+ */
+fun EditText.setText(string: String?, disableUnderline: Boolean) {
+    setText(string)
+    removeUnderline(disableUnderline)
+}
+
+/**
+ * Убирает подчеркивание с конкретного EditText
+ *
+ * @param shouldDisabled - флаг отключения
+ */
+fun EditText.removeUnderline(disableUnderline: Boolean) {
+    if (disableUnderline) {
+        background = null
+    }
+}
+
+/**
+ * Возврат к дефолтному фону для EditText (возвращает подчеркивание)
+ */
+fun EditText.resetToDefaultBackground() {
+    background =ContextCompat.getDrawable(context, android.R.drawable.edit_text)
+}
+
+fun EditText.setTextIfEmpty(string: String?, withSelection: Boolean) {
+    if (text.toString().isEmpty()) {
+        setText(string)
+    }
+
+    if (withSelection) {
+        setSelection(string?.length ?: 0)
+    }
+}
+
+/**
  * Установка ограничения на допустимость набора в [EditText] только текста.
- *
- * Допустимые символы:
- *
- * * все литеры в любом регистре и любой локали;
- * * символ пробела: " ";
- * * символ дефиса: - ;
- * * символ апострофа: ' .
+ * TODO сделать обощенный метод на запрет ввода определенных символов
  */
 fun EditText.allowJustText() {
     val notJustText: (Char) -> Boolean = {
-        !Character.isLetter(it) &&
-                !Character.isSpaceChar(it) &&
-                it.toString() != HYPHEN_STRING &&
-                it.toString() != APOSTROPHE_STRING
+        !Character.isLetter(it) && !Character.isSpaceChar(it)
     }
     val inputTextFilter = InputFilter { source, start, end, _, _, _ ->
         if ((start until end).any { notJustText(source[it]) })
@@ -76,7 +106,7 @@ fun EditText.allowJustPhoneNumber() {
 
         //удаляем последний введеный символ если он не цифра или второй + в строке
         if ((inputStringLength > 1 && inputString.endsWith("+")) ||
-            (inputStringLength > 0 && !PHONE_NUMBER_CHARS.contains(inputString[inputStringLength - 1]))) {
+                (inputStringLength > 0 && !PHONE_NUMBER_CHARS.contains(inputString[inputStringLength - 1]))) {
             source.removeRange(inputStringLength - 1, inputStringLength)
         } else {
             null
@@ -93,7 +123,7 @@ fun EditText.allowJustPhoneNumber() {
  * @param textColorRes цвет текста
  * @param hintColorRes цвет хинта
  */
-private fun EditText.setTextColors(@ColorRes textColorRes: Int, @ColorRes hintColorRes: Int) {
-    editText.setTextColor(ContextCompat.getColor(editText.context, textColorRes))
-    editText.setHintTextColor(ContextCompat.getColor(editText.context, hintColorRes))
+fun EditText.setTextColors(@ColorRes textColorRes: Int, @ColorRes hintColorRes: Int) {
+    this.setTextColor(ContextCompat.getColor(this.context, textColorRes))
+    this.setHintTextColor(ContextCompat.getColor(this.context, hintColorRes))
 }

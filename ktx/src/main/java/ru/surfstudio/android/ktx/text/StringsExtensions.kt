@@ -1,4 +1,4 @@
-package ru.surfstudio.android.kotlinextensions.text
+package ru.surfstudio.android.ktx.text
 
 /**
  * Расширения для строк
@@ -7,7 +7,6 @@ package ru.surfstudio.android.kotlinextensions.text
 /**
  * Обрезать строку, если она больше определенного значения
  *
- * @param source    исходная строка
  * @param maxLength максимальная длинна строки
  * @return строка не превышающая максимального размера
  */
@@ -16,7 +15,7 @@ fun CharSequence.cut(maxLength: Int): String = take(maxLength).toString()
 /**
  * @return возвращает пустую строку, если исходная null
  */
-fun String?.emptyIfNull(): String = this ?: ""
+fun String?.emptyIfNull(): String = this ?: EMPTY_STRING
 
 /**
  * Умножает строку на число, может записываться в инфиксной форме string * n

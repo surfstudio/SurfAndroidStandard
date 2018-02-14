@@ -1,12 +1,56 @@
-package ru.surfstudio.android.kotlinextensions.ui.view
+package ru.surfstudio.android.ktx.ui.activity
 
-import android.view.View
-import android.view.View.*
+import android.app.Activity
+
+import android.content.Context
+import android.graphics.Rect
+import android.view.inputmethod.InputMethodManager
+import ru.surfstudio.android.ktx.ui.context.getDisplayMetrics
+/**
+ * Extension-методы для Activity
+ */
+
+/**
+ * Листенер на скрытие / появление клавиатуры
+ */
+fun Activity.keyboardVisibilityToggleListener(listener: (Boolean)->Unit) {
+    val rootView = window.decorView
+
+    val rect = Rect()
+    rootView.getWindowVisibleDisplayFrame(rect)
+
+    val screenHeight = rootView.height
+    val keypadHeight = screenHeight - rect.bottom
+
+    listener(keypadHeight > screenHeight * 0.15)
+}
 
 
 /**
- * Файл с extension-методами для работы с UI
+ * Скрытие экранной клавиатуры
  */
+fun Activity.hideKeyboard() {
+    val view = this.currentFocus
+    if (view != null) {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+}
+
+/**
+ * Возвращает ширину или высоту экрана
+ */
+fun Activity.getDisplayParam(param: DisplayParam): Int {
+    val metrics = getDisplayMetrics()
+    windowManager.defaultDisplay.getMetrics(metrics)
+
+    return when (param) {
+        DisplayParam.WIDTH -> metrics.widthPixels
+        DisplayParam.HEIGHT -> metrics.heightPixels
+    }
+}
+
+
 /*
 *//**
  * Декорирование статус-бара с учётом всех известных проблем
@@ -39,46 +83,5 @@ fun Activity.decorateStatusBar() {
             }
         }
         ThemeUtil.ThemeType.UNKNOWN -> TODO()
-    }
-}*/
-
-
-fun View.setVisible(visible: Boolean) {
-    if (visible) {
-        visibility = VISIBLE
-        isEnabled = true
-    } else {
-        visibility = INVISIBLE
-        isEnabled = false
-    }
-}
-
-fun View.setVisibleOrGone(visible: Boolean) {
-    if (visible) {
-        visibility = VISIBLE
-        isEnabled = true
-    } else {
-        visibility = GONE
-        isEnabled = false
-    }
-}
-/*
-*/
-/**
- * Делает тень под тулбаром
- *//*
-fun AppBarLayout.showElevation(isElevation: Boolean) {
-    if (SdkUtils.isAtLeastLollipop()) {
-        elevation = if (isElevation) 8F else 0F
-    }
-}*/
-
-
-/*
-fun formatPhone(source: String): String? {
-    return if (SdkUtils.isAtLeastLollipop()) {
-        PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)
-    } else {
-        PhoneNumberUtils.formatNumber(source)
     }
 }*/
