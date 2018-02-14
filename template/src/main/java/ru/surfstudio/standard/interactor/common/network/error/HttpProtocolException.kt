@@ -4,12 +4,12 @@ package ru.surfstudio.standard.interactor.common.network.error
 import com.google.gson.Gson
 import okhttp3.ResponseBody
 import retrofit2.HttpException
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.network.error.NetworkException
 import ru.surfstudio.standard.interactor.auth.network.GET_TOKEN_PATH
 import ru.surfstudio.standard.interactor.common.network.response.AuthErrorObj
 import ru.surfstudio.standard.interactor.common.network.response.ErrorObj
 import ru.surfstudio.standard.interactor.common.network.response.ErrorResponse
-import timber.log.Timber
 import java.io.IOException
 
 private fun prepareMessage(httpMessage: String, code: Int, url: String, developerMessage: String?, innerCode: Int): String {
@@ -52,7 +52,7 @@ class HttpProtocolException(cause: HttpException, val httpMessage: String, val h
         try {
             jsonString = responseBody?.string()
         } catch (e: IOException) {
-            Timber.w(e, "Не возможно распарсить ответ сервера об ошибке")
+            Logger.w(e, "Не возможно распарсить ответ сервера об ошибке")
         }
 
         val gson = Gson()

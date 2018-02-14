@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.interactor.auth.network
 
+import io.reactivex.Observable
 import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -9,7 +10,6 @@ import ru.surfstudio.standard.interactor.auth.network.response.KeyResponse
 import ru.surfstudio.standard.interactor.auth.network.response.RecoverByEmailResponse
 import ru.surfstudio.standard.interactor.auth.network.response.RecoverByPhoneResponse
 import ru.surfstudio.standard.interactor.auth.network.response.TokenResponse
-import rx.Observable
 
 /**
  * Api для авторизации

@@ -10,7 +10,6 @@ import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import ru.surfstudio.android.logger.Logger
-import timber.log.Timber
 import java.io.File
 import java.util.*
 
@@ -276,9 +275,8 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
                 try {
                     photoUri = intent.data
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    Logger.e(e)
                 }
-
             }
 
             if (photoUri == null) {
@@ -294,7 +292,7 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                Logger.e(e)
             }
 
             photoUri = getFileUriFromContentUri(photoUri)
@@ -308,7 +306,7 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                Logger.e(e)
             }
 
             if (photoUri != null) {
