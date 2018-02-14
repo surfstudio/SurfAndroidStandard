@@ -14,7 +14,8 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenModel>() {
 
-    @Inject internal lateinit var presenter: MainPresenter
+    @Inject
+    internal lateinit var presenter: MainPresenter
 
     override fun getPresenters(): Array<CorePresenter<*>> {
         return arrayOf(presenter)
@@ -35,5 +36,7 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(screenModel: MainScreenModel) {
+
+    }
 }
