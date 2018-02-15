@@ -1,7 +1,7 @@
 package com.example.standarddialog
 
 /**
- * Конфигуратор стандартного диалога
+ * Компонент стандартного диалога
  */
 interface StandardDialogComponent {
     fun inject(d: StandardDialog)
