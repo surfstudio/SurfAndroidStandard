@@ -1,126 +1,36 @@
-apply plugin: 'com.android.library'
+apply from: '../androidModule.gradle'
 apply plugin: 'kotlin-android'
-
-def config = rootProject.extensions.getByName("ext")
-
-android {
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
-
-    defaultConfig {
-        minSdkVersion config["minSdkVersion"]
-        targetSdkVersion config["targetSdkVersion"]
-        versionCode rootProject.ext.moduleVersionCode
-        versionName rootProject.ext.moduleVersionName
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    signingConfigs {
-        release {
-            storeFile file("../keystore/prod.keystore.jks")
-            storePassword "qsdm345nbdfg458smm4"
-            keyAlias "prod"
-            keyPassword "qsdm345nbdfg458smm4"
-        }
-        test {
-            storeFile file("../keystore/test.keystore")
-            storePassword "qatest"
-            keyAlias "test"
-            keyPassword "qatest"
-        }
-    }
-
-    buildTypes {
-        debug {
-            minifyEnabled false
-            signingConfig signingConfigs.test
-            resValue "bool", "only_portrait", "false"
-        }
-        qa {
-            signingConfig signingConfigs.test
-            minifyEnabled false
-            debuggable = true
-            ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
-            ext.betaDistributionGroupAliases = "Surf"
-            ext.betaDistributionNotifications = true
-            resValue "bool", "only_portrait", "false"
-        }
-        release {
-            signingConfig signingConfigs.release
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "only_portrait", "true"
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
+apply plugin: 'kotlin-android-extensions'
 
 dependencies {
-    // Library, Apt versions
-    def daggerVersion = config["daggerVersion"]
-    def appcompatVersion = config["appcompatVersion"]
-    def javaInjectVersion = config["javaInjectVersion"]
-    def ferroRxVersion = config["ferroRxVersion"]
-    def rxJava2Version = config["rxJava2Version"]
-    def rxAndroid2Version = config["rxAndroid2Version"]
-    def rxBinding2Version = config["rxBinding2Version"]
-    def powerMockVersion = config["powerMockVersion"]
+    compileOnly project(':dagger-scope')
+    compileOnly project(':logger')
+    compileOnly project(':easyadapter')
 
-    provided project(':dagger-scope')
-    provided project(':logger')
-    provided project(':easyadapter')
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    compileOnly "com.android.support:support-annotations:$appcompatVersion"
 
-    //
-    api "com.google.dagger:dagger:${daggerVersion}"
-    annotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    //annotations
-    compileOnly "javax.annotation:jsr250-api:1.0"
+    api "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //main
-    api "com.agna.ferro:ferro-rx:${ferroRxVersion}"
-    api "com.android.support:design:${appcompatVersion}"
-    api "com.android.support:appcompat-v7:${appcompatVersion}"
+    api "com.agna.ferro:ferro-rx:$ferroRxVersion"
+    api "com.android.support:design:$appcompatVersion"
+    api "com.android.support:appcompat-v7:$appcompatVersion"
     api "com.android.support:recyclerview-v7:${appcompatVersion}"
-    api "io.reactivex.rxjava2:rxjava:${rxJava2Version}"
-    api "io.reactivex.rxjava2:rxandroid:${rxAndroid2Version}"
+    api "io.reactivex.rxjava2:rxjava:$rxJava2Version"
+    api "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
     api "javax.inject:javax.inject:${javaInjectVersion}"
     api "com.github.bumptech.glide:glide:3.8.0"
-    api "com.annimon:stream:${annimonStreamVersion}"
-    api "com.jakewharton.rxbinding2:rxbinding:${rxBinding2Version}"
-    api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:${rxBinding2Version}"
+    api "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
+    api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
     api 'org.jetbrains:annotations:15.0'
     api 'com.android.support:multidex:1.0.2'
+
+    implementation "com.annimon:stream:$annimonStreamVersion"
 
     //logging
     api "com.jakewharton.timber:timber:4.5.1"
     implementation "com.github.anrwatchdog:anrwatchdog:1.3.0"
-    api("com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}@aar") {
-        transitive = true
-    }
-
-    //test
-    testImplementation 'junit:junit:4.12'
-    testImplementation "org.powermock:powermock-module-junit4:${powerMockVersion}"
-    testImplementation "org.powermock:powermock-module-junit4-rule:${powerMockVersion}"
-    testImplementation "org.powermock:powermock-api-mockito:${powerMockVersion}"
-    testImplementation "org.powermock:powermock-classloading-xstream:${powerMockVersion}"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
-repositories {
-    mavenCentral()
-}
-
-apply plugin: 'kotlin-android-extensions'
