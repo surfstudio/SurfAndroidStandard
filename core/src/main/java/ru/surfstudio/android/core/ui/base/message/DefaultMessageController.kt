@@ -110,9 +110,8 @@ class DefaultMessageController @JvmOverloads constructor(val activityProvider: A
 
     private fun getViewFromActivity(activityProvider: ActivityProvider): View? {
         val activity = activityProvider.get()
-        val v: View? = activity.findViewById(R.id.snackbar_container)
+        return activity.findViewById(R.id.snackbar_container)
                 ?: activity.findViewById(R.id.coordinator)
                 ?: activity.findViewById(android.R.id.content)
-        return v
     }
 }

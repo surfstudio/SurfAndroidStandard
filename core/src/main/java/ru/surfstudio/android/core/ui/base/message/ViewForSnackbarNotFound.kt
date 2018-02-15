@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.ui.base.message
 
 /**
- * Created by vsokolova on 2/15/18.
+ * Икслючение, возникающее, если для показа snackbar не была найдена view
  */
-class ViewForSnackbarNotFound : Throwable() {
-}
+class ViewForSnackbarNotFound : Throwable()
