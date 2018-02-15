@@ -3,9 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 dependencies {
-    compileOnly project(':dagger-scope')
-    compileOnly project(':logger')
-    compileOnly project(':easyadapter')
+    api project(':dagger-scope')
+    api project(':logger')
+    api project(':easyadapter')
 
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
 

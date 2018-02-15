@@ -28,5 +28,4 @@ interface AppComponent {
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
     fun sessionChangeInteractor(): SessionChangedInteractor
-    fun photoPresenter(): PhotoProvider
 }

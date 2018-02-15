@@ -8,9 +8,8 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
-import ru.surfstudio.android.core.app.log.Logger
-import timber.log.Timber
+import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.logger.Logger
 import java.io.File
 import java.util.*
 
@@ -235,7 +234,7 @@ class CameraIntentHelper(private var activity: Activity, cameraIntentHelperCallb
                 try {
                     photoUri = intent?.data
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    Logger.e(e)
                 }
 
             }
@@ -253,7 +252,7 @@ class CameraIntentHelper(private var activity: Activity, cameraIntentHelperCallb
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                Logger.e(e)
             }
 
             photoUri = getFileUriFromContentUri(photoUri)
@@ -267,7 +266,7 @@ class CameraIntentHelper(private var activity: Activity, cameraIntentHelperCallb
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                Logger.e(e)
             }
 
             if (photoUri != null) {

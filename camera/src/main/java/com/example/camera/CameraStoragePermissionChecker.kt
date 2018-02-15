@@ -2,15 +2,15 @@ package com.example.camera
 
 import android.Manifest
 import io.reactivex.Observable
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager
 import ru.surfstudio.android.core.ui.base.permission.PermissionRequest
+import ru.surfstudio.android.dagger.scope.PerActivity
 import javax.inject.Inject
 
 /**
  * утилита для проверки и запроса пермишенов для камеры и хранилища
  */
-@PerScreen
+@PerActivity
 class CameraStoragePermissionChecker @Inject constructor(private val permissionManager: PermissionManager) {
 
     /**

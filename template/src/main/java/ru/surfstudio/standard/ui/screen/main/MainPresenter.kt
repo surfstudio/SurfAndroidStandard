@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.ui.screen.main
 
+import com.example.camera.PhotoProvider
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -11,7 +12,7 @@ import javax.inject.Inject
  */
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 val photoProvider: PhotoProvider) : BasePresenter<MainActivityView>(basePresenterDependency) {
+                                                 private val photoProvider: PhotoProvider) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()
 
@@ -21,10 +22,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun openCamera() {
-        subscribe(photoProvider.openCameraAndTakePhoto(), { path ->
+        subscribeIoHandleError(photoProvider.openCameraAndTakePhoto(), { path ->
             Logger.d("Path" + path)
-        }, { e ->
-            Logger.d("Path Error" + e)
         })
     }
 }

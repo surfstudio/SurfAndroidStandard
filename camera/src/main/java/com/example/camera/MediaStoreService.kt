@@ -2,8 +2,8 @@ package com.example.camera
 
 import android.provider.MediaStore
 import io.reactivex.Observable
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
+import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.*
 import javax.inject.Inject
 

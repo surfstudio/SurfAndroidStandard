@@ -6,9 +6,9 @@ import com.example.camera.exceptions.PhotoException
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
-import ru.surfstudio.android.core.app.log.Logger
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
+import ru.surfstudio.android.dagger.scope.PerActivity
+import ru.surfstudio.android.logger.Logger
 import ru.trinitydigital.poison.ui.util.camera.CameraIntentHelper
 import ru.trinitydigital.poison.ui.util.camera.CameraIntentHelperCallback
 import java.util.*
@@ -18,7 +18,7 @@ import javax.inject.Inject
 /**
  * Created by vsokolova on 2/8/18.
  */
-@PerScreen
+@PerActivity
 class PhotoProvider @Inject constructor(
         private val activityProvider: ActivityProvider,
         private val cameraStoragePermissionChecker: CameraStoragePermissionChecker) {
