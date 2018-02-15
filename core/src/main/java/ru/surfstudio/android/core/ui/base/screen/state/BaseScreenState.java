@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 /**
- * Created by makstuev on 25.01.2018.
+ * базовый {@link ScreenState} для активити и фрагмента, для виджета свой ScreenState
  */
 
-public abstract class BaseScreenState implements ScreenState { //todo описать что флаги для смены конфигурации
+public abstract class BaseScreenState implements ScreenState {
     private boolean viewRecreated = false;
     private boolean screenRecreated = false;
     private boolean completelyDestroyed = false;
@@ -20,11 +20,12 @@ public abstract class BaseScreenState implements ScreenState { //todo описа
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         viewRecreated = viewDestroyedAtListOnce;
         screenRecreated = screenDestroyedAtListOnce;
-        restoredFromDisk = !screenDestroyedAtListOnce && savedInstanceState != null;
+        restoredFromDisk = restoredFromDisk ||
+                !screenDestroyedAtListOnce && savedInstanceState != null;
     }
 
     public void onDestroyView() {
-        screenDestroyedAtListOnce = true;
+        viewDestroyedAtListOnce = true;
     }
 
     public void onDestroy() {
@@ -53,5 +54,10 @@ public abstract class BaseScreenState implements ScreenState { //todo описа
     @Override
     public boolean isRestoredFromDisk() {
         return restoredFromDisk;
+    }
+
+    @Override
+    public boolean isRestoredFromDiskJustNow() {
+        return isRestoredFromDisk() && !isViewRecreated();
     }
 }

@@ -1,9 +1,7 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
-import android.view.View;
-
 import ru.surfstudio.android.core.ui.base.dagger.CoreWidgetScreenModule;
-import ru.surfstudio.android.core.ui.base.screen.scope.WidgetPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
@@ -11,13 +9,12 @@ import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
  * @param <P> родительский даггер компонент (ActivityComponent)
  * @param <M> даггер модуль для виджета
  */
-public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurator<WidgetPersistentScope> {
+public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurator {
 
-    private CoreWidgetViewInterface target;
-    private WidgetPersistentScope persistentScreenScope;
+    private WidgetViewPersistentScope persistentScreenScope;
+    private ScreenComponent component;
 
-    public <T extends View & CoreWidgetViewInterface> BaseWidgetViewConfigurator(T target) {
-        this.target = target;
+    public BaseWidgetViewConfigurator() {
     }
 
     protected abstract M getWidgetScreenModule();
@@ -28,18 +25,17 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
                                                              M widgetScreenModule,
                                                              CoreWidgetScreenModule coreFragmentScreenModule);
 
-    @Override
-    public void setPersistentScope(WidgetPersistentScope persistentScreenScope) {
+    public void setPersistentScope(WidgetViewPersistentScope persistentScreenScope) {
         this.persistentScreenScope = persistentScreenScope;
     }
 
-    protected WidgetPersistentScope getPersistentScope() {
+    protected WidgetViewPersistentScope getPersistentScope() {
         return persistentScreenScope;
     }
 
     @Override
     public void run() {
-        satisfyDependencies(target);
+        satisfyDependencies(getPersistentScope().getScreenState().getCoreWidget());
     }
 
     @Override
@@ -48,10 +44,8 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
     }
 
     private void satisfyDependencies(CoreWidgetViewInterface target) {
-        ScreenComponent component = getPersistentScope().getObject(ScreenComponent.class);
         if (component == null) {
             component = createScreenComponent();
-            getPersistentScope().putObject(component, ScreenComponent.class);
         }
         component.inject(target);
     }

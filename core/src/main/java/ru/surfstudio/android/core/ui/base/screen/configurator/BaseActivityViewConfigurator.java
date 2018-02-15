@@ -1,12 +1,13 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 
 import ru.surfstudio.android.core.ui.base.dagger.CoreActivityScreenModule;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityViewPersistentScope;
 
 /**
  * Базовый класс конфигуратора экрана, основанного на Activity, см {@link ViewConfigurator}
@@ -17,17 +18,14 @@ import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
  */
 public abstract class BaseActivityViewConfigurator<P, A, M>
         extends BaseActivityConfigurator<A, P>
-        implements ViewConfigurator<ActivityPersistentScope> {
+        implements ViewConfigurator {
 
-    private CoreActivityViewInterface target;
     private Intent intent;
+    private ScreenComponent screenComponent;
+    private ActivityViewPersistentScope persistentScope;
 
 
-    public <T extends FragmentActivity & CoreActivityViewInterface> BaseActivityViewConfigurator(
-            T target,
-            Intent intent) {
-        super(target);
-        this.target = target;
+    public BaseActivityViewConfigurator(Intent intent) {
         this.intent = intent;
     }
 
@@ -39,26 +37,25 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
     protected abstract M getActivityScreenModule();
 
     @Override
-    public abstract String getName();
-
-    @Override
     public void run() {
         super.run();
-        satisfyDependencies(target);
+        satisfyDependencies(getTargetActivityView());
+    }
+
+    protected <T extends Activity & CoreActivityViewInterface> T getTargetActivityView() {
+        return (T)getPersistentScope().getScreenState().getCoreActivityView();
     }
 
     @Override
     public ScreenComponent getScreenComponent() {
-        return getPersistentScope().getObject(ScreenComponent.class);
+        return screenComponent;
     }
 
     private void satisfyDependencies(CoreActivityViewInterface target) {
-        ScreenComponent component = getPersistentScope().getObject(ScreenComponent.class);
-        if (component == null) {
-            component = createScreenComponent();
-            getPersistentScope().putObject(component, ScreenComponent.class);
+        if (screenComponent == null) {
+            screenComponent = createScreenComponent();
         }
-        component.inject(target);
+        screenComponent.inject(target);
     }
 
     protected Intent getIntent() {
@@ -71,5 +68,21 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
                 getActivityScreenModule(),
                 new CoreActivityScreenModule(),
                 getIntent());
+    }
+
+    @Override
+    protected ActivityViewPersistentScope getPersistentScope() {
+        return persistentScope;
+    }
+
+    public void setPersistentScope(ActivityViewPersistentScope persistentScope) {
+        super.setPersistentScope(persistentScope);
+        this.persistentScope = persistentScope;
+    }
+
+    @Override
+    @Deprecated
+    public void setPersistentScope(ActivityPersistentScope persistentScreenScope) {
+        throw new UnsupportedOperationException("call another setPersistentScope");
     }
 }

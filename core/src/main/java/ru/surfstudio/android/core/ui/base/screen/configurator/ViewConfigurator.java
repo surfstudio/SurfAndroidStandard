@@ -1,14 +1,13 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
 
-import ru.surfstudio.android.core.ui.base.screen.dialog.BaseSimpleDialogFragment;
-import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogInterface;
 
 /**
  * интерфейс для конфигураторов вью, предоставляет компонент экрана,
- * который используется для {@link BaseSimpleDialogFragment}
+ * который используется для {@link CoreSimpleDialogInterface} //todo
  */
-public interface ViewConfigurator<P extends PersistentScope> extends Configurator<P> {
+public interface ViewConfigurator extends Configurator {
 
     ScreenComponent getScreenComponent();
 }

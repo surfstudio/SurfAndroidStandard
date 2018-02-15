@@ -7,10 +7,14 @@ import android.support.v4.app.FragmentManager;
 
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.dagger.provider.FragmentProvider;
-import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
+import ru.surfstudio.android.core.ui.base.screen.view.FragmentContainer;
 
 /**
  * позволяет осуществлять навигацияю между фрагментами внутри фрагмента
+ * Используется ChildFragmentManager
+ *
+ * Изначально ядром не поставляется, поскольку не должно быть кейсов его использования,
+ * но класс оставлен на всякий случай =)
  */
 public class ChildFragmentNavigator extends FragmentNavigator {
     private final FragmentProvider fragmentProvider;
@@ -24,7 +28,7 @@ public class ChildFragmentNavigator extends FragmentNavigator {
     @Override
     protected FragmentManager getFragmentManager() {
         Fragment fragment = fragmentProvider.get();
-        while (!(fragment instanceof ContentContainerView)) {
+        while (!(fragment instanceof FragmentContainer)) {
             Fragment parent = fragment.getParentFragment();
             if (parent == null) {
                 break;
@@ -32,7 +36,6 @@ public class ChildFragmentNavigator extends FragmentNavigator {
 
             fragment = parent;
         }
-
         return fragment.getChildFragmentManager();
     }
 
@@ -40,7 +43,7 @@ public class ChildFragmentNavigator extends FragmentNavigator {
     @Override
     protected int getViewContainerIdOrThrow() {
         Fragment fragment = fragmentProvider.get();
-        while (!(fragment instanceof ContentContainerView)) {
+        while (!(fragment instanceof FragmentContainer)) {
             Fragment parent = fragment.getParentFragment();
             if (parent == null) {
                 break;
@@ -49,8 +52,8 @@ public class ChildFragmentNavigator extends FragmentNavigator {
             fragment = parent;
         }
 
-        if (fragment instanceof ContentContainerView) {
-            int viewContainerId = ((ContentContainerView) fragment).getContentContainerViewId();
+        if (fragment instanceof FragmentContainer) {
+            int viewContainerId = ((FragmentContainer) fragment).getContentContainerViewId();
             if (viewContainerId > 0) {
                 return viewContainerId;
             }

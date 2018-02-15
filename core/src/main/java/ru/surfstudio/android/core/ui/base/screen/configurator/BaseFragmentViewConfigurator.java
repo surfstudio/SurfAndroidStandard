@@ -6,7 +6,7 @@ import android.support.v4.app.Fragment;
 
 import ru.surfstudio.android.core.ui.base.dagger.CoreFragmentScreenModule;
 import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
-import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentViewPersistentScope;
 
 /**
  * Базовый класс конфигуратора экрана, основанного на Fragment, см {@link ViewConfigurator}
@@ -15,17 +15,14 @@ import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
  */
 public abstract class BaseFragmentViewConfigurator<P, M>
         extends BaseFragmentConfigurator
-        implements ViewConfigurator<FragmentPersistentScope> {
+        implements ViewConfigurator {
 
     private Bundle args;
-    private CoreFragmentViewInterface target;
+    private ScreenComponent screenComponent;
+    private FragmentViewPersistentScope persistentScope;
 
-    public <T extends Fragment & CoreFragmentViewInterface> BaseFragmentViewConfigurator(
-            T target,
-            Bundle args) {
-        super(target);
+    public BaseFragmentViewConfigurator(Bundle args) {
         this.args = args;
-        this.target = target;
     }
 
     protected abstract M getFragmentScreenModule();
@@ -38,26 +35,25 @@ public abstract class BaseFragmentViewConfigurator<P, M>
                                                              Bundle args);
 
     @Override
-    public abstract String getName();
-
-    @Override
-    public void run(){
+    public void run() {
         super.run();
-        satisfyDependencies(target);
+        satisfyDependencies(getTargetFragmentView());
+    }
+
+    protected <T extends Fragment & CoreFragmentViewInterface> T getTargetFragmentView() {
+        return (T)getPersistentScope().getScreenState().getCoreFragmentView();
     }
 
     @Override
     public ScreenComponent getScreenComponent() {
-        return getPersistentScope().getObject(ScreenComponent.class);
+        return screenComponent;
     }
 
     private void satisfyDependencies(CoreFragmentViewInterface target) {
-        ScreenComponent component = getPersistentScope().getObject(ScreenComponent.class);
-        if (component == null) {
-            component = createScreenComponent();
-            getPersistentScope().putObject(component, ScreenComponent.class);
+        if (screenComponent == null) {
+            screenComponent = createScreenComponent();
         }
-        component.inject(target);
+        screenComponent.inject(target);
     }
 
     private ScreenComponent createScreenComponent() {
@@ -70,6 +66,14 @@ public abstract class BaseFragmentViewConfigurator<P, M>
 
     protected Bundle getArgs(){
         return args;
+    }
+
+    protected FragmentViewPersistentScope getPersistentScope() {
+        return persistentScope;
+    }
+
+    public void setPersistentScope(FragmentViewPersistentScope persistentScope) {
+        this.persistentScope = persistentScope;
     }
 
 }

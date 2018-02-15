@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 dependencies {
     implementation project(':logger')
-    implementation project(':core')
+    implementation project(path: ':rx-extension')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.android.support:appcompat-v7:$appcompatVersion"

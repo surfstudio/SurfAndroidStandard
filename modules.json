@@ -53,6 +53,14 @@
       "path": ""
     },
     {
+      "name": "rx-extension",
+      "path": ""
+    },
+    {
+      "name": "connection",
+      "path": ""
+    },
+    {
       "name": "ktx",
       "path": ""
     }

@@ -21,7 +21,7 @@ package ru.surfstudio.android.easyadapter.impl.pagination;
 public enum PaginationState {
     COMPLETE(false), // none
     READY(true),     //footer loader
-    ERROR(true);     //footer button "show more"
+    ERROR(true);     //footer button "showSimpleDialog more"
 
     /**
      * means that list has pagination footer

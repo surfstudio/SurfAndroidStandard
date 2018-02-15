@@ -3,7 +3,6 @@ package ru.surfstudio.android.datalistlimitoffset
 import io.reactivex.Observable
 import org.junit.Assert
 import org.junit.Test
-import ru.surfstudio.android.core.util.rx.SafeBiFunction
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 import ru.surfstudio.android.datalistlimitoffset.util.PaginationableUtil
 

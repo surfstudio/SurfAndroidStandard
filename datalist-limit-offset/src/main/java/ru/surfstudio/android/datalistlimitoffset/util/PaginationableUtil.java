@@ -5,9 +5,9 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import ru.surfstudio.android.core.util.rx.ObservableUtil;
-import ru.surfstudio.android.core.util.rx.SafeBiFunction;
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList;
+import ru.surfstudio.android.rx.extension.BiFunctionSafe;
+import ru.surfstudio.android.rx.extension.ObservableUtil;
 
 public class PaginationableUtil {
 
@@ -25,7 +25,7 @@ public class PaginationableUtil {
      * combineLatestDelayError
      */
     private static <T, L extends DataList<T>> Observable<L> getPaginationRequestPortions(
-            SafeBiFunction<Integer, Integer, Observable<L>> paginationRequestCreator,
+            BiFunctionSafe<Integer, Integer, Observable<L>> paginationRequestCreator,
             L emptyValue,
             int offset, int limit, int blockSize) {
         List<Observable<? extends L>> portionRequests = new ArrayList<>();
@@ -51,7 +51,7 @@ public class PaginationableUtil {
     }
 
     public static <T> Observable<DataList<T>> getPaginationRequestPortions(
-            SafeBiFunction<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
+            BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
             int offset, int limit, int blockSize) {
         return getPaginationRequestPortions(paginationRequestCreator,
                 new DataList<>(new ArrayList<>(), limit, offset, 0),
@@ -59,7 +59,7 @@ public class PaginationableUtil {
     }
 
     public static <T> Observable<DataList<T>> getPaginationRequestPortionsWithTotal(
-            SafeBiFunction<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
+            BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
             int offset, int limit, int blockSize, int totalCount) {
         return getPaginationRequestPortions(paginationRequestCreator,
                 new DataList<>(new ArrayList<>(), limit, offset, totalCount),

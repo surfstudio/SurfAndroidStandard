@@ -92,6 +92,8 @@ dependencies {
     implementation project(':easyadapter-carousel')
     implementation project(':logger')
     implementation project(':dagger-scope')
+    implementation project(':connection')
+    implementation project(':rx-extension')
     implementation project(':ktx')
 
     compileOnly "com.google.dagger:dagger:$daggerVersion"
