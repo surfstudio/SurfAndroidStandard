@@ -1,13 +1,13 @@
-package ru.surfstudio.android.core.ui.util;
+package ru.surfstudio.android.datalistpagecount.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.schedulers.Schedulers;
-import ru.surfstudio.android.core.domain.datalist.DataList;
-import ru.surfstudio.android.core.util.rx.ObservableUtil;
-import ru.surfstudio.android.core.util.rx.SafeFunction;
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList;
+import ru.surfstudio.android.rx.extension.FunctionSafe;
+import ru.surfstudio.android.rx.extension.ObservableUtil;
 
 public class PaginationableUtil {
 
@@ -23,7 +23,7 @@ public class PaginationableUtil {
      * combineLatestDelayError
      */
     private static <T, L extends DataList<T>> Observable<L> getPaginationRequestPortions(
-            SafeFunction<Integer, Observable<L>> paginationRequestCreator,
+            FunctionSafe<Integer, Observable<L>> paginationRequestCreator,
             L emptyValue,
             int numPages) {
         List<Observable<? extends L>> portionRequests = new ArrayList<>();
@@ -49,7 +49,7 @@ public class PaginationableUtil {
     }
 
     public static <T> Observable<DataList<T>> getPaginationRequestPortions(
-            SafeFunction<Integer, Observable<DataList<T>>> paginationRequestCreator,
+            FunctionSafe<Integer, Observable<DataList<T>>> paginationRequestCreator,
             int numPages) {
         return getPaginationRequestPortions(
                 paginationRequestCreator,

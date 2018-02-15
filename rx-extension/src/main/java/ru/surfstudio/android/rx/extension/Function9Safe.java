@@ -1,4 +1,4 @@
-package ru.surfstudio.android.rx.extention;
+package ru.surfstudio.android.rx.extension;
 
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Function9;

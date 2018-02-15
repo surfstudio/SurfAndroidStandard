@@ -1,4 +1,4 @@
-package ru.surfstudio.android.rx.extention;
+package ru.surfstudio.android.rx.extension;
 
 import org.junit.Test;
 

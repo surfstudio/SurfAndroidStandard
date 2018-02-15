@@ -1,4 +1,4 @@
-package ru.surfstudio.android.rx.extention;
+package ru.surfstudio.android.rx.extension;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

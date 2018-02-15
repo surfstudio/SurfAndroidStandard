@@ -1,11 +1,10 @@
 package ru.surfstudio.android.network;
 
 import io.reactivex.Observable;
-import ru.surfstudio.android.core.app.interactor.common.DataPriority;
-import ru.surfstudio.android.core.util.rx.FunctionSafe;
+import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.logger.Logger;
-import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.NotModifiedException;
+import ru.surfstudio.android.rx.extension.FunctionSafe;
 
 import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FORCE;
 import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
@@ -14,13 +13,14 @@ import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_ONLY_
 
 /**
  * Базовый класс репозитория
+ * Можно переопределить DataStrategy по умолчанию в классе {@link DataStrategy}
  */
 public class BaseNetworkInteractor {
 
-    private ConnectionQualityProvider connectionQualityProvider;
+    private ConnectionProvider connectionProvider;
 
-    public BaseNetworkInteractor(ConnectionQualityProvider connectionQualityProvider) {
-        this.connectionQualityProvider = connectionQualityProvider;
+    public BaseNetworkInteractor(ConnectionProvider connectionQualityProvider) {
+        this.connectionProvider = connectionQualityProvider;
     }
 
     /**
@@ -40,7 +40,7 @@ public class BaseNetworkInteractor {
      *                              Integer параметр этой функции определяет {@link BaseServerConstants.QueryMode}
      * @param <T>                   тип возвращаемого значения
      */
-    protected <T> Observable<T> hybridQuery(DataPriority priority,
+    protected <T> Observable<T> hybridQuery(DataStrategy priority,
                                             Observable<T> cacheRequest,
                                             FunctionSafe<Integer, Observable<T>> networkRequestCreator) {
         return cacheRequest
@@ -48,10 +48,10 @@ public class BaseNetworkInteractor {
                 .onErrorResumeNext((Throwable e) -> Observable.error(new CacheExceptionWrapper(e)))
                 .flatMap(cache -> {
                     @BaseServerConstants.QueryMode int queryMode = QUERY_MODE_ONLY_IF_CHANGED;
-                    boolean cacheFirst = priority == DataPriority.AUTO
-                            ? !connectionQualityProvider.isConnectedFast()
-                            : priority == DataPriority.CACHE;
-                    boolean onlyActual = priority == DataPriority.ONLY_ACTUAL;
+                    boolean cacheFirst = priority == DataStrategy.AUTO
+                            ? !connectionProvider.isConnectedFast()
+                            : priority == DataStrategy.CACHE;
+                    boolean onlyActual = priority == DataStrategy.ONLY_ACTUAL;
                     Observable<T> cacheResultObservable = Observable.just(cache);
                     Observable<T> networkRequestObservable = networkRequestCreator.apply(queryMode);
 
@@ -93,7 +93,7 @@ public class BaseNetworkInteractor {
 
     protected <T> Observable<T> hybridQuery(Observable<T> cacheRequest,
                                             FunctionSafe<Integer, Observable<T>> networkRequestCreator) {
-        return hybridQuery(DataPriority.AUTO, cacheRequest, networkRequestCreator);
+        return hybridQuery(DataStrategy.AUTO, cacheRequest, networkRequestCreator);
     }
 
     /**
@@ -103,13 +103,13 @@ public class BaseNetworkInteractor {
      *                       Integer параметр этой функции определяет {@link BaseServerConstants.QueryMode}
      * @param <T>            тип ответа сервера
      */
-    protected <T> Observable<T> hybridQueryWithSimpleCache(DataPriority priority,
+    protected <T> Observable<T> hybridQueryWithSimpleCache(DataStrategy priority,
                                                            FunctionSafe<Integer, Observable<T>> requestCreator) {
         return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
     }
 
     protected <T> Observable<T> hybridQueryWithSimpleCache(FunctionSafe<Integer, Observable<T>> requestCreator) {
-        return hybridQueryWithSimpleCache(DataPriority.AUTO, requestCreator);
+        return hybridQueryWithSimpleCache(DataStrategy.AUTO, requestCreator);
     }
 
     private <T> Observable<T> processNetworkException(Throwable e) {

@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import okhttp3.HttpUrl;
-import ru.surfstudio.android.core.domain.network.url.BaseUrl;
+import ru.surfstudio.android.network.BaseUrl;
 
 /**
  * ищет {@link SimpleCacheInfo} для url запроса
