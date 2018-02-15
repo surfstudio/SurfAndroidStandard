@@ -9,8 +9,8 @@ import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
 import ru.surfstudio.android.core.ui.util.KeyboardUtil
-import ru.surfstudio.android.ktx.extensions.ui.view.goneIf
 import ru.surfstudio.android.ktx.extensions.text.PHONE_NUMBER_CHARS
+import ru.surfstudio.android.ktx.extensions.ui.view.goneIf
 
 /**
  * Extension-функции для настроек ввода (установки лимитов, допустимых и запрещённых символов и т.д.)
@@ -43,7 +43,7 @@ fun TextView.setDrawableColor(color: Int) {
  */
 fun EditText.setMaxLength(@IntegerRes length: Int) {
     val inputTextFilter = InputFilter.LengthFilter(context.resources.getInteger(length))
-    this.filters = arrayOf<InputFilter>(inputTextFilter).plus(filters)
+    this.filters = arrayOf<InputFilter>(inputTextFilter) + filters
 }
 
 /**
@@ -80,9 +80,16 @@ fun EditText.allowJustText() {
     val notJustText: (Char) -> Boolean = {
         !Character.isLetter(it) && !Character.isSpaceChar(it)
     }
+    restrictMatch(notJustText)
+}
+
+private fun EditText.restrictMatch(predicate: (Char) -> Boolean) {
     val inputTextFilter = InputFilter { source, start, end, _, _, _ ->
-        if ((start until end).any { notJustText(source[it]) })
-            source.trim { notJustText(it) }.toString() else null
+        if ((start until end).any { predicate(source[it]) }) {
+            source.trim { predicate(it) }.toString()
+        } else {
+            null
+        }
     }
     this.filters = arrayOf(inputTextFilter).plus(filters)
 }
