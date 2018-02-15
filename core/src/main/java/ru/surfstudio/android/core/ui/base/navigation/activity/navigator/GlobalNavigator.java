@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute;
-import ru.surfstudio.android.core.util.ActiveActivityHolder;
+import ru.surfstudio.android.core.app.ActiveActivityHolder;
 import ru.surfstudio.android.dagger.scope.PerApplication;
 
 /**

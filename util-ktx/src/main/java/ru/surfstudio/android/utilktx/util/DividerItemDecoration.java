@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.util;
+package ru.surfstudio.android.utilktx.util;
 
 
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.view.View;
 
 /**
  * Класс для создания девайдера у RecyclerView
+ *
+ * TODO: уйдет в другой модуль
  * */
 public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 

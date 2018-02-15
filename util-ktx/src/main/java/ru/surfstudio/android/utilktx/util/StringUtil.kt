@@ -1,15 +1,18 @@
-package ru.surfstudio.standard.ui.util
+package ru.surfstudio.android.utilktx.util
 
 
 import android.support.annotation.StyleRes
+import android.telephony.PhoneNumberUtils
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
-import android.text.TextUtils
 import android.text.style.TextAppearanceSpan
 import android.text.style.URLSpan
 import android.widget.TextView
-
+import ru.surfstudio.android.utilktx.ktx.text.DECIMAL_VALUE_FORMAT
+import ru.surfstudio.android.utilktx.ktx.text.VALID_VALUE
+import ru.surfstudio.android.utilktx.ktx.text.fractionalFormat
+import ru.surfstudio.android.utilktx.ktx.text.wholeFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 import java.util.Locale
@@ -18,14 +21,6 @@ import java.util.Locale
  * Вспомогательные методы работы со строками
  */
 object StringUtil {
-
-    private val DECIMAL_VALUE_FORMAT = "%.2f"
-    private val wholeFormat = "#,###"
-    private val fractionalFormat = "###,###.##"
-    private val VALID_VALUE = 0.00000001
-
-    private val symbols = arrayOf<CharSequence>("&", "<", ">", "...", "™")
-    private val tags = arrayOf<CharSequence>("&amp;", "&lt;", "&gt;", "&hellip;", "&trade;")
 
     //todo
 //    fun htmlSimpleDecode(htmlText: String): String {
@@ -46,30 +41,8 @@ object StringUtil {
             val start = text.getSpanStart(span)
             val end = text.getSpanEnd(span)
             text.removeSpan(span)
-            val span = URLSpanNoUnderline(span.url)
-            text.setSpan(span, start, end, 0)
+            text.setSpan(URLSpanNoUnderline(span.url), start, end, 0)
         }
-    }
-
-    /**
-     * @return пустая строка?
-     */
-    fun isEmpty(source: CharSequence): Boolean {
-        return TextUtils.isEmpty(source)
-    }
-
-    /**
-     * @return пустая строка?
-     */
-    fun isTrimEmpty(source: String?): Boolean {
-        return source == null || source.trim { it <= ' ' }.length == 0
-    }
-
-    /**
-     * @return НЕ пустая строка?
-     */
-    fun isNotEmpty(source: CharSequence): Boolean {
-        return !isEmpty(source)
     }
 
     /**
@@ -77,13 +50,6 @@ object StringUtil {
      */
     fun removeLeadingZeros(source: String): String {
         return source.replaceFirst("^0+(?!$)".toRegex(), "")
-    }
-
-    /**
-     * @return возвращает пустую строку, если исходная null
-     */
-    fun emptyIfNull(s: String): String {
-        return if (isEmpty(s)) "" else s
     }
 
     /**
@@ -113,21 +79,12 @@ object StringUtil {
         return if (value > 0) getDecimalFormat(wholeFormat).format(value.toLong()) else 0.toString()
     }
 
-    /**
-     * Обрезать строку, если она больше определенного значения
-     *
-     * @param source    исходная строка
-     * @param maxLength максимальная длинна строки
-     * @return строка не превышающая максимального размера
-     */
-    fun cut(source: String, maxLength: Int): String? {
-        if (TextUtils.isEmpty(source)) {
-            return source
+    fun formatPhone(source: String): String? {
+        return if (SdkUtils.isAtLeastLollipop) {
+            PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)
+        } else {
+            PhoneNumberUtils.formatNumber(source)
         }
-        return if (source.length > maxLength)
-            source.substring(0, maxLength)
-        else
-            source
     }
 
     private fun getDecimalFormat(pattern: String): DecimalFormat {

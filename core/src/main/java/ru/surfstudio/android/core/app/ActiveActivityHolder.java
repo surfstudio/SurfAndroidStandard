@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.util;
+package ru.surfstudio.android.core.app;
 
 import android.app.Activity;
 import android.support.annotation.Nullable;

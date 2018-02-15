@@ -1,4 +1,5 @@
 apply from: '../androidModule.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
     compileOnly project (':filestorage')
@@ -17,6 +18,8 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     api "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //tests
     testImplementation "junit:junit:$junitVersion"
