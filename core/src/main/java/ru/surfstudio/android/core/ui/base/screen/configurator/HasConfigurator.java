@@ -5,6 +5,4 @@ package ru.surfstudio.android.core.ui.base.screen.configurator;
  */
 public interface HasConfigurator {
     Configurator createConfigurator();
-
-    Configurator getConfigurator();
 }

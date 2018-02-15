@@ -2,6 +2,7 @@ package ru.surfstudio.android.core.ui.base.screen.activity;
 
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityViewDelegate;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.view.core.PresenterHolderCoreView;
 
 /**
@@ -15,7 +16,7 @@ public interface CoreActivityViewInterface extends
     BaseActivityViewConfigurator createConfigurator();
 
     @Override
-    BaseActivityViewConfigurator getConfigurator();
+    ActivityViewPersistentScope getPersistentScope();
 
     @Override
     ActivityViewDelegate createActivityDelegate();

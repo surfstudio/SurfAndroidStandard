@@ -4,7 +4,6 @@ package ru.surfstudio.android.core.ui.base.navigation.dialog.route;
 import android.support.v4.app.DialogFragment;
 
 import ru.surfstudio.android.core.ui.base.navigation.fragment.route.FragmentRoute;
-import ru.surfstudio.android.core.ui.base.screen.dialog.BaseDialogFragment;
 
 /**
  * см {@link FragmentRoute}

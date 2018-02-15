@@ -1,16 +1,36 @@
 package ru.surfstudio.android.core.ui.base.screen.scope;
 
 
+import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.event.FragmentScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
 
-public final class FragmentPersistentScope
-        extends PersistentScope<FragmentScreenEventDelegateManager, FragmentScreenState> {
+
+/**
+ * {@link PersistentScope} для фрагмента
+ */
+public class FragmentPersistentScope extends PersistentScope {
 
     public FragmentPersistentScope(
-            String name,
             FragmentScreenEventDelegateManager screenEventDelegateManager,
-            FragmentScreenState screenState) {
-        super(name, screenEventDelegateManager, screenState);
+            FragmentScreenState screenState,
+            BaseFragmentConfigurator configurator,
+            String name) {
+        super(screenEventDelegateManager, screenState, configurator, name);
+    }
+
+    @Override
+    public BaseFragmentConfigurator getConfigurator() {
+        return (BaseFragmentConfigurator)super.getConfigurator();
+    }
+
+    @Override
+    public FragmentScreenEventDelegateManager getScreenEventDelegateManager() {
+        return (FragmentScreenEventDelegateManager)super.getScreenEventDelegateManager();
+    }
+
+    @Override
+    public FragmentScreenState getScreenState() {
+        return (FragmentScreenState) super.getScreenState();
     }
 }

@@ -28,8 +28,13 @@ import ru.surfstudio.android.core.ui.base.screen.event.result.BaseActivityResult
 
 /**
  * позволяет осуществлять навигацияю между активити
+ *
+ * !!!В случае конфликтов возвращения результата между несколькими инстансами навигаторами
+ * можно рассмотреть добавление к RequestCode хеша от имени экрана контейнера
+ * Конфликт может возникнуть при открытии одинаковых экранов из, например, кастомной вью с
+ * презентером и родительской активити вью
  */
-public abstract class ActivityNavigator extends BaseActivityResultDelegate //todo unique start from screen name?
+public abstract class ActivityNavigator extends BaseActivityResultDelegate
         implements Navigator, NewIntentDelegate {
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();

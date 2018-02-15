@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.ui.base.message.MessageController;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigatorForFragment;
 import ru.surfstudio.android.core.ui.base.navigation.dialog.navigator.DialogNavigator;
-import ru.surfstudio.android.core.ui.base.navigation.dialog.navigator.DialogNavigatorForFragmentScreen;
+import ru.surfstudio.android.core.ui.base.navigation.dialog.navigator.DialogNavigatorForFragment;
 import ru.surfstudio.android.core.ui.base.navigation.fragment.FragmentNavigator;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManager;
 import ru.surfstudio.android.core.ui.base.permission.PermissionManagerForFragment;
@@ -52,7 +52,7 @@ public class CoreFragmentScreenModule {
     @Provides
     @PerScreen
     DialogNavigator provideDialogNavigator(ActivityProvider activityProvider, FragmentProvider fragmentProvider) {
-        return new DialogNavigatorForFragmentScreen(activityProvider, fragmentProvider);
+        return new DialogNavigatorForFragment(activityProvider, fragmentProvider);
     }
 
     @Provides

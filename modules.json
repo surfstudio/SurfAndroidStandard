@@ -51,6 +51,14 @@
     {
       "name": "datalist-page-count",
       "path": ""
+    },
+    {
+      "name": "rx-extension",
+      "path": ""
+    },
+    {
+      "name": "connection",
+      "path": ""
     }
   ]
 }

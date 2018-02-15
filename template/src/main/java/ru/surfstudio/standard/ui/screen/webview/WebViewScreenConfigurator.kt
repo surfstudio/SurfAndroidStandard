@@ -14,8 +14,8 @@ import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule
 /**
  * Конфигуратор экрана с вебвью
  */
-class WebViewScreenConfigurator(activity: WebViewActivityView, intent: Intent) :
-        ActivityScreenConfigurator(activity, intent) {
+class WebViewScreenConfigurator(intent: Intent) :
+        ActivityScreenConfigurator(intent) {
 
     override fun createScreenComponent(parentComponent: ActivityComponent?,
                                        activityScreenModule: ActivityScreenModule?,
@@ -27,8 +27,6 @@ class WebViewScreenConfigurator(activity: WebViewActivityView, intent: Intent) :
                     .webViewScreenModule(WebViewScreenModule(WebViewRoute(intent)))
                     .coreActivityScreenModule(coreActivityScreenModule)
                     .build()
-
-    override fun getName() = "Web View Screen"
 
     @PerScreen
     @Component(dependencies = arrayOf(ActivityComponent::class),
