@@ -59,7 +59,10 @@ fun <T : View, R1,R2,R3> T.actionIfChanged(data1: R1?,data2: R2?, data3: R3? = n
 }
 
 fun <T : View, R1, R2, R3, R4> T.actionIfChanged(
-        data1: R1, data2: R2? = null, data3: R3? = null, data4: R4? = null,
+        data1: R1?,
+        data2: R2? = null,
+        data3: R3? = null,
+        data4: R4? = null,
         action: T.(data1: R1?, data2: R2?, data3: R3?, data4: R4?) -> Unit) {
     val hash = data1?.hashCode()
             ?.plus(data2?.hashCode() ?: 0)

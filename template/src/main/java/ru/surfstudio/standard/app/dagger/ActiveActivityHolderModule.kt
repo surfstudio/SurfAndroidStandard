@@ -2,7 +2,7 @@ package ru.surfstudio.standard.app.dagger
 
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.util.ActiveActivityHolder
+import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
 
 @Module

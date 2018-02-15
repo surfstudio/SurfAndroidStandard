@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ru.surfstudio.android.core.util.CollectionUtils;
-import ru.surfstudio.android.core.util.SettingsUtil;
+import ru.surfstudio.android.ktx.util.SettingsUtil;
 
 /**
  * Хранилище для сохранения набора id

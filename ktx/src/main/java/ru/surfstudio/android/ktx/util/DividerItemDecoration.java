@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.util;
+package ru.surfstudio.android.ktx.util;
 
 
 import android.content.Context;

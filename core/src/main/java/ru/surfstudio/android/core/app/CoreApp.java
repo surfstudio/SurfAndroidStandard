@@ -6,8 +6,6 @@ import android.support.v7.app.AppCompatDelegate;
 
 import com.github.anrwatchdog.ANRWatchDog;
 
-import ru.surfstudio.android.core.util.ActiveActivityHolder;
-import ru.surfstudio.android.core.util.DefaultActivityLifecycleCallbacks;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.logger.RemoteLogger;
 

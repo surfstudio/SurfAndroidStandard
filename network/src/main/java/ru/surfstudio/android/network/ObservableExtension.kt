@@ -1,7 +1,6 @@
-package ru.surfstudio.android.ktx.extensions
+package ru.surfstudio.android.network
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.util.Transformable
 
 /**
  * Extension функции для rx.reactiveio.Observable

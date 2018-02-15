@@ -2,7 +2,7 @@ package ru.surfstudio.android.ktx.extensions.convert
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import ru.surfstudio.android.core.ui.util.DrawableUtil
+import ru.surfstudio.android.ktx.util.DrawableUtil
 
 /**
  * Методы-конвертеры

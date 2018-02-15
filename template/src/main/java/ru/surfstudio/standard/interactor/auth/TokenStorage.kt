@@ -2,7 +2,7 @@ package ru.surfstudio.standard.interactor.auth
 
 import android.content.SharedPreferences
 import ru.surfstudio.android.core.app.SharedPrefModule
-import ru.surfstudio.android.core.util.SettingsUtil
+import ru.surfstudio.android.ktx.util.SettingsUtil
 import ru.surfstudio.android.dagger.scope.PerApplication
 import javax.inject.Inject
 import javax.inject.Named

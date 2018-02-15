@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
-import ru.surfstudio.android.core.ui.util.KeyboardUtil
+import ru.surfstudio.android.ktx.util.KeyboardUtil
 import ru.surfstudio.android.ktx.extensions.text.PHONE_NUMBER_CHARS
 import ru.surfstudio.android.ktx.extensions.ui.view.goneIf
 

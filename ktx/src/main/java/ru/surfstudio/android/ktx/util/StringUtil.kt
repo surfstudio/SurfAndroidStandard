@@ -9,7 +9,6 @@ import android.text.Spanned
 import android.text.style.TextAppearanceSpan
 import android.text.style.URLSpan
 import android.widget.TextView
-import ru.surfstudio.android.core.util.SdkUtils
 import ru.surfstudio.android.ktx.extensions.text.DECIMAL_VALUE_FORMAT
 import ru.surfstudio.android.ktx.extensions.text.VALID_VALUE
 import ru.surfstudio.android.ktx.extensions.text.fractionalFormat
@@ -82,7 +81,7 @@ object StringUtil {
     }
 
     fun formatPhone(source: String): String? {
-        return if (SdkUtils.isAtLeastLollipop()) {
+        return if (SdkUtils.isAtLeastLollipop) {
             PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)
         } else {
             PhoneNumberUtils.formatNumber(source)
