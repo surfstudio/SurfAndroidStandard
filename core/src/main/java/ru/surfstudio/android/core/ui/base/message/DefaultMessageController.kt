@@ -56,7 +56,7 @@ class DefaultMessageController @JvmOverloads constructor(val activityProvider: A
         val sb = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
 
         if (backgroundColor == null) {
-            if (snackBarBackgroundColor != null) {
+            snackBarBackgroundColor?.let {
                 sb.view.setBackgroundColor(snackBarBackgroundColor!!)
             }
         } else {
@@ -78,8 +78,10 @@ class DefaultMessageController @JvmOverloads constructor(val activityProvider: A
     override fun showToast(message: String, gravity: Int) {
         toast?.cancel()
         toast = Toast.makeText(getView().context, message, Toast.LENGTH_LONG)
-        toast!!.setGravity(gravity, 0, 0)
-        toast!!.show()
+                .apply {
+                    setGravity(gravity, 0, 0)
+                    show()
+                }
     }
 
     /**
@@ -95,7 +97,9 @@ class DefaultMessageController @JvmOverloads constructor(val activityProvider: A
      * нужно чтобы найденая View была [CoordinatorLayout]
      */
     protected fun getView(): View {
-        return getViewFromFragment(fragmentProvider) ?: getViewFromActivity(activityProvider)
+        return getViewFromFragment(fragmentProvider)
+                ?: getViewFromActivity(activityProvider)
+                ?: throw ViewForSnackbarNotFound()
     }
 
     private fun getViewFromFragment(fragmentProvider: FragmentProvider?): View? {
@@ -104,11 +108,11 @@ class DefaultMessageController @JvmOverloads constructor(val activityProvider: A
                 ?: fragmentView.findViewById(R.id.coordinator)
     }
 
-    private fun getViewFromActivity(activityProvider: ActivityProvider): View {
+    private fun getViewFromActivity(activityProvider: ActivityProvider): View? {
         val activity = activityProvider.get()
         val v: View? = activity.findViewById(R.id.snackbar_container)
                 ?: activity.findViewById(R.id.coordinator)
                 ?: activity.findViewById(android.R.id.content)
-        return v!! //опасный, но вроде проверенный временем момент
+        return v
     }
 }
