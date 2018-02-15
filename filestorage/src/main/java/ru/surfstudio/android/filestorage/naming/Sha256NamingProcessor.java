@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.logger.Logger;
 
 public class Sha256NamingProcessor implements NamingProcessor {
 

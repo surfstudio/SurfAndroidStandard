@@ -6,7 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.MediaStore
-import ru.surfstudio.android.core.app.log.Logger
+import ru.surfstudio.android.logger.Logger
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 

@@ -13,7 +13,7 @@ import ru.surfstudio.android.core.ui.base.screen.dialog.BaseSimpleDialogFragment
 /**
  * позволяет открывать диалоги
  */
-public abstract class DialogNavigator implements Navigator {
+public abstract class DialogNavigator implements Navigator { //todo сделать поддержку widget(через ScopeStorage?)
 
     private ActivityProvider activityProvider;
 

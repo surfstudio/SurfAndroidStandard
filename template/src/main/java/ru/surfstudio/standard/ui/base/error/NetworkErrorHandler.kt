@@ -1,12 +1,12 @@
 package ru.surfstudio.standard.ui.base.error
 
-import ru.surfstudio.android.core.app.log.Logger
+import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.ui.base.error.ErrorHandler
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.network.error.ConversionException
 import ru.surfstudio.android.network.error.NetworkException
 import ru.surfstudio.android.network.error.NoInternetException
 import ru.surfstudio.standard.interactor.common.network.error.HttpProtocolException
-import rx.exceptions.CompositeException
 
 /**
  * Базовый класс для обработки ошибок, возникающий при работе с Observable из слоя Interactor

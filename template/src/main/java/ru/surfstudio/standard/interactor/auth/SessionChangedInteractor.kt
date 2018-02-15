@@ -1,9 +1,9 @@
 package ru.surfstudio.standard.interactor.auth
 
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.domain.auth.phone.LoginInfo
-import rx.Observable
-import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 /**
@@ -20,12 +20,12 @@ constructor(private val tokenStorage: TokenStorage) {
     }
 
     fun onLogin(authInfo: LoginInfo) {
-        tokenStorage.authToken = authInfo.accessToken
+        tokenStorage.authToken = authInfo.accessToken //todo log user
         sessionChangedPublishSubject.onNext(LoginState.LOGGED_IN)
     }
 
     fun onForceLogout() {
         tokenStorage.clearTokens()
-        sessionChangedPublishSubject.onNext(LoginState.NOT_AUTHORIZED)
+        sessionChangedPublishSubject.onNext(LoginState.NOT_AUTHORIZED) //todo log user
     }
 }

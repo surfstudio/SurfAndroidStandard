@@ -9,13 +9,9 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-
+import ru.surfstudio.android.logger.Logger
 import java.io.File
-import java.util.Date
-import java.util.Locale
-
-import ru.surfstudio.android.core.app.log.Logger
-import timber.log.Timber
+import java.util.*
 
 
 /**
@@ -221,7 +217,7 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
      *
      *
      * **Intent extra:**
-     * Second, we try to get an image Uri from intent.getBeacon() of the returning intent.
+     * Second, we try to getScreenDelegateFactory an image Uri from intent.getBeacon() of the returning intent.
      * If this is not successful either, we continue with step 3.
      *
      *
@@ -279,9 +275,8 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
                 try {
                     photoUri = intent.data
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    Logger.e(e)
                 }
-
             }
 
             if (photoUri == null) {
@@ -297,7 +292,7 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                Logger.e(e)
             }
 
             photoUri = getFileUriFromContentUri(photoUri)
@@ -311,7 +306,7 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
                     }
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                Logger.e(e)
             }
 
             if (photoUri != null) {

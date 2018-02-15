@@ -3,7 +3,7 @@ package ru.surfstudio.standard.interactor.auth
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
+import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.interactor.auth.network.AuthApi
 
 @Module

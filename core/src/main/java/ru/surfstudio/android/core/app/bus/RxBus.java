@@ -5,7 +5,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
-import ru.surfstudio.android.core.app.dagger.scope.PerActivity;
+import ru.surfstudio.android.dagger.scope.PerActivity;
 
 /**
  * Шина сообшений работающая на Rx. Может истользоваться только в контексте одной активити

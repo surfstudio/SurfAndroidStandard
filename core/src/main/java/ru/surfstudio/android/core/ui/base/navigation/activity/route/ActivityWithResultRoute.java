@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import java.io.Serializable;
 
-import ru.surfstudio.android.core.ui.base.delegate.activity.result.SupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.base.screen.event.result.SupportOnActivityResultRoute;
 
 /**
  * см {@link ActivityRoute}

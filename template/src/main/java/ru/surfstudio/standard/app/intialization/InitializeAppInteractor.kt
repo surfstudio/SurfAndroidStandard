@@ -2,8 +2,8 @@ package ru.surfstudio.standard.app.intialization
 
 
 import io.reactivex.Completable
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
 import ru.surfstudio.android.core.app.intialization.migration.AppMigrationManager
+import ru.surfstudio.android.dagger.scope.PerApplication
 import javax.inject.Inject
 
 /**

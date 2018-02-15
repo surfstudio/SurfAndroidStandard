@@ -1,17 +1,11 @@
 package ru.surfstudio.standard.ui.util.camera
 
-
-import android.database.Cursor
-import android.net.Uri
 import android.provider.MediaStore
-
-import java.util.ArrayList
-
-import javax.inject.Inject
-
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
+import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
-import rx.Observable
+import ru.surfstudio.android.dagger.scope.PerScreen
+import java.util.*
+import javax.inject.Inject
 
 /**
  * Сервис для получения картинок из галереи для экрана создания рецензии
@@ -46,6 +40,6 @@ constructor(private val activityProvider: ActivityProvider) {
                 cursor.close()
             }
             subscriber.onNext(images)
-            subscriber.onCompleted()
+            subscriber.onComplete()
         }
 }

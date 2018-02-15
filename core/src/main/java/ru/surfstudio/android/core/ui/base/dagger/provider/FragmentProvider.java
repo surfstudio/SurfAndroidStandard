@@ -18,15 +18,18 @@ package ru.surfstudio.android.core.ui.base.dagger.provider;
 
 import android.support.v4.app.Fragment;
 
-import com.agna.ferro.core.PersistentScreenScope;
+import ru.surfstudio.android.core.ui.base.screen.state.FragmentScreenState;
 
 /**
  * Provider for Fragment
  * every call {@link this#get()} return actual Fragment
  */
-public class FragmentProvider extends Provider<Fragment> {
-    public FragmentProvider(PersistentScreenScope screenScope) {
-        super(screenScope);
+public class FragmentProvider implements Provider<Fragment> {
+    private FragmentScreenState screenState;
+
+    public FragmentProvider(FragmentScreenState screenState) {
+
+        this.screenState = screenState;
     }
 
     /**
@@ -34,6 +37,6 @@ public class FragmentProvider extends Provider<Fragment> {
      */
     @Override
     public Fragment get() {
-        return screenScope.getParentPSSFragment();
+        return screenState.getFragment();
     }
 }
