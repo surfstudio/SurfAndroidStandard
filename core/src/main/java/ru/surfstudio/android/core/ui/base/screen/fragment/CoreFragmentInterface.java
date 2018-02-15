@@ -7,20 +7,27 @@ import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.HasConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.fragment.FragmentDelegate;
+import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.HasPersistentScope;
 
-//todo comment
-public interface CoreFragmentInterface extends HasName, HasConfigurator {
+/**
+ * Интерфес для базового фрагмента, см {@link FragmentDelegate}
+ */
+public interface CoreFragmentInterface extends
+        HasConfigurator,
+        HasPersistentScope,
+        HasName {
 
     @Override
     BaseFragmentConfigurator createConfigurator();
 
     @Override
-    BaseFragmentConfigurator getConfigurator();
+    FragmentPersistentScope getPersistentScope();
 
     FragmentDelegate createFragmentDelegate();
 
     /**
-     * @param viewRecreated show whether view created in first time or recreated after
+     * @param viewRecreated showSimpleDialog whether view created in first time or recreated after
      *                      changing configuration
      */
     void onActivityCreated(@Nullable Bundle savedInstanceState, boolean viewRecreated);

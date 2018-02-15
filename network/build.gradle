@@ -1,10 +1,13 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':core')
-    compileOnly project(':filestorage')
-    compileOnly project(':logger')
+    compileOnly project (':filestorage')
+    compileOnly project (':logger')
     compileOnly project (':dagger-scope')
+    compileOnly project (':connection')
+    compileOnly project (':rx-extension')
+
+    compileOnly project (':core') //todo delete
 
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
     compileOnly "com.annimon:stream:$annimonStreamVersion"
@@ -14,7 +17,6 @@ dependencies {
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     api "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    api "com.google.code.gson:gson:$gsonVersion"
 
     //tests
     testImplementation "junit:junit:$junitVersion"

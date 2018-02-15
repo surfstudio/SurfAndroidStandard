@@ -55,6 +55,14 @@
     {
       "name": "firebase-analytics",
       "path": ""
+    },
+    {
+      "name": "rx-extension",
+      "path": ""
+    },
+    {
+      "name": "connection",
+      "path": ""
     }
   ]
 }

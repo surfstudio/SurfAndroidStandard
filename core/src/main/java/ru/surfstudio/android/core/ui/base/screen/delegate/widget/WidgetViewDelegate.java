@@ -4,8 +4,8 @@ package ru.surfstudio.android.core.ui.base.screen.delegate.widget;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.scope.PersistentScopeStorage;
-import ru.surfstudio.android.core.ui.base.screen.scope.WidgetPersistentScope;
-import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
+import ru.surfstudio.android.core.ui.base.screen.scope.WidgetViewPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.state.WidgetScreenState;
 import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 
 /**
@@ -19,7 +19,6 @@ import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
 public class WidgetViewDelegate {
 
     private CoreWidgetViewInterface coreWidgetView;
-    private BaseWidgetViewConfigurator configurator;
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
 
@@ -32,7 +31,6 @@ public class WidgetViewDelegate {
     }
 
     public void onCreate() {
-        initConfigurator();
         initPersistentScope();
         runConfigurator();
         coreWidgetView.bindPresenters();
@@ -40,21 +38,17 @@ public class WidgetViewDelegate {
     }
 
     public void onDestroy() {
-        if (getScreenState().isCompletelyDestroyed()) { //todo comment
-            scopeStorage.removeScope(getName());
+        if (getScreenState().isCompletelyDestroyed()) {
+            scopeStorage.remove(getName());
         }
     }
 
-    protected WidgetPersistentScope getPersistentScope() {
-        return scopeStorage.getWidgetScope(getName());
-    }
-
-    private void initConfigurator() {
-        configurator = coreWidgetView.createConfigurator();
+    protected WidgetViewPersistentScope getPersistentScope() {
+        return scopeStorage.get(getName(), WidgetViewPersistentScope.class);
     }
 
     private void runConfigurator() {
-        configurator.run();
+        getPersistentScope().getConfigurator().run();
     }
 
     private void initPersistentScope() {
@@ -63,27 +57,25 @@ public class WidgetViewDelegate {
             if (parentScope == null) {
                 throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
             }
-            WidgetPersistentScope persistentScope = new WidgetPersistentScope(
-                    getName(),
+            WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
+            BaseWidgetViewConfigurator configurator = coreWidgetView.createConfigurator();
+            WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     parentScope.getScreenEventDelegateManager(),
-                    parentScope.getScreenState());
-            scopeStorage.putScope(persistentScope);
+                    screenState,
+                    configurator,
+                    coreWidgetView.getName());
+            configurator.setPersistentScope(persistentScope);
+            scopeStorage.put(persistentScope);
         }
-        configurator.setPersistentScope(getPersistentScope());
     }
 
     //getters
 
-    public BaseWidgetViewConfigurator getConfigurator() {
-        return configurator;
-    }
-
-    private ScreenState getScreenState() {
+    private WidgetScreenState getScreenState() {
         return getPersistentScope().getScreenState();
     }
 
     private String getName() {
-        return configurator.getName();
+        return coreWidgetView.getName();
     }
-
 }

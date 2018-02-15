@@ -9,17 +9,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
-import ru.surfstudio.android.core.ui.base.screen.event.base.ScreenEventDelegate;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 
 /**
  * базовая активити для всего приложения
- * поддерживает механизм делегирования обработки событий экрана {@link ScreenEventDelegate}
- * Также имеет компонент @PerActivity scope
- * PersistentScope хранит как компонент Activity (уровня PerActivity) так и компонент экрана
- * (уровня PerScreen), если на основе этой активити создана View
+ * см {@link ActivityDelegate}
  */
 public abstract class CoreActivity extends AppCompatActivity implements CoreActivityInterface {
 
@@ -31,13 +27,13 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     }
 
     @Override
-    public BaseActivityConfigurator getConfigurator() {
-        return activityDelegate.getConfigurator();
+    public ActivityPersistentScope getPersistentScope() {
+        return activityDelegate.getPersistentScope();
     }
 
     @Override
-    public final String getName() {
-        return getConfigurator().getName();
+    public String getName() {
+        return this.getClass().getCanonicalName();
     }
 
     @Override
