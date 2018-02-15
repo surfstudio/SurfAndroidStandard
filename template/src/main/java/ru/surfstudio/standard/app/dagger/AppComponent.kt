@@ -2,7 +2,6 @@ package ru.surfstudio.standard.app.dagger
 
 import android.content.Context
 import dagger.Component
-import ru.surfstudio.android.core.app.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider
 import ru.surfstudio.android.core.util.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -26,6 +25,6 @@ interface AppComponent {
     fun context(): Context
     fun schedulerProvider(): SchedulersProvider
     fun activeActivityHolder(): ActiveActivityHolder
-    fun connectionProvider(): ConnectionProvider
+    fun connectionProvider(): ru.surfstudio.android.connection.ConnectionProvider
     fun sessionChangeInteractor(): SessionChangedInteractor
 }

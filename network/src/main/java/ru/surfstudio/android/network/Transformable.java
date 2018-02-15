@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.util;
+package ru.surfstudio.android.network;
 
 /**
  * Интерфейс, указывающий что объект может быть трансформирован в объект типа T

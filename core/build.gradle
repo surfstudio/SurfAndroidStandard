@@ -6,6 +6,8 @@ dependencies {
     compileOnly project(':dagger-scope')
     compileOnly project(':logger')
     compileOnly project(':easyadapter')
+    compileOnly project(':connection')
+    compileOnly project(':rx-extension')
 
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
 
@@ -25,6 +27,7 @@ dependencies {
     api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
     api 'org.jetbrains:annotations:15.0'
     api 'com.android.support:multidex:1.0.2'
+    api 'com.android.support.constraint:constraint-layout:1.0.2'
 
     implementation "com.annimon:stream:$annimonStreamVersion"
 

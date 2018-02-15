@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.domain.network.url;
+package ru.surfstudio.android.network;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

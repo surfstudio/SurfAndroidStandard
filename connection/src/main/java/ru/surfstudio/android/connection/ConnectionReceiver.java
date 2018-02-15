@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.app.connection;
+package ru.surfstudio.android.connection;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

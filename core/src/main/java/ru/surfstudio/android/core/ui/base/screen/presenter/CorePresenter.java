@@ -14,10 +14,10 @@ import io.reactivex.subjects.BehaviorSubject;
 import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
-import ru.surfstudio.android.core.util.rx.ActionSafe;
-import ru.surfstudio.android.core.util.rx.BiFunctionSafe;
-import ru.surfstudio.android.core.util.rx.ConsumerSafe;
-import ru.surfstudio.android.core.util.rx.ObservableUtil;
+import ru.surfstudio.android.rx.extension.ActionSafe;
+import ru.surfstudio.android.rx.extension.BiFunctionSafe;
+import ru.surfstudio.android.rx.extension.ConsumerSafe;
+import ru.surfstudio.android.rx.extension.ObservableUtil;
 
 /**
  * базовый класс презентера, содержащий всю корневую логику

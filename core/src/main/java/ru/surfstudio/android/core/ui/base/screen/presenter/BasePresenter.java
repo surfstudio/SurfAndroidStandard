@@ -9,13 +9,13 @@ import com.agna.ferro.rx.ObservableOperatorFreeze;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.observers.LambdaObserver;
-import ru.surfstudio.android.core.app.connection.ConnectionProvider;
+import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.base.screen.view.HandleableErrorView;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
-import ru.surfstudio.android.core.util.rx.ActionSafe;
-import ru.surfstudio.android.core.util.rx.ConsumerSafe;
+import ru.surfstudio.android.rx.extension.ActionSafe;
+import ru.surfstudio.android.rx.extension.ConsumerSafe;
 
 
 /**

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.rx.extention;
+package ru.surfstudio.android.rx.extension;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
