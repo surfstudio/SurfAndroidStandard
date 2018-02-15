@@ -3,7 +3,6 @@ package ru.surfstudio.android.core.ui.base.screen.presenter;
 
 import android.support.annotation.CallSuper;
 
-import com.agna.ferro.core.PersistentScreenScope;
 import com.agna.ferro.rx.ObservableOperatorFreeze;
 
 import io.reactivex.Observable;
@@ -12,8 +11,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.functions.Functions;
 import io.reactivex.internal.observers.LambdaObserver;
 import io.reactivex.subjects.BehaviorSubject;
-import ru.surfstudio.android.core.ui.base.delegate.ScreenEventDelegate;
-import ru.surfstudio.android.core.ui.base.delegate.manager.ScreenEventDelegateManagerProvider;
+import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 import ru.surfstudio.android.core.ui.base.screen.view.core.CoreView;
 import ru.surfstudio.android.core.util.rx.ObservableUtil;
 import ru.surfstudio.android.core.util.rx.SafeAction;
@@ -28,19 +27,15 @@ import ru.surfstudio.android.core.util.rx.SafeConsumer;
  *
  * @param <V>
  */
-public abstract class CorePresenter<V extends CoreView> implements
-        PersistentScreenScope.OnScopeDestroyListener {
+public abstract class CorePresenter<V extends CoreView> {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);
-    private final ScreenEventDelegateManagerProvider delegateManagerProvider;
-    private final ScreenEventDelegate[] delegates;
     private V view;
     private boolean freezeEventsOnPause = true;
 
-    public CorePresenter(ScreenEventDelegateManagerProvider delegateManagerProvider, ScreenEventDelegate[] screenEventDelegates) {
-        this.delegateManagerProvider = delegateManagerProvider;
-        this.delegates = screenEventDelegates;
+    public CorePresenter(ScreenEventDelegateManager eventDelegateManager, ScreenState screenState) {
+        eventDelegateManager.registerDelegate(new CorePresenterGateway(this, screenState));
     }
 
     public void attachView(V view) {
@@ -60,17 +55,13 @@ public abstract class CorePresenter<V extends CoreView> implements
      * @param viewRecreated - show whether view created in first time or recreated after
      *                      changing configuration
      */
-    @CallSuper
     public void onLoad(boolean viewRecreated) {
-        for (ScreenEventDelegate delegate : delegates) {
-            delegateManagerProvider.get().registerDelegate(delegate);
-        }
     }
 
     /**
-     * Called after {@link this#onLoad}
+     *  //todo
      */
-    public void onLoadFinished() {
+    public void onFirstLoad() {
     }
 
     /**
@@ -121,9 +112,13 @@ public abstract class CorePresenter<V extends CoreView> implements
      * Called when screen is finally destroyed
      */
     @CallSuper
-    @Override
     public void onDestroy() {
         disposables.dispose();
+    }
+
+    //todo коммент
+    protected StateRestorer getStateRestorer() {
+        return null;
     }
 
     /**

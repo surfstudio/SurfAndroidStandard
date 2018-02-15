@@ -1,0 +1,5 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly "javax.inject:javax.inject:$javaInjectVersion"
+}

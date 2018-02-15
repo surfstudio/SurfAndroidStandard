@@ -15,7 +15,7 @@ import java.nio.channels.FileChannel;
 import java.util.Arrays;
 import java.util.List;
 
-import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * класс для осуществления операций с файлами кэша

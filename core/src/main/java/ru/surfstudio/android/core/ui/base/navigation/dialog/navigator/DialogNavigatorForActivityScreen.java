@@ -5,6 +5,9 @@ import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityView;
 import ru.surfstudio.android.core.ui.base.screen.dialog.BaseSimpleDialogFragment;
 
+/**
+ * DialogNavigator работающий из активити
+ */
 public class DialogNavigatorForActivityScreen extends DialogNavigator {
 
     private ActivityProvider activityProvider;

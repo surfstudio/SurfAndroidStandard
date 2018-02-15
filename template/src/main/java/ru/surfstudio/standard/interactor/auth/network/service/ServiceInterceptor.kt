@@ -2,7 +2,7 @@ package ru.surfstudio.standard.interactor.auth.network.service
 
 import okhttp3.Interceptor
 import okhttp3.Response
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
+import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.interactor.auth.TokenStorage
 import java.io.IOException
 import javax.inject.Inject

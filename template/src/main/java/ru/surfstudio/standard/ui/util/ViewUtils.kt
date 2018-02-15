@@ -6,12 +6,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.graphics.drawable.VectorDrawable
+import android.graphics.drawable.*
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.graphics.drawable.VectorDrawableCompat
@@ -19,7 +14,6 @@ import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.EditText
 
 /**
@@ -27,7 +21,7 @@ import android.widget.EditText
  */
 class ViewUtils private constructor() {
     init {
-        throw IllegalStateException(ViewUtils::class.java!!.getName() + " не может иметь инстанс")
+        throw IllegalStateException(ViewUtils::class.java.getName() + " не может иметь инстанс")
     }
 
     interface KeyboardVisibilityToggleListener {

@@ -7,7 +7,7 @@ import android.telephony.TelephonyManager;
 
 import javax.inject.Inject;
 
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
+import ru.surfstudio.android.dagger.scope.PerApplication;
 
 /**
  * предоставляет состояние интернет соединения

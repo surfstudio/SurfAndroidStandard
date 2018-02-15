@@ -1,67 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_enabled="false">
-        <inset
-            android:insetBottom="@dimen/button_vertical_inset"
-            android:insetLeft="@dimen/button_horizontal_inset"
-            android:insetRight="@dimen/button_horizontal_inset"
-            android:insetTop="@dimen/button_vertical_inset">
+        <inset android:insetBottom="@dimen/button_vertical_inset" android:insetLeft="@dimen/button_horizontal_inset" android:insetRight="@dimen/button_horizontal_inset" android:insetTop="@dimen/button_vertical_inset">
 
             <shape>
                 <corners android:radius="@dimen/button_outline_radius" />
                 <solid android:color="@android:color/transparent" />
-                <stroke
-                    android:width="@dimen/button_outline_stroke_weight"
-                    android:color="#8a8f9c" />
-                <padding
-                    android:bottom="@dimen/button_vertical_padding"
-                    android:left="@dimen/button_horizontal_padding"
-                    android:right="@dimen/button_horizontal_padding"
-                    android:top="@dimen/button_vertical_padding" />
+                <stroke android:width="@dimen/button_outline_stroke_weight" android:color="#8a8f9c" />
+                <padding android:bottom="@dimen/button_vertical_padding" android:left="@dimen/button_horizontal_padding" android:right="@dimen/button_horizontal_padding" android:top="@dimen/button_vertical_padding" />
             </shape>
         </inset>
     </item>
 
     <item android:state_pressed="true">
-        <inset
-            android:insetBottom="@dimen/button_vertical_inset"
-            android:insetLeft="@dimen/button_horizontal_inset"
-            android:insetRight="@dimen/button_horizontal_inset"
-            android:insetTop="@dimen/button_vertical_inset">
+        <inset android:insetBottom="@dimen/button_vertical_inset" android:insetLeft="@dimen/button_horizontal_inset" android:insetRight="@dimen/button_horizontal_inset" android:insetTop="@dimen/button_vertical_inset">
 
             <shape>
                 <corners android:radius="@dimen/button_outline_radius" />
                 <solid android:color="@android:color/transparent" />
-                <stroke
-                    android:width="@dimen/button_outline_stroke_weight"
-                    android:color="?colorControlHighlight" />
-                <padding
-                    android:bottom="@dimen/button_vertical_padding"
-                    android:left="@dimen/button_horizontal_padding"
-                    android:right="@dimen/button_horizontal_padding"
-                    android:top="@dimen/button_vertical_padding" />
+                <stroke android:width="@dimen/button_outline_stroke_weight" android:color="?colorControlHighlight" />
+                <padding android:bottom="@dimen/button_vertical_padding" android:left="@dimen/button_horizontal_padding" android:right="@dimen/button_horizontal_padding" android:top="@dimen/button_vertical_padding" />
             </shape>
         </inset>
     </item>
 
     <item>
-        <inset
-            android:insetBottom="@dimen/button_vertical_inset"
-            android:insetLeft="@dimen/button_horizontal_inset"
-            android:insetRight="@dimen/button_horizontal_inset"
-            android:insetTop="@dimen/button_vertical_inset">
+        <inset android:insetBottom="@dimen/button_vertical_inset" android:insetLeft="@dimen/button_horizontal_inset" android:insetRight="@dimen/button_horizontal_inset" android:insetTop="@dimen/button_vertical_inset">
 
             <shape>
                 <corners android:radius="@dimen/button_outline_radius" />
                 <solid android:color="@android:color/transparent" />
-                <stroke
-                    android:width="@dimen/button_outline_stroke_weight"
-                    android:color="@color/colorAccent" />
-                <padding
-                    android:bottom="@dimen/button_vertical_padding"
-                    android:left="@dimen/button_horizontal_padding"
-                    android:right="@dimen/button_horizontal_padding"
-                    android:top="@dimen/button_vertical_padding" />
+                <stroke android:width="@dimen/button_outline_stroke_weight" android:color="@color/colorAccent" />
+                <padding android:bottom="@dimen/button_vertical_padding" android:left="@dimen/button_horizontal_padding" android:right="@dimen/button_horizontal_padding" android:top="@dimen/button_vertical_padding" />
             </shape>
         </inset>
     </item>

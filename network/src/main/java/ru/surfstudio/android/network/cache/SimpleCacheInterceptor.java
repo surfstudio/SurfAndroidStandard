@@ -12,13 +12,13 @@ import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
-import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.dagger.scope.PerApplication;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.HttpCodes;
 
-import static ru.surfstudio.android.network.ServerConstants.HEADER_QUERY_MODE;
-import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
+import static ru.surfstudio.android.network.BaseServerConstants.HEADER_QUERY_MODE;
+import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
 
 /**
  * Интерцептор с логикой работы простого кеша
@@ -28,6 +28,7 @@ import static ru.surfstudio.android.network.ServerConstants.QUERY_MODE_FROM_SIMP
 public class SimpleCacheInterceptor implements Interceptor {
     public static final String VERSION_CHAR = "v";
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
+    public static final String MESSAGE_OK = "OK";
     private static final String SLASH = "/";
     private SimpleCacheFactory simpleCacheFactory;
     private SimpleCacheUrlConnector simpleCacheUrlConnector;
@@ -96,6 +97,7 @@ public class SimpleCacheInterceptor implements Interceptor {
     private Response createCachedResponse(String cachedResponseBody, Request originalRequest) {
         return new Response.Builder()
                 .code(HttpCodes.CODE_200)
+                .message(MESSAGE_OK)
                 .body(ResponseBody.create(MediaType.parse(MEDIA_TYPE_APPLICATION_JSON), cachedResponseBody))
                 .request(originalRequest)
                 .protocol(Protocol.HTTP_1_1)

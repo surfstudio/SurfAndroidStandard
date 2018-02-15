@@ -1,29 +1,59 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
-import com.agna.ferro.core.PersistentScreenScope;
+import android.support.v4.app.FragmentActivity;
 
-public abstract class BaseActivityConfigurator<C, P> {
+import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
+
+/**
+ * Базовый конфигуратор для активити
+ * Создает ActivityComponent
+ * Предоставляет уникальное имя экрана, для корневой логики экрана
+ * @param <A> тип ActivityComponent
+ * @param <P> тип родительского компонента, обычно AppComponent
+ */
+public abstract class BaseActivityConfigurator<A, P> implements Configurator<ActivityPersistentScope> {
     private final String ACTIVITY_COMPONENT_TAG = "ACTIVITY_COMPONENT_TAG";
 
-    private PersistentScreenScope persistentScreenScope;
+    private ActivityPersistentScope persistentScreenScope;
+    private FragmentActivity target;
 
-    public void setPersistentScreenScope(PersistentScreenScope persistentScreenScope) {
-        this.persistentScreenScope = persistentScreenScope;
+    public <T extends FragmentActivity & CoreActivityViewInterface> BaseActivityConfigurator(T target) {
+        this.target = target;
     }
 
-    protected abstract C createActivityComponent(P parentComponent);
+    protected abstract A createActivityComponent(P parentComponent);
     protected abstract P getParentComponent();
 
-    public void init() {
-        C activityComponent = persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+    @Override
+    public void run(){
+        init();
+    }
+
+    @Override
+    public String getName() {
+        return target.getClass().getCanonicalName();
+    }
+
+    protected ActivityPersistentScope getPersistentScope() {
+        return persistentScreenScope;
+    }
+
+    protected void init() {
+        A activityComponent = (A) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
         if (activityComponent == null) {
             activityComponent = createActivityComponent(getParentComponent());
             persistentScreenScope.putObject(activityComponent, ACTIVITY_COMPONENT_TAG);
         }
     }
 
-    public C getActivityComponent() {
-        return persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+    public A getActivityComponent() {
+        return (A) persistentScreenScope.getObject(ACTIVITY_COMPONENT_TAG);
+    }
+
+    @Override
+    public void setPersistentScope(ActivityPersistentScope persistentScreenScope) {
+        this.persistentScreenScope = persistentScreenScope;
     }
 
 }

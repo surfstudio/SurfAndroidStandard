@@ -2,11 +2,11 @@ package ru.surfstudio.standard.ui.screen.splash
 
 
 import io.reactivex.Completable
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenterDependency
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
 import ru.surfstudio.standard.ui.screen.main.MainActivityRoute
 import java.util.concurrent.TimeUnit
@@ -35,9 +35,12 @@ constructor(private val activityNavigator: ActivityNavigator,
             val delay = Completable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
             val work = initializeAppInteractor.initialize()// полезная работа выполняется в этом Observable
             val merge = Completable.merge(arrayListOf(delay, work))
-            subscribeIoHandleError(merge.toObservable<Unit>(),
+            subscribeIoHandleError(merge.toObservable<Unit>(), //todo добавить перегрузки на onComplete
                     { },
-                    { activityNavigator.start(nextRoute) },
+                    {
+                        activityNavigator.finishCurrent()
+                        activityNavigator.start(nextRoute)
+                    },
                     null)
         }
     }

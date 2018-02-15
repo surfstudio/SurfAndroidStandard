@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.app.intialization.migration;
 
 
-import ru.surfstudio.android.core.app.log.Logger;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * Базовый класс миграции с одной версии приложения на другую

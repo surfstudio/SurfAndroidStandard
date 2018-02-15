@@ -5,11 +5,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import io.reactivex.Completable;
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
 import ru.surfstudio.android.core.app.intialization.InitializationModule;
 import ru.surfstudio.android.core.app.intialization.launch.AppLaunchConfigurationStorage;
-import ru.surfstudio.android.core.app.log.Logger;
 import ru.surfstudio.android.core.domain.Unit;
+import ru.surfstudio.android.dagger.scope.PerApplication;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * Осуществляет миграцию приложения на новую версию

@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.app.scheduler;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication;
+import ru.surfstudio.android.dagger.scope.PerApplication;
 
 @Module
 public class SchedulerModule {

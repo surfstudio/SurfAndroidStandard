@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.interactor.auth
 
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
+import io.reactivex.Observable
+import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.network.TransformUtil
 import ru.surfstudio.standard.domain.auth.phone.KeyInfo
 import ru.surfstudio.standard.domain.auth.phone.LoginInfo
@@ -9,7 +10,6 @@ import ru.surfstudio.standard.domain.auth.recover.RecoverByPhoneStatus
 import ru.surfstudio.standard.interactor.auth.network.AuthApi
 import ru.surfstudio.standard.interactor.auth.network.request.*
 import ru.surfstudio.standard.interactor.auth.network.service.BaseNetworkService
-import rx.Observable
 import javax.inject.Inject
 
 private const val CODE_FORMAT = "%s:%s"

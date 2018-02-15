@@ -1,6 +1,5 @@
 package ru.surfstudio.android.network.calladapter;
 
-
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
@@ -12,12 +11,13 @@ import retrofit2.CallAdapter;
 import retrofit2.HttpException;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.network.error.NoInternetException;
 
 /**
  * кроме конвертирования запроса в Observable, выполняет следующие функции:
  * Конвертирует IOException в NoConnectionException
- * Имплементация провайдится через модуль со скоупом {@link ru.surfstudio.android.core.app.dagger.scope.PerApplication}
+ * Имплементация провайдится через модуль со скоупом {@link PerApplication}
  */
 public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 
@@ -34,8 +34,8 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
     /**
      * Метод обработки ошибки {@link HttpException}
      * Здесь определеяется поведение на различные коды ошибок. Например:
-     * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
-     * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
+     *      * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
+     *      * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
      */
     public abstract <R> Observable<R> onHttpException(HttpException e);
 

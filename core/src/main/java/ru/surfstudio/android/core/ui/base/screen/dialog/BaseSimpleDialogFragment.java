@@ -3,16 +3,17 @@ package ru.surfstudio.android.core.ui.base.screen.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
-import com.agna.ferro.core.HasName;
-
-import ru.surfstudio.android.core.app.log.LogConstants;
-import ru.surfstudio.android.core.app.log.RemoteLogger;
-import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityView;
-import ru.surfstudio.android.core.ui.base.screen.configurator.HasScreenConfigurator;
-import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
+import ru.surfstudio.android.core.ui.HasName;
+import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
+import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenComponent;
+import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.logger.LogConstants;
+import ru.surfstudio.android.logger.RemoteLogger;
 
 /**
  * Базовый класс простого диалога который может возвращать результат
@@ -27,15 +28,15 @@ import ru.surfstudio.android.core.ui.base.screen.fragment.CoreFragmentView;
  * к слою Interactor
  */
 public abstract class BaseSimpleDialogFragment extends BaseDialogFragment implements HasName {
-    public static final String EXTRA_PARENT = "EXTRA_PARENT";
+    public static final String EXTRA_PARENT = "EXTRA_PARENT"; //todo parent widget
     private Parent parentType;
 
-    public void show(CoreActivityView parentActivityView) {
+    public <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView) {
         parentType = Parent.ACTIVITY;
         show(parentActivityView.getSupportFragmentManager());
     }
 
-    public void show(CoreFragmentView parentFragment) {
+    public <F extends Fragment & CoreFragmentViewInterface> void show(F parentFragment) {
         parentType = Parent.FRAGMENT;
         this.setTargetFragment(parentFragment, 0);
         show(parentFragment.getFragmentManager());
@@ -58,18 +59,18 @@ public abstract class BaseSimpleDialogFragment extends BaseDialogFragment implem
     }
 
     protected <T> T getScreenComponent(Class<T> componentClass) {
-        HasScreenConfigurator hasScreenConfigurator;
+        ScreenComponent screenComponent;
         switch (parentType) {
             case ACTIVITY:
-                hasScreenConfigurator = (HasScreenConfigurator)getActivity();
+                screenComponent = ((CoreActivityViewInterface) getActivity()).getConfigurator().getScreenComponent();
                 break;
             case FRAGMENT:
-                hasScreenConfigurator = (HasScreenConfigurator)getTargetFragment();
+                screenComponent = ((CoreFragmentViewInterface) getTargetFragment()).getConfigurator().getScreenComponent();
                 break;
             default:
                 throw new IllegalStateException("Unsupported parent type: " + parentType);
         }
-        return componentClass.cast(hasScreenConfigurator.getScreenConfigurator().getScreenComponent());
+        return componentClass.cast(screenComponent);
     }
 
     @Override
