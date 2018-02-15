@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.util;
+package ru.surfstudio.android.utilktx.util.java;
 
 
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import ru.surfstudio.android.utilktx.util.Mapper;
 
 /**
  * Обработка коллекций

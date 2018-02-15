@@ -1,4 +1,4 @@
-package ru.surfstudio.android.utilktx.util;
+package ru.surfstudio.android.recycler.extension.divider;
 
 
 import android.content.Context;

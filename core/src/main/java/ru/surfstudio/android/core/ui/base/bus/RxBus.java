@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.app.bus;
+package ru.surfstudio.android.core.ui.base.bus;
 
 
 import javax.inject.Inject;

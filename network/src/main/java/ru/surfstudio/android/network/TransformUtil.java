@@ -5,8 +5,8 @@ import android.support.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-import ru.surfstudio.android.core.util.CollectionUtils;
-import ru.surfstudio.android.core.util.Mapper;
+import ru.surfstudio.android.utilktx.util.Mapper;
+import ru.surfstudio.android.utilktx.util.java.CollectionUtils;
 
 
 /**
