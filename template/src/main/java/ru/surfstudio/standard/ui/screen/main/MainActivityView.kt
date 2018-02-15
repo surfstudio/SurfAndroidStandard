@@ -17,17 +17,9 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
     @Inject
     internal lateinit var presenter: MainPresenter
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
-
     @IdRes
     override fun getContentView(): Int {
         return R.layout.activity_main
-    }
-
-    override fun createConfigurator(): ActivityScreenConfigurator {
-        return MainScreenConfigurator(this, intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?,
@@ -36,7 +28,17 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {
+    override fun renderInternal(screenModel: MainScreenModel) {}
 
+    override fun getName(): String {
+        return "main"
+    }
+
+    override fun getPresenters(): Array<CorePresenter<*>> {
+        return arrayOf(presenter)
+    }
+
+    override fun createConfigurator(): ActivityScreenConfigurator {
+        return MainScreenConfigurator(intent)
     }
 }

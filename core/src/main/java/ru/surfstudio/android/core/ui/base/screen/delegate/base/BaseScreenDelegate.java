@@ -8,7 +8,7 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.Configurator;
+import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.base.screen.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.base.screen.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent;
@@ -30,48 +30,44 @@ import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
 
 /**
- * делегат для базовых активити и фрагмента,
+ * базовый делегат для базовых активити и фрагмента, для виджета свой делегат
  * управляет ключевыми сущностями внутренней логики экрана:
- * - PersistentScope
- * - ScreenEventDelegateManager
- * - ScreenState
- * - ScreenConfigurator
+ * - PersistentScope            - хранилище для всех остальных обьектов, переживает смену конфигурации
+ * - ScreenEventDelegateManager - позволяет подписываться на события экрана
+ * - ScreenState                - хранит текущее состояние экрана
+ * - ScreenConfigurator         - управляет компонентами даггера, предоставляет уникальное имя экрана
  */
 
-public abstract class BaseScreenDelegate<
-        P extends PersistentScope<? extends ScreenEventDelegateManager, S>,
-        S extends BaseScreenState,
-        C extends Configurator,
-        D extends CompletelyDestroyChecker> {
+public abstract class BaseScreenDelegate {
 
+    private HasName screenNameProvider;
     private List<ScreenEventResolver> eventResolvers;
-    private C configurator;
     private PersistentScopeStorage scopeStorage;
-    private D completelyDestroyChecker;
+    private CompletelyDestroyChecker completelyDestroyChecker;
+
+    public abstract PersistentScope getPersistentScope();
 
     protected abstract void notifyScreenStateAboutOnCreate(@Nullable Bundle savedInstanceState);
 
     protected abstract void prepareView(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle);
 
-    protected abstract P createPersistentScope(List<ScreenEventResolver> eventResolvers);
+    protected abstract PersistentScope createPersistentScope(List<ScreenEventResolver> eventResolvers);
 
-    protected abstract P getPersistentScope();
-
-    protected abstract C createConfigurator();
-
+    protected abstract BaseScreenState getScreenState();
     //core logic
 
     public BaseScreenDelegate(
+            HasName screenNameProvider,
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
-            D completelyDestroyChecker) {
+            CompletelyDestroyChecker completelyDestroyChecker) {
+        this.screenNameProvider = screenNameProvider;
         this.eventResolvers = eventResolvers;
         this.scopeStorage = scopeStorage;
         this.completelyDestroyChecker = completelyDestroyChecker;
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
-        initConfigurator();
         initPersistentScope();
         notifyScreenStateAboutOnCreate(savedInstanceState);
         runConfigurator();
@@ -92,42 +88,29 @@ public abstract class BaseScreenDelegate<
             getScreenState().onCompletelyDestroy();
             getEventDelegateManager().sendEvent(new OnCompletelyDestroyEvent());
             getEventDelegateManager().destroy();
-            scopeStorage.removeScope(getName());
+            scopeStorage.remove(getName());
         }
-    }
-
-    private void initConfigurator() {
-        configurator = createConfigurator();
     }
 
     private void runConfigurator() {
-        configurator.run();
+        getPersistentScope().getConfigurator().run();
     }
 
     private void initPersistentScope() {
-        if (getPersistentScope() == null) {
-            P persistentScope = createPersistentScope(eventResolvers);
-            scopeStorage.putScope(persistentScope);
+        if (!scopeStorage.isExist(getName())) {
+            PersistentScope persistentScope = createPersistentScope(eventResolvers);
+            scopeStorage.put(persistentScope);
         }
-        configurator.setPersistentScope(getPersistentScope());
     }
 
     //getters
-
-    public C getConfigurator() {
-        return configurator;
-    }
-
-    protected S getScreenState() {
-        return getPersistentScope().getScreenState();
-    }
 
     protected ScreenEventDelegateManager getEventDelegateManager() {
         return getPersistentScope().getScreenEventDelegateManager();
     }
 
     protected String getName() {
-        return configurator.getName();
+        return screenNameProvider.getName();
     }
 
     //other events

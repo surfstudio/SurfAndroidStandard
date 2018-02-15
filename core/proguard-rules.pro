@@ -35,7 +35,7 @@
 -keep class * implements com.google.gson.JsonDeserializer
 
 -keep class ru.surfstudio.android.core.domain.Unit {*;}
--keep class * implements ru.surfstudio.android.core.util.Transformable
+-keep class * implements ru.surfstudio.android.network.Transformable
 -keep class * implements BaseResponse
 
 #retrofit / okhttp

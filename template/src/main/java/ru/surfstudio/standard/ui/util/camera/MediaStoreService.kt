@@ -1,10 +1,9 @@
 package ru.surfstudio.standard.ui.util.camera
 
-
 import android.provider.MediaStore
+import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
-import rx.Observable
 import java.util.*
 import javax.inject.Inject
 
@@ -41,6 +40,6 @@ constructor(private val activityProvider: ActivityProvider) {
                 cursor.close()
             }
             subscriber.onNext(images)
-            subscriber.onCompleted()
+            subscriber.onComplete()
         }
 }

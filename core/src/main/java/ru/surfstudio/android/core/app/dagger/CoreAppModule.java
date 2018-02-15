@@ -2,7 +2,6 @@ package ru.surfstudio.android.core.app.dagger;
 
 import dagger.Module;
 import ru.surfstudio.android.core.app.SharedPrefModule;
-import ru.surfstudio.android.core.app.connection.ConnectionModule;
 import ru.surfstudio.android.core.app.intialization.InitializationModule;
 import ru.surfstudio.android.core.app.scheduler.SchedulerModule;
 
@@ -13,8 +12,7 @@ import ru.surfstudio.android.core.app.scheduler.SchedulerModule;
 @Module(includes = {
         InitializationModule.class,
         SharedPrefModule.class,
-        SchedulerModule.class,
-        ConnectionModule.class
+        SchedulerModule.class
 })
 public interface CoreAppModule {
 }

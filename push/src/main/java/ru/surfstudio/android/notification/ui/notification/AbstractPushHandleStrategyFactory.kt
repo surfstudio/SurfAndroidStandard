@@ -16,6 +16,8 @@ abstract class AbstractPushHandleStrategyFactory {
 
     fun createByData(data: Map<String, String>): PushHandleStrategy<*>? {
         Logger.d("data : ${data[KEY]}")
-        return map[data[KEY] ?: ""]
+        return map[data[KEY] ?: ""].apply {
+            this?.typeData?.setDataFromMap(data)
+        }
     }
 }

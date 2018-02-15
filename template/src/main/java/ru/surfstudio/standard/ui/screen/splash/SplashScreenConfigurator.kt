@@ -14,11 +14,7 @@ import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule
 /**
  * Конфигуратор для сплэш экрана, инкапсулирует всю логику работы с даггером.
  */
-internal class SplashScreenConfigurator(activity: SplashActivityView, intent: Intent) : ActivityScreenConfigurator(activity, intent) {
-
-    override fun getName(): String {
-        return "splash"
-    }
+internal class SplashScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @Module
     internal class SplashScreenModule(route: SplashRoute) : CustomScreenModule<SplashRoute>(route)

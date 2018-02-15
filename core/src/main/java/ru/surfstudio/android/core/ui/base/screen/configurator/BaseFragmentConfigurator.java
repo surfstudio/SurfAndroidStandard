@@ -1,38 +1,16 @@
 package ru.surfstudio.android.core.ui.base.screen.configurator;
 
-import android.support.v4.app.Fragment;
-
-import ru.surfstudio.android.core.ui.base.screen.scope.FragmentPersistentScope;
-
 /**
  * Базовый конфигуратор для активити
- * Предоставляет уникальное имя экрана, для корневой логики экрана
+ * Не делает ничего, нужен для единого стиля базовой логики
  */
-public class BaseFragmentConfigurator implements Configurator<FragmentPersistentScope> {
+public class BaseFragmentConfigurator implements Configurator {
 
-    private Fragment target;
-    private FragmentPersistentScope persistentScreenScope;
-
-    public BaseFragmentConfigurator(Fragment target) {
-        this.target = target;
+    public BaseFragmentConfigurator() {
     }
 
     @Override
     public void run() {
         //empty
-    }
-
-    @Override
-    public void setPersistentScope(FragmentPersistentScope persistentScreenScope) {
-        this.persistentScreenScope = persistentScreenScope;
-    }
-
-    protected FragmentPersistentScope getPersistentScope() {
-        return persistentScreenScope;
-    }
-
-    @Override
-    public String getName() {
-        return target.getClass().getCanonicalName();
     }
 }

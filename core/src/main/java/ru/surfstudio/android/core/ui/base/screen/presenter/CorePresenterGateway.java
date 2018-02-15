@@ -15,7 +15,10 @@ import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.stop.OnStopDele
 import ru.surfstudio.android.core.ui.base.screen.event.lifecycle.view.destroy.OnViewDestroyDelegate;
 import ru.surfstudio.android.core.ui.base.screen.state.ScreenState;
 
-
+/**
+ * Оповещает презентер о событиях экрана
+ * Сохраняет и восстанавливант состояние через Bundle, см {@link StateRestorer}
+ */
 public class CorePresenterGateway implements
         OnViewReadyDelegate,
         OnStartDelegate,
@@ -68,7 +71,7 @@ public class CorePresenterGateway implements
 
     @Override
     public void onViewDestroy() {
-        presenter.onViewDetached();
+        presenter.detachView();
     }
 
     @Override
@@ -85,7 +88,10 @@ public class CorePresenterGateway implements
 
     @Override
     public void onRestoreState(@Nullable Bundle savedInstanceState) {
-        if (presenter.getStateRestorer() != null && savedInstanceState!= null) {
+        if (presenter.getStateRestorer() != null
+                && screenState.isRestoredFromDiskJustNow()) {
+            //восстанавливаем состояние только если экран восстановлен с диска
+            // и этот обработчик не был вызван после смены конфигурации
             presenter.getStateRestorer().restoreState(savedInstanceState.getSerializable(KEY_STATE));
         }
     }
