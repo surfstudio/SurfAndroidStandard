@@ -1,10 +1,10 @@
 package ru.surfstudio.standard.interactor.auth.network.service;
 
 
+import io.reactivex.Observable;
 import ru.surfstudio.android.network.error.HttpCodes;
 import ru.surfstudio.standard.interactor.common.network.error.HttpProtocolException;
 import ru.surfstudio.standard.interactor.common.network.error.handler.BaseErrorHandler;
-import rx.Observable;
 
 /**
  * Бзовый класс для работы с api
@@ -13,7 +13,7 @@ import rx.Observable;
 public class BaseNetworkService {
 
     protected <T> Observable<T> call(Observable<T> observable, BaseErrorHandler errorHandler) {
-        return observable.onErrorResumeNext(throwable -> handleError(throwable, errorHandler));
+        return observable.onErrorResumeNext((Throwable throwable) -> handleError(throwable, errorHandler));
     }
 
     private <T> Observable<T> handleError(Throwable throwable, BaseErrorHandler errorHandler) {

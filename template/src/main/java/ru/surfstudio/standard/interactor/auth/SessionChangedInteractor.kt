@@ -1,9 +1,9 @@
 package ru.surfstudio.standard.interactor.auth
 
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.domain.auth.phone.LoginInfo
-import rx.Observable
-import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 /**

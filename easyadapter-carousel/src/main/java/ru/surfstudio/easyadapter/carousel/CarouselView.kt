@@ -55,15 +55,20 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
 
     fun render(elements: ItemList) {
         easyAdapter.setItems(elements)
-        realItemsCount = elements.size
-        if (isInfinite) applyInfiniteScroll()
+
+        // при первоначальной установке элементов и бесконечном скроле необходимо проскроллить до середины
+        // фейкового количества элементов, в остальных случаях этого не требуется
+        if (isInfinite && (realItemsCount == 0)) {
+            realItemsCount = elements.size
+            applyInfiniteScroll()
+        } else {
+            realItemsCount = elements.size
+        }
     }
 
     fun render(elements: List<T>, itemController: BindableItemController<T, out BindableViewHolder<T>>) {
-        easyAdapter.setItems(ItemList.create()
+        render(ItemList.create()
                 .addAll(elements, itemController))
-        realItemsCount = elements.size
-        if (isInfinite) applyInfiniteScroll()
     }
 
     fun setSnapHelper(snapHelper: SnapHelper) {
