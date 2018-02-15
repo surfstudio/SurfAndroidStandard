@@ -12,6 +12,10 @@ import ru.surfstudio.android.notification.interactor.push.PushInteractor
  */
 abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
 
+    companion object {
+        const val EXTRA_PUSH_STRATEGY_KEY = "EXTRA_PUSH_STRATEGY"
+    }
+
     /**
      * тип данных пуша [BaseNotificationTypeData]
      */

@@ -10,9 +10,9 @@ import javax.inject.Named
 private const val KEY_AUTH_TOKEN = "AUTH_TOKEN"
 
 @PerApplication
-class TokenStorage
-@Inject
-constructor(@Named(SharedPrefModule.NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
+class TokenStorage @Inject constructor(
+        @Named(SharedPrefModule.NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences
+) {
 
     var authToken: String
         get() = SettingsUtil.getString(noBackupSharedPref, KEY_AUTH_TOKEN)
