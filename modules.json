@@ -51,6 +51,10 @@
     {
       "name": "datalist-page-count",
       "path": ""
+    },
+    {
+      "name": "standard-dialog",
+      "path": ""
     }
   ]
 }
