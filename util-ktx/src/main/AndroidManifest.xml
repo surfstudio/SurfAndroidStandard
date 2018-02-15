@@ -1,2 +1,2 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.surfstudio.android.ktx" />
+    package="ru.surfstudio.android.utilktx" />
