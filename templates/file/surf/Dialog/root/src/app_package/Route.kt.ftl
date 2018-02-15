@@ -4,7 +4,6 @@
 <#import "macros/select_args_constructor_macros.ftl" as argsConstructor>
 package ${packageName}
 
-
 class ${className}DialogRoute<@argsConstructor.create /> : <@superClass.selectTypeRoute /> {
 
     <#if typeRoute=='2'>    
@@ -23,6 +22,5 @@ class ${className}DialogRoute<@argsConstructor.create /> : <@superClass.selectTy
 
     }
     </#if>
-    override fun getFragmentClass(): Class<out BaseDialogFragment> = ${className}Dialog::class.java
-
+    override fun getFragmentClass(): Class<out CoreSimpleDialogFragment> = ${className}Dialog::class.java
 }
