@@ -7,7 +7,7 @@ import javax.inject.Named;
 
 import ru.surfstudio.android.core.app.SharedPrefModule;
 import ru.surfstudio.android.dagger.scope.PerApplication;
-import ru.surfstudio.android.ktx.util.SettingsUtil;
+import ru.surfstudio.android.util.SettingsUtil;
 
 /**
  * хранилище конфигурации запуска устройства
@@ -31,7 +31,7 @@ public class AppLaunchConfigurationStorage {
      * @return - последняя версия
      */
     public int getLastLaunchVersion() {
-        return SettingsUtil.getInt(noBackupSharedPref, LAST_LAUNCH_VERSION);
+        return SettingsUtil.INSTANCE.getInt(noBackupSharedPref, LAST_LAUNCH_VERSION);
     }
 
 
@@ -41,7 +41,7 @@ public class AppLaunchConfigurationStorage {
      * @param version - последняя версия
      */
     public void setLaunchVersion(int version) {
-        SettingsUtil.putInt(noBackupSharedPref, LAST_LAUNCH_VERSION, version);
+        SettingsUtil.INSTANCE.putInt(noBackupSharedPref, LAST_LAUNCH_VERSION, version);
     }
 
     /**
@@ -50,7 +50,7 @@ public class AppLaunchConfigurationStorage {
      * @return - true - первый запуск, false - последующие запуски
      */
     public boolean isFirstLaunch() {
-        return SettingsUtil.getBoolean(noBackupSharedPref, IS_FIRST_LAUNCH, true);
+        return SettingsUtil.INSTANCE.getBoolean(noBackupSharedPref, IS_FIRST_LAUNCH, true);
     }
 
     /**
@@ -58,7 +58,7 @@ public class AppLaunchConfigurationStorage {
      * После вызова этого метода, {@link #isFirstLaunch()} будет всегда возвращать {@code true}
      */
     public void markFirstLaunchDone() {
-        SettingsUtil.putBoolean(noBackupSharedPref, IS_FIRST_LAUNCH, false);
+        SettingsUtil.INSTANCE.putBoolean(noBackupSharedPref, IS_FIRST_LAUNCH, false);
     }
 
 }

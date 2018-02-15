@@ -12,7 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import ru.surfstudio.android.core.util.CollectionUtils;
-import ru.surfstudio.android.ktx.util.SettingsUtil;
+import ru.surfstudio.android.util.SettingsUtil;
 
 /**
  * Хранилище для сохранения набора id
@@ -67,7 +67,7 @@ public abstract class BaseLocalIntIdsCache {
      * @return сохраненные id
      */
     public Set<Integer> getIds() {
-        String rawIds = SettingsUtil.getString(sharedPreferences(), storageKey());
+        String rawIds = SettingsUtil.INSTANCE.getString(sharedPreferences(), storageKey());
         return TextUtils.isEmpty(rawIds)
                 ? new HashSet<>(0)
                 : Stream.of(rawIds.split(SEPARATOR)).map(Integer::valueOf).collect(Collectors.toSet());
@@ -77,12 +77,12 @@ public abstract class BaseLocalIntIdsCache {
      * Очистить сохраненные id
      */
     public void clearSavedIds() {
-        SettingsUtil.putString(sharedPreferences(), storageKey(), SettingsUtil.EMPTY_STRING_SETTING);
+        SettingsUtil.INSTANCE.putString(sharedPreferences(), storageKey(), SettingsUtil.INSTANCE.getEMPTY_STRING_SETTING());
     }
 
     private void replaceIds(Set<Integer> ids) {
         StringBuilder sb = new StringBuilder();
         Stream.of(ids).forEach(value -> sb.append(sb.length() > 0 ? SEPARATOR : "").append(value));
-        SettingsUtil.putString(sharedPreferences(), storageKey(), sb.toString());
+        SettingsUtil.INSTANCE.putString(sharedPreferences(), storageKey(), sb.toString());
     }
 }

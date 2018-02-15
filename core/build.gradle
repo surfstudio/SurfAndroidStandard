@@ -8,7 +8,7 @@ dependencies {
     compileOnly project(':easyadapter')
     compileOnly project(':connection')
     compileOnly project(':rx-extension')
-    compileOnly project(':ktx')
+    compileOnly project(':util-ktx')
 
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
 

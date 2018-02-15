@@ -35,6 +35,7 @@ ext {
     appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
     crashlyticsVersion = '2.9.0'
+    androidKtxVersion = '0.1'
 
     //test
     junitVersion = '4.12'
