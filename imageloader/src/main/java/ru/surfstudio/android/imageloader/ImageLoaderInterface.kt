@@ -2,8 +2,12 @@ package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
 import android.support.annotation.DrawableRes
+import android.view.View
 import android.widget.ImageView
 
+/**
+ * Универсальный интерфейс загрузчика изображений.
+ */
 interface ImageLoaderInterface {
 
     /**
@@ -11,7 +15,6 @@ interface ImageLoaderInterface {
      *
      * @param url сетевая ссылка на изображение
      */
-    @Throws(IllegalArgumentException::class)
     fun url(url: String): ImageLoader
 
     /**
@@ -36,6 +39,13 @@ interface ImageLoaderInterface {
     fun listener(lambda: ((bitmap: Bitmap) -> (Unit))): ImageLoader
 
     /**
+     * Установка лямбды для отслеживания ошибки при загрузке изображения
+     *
+     * @param lambda лямбда, возвращающая ошибку [Throwable]
+     */
+    fun errorListener(lambda: ((throwable: Throwable) -> (Unit))): ImageLoader
+
+    /**
      * Указание политики кэширования.
      * Метод предоставляет возможность отключить кэширование загруженных изображений в памяти и на диске.
      *
@@ -58,9 +68,9 @@ interface ImageLoaderInterface {
     fun maxHeight(maxHeight: Int): ImageLoader
 
     /**
-     * Указание целевой [ImageView]
+     * Указание целевой [View]
      *
-     * @param imageView экземпляр [ImageView] для загрузки изображения
+     * @param view экземпляр [View] для загрузки изображения
      */
-    fun into(imageView: ImageView)
+    fun into(view: View)
 }

@@ -7,7 +7,7 @@ import ru.surfstudio.android.imageloader.DEFAULT_DRAWABLE_URI
 /**
  * Пакет со ссылками на все необходимые изображения и сервисными методами.
  */
-data class ImageResourceHolder(
+data class ImageResourceManager(
         var url: String = "",                           //сетевая ссылка на изображение
         @DrawableRes
         var drawableResId: Int = DEFAULT_DRAWABLE_URI,  //ссылка на drawable-ресурс

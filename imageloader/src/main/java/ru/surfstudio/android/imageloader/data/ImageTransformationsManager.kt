@@ -7,8 +7,8 @@ import ru.surfstudio.android.imageloader.transformations.SizeTransformation
 /**
  * Пакет, хранящий все применяемые к изображению трансформации
  */
-data class ImageTransformationsHolder(
-        var imageSizeHolder: ImageSizeHolder = ImageSizeHolder()
+data class ImageTransformationsManager(
+        var imageSizeManager: ImageSizeManager = ImageSizeManager()
 ) {
 
     private var transformations = arrayListOf<Transformation<Bitmap>>()   //список всех применяемых трансформаций
@@ -18,6 +18,6 @@ data class ImageTransformationsHolder(
      */
     fun prepareTransformations() =
             transformations
-                    .apply { add(SizeTransformation(imageSizeHolder = imageSizeHolder)) }
+                    .apply { add(SizeTransformation(imageSizeManager = imageSizeManager)) }
                     .toTypedArray()
 }

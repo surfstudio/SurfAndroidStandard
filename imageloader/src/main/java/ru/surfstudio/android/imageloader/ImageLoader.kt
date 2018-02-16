@@ -2,6 +2,8 @@ package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.view.View
 import android.widget.ImageView
@@ -13,8 +15,11 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import ru.surfstudio.android.imageloader.data.ImageResourceHolder
-import ru.surfstudio.android.imageloader.data.ImageTransformationsHolder
+import com.bumptech.glide.request.target.ViewTarget
+import com.bumptech.glide.request.transition.Transition
+import ru.surfstudio.android.imageloader.data.ImageResourceManager
+import ru.surfstudio.android.imageloader.data.ImageTargetManager
+import ru.surfstudio.android.imageloader.data.ImageTransformationsManager
 import ru.surfstudio.android.logger.Logger
 
 /**
@@ -24,20 +29,23 @@ import ru.surfstudio.android.logger.Logger
  */
 class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
-    private var targetView: View? = null    //целевая View, в которой отрисовывается изображение
-
-    private var imageResourceHolder: ImageResourceHolder = ImageResourceHolder()
-    private var imageTransformationsHolder: ImageTransformationsHolder = ImageTransformationsHolder()
+    private var imageTargetManager: ImageTargetManager = ImageTargetManager()
+    private var imageResourceManager: ImageResourceManager = ImageResourceManager()
+    private var imageTransformationsManager: ImageTransformationsManager = ImageTransformationsManager()
 
     private var skipCache: Boolean = false  //использовать ли закэшированные данные
 
     private var onImageLoadedLambda: ((bitmap: Bitmap) -> (Unit))? = null
+    private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
 
     private val glideDownloadListener = object : RequestListener<Bitmap> {
         override fun onLoadFailed(e: GlideException?,
                                   model: Any?,
                                   target: Target<Bitmap>?,
-                                  isFirstResource: Boolean) = false.apply { setTag(targetView, null) }
+                                  isFirstResource: Boolean) = false.apply {
+            setTag(imageTargetManager.targetView, null)
+            e?.let { onImageLoadErrorLambda?.invoke(it) }
+        }
 
         override fun onResourceReady(resource: Bitmap,
                                      model: Any?,
@@ -59,10 +67,10 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     @Throws(IllegalArgumentException::class)
     override fun url(url: String) =
             apply {
-                if (imageResourceHolder.isUrlValid(url)) {
+                if (imageResourceManager.isUrlValid(url)) {
                     Logger.e("ImageLoader.url() / Некорректная ссылка на изображение: $url")
                 }
-                this.imageResourceHolder.url = url
+                this.imageResourceManager.url = url
             }
 
     /**
@@ -71,7 +79,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     override fun url(@DrawableRes drawableResId: Int) =
-            apply { this.imageResourceHolder.drawableResId = drawableResId }
+            apply { this.imageResourceManager.drawableResId = drawableResId }
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
@@ -79,7 +87,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     override fun error(@DrawableRes drawableResId: Int) =
-            apply { this.imageResourceHolder.errorResId = drawableResId }
+            apply { this.imageResourceManager.errorResId = drawableResId }
 
     /**
      * Установка лямбды для отслеживания загрузки изображения
@@ -88,6 +96,14 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun listener(lambda: ((bitmap: Bitmap) -> (Unit))) =
             apply { this.onImageLoadedLambda = lambda }
+
+    /**
+     * Установка лямбды для отслеживания ошибки при загрузке изображения
+     *
+     * @param lambda лямбда, возвращающая ошибку [Throwable]
+     */
+    override fun errorListener(lambda: ((throwable: Throwable) -> (Unit))) =
+            apply { this.onImageLoadErrorLambda = lambda }
 
     /**
      * Указание политики кэширования.
@@ -105,7 +121,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Необходима для пережатия изображения без искажения пропорций.
      */
     override fun maxWidth(maxWidth: Int) =
-            apply { this.imageTransformationsHolder.imageSizeHolder.maxWidth = maxWidth }
+            apply { this.imageTransformationsManager.imageSizeManager.maxWidth = maxWidth }
 
     /**
      * Установка максимальной высоты изображения в px.
@@ -113,24 +129,25 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Необходима для пережатия изображения без искажения пропорций.
      */
     override fun maxHeight(maxHeight: Int) =
-            apply { this.imageTransformationsHolder.imageSizeHolder.maxHeight = maxHeight }
+            apply { this.imageTransformationsManager.imageSizeManager.maxHeight = maxHeight }
 
     /**
      * Указание целевой [ImageView]
      *
      * @param imageView экземпляр [ImageView] для загрузки изображения
      */
-    override fun into(imageView: ImageView) {
-        this.targetView = imageView
+    override fun into(view: View) {
+        this.imageTargetManager.targetView = view
 
-        if (imageResourceHolder.isErrorState()) {
-            setErrorImage(imageView)
+        if (imageResourceManager.isErrorState()) {
+            setErrorImage(view)
         }
 
-        if (isTagUsed(imageView)) return
+        if (isTagUsed(view)) return
 
-        setTag(imageView, imageResourceHolder.url)
-        buildRequest().into(imageView)
+        setTag(view, imageResourceManager.url)
+
+        performLoad(view)
     }
 
     private fun buildRequest(): RequestBuilder<*> {
@@ -181,19 +198,33 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
         return Glide.with(context)
                 .asBitmap()
-                .load(imageResourceHolder.toLoad())
+                .load(imageResourceManager.toLoad())
                 .error(prepareErrorBitmap())
                 .apply(
                         RequestOptions()
                                 .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                                 .skipMemoryCache(skipCache)
-                                .transforms(*imageTransformationsHolder.prepareTransformations())
+                                .transforms(*imageTransformationsManager.prepareTransformations())
                 )
                 .listener(glideDownloadListener)
         /*
         .thumbnail(placeholderBitmap)
         .apply(RequestOptions()
                 .transformations(*transformations))*/
+    }
+
+    private fun performLoad(view: View) {
+        if (view is ImageView) {
+            buildRequest().into(view)
+
+        } else {
+            var trgt: ViewTarget<View, Drawable> = object : ViewTarget<View, Drawable>(view) {
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+
+                }
+            }
+            buildRequest().into(trgt)
+        }
     }
 
     /**
@@ -204,17 +235,21 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private fun prepareErrorBitmap() =
             Glide.with(context)
                     .asBitmap()
-                    .load(imageResourceHolder.errorResId)
+                    .load(imageResourceManager.errorResId)
                     .apply(RequestOptions()
-                            .transforms(*imageTransformationsHolder.prepareTransformations()))
+                            .transforms(*imageTransformationsManager.prepareTransformations()))
 
     /**
-     * Установка заглушки ошибки для [ImageView]
+     * Установка заглушки ошибки для [View]
      *
-     * @param imageView экземпляр [ImageView], куда устанавливается заглушка
+     * @param view экземпляр [View], куда устанавливается заглушка
      */
-    private fun setErrorImage(imageView: ImageView) {
-        imageView.setImageResource(imageResourceHolder.errorResId)
+    private fun setErrorImage(view: View) {
+        if (view is ImageView) {
+            view.setImageResource(imageResourceManager.errorResId)
+        } else {
+            //todo view.background = getCompatDrawable(errorResId)
+        }
     }
 
     /**
@@ -227,11 +262,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     /**
      * Извлечения тэга
      */
-    private fun getTag(imageView: ImageView) = imageView.getTag(R.id.image_loader_tag)
+    private fun getTag(view: View) = view.getTag(R.id.image_loader_tag)
 
     /**
      * Проверка тэга на то, был ли он ранее уже использован
      */
-    private fun isTagUsed(imageView: ImageView) =
-            getTag(imageView) != null && imageResourceHolder.url == getTag(imageView)
+    private fun isTagUsed(view: View) =
+            getTag(view) != null && imageResourceManager.url == getTag(view)
 }

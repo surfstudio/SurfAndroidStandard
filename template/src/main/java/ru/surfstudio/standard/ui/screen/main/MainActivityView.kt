@@ -41,10 +41,8 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
         ImageLoader
                 .with(this)
                 .url("https://pp.userapi.com/c834204/v834204860/3291c/rp3f6C3B6T4.jpg")
-                .skipCache(false)
                 .error(R.drawable.placeholder)
-                .maxWidth(resources.getDimensionPixelOffset(R.dimen.image_width))
-                .maxHeight(resources.getDimensionPixelOffset(R.dimen.image_height))
+                .errorListener { throwable -> Logger.d("1111 bitmap loaded with error = $throwable") }
                 .listener { bitmap -> Logger.d("1111 bitmap loaded = $bitmap") }
                 .into(image_view)
     }
