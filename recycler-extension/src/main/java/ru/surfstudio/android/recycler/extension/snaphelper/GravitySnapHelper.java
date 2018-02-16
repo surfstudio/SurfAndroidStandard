@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.util.snap.helper;
+package ru.surfstudio.android.recycler.extension.snaphelper;
 
 
 import android.support.annotation.NonNull;

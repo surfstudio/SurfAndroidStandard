@@ -3,8 +3,8 @@ package ru.surfstudio.android.core.ui.base.dagger;
 import android.content.Context;
 
 import ru.surfstudio.android.connection.ConnectionProvider;
-import ru.surfstudio.android.core.app.bus.RxBus;
 import ru.surfstudio.android.core.app.scheduler.SchedulersProvider;
+import ru.surfstudio.android.core.ui.base.bus.RxBus;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;

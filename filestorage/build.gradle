@@ -4,6 +4,7 @@ dependencies {
     compileOnly project(':core')
     compileOnly project(':logger')
     compileOnly project (':dagger-scope')
+    compileOnly project (':util-ktx')
 
     compileOnly "com.android.support:support-annotations:${appcompatVersion}"
     compileOnly "com.annimon:stream:${annimonStreamVersion}"

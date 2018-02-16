@@ -11,8 +11,8 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
-import ru.surfstudio.android.core.util.CollectionUtils;
 import ru.surfstudio.android.dagger.scope.PerApplication;
+import ru.surfstudio.android.utilktx.util.java.CollectionUtils;
 
 @Module
 public class CacheModule {

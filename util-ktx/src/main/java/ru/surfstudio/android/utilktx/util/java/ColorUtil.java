@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.util;
+package ru.surfstudio.android.utilktx.util.java;
 
 import android.graphics.Color;
 import android.text.TextUtils;
