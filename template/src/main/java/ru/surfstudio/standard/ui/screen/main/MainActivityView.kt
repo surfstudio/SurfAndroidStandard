@@ -3,6 +3,7 @@ package ru.surfstudio.standard.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseRenderableHandleableErrorActivityView
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
 import ru.surfstudio.standard.R
@@ -26,6 +27,8 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+
+        tv.setOnClickListener { handleError(Throwable()) }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}

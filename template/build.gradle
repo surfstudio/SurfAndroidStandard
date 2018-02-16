@@ -96,6 +96,7 @@ dependencies {
     implementation project(':rx-extension')
     implementation project(':firebase-analytics')
     implementation project(':util-ktx')
+    implementation project(':animations')
 
     compileOnly "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"

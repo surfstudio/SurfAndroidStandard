@@ -67,6 +67,10 @@
     {
       "name": "util-ktx",
       "path": ""
+    },
+    {
+      "name": "animations",
+      "path": ""
     }
   ]
 }
