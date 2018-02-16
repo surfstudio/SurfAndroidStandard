@@ -23,16 +23,12 @@ import ru.surfstudio.android.core.ui.base.screen.state.ActivityScreenState;
 /**
  * делегат для базовой активити,
  * управляет ключевыми сущностями внутренней логики экрана:
- * - PersistentScope
- * - ScreenEventDelegateManager
- * - ScreenState
- * - ScreenConfigurator
+ * - PersistentScope            - хранилище для всех остальных обьектов, переживает смену конфигурации
+ * - ScreenEventDelegateManager - позволяет подписываться на события экрана
+ * - ScreenState                - хранит текущее состояние экрана
+ * - ScreenConfigurator         - управляет компонентами даггера, предоставляет уникальное имя экрана
  */
-public class ActivityDelegate extends BaseScreenDelegate<
-        ActivityPersistentScope,
-        ActivityScreenState,
-        BaseActivityConfigurator,
-        ActivityCompletelyDestroyChecker> {
+public class ActivityDelegate extends BaseScreenDelegate {
 
     private FragmentActivity activity;
     private CoreActivityInterface coreActivity;
@@ -43,25 +39,30 @@ public class ActivityDelegate extends BaseScreenDelegate<
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             ActivityCompletelyDestroyChecker completelyDestroyChecker) {
-        super(scopeStorage, eventResolvers, completelyDestroyChecker);
+        super(activity, scopeStorage, eventResolvers, completelyDestroyChecker);
         this.activity = activity;
         this.coreActivity = activity;
         this.scopeStorage = scopeStorage;
     }
 
     @Override
+    public ActivityPersistentScope getPersistentScope() {
+        return scopeStorage.get(getName(), ActivityPersistentScope.class);
+    }
+
+    @Override
+    public ActivityScreenState getScreenState() {
+        return getPersistentScope().getScreenState();
+    }
+
+    @Override
     protected void notifyScreenStateAboutOnCreate(@Nullable Bundle savedInstanceState) {
-        getScreenState().onCreate(activity, savedInstanceState);
+        this.getScreenState().onCreate(activity, coreActivity, savedInstanceState);
     }
 
     @Override
     protected void prepareView(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
         coreActivity.onCreate(savedInstanceState, persistableBundle, getScreenState().isViewRecreated());
-    }
-
-    @Override
-    protected BaseActivityConfigurator createConfigurator() {
-        return coreActivity.createConfigurator();
     }
 
     @NonNull
@@ -70,15 +71,14 @@ public class ActivityDelegate extends BaseScreenDelegate<
         ActivityScreenEventDelegateManager eventDelegateManager =
                 new ActivityScreenEventDelegateManager(eventResolvers);
         ActivityScreenState screenState = new ActivityScreenState();
-        return new ActivityPersistentScope(
-                getName(),
+        BaseActivityConfigurator configurator = coreActivity.createConfigurator();
+        ActivityPersistentScope persistentScope = new ActivityPersistentScope(
                 eventDelegateManager,
-                screenState);
-    }
-
-    @Override
-    protected ActivityPersistentScope getPersistentScope() {
-        return scopeStorage.getActivityScope();
+                screenState,
+                configurator,
+                coreActivity.getName());
+        configurator.setPersistentScope(persistentScope);
+        return persistentScope;
     }
 
     //activity specific events

@@ -1,12 +1,12 @@
 package ru.surfstudio.android.core.ui.base.screen.activity;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityViewPersistentScope;
 
 /**
- * Base class with core logic for view, based on Activity
+ * Base class with core logic for view, based on {@link CoreActivity}
  */
 public abstract class CoreActivityView extends CoreActivity implements
         CoreActivityViewInterface {
@@ -14,13 +14,16 @@ public abstract class CoreActivityView extends CoreActivity implements
     protected abstract CorePresenter[] getPresenters();
 
     @Override
+    public abstract String getName();
+
+    @Override
     public ActivityViewDelegate createActivityDelegate() {
         return ScreenDelegateFactoryContainer.get().createActivityViewDelegate(this);
     }
 
     @Override
-    public BaseActivityViewConfigurator getConfigurator() {
-        return (BaseActivityViewConfigurator) super.getConfigurator();
+    public ActivityViewPersistentScope getPersistentScope() {
+        return (ActivityViewPersistentScope)super.getPersistentScope();
     }
 
     /**

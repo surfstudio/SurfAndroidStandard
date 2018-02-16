@@ -8,8 +8,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+/**
+ * контейнер для {@link PersistentScopeStorage}
+ * По сути является Fragment с setRetainInstance(true)
+ */
 public class PersistentScopeStorageContainer extends Fragment {
-    private static final String SCOPE_STORAGE_CONTAINER_FRAGMENT_TAG = "scope_manager_container";
+    private static final String SCOPE_STORAGE_CONTAINER_FRAGMENT_TAG = "scope_storage_container";
     private PersistentScopeStorage persistentScopeStorage;
 
     public static PersistentScopeStorage getFrom(FragmentActivity activity) {

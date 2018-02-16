@@ -14,7 +14,7 @@ import java.lang.annotation.RetentionPolicy;
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.base.navigation.Navigator;
 import ru.surfstudio.android.core.ui.base.navigation.fragment.route.FragmentRoute;
-import ru.surfstudio.android.core.ui.base.screen.view.ContentContainerView;
+import ru.surfstudio.android.core.ui.base.screen.view.FragmentContainer;
 
 import static android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
 import static android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
@@ -188,8 +188,8 @@ public class FragmentNavigator implements Navigator {
     @IdRes
     protected int getViewContainerIdOrThrow() {
         Object contentContainerView = activityProvider.get();
-        if (contentContainerView instanceof ContentContainerView) {
-            int viewContainerId = ((ContentContainerView) contentContainerView).getContentContainerViewId();
+        if (contentContainerView instanceof FragmentContainer) {
+            int viewContainerId = ((FragmentContainer) contentContainerView).getContentContainerViewId();
             if (viewContainerId > 0) {
                 return viewContainerId;
             }

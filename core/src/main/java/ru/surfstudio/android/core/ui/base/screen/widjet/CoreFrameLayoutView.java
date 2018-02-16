@@ -2,25 +2,28 @@ package ru.surfstudio.android.core.ui.base.screen.widjet;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.base.screen.delegate.widget.WidgetViewDelegate;
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter;
 
 /**
- * Created by makstuev on 29.01.2018.
+ * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
+ *
+ * !!!ВАЖНО!!!
+ * 1) Необходимо вызвать метод init во время onCreate() Activity или onActivityCreated() Fragment
+ * 2) кастомная вьюшка с презентером может быть только в статической иерархии вью,
+ *      то есть должна создаваться при старте экрана, и не может быть использована при
+ *      динамическом создании вью, в том числе внутри элементов RecyclerView
  */
+
 
 public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWidgetViewInterface {
 
     WidgetViewDelegate widgetViewDelegate;
-
-    public CoreFrameLayoutView(Context context) {
-        super(context);
-    }
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -45,8 +48,8 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
-    public BaseWidgetViewConfigurator getConfigurator() {
-        return widgetViewDelegate.getConfigurator();
+    protected void onRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
     }
 
     @Override
@@ -55,7 +58,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
-    public void init() {
+    public final void init() {
         widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.onCreate();
     }

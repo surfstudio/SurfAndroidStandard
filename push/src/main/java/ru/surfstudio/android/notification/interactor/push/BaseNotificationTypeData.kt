@@ -21,7 +21,7 @@ abstract class BaseNotificationTypeData<T : Serializable> : Serializable {
      *
      * @return извлекает данные из параметров
      */
-    abstract fun extractData(map: Map<String, String>): T
+    abstract fun extractData(map: Map<String, String>): T?
 
     /**
      * Установка данных из параметров

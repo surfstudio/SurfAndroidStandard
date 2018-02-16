@@ -2,7 +2,7 @@ package ru.surfstudio.standard.interactor.auth
 
 import android.content.SharedPreferences
 import ru.surfstudio.android.core.app.SharedPrefModule
-import ru.surfstudio.android.core.util.SettingsUtil
+import ru.surfstudio.android.utilktx.util.SettingsUtil
 import ru.surfstudio.android.dagger.scope.PerApplication
 import javax.inject.Inject
 import javax.inject.Named
@@ -10,9 +10,9 @@ import javax.inject.Named
 private const val KEY_AUTH_TOKEN = "AUTH_TOKEN"
 
 @PerApplication
-class TokenStorage
-@Inject
-constructor(@Named(SharedPrefModule.NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
+class TokenStorage @Inject constructor(
+        @Named(SharedPrefModule.NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences
+) {
 
     var authToken: String
         get() = SettingsUtil.getString(noBackupSharedPref, KEY_AUTH_TOKEN)

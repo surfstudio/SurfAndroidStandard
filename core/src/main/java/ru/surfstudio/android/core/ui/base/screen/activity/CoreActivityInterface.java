@@ -9,19 +9,22 @@ import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.configurator.HasConfigurator;
 import ru.surfstudio.android.core.ui.base.screen.delegate.activity.ActivityDelegate;
+import ru.surfstudio.android.core.ui.base.screen.scope.ActivityPersistentScope;
+import ru.surfstudio.android.core.ui.base.screen.scope.HasPersistentScope;
 
 /**
- * интерфейс базовой активити
+ * интерфейс базовой активити, см {@link ActivityDelegate}
  */
 public interface CoreActivityInterface extends
-        HasName,
-        HasConfigurator {
+        HasConfigurator,
+        HasPersistentScope,
+        HasName {
 
     @Override
     BaseActivityConfigurator createConfigurator();
 
     @Override
-    BaseActivityConfigurator getConfigurator();
+    ActivityPersistentScope getPersistentScope();
 
     ActivityDelegate createActivityDelegate();
 

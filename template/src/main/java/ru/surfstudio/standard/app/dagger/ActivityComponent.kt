@@ -5,6 +5,7 @@ import ru.surfstudio.android.core.ui.base.dagger.BaseCoreActivityComponent
 import ru.surfstudio.android.core.ui.base.dagger.CoreActivityModule
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
+import ru.surfstudio.standard.interactor.analytics.AnalyticsService
 
 /**
  * Created by makstuev on 30.01.2018.
@@ -15,4 +16,5 @@ import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
         modules = [(CoreActivityModule::class)])
 interface ActivityComponent : BaseCoreActivityComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
+    fun analyticsService(): AnalyticsService
 }

@@ -51,6 +51,22 @@
     {
       "name": "datalist-page-count",
       "path": ""
+    },
+    {
+      "name": "firebase-analytics",
+      "path": ""
+    },
+    {
+      "name": "rx-extension",
+      "path": ""
+    },
+    {
+      "name": "connection",
+      "path": ""
+    },
+    {
+      "name": "util-ktx",
+      "path": ""
     }
   ]
 }

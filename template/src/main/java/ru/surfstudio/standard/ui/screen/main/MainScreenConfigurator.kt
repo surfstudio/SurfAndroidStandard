@@ -14,7 +14,7 @@ import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule
 /**
  * Конфигуратор активити главного экрана
  */
-internal class MainScreenConfigurator(activity: MainActivityView, intent: Intent) : ActivityScreenConfigurator(activity, intent) {
+internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
     @PerScreen
     @Component(dependencies = arrayOf(ActivityComponent::class), modules = arrayOf(ActivityScreenModule::class, MainScreenModule::class))
     internal interface MainScreenComponent : ScreenComponent<MainActivityView>
@@ -33,9 +33,5 @@ internal class MainScreenConfigurator(activity: MainActivityView, intent: Intent
                 .activityScreenModule(activityScreenModule)
                 .mainScreenModule(MainScreenModule(MainActivityRoute()))
                 .build()
-    }
-
-    override fun getName(): String {
-        return "main"
     }
 }
