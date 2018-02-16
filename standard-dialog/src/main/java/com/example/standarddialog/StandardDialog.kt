@@ -3,14 +3,14 @@ package com.example.standarddialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import ru.surfstudio.android.core.ui.base.screen.dialog.BaseSimpleDialogFragment
+import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogFragment
 import javax.inject.Inject
 
 
 /**
  * Фрагмент стандартного диалога
  */
-class StandardDialog : BaseSimpleDialogFragment() {
+class StandardDialog : CoreSimpleDialogFragment() {
 
     @Inject
     lateinit var presenter: StandardDialogPresenter
@@ -32,11 +32,15 @@ class StandardDialog : BaseSimpleDialogFragment() {
                     presenter.negativeBtnAction(dialogTag = route.tagConst)
                     dismiss()
                 })
-                .setPositiveButton(route.possitiveBtnText, { _, _ -> presenter.positiveBtnAction(route.tagConst) })
+                .setPositiveButton(route.possitiveBtnText, { _, _ ->
+                    presenter.positiveBtnAction(route.tagConst)
+                    dismiss()
+                })
                 .setCancelable(route.isCancelable)
                 .create()
     }
 
     override fun getName(): String = "Simple Dialog"
+
 
 }

@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import ru.surfstudio.android.core.ui.base.screen.activity.CoreActivityViewInterface;
@@ -28,7 +26,7 @@ import ru.surfstudio.android.core.ui.base.screen.widjet.CoreWidgetViewInterface;
  */
 public abstract class CoreSimpleDialogFragment extends DialogFragment implements CoreSimpleDialogInterface {
 
-    private SimpleDialogDelegate delegate;
+    private SimpleDialogDelegate delegate = new SimpleDialogDelegate(this);
 
 
     public <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView) {
@@ -43,18 +41,6 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
         delegate.show(parentWidgetView);
     }
 
-    @Override
-    public int show(FragmentTransaction transaction, String tag) {
-        throw new UnsupportedOperationException("Instead this method, use method render(parentFragment) " +
-                "or render(parentActivity)");
-    }
-
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        throw new UnsupportedOperationException("Instead this method, use method render(parentFragment) " +
-                "or render(parentActivity)");
-    }
-
     public <T> T getScreenComponent(Class<T> componentClass) {
         return delegate.getScreenComponent(componentClass);
     }
@@ -62,7 +48,6 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        delegate = new SimpleDialogDelegate(this);
         delegate.onCreate(savedInstanceState);
     }
 
@@ -83,5 +68,4 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
         super.onPause();
         delegate.onPause();
     }
-
 }
