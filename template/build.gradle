@@ -88,7 +88,7 @@ dependencies {
     implementation project(':filestorage')
     implementation project(':easyadapter')
     implementation project(':easyadapter-carousel')
-    implementation project(':camera')
+    implementation project(':picture-chooser')
 
     compileOnly "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
@@ -123,7 +123,6 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
-    compile project(path: ':camera')
 }
 
 apply plugin: 'kotlin-android-extensions'

@@ -1,4 +1,4 @@
-include ':camera'
+include ':picture-chooser'
 apply from: 'modules.gradle'
 gradle.ext.modules.each {
     include it.name

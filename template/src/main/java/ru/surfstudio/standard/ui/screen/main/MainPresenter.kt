@@ -1,10 +1,10 @@
 package ru.surfstudio.standard.ui.screen.main
 
-import com.example.camera.PhotoProvider
+import ru.surfstudio.android.core.ui.base.message.MessageController
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
 import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.picturechooser.PictureProvider
 import javax.inject.Inject
 
 /**
@@ -12,7 +12,9 @@ import javax.inject.Inject
  */
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val photoProvider: PhotoProvider) : BasePresenter<MainActivityView>(basePresenterDependency) {
+                                                 private val photoProvider: PictureProvider,
+                                                 val messageController: MessageController)
+    : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()
 
@@ -23,7 +25,13 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     fun openCamera() {
         subscribeIoHandleError(photoProvider.openCameraAndTakePhoto(), { path ->
-            Logger.d("Path" + path)
+            messageController.show(path.toString())
+        })
+    }
+
+    fun openGallerySingle() {
+        subscribeIoHandleError(photoProvider.openGalleryAndGetPhoto(), { path ->
+            messageController.show(path.toString())
         })
     }
 }

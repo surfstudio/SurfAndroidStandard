@@ -1,4 +1,4 @@
-package com.example.camera
+package ru.surfstudio.android.picturechooser
 
 import android.Manifest
 import io.reactivex.Observable
@@ -11,7 +11,7 @@ import javax.inject.Inject
  * утилита для проверки и запроса пермишенов для камеры и хранилища
  */
 @PerActivity
-class CameraStoragePermissionChecker @Inject constructor(private val permissionManager: PermissionManager) {
+class PicturePermissionChecker @Inject constructor(private val permissionManager: PermissionManager) {
 
     /**
      * проверка и запрос пермишена на камеру и хранилища
@@ -26,17 +26,16 @@ class CameraStoragePermissionChecker @Inject constructor(private val permissionM
     }
 
     /**
-     * проверка и запрос пермишена к хранилищу в случае его отсутствия
+     * проверка и запрос пермишена на чтения из хранилища
      */
-    fun checkStoragePermission(): Observable<Boolean> {
-        return permissionManager.checkObservable(StoragePermissionRequest())
+    fun checkGalleryStoragePermission(): Observable<Boolean> {
+        return permissionManager.checkObservable(GalleryStoragePermissionRequest())
                 .flatMap { isGranted ->
                     if (!isGranted)
-                        permissionManager.request(StoragePermissionRequest())
+                        permissionManager.request(GalleryStoragePermissionRequest())
                     else Observable.just(true)
                 }
     }
-
 }
 
 /**
@@ -49,9 +48,9 @@ class CameraStoragePermissionRequest : PermissionRequest() {
 }
 
 /**
- * пермишен на запрос доступа к системному хранилищу
+ * пермишен на запрос разрешения галлереи
  */
-class StoragePermissionRequest : PermissionRequest() {
-
-    override fun getPermissions() = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+class GalleryStoragePermissionRequest : PermissionRequest() {
+    override fun getPermissions() = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
 }
+

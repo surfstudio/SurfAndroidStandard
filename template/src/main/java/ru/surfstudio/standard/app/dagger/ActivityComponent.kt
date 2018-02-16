@@ -1,10 +1,10 @@
 package ru.surfstudio.standard.app.dagger
 
-import com.example.camera.PhotoProvider
 import dagger.Component
 import ru.surfstudio.android.core.ui.base.dagger.BaseCoreActivityComponent
 import ru.surfstudio.android.core.ui.base.dagger.CoreActivityModule
 import ru.surfstudio.android.dagger.scope.PerActivity
+import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
 
 /**
@@ -16,5 +16,5 @@ import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
         modules = [(CoreActivityModule::class)])
 interface ActivityComponent : BaseCoreActivityComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
-    fun photoPresenter(): PhotoProvider
+    fun photoPresenter(): PictureProvider
 }
