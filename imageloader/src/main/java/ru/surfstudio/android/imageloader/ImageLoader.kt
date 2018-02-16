@@ -2,8 +2,6 @@ package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.view.View
 import android.widget.ImageView
@@ -150,7 +148,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         performLoad(view)
     }
 
-    private fun buildRequest(): RequestBuilder<*> {
+    private fun buildRequest(): RequestBuilder<Bitmap> {
         /*
         transformations.add(SizeTransformation(context,
                 maxWidth, maxHeight, filterBitmapOnScale))
@@ -218,12 +216,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             buildRequest().into(view)
 
         } else {
-            var trgt: ViewTarget<View, Drawable> = object : ViewTarget<View, Drawable>(view) {
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-
+            buildRequest().into(object : ViewTarget<View, Bitmap>(view) {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    //todo
                 }
-            }
-            buildRequest().into(trgt)
+            })
         }
     }
 
