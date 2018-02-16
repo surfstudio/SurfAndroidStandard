@@ -3,7 +3,6 @@
 <#import "macros/select_bundle_write_method_macros.ftl" as bundleWrite>
 package ${packageName};
 
-
 @Data
 public class ${className}DialogRoute extends <@superClass.selectTypeRoute /> {
 
@@ -49,8 +48,7 @@ public class ${className}DialogRoute extends <@superClass.selectTypeRoute /> {
     </#if>
 
     @Override
-    protected Class<? extends BaseDialogFragment> getFragmentClass() {
+    protected Class<? extends CoreSimpleDialogFragment> getFragmentClass() {
         return ${className}Dialog.class;
     }
-
 }

@@ -13,8 +13,15 @@ class ${className}Presenter extends BasePresenter<${className}${screenTypeCapita
     }
 
     <#if generateRecyclerView && hasListener>
-        void on${nameTypeData}ItemClick(${nameTypeData} ${nameTypeData?uncap_first}) {
-        }
+        <#if typeController=='1'>
+            void on${nameTypeData}ItemClick(${nameTypeData} ${nameTypeData?uncap_first}) {
+             //todo действия при нажатии на элемент
+             }
+        <#elseif typeController=='2'>
+            void on${nameTypeData}ItemClick() {
+             //todo действия при нажатии на элемент
+             }
+        </#if>
     </#if>
 
     <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
@@ -23,7 +30,7 @@ class ${className}Presenter extends BasePresenter<${className}${screenTypeCapita
         }
     </#if>
 
-    <#if generateRecyclerView && ((screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5'))>
+    <#if generateRecyclerView && ((screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter))>
         void loadMore() {
             // todo постраничная загрузка след данных
         }

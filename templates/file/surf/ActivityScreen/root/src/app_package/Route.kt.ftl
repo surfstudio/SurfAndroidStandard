@@ -56,7 +56,6 @@ class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@s
         return args
     }
         </#if>
-
     override fun getFragmentClass(): Class<out Fragment>  = ${className}${screenTypeCapitalized}View::class.java
     </#if>
 }
