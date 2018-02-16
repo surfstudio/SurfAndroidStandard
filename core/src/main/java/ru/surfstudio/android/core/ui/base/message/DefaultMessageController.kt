@@ -16,8 +16,10 @@ import ru.surfstudio.android.dagger.scope.PerScreen
  * Для нахождения view использует fragment и затем activity провайдеры
  */
 @PerScreen
-class DefaultMessageController @JvmOverloads constructor(val activityProvider: ActivityProvider,
-                                                         val fragmentProvider: FragmentProvider? = null) : MessageController {
+class DefaultMessageController @JvmOverloads constructor(
+        val activityProvider: ActivityProvider,
+        val fragmentProvider: FragmentProvider? = null)
+    : MessageController {
 
     private val ILLEGAL_COLOR = Color.TRANSPARENT
 
@@ -57,7 +59,7 @@ class DefaultMessageController @JvmOverloads constructor(val activityProvider: A
 
         if (backgroundColor == null) {
             snackBarBackgroundColor?.let {
-                sb.view.setBackgroundColor(snackBarBackgroundColor!!)
+                sb.view.setBackgroundColor(it)
             }
         } else {
             sb.view.setBackgroundColor(ContextCompat.getColor(view.context, backgroundColor))
