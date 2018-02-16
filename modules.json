@@ -53,6 +53,10 @@
       "path": ""
     },
     {
+      "name": "firebase-analytics",
+      "path": ""
+    },
+    {
       "name": "rx-extension",
       "path": ""
     },
@@ -62,6 +66,10 @@
     },
     {
       "name": "standard-dialog",
+      "path": ""
+    },
+    {
+      "name": "util-ktx",
       "path": ""
     }
   ]

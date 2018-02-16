@@ -1,7 +1,7 @@
 package ru.surfstudio.android.notification
 
 import android.content.Context
-import ru.surfstudio.android.core.util.ActiveActivityHolder
+import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 
 /**

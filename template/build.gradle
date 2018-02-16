@@ -94,6 +94,8 @@ dependencies {
     implementation project(':dagger-scope')
     implementation project(':connection')
     implementation project(':rx-extension')
+    implementation project(':firebase-analytics')
+    implementation project(':util-ktx')
 
     compileOnly "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
@@ -107,6 +109,9 @@ dependencies {
 
     //kotlin
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+
+    //firebase
+    api "com.google.firebase:firebase-core:${playServicesVersion}"
 
     //--------------------------------- test dependencies ------------------------------------------
 
@@ -131,3 +136,4 @@ dependencies {
 }
 
 apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'com.google.gms.google-services'
