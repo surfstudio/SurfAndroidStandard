@@ -10,7 +10,7 @@ import android.view.View
 /**
  * Behavior для view над [Snackbar]
  */
-class ViewSnackbarBehavior<V : View> @JvmOverloads constructor(
+open class ViewSnackbarBehavior<V : View> @JvmOverloads constructor(
         context: Context? = null,
         attrs: AttributeSet? = null
 ) : CoordinatorLayout.Behavior<V>(context, attrs) {
@@ -25,7 +25,7 @@ class ViewSnackbarBehavior<V : View> @JvmOverloads constructor(
         ViewCompat.animate(child).cancel()
 
         child.translationY = translationY
-        return false
+        return true
     }
 
     override fun onDependentViewRemoved(parent: CoordinatorLayout?, child: V, dependency: View?) {
