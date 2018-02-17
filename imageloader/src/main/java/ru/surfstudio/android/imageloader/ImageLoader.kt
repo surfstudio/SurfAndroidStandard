@@ -2,6 +2,8 @@ package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.view.View
 import android.widget.ImageView
@@ -130,9 +132,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             apply { this.imageTransformationsManager.imageSizeManager.maxHeight = maxHeight }
 
     /**
-     * Указание целевой [ImageView]
+     * Указание целевой [View]
      *
-     * @param imageView экземпляр [ImageView] для загрузки изображения
+     * @param view экземпляр [View] для загрузки изображения
      */
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
@@ -206,19 +208,27 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 )
                 .listener(glideDownloadListener)
         /*
-        .thumbnail(placeholderBitmap)
-        .apply(RequestOptions()
-                .transformations(*transformations))*/
+        .thumbnail(placeholderBitmap)*/
     }
 
     private fun performLoad(view: View) {
         if (view is ImageView) {
             buildRequest().into(view)
-
         } else {
             buildRequest().into(object : ViewTarget<View, Bitmap>(view) {
+
+                override fun onLoadStarted(placeholder: Drawable?) {
+                    super.onLoadStarted(placeholder)
+                    view.background = placeholder
+                }
+
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    //todo
+                    view.background = BitmapDrawable(context.resources, resource)
+                }
+
+                override fun onLoadFailed(errorDrawable: Drawable?) {
+                    super.onLoadFailed(errorDrawable)
+                    view.background = errorDrawable
                 }
             })
         }
