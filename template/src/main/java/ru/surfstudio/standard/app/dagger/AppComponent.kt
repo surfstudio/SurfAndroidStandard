@@ -5,6 +5,8 @@ import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.dagger.CoreAppModule
+import ru.surfstudio.android.core.app.scheduler.SchedulersProvider
+import ru.surfstudio.android.core.util.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulerModule
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
@@ -36,4 +38,5 @@ interface AppComponent {
     fun sessionChangeInteractor(): SessionChangedInteractor
     fun analyticsService(): AnalyticsService
     fun schedulerProvider(): SchedulersProvider
+    fun stringsProvider(): StringsProvider
 }

@@ -4,7 +4,7 @@ package ${packageName};
 @Data
 class ${className}ScreenModel extends <@superClass.selectTypeScreenModel /> {
     <#if generateRecyclerView>
-            <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+            <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
                 private DataList<${nameTypeData}> itemList = DataList.empty();
             <#else>
                 private List<${nameTypeData}> itemList = Collections.emptyList();

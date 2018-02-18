@@ -1,6 +1,5 @@
 package ${packageName};
 
-import android.app.Activity;
 <#if (screenType=='activity')>
 import android.content.Intent;
 <#else>
@@ -27,8 +26,8 @@ public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}Scre
     </#if>
 
     <#if screenType=='activity'>
-        ${className}ScreenConfigurator(Activity activity, Intent intent) {
-        super(activity, intent);
+        ${className}ScreenConfigurator(Intent intent) {
+        super(intent);
     }
 
     @Override
@@ -46,8 +45,8 @@ public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}Scre
                 .build();
     }
     <#else>
-        ${className}ScreenConfigurator(Activity activity, Bundle args) {
-        super(activity, args);
+        ${className}ScreenConfigurator(Bundle args) {
+        super(args);
     }
 
     @Override
@@ -65,10 +64,4 @@ public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}Scre
                 .build();
     }
     </#if>
-
-    @Override
-    public String getName() {
-        return "${camelCaseToUnderscore(className)}";
-    }
-
 }

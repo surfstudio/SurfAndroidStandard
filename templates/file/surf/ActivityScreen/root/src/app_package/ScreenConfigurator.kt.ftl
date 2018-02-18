@@ -1,6 +1,5 @@
 package ${packageName}
 
-import android.app.Activity
 <#if (screenType=='activity')>
 import android.content.Intent
 <#else>
@@ -10,9 +9,9 @@ import android.os.Bundle
 import dagger.Component
 
 <#if screenType=='activity'>
-class ${className}ScreenConfigurator(activity: Activity, intent: Intent) : ${screenTypeCapitalized}ScreenConfigurator(activity, intent) {
+class ${className}ScreenConfigurator(intent: Intent) : ${screenTypeCapitalized}ScreenConfigurator(intent) {
 <#else>
-class ${className}ScreenConfigurator(activity: Activity, args: Bundle) : ${screenTypeCapitalized}ScreenConfigurator(activity, args) {
+class ${className}ScreenConfigurator(args: Bundle?) : ${screenTypeCapitalized}ScreenConfigurator(args) {
 </#if>
 
     @PerScreen
@@ -27,33 +26,32 @@ class ${className}ScreenConfigurator(activity: Activity, args: Bundle) : ${scree
     </#if>
 
     <#if screenType=='activity'>
-    override fun createScreenComponent(parentComponent: ActivityComponent?,
-                                       activityScreenModule: ActivityScreenModule?,
-                                       coreActivityScreenModule: CoreActivityScreenModule?,
-                                       intent: Intent?): ScreenComponent<*> {
+    override fun createScreenComponent(parentComponent: ActivityComponent,
+                                       activityScreenModule: ActivityScreenModule,
+                                       coreActivityScreenModule: CoreActivityScreenModule,
+                                       intent: Intent): ScreenComponent<*> {
         return Dagger${className}ScreenConfigurator_${className}ScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .activityScreenModule(activityScreenModule)
                 .coreActivityScreenModule(coreActivityScreenModule)
                 <#if screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')>
-                .${className?uncap_first}ScreenModule(${className}ScreenModule(${className}ActivityRoute(intent!!)))
+                .${className?uncap_first}ScreenModule(${className}ScreenModule(${className}ActivityRoute(intent)))
                 </#if>
                 .build()
     }
     <#else>
-    override fun createScreenComponent(parentComponent: ActivityComponent?,
-                                           fragmentScreenModule: FragmentScreenModule?,
-                                           coreFragmentScreenModule: CoreFragmentScreenModule?,
-                                           args: Bundle?): ScreenComponent<*> {
+    override fun createScreenComponent(parentComponent: ActivityComponent,
+                                           fragmentScreenModule: FragmentScreenModule,
+                                           coreFragmentScreenModule: CoreFragmentScreenModule,
+                                           args: Bundle): ScreenComponent<*> {
             return Dagger${className}ScreenConfigurator_${className}ScreenComponent.builder()
                     .activityComponent(parentComponent)
                     .fragmentScreenModule(fragmentScreenModule)
                     .coreFragmentScreenModule(coreFragmentScreenModule)
                     <#if screenType=='fragment' && typeRouteFragment=='2'>
-                    .${className?uncap_first}ScreenModule(${className}ScreenModule(${className}FragmentRoute(args!!)))
+                    .${className?uncap_first}ScreenModule(${className}ScreenModule(${className}FragmentRoute(args)))
                     </#if>
                     .build()
         }
      </#if>
-    override fun getName(): String = "${camelCaseToUnderscore(className)}"
 }
