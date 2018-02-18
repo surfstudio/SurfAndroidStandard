@@ -15,21 +15,12 @@ import ru.surfstudio.android.utilktx.ktx.text.fractionalFormat
 import ru.surfstudio.android.utilktx.ktx.text.wholeFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.Locale
+import java.util.*
 
 /**
  * Вспомогательные методы работы со строками
  */
 object StringUtil {
-
-    //todo
-//    fun htmlSimpleDecode(htmlText: String): String {
-//        var decoded = htmlText
-//        for (tagIndex in tags.indices) {
-//            decoded = decoded.replace(tags[tagIndex], symbols[tagIndex])
-//        }
-//        return decoded
-//    }
 
     /**
      * Убирает подчеркивание у текста

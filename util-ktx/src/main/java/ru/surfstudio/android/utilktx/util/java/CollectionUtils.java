@@ -7,12 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import ru.surfstudio.android.utilktx.util.Mapper;
-
 /**
  * Обработка коллекций
  */
 public class CollectionUtils {
+
+    public interface Mapper<V, R> {
+        R map(V value);
+    }
 
     /**
      * Фильтрует коллекцию по предикату

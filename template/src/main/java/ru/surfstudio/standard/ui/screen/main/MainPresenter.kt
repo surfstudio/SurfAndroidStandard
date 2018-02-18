@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.ui.screen.main
 
-import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenter
-import ru.surfstudio.android.core.ui.base.screen.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.mvp.presenter.BasePresenter
+import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.interactor.analytics.AnalyticsService
 import ru.surfstudio.standard.interactor.analytics.event.EnterEvent

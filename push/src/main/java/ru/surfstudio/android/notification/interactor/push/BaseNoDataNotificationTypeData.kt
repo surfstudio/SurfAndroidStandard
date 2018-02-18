@@ -1,6 +1,6 @@
 package ru.surfstudio.android.notification.interactor.push
 
-import ru.surfstudio.android.core.domain.Unit
+import ru.surfstudio.android.core.app.Unit
 import java.io.Serializable
 
 /**

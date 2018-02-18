@@ -1,0 +1,25 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project(':dagger-scope')
+    compileOnly project(':logger')
+    compileOnly project(':easyadapter')
+    compileOnly project(':connection')
+    compileOnly project(':rx-extension')
+    compileOnly project(':util-ktx')
+
+    implementation "com.android.support:support-annotations:$appcompatVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    api "com.google.dagger:dagger:$daggerVersion"
+    api "com.android.support:appcompat-v7:$appcompatVersion"
+    api "com.github.bumptech.glide:glide:3.8.0"
+    api 'org.jetbrains:annotations:15.0'
+    api 'com.android.support:multidex:1.0.2'
+
+    implementation "com.annimon:stream:$annimonStreamVersion"
+
+    //logging
+    implementation "com.github.anrwatchdog:anrwatchdog:1.3.0"
+}

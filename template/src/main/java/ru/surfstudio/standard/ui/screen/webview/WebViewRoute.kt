@@ -2,8 +2,8 @@ package ru.surfstudio.standard.ui.screen.webview
 
 import android.content.Context
 import android.content.Intent
-import ru.surfstudio.android.core.ui.base.navigation.Route
-import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithParamsRoute
+import ru.surfstudio.android.core.ui.navigation.Route
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsRoute
 
 /**
  * Route экрана с вебвью, принимает заголовок для тулбара
