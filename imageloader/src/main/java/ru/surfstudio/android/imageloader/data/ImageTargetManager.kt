@@ -1,7 +1,6 @@
 package ru.surfstudio.android.imageloader.data
 
 import android.view.View
-import android.widget.ImageView
 
 /**
  * Пакет с описанием целей загрузки изображений

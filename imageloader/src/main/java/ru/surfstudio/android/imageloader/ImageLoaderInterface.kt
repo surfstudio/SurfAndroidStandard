@@ -2,6 +2,7 @@ package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
 import android.support.annotation.DrawableRes
+import android.support.annotation.WorkerThread
 import android.view.View
 import android.widget.ImageView
 
@@ -23,6 +24,13 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     fun url(@DrawableRes drawableResId: Int): ImageLoader
+
+    /**
+     * Указание графического ресурса, отображаемого в качестве плейсхолдера
+     *
+     * @param drawableResId ссылка на ресурс из папки res/drawable
+     */
+    fun preview(@DrawableRes drawableResId: Int): ImageLoader
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
@@ -68,9 +76,22 @@ interface ImageLoaderInterface {
     fun maxHeight(maxHeight: Int): ImageLoader
 
     /**
+     *
+     */
+    fun centerCrop(isCrop: Boolean = true): ImageLoader
+
+    /**
      * Указание целевой [View]
      *
      * @param view экземпляр [View] для загрузки изображения
      */
     fun into(view: View)
+
+    /**
+     * Получение исходника изображения в формате [Bitmap].
+     *
+     * Запрос происходит в UI-потоке.
+     */
+    @WorkerThread
+    fun get(): Bitmap?
 }

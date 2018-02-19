@@ -38,9 +38,7 @@ class SizeTransformation(private val filterOnScale: Boolean = true,
         return Bitmap.createScaledBitmap(toTransform, newWidth, newHeight, filterOnScale)
     }
 
-    override fun hashCode(): Int {
-        return getId().hashCode()
-    }
+    override fun hashCode() = getId().hashCode()
 
     override fun equals(other: Any?): Boolean {
         if (other is SizeTransformation) {

@@ -12,7 +12,9 @@ data class ImageResourceManager(
         @DrawableRes
         var drawableResId: Int = DEFAULT_DRAWABLE_URI,  //ссылка на drawable-ресурс
         @DrawableRes
-        var errorResId: Int = DEFAULT_DRAWABLE_URI      //ссылка на drawable-ресурс при ошибке
+        var errorResId: Int = DEFAULT_DRAWABLE_URI,     //ссылка на drawable-ресурс при ошибке
+        @DrawableRes
+        var previewResId: Int = DEFAULT_DRAWABLE_URI    //ссылка на drawable-ресурс плейсхолдера
 ) {
 
     /**
@@ -33,6 +35,11 @@ data class ImageResourceManager(
      * Срабатывает при отсутствии ссылки на изображение и при наличии заглушки для ошибки.
      */
     fun isErrorState(): Boolean = !isImagePresented() && isErrorPresented()
+
+    /**
+     * Предоставлено ли изображение для ошибки
+     */
+    fun isErrorPresented() = errorResId != DEFAULT_DRAWABLE_URI
 
     /**
      * Проверка валидность URL
@@ -58,9 +65,4 @@ data class ImageResourceManager(
      * Загружается ли изображение из res/drawable
      */
     private fun isImageFromResourcesPresented() = drawableResId != DEFAULT_DRAWABLE_URI
-
-    /**
-     * Предоставлено ли изображение для ошибки
-     */
-    private fun isErrorPresented() = errorResId != DEFAULT_DRAWABLE_URI
 }
