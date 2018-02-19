@@ -76,14 +76,23 @@ interface ImageLoaderInterface {
     fun maxHeight(maxHeight: Int): ImageLoader
 
     /**
+     * Масштабирование изображения по размеру виджета с обрезкой излишков.
      *
+     * @param isCrop флаг активации трансформации
      */
     fun centerCrop(isCrop: Boolean = true): ImageLoader
 
     /**
-     * Указание целевой [View]
+     * Преобразование прямоугольного изображения в круглое.
      *
-     * @param view экземпляр [View] для загрузки изображения
+     * @param isCircle флаг активации трансформации
+     */
+    fun circle(isCircle: Boolean = true): ImageLoader
+
+    /**
+     * Указание целевой [View].
+     *
+     * @param view экземпляр [View] для загрузки изображения.
      */
     fun into(view: View)
 

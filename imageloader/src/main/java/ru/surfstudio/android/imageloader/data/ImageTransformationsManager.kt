@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import ru.surfstudio.android.imageloader.transformations.CenterCropTransformation
+import ru.surfstudio.android.imageloader.transformations.CircleTransformation
 import ru.surfstudio.android.imageloader.transformations.SizeTransformation
 
 /**
@@ -11,7 +12,8 @@ import ru.surfstudio.android.imageloader.transformations.SizeTransformation
  */
 data class ImageTransformationsManager(
         var imageSizeManager: ImageSizeManager = ImageSizeManager(),
-        var isCenterCrop: Boolean = false
+        var isCenterCrop: Boolean = false,
+        var isCircle: Boolean = false
 ) {
 
     private var transformations = arrayListOf<Transformation<Bitmap>>()   //список всех применяемых трансформаций
@@ -23,9 +25,8 @@ data class ImageTransformationsManager(
             transformations
                     .apply {
                         add(SizeTransformation(imageSizeManager = imageSizeManager))
-                        if (isCenterCrop) {
-                            add(CenterCropTransformation())
-                        }
+                        if (isCenterCrop) add(CenterCropTransformation())
+                        if (isCircle) add(CircleTransformation())
                     }
                     .toTypedArray()
 }

@@ -145,10 +145,20 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             apply { this.imageTransformationsManager.imageSizeManager.maxHeight = maxHeight }
 
     /**
+     * Масштабирование изображения по размеру виджета с обрезкой излишков.
      *
+     * @param isCrop флаг активации трансформации
      */
     override fun centerCrop(isCrop: Boolean) =
             apply { this.imageTransformationsManager.isCenterCrop = isCrop }
+
+    /**
+     * Преобразование прямоугольного изображения в круглое.
+     *
+     * @param isCircle флаг активации трансформации
+     */
+    override fun circle(isCircle: Boolean) =
+            apply { imageTransformationsManager.isCircle = isCircle }
 
     /**
      * Указание целевой [View]
