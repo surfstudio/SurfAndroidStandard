@@ -51,4 +51,20 @@ class PictureProvider @Inject constructor(
                     }
                 }
     }
+
+    /**
+     *  Запускает сторонее приложение галереи для получения изображение.
+     *  @return Observable Uri изображения.
+     */
+    fun openGalleryAndGetFewPhoto(noPermissionAction: () -> Unit = {}): Observable<List<String>> {
+        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+                .flatMap { hasPermission ->
+                    if (hasPermission) {
+                        galleryPictureProvider.openGalleryForMultipleImage()
+                    } else {
+                        noPermissionAction()
+                        Observable.error(NoPermissionException())
+                    }
+                }
+    }
 }

@@ -121,7 +121,7 @@ class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
             } else {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image))
             }
-            return Intent.createChooser(takePictureIntent, activity.getString(R.string.choose_camera_app))
+            return Intent.createChooser(takePictureIntent, activity.getString(R.string.choose_app))
         }
     }
 

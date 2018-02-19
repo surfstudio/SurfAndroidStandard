@@ -23,6 +23,13 @@
         android:layout_margin="16dp"
         android:text="Open gallery" />
 
+    <Button
+        android:id="@+id/gallery_m_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Open gallery m" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"

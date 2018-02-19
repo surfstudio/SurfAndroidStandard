@@ -34,4 +34,10 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
             messageController.show(path.toString())
         })
     }
+
+    fun openGalleryMultiple() {
+        subscribeIoHandleError(photoProvider.openGalleryAndGetFewPhoto(), { path ->
+            messageController.show(path.toString())
+        })
+    }
 }

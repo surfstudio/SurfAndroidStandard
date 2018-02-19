@@ -41,6 +41,8 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
         openCameraBtn.setOnClickListener { presenter.openCamera() }
         val openGalleryBtn: Button = find(R.id.gallery_btn)
         openGalleryBtn.setOnClickListener { presenter.openGallerySingle() }
+        val openGalleryMBtn: Button = find(R.id.gallery_m_btn)
+        openGalleryMBtn.setOnClickListener { presenter.openGalleryMultiple() }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {
