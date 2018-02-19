@@ -15,7 +15,7 @@ class MediaStoreService @Inject
 constructor(private val activityProvider: ActivityProvider) {
 
     /**
-     * Получить отсортированные пути к картинкам из галлереи
+     * Получить отсортированные пути к картинкам из галереи
      */
     //не добавляем некорректные изображения
     val allStorageImagesPath: Observable<ArrayList<String>>

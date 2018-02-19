@@ -48,7 +48,7 @@ class CameraStoragePermissionRequest : PermissionRequest() {
 }
 
 /**
- * пермишен на запрос разрешения галлереи
+ * пермишен на запрос разрешения галереи
  */
 class GalleryStoragePermissionRequest : PermissionRequest() {
     override fun getPermissions() = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)

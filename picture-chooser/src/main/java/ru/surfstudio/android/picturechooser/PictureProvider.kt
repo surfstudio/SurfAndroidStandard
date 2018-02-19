@@ -37,7 +37,7 @@ class PictureProvider @Inject constructor(
     }
 
     /**
-     *  Запускает сторонее приложение галлереи для получения изображение.
+     *  Запускает сторонее приложение галереи для получения изображение.
      *  @return Observable Uri изображения.
      */
     fun openGalleryAndGetPhoto(noPermissionAction: () -> Unit = {}): Observable<String> {
