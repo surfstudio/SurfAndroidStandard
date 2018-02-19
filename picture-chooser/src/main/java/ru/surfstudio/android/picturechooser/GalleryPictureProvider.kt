@@ -3,6 +3,8 @@ package ru.surfstudio.android.picturechooser
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
@@ -57,7 +59,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
         override fun parseResultIntent(intent: Intent?): String? {
             return if (intent != null && intent.data != null) {
-                intent.data!!.toString()
+                intent.data!!.getRealPath()
             } else null
         }
     }
@@ -75,12 +77,29 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
             return if (intent != null && intent.data != null) {
-                arrayListOf(intent.data!!.toString())
+                arrayListOf(intent.data.getRealPath())
             } else if (intent != null && intent.clipData != null) {
-                (0 until intent.clipData.itemCount).mapTo(ArrayList<String>()) { intent.clipData.getItemAt(it).uri.toString() }
+                with(intent.clipData) {
+                    (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.getRealPath() }
+                }
             } else {
                 null
             }
         }
+    }
+
+    private fun Uri.getRealPath(): String {
+        val result: String
+        val cursor = activity.contentResolver
+                .query(this, null, null, null, null)
+        if (cursor == null) {
+            result = this.path
+        } else {
+            cursor.moveToFirst()
+            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+            result = cursor.getString(idx)
+            cursor.close()
+        }
+        return result
     }
 }

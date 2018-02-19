@@ -13,7 +13,7 @@ import javax.inject.Inject
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                  private val photoProvider: PictureProvider,
-                                                 val messageController: MessageController)
+                                                 private val messageController: MessageController)
     : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()

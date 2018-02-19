@@ -1,5 +1,7 @@
 package ru.surfstudio.android.picturechooser
 
+import android.content.Context
+import android.provider.MediaStore
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
@@ -13,6 +15,7 @@ import javax.inject.Inject
  */
 @PerActivity
 class PictureProvider @Inject constructor(
+        val context: Context,
         activityNavigator: ActivityNavigator,
         activityProvider: ActivityProvider,
         private val cameraStoragePermissionChecker: PicturePermissionChecker) {
@@ -66,5 +69,43 @@ class PictureProvider @Inject constructor(
                         Observable.error(NoPermissionException())
                     }
                 }
+    }
+
+    /**
+     * @return Uri всех изображений на устройстве
+     */
+    fun getAllStoragePhoto(): Observable<List<String>> {
+        return Observable.create { subscriber ->
+            val images = ArrayList<String>()
+            val uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            val projection = arrayOf(MediaStore.MediaColumns.DATA,
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                    MediaStore.Images.Media.WIDTH,
+                    MediaStore.Images.Media.HEIGHT)
+
+            context.contentResolver
+                    .query(uri,
+                            projection,
+                            null,
+                            null,
+                            MediaStore.MediaColumns.DATE_ADDED + " DESC")
+                    .apply {
+                        val columnIndexData = getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+                        val columnIndexWidth = getColumnIndex(MediaStore.MediaColumns.WIDTH)
+                        val columnIndexHeight = getColumnIndex(MediaStore.MediaColumns.HEIGHT)
+                        while (moveToNext()) {
+                            val width = getInt(columnIndexWidth)
+                            val height = getInt(columnIndexHeight)
+                            //не добавляем некорректные изображения
+                            if (width > 0 && height > 0) {
+                                val absolutePathOfImage = getString(columnIndexData)
+                                images.add(absolutePathOfImage)
+                            }
+                        }
+                        close()
+                    }
+            subscriber.onNext(images)
+            subscriber.onComplete()
+        }
     }
 }
