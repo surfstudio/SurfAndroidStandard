@@ -1,8 +1,8 @@
 package ru.surfstudio.standard.ui.screen.splash
 
 import android.support.annotation.LayoutRes
-import ru.surfstudio.android.core.ui.base.screen.activity.BaseHandleableErrorActivityView
-import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.activity.BaseHandleableErrorActivityView
+import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 import javax.inject.Inject

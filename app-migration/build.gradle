@@ -1,0 +1,8 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project (':dagger-scope')
+    compileOnly project (':shared-pref')
+    compileOnly project (':logger')
+    compileOnly project (':rx-extension')
+}

@@ -1,8 +1,8 @@
 package ru.surfstudio.standard.app.intialization.migration
 
 
-import ru.surfstudio.android.core.app.intialization.migration.AppMigration
-import ru.surfstudio.android.core.app.intialization.migration.AppMigrationStorage
+import ru.surfstudio.android.app.migration.AppMigration
+import ru.surfstudio.android.app.migration.AppMigrationStorage
 import ru.surfstudio.android.logger.Logger
 
 /**
