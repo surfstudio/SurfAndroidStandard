@@ -2,6 +2,7 @@ package ru.surfstudio.standard.ui.base.dagger
 
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
+import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.dagger.BaseCoreActivityComponent
 import ru.surfstudio.android.core.ui.dagger.CoreActivityModule
 import ru.surfstudio.android.dagger.scope.PerActivity
@@ -22,4 +23,5 @@ interface ActivityComponent : BaseCoreActivityComponent {
     fun analyticsService(): AnalyticsService
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
+    fun stringsProvider(): StringsProvider
 }

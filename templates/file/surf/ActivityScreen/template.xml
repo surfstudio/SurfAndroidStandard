@@ -137,12 +137,8 @@
         default="false"
         help="Использовать на экране RecyclerView" />
 
-    <parameter
-        id="usePaginationableAdapter"
-        type="boolean"
-        name="PaginationableAdapter"
-        default="false"
-        visibility="generateRecyclerView" 
+    <parameter id="usePaginationableAdapter" type="boolean" name="PaginationableAdapter"
+        default="false" visibility="generateRecyclerView"
         help="Использовать PaginationableAdapter" />
 
     <parameter

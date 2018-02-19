@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.util
+package ru.surfstudio.android.core.app
 
 import android.content.Context
 import android.support.annotation.PluralsRes
