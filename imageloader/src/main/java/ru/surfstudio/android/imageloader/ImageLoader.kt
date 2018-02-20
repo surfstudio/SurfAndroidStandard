@@ -22,6 +22,10 @@ import ru.surfstudio.android.imageloader.data.ImageResourceManager
 import ru.surfstudio.android.imageloader.data.ImageTagManager
 import ru.surfstudio.android.imageloader.data.ImageTargetManager
 import ru.surfstudio.android.imageloader.data.ImageTransformationsManager
+import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
+import ru.surfstudio.android.imageloader.transformations.OverlayTransformation.OverlayBundle
+import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
+import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
 import ru.surfstudio.android.imageloader.util.toBitmap
 import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.ExecutionException
@@ -36,7 +40,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var imageTargetManager: ImageTargetManager = ImageTargetManager()
     private var imageResourceManager: ImageResourceManager = ImageResourceManager()
     private var imageTagManager: ImageTagManager = ImageTagManager(imageTargetManager, imageResourceManager)
-    private var imageTransformationsManager: ImageTransformationsManager = ImageTransformationsManager()
+    private var imageTransformationsManager: ImageTransformationsManager = ImageTransformationsManager(context)
 
     private var skipCache: Boolean = false  //использовать ли закэшированные данные
 
@@ -161,6 +165,44 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             apply { imageTransformationsManager.isCircle = isCircle }
 
     /**
+     * Скругление углов у прямоугольного изображения.
+     *
+     * @param isRoundedCorners флаг активации трансформации
+     * @param radiusPx радиус скругления в px
+     * @param marginPx величина отступа в px
+     * @param cornerType конфигурация скругляемых углов
+     */
+    override fun roundedCorners(isRoundedCorners: Boolean, radiusPx: Int, marginPx: Int, cornerType: CornerType) =
+            also {
+                imageTransformationsManager.roundedCornersBundle =
+                        RoundedCornersBundle(isRoundedCorners, cornerType, radiusPx, marginPx)
+            }
+
+    /**
+     * Эффект размытия изображения "Blur".
+     *
+     * @param isBlur флаг активации трансформации
+     * @param blurRadiusPx радиус размытия
+     * @param blurDownSampling уровень принудительного понижения качества разрешения изображения
+     */
+    override fun blur(isBlur: Boolean, blurRadiusPx: Int, blurDownSampling: Int) =
+            also {
+                imageTransformationsManager.blurBundle =
+                        BlurBundle(isBlur, blurRadiusPx, blurDownSampling)
+            }
+
+    /**
+     * Наложение маски на изображение с поддержкой 9-patch маски.
+     *
+     * @param isOverlay флаг активации трансформации
+     * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
+     */
+    override fun overlay(isOverlay: Boolean, @DrawableRes maskResId: Int) =
+            also {
+                imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId)
+            }
+
+    /**
      * Указание целевой [View]
      *
      * @param view экземпляр [View] для загрузки изображения
@@ -208,19 +250,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
     private fun buildRequest(): RequestBuilder<Bitmap> {
         /*
-        if (centerCrop) {
-            transformations.add(CenterCrop())
-        }
-
-        if (circle) {
-            transformations.add(CircleCropTransformation(context))
-        }
-
-        if (cornerRadius > 0 || cornerMargin > 0) {
-            transformations.add(RoundedCornersTransformation(context,
-                    cornerRadius, cornerMargin, cornerType))
-        }
-
         if (blurTransform) {
             transformations.add(BlurTransformation(context, blurRadius, blurSampling))
         }

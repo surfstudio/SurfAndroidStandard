@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.support.annotation.DrawableRes
 import android.support.annotation.WorkerThread
 import android.view.View
-import android.widget.ImageView
+import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 
 /**
  * Универсальный интерфейс загрузчика изображений.
@@ -88,6 +88,39 @@ interface ImageLoaderInterface {
      * @param isCircle флаг активации трансформации
      */
     fun circle(isCircle: Boolean = true): ImageLoader
+
+    /**
+     * Скругление углов у прямоугольного изображения.
+     *
+     * @param isRoundedCorners флаг активации трансформации
+     * @param radiusPx радиус скругления в px
+     * @param marginPx величина отступа в px
+     * @param cornerType конфигурация скругляемых углов
+     */
+    fun roundedCorners(isRoundedCorners: Boolean = true,
+                       radiusPx: Int = 0,
+                       marginPx: Int = 0,
+                       cornerType: CornerType = CornerType.ALL): ImageLoader
+
+    /**
+     * Эффект размытия изображения "Blur".
+     *
+     * @param isBlur флаг активации трансформации
+     * @param blurRadiusPx радиус размытия
+     * @param blurDownSampling уровень принудительного понижения качества разрешения изображения
+     */
+    fun blur(isBlur: Boolean = true,
+             blurRadiusPx: Int = 25,
+             blurDownSampling: Int = 1): ImageLoader
+
+    /**
+     * Наложение маски на изображение с поддержкой 9-patch маски.
+     *
+     * @param isOverlay флаг активации трансформации
+     * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
+     */
+    fun overlay(isOverlay: Boolean = true,
+                @DrawableRes maskResId: Int): ImageLoader
 
     /**
      * Указание целевой [View].
