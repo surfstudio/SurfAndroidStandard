@@ -1,3 +1,4 @@
+apply from: '../androidModule.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
@@ -27,13 +28,10 @@ android {
 }
 
 dependencies {
-    def kotlinVersion = config["kotlinVersion"]
-    def glideVersion = config["glideVersion"]
-
     provided project(':logger')
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
-    api "com.github.bumptech.glide:glide:${glideVersion}"
+    api "com.github.bumptech.glide:glide:4.6.1"
 }
 
 repositories {
