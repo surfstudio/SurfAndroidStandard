@@ -7,8 +7,8 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 
 /**

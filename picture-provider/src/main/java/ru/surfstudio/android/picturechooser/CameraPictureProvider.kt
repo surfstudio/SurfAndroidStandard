@@ -10,8 +10,8 @@ import android.provider.MediaStore
 import android.support.media.ExifInterface
 import android.support.v4.content.FileProvider
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException

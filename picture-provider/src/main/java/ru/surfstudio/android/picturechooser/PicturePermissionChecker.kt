@@ -2,15 +2,15 @@ package ru.surfstudio.android.picturechooser
 
 import android.Manifest
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.base.permission.PermissionManager
-import ru.surfstudio.android.core.ui.base.permission.PermissionRequest
-import ru.surfstudio.android.dagger.scope.PerActivity
+import ru.surfstudio.android.core.ui.permission.PermissionManager
+import ru.surfstudio.android.core.ui.permission.PermissionRequest
+import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**
  * утилита для проверки и запроса пермишенов для камеры и хранилища
  */
-@PerActivity
+@PerScreen
 class PicturePermissionChecker @Inject constructor(private val permissionManager: PermissionManager) {
 
     /**

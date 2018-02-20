@@ -2,7 +2,8 @@ apply from: '../androidModule.gradle'
 apply plugin: 'kotlin-android'
 
 dependencies {
-    compileOnly project(path: ':core')
+    compileOnly project(path: ':core-app')
+    compileOnly project(path: ':core-ui')
     compileOnly project(':dagger-scope')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"

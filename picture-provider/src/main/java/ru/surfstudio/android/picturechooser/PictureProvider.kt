@@ -3,9 +3,9 @@ package ru.surfstudio.android.picturechooser
 import android.content.Context
 import android.provider.MediaStore
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
-import ru.surfstudio.android.core.ui.base.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.dagger.scope.PerActivity
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
 import javax.inject.Inject
 
@@ -13,7 +13,7 @@ import javax.inject.Inject
 /**
  * Поставляет изображения находящиеся на устройстве или с камеры.
  */
-@PerActivity
+@PerScreen
 class PictureProvider @Inject constructor(
         val context: Context,
         activityNavigator: ActivityNavigator,
