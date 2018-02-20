@@ -30,6 +30,11 @@
         android:layout_margin="16dp"
         android:text="Open gallery m" />
 
+    <com.google.android.cameraview.CameraView
+        android:id="@+id/camera_preview"
+        android:layout_width="200dp"
+        android:layout_height="600dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"

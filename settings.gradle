@@ -1,4 +1,4 @@
-include ':picture-chooser'
+include ':picture-provider'
 apply from: 'modules.gradle'
 gradle.ext.modules.each {
     include it.name

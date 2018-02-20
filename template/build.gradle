@@ -88,7 +88,8 @@ dependencies {
     implementation project(':filestorage')
     implementation project(':easyadapter')
     implementation project(':easyadapter-carousel')
-    implementation project(':picture-chooser')
+    implementation project(':picture-provider')
+    implementation project(':camera-view')
 
     compileOnly "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"

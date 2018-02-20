@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import android.widget.Button
+import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 import ru.surfstudio.android.core.ui.base.screen.activity.BaseRenderableHandleableErrorActivityView
 import ru.surfstudio.android.core.ui.base.screen.presenter.CorePresenter
@@ -47,5 +48,15 @@ class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenMod
 
     override fun renderInternal(screenModel: MainScreenModel) {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        camera_preview.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        camera_preview.stop()
     }
 }
