@@ -3,6 +3,7 @@ package ru.surfstudio.android.notification.ui.notification
 import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 
@@ -10,6 +11,10 @@ import ru.surfstudio.android.notification.interactor.push.PushInteractor
  * Стратегия обработки пуша
  */
 abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
+
+    companion object {
+        const val EXTRA_PUSH_STRATEGY_KEY = "EXTRA_PUSH_STRATEGY"
+    }
 
     /**
      * тип данных пуша [BaseNotificationTypeData]
@@ -51,7 +56,6 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
                body: String,
                data: Map<String, String>) {
 
-        typeData.setDataFromMap(data)
         pendingIntent = preparePendingIntent(context, title)
 
         when (context) {
@@ -81,5 +85,10 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
      * Интент в соответствии с необходимыми действиями
      */
     abstract fun preparePendingIntent(context: Context, title: String): PendingIntent
+
+    /**
+     * Интент при нажатии на пуш, если приложение в бэкграунде
+     */
+    abstract fun coldStartIntent(context: Context): Intent
 
 }

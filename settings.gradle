@@ -1,4 +1,4 @@
-include ':converter-gson', ':dagger-scope', ':logger', ':imageloader'
+
 apply from: 'modules.gradle'
 gradle.ext.modules.each {
     include it.name

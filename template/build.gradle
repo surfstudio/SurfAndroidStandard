@@ -1,21 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-def config = rootProject.extensions.getByName("ext")
-
 android {
-    def applicationName = config["applicationName"]
-
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion config["minSdkVersion"]
-        targetSdkVersion config["targetSdkVersion"]
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
 
-        applicationId config["applicationId"]
+        applicationId rootProject.ext.applicationId
         versionCode rootProject.ext.moduleVersionCode
         versionName rootProject.ext.moduleVersionName
 
@@ -25,10 +20,42 @@ android {
         multiDexEnabled true
     }
 
-    buildTypes {
+    signingConfigs {
+        // todo настроить подпись приложения
         release {
+            storeFile file("../keystore/prod.keystore.jks")
+            storePassword "qsdm345nbdfg458smm4"
+            keyAlias "prod"
+            keyPassword "qsdm345nbdfg458smm4"
+        }
+        test {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+    }
+
+    buildTypes {
+        debug {
+            //signingConfig signingConfigs.test
+            minifyEnabled false
+            resValue "bool", "only_portrait", "false"
+        }
+        qa {
+            //signingConfig signingConfigs.test
+            minifyEnabled false
+            debuggable = true
+            ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
+            ext.betaDistributionGroupAliases = "Surf"
+            ext.betaDistributionNotifications = true
+            resValue "bool", "only_portrait", "false"
+        }
+        release {
+            //signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            resValue "bool", "only_portrait", "true"
         }
     }
 
@@ -43,22 +70,8 @@ android {
     }
 }
 
-kapt {
-    generateStubs = true
-}
-
 dependencies {
     //-------------------------------------- versions ----------------------------------------------
-
-    // Library, Apt versions
-    def daggerVersion = config["daggerVersion"]
-    def appcompatVersion = config["appcompatVersion"]
-    def retrofitVersion = '2.1.0'
-    def okHttpVersion = '3.4.1'
-
-    //Kotlin
-    def kotlinVersion = config["kotlinVersion"]
-    def ankoVersion = config["ankoVersion"]
 
     //Testing Library, Apt Versions
     def mockitoVersion = '1.10.19'
@@ -67,58 +80,68 @@ dependencies {
     //------------------------------------ dependencies --------------------------------------------
 //    implementation 'ru.surfstudio.standard:core:0.0.1'
     //implementation 'ru.surfstudio.standard:easyadapter:0.0.4-SNAPSHOT'//todo
-    implementation project(':core')
+
+    implementation project(':core-app')
+    implementation project(':core-ui')
+    implementation project(':core-mvp')
+    implementation project(':mvp-dialog')
+    implementation project(':mvp-widget')
+    implementation project(':app-migration')
+    implementation project(':shared-pref')
+    implementation project(':custom-view')
+    implementation project(':analytics')
+    implementation project(':core-app')
     implementation project(':analytics')
     implementation project(':network')
     implementation project(':converter-gson')
     implementation project(':filestorage')
     implementation project(':easyadapter')
-    implementation project(':easyadapter-carousel')
+    implementation project(':recycler-extension')
     implementation project(':logger')
     implementation project(':dagger-scope')
-    implementation project(':imageloader')
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(':connection')
+    implementation project(':rx-extension')
+    implementation project(':firebase-analytics')
+    implementation project(':custom-view')
+    implementation project(':util-ktx')
 
-    provided "com.google.dagger:dagger:${daggerVersion}"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:${kotlinVersion}"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
-    //provided
-    kapt 'javax.annotation:jsr250-api:1.0'
-    kapt "com.google.dagger:dagger-compiler:${daggerVersion}"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    //network
-    provided "com.squareup.retrofit2:retrofit:${retrofitVersion}"
-    provided "com.squareup.retrofit2:adapter-rxjava:${retrofitVersion}"
-    provided "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
-    provided "com.squareup.okhttp3:logging-interceptor:${okHttpVersion}"
-    provided "com.google.code.gson:gson:${gsonVersion}"
-    provided("com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}")
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 
-    //other
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
     implementation 'com.google.guava:guava:23.0-android'
 
     //kotlin
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 
+    //firebase
+    api "com.google.firebase:firebase-core:${playServicesVersion}"
+
     //--------------------------------- test dependencies ------------------------------------------
 
     //tests
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:3.0.1', {
+    androidTestImplementation("com.android.support.test.espresso:espresso-core:$espressoVersion", {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$junitVersion"
 
     //unit test
-    testAnnotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
-    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+    testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.assertj:assertj-core:$assertJVersion"
 
     //instrumental test
-    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:${daggerVersion}"
-    androidTestImplementation "com.android.support:support-annotations:${appcompatVersion}"
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    androidTestImplementation "com.android.support:support-annotations:$appcompatVersion"
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
 }
+
+apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'com.google.gms.google-services'

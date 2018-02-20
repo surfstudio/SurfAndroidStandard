@@ -21,14 +21,14 @@ import android.support.v7.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import ru.surfstudio.android.easyadapter.impl.controller.BindableItemController;
-import ru.surfstudio.android.easyadapter.impl.controller.DoubleBindableItemController;
-import ru.surfstudio.android.easyadapter.impl.controller.NoDataItemController;
-import ru.surfstudio.android.easyadapter.impl.holder.BindableViewHolder;
-import ru.surfstudio.android.easyadapter.impl.item.BaseItem;
-import ru.surfstudio.android.easyadapter.impl.item.BindableItem;
-import ru.surfstudio.android.easyadapter.impl.item.DoubleBindableItem;
-import ru.surfstudio.android.easyadapter.impl.item.NoDataItem;
+import ru.surfstudio.android.easyadapter.controller.BindableItemController;
+import ru.surfstudio.android.easyadapter.controller.DoubleBindableItemController;
+import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
+import ru.surfstudio.android.easyadapter.holder.BindableViewHolder;
+import ru.surfstudio.android.easyadapter.item.BaseItem;
+import ru.surfstudio.android.easyadapter.item.BindableItem;
+import ru.surfstudio.android.easyadapter.item.DoubleBindableItem;
+import ru.surfstudio.android.easyadapter.item.NoDataItem;
 
 
 /**

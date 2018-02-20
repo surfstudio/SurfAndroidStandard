@@ -20,4 +20,5 @@
         <activity android:name=".ui.screen.splash.SplashActivityView" />
 
     </application>
+    <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

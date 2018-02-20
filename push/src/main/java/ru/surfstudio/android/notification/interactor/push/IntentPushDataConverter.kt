@@ -1,10 +1,7 @@
 package ru.surfstudio.android.notification.interactor.push
 
 import android.content.Intent
-
-import com.annimon.stream.Stream
-
-import java.util.HashMap
+import java.util.*
 
 /**
  * Конвертирует данные пуша из интента в мапу
@@ -16,7 +13,8 @@ object IntentPushDataConverter {
             return HashMap()
         }
         val data = HashMap<String, String>(intent.extras!!.size())
-        Stream.of(intent.extras!!.keySet()).forEach { value: String -> data[value] = intent.extras!!.get(value)!!.toString() }
+        intent.extras!!.keySet()
+                .forEach { value: String -> data[value] = intent.extras!!.get(value)!!.toString() }
         return data
     }
 }

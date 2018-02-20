@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.ProgressBar
 import android.widget.TextView
-import ru.surfstudio.android.easyadapter.impl.pagination.BasePaginationableAdapter
-import ru.surfstudio.android.easyadapter.impl.pagination.PaginationState
+import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.standard.R
 
 class PaginationableAdapter<H : RecyclerView.ViewHolder> : BasePaginationableAdapter() {

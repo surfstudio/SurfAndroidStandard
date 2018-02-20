@@ -29,12 +29,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import ru.surfstudio.android.easyadapter.impl.controller.BaseItemController;
-import ru.surfstudio.android.easyadapter.impl.controller.BindableItemController;
-import ru.surfstudio.android.easyadapter.impl.controller.NoDataItemController;
-import ru.surfstudio.android.easyadapter.impl.holder.BaseViewHolder;
-import ru.surfstudio.android.easyadapter.impl.item.BaseItem;
-import ru.surfstudio.android.easyadapter.impl.item.NoDataItem;
+import ru.surfstudio.android.easyadapter.controller.BaseItemController;
+import ru.surfstudio.android.easyadapter.controller.BindableItemController;
+import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
+import ru.surfstudio.android.easyadapter.holder.BaseViewHolder;
+import ru.surfstudio.android.easyadapter.item.BaseItem;
+import ru.surfstudio.android.easyadapter.item.NoDataItem;
 
 
 /**

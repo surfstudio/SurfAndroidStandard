@@ -1,10 +1,10 @@
 package ru.surfstudio.android.notification.ui.notification
 
 import android.content.Context
-import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.core.util.ActiveActivityHolder
+import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import javax.inject.Inject
 
 /**

@@ -6,7 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 </#if>
 
-public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> {
+public class ${className}${screenTypeCapitalized}View extends <@superClass.selectTypeView /> {
 
     @Inject
     ${className}Presenter presenter;
@@ -23,7 +23,7 @@ public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeV
 
     <#if generateRecyclerView>
         private RecyclerView recyclerView;
-        <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
             private PaginationableAdapter adapter;
         <#else>
             private EasyAdapter adapter;
@@ -37,14 +37,10 @@ public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeV
     }
 
     <#if screenType=='activity'>
-        @Override
-        public ScreenConfigurator createScreenConfigurator(Activity activity, Intent intent) {
-            return new ${className}ScreenConfigurator(activity, intent);
-        }
 
         @Override
-        public BaseActivityConfigurator createActivityConfigurator() {
-            return new ActivityConfigurator(this);
+        public BaseActivityViewConfigurator createConfigurator() {
+            return new ${className}ScreenConfigurator(this.getIntent());
         }
      
         @Override
@@ -52,9 +48,10 @@ public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeV
             return R.layout.${layoutName};
         }
     <#else>
+
         @Override
-        public ScreenConfigurator createScreenConfigurator(Activity activity, Bundle args) {
-            return new ${className}ScreenConfigurator(activity, args);
+        public BaseFragmentViewConfigurator createConfigurator() {
+            return new ${className}ScreenConfigurator(this.getArguments());
         }
 
         @Override
@@ -110,12 +107,12 @@ public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeV
         @Override
         protected void renderInternal(${className}ScreenModel screenModel) {
             <#if generateRecyclerView>
-                <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+                <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
                     adapter.setItems(ItemList.create()
-                        .addAll(${nameController?uncap_first}${defPostfixController}, screenModel.getItemList()), screenModel.getPaginationState());
+                        .addAll(screenModel.getItemList(), ${nameController?uncap_first}${defPostfixController}), screenModel.getPaginationState());
                     <#else>
                     adapter.setItems(ItemList.create()
-                        .addAll(${nameController?uncap_first}${defPostfixController}, screenModel.getItemList()));
+                        .addAll(screenModel.getItemList(), ${nameController?uncap_first}${defPostfixController}));
                 </#if>
             </#if>
         }
@@ -146,7 +143,10 @@ public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeV
 
     private void initListeners() {
         <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
-            placeHolderView.setOnActionClickListener(state -> presenter.reloadData());
+            placeHolderView.setOnActionClickListener(state -> {
+                presenter.reloadData();
+                return null;
+            });
         </#if>
         <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
             swipeRefreshLayout.setOnRefreshListener(() -> presenter.reloadData());
@@ -157,7 +157,7 @@ public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeV
     private void initRecyclerView() {
         ${nameController?uncap_first}${defPostfixController} = new ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>);
 
-        <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
         adapter = new PaginationableAdapter();
         adapter.setOnShowMoreListener(() -> presenter.loadMore());
         <#else>
@@ -168,4 +168,9 @@ public class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeV
         recyclerView.setLayoutManager(new LinearLayoutManager(<#if screenType=='activity'>this<#else>getContext()</#if>));
     }
     </#if>
+
+    @Override
+    public String getName() {
+        return "${camelCaseToUnderscore(className)}";
+    }
 }
