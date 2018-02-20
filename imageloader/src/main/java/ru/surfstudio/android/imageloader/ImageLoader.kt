@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.target.ViewTarget
 import com.bumptech.glide.request.transition.Transition
@@ -23,7 +24,7 @@ import ru.surfstudio.android.imageloader.data.ImageTagManager
 import ru.surfstudio.android.imageloader.data.ImageTargetManager
 import ru.surfstudio.android.imageloader.data.ImageTransformationsManager
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
-import ru.surfstudio.android.imageloader.transformations.OverlayTransformation.OverlayBundle
+import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
 import ru.surfstudio.android.imageloader.util.toBitmap
@@ -197,7 +198,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
      */
-    override fun overlay(isOverlay: Boolean, @DrawableRes maskResId: Int) =
+    override fun mask(isOverlay: Boolean, @DrawableRes maskResId: Int) =
             also {
                 imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId)
             }
@@ -219,6 +220,26 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         imageTagManager.setTag(imageResourceManager.url)
 
         performLoad(view)
+    }
+
+    /**
+     * Загрузка изображения в [SimpleTarget].
+     *
+     * @param simpleTarget обработчик загрузки изображения.
+     */
+    fun into(simpleTarget: SimpleTarget<Bitmap>) {
+        preparePreviewBitmap().into(object : SimpleTarget<Bitmap>() {
+            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                simpleTarget.onResourceReady(resource, transition)
+            }
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                super.onLoadFailed(errorDrawable)
+                getBitmapFromRes(imageResourceManager.errorResId)?.let {
+                    simpleTarget.onResourceReady(it, null)
+                }
+            }
+        })
     }
 
     /**
@@ -248,35 +269,21 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         return result
     }
 
-    private fun buildRequest(): RequestBuilder<Bitmap> {
-        /*
-        if (blurTransform) {
-            transformations.add(BlurTransformation(context, blurRadius, blurSampling))
-        }
-
-        if (overlayResId > 0) {
-            transformations.add(OverlayTransformation(context, overlayResId))
-        }
-
-        // масковая трансформация должна накладываться последней
-        // для обрезания конечного результата
-        if (maskResId > 0) {
-            transformations.add(MaskTransformation(context, maskResId))
-        }
-        */
-        return Glide.with(context)
-                .asBitmap()
-                .load(imageResourceManager.toLoad())
-                .error(prepareErrorBitmap())
-                .thumbnail(preparePreviewBitmap())
-                .apply(
-                        RequestOptions()
-                                .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
-                                .skipMemoryCache(skipCache)
-                                .transforms(*imageTransformationsManager.prepareTransformations())
-                )
-                .listener(glideDownloadListener)
-    }
+    /**
+     * Формирование запроса на загрузку изображения.
+     */
+    private fun buildRequest(): RequestBuilder<Bitmap> = Glide.with(context)
+            .asBitmap()
+            .load(imageResourceManager.toLoad())
+            .error(prepareErrorBitmap())
+            .thumbnail(preparePreviewBitmap())
+            .apply(
+                    RequestOptions()
+                            .diskCacheStrategy(if (skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                            .skipMemoryCache(skipCache)
+                            .transforms(*imageTransformationsManager.prepareTransformations())
+            )
+            .listener(glideDownloadListener)
 
     /**
      * Загрузка изображения в целевую [View].

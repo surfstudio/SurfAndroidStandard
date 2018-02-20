@@ -6,7 +6,7 @@ import com.bumptech.glide.load.Transformation
 import ru.surfstudio.android.imageloader.transformations.*
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
-import ru.surfstudio.android.imageloader.transformations.OverlayTransformation.OverlayBundle
+import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
 
 /**
  * Пакет, хранящий все применяемые к изображению трансформации
@@ -37,7 +37,7 @@ data class ImageTransformationsManager(
                         if (blurBundle.isBlur)
                             add(BlurTransformation(context, blurBundle = blurBundle))
                         if (overlayBundle.isOverlay)
-                            add(OverlayTransformation(context, overlayBundle))
+                            add(MaskTransformation(context, overlayBundle))
                     }
                     .toTypedArray()
 }

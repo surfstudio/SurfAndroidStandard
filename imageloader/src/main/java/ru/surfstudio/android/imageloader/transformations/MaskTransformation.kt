@@ -11,8 +11,8 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
  *
  * Поддерживает 9-patch маски.
  */
-class OverlayTransformation(val context: Context,
-                            private val overlayBundle: OverlayBundle) : BaseGlideImageTransformation() {
+class MaskTransformation(val context: Context,
+                         private val overlayBundle: OverlayBundle) : BaseGlideImageTransformation() {
 
     private val paint = Paint()
 
@@ -20,7 +20,7 @@ class OverlayTransformation(val context: Context,
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
     }
 
-    override fun getId() = OverlayTransformation::class.java.canonicalName.toString()
+    override fun getId() = MaskTransformation::class.java.canonicalName.toString()
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
         val width = toTransform.width
@@ -41,7 +41,7 @@ class OverlayTransformation(val context: Context,
 
     override fun hashCode() = getId().hashCode()
 
-    override fun equals(other: Any?) = other is OverlayTransformation
+    override fun equals(other: Any?) = other is MaskTransformation
 
     private fun getMaskDrawable(context: Context, maskId: Int) =
             (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -49,10 +49,10 @@ class OverlayTransformation(val context: Context,
             } else {
                 @Suppress("DEPRECATION")
                 context.resources.getDrawable(maskId)
-            }) ?: throw IllegalArgumentException("OverlayTransformation error / maskId is invalid")
+            }) ?: throw IllegalArgumentException("MaskTransformation error / maskId is invalid")
 
     /**
-     * Конфигурационные данных для трансформации [OverlayTransformation].
+     * Конфигурационные данных для трансформации [MaskTransformation].
      */
     data class OverlayBundle(val isOverlay: Boolean = false,
                              @DrawableRes val maskResId: Int = -1)

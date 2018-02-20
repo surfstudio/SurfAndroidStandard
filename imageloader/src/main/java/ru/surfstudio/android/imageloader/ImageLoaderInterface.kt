@@ -119,8 +119,8 @@ interface ImageLoaderInterface {
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
      */
-    fun overlay(isOverlay: Boolean = true,
-                @DrawableRes maskResId: Int): ImageLoader
+    fun mask(isOverlay: Boolean = true,
+             @DrawableRes maskResId: Int): ImageLoader
 
     /**
      * Указание целевой [View].
