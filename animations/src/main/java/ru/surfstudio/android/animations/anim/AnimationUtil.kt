@@ -107,30 +107,7 @@ object AnimationUtil {
                 startAction: ((View) -> Unit)? = null,
                 endAction: ((View) -> Unit)? = null) {
         if (view.visibility == View.GONE) {
-            val slide = Slide(gravity)
-            slide.addTarget(view)
-            slide.duration = duration
-            slide.interpolator = interpolator
-            slide.addListener(object : Transition.TransitionListener {
-                override fun onTransitionEnd(transition: android.support.transition.Transition) {
-                    endAction?.invoke(view)
-                }
-
-                override fun onTransitionResume(transition: android.support.transition.Transition) {
-                }
-
-                override fun onTransitionPause(transition: android.support.transition.Transition) {
-                }
-
-                override fun onTransitionCancel(transition: android.support.transition.Transition) {
-                }
-
-                override fun onTransitionStart(transition: android.support.transition.Transition) {
-                    startAction?.invoke(view)
-                }
-            })
-
-            TransitionManager.beginDelayedTransition(container, slide)
+            slide(view, container, gravity, duration, interpolator, endAction, startAction)
             view.visibility = View.VISIBLE
         }
     }
@@ -144,31 +121,42 @@ object AnimationUtil {
                  startAction: ((View) -> Unit)? = null,
                  endAction: ((View) -> Unit)? = null) {
         if (view.visibility == View.VISIBLE) {
-            val slide = Slide(gravity)
-            slide.addTarget(view)
-            slide.duration = duration
-            slide.interpolator = interpolator
-            slide.addListener(object : Transition.TransitionListener {
-                override fun onTransitionEnd(transition: android.support.transition.Transition) {
-                    endAction?.invoke(view)
-                }
-
-                override fun onTransitionResume(transition: android.support.transition.Transition) {
-                }
-
-                override fun onTransitionPause(transition: android.support.transition.Transition) {
-                }
-
-                override fun onTransitionCancel(transition: android.support.transition.Transition) {
-                }
-
-                override fun onTransitionStart(transition: android.support.transition.Transition) {
-                    startAction?.invoke(view)
-                }
-            })
-
-            TransitionManager.beginDelayedTransition(container, slide)
+            slide(view, container, gravity, duration, interpolator, endAction, startAction)
             view.visibility = View.GONE
         }
+    }
+
+    private fun slide(view: View,
+                      container: ViewGroup,
+                      gravity: Int,
+                      duration: Long,
+                      interpolator: TimeInterpolator,
+                      endAction: ((View) -> Unit)?,
+                      startAction: ((View) -> Unit)?) {
+        val slide = TransitionSet()
+                .addTransition(Slide(gravity))
+                .addTransition(ChangeBounds())
+        slide.duration = duration
+        slide.interpolator = interpolator
+        slide.addListener(object : Transition.TransitionListener {
+            override fun onTransitionEnd(transition: Transition) {
+                endAction?.invoke(view)
+            }
+
+            override fun onTransitionResume(transition: Transition) {
+            }
+
+            override fun onTransitionPause(transition: Transition) {
+            }
+
+            override fun onTransitionCancel(transition: Transition) {
+            }
+
+            override fun onTransitionStart(transition: Transition) {
+                startAction?.invoke(view)
+            }
+        })
+
+        TransitionManager.beginDelayedTransition(container, slide)
     }
 }
