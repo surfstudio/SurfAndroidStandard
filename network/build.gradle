@@ -7,11 +7,10 @@ dependencies {
     compileOnly project (':dagger-scope')
     compileOnly project (':connection')
     compileOnly project (':rx-extension')
-
-    compileOnly project (':core') //todo delete
+    compileOnly project (':util-ktx')
 
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
-    compileOnly "com.annimon:stream:$annimonStreamVersion"
+    api "com.annimon:stream:$annimonStreamVersion"
 
     // network
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"

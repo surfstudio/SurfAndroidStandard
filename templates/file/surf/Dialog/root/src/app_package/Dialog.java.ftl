@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class ${className}Dialog extends BaseSimpleDialogFragment {
+public class ${className}Dialog extends CoreSimpleDialogFragment {
     @Inject
     ${screenName}Presenter presenter;
 
@@ -39,9 +39,11 @@ public class ${className}Dialog extends BaseSimpleDialogFragment {
     }
 
     private void findViews(View view) {
+
     }
 
     private void initListeners() {
+    
     }
 
 }

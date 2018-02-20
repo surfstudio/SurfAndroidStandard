@@ -10,8 +10,7 @@ dependencies {
 
     compileOnly "com.android.support:design:$appcompatVersion"
     compileOnly "com.android.support:appcompat-v7:$appcompatVersion"
-    compileOnly "com.android.support:recyclerview-v7:${appcompatVersion}"
 
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     compileOnly project(path: ':logger')
 }

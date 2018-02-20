@@ -2,16 +2,16 @@ package ru.surfstudio.standard.ui.base.configurator;
 
 import android.content.Intent;
 
-import ru.surfstudio.android.core.ui.base.dagger.CoreActivityModule;
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityViewConfigurator;
+import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
+import ru.surfstudio.android.core.ui.dagger.CoreActivityModule;
 import ru.surfstudio.standard.app.App;
-import ru.surfstudio.standard.app.dagger.ActivityComponent;
 import ru.surfstudio.standard.app.dagger.AppComponent;
-import ru.surfstudio.standard.app.dagger.DaggerActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.ActivityComponent;
 import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule;
+import ru.surfstudio.standard.ui.base.dagger.DaggerActivityComponent;
 
 /**
- * Created by makstuev on 30.01.2018. //todo
+ * Базовый конфигуратор для экрана, основанного на активити
  */
 
 public abstract class ActivityScreenConfigurator

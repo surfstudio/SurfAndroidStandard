@@ -1,14 +1,18 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':core')
     compileOnly project(':logger')
     compileOnly project (':dagger-scope')
+    compileOnly project (':util-ktx')
 
     compileOnly "com.android.support:support-annotations:${appcompatVersion}"
-    compileOnly "com.annimon:stream:${annimonStreamVersion}"
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation "com.android.support:appcompat-v7:$appcompatVersion"
+
+    implementation "com.annimon:stream:${annimonStreamVersion}"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+
 }

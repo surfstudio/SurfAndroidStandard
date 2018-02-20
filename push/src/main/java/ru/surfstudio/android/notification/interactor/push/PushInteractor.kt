@@ -2,8 +2,8 @@ package ru.surfstudio.android.notification.interactor.push
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import ru.surfstudio.android.core.app.scheduler.SchedulersProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
+import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import javax.inject.Inject
 
 /**
