@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 
 /**
- * Extension для аниvации View
+ * Extension для анимации View
  */
 
 /**

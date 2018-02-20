@@ -30,6 +30,7 @@ object AnimationUtil {
      * Сокрытие вью с изменением прозрачности
      */
     fun fadeOut(outView: View, duration: Long = 1000L, endAction: (() -> Unit)? = null) {
+
         ViewCompat.animate(outView)
                 .alpha(0f)
                 .setDuration(duration)
