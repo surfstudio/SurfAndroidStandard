@@ -97,7 +97,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     override fun preview(drawableResId: Int) =
-            apply { }
+            apply { this.imageResourceManager.previewResId = drawableResId }
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
