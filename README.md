@@ -34,7 +34,8 @@ implementation "ru.surfstudio.standard:logger:${version}"
 implementation "ru.surfstudio.standard:converter-gson:${version}"
 implementation "ru.surfstudio.standard:easyadapter:${version}"
 implementation "ru.surfstudio.standard:easyadapter-carousel:${version}"
-implementation "ru.surfstudio.standard:picture-chooser:${version}"
+implementation "ru.surfstudio.standard:picture-provider:${version}"
+implementation "ru.surfstudio.standard:camera-view:${version}"
 ```
 ## build.gradle(root)
 ```       
