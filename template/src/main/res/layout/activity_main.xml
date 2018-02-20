@@ -20,14 +20,4 @@
         android:text="Hello World"
         app:layout_behavior="ru.surfstudio.android.animations.behaviors.ViewSnackbarBehavior" />
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginBottom="24dp"
-        android:layout_marginEnd="20dp"
-        android:text="TEST BEHAVIOR"
-        app:layout_behavior="ru.surfstudio.android.animations.behaviors.BottomButtonBehavior" />
-
 </android.support.design.widget.CoordinatorLayout>
