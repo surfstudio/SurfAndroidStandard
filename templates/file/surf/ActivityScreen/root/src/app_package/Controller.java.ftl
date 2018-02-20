@@ -13,7 +13,7 @@ public class ${nameController}${defPostfixController} extends <@controllerMacros
     public ${nameController}${defPostfixController}(Listener listener) {
         this.listener = listener;
     }
-    
+
     </#if>
     @Override
     public Holder createViewHolder(ViewGroup parent) {
@@ -25,13 +25,13 @@ public class ${nameController}${defPostfixController} extends <@controllerMacros
     public long getItemId(${nameTypeData} ${nameParam}) {
         return ${nameParam}.getId();
     }
-    
+
     </#if>
     class Holder extends <#if typeController='1'>BindableViewHolder<${nameTypeData}><#else>BaseViewHolder</#if> {
 
         <#if typeController='1'>
         private ${nameTypeData} ${nameParam};
-        
+
         </#if>
         Holder(ViewGroup parent) {
            super(parent, R.layout.${nameRes});

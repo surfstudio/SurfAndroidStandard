@@ -5,7 +5,15 @@
       "path": ""
     },
     {
-      "name": "core",
+      "name": "core-app",
+      "path": ""
+    },
+    {
+      "name": "core-ui",
+      "path": ""
+    },
+    {
+      "name": "core-mvp",
       "path": ""
     },
     {
@@ -41,7 +49,7 @@
       "path": ""
     },
     {
-      "name": "easyadapter-carousel",
+      "name": "recycler-extension",
       "path": ""
     },
     {
@@ -50,6 +58,42 @@
     },
     {
       "name": "datalist-page-count",
+      "path": ""
+    },
+    {
+      "name": "firebase-analytics",
+      "path": ""
+    },
+    {
+      "name": "rx-extension",
+      "path": ""
+    },
+    {
+      "name": "connection",
+      "path": ""
+    },
+    {
+      "name": "util-ktx",
+      "path": ""
+    },
+    {
+      "name": "app-migration",
+      "path": ""
+    },
+    {
+      "name": "shared-pref",
+      "path": ""
+    },
+    {
+      "name": "custom-view",
+      "path": ""
+    },
+    {
+      "name": "mvp-dialog",
+      "path": ""
+    },
+    {
+      "name": "mvp-widget",
       "path": ""
     },
     {

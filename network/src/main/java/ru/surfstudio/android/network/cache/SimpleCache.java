@@ -1,8 +1,9 @@
 package ru.surfstudio.android.network.cache;
 
 
+import android.support.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import ru.surfstudio.android.filestorage.BaseTextLocalCache;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;

@@ -1,20 +1,24 @@
 apply from: '../androidModule.gradle'
+apply plugin: 'kotlin-android'
 
 dependencies {
-    compileOnly project(':core')
-    compileOnly project(':filestorage')
-    compileOnly project(':logger')
+    compileOnly project (':filestorage')
+    compileOnly project (':logger')
     compileOnly project (':dagger-scope')
+    compileOnly project (':connection')
+    compileOnly project (':rx-extension')
+    compileOnly project (':util-ktx')
 
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
-    compileOnly "com.annimon:stream:$annimonStreamVersion"
+    api "com.annimon:stream:$annimonStreamVersion"
 
     // network
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     api "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    api "com.google.code.gson:gson:$gsonVersion"
+
+    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //tests
     testImplementation "junit:junit:$junitVersion"
