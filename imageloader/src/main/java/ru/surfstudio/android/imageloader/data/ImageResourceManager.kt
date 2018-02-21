@@ -1,13 +1,20 @@
 package ru.surfstudio.android.imageloader.data
 
+import android.content.Context
+import android.graphics.Bitmap
 import android.support.annotation.DrawableRes
 import android.util.Patterns
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.request.RequestOptions
 import ru.surfstudio.android.imageloader.DEFAULT_DRAWABLE_URI
 
 /**
  * Пакет со ссылками на все необходимые изображения и сервисными методами.
  */
 data class ImageResourceManager(
+        private val context: Context,
+        private var imageTransformationsManager: ImageTransformationsManager = ImageTransformationsManager(context),
         var url: String = "",                           //сетевая ссылка на изображение
         @DrawableRes
         var drawableResId: Int = DEFAULT_DRAWABLE_URI,  //ссылка на drawable-ресурс
@@ -42,11 +49,32 @@ data class ImageResourceManager(
     fun isErrorPresented() = errorResId != DEFAULT_DRAWABLE_URI
 
     /**
-     * Проверка валидность URL
+     * Подготовка заглушки для ошибки.
      *
-     * @param url проверяемая ссылка
+     * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun isUrlValid(url: String) = !Patterns.WEB_URL.matcher(url).matches()
+    fun prepareErrorBitmap() = prepareBitmap(errorResId)
+
+    /**
+     * Подготовка заглушки для плейсхолдера.
+     *
+     * К заглушке применяются все трансформации, применяемые и к исходному изображению.
+     */
+    fun preparePreviewBitmap() = prepareBitmap(previewResId)
+
+
+    /**
+     * Подготовка [Bitmap] с применением всех трансформаций, применяемых и к исходному изображению.
+     *
+     * @param imageResId ссылка на drawable ресурс
+     */
+    private fun prepareBitmap(@DrawableRes imageResId: Int): RequestBuilder<Bitmap> {
+        return Glide.with(context)
+                .asBitmap()
+                .load(imageResId)
+                .apply(RequestOptions()
+                        .transforms(*imageTransformationsManager.prepareTransformations()))
+    }
 
     /**
      * Проверка на наличие изображения для загрузки (из ресурсов или из сети).

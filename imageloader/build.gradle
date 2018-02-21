@@ -2,38 +2,10 @@ apply from: '../androidModule.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-def config = rootProject.extensions.getByName("ext")
-
-android {
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
-
-    kapt {
-        generateStubs = true
-    }
-
-    defaultConfig {
-        minSdkVersion config["minSdkVersion"]
-        targetSdkVersion config["targetSdkVersion"]
-        versionCode config["versionCode"]
-        versionName config["versionName"]
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-}
-
 dependencies {
     provided project(':logger')
+    provided project(':util-ktx')
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
     api "com.github.bumptech.glide:glide:4.6.1"
-}
-
-repositories {
-    mavenCentral()
 }
