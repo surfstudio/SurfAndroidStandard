@@ -14,7 +14,7 @@ public abstract class WidgetScreenConfigurator
 
     @Override
     protected WidgetScreenModule getWidgetScreenModule() {
-        return new WidgetScreenModule();
+        return new WidgetScreenModule(getPersistentScope());
     }
 
     @Override
