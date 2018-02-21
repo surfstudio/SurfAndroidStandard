@@ -99,7 +99,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
-    override fun preview(drawableResId: Int) =
+    override fun preview(@DrawableRes drawableResId: Int) =
             apply { this.imageResourceManager.previewResId = drawableResId }
 
     /**
