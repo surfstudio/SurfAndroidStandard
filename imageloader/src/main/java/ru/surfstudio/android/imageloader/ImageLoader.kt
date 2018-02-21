@@ -48,8 +48,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var imageTagManager: ImageTagManager =
             ImageTagManager(imageTargetManager, imageResourceManager)
 
-    //private var skipCache: Boolean = false  //использовать ли закэшированные данные
-
     private var onImageLoadedLambda: ((bitmap: Bitmap) -> (Unit))? = null
     private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
 
