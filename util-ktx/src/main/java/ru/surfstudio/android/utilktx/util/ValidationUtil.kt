@@ -1,5 +1,6 @@
 package ru.surfstudio.android.utilktx.util
 
+import android.util.Patterns
 import ru.surfstudio.android.logger.Logger
 
 /**
@@ -24,4 +25,11 @@ object ValidationUtil {
         Logger.i("Email validation  $emailToCheck ${emailToCheck.matches(regex)}")
         return emailToCheck.isNotBlank() && emailToCheck.matches(regex)
     }
+
+    /**
+     * Проверка валидность URL
+     *
+     * @param url проверяемая ссылка
+     */
+    fun isUrlValid(url: String) = !Patterns.WEB_URL.matcher(url).matches()
 }

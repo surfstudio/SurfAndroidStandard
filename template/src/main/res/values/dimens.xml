@@ -12,5 +12,4 @@
     <dimen name="button_vertical_padding">4dp</dimen>
     <dimen name="button_outline_radius">2dp</dimen>
     <dimen name="button_outline_stroke_weight">2dp</dimen>
-
 </resources>
