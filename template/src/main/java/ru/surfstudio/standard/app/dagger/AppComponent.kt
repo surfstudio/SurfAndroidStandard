@@ -8,7 +8,6 @@ import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulerModule
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.shared.pref.SharedPrefModule
 import ru.surfstudio.standard.app.intialization.InitializeAppInteractor
 import ru.surfstudio.standard.app.intialization.migration.MigrationModule
 import ru.surfstudio.standard.interactor.analytics.AnalyticsModule

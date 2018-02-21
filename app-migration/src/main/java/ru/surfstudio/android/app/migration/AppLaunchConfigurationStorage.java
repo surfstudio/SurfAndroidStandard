@@ -7,7 +7,8 @@ import javax.inject.Named;
 
 import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.shared.pref.SettingsUtil;
-import ru.surfstudio.android.shared.pref.SharedPrefModule;
+
+import static ru.surfstudio.android.shared.pref.SettingsUtilKt.NO_BACKUP_SHARED_PREF;
 
 /**
  * хранилище конфигурации запуска устройства
@@ -21,7 +22,7 @@ public class AppLaunchConfigurationStorage {
     private SharedPreferences noBackupSharedPref;
 
     @Inject
-    public AppLaunchConfigurationStorage(@Named(SharedPrefModule.NO_BACKUP_SHARED_PREF) SharedPreferences noBackupSharedPref) {
+    public AppLaunchConfigurationStorage(@Named(NO_BACKUP_SHARED_PREF) SharedPreferences noBackupSharedPref) {
         this.noBackupSharedPref = noBackupSharedPref;
     }
 
