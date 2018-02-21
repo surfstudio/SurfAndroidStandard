@@ -20,7 +20,10 @@ object NotificationCreateHelper {
     }
 
     @SuppressLint("NewApi")
-    private fun buildNotification(pushHandleStrategy: PushHandleStrategy<*>, title: String, body: String, context: Context): NotificationCompat.Builder {
+    private fun buildNotification(pushHandleStrategy: PushHandleStrategy<*>,
+                                  title: String,
+                                  body: String,
+                                  context: Context): NotificationCompat.Builder {
         if (SdkUtils.isAtLeastOreo) {
             buildChannel(pushHandleStrategy, title, body, context)
         }
