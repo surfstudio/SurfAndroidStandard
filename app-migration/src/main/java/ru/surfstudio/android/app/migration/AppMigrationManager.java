@@ -1,26 +1,20 @@
 package ru.surfstudio.android.app.migration;
 
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import io.reactivex.Completable;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.logger.Logger;
 
 /**
  * Осуществляет миграцию приложения на новую версию
  */
-@PerApplication
 public class AppMigrationManager {
     private final AppMigrationStorage appMigrationStorage;
     private final AppLaunchConfigurationStorage appLaunchConfiguration;
     private final int versionCode;
 
-    @Inject
     public AppMigrationManager(AppMigrationStorage appMigrationStorage,
                                AppLaunchConfigurationStorage appLaunchConfiguration,
-                               @Named(BaseAppMigrationModule.VERSION_CODE_PARAM) int versionCode) {
+                               int versionCode) {
         this.appMigrationStorage = appMigrationStorage;
         this.appLaunchConfiguration = appLaunchConfiguration;
         this.versionCode = versionCode;
