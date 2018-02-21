@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 
@@ -89,6 +90,5 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     /**
      * Интент при нажатии на пуш, если приложение в бэкграунде
      */
-    abstract fun coldStartIntent(context: Context): Intent
-
+    abstract fun coldStartRoute(context: Context): ActivityRoute
 }
