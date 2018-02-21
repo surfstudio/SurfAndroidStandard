@@ -12,10 +12,9 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.mvp.dialog.dagger.DialogNavigatorForActivityModule
 import ru.surfstudio.standard.ui.base.error.ErrorHandlerModule
 
-@Module(includes = [ErrorHandlerModule::class, DialogNavigatorForActivityModule::class])
+@Module(includes = [ErrorHandlerModule::class])
 class ActivityScreenModule : ScreenModule() {
     @Provides
     @PerScreen
