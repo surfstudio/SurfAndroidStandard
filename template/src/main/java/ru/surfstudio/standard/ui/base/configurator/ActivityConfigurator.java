@@ -3,9 +3,9 @@ package ru.surfstudio.standard.ui.base.configurator;
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.standard.app.App;
 import ru.surfstudio.standard.app.dagger.AppComponent;
-import ru.surfstudio.standard.ui.base.dagger.ActivityComponent;
-import ru.surfstudio.standard.ui.base.dagger.ActivityModule;
-import ru.surfstudio.standard.ui.base.dagger.DaggerActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.standard.ui.base.dagger.activity.DaggerActivityComponent;
 
 /**
  * Базовый конфигуратор для активити
@@ -24,6 +24,5 @@ public class ActivityConfigurator extends BaseActivityConfigurator<ActivityCompo
     @Override
     protected AppComponent getParentComponent() {
         return ((App) getTargetActivity().getApplicationContext()).getAppComponent();
-
     }
 }

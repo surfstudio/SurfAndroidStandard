@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.base.dagger;
+package ru.surfstudio.standard.ui.base.dagger.screen;
 
 
 import dagger.Module;

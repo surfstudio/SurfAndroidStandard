@@ -3,7 +3,7 @@ package ru.surfstudio.standard.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
-import ru.surfstudio.android.core.mvp.activity.BaseRenderableHandleableErrorActivityView
+import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenModel>() {
+class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     @Inject
     internal lateinit var presenter: MainPresenter

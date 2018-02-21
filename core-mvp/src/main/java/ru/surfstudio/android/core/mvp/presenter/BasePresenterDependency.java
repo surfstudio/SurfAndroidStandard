@@ -2,6 +2,7 @@ package ru.surfstudio.android.core.mvp.presenter;
 
 
 import ru.surfstudio.android.connection.ConnectionProvider;
+import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.core.ui.state.ScreenState;
@@ -17,17 +18,20 @@ public class BasePresenterDependency {
     private ScreenState screenState;
     private ScreenEventDelegateManager eventDelegateManager;
 
+    private ErrorHandler errorHandler;
+
     private ActivityNavigator activityNavigator;
     private ConnectionProvider connectionProvider;
 
     public BasePresenterDependency(SchedulersProvider schedulersProvider,
                                    ScreenState screenState,
                                    ScreenEventDelegateManager eventDelegateManager,
-                                   ConnectionProvider connectionProvider,
+                                   ErrorHandler errorHandler, ConnectionProvider connectionProvider,
                                    ActivityNavigator activityNavigator) {
         this.schedulersProvider = schedulersProvider;
         this.screenState = screenState;
         this.eventDelegateManager = eventDelegateManager;
+        this.errorHandler = errorHandler;
         this.connectionProvider = connectionProvider;
         this.activityNavigator = activityNavigator;
     }
@@ -50,5 +54,9 @@ public class BasePresenterDependency {
 
     public ScreenState getScreenState() {
         return screenState;
+    }
+
+    public ErrorHandler getErrorHandler() {
+        return errorHandler;
     }
 }

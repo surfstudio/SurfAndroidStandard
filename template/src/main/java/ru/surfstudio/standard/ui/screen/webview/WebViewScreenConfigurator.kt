@@ -6,9 +6,9 @@ import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.standard.ui.base.dagger.ActivityComponent
-import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule
-import ru.surfstudio.standard.ui.base.dagger.CustomScreenModule
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent
+import ru.surfstudio.standard.ui.base.dagger.screen.ActivityScreenModule
+import ru.surfstudio.standard.ui.base.dagger.screen.CustomScreenModule
 
 /**
  * Конфигуратор экрана с вебвью

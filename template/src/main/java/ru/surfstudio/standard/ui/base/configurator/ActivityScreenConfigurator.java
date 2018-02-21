@@ -5,10 +5,10 @@ import android.content.Intent;
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.standard.app.App;
 import ru.surfstudio.standard.app.dagger.AppComponent;
-import ru.surfstudio.standard.ui.base.dagger.ActivityComponent;
-import ru.surfstudio.standard.ui.base.dagger.ActivityModule;
-import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule;
-import ru.surfstudio.standard.ui.base.dagger.DaggerActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.standard.ui.base.dagger.activity.DaggerActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.screen.ActivityScreenModule;
 
 /**
  * Базовый конфигуратор для экрана, основанного на активити
