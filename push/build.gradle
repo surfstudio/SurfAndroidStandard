@@ -8,16 +8,7 @@ dependencies {
     compileOnly project(':logger')
     compileOnly project(':rx-extension')
     compileOnly project(':core-ui')
+    compileOnly project(':util-ktx')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-
-    //di
-    api "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    compile project(path: ':util-ktx')
-}
-
-repositories {
-    mavenCentral()
 }
