@@ -16,11 +16,17 @@ import android.view.animation.LinearInterpolator
  */
 object AnimationUtil {
 
+    const val ANIM_ENTERING = 225L
+    const val ANIM_LEAVING = 195L
+    const val ANIM_LARGE_TRANSITION = 375L
+    const val ANIM_TRANSITION = 300L
+    const val ANIM_PULSATION = 600L
+
     /**
      * Смена двух вью с эффектом fadeIn/fadeOut
      */
     fun crossfadeViews(inView: View, outView: View,
-                       duration: Long = 1000L,
+                       duration: Long = ANIM_LARGE_TRANSITION,
                        endAction: (() -> Unit)? = null) {
         fadeIn(inView, duration, endAction)
         fadeOut(outView, duration, endAction)
@@ -29,7 +35,7 @@ object AnimationUtil {
     /**
      * Сокрытие вью с изменением прозрачности
      */
-    fun fadeOut(outView: View, duration: Long = 1000L, endAction: (() -> Unit)? = null) {
+    fun fadeOut(outView: View, duration: Long = ANIM_LEAVING, endAction: (() -> Unit)? = null) {
 
         ViewCompat.animate(outView)
                 .alpha(0f)
@@ -44,7 +50,7 @@ object AnimationUtil {
     /**
      * Появление вью с изменением прозрачности
      */
-    fun fadeIn(inView: View, duration: Long = 1000L, endAction: (() -> Unit)? = null) {
+    fun fadeIn(inView: View, duration: Long = ANIM_ENTERING, endAction: (() -> Unit)? = null) {
         inView.alpha = 0f
         inView.visibility = View.VISIBLE
         ViewCompat.animate(inView)
@@ -62,7 +68,7 @@ object AnimationUtil {
      */
     fun pulseAnimation(view: View,
                        scale: Float = 1.15f,
-                       duration: Long = 600L,
+                       duration: Long = ANIM_PULSATION,
                        repeatCount: Int = ObjectAnimator.INFINITE,
                        repeatMode: Int = ObjectAnimator.REVERSE,
                        interpolator: TimeInterpolator = FastOutLinearInInterpolator()): ObjectAnimator {
@@ -85,13 +91,12 @@ object AnimationUtil {
      * Изменение ширины и высоты вью
      */
     fun newSize(view: View,
-                parentViewGroup: ViewGroup,
                 newWidth: Int, newHeight: Int,
-                duration: Long = 1000L) {
+                duration: Long = ANIM_TRANSITION) {
         val transition = TransitionSet()
                 .addTransition(ChangeBounds())
         transition.duration = duration
-        TransitionManager.beginDelayedTransition(parentViewGroup, transition)
+        beginTransitionSafe(view, transition)
 
         val lp = view.layoutParams
         lp.width = newWidth
@@ -102,13 +107,14 @@ object AnimationUtil {
     /**
      * Появление вью с эффектом "слайда" в зависимости от gravity
      */
-    fun slideIn(view: View, container: ViewGroup, gravity: Int,
-                duration: Long = 1000L,
+    fun slideIn(view: View,
+                gravity: Int,
+                duration: Long = ANIM_ENTERING,
                 interpolator: TimeInterpolator = LinearInterpolator(),
                 startAction: ((View) -> Unit)? = null,
                 endAction: ((View) -> Unit)? = null) {
         if (view.visibility == View.GONE) {
-            slide(view, container, gravity, duration, interpolator, endAction, startAction)
+            slide(view, gravity, duration, interpolator, endAction, startAction)
             view.visibility = View.VISIBLE
         }
     }
@@ -116,19 +122,19 @@ object AnimationUtil {
     /**
      * Исчезновение вью с эффектом "слайда" в зависимости от gravity
      */
-    fun slideOut(view: View, container: ViewGroup, gravity: Int,
-                 duration: Long = 1000L,
+    fun slideOut(view: View,
+                 gravity: Int,
+                 duration: Long = ANIM_LEAVING,
                  interpolator: TimeInterpolator = LinearInterpolator(),
                  startAction: ((View) -> Unit)? = null,
                  endAction: ((View) -> Unit)? = null) {
         if (view.visibility == View.VISIBLE) {
-            slide(view, container, gravity, duration, interpolator, endAction, startAction)
+            slide(view, gravity, duration, interpolator, endAction, startAction)
             view.visibility = View.GONE
         }
     }
 
     private fun slide(view: View,
-                      container: ViewGroup,
                       gravity: Int,
                       duration: Long,
                       interpolator: TimeInterpolator,
@@ -158,6 +164,13 @@ object AnimationUtil {
             }
         })
 
-        TransitionManager.beginDelayedTransition(container, slide)
+        beginTransitionSafe(view, slide)
+    }
+
+    private fun beginTransitionSafe(view: View, transition: TransitionSet) {
+        if (view.parent !is ViewGroup) {
+            throw ClassCastException("View.parent is not ViewGroup!")
+        }
+        TransitionManager.beginDelayedTransition(view.parent as ViewGroup, transition)
     }
 }

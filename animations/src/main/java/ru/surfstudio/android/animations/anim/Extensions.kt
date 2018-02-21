@@ -14,20 +14,20 @@ import android.view.animation.LinearInterpolator
 /**
  * Появление вью с изменением прозрачности
  */
-fun View.fadeIn(duration: Long = 1000L, endAction: (() -> Unit)? = null) =
+fun View.fadeIn(duration: Long = AnimationUtil.ANIM_ENTERING, endAction: (() -> Unit)? = null) =
         AnimationUtil.fadeIn(this, duration, endAction)
 
 /**
  * Сокрытие вью с изменением прозрачности
  */
-fun View.fadeOut(duration: Long = 1000L, endAction: (() -> Unit)? = null) =
+fun View.fadeOut(duration: Long = AnimationUtil.ANIM_LEAVING, endAction: (() -> Unit)? = null) =
         AnimationUtil.fadeOut(this, duration, endAction)
 
 /**
  * Появление вью с эффектом "слайда" в зависимости от gravity
  */
 fun View.slideIn(parent: ViewGroup, gravity: Int,
-                 duration: Long = 1000L,
+                 duration: Long = AnimationUtil.ANIM_ENTERING,
                  interpolator: TimeInterpolator = LinearInterpolator(),
                  startAction: ((View) -> Unit)? = null,
                  endAction: ((View) -> Unit)? = null) =
@@ -37,7 +37,7 @@ fun View.slideIn(parent: ViewGroup, gravity: Int,
  * Исчезновение вью с эффектом "слайда" в зависимости от gravity
  */
 fun View.slideOut(parent: ViewGroup, gravity: Int,
-                  duration: Long = 1000L,
+                  duration: Long = AnimationUtil.ANIM_LEAVING,
                   interpolator: TimeInterpolator = LinearInterpolator(),
                   startAction: ((View) -> Unit)? = null,
                   endAction: ((View) -> Unit)? = null) =
@@ -47,7 +47,7 @@ fun View.slideOut(parent: ViewGroup, gravity: Int,
  * Анимация типа "пульс"
  */
 fun View.pulseAnimation(scale: Float = 1.15f,
-                        duration: Long = 600L,
+                        duration: Long = AnimationUtil.ANIM_PULSATION,
                         repeatCount: Int = ObjectAnimator.INFINITE,
                         repeatMode: Int = ObjectAnimator.REVERSE,
                         interpolator: TimeInterpolator = FastOutLinearInInterpolator()) =
@@ -56,7 +56,7 @@ fun View.pulseAnimation(scale: Float = 1.15f,
 /**
  * Изменение ширины и высоты вью
  */
-fun View.newSize(parentViewGroup: ViewGroup,
-                 newWidth: Int, newHeight: Int,
-                 duration: Long = 1000L) =
+fun View.toSize(parentViewGroup: ViewGroup,
+                newWidth: Int, newHeight: Int,
+                duration: Long = AnimationUtil.ANIM_TRANSITION) =
         AnimationUtil.newSize(this, parentViewGroup, newWidth, newHeight, duration)
