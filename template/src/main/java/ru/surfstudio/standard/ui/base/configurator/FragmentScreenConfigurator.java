@@ -20,7 +20,7 @@ public abstract class FragmentScreenConfigurator
 
     @Override
     protected FragmentScreenModule getFragmentScreenModule() {
-        return new FragmentScreenModule();
+        return new FragmentScreenModule(getPersistentScope());
     }
 
     @Override

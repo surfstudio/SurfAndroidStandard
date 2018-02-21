@@ -29,7 +29,7 @@ class App : CoreApp() {
 
     private fun initInjector() {
         appComponent = DaggerAppComponent.builder()
-                .coreAppModule(AppModule(this))
+                .appModule(AppModule(this))
                 .build()
     }
 }

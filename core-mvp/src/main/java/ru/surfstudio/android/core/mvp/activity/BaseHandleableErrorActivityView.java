@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvp.activity;
 
 
-import javax.inject.Inject;
 
 import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.mvp.view.HandleableErrorView;
@@ -14,8 +13,11 @@ import ru.surfstudio.android.core.mvp.view.HandleableErrorView;
 public abstract class BaseHandleableErrorActivityView extends CoreActivityView
         implements HandleableErrorView {
 
-    @Inject
     ErrorHandler standardErrorHandler;
+
+    public BaseHandleableErrorActivityView(ErrorHandler standardErrorHandler) {
+        this.standardErrorHandler = standardErrorHandler;
+    }
 
     @Override
     public void handleError(Throwable error) {

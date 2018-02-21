@@ -4,7 +4,6 @@ package ru.surfstudio.android.core.mvp.configurator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
-import ru.surfstudio.android.core.mvp.dagger.CoreFragmentScreenModule;
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
 import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
@@ -33,7 +32,6 @@ public abstract class BaseFragmentViewConfigurator<P, M>
 
     protected abstract ScreenComponent createScreenComponent(P parentComponent,
                                                              M fragmentScreenModule,
-                                                             CoreFragmentScreenModule coreFragmentScreenModule,
                                                              Bundle args);
 
     @Override
@@ -62,7 +60,6 @@ public abstract class BaseFragmentViewConfigurator<P, M>
         return createScreenComponent(
                 getParentComponent(),
                 getFragmentScreenModule(),
-                new CoreFragmentScreenModule(getPersistentScope()),
                 args);
     }
 

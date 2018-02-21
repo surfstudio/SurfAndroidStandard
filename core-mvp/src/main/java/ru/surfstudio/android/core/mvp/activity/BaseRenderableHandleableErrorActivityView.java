@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.mvp.activity;
 
 
+import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.mvp.model.ScreenModel;
 import ru.surfstudio.android.core.mvp.view.RenderableView;
 
@@ -13,6 +14,10 @@ import ru.surfstudio.android.core.mvp.view.RenderableView;
  */
 public abstract class BaseRenderableHandleableErrorActivityView<M extends ScreenModel> extends BaseHandleableErrorActivityView
         implements RenderableView<M> {
+
+    public BaseRenderableHandleableErrorActivityView(ErrorHandler standardErrorHandler) {
+        super(standardErrorHandler);
+    }
 
     protected abstract void renderInternal(M screenModel);
 

@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvp.fragment;
 
 
-import javax.inject.Inject;
 
 import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.mvp.view.HandleableErrorView;
@@ -14,7 +13,7 @@ import ru.surfstudio.android.core.mvp.view.HandleableErrorView;
 public abstract class BaseHandleableErrorFragmentView extends CoreFragmentView
         implements HandleableErrorView {
 
-    @Inject
+    //    @Inject todo resolve
     ErrorHandler standardErrorHandler;
 
     @Override

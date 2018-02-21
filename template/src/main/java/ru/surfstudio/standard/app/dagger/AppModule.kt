@@ -7,6 +7,7 @@ import dagger.Provides
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
 
 
@@ -30,4 +31,8 @@ class AppModule(private val coreApp: CoreApp) {
     internal fun provideStringsProvider(context: Context): StringsProvider {
         return StringsProvider(context)
     }
+
+    @PerApplication
+    @Provides
+    internal fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder) = GlobalNavigator(context, activityHolder)
 }

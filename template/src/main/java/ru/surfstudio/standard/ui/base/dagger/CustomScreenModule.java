@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvp.dagger;
+package ru.surfstudio.standard.ui.base.dagger;
 
 
 import dagger.Module;
