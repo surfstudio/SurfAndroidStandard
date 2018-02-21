@@ -10,6 +10,7 @@
 1. [converter-gson](converter-gson/README.md) - модуль для парсинга json ответов сервера
 1. [easyadapter](easyadapter/README.md) - модуль с адаптером для RecycleView 
 1. [easyadapter-carousel](easyadapter-carousel/README.md) - модуль c view-каруселью, основанной на easy adapter
+1. [animations](animations/README.md) - модуль c анимациями и Coordinator.Behavior
 
 #Деплой в репозиторий артефактов
 1. Поднимаем moduleVersionCode и moduleVersionName в файле config.gradle 
