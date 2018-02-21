@@ -5,7 +5,6 @@ import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
-import ru.surfstudio.android.core.app.dagger.CoreAppModule
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulerModule
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
@@ -21,7 +20,7 @@ import ru.surfstudio.standard.interactor.common.network.OkHttpModule
 
 @PerApplication
 @Component(modules = [
-CoreAppModule::class,
+    AppModule::class,
 MigrationModule::class,
 SharedPrefModule::class,
 SchedulerModule::class,

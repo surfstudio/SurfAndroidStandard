@@ -5,8 +5,8 @@ import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
 import io.fabric.sdk.android.Kit
 import ru.surfstudio.android.core.app.CoreApp
-import ru.surfstudio.android.core.app.dagger.CoreAppModule
 import ru.surfstudio.standard.app.dagger.AppComponent
+import ru.surfstudio.standard.app.dagger.AppModule
 import ru.surfstudio.standard.app.dagger.DaggerAppComponent
 
 /**
@@ -29,7 +29,7 @@ class App : CoreApp() {
 
     private fun initInjector() {
         appComponent = DaggerAppComponent.builder()
-                .coreAppModule(CoreAppModule(this))
+                .coreAppModule(AppModule(this))
                 .build()
     }
 }
