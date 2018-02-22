@@ -154,23 +154,23 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
     }
 
     private fun init(context: Context, attrs: AttributeSet, defStyle: Int) {
-        View.inflate(context, R.layout.placeholder_view_layout, this)
+        /*View.inflate(context, R.layout.placeholder_view_layout, this)*/
 
         isClickable = true
         isFocusable = true
         isFocusableInTouchMode = true
 
-        findViews()
+        /*findViews()*/
         initChildren(context, attrs, defStyle)
-        applyAttributes(context, attrs, defStyle)
+        /*applyAttributes(context, attrs, defStyle)*/
         render(state)
     }
 
-    private fun findViews() {
+    /*private fun findViews() {
         iconIv = findViewById(R.id.placeholder_icon_iv)
         loadingPb = findViewById(R.id.placeholder_loading_pb)
         contentContainer = findViewById(R.id.placeholder_content_view_container)
-    }
+    }*/
 
     private fun initChildren(context: Context, attrs: AttributeSet, defStyle: Int) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.App, defStyle, R.style.Widget_PlaceHolder)
@@ -209,7 +209,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         }
     }
 
-    private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
+    /*private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
         val viewTypedArray = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderViewImpl, defStyle, R.style.Widget_PlaceHolder)
         val appTypedArray = context.obtainStyledAttributes(attrs, R.styleable.App, defStyle, R.style.Widget_PlaceHolder)
 
@@ -245,7 +245,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
 
         viewTypedArray.recycle()
         appTypedArray.recycle()
-    }
+    }*/
 
     private fun updateContentState() {
         var viewData: ViewData? = viewDataMap[state]

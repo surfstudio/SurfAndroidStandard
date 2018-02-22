@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="placeHolderStyle" format="reference" />
+
+    <declare-styleable name="StandardPlaceHolderView">
+        <attr name="opaqueBackgroundColor" format="color" />
+        <attr name="transparentBackgroundColor" format="color" />
+
+        <attr name="emptyTitle" format="string" />
+        <attr name="emptySubtitle" format="string" />
+        <attr name="emptyButtonText" format="string" />
+        <attr name="emptyIcon" format="reference" />
+
+        <attr name="notFoundTitle" format="string" />
+        <attr name="notFoundSubtitle" format="string" />
+        <attr name="notFoundButtonText" format="string" />
+        <attr name="notFoundIcon" format="reference" />
+
+        <attr name="errorTitle" format="string" />
+        <attr name="errorSubtitle" format="string" />
+        <attr name="errorButtonText" format="string" />
+        <attr name="errorIcon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="PlaceHolderView">
+        <attr name="defaultTitle" format="string" />
+        <attr name="defaultSubtitle" format="string" />
+        <attr name="defaultButtonText" format="string" />
+        <attr name="defaultIcon" format="reference" />
+        <attr name="opaqueBackgroundColor" format="color" />
+        <attr name="transparentBackgroundColor" format="color" />
+        <attr name="titleStyle" format="reference" />
+        <attr name="subtitleStyle" format="reference" />
+        <attr name="buttonStyle" format="reference" />
+    </declare-styleable>
+</resources>

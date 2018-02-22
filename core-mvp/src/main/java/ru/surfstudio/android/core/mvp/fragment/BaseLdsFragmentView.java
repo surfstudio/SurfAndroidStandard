@@ -1,6 +1,5 @@
 package ru.surfstudio.android.core.mvp.fragment;
 
-
 import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
 import ru.surfstudio.android.core.mvp.model.state.LoadState;
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView;
