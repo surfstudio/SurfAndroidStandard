@@ -2,7 +2,7 @@
 <resources>
     <attr name="placeHolderStyle" format="reference" />
 
-    <declare-styleable name="StandardPlaceHolderView">
+    <declare-styleable name="PlaceHolderView">
         <attr name="opaqueBackgroundColor" format="color" />
         <attr name="transparentBackgroundColor" format="color" />
 
@@ -22,7 +22,7 @@
         <attr name="errorIcon" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="PlaceHolderView">
+    <!--<declare-styleable name="PlaceHolderView">
         <attr name="defaultTitle" format="string" />
         <attr name="defaultSubtitle" format="string" />
         <attr name="defaultButtonText" format="string" />
@@ -32,5 +32,5 @@
         <attr name="titleStyle" format="reference" />
         <attr name="subtitleStyle" format="reference" />
         <attr name="buttonStyle" format="reference" />
-    </declare-styleable>
+    </declare-styleable>-->
 </resources>

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PlaceHolderStyle">
-        <item name="opaqueBackgroundColor">?placeHolderOpaqueBackgroundColor</item>
-        <item name="transparentBackgroundColor">?placeHolderTransparentBackgroundColor</item>
-        <item name="titleStyle">@style/Widget.PlaceHolder.Title</item>
+    <style name="PlaceHolderView" />
+
+    <style name="PlaceHolderView.Default">
+        <item name="opaqueBackgroundColor">@color/opaque_bg_color</item>
+        <item name="transparentBackgroundColor">@color/transparent_bg_color</item>
+        <!--<item name="titleStyle">@style/Widget.PlaceHolder.Title</item>
         <item name="subtitleStyle">@style/Widget.PlaceHolder.Subtitle</item>
-        <item name="placeHolderButtonStyle">@style/Widget.PlaceHolder.Button</item>
+        <item name="placeHolderButtonStyle">@style/Widget.PlaceHolder.Button</item>-->
     </style>
 
 </resources>
