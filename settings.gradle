@@ -1,3 +1,4 @@
+include ':recycle-extension-sample'
 
 apply from: 'modules.gradle'
 gradle.ext.modules.each {

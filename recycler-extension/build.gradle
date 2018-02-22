@@ -1,10 +1,7 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 dependencies {
     compileOnly project(':easyadapter')
     api "com.android.support:recyclerview-v7:$appcompatVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "com.android.support:design:$appcompatVersion"
 }
