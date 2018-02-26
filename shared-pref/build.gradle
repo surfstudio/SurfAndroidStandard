@@ -1,12 +1,9 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 apply from: '../androidModule.gradle'
 
 dependencies {
     compileOnly project(':util-ktx')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 repositories {
