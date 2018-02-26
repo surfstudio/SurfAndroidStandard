@@ -99,6 +99,14 @@
     {
       "name": "mvp-widget",
       "path": ""
+    },
+    {
+      "name": "imageloader",
+      "path": ""
+    },
+    {
+      "name": "animations",
+      "path": ""
     }
   ]
 }
