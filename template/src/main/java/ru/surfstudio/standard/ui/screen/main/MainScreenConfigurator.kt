@@ -15,7 +15,7 @@ import ru.surfstudio.standard.ui.base.dagger.screen.CustomScreenModule
  */
 internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
     @PerScreen
-    @Component(dependencies = arrayOf(ActivityComponent::class), modules = arrayOf(ActivityScreenModule::class, MainScreenModule::class))
+    @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
     internal interface MainScreenComponent : ScreenComponent<MainActivityView>
 
     @Module
