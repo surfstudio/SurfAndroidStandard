@@ -10,6 +10,8 @@ android {
 dependencies {
     compileOnly project(':core-mvp')
     compileOnly project(':logger')
+    compileOnly project(':util-ktx')
+    compileOnly project(':rx-extension')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     api "me.zhanghai.android.materialprogressbar:library:1.4.2"

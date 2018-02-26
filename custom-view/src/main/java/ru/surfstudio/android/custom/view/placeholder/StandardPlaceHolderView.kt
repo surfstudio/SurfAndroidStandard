@@ -9,7 +9,6 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
-import ru.surfstudio.android.custom.view.R.attr.*
 import ru.surfstudio.android.logger.Logger
 
 const val NOT_ASSIGNED = -1 //заглушка для незаданного атрибута
@@ -48,38 +47,15 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.transparentBackgroundColor = ta.getResourceId(R.styleable.PlaceHolderView_transparentBackgroundColor, NOT_ASSIGNED)
         this.progressBarColor = ta.getResourceId(R.styleable.PlaceHolderView_progressBarColor, NOT_ASSIGNED)
 
-        Logger.d("1111 opaqueBackgroundColor = $opaqueBackgroundColor")
-        Logger.d("1111 transparentBackgroundColor = $transparentBackgroundColor")
-        Logger.d("1111 progressBarColor = $progressBarColor")
-
-        setBackgroundColor()
-        setProgressBarColor()
+        updateView()
 
         ta.recycle()
     }
 
     private fun updateView() {
         setBackgroundColor()
-        when (loadState) {
-            LoadState.NONE -> {
-
-            }
-            LoadState.EMPTY -> {
-
-            }
-            LoadState.NOT_FOUND -> {
-
-            }
-            LoadState.ERROR -> {
-
-            }
-            LoadState.MAIN_LOADING -> {
-
-            }
-            LoadState.TRANSPARENT_LOADING -> {
-
-            }
-        }
+        setProgressBarColor()
+        setVisibility()
     }
 
     /**
@@ -93,6 +69,9 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         }
     }
 
+    /**
+     * Установка цвета фона плейсхолдера в зависимости от текущего [LoadState].
+     */
     private fun setBackgroundColor() {
         when (loadState) {
             LoadState.TRANSPARENT_LOADING -> {
@@ -100,6 +79,20 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             }
             else -> {
                 setBackgroundResource(opaqueBackgroundColor)
+            }
+        }
+    }
+
+    /**
+     * Установка видимости плейсхолдера в зависимости от текущего [LoadState].
+     */
+    private fun setVisibility() {
+        visibility = when (loadState) {
+            LoadState.NONE -> {
+                View.INVISIBLE
+            }
+            else -> {
+                View.VISIBLE
             }
         }
     }
