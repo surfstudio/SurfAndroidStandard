@@ -1,6 +1,4 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     compileOnly project(path: ':dagger-scope')
@@ -10,6 +8,5 @@ dependencies {
 
     implementation "com.annimon:stream:$annimonStreamVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
