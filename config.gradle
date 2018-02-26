@@ -39,10 +39,14 @@ ext {
     androidKtxVersion = '0.1'
     jetbrainsAnnotationsVersion = '15.0'
     multidexVersion = '1.0.2'
+    constraintLayoutVersion = '1.0.2'
 
     //ui
     glideVersion = '3.8.0'
 
+    //errors
+    anrWatchDogVersion = '1.3.0'
+    timberVersion = '4.6.0'
 
 
     //test
