@@ -2,7 +2,7 @@ package ru.surfstudio.standard.ui.common.notification
 
 import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
-import ru.trinitydigital.poison.ui.common.notification.strategies.NoActionStrategy
+import ru.surfstudio.standard.ui.common.notification.strategies.NoActionStrategy
 import java.util.*
 
 /**
