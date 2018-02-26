@@ -52,13 +52,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         return MainScreenConfigurator(intent)
     }
 
-    override fun onResume() {
-        super.onResume()
+    fun startCamera() {
         camera_preview.start()
     }
 
-    override fun onPause() {
-        super.onPause()
+    fun stopCamera() {
         camera_preview.stop()
     }
 }
