@@ -17,6 +17,11 @@ object TimeUtils {
         set(Calendar.YEAR, 1917)
     }
 
+    /**
+     * Конвертирует строку с датой из одного формата в другой
+     * @param inputFormat входной формат даты
+     * @param outputFormat выходной формат
+     */
     @SuppressLint("SimpleDateFormat")
     fun convertDate(date: String?,
                     inputFormat: String,
@@ -33,8 +38,15 @@ object TimeUtils {
         return convertDate(parsedDate, outputFormat)
     }
 
+    /**
+     * Конвертирует дату по определенному формату
+     * @param outputFormat строка , задающая формат даты
+     */
     fun convertDate(date: Date?, outputFormat: String): String = SimpleDateFormat(outputFormat).format(date)
 
+    /**
+     * Отдает количество дней до определенной даты
+     */
     fun getDaysBeforeTheDate(date: Date?): Int {
 
         val calendar = Calendar.getInstance()
