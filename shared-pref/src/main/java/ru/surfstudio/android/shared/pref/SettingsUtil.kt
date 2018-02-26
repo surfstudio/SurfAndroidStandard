@@ -103,4 +103,4 @@ object SettingsUtil {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-}//do nothing
+}
