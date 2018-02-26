@@ -55,6 +55,10 @@ object StringUtil {
         textView.text = builder
     }
 
+
+    /**
+     * Форматирует число в строке
+     */
     fun getSplitedNumber(value: Double): String {
         //Locale.US - чтобы на выходе была строка вида *.**, а не *,**
         if (value < VALID_VALUE) {
@@ -70,6 +74,9 @@ object StringUtil {
         return if (value > 0) getDecimalFormat(wholeFormat).format(value.toLong()) else 0.toString()
     }
 
+    /**
+     * Форматирование телефонного номера
+     */
     fun formatPhone(source: String): String? {
         return if (SdkUtils.isAtLeastLollipop) {
             PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)

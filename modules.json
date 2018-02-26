@@ -99,6 +99,10 @@
     {
       "name": "imageloader",
       "path": ""
+    },
+    {
+      "name": "animations",
+      "path": ""
     }
   ]
 }
