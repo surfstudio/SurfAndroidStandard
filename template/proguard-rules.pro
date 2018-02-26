@@ -50,6 +50,9 @@
 -dontwarn javax.annotation.concurrent.GuardedBy
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
+-keep class * implements ru.surfstudio.android.network.Transformable
+-keep class * implements ru.surfstudio.android.network.response.BaseResponse
+
 #crashlytics
 -printmapping mapping.txt
 
