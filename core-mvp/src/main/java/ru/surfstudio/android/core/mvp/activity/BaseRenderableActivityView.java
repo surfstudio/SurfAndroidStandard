@@ -7,11 +7,10 @@ import ru.surfstudio.android.core.mvp.view.RenderableView;
 /**
  * базовый коасс для ActivityView, поддрерживающий отрисовку и обработку ошибок из презентера
  * и предоставляет стандартную обработку ошибок, для изменения логики обработки можно переопределить
- * {@link #handleError(Throwable)} или {@link #getErrorHandler()}
  *
  * @param <M> модель, используемая для отрисовки см {@link ScreenModel}
  */
-public abstract class BaseRenderableHandleableErrorActivityView<M extends ScreenModel> extends BaseHandleableErrorActivityView
+public abstract class BaseRenderableActivityView<M extends ScreenModel> extends CoreActivityView
         implements RenderableView<M> {
 
     protected abstract void renderInternal(M screenModel);

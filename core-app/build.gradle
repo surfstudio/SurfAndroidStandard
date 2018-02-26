@@ -1,17 +1,14 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api project(':dagger-scope')
-    api project(':logger')
-    api project(':easyadapter')
-    api project(':connection')
-    api project(':rx-extension')
-    api project(':util-ktx')
+    compileOnly project(':logger')
+    compileOnly project(':easyadapter')
+    compileOnly project(':connection')
+    compileOnly project(':rx-extension')
+    compileOnly project(':util-ktx')
 
     implementation "com.android.support:support-annotations:$appcompatVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    api "com.google.dagger:dagger:$daggerVersion"
     api "com.android.support:appcompat-v7:$appcompatVersion"
     api "com.github.bumptech.glide:glide:$glideVersion"
     api "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"

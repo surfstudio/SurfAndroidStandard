@@ -6,7 +6,7 @@ import android.support.annotation.IdRes
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
-import ru.surfstudio.android.core.mvp.activity.BaseRenderableHandleableErrorActivityView
+import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
@@ -15,7 +15,7 @@ import javax.inject.Inject
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRenderableHandleableErrorActivityView<MainScreenModel>() {
+class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     @Inject
     internal lateinit var presenter: MainPresenter

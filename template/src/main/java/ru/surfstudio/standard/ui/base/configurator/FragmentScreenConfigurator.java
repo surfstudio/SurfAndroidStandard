@@ -4,8 +4,8 @@ import android.os.Bundle;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
-import ru.surfstudio.standard.ui.base.dagger.ActivityComponent;
-import ru.surfstudio.standard.ui.base.dagger.FragmentScreenModule;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.screen.FragmentScreenModule;
 
 /**
  * Базовый конфигуратор для экрана, основанного на фрагменте
@@ -20,7 +20,7 @@ public abstract class FragmentScreenConfigurator
 
     @Override
     protected FragmentScreenModule getFragmentScreenModule() {
-        return new FragmentScreenModule();
+        return new FragmentScreenModule(getPersistentScope());
     }
 
     @Override

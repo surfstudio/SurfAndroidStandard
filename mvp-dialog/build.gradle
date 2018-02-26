@@ -5,8 +5,7 @@ dependencies {
     compileOnly project(path: ':core-ui')
     compileOnly project(path: ':core-mvp')
     compileOnly project(path: ':mvp-widget')
-    compileOnly project(path: ':dagger-scope')
     compileOnly project(path: ':logger')
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    compileOnly "javax.inject:javax.inject:$javaInjectVersion"
 }

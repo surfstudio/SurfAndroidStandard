@@ -1,4 +1,4 @@
-package ru.surfstudio.android.shared.pref;
+package ru.surfstudio.standard.app.dagger;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,22 +9,22 @@ import dagger.Module;
 import dagger.Provides;
 import ru.surfstudio.android.dagger.scope.PerApplication;
 
+import static ru.surfstudio.android.shared.pref.SettingsUtilKt.BACKUP_SHARED_PREF;
+import static ru.surfstudio.android.shared.pref.SettingsUtilKt.NO_BACKUP_SHARED_PREF;
+
 @Module
 public class SharedPrefModule {
 
-    public static final String NO_BACKUP_SHARED_PREF = "NO_BACKUP_SHARED_PREF";
-    public static final String BACKUP_SHARED_PREF = "BACKUP_SHARED_PREF";
-
     @Provides
     @PerApplication
-    @Named(SharedPrefModule.NO_BACKUP_SHARED_PREF)
+    @Named(NO_BACKUP_SHARED_PREF)
     public SharedPreferences provideNoBackupSharedPref(Context context) { //todo 2 одинаковых метода
         return context.getSharedPreferences(NO_BACKUP_SHARED_PREF, Context.MODE_PRIVATE);
     }
 
     @Provides
     @PerApplication
-    @Named(SharedPrefModule.BACKUP_SHARED_PREF)
+    @Named(BACKUP_SHARED_PREF)
     public SharedPreferences provideBackupSharedPref(Context context){
         return context.getSharedPreferences(BACKUP_SHARED_PREF, Context.MODE_PRIVATE);
     }
