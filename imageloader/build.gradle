@@ -1,11 +1,8 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 dependencies {
     compileOnly project(':logger')
     compileOnly project(':util-ktx')
 
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
     api "com.github.bumptech.glide:glide:4.6.1"
 }

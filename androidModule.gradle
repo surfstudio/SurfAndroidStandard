@@ -35,4 +35,9 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }

@@ -9,7 +9,6 @@ dependencies {
     api project(':util-ktx')
 
     implementation "com.android.support:support-annotations:$appcompatVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     api "com.google.dagger:dagger:$daggerVersion"

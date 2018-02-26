@@ -24,6 +24,9 @@ fun View.changeViewBackgroundColor(@ColorInt color: Int) {
     }
 }
 
+/**
+ * Делает вью невидимой и задизейбленной, если выполняется условие
+ */
 fun View.invisibleIf(invisible: Boolean) {
     if (invisible) {
         visibility = View.VISIBLE
@@ -34,6 +37,9 @@ fun View.invisibleIf(invisible: Boolean) {
     }
 }
 
+/**
+ * Cкрывает вью , если выполняется условие
+ */
 fun View.goneIf(gone: Boolean) {
     if (gone) {
         visibility = View.GONE
@@ -50,6 +56,9 @@ fun View.goneIf(gone: Boolean) {
 fun View.hideSoftKeyboard() {
     KeyboardUtil.hideSoftKeyboard(this)
 }
+
+
+//==================== ACTION IF CHANGED =================================
 
 /**
  * Extension метод, который запускает action если данные изменились
