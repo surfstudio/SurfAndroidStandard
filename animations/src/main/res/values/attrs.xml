@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BottomButtonBehavior_Params">
+        <attr name="behavior_showScrollLevel" format="integer"/>
+        <attr name="behavior_hideScrollLevel" format="integer"/>
+    </declare-styleable>
+</resources>

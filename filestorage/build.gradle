@@ -6,7 +6,7 @@ dependencies {
     compileOnly project (':util-ktx')
 
     compileOnly "com.android.support:support-annotations:${appcompatVersion}"
-    implementation 'org.jetbrains:annotations:15.0'
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     implementation "com.android.support:appcompat-v7:$appcompatVersion"
 
     implementation "com.annimon:stream:${annimonStreamVersion}"

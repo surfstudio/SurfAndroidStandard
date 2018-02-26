@@ -10,6 +10,10 @@
 1. [converter-gson](converter-gson/README.md) - модуль для парсинга json ответов сервера
 1. [easyadapter](easyadapter/README.md) - модуль с адаптером для RecycleView 
 1. [easyadapter-carousel](easyadapter-carousel/README.md) - модуль c view-каруселью, основанной на easy adapter
+1. [imageloader](imageloader/README.md) - модуль с загрузчиком изображений
+1. [animations](animations/README.md) - модуль c анимациями и Coordinator.Behavior
+1. [picture-provider](picture-provider/README.md) - модуль для получения изображения с устройства
+1. [camera-view](camera-view/README.md) - Вью должно быть связано с жизенным циклом активити/фрагмента
 
 #Деплой в репозиторий артефактов
 1. Поднимаем moduleVersionCode и moduleVersionName в файле config.gradle 
@@ -32,6 +36,10 @@ implementation "ru.surfstudio.standard:logger:${version}"
 implementation "ru.surfstudio.standard:converter-gson:${version}"
 implementation "ru.surfstudio.standard:easyadapter:${version}"
 implementation "ru.surfstudio.standard:easyadapter-carousel:${version}"
+implementation "ru.surfstudio.standard:imageloader:${version}"
+implementation "ru.surfstudio.standard:animations:${version}"
+implementation "ru.surfstudio.standard:picture-provider:${version}"
+implementation "ru.surfstudio.standard:camera-view:${version}"
 ```
 ## build.gradle(root)
 ```       
@@ -63,4 +71,3 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 ```
-

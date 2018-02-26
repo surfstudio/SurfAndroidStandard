@@ -97,13 +97,14 @@ dependencies {
     implementation project(':filestorage')
     implementation project(':easyadapter')
     implementation project(':recycler-extension')
-    implementation project(':logger')
-    implementation project(':dagger-scope')
+    implementation project(':picture-provider')
+    implementation project(':camera-view')
     implementation project(':connection')
     implementation project(':rx-extension')
     implementation project(':firebase-analytics')
     implementation project(':custom-view')
     implementation project(':util-ktx')
+    implementation project(':animations')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"

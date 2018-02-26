@@ -10,8 +10,8 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.observers.LambdaObserver;
 import ru.surfstudio.android.connection.ConnectionProvider;
+import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.mvp.view.CoreView;
-import ru.surfstudio.android.core.mvp.view.HandleableErrorView;
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
 import ru.surfstudio.android.rx.extension.ActionSafe;
 import ru.surfstudio.android.rx.extension.ConsumerSafe;
@@ -36,11 +36,12 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider;
  *
  * @param <V>
  */
-public abstract class BasePresenter<V extends CoreView & HandleableErrorView> extends CorePresenter<V> {
+public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V> {
 
     private final ActivityNavigator activityNavigator;
     private final SchedulersProvider schedulersProvider;
     private final ConnectionProvider connectionProvider;
+    private final ErrorHandler errorHandler;
     private Disposable autoReloadDisposable;
 
     public BasePresenter(BasePresenterDependency basePresenterDependency) {
@@ -48,6 +49,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
         this.schedulersProvider = basePresenterDependency.getSchedulersProvider();
         this.activityNavigator = basePresenterDependency.getActivityNavigator();
         this.connectionProvider = basePresenterDependency.getConnectionProvider();
+        this.errorHandler = basePresenterDependency.getErrorHandler();
     }
 
     /**
@@ -73,7 +75,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
 
     /**
      * Работает также как {@link #subscribe}, кроме того автоматически обрабатывает ошибки,
-     * см {@link HandleableErrorView} и переводит выполенения потока в фон
+     * см {@link ErrorHandler} и переводит выполенения потока в фон
      */
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
                                                     final ConsumerSafe<T> onNext) {
@@ -82,7 +84,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
 
     /**
      * Работает также как {@link #subscribe}, кроме того автоматически обрабатывает ошибки,
-     * см {@link HandleableErrorView} и переводит выполенения потока в фон
+     * см {@link ErrorHandler} и переводит выполенения потока в фон
      */
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
                                                     final ConsumerSafe<T> onNext,
@@ -93,7 +95,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
 
     /**
      * Работает также как {@link #subscribe}, кроме того автоматически обрабатывает ошибки,
-     * см {@link HandleableErrorView} и переводит выполенения потока в фон
+     * см {@link ErrorHandler} и переводит выполенения потока в фон
      */
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
                                                     final ConsumerSafe<T> onNext,
@@ -134,7 +136,7 @@ public abstract class BasePresenter<V extends CoreView & HandleableErrorView> ex
     }
 
     private void handleError(Throwable e, @Nullable ConsumerSafe<Throwable> onError) {
-        getView().handleError(e);
+        errorHandler.handleError(e);
         if (onError != null) {
             onError.accept(e);
         }
