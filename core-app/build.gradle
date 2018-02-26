@@ -4,7 +4,7 @@ dependencies {
     compileOnly project(':logger')
     compileOnly project(':easyadapter')
     compileOnly project(':connection')
-    compileOnly project(':rx-extension')
+    api project(':rx-extension')
     compileOnly project(':util-ktx')
 
     implementation "com.android.support:support-annotations:$appcompatVersion"

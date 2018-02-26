@@ -19,6 +19,8 @@
 
         <activity android:name=".ui.screen.splash.SplashActivityView" />
 
+        <service android:name=".ui.common.notification.FirebaseMessagingService" />
+        <service android:name=".ui.common.notification.FirebaseInstanceIDService" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 </manifest>
