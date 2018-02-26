@@ -6,9 +6,9 @@
     <style name="PlaceHolderView.Default">
         <item name="opaqueBackgroundColor">@color/opaque_bg_color</item>
         <item name="transparentBackgroundColor">@color/transparent_bg_color</item>
-        <!--<item name="titleStyle">@style/Widget.PlaceHolder.Title</item>
-        <item name="subtitleStyle">@style/Widget.PlaceHolder.Subtitle</item>
-        <item name="placeHolderButtonStyle">@style/Widget.PlaceHolder.Button</item>-->
+        <!-- todo описать в документации, но не включать в дефолтный стиль
+        <item name="progressBarColor">@color/progressbar_color</item>-->
+
     </style>
 
 </resources>

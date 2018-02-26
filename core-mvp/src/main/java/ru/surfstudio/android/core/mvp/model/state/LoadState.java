@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvp.model.state;
 
 public enum LoadState {
-    UNSPECIFIED,            //не определен
     NONE,                   //контент загружен
     MAIN_LOADING,           //прогресс, закрывающий весь контент
     TRANSPARENT_LOADING,    //полупрозрачный прогресс, блокирует весь интерфейс

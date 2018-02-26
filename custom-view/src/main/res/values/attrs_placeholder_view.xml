@@ -3,8 +3,9 @@
     <attr name="placeHolderStyle" format="reference" />
 
     <declare-styleable name="PlaceHolderView">
-        <attr name="opaqueBackgroundColor" format="color" />
-        <attr name="transparentBackgroundColor" format="color" />
+        <attr name="opaqueBackgroundColor" format="reference" />
+        <attr name="transparentBackgroundColor" format="reference" />
+        <attr name="progressBarColor" format="color" />
 
         <attr name="emptyTitle" format="string" />
         <attr name="emptySubtitle" format="string" />
@@ -27,8 +28,6 @@
         <attr name="defaultSubtitle" format="string" />
         <attr name="defaultButtonText" format="string" />
         <attr name="defaultIcon" format="reference" />
-        <attr name="opaqueBackgroundColor" format="color" />
-        <attr name="transparentBackgroundColor" format="color" />
         <attr name="titleStyle" format="reference" />
         <attr name="subtitleStyle" format="reference" />
         <attr name="buttonStyle" format="reference" />

@@ -81,10 +81,12 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
     private var viewDataMap: MutableMap<LoadState, ViewData> = HashMap()
     private var defaultViewData: ViewData? = null
 
+/*
     private var opaqueBackgroundColor = Color.TRANSPARENT
     private var transparentBackgroundColor = Color.TRANSPARENT
+*/
 
-    private var state = LoadState.UNSPECIFIED
+    /*private var state = LoadState.UNSPECIFIED*/
 
     private var visibleUptime: Long = 0
 
@@ -96,7 +98,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
      * переводит плейсхолдер в нужное состояние
      */
     override fun render(state: LoadState) {
-        this.state = state
+        /*this.state = state
         if (state == LoadState.UNSPECIFIED || state == LoadState.NONE) {
             visibility = View.INVISIBLE
             return
@@ -118,7 +120,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         }
 
         setBackgroundColor(backgroundColor)
-        visibility = View.VISIBLE
+        visibility = View.VISIBLE*/
     }
 
     fun setOnActionClickListener(listener: ((LoadState) -> Unit)?) {
@@ -163,7 +165,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         /*findViews()*/
         initChildren(context, attrs, defStyle)
         /*applyAttributes(context, attrs, defStyle)*/
-        render(state)
+        /*render(state)*/
     }
 
     /*private fun findViews() {
@@ -173,7 +175,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
     }*/
 
     private fun initChildren(context: Context, attrs: AttributeSet, defStyle: Int) {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.App, defStyle, R.style.Widget_PlaceHolder)
+        /*val ta: TypedArray? = null*//*context.obtainStyledAttributes(attrs, R.styleable.App, defStyle, R.style.Widget_PlaceHolder)*//*
 
         val titleStyle = ta.getResourceId(R.styleable.App_placeHolderTitleStyle, 0)
         val titleLayoutParams = LinearLayout.LayoutParams(
@@ -205,8 +207,8 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
         contentContainer!!.addView(submitBtn)
 
         submitBtn!!.setOnClickListener { v ->
-            listener?.invoke(state)
-        }
+            *//*listener?.invoke(state)*//*
+        }*/
     }
 
     /*private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
@@ -248,7 +250,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
     }*/
 
     private fun updateContentState() {
-        var viewData: ViewData? = viewDataMap[state]
+        /*var viewData: ViewData? = viewDataMap[state]
         if (viewData == null || viewData.isEmpty) {
             viewData = defaultViewData
         }
@@ -264,7 +266,7 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: Att
 
         setContentTextOrHide(titleTv, viewData.title)
         setContentTextOrHide(subtitleTv, viewData.subtitle)
-        setContentTextOrHide(submitBtn, viewData.buttonText)
+        setContentTextOrHide(submitBtn, viewData.buttonText)*/
     }
 
     private class ViewData(internal val title: String, internal val subtitle: String, internal val buttonText: String, internal val icon: Drawable?) {
