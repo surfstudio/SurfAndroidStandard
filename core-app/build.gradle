@@ -1,11 +1,11 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':logger')
-    compileOnly project(':easyadapter')
-    compileOnly project(':connection')
+    api project(':logger')
+    api project(':connection')
     api project(':rx-extension')
-    compileOnly project(':util-ktx')
+    api project(':util-ktx')
+    compileOnly project(':easyadapter')
 
     implementation "com.android.support:support-annotations:$appcompatVersion"
 
