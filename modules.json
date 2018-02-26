@@ -103,6 +103,10 @@
     {
       "name": "picture-provider",
       "path": ""
+    },
+    {
+      "name": "imageloader",
+      "path": ""
     }
   ]
 }
