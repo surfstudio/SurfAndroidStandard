@@ -3,14 +3,11 @@ package ru.surfstudio.android.core.app
 import android.content.Context
 import android.support.annotation.PluralsRes
 import android.support.annotation.StringRes
-import ru.surfstudio.android.dagger.scope.PerApplication
-import javax.inject.Inject
 
 /**
  * Класс, предоставляющий строки из ресурсов по id
  */
-@PerApplication
-class StringsProvider @Inject constructor(var context: Context) {
+class StringsProvider constructor(var context: Context) {
 
     fun getString(@StringRes id: Int, vararg args: Any): String {
         return if (args.isEmpty()) {

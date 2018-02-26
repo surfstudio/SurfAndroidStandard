@@ -8,6 +8,9 @@ import java.util.*
 /**
  * хелпер для работы с SharedPref
  */
+const val NO_BACKUP_SHARED_PREF = "NO_BACKUP_SHARED_PREF"
+const val BACKUP_SHARED_PREF = "BACKUP_SHARED_PREF"
+
 object SettingsUtil {
     val EMPTY_STRING_SETTING = ""
     val EMPTY_INT_SETTING = -1
@@ -103,4 +106,4 @@ object SettingsUtil {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
 
-}//do nothing
+}

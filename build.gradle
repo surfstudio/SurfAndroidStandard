@@ -4,7 +4,7 @@ apply plugin: 'maven'
 import com.android.build.gradle.LibraryPlugin
 
 allprojects {
-    if (it != rootProject && "template" != it.name) {
+    if (it != rootProject && it.name != "template" && it.name.endsWith("-sample")) {
         it.afterEvaluate {
             if (it.plugins.hasPlugin(LibraryPlugin)) {
                 it.apply from: "$rootDir/deploy.gradle"

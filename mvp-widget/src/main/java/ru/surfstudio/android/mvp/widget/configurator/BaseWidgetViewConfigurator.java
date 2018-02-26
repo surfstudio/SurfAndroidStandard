@@ -4,7 +4,6 @@ import android.view.View;
 
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent;
 import ru.surfstudio.android.core.mvp.configurator.ViewConfigurator;
-import ru.surfstudio.android.mvp.widget.dagger.CoreWidgetScreenModule;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
@@ -27,12 +26,7 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
     protected abstract P getParentComponent();
 
     protected abstract ScreenComponent createScreenComponent(P parentComponent,
-                                                             M widgetScreenModule,
-                                                             CoreWidgetScreenModule coreFragmentScreenModule);
-
-    public void setPersistentScope(WidgetViewPersistentScope persistentScreenScope) {
-        this.persistentScreenScope = persistentScreenScope;
-    }
+                                                             M widgetScreenModule);
 
     protected <T extends View & CoreWidgetViewInterface> T getTargetWidgetView() {
         return (T) getPersistentScope().getScreenState().getCoreWidget();
@@ -40,6 +34,10 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
 
     protected WidgetViewPersistentScope getPersistentScope() {
         return persistentScreenScope;
+    }
+
+    public void setPersistentScope(WidgetViewPersistentScope persistentScreenScope) {
+        this.persistentScreenScope = persistentScreenScope;
     }
 
     @Override
@@ -62,7 +60,6 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
     private ScreenComponent createScreenComponent() {
         return createScreenComponent(
                 getParentComponent(),
-                getWidgetScreenModule(),
-                new CoreWidgetScreenModule(getPersistentScope()));
+                getWidgetScreenModule());
     }
 }

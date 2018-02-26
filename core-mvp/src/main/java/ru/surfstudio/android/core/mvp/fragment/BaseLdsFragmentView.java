@@ -11,7 +11,7 @@ import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView;
  * @param <M>
  */
 public abstract class BaseLdsFragmentView<M extends LdsScreenModel>
-        extends BaseRenderableHandleableErrorFragmentView<M> {
+        extends BaseRenderableFragmentView<M> {
 
     protected abstract PlaceHolderView getPlaceHolderView();
 
