@@ -4,9 +4,6 @@
     <item name="snackbar_container" type="id" />
     <item name="coordinator" type="id" />
 
-    <!-- ключ для тэгов в ImageLoader -->
-    <item name="image_loader_tag" type="id" />
-
     <item name="shadow_from_top" type="id" />
     <item name="shadow_from_btm" type="id" />
 
