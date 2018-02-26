@@ -1,12 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(path: ':dagger-scope')
-
     api "io.reactivex.rxjava2:rxjava:$rxJava2Version"
     api "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
 
     implementation "com.annimon:stream:$annimonStreamVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

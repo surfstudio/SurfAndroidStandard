@@ -2,12 +2,11 @@ apply from: '../androidModule.gradle'
 
 
 dependencies {
-    compileOnly project(':dagger-scope')
     compileOnly project(':logger')
     compileOnly project(':core-mvp')
     compileOnly project(':core-ui')
 
-    api 'com.android.support.constraint:constraint-layout:1.0.2'
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    compileOnly "javax.inject:javax.inject:$javaInjectVersion"
 
+    api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 }

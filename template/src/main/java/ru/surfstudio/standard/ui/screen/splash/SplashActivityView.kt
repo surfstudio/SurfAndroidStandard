@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.ui.screen.splash
 
 import android.support.annotation.LayoutRes
-import ru.surfstudio.android.core.mvp.activity.BaseHandleableErrorActivityView
+import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
@@ -10,7 +10,7 @@ import javax.inject.Inject
 /**
  * Сплэш активити.
  */
-class SplashActivityView : BaseHandleableErrorActivityView() {
+class SplashActivityView : CoreActivityView() {
     @Inject internal lateinit var presenter: SplashPresenter
 
     @LayoutRes
