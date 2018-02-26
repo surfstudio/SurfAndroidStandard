@@ -101,6 +101,14 @@
       "path": ""
     },
     {
+      "name": "camera-view",
+      "path": ""
+    },
+    {
+      "name": "picture-provider",
+      "path": ""
+    },
+    {
       "name": "imageloader",
       "path": ""
     },
