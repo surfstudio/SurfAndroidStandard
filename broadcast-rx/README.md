@@ -1,0 +1,2 @@
+#RxBroadcastReceiver
+Реактивный модуль-обёртка для BroadcastReceiver
