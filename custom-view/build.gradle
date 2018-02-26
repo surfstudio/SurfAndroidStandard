@@ -1,8 +1,6 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
     api "com.android.support:appcompat-v7:$appcompatVersion"
 
 }

@@ -1,6 +1,4 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     compileOnly project(':core-app')
@@ -8,7 +6,6 @@ dependencies {
     compileOnly project(':logger')
     compileOnly project(':rx-extension')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //di
     api "com.google.dagger:dagger:$daggerVersion"

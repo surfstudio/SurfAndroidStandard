@@ -13,7 +13,6 @@ import android.widget.ImageView
 
 /**
  * Утилита для работы с Drawable
- *
  */
 object DrawableUtil {
 
@@ -39,6 +38,7 @@ object DrawableUtil {
         return bitmap
     }
 
+    //Todo перенести в animations
     /**
      * утилита для запуска анимации у animated-vector
      */
@@ -55,6 +55,9 @@ object DrawableUtil {
         }
     }
 
+    /**
+     * Старт векторной анимации
+     */
     fun startAvdAnimation(imageView: ImageView) {
         if (imageView.drawable !is AnimatedVectorDrawableCompat) {
             return
