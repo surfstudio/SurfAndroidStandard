@@ -9,6 +9,8 @@ import java.util.*
  * Фабрика стратегий обработки пуша по его типу
  */
 abstract class AbstractPushHandleStrategyFactory {
+
+    //ключ события в data firebase'вского пуша
     private val KEY = "event"
 
     /**
@@ -17,13 +19,11 @@ abstract class AbstractPushHandleStrategyFactory {
     abstract val map: HashMap<String, PushHandleStrategy<*>>
 
     /**
-     * Переопределяем для получения стратегии по типу данных пуша(используется при холодном старте)
+     * Возвращает стратегию по данным пуша
      */
-    abstract fun getByTypeData(typeData: BaseNotificationTypeData<*>): PushHandleStrategy<*>
-
     fun createByData(data: Map<String, String>): PushHandleStrategy<*>? {
         Logger.d("data : ${data[KEY]}")
-        return map[data[KEY] ?: ""].apply {
+        return map[data[KEY]].apply {
             this?.typeData?.setDataFromMap(data)
         }
     }

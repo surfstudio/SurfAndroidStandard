@@ -1,11 +1,6 @@
 package ru.surfstudio.android.notification.interactor.push
 
 /**
- * Данные по неопределенному пушу
+ * Данные по пушу без действий и данных
  */
-class NoActionNotificationTypeData : BaseNoDataNotificationTypeData() {
-
-    override fun performCoolStartAction(actions: () -> Unit) {
-        // stub
-    }
-}
+class NoActionNotificationTypeData : BaseNoDataNotificationTypeData()

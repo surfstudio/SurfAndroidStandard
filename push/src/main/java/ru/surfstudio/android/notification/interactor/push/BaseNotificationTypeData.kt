@@ -5,16 +5,11 @@ import java.io.Serializable
 /**
  * Тип пуш уведомления с данными
  *
- * Конкретный наследник этого класса используется для определения необходимого действия
+ * Конкретный наследник этого класса используется для извлечения конкретных данных
  */
 abstract class BaseNotificationTypeData<T : Serializable> : Serializable {
 
     var data: T? = null
-
-    /**
-     * Действие по нажатию на пуш при холодном старте приложения
-     */
-    abstract fun performCoolStartAction(actions: () -> Unit)
 
     /**
      * Извлечение данных из параметров

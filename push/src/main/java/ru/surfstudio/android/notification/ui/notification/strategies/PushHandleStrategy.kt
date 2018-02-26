@@ -20,11 +20,6 @@ import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelp
  * Для Android O необходимо указать id канала
  */
 abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
-
-    companion object {
-        const val EXTRA_PUSH_STRATEGY_KEY = "EXTRA_PUSH_STRATEGY"
-    }
-
     /**
      * тип данных пуша [BaseNotificationTypeData]
      */
