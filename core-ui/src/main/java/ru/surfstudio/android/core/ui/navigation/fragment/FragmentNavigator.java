@@ -37,30 +37,38 @@ public class FragmentNavigator implements Navigator {
     }
 
     public void add(FragmentRoute route, boolean stackable, @Transit int transition) {
+        add(route.createFragment(), route.getTag(), stackable, transition);
+    }
+
+    private void add(Fragment fragment, String routeTag, boolean stackable, @Transit int transition) {
         int viewContainerId = getViewContainerIdOrThrow();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(viewContainerId, route.createFragment(), route.getTag());
+        fragmentTransaction.add(viewContainerId, fragment, routeTag);
         fragmentTransaction.setTransition(transition);
         if (stackable) {
-            fragmentTransaction.addToBackStack(route.getTag());
+            fragmentTransaction.addToBackStack(routeTag);
         }
 
         fragmentTransaction.commit();
     }
 
     public void replace(FragmentRoute route, boolean stackable, @Transit int transition) {
+        replace(route.createFragment(), route.getTag(), stackable, transition);
+    }
+
+    private void replace(Fragment fragment, String routeTag, boolean stackable, @Transit int transition) {
         int viewContainerId = getViewContainerIdOrThrow();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(viewContainerId, route.createFragment(), route.getTag());
+        fragmentTransaction.replace(viewContainerId, fragment, routeTag);
         fragmentTransaction.setTransition(transition);
         if (stackable) {
-            fragmentTransaction.addToBackStack(route.getTag());
+            fragmentTransaction.addToBackStack(routeTag);
         }
 
         fragmentTransaction.commit();
@@ -70,10 +78,14 @@ public class FragmentNavigator implements Navigator {
      * @return возвращает {@code true} если фрагмент был удален успешно
      */
     public boolean remove(FragmentRoute route, @Transit int transition) {
+        return remove(route.getTag(), transition);
+    }
+
+    private boolean remove(String routeTag, @Transit int transition) {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
 
-        Fragment fragment = fragmentManager.findFragmentByTag(route.getTag());
+        Fragment fragment = fragmentManager.findFragmentByTag(routeTag);
         if (fragment == null) {
             return false;
         }
