@@ -14,6 +14,8 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
+import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.utilktx.ktx.attr.obtainDrawableAttribute
 import ru.surfstudio.android.utilktx.ktx.ui.textview.setTextOrGone
 
 const val NOT_ASSIGNED = -1 //заглушка для незаданного атрибута
@@ -61,7 +63,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.dataContainer.subtitle = ta.getString(R.styleable.PlaceHolderView_subtitle) ?: ""
         this.dataContainer.buttonText = ta.getString(R.styleable.PlaceHolderView_buttonText) ?: ""
         this.dataContainer.secondButtonText = ta.getString(R.styleable.PlaceHolderView_secondButtonText) ?: ""
-        //this.dataContainer.imageHolder.image = ContextCompat.getDrawable(context, ta.getResourceId(R.styleable.PlaceHolderView_image))
+        this.dataContainer.imageHolder.image = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_image)
 
         updateView()
 
@@ -108,6 +110,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         subtitleTv.setTextOrGone(dataContainer.subtitle)
         button.setTextOrGone(dataContainer.buttonText)
         secondButton.setTextOrGone(dataContainer.secondButtonText)
+        //todo сделать через ktx imageIv.setImageDrawable(dataContainer.imageHolder.image)
     }
 
     /**
