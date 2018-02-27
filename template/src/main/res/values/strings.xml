@@ -17,5 +17,6 @@
     <!-- placeholder -->
     <string name="placeholder_default_subtitle">Нет подключения к интернету.\nПроверьте соединение и обновите экран.</string>
     <string name="placeholder_default_btn">Обновить</string>
+    <string name="channel_id">ANDROID_TEMPLATE</string>
 
 </resources>
