@@ -2,7 +2,7 @@ apply from: '../androidSample.gradle'
 
 android{
     defaultConfig{
-        applicationId "ru.surfstudio.android.recycler.extension.sample"
+        applicationId "ru.surfstudio.android.pictureprovider.sample"
     }
 }
 
