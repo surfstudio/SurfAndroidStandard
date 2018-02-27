@@ -11,9 +11,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import io.reactivex.Observable;
-import ru.surfstudio.android.core.app.interactor.common.DataPriority;
+import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.logger.Logger;
-import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.NotModifiedException;
 
@@ -30,7 +29,7 @@ import static ru.surfstudio.android.network.BaseNetworkInteractorTest.Response.S
 @PrepareForTest(Logger.class)
 public class BaseNetworkInteractorTest {
     @Mock
-    ConnectionQualityProvider qualityProvider;
+    ConnectionProvider qualityProvider;
 
     private BaseNetworkInteractor repository;
     private Observable<Response> cacheRequest;
@@ -50,28 +49,28 @@ public class BaseNetworkInteractorTest {
 
     @Test
     public void testFromCache() throws Exception {
-        repository.hybridQuery(DataPriority.CACHE, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.CACHE, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(CACHE, SERVER);
     }
 
     @Test
     public void testFromServer() {
-        repository.hybridQuery(DataPriority.SERVER, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.SERVER, cacheRequest, integer -> networkRequest)
                 .test().assertValues(SERVER);
     }
 
     @Test
     public void testNonActualFastConnection() throws Exception {
         networkRequest = Observable.error(new NotModifiedException(new IllegalArgumentException(), 300, "http://ya.ru"));
-        repository.hybridQuery(DataPriority.ONLY_ACTUAL, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(CACHE);
     }
 
     @Test
     public void testActualFastConnection() throws Exception {
-        repository.hybridQuery(DataPriority.ONLY_ACTUAL, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(SERVER);
     }
@@ -79,14 +78,14 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testActualSlowConnection() throws Exception {
         doReturn(false).when(qualityProvider).isConnectedFast();
-        repository.hybridQuery(DataPriority.ONLY_ACTUAL, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.ONLY_ACTUAL, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(SERVER);
     }
 
     @Test
     public void testAutoFastConnection() {
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(SERVER);
     }
@@ -94,7 +93,7 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testAutoSlowConnection() {
         doReturn(false).when(qualityProvider).isConnectedFast();
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(CACHE, SERVER);
     }
@@ -103,7 +102,7 @@ public class BaseNetworkInteractorTest {
     public void testException() {
         cacheRequest = Observable.error(new TestCacheException());
         networkRequest = Observable.error(new TestServerException());
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertError(new TestServerException());
     }
@@ -111,7 +110,7 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testCacheException() {
         cacheRequest = Observable.error(new TestCacheException());
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertNoErrors() // ошибка проглатывается, но логгируется
                 .assertValues(SERVER);
@@ -122,7 +121,7 @@ public class BaseNetworkInteractorTest {
     @Test
     public void testEmptyCacheException() {
         cacheRequest = Observable.error(new CacheEmptyException());
-        repository.hybridQuery(DataPriority.AUTO, cacheRequest, integer -> networkRequest)
+        repository.hybridQuery(DataStrategy.AUTO, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(SERVER);
     }

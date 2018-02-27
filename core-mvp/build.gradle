@@ -1,0 +1,12 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project(':logger')
+    compileOnly project(':easyadapter')
+    compileOnly project(':connection')
+    compileOnly project(':rx-extension')
+    compileOnly project(':util-ktx')
+    compileOnly project(':core-ui')
+
+    api "com.agna.ferro:ferro-rx:$ferroRxVersion"
+}

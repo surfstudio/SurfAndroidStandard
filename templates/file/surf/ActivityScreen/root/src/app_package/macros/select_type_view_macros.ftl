@@ -10,8 +10,6 @@
    				BaseLdsActivityView<${className}ScreenModel>()
 			<#elseif typeViewActivity=='4'>
 				BaseLdsSwrActivityView<${className}ScreenModel>()
-			<#elseif typeViewActivity=='5'>
-				BaseLdsSwrPgnActivityView<${className}ScreenModel>()
 			</#if>
 		<#else>
 			<#if typeViewFragment=='1'>
@@ -22,8 +20,6 @@
    				BaseLdsFragmentView<${className}ScreenModel>()
 			<#elseif typeViewFragment=='4'>
 				BaseLdsSwrFragmentView<${className}ScreenModel>()
-			<#elseif typeViewFragment=='5'>
-				BaseLdsSwrPgnFragmentView<${className}ScreenModel>()
 			</#if>
 		</#if>
 	<#else>
@@ -36,8 +32,6 @@
    				BaseLdsActivityView<${className}ScreenModel>
 			<#elseif typeViewActivity=='4'>
 				BaseLdsSwrActivityView<${className}ScreenModel>
-			<#elseif typeViewActivity=='5'>
-				BaseLdsSwrPgnActivityView<${className}ScreenModel>
 			</#if>
 		<#else>
 			<#if typeViewFragment=='1'>
@@ -48,8 +42,6 @@
    				BaseLdsFragmentView<${className}ScreenModel>
 			<#elseif typeViewFragment=='4'>
 				BaseLdsSwrFragmentView<${className}ScreenModel>
-			<#elseif typeViewFragment=='5'>
-				BaseLdsSwrPgnFragmentView<${className}ScreenModel>
 			</#if>
 		</#if>
 	</#if>

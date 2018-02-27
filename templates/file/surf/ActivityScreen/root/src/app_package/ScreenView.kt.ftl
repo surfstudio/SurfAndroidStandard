@@ -22,30 +22,25 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
 
     <#if generateRecyclerView>
         private lateinit var recyclerView: RecyclerView
-        <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
-            private lateinit var adapter: PaginationableAdapter<${nameTypeData}>
+        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+            private var adapter = PaginationableAdapter<${nameTypeData}>()
         <#else>
-            private lateinit var adapter: EasyAdapter
+            private var adapter = EasyAdapter()
         </#if>
-        private lateinit var ${nameController?uncap_first}${defPostfixController}: ${nameController}${defPostfixController}
+        private var ${nameController?uncap_first}${defPostfixController} = ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>)
     </#if>
 
-    override fun getPresenters() = arrayOf(presenter)
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     <#if screenType=='activity'>
-        override fun createScreenConfigurator(activity: Activity, intent: Intent): ScreenConfigurator<*>
-            = ${className}ScreenConfigurator(activity, intent)
-
-        override fun createActivityConfigurator(): BaseActivityConfigurator<*, *> = ActivityConfigurator(this)
-     
+        override fun createConfigurator(): ActivityScreenConfigurator = ${className}ScreenConfigurator(intent)
+        @LayoutRes
         override fun getContentView(): Int = R.layout.${layoutName}
     <#else>
-        override fun createScreenConfigurator(activity: Activity, args: Bundle): ScreenConfigurator<*>
-            = ${className}ScreenConfigurator(activity, args)
-
-        override fun onCreateView(inflater: LayoutInflater,
-                                 container: ViewGroup?,
-                                 savedInstanceState: Bundle?): View {
+        override fun createConfigurator(): FragmentScreenConfigurator = ${className}ScreenConfigurator(arguments)
+        override fun onCreateView(inflater: LayoutInflater, 
+                                  container: ViewGroup?, 
+                                  savedInstanceState: Bundle?): View? {
             return inflater.inflate(R.layout.${layoutName}, container, false)
         }
     </#if>
@@ -56,8 +51,8 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
                          viewRecreated: Boolean) {
         findViews(window.decorView)
     <#else>
-    override fun onActivityCreated(savedInstanceState: Bundle, viewRecreated: Boolean) {
-         findViews(view)
+    override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
+         findViews(view!!)
    </#if>
         <#if generateToolbar>
         initToolbar()
@@ -83,12 +78,12 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
 
         override fun renderInternal(screenModel: ${className}ScreenModel) {
             <#if generateRecyclerView>
-                <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
+                <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
                     adapter.setItems(ItemList.create()
-                        .addAll(${nameController?uncap_first}${defPostfixController}, screenModel.itemList), screenModel.paginationState)
+                        .addAll(screenModel.itemList, ${nameController?uncap_first}${defPostfixController}), screenModel.paginationState)
                     <#else>
                     adapter.setItems(ItemList.create()
-                        .addAll(${nameController?uncap_first}${defPostfixController}, screenModel.itemList))
+                        .addAll(screenModel.itemList, ${nameController?uncap_first}${defPostfixController}))
                 </#if>
             </#if>
         }
@@ -128,17 +123,10 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
 
     <#if generateRecyclerView>
     private fun initRecyclerView() {
-        ${nameController?uncap_first}${defPostfixController} = ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>)
-
-        <#if (screenType=='activity' && typeViewActivity=='5') || (screenType=='fragment' && typeViewFragment=='5')>
-        adapter = PaginationableAdapter()
-        adapter.setOnShowMoreListener { presenter.loadMore() }
-        <#else>
-        adapter = EasyAdapter()
-        </#if>
-
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(<#if screenType=='activity'>this<#else>context</#if>)
     }
     </#if>
+
+     override fun getName(): String = "${camelCaseToUnderscore(className)}"
 }

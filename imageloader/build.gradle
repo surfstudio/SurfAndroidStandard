@@ -1,0 +1,8 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project(':logger')
+    compileOnly project(':util-ktx')
+
+    api "com.github.bumptech.glide:glide:4.6.1"
+}

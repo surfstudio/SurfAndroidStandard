@@ -1,10 +1,9 @@
 package ru.surfstudio.standard.ui.util.camera
 
-
 import android.provider.MediaStore
-import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
+import io.reactivex.Observable
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
-import rx.Observable
 import java.util.*
 import javax.inject.Inject
 
@@ -16,7 +15,7 @@ class MediaStoreService @Inject
 constructor(private val activityProvider: ActivityProvider) {
 
     /**
-     * Получить отсортированные пути к картинкам из галлереи
+     * Получить отсортированные пути к картинкам из галереи
      */
     //не добавляем некорректные изображения
     val allStorageImagesPath: Observable<ArrayList<String>>
@@ -41,6 +40,6 @@ constructor(private val activityProvider: ActivityProvider) {
                 cursor.close()
             }
             subscriber.onNext(images)
-            subscriber.onCompleted()
+            subscriber.onComplete()
         }
 }

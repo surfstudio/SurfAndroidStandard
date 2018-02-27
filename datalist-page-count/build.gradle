@@ -1,55 +1,12 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
+apply from: '../androidModule.gradle'
 
-android {
-    def config = rootProject.extensions.getByName("ext")
+dependencies {
+    implementation project(':logger')
+    implementation project(':rx-extension')
 
-    android {
-        compileSdkVersion config["compileSdkVersion"]
-        buildToolsVersion config["buildToolsVersion"]
+    implementation "com.android.support:appcompat-v7:$appcompatVersion"
 
-        defaultConfig {
-            minSdkVersion config["minSdkVersion"]
-            targetSdkVersion config["targetSdkVersion"]
-            versionCode rootProject.ext.moduleVersionCode
-            versionName rootProject.ext.moduleVersionName
-
-            testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        }
-
-        buildTypes {
-            qa {
-                debuggable = true
-                minifyEnabled false
-            }
-
-            release {
-                minifyEnabled false
-                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            }
-        }
-
-        compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
-        }
-
-    }
-
-    dependencies {
-        implementation fileTree(dir: 'libs', include: ['*.jar'])
-
-        implementation 'com.android.support:appcompat-v7:26.1.0'
-        testImplementation 'junit:junit:4.12'
-        androidTestImplementation 'com.android.support.test:runner:1.0.1'
-        androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-        implementation project(path: ':logger')
-        implementation project(path: ':core')
-    }
-}
-repositories {
-    mavenCentral()
+    testImplementation "junit:junit:$junitVersion"
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }

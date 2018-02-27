@@ -20,8 +20,8 @@ import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import ru.surfstudio.android.core.ui.base.placeholder.PlaceHolderView
-import ru.surfstudio.android.core.ui.base.screen.model.state.LoadState
+import ru.surfstudio.android.core.mvp.model.state.LoadState
+import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.R
 import java.util.*
