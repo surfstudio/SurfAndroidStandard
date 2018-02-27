@@ -1,13 +1,17 @@
 package ru.surfstudio.standard.app
 
+import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
 import io.fabric.sdk.android.Kit
 import ru.surfstudio.android.core.app.CoreApp
-import ru.surfstudio.android.core.app.dagger.CoreAppModule
+import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.android.notification.NotificationCenter
 import ru.surfstudio.standard.app.dagger.AppComponent
+import ru.surfstudio.standard.app.dagger.AppModule
 import ru.surfstudio.standard.app.dagger.DaggerAppComponent
+import ru.surfstudio.standard.ui.common.notification.PushHandleStrategyFactory
 
 /**
  * Класс приложения
@@ -20,6 +24,20 @@ class App : CoreApp() {
         super.onCreate()
         initFabric()
         initInjector()
+        initNotificationCenter()
+    }
+
+    private fun initNotificationCenter() {
+        NotificationCenter.configure {
+            setActiveActivityHolder(activeActivityHolder)
+            setPushHandleStrategyFactory(PushHandleStrategyFactory)
+        }
+
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                NotificationCenter.onActivityStarted(activity)
+            }
+        })
     }
 
     private fun initFabric() {
@@ -29,7 +47,7 @@ class App : CoreApp() {
 
     private fun initInjector() {
         appComponent = DaggerAppComponent.builder()
-                .coreAppModule(CoreAppModule(this))
+                .appModule(AppModule(this))
                 .build()
     }
 }

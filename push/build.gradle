@@ -1,21 +1,10 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     compileOnly project(':core-app')
     compileOnly project(':dagger-scope')
     compileOnly project(':logger')
     compileOnly project(':rx-extension')
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-
-    //di
-    api "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-}
-
-repositories {
-    mavenCentral()
+    compileOnly project(':core-ui')
+    compileOnly project(':util-ktx')
 }

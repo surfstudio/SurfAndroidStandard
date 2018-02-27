@@ -13,7 +13,7 @@ import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView;
  * @param <M>
  */
 public abstract class BaseLdsActivityView<M extends LdsScreenModel>
-        extends BaseRenderableHandleableErrorActivityView<M> {
+        extends BaseRenderableActivityView<M> {
 
     protected abstract PlaceHolderView getPlaceHolderView();
 

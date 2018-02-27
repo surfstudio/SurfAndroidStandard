@@ -97,13 +97,16 @@ dependencies {
     implementation project(':filestorage')
     implementation project(':easyadapter')
     implementation project(':recycler-extension')
-    implementation project(':logger')
-    implementation project(':dagger-scope')
+    implementation project(':picture-provider')
+    implementation project(':camera-view')
     implementation project(':connection')
     implementation project(':rx-extension')
     implementation project(':firebase-analytics')
     implementation project(':custom-view')
     implementation project(':util-ktx')
+    implementation project(':animations')
+    implementation project(':push')
+    implementation project(':dagger-scope')
     implementation project(':broadcast-rx')
     implementation project(':broadcast-extension')
 
@@ -122,6 +125,7 @@ dependencies {
 
     //firebase
     api "com.google.firebase:firebase-core:${playServicesVersion}"
+    implementation "com.google.firebase:firebase-messaging:${playServicesVersion}"
 
     //--------------------------------- test dependencies ------------------------------------------
 
@@ -143,6 +147,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
+    compile project(path: ':logger')
 }
 
 apply plugin: 'kotlin-android-extensions'

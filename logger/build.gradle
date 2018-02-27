@@ -2,6 +2,6 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
-    implementation "com.jakewharton.timber:timber:4.6.0"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 }

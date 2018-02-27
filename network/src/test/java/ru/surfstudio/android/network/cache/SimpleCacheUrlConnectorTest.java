@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import okhttp3.HttpUrl;
-import ru.surfstudio.android.core.domain.network.url.BaseUrl;
+import ru.surfstudio.android.network.BaseUrl;
 import ru.surfstudio.android.network.HttpMethods;
 
 import static org.junit.Assert.assertEquals;
@@ -58,16 +58,16 @@ public class SimpleCacheUrlConnectorTest {
 
     @Test
     public void getByUrl() throws Exception {
-        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/fu"), HttpMethods.GET), yaSci);
+        assertEquals(yaSci, connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/fu"), HttpMethods.GET));
         assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/ful"), HttpMethods.GET));
 
-        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/123/like"), HttpMethods.GET), paramPath);
-        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/321/like"), HttpMethods.GET), paramPath);
+        assertEquals(paramPath, connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/123/like"), HttpMethods.GET));
+        assertEquals(paramPath, connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/321/like"), HttpMethods.GET));
 
-        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=1"), HttpMethods.GET), paramVal);
+        assertEquals(paramVal, connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=1"), HttpMethods.GET));
         assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=2"), HttpMethods.GET));
 
-        assertEquals(connector.getByUrl(HttpUrl.parse("http://ya.ru/v3/me/fu"), HttpMethods.GET), yaSci); //api version template
+        assertEquals(yaSci, connector.getByUrl(HttpUrl.parse("http://ya.ru/v3/me/fu"), HttpMethods.GET)); //api version template
     }
 
 }

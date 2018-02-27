@@ -1,7 +1,6 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':dagger-scope')
     compileOnly project(':logger')
     compileOnly project(':easyadapter')
     compileOnly project(':connection')
@@ -10,6 +9,4 @@ dependencies {
     compileOnly project(':core-ui')
 
     api "com.agna.ferro:ferro-rx:$ferroRxVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
 }

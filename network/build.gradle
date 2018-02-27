@@ -1,5 +1,4 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
 
 dependencies {
     compileOnly project (':filestorage')
@@ -18,9 +17,11 @@ dependencies {
     api "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     //tests
+    testImplementation project (':logger')
+    testImplementation project (':connection')
+    testImplementation project (':rx-extension')
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
     testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"

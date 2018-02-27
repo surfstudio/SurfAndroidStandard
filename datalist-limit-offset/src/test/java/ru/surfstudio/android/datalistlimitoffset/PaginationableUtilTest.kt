@@ -31,7 +31,7 @@ class PaginationableUtilTest {
 
         var resultList: DataList<Int> = DataList.emptyWithTotal(10)
 
-        PaginationableUtil.getPaginationRequestPortionsWithTotal<Int>(SafeBiFunction { blockSize: Int, offset: Int ->
+        PaginationableUtil.getPaginationRequestPortionsWithTotal<Int>({ blockSize: Int, offset: Int ->
             Observable.just(DataList(arrayListOf(response[offset]), blockSize, offset))
         }, 0, 10,1, 10)
                 .subscribe {

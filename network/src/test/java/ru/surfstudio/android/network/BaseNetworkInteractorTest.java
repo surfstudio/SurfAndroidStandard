@@ -11,8 +11,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import io.reactivex.Observable;
+import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.logger.Logger;
-import ru.surfstudio.android.network.connection.ConnectionQualityProvider;
 import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.NotModifiedException;
 
@@ -29,7 +29,7 @@ import static ru.surfstudio.android.network.BaseNetworkInteractorTest.Response.S
 @PrepareForTest(Logger.class)
 public class BaseNetworkInteractorTest {
     @Mock
-    ConnectionQualityProvider qualityProvider;
+    ConnectionProvider qualityProvider;
 
     private BaseNetworkInteractor repository;
     private Observable<Response> cacheRequest;

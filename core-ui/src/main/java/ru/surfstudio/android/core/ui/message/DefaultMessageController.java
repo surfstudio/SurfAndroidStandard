@@ -15,12 +15,10 @@ import android.widget.Toast;
 import ru.surfstudio.android.core.ui.R;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.provider.FragmentProvider;
-import ru.surfstudio.android.dagger.scope.PerScreen;
 
 /**
  * Для нахождения view использует fragment и затем activity провайдеры
  */
-@PerScreen
 public class DefaultMessageController implements MessageController {
 
     private static final int ILLEGAL_COLOR = Color.TRANSPARENT;
