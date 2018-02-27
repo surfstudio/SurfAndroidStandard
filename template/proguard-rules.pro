@@ -56,12 +56,13 @@
 #crashlytics
 -printmapping mapping.txt
 
+#fabric
+-keepattributes *Annotation*,SourceFile,LineNumberTable
+-keep public class * extends java.lang.Exception
+-keep class com.crashlytics.** { *; }
+-dontwarn com.crashlytics.**
+
 #kotlin-reflect
 #https://stackoverflow.com/questions/45871970/kotlin-reflect-proguard-smallsortedmap
 #todo убрать, если не нужна котлиновская рефликсия
 -dontwarn kotlin.reflect.jvm.internal.**
-
-#todo поставить путь, соответствующий проекту
--keep public class ru.surfstudio.standard.**
--keepclassmembers class ru.surfstudio.standard.** { *;}
--keepnames class ru.surfstudio.standard.ui*
