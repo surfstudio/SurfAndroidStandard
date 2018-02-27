@@ -1,4 +1,4 @@
-package ru.surfstudio.android.utilktx.ktx.ui.textview
+package ru.surfstudio.android.utilktx.ktx.ui.view
 
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.TextView
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.ktx.text.PHONE_NUMBER_CHARS
-import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 
 /**
  * Extension-функции для настроек ввода (установки лимитов, допустимых и запрещённых символов и т.д.)

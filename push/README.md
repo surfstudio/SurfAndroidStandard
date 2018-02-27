@@ -10,7 +10,7 @@
    к активити-лаунчер (или другой, с которой будет происходить навигация*)
 1. В DefaultActivityLifecycleCallbacks добавить обработку старта активити методом 
    NotificationCenter.onActivityStarted()
-1. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](push/src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
+1. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
    в котором переопределить map c соотвествием типа пуша стратегии его обработки
 1. Добавить firebase в проект, в методе onMessageReceived обработать сообщение
    с помощью NotificationCenter.onMessageReceived()
