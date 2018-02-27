@@ -105,6 +105,7 @@ dependencies {
     implementation project(':custom-view')
     implementation project(':util-ktx')
     implementation project(':broadcast-rx')
+    implementation project(':broadcast-extension')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"

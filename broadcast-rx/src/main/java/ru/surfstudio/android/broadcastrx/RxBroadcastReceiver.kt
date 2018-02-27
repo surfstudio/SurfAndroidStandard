@@ -10,13 +10,13 @@ import io.reactivex.Observable
  * Реактивная обёртка над BroadcastReceiver
  */
 class RxBroadcastReceiver(private val context: Context,
-                          private val intentFilter: IntentFilter) : BaseRxBroadcastReceiver() {
+                          private val intentFilter: IntentFilter) {
 
     companion object {
         fun create(context: Context, intentFilter: IntentFilter) = RxBroadcastReceiver(context, intentFilter).createBroadcast()
     }
 
-    private fun createBroadcast(): Observable<Intent> {
+    fun createBroadcast(): Observable<Intent> {
         val broadcastRegister = BroadcastReceiverObject(context, intentFilter)
         return Observable.create(
                 { emitter ->
