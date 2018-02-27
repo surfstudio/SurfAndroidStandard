@@ -48,7 +48,6 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider)
         } else {
             showChild(route)
         }
-
     }
 
     /**
@@ -120,12 +119,11 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider)
      */
     private fun addRoot(fragmentRoute: FragmentRoute, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
         val fragment = fragmentRoute.createFragment()
-        add(fragment, fragmentRoute.tag)
+        add(fragment, fragmentRoute.tag, false, transition)
         activeTabTag = fragmentRoute.tag
 
-
         val stack = Stack<Fragment>()
-        stack.add(fragment)
+        stack.push(fragment)
         fragmentMap[fragmentRoute.tag] = stack
     }
 
