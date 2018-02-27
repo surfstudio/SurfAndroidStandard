@@ -2,8 +2,8 @@ package ru.surfstudio.standard.ui.base.configurator;
 
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
-import ru.surfstudio.standard.ui.base.dagger.ActivityComponent;
-import ru.surfstudio.standard.ui.base.dagger.WidgetScreenModule;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.widget.WidgetScreenModule;
 
 /**
  * Базовый конфигуратор для WidgetView
@@ -14,7 +14,7 @@ public abstract class WidgetScreenConfigurator
 
     @Override
     protected WidgetScreenModule getWidgetScreenModule() {
-        return new WidgetScreenModule();
+        return new WidgetScreenModule(getPersistentScope());
     }
 
     @Override

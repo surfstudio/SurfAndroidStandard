@@ -53,6 +53,10 @@
       "path": ""
     },
     {
+      "name": "recycler-extension-sample",
+      "path": ""
+    },
+    {
       "name": "datalist-limit-offset",
       "path": ""
     },
@@ -97,7 +101,19 @@
       "path": ""
     },
     {
+      "name": "camera-view",
+      "path": ""
+    },
+    {
+      "name": "picture-provider",
+      "path": ""
+    },
+    {
       "name": "imageloader",
+      "path": ""
+    },
+    {
+      "name": "animations",
       "path": ""
     }
   ]

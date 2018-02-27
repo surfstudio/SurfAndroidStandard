@@ -55,6 +55,9 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
         return result;
     }
 
+    public Observable<Boolean> checkObservable(PermissionRequest request) {
+        return Observable.just(check(request));
+    }
 
     /**
      * запрашивает разрешение

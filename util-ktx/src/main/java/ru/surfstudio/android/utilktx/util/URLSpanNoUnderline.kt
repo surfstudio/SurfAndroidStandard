@@ -5,6 +5,9 @@ import android.annotation.SuppressLint
 import android.text.TextPaint
 import android.text.style.URLSpan
 
+/**
+ * Убирает подчеркивание текста
+ */
 @SuppressLint("ParcelCreator")
 class URLSpanNoUnderline(url: String) : URLSpan(url) {
 

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 
 import ru.surfstudio.android.core.mvp.activity.CoreActivityViewInterface;
-import ru.surfstudio.android.core.mvp.dagger.CoreActivityScreenModule;
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
@@ -32,7 +31,6 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
 
     protected abstract ScreenComponent createScreenComponent(A parentActivityComponent,
                                                              M activityScreenModule,
-                                                             CoreActivityScreenModule coreActivityScreenModule,
                                                              Intent intent);
 
     protected abstract M getActivityScreenModule();
@@ -67,7 +65,6 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
         return createScreenComponent(
                 getActivityComponent(),
                 getActivityScreenModule(),
-                new CoreActivityScreenModule(),
                 getIntent());
     }
 
@@ -76,14 +73,14 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
         return persistentScope;
     }
 
-    public void setPersistentScope(ActivityViewPersistentScope persistentScope) {
-        super.setPersistentScope(persistentScope);
-        this.persistentScope = persistentScope;
-    }
-
     @Override
     @Deprecated
     public void setPersistentScope(ActivityPersistentScope persistentScreenScope) {
         throw new UnsupportedOperationException("call another setPersistentScope");
+    }
+
+    public void setPersistentScope(ActivityViewPersistentScope persistentScope) {
+        super.setPersistentScope(persistentScope);
+        this.persistentScope = persistentScope;
     }
 }
