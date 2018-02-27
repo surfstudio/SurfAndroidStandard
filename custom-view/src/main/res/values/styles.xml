@@ -12,7 +12,10 @@
         <item name="subtitle">Подзаголовок</item>
         <item name="buttonText">Кнопка 1</item>
         <!--<item name="secondButtonText">Кнопка 2</item>-->
-        <item name="image">@drawable/ic_search_big</item>
+        <!--<item name="image">@drawable/ic_search_big</item>-->
+        <!--<item name="emptyImage">@drawable/ic_search_big</item>-->
+        <!--<item name="notFoundImage">@drawable/ic_search_big</item>-->
+        <!--<item name="errorImage">@drawable/ic_search_big</item>-->
     </style>
 
 </resources>
