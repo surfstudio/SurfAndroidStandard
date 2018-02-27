@@ -66,7 +66,7 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider)
         val fragment = route.createFragment()
 
         if (fragmentMap.isEmpty()) {
-            fragmentNavigator.add(route, false, 0)
+            fragmentNavigator.add(route, false, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         } else {
             if (activeStack.contains(fragment)) {
                 clearStackTo(fragment)
@@ -85,6 +85,9 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider)
         activeStack.push(fragment)
     }
 
+    fun clearStack() {
+        clearStackTo(activeStack.firstElement())
+    }
 
     fun clearStackTo(fragment: Fragment?) {
         activeStack.takeLast(activeStack.lastIndex - activeStack.indexOf(fragment))
@@ -218,7 +221,9 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider)
     }
 
     override fun onBackPressed(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //todo прокинуть реакцию
+        if (activeStack.size <= 1) return false
+        return remove(activeStack.pop().tag)
     }
 
     override fun onSaveState(outState: Bundle?) {
