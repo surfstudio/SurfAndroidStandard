@@ -1,5 +1,5 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#MVP dialog
+Реализация паттерна mvp для работы с диалогами как со view. Продолжение идеи [core-mvp](../core-mvp/README.md)
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +8,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:mvp-dialog:X.X.X"
 ```

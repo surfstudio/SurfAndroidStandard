@@ -1,5 +1,8 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#Firebase analytics 
+Реализует логику работы с [аналитикой](../analytics) с использованием firebase
+
+#Использование
+Передаем `FirebaseApi` в [AnalyticsStore](../analytics/src/main/java/ru/surfstudio/android/analytics/store/AnalyticsStore.java)
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +11,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:firebase-analytics:X.X.X"
 ```

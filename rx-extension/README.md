@@ -1,5 +1,5 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#Rx extension
+Утилитарный модуль для работы с rx, реализующий безопасные варианты `Action` `Consumer` `Function` из rx-java2.
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +8,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:rx-extension:X.X.X"
 ```
