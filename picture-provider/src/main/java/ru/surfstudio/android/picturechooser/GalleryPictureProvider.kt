@@ -97,7 +97,11 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         } else {
             cursor.moveToFirst()
             val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = cursor.getString(idx)
+            result = if (idx > -1) {
+                cursor.getString(idx)
+            } else {
+                this.path
+            }
             cursor.close()
         }
         return result
