@@ -7,6 +7,8 @@ import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
+import ru.surfstudio.android.picturechooser.PicturePermissionChecker
+import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.pictureprovider.sample.interactor.app.dagger.AppComponent
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
@@ -25,4 +27,6 @@ interface ActivityComponent {
     fun activityProvider(): ActivityProvider
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
+    fun picturePermissionChecker(): PicturePermissionChecker
+    fun providePictureProvider(): PictureProvider
 }

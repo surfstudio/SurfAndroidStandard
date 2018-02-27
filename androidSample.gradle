@@ -18,11 +18,11 @@ android {
     buildTypes {
         qa {
             debuggable = true
-            minifyEnabled true
+            minifyEnabled false
         }
 
         release {
-            minifyEnabled true
+            minifyEnabled false
         }
     }
 
