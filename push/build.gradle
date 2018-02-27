@@ -2,17 +2,8 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     compileOnly project(':core-app')
-    compileOnly project(':dagger-scope')
     compileOnly project(':logger')
     compileOnly project(':rx-extension')
-
-
-    //di
-    api "com.google.dagger:dagger:$daggerVersion"
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-}
-
-repositories {
-    mavenCentral()
+    compileOnly project(':core-ui')
+    compileOnly project(':util-ktx')
 }

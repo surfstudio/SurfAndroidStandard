@@ -11,10 +11,7 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 import ru.surfstudio.android.converter.gson.safe.SafeConverter;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.error.ConversionException;
 import ru.surfstudio.android.network.response.BaseResponse;
@@ -23,13 +20,11 @@ import ru.surfstudio.android.network.response.BaseResponse;
  * ResponseTypeAdapterFactory - кроме парсинга ответа,
  * конвертирует JsonSyntaxException -> ConversionException
  */
-@PerApplication
 public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
 
     public static final String PARSE_ERROR_MESSAGE_FORMAT = "Error when parse body: %s";
     private SafeConverterFactory safeConverterFactory;
 
-    @Inject
     public ResponseTypeAdapterFactory(SafeConverterFactory safeConverterFactory) {
         this.safeConverterFactory = safeConverterFactory;
     }

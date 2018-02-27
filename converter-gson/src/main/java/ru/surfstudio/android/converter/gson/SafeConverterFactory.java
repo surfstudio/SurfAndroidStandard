@@ -8,26 +8,16 @@ import com.google.gson.reflect.TypeToken;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import ru.surfstudio.android.converter.gson.safe.SafeConverter;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 
 /**
  * предоставляет доступ к безопасным парсерам, которые предназначены для правильного парсинга ошибочных
  * ответов сервера
  */
-@PerApplication
 public class SafeConverterFactory {
-
-    private interface Function<T, R> {
-        R apply(T value);
-    }
 
     private Map<Class, Function<TypeToken, SafeConverter>> safeConverterCreators = new HashMap<>();
     private Map<Class, SafeConverter> initializedSafeConverters = new HashMap<>();
-
-    @Inject
     public SafeConverterFactory() {
         //inject constructor
     }
@@ -59,5 +49,7 @@ public class SafeConverterFactory {
         return null;
     }
 
-
+    private interface Function<T, R> {
+        R apply(T value);
+    }
 }

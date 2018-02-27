@@ -8,7 +8,7 @@ import ru.surfstudio.android.analytics.Analytics
 /**
  * Аналитика Firebase
  */
-class FirebaseApi(private val firebaseAnalytics: FirebaseAnalytics) : Analytics {
+open class FirebaseApi(private val firebaseAnalytics: FirebaseAnalytics) : Analytics {
 
     /**
      * Максимально допустимая длинна значения параметра события.
