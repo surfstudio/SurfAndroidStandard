@@ -5,12 +5,14 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import io.reactivex.subjects.PublishSubject
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
-import ru.surfstudio.android.custom.view.R.attr.progressBarColor
+import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.utilktx.ktx.ui.textview.setTextOrGone
 
 const val NOT_ASSIGNED = -1 //заглушка для незаданного атрибута
 
@@ -21,13 +23,18 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         PlaceHolderView {
 
     private var progressBar: MaterialProgressBar
+    private var titleTv: TextView
+    private var subtitleTv: TextView
 
-    private val styler = Styler()                   //менеджер стилизации плейсхолдера
-    private val stater = Stater { updateView() }    //менеджер состояния плейсхолдера
+    private val styler = PlaceholderStyler()                   //менеджер стилизации плейсхолдера
+    private val dataContainer = PlaceholderDataContainer()     //менеджер данных плейсхолдера
+    private val stater = PlaceholderStater { updateView() }    //менеджер состояния плейсхолдера
 
     init {
         View.inflate(context, R.layout.placeholder_view_layout, this)
         progressBar = findViewById(R.id.placeholder_loading_pb)
+        titleTv = findViewById(R.id.placeholder_title_tv)
+        subtitleTv = findViewById(R.id.placeholder_subtitle_tv)
         applyAttributes(context, attrs, defStyle)
     }
 
@@ -36,10 +43,13 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.PlaceHolderView_Default)
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.PlaceHolderView)
         this.styler.opaqueBackgroundColor = ta.getResourceId(R.styleable.PlaceHolderView_opaqueBackgroundColor, NOT_ASSIGNED)
         this.styler.transparentBackgroundColor = ta.getResourceId(R.styleable.PlaceHolderView_transparentBackgroundColor, NOT_ASSIGNED)
         this.styler.progressBarColor = ta.getResourceId(R.styleable.PlaceHolderView_progressBarColor, NOT_ASSIGNED)
+
+        this.dataContainer.title = ta.getString(R.styleable.PlaceHolderView_title)
+        this.dataContainer.subtitle = ta.getString(R.styleable.PlaceHolderView_subtitle)
 
         updateView()
 
@@ -50,6 +60,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         setBackgroundColor()
         setProgressBarColor()
         setVisibility()
+        setData()
     }
 
     /**
@@ -58,7 +69,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      * Если цвет не задан явно в стилях - используется ?colorAccent приложения.
      */
     private fun setProgressBarColor() {
-        if (progressBarColor != NOT_ASSIGNED) {
+        if (styler.progressBarColor != NOT_ASSIGNED) {
             progressBar.indeterminateTintList = ContextCompat.getColorStateList(context, styler.progressBarColor)
         }
     }
@@ -78,6 +89,14 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     /**
+     * Инициализация плейсхолдера данными
+     */
+    private fun setData() {
+        titleTv.setTextOrGone(dataContainer.title)
+        subtitleTv.setTextOrGone(dataContainer.subtitle)
+    }
+
+    /**
      * Установка видимости плейсхолдера в зависимости от текущего [LoadState].
      */
     private fun setVisibility() {
@@ -94,14 +113,20 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     /**
      * Хранилище всех настроек визуального стиля [StandardPlaceHolderView].
      */
-    data class Styler(var opaqueBackgroundColor: Int = NOT_ASSIGNED,
-                      var transparentBackgroundColor: Int = NOT_ASSIGNED,
-                      var progressBarColor: Int = NOT_ASSIGNED)
+    data class PlaceholderStyler(var opaqueBackgroundColor: Int = NOT_ASSIGNED,
+                                 var transparentBackgroundColor: Int = NOT_ASSIGNED,
+                                 var progressBarColor: Int = NOT_ASSIGNED)
+
+    /**
+     * Хранилище всех данных [StandardPlaceHolderView].
+     */
+    data class PlaceholderDataContainer(var title: String = "",
+                                        var subtitle: String = "")
 
     /**
      * Менеджер текущего состояния [StandardPlaceHolderView] и переключения между состояниями.
      */
-    class Stater(private var onStateChanged: ((loadState: LoadState) -> (Unit))) {
+    class PlaceholderStater(private var onStateChanged: ((loadState: LoadState) -> (Unit))) {
         var loadState = LoadState.NONE          //текущее состояние плейсхолдера
             set(value) {
                 field = value

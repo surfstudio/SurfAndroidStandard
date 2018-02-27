@@ -7,6 +7,10 @@
         <attr name="transparentBackgroundColor" format="reference" />
         <attr name="progressBarColor" format="color" />
 
+        <attr name="title" format="string" />
+
+        <attr name="subtitle" format="string" />
+
         <attr name="emptyTitle" format="string" />
         <attr name="emptySubtitle" format="string" />
         <attr name="emptyButtonText" format="string" />
@@ -24,8 +28,7 @@
     </declare-styleable>
 
     <!--<declare-styleable name="PlaceHolderView">
-        <attr name="defaultTitle" format="string" />
-        <attr name="defaultSubtitle" format="string" />
+
         <attr name="defaultButtonText" format="string" />
         <attr name="defaultIcon" format="reference" />
         <attr name="titleStyle" format="reference" />
