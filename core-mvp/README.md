@@ -1,5 +1,7 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#Core mvp
+Основано на [ferro](https://github.com/MaksTuev/ferro).
+
+Содержит базовую часть ядра для построения приложения и реализации дополненной MVP архитектуры.
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +10,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:core-mvp:X.X.X"
 ```

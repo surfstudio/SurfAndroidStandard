@@ -1,5 +1,5 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#Shared preference
+Модуль для работы с `SharedPreferences`
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +8,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:shared-pref:X.X.X"
 ```

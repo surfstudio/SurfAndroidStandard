@@ -1,5 +1,5 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#MVP widget
+Реализация паттерна mvp для работы со view(в терминах android фреймвока) как со view(в терминах MVP). Продолжение идеи [core-mvp](../core-mvp/README.md)
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +8,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:mvp-widget:X.X.X"
 ```

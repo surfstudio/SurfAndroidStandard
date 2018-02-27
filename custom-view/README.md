@@ -1,5 +1,8 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#Custom view
+Модуль который вмещает в себя разные полезные кастомные вью.
+
+#Список view
++ [TitleSubtitleView](/src/main/java/ru/surfstudio/android/custom/view/TitleSubtitleView.kt) - Виджет для отображения текста с подписью
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +11,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:custom-view:X.X.X"
 ```

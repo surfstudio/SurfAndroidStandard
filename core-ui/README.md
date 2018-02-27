@@ -1,5 +1,13 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#Core ui
+Основано на [ferro](https://github.com/MaksTuev/ferro).
+
+Модуль для построения графическго интерфейса
+
+Содержит в себе классы для 
++ работы с Activity и Fragment
++ Навигации между View
++ базовые модели экранов
++ состояния экранов
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +16,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:core-ui:X.X.X"
 ```

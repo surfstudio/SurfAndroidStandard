@@ -1,5 +1,8 @@
-#Dagger scopes
-Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
+#Util ktx
+Модуль c утилитарными классами. Можно разделить на
++ Расширения для языка kotlin
++ Расширения для языка java
++ Расширения для работы с Android фреймвоком
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
@@ -8,5 +11,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:dagger-scope:X.X.X"
+    implementation "ru.surfstudio.standard:util-ktx:X.X.X"
 ```
