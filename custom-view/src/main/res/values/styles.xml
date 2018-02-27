@@ -10,6 +10,8 @@
         <item name="progressBarColor">@color/progressbar_color</item>
         <item name="title">Заголовок</item>
         <item name="subtitle">Подзаголовок</item>
+        <item name="buttonText">Кнопка 1</item>
+        <!--<item name="secondButtonText">Кнопка 2</item>-->
     </style>
 
 </resources>

@@ -11,6 +11,12 @@
 
         <attr name="subtitle" format="string" />
 
+        <attr name="buttonText" format="string" />
+
+        <attr name="secondButtonText" format="string" />
+
+        <attr name="image" format="reference" />
+
         <attr name="emptyTitle" format="string" />
         <attr name="emptySubtitle" format="string" />
         <attr name="emptyButtonText" format="string" />
@@ -28,9 +34,6 @@
     </declare-styleable>
 
     <!--<declare-styleable name="PlaceHolderView">
-
-        <attr name="defaultButtonText" format="string" />
-        <attr name="defaultIcon" format="reference" />
         <attr name="titleStyle" format="reference" />
         <attr name="subtitleStyle" format="reference" />
         <attr name="buttonStyle" format="reference" />
