@@ -2,7 +2,6 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     compileOnly project(':core-app')
-    compileOnly project(':dagger-scope')
     compileOnly project(':logger')
     compileOnly project(':rx-extension')
     compileOnly project(':core-ui')
