@@ -9,26 +9,32 @@ import io.reactivex.Observable
 /**
  * Реактивная обёртка над BroadcastReceiver
  */
-class RxBroadcastReceiver(private val context: Context,
-                          private val intentFilter: IntentFilter) {
+abstract class RxBroadcastReceiver<T> constructor(private val context: Context, private val intentFilter: IntentFilter) {
 
-    companion object {
-        fun create(context: Context, intentFilter: IntentFilter) = RxBroadcastReceiver(context, intentFilter).createBroadcast()
-    }
-
-    fun createBroadcast(): Observable<Intent> {
-        val broadcastRegister = BroadcastReceiverObject(context, intentFilter)
+    fun observeBroadcast(): Observable<T> {
         return Observable.create(
                 { emitter ->
                     val broadcastReceiver = object : BroadcastReceiver() {
                         override fun onReceive(context: Context, intent: Intent) {
-                            emitter.onNext(intent)
+                            parseBroadcastIntent(intent)?.let {
+                                emitter.onNext(it)
+                            }
                         }
                     }
-                    broadcastRegister.registerBroadcastReceiver(broadcastReceiver)
+                    registerBroadcastReceiver(broadcastReceiver)
                     emitter.setCancellable {
-                        broadcastRegister.unregisterBroadcastReceiver(broadcastReceiver)
+                        unregisterBroadcastReceiver(broadcastReceiver)
                     }
                 })
     }
+
+    private fun registerBroadcastReceiver(broadcastReceiver: BroadcastReceiver) {
+        context.registerReceiver(broadcastReceiver, intentFilter)
+    }
+
+    private fun unregisterBroadcastReceiver(broadcastReceiver: BroadcastReceiver) {
+        context.unregisterReceiver(broadcastReceiver)
+    }
+
+    abstract fun parseBroadcastIntent(intent: Intent): T?
 }

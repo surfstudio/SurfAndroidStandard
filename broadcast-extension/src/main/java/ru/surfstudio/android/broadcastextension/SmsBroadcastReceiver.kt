@@ -5,49 +5,37 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.telephony.SmsMessage
-import io.reactivex.Observable
 import ru.surfstudio.android.broadcastrx.RxBroadcastReceiver
 
+private val SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED"
 
 /**
- * Бродкаст слушает входящие СМС
+ * Класс для парсинга СМС
  */
-class SmsBroadcastReceiver constructor(private val context: Context) {
+abstract class SmsBroadcastReceiver<T> constructor(context: Context)
+    : RxBroadcastReceiver<T>(context, IntentFilter(SMS_RECEIVED)) {
 
-    private val SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED"
     private val SMS_BUNDLE = "pdus"
+    private val FORMAT = "format"
 
-    companion object {
-        fun create(context: Context) = SmsBroadcastReceiver(context).createSmsBroadcast()
-    }
-
-    private fun createSmsBroadcast(): Observable<String> {
-        return RxBroadcastReceiver(context, IntentFilter(SMS_RECEIVED)).createBroadcast()
-                .map {
-                    parseSms(it)
-                }
-    }
-
-    /**
-     * Метод парсит СМС из интента
-     * @return Текст СМС'ки
-     */
-    private fun parseSms(intent: Intent): String? {
-        var message: String? = null
+    override fun parseBroadcastIntent(intent: Intent): T? {
+        var message: T? = null
         val intentExtras = intent.extras
         if (intentExtras != null) {
             val sms = intentExtras.get(SMS_BUNDLE) as Array<*>
             for (sm in sms) {
                 val smsMessage: SmsMessage
                 smsMessage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    val format = intentExtras.getString("format")
+                    val format = intentExtras.getString(FORMAT)
                     SmsMessage.createFromPdu(sm as ByteArray, format)
                 } else {
                     SmsMessage.createFromPdu(sm as ByteArray)
                 }
-                message = smsMessage.messageBody
+                message = parseSmsMessage(smsMessage)
             }
         }
         return message
     }
+
+    abstract fun parseSmsMessage(smsMessage: SmsMessage): T
 }
