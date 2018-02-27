@@ -4,6 +4,7 @@
     <style name="PlaceHolderView">
         <item name="opaqueBackgroundColor">@color/opaque_bg_color</item>
         <item name="transparentBackgroundColor">@color/transparent_bg_color</item>
+        <item name="titleBottomMargin">10dp</item>
     </style>
 
     <style name="PlaceHolderView.Default">

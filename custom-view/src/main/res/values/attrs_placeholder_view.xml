@@ -30,6 +30,8 @@
         <attr name="errorButtonText" format="string" />
         <attr name="errorSecondButtonText" format="string" />
         <attr name="errorImage" format="reference" />
+
+        <attr name="titleBottomMargin" format="dimension" />
     </declare-styleable>
 
     <!--<declare-styleable name="PlaceHolderView">

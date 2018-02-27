@@ -28,7 +28,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
-        placeholder.render(LoadState.MAIN_LOADING)
+        placeholder.render(LoadState.ERROR)
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}
