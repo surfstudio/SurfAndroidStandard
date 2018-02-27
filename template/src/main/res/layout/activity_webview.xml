@@ -19,7 +19,7 @@
             android:layout_height="wrap_content" />
     </ScrollView>
 
-    <ru.surfstudio.standard.ui.base.placeholder.PlaceHolderViewImpl
+    <ru.surfstudio.android.pictureprovider.sample.interactor.ui.base.placeholder.PlaceHolderViewImpl
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
