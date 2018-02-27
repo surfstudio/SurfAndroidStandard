@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.TypedValue
 import android.widget.EditText
 import ru.surfstudio.android.utilktx.ktx.ui.context.getDisplayMetrics
-import ru.surfstudio.android.utilktx.ktx.ui.textview.removeUnderline
+import ru.surfstudio.android.utilktx.ktx.ui.view.removeUnderline
 
 /**
  * Утилитные методы для работы с вью
