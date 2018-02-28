@@ -215,7 +215,6 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
         return toggleVisibility(routeTag, false)
     }
 
-
     private fun toggleVisibility(routeTag: String?, show: Boolean, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE): Boolean {
         fragmentManager.executePendingTransactions()
 
