@@ -1,10 +1,7 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     compileOnly project(':broadcast-rx')
-    compileOnly project(':rx-extension')
 
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
 }
