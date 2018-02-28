@@ -32,6 +32,10 @@
         <attr name="errorImage" format="reference" />
 
         <attr name="titleBottomMargin" format="dimension" />
+        <attr name="subtitleBottomMargin" format="dimension" />
+        <attr name="buttonBottomMargin" format="dimension" />
+        <attr name="buttonSecondBottomMargin" format="dimension" />
+        <attr name="imageBottomMargin" format="dimension" />
     </declare-styleable>
 
     <!--<declare-styleable name="PlaceHolderView">

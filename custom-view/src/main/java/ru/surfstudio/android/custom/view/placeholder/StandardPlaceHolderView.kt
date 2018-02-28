@@ -13,7 +13,6 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.attr.obtainDrawableAttribute
 import ru.surfstudio.android.utilktx.ktx.attr.obtainStringAttribute
 import ru.surfstudio.android.utilktx.ktx.ui.view.setImageDrawableOrGone
@@ -128,7 +127,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private fun updateView() {
         setBackgroundColor()
         setProgressBarColor()
-        setMargins()
+        setBottomMargins()
         setVisibility()
         setData()
     }
@@ -158,12 +157,16 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         }
     }
 
-    private fun setMargins() {
-        Logger.d("1111 styler.titleBottomMargin = ${styler.titleBottomMargin}")
-        val params = titleTv.layoutParams as LinearLayout.LayoutParams
-        params.setMargins(0, 0, 0, styler.titleBottomMargin)
-        titleTv.layoutParams = params
+    private fun setBottomMargins() {
+        setBottomMargin(titleTv, styler.titleBottomMargin)
     }
+
+    private fun setBottomMargin(view: View, bottomMargin: Int) {
+        val params = view.layoutParams as MarginLayoutParams
+        params.bottomMargin = bottomMargin
+        view.layoutParams = params
+    }
+
 
     /**
      * Инициализация плейсхолдера данными.
@@ -205,7 +208,11 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     data class PlaceholderStyler(var opaqueBackgroundColor: Int = NOT_ASSIGNED,
                                  var transparentBackgroundColor: Int = NOT_ASSIGNED,
                                  var progressBarColor: Int = NOT_ASSIGNED,
-                                 var titleBottomMargin: Int = 0)
+                                 var titleBottomMargin: Int = 0,
+                                 var subtitleBottomMargin: Int = 0,
+                                 var buttonBottomMargin: Int = 0,
+                                 var secondButtonBottomMargin: Int = 0,
+                                 var imageBottomMargin: Int = 0)
 
     /**
      * Хранилище всех данных [StandardPlaceHolderView].
