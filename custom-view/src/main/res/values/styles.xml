@@ -5,6 +5,9 @@
         <item name="opaqueBackgroundColor">@color/opaque_bg_color</item>
         <item name="transparentBackgroundColor">@color/transparent_bg_color</item>
         <item name="titleBottomMargin">10dp</item>
+        <item name="imageBottomMargin">28dp</item>
+        <item name="subtitleBottomMargin">50dp</item>
+        <item name="buttonBottomMargin">10dp</item>
     </style>
 
     <style name="PlaceHolderView.Default">
@@ -13,11 +16,6 @@
         <item name="subtitle">Подзаголовок</item>
         <item name="buttonText">Кнопка 1</item>
         <item name="titleBottomMargin">100dp</item>
-        <!--<item name="secondButtonText">Кнопка 2</item>-->
-        <!--<item name="image">@drawable/ic_search_big</item>-->
-        <!--<item name="emptyImage">@drawable/ic_search_big</item>-->
-        <!--<item name="notFoundImage">@drawable/ic_search_big</item>-->
-        <!--<item name="errorImage">@drawable/ic_search_big</item>-->
     </style>
 
 </resources>

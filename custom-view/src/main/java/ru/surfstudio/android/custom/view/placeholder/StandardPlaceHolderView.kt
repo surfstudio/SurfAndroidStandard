@@ -15,6 +15,7 @@ import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
 import ru.surfstudio.android.utilktx.ktx.attr.obtainDrawableAttribute
 import ru.surfstudio.android.utilktx.ktx.attr.obtainStringAttribute
+import ru.surfstudio.android.utilktx.ktx.ui.view.setBottomMargin
 import ru.surfstudio.android.utilktx.ktx.ui.view.setImageDrawableOrGone
 import ru.surfstudio.android.utilktx.ktx.ui.view.setTextOrGone
 
@@ -71,6 +72,14 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                 ta.getResourceId(R.styleable.PlaceHolderView_progressBarColor, NOT_ASSIGNED)
         this.styler.titleBottomMargin =
                 ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_titleBottomMargin, NOT_ASSIGNED_DIMEN)
+        this.styler.subtitleBottomMargin =
+                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_subtitleBottomMargin, NOT_ASSIGNED_DIMEN)
+        this.styler.buttonBottomMargin =
+                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_buttonBottomMargin, NOT_ASSIGNED_DIMEN)
+        this.styler.secondButtonBottomMargin =
+                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_secondButtonBottomMargin, NOT_ASSIGNED_DIMEN)
+        this.styler.imageBottomMargin =
+                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_imageBottomMargin, NOT_ASSIGNED_DIMEN)
 
         val title = ta.obtainStringAttribute(R.styleable.PlaceHolderView_title)
         val subtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_subtitle)
@@ -157,16 +166,16 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         }
     }
 
+    /**
+     * Установка отступов между виджетами.
+     */
     private fun setBottomMargins() {
-        setBottomMargin(titleTv, styler.titleBottomMargin)
+        titleTv.setBottomMargin(styler.titleBottomMargin)
+        subtitleTv.setBottomMargin(styler.subtitleBottomMargin)
+        button.setBottomMargin(styler.buttonBottomMargin)
+        secondButton.setBottomMargin(styler.secondButtonBottomMargin)
+        imageIv.setBottomMargin(styler.imageBottomMargin)
     }
-
-    private fun setBottomMargin(view: View, bottomMargin: Int) {
-        val params = view.layoutParams as MarginLayoutParams
-        params.bottomMargin = bottomMargin
-        view.layoutParams = params
-    }
-
 
     /**
      * Инициализация плейсхолдера данными.
