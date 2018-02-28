@@ -14,10 +14,10 @@ Broadcast-extension зависит от модуля:
 * :broadcast-rx - реактивный модуль-обёртка для BroadcastReceiver
 ##1. SmsBroadcastReceiver
 ###Использование
-1. Добавить в Manifest: 
+* Добавить в Manifest: 
 <uses-permission android:name="android.permission.RECEIVE_SMS" />
-1. Создать класс и унаследоваться от [SmsBroadcastReceiver](src/main/java/ru/surfstudio/android/broadcastextension/SmsBroadcastReceiver.kt )
-2. Переопределить метод parseSmsMessage и реализовать функционал парсинга СМС сообщения
+* Создать класс и унаследоваться от [SmsBroadcastReceiver](src/main/java/ru/surfstudio/android/broadcastextension/SmsBroadcastReceiver.kt )
+* Переопределить метод parseSmsMessage и реализовать функционал парсинга СМС сообщения
 ####Пример:
 ```kotlin
 class ExampleSmsBroadcastReceiver(context: Context) : SmsBroadcastReceiver<String>(context) {
@@ -27,7 +27,7 @@ class ExampleSmsBroadcastReceiver(context: Context) : SmsBroadcastReceiver<Strin
     }
 }
 ```
-4. Подписаться на событие отправки широковещательного сообщения
+* Подписаться на событие отправки широковещательного сообщения
 ####Пример:
 ```kotlin
         ExampleSmsBroadcastReceiver(context).observeBroadcast().subscribe {
