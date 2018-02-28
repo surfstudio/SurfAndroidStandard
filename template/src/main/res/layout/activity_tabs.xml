@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/first_fr_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="first" />
+
+        <Button
+            android:id="@+id/scnd_fr_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="scnd" />
+        <Button
+            android:id="@+id/third_fr_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="third" />
+        <Button
+            android:id="@+id/fourth_fr_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="fourth" />
+    </LinearLayout>
+
+
+</FrameLayout>

@@ -10,6 +10,7 @@ import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
 import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * базовая активити для всего приложения

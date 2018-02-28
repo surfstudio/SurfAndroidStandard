@@ -18,6 +18,7 @@ import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
 import ru.surfstudio.android.core.ui.event.FragmentScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
+import ru.surfstudio.android.core.ui.state.FragmentScreenState;
 
 /**
  * делегат для фрагмент вью, кроме логики базового делегата добавляет управление предентерами
@@ -66,5 +67,10 @@ public class FragmentViewDelegate extends FragmentDelegate {
     @Override
     public FragmentViewPersistentScope getPersistentScope() {
         return (FragmentViewPersistentScope) super.getPersistentScope();
+    }
+
+    @Override
+    public FragmentViewScreenState getScreenState() {
+        return getPersistentScope().getScreenState();
     }
 }

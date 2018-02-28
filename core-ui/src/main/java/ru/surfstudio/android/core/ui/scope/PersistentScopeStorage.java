@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
+import ru.surfstudio.android.logger.Logger;
+
 /**
  * Хранилище всех PersistentScope в контексте одной активити
  */
@@ -80,7 +82,7 @@ public class PersistentScopeStorage {
     String getActivityScopeName() {
         for (Map.Entry<String, PersistentScope> entry : scopes.entrySet()) {
             if (entry.getValue() instanceof ActivityPersistentScope) {
-                entry.getKey();
+                return entry.getKey();
             }
         }
         return null;

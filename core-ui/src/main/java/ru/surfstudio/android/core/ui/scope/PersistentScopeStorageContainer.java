@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
+import ru.surfstudio.android.logger.Logger;
+
 /**
  * контейнер для {@link PersistentScopeStorage}
  * По сути является Fragment с setRetainInstance(true)
