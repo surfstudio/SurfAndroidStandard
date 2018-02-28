@@ -17,8 +17,4 @@ class Tab4FragmentRoute(val id: Int) : FragmentWithParamsRoute(), RootFragmentRo
             }
 
     override fun getFragmentClass(): Class<out Fragment> = Tab4FragmentView::class.java
-
-    override fun getTag(): String {
-        return fragmentClass.canonicalName + id
-    }
 }

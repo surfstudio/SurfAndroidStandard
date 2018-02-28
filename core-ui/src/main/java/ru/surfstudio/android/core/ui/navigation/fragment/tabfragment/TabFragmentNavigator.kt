@@ -46,7 +46,7 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
             return fragmentMap[activeTabTag] ?: Stack<Fragment>()
         }
 
-    private val currentFragment get() = activeStack.peek()
+    private val currentFragment get() = if (!activeStack.empty()) activeStack.peek() else null
     private val currentRoot get() = activeStack.firstElement()
 
     init {
@@ -248,9 +248,11 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
 
     override fun onBackPressed(): Boolean {
         Logger.i("2222 onBackPressed ${activeStack.joinToString()}")
+
         if (activeStack.size <= 1) return false
         remove(activeStack.pop().tag)
         show(activeStack.peek().tag)
+
         Logger.i("2222 onBackPressed ${activeStack.joinToString()}")
         //todo прокинуть реакцию
 
@@ -269,8 +271,9 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
 
     private fun onSaveInstanceState(outState: Bundle) {
         outState.putString(EXTRA_CURRENT_TAB_TAG, activeTabTag)
-        if (currentFragment != null) {
-            outState.putString(EXTRA_CURRENT_FRAGMENT, currentFragment.tag)
+
+        currentFragment?.let {
+            outState.putString(EXTRA_CURRENT_FRAGMENT, it.tag)
         }
 
         try {
@@ -293,7 +296,6 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
         } catch (t: Throwable) {
             Logger.e(t)
         }
-
     }
 
     private fun restoreFromBundle(savedInstanceState: Bundle?): Boolean {
@@ -307,18 +309,20 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
                 while (x < stackArrays.length()) {
                     val stackArray = stackArrays.getJSONArray(x)
                     val stack = Stack<Fragment>()
+                    val tagList = mutableListOf<String>()
 
                     (0 until stackArray.length())
                             .map { stackArray.getString(it) }
                             .filter { it != null && !"null".equals(it, ignoreCase = true) }
+                            .onEach { tagList.add(it) }
                             .mapNotNull { fragmentManager.findFragmentByTag(it) }
                             .forEach { stack.push(it) }
 
-                    fragmentMap[stack.firstElement().tag ?: ""] = stack
+                    fragmentMap[tagList.first()] = stack
                     ++x
                 }
 
-                Logger.d("2222 after restore map = ${fragmentMap.toString()}")
+                Logger.i("2222 after restore map = ${fragmentMap.toString()}")
 
                 val savedCurrentTabTag = savedInstanceState.getString(EXTRA_CURRENT_TAB_TAG)
                 reShow(savedCurrentTabTag)
