@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.screen.tabs.fragments.child
+package ru.surfstudio.standard.ui.screen.tabs.fragments.child.child1
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 

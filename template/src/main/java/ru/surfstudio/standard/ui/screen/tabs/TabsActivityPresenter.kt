@@ -3,11 +3,9 @@ package ru.surfstudio.standard.ui.screen.tabs
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
-import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.RootFragmentRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.standard.ui.screen.tabs.fragments.child.ChildTabFragmentRoute
 import ru.surfstudio.standard.ui.screen.tabs.fragments.tab1.Tab1FragmentRoute
 import ru.surfstudio.standard.ui.screen.tabs.fragments.tab2.Tab2FragmentRoute
 import ru.surfstudio.standard.ui.screen.tabs.fragments.tab3.Tab3FragmentRoute
@@ -26,12 +24,12 @@ class TabsActivityPresenter @Inject constructor(
     var activeTab = 0
 
     fun openTab(tab: Int) {
-        Logger.d("2222 active tab $activeTab | show tab $tab")
+        Logger.d("2222 active tab $activeTab | open tab $tab")
 
         if (tab == activeTab) {
-            //tabsFragmentNavigator.show(ChildTabFragmentRoute(tab))
+            //tabsFragmentNavigator.open(ChildTabFragmentRoute(tab))
         } else {
-            tabsFragmentNavigator.show(nextRoute(tab))
+            tabsFragmentNavigator.open(nextRoute(tab))
             activeTab = tab
         }
     }

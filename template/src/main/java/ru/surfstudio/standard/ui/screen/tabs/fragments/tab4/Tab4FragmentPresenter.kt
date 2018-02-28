@@ -6,10 +6,7 @@ import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragment
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.ui.screen.tabs.fragments.Tab4FragmentScreenModel
-import ru.surfstudio.standard.ui.screen.tabs.fragments.child.ChildTabFragmentRoute
-import ru.surfstudio.standard.ui.screen.tabs.fragments.tab1.Tab1FragmentRoute
-import ru.surfstudio.standard.ui.screen.tabs.fragments.tab1.Tab1FragmentScreenModel
-import ru.surfstudio.standard.ui.screen.tabs.fragments.tab1.Tab1FragmentView
+import ru.surfstudio.standard.ui.screen.tabs.fragments.child.child4.Child4TabFragmentRoute
 import javax.inject.Inject
 
 /**
@@ -34,6 +31,6 @@ class Tab4FragmentPresenter @Inject constructor(
     }
 
     fun openTab() {
-        tabFragmentNavigator.show(ChildTabFragmentRoute(screenModel.id+1))
+        tabFragmentNavigator.open(Child4TabFragmentRoute(screenModel.id + 1))
     }
 }
