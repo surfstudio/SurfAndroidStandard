@@ -1,8 +1,14 @@
 #RxBroadcastReceiver
 Реактивный модуль-обёртка для BroadcastReceiver.
+##Зависимости
+Broadcast-extension зависит от модуля:
+
+* :logger - модуль для логирования
+
 ##Использование
 * Необходимо создать класс и унаследоваться от [RxBroadcastReceiver](src/main/java/ru/surfstudio/android/broadcastrx/RxBroadcastReceiver.kt)
 * Переопределить метод parseBroadcastIntent и реализовать парсинг пришедшего интента
+* Переопределить метод intentFilter
 ###Пример:
 ```kotlin
 class ExampleBroadcastReceiver(context: Context, intentFilter: IntentFilter) : RxBroadcastReceiver<String>(context, intentFilter) {
@@ -10,12 +16,16 @@ class ExampleBroadcastReceiver(context: Context, intentFilter: IntentFilter) : R
     override fun parseBroadcastIntent(intent: Intent): String? {
         //TODO Реализовать парсинг пришедшего интента
     }
+    
+    override fun intentFilter() = IntentFilter("ru.surfstudio.android.example")
+
 }
 ```
+* Заинжектить через даггер созданный класс
 * Подписаться на событие отправки широковещательного сообщения
 ###Пример:
 ```kotlin
-        ExampleBroadcastReceiver(context, IntentFilter("ru.surfstudio.android.example")).observeBroadcast().subscribe {
+        subscribe(exampleBroadcastReceiver.observeBroadcast(), {
             //TODO обработка полученного результата
         }
 ```

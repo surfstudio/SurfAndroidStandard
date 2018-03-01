@@ -7,14 +7,13 @@ import android.os.Build
 import android.telephony.SmsMessage
 import ru.surfstudio.android.broadcastrx.RxBroadcastReceiver
 
-private val SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED"
-
 /**
  * Класс для парсинга СМС
  */
 abstract class SmsBroadcastReceiver<T> constructor(context: Context)
-    : RxBroadcastReceiver<T>(context, IntentFilter(SMS_RECEIVED)) {
+    : RxBroadcastReceiver<T?>(context) {
 
+    private val SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED"
     private val SMS_BUNDLE = "pdus"
     private val FORMAT = "format"
 
@@ -36,6 +35,8 @@ abstract class SmsBroadcastReceiver<T> constructor(context: Context)
         }
         return message
     }
+
+    override fun intentFilter() = IntentFilter(SMS_RECEIVED)
 
     abstract fun parseSmsMessage(smsMessage: SmsMessage): T
 }

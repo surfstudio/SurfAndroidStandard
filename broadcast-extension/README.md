@@ -11,6 +11,7 @@
 ```
 #Зависимости
 Broadcast-extension зависит от модуля:
+
 * :broadcast-rx - реактивный модуль-обёртка для BroadcastReceiver
 ##1. SmsBroadcastReceiver
 ###Использование
@@ -27,10 +28,11 @@ class ExampleSmsBroadcastReceiver(context: Context) : SmsBroadcastReceiver<Strin
     }
 }
 ```
+* Заинжектить с помощью даггера созданный класс
 * Подписаться на событие отправки широковещательного сообщения
 ####Пример:
 ```kotlin
-        ExampleSmsBroadcastReceiver(context).observeBroadcast().subscribe {
+        subscribe(exampleSmsBroadcastReceiver.observeBroadcast(), {
             //TODO обработка полученного результата
         }
 ```

@@ -4,37 +4,42 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import io.reactivex.Notification
 import io.reactivex.Observable
+import ru.surfstudio.android.logger.Logger
 
 /**
  * Реактивная обёртка над BroadcastReceiver
  */
-abstract class RxBroadcastReceiver<T> constructor(private val context: Context, private val intentFilter: IntentFilter) {
+abstract class RxBroadcastReceiver<T> constructor(private val context: Context) {
 
-    fun observeBroadcast(): Observable<T> {
+    fun observeBroadcast(): Observable<Notification<T>> {
         return Observable.create(
                 { emitter ->
                     val broadcastReceiver = object : BroadcastReceiver() {
                         override fun onReceive(context: Context, intent: Intent) {
-                            parseBroadcastIntent(intent)?.let {
-                                emitter.onNext(it)
+                            try {
+                                emitter.onNext(Notification.createOnNext(parseBroadcastIntent(intent)))
+                            } catch (throwable: Throwable) {
+                                Logger.e(throwable)
+                                emitter.onNext(Notification.createOnError<T>(RuntimeException(throwable)))
                             }
                         }
                     }
-                    registerBroadcastReceiver(broadcastReceiver)
-                    emitter.setCancellable {
-                        unregisterBroadcastReceiver(broadcastReceiver)
+                    try {
+                        context.registerReceiver(broadcastReceiver, intentFilter())
+                    } catch (throwable: Throwable) {
+                        Logger.e(throwable)
+                        emitter.onNext(Notification.createOnError<T>(RuntimeException(throwable)))
                     }
+                    emitter.setCancellable {
+                        context.unregisterReceiver(broadcastReceiver)
+                    }
+
                 })
     }
 
-    private fun registerBroadcastReceiver(broadcastReceiver: BroadcastReceiver) {
-        context.registerReceiver(broadcastReceiver, intentFilter)
-    }
+    abstract fun parseBroadcastIntent(intent: Intent): T
 
-    private fun unregisterBroadcastReceiver(broadcastReceiver: BroadcastReceiver) {
-        context.unregisterReceiver(broadcastReceiver)
-    }
-
-    abstract fun parseBroadcastIntent(intent: Intent): T?
+    abstract fun intentFilter(): IntentFilter
 }
