@@ -15,7 +15,23 @@
         <item name="title">Заголовок</item>
         <item name="subtitle">Подзаголовок</item>
         <item name="buttonText">Кнопка 1</item>
+        <item name="secondButtonText">Кнопка 2</item>
         <item name="titleBottomMargin">100dp</item>
+        <item name="subtitleBottomMargin">50dp</item>
+        <item name="buttonStyle">@style/ButtonGreen</item>
+        <item name="secondButtonStyle">@style/ButtonRed</item>
+    </style>
+
+    <style name="ButtonRed" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@color/red_color</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ButtonGreen" parent="Base.Widget.AppCompat.Button">
+        <item name="android:background">@color/green_color</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

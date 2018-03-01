@@ -1,28 +1,36 @@
 package ru.surfstudio.android.custom.view.placeholder
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.support.annotation.ColorRes
+import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.AppCompatButton
+import android.support.v7.widget.AppCompatImageView
 import android.util.ArrayMap
 import android.util.AttributeSet
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ImageView
+import android.widget.TextView
 import io.reactivex.subjects.PublishSubject
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
-import ru.surfstudio.android.utilktx.ktx.attr.obtainDrawableAttribute
-import ru.surfstudio.android.utilktx.ktx.attr.obtainStringAttribute
+import ru.surfstudio.android.utilktx.ktx.attr.*
 import ru.surfstudio.android.utilktx.ktx.ui.view.setBottomMargin
 import ru.surfstudio.android.utilktx.ktx.ui.view.setImageDrawableOrGone
+import ru.surfstudio.android.utilktx.ktx.ui.view.setTextAppearanceStyle
 import ru.surfstudio.android.utilktx.ktx.ui.view.setTextOrGone
 
-
-const val NOT_ASSIGNED = -1         //заглушка для незаданного атрибута
-const val NOT_ASSIGNED_DIMEN = 0    //заглушка для незаданного dimen-атрибута
-
+/**
+ * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
+ */
 class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                                         attrs: AttributeSet,
                                                         defStyle: Int = R.attr.placeHolderStyle)
@@ -64,22 +72,21 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.PlaceHolderView)
 
-        this.styler.opaqueBackgroundColor =
-                ta.getResourceId(R.styleable.PlaceHolderView_opaqueBackgroundColor, NOT_ASSIGNED)
-        this.styler.transparentBackgroundColor =
-                ta.getResourceId(R.styleable.PlaceHolderView_transparentBackgroundColor, NOT_ASSIGNED)
-        this.styler.progressBarColor =
-                ta.getResourceId(R.styleable.PlaceHolderView_progressBarColor, NOT_ASSIGNED)
-        this.styler.titleBottomMargin =
-                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_titleBottomMargin, NOT_ASSIGNED_DIMEN)
-        this.styler.subtitleBottomMargin =
-                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_subtitleBottomMargin, NOT_ASSIGNED_DIMEN)
-        this.styler.buttonBottomMargin =
-                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_buttonBottomMargin, NOT_ASSIGNED_DIMEN)
-        this.styler.secondButtonBottomMargin =
-                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_secondButtonBottomMargin, NOT_ASSIGNED_DIMEN)
-        this.styler.imageBottomMargin =
-                ta.getDimensionPixelOffset(R.styleable.PlaceHolderView_imageBottomMargin, NOT_ASSIGNED_DIMEN)
+        this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_opaqueBackgroundColor)
+        this.styler.transparentBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_transparentBackgroundColor)
+        this.styler.progressBarColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_progressBarColor)
+        this.styler.titleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_titleBottomMargin)
+        this.styler.subtitleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_subtitleBottomMargin)
+        this.styler.buttonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_buttonBottomMargin)
+        this.styler.secondButtonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_secondButtonBottomMargin)
+        this.styler.imageBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_imageBottomMargin)
+        this.styler.titleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_titleTextAppearance)
+        this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_subtitleTextAppearance)
+        this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_buttonTextAppearance)
+        this.styler.secondButtonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_secondButtonTextAppearance)
+        this.styler.buttonStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_buttonStyle)
+        this.styler.secondButtonStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_secondButtonStyle)
+        this.styler.imageStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_imageStyle)
 
         val title = ta.obtainStringAttribute(R.styleable.PlaceHolderView_title)
         val subtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_subtitle)
@@ -87,7 +94,12 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         val secondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_secondButtonText)
         val image = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_image)
         this.dataContainer.defaultViewData =
-                PlaceholderDataContainer.ViewData(title, subtitle, buttonText, secondButtonText, image)
+                PlaceholderDataContainer.ViewData(
+                        title,
+                        subtitle,
+                        buttonText,
+                        secondButtonText,
+                        image)
 
         val emptyTitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptyTitle)
         val emptySubtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptySubtitle)
@@ -134,11 +146,9 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     private fun updateView() {
-        setBackgroundColor()
         setProgressBarColor()
-        setBottomMargins()
-        setVisibility()
-        setData()
+        setBackgroundColor()
+        setUpViews()
     }
 
     /**
@@ -147,7 +157,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      * Если цвет не задан явно в стилях - используется ?colorAccent приложения.
      */
     private fun setProgressBarColor() {
-        if (styler.progressBarColor != NOT_ASSIGNED) {
+        if (styler.progressBarColor != NOT_ASSIGNED_RESOURCE) {
             progressBar.indeterminateTintList = ContextCompat.getColorStateList(context, styler.progressBarColor)
         }
     }
@@ -166,10 +176,77 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         }
     }
 
+    private fun setUpViews() {
+        setStyles() //метод setStyles обязательно должен вызываться первым
+        setMargins()
+        setVisibility()
+        setData()
+    }
+
+    /**
+     * Установка стилей для всех виджетов.
+     *
+     * Виджеты, к которым применяется стиль из атрибутов, пересоздаются - поэтому этот метод
+     * нужно обязательно вызывать первым при конфигурировании [StandardPlaceHolderView]. В противном
+     * случае, ранее применённые настройки к данным виджетам могут перезатереться.
+     */
+    private fun setStyles() {
+        titleTv.setTextAppearanceStyle(styler.titleTextAppearanceResId)
+        subtitleTv.setTextAppearanceStyle(styler.subtitleTextAppearanceResId)
+        button.setTextAppearanceStyle(styler.buttonTextAppearanceResId)
+        secondButton.setTextAppearanceStyle(styler.secondButtonTextAppearanceResId)
+
+        styler.buttonStyleResId.also {
+            if (it != NOT_ASSIGNED_RESOURCE) {
+                val viewIndex = contentContainer.indexOfChild(button)
+                contentContainer.removeViewInLayout(button)
+                button = AppCompatButton(ContextThemeWrapper(context, it), null, 0)
+                button.layoutParams = extractLayoutParamsFromStyle(styler.buttonStyleResId)
+                contentContainer.addView(button, viewIndex)
+            }
+        }
+        styler.secondButtonStyleResId.also {
+            if (it != NOT_ASSIGNED_RESOURCE) {
+                val viewIndex = contentContainer.indexOfChild(secondButton)
+                contentContainer.removeViewInLayout(secondButton)
+                secondButton = AppCompatButton(ContextThemeWrapper(context, it), null, 0)
+                secondButton.layoutParams = extractLayoutParamsFromStyle(styler.secondButtonStyleResId)
+                contentContainer.addView(secondButton, viewIndex)
+            }
+        }
+        styler.imageStyleResId.also {
+            if (it != NOT_ASSIGNED_RESOURCE) {
+                val viewIndex = contentContainer.indexOfChild(imageIv)
+                contentContainer.removeViewInLayout(imageIv)
+                imageIv = AppCompatImageView(ContextThemeWrapper(context, it), null, 0)
+                imageIv.layoutParams = extractLayoutParamsFromStyle(styler.imageStyleResId)
+                contentContainer.addView(imageIv, viewIndex)
+            }
+        }
+    }
+
+    /**
+     * Извлечение [ViewGroup.LayoutParams] из стиля виджета.
+     *
+     * Только так можно применить параметры ширины и высоты виджета, заданные через стиль.
+     */
+    @SuppressLint("ResourceType")
+    private fun extractLayoutParamsFromStyle(style: Int): ViewGroup.LayoutParams {
+        val t = context.theme.obtainStyledAttributes(null,
+                intArrayOf(android.R.attr.layout_width, android.R.attr.layout_height), style, style)
+        try {
+            val w = t.getLayoutDimension(0, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val h = t.getLayoutDimension(1, ViewGroup.LayoutParams.WRAP_CONTENT)
+            return ViewGroup.LayoutParams(w, h)
+        } finally {
+            t.recycle()
+        }
+    }
+
     /**
      * Установка отступов между виджетами.
      */
-    private fun setBottomMargins() {
+    private fun setMargins() {
         titleTv.setBottomMargin(styler.titleBottomMargin)
         subtitleTv.setBottomMargin(styler.subtitleBottomMargin)
         button.setBottomMargin(styler.buttonBottomMargin)
@@ -214,14 +291,21 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     /**
      * Хранилище всех настроек визуального стиля [StandardPlaceHolderView].
      */
-    data class PlaceholderStyler(var opaqueBackgroundColor: Int = NOT_ASSIGNED,
-                                 var transparentBackgroundColor: Int = NOT_ASSIGNED,
-                                 var progressBarColor: Int = NOT_ASSIGNED,
+    data class PlaceholderStyler(@ColorRes var opaqueBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
+                                 @ColorRes var transparentBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
+                                 @ColorRes var progressBarColor: Int = NOT_ASSIGNED_RESOURCE,
                                  var titleBottomMargin: Int = 0,
                                  var subtitleBottomMargin: Int = 0,
                                  var buttonBottomMargin: Int = 0,
                                  var secondButtonBottomMargin: Int = 0,
-                                 var imageBottomMargin: Int = 0)
+                                 var imageBottomMargin: Int = 0,
+                                 @StyleRes var titleTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 @StyleRes var subtitleTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 @StyleRes var buttonTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 @StyleRes var secondButtonTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 @StyleRes var buttonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 @StyleRes var secondButtonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 @StyleRes var imageStyleResId: Int = NOT_ASSIGNED_RESOURCE)
 
     /**
      * Хранилище всех данных [StandardPlaceHolderView].
