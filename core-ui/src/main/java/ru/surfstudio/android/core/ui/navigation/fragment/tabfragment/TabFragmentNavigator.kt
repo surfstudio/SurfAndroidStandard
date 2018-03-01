@@ -21,17 +21,15 @@ import java.util.*
 /**
  * Навигатор для фрагментов в табах
  */
-class TabFragmentNavigator(val activityProvider: ActivityProvider,
-                           private val eventDelegateManager: ScreenEventDelegateManager)
+open class TabFragmentNavigator(val activityProvider: ActivityProvider,
+                           eventDelegateManager: ScreenEventDelegateManager)
     : Navigator,
         OnBackPressedDelegate,
         OnRestoreStateDelegate,
         OnSaveStateDelegate {
 
     private val EXTRA_CURRENT_TAB_TAG: String = TabFragmentNavigator::class.toString() + "CURRENT_TAB_TAG"
-
     private val EXTRA_CURRENT_FRAGMENT: String = TabFragmentNavigator::class.toString() + "CURRENT_FRAGMENT_TAG"
-
     private val EXTRA_FRAGMENT_STACK: String = TabFragmentNavigator::class.toString() + "FRAGMENT_STACK"
 
     private var activeTabTag: String? = null
@@ -40,12 +38,13 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
     private val fragmentManager get() = activityProvider.get().supportFragmentManager
     private val activeStack: Stack<Fragment>
         get() {
-            Logger.d("2222 activeStack = ${fragmentMap[activeTabTag]?.joinToString {
+            Logger.i("2222 activeStack = ${fragmentMap[activeTabTag]?.joinToString {
                 it.tag ?: "null"
             }}")
-            return fragmentMap[activeTabTag] ?: Stack<Fragment>()
+            return fragmentMap[activeTabTag] ?: Stack()
         }
 
+    private val activeTagsStack get() = activeStack.map { it.tag }
     private val currentFragment get() = if (!activeStack.empty()) activeStack.peek() else null
     private val currentRoot get() = activeStack.firstElement()
 
@@ -57,7 +56,6 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
      * Показ фрагмента
      */
     fun open(route: FragmentRoute) {
-        Logger.d("22222 open fragment ${route.tag}")
         if (route is RootFragmentRoute) {
             showRoot(route)
         } else {
@@ -83,33 +81,38 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
     }
 
     fun clearStack() {
-        clearStackTo(activeStack.firstElement())
+        popStack(activeStack.size - 1)
     }
 
-    fun clearStackTo(fragment: Fragment?) {
-        Logger.d("2222 clearStackTo $fragment | idx = ${activeStack.indexOf(fragment)} | last idx = ${activeStack.lastIndex}")
-        activeStack.takeLast(activeStack.lastIndex - activeStack.indexOf(fragment))
+    fun clearStackTo(route: FragmentRoute) {
+        val popDepth = activeTagsStack.lastIndex - activeTagsStack.indexOf(route.tag)
+        popStack(popDepth)
+    }
+
+    private fun popStack(popDepth: Int = 0) {
+        activeStack.takeLast(popDepth)
                 .forEach {
+                    Logger.d("1111 ${it.tag}")
                     remove(activeStack.pop().tag)
+                    show(activeStack.peek().tag)
                 }
 
-        hideAnotherFragnemts()
+        hideAnotherFragments()
     }
 
-    private fun addToStack(fragment: Fragment, route: FragmentRoute) {
+    private fun addToStack(route: FragmentRoute) {
+        val fragment = route.createFragment()
+
         Logger.d("2222 add fragment to stack ${route.tag} ")
-        currentRoot.childFragmentManager
         add(fragment, route.tag, true)
         activeStack.push(fragment)
     }
 
     private fun showRoot(route: FragmentRoute) {
-        Logger.d("2222 map : ${fragmentMap.keys.joinToString()}")
-        Logger.d("2222 contains this route ${fragmentMap.keys.contains(route.tag)}")
         if (fragmentMap.keys.contains(route.tag)) {
             //открывает существующий таб (+ проверка на активность таба -> ex. сброс стека при повторном выборе)
             if (activeTabTag != route.tag) {
-                reShow(route.tag)
+                showExistent(route.tag)
             } else {
                 // do nothing
                 //todo callback-лямбда на действие при повторном открытии активного таба
@@ -121,15 +124,13 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
 
     @SuppressLint("WrongConstant")
     private fun showChild(route: FragmentRoute) {
-        val fragment = route.createFragment()
-
         if (fragmentMap.isEmpty()) {
             fragmentNavigator.add(route, false, FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         } else {
-            if (activeStack.contains(fragment)) {
-                clearStackTo(fragment)
+            if (activeTagsStack.contains(route.tag)) {
+                clearStackTo(route)
             } else {
-                addToStack(fragment, route)
+                addToStack(route)
             }
         }
     }
@@ -137,7 +138,8 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
     /**
      * Добавление рутового фрагмента
      */
-    private fun addRoot(fragmentRoute: FragmentRoute, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
+    private fun addRoot(fragmentRoute: FragmentRoute,
+                        transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
         val fragment = fragmentRoute.createFragment()
         activeTabTag = fragmentRoute.tag
         add(fragment, fragmentRoute.tag, false, transition)
@@ -146,18 +148,17 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
         stack.push(fragment)
         fragmentMap[fragmentRoute.tag] = stack
 
-        hideAnotherFragnemts()
+        hideAnotherFragments()
     }
 
-    private fun reShow(routeTag: String) {
-        Logger.d("2222 reshow existent fragment $routeTag | prev active tag = $activeTabTag")
+    private fun showExistent(routeTag: String) {
         activeTabTag = routeTag
-        show(activeStack.peek()?.tag)
+        show(activeStack.peek().tag)
 
-        hideAnotherFragnemts()
+        hideAnotherFragments()
     }
 
-    private fun hideAnotherFragnemts() {
+    private fun hideAnotherFragments() {
         fragmentMap.keys.filter { it != activeTabTag }
                 .forEach {
                     fragmentMap[it]?.forEach {
@@ -166,7 +167,19 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
                 }
     }
 
-    private fun add(fragment: Fragment, routeTag: String, stackable: Boolean = false, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
+    private fun restoreStacksWithShowUpper(currentUpTag: String) {
+        fragmentMap.forEach {(_, stack) ->
+                    stack.forEach{
+                        Logger.d("32323 ${it.tag} ${show(it.tag)}")
+
+                    }
+                }
+        showExistent(currentUpTag)
+    }
+    private fun add(fragment: Fragment,
+                    routeTag: String,
+                    stackable: Boolean = false,
+                    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
         val viewContainerId = getViewContainerIdOrThrow()
         fragmentManager.executePendingTransactions()
 
@@ -180,7 +193,10 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
         fragmentTransaction.commit()
     }
 
-    private fun replace(fragment: Fragment, routeTag: String, stackable: Boolean = false, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
+    private fun replace(fragment: Fragment,
+                        routeTag: String,
+                        stackable: Boolean = false,
+                        transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
         val viewContainerId = getViewContainerIdOrThrow()
         fragmentManager.executePendingTransactions()
 
@@ -223,9 +239,9 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.setTransition(transition)
         if (show) {
-            fragmentTransaction.show(fragment)
+            fragmentTransaction.attach(fragment)
         } else {
-            fragmentTransaction.hide(fragment)
+            fragmentTransaction.detach(fragment)
         }
 
         fragmentTransaction.commit()
@@ -249,8 +265,7 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
         Logger.i("2222 onBackPressed ${activeStack.joinToString()}")
 
         if (activeStack.size <= 1) return false
-        remove(activeStack.pop().tag)
-        show(activeStack.peek().tag)
+        popStack(1)
 
         Logger.i("2222 onBackPressed ${activeStack.joinToString()}")
         //todo прокинуть реакцию
@@ -290,7 +305,6 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
                 stackArrays.put(stackArray)
             }
 
-            Logger.d("2222 StackArray ${stackArrays.toString(4)}")
             outState.putString(EXTRA_FRAGMENT_STACK, stackArrays.toString())
         } catch (t: Throwable) {
             Logger.e(t)
@@ -324,7 +338,7 @@ class TabFragmentNavigator(val activityProvider: ActivityProvider,
                 Logger.i("2222 after restore map = ${fragmentMap.toString()}")
 
                 val savedCurrentTabTag = savedInstanceState.getString(EXTRA_CURRENT_TAB_TAG)
-                reShow(savedCurrentTabTag)
+                showExistent(savedCurrentTabTag)
 
                 true
             } catch (t: Throwable) {

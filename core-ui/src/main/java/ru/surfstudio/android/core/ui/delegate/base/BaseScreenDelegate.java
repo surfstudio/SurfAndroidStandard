@@ -82,6 +82,7 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onDestroy() {
+
         getScreenState().onDestroy();
         getEventDelegateManager().sendEvent(new OnDestroyEvent());
         if (completelyDestroyChecker.check()) {

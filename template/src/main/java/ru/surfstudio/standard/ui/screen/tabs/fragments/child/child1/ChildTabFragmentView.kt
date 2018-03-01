@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.fragment_child_tab.*
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator
 import ru.surfstudio.android.core.mvp.fragment.BaseRenderableFragmentView
+import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.standard.R
 import javax.inject.Inject
 
@@ -31,5 +32,5 @@ class ChildTabFragmentView : BaseRenderableFragmentView<ChildTabFragmentScreenMo
     override fun createConfigurator(): BaseFragmentViewConfigurator<*, *> =
             ChildTabFragmentConfigurator(arguments!!)
 
-    override fun getName(): String = this::class.toString()
+    override fun getName(): String = this::class.toString() + arguments?.getInt(Route.EXTRA_FIRST)
 }

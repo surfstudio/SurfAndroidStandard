@@ -13,6 +13,7 @@ import ru.surfstudio.android.core.mvp.delegate.factory.MvpScreenDelegateFactoryC
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
+import ru.surfstudio.android.logger.Logger;
 
 
 /**

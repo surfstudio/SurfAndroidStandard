@@ -23,6 +23,7 @@ class Tab1FragmentPresenter @Inject constructor(
     }
 
     val screenModel: Tab1FragmentScreenModel = Tab1FragmentScreenModel(route.id)
+    var i = 0
 
     override fun onResume() {
         super.onResume()
@@ -31,6 +32,6 @@ class Tab1FragmentPresenter @Inject constructor(
 
     fun openTab() {
         Logger.d("2222 new id ${screenModel.id + 1}")
-        tabFragmentNavigator.open(ChildTabFragmentRoute(screenModel.id + 1))
+        tabFragmentNavigator.open(ChildTabFragmentRoute(screenModel.id + i++))
     }
 }

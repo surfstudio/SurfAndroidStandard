@@ -43,9 +43,16 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Logger.d("11111 onCreate" + this.hashCode());
+    }
+
+    @Override
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         fragmentDelegate = createFragmentDelegate();
+        super.onActivityCreated(savedInstanceState);
+        Logger.d("11111 " + this.hashCode() + " onActivityCreated ");
         fragmentDelegate.onCreate(savedInstanceState, null);
     }
 
@@ -76,19 +83,31 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        Logger.d("1111 onDestroyView" + this.hashCode());
         fragmentDelegate.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        fragmentDelegate.onDestroy();
+        Logger.d("11111 onDestroy on " + this.hashCode());
+        try {
+            fragmentDelegate.onDestroy();
+        } catch (NullPointerException e) {
+            Logger.e(e.toString() + " 11111 on " + this.hashCode());
+        }
+
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        fragmentDelegate.onOnSaveInstantState(outState);
+        Logger.d("11111 onSaveInstance on " + this.hashCode());
+        try {
+            fragmentDelegate.onOnSaveInstantState(outState);
+        } catch (NullPointerException e) {
+            Logger.e(e.toString() + " 11111 on " + this.hashCode());
+        }
     }
 
     @Override
