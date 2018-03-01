@@ -3,8 +3,6 @@ package ru.surfstudio.standard.ui.base.dagger.screen
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.message.DefaultMessageController
-import ru.surfstudio.android.core.ui.message.MessageController
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -13,6 +11,8 @@ import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.message.DefaultMessageController
+import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.standard.ui.base.error.ErrorHandlerModule
 
 @Module(includes = [ErrorHandlerModule::class])
