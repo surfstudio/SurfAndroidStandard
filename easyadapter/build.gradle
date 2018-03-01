@@ -2,5 +2,5 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     compileOnly "com.android.support:support-annotations:${appcompatVersion}"
-    compileOnly "com.android.support:recyclerview-v7:${appcompatVersion}"
+    api "com.android.support:recyclerview-v7:${appcompatVersion}"
 }

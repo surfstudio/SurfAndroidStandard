@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import javax.inject.Inject
 
 
-class ${className}Dialog : BaseSimpleDialogFragment() {
+class ${className}Dialog : CoreSimpleDialogFragment() {
     @Inject
     lateinit var presenter: ${screenName}Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getScreenComponent(${screenName}ScreenComponent.class).inject(this)
+        getScreenComponent(${screenName}ScreenComponent::class.java).inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -31,9 +31,10 @@ class ${className}Dialog : BaseSimpleDialogFragment() {
     override fun getName(): String = "${camelCaseToUnderscore(className)}"
 
     private fun findViews(view: View) {
+    
     }
 
     private fun initListeners() {
-    }
 
+    }
 }

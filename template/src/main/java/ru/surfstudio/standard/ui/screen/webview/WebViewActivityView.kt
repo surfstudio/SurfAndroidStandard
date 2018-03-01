@@ -5,7 +5,7 @@ import android.os.PersistableBundle
 import android.support.v7.widget.Toolbar
 import android.webkit.WebView
 import org.jetbrains.anko.find
-import ru.surfstudio.android.core.ui.base.screen.activity.BaseLdsActivityView
+import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderViewImpl

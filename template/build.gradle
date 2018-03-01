@@ -23,10 +23,10 @@ android {
     signingConfigs {
         // todo настроить подпись приложения
         release {
-            storeFile file("../keystore/prod.keystore.jks")
-            storePassword "qsdm345nbdfg458smm4"
-            keyAlias "prod"
-            keyPassword "qsdm345nbdfg458smm4"
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
         }
         test {
             storeFile file("../keystore/test.keystore")
@@ -38,12 +38,12 @@ android {
 
     buildTypes {
         debug {
-//            signingConfig signingConfigs.test
+            //signingConfig signingConfigs.test
             minifyEnabled false
             resValue "bool", "only_portrait", "false"
         }
         qa {
-//            signingConfig signingConfigs.test
+            //signingConfig signingConfigs.test
             minifyEnabled false
             debuggable = true
             ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
@@ -52,7 +52,7 @@ android {
             resValue "bool", "only_portrait", "false"
         }
         release {
-//            signingConfig signingConfigs.release
+            //signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "bool", "only_portrait", "true"
@@ -81,23 +81,34 @@ dependencies {
 //    implementation 'ru.surfstudio.standard:core:0.0.1'
     //implementation 'ru.surfstudio.standard:easyadapter:0.0.4-SNAPSHOT'//todo
 
-    implementation project(':core')
+    implementation project(':core-app')
+    implementation project(':core-ui')
+    implementation project(':core-mvp')
+    implementation project(':mvp-dialog')
+    implementation project(':mvp-widget')
+    implementation project(':app-migration')
+    implementation project(':shared-pref')
+    implementation project(':custom-view')
     implementation project(':analytics')
-    implementation project(':core')
+    implementation project(':core-app')
     implementation project(':analytics')
     implementation project(':network')
     implementation project(':converter-gson')
     implementation project(':filestorage')
     implementation project(':easyadapter')
-    implementation project(':easyadapter-carousel')
-    implementation project(':logger')
-    implementation project(':dagger-scope')
+    implementation project(':recycler-extension')
+    implementation project(':picture-provider')
+    implementation project(':camera-view')
     implementation project(':connection')
     implementation project(':rx-extension')
     implementation project(':firebase-analytics')
+    implementation project(':custom-view')
     implementation project(':util-ktx')
+    implementation project(':animations')
+    implementation project(':push')
+    implementation project(':dagger-scope')
 
-    compileOnly "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -112,6 +123,7 @@ dependencies {
 
     //firebase
     api "com.google.firebase:firebase-core:${playServicesVersion}"
+    implementation "com.google.firebase:firebase-messaging:${playServicesVersion}"
 
     //--------------------------------- test dependencies ------------------------------------------
 
@@ -133,6 +145,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
+    compile project(path: ':logger')
 }
 
 apply plugin: 'kotlin-android-extensions'

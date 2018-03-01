@@ -1,14 +1,14 @@
 package ru.surfstudio.standard.ui.base.configurator;
 
-import ru.surfstudio.android.core.ui.base.dagger.CoreActivityModule;
-import ru.surfstudio.android.core.ui.base.screen.configurator.BaseActivityConfigurator;
+import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.standard.app.App;
-import ru.surfstudio.standard.app.dagger.ActivityComponent;
 import ru.surfstudio.standard.app.dagger.AppComponent;
-import ru.surfstudio.standard.app.dagger.DaggerActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.standard.ui.base.dagger.activity.DaggerActivityComponent;
 
 /**
- * Created by makstuev on 30.01.2018. //todo
+ * Базовый конфигуратор для активити
  */
 
 public class ActivityConfigurator extends BaseActivityConfigurator<ActivityComponent, AppComponent> {
@@ -17,13 +17,12 @@ public class ActivityConfigurator extends BaseActivityConfigurator<ActivityCompo
     protected ActivityComponent createActivityComponent(AppComponent parentComponent) {
         return DaggerActivityComponent.builder()
                 .appComponent(parentComponent)
-                .coreActivityModule(new CoreActivityModule(getPersistentScope()))
+                .activityModule(new ActivityModule(getPersistentScope()))
                 .build();
     }
 
     @Override
     protected AppComponent getParentComponent() {
         return ((App) getTargetActivity().getApplicationContext()).getAppComponent();
-
     }
 }

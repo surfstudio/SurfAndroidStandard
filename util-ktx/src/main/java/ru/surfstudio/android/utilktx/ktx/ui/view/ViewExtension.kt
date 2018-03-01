@@ -6,11 +6,51 @@ import android.graphics.drawable.ShapeDrawable
 import android.support.annotation.ColorInt
 import android.view.View
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
+import android.view.ViewGroup.MarginLayoutParams
 
 /**
- * Extension-методы для View
+ * Extension-методы для View.
  */
 
+/**
+ * Установка отступа от низа View.
+ *
+ * @param bottomMarginPx величина отступа в px.
+ */
+fun View.setBottomMargin(bottomMarginPx: Int) {
+    val params = layoutParams as? MarginLayoutParams
+    params?.bottomMargin = bottomMarginPx
+}
+
+/**
+ * Установка отступа от верха View.
+ *
+ * @param topMarginPx величина отступа в px.
+ */
+fun View.setTopMargin(topMarginPx: Int) {
+    val params = layoutParams as? MarginLayoutParams
+    params?.topMargin = topMarginPx
+}
+
+/**
+ * Установка отступа слева от View.
+ *
+ * @param leftMarginPx величина отступа в px.
+ */
+fun View.setLeftMargin(leftMarginPx: Int) {
+    val params = layoutParams as? MarginLayoutParams
+    params?.leftMargin = leftMarginPx
+}
+
+/**
+ * Установка отступа справа от View.
+ *
+ * @param rightMarginPx величина отступа в px.
+ */
+fun View.setRightMargin(rightMarginPx: Int) {
+    val params = layoutParams as? MarginLayoutParams
+    params?.rightMargin = rightMarginPx
+}
 
 /**
  * Меняет цвет background у view
@@ -24,6 +64,9 @@ fun View.changeViewBackgroundColor(@ColorInt color: Int) {
     }
 }
 
+/**
+ * Делает вью невидимой и задизейбленной, если выполняется условие
+ */
 fun View.invisibleIf(invisible: Boolean) {
     if (invisible) {
         visibility = View.VISIBLE
@@ -34,6 +77,9 @@ fun View.invisibleIf(invisible: Boolean) {
     }
 }
 
+/**
+ * Cкрывает вью , если выполняется условие
+ */
 fun View.goneIf(gone: Boolean) {
     if (gone) {
         visibility = View.GONE
@@ -51,19 +97,22 @@ fun View.hideSoftKeyboard() {
     KeyboardUtil.hideSoftKeyboard(this)
 }
 
+
+//==================== ACTION IF CHANGED =================================
+
 /**
  * Extension метод, который запускает action если данные изменились
  */
 fun <T : View, R> T.actionIfChanged(data: R?, action: T.(data: R?) -> Unit) {
-    this.actionIfChanged(data, null,null,null,  {d,_,_,_ -> action(d)})
+    this.actionIfChanged(data, null, null, null, { d, _, _, _ -> action(d) })
 }
 
-fun <T : View, R1,R2> T.actionIfChanged(data1: R1?,data2: R2?, action: T.(R1?,R2?) -> Unit) {
-    this.actionIfChanged(data1, data2,null,null,  {d1,d2,_,_ -> action(d1,d2)})
+fun <T : View, R1, R2> T.actionIfChanged(data1: R1?, data2: R2?, action: T.(R1?, R2?) -> Unit) {
+    this.actionIfChanged(data1, data2, null, null, { d1, d2, _, _ -> action(d1, d2) })
 }
 
-fun <T : View, R1,R2,R3> T.actionIfChanged(data1: R1?,data2: R2?, data3: R3? = null, action: T.(R1?,R2?,R3?) -> Unit) {
-    this.actionIfChanged(data1, data2,data3,null,  {d1,d2,d3,_ -> action(d1,d2,d3)})
+fun <T : View, R1, R2, R3> T.actionIfChanged(data1: R1?, data2: R2?, data3: R3? = null, action: T.(R1?, R2?, R3?) -> Unit) {
+    this.actionIfChanged(data1, data2, data3, null, { d1, d2, d3, _ -> action(d1, d2, d3) })
 }
 
 fun <T : View, R1, R2, R3, R4> T.actionIfChanged(
@@ -77,7 +126,7 @@ fun <T : View, R1, R2, R3, R4> T.actionIfChanged(
             ?.plus(data3?.hashCode() ?: 0)
             ?.plus(data4?.hashCode() ?: 0)
     if (this.tag != hash) {
-        action(data1,data2, data3, data4)
+        action(data1, data2, data3, data4)
         this.tag = hash
     }
 }

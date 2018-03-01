@@ -15,21 +15,12 @@ import ru.surfstudio.android.utilktx.ktx.text.fractionalFormat
 import ru.surfstudio.android.utilktx.ktx.text.wholeFormat
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.Locale
+import java.util.*
 
 /**
  * Вспомогательные методы работы со строками
  */
 object StringUtil {
-
-    //todo
-//    fun htmlSimpleDecode(htmlText: String): String {
-//        var decoded = htmlText
-//        for (tagIndex in tags.indices) {
-//            decoded = decoded.replace(tags[tagIndex], symbols[tagIndex])
-//        }
-//        return decoded
-//    }
 
     /**
      * Убирает подчеркивание у текста
@@ -64,6 +55,10 @@ object StringUtil {
         textView.text = builder
     }
 
+
+    /**
+     * Форматирует число в строке
+     */
     fun getSplitedNumber(value: Double): String {
         //Locale.US - чтобы на выходе была строка вида *.**, а не *,**
         if (value < VALID_VALUE) {
@@ -79,6 +74,9 @@ object StringUtil {
         return if (value > 0) getDecimalFormat(wholeFormat).format(value.toLong()) else 0.toString()
     }
 
+    /**
+     * Форматирование телефонного номера
+     */
     fun formatPhone(source: String): String? {
         return if (SdkUtils.isAtLeastLollipop) {
             PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)

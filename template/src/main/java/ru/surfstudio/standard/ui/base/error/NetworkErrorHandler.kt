@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.ui.base.error
 
 import io.reactivex.exceptions.CompositeException
-import ru.surfstudio.android.core.ui.base.error.ErrorHandler
+import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.network.error.ConversionException
 import ru.surfstudio.android.network.error.NetworkException

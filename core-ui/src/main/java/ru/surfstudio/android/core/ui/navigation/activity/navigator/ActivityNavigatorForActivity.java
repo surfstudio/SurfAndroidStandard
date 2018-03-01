@@ -1,0 +1,28 @@
+package ru.surfstudio.android.core.ui.navigation.activity.navigator;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.provider.ActivityProvider;
+
+/**
+ * ActivityNavigator раборающий из активити
+ */
+public class ActivityNavigatorForActivity extends ActivityNavigator {
+
+    private ActivityProvider activityProvider;
+
+    public ActivityNavigatorForActivity(ActivityProvider activityProvider,
+                                        ScreenEventDelegateManager eventDelegateManager) {
+        super(activityProvider, eventDelegateManager);
+        this.activityProvider = activityProvider;
+    }
+
+    @Override
+    protected void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle bundle) {
+        activityProvider.get().startActivityForResult(intent, requestCode, bundle);
+    }
+}

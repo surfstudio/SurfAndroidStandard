@@ -1,0 +1,21 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    api project(':logger')
+    api project(':connection')
+    api project(':rx-extension')
+    api project(':util-ktx')
+    compileOnly project(':easyadapter')
+
+    implementation "com.android.support:support-annotations:$appcompatVersion"
+
+    api "com.android.support:appcompat-v7:$appcompatVersion"
+    api "com.github.bumptech.glide:glide:$glideVersion"
+    api "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+    api "com.android.support:multidex:$multidexVersion"
+
+    implementation "com.annimon:stream:$annimonStreamVersion"
+
+    //logging
+    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
+}

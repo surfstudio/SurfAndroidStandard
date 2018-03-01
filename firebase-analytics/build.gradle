@@ -1,12 +1,7 @@
 apply from: '../androidModule.gradle'
 
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-
 dependencies {
-    compileOnly "com.google.firebase:firebase-core:${playServicesVersion}"
-
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     compileOnly project(path: ':analytics')
+    compileOnly "com.google.firebase:firebase-core:${playServicesVersion}"
 }
 

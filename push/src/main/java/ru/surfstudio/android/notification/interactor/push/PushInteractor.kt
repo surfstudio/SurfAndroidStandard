@@ -2,15 +2,11 @@ package ru.surfstudio.android.notification.interactor.push
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import ru.surfstudio.android.core.app.scheduler.SchedulersProvider
-import ru.surfstudio.android.dagger.scope.PerApplication
-import javax.inject.Inject
 
 /**
  * Логика работы с пушами
  */
-@PerApplication
-class PushInteractor @Inject constructor(private val schedulersProvider: SchedulersProvider) {
+class PushInteractor {
 
     private val notificationPublishSubject = PublishSubject.create<BaseNotificationTypeData<*>>()
 
