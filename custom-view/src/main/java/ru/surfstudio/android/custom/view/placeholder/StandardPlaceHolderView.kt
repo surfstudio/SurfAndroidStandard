@@ -45,6 +45,18 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private var secondButton: Button
     private var imageIv: ImageView
 
+    var buttonLambda: (() -> Unit)? = null                        //обработчик нажатия на первую кнопку
+        set(value) {
+            field = value
+            button.setOnClickListener { buttonLambda?.invoke() }
+        }
+
+    var secondButtonLambda: (() -> Unit)? = null                  //обработчик нажатия на вторую кнопку
+        set(value) {
+            field = value
+            secondButton.setOnClickListener { secondButtonLambda?.invoke() }
+        }
+
     private val styler = PlaceholderStyler()                   //менеджер стилизации плейсхолдера
     private val dataContainer = PlaceholderDataContainer()     //менеджер данных плейсхолдера
     private val stater = PlaceholderStater { updateView() }    //менеджер состояния плейсхолдера
