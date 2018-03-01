@@ -4,14 +4,11 @@ import android.Manifest
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionRequest
-import ru.surfstudio.android.dagger.scope.PerScreen
-import javax.inject.Inject
 
 /**
  * утилита для проверки и запроса пермишенов для камеры и хранилища
  */
-@PerScreen
-class PicturePermissionChecker @Inject constructor(private val permissionManager: PermissionManager) {
+class PicturePermissionChecker constructor(private val permissionManager: PermissionManager) {
 
     /**
      * проверка и запрос пермишена на камеру и хранилища

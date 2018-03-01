@@ -24,3 +24,11 @@ fun TypedArray.obtainDrawableAttribute(context: Context, @StyleableRes styleable
                 ContextCompat.getDrawable(context, it)
             }
         }
+
+/**
+ * Безопасное извлечение строки из кастомного атрибута по ссылке на ресурс.
+ *
+ * @param styleableResId ссылка на извлекаемый атрибут
+ */
+fun TypedArray.obtainStringAttribute(@StyleableRes styleableResId: Int) =
+        this.getString(styleableResId) ?: ""

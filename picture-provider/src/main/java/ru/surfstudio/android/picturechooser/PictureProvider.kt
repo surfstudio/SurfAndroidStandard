@@ -5,16 +5,13 @@ import android.provider.MediaStore
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
-import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
-import javax.inject.Inject
 
 
 /**
  * Поставляет изображения находящиеся на устройстве или с камеры.
  */
-@PerScreen
-class PictureProvider @Inject constructor(
+class PictureProvider constructor(
         val context: Context,
         activityNavigator: ActivityNavigator,
         activityProvider: ActivityProvider,

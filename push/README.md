@@ -2,6 +2,7 @@
 Содержит базовые классы для получения пушей от сервера с последующей обработкой. 
 Возможно определение поведения для различных типов сообщений.
 
+##Использование
 Для встраивания в проект необходимо сделать следующие действия:
 1. Проинициализировать [NotificationCenter](src/main/java/ru/surfstudio/android/notification/NotificationCenter.kt)
    с помощью метода configure(), вызвав внутри методы setActiveActivityHolder, setPushHandleStrategyFactory
@@ -13,3 +14,13 @@
    в котором переопределить map c соотвествием типа пуша стратегии его обработки
 1. Добавить firebase в проект, в методе onMessageReceived обработать сообщение
    с помощью NotificationCenter.onMessageReceived()
+   
+#Подключение
+Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
+чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
+[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
+  
+Для подключения модуля через Gradle:
+```
+    implementation "ru.surfstudio.standard:push:X.X.X"
+```

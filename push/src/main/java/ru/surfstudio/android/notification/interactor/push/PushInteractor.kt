@@ -2,12 +2,10 @@ package ru.surfstudio.android.notification.interactor.push
 
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import ru.surfstudio.android.dagger.scope.PerApplication
 
 /**
  * Логика работы с пушами
  */
-@PerApplication
 class PushInteractor {
 
     private val notificationPublishSubject = PublishSubject.create<BaseNotificationTypeData<*>>()

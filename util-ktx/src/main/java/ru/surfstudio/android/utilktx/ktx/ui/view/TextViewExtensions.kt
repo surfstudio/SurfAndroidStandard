@@ -4,12 +4,14 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.support.annotation.ColorRes
 import android.support.annotation.IntegerRes
+import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.ktx.text.PHONE_NUMBER_CHARS
+import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
  * Extension-функции для настроек ввода (установки лимитов, допустимых и запрещённых символов и т.д.)
@@ -32,6 +34,20 @@ fun TextView.setDrawableColor(color: Int) {
     this.compoundDrawablesRelative
             .filterNotNull()
             .forEach { it.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN) }
+}
+
+/**
+ * Установка стиля [TextView].
+ *
+ * Автоматически выбирается наиболее оптимальный способ сделать это в зависимости от версии системы.
+ */
+fun TextView.setTextAppearanceStyle(@StyleRes styleResId: Int) {
+    if (SdkUtils.isAtLeastMarshmallow) {
+        setTextAppearance(styleResId)
+    } else {
+        @Suppress("DEPRECATION")
+        setTextAppearance(this.context, styleResId)
+    }
 }
 
 /**
