@@ -11,7 +11,7 @@ Broadcast-extension зависит от модуля:
 * Переопределить метод intentFilter
 ###Пример:
 ```kotlin
-class ExampleBroadcastReceiver(context: Context, intentFilter: IntentFilter) : RxBroadcastReceiver<String>(context, intentFilter) {
+class ExampleBroadcastReceiver(context: Context) : RxBroadcastReceiver<String>(context) {
 
     override fun parseBroadcastIntent(intent: Intent): String? {
         //TODO Реализовать парсинг пришедшего интента
