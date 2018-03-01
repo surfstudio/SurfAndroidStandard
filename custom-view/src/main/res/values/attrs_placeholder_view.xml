@@ -32,10 +32,15 @@
         <attr name="errorImage" format="reference" />
 
         <attr name="titleBottomMargin" format="dimension" />
+        <attr name="titleTopMargin" format="dimension" />
         <attr name="subtitleBottomMargin" format="dimension" />
+        <attr name="subtitleTopMargin" format="dimension" />
         <attr name="buttonBottomMargin" format="dimension" />
+        <attr name="buttonTopMargin" format="dimension" />
         <attr name="secondButtonBottomMargin" format="dimension" />
+        <attr name="secondButtonTopMargin" format="dimension" />
         <attr name="imageBottomMargin" format="dimension" />
+        <attr name="imageTopMargin" format="dimension" />
         <!-- todo объявляются в общем attrs, удалить после документирования
                 <attr name="titleTextAppearance" format="reference" />
                 <attr name="subtitleTextAppearance" format="reference" />

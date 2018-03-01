@@ -4,6 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <Button
+        android:id="@+id/none_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Загрузка"/>
+
+    <Button
+        android:id="@+id/load_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Загрузка"/>
+    <Button
+        android:id="@+id/empty_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Пусто"/>
+    <Button
+        android:id="@+id/no_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ничего нет"/>
+
     <ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
         android:id="@+id/placeholder"
         style="@style/PlaceHolderView.Default"

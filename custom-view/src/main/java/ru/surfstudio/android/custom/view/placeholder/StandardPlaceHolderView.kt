@@ -6,8 +6,6 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorRes
 import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.AppCompatButton
-import android.support.v7.widget.AppCompatImageView
 import android.util.ArrayMap
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
@@ -17,16 +15,16 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
+import ru.surfstudio.android.animations.anim.AnimationUtil
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
 import ru.surfstudio.android.utilktx.ktx.attr.*
-import ru.surfstudio.android.utilktx.ktx.ui.view.setBottomMargin
-import ru.surfstudio.android.utilktx.ktx.ui.view.setImageDrawableOrGone
-import ru.surfstudio.android.utilktx.ktx.ui.view.setTextAppearanceStyle
-import ru.surfstudio.android.utilktx.ktx.ui.view.setTextOrGone
+import ru.surfstudio.android.utilktx.ktx.ui.view.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
@@ -37,6 +35,20 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     : FrameLayout(context, attrs, defStyle),
         PlaceHolderView {
 
+    @Suppress("MemberVisibilityCanBePrivate")
+    var buttonLambda: ((loadState: LoadState) -> Unit)? = null                        //обработчик нажатия на первую кнопку
+        set(value) {
+            field = value
+            button.setOnClickListener { buttonLambda?.invoke(stater.loadState) }
+        }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    var secondButtonLambda: ((loadState: LoadState) -> Unit)? = null                  //обработчик нажатия на вторую кнопку
+        set(value) {
+            field = value
+            secondButton.setOnClickListener { secondButtonLambda?.invoke(stater.loadState) }
+        }
+
     private var contentContainer: ViewGroup
     private var progressBar: MaterialProgressBar
     private var titleTv: TextView
@@ -44,18 +56,6 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private var button: Button
     private var secondButton: Button
     private var imageIv: ImageView
-
-    var buttonLambda: (() -> Unit)? = null                        //обработчик нажатия на первую кнопку
-        set(value) {
-            field = value
-            button.setOnClickListener { buttonLambda?.invoke() }
-        }
-
-    var secondButtonLambda: (() -> Unit)? = null                  //обработчик нажатия на вторую кнопку
-        set(value) {
-            field = value
-            secondButton.setOnClickListener { secondButtonLambda?.invoke() }
-        }
 
     private val styler = PlaceholderStyler()                   //менеджер стилизации плейсхолдера
     private val dataContainer = PlaceholderDataContainer()     //менеджер данных плейсхолдера
@@ -73,8 +73,6 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         imageIv = findViewById(R.id.placeholder_image_iv)
 
         applyAttributes(context, attrs, defStyle)
-
-        updateView()
     }
 
     override fun render(loadState: LoadState) {
@@ -92,6 +90,11 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.styler.buttonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_buttonBottomMargin)
         this.styler.secondButtonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_secondButtonBottomMargin)
         this.styler.imageBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_imageBottomMargin)
+        this.styler.titleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_titleTopMargin)
+        this.styler.subtitleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_subtitleTopMargin)
+        this.styler.buttonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_buttonTopMargin)
+        this.styler.secondButtonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_secondButtonTopMargin)
+        this.styler.imageTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_imageTopMargin)
         this.styler.titleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_titleTextAppearance)
         this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_subtitleTextAppearance)
         this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_buttonTextAppearance)
@@ -154,7 +157,10 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         errorFoundButtonText,
                         errorFoundSecondButtonText,
                         errorFoundImage))
+
         ta.recycle()
+
+        updateView()
     }
 
     private fun updateView() {
@@ -212,8 +218,11 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             if (it != NOT_ASSIGNED_RESOURCE) {
                 val viewIndex = contentContainer.indexOfChild(button)
                 contentContainer.removeViewInLayout(button)
-                button = AppCompatButton(ContextThemeWrapper(context, it), null, 0)
+                button = Button(ContextThemeWrapper(context, it), null, 0)
                 button.layoutParams = extractLayoutParamsFromStyle(styler.buttonStyleResId)
+                button.setOnClickListener {
+                    buttonLambda?.invoke(stater.loadState)
+                }
                 contentContainer.addView(button, viewIndex)
             }
         }
@@ -221,8 +230,11 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             if (it != NOT_ASSIGNED_RESOURCE) {
                 val viewIndex = contentContainer.indexOfChild(secondButton)
                 contentContainer.removeViewInLayout(secondButton)
-                secondButton = AppCompatButton(ContextThemeWrapper(context, it), null, 0)
+                secondButton = Button(ContextThemeWrapper(context, it), null, 0)
                 secondButton.layoutParams = extractLayoutParamsFromStyle(styler.secondButtonStyleResId)
+                secondButton.setOnClickListener {
+                    secondButtonLambda?.invoke(stater.loadState)
+                }
                 contentContainer.addView(secondButton, viewIndex)
             }
         }
@@ -230,7 +242,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             if (it != NOT_ASSIGNED_RESOURCE) {
                 val viewIndex = contentContainer.indexOfChild(imageIv)
                 contentContainer.removeViewInLayout(imageIv)
-                imageIv = AppCompatImageView(ContextThemeWrapper(context, it), null, 0)
+                imageIv = ImageView(ContextThemeWrapper(context, it), null, 0)
                 imageIv.layoutParams = extractLayoutParamsFromStyle(styler.imageStyleResId)
                 contentContainer.addView(imageIv, viewIndex)
             }
@@ -264,6 +276,12 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         button.setBottomMargin(styler.buttonBottomMargin)
         secondButton.setBottomMargin(styler.secondButtonBottomMargin)
         imageIv.setBottomMargin(styler.imageBottomMargin)
+
+        titleTv.setTopMargin(styler.titleTopMargin)
+        subtitleTv.setTopMargin(styler.subtitleTopMargin)
+        button.setTopMargin(styler.buttonTopMargin)
+        secondButton.setTopMargin(styler.secondButtonTopMargin)
+        imageIv.setTopMargin(styler.imageTopMargin)
     }
 
     /**
@@ -283,19 +301,19 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      * Установка видимости плейсхолдера в зависимости от текущего [LoadState].
      */
     private fun setVisibility() {
-        visibility = when (stater.loadState) {
+        when (stater.loadState) {
             LoadState.NONE -> {
-                View.INVISIBLE
+                AnimationUtil.fadeOut(this, 300L)
             }
             LoadState.MAIN_LOADING, LoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
                 progressBar.visibility = View.VISIBLE
-                View.VISIBLE
+                AnimationUtil.fadeIn(this, 300L)
             }
             else -> {
                 contentContainer.visibility = View.VISIBLE
                 progressBar.visibility = View.INVISIBLE
-                View.VISIBLE
+                AnimationUtil.fadeIn(this, 300L)
             }
         }
     }
@@ -311,6 +329,11 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                  var buttonBottomMargin: Int = 0,
                                  var secondButtonBottomMargin: Int = 0,
                                  var imageBottomMargin: Int = 0,
+                                 var titleTopMargin: Int = 0,
+                                 var subtitleTopMargin: Int = 0,
+                                 var buttonTopMargin: Int = 0,
+                                 var secondButtonTopMargin: Int = 0,
+                                 var imageTopMargin: Int = 0,
                                  @StyleRes var titleTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var subtitleTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var buttonTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
@@ -347,7 +370,10 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
          *
          * @param loadState текущее состояние загрузки
          */
-        fun getViewData(loadState: LoadState): ViewData = viewDataMap[loadState] ?: defaultViewData
+        fun getViewData(loadState: LoadState): ViewData =
+                if (loadState == LoadState.NONE) ViewData()
+                else viewDataMap[loadState]
+                        ?: defaultViewData
     }
 
     /**
@@ -356,12 +382,24 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      * @param onStateChangedLambda лямбда, срабатывающая при изменении состояния [StandardPlaceHolderView].
      */
     class PlaceholderStater(private var onStateChangedLambda: ((loadState: LoadState) -> (Unit))) {
+
+        private val STATE_TOGGLE_DELAY_MS: Long = 250
+
         var loadState = LoadState.NONE          //текущее состояние плейсхолдера
             set(value) {
                 field = value
-                onStateChangedLambda.invoke(field)
+                loadStateSubject.onNext(field)
             }
 
-        var loadStateSubject: PublishSubject<LoadState> = PublishSubject.create() //шина изменений loadState
+        private var loadStateSubject: PublishSubject<LoadState> = PublishSubject.create() //шина изменений loadState
+
+        init {
+            loadStateSubject
+                    .debounce(STATE_TOGGLE_DELAY_MS, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe {
+                        onStateChangedLambda.invoke(it)
+                    }
+        }
     }
 }

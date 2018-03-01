@@ -12,6 +12,7 @@ dependencies {
     compileOnly project(':logger')
     compileOnly project(':util-ktx')
     compileOnly project(':rx-extension')
+    compileOnly project(':animations')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     api "me.zhanghai.android.materialprogressbar:library:1.4.2"
