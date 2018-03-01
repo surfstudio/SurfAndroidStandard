@@ -52,7 +52,7 @@ class DefaultMessageController @JvmOverloads constructor(
                       buttonColor: Int?,
                       listener: (view: View) -> Unit) {
         val view = getView()
-        val sb = Snackbar.make(view, message, Snackbar.LENGTH_INDEFINITE)
+        val sb = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
 
         if (backgroundColor == null) {
             snackBarBackgroundColor?.let {
