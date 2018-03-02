@@ -33,5 +33,5 @@
 
 ##ДОКУМЕНТАЦИЯ
 
-+ [`StandardPlaceHolderView`](/STANDARD-PLACEHOLDER-VIEW-README.md);
++ [`StandardPlaceHolderView`](/custom-view/STANDARD-PLACEHOLDER-VIEW-README.md);
 
