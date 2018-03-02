@@ -42,3 +42,43 @@ empty-state. В противном случае, плейсхолдер отоб
 + `setNotFoundState()` - рекомендуется вызывать при получении пустого результата по итогам 
 фильтрации данных. При установке этого состояния плейсхолдер отображается в конфигурации 
 empty-state для фильтрации. В противном случае, плейсхолдер отображается в конфигурации по умолчанию.
+
+##ИНТЕГРАЦИЯ С `CORE-MVP`
+
+Если среди зависимостей вашего проекта есть модуль [`Core-MVP`](../core-mvp), в коде вашего 
+app-модуля рекомендуется реализовать расширение для `StandardPlaceHolderView` для интеграции 
+автоматической реконфигурации при изменении `LoadState` модели экрана с поддержкой обработки 
+изменения состояний (все классы моделей экрана именованные по схеме `Lds***ScreenModel`).
+
+Чтобы сделать это, нужно проделать четыре шага:
+
+1) Создать новый класс, реализующий интерфейс `PlaceHolderView` и расширяющий класс 
+`StandardPlaceHolderView`;
+
+2) Реализовать в нём метод `PlaceHolderView#render(loadState: LoadState)`, который будет 
+своеобразным "переходником" между `LoadState` и публичным интерфейсом `StandardPlaceHolderView`. Код
+этого метода может выглядеть примерно или в точности так:
+
+```
+override fun render(loadState: LoadState) {
+    when (loadState) {
+        LoadState.NONE -> setNoneState()
+        LoadState.MAIN_LOADING -> setMainLoadingState()
+        LoadState.TRANSPARENT_LOADING -> setTransparentLoadingState()
+        LoadState.EMPTY -> setEmptyState()
+        LoadState.ERROR -> setErrorState()
+        LoadState.NOT_FOUND -> setNotFoundState()
+    }
+```
+
+3) В разметку экрана добавить плейсхолдер расширенной реализации:
+
+```
+<ru.appname.android.ProjectNamePlaceHolderView
+    android:id="@+id/placeholder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+```
+
+4) В классе View с поддержкой обработки изменения состояний переопределить метод 
+getPlaceHolderView() и вернуть из него экземпляр `ProjectNamePlaceHolderView`.

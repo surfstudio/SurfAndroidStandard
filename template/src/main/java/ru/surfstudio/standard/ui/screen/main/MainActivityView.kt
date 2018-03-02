@@ -30,6 +30,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        placeholder.render(LoadState.EMPTY)
 
         placeholder.buttonLambda = {
             loadState -> Logger.d("1111 load state = $loadState")

@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:text="Ничего нет"/>
 
-    <ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
+    <ru.surfstudio.standard.ui.screen.main.ProjectNamePlaceHolderView
         android:id="@+id/placeholder"
         style="@style/PlaceHolderView.Default"
         android:layout_width="match_parent"
