@@ -19,6 +19,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil
+import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
+import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
@@ -32,8 +34,7 @@ import java.util.concurrent.TimeUnit
 class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                                         attrs: AttributeSet,
                                                         defStyle: Int = R.attr.placeHolderStyle)
-    : FrameLayout(context, attrs, defStyle),
-        PlaceHolderView {
+    : FrameLayout(context, attrs, defStyle), PlaceHolderView {
 
     @Suppress("MemberVisibilityCanBePrivate")
     var buttonLambda: ((loadState: LoadState) -> Unit)? = null                        //обработчик нажатия на первую кнопку
@@ -303,17 +304,17 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private fun setVisibility() {
         when (stater.loadState) {
             LoadState.NONE -> {
-                AnimationUtil.fadeOut(this, 300L)
+                fadeOut(this, 300L)
             }
             LoadState.MAIN_LOADING, LoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
                 progressBar.visibility = View.VISIBLE
-                AnimationUtil.fadeIn(this, 300L)
+                fadeIn(this, 300L)
             }
             else -> {
                 contentContainer.visibility = View.VISIBLE
                 progressBar.visibility = View.INVISIBLE
-                AnimationUtil.fadeIn(this, 300L)
+                fadeIn(this, 300L)
             }
         }
     }

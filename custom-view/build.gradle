@@ -1,5 +1,4 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
 
 android {
     defaultConfig {
@@ -9,12 +8,9 @@ android {
 
 dependencies {
     compileOnly project(':core-mvp')
-    compileOnly project(':logger')
     compileOnly project(':util-ktx')
     compileOnly project(':rx-extension')
     compileOnly project(':animations')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
 
     api "me.zhanghai.android.materialprogressbar:library:1.4.2"
-    api "com.android.support:appcompat-v7:$appcompatVersion"
 }
