@@ -41,12 +41,6 @@
         <attr name="secondButtonTopMargin" format="dimension" />
         <attr name="imageBottomMargin" format="dimension" />
         <attr name="imageTopMargin" format="dimension" />
-        <!-- todo объявляются в общем attrs, удалить после документирования
-                <attr name="titleTextAppearance" format="reference" />
-                <attr name="subtitleTextAppearance" format="reference" />
-                <attr name="buttonTextAppearance" format="reference" />
-                <attr name="secondButtonTextAppearance" format="reference" />
-        -->
         <attr name="buttonStyle" format="reference" />
         <attr name="secondButtonStyle" format="reference" />
         <attr name="imageStyle" format="reference" />
