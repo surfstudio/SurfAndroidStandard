@@ -1,3 +1,3 @@
 #StandardPlaceholderView
 
-![StandardPlaceholderView](https://ibb.co/jAZjHc)
+![StandardPlaceholderView](/custom-view/standard-placeholder-view.png)
