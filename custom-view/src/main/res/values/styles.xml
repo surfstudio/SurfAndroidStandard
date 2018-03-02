@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="PlaceHolderView">
+    <style name="StandardPlaceHolderView">
         <item name="opaqueBackgroundColor">@color/opaque_bg_color</item>
         <item name="transparentBackgroundColor">@color/transparent_bg_color</item>
         <item name="titleBottomMargin">10dp</item>
@@ -10,7 +10,7 @@
         <item name="buttonBottomMargin">10dp</item>
     </style>
 
-    <style name="PlaceHolderView.Default">
+    <style name="StandardPlaceHolderView.Default">
         <item name="progressBarColor">@color/progressbar_color</item>
         <item name="title">Заголовок</item>
         <item name="subtitle">Подзаголовок</item>

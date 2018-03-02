@@ -28,7 +28,7 @@
 
     <ru.surfstudio.standard.ui.screen.main.ProjectNamePlaceHolderView
         android:id="@+id/placeholder"
-        style="@style/PlaceHolderView.Default"
+        style="@style/StandardPlaceHolderView.Default"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

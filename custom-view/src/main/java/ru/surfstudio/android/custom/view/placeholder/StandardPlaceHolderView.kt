@@ -18,7 +18,6 @@ import android.widget.TextView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
-import ru.surfstudio.android.animations.anim.AnimationUtil
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
@@ -31,18 +30,18 @@ import java.util.concurrent.TimeUnit
  */
 open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                                         attrs: AttributeSet,
-                                                        defStyle: Int = R.attr.placeHolderStyle)
+                                                        defStyle: Int = R.attr.standardPlaceHolderStyle)
     : FrameLayout(context, attrs, defStyle) {
 
     @Suppress("MemberVisibilityCanBePrivate")
-    var buttonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null                        //обработчик нажатия на первую кнопку
+    var buttonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null    //обработчик нажатия на первую кнопку
         set(value) {
             field = value
             button.setOnClickListener { buttonLambda?.invoke(stater.loadState) }
         }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    var secondButtonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null                  //обработчик нажатия на вторую кнопку
+    var secondButtonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null  //обработчик нажатия на вторую кнопку
         set(value) {
             field = value
             secondButton.setOnClickListener { secondButtonLambda?.invoke(stater.loadState) }
@@ -131,7 +130,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.PlaceHolderView)
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
 
         this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_opaqueBackgroundColor)
         this.styler.transparentBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_transparentBackgroundColor)

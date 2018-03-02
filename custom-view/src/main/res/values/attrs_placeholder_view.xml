@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="placeHolderStyle" format="reference" />
+    <attr name="standardPlaceHolderStyle" format="reference" />
 
     <declare-styleable name="PlaceHolderView">
         <attr name="opaqueBackgroundColor" format="reference" />

@@ -43,7 +43,7 @@ empty-state. В противном случае, плейсхолдер отоб
 фильтрации данных. При установке этого состояния плейсхолдер отображается в конфигурации 
 empty-state для фильтрации. В противном случае, плейсхолдер отображается в конфигурации по умолчанию.
 
-##ИНТЕГРАЦИЯ С `CORE-MVP`
+##ИНТЕГРАЦИЯ С CORE-MVP
 
 Если среди зависимостей вашего проекта есть модуль [`Core-MVP`](../core-mvp), в коде вашего 
 app-модуля рекомендуется реализовать расширение для `StandardPlaceHolderView` для интеграции 
@@ -82,3 +82,73 @@ override fun render(loadState: LoadState) {
 
 4) В классе View с поддержкой обработки изменения состояний переопределить метод 
 getPlaceHolderView() и вернуть из него экземпляр `ProjectNamePlaceHolderView`.
+
+##НАСТРОЙКА И СТИЛИЗАЦИЯ
+
+`StandardPlaceHolderView` поддерживает большое количество декорирующих атрибутов, а также 
+предоставляет возможность оформления внешнего вида виджета при помощи стилей.
+  
+###СОЗДАНИЕ КАСТОМНОГО СТИЛЯ
+
+Чтобы создать особый стиль для `StandardPlaceHolderView` в модуле ваше приложения следует создать 
+новый стиль, унаследованный от базового стиля `StandardPlaceHolderView` по типу:
+  
+```
+<style name="StandardPlaceHolderView.Default">
+    <item name="progressBarColor">@color/progressbar_color</item>
+    <item name="title">Заголовок</item>
+    <item name="subtitle">Подзаголовок</item>
+</style>
+```
+
+###ПРИМЕНЕНИЯ СТИЛЯ
+
+Есть два способа применения кастомных стилей к виджету:
+* непосредственно в разметке `layout` экрана к конкретному экземпляру;
+* ко всем аналогичным виджетам приложения при помощи атрибута `standardPlaceHolderStyle` явно 
+определённого в теме приложения.
+
+###СТИЛЕВЫЕ АТРИБУТЫ
+
+Наименование атрибута | Предназначение
+------------ | -------------
+opaqueBackgroundColor | dd
+transparentBackgroundColor | ss
+progressBarColor | ss
+title | ss
+subtitle | ss
+buttonText | ss
+secondButtonText | ss
+image | ss
+emptyTitle |ss
+emptySubtitle | ss
+emptyButtonText | ss
+emptySecondButtonText | ss
+emptyImage | ss
+notFoundTitle | ss
+notFoundSubtitle | ss
+notFoundButtonText | ss
+notFoundSecondButtonText | ss
+notFoundImage | ss
+errorTitle | ss
+errorSubtitle | ss
+errorButtonText | ss
+errorSecondButtonText | ss
+errorImage | ss
+titleBottomMargin | ss
+titleTopMargin | ss
+subtitleBottomMargin | ss
+subtitleTopMargin | ss
+buttonBottomMargin | ss
+buttonTopMargin | ss
+secondButtonBottomMargin | ss
+secondButtonTopMargin | ss
+imageBottomMargin | ss
+imageTopMargin | ss
+titleTextAppearance | ss
+subtitleTextAppearance | ss
+buttonTextAppearance | ss
+secondButtonTextAppearance | ss     
+buttonStyle | ss
+secondButtonStyle | ss
+imageStyle | ss

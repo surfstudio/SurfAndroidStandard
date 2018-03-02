@@ -3,7 +3,6 @@ package ru.surfstudio.standard.ui.base.placeholder
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
-import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.os.Message
@@ -11,12 +10,9 @@ import android.os.SystemClock
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPropertyAnimatorListener
-import android.support.v7.widget.AppCompatButton
-import android.support.v7.widget.AppCompatTextView
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
@@ -30,7 +26,7 @@ import java.util.*
  * плейсхолдер с состояниями: PlaceHolderView.State#LOADING, LOADING_TRANSPARENT, EMPTY, ERROR, NOT_FOUND, NONE.
  * Используется на всех экранах, где для отображения контента необходимо сначала загрузить данные.
  */
-class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: AttributeSet, defStyle: Int = R.attr.placeHolderStyle) : FrameLayout(context, attrs, defStyle), PlaceHolderView {
+class PlaceHolderViewImpl @JvmOverloads constructor(context: Context, attrs: AttributeSet, defStyle: Int = R.attr.standardPlaceHolderStyle) : FrameLayout(context, attrs, defStyle), PlaceHolderView {
 
     @SuppressLint("HandlerLeak")
     private val handler = object : Handler() {
