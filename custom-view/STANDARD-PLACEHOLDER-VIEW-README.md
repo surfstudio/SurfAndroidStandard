@@ -121,36 +121,36 @@ title | string | Текст заголовка по умолчанию (отоб
 subtitle | string | Текст подзаголовка по умолчанию (отображается, если активированное состояние не задано)
 buttonText | string | Текст кнопки по умолчанию (отображается, если активированное состояние не задано)
 secondButtonText | string | Текст второй кнопки по умолчанию (отображается, если активированное состояние не задано)
-image | drawable | ss
-emptyTitle | string | ss
-emptySubtitle | string | ss
-emptyButtonText | string | ss
-emptySecondButtonText | string | ss
-emptyImage | drawable | ss
-notFoundTitle | string | ss
-notFoundSubtitle | string | ss
-notFoundButtonText | string | ss
-notFoundSecondButtonText | string | ss
-notFoundImage | drawable | ss
-errorTitle | string | ss
-errorSubtitle | string | ss
-errorButtonText | string | ss
-errorSecondButtonText | string | ss
-errorImage | drawable | ss
-titleBottomMargin | dimen | ss
-titleTopMargin | dimen | ss
-subtitleBottomMargin | dimen | ss
-subtitleTopMargin | dimen | ss
-buttonBottomMargin | dimen | ss
-buttonTopMargin | dimen | ss
-secondButtonBottomMargin | dimen | ss
-secondButtonTopMargin | dimen | ss
-imageBottomMargin | dimen | ss
-imageTopMargin | dimen | ss
-titleTextAppearance | text appearance | ss
-subtitleTextAppearance | text appearance | ss
-buttonTextAppearance | text appearance | ss
-secondButtonTextAppearance | text appearance | ss     
-buttonStyle | style | ss
-secondButtonStyle | style | ss
-imageStyle | style | ss
+image | drawable | Изображение по умолчанию (отображается, если активированное состояние не задано)
+emptyTitle | string | Текст заголовка для empty-state
+emptySubtitle | string | Текст подзаголовка для empty-state
+emptyButtonText | string | Текст кнопки для empty-state
+emptySecondButtonText | string | Текст второй кнопки для empty-state
+emptyImage | drawable | Изображение для empty-state
+notFoundTitle | string | Текст заголовка для empty-state при фильтрации
+notFoundSubtitle | string | Текст подзаголовка для empty-state при фильтрации
+notFoundButtonText | string | Текст кнопки для empty-state при фильтрации
+notFoundSecondButtonText | string | Текст второй кнопки для empty-state при фильтрации
+notFoundImage | drawable | Изображение для empty-state при фильтрации
+errorTitle | string | Текст заголовка для ошибки
+errorSubtitle | string | Текст подзаголовка для ошибки
+errorButtonText | string | Текст кнопки для ошибки
+errorSecondButtonText | string | Текст второй кнопки для ошибки
+errorImage | drawable | Изображение для ошибки
+titleBottomMargin | dimen | Отступ от низ заголовка
+titleTopMargin | dimen | Отступ от верха заголовка
+subtitleBottomMargin | dimen | Отступ от низа подзаголовка
+subtitleTopMargin | dimen | Отступ от верха подзаголовка
+buttonBottomMargin | dimen | Отступ от низа кнопки
+buttonTopMargin | dimen | Отступ от верха кнопки
+secondButtonBottomMargin | dimen | Отступ от низа второй кнопки
+secondButtonTopMargin | dimen | Отступ от верха второй кнопки
+imageBottomMargin | dimen | Отступ от низа изображения
+imageTopMargin | dimen | Отступ от верха изображения
+titleTextAppearance | text appearance | Стиль заголовка
+subtitleTextAppearance | text appearance | Стиль подзаголовка
+buttonTextAppearance | text appearance | Стиль текста на кнопке
+secondButtonTextAppearance | text appearance | Стиль текста на второй кнопке
+buttonStyle | style | Стиль кнопки
+secondButtonStyle | style | Стиль второй кнопки
+imageStyle | style | Стиль изображения
