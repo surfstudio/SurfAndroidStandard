@@ -3,6 +3,7 @@ package ru.surfstudio.android.mvp.widget.delegate;
 
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState;
@@ -54,7 +55,7 @@ public class WidgetViewDelegate {
 
     private void initPersistentScope() {
         if (getPersistentScope() == null) {
-            PersistentScope parentScope = parentPersistentScopeFinder.find();
+            ScreenPersistentScope parentScope = parentPersistentScopeFinder.find();
             if (parentScope == null) {
                 throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
             }

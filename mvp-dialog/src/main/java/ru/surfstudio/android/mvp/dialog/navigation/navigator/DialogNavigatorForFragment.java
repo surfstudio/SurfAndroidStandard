@@ -23,6 +23,6 @@ public class DialogNavigatorForFragment extends DialogNavigator {
 
     @Override
     protected <D extends DialogFragment & CoreSimpleDialogInterface> void showSimpleDialog(D dialog) {
-        dialog.show((Fragment & CoreFragmentViewInterface) fragmentProvider.get());
+        dialog.show(((Fragment & CoreFragmentViewInterface) fragmentProvider.get()).getPersistentScope());
     }
 }

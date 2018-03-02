@@ -24,9 +24,9 @@ public class PersistentScopeStorage {
                     "ScreenScope with name %s already created", scope.getScopeId()));
         }
 
-        if (scope instanceof ActivityPersistentScope && getActivityScopeName() != null) {
+        /*if (scope instanceof ActivityPersistentScope && getActivityScopeName() != null) {
             throw new IllegalStateException("ActivityPersistentScope already created");
-        }
+        }*/
 
         scopes.put(scope.getScopeId(), scope);
     }

@@ -24,6 +24,7 @@ import ru.surfstudio.android.core.ui.event.result.ActivityResultEvent;
 import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultEvent;
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.core.ui.state.BaseScreenState;
 
 /**
@@ -44,7 +45,7 @@ public abstract class BaseScreenDelegate {
     private PersistentScopeStorage scopeStorage;
     private CompletelyDestroyChecker completelyDestroyChecker;
 
-    public abstract PersistentScope getPersistentScope();
+    public abstract ScreenPersistentScope getPersistentScope();
 
     protected abstract void notifyScreenStateAboutOnCreate(@Nullable Bundle savedInstanceState);
 
@@ -103,6 +104,7 @@ public abstract class BaseScreenDelegate {
         if (!scopeStorage.isExist(getName())) {
             PersistentScope persistentScope = createPersistentScope(eventResolvers);
             scopeStorage.put(persistentScope);
+            currentScopeName = persistentScope.getScopeId();
         }
     }
 

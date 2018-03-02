@@ -10,6 +10,7 @@ import java.util.List;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
@@ -26,8 +27,8 @@ public class ParentPersistentScopeFinder {
         this.scopeStorage = scopeStorage;
     }
 
-    public PersistentScope find() {
-        PersistentScope parentScope = null;
+    public ScreenPersistentScope find() {
+        ScreenPersistentScope parentScope = null;
         FragmentActivity activity = (FragmentActivity) child.getContext();
         List<Fragment> fragments = activity.getSupportFragmentManager().getFragments();
         ViewParent parent = child.getParent();
@@ -36,8 +37,8 @@ public class ParentPersistentScopeFinder {
                 if (fragment.getView() != null
                         && fragment.getView() == parent
                         && fragment instanceof CoreFragmentInterface) {
-                    parentScope = scopeStorage.get(
-                            ((CoreFragmentInterface) fragment).getName());
+                    parentScope = (ScreenPersistentScope) scopeStorage.get(
+                            ((CoreFragmentInterface) fragment).getPersistentScope().getScopeId());
 
                 }
             }

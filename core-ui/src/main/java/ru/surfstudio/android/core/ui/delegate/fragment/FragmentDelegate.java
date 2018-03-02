@@ -37,7 +37,7 @@ public class FragmentDelegate extends BaseScreenDelegate {
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             FragmentCompletelyDestroyChecker completelyDestroyChecker) {
-        super(fragment, scopeStorage, eventResolvers, completelyDestroyChecker);
+        super(scopeStorage, eventResolvers, completelyDestroyChecker);
         this.fragment = fragment;
         this.coreFragment = fragment;
         this.scopeStorage = scopeStorage;

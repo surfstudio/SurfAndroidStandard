@@ -11,12 +11,16 @@ import android.view.View;
 import ru.surfstudio.android.core.mvp.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.mvp.configurator.ViewConfigurator;
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
+import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorageContainer;
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.RemoteLogger;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
@@ -38,22 +42,23 @@ public class SimpleDialogDelegate {
         this.dialogFragment = simpleDialog;
     }
 
-    public <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView) {
-        show(parentActivityView.getSupportFragmentManager(),
+    public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
+        show(parentActivityViewPersistentScope.getScreenState().getActivity().getSupportFragmentManager(),
                 ScreenType.ACTIVITY,
-                parentActivityView.getName());
+                parentActivityViewPersistentScope.getScopeId());
     }
 
-    public <F extends Fragment & CoreFragmentViewInterface> void show(F parentFragmentView) {
-        show(parentFragmentView.getFragmentManager(),
+    public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
+        show(parentFragmentViewPersistentScope.getScreenState().getFragment().getFragmentManager(),
                 ScreenType.FRAGMENT,
-                parentFragmentView.getName());
+                parentFragmentViewPersistentScope.getScopeId());
     }
 
-    public <W extends View & CoreWidgetViewInterface> void show(W parentWidgetView) {
-        show(((FragmentActivity) parentWidgetView.getContext()).getSupportFragmentManager(),
+    public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
+        show(((FragmentActivity) parentWidgetViewPersistentScope.getScreenState().getWidget().getContext())
+                        .getSupportFragmentManager(),
                 ScreenType.WIDGET,
-                parentWidgetView.getName());
+                parentWidgetViewPersistentScope.getScopeId());
     }
 
     protected void show(FragmentManager fragmentManager, ScreenType parentType, String parentName) {
@@ -64,7 +69,8 @@ public class SimpleDialogDelegate {
 
     public <T> T getScreenComponent(Class<T> componentClass) {
         PersistentScopeStorage scopeStorage = PersistentScopeStorageContainer.getPersistentScopeStorage();
-        PersistentScope persistentScope = scopeStorage.get(parentName);
+        //todo обдумать то, что каст к ScreenPersistentScope!!! 
+        ScreenPersistentScope persistentScope = (ScreenPersistentScope) scopeStorage.get(parentName);
         ViewConfigurator viewConfigurator = (ViewConfigurator) persistentScope.getConfigurator();
         return componentClass.cast(viewConfigurator.getScreenComponent());
     }

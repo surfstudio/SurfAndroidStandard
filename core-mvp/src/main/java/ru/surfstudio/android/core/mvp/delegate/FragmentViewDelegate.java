@@ -58,8 +58,7 @@ public class FragmentViewDelegate extends FragmentDelegate {
         FragmentViewPersistentScope persistentScope = new FragmentViewPersistentScope(
                 eventDelegateManager,
                 screenState,
-                configurator,
-                coreFragmentView.getName());
+                configurator);
         configurator.setPersistentScope(persistentScope);
         return persistentScope;
     }

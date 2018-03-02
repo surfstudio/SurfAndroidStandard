@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.ui.state.FragmentScreenState;
 /**
  * {@link PersistentScope} для фрагмента
  */
-public class FragmentPersistentScope extends PersistentScope {
+public class FragmentPersistentScope extends ScreenPersistentScope {
 
     public FragmentPersistentScope(
             FragmentScreenEventDelegateManager screenEventDelegateManager,

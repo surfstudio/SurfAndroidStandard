@@ -16,6 +16,7 @@ import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
 import ru.surfstudio.android.core.ui.scope.PersistentScope
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -40,7 +41,7 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun providePersistentScope(): PersistentScope {
+    internal fun providePersistentScope(): ScreenPersistentScope {
         return persistentScope
     }
 
@@ -59,7 +60,7 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun provideScreenState(persistentScope: PersistentScope): ScreenState {
+    internal fun provideScreenState(persistentScope: ScreenPersistentScope): ScreenState {
         return persistentScope.screenState
     }
 
