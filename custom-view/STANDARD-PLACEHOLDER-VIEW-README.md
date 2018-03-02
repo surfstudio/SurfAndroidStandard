@@ -1,6 +1,8 @@
 #StandardPlaceholderView
 
-Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
+Стандартный полноэкранный плейсхолдер с поддержкой смены состояний. Ключевой особенностью виджета 
+является механизм отложенного изменения состояния, позволяющий избегать промаргиваний при слишком 
+частом изменении состояния плейсхолдера.  
 
 ![StandardPlaceholderView](/custom-view/doc/standard-placeholder-view.png)
 
@@ -110,45 +112,45 @@ getPlaceHolderView() и вернуть из него экземпляр `Project
 
 ###СТИЛЕВЫЕ АТРИБУТЫ
 
-Наименование атрибута | Предназначение
------------- | -------------
-opaqueBackgroundColor | dd
-transparentBackgroundColor | ss
-progressBarColor | ss
-title | ss
-subtitle | ss
-buttonText | ss
-secondButtonText | ss
-image | ss
-emptyTitle |ss
-emptySubtitle | ss
-emptyButtonText | ss
-emptySecondButtonText | ss
-emptyImage | ss
-notFoundTitle | ss
-notFoundSubtitle | ss
-notFoundButtonText | ss
-notFoundSecondButtonText | ss
-notFoundImage | ss
-errorTitle | ss
-errorSubtitle | ss
-errorButtonText | ss
-errorSecondButtonText | ss
-errorImage | ss
-titleBottomMargin | ss
-titleTopMargin | ss
-subtitleBottomMargin | ss
-subtitleTopMargin | ss
-buttonBottomMargin | ss
-buttonTopMargin | ss
-secondButtonBottomMargin | ss
-secondButtonTopMargin | ss
-imageBottomMargin | ss
-imageTopMargin | ss
-titleTextAppearance | ss
-subtitleTextAppearance | ss
-buttonTextAppearance | ss
-secondButtonTextAppearance | ss     
-buttonStyle | ss
-secondButtonStyle | ss
-imageStyle | ss
+Наименование атрибута | Тип | Предназначение
+------------ | ------ | -------------
+opaqueBackgroundColor | color | Цвет заливки непрозрачного фона
+transparentBackgroundColor | color | Цвет полупрозрачной маски
+progressBarColor | color | Цвет ProgressBar (по умолчанию ?colorAccent)
+title | string | Текст заголовка по умолчанию (отображается, если активированное состояние не задано)
+subtitle | string | Текст подзаголовка по умолчанию (отображается, если активированное состояние не задано)
+buttonText | string | Текст кнопки по умолчанию (отображается, если активированное состояние не задано)
+secondButtonText | string | Текст второй кнопки по умолчанию (отображается, если активированное состояние не задано)
+image | drawable | ss
+emptyTitle | string | ss
+emptySubtitle | string | ss
+emptyButtonText | string | ss
+emptySecondButtonText | string | ss
+emptyImage | drawable | ss
+notFoundTitle | string | ss
+notFoundSubtitle | string | ss
+notFoundButtonText | string | ss
+notFoundSecondButtonText | string | ss
+notFoundImage | drawable | ss
+errorTitle | string | ss
+errorSubtitle | string | ss
+errorButtonText | string | ss
+errorSecondButtonText | string | ss
+errorImage | drawable | ss
+titleBottomMargin | dimen | ss
+titleTopMargin | dimen | ss
+subtitleBottomMargin | dimen | ss
+subtitleTopMargin | dimen | ss
+buttonBottomMargin | dimen | ss
+buttonTopMargin | dimen | ss
+secondButtonBottomMargin | dimen | ss
+secondButtonTopMargin | dimen | ss
+imageBottomMargin | dimen | ss
+imageTopMargin | dimen | ss
+titleTextAppearance | text appearance | ss
+subtitleTextAppearance | text appearance | ss
+buttonTextAppearance | text appearance | ss
+secondButtonTextAppearance | text appearance | ss     
+buttonStyle | style | ss
+secondButtonStyle | style | ss
+imageStyle | style | ss
