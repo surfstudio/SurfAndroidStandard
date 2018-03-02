@@ -11,7 +11,6 @@ import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.standard.interactor.analytics.AnalyticsService
 import ru.surfstudio.standard.interactor.analytics.event.EnterEvent
-import ru.surfstudio.standard.ui.screen.tabs.TabsActivityRoute
 import javax.inject.Inject
 
 /**
@@ -32,7 +31,6 @@ internal class MainPresenter @Inject constructor(private val analyticsService: A
         view.render(screenModel)
         subscribeIoHandleError(picturePermissionChecker.checkCameraStoragePermission(), { _ -> })
 
-        activityNavigator.start(TabsActivityRoute())
         analyticsService.sendEvent(EnterEvent())
     }
 

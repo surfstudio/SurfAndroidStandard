@@ -17,6 +17,7 @@ import ru.surfstudio.android.core.ui.event.lifecycle.state.OnSaveStateDelegate
 import ru.surfstudio.android.core.ui.navigation.Navigator
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
+import ru.surfstudio.android.core.ui.navigation.fragment.route.RootFragmentRoute
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.logger.Logger
 import java.util.*
