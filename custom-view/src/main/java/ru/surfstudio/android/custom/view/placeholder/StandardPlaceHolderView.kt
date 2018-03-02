@@ -21,8 +21,6 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
-import ru.surfstudio.android.core.mvp.model.state.LoadState
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderView
 import ru.surfstudio.android.custom.view.R
 import ru.surfstudio.android.utilktx.ktx.attr.*
 import ru.surfstudio.android.utilktx.ktx.ui.view.*
@@ -31,20 +29,20 @@ import java.util.concurrent.TimeUnit
 /**
  * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
  */
-class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
+open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                                         attrs: AttributeSet,
                                                         defStyle: Int = R.attr.placeHolderStyle)
-    : FrameLayout(context, attrs, defStyle), PlaceHolderView {
+    : FrameLayout(context, attrs, defStyle) {
 
     @Suppress("MemberVisibilityCanBePrivate")
-    var buttonLambda: ((loadState: LoadState) -> Unit)? = null                        //обработчик нажатия на первую кнопку
+    var buttonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null                        //обработчик нажатия на первую кнопку
         set(value) {
             field = value
             button.setOnClickListener { buttonLambda?.invoke(stater.loadState) }
         }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    var secondButtonLambda: ((loadState: LoadState) -> Unit)? = null                  //обработчик нажатия на вторую кнопку
+    var secondButtonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null                  //обработчик нажатия на вторую кнопку
         set(value) {
             field = value
             secondButton.setOnClickListener { secondButtonLambda?.invoke(stater.loadState) }
@@ -76,8 +74,60 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         applyAttributes(context, attrs, defStyle)
     }
 
-    override fun render(loadState: LoadState) {
-        this.stater.loadState = loadState
+    /**
+     * Состояние окончания асинхронного процесса.
+     *
+     * При установке этого состояния плейсхолдер скрывается.
+     */
+    fun setNoneState() {
+        this.stater.loadState = PlaceholderStater.LoadState.NONE
+    }
+
+    /**
+     * Состояние запуска асинхронного процесса.
+     *
+     * При установке этого состояния плейсхолдер блокирует UI и полностью скрывает его.
+     */
+    fun setMainLoadingState() {
+        this.stater.loadState = PlaceholderStater.LoadState.MAIN_LOADING
+    }
+
+    /**
+     * Состояние запуска асинхронного процесса.
+     *
+     * При установке этого состояния плейсхолдер блокирует UI, но остаётся полупрозрачным,
+     * не скрывая контент.
+     */
+    fun setTransparentLoadingState() {
+        this.stater.loadState = PlaceholderStater.LoadState.TRANSPARENT_LOADING
+    }
+
+    /**
+     * Состояние ошибки в процессе работы асинхронного процесса.
+     *
+     * При установке этого состояния плейсхолдер отображается в конфигурации для отображения ошибки.
+     */
+    fun setErrorState() {
+        this.stater.loadState = PlaceholderStater.LoadState.ERROR
+    }
+
+    /**
+     * Состояние пустого результата.
+     *
+     * При установке этого состояния плейсхолдер отображается в конфигурации empty-state.
+     */
+    fun setEmptyState() {
+        this.stater.loadState = PlaceholderStater.LoadState.EMPTY
+    }
+
+    /**
+     * Состояние пустого результата фильтрации.
+     *
+     * При установке этого состояния плейсхолдер отображается в конфигурации empty-state
+     * для фильтрации.
+     */
+    fun setNotFoundState() {
+        this.stater.loadState = PlaceholderStater.LoadState.NOT_FOUND
     }
 
     private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
@@ -123,7 +173,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         val emptySecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptySecondButtonText)
         val emptyImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_emptyImage)
         this.dataContainer.putViewData(
-                LoadState.EMPTY,
+                PlaceholderStater.LoadState.EMPTY,
                 PlaceholderDataContainer.ViewData(
                         emptyTitle,
                         emptySubtitle,
@@ -137,7 +187,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         val notFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundSecondButtonText)
         val notFoundImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_notFoundImage)
         this.dataContainer.putViewData(
-                LoadState.NOT_FOUND,
+                PlaceholderStater.LoadState.NOT_FOUND,
                 PlaceholderDataContainer.ViewData(
                         notFoundTitle,
                         notFoundSubtitle,
@@ -151,7 +201,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         val errorFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorSecondButtonText)
         val errorFoundImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_errorImage)
         this.dataContainer.putViewData(
-                LoadState.ERROR,
+                PlaceholderStater.LoadState.ERROR,
                 PlaceholderDataContainer.ViewData(
                         errorFoundTitle,
                         errorFoundSubtitle,
@@ -186,7 +236,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      */
     private fun setBackgroundColor() {
         when (stater.loadState) {
-            LoadState.TRANSPARENT_LOADING -> {
+            PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
                 setBackgroundResource(styler.transparentBackgroundColor)
             }
             else -> {
@@ -303,10 +353,10 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      */
     private fun setVisibility() {
         when (stater.loadState) {
-            LoadState.NONE -> {
+            PlaceholderStater.LoadState.NONE -> {
                 fadeOut(this, 300L)
             }
-            LoadState.MAIN_LOADING, LoadState.TRANSPARENT_LOADING -> {
+            PlaceholderStater.LoadState.MAIN_LOADING, PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
                 progressBar.visibility = View.VISIBLE
                 fadeIn(this, 300L)
@@ -347,7 +397,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      * Хранилище всех данных [StandardPlaceHolderView].
      */
     data class PlaceholderDataContainer(var defaultViewData: ViewData = ViewData(),
-                                        private var viewDataMap: ArrayMap<LoadState, ViewData> = ArrayMap()) {
+                                        private var viewDataMap: ArrayMap<PlaceholderStater.LoadState, ViewData> = ArrayMap()) {
 
         data class ViewData(var title: String = "",
                             var subtitle: String = "",
@@ -360,7 +410,7 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                             secondButtonText.isBlank() && image == null
         }
 
-        fun putViewData(loadState: LoadState, viewData: ViewData) {
+        fun putViewData(loadState: PlaceholderStater.LoadState, viewData: ViewData) {
             if (!viewData.isEmpty()) {
                 viewDataMap[loadState] = viewData
             }
@@ -371,8 +421,8 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
          *
          * @param loadState текущее состояние загрузки
          */
-        fun getViewData(loadState: LoadState): ViewData =
-                if (loadState == LoadState.NONE) ViewData()
+        fun getViewData(loadState: PlaceholderStater.LoadState): ViewData =
+                if (loadState == PlaceholderStater.LoadState.NONE) ViewData()
                 else viewDataMap[loadState]
                         ?: defaultViewData
     }
@@ -383,6 +433,15 @@ class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      * @param onStateChangedLambda лямбда, срабатывающая при изменении состояния [StandardPlaceHolderView].
      */
     class PlaceholderStater(private var onStateChangedLambda: ((loadState: LoadState) -> (Unit))) {
+
+        enum class LoadState {
+            NONE, //контент загружен
+            MAIN_LOADING, //прогресс, закрывающий весь контент
+            TRANSPARENT_LOADING, //полупрозрачный прогресс, блокирует весь интерфейс
+            ERROR, //ошибка загрузки данных
+            EMPTY, //данных нет
+            NOT_FOUND //нет данных по заданному фильтру
+        }
 
         private val STATE_TOGGLE_DELAY_MS: Long = 250
 

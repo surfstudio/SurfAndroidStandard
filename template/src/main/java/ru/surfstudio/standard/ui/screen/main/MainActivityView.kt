@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.R
+import ru.surfstudio.standard.R.id.*
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 import javax.inject.Inject
 
@@ -30,18 +31,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
-        none_btn.setOnClickListener {
-            placeholder.render(LoadState.NONE)
-        }
-        load_btn.setOnClickListener {
-            placeholder.render(LoadState.MAIN_LOADING)
-        }
-        empty_btn.setOnClickListener {
-            placeholder.render(LoadState.EMPTY)
-        }
-        no_btn.setOnClickListener {
-            placeholder.render(LoadState.NOT_FOUND)
-        }
         placeholder.buttonLambda = {
             loadState -> Logger.d("1111 load state = $loadState")
         }
