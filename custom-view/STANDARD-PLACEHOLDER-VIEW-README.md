@@ -6,6 +6,14 @@
 
 ![StandardPlaceholderView](/custom-view/doc/standard-placeholder-view.png)
 
+##ОТВЕТСТВЕННОЕ ЛИЦО
+
+**Евгений Сатуров** (saturov@surfstudio.ru)
+
+##ЧТО НОВОГО
+
+* Удалено состояние LoadState.UNSPECIFIED. Состоянием по умолчанию стало LoadState.NONE.
+
 ##ИСПОЛЬЗОВАНИЕ
 
 Для того, чтобы использовать `StandardPlaceholderView` на экране, нужно добавить виджет в 
