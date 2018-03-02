@@ -13,9 +13,8 @@ public class WidgetViewPersistentScope extends PersistentScope {
 
     public WidgetViewPersistentScope(ScreenEventDelegateManager parentScreenEventDelegateManager,
                                      WidgetScreenState parentScreenState,
-                                     BaseWidgetViewConfigurator configurator,
-                                     String name) {
-        super(parentScreenEventDelegateManager, parentScreenState, configurator, name);
+                                     BaseWidgetViewConfigurator configurator) {
+        super(parentScreenEventDelegateManager, parentScreenState, configurator);
     }
 
     @Override

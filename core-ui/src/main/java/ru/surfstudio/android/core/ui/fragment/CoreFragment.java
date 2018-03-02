@@ -10,6 +10,7 @@ import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
 import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope;
+import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
 
 /**
@@ -37,7 +38,7 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     }
 
     @Override
-    public String getName() {
+    public String getScreenName() {
         //уникальное имя по умолчанию для фрагмента контейнера
         return this.getClass().getCanonicalName() + getTag() + getId();
     }
@@ -45,12 +46,13 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        fragmentDelegate = createFragmentDelegate();
+        fragmentDelegate.initialize(savedInstanceState);
         Logger.d("11111 onCreate" + this.hashCode());
     }
 
     @Override
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        fragmentDelegate = createFragmentDelegate();
         super.onActivityCreated(savedInstanceState);
         Logger.d("11111 " + this.hashCode() + " onActivityCreated ");
         fragmentDelegate.onCreate(savedInstanceState, null);
@@ -65,12 +67,14 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onResume() {
         super.onResume();
+        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
         fragmentDelegate.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
         fragmentDelegate.onPause();
     }
 

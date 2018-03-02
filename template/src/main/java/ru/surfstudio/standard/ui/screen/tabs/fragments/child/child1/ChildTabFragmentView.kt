@@ -32,5 +32,5 @@ class ChildTabFragmentView : BaseRenderableFragmentView<ChildTabFragmentScreenMo
     override fun createConfigurator(): BaseFragmentViewConfigurator<*, *> =
             ChildTabFragmentConfigurator(arguments!!)
 
-    override fun getName(): String = this::class.toString() + arguments?.getInt(Route.EXTRA_FIRST)
+    override fun getScreenName(): String = this::class.toString() + arguments?.getInt(Route.EXTRA_FIRST)
 }

@@ -13,6 +13,7 @@ import ru.surfstudio.android.core.mvp.delegate.factory.MvpScreenDelegateFactoryC
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
+import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
 
 
@@ -83,12 +84,14 @@ public abstract class CoreDialogFragmentView extends DialogFragment implements
     @Override
     public void onResume() {
         super.onResume();
+        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
         fragmentDelegate.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
         fragmentDelegate.onPause();
     }
 

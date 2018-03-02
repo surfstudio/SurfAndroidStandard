@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import ru.surfstudio.android.core.ui.configurator.Configurator;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
@@ -22,16 +23,14 @@ public abstract class PersistentScope {
     private final ScreenEventDelegateManager screenEventDelegateManager;
     private final ScreenState screenState;
     private final Configurator configurator;
-    private final String name;
+    private final String scopeId = UUID.randomUUID().toString();
 
     public PersistentScope(ScreenEventDelegateManager screenEventDelegateManager,
                            ScreenState screenState,
-                           Configurator configurator,
-                           String name) {
+                           Configurator configurator) {
         this.screenEventDelegateManager = screenEventDelegateManager;
         this.screenState = screenState;
         this.configurator = configurator;
-        this.name = name;
     }
 
     public ScreenEventDelegateManager getScreenEventDelegateManager() {
@@ -124,7 +123,7 @@ public abstract class PersistentScope {
         return screenState.isCompletelyDestroyed();
     }
 
-    public String getName() {
-        return name;
+    public String getScopeId() {
+        return scopeId;
     }
 }

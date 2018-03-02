@@ -26,7 +26,7 @@ public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
     public <A extends FragmentActivity & CoreActivityInterface> ActivityDelegate createActivityDelegate(A activity) {
         return new ActivityDelegate(
                 activity,
-                getScopeStorage(activity),
+                getScopeStorage(),
                 getEventResolvers(),
                 new ActivityCompletelyDestroyChecker(activity)
         );
@@ -36,7 +36,7 @@ public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
     public <A extends Fragment & CoreFragmentInterface> FragmentDelegate createFragmentDelegate(A fragment) {
         return new FragmentDelegate(
                 fragment,
-                getScopeStorage(fragment.getActivity()),
+                getScopeStorage(),
                 getEventResolvers(),
                 new FragmentCompletelyDestroyChecker(fragment)
         );
@@ -48,7 +48,7 @@ public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
     }
 
     @NonNull
-    protected PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
-        return PersistentScopeStorageContainer.getFrom(activity);
+    protected PersistentScopeStorage getScopeStorage() {
+        return PersistentScopeStorageContainer.getPersistentScopeStorage();
     }
 }

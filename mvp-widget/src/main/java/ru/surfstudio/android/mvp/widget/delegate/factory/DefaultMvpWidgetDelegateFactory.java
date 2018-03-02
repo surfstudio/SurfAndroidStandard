@@ -36,6 +36,6 @@ public class DefaultMvpWidgetDelegateFactory implements MvpWidgetDelegateFactory
 
     @NonNull
     protected PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
-        return PersistentScopeStorageContainer.getFrom(activity);
+        return PersistentScopeStorageContainer.getPersistentScopeStorage();
     }
 }

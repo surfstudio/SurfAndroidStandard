@@ -24,7 +24,7 @@ class TabsActivityView : BaseRenderableActivityView<TabsActivityScreenModel>(), 
 
     override fun getPresenters() = arrayOf(presenter)
 
-    override fun getName(): String = TabsActivityView::class.toString()
+    override fun getScreenName(): String = TabsActivityView::class.toString()
 
     override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> =
             TabsActvityScreenConfigurator(intent)

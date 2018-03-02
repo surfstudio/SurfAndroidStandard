@@ -63,7 +63,7 @@ public class SimpleDialogDelegate {
     }
 
     public <T> T getScreenComponent(Class<T> componentClass) {
-        PersistentScopeStorage scopeStorage = PersistentScopeStorageContainer.getFrom(dialogFragment.getActivity());
+        PersistentScopeStorage scopeStorage = PersistentScopeStorageContainer.getPersistentScopeStorage();
         PersistentScope persistentScope = scopeStorage.get(parentName);
         ViewConfigurator viewConfigurator = (ViewConfigurator) persistentScope.getConfigurator();
         return componentClass.cast(viewConfigurator.getScreenComponent());

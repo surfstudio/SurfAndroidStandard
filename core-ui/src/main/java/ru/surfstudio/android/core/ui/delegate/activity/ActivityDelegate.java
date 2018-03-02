@@ -39,7 +39,7 @@ public class ActivityDelegate extends BaseScreenDelegate {
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             ActivityCompletelyDestroyChecker completelyDestroyChecker) {
-        super(activity, scopeStorage, eventResolvers, completelyDestroyChecker);
+        super(scopeStorage, eventResolvers, completelyDestroyChecker);
         this.activity = activity;
         this.coreActivity = activity;
         this.scopeStorage = scopeStorage;
@@ -75,8 +75,7 @@ public class ActivityDelegate extends BaseScreenDelegate {
         ActivityPersistentScope persistentScope = new ActivityPersistentScope(
                 eventDelegateManager,
                 screenState,
-                configurator,
-                coreActivity.getName());
+                configurator);
         configurator.setPersistentScope(persistentScope);
         return persistentScope;
     }

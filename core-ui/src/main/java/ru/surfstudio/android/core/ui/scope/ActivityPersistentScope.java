@@ -13,9 +13,8 @@ public class ActivityPersistentScope extends PersistentScope {
     public ActivityPersistentScope(
             ActivityScreenEventDelegateManager screenEventDelegateManager,
             ActivityScreenState screenState,
-            BaseActivityConfigurator configurator,
-            String name) {
-        super(screenEventDelegateManager, screenState, configurator, name);
+            BaseActivityConfigurator configurator) {
+        super(screenEventDelegateManager, screenState, configurator);
     }
 
     @Override

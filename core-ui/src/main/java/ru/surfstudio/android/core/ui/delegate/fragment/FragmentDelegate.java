@@ -72,8 +72,7 @@ public class FragmentDelegate extends BaseScreenDelegate {
         FragmentPersistentScope persistentScope = new FragmentPersistentScope(
                 eventDelegateManager,
                 screenState,
-                configurator,
-                coreFragment.getName());
+                configurator);
         return persistentScope;
     }
 

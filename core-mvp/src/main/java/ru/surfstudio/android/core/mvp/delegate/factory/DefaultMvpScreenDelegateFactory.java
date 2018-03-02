@@ -50,6 +50,6 @@ public class DefaultMvpScreenDelegateFactory implements MvpScreenDelegateFactory
 
     @NonNull
     protected PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
-        return PersistentScopeStorageContainer.getFrom(activity);
+        return PersistentScopeStorageContainer.getPersistentScopeStorage();
     }
 }

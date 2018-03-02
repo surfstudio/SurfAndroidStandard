@@ -33,5 +33,5 @@ class Tab1FragmentView : BaseRenderableFragmentView<Tab1FragmentScreenModel>() {
     override fun createConfigurator(): BaseFragmentViewConfigurator<*, *> =
             Tab1FragmentConfigurator(arguments!!)
 
-    override fun getName(): String = this::class.toString()
+    override fun getScreenName(): String = this::class.toString()
 }

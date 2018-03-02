@@ -15,9 +15,8 @@ public final class ActivityViewPersistentScope extends ActivityPersistentScope {
     public ActivityViewPersistentScope(
             ActivityScreenEventDelegateManager screenEventDelegateManager,
             ActivityViewScreenState screenState,
-            BaseActivityViewConfigurator configurator,
-            String name) {
-        super(screenEventDelegateManager, screenState, configurator, name);
+            BaseActivityViewConfigurator configurator) {
+        super(screenEventDelegateManager, screenState, configurator);
     }
 
     @Override

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 
 import java.util.List;
 
-import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent;
@@ -26,8 +25,6 @@ import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultEvent;
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.state.BaseScreenState;
-import ru.surfstudio.android.logger.LogConstants;
-import ru.surfstudio.android.logger.Logger;
 
 /**
  * базовый делегат для базовых активити и фрагмента, для виджета свой делегат
@@ -40,7 +37,9 @@ import ru.surfstudio.android.logger.Logger;
 
 public abstract class BaseScreenDelegate {
 
-    private HasName screenNameProvider;
+    private static final String KEY_PSS_ID = "KEY_PSS_ID";
+
+    private String currentScopeName; // то , что доставалось из screenNameProvider
     private List<ScreenEventResolver> eventResolvers;
     private PersistentScopeStorage scopeStorage;
     private CompletelyDestroyChecker completelyDestroyChecker;
@@ -57,14 +56,18 @@ public abstract class BaseScreenDelegate {
     //core logic
 
     public BaseScreenDelegate(
-            HasName screenNameProvider,
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             CompletelyDestroyChecker completelyDestroyChecker) {
-        this.screenNameProvider = screenNameProvider;
         this.eventResolvers = eventResolvers;
         this.scopeStorage = scopeStorage;
         this.completelyDestroyChecker = completelyDestroyChecker;
+    }
+
+    public void initialize(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            currentScopeName = savedInstanceState.getString(KEY_PSS_ID);
+        }
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
@@ -82,7 +85,6 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onDestroy() {
-
         getScreenState().onDestroy();
         getEventDelegateManager().sendEvent(new OnDestroyEvent());
         if (completelyDestroyChecker.check()) {
@@ -111,7 +113,7 @@ public abstract class BaseScreenDelegate {
     }
 
     protected String getName() {
-        return screenNameProvider.getName();
+        return currentScopeName;
     }
 
     //other events
@@ -121,12 +123,10 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onResume() {
-        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getName());
         getEventDelegateManager().sendEvent(new OnResumeEvent());
     }
 
     public void onPause() {
-        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getName());
         getEventDelegateManager().sendEvent(new OnPauseEvent());
     }
 
@@ -135,6 +135,7 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onOnSaveInstantState(Bundle outState) {
+        outState.putString(KEY_PSS_ID, getPersistentScope().getScopeId());
         getEventDelegateManager().sendEvent(new OnSaveStateEvent(outState));
     }
 

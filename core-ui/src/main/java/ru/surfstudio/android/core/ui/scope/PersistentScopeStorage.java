@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.surfstudio.android.logger.Logger;
-
 /**
  * Хранилище всех PersistentScope в контексте одной активити
  */
@@ -21,16 +19,16 @@ public class PersistentScopeStorage {
      * @param scope
      */
     public void put(PersistentScope scope) {
-        if (scopes.get(scope.getName()) != null) {
+        if (scopes.get(scope.getScopeId()) != null) {
             throw new IllegalStateException(String.format(
-                    "ScreenScope with name %s already created", scope.getName()));
+                    "ScreenScope with name %s already created", scope.getScopeId()));
         }
 
         if (scope instanceof ActivityPersistentScope && getActivityScopeName() != null) {
             throw new IllegalStateException("ActivityPersistentScope already created");
         }
 
-        scopes.put(scope.getName(), scope);
+        scopes.put(scope.getScopeId(), scope);
     }
 
     /**
@@ -43,7 +41,11 @@ public class PersistentScopeStorage {
     }
 
     public boolean isExist(String name) {
-        return scopes.containsKey(name);
+        if (name == null) {
+            return false;
+        } else {
+            return scopes.containsKey(name);
+        }
     }
 
     /**

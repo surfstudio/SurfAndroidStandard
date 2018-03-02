@@ -63,8 +63,7 @@ public class WidgetViewDelegate {
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     parentScope.getScreenEventDelegateManager(),
                     screenState,
-                    configurator,
-                    coreWidgetView.getName());
+                    configurator);
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }

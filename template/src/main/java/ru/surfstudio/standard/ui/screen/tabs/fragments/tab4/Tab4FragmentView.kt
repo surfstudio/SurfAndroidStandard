@@ -34,5 +34,5 @@ class Tab4FragmentView : BaseRenderableFragmentView<Tab4FragmentScreenModel>() {
     override fun createConfigurator(): BaseFragmentViewConfigurator<*, *> =
             Tab4FragmentConfigurator(arguments!!)
 
-    override fun getName(): String = this::class.toString()
+    override fun getScreenName(): String = this::class.toString()
 }
