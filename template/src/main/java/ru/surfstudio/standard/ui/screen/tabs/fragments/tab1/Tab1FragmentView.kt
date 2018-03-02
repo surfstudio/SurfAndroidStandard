@@ -20,13 +20,14 @@ class Tab1FragmentView : BaseRenderableFragmentView<Tab1FragmentScreenModel>() {
 
     override fun renderInternal(screenModel: Tab1FragmentScreenModel) {
         tv.text = "parent : ${screenModel.id}"
+        btn.setOnClickListener { presenter.openTab() }
         //activity?.toast()
     }
 
     override fun getPresenters() = arrayOf(presenter)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tab, container, false).apply {
-            setOnClickListener { presenter.openTab() }
+
         }
     }
 

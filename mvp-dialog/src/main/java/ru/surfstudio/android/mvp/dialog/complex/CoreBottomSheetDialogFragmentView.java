@@ -69,9 +69,15 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentDelegate = createFragmentDelegate();
+        fragmentDelegate.initialize(savedInstanceState);
+    }
+
+    @Override
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        fragmentDelegate = createFragmentDelegate();
         fragmentDelegate.onCreate(savedInstanceState, null);
     }
 

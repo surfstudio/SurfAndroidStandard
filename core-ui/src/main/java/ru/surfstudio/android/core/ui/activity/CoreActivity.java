@@ -46,6 +46,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
         super.onCreate(savedInstanceState);
         activityDelegate = createActivityDelegate();
         activityDelegate.initialize(savedInstanceState);
+
         onPreCreate(savedInstanceState);
         setContentView(getContentView());
         activityDelegate.onCreate(savedInstanceState, null);

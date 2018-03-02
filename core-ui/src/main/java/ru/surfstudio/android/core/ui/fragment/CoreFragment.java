@@ -48,13 +48,11 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
         super.onCreate(savedInstanceState);
         fragmentDelegate = createFragmentDelegate();
         fragmentDelegate.initialize(savedInstanceState);
-        Logger.d("11111 onCreate" + this.hashCode());
     }
 
     @Override
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Logger.d("11111 " + this.hashCode() + " onActivityCreated ");
         fragmentDelegate.onCreate(savedInstanceState, null);
     }
 
@@ -87,31 +85,19 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        Logger.d("1111 onDestroyView" + this.hashCode());
         fragmentDelegate.onDestroyView();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Logger.d("11111 onDestroy on " + this.hashCode());
-        try {
-            fragmentDelegate.onDestroy();
-        } catch (NullPointerException e) {
-            Logger.e(e.toString() + " 11111 on " + this.hashCode());
-        }
-
+        fragmentDelegate.onDestroy();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Logger.d("11111 onSaveInstance on " + this.hashCode());
-        try {
-            fragmentDelegate.onOnSaveInstantState(outState);
-        } catch (NullPointerException e) {
-            Logger.e(e.toString() + " 11111 on " + this.hashCode());
-        }
+        fragmentDelegate.onOnSaveInstantState(outState);
     }
 
     @Override

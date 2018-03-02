@@ -23,6 +23,14 @@ class TabsActivityPresenter @Inject constructor(
 
     var activeTab = 0
 
+    override fun onLoad(viewRecreated: Boolean) {
+        super.onLoad(viewRecreated)
+
+        subscribe(tabsFragmentNavigator.backPressedEventObservable, {
+            Logger.d("22222 get onBackPressed")
+        })
+    }
+
     fun openTab(tab: Int) {
         Logger.d("2222 active tab $activeTab | open tab $tab")
 
