@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    implementation project(':rx-extension')
+    compileOnly project(':rx-extension')
 
     implementation "com.android.support:appcompat-v7:$appcompatVersion"
 
