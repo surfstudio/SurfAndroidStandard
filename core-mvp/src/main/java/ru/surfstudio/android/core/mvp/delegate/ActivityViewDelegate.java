@@ -58,7 +58,8 @@ public class ActivityViewDelegate extends ActivityDelegate {
         ActivityViewPersistentScope persistentScope = new ActivityViewPersistentScope(
                 eventDelegateManager,
                 screenState,
-                configurator);
+                configurator,
+                getScopeId());
         configurator.setPersistentScope(persistentScope);
         return persistentScope;
     }

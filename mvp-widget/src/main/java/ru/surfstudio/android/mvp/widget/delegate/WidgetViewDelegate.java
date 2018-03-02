@@ -64,7 +64,8 @@ public class WidgetViewDelegate {
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     parentScope.getScreenEventDelegateManager(),
                     screenState,
-                    configurator);
+                    configurator,
+                    parentScope.getScopeId()); //todo подумать где брать скоуп id для виджетов?
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }

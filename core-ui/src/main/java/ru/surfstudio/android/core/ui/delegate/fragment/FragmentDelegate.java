@@ -45,7 +45,7 @@ public class FragmentDelegate extends BaseScreenDelegate {
 
     @Override
     public FragmentPersistentScope getPersistentScope() {
-        return scopeStorage.get(getName(), FragmentPersistentScope.class);
+        return scopeStorage.get(getScopeId(), FragmentPersistentScope.class);
     }
 
     @Override
@@ -72,7 +72,8 @@ public class FragmentDelegate extends BaseScreenDelegate {
         FragmentPersistentScope persistentScope = new FragmentPersistentScope(
                 eventDelegateManager,
                 screenState,
-                configurator);
+                configurator,
+                getScopeId());
         return persistentScope;
     }
 

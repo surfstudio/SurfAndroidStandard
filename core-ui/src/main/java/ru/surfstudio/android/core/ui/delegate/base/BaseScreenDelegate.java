@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
@@ -40,7 +41,7 @@ public abstract class BaseScreenDelegate {
 
     private static final String KEY_PSS_ID = "KEY_PSS_ID";
 
-    private String currentScopeName; // то , что доставалось из screenNameProvider
+    private String currentScopeId; // то , что доставалось из screenNameProvider
     private List<ScreenEventResolver> eventResolvers;
     private PersistentScopeStorage scopeStorage;
     private CompletelyDestroyChecker completelyDestroyChecker;
@@ -67,7 +68,9 @@ public abstract class BaseScreenDelegate {
 
     public void initialize(@Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            currentScopeName = savedInstanceState.getString(KEY_PSS_ID);
+            currentScopeId = savedInstanceState.getString(KEY_PSS_ID);
+        } else {
+            currentScopeId = UUID.randomUUID().toString();
         }
     }
 
@@ -92,7 +95,7 @@ public abstract class BaseScreenDelegate {
             getScreenState().onCompletelyDestroy();
             getEventDelegateManager().sendEvent(new OnCompletelyDestroyEvent());
             getEventDelegateManager().destroy();
-            scopeStorage.remove(getName());
+            scopeStorage.remove(getScopeId());
         }
     }
 
@@ -101,10 +104,9 @@ public abstract class BaseScreenDelegate {
     }
 
     private void initPersistentScope() {
-        if (!scopeStorage.isExist(getName())) {
+        if (!scopeStorage.isExist(getScopeId())) {
             PersistentScope persistentScope = createPersistentScope(eventResolvers);
             scopeStorage.put(persistentScope);
-            currentScopeName = persistentScope.getScopeId();
         }
     }
 
@@ -114,8 +116,8 @@ public abstract class BaseScreenDelegate {
         return getPersistentScope().getScreenEventDelegateManager();
     }
 
-    protected String getName() {
-        return currentScopeName;
+    protected String getScopeId() {
+        return currentScopeId;
     }
 
     //other events

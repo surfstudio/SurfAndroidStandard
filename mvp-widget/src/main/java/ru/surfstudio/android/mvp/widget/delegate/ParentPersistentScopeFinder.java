@@ -37,8 +37,7 @@ public class ParentPersistentScopeFinder {
                 if (fragment.getView() != null
                         && fragment.getView() == parent
                         && fragment instanceof CoreFragmentInterface) {
-                    parentScope = (ScreenPersistentScope) scopeStorage.get(
-                            ((CoreFragmentInterface) fragment).getPersistentScope().getScopeId());
+                    parentScope = ((CoreFragmentInterface) fragment).getPersistentScope();
 
                 }
             }

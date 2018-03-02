@@ -47,7 +47,7 @@ public class ActivityDelegate extends BaseScreenDelegate {
 
     @Override
     public ActivityPersistentScope getPersistentScope() {
-        return scopeStorage.get(getName(), ActivityPersistentScope.class);
+        return scopeStorage.get(getScopeId(), ActivityPersistentScope.class);
     }
 
     @Override
@@ -75,7 +75,8 @@ public class ActivityDelegate extends BaseScreenDelegate {
         ActivityPersistentScope persistentScope = new ActivityPersistentScope(
                 eventDelegateManager,
                 screenState,
-                configurator);
+                configurator,
+                getScopeId());
         configurator.setPersistentScope(persistentScope);
         return persistentScope;
     }

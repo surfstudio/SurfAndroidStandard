@@ -16,8 +16,9 @@ public abstract class ScreenPersistentScope extends PersistentScope {
 
     protected ScreenPersistentScope(ScreenEventDelegateManager screenEventDelegateManager,
                                     ScreenState screenState,
-                                    Configurator configurator) {
-        super();
+                                    Configurator configurator,
+                                    String scopeId) {
+        super(scopeId);
         this.screenEventDelegateManager = screenEventDelegateManager;
         this.screenState = screenState;
         this.configurator = configurator;

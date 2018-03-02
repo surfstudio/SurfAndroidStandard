@@ -3,7 +3,6 @@ package ru.surfstudio.android.core.ui.scope;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * Хранилище основных обьектов экрана, необходимых для внутренней логики ядра
@@ -15,7 +14,11 @@ import java.util.UUID;
 public class PersistentScope {
     protected final Map<ObjectKey, Object> objects = new HashMap<>();
 
-    private final String scopeId = UUID.randomUUID().toString();
+    private final String scopeId;
+
+    public PersistentScope(String scopeId) {
+        this.scopeId = scopeId;
+    }
 
     public String getScopeId() {
         return scopeId;

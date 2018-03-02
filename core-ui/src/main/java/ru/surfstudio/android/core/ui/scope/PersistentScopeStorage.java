@@ -24,11 +24,6 @@ public class PersistentScopeStorage {
                     "ScreenScope with name %s already created", scope.getScopeId()));
         }
 
-        //todo нужно ли убирать?
-        /*if (scope instanceof ActivityPersistentScope && getActivityScopeName() != null) {
-            throw new IllegalStateException("ActivityPersistentScope already created");
-        }*/
-
         scopes.put(scope.getScopeId(), scope);
     }
 
@@ -42,11 +37,7 @@ public class PersistentScopeStorage {
     }
 
     public boolean isExist(String name) {
-        if (name == null) {
-            return false;
-        } else {
-            return scopes.containsKey(name);
-        }
+        return scopes.containsKey(name);
     }
 
     /**

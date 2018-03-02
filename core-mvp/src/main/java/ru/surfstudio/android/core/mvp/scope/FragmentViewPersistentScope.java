@@ -16,8 +16,9 @@ public final class FragmentViewPersistentScope extends FragmentPersistentScope {
     public FragmentViewPersistentScope(
             FragmentScreenEventDelegateManager screenEventDelegateManager,
             FragmentScreenState screenState,
-            BaseFragmentViewConfigurator configurator) {
-        super(screenEventDelegateManager, screenState, configurator);
+            BaseFragmentViewConfigurator configurator,
+            String scopeId) {
+        super(screenEventDelegateManager, screenState, configurator, scopeId);
     }
 
     @Override
