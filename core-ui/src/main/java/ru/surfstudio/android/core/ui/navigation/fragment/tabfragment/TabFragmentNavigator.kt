@@ -101,7 +101,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     fun <T> clearTabs(vararg routes: T) where T : FragmentRoute, T : RootFragmentRoute {
         for (r in routes) {
             fragmentMap[r.tag]
-                    ?.drop(1)
+                    ?.drop(1) //пропускаем корневой таб
                     ?.forEach {
                         fragmentMap[r.tag]?.pop()
                         replace(activeStack.firstElement(), activeTabTag)
