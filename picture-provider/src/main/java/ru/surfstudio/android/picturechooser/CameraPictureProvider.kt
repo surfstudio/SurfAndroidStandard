@@ -12,7 +12,6 @@ import android.support.v4.content.FileProvider
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
-import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
@@ -24,7 +23,6 @@ import java.util.*
 /**
  *  Позволяет получить данные с камеры стороннего приложения
  */
-@PerScreen
 class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
                             private val activity: Activity) {
 

@@ -14,7 +14,7 @@ android {
         versionCode rootProject.ext.moduleVersionCode
         versionName rootProject.ext.moduleVersionName
 
-        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        setProperty("archivesBaseName", "$applicationName-$moduleVersionName-($moduleVersionCode)")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -23,10 +23,10 @@ android {
     signingConfigs {
         // todo настроить подпись приложения
         release {
-            storeFile file("../keystore/prod.keystore.jks")
-            storePassword "qsdm345nbdfg458smm4"
-            keyAlias "prod"
-            keyPassword "qsdm345nbdfg458smm4"
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
         }
         test {
             storeFile file("../keystore/test.keystore")

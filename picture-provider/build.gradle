@@ -1,12 +1,10 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
 
 dependencies {
     compileOnly project(path: ':core-app')
     compileOnly project(path: ':core-ui')
-    compileOnly project(':dagger-scope')
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    compileOnly project(path: ':logger')
+    compileOnly project(path: ':rx-extension')
 
     implementation "com.android.support:exifinterface:$appcompatVersion"
 }

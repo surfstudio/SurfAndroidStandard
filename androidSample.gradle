@@ -11,18 +11,18 @@ android {
     defaultConfig {
         minSdkVersion project.ext.minSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
-        versionCode project.ext.versionCode
-        versionName project.ext.versionName
+        versionCode project.ext.moduleVersionCode
+        versionName project.ext.moduleVersionName
     }
 
     buildTypes {
         qa {
             debuggable = true
-            minifyEnabled true
+            minifyEnabled false
         }
 
         release {
-            minifyEnabled true
+            minifyEnabled false
         }
     }
 
