@@ -3,7 +3,7 @@ package com.example.standarddialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogFragment
+import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 import javax.inject.Inject
 
 

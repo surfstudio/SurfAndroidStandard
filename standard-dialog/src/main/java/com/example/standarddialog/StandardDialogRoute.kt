@@ -1,8 +1,8 @@
 package com.example.standarddialog
 
 import android.os.Bundle
-import ru.surfstudio.android.core.ui.base.navigation.Route
-import ru.surfstudio.android.core.ui.base.navigation.dialog.route.DialogWithParamsRoute
+import ru.surfstudio.android.core.ui.navigation.Route
+import ru.surfstudio.android.mvp.dialog.navigation.route.DialogWithParamsRoute
 
 /**
  * Route стандартного диалога
