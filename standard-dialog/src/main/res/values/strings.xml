@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">StandardDialog</string>
+    <string name="possitive">ОК</string>
+    <string name="negative">Отмена</string>
 </resources>

@@ -1,8 +1,8 @@
 package com.example.standarddialog
 
 import android.os.Bundle
-import ru.surfstudio.android.core.ui.base.navigation.Route
-import ru.surfstudio.android.core.ui.base.navigation.dialog.route.DialogWithParamsRoute
+import ru.surfstudio.android.core.ui.navigation.Route
+import ru.surfstudio.android.mvp.dialog.navigation.route.DialogWithParamsRoute
 
 /**
  * Route стандартного диалога
@@ -12,7 +12,8 @@ class StandardDialogRoute(var title: String,
                           var possitiveBtnText: String,
                           var negativeBtnText: String,
                           var isCancelable: Boolean = true,
-                          val tagConst: String) : DialogWithParamsRoute() {
+                          val dialogTag: String) : DialogWithParamsRoute() {
+
 
     constructor(bundle: Bundle) : this(bundle.getString(Route.EXTRA_FIRST),
             bundle.getString(Route.EXTRA_SECOND),
@@ -29,10 +30,10 @@ class StandardDialogRoute(var title: String,
         putSerializable(Route.EXTRA_THIRD, possitiveBtnText)
         putSerializable(Route.EXTRA_FOURTH, negativeBtnText)
         putSerializable(Route.EXTRA_FIFTH, isCancelable)
-        putSerializable(Route.EXTRA_SIXTH, tagConst)
+        putSerializable(Route.EXTRA_SIXTH, dialogTag)
     }
 
     override fun getTag(): String {
-        return tagConst
+        return dialogTag
     }
 }

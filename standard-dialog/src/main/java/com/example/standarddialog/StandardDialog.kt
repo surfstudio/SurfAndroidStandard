@@ -3,7 +3,7 @@ package com.example.standarddialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import ru.surfstudio.android.core.ui.base.screen.dialog.simple.CoreSimpleDialogFragment
+import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 import javax.inject.Inject
 
 
@@ -29,11 +29,11 @@ class StandardDialog : CoreSimpleDialogFragment() {
                 .setTitle(route.title)
                 .setMessage(route.message)
                 .setNegativeButton(route.negativeBtnText, { _, _ ->
-                    presenter.negativeBtnAction(dialogTag = route.tagConst)
+                    presenter.negativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
                 .setPositiveButton(route.possitiveBtnText, { _, _ ->
-                    presenter.positiveBtnAction(route.tagConst)
+                    presenter.positiveBtnAction(route.dialogTag)
                     dismiss()
                 })
                 .setCancelable(route.isCancelable)

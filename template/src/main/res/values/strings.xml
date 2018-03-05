@@ -19,4 +19,9 @@
     <string name="placeholder_default_btn">Обновить</string>
     <string name="channel_id">ANDROID_TEMPLATE</string>
 
+    <string name="title">title</string>
+    <string name="message">message</string>
+    <string name="possitive">possitive</string>
+    <string name="negative">negative</string>
+
 </resources>
