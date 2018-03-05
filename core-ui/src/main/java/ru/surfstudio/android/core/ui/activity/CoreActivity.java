@@ -33,10 +33,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
         return activityDelegate.getPersistentScope();
     }
 
-    /**
-     * Используется для только логирования (Может быть не уникальным)
-     * @return возвращает имя класса для логгирования
-     */
+    @Override
     public String getScreenName() {
         return this.getClass().getCanonicalName();
     }

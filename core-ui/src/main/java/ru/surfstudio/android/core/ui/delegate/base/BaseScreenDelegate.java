@@ -41,7 +41,7 @@ public abstract class BaseScreenDelegate {
 
     private static final String KEY_PSS_ID = "KEY_PSS_ID";
 
-    private String currentScopeId; // то , что доставалось из screenNameProvider
+    private String currentScopeId;
     private List<ScreenEventResolver> eventResolvers;
     private PersistentScopeStorage scopeStorage;
     private CompletelyDestroyChecker completelyDestroyChecker;

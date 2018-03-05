@@ -21,8 +21,7 @@ internal class MainPresenter @Inject constructor(private val analyticsService: A
                                                  private val permissionManager: PermissionManager,
                                                  private val picturePermissionChecker: PicturePermissionChecker,
                                                  private val photoProvider: PictureProvider,
-                                                 private val messageController: MessageController,
-                                                 private val activityNavigator: ActivityNavigator) : BasePresenter<MainActivityView>(basePresenterDependency) {
+                                                 private val messageController: MessageController) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()
 

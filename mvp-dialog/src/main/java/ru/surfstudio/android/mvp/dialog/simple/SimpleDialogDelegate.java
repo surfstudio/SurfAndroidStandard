@@ -69,7 +69,6 @@ public class SimpleDialogDelegate {
 
     public <T> T getScreenComponent(Class<T> componentClass) {
         PersistentScopeStorage scopeStorage = PersistentScopeStorageContainer.getPersistentScopeStorage();
-        //todo обдумать то, что каст к ScreenPersistentScope!!! 
         ScreenPersistentScope persistentScope = (ScreenPersistentScope) scopeStorage.get(parentName);
         ViewConfigurator viewConfigurator = (ViewConfigurator) persistentScope.getConfigurator();
         return componentClass.cast(viewConfigurator.getScreenComponent());
