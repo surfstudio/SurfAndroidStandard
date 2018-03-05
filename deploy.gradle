@@ -1,6 +1,8 @@
 apply plugin: 'maven'
+apply from: '../config.gradle'
 
 uploadArchives {
+
     repositories.mavenDeployer {
         repository(url: "${surf_maven_libs_url}") {
             authentication(userName: "${surf_maven_username}", password: "${surf_maven_password}")
@@ -8,6 +10,6 @@ uploadArchives {
 
         pom.groupId = 'ru.surfstudio.standard'
         pom.artifactId = project.name
-        pom.version = project.android.defaultConfig.versionName
+        pom.version = moduleVersionName
     }
 }
