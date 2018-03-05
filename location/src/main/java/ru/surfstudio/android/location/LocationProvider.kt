@@ -13,10 +13,10 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import ru.surfstudio.android.core.app.dagger.scope.PerApplication
-import ru.surfstudio.android.core.app.log.Logger
+import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.location.error.LocationSecurityException
 import ru.surfstudio.android.location.error.LocationServiceUnavailableException
+import ru.surfstudio.android.logger.Logger
 import javax.inject.Inject
 
 /**

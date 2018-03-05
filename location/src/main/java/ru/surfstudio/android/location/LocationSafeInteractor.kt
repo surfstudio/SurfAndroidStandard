@@ -2,9 +2,9 @@ package ru.surfstudio.android.location
 
 import android.content.Intent
 import io.reactivex.Observable
-import ru.surfstudio.android.core.app.dagger.scope.PerScreen
-import ru.surfstudio.android.core.ui.base.delegate.activity.result.ActivityResultDelegate
 import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.base.screen.event.result.ActivityResultDelegate
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.dialog.LocationDeniedDialogData
 import javax.inject.Inject
 
@@ -16,8 +16,7 @@ import javax.inject.Inject
  */
 @PerScreen
 class LocationSafeInteractor @Inject constructor(val locationServiceChecker: LocationServiceChecker,
-                                                 private val locationService: LocationService)
-    : ActivityResultDelegate {
+                                                 private val locationService: LocationService) : ActivityResultDelegate {
 
     /**
      * Безопасное определение текущей геолокации пользователя.

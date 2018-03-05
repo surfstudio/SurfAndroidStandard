@@ -13,7 +13,3 @@ dependencies {
     compileOnly "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
-
-repositories {
-    mavenCentral()
-}
