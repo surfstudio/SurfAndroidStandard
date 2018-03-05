@@ -25,6 +25,7 @@ public class PersistentScopeStorage {
         }
 
         scopes.put(scope.getScopeId(), scope);
+        scope.setScopeAdded(true);
     }
 
     /**
@@ -33,6 +34,7 @@ public class PersistentScopeStorage {
      * @param name
      */
     public void remove(String name) {
+        scopes.get(name).setScopeAdded(false);
         scopes.remove(name);
     }
 

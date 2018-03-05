@@ -22,6 +22,7 @@ public class WidgetViewDelegate {
     private CoreWidgetViewInterface coreWidgetView;
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
+    private String parentScopeId; // id родительского скоупа (необходим для получения уникального имени виджета)
 
     public WidgetViewDelegate(CoreWidgetViewInterface coreWidgetView,
                               PersistentScopeStorage scopeStorage,
@@ -61,14 +62,20 @@ public class WidgetViewDelegate {
             }
             WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
             BaseWidgetViewConfigurator configurator = coreWidgetView.createConfigurator();
+
+            initParentScopeId(parentScope.getScopeId());
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     parentScope.getScreenEventDelegateManager(),
                     screenState,
                     configurator,
-                    parentScope.getScopeId()); //todo подумать где брать скоуп id для виджетов?
+                    getName());
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }
+    }
+
+    private void initParentScopeId(String parentScopeId) {
+        this.parentScopeId = parentScopeId;
     }
 
     //getters
@@ -78,6 +85,6 @@ public class WidgetViewDelegate {
     }
 
     private String getName() {
-        return coreWidgetView.getName();
+        return coreWidgetView.getName() + parentScopeId;
     }
 }
