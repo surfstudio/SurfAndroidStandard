@@ -14,7 +14,7 @@ android {
         versionCode rootProject.ext.moduleVersionCode
         versionName rootProject.ext.moduleVersionName
 
-        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        setProperty("archivesBaseName", "$applicationName-$moduleVersionName-($moduleVersionCode)")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
