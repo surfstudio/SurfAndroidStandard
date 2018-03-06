@@ -7,6 +7,7 @@ import android.view.ViewParent;
 
 import java.util.List;
 
+import ru.surfstudio.android.core.mvp.activity.CoreActivityView;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
@@ -44,7 +45,7 @@ public class ParentPersistentScopeFinder {
             parent = child.getParent();
         }
         if (parentScope == null) {
-            parentScope = scopeStorage.getActivityScope();
+            parentScope = ((CoreActivityView)activity).getPersistentScope();
         }
         return parentScope;
     }

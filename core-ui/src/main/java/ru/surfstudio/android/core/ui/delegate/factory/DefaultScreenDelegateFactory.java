@@ -11,6 +11,7 @@ import ru.surfstudio.android.core.ui.delegate.activity.ActivityCompletelyDestroy
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentCompletelyDestroyChecker;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
+import ru.surfstudio.android.core.ui.delegate.fragment.ParentActivityPersistentScopeFinder;
 import ru.surfstudio.android.core.ui.event.ScreenEventResolverHelper;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;

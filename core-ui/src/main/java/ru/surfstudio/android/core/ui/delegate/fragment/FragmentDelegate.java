@@ -31,6 +31,7 @@ public class FragmentDelegate extends BaseScreenDelegate {
     private Fragment fragment;
     private CoreFragmentInterface coreFragment;
     private PersistentScopeStorage scopeStorage;
+    private ParentActivityPersistentScopeFinder persistentScopeFinder;
 
     public <F extends Fragment & CoreFragmentInterface> FragmentDelegate(
             F fragment,
@@ -41,6 +42,7 @@ public class FragmentDelegate extends BaseScreenDelegate {
         this.fragment = fragment;
         this.coreFragment = fragment;
         this.scopeStorage = scopeStorage;
+        this.persistentScopeFinder = new ParentActivityPersistentScopeFinder(fragment, scopeStorage);
     }
 
     @Override
@@ -79,7 +81,7 @@ public class FragmentDelegate extends BaseScreenDelegate {
 
     @NonNull
     protected FragmentScreenEventDelegateManager createFragmentScreenEventDelegateManager(List<ScreenEventResolver> eventResolvers) {
-        ActivityPersistentScope activityPersistentScope = scopeStorage.getActivityScope();
+        ActivityPersistentScope activityPersistentScope = persistentScopeFinder.find();
         if (activityPersistentScope == null) {
             throw new IllegalStateException("FragmentPersistentScope cannot be created without ActivityPersistentScope");
         }
