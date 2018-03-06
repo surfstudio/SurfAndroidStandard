@@ -98,7 +98,7 @@ class DefaultMessageController @JvmOverloads constructor(
     protected fun getView(): View {
         return getViewFromFragment(fragmentProvider)
                 ?: getViewFromActivity(activityProvider)
-                ?: throw ViewForSnackbarNotFound()
+                ?: throw ViewForSnackbarNotFoundException("ViewForSnackbarNotFound")
     }
 
     private fun getViewFromFragment(fragmentProvider: FragmentProvider?): View? {
