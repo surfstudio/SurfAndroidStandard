@@ -35,7 +35,7 @@ public interface CoreActivityInterface extends
 
     /**
      * Используется для только логирования (Может быть не уникальным)
-     * @return возвращает имя класса для логгирования
+     * @return возвращает имя для логгирования
      */
     String getScreenName();
 }

@@ -64,23 +64,4 @@ public class PersistentScopeStorage {
         }
         return scopeClass.cast(persistentScope);
     }
-
-    public @NonNull
-    ActivityPersistentScope getActivityScope() {
-        String activityScopeName = getActivityScopeName();
-        if (activityScopeName == null) {
-            throw new IllegalStateException("ActivityPersistentScope doest not exist");
-        }
-        return get(activityScopeName, ActivityPersistentScope.class);
-    }
-
-    private @Nullable
-    String getActivityScopeName() {
-        for (Map.Entry<String, PersistentScope> entry : scopes.entrySet()) {
-            if (entry.getValue() instanceof ActivityPersistentScope) {
-                return entry.getKey();
-            }
-        }
-        return null;
-    }
 }

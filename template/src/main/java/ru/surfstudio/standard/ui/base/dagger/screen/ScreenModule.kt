@@ -38,14 +38,6 @@ abstract class ScreenModule {
         return FragmentNavigator(activityProvider)
     }
 
-
-    @Provides
-    @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider, fragmentProvider: FragmentProvider): DialogNavigator {
-        return DialogNavigatorForFragment(activityProvider, fragmentProvider)
-    }
-
-
     @PerScreen
     @Provides
     internal fun provideBaseDependency(schedulersProvider: SchedulersProvider,

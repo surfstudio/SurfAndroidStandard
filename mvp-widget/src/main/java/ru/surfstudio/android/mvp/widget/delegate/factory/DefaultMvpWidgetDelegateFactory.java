@@ -22,7 +22,7 @@ public class DefaultMvpWidgetDelegateFactory implements MvpWidgetDelegateFactory
 
     @Override
     public <W extends View & CoreWidgetViewInterface> WidgetViewDelegate createWidgetViewDelegate(W widget) {
-        PersistentScopeStorage scopeStorage = getScopeStorage((FragmentActivity) widget.getContext());
+        PersistentScopeStorage scopeStorage = getScopeStorage();
         return new WidgetViewDelegate(
                 widget,
                 scopeStorage,
@@ -35,7 +35,7 @@ public class DefaultMvpWidgetDelegateFactory implements MvpWidgetDelegateFactory
     }
 
     @NonNull
-    protected PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
+    protected PersistentScopeStorage getScopeStorage() {
         return PersistentScopeStorageContainer.getPersistentScopeStorage();
     }
 }

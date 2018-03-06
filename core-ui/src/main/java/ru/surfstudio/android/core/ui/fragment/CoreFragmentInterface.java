@@ -33,7 +33,7 @@ public interface CoreFragmentInterface extends
 
     /**
      * Используется для только логирования (Может быть не уникальным)
-     * @return возвращает имя класса для логов
+     * @return возвращает имя для логов
      */
     String getScreenName();
 }

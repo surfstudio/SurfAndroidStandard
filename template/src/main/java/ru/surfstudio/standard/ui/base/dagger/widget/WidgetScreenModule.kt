@@ -36,7 +36,7 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
     @Provides
     @PerScreen
     internal fun provideDialogNavigator(activityProvider: ActivityProvider, widgetProvider: WidgetProvider): DialogNavigator {
-        return DialogNavigatorForWidget(activityProvider, widgetProvider)
+        return DialogNavigatorForWidget(activityProvider, widgetProvider, persistentScope)
     }
 
     @Provides

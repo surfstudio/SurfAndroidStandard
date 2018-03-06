@@ -27,7 +27,7 @@ public class DefaultMvpScreenDelegateFactory implements MvpScreenDelegateFactory
     public <A extends FragmentActivity & CoreActivityViewInterface> ActivityViewDelegate createActivityViewDelegate(A activity) {
         return new ActivityViewDelegate(
                 activity,
-                getScopeStorage(activity),
+                getScopeStorage(),
                 getEventResolvers(),
                 new ActivityCompletelyDestroyChecker(activity)
         );
@@ -37,7 +37,7 @@ public class DefaultMvpScreenDelegateFactory implements MvpScreenDelegateFactory
     public <A extends Fragment & CoreFragmentViewInterface> FragmentViewDelegate createFragmentViewDelegate(A fragment) {
         return new FragmentViewDelegate(
                 fragment,
-                getScopeStorage(fragment.getActivity()),
+                getScopeStorage(),
                 getEventResolvers(),
                 new FragmentCompletelyDestroyChecker(fragment)
         );
@@ -49,7 +49,7 @@ public class DefaultMvpScreenDelegateFactory implements MvpScreenDelegateFactory
     }
 
     @NonNull
-    protected PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
+    protected PersistentScopeStorage getScopeStorage() {
         return PersistentScopeStorageContainer.getPersistentScopeStorage();
     }
 }

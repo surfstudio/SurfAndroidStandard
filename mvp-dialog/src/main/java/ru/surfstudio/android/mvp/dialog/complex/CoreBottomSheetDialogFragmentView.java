@@ -142,9 +142,6 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
      * Используется для логгирования
      * @return возвращает имя класса для логов
      */
-    public String getScreenName() {
-        //уникальное имя по умолчанию для фрагмента контейнера
-        return this.getClass().getCanonicalName() + getTag() + getId();
-    }
-
+    @Override
+    abstract public String getScreenName();
 }

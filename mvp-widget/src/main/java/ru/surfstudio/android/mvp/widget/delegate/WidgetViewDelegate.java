@@ -1,7 +1,6 @@
 package ru.surfstudio.android.mvp.widget.delegate;
 
 
-import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
@@ -63,7 +62,7 @@ public class WidgetViewDelegate {
             WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
             BaseWidgetViewConfigurator configurator = coreWidgetView.createConfigurator();
 
-            initParentScopeId(parentScope.getScopeId());
+            parentScopeId = parentScope.getScopeId();
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     parentScope.getScreenEventDelegateManager(),
                     screenState,
@@ -72,10 +71,6 @@ public class WidgetViewDelegate {
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }
-    }
-
-    private void initParentScopeId(String parentScopeId) {
-        this.parentScopeId = parentScopeId;
     }
 
     //getters

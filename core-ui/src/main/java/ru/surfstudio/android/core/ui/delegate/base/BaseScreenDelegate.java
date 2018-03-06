@@ -67,11 +67,9 @@ public abstract class BaseScreenDelegate {
     }
 
     public void initialize(@Nullable Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            currentScopeId = savedInstanceState.getString(KEY_PSS_ID);
-        } else {
-            currentScopeId = UUID.randomUUID().toString();
-        }
+        currentScopeId = savedInstanceState != null
+                ? savedInstanceState.getString(KEY_PSS_ID)
+                : UUID.randomUUID().toString();
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
