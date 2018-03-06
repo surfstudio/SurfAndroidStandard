@@ -71,6 +71,8 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         imageIv = findViewById(R.id.placeholder_image_iv)
 
         applyAttributes(context, attrs, defStyle)
+
+        initialSetUp()
     }
 
     /**
@@ -213,42 +215,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         updateView()
     }
 
-    private fun updateView() {
-        setProgressBarColor()
-        setBackgroundColor()
-        setUpViews()
-    }
-
-    /**
-     * Окрашивание индикатора [MaterialProgressBar].
-     *
-     * Если цвет не задан явно в стилях - используется ?colorAccent приложения.
-     */
-    private fun setProgressBarColor() {
-        if (styler.progressBarColor != NOT_ASSIGNED_RESOURCE) {
-            progressBar.indeterminateTintList = ContextCompat.getColorStateList(context, styler.progressBarColor)
-        }
-    }
-
-    /**
-     * Установка цвета фона плейсхолдера в зависимости от текущего [LoadState].
-     */
-    private fun setBackgroundColor() {
-        when (stater.loadState) {
-            PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
-                setBackgroundResource(styler.transparentBackgroundColor)
-            }
-            else -> {
-                setBackgroundResource(styler.opaqueBackgroundColor)
-            }
-        }
-    }
-
-    private fun setUpViews() {
+    private fun initialSetUp() {
         setStyles() //метод setStyles обязательно должен вызываться первым
+        setProgressBarColor()
         setMargins()
-        setVisibility()
-        setData()
+        setListeners()
     }
 
     /**
@@ -270,9 +241,6 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                 contentContainer.removeViewInLayout(button)
                 button = Button(ContextThemeWrapper(context, it), null, 0)
                 button.layoutParams = extractLayoutParamsFromStyle(styler.buttonStyleResId)
-                button.setOnClickListener {
-                    buttonLambda?.invoke(stater.loadState)
-                }
                 contentContainer.addView(button, viewIndex)
             }
         }
@@ -282,9 +250,6 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                 contentContainer.removeViewInLayout(secondButton)
                 secondButton = Button(ContextThemeWrapper(context, it), null, 0)
                 secondButton.layoutParams = extractLayoutParamsFromStyle(styler.secondButtonStyleResId)
-                secondButton.setOnClickListener {
-                    secondButtonLambda?.invoke(stater.loadState)
-                }
                 contentContainer.addView(secondButton, viewIndex)
             }
         }
@@ -300,20 +265,13 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     /**
-     * Извлечение [ViewGroup.LayoutParams] из стиля виджета.
+     * Окрашивание индикатора [MaterialProgressBar].
      *
-     * Только так можно применить параметры ширины и высоты виджета, заданные через стиль.
+     * Если цвет не задан явно в стилях - используется ?colorAccent приложения.
      */
-    @SuppressLint("ResourceType")
-    private fun extractLayoutParamsFromStyle(style: Int): ViewGroup.LayoutParams {
-        val t = context.theme.obtainStyledAttributes(null,
-                intArrayOf(android.R.attr.layout_width, android.R.attr.layout_height), style, style)
-        try {
-            val w = t.getLayoutDimension(0, ViewGroup.LayoutParams.WRAP_CONTENT)
-            val h = t.getLayoutDimension(1, ViewGroup.LayoutParams.WRAP_CONTENT)
-            return ViewGroup.LayoutParams(w, h)
-        } finally {
-            t.recycle()
+    private fun setProgressBarColor() {
+        if (styler.progressBarColor != NOT_ASSIGNED_RESOURCE) {
+            progressBar.indeterminateTintList = ContextCompat.getColorStateList(context, styler.progressBarColor)
         }
     }
 
@@ -335,16 +293,38 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     /**
-     * Инициализация плейсхолдера данными.
+     * Установка обработчиков нажатий на кнопки
      */
-    private fun setData() {
-        val viewData = dataContainer.getViewData(stater.loadState)
+    private fun setListeners() {
+        button.setOnClickListener {
+            buttonLambda?.invoke(stater.loadState)
+        }
+        secondButton.setOnClickListener {
+            secondButtonLambda?.invoke(stater.loadState)
+        }
+    }
 
-        titleTv.setTextOrGone(viewData.title)
-        subtitleTv.setTextOrGone(viewData.subtitle)
-        button.setTextOrGone(viewData.buttonText)
-        secondButton.setTextOrGone(viewData.secondButtonText)
-        imageIv.setImageDrawableOrGone(viewData.image)
+    /**
+     * Обновление состояния виджета
+     */
+    private fun updateView() {
+        setBackgroundColor()
+        setVisibility()
+        setData()
+    }
+
+    /**
+     * Установка цвета фона плейсхолдера в зависимости от текущего [LoadState].
+     */
+    private fun setBackgroundColor() {
+        when (stater.loadState) {
+            PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
+                setBackgroundResource(styler.transparentBackgroundColor)
+            }
+            else -> {
+                setBackgroundResource(styler.opaqueBackgroundColor)
+            }
+        }
     }
 
     /**
@@ -365,6 +345,37 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                 progressBar.visibility = View.INVISIBLE
                 fadeIn(this, 300L)
             }
+        }
+    }
+
+    /**
+     * Инициализация плейсхолдера данными.
+     */
+    private fun setData() {
+        val viewData = dataContainer.getViewData(stater.loadState)
+
+        titleTv.setTextOrGone(viewData.title)
+        subtitleTv.setTextOrGone(viewData.subtitle)
+        button.setTextOrGone(viewData.buttonText)
+        secondButton.setTextOrGone(viewData.secondButtonText)
+        imageIv.setImageDrawableOrGone(viewData.image)
+    }
+
+    /**
+     * Извлечение [ViewGroup.LayoutParams] из стиля виджета.
+     *
+     * Только так можно применить параметры ширины и высоты виджета, заданные через стиль.
+     */
+    @SuppressLint("ResourceType")
+    private fun extractLayoutParamsFromStyle(style: Int): ViewGroup.LayoutParams {
+        val t = context.theme.obtainStyledAttributes(null,
+                intArrayOf(android.R.attr.layout_width, android.R.attr.layout_height), style, style)
+        try {
+            val w = t.getLayoutDimension(0, ViewGroup.LayoutParams.WRAP_CONTENT)
+            val h = t.getLayoutDimension(1, ViewGroup.LayoutParams.WRAP_CONTENT)
+            return ViewGroup.LayoutParams(w, h)
+        } finally {
+            t.recycle()
         }
     }
 
