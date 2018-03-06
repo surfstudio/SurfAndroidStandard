@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import io.reactivex.Notification
 import io.reactivex.Observable
 import ru.surfstudio.android.logger.Logger
 
@@ -13,16 +12,16 @@ import ru.surfstudio.android.logger.Logger
  */
 abstract class RxBroadcastReceiver<T> constructor(private val context: Context) {
 
-    fun observeBroadcast(): Observable<Notification<T>> {
+    fun observeBroadcast(): Observable<T> {
         return Observable.create(
                 { emitter ->
                     val broadcastReceiver = object : BroadcastReceiver() {
                         override fun onReceive(context: Context, intent: Intent) {
                             try {
-                                emitter.onNext(Notification.createOnNext(parseBroadcastIntent(intent)))
+                                emitter.onNext(parseBroadcastIntent(intent))
                             } catch (throwable: Throwable) {
                                 Logger.e(throwable)
-                                emitter.onNext(Notification.createOnError<T>(RuntimeException(throwable)))
+                                emitter.onError(throwable)
                             }
                         }
                     }
@@ -30,7 +29,7 @@ abstract class RxBroadcastReceiver<T> constructor(private val context: Context) 
                         context.registerReceiver(broadcastReceiver, intentFilter())
                     } catch (throwable: Throwable) {
                         Logger.e(throwable)
-                        emitter.onNext(Notification.createOnError<T>(RuntimeException(throwable)))
+                        emitter.onError(throwable)
                     }
                     emitter.setCancellable {
                         context.unregisterReceiver(broadcastReceiver)
