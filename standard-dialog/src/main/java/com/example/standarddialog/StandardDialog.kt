@@ -26,14 +26,14 @@ class StandardDialog : CoreSimpleDialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(this.context, theme)
         return builder
-                .setTitle(route.title)
-                .setMessage(route.message)
-                .setNegativeButton(route.negativeBtnText, { _, _ ->
+                .setTitle(route.getTitle(this.context!!))
+                .setMessage(route.getMessage(this.context!!))
+                .setNegativeButton(route.getNegativeBtnTxt(this.context!!), { _, _ ->
                     presenter.negativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
-                .setPositiveButton(route.possitiveBtnText, { _, _ ->
-                    presenter.positiveBtnAction(route.dialogTag)
+                .setPositiveButton(route.getPossitiveBtnTxt(this.context!!), { _, _ ->
+                    presenter.positiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
                 .setCancelable(route.isCancelable)
