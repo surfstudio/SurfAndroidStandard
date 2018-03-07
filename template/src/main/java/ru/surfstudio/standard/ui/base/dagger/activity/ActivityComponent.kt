@@ -4,6 +4,8 @@ import android.content.Context
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.StringsProvider
+import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
+import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
@@ -29,4 +31,6 @@ interface ActivityComponent {
     fun activityProvider(): ActivityProvider
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
+    fun fragmentNavigator(): FragmentNavigator
+    fun tabFragmentNavigator(): TabFragmentNavigator
 }

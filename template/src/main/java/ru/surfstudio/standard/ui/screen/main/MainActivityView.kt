@@ -22,7 +22,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun renderInternal(screenModel: MainScreenModel) {}
 
-    override fun getName(): String {
+    override fun getScreenName(): String {
         return "main"
     }
 

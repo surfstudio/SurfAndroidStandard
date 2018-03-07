@@ -49,5 +49,5 @@ class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
 
     override fun getPresenters() = arrayOf(presenter)
 
-    override fun getName() = "Web View Screen"
+    override fun getScreenName() = "Web View Screen"
 }

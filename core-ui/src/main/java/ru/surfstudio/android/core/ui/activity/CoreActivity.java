@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
+import ru.surfstudio.android.logger.LogConstants;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * базовая активити для всего приложения
@@ -32,7 +34,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     }
 
     @Override
-    public String getName() {
+    public String getScreenName() {
         return this.getClass().getCanonicalName();
     }
 
@@ -40,6 +42,8 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityDelegate = createActivityDelegate();
+        activityDelegate.initialize(savedInstanceState);
+
         onPreCreate(savedInstanceState);
         setContentView(getContentView());
         activityDelegate.onCreate(savedInstanceState, null);
@@ -49,6 +53,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     public void onCreate(@Nullable Bundle savedInstanceState,
                          @Nullable PersistableBundle persistentState,
                          boolean viewRecreated) {
+
         //empty
     }
 
@@ -76,12 +81,14 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     @Override
     protected void onResume() {
         super.onResume();
+        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
         activityDelegate.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
         activityDelegate.onPause();
     }
 
