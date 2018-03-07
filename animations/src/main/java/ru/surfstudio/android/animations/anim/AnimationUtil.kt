@@ -27,22 +27,26 @@ object AnimationUtil {
      */
     fun crossfadeViews(inView: View, outView: View,
                        duration: Long = ANIM_LARGE_TRANSITION,
+                       visibility: Int = View.GONE,
                        endAction: (() -> Unit)? = null) {
         fadeIn(inView, duration, endAction)
-        fadeOut(outView, duration, endAction)
+        fadeOut(outView, duration, visibility, endAction)
     }
 
     /**
      * Сокрытие вью с изменением прозрачности
      */
-    fun fadeOut(outView: View, duration: Long = ANIM_LEAVING, endAction: (() -> Unit)? = null) {
+    fun fadeOut(outView: View,
+                duration: Long = ANIM_LEAVING,
+                visibility: Int = View.GONE,
+                endAction: (() -> Unit)? = null) {
 
         ViewCompat.animate(outView)
                 .alpha(0f)
                 .setDuration(duration)
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .withEndAction {
-                    outView.visibility = View.GONE
+                    outView.visibility = visibility
                     endAction?.invoke()
                 }
     }
@@ -61,7 +65,6 @@ object AnimationUtil {
                     endAction?.invoke()
                 }
     }
-
 
     /**
      * Анимация типа "пульс"
