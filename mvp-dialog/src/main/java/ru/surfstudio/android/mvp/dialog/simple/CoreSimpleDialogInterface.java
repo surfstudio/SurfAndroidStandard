@@ -6,7 +6,11 @@ import android.view.View;
 
 import ru.surfstudio.android.core.mvp.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
+import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
 import ru.surfstudio.android.core.ui.HasName;
+import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
@@ -24,11 +28,11 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 public interface CoreSimpleDialogInterface extends HasName {
 
-    <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView);
+    <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope);
 
-    <F extends Fragment & CoreFragmentViewInterface> void show(F parentFragment);
+    <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope);
 
-    <W extends View & CoreWidgetViewInterface> void show(W parentWidgetView);
+    <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope);
 
     <T> T getScreenComponent(Class<T> componentClass);
 }

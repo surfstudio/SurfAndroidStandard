@@ -26,7 +26,7 @@ class SplashActivityView : CoreActivityView() {
         return SplashScreenConfigurator(intent)
     }
 
-    override fun getName(): String {
+    override fun getScreenName(): String {
         return "splash"
     }
 

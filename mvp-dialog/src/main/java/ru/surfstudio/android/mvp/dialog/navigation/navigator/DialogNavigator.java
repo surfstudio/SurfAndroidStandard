@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute;
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 
@@ -15,9 +16,12 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 public abstract class DialogNavigator implements Navigator {
 
     private ActivityProvider activityProvider;
+    private ScreenPersistentScope screenPersistentScope;
 
-    public DialogNavigator(ActivityProvider activityProvider) {
+    public DialogNavigator(ActivityProvider activityProvider,
+                           ScreenPersistentScope screenPersistentScope) {
         this.activityProvider = activityProvider;
+        this.screenPersistentScope = screenPersistentScope;
     }
 
     public void show(DialogRoute dialogRoute) {

@@ -13,6 +13,8 @@ import ru.surfstudio.android.core.mvp.delegate.factory.MvpScreenDelegateFactoryC
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
+import ru.surfstudio.android.logger.LogConstants;
+import ru.surfstudio.android.logger.Logger;
 
 
 /**
@@ -67,9 +69,15 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentDelegate = createFragmentDelegate();
+        fragmentDelegate.initialize(savedInstanceState);
+    }
+
+    @Override
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        fragmentDelegate = createFragmentDelegate();
         fragmentDelegate.onCreate(savedInstanceState, null);
     }
 
@@ -79,15 +87,18 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
         fragmentDelegate.onStart();
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
         fragmentDelegate.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
         fragmentDelegate.onPause();
     }
 
@@ -127,4 +138,10 @@ public abstract class CoreBottomSheetDialogFragmentView extends BottomSheetDialo
         fragmentDelegate.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+    /**
+     * Используется для логгирования
+     * @return возвращает имя класса для логов
+     */
+    @Override
+    abstract public String getScreenName();
 }

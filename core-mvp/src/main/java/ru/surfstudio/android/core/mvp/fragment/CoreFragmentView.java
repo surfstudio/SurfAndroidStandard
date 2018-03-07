@@ -22,9 +22,6 @@ public abstract class CoreFragmentView extends CoreFragment
     public abstract BaseFragmentViewConfigurator createConfigurator();
 
     @Override
-    public abstract String getName();
-
-    @Override
     public FragmentViewDelegate createFragmentDelegate() {
         return MvpScreenDelegateFactoryContainer.get().createFragmentViewDelegate(this);
     }
