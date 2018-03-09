@@ -11,6 +11,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
 import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.pictureprovider.sample.interactor.ui.base.error.ErrorHandlerModule
@@ -20,13 +21,13 @@ class FragmentScreenModule(private val persistentScope: FragmentPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun providePersistentScope(): PersistentScope {
+    internal fun providePersistentScope(): ScreenPersistentScope {
         return persistentScope
     }
 
     @Provides
     @PerScreen
-    internal fun provideScreenState(persistentScope: PersistentScope): ScreenState {
+    internal fun provideScreenState(persistentScope: ScreenPersistentScope): ScreenState {
         return persistentScope.screenState
     }
 

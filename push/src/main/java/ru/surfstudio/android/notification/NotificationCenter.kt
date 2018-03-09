@@ -36,8 +36,8 @@ object NotificationCenter {
      * Данный мметод должен быть добавлен в DefaultActivityLifecycleCallbacks
      */
     fun onActivityStarted(activity: Activity) {
-        Logger.i("PUSH HANDLE ON $activity")
         if (activity is PushHandlingActivity) {
+            Logger.i("PUSH HANDLE ON $activity")
             val strategy = pushHandleStrategyFactory.createByData(IntentPushDataConverter.convert(activity.intent))
             if (strategy != null) activity.startActivity(strategy.coldStartRoute().prepareIntent(activity))
         }

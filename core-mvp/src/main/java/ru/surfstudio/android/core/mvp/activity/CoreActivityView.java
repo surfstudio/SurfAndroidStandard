@@ -14,8 +14,7 @@ public abstract class CoreActivityView extends CoreActivity implements
 
     protected abstract CorePresenter[] getPresenters();
 
-    @Override
-    public abstract String getName();
+    public abstract String getScreenName();
 
     @Override
     public ActivityViewDelegate createActivityDelegate() {

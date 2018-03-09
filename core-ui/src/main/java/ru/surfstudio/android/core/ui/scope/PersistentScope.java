@@ -6,10 +6,6 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.surfstudio.android.core.ui.configurator.Configurator;
-import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.state.ScreenState;
-
 /**
  * Хранилище основных обьектов экрана, необходимых для внутренней логики ядра
  * Также хранит соответствующие даггер компоненты
@@ -17,33 +13,23 @@ import ru.surfstudio.android.core.ui.state.ScreenState;
  * Не уничтожается при смене конфигурации
  * Для Доступа к этому обьекту следует использовать {@link PersistentScopeStorage}
  */
-public abstract class PersistentScope {
-    private final Map<ObjectKey, Object> objects = new HashMap<>();
-    private final ScreenEventDelegateManager screenEventDelegateManager;
-    private final ScreenState screenState;
-    private final Configurator configurator;
-    private final String name;
+public class PersistentScope {
+    protected final Map<ObjectKey, Object> objects = new HashMap<>();
 
-    public PersistentScope(ScreenEventDelegateManager screenEventDelegateManager,
-                           ScreenState screenState,
-                           Configurator configurator,
-                           String name) {
-        this.screenEventDelegateManager = screenEventDelegateManager;
-        this.screenState = screenState;
-        this.configurator = configurator;
-        this.name = name;
+    private boolean isAdded;
+
+    private final String scopeId;
+
+    public PersistentScope(String scopeId) {
+        this.scopeId = scopeId;
     }
 
-    public ScreenEventDelegateManager getScreenEventDelegateManager() {
-        return screenEventDelegateManager;
+    public String getScopeId() {
+        return scopeId;
     }
 
-    public ScreenState getScreenState() {
-        return screenState;
-    }
-
-    public Configurator getConfigurator() {
-        return configurator;
+    public void setScopeAdded(boolean added) {
+        this.isAdded = added;
     }
 
     /**
@@ -53,7 +39,7 @@ public abstract class PersistentScope {
      * @param tag    - key, which used for store object in scope
      */
     public <T> void putObject(T object, String tag) {
-        assertNotDestroyed();
+        assertScopeAdded();
         ObjectKey key = new ObjectKey(tag);
         objects.put(key, object);
     }
@@ -65,10 +51,11 @@ public abstract class PersistentScope {
      * @param clazz  key, which used for store object in scope
      */
     public <T> void putObject(T object, Class<T> clazz) {
-        assertNotDestroyed();
+        assertScopeAdded();
         ObjectKey key = new ObjectKey(clazz);
         objects.put(key, object);
     }
+
 
     /**
      * Put object to scope
@@ -76,7 +63,7 @@ public abstract class PersistentScope {
      * @param tag - key, which used for store object in scope
      */
     public void deleteObject(String tag) {
-        assertNotDestroyed();
+        assertScopeAdded();
         ObjectKey key = new ObjectKey(tag);
         objects.put(key, null);
     }
@@ -87,7 +74,7 @@ public abstract class PersistentScope {
      * @param clazz key, which used for store object in scope
      */
     public <T> void deleteObject(Class<T> clazz) {
-        assertNotDestroyed();
+        assertScopeAdded();
         ObjectKey key = new ObjectKey(clazz);
         objects.put(key, null);
     }
@@ -98,7 +85,7 @@ public abstract class PersistentScope {
      */
     @Nullable
     public <T> T getObject(String tag) {
-        assertNotDestroyed();
+        assertScopeAdded();
         ObjectKey key = new ObjectKey(tag);
         return (T) objects.get(key);
     }
@@ -109,22 +96,19 @@ public abstract class PersistentScope {
      */
     @Nullable
     public <T> T getObject(Class<T> clazz) {
-        assertNotDestroyed();
+        assertScopeAdded();
         ObjectKey key = new ObjectKey(clazz);
         return clazz.cast(objects.get(key));
     }
 
-    private void assertNotDestroyed() {
-        if (isDestroyed()) {
-            throw new IllegalStateException("Unsupported operation, PersistentScope is destroyed");
+    private boolean isScopeAdded() {
+        return isAdded;
+    }
+
+    private void assertScopeAdded() {
+        if (!isScopeAdded()) {
+            throw new IllegalStateException("Unsupported operation, PersistentScope is not added to scope storage");
         }
     }
 
-    private boolean isDestroyed() {
-        return screenState.isCompletelyDestroyed();
-    }
-
-    public String getName() {
-        return name;
-    }
 }

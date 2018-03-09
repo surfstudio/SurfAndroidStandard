@@ -8,9 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import ru.surfstudio.android.core.mvp.activity.CoreActivityViewInterface;
-import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
-import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
+import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
+import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 
 /**
@@ -27,19 +27,19 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
  */
 public abstract class CoreSimpleDialogFragment extends DialogFragment implements CoreSimpleDialogInterface {
 
-    private SimpleDialogDelegate delegate = new SimpleDialogDelegate(this);
+    private SimpleDialogDelegate delegate;
 
 
-    public <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView) {
-        delegate.show(parentActivityView);
+    public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
+        delegate.show(parentActivityViewPersistentScope);
     }
 
-    public <F extends Fragment & CoreFragmentViewInterface> void show(F parentFragmentView) {
-        delegate.show(parentFragmentView);
+    public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
+        delegate.show(parentFragmentViewPersistentScope);
     }
 
-    public <W extends View & CoreWidgetViewInterface> void show(W parentWidgetView) {
-        delegate.show(parentWidgetView);
+    public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
+        delegate.show(parentWidgetViewPersistentScope);
     }
 
     public <T> T getScreenComponent(Class<T> componentClass) {
@@ -49,6 +49,7 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        delegate = new SimpleDialogDelegate(this);
         delegate.onCreate(savedInstanceState);
     }
 
