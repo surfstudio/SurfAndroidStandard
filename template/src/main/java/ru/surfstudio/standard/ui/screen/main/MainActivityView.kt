@@ -3,7 +3,6 @@ package ru.surfstudio.standard.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
-import android.widget.Button
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.standard.R
@@ -21,9 +20,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
-
-        val btn: Button = findViewById(R.id.activity_main_btn)
-        btn.setOnClickListener { presenter.OnBtnClick() }
     }
 
     @IdRes

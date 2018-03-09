@@ -32,7 +32,7 @@ class StandardDialog : CoreSimpleDialogFragment() {
                     presenter.negativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
-                .setPositiveButton(route.getPossitiveBtnTxt(this.context!!), { _, _ ->
+                .setPositiveButton(route.getPositiveBtnTxt(this.context!!), { _, _ ->
                     presenter.positiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
@@ -40,7 +40,5 @@ class StandardDialog : CoreSimpleDialogFragment() {
                 .create()
     }
 
-    override fun getName(): String = "Simple Dialog"
-
-
+    override fun getName(): String = "StandardDialog"
 }

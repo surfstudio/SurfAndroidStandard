@@ -11,12 +11,12 @@ import ru.surfstudio.android.mvp.dialog.navigation.route.DialogWithParamsRoute
  */
 class StandardDialogRoute(var title: String = "",
                           var message: String = "",
-                          var possitiveBtnText: String = "",
+                          var positiveBtnText: String = "",
                           var negativeBtnText: String = "",
-                          @StringRes var titleRes: Int,
-                          @StringRes var messageRes: Int,
-                          @StringRes var possitiveBtnTextRes: Int = R.string.possitive,
-                          @StringRes var negativeBtnTextRes: Int = R.string.negative,
+                          @StringRes var titleRes: Int = R.string.title,
+                          @StringRes var messageRes: Int = R.string.message,
+                          @StringRes var positiveBtnTextRes: Int = R.string.possitive_btn,
+                          @StringRes var negativeBtnTextRes: Int = R.string.negative_btn,
                           var isCancelable: Boolean = true,
                           val dialogTag: String) : DialogWithParamsRoute() {
 
@@ -36,12 +36,12 @@ class StandardDialogRoute(var title: String = "",
     override fun prepareBundle() = Bundle().apply {
         putSerializable(Route.EXTRA_FIRST, title)
         putSerializable(Route.EXTRA_SECOND, message)
-        putSerializable(Route.EXTRA_THIRD, possitiveBtnText)
+        putSerializable(Route.EXTRA_THIRD, positiveBtnText)
         putSerializable(Route.EXTRA_FOURTH, negativeBtnText)
         putSerializable(Route.EXTRA_FIFTH, titleRes)
         putSerializable(Route.EXTRA_SIXTH, messageRes)
         putSerializable(Route.EXTRA_SEVEN, negativeBtnTextRes)
-        putSerializable(Route.EXTRA_EIGHT, possitiveBtnTextRes)
+        putSerializable(Route.EXTRA_EIGHT, positiveBtnTextRes)
         putSerializable(Route.EXTRA_NINE, isCancelable)
         putSerializable(Route.EXTRA_TEN, dialogTag)
     }
@@ -66,11 +66,11 @@ class StandardDialogRoute(var title: String = "",
         }
     }
 
-    fun getPossitiveBtnTxt(context: Context): String {
-        return if (possitiveBtnText.isEmpty()) {
-            context.resources.getString(possitiveBtnTextRes)
+    fun getPositiveBtnTxt(context: Context): String {
+        return if (positiveBtnText.isEmpty()) {
+            context.resources.getString(positiveBtnTextRes)
         } else {
-            possitiveBtnText
+            positiveBtnText
         }
     }
 
