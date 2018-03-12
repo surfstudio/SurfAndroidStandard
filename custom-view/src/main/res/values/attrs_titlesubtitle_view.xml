@@ -2,7 +2,6 @@
 <resources>
     <declare-styleable name="TitleSubtitleView">
         <attr name="titleText" format="string"/>
-        <attr name="titleTextAppearance" format="reference"/>
         <attr name="titleTextColor" format="color"/>
         <attr name="titleTextSize" format="dimension"/>
         <attr name="titleLineSpacingExtra" format="dimension"/>
@@ -35,7 +34,6 @@
         </attr>
 
         <attr name="subTitleText" format="string"/>
-        <attr name="subTitleTextAppearance" format="reference"/>
         <attr name="subTitleTextColor" format="color"/>
         <attr name="subTitleTextSize" format="dimension"/>
         <attr name="subTitleLineSpacingExtra" format="dimension"/>

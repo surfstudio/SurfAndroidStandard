@@ -1,7 +1,5 @@
 package ru.surfstudio.standard.ui.screen.main
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -14,13 +12,8 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
-
     @Inject
     internal lateinit var presenter: MainPresenter
-
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
-        super.onCreate(savedInstanceState, persistentState, viewRecreated)
-    }
 
     @IdRes
     override fun getContentView(): Int {
@@ -40,6 +33,4 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     override fun createConfigurator(): ActivityScreenConfigurator {
         return MainScreenConfigurator(intent)
     }
-
-
 }

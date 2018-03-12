@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.animation.TimeInterpolator
 import android.support.v4.view.animation.FastOutLinearInInterpolator
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 
 /**
@@ -20,8 +19,10 @@ fun View.fadeIn(duration: Long = AnimationUtil.ANIM_ENTERING, endAction: (() -> 
 /**
  * Сокрытие вью с изменением прозрачности
  */
-fun View.fadeOut(duration: Long = AnimationUtil.ANIM_LEAVING, endAction: (() -> Unit)? = null) =
-        AnimationUtil.fadeOut(this, duration, endAction)
+fun View.fadeOut(duration: Long = AnimationUtil.ANIM_LEAVING,
+                 visibility: Int = View.GONE,
+                 endAction: (() -> Unit)? = null) =
+        AnimationUtil.fadeOut(this, duration, visibility, endAction)
 
 /**
  * Появление вью с эффектом "слайда" в зависимости от gravity

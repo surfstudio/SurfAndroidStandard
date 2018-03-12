@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="standardPlaceHolderStyle" format="reference" />
+
+    <declare-styleable name="PlaceHolderView">
+        <attr name="opaqueBackgroundColor" format="reference" />
+        <attr name="transparentBackgroundColor" format="reference" />
+        <attr name="progressBarColor" format="color" />
+
+        <attr name="title" format="string" />
+        <attr name="subtitle" format="string" />
+        <attr name="buttonText" format="string" />
+        <attr name="secondButtonText" format="string" />
+        <attr name="image" format="reference" />
+
+        <attr name="emptyTitle" format="string" />
+        <attr name="emptySubtitle" format="string" />
+        <attr name="emptyButtonText" format="string" />
+        <attr name="emptySecondButtonText" format="string" />
+        <attr name="emptyImage" format="reference" />
+
+        <attr name="notFoundTitle" format="string" />
+        <attr name="notFoundSubtitle" format="string" />
+        <attr name="notFoundButtonText" format="string" />
+        <attr name="notFoundSecondButtonText" format="string" />
+        <attr name="notFoundImage" format="reference" />
+
+        <attr name="errorTitle" format="string" />
+        <attr name="errorSubtitle" format="string" />
+        <attr name="errorButtonText" format="string" />
+        <attr name="errorSecondButtonText" format="string" />
+        <attr name="errorImage" format="reference" />
+
+        <attr name="titleBottomMargin" format="dimension" />
+        <attr name="titleTopMargin" format="dimension" />
+        <attr name="subtitleBottomMargin" format="dimension" />
+        <attr name="subtitleTopMargin" format="dimension" />
+        <attr name="buttonBottomMargin" format="dimension" />
+        <attr name="buttonTopMargin" format="dimension" />
+        <attr name="secondButtonBottomMargin" format="dimension" />
+        <attr name="secondButtonTopMargin" format="dimension" />
+        <attr name="imageBottomMargin" format="dimension" />
+        <attr name="imageTopMargin" format="dimension" />
+        <attr name="buttonStyle" format="reference" />
+        <attr name="secondButtonStyle" format="reference" />
+        <attr name="imageStyle" format="reference" />
+    </declare-styleable>
+</resources>
