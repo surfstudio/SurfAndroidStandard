@@ -10,8 +10,6 @@ import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
-import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope
-import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.ScreenState
@@ -51,7 +49,8 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider, fragmentProvider: FragmentProvider): MessageController {
+    internal fun provideMessageController(activityProvider: ActivityProvider,
+                                          fragmentProvider: FragmentProvider): MessageController {
         return DefaultMessageController(activityProvider, fragmentProvider)
     }
 
@@ -63,7 +62,8 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider, fragmentProvider: FragmentProvider): DialogNavigator {
+    internal fun provideDialogNavigator(activityProvider: ActivityProvider,
+                                        fragmentProvider: FragmentProvider): DialogNavigator {
         return DialogNavigatorForFragment(activityProvider, fragmentProvider, persistentScope)
     }
 }

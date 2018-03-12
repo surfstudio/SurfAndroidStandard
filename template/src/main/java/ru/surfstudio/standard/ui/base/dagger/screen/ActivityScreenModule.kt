@@ -2,6 +2,7 @@ package ru.surfstudio.standard.ui.base.dagger.screen
 
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.message.DefaultMessageController
 import ru.surfstudio.android.core.ui.message.MessageController
@@ -9,7 +10,6 @@ import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
-import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -18,7 +18,9 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForA
 import ru.surfstudio.standard.ui.base.error.ErrorHandlerModule
 
 @Module(includes = [ErrorHandlerModule::class])
-class ActivityScreenModule : ScreenModule() {
+class ActivityScreenModule(private val activityViewPersistentScope: ActivityViewPersistentScope) : ScreenModule() {
+
+
     @Provides
     @PerScreen
     internal fun providePersistentScope(persistentScope: ActivityPersistentScope): ScreenPersistentScope {
@@ -53,6 +55,6 @@ class ActivityScreenModule : ScreenModule() {
     @Provides
     @PerScreen
     internal fun provideDialogNavigator(activityProvider: ActivityProvider): DialogNavigator {
-        return DialogNavigatorForActivity(activityProvider)
+        return DialogNavigatorForActivity(activityProvider, activityViewPersistentScope)
     }
 }
