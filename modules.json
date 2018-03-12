@@ -123,6 +123,14 @@
     {
       "name": "animations",
       "path": ""
+    },
+    {
+      "name": "broadcast-rx",
+      "path": ""
+    },
+    {
+      "name": "broadcast-extension",
+      "path": ""
     }
   ]
 }

@@ -1,0 +1,7 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project(':broadcast-rx')
+
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+}

@@ -107,6 +107,8 @@ dependencies {
     implementation project(':animations')
     implementation project(':push')
     implementation project(':dagger-scope')
+    implementation project(':broadcast-rx')
+    implementation project(':broadcast-extension')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
