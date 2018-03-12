@@ -12,7 +12,7 @@ import ru.surfstudio.android.core.mvp.model.state.LoadState;
  * также см {@link ScreenModel}
  */
 public class LdsScreenModel extends ScreenModel {
-    private LoadState loadState = LoadState.UNSPECIFIED;
+    private LoadState loadState = LoadState.NONE;
 
     public void setLoadState(LoadState loadState) {
         this.loadState = loadState;
