@@ -1,6 +1,7 @@
 package ru.surfstudio.android.network;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.error.NotModifiedException;
@@ -28,6 +29,12 @@ public class BaseNetworkInteractor {
      */
     public void onSessionChanged() {
         //default empty
+    }
+
+    protected <T> Observable<T> hybridQuery(DataStrategy priority,
+                                            Single<T> cacheRequest,
+                                            FunctionSafe<Integer, Single<T>> networkRequestCreator) {
+        return hybridQuery(priority, cacheRequest.toObservable(), integer -> networkRequestCreator.apply(integer).toObservable());
     }
 
     /**
@@ -96,6 +103,11 @@ public class BaseNetworkInteractor {
         return hybridQuery(DataStrategy.AUTO, cacheRequest, networkRequestCreator);
     }
 
+    protected <T> Observable<T> hybridQuery(Single<T> cacheRequest,
+                                            FunctionSafe<Integer, Single<T>> networkRequestCreator) {
+        return hybridQuery(DataStrategy.AUTO, cacheRequest, networkRequestCreator);
+    }
+
     /**
      * Осуществляет гибридный запрос, в методе происходит объединение данных приходящих с сервера и из кеша
      *
@@ -110,6 +122,15 @@ public class BaseNetworkInteractor {
 
     protected <T> Observable<T> hybridQueryWithSimpleCache(FunctionSafe<Integer, Observable<T>> requestCreator) {
         return hybridQueryWithSimpleCache(DataStrategy.AUTO, requestCreator);
+    }
+
+    protected <T> Observable<T> hybridQueryWithSingleSimpleCache(DataStrategy priority,
+                                                                 FunctionSafe<Integer, Single<T>> requestCreator) {
+        return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
+    }
+
+    protected <T> Observable<T> hybridQueryWithSingleSimpleCache(FunctionSafe<Integer, Single<T>> requestCreator) {
+        return hybridQueryWithSingleSimpleCache(DataStrategy.AUTO, requestCreator);
     }
 
     private <T> Observable<T> processNetworkException(Throwable e) {

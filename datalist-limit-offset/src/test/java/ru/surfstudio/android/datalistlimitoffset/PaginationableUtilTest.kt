@@ -6,8 +6,7 @@ import org.junit.Test
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 import ru.surfstudio.android.datalistlimitoffset.util.PaginationableUtil
 
-
-class PaginationableUtilTest {
+public class PaginationableUtilTest {
     @Test
     fun paginationableRequest() {
         val response = (1..100).toList()
@@ -41,4 +40,5 @@ class PaginationableUtilTest {
         val expected = DataList(response.subList(0,10), 10,0)
         Assert.assertEquals(expected, resultList)
     }
+
 }

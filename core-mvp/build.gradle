@@ -9,4 +9,13 @@ dependencies {
     compileOnly project(':core-ui')
 
     api "com.agna.ferro:ferro-rx:$ferroRxVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
+    testImplementation "org.powermock:powermock-api-mockito:$powerMockVersion"
+    testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
+
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
