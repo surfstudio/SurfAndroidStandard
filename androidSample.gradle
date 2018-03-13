@@ -14,9 +14,23 @@ android {
         versionCode project.ext.moduleVersionCode
         versionName project.ext.moduleVersionName
     }
-
+    signingConfigs {
+        release {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+        test {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+    }
     buildTypes {
         qa {
+            signingConfig signingConfigs.test
             debuggable = true
             minifyEnabled false
         }

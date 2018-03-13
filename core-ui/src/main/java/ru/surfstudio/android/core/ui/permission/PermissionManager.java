@@ -2,6 +2,7 @@ package ru.surfstudio.android.core.ui.permission;
 
 
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
 import java.util.HashMap;
@@ -51,6 +52,14 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
         boolean result = true;
         for (String permission : request.getPermissions()) {
             result = result && check(permission);
+        }
+        return result;
+    }
+
+    public boolean shouldShowRequestPermissionRationale(PermissionRequest request) {
+        boolean result = true;
+        for (String permission : request.getPermissions()) {
+            result = result && ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.get(), permission);
         }
         return result;
     }

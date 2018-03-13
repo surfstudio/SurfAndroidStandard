@@ -15,11 +15,11 @@ import io.reactivex.Observable
 import io.reactivex.functions.Function3
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
-import ru.surfstudio.android.core.ui.base.dagger.provider.ActivityProvider
-import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute
-import ru.surfstudio.android.core.ui.base.permission.PermissionManager
-import ru.surfstudio.android.core.ui.base.screen.event.result.ActivityResultDelegate
-import ru.surfstudio.android.core.ui.base.screen.event.result.SupportOnActivityResultRoute.EXTRA_RESULT
+import ru.surfstudio.android.core.ui.event.result.ActivityResultDelegate
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute.EXTRA_RESULT
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.permission.PermissionManager
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.dialog.LocationDeniedDialogData
 import ru.surfstudio.android.location.dialog.LocationDeniedDialogRoute

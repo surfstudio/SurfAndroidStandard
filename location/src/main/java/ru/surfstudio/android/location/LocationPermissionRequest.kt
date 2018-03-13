@@ -1,7 +1,7 @@
 package ru.surfstudio.android.location
 
 import android.Manifest
-import ru.surfstudio.android.core.ui.base.permission.PermissionRequest
+import ru.surfstudio.android.core.ui.permission.PermissionRequest
 
 /**
  * Объект запроса пермишнов на доступ к геолокационному сервису

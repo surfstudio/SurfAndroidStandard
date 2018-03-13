@@ -2,8 +2,8 @@ package ru.surfstudio.android.location
 
 import android.content.Intent
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityWithResultRoute
-import ru.surfstudio.android.core.ui.base.screen.event.result.ActivityResultDelegate
+import ru.surfstudio.android.core.ui.event.result.ActivityResultDelegate
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.dialog.LocationDeniedDialogData
 import javax.inject.Inject

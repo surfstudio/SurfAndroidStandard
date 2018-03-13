@@ -4,7 +4,7 @@ import android.content.Context
 import io.reactivex.Observable
 import io.reactivex.Observer
 import io.reactivex.subjects.BehaviorSubject
-import ru.surfstudio.android.core.app.scheduler.SchedulersProvider
+import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

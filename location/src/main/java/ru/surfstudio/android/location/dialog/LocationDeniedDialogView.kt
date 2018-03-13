@@ -10,8 +10,8 @@ import android.view.Window
 import android.widget.Button
 import android.widget.TextView
 import ru.surfstudio.android.R
-import ru.surfstudio.android.core.ui.base.delegate.activity.result.SupportOnActivityResultRoute.EXTRA_RESULT
-import ru.surfstudio.android.core.ui.base.navigation.Route
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute.EXTRA_RESULT
+import ru.surfstudio.android.core.ui.navigation.Route
 
 
 class LocationDeniedDialogView : AppCompatActivity() {

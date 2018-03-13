@@ -1,17 +1,14 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compileOnly project(':core')
-    compileOnly project(path: ':dagger-scope')
-    compileOnly project(path: ':logger')
+    compileOnly project(':core-ui')
+    compileOnly project(':dagger-scope')
+    compileOnly project(':rx-extension')
+    compileOnly project(':logger')
 
     implementation "com.android.support:appcompat-v7:${appcompatVersion}"
     compileOnly "com.android.support:support-annotations:${appcompatVersion}"
 
     implementation "com.google.android.gms:play-services-location:${playServicesVersion}"
     implementation "com.google.android.gms:play-services-base:${playServicesVersion}"
-
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
