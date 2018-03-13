@@ -211,7 +211,7 @@ class CameraIntentHelper(private val activity: Activity, cameraIntentHelperCallb
      * **Mediastore:**
      * First, we try to read the photo being captured from the MediaStore. Using a ContentResolver
      * on the MediaStore content, we retrieve the latest image being taken, as well as its
-     * orientation property and its timestamp. If we find an image and it was not taken before
+     * orientation property and its timestamp. If we find an imageH and it was not taken before
      * the camera intent was called, it is the image we were looking for. Otherwise, we dismiss
      * the result and try one of the following approaches.
      *

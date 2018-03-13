@@ -1,18 +1,16 @@
 package ${packageName};
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-
-class ${className}(context: Context, attrs: AttributeSet?) : ${parentClassName}(context, attrs) {
+class ${className} @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ${parentClassName}(context, attrs) {
 
     <#if generateListener>
     private var listener: ((Unit) -> Unit)? = null
     </#if>
 
     init {
-        initView()
+        View.inflate(context, R.layout.${layoutName}, this)
     }
 
     <#if generateListener>
@@ -25,9 +23,4 @@ class ${className}(context: Context, attrs: AttributeSet?) : ${parentClassName}(
         fun render(screenModel: ${screenModelName}) {
         }
     </#if>
-
-    private fun initView() {
-        inflate(context, R.layout.${layoutName}, this)
-    }
-
 }

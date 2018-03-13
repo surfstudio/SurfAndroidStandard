@@ -3,38 +3,32 @@ package ru.surfstudio.standard.ui.screen.webview
 import android.content.Intent
 import dagger.Component
 import dagger.Module
-import ru.surfstudio.android.core.ui.base.dagger.CoreActivityScreenModule
-import ru.surfstudio.android.core.ui.base.dagger.CustomScreenModule
-import ru.surfstudio.android.core.ui.base.screen.configurator.ScreenComponent
+import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.standard.app.dagger.ActivityComponent
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.standard.ui.base.dagger.ActivityScreenModule
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent
+import ru.surfstudio.standard.ui.base.dagger.screen.ActivityScreenModule
+import ru.surfstudio.standard.ui.base.dagger.screen.CustomScreenModule
 
 /**
  * Конфигуратор экрана с вебвью
  */
-class WebViewScreenConfigurator(activity: WebViewActivityView, intent: Intent) :
-        ActivityScreenConfigurator(activity, intent) {
+class WebViewScreenConfigurator(intent: Intent) :
+        ActivityScreenConfigurator(intent) {
 
-    override fun createScreenComponent(parentComponent: ActivityComponent?,
-                                       activityScreenModule: ActivityScreenModule?,
-                                       coreActivityScreenModule: CoreActivityScreenModule?,
+    override fun createScreenComponent(parentComponent: ActivityComponent,
+                                       activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> =
             DaggerWebViewScreenConfigurator_WebViewScreenComponent.builder()
                     .activityComponent(parentComponent)
                     .activityScreenModule(activityScreenModule)
                     .webViewScreenModule(WebViewScreenModule(WebViewRoute(intent)))
-                    .coreActivityScreenModule(coreActivityScreenModule)
                     .build()
-
-    override fun getName() = "Web View Screen"
 
     @PerScreen
     @Component(dependencies = arrayOf(ActivityComponent::class),
             modules = arrayOf(ActivityScreenModule::class, WebViewScreenModule::class))
-    interface WebViewScreenComponent : ScreenComponent<WebViewActivityView> {
-    }
+    interface WebViewScreenComponent : ScreenComponent<WebViewActivityView>
 
     @Module
     internal class WebViewScreenModule(route: WebViewRoute) :

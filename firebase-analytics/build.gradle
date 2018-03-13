@@ -1,0 +1,7 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project(path: ':analytics')
+    compileOnly "com.google.firebase:firebase-core:${playServicesVersion}"
+}
+

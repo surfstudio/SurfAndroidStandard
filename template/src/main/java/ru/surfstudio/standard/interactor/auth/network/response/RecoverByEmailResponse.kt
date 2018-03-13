@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.interactor.auth.network.response
 
 import com.google.gson.annotations.SerializedName
-import ru.surfstudio.android.core.util.Transformable
+import ru.surfstudio.android.network.Transformable
 import ru.surfstudio.standard.domain.auth.recover.RecoverByEmailStatus
 import ru.surfstudio.standard.interactor.common.network.error.InvalidServerValuesResponse
 

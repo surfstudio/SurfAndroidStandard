@@ -2,8 +2,6 @@ ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
-    versionCode = 1
-    versionName = "0.0.1"
     buildToolsVersion = "26.0.2"
     minSdkVersion = 19
     targetSdkVersion = 26
@@ -35,6 +33,19 @@ ext {
     appcompatVersion = '27.0.2'
     playServicesVersion = '11.6.0'
     crashlyticsVersion = '2.9.0'
+    googleServicesVersion = '3.2.0'
+    androidKtxVersion = '0.1'
+    jetbrainsAnnotationsVersion = '15.0'
+    multidexVersion = '1.0.2'
+    constraintLayoutVersion = '1.0.2'
+
+    //ui
+    glideVersion = '3.8.0'
+
+    //errors
+    anrWatchDogVersion = '1.3.0'
+    timberVersion = '4.6.0'
+
 
     //test
     junitVersion = '4.12'
@@ -45,6 +56,6 @@ ext {
     assertJVersion = '3.5.1'
 
     // версия наших внутренних модулей
-    moduleVersionCode = 8
-    moduleVersionName = '0.0.4-SNAPSHOT'
+    moduleVersionCode = 9
+    moduleVersionName = '0.1.0-SNAPSHOT'
 }

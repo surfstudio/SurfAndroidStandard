@@ -101,7 +101,6 @@ public class ${className}${screenTypeCapitalized}Route extends <@superClass.sele
         return args;
     }
         </#if>
-
     @Override
     protected Class<? extends Fragment> getFragmentClass() {
         return ${className}${screenTypeCapitalized}View.class;

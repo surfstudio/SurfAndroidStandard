@@ -10,11 +10,11 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.surfstudio.android.core.BuildConfig
-import ru.surfstudio.android.core.domain.network.url.BaseUrl
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.network.BaseUrl
 import ru.surfstudio.android.network.calladapter.BaseCallAdapterFactory
+import ru.surfstudio.standard.BuildConfig
 
 const val HTTP_LOG_TAG = "OkHttp"
 

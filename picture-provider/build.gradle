@@ -1,0 +1,10 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project(path: ':core-app')
+    compileOnly project(path: ':core-ui')
+    compileOnly project(path: ':logger')
+    compileOnly project(path: ':rx-extension')
+
+    implementation "com.android.support:exifinterface:$appcompatVersion"
+}

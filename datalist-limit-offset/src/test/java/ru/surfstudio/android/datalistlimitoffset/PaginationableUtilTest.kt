@@ -3,7 +3,6 @@ package ru.surfstudio.android.datalistlimitoffset
 import io.reactivex.Observable
 import org.junit.Assert
 import org.junit.Test
-import ru.surfstudio.android.core.util.rx.SafeBiFunction
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 import ru.surfstudio.android.datalistlimitoffset.util.PaginationableUtil
 
@@ -32,7 +31,7 @@ class PaginationableUtilTest {
 
         var resultList: DataList<Int> = DataList.emptyWithTotal(10)
 
-        PaginationableUtil.getPaginationRequestPortionsWithTotal<Int>(SafeBiFunction { blockSize: Int, offset: Int ->
+        PaginationableUtil.getPaginationRequestPortionsWithTotal<Int>({ blockSize: Int, offset: Int ->
             Observable.just(DataList(arrayListOf(response[offset]), blockSize, offset))
         }, 0, 10,1, 10)
                 .subscribe {

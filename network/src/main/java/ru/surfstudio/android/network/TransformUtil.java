@@ -5,9 +5,7 @@ import android.support.annotation.Nullable;
 import java.util.Collection;
 import java.util.List;
 
-import ru.surfstudio.android.core.util.CollectionUtils;
-import ru.surfstudio.android.core.util.Mapper;
-import ru.surfstudio.android.core.util.Transformable;
+import ru.surfstudio.android.utilktx.util.java.CollectionUtils;
 
 
 /**
@@ -15,6 +13,7 @@ import ru.surfstudio.android.core.util.Transformable;
  * Упрощает работу с {@link Transformable}
  */
 public final class TransformUtil {
+
 
     private TransformUtil() {
         throw new IllegalStateException("no instance allowed");
@@ -28,7 +27,7 @@ public final class TransformUtil {
         return CollectionUtils.mapEmptyIfNull(src, Transformable::transform);
     }
 
-    public static <T, E> List<T> transformCollection(Collection<E> src, final Mapper<E, T> mapper) {
+    public static <T, E> List<T> transformCollection(Collection<E> src, final CollectionUtils.Mapper<E, T> mapper) {
         return CollectionUtils.mapEmptyIfNull(src, mapper);
     }
 }

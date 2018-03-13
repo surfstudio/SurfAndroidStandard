@@ -3,7 +3,7 @@ package ru.surfstudio.standard.ui.screen.splash
 import android.content.Context
 import android.content.Intent
 
-import ru.surfstudio.android.core.ui.base.navigation.activity.route.ActivityRoute
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
 
 /**
