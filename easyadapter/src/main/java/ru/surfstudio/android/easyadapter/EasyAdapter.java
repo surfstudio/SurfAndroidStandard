@@ -19,8 +19,8 @@ package ru.surfstudio.android.easyadapter;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,8 +64,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-        initLayoutManager(layoutManager);
+        initLayoutManager(recyclerView.getLayoutManager());
     }
 
     @Override
@@ -204,7 +203,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return currentItemsInfo;
     }
 
-    private void initLayoutManager(LinearLayoutManager layoutManager) {
+    private void initLayoutManager(LayoutManager layoutManager) {
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager castedLayoutManager = (GridLayoutManager) layoutManager;
             final GridLayoutManager.SpanSizeLookup existingLookup = castedLayoutManager.getSpanSizeLookup();
