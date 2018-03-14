@@ -1,6 +1,7 @@
 package ru.surfstudio.android.datalistpagecount
 
 import io.reactivex.Observable
+import io.reactivex.Single
 import org.junit.Assert
 import org.junit.Test
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
@@ -15,13 +16,30 @@ class PaginationableUtilTest {
         var resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
 
         PaginationableUtil.getPaginationRequestPortions<Int>({ page ->
-                Observable.just(DataList(arrayListOf(response[page]), page, 1))
+            Observable.just(DataList(arrayListOf(response[page]), page, 1))
         }, 10)
                 .subscribe {
                     resultList.merge(it)
                 }
 
-        val expected = DataList(response.subList(0,10), 0,10,1)
+        val expected = DataList(response.subList(0, 10), 0, 10, 1)
+        Assert.assertEquals(expected, resultList)
+    }
+
+    @Test
+    fun getPaginationSingleRequestPortion() {
+        val response = (1..100).toList()
+
+        var resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
+
+        PaginationableUtil.getPaginationSingleRequestPortion<Int>({ page ->
+            Single.just(DataList(arrayListOf(response[page]), page, 1))
+        }, 10)
+                .subscribe { it ->
+                    resultList.merge(it)
+                }
+
+        val expected = DataList(response.subList(0, 10), 0, 10, 1)
         Assert.assertEquals(expected, resultList)
     }
 }
