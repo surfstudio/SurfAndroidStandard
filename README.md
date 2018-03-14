@@ -27,6 +27,7 @@
 1. [rx-extension](rx-extension/README.md) - утилитарный модуль для работы с rx.
 1. [shared-pref](shared-pref/README.md) - утилитарный модуль для работы с `SharedPreferences`
 1. [util-ktx](util-ktx/README.md) - модуль c утилитарными классами для android фреймвока и языков.
+1. [standard-dialog](standard-dialog/README.md) - модуль c простым да/нет диалогом, в который можно передать строковые ресурсы или сами строки.
 1. [template](template/README.md) - модуль для инициализации нового приложения. Не провайдится в репозиторий артефактов
 
 #Деплой в репозиторий артефактов
