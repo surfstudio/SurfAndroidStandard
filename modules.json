@@ -123,6 +123,10 @@
     {
       "name": "animations",
       "path": ""
+    },
+    {
+      "name": "message-controller",
+      "path": ""
     }
   ]
 }

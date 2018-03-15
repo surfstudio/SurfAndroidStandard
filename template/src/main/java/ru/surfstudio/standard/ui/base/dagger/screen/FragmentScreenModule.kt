@@ -4,8 +4,6 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.message.DefaultMessageController
-import ru.surfstudio.android.core.ui.message.MessageController
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -14,6 +12,8 @@ import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.message.DefaultMessageController
+import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
 import ru.surfstudio.standard.ui.base.error.ErrorHandlerModule

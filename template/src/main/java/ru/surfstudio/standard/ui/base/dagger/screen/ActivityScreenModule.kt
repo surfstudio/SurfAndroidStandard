@@ -4,8 +4,6 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.message.DefaultMessageController
-import ru.surfstudio.android.core.ui.message.MessageController
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -15,6 +13,8 @@ import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForActivity
+import ru.surfstudio.android.message.DefaultMessageController
+import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.standard.ui.base.error.ErrorHandlerModule
 
 @Module(includes = [ErrorHandlerModule::class])
