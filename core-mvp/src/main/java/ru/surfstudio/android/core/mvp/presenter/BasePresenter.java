@@ -4,15 +4,21 @@ package ru.surfstudio.android.core.mvp.presenter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.agna.ferro.rx.CompletableOperatorFreeze;
+import com.agna.ferro.rx.MaybeOperatorFreeze;
 import com.agna.ferro.rx.ObservableOperatorFreeze;
+import com.agna.ferro.rx.SingleOperatorFreeze;
 
 import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.observers.LambdaObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import ru.surfstudio.android.connection.ConnectionProvider;
-import ru.surfstudio.android.core.app.Unit;
 import ru.surfstudio.android.core.mvp.error.ErrorHandler;
 import ru.surfstudio.android.core.mvp.view.CoreView;
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator;
@@ -55,6 +61,8 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         this.errorHandler = basePresenterDependency.getErrorHandler();
     }
 
+    //region subscribe
+
     @Override
     protected <T> Disposable subscribe(final Observable<T> observable,
                                        final ObservableOperatorFreeze<T> operator,
@@ -63,10 +71,52 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
 
     @Override
+    protected <T> Disposable subscribe(Single<T> single,
+                                       SingleOperatorFreeze<T> operator,
+                                       DisposableSingleObserver<T> observer) {
+        return super.subscribe(single.observeOn(schedulersProvider.main()), operator, observer);
+    }
+
+    @Override
+    protected Disposable subscribe(Completable completable,
+                                   CompletableOperatorFreeze operator,
+                                   DisposableCompletableObserver observer) {
+        return super.subscribe(completable.observeOn(schedulersProvider.main()), operator, observer);
+    }
+
+    @Override
+    protected <T> Disposable subscribe(Maybe<T> maybe,
+                                       MaybeOperatorFreeze<T> operator,
+                                       DisposableMaybeObserver<T> observer) {
+        return super.subscribe(maybe.observeOn(schedulersProvider.main()), operator, observer);
+    }
+    //endregion
+
+    //region subscribeWithoutFreezing
+    @Override
     protected <T> Disposable subscribeWithoutFreezing(final Observable<T> observable,
                                                       final LambdaObserver<T> observer) {
         return super.subscribe(observable.observeOn(schedulersProvider.main(), true), observer);
     }
+
+    @Override
+    protected <T> Disposable subscribeWithoutFreezing(Single<T> single,
+                                                      DisposableSingleObserver<T> subscriber) {
+        return super.subscribeWithoutFreezing(single.observeOn(schedulersProvider.main()), subscriber);
+    }
+
+    @Override
+    protected Disposable subscribeWithoutFreezing(Completable completable,
+                                                  DisposableCompletableObserver subscriber) {
+        return super.subscribeWithoutFreezing(completable.observeOn(schedulersProvider.main()), subscriber);
+    }
+
+    @Override
+    protected <T> Disposable subscribeWithoutFreezing(Maybe<T> maybe, DisposableMaybeObserver<T> subscriber) {
+        return super.subscribeWithoutFreezing(maybe.observeOn(schedulersProvider.main()), subscriber);
+    }
+
+    //endregion
 
     /**
      * закрывает текущую активити
@@ -84,30 +134,6 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         this.errorHandler = errorHandler;
     }
 
-    protected <T> Disposable subscribe(final Single<T> single,
-                                       final ObservableOperatorFreeze<T> operator,
-                                       final LambdaObserver<T> observer) {
-        return subscribe(single.toObservable().observeOn(schedulersProvider.main(), true), operator, observer);
-    }
-
-    protected <T> Disposable subscribeWithoutFreezing(final Single<T> single,
-                                                      final LambdaObserver<T> observer) {
-        return super.subscribe(single.toObservable().observeOn(schedulersProvider.main(), true), observer);
-    }
-
-    protected Disposable subscribe(final Completable completable,
-                                   final ObservableOperatorFreeze<Unit> operator,
-                                   final LambdaObserver<Unit> observer) {
-        Observable<Unit> observable = completable.toObservable();
-        return subscribe(observable.observeOn(schedulersProvider.main(), true), operator, observer);
-    }
-
-    protected Disposable subscribeWithoutFreezing(final Completable completable,
-                                                  final LambdaObserver<Unit> observer) {
-        Observable<Unit> observable = completable.toObservable();
-        return super.subscribe(observable.observeOn(schedulersProvider.main(), false), observer);
-    }
-
     //region subscribeIoHandleError
 
     /**
@@ -120,8 +146,19 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
 
     protected <T> Disposable subscribeIoHandleError(Single<T> single,
-                                                    final ConsumerSafe<T> onNext) {
-        return subscribeIoHandleError(single.toObservable(), onNext, null);
+                                                    final ConsumerSafe<T> onSuccess) {
+        return subscribeIoHandleError(single, onSuccess, null);
+    }
+
+    protected Disposable subscribeIoHandleError(Completable completable,
+                                                final ActionSafe onComplete) {
+        return subscribeIoHandleError(completable, onComplete, null);
+    }
+
+    protected <T> Disposable subscribeIoHandleError(Maybe<T> maybe,
+                                                    final ConsumerSafe<T> onSuccess,
+                                                    final ActionSafe onComplete) {
+        return subscribeIoHandleError(maybe, onSuccess, onComplete, null);
     }
 
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
@@ -129,13 +166,6 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                                     final ConsumerSafe<Throwable> onError) {
         observable = observable.subscribeOn(schedulersProvider.worker());
         return subscribe(observable, onNext, e -> handleError(e, onError));
-    }
-
-    protected <T> Disposable subscribeIoHandleError(Single<T> single,
-                                                    final ConsumerSafe<T> onNext,
-                                                    final ConsumerSafe<Throwable> onError) {
-        single = single.subscribeOn(schedulersProvider.worker());
-        return subscribe(single.toObservable(), onNext, e -> handleError(e, onError));
     }
 
     protected <T> Disposable subscribeIoHandleError(Observable<T> observable,
@@ -147,12 +177,28 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
 
     protected <T> Disposable subscribeIoHandleError(Single<T> single,
-                                                    final ConsumerSafe<T> onNext,
-                                                    final ActionSafe onComplete,
+                                                    final ConsumerSafe<T> onSuccess,
                                                     final ConsumerSafe<Throwable> onError) {
         single = single.subscribeOn(schedulersProvider.worker());
-        return subscribe(single.toObservable(), onNext, onComplete, e -> handleError(e, onError));
+        return subscribe(single, onSuccess, e -> handleError(e, onError));
     }
+
+    protected Disposable subscribeIoHandleError(Completable completable,
+                                                final ActionSafe onComplete,
+                                                final ConsumerSafe<Throwable> onError) {
+        completable = completable.subscribeOn(schedulersProvider.worker());
+        return subscribe(completable, onComplete, e -> handleError(e, onError));
+    }
+
+    protected <T> Disposable subscribeIoHandleError(Maybe<T> maybe,
+                                                    final ConsumerSafe<T> onSuccess,
+                                                    final ActionSafe onComplete,
+                                                    final ConsumerSafe<Throwable> onError) {
+        maybe = maybe.subscribeOn(schedulersProvider.worker());
+        return subscribe(maybe, onSuccess, onComplete, e -> handleError(e, onError));
+    }
+
+
     //endregion
 
     //region subscribeIo
@@ -164,18 +210,17 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
 
     protected <T> Disposable subscribeIo(Single<T> single,
-                                         final ConsumerSafe<T> onNext,
+                                         final ConsumerSafe<T> onSuccess,
                                          final ConsumerSafe<Throwable> onError) {
         single = single.subscribeOn(schedulersProvider.worker());
-        return subscribe(single.toObservable(), onNext, onError);
+        return subscribe(single.toObservable(), onSuccess, onError);
     }
 
     protected Disposable subscribeIo(Completable completable,
                                      final ActionSafe onComplete,
                                      final ConsumerSafe<Throwable> onError) {
         completable = completable.subscribeOn(schedulersProvider.worker());
-        return subscribe(completable.toObservable(), (ConsumerSafe<Unit>) t -> {
-        }, onComplete, onError);
+        return subscribe(completable, onComplete, onError);
     }
 
     protected <T> Disposable subscribeIo(Observable<T> observable,
@@ -186,12 +231,12 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         return subscribe(observable, onNext, onComplete, onError);
     }
 
-    protected <T> Disposable subscribeIo(Single<T> single,
+    protected <T> Disposable subscribeIo(Maybe<T> maybe,
                                          final ConsumerSafe<T> onNext,
-                                         final ActionSafe onComplete,
+                                         final ActionSafe onSuccess,
                                          final ConsumerSafe<Throwable> onError) {
-        single = single.subscribeOn(schedulersProvider.worker());
-        return subscribe(single.toObservable(), onNext, onComplete, onError);
+        maybe = maybe.subscribeOn(schedulersProvider.worker());
+        return subscribe(maybe, onNext, onSuccess, onError);
     }
     //endregion
 
@@ -209,21 +254,6 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         return subscribe(initializeAutoReload(observable, autoReloadAction), onNext, onError);
     }
 
-    protected <T> Disposable subscribeIoAutoReload(Single<T> single,
-                                                   final ActionSafe autoReloadAction,
-                                                   final ConsumerSafe<T> onNext,
-                                                   final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(single.toObservable(), autoReloadAction), onNext, onError);
-    }
-
-    protected Disposable subscribeIoAutoReload(Completable completable,
-                                               final ActionSafe autoReloadAction,
-                                               final ActionSafe onComplete,
-                                               final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(completable.toObservable(), autoReloadAction), (ConsumerSafe<Unit>) t -> {
-        }, onComplete, onError);
-    }
-
     protected <T> Disposable subscribeIoAutoReload(Observable<T> observable,
                                                    final ActionSafe autoReloadAction,
                                                    final ConsumerSafe<T> onNext,
@@ -234,10 +264,24 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
 
     protected <T> Disposable subscribeIoAutoReload(Single<T> single,
                                                    final ActionSafe autoReloadAction,
-                                                   final ConsumerSafe<T> onNext,
+                                                   final ConsumerSafe<T> onSuccess,
+                                                   final ConsumerSafe<Throwable> onError) {
+        return subscribe(initializeAutoReload(single, autoReloadAction), onSuccess, onError);
+    }
+
+    protected Disposable subscribeIoAutoReload(Completable completable,
+                                               final ActionSafe autoReloadAction,
+                                               final ActionSafe onComplete,
+                                               final ConsumerSafe<Throwable> onError) {
+        return subscribe(initializeAutoReload(completable, autoReloadAction), onComplete, onError);
+    }
+
+    protected <T> Disposable subscribeIoAutoReload(Maybe<T> maybe,
+                                                   final ActionSafe autoReloadAction,
+                                                   final ConsumerSafe<T> onSuccess,
                                                    final ActionSafe onComplete,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(single.toObservable(), autoReloadAction), onNext, onComplete, onError);
+        return subscribe(initializeAutoReload(maybe, autoReloadAction), onSuccess, onComplete, onError);
     }
     //endregion
 
@@ -253,20 +297,6 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         return subscribeIoHandleError(initializeAutoReload(observable, autoReloadAction), onNext, onError);
     }
 
-    protected <T> Disposable subscribeIoHandleErrorAutoReload(Single<T> single,
-                                                              final ActionSafe autoReloadAction,
-                                                              final ConsumerSafe<T> onNext,
-                                                              @Nullable final ConsumerSafe<Throwable> onError) {
-        return subscribeIoHandleError(initializeAutoReload(single.toObservable(), autoReloadAction), onNext, onError);
-    }
-
-    protected <T> Disposable subscribeIoHandleErrorAutoReload(Completable completable,
-                                                              final ActionSafe autoReloadAction,
-                                                              @Nullable final ConsumerSafe<Throwable> onError) {
-        return subscribeIoHandleError(initializeAutoReload(completable.toObservable(), autoReloadAction), (ConsumerSafe<Unit>) t -> {
-        }, onError);
-    }
-
     protected <T> Disposable subscribeIoHandleErrorAutoReload(Observable<T> observable,
                                                               final ActionSafe autoReloadAction,
                                                               final ConsumerSafe<T> onNext,
@@ -277,11 +307,26 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
 
     protected <T> Disposable subscribeIoHandleErrorAutoReload(Single<T> single,
                                                               final ActionSafe autoReloadAction,
-                                                              final ConsumerSafe<T> onNext,
+                                                              final ConsumerSafe<T> onSuccess,
+                                                              @Nullable final ConsumerSafe<Throwable> onError) {
+        return subscribeIoHandleError(initializeAutoReload(single, autoReloadAction), onSuccess, onError);
+    }
+
+    protected Disposable subscribeIoHandleErrorAutoReload(Completable completable,
+                                                          final ActionSafe autoReloadAction,
+                                                          final ActionSafe onComplete,
+                                                          @Nullable final ConsumerSafe<Throwable> onError) {
+        return subscribeIoHandleError(initializeAutoReload(completable, autoReloadAction), onComplete, onError);
+    }
+
+    protected <T> Disposable subscribeIoHandleErrorAutoReload(Maybe<T> maybe,
+                                                              final ActionSafe autoReloadAction,
+                                                              final ConsumerSafe<T> onSuccess,
                                                               final ActionSafe onComplete,
                                                               @Nullable final ConsumerSafe<Throwable> onError) {
-        return subscribeIoHandleError(initializeAutoReload(single.toObservable(), autoReloadAction), onNext, onComplete, onError);
+        return subscribeIoHandleError(initializeAutoReload(maybe, autoReloadAction), onSuccess, onComplete, onError);
     }
+
     //endregion
 
     private void handleError(Throwable e, @Nullable ConsumerSafe<Throwable> onError) {
@@ -291,15 +336,28 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         }
     }
 
-    private void cancelAutoReload() {
-        if (isDisposableActive(autoReloadDisposable)) {
-            autoReloadDisposable.dispose();
-        }
+    @NonNull
+    private <T> Observable<T> initializeAutoReload(Observable<T> observable, ActionSafe reloadAction) {
+        return observable.doOnError(reloadErrorAction(reloadAction));
     }
 
     @NonNull
-    private <T> Observable<T> initializeAutoReload(Observable<T> observable, ActionSafe reloadAction) {
-        return observable.doOnError(e -> {
+    private <T> Single<T> initializeAutoReload(Single<T> single, ActionSafe reloadAction) {
+        return single.doOnError(reloadErrorAction(reloadAction));
+    }
+
+    @NonNull
+    private Completable initializeAutoReload(Completable completable, ActionSafe reloadAction) {
+        return completable.doOnError(reloadErrorAction(reloadAction));
+    }
+
+    @NonNull
+    private <T> Maybe<T> initializeAutoReload(Maybe<T> maybe, ActionSafe reloadAction) {
+        return maybe.doOnError(reloadErrorAction(reloadAction));
+    }
+
+    private ConsumerSafe<Throwable> reloadErrorAction(ActionSafe reloadAction) {
+        return e -> {
             cancelAutoReload();
             if (connectionProvider.isDisconnected()) {
                 autoReloadDisposable = subscribe(connectionProvider.observeConnectionChanges()
@@ -308,6 +366,12 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                 .toObservable(),
                         connected -> reloadAction.run());
             }
-        });
+        };
+    }
+
+    private void cancelAutoReload() {
+        if (isDisposableActive(autoReloadDisposable)) {
+            autoReloadDisposable.dispose();
+        }
     }
 }
