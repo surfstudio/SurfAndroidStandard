@@ -1,7 +1,6 @@
 package ru.surfstudio.standard.ui.screen.main
 
 import android.content.Intent
-import com.example.standarddialog.StandardDialogComponent
 import dagger.Component
 import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
@@ -17,12 +16,11 @@ import ru.surfstudio.standard.ui.base.dagger.screen.CustomScreenModule
 internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
     @PerScreen
     @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
-    internal interface MainScreenComponent : ScreenComponent<MainActivityView>, StandardDialogComponent
+    internal interface MainScreenComponent : ScreenComponent<MainActivityView>
 
     @Module
     internal class MainScreenModule(route: MainActivityRoute) :
-            CustomScreenModule<MainActivityRoute>(route) {
-    }
+            CustomScreenModule<MainActivityRoute>(route)
 
     override fun createScreenComponent(activityComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
