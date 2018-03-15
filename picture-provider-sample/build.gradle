@@ -16,6 +16,10 @@ dependencies {
     implementation project(':network')
     implementation project(':shared-pref')
     implementation project(':filestorage')
+    implementation project(':logger:')
+    implementation project(':connection')
+    implementation project(':rx-extension')
+    implementation project(':util-ktx')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"

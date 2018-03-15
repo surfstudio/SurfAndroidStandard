@@ -4,7 +4,7 @@ apply plugin: 'maven'
 import com.android.build.gradle.LibraryPlugin
 
 allprojects {
-    if (it != rootProject && it.name != "template" && it.name.endsWith("-sample")) {
+    if (it != rootProject && it.name != "template" && !it.name.endsWith("-sample")) {
         it.afterEvaluate {
             if (it.plugins.hasPlugin(LibraryPlugin)) {
                 it.apply from: "$rootDir/deploy.gradle"
@@ -40,7 +40,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$androidGradleToolsVersion"
+        classpath 'com.android.tools.build:gradle:3.0.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
     }

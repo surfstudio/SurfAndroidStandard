@@ -14,7 +14,7 @@ android {
         versionCode rootProject.ext.moduleVersionCode
         versionName rootProject.ext.moduleVersionName
 
-        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        setProperty("archivesBaseName", "$applicationName-$moduleVersionName-($moduleVersionCode)")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -111,6 +111,7 @@ dependencies {
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 

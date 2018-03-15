@@ -1,8 +1,8 @@
 package ru.surfstudio.android.mvp.widget.delegate;
 
 
-import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState;
@@ -21,6 +21,7 @@ public class WidgetViewDelegate {
     private CoreWidgetViewInterface coreWidgetView;
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
+    private String parentScopeId; // id родительского скоупа (необходим для получения уникального имени виджета)
 
     public WidgetViewDelegate(CoreWidgetViewInterface coreWidgetView,
                               PersistentScopeStorage scopeStorage,
@@ -54,17 +55,19 @@ public class WidgetViewDelegate {
 
     private void initPersistentScope() {
         if (getPersistentScope() == null) {
-            PersistentScope parentScope = parentPersistentScopeFinder.find();
+            ScreenPersistentScope parentScope = parentPersistentScopeFinder.find();
             if (parentScope == null) {
                 throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
             }
             WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
             BaseWidgetViewConfigurator configurator = coreWidgetView.createConfigurator();
+
+            parentScopeId = parentScope.getScopeId();
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     parentScope.getScreenEventDelegateManager(),
                     screenState,
                     configurator,
-                    coreWidgetView.getName());
+                    getName());
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }
@@ -77,6 +80,6 @@ public class WidgetViewDelegate {
     }
 
     private String getName() {
-        return coreWidgetView.getName();
+        return coreWidgetView.getName() + parentScopeId;
     }
 }

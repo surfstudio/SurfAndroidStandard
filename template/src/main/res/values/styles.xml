@@ -10,12 +10,6 @@
         <item name="android:colorBackground">@color/colorWindowBackgroundLight</item>
 
         <item name="android:textViewStyle">@style/Text</item>
-
-        <item name="placeHolderOpaqueBackgroundColor">@color/colorWindowBackgroundLight</item>
-        <item name="placeHolderTransparentBackgroundColor">
-            @color/colorWindowBackgroundLightTransparent
-        </item>
-        <item name="placeHolderStyle">@style/DefaultPlaceHolder</item>
     </style>
 
     <!-- темная тема -->
@@ -28,56 +22,5 @@
         <item name="android:colorBackground">@color/colorWindowBackgroundDark</item>
 
         <item name="android:textViewStyle">@style/Text</item>
-
-        <item name="placeHolderOpaqueBackgroundColor">@color/colorWindowBackgroundDark</item>
-        <item name="placeHolderTransparentBackgroundColor">
-            @color/colorWindowBackgroundDarkTransparent
-        </item>
-        <item name="placeHolderStyle">@style/DefaultPlaceHolder</item>
     </style>
-
-    <style name="Widget" />
-
-    <style name="Widget.PlaceHolder">
-        <item name="opaqueBackgroundColor">?placeHolderOpaqueBackgroundColor</item>
-        <item name="transparentBackgroundColor">?placeHolderTransparentBackgroundColor</item>
-        <item name="placeHolderTitleStyle">@style/Widget.PlaceHolder.Title</item>
-        <item name="placeHolderSubtitleStyle">@style/Widget.PlaceHolder.Subtitle</item>
-        <item name="placeHolderButtonStyle">@style/Widget.PlaceHolder.Button</item>
-    </style>
-
-    <style name="Widget.PlaceHolder.Title">
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
-    </style>
-
-    <style name="Widget.PlaceHolder.Subtitle">
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
-    </style>
-
-    <style name="Widget.PlaceHolder.Button" parent="@style/Widget.AppCompat.Button" />
-
-    <style name="DefaultPlaceHolder" parent="Widget.PlaceHolder">
-        <item name="placeHolderDefaultSubtitle">@string/placeholder_default_subtitle</item>
-        <item name="placeHolderDefaultButtonText">@string/placeholder_default_btn</item>
-        <item name="placeHolderDefaultIcon">@drawable/ic_default_placeholder</item>
-        <item name="placeHolderTitleStyle">@style/DefaultPlaceHolder.Title</item>
-        <item name="placeHolderSubtitleStyle">@style/DefaultPlaceHolder.Subtitle</item>
-        <item name="placeHolderButtonStyle">@style/DefaultPlaceHolder.Button</item>
-    </style>
-
-    <style name="DefaultPlaceHolder.Title" parent="@style/Widget.PlaceHolder.Title">
-        <!-- стили для тайтла плейсхолдера здесь -->
-    </style>
-
-    <style name="DefaultPlaceHolder.Subtitle" parent="@style/Widget.PlaceHolder.Subtitle">
-        <!-- стили для сабтайтла плейсхолдера здесь -->
-    </style>
-
-    <style name="DefaultPlaceHolder.Button" parent="@style/Button">
-        <!-- стили для кнопки плейсхолдера здесь -->
-        <item name="android:minWidth">140dp</item>
-    </style>
-
 </resources>

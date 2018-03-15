@@ -41,7 +41,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     private final ActivityNavigator activityNavigator;
     private final SchedulersProvider schedulersProvider;
     private final ConnectionProvider connectionProvider;
-    private final ErrorHandler errorHandler;
+    private ErrorHandler errorHandler;
     private Disposable autoReloadDisposable;
 
     public BasePresenter(BasePresenterDependency basePresenterDependency) {
@@ -58,6 +58,14 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
      */
     public void finish() {
         activityNavigator.finishCurrent();
+    }
+
+    /**
+     * Устанавливает {@link ErrorHandler} вместо дефолтного
+     */
+    @NonNull
+    public void setErrorHandler(ErrorHandler errorHandler) {
+        this.errorHandler = errorHandler;
     }
 
     @Override

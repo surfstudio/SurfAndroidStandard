@@ -8,14 +8,14 @@ import ru.surfstudio.android.core.ui.state.ActivityScreenState;
 /**
  * {@link PersistentScope} для активити
  */
-public class ActivityPersistentScope extends PersistentScope {
+public class ActivityPersistentScope extends ScreenPersistentScope {
 
     public ActivityPersistentScope(
             ActivityScreenEventDelegateManager screenEventDelegateManager,
             ActivityScreenState screenState,
             BaseActivityConfigurator configurator,
-            String name) {
-        super(screenEventDelegateManager, screenState, configurator, name);
+            String scopeId) {
+        super(screenEventDelegateManager, screenState, configurator, scopeId);
     }
 
     @Override

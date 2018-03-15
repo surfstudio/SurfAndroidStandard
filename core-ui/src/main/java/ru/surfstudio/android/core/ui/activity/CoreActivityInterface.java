@@ -17,8 +17,7 @@ import ru.surfstudio.android.core.ui.scope.HasPersistentScope;
  */
 public interface CoreActivityInterface extends
         HasConfigurator,
-        HasPersistentScope,
-        HasName {
+        HasPersistentScope {
 
     @Override
     BaseActivityConfigurator createConfigurator();
@@ -33,4 +32,10 @@ public interface CoreActivityInterface extends
      *                      changing configuration
      */
     void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState, boolean viewRecreated);
+
+    /**
+     * Используется для только логирования (Может быть не уникальным)
+     * @return возвращает имя для логгирования
+     */
+    String getScreenName();
 }

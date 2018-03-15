@@ -32,3 +32,23 @@ fun TypedArray.obtainDrawableAttribute(context: Context, @StyleableRes styleable
  */
 fun TypedArray.obtainStringAttribute(@StyleableRes styleableResId: Int) =
         this.getString(styleableResId) ?: ""
+
+const val NOT_ASSIGNED_DIMEN = 0    //заглушка для незаданного dimen-атрибута
+
+/**
+ * Безопасное извлечение dimen-атрибута или 0, если атрибут не задан.
+ *
+ * @param styleableResId ссылка на извлекаемый атрибут.
+ */
+fun TypedArray.obtainDimensionPixelAttribute(@StyleableRes styleableResId: Int) =
+        this.getDimensionPixelOffset(styleableResId, NOT_ASSIGNED_DIMEN)
+
+const val NOT_ASSIGNED_RESOURCE = -1         //заглушка для незаданного ссылочного атрибута
+
+/**
+ * Безопасное извлечение ссылки на ресурс из атрибута или -1, если атрибут не задан.
+ *
+ * @param styleableResId ссылка на извлекаемый атрибут.
+ */
+fun TypedArray.obtainResourceIdAttribute(@StyleableRes styleableResId: Int) =
+        this.getResourceId(styleableResId, NOT_ASSIGNED_RESOURCE)
