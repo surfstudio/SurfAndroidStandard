@@ -8,16 +8,14 @@ import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
-import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope
-import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
-import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
+import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
 import ru.surfstudio.standard.ui.base.error.ErrorHandlerModule
 
 @Module(includes = [ErrorHandlerModule::class])
