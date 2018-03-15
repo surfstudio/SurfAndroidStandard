@@ -29,11 +29,11 @@ class StandardDialog : CoreSimpleDialogFragment() {
                 .setTitle(route.getTitle(this.context!!))
                 .setMessage(route.getMessage(this.context!!))
                 .setNegativeButton(route.getNegativeBtnTxt(this.context!!), { _, _ ->
-                    presenter.negativeBtnAction(dialogTag = route.dialogTag)
+                    presenter.simpleDialogNegativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
                 .setPositiveButton(route.getPositiveBtnTxt(this.context!!), { _, _ ->
-                    presenter.positiveBtnAction(dialogTag = route.dialogTag)
+                    presenter.simpleDialogPositiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
                 .setCancelable(route.isCancelable)
