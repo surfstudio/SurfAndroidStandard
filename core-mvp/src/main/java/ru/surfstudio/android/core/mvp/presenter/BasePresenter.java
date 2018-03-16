@@ -213,7 +213,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                          final ConsumerSafe<T> onSuccess,
                                          final ConsumerSafe<Throwable> onError) {
         single = single.subscribeOn(schedulersProvider.worker());
-        return subscribe(single.toObservable(), onSuccess, onError);
+        return subscribe(single, onSuccess, onError);
     }
 
     protected Disposable subscribeIo(Completable completable,

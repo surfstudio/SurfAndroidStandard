@@ -26,7 +26,8 @@ public class BasePresenterDependency {
     public BasePresenterDependency(SchedulersProvider schedulersProvider,
                                    ScreenState screenState,
                                    ScreenEventDelegateManager eventDelegateManager,
-                                   ErrorHandler errorHandler, ConnectionProvider connectionProvider,
+                                   ErrorHandler errorHandler,
+                                   ConnectionProvider connectionProvider,
                                    ActivityNavigator activityNavigator) {
         this.schedulersProvider = schedulersProvider;
         this.screenState = screenState;
