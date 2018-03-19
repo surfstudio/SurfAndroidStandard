@@ -15,7 +15,6 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.dagger.scope.PerActivity
-import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 
@@ -38,7 +37,7 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     }
 
     @Provides
-    @PerScreen
+    @PerActivity
     internal fun providePersistentScope(persistentScope: ActivityPersistentScope): PersistentScope {
         return persistentScope
     }
@@ -64,6 +63,12 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
+    internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
+        return FragmentNavigator(activityProvider)
+    }
+
+    @Provides
+    @PerActivity
     internal fun provideEventDelegateManager(): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
     }
@@ -83,18 +88,12 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
-        return FragmentNavigator(activityProvider)
-    }
-
-    @Provides
-    @PerActivity
     internal fun provideTabFragmentNavigator(activityProvider: ActivityProvider, eventDelegateManager: ScreenEventDelegateManager): TabFragmentNavigator {
         return TabFragmentNavigator(activityProvider, eventDelegateManager)
     }
 
     @Provides
-    @PerScreen
+    @PerActivity
     internal fun provideRxBus(): RxBus {
         return RxBus()
     }

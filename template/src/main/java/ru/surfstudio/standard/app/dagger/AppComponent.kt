@@ -19,12 +19,12 @@ import ru.surfstudio.standard.interactor.common.network.OkHttpModule
 @PerApplication
 @Component(modules = [
     AppModule::class,
-MigrationModule::class,
-SharedPrefModule::class,
-AuthModule::class,
-NetworkModule::class,
-OkHttpModule::class,
-AnalyticsModule::class])
+    MigrationModule::class,
+    SharedPrefModule::class,
+    AuthModule::class,
+    NetworkModule::class,
+    OkHttpModule::class,
+    AnalyticsModule::class])
 interface AppComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
     fun context(): Context
