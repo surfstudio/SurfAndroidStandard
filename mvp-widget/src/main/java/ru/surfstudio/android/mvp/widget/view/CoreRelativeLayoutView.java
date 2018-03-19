@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
  * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
@@ -23,7 +24,7 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 
 public abstract class CoreRelativeLayoutView extends RelativeLayout implements CoreWidgetViewInterface {
 
-    WidgetViewDelegate widgetViewDelegate;
+    private WidgetViewDelegate widgetViewDelegate;
 
     public CoreRelativeLayoutView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -72,5 +73,10 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         widgetViewDelegate.onDestroy();
+    }
+
+    @Override
+    public WidgetViewPersistentScope getPersistentScope() {
+        return widgetViewDelegate.getPersistentScope();
     }
 }

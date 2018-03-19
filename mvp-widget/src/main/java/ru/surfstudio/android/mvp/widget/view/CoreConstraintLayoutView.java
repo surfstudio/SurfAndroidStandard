@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
  * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
@@ -22,7 +23,7 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 
 public abstract class CoreConstraintLayoutView extends ConstraintLayout implements CoreWidgetViewInterface {
 
-    WidgetViewDelegate widgetViewDelegate;
+    private WidgetViewDelegate widgetViewDelegate;
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -66,5 +67,10 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         widgetViewDelegate.onDestroy();
+    }
+
+    @Override
+    public WidgetViewPersistentScope getPersistentScope() {
+        return widgetViewDelegate.getPersistentScope();
     }
 }

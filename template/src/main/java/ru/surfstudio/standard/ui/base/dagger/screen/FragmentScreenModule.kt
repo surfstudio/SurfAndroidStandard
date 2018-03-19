@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForFragment
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -65,5 +67,13 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
     internal fun provideDialogNavigator(activityProvider: ActivityProvider,
                                         fragmentProvider: FragmentProvider): DialogNavigator {
         return DialogNavigatorForFragment(activityProvider, fragmentProvider, persistentScope)
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
+                                          fragmentProvider: FragmentProvider,
+                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+        return ActivityNavigatorForFragment(activityProvider, fragmentProvider, eventDelegateManager)
     }
 }

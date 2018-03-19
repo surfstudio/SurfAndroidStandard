@@ -5,8 +5,6 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.bus.RxBus
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.message.DefaultMessageController
-import ru.surfstudio.android.core.ui.message.MessageController
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
@@ -17,7 +15,8 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.core.ui.scope.PersistentScope
 import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.dagger.scope.PerActivity
-import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.message.DefaultMessageController
+import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 
@@ -40,7 +39,7 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     }
 
     @Provides
-    @PerScreen
+    @PerActivity
     internal fun providePersistentScope(persistentScope: ActivityPersistentScope): PersistentScope {
         return persistentScope
     }
@@ -84,13 +83,13 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     }
 
     @Provides
-    @PerScreen
+    @PerActivity
     internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
         return FragmentNavigator(activityProvider)
     }
 
     @Provides
-    @PerScreen
+    @PerActivity
     internal fun provideRxBus(): RxBus {
         return RxBus()
     }

@@ -4,6 +4,8 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -37,6 +39,13 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
     @PerScreen
     internal fun provideEventDelegateManagerProvider(persistentScope: ScreenPersistentScope): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
+                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+        return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
     @Provides
