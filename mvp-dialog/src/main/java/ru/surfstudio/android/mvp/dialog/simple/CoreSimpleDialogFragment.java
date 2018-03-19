@@ -4,6 +4,11 @@ package ru.surfstudio.android.mvp.dialog.simple;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
