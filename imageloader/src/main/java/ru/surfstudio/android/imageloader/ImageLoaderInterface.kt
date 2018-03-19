@@ -1,6 +1,7 @@
 package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.annotation.WorkerThread
 import android.view.View
@@ -42,9 +43,9 @@ interface ImageLoaderInterface {
     /**
      * Установка лямбды для отслеживания загрузки изображения
      *
-     * @param lambda лямбда, возвращающая загруженный [Bitmap]
+     * @param lambda лямбда, возвращающая загруженный [Drawable]
      */
-    fun listener(lambda: ((bitmap: Bitmap) -> (Unit))): ImageLoader
+    fun listener(lambda: ((drawable: Drawable) -> (Unit))): ImageLoader
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
