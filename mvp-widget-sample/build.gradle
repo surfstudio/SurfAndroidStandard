@@ -1,37 +1,34 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-android {
-    compileSdkVersion 26
+apply from: '../androidSample.gradle'
 
-
-
-    defaultConfig {
-        applicationId "ru.surf.mvp_widget_sample"
-        minSdkVersion 21
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+android{
+    defaultConfig{
+        applicationId "ru.surfstudio.android.mvpwidget.sample"
     }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    implementation 'com.android.support:appcompat-v7:26.1.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    implementation project(':core-app')
+    implementation project(':core-ui')
+    implementation project(':core-mvp')
+    implementation project(':dagger-scope')
+    implementation project(':picture-provider')
+    implementation project(':camera-view')
+    implementation project(':network')
+    implementation project(':shared-pref')
+    implementation project(':filestorage')
+    implementation project(':logger:')
+    implementation project(':connection')
+    implementation project(':rx-extension')
+    implementation project(':util-ktx')
+    implementation project(':mvp-widget')
+    implementation project(':mvp-dialog')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+
+
+    implementation "com.android.support:recyclerview-v7:$appcompatVersion"
+    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    implementation project(':shared-pref')
+    implementation project(':message-controller')
 }

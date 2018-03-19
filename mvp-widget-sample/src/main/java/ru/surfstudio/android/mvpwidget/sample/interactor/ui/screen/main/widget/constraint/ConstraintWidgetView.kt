@@ -1,11 +1,11 @@
-package ru.surfstudio.standard.ui.screen.widget.constraint
+package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.constraint
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import ru.surfstudio.android.mvp.widget.view.CoreConstraintLayoutView
-import ru.surfstudio.standard.R
+import ru.surfstudio.android.mvpwidget.sample.R
 import javax.inject.Inject
 
 /**

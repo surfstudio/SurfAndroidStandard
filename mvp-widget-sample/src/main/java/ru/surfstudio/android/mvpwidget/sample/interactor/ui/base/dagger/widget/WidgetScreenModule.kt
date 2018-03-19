@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.base.dagger.widget
+package ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.dagger.widget
 
 import dagger.Module
 import dagger.Provides
@@ -23,8 +23,8 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForW
 import ru.surfstudio.android.mvp.widget.provider.WidgetProvider
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
-import ru.surfstudio.standard.ui.base.dagger.screen.ScreenModule
-import ru.surfstudio.standard.ui.base.error.ErrorHandlerModule
+import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.dagger.screen.ScreenModule
+import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.error.ErrorHandlerModule
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"

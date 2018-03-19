@@ -1,2 +1,2 @@
-#Picture provider sample
-Пример использования [picture-provider](../picture-provider/README.md)
+#Mvp widget sample
+Пример использования [mvp-widget](../mvp-widget/README.md)

@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.screen.widget.frame
+package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.frame
 
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency

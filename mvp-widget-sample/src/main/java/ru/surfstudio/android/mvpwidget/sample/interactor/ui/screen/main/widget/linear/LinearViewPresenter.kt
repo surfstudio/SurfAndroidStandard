@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.screen.widget.linear
+package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.linear
 
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency

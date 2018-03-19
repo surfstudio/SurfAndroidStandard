@@ -1,11 +1,12 @@
-package ru.surfstudio.standard.ui.screen.widget.frame
+package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.frame
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
-import ru.surfstudio.standard.R
+import ru.surfstudio.android.mvpwidget.sample.R
+import ru.surfstudio.standard.ui.screen.widget.frame.FrameViewConfigurator
 import javax.inject.Inject
 
 /**

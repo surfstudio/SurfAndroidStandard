@@ -1,3 +1,21 @@
 <resources>
-    <string name="app_name">mvp-widget-sample</string>
+    <string name="app_name">Mvp widget sample</string>
+
+    <string name="content_desc">image</string>
+
+    <string name="no_internet_connection_error_message">Не удалось загрузить данные. Проверьте соединение с интернетом и попробуйте еще раз</string>
+    <string name="no_content_error_message">Нет данных для отображения</string>
+    <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
+    <string name="unexpected_error_error_message">@string/default_http_error_message</string>
+    <string name="forbidden_error_error_message">Доступ запрещен</string>
+    <string name="server_error_message">Произошла ошибка сервера. Попробуйте позже еще раз</string>
+    <string name="server_error_not_found">Произошла ошибка, данные не найдены. Попробуйте позже еще раз</string>
+    <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
+
+    <string name="load_more_text">Показать еще</string>
+
+    <!-- placeholder -->
+    <string name="placeholder_default_subtitle">Нет подключения к интернету.\nПроверьте соединение и обновите экран.</string>
+    <string name="placeholder_default_btn">Обновить</string>
+
 </resources>

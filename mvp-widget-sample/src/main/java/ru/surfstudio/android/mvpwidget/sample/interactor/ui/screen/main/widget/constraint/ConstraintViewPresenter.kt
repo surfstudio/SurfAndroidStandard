@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.screen.widget.constraint
+package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.constraint
 
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
