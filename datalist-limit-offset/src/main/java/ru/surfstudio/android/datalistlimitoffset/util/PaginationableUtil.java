@@ -4,12 +4,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList;
 import ru.surfstudio.android.rx.extension.BiFunctionSafe;
 import ru.surfstudio.android.rx.extension.ObservableUtil;
 
 public class PaginationableUtil {
+
+    /**
+     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
+     * размером blockSize.
+     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
+     * который используется при подгрузке новых данных.
+     *
+     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
+     * @param offset                   смещение с которого следует подгрузить данные
+     * @param limit                    размер загружаемых данных
+     * @param blockSize                размер подгружаемого блока
+     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
+     * combineLatestDelayError
+     */
+    public static <T> Observable<DataList<T>> getPaginationRequestPortions(
+            BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
+            int offset, int limit, int blockSize) {
+        return getPaginationRequestPortions(paginationRequestCreator,
+                new DataList<>(new ArrayList<>(), limit, offset, 0),
+                offset, limit, blockSize);
+    }
+
+    public static <T> Single<DataList<T>> getPaginationSingleRequestPortion(
+            BiFunctionSafe<Integer, Integer, Single<DataList<T>>> paginationRequestCreator,
+            int offset, int limit, int blockSize) {
+        return getPaginationRequestPortions(convertSingleBiFunctionToObservable(paginationRequestCreator),
+                offset, limit, blockSize).singleOrError();
+    }
+
+    /**
+     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
+     * размером blockSize.
+     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
+     * который используется при подгрузке новых данных.
+     *
+     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
+     * @param offset                   смещение с которого следует подгрузить данные
+     * @param limit                    размер загружаемых данных
+     * @param blockSize                размер подгружаемого блока
+     * @param totalCount               максимальное число элементов
+     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
+     * combineLatestDelayError
+     */
+    public static <T> Observable<DataList<T>> getPaginationRequestPortionsWithTotal(
+            BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
+            int offset, int limit, int blockSize, int totalCount) {
+        return getPaginationRequestPortions(paginationRequestCreator,
+                new DataList<>(new ArrayList<>(), limit, offset, totalCount),
+                offset, limit, blockSize);
+    }
+
+    public static <T> Single<DataList<T>> getPaginationRequestSinglePortionWithTotal(
+            BiFunctionSafe<Integer, Integer, Single<DataList<T>>> paginationRequestCreator,
+            int offset, int limit, int blockSize, int totalCount) {
+        return getPaginationRequestPortionsWithTotal(convertSingleBiFunctionToObservable(paginationRequestCreator),
+                offset, limit, blockSize, totalCount).singleOrError();
+    }
 
     /**
      * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
@@ -50,47 +108,8 @@ public class PaginationableUtil {
                 });
     }
 
-    /**
-     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
-     * размером blockSize.
-     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
-     * который используется при подгрузке новых данных.
-     *
-     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
-     * @param offset                   смещение с которого следует подгрузить данные
-     * @param limit                    размер загружаемых данных
-     * @param blockSize                размер подгружаемого блока
-     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
-     * combineLatestDelayError
-     */
-    public static <T> Observable<DataList<T>> getPaginationRequestPortions(
-            BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
-            int offset, int limit, int blockSize) {
-        return getPaginationRequestPortions(paginationRequestCreator,
-                new DataList<>(new ArrayList<>(), limit, offset, 0),
-                offset, limit, blockSize);
-    }
-
-    /**
-     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
-     * размером blockSize.
-     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
-     * который используется при подгрузке новых данных.
-     *
-     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
-     * @param offset                   смещение с которого следует подгрузить данные
-     * @param limit                    размер загружаемых данных
-     * @param blockSize                размер подгружаемого блока
-     * @param totalCount               максимальное число элементов
-     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
-     * combineLatestDelayError
-     */
-    public static <T> Observable<DataList<T>> getPaginationRequestPortionsWithTotal(
-            BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
-            int offset, int limit, int blockSize, int totalCount) {
-        return getPaginationRequestPortions(paginationRequestCreator,
-                new DataList<>(new ArrayList<>(), limit, offset, totalCount),
-                offset, limit, blockSize);
+    private static <T> BiFunctionSafe<Integer, Integer, Observable<T>> convertSingleBiFunctionToObservable(BiFunctionSafe<Integer, Integer, Single<T>> paginationRequestCreator) {
+        return (integer, integer2) -> paginationRequestCreator.apply(integer, integer2).toObservable();
     }
 
 }

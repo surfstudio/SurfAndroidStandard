@@ -2,8 +2,8 @@ package ru.surfstudio.android.imageloader.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
-import android.util.Patterns
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
@@ -53,24 +53,23 @@ data class ImageResourceManager(
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun prepareErrorBitmap() = prepareBitmap(errorResId)
+    fun prepareErrorDrawable() = prepareDrawable(errorResId)
 
     /**
      * Подготовка заглушки для плейсхолдера.
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun preparePreviewBitmap() = prepareBitmap(previewResId)
+    fun preparePreviewDrawable() = prepareDrawable(previewResId)
 
 
     /**
-     * Подготовка [Bitmap] с применением всех трансформаций, применяемых и к исходному изображению.
+     * Подготовка [Drawable] с применением всех трансформаций, применяемых и к исходному изображению.
      *
      * @param imageResId ссылка на drawable ресурс
      */
-    private fun prepareBitmap(@DrawableRes imageResId: Int): RequestBuilder<Bitmap> {
+    private fun prepareDrawable(@DrawableRes imageResId: Int): RequestBuilder<Drawable> {
         return Glide.with(context)
-                .asBitmap()
                 .load(imageResId)
                 .apply(RequestOptions()
                         .transforms(*imageTransformationsManager.prepareTransformations()))

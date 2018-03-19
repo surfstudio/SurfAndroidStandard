@@ -77,6 +77,10 @@
       "path": ""
     },
     {
+      "name": "standard-dialog",
+      "path": ""
+    },
+    {
       "name": "util-ktx",
       "path": ""
     },

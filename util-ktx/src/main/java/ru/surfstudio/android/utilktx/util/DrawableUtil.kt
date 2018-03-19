@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat
+import android.support.v4.content.ContextCompat
 import android.widget.ImageView
 
 
@@ -37,6 +38,27 @@ object DrawableUtil {
         drawable.draw(canvas)
         return bitmap
     }
+
+    /**
+     * Преобразование [Drawable] из /res/drawable в [Bitmap]
+     *
+     * @param resId ссылка на drawable ресурс
+     */
+    fun getBitmapFromRes(context: Context, @DrawableRes resId: Int): Bitmap? {
+        val drawable = ContextCompat.getDrawable(context, resId)
+        return when (drawable) {
+            is BitmapDrawable -> {
+                drawable.bitmap
+            }
+            is Drawable -> {
+                drawableToBitmap(drawable)
+            }
+            else -> {
+                throw IllegalArgumentException("Неподдерживаемый тип Drawable - ${drawable?.javaClass?.canonicalName}")
+            }
+        }
+    }
+
 
     //Todo перенести в animations
     /**

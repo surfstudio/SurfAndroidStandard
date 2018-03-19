@@ -59,15 +59,19 @@ public class WidgetViewDelegate {
     }
 
     private void initPersistentScope() {
+        ScreenPersistentScope parentScope = parentPersistentScopeFinder.find();
+        if (parentScope == null) {
+            throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
+        }
+
+        parentScopeId = parentScope.getScopeId();
+
         if (!scopeStorage.isExist(getScopeId())) {
-            ScreenPersistentScope parentScope = parentPersistentScopeFinder.find();
-            if (parentScope == null) {
-                throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
-            }
+
             WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
             BaseWidgetViewConfigurator configurator = coreWidgetView.createConfigurator();
 
-            parentScopeId = parentScope.getScopeId();
+
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     parentScope.getScreenEventDelegateManager(),
                     screenState,
