@@ -6,7 +6,7 @@ import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.standard.ui.base.dagger.widget.WidgetScreenModule;
 
 /**
- * Базовый конфигуратор для ConstraintWidgetView
+ * Базовый конфигуратор для WidgetView
  */
 
 public abstract class WidgetScreenConfigurator
