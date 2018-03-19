@@ -4,8 +4,6 @@ package ru.surfstudio.android.mvp.dialog.simple;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
@@ -26,7 +24,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  */
 public abstract class CoreSimpleDialogFragment extends DialogFragment implements CoreSimpleDialogInterface {
 
-    private SimpleDialogDelegate delegate;
+    private SimpleDialogDelegate delegate = new SimpleDialogDelegate(this);
 
 
     public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
@@ -41,18 +39,6 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
         delegate.show(parentWidgetViewPersistentScope);
     }
 
-    @Override
-    public int show(FragmentTransaction transaction, String tag) {
-        throw new UnsupportedOperationException("Instead this method, use method render(parentFragment) " +
-                "or render(parentActivity)");
-    }
-
-    @Override
-    public void show(FragmentManager manager, String tag) {
-        throw new UnsupportedOperationException("Instead this method, use method render(parentFragment) " +
-                "or render(parentActivity)");
-    }
-
     public <T> T getScreenComponent(Class<T> componentClass) {
         return delegate.getScreenComponent(componentClass);
     }
@@ -60,7 +46,6 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        delegate = new SimpleDialogDelegate(this);
         delegate.onCreate(savedInstanceState);
     }
 
@@ -81,5 +66,4 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
         super.onPause();
         delegate.onPause();
     }
-
 }

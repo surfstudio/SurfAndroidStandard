@@ -107,6 +107,7 @@ dependencies {
     implementation project(':animations')
     implementation project(':push')
     implementation project(':dagger-scope')
+    implementation project(':standard-dialog')
     implementation project(':message-controller')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
