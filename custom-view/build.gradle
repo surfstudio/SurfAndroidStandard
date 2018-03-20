@@ -7,9 +7,9 @@ android {
 }
 
 dependencies {
-    compileOnly project(':util-ktx')
-    compileOnly project(':rx-extension')
-    compileOnly project(':animations')
+    implementation project(':util-ktx')
+    implementation project(':rx-extension')
+    implementation project(':animations')
 
     api "me.zhanghai.android.materialprogressbar:library:1.4.2"
 }

@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit
  * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
  */
 open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
-                                                        attrs: AttributeSet,
+                                                        attrs: AttributeSet? = null,
                                                         defStyle: Int = R.attr.standardPlaceHolderStyle)
     : FrameLayout(context, attrs, defStyle) {
 
@@ -131,7 +131,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.stater.loadState = PlaceholderStater.LoadState.NOT_FOUND
     }
 
-    private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
+    private fun applyAttributes(context: Context, attrs: AttributeSet? = null, defStyle: Int) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
 
         this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_opaqueBackgroundColor)
