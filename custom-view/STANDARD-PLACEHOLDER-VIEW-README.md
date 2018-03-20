@@ -12,6 +12,7 @@
 
 ##ЧТО НОВОГО
 
+* Исправлен баг приводящий к промаргиванию виджета при первом запуске экрана;
 * Удалено состояние LoadState.UNSPECIFIED. Состоянием по умолчанию стало LoadState.NONE.
 
 ##ИСПОЛЬЗОВАНИЕ
@@ -164,3 +165,18 @@ secondButtonTextAppearance | text appearance | Стиль текста на вт
 buttonStyle | style | Стиль кнопки
 secondButtonStyle | style | Стиль второй кнопки
 imageStyle | style | Стиль изображения
+
+##РАСПРОСТРАНЁННЫЕ ПРОБЛЕМЫ
+
+* **Проблема:** К моему плейсхолдеру не применяется кастомный стиль.э
+
+  **Решение:** Скорее всего при переопределении класса StandardPlaceHolderView в приложении вы 
+  переназначили значение атрибута defStyle, тем самым отменив действие стиля по умолчанию.
+     
+  Неверно:
+     
+        PlaceHolderView(context: Context, attrs: AttributeSet?, defStyle: Int = 0)
+          
+  Верно:
+  
+        PlaceHolderView(context: Context, attrs: AttributeSet?)
