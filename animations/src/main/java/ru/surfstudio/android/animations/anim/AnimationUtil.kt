@@ -95,17 +95,18 @@ object AnimationUtil {
     /**
      * Изменение ширины и высоты вью
      */
-    fun newSize(view: View,
-                newWidth: Int, newHeight: Int,
-                duration: Long = ANIM_TRANSITION) {
+    fun toSize(view: View,
+               newWidth: Int? = null,
+               newHeight: Int? = null,
+               duration: Long = ANIM_TRANSITION) {
         val transition = TransitionSet()
                 .addTransition(ChangeBounds())
         transition.duration = duration
         beginTransitionSafe(view, transition)
 
         val lp = view.layoutParams
-        lp.width = newWidth
-        lp.height = newHeight
+        newWidth?.let { lp.width = it }
+        newHeight?.let { lp.height = it }
         view.layoutParams = lp
     }
 

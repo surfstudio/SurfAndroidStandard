@@ -57,6 +57,5 @@ fun View.pulseAnimation(scale: Float = 1.15f,
 /**
  * Изменение ширины и высоты вью
  */
-fun View.toSize(newWidth: Int, newHeight: Int,
-                duration: Long = AnimationUtil.ANIM_TRANSITION) =
-        AnimationUtil.newSize(this, newWidth, newHeight, duration)
+fun View.toSize(newWidth: Int?, newHeight: Int?, duration: Long = AnimationUtil.ANIM_TRANSITION) =
+        AnimationUtil.toSize(this, newWidth, newHeight, duration)
