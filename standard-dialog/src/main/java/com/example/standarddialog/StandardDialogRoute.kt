@@ -40,8 +40,8 @@ class StandardDialogRoute(var title: String = "",
         putSerializable(Route.EXTRA_FOURTH, negativeBtnText)
         putSerializable(Route.EXTRA_FIFTH, titleRes)
         putSerializable(Route.EXTRA_SIXTH, messageRes)
-        putSerializable(Route.EXTRA_SEVEN, negativeBtnTextRes)
-        putSerializable(Route.EXTRA_EIGHT, positiveBtnTextRes)
+        putSerializable(Route.EXTRA_SEVEN, positiveBtnTextRes)
+        putSerializable(Route.EXTRA_EIGHT, negativeBtnTextRes)
         putSerializable(Route.EXTRA_NINE, isCancelable)
         putSerializable(Route.EXTRA_TEN, dialogTag)
     }
