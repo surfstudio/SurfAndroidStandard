@@ -19,7 +19,6 @@ class StandardDialog : CoreSimpleDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getScreenComponent(StandardDialogComponent::class.java).inject(this)
         route = StandardDialogRoute(arguments!!)
     }
 
@@ -29,10 +28,12 @@ class StandardDialog : CoreSimpleDialogFragment() {
                 .setTitle(route.getTitle(this.context!!))
                 .setMessage(route.getMessage(this.context!!))
                 .setNegativeButton(route.getNegativeBtnTxt(this.context!!), { _, _ ->
+                    inject()
                     presenter.simpleDialogNegativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
                 .setPositiveButton(route.getPositiveBtnTxt(this.context!!), { _, _ ->
+                    inject()
                     presenter.simpleDialogPositiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
@@ -41,4 +42,8 @@ class StandardDialog : CoreSimpleDialogFragment() {
     }
 
     override fun getName(): String = "StandardDialog"
+
+    private fun inject() {
+        getScreenComponent(StandardDialogComponent::class.java).inject(this)
+    }
 }
