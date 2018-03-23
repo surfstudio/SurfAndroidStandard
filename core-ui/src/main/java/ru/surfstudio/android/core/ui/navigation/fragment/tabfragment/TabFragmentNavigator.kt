@@ -202,7 +202,6 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
      */
     private fun showExistent(routeTag: String) {
         activeTabTag = routeTag
-        Logger.d("2222 ActiveTab = $activeTabTag")
         replace(activeStack.peek(), activeStack.peek().tag)
     }
 
