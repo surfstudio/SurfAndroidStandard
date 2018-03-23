@@ -136,8 +136,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     private fun popStack(popDepth: Int = 1) {
         activeStack.takeLast(popDepth)
                 .forEach {
-                    activeStack.pop()
-                    replace(activeStack.peek(), activeStack.peek().tag)
+                    remove(activeStack.pop().tag)
                 }
     }
 
@@ -203,24 +202,65 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
      */
     private fun showExistent(routeTag: String) {
         activeTabTag = routeTag
+        Logger.d("2222 ActiveTab = $activeTabTag")
         replace(activeStack.peek(), activeStack.peek().tag)
     }
 
     private fun replace(fragment: Fragment,
                         routeTag: String?,
                         stackable: Boolean = false,
-                        transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
-        val viewContainerId = getViewContainerIdOrThrow()
+                        transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
         fragmentManager.executePendingTransactions()
 
         val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(viewContainerId, fragment, routeTag)
+        detachAll(fragmentTransaction)
+        if (isFragmentExistInMap(fragment)) {
+            fragmentTransaction.attach(fragment)
+        } else {
+            add(fragment, routeTag, fragmentTransaction, stackable, transition)
+        }
+
+        fragmentTransaction.commit()
+    }
+
+    private fun add(fragment: Fragment,
+                    routeTag: String?,
+                    fragmentTransaction: FragmentTransaction,
+                    stackable: Boolean = false,
+                    transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
+        val viewContainerId = getViewContainerIdOrThrow()
+        fragmentTransaction.add(viewContainerId, fragment, routeTag)
         fragmentTransaction.setTransition(transition)
         if (stackable) {
             fragmentTransaction.addToBackStack(routeTag)
         }
+    }
 
-        fragmentTransaction.commit()
+    private fun detachAll(fragmentTransaction: FragmentTransaction) {
+        fragmentMap.forEach { (_, stack) ->
+            stack.forEach {
+                Logger.i("Detach : ${it.tag}")
+                fragmentTransaction.detach(it)
+            }
+        }
+    }
+
+    private fun isFragmentExistInMap(fragment: Fragment): Boolean  =  fragmentMap.values.any { it.any { it.tag == fragment.tag }}
+
+    private fun remove(routeTag: String?, transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_CLOSE): Boolean {
+        fragmentManager.executePendingTransactions()
+
+        val fragment = fragmentManager.findFragmentByTag(routeTag) ?: return false
+
+        fragmentManager.beginTransaction()
+                .setTransition(transition)
+                .remove(fragment)
+                .commit()
+
+        val fragmentToShow = activeStack.peek()
+        replace(fragmentToShow, activeStack.peek().tag)
+
+        return true
     }
 
     @IdRes
