@@ -21,6 +21,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.attr.*
 import ru.surfstudio.android.utilktx.ktx.ui.view.*
 import java.util.concurrent.TimeUnit
@@ -60,6 +61,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private val stater = PlaceholderStater { updateView() }    //менеджер состояния плейсхолдера
 
     init {
+        @Suppress("LeakingThis")
         View.inflate(context, R.layout.placeholder_view_layout, this)
 
         contentContainer = findViewById(R.id.placeholder_content_container)
@@ -132,34 +134,33 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     private fun applyAttributes(context: Context, attrs: AttributeSet? = null, defStyle: Int) {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.StandardPlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
+        this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvOpaqueBackgroundColor)
+        this.styler.transparentBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvTransparentBackgroundColor)
+        this.styler.progressBarColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvProgressBarColor)
+        this.styler.titleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvTitleBottomMargin)
+        this.styler.subtitleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleBottomMargin)
+        this.styler.buttonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvButtonBottomMargin)
+        this.styler.secondButtonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonBottomMargin)
+        this.styler.imageBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvImageBottomMargin)
+        this.styler.titleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvTitleTopMargin)
+        this.styler.subtitleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleTopMargin)
+        this.styler.buttonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvButtonTopMargin)
+        this.styler.secondButtonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonTopMargin)
+        this.styler.imageTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvImageTopMargin)
+        this.styler.titleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvTitleTextAppearance)
+        this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleTextAppearance)
+        this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonTextAppearance)
+        this.styler.secondButtonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonTextAppearance)
+        this.styler.buttonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonStyle)
+        this.styler.secondButtonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonStyle)
+        this.styler.imageStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvImageStyle)
 
-        this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_opaqueBackgroundColor)
-        this.styler.transparentBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_transparentBackgroundColor)
-        this.styler.progressBarColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_progressBarColor)
-        this.styler.titleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_titleBottomMargin)
-        this.styler.subtitleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_subtitleBottomMargin)
-        this.styler.buttonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_buttonBottomMargin)
-        this.styler.secondButtonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_secondButtonBottomMargin)
-        this.styler.imageBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_imageBottomMargin)
-        this.styler.titleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_titleTopMargin)
-        this.styler.subtitleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_subtitleTopMargin)
-        this.styler.buttonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_buttonTopMargin)
-        this.styler.secondButtonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_secondButtonTopMargin)
-        this.styler.imageTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_imageTopMargin)
-        this.styler.titleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_titleTextAppearance)
-        this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_subtitleTextAppearance)
-        this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_buttonTextAppearance)
-        this.styler.secondButtonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_secondButtonTextAppearance)
-        this.styler.buttonStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_buttonStyle)
-        this.styler.secondButtonStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_secondButtonStyle)
-        this.styler.imageStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_imageStyle)
-
-        val title = ta.obtainStringAttribute(R.styleable.PlaceHolderView_title)
-        val subtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_subtitle)
-        val buttonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_buttonText)
-        val secondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_secondButtonText)
-        val image = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_image)
+        val title = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvTitle)
+        val subtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvSubtitle)
+        val buttonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvButtonText)
+        val secondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonText)
+        val image = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvImage)
         this.dataContainer.defaultViewData =
                 PlaceholderDataContainer.ViewData(
                         title,
@@ -168,11 +169,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         secondButtonText,
                         image)
 
-        val emptyTitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptyTitle)
-        val emptySubtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptySubtitle)
-        val emptyButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptyButtonText)
-        val emptySecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptySecondButtonText)
-        val emptyImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_emptyImage)
+        val emptyTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptyTitle)
+        val emptySubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptySubtitle)
+        val emptyButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptyButtonText)
+        val emptySecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptySecondButtonText)
+        val emptyImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvEmptyImage)
         this.dataContainer.putViewData(
                 PlaceholderStater.LoadState.EMPTY,
                 PlaceholderDataContainer.ViewData(
@@ -182,11 +183,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         emptySecondButtonText,
                         emptyImage))
 
-        val notFoundTitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundTitle)
-        val notFoundSubtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundSubtitle)
-        val notFoundButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundButtonText)
-        val notFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundSecondButtonText)
-        val notFoundImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_notFoundImage)
+        val notFoundTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundTitle)
+        val notFoundSubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundSubtitle)
+        val notFoundButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundButtonText)
+        val notFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundSecondButtonText)
+        val notFoundImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvNotFoundImage)
         this.dataContainer.putViewData(
                 PlaceholderStater.LoadState.NOT_FOUND,
                 PlaceholderDataContainer.ViewData(
@@ -196,11 +197,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         notFoundSecondButtonText,
                         notFoundImage))
 
-        val errorFoundTitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorTitle)
-        val errorFoundSubtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorSubtitle)
-        val errorFoundButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorButtonText)
-        val errorFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorSecondButtonText)
-        val errorFoundImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_errorImage)
+        val errorFoundTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorTitle)
+        val errorFoundSubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorSubtitle)
+        val errorFoundButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorButtonText)
+        val errorFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorSecondButtonText)
+        val errorFoundImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvErrorImage)
         this.dataContainer.putViewData(
                 PlaceholderStater.LoadState.ERROR,
                 PlaceholderDataContainer.ViewData(
@@ -314,7 +315,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     /**
-     * Установка цвета фона плейсхолдера в зависимости от текущего [LoadState].
+     * Установка цвета фона плейсхолдера в зависимости от текущего LoadState.
      */
     private fun setBackgroundColor() {
         when (stater.loadState) {
@@ -328,7 +329,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     /**
-     * Установка видимости плейсхолдера в зависимости от текущего [LoadState].
+     * Установка видимости плейсхолдера в зависимости от текущего LoadState.
      */
     private fun setVisibility() {
         when (stater.loadState) {
@@ -437,6 +438,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         ?: defaultViewData
     }
 
+    @Suppress("PrivatePropertyName")
     /**
      * Менеджер текущего состояния [StandardPlaceHolderView] и переключения между состояниями.
      *

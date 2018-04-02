@@ -23,4 +23,5 @@
 
         <item name="android:textViewStyle">@style/Text</item>
     </style>
+
 </resources>
