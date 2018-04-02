@@ -107,7 +107,7 @@ class TitleSubtitleView @JvmOverloads constructor(
         with(titleView) {
             defaultTitle = ta.getString(R.styleable.TitleSubtitleView_titleText) ?: defaultTitle
 
-            setupTextAppearance(ta, R.styleable.TitleSubtitleView_titleTextAppearance)
+            setupTextAppearance(ta, R.styleable.TextAttributes_titleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
 
             setTextColor(ta.getColor(
@@ -141,7 +141,7 @@ class TitleSubtitleView @JvmOverloads constructor(
         with(subTitleView) {
             defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText) ?: defaultSubTitle
 
-            setupTextAppearance(ta, R.styleable.TitleSubtitleView_subTitleTextAppearance)
+            setupTextAppearance(ta, R.styleable.TextAttributes_subtitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
 
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_subTitleLineSpacingExtra, 0f), 1f)
