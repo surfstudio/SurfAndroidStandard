@@ -14,7 +14,7 @@ branchName = ""
 
 //default stage strategies
 checkoutStageStrategy = FAIL_WHEN_STAGE_ERROR
-buildStageStrategy = FAIL_WHEN_STAGE_ERROR
+buildStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR //todo
 unitTestStageStrategy = FAIL_WHEN_STAGE_ERROR
 instrumentationTestStageStrategy = FAIL_WHEN_STAGE_ERROR
 staticCodeAnalysisStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR
@@ -68,7 +68,7 @@ void initStageBody() {
     printDefaultVar('staticCodeAnalysisStageStrategy', staticCodeAnalysisStageStrategy)
     printDefaultVar('deployStageStrategy', deployStageStrategy)
 
-    echo 'artufactory user: $surf_maven_username'
+    echo 'artifactory user: $surf_maven_username'
 
     //Выбираем значения веток и автора из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
