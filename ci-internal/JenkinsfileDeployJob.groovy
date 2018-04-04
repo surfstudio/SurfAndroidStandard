@@ -68,7 +68,7 @@ void initStageBody() {
     printDefaultVar('staticCodeAnalysisStageStrategy', staticCodeAnalysisStageStrategy)
     printDefaultVar('deployStageStrategy', deployStageStrategy)
 
-
+    echo 'artufactory user: $surf_maven_username'
 
     //Выбираем значения веток и автора из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
