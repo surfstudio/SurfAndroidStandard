@@ -69,6 +69,7 @@ void initStageBody() {
     printDefaultVar('deployStageStrategy', deployStageStrategy)
 
     echo "artifactory user: ${env.surf_maven_username}"
+    echo "artifactory pass: ${env.surf_maven_password}"
 
     //Выбираем значения веток и автора из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
