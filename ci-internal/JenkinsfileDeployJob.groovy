@@ -66,7 +66,7 @@ void initStageBody() {
     printDefaultVar('unitTestStageStrategy', unitTestStageStrategy)
     printDefaultVar('smallInstrumentationTestStageStrategy', instrumentationTestStageStrategy)
     printDefaultVar('staticCodeAnalysisStageStrategy', staticCodeAnalysisStageStrategy)
-    printDefaultVar('deployStageStrategy', betaUploadStageStrategy)
+    printDefaultVar('deployStageStrategy', deployStageStrategy)
 
 
 
