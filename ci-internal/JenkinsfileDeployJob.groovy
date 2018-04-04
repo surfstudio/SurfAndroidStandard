@@ -20,6 +20,9 @@ instrumentationTestStageStrategy = FAIL_WHEN_STAGE_ERROR
 staticCodeAnalysisStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR
 deployStageStrategy = FAIL_WHEN_STAGE_ERROR
 
+//URLS
+JARVIS_URL = "http://jarvis.surfstudio.ru/api/v1/"
+
 jobResult = SUCCESS
 stagesResult = [:] //stageName : execute result
 
