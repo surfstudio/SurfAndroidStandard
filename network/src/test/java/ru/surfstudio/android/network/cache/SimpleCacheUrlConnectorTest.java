@@ -52,12 +52,12 @@ public class SimpleCacheUrlConnectorTest {
     }
 
     @Test
-    public void getSimpleCacheInfo() throws Exception {
+    public void getSimpleCacheInfo() {
         assertFalse(connector.getSimpleCacheInfo().isEmpty());
     }
 
     @Test
-    public void getByUrl() throws Exception {
+    public void getByUrl() {
         assertEquals(yaSci, connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/fu"), HttpMethods.GET));
         assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/ful"), HttpMethods.GET));
 
