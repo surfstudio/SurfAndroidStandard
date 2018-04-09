@@ -15,8 +15,8 @@ branchName = ""
 //default stage strategies
 checkoutStageStrategy = FAIL_WHEN_STAGE_ERROR
 buildStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR //todo
-unitTestStageStrategy = FAIL_WHEN_STAGE_ERROR
-instrumentationTestStageStrategy = FAIL_WHEN_STAGE_ERROR
+unitTestStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR //todo
+instrumentationTestStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR //todo
 staticCodeAnalysisStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR
 deployStageStrategy = FAIL_WHEN_STAGE_ERROR
 
