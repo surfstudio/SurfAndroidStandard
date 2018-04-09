@@ -2,7 +2,6 @@ apply plugin: 'maven'
 apply from: '../config.gradle'
 
 uploadArchives {
-    println(System.getenv('surf_maven_username'))
     repositories.mavenDeployer {
         repository(url: "${surf_maven_libs_url}") {
             authentication(
