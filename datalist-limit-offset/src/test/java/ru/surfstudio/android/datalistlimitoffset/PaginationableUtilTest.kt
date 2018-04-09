@@ -66,7 +66,7 @@ class PaginationableUtilTest {
 
         var resultList: DataList<Int> = DataList.empty()
 
-        PaginationableUtil.getPaginationSingleRequestPortion<Int>(BiFunctionSafe { blockSize: Int, offset: Int ->
+        PaginationableUtil.getPaginationSingleRequestPortion<Int>({ blockSize: Int, offset: Int ->
             Single.just(DataList(arrayListOf(response[offset]), blockSize, offset))
         }, 0, 10, 1)
                 .subscribe { it ->

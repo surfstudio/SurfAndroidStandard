@@ -12,10 +12,10 @@
     </style>
 
     <style name="StandardPlaceHolderView.Default">
-        <item name="progressBarColor">@color/progressbar_color</item>
-        <item name="opaqueBackgroundColor">@color/progressbar_color</item>
-        <item name="title">Заголовок</item>
-        <item name="subtitle">Подзаголовок</item>
+        <item name="pvProgressBarColor">@color/progressbar_color</item>
+        <item name="pvOpaqueBackgroundColor">@color/progressbar_color</item>
+        <item name="pvTitle">Заголовок</item>
+        <item name="pvSubtitle">Подзаголовок</item>
     </style>
 
 </resources>

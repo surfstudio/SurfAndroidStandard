@@ -14,9 +14,9 @@ branchName = ""
 
 //default stage strategies
 checkoutStageStrategy = FAIL_WHEN_STAGE_ERROR
-buildStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR //todo
-unitTestStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR //todo
-instrumentationTestStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR //todo
+buildStageStrategy = FAIL_WHEN_STAGE_ERROR
+unitTestStageStrategy = FAIL_WHEN_STAGE_ERROR
+instrumentationTestStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR
 staticCodeAnalysisStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR
 deployStageStrategy = FAIL_WHEN_STAGE_ERROR
 
@@ -106,7 +106,7 @@ void buildStageBody() {
 void unitTestStageBody() {
     echo '\n\nUnit Test Started'
     try {
-        sh "./gradlew testQaUnitTest"
+        sh "./gradlew testReleaseUnitTest"
     } finally {
         junit allowEmptyResults: true, testResults: '**/test-results/testQaUnitTest/*.xml'
         publishHTML(target: [
