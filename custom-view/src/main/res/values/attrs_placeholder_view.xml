@@ -2,47 +2,53 @@
 <resources>
     <attr name="standardPlaceHolderStyle" format="reference" />
 
-    <declare-styleable name="PlaceHolderView">
-        <attr name="opaqueBackgroundColor" format="reference" />
-        <attr name="transparentBackgroundColor" format="reference" />
-        <attr name="progressBarColor" format="color" />
+    <declare-styleable name="StandardPlaceHolderView">
+        <attr name="pvOpaqueBackgroundColor" format="reference" />
+        <attr name="pvTransparentBackgroundColor" format="reference" />
+        <attr name="pvProgressBarColor" format="color" />
 
-        <attr name="title" format="string" />
-        <attr name="subtitle" format="string" />
-        <attr name="buttonText" format="string" />
-        <attr name="secondButtonText" format="string" />
-        <attr name="image" format="reference" />
+        <attr name="pvTitle" format="string" />
+        <attr name="pvSubtitle" format="string" />
+        <attr name="pvButtonText" format="string" />
+        <attr name="pvSecondButtonText" format="string" />
+        <attr name="pvImage" format="reference" />
 
-        <attr name="emptyTitle" format="string" />
-        <attr name="emptySubtitle" format="string" />
-        <attr name="emptyButtonText" format="string" />
-        <attr name="emptySecondButtonText" format="string" />
-        <attr name="emptyImage" format="reference" />
+        <attr name="pvEmptyTitle" format="string" />
+        <attr name="pvEmptySubtitle" format="string" />
+        <attr name="pvEmptyButtonText" format="string" />
+        <attr name="pvEmptySecondButtonText" format="string" />
+        <attr name="pvEmptyImage" format="reference" />
 
-        <attr name="notFoundTitle" format="string" />
-        <attr name="notFoundSubtitle" format="string" />
-        <attr name="notFoundButtonText" format="string" />
-        <attr name="notFoundSecondButtonText" format="string" />
-        <attr name="notFoundImage" format="reference" />
+        <attr name="pvNotFoundTitle" format="string" />
+        <attr name="pvNotFoundSubtitle" format="string" />
+        <attr name="pvNotFoundButtonText" format="string" />
+        <attr name="pvNotFoundSecondButtonText" format="string" />
+        <attr name="pvNotFoundImage" format="reference" />
 
-        <attr name="errorTitle" format="string" />
-        <attr name="errorSubtitle" format="string" />
-        <attr name="errorButtonText" format="string" />
-        <attr name="errorSecondButtonText" format="string" />
-        <attr name="errorImage" format="reference" />
+        <attr name="pvErrorTitle" format="string" />
+        <attr name="pvErrorSubtitle" format="string" />
+        <attr name="pvErrorButtonText" format="string" />
+        <attr name="pvErrorSecondButtonText" format="string" />
+        <attr name="pvErrorImage" format="reference" />
 
-        <attr name="titleBottomMargin" format="dimension" />
-        <attr name="titleTopMargin" format="dimension" />
-        <attr name="subtitleBottomMargin" format="dimension" />
-        <attr name="subtitleTopMargin" format="dimension" />
-        <attr name="buttonBottomMargin" format="dimension" />
-        <attr name="buttonTopMargin" format="dimension" />
-        <attr name="secondButtonBottomMargin" format="dimension" />
-        <attr name="secondButtonTopMargin" format="dimension" />
-        <attr name="imageBottomMargin" format="dimension" />
-        <attr name="imageTopMargin" format="dimension" />
-        <attr name="buttonStyle" format="reference" />
-        <attr name="secondButtonStyle" format="reference" />
-        <attr name="imageStyle" format="reference" />
+        <attr name="pvTitleBottomMargin" format="dimension" />
+        <attr name="pvTitleTopMargin" format="dimension" />
+        <attr name="pvSubtitleBottomMargin" format="dimension" />
+        <attr name="pvSubtitleTopMargin" format="dimension" />
+        <attr name="pvButtonBottomMargin" format="dimension" />
+        <attr name="pvButtonTopMargin" format="dimension" />
+        <attr name="pvSecondButtonBottomMargin" format="dimension" />
+        <attr name="pvSecondButtonTopMargin" format="dimension" />
+        <attr name="pvImageBottomMargin" format="dimension" />
+        <attr name="pvImageTopMargin" format="dimension" />
+        <attr name="pvButtonStyle" format="reference" />
+        <attr name="pvSecondButtonStyle" format="reference" />
+        <attr name="pvImageStyle" format="reference" />
+
+        <attr name="pvTitleTextAppearance" format="reference" />
+        <attr name="pvSubtitleTextAppearance" format="reference" />
+        <attr name="pvButtonTextAppearance" format="reference" />
+        <attr name="pvSecondButtonTextAppearance" format="reference" />
+
     </declare-styleable>
 </resources>
