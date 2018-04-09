@@ -25,4 +25,6 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+
+    testImplementation "junit:junit:$junitVersion"
 }

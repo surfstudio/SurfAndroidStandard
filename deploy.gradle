@@ -2,12 +2,11 @@ apply plugin: 'maven'
 apply from: '../config.gradle'
 
 uploadArchives {
-
     repositories.mavenDeployer {
         repository(url: "${surf_maven_libs_url}") {
             authentication(
-                    userName: "${println System.getenv('surf_maven_username')}",
-                    password: "${println System.getenv('surf_maven_password')}")
+                    userName: System.getenv('surf_maven_username'),
+                    password: System.getenv('surf_maven_password'))
         }
 
         pom.groupId = 'ru.surfstudio.standard'
