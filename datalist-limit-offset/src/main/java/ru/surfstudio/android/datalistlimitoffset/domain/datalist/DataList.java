@@ -68,12 +68,13 @@ public class DataList<T> implements List<T>, Serializable {
         }
         this.data.clear();
         this.data.addAll(merged);
-        if (this.offset < data.offset) {
+        if (this.offset < data.offset) { //загрузка вниз, как обычно
             this.limit = data.offset + data.limit - this.offset;
-        } else if (this.offset == data.offset) {
+        } else if (this.offset == data.offset) { //коллизия?
             this.limit = data.limit;
-        } else {
+        } else { // загрузка вверх
             this.offset = data.offset;
+            this.limit = size();
         }
 
         this.totalCount = data.totalCount;

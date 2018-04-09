@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:indeterminate="true"
+        android:visibility="invisible"
         app:mpb_progressStyle="circular" />
 
     <LinearLayout
@@ -25,7 +26,8 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/placeholder_image_iv"
