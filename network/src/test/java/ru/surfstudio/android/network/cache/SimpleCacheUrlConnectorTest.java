@@ -19,6 +19,7 @@ import ru.surfstudio.android.network.HttpMethods;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 
 /**
@@ -58,6 +59,7 @@ public class SimpleCacheUrlConnectorTest {
 
     @Test
     public void getByUrl() {
+        assertTrue(baseUrl.toString().endsWith("/"));
         assertEquals(yaSci, connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/fu"), HttpMethods.GET));
         assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/ful"), HttpMethods.GET));
 
@@ -68,6 +70,8 @@ public class SimpleCacheUrlConnectorTest {
         assertNull(connector.getByUrl(HttpUrl.parse("http://ya.ru/v2/me/job&ginger=2"), HttpMethods.GET));
 
         assertEquals(yaSci, connector.getByUrl(HttpUrl.parse("http://ya.ru/v3/me/fu"), HttpMethods.GET)); //api version template
+
+
     }
 
 }
