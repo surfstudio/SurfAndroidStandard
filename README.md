@@ -68,24 +68,17 @@ implementation "ru.surfstudio.standard:recycle-extension:${version}"
 implementation "ru.surfstudio.standard:rx-extension:${version}"
 implementation "ru.surfstudio.standard:shared-pref:${version}"
 implementation "ru.surfstudio.standard:util-ktx:${version}"
-implementation "ru.surfstudio.standard:template:${version}"
 
 ```
 ## build.gradle(root)
 ```       
 maven {
 	url "${surf_maven_libs_url}"
-    credentials {
-    username = "${surf_maven_username}"
-    password = "${surf_maven_password}"
-    }
 }
 ```
 ## gradle.properties
 ```properties
 surf_maven_libs_url = http://artifactory.surfstudio.ru/artifactory/libs-release-local
-surf_maven_username = build
-surf_maven_password = AP5oyEgS8WyzJ37itfGvKvUSxdgFA8KGvyM9WJ
 ```
 #Работа со snapshot
 Если разработка приложения идет параллельно с разработкой одного или нескольких модулей стоит задуматься об обозначении версии артефакта как [SNAPSHOT](https://maven.apache.org/guides/getting-started/index.html#What_is_a_SNAPSHOT_version) 
