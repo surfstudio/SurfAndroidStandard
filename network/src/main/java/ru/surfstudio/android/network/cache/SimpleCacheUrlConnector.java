@@ -15,7 +15,6 @@ import ru.surfstudio.android.network.BaseUrl;
 /**
  * ищет {@link SimpleCacheInfo} для url запроса
  * Базовый класс для хранения информации об Url простого кеша.
- * Имплементация провайдится через модуль со скоупом {@link ru.surfstudio.android.core.app.dagger.scope.PerApplication}
  */
 public class SimpleCacheUrlConnector {
     private static final String URL_SPLIT_REGEX = "[/?&]";
@@ -37,8 +36,10 @@ public class SimpleCacheUrlConnector {
     public SimpleCacheInfo getByUrl(HttpUrl url, String method) {
         List<String> networkUrlSegments = getNetworkUrlSegments(url.toString());
         for (SimpleCacheInfo cacheInfo : simpleCacheInfo) {
-            boolean baseCacheMethodCorresponds = checkApiMethod(
-                    method, networkUrlSegments, cacheInfo.getBaseApiMethod());
+            boolean baseCacheMethodCorresponds = checkApiMethod(method,
+                    networkUrlSegments,
+                    cacheInfo.getBaseApiMethod());
+
             if (baseCacheMethodCorresponds) {
                 return cacheInfo;
             } else {
@@ -61,13 +62,13 @@ public class SimpleCacheUrlConnector {
         if (!networkMethod.equals(cacheApiMethod.getMethod())) {
             return false;
         }
-        List<String> cacheUrlSegments = getNetworkUrlSegments(cacheApiMethod.getUrl());
-        if (cacheUrlSegments.size() > networkUrlSegments.size()) {
+        String[] cacheUrlSegments = cacheApiMethod.getUrl().split(URL_SPLIT_REGEX);
+        if (cacheUrlSegments.length > networkUrlSegments.size()) {
             return false;
         }
         boolean urlsIdentical = true;
-        for (int i = 0; i < cacheUrlSegments.size(); i++) {
-            String cacheUrlSegment = cacheUrlSegments.get(i);
+        for (int i = 0; i < cacheUrlSegments.length; i++) {
+            String cacheUrlSegment = cacheUrlSegments[i];
             if (isCacheUrlSegmentParameter(cacheUrlSegment)) {
                 //в url адреса кэша идут скобки {}, в таком случае в результирующем сегменте не должно быть параметра
                 if (isNetworkUrlSegmentParameter(networkUrlSegments.get(i))) {
