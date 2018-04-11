@@ -2,6 +2,7 @@ package ru.surfstudio.android.custom.view.placeholder
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorRes
 import android.support.annotation.StyleRes
@@ -10,6 +11,7 @@ import android.util.ArrayMap
 import android.util.AttributeSet
 import android.util.Log
 import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -17,18 +19,14 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.wang.avi.AVLoadingIndicatorView
-import com.wang.avi.indicators.BallPulseIndicator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.placeholder_view_layout.view.*
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.attr.*
 import ru.surfstudio.android.utilktx.ktx.ui.view.*
-import java.text.Format
 import java.util.concurrent.TimeUnit
 
 /**
@@ -56,7 +54,6 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private var contentContainer: ViewGroup
     private var progressBarContainer: FrameLayout
     private var progressBar: MaterialProgressBar
-    private var progressBarAV: AVLoadingIndicatorView
     private var titleTv: TextView
     private var subtitleTv: TextView
     private var button: Button
@@ -74,7 +71,6 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         contentContainer = findViewById(R.id.placeholder_content_container)
         progressBarContainer = findViewById(R.id.progress_bar_container)
         progressBar = findViewById(R.id.placeholder_loading_pb)
-        progressBarAV = findViewById(R.id.placeholder_loading_av_indicator)
         titleTv = findViewById(R.id.placeholder_title_tv)
         subtitleTv = findViewById(R.id.placeholder_subtitle_tv)
         button = findViewById(R.id.placeholder_first_btn)
@@ -343,6 +339,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      * Установка видимости плейсхолдера в зависимости от текущего LoadState.
      */
     private fun setVisibility() {
+        Log.d("1111", "1111 set visibility ${stater.loadState}")
         when (stater.loadState) {
             PlaceholderStater.LoadState.NONE -> {
                 fadeOut(this, 300L)
@@ -380,18 +377,22 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         val progressBarType = styler.progressBarType
 
         Log.d("1111", "1111 progress bar type = $progressBarType")
-        //progressBar.invisibleIf(progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR)
-        progressBar.visibility = View.INVISIBLE
-        //progressBarAV.visibility = View.VISIBLE
-        //progressBarAV.invisibleIf(progressBarType == ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR)
+        progressBar.invisibleIf(progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR)
 
-        //if (progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR) {
+        if (progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR) {
             Log.d("1111", "1111 progress bar name = ${progressBarType.title}")
-        progressBarAV.visibility = View.VISIBLE
-        progressBarAV.indicator = BallPulseIndicator()
+            LayoutInflater.from(context).inflate(R.layout.loader_indicator_ball_pulse, null) as AVLoadingIndicatorView
+            var avIndicatorLayout =
+                    /*when (progressBarType) {
+                        ProgressIndicatorType.BALL_BEAT_INDICATOR ->
+                            av.setIndicatorColor(Color.RED)
+                        progressBarContainer.addView(av)
+                    }*/
+            //var av = View.inflate(context, R.layout.loader_indicator_ball_pulse, progressBarContainer) as AVLoadingIndicatorView
+
             //progressBarAV.setIndicatorColor(R.color.progressbar_color)
             //progressBarAV.show()
-        //}
+        }
     }
 
     /**

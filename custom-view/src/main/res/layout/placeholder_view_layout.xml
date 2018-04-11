@@ -23,11 +23,12 @@
             android:visibility="invisible"
             app:mpb_progressStyle="circular" />
 
-        <com.wang.avi.AVLoadingIndicatorView
+        <!--<com.wang.avi.AVLoadingIndicatorView
             android:id="@+id/placeholder_loading_av_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:indicatorColor="@color/progressbar_color" />
+            app:indicatorName="BallScaleMultipleIndicator"
+            app:indicatorColor="@color/progressbar_color" />-->
     </FrameLayout>
 
     <LinearLayout
