@@ -134,6 +134,16 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         this.errorHandler = errorHandler;
     }
 
+    /**
+     * Стандартная обработка ошибки в презентере
+     *
+     * Переопределяем в случае если нужно специфичная обработка
+     * @param e ошибка
+     */
+    protected void handleError(Throwable e) {
+        errorHandler.handleError(e);
+    }
+
     //region subscribeIoHandleError
 
     /**
@@ -330,7 +340,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     //endregion
 
     private void handleError(Throwable e, @Nullable ConsumerSafe<Throwable> onError) {
-        errorHandler.handleError(e);
+        handleError(e);
         if (onError != null) {
             onError.accept(e);
         }
