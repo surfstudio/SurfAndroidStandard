@@ -28,6 +28,12 @@ android {
             keyAlias "test"
             keyPassword "qatest"
         }
+        qa {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
         test {
             storeFile file("../keystore/test.keystore")
             storePassword "qatest"
@@ -38,12 +44,12 @@ android {
 
     buildTypes {
         debug {
-            //signingConfig signingConfigs.test
+            signingConfig signingConfigs.test
             minifyEnabled false
             resValue "bool", "only_portrait", "false"
         }
         qa {
-            //signingConfig signingConfigs.test
+            signingConfig signingConfigs.qa
             minifyEnabled false
             debuggable = true
             ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
@@ -52,7 +58,7 @@ android {
             resValue "bool", "only_portrait", "false"
         }
         release {
-            //signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "bool", "only_portrait", "true"

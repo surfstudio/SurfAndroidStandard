@@ -8,6 +8,7 @@ import android.support.annotation.StyleRes
 import android.support.v4.content.ContextCompat
 import android.util.ArrayMap
 import android.util.AttributeSet
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewGroup
@@ -15,22 +16,27 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import com.wang.avi.AVLoadingIndicatorView
+import com.wang.avi.indicators.BallPulseIndicator
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.placeholder_view_layout.view.*
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.attr.*
 import ru.surfstudio.android.utilktx.ktx.ui.view.*
+import java.text.Format
 import java.util.concurrent.TimeUnit
 
 /**
  * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
  */
 open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
-                                                        attrs: AttributeSet,
-                                                        defStyle: Int = R.attr.standardPlaceHolderStyle)
+                                                             attrs: AttributeSet? = null,
+                                                             defStyle: Int = R.attr.standardPlaceHolderStyle)
     : FrameLayout(context, attrs, defStyle) {
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -48,7 +54,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         }
 
     private var contentContainer: ViewGroup
+    private var progressBarContainer: FrameLayout
     private var progressBar: MaterialProgressBar
+    private var progressBarAV: AVLoadingIndicatorView
     private var titleTv: TextView
     private var subtitleTv: TextView
     private var button: Button
@@ -60,10 +68,13 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private val stater = PlaceholderStater { updateView() }    //менеджер состояния плейсхолдера
 
     init {
+        @Suppress("LeakingThis")
         View.inflate(context, R.layout.placeholder_view_layout, this)
 
         contentContainer = findViewById(R.id.placeholder_content_container)
+        progressBarContainer = findViewById(R.id.progress_bar_container)
         progressBar = findViewById(R.id.placeholder_loading_pb)
+        progressBarAV = findViewById(R.id.placeholder_loading_av_indicator)
         titleTv = findViewById(R.id.placeholder_title_tv)
         subtitleTv = findViewById(R.id.placeholder_subtitle_tv)
         button = findViewById(R.id.placeholder_first_btn)
@@ -131,35 +142,35 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.stater.loadState = PlaceholderStater.LoadState.NOT_FOUND
     }
 
-    private fun applyAttributes(context: Context, attrs: AttributeSet, defStyle: Int) {
-        val ta = context.obtainStyledAttributes(attrs, R.styleable.PlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
+    private fun applyAttributes(context: Context, attrs: AttributeSet? = null, defStyle: Int) {
+        val ta = context.obtainStyledAttributes(attrs, R.styleable.StandardPlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
+        this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvOpaqueBackgroundColor)
+        this.styler.transparentBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvTransparentBackgroundColor)
+        this.styler.progressBarColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvProgressBarColor)
+        this.styler.progressBarType = ProgressIndicatorType.byId(ta.getInt(R.styleable.StandardPlaceHolderView_pvProgressBarType, 0))
+        this.styler.titleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvTitleBottomMargin)
+        this.styler.subtitleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleBottomMargin)
+        this.styler.buttonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvButtonBottomMargin)
+        this.styler.secondButtonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonBottomMargin)
+        this.styler.imageBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvImageBottomMargin)
+        this.styler.titleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvTitleTopMargin)
+        this.styler.subtitleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleTopMargin)
+        this.styler.buttonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvButtonTopMargin)
+        this.styler.secondButtonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonTopMargin)
+        this.styler.imageTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvImageTopMargin)
+        this.styler.titleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvTitleTextAppearance)
+        this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleTextAppearance)
+        this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonTextAppearance)
+        this.styler.secondButtonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonTextAppearance)
+        this.styler.buttonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonStyle)
+        this.styler.secondButtonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonStyle)
+        this.styler.imageStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvImageStyle)
 
-        this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_opaqueBackgroundColor)
-        this.styler.transparentBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_transparentBackgroundColor)
-        this.styler.progressBarColor = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_progressBarColor)
-        this.styler.titleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_titleBottomMargin)
-        this.styler.subtitleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_subtitleBottomMargin)
-        this.styler.buttonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_buttonBottomMargin)
-        this.styler.secondButtonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_secondButtonBottomMargin)
-        this.styler.imageBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_imageBottomMargin)
-        this.styler.titleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_titleTopMargin)
-        this.styler.subtitleTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_subtitleTopMargin)
-        this.styler.buttonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_buttonTopMargin)
-        this.styler.secondButtonTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_secondButtonTopMargin)
-        this.styler.imageTopMargin = ta.obtainDimensionPixelAttribute(R.styleable.PlaceHolderView_imageTopMargin)
-        this.styler.titleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_titleTextAppearance)
-        this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_subtitleTextAppearance)
-        this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_buttonTextAppearance)
-        this.styler.secondButtonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.TextAttributes_secondButtonTextAppearance)
-        this.styler.buttonStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_buttonStyle)
-        this.styler.secondButtonStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_secondButtonStyle)
-        this.styler.imageStyleResId = ta.obtainResourceIdAttribute(R.styleable.PlaceHolderView_imageStyle)
-
-        val title = ta.obtainStringAttribute(R.styleable.PlaceHolderView_title)
-        val subtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_subtitle)
-        val buttonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_buttonText)
-        val secondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_secondButtonText)
-        val image = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_image)
+        val title = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvTitle)
+        val subtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvSubtitle)
+        val buttonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvButtonText)
+        val secondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonText)
+        val image = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvImage)
         this.dataContainer.defaultViewData =
                 PlaceholderDataContainer.ViewData(
                         title,
@@ -168,11 +179,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         secondButtonText,
                         image)
 
-        val emptyTitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptyTitle)
-        val emptySubtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptySubtitle)
-        val emptyButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptyButtonText)
-        val emptySecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_emptySecondButtonText)
-        val emptyImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_emptyImage)
+        val emptyTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptyTitle)
+        val emptySubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptySubtitle)
+        val emptyButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptyButtonText)
+        val emptySecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptySecondButtonText)
+        val emptyImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvEmptyImage)
         this.dataContainer.putViewData(
                 PlaceholderStater.LoadState.EMPTY,
                 PlaceholderDataContainer.ViewData(
@@ -182,11 +193,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         emptySecondButtonText,
                         emptyImage))
 
-        val notFoundTitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundTitle)
-        val notFoundSubtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundSubtitle)
-        val notFoundButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundButtonText)
-        val notFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_notFoundSecondButtonText)
-        val notFoundImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_notFoundImage)
+        val notFoundTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundTitle)
+        val notFoundSubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundSubtitle)
+        val notFoundButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundButtonText)
+        val notFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundSecondButtonText)
+        val notFoundImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvNotFoundImage)
         this.dataContainer.putViewData(
                 PlaceholderStater.LoadState.NOT_FOUND,
                 PlaceholderDataContainer.ViewData(
@@ -196,11 +207,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         notFoundSecondButtonText,
                         notFoundImage))
 
-        val errorFoundTitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorTitle)
-        val errorFoundSubtitle = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorSubtitle)
-        val errorFoundButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorButtonText)
-        val errorFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.PlaceHolderView_errorSecondButtonText)
-        val errorFoundImage = ta.obtainDrawableAttribute(context, R.styleable.PlaceHolderView_errorImage)
+        val errorFoundTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorTitle)
+        val errorFoundSubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorSubtitle)
+        val errorFoundButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorButtonText)
+        val errorFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorSecondButtonText)
+        val errorFoundImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvErrorImage)
         this.dataContainer.putViewData(
                 PlaceholderStater.LoadState.ERROR,
                 PlaceholderDataContainer.ViewData(
@@ -311,10 +322,11 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         setBackgroundColor()
         setVisibility()
         setData()
+        setProgressIndicator()
     }
 
     /**
-     * Установка цвета фона плейсхолдера в зависимости от текущего [LoadState].
+     * Установка цвета фона плейсхолдера в зависимости от текущего LoadState.
      */
     private fun setBackgroundColor() {
         when (stater.loadState) {
@@ -328,7 +340,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     }
 
     /**
-     * Установка видимости плейсхолдера в зависимости от текущего [LoadState].
+     * Установка видимости плейсхолдера в зависимости от текущего LoadState.
      */
     private fun setVisibility() {
         when (stater.loadState) {
@@ -337,12 +349,12 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             }
             PlaceholderStater.LoadState.MAIN_LOADING, PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
-                progressBar.visibility = View.VISIBLE
+                progressBarContainer.visibility = View.VISIBLE
                 fadeIn(this, 300L)
             }
             else -> {
                 contentContainer.visibility = View.VISIBLE
-                progressBar.visibility = View.INVISIBLE
+                progressBarContainer.visibility = View.INVISIBLE
                 fadeIn(this, 300L)
             }
         }
@@ -359,6 +371,27 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         button.setTextOrGone(viewData.buttonText)
         secondButton.setTextOrGone(viewData.secondButtonText)
         imageIv.setImageDrawableOrGone(viewData.image)
+    }
+
+    /**
+     * Установка прогресс-индикатора.
+     */
+    private fun setProgressIndicator() {
+        val progressBarType = styler.progressBarType
+
+        Log.d("1111", "1111 progress bar type = $progressBarType")
+        //progressBar.invisibleIf(progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR)
+        progressBar.visibility = View.INVISIBLE
+        //progressBarAV.visibility = View.VISIBLE
+        //progressBarAV.invisibleIf(progressBarType == ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR)
+
+        //if (progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR) {
+            Log.d("1111", "1111 progress bar name = ${progressBarType.title}")
+        progressBarAV.visibility = View.VISIBLE
+        progressBarAV.indicator = BallPulseIndicator()
+            //progressBarAV.setIndicatorColor(R.color.progressbar_color)
+            //progressBarAV.show()
+        //}
     }
 
     /**
@@ -385,6 +418,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     data class PlaceholderStyler(@ColorRes var opaqueBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
                                  @ColorRes var transparentBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
                                  @ColorRes var progressBarColor: Int = NOT_ASSIGNED_RESOURCE,
+                                 var progressBarType: ProgressIndicatorType = ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR,
                                  var titleBottomMargin: Int = 0,
                                  var subtitleBottomMargin: Int = 0,
                                  var buttonBottomMargin: Int = 0,
@@ -437,6 +471,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         ?: defaultViewData
     }
 
+    @Suppress("PrivatePropertyName")
     /**
      * Менеджер текущего состояния [StandardPlaceHolderView] и переключения между состояниями.
      *
@@ -470,6 +505,48 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                     .subscribe {
                         onStateChangedLambda.invoke(it)
                     }
+        }
+    }
+
+    enum class ProgressIndicatorType(var id: Int, var title: String = "") {
+        STANDARD_CIRCLE_INDICATOR(0),
+        BALL_PULSE_INDICATOR(1, "BallPulseIndicator"),
+        BALL_GRID_PULSE_INDICATOR(2, "BallGridPulseIndicator"),
+        BALL_CLIP_ROTATE_INDICATOR(3, "BallClipRotateIndicator"),
+        BALL_CLIP_ROTATE_PULSE_INDICATOR(4, "BallClipRotatePulseIndicator"),
+        SQUARE_SPIN_INDICATOR(5, "SquareSpinIndicator"),
+        BALL_CLIP_ROTATE_MULTIPLE_INDICATOR(6, "BallClipRotateMultipleIndicator"),
+        BALL_PULSE_RISE_INDICATOR(7, "BallPulseRiseIndicator"),
+        BALL_ROTATE_INDICATOR(8, "BallRotateIndicator"),
+        CUBE_TRANSITION_INDICATOR(9, "CubeTransitionIndicator"),
+        BALL_ZIG_ZAG_INDICATOR(10, "BallZigZagIndicator"),
+        BALL_ZIG_ZAG_DEFLECT_INDICATOR(11, "BallZigZagDeflectIndicator"),
+        BALL_TRIANGLE_PATH_INDICATOR(12, "BallTrianglePathIndicator"),
+        BALL_SCALE_INDICATOR(13, "BallScaleIndicator"),
+        LINE_SCALE_INDICATOR(14, "LineScaleIndicator"),
+        LINE_SCALE_PARTY_INDICATOR(15, "LineScalePartyIndicator"),
+        BALL_SCALE_MULTIPLE_INDICATOR(16, "BallScaleMultipleIndicator"),
+        BALL_PULSE_SYNC_INDICATOR(17, "BallPulseSyncIndicator"),
+        BALL_BEAT_INDICATOR(18, "BallBeatIndicator"),
+        LINE_SCALE_PULSE_OUT_INDICATOR(19, "LineScalePulseOutIndicator"),
+        LINE_SCALE_PULSE_OUT_RAPID_INDICATOR(20, "LineScalePulseOutRapidIndicator"),
+        BALL_SCALE_RIPPLE_INDICATOR(21, "BallScaleRippleIndicator"),
+        BALL_SCALE_RIPPLE_MULTIPLE_INDICATOR(22, "BallScaleRippleMultipleIndicator"),
+        BALL_SPIN_FADE_LOADER_INDICATOR(23, "BallSpinFadeLoaderIndicator"),
+        LINE_SPIN_FADE_LOADER_INDICATOR(24, "LineSpinFadeLoaderIndicator"),
+        TRIANGLE_SKEW_SPIN_INDICATOR(25, "TriangleSkewSpinIndicator"),
+        PACMAN_INDICATOR(26, "PacmanIndicator"),
+        BALL_GRID_BEAT_INDICATOR(28, "BallGridBeatIndicator"),
+        SEMI_CIRCLE_SPIN_INDICATOR(29, "SemiCircleSpinIndicator");
+
+        companion object {
+
+            internal fun byId(id: Int): ProgressIndicatorType {
+                for (f in values()) {
+                    if (f.id == id) return f
+                }
+                throw IllegalArgumentException()
+            }
         }
     }
 }

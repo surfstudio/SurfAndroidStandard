@@ -8,14 +8,27 @@
     tools:ignore="MissingPrefix"
     tools:parentTag="android.widget.FrameLayout">
 
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/placeholder_loading_pb"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.Large"
+    <FrameLayout
+        android:id="@+id/progress_bar_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        app:mpb_progressStyle="circular" />
+        android:layout_gravity="center">
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/placeholder_loading_pb"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:mpb_progressStyle="circular" />
+
+        <com.wang.avi.AVLoadingIndicatorView
+            android:id="@+id/placeholder_loading_av_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:indicatorColor="@color/progressbar_color" />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/placeholder_content_container"
@@ -25,7 +38,8 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingEnd="16dp"
-        android:paddingStart="16dp">
+        android:paddingStart="16dp"
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/placeholder_image_iv"
