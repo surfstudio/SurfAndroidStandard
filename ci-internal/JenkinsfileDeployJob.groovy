@@ -16,9 +16,12 @@ branchName = ""
 checkoutStageStrategy = FAIL_WHEN_STAGE_ERROR
 buildStageStrategy = FAIL_WHEN_STAGE_ERROR
 unitTestStageStrategy = FAIL_WHEN_STAGE_ERROR
-instrumentationTestStageStrategy = FAIL_WHEN_STAGE_ERROR
+instrumentationTestStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR
 staticCodeAnalysisStageStrategy = SKIP_STAGE//FAIL_WHEN_STAGE_ERROR
 deployStageStrategy = FAIL_WHEN_STAGE_ERROR
+
+//URLS
+JARVIS_URL = "http://jarvis.surfstudio.ru/api/v1/"
 
 jobResult = SUCCESS
 stagesResult = [:] //stageName : execute result
@@ -63,9 +66,10 @@ void initStageBody() {
     printDefaultVar('unitTestStageStrategy', unitTestStageStrategy)
     printDefaultVar('smallInstrumentationTestStageStrategy', instrumentationTestStageStrategy)
     printDefaultVar('staticCodeAnalysisStageStrategy', staticCodeAnalysisStageStrategy)
-    printDefaultVar('deployStageStrategy', betaUploadStageStrategy)
+    printDefaultVar('deployStageStrategy', deployStageStrategy)
 
-
+    echo "artifactory user: ${env.surf_maven_username}"
+    echo "artifactory pass: ${env.surf_maven_password}"
 
     //Выбираем значения веток и автора из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
@@ -102,7 +106,7 @@ void buildStageBody() {
 void unitTestStageBody() {
     echo '\n\nUnit Test Started'
     try {
-        sh "./gradlew testQaUnitTest"
+        sh "./gradlew testReleaseUnitTest"
     } finally {
         junit allowEmptyResults: true, testResults: '**/test-results/testQaUnitTest/*.xml'
         publishHTML(target: [

@@ -36,7 +36,7 @@ public class BaseUrl {
     @Override
     public String toString() {
         if (apiVersion != null) {
-            return base + "/" + apiVersion;
+            return base + "/" + apiVersion + "/";
         }
         return base;
     }

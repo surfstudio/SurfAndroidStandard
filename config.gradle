@@ -2,7 +2,7 @@ ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
-    buildToolsVersion = "26.0.2"
+    buildToolsVersion = "27.0.3"
     minSdkVersion = 19
     targetSdkVersion = 26
     compileSdkVersion = 26
@@ -56,6 +56,6 @@ ext {
     assertJVersion = '3.5.1'
 
     // версия наших внутренних модулей
-    moduleVersionCode = 11
-    moduleVersionName = '0.1.2-SNAPSHOT'
+    moduleVersionCode = 14
+    moduleVersionName = '0.2.0'
 }

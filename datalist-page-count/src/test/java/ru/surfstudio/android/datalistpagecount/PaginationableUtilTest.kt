@@ -35,7 +35,7 @@ class PaginationableUtilTest {
         PaginationableUtil.getPaginationSingleRequestPortion<Int>({ page ->
             Single.just(DataList(arrayListOf(response[page]), page, 1))
         }, 10)
-                .subscribe { it ->
+                .subscribe { it: DataList<Int> ->
                     resultList.merge(it)
                 }
 

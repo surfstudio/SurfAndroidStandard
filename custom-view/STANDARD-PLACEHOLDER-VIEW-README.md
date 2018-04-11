@@ -12,6 +12,9 @@
 
 ##ЧТО НОВОГО
 
+* Изменены имена всех стилевых атрибутов. В именование всех атрибутов добавлен префикс "pv";
+* Исправлен баг, при котором не применялись стилевые атрибуты к текстовым меткам;  
+* Исправлен баг приводящий к промаргиванию виджета при первом запуске экрана;
 * Удалено состояние LoadState.UNSPECIFIED. Состоянием по умолчанию стало LoadState.NONE.
 
 ##ИСПОЛЬЗОВАНИЕ
@@ -124,43 +127,58 @@ getPlaceHolderView() и вернуть из него экземпляр `PlaceHo
 
 Наименование атрибута | Тип | Предназначение
 ------------ | ------ | -------------
-opaqueBackgroundColor | color | Цвет заливки непрозрачного фона
-transparentBackgroundColor | color | Цвет полупрозрачной маски
-progressBarColor | color | Цвет ProgressBar (по умолчанию ?colorAccent)
-title | string | Текст заголовка по умолчанию (отображается, если активированное состояние не задано)
-subtitle | string | Текст подзаголовка по умолчанию (отображается, если активированное состояние не задано)
-buttonText | string | Текст кнопки по умолчанию (отображается, если активированное состояние не задано)
-secondButtonText | string | Текст второй кнопки по умолчанию (отображается, если активированное состояние не задано)
-image | drawable | Изображение по умолчанию (отображается, если активированное состояние не задано)
-emptyTitle | string | Текст заголовка для empty-state
-emptySubtitle | string | Текст подзаголовка для empty-state
-emptyButtonText | string | Текст кнопки для empty-state
-emptySecondButtonText | string | Текст второй кнопки для empty-state
-emptyImage | drawable | Изображение для empty-state
-notFoundTitle | string | Текст заголовка для empty-state при фильтрации
-notFoundSubtitle | string | Текст подзаголовка для empty-state при фильтрации
-notFoundButtonText | string | Текст кнопки для empty-state при фильтрации
-notFoundSecondButtonText | string | Текст второй кнопки для empty-state при фильтрации
-notFoundImage | drawable | Изображение для empty-state при фильтрации
-errorTitle | string | Текст заголовка для ошибки
-errorSubtitle | string | Текст подзаголовка для ошибки
-errorButtonText | string | Текст кнопки для ошибки
-errorSecondButtonText | string | Текст второй кнопки для ошибки
-errorImage | drawable | Изображение для ошибки
-titleBottomMargin | dimen | Отступ от низ заголовка
-titleTopMargin | dimen | Отступ от верха заголовка
-subtitleBottomMargin | dimen | Отступ от низа подзаголовка
-subtitleTopMargin | dimen | Отступ от верха подзаголовка
-buttonBottomMargin | dimen | Отступ от низа кнопки
-buttonTopMargin | dimen | Отступ от верха кнопки
-secondButtonBottomMargin | dimen | Отступ от низа второй кнопки
-secondButtonTopMargin | dimen | Отступ от верха второй кнопки
-imageBottomMargin | dimen | Отступ от низа изображения
-imageTopMargin | dimen | Отступ от верха изображения
-titleTextAppearance | text appearance | Стиль заголовка
-subtitleTextAppearance | text appearance | Стиль подзаголовка
-buttonTextAppearance | text appearance | Стиль текста на кнопке
-secondButtonTextAppearance | text appearance | Стиль текста на второй кнопке
-buttonStyle | style | Стиль кнопки
-secondButtonStyle | style | Стиль второй кнопки
-imageStyle | style | Стиль изображения
+pvOpaqueBackgroundColor | color | Цвет заливки непрозрачного фона
+pvTransparentBackgroundColor | color | Цвет полупрозрачной маски
+pvProgressBarColor | color | Цвет ProgressBar (по умолчанию ?colorAccent)
+pvTitle | string | Текст заголовка по умолчанию (отображается, если активированное состояние не задано)
+pvSubtitle | string | Текст подзаголовка по умолчанию (отображается, если активированное состояние не задано)
+pvButtonText | string | Текст кнопки по умолчанию (отображается, если активированное состояние не задано)
+pvSecondButtonText | string | Текст второй кнопки по умолчанию (отображается, если активированное состояние не задано)
+pvImage | drawable | Изображение по умолчанию (отображается, если активированное состояние не задано)
+pvEmptyTitle | string | Текст заголовка для empty-state
+pvEmptySubtitle | string | Текст подзаголовка для empty-state
+pvEmptyButtonText | string | Текст кнопки для empty-state
+pvEmptySecondButtonText | string | Текст второй кнопки для empty-state
+pvEmptyImage | drawable | Изображение для empty-state
+pvNotFoundTitle | string | Текст заголовка для empty-state при фильтрации
+pvNotFoundSubtitle | string | Текст подзаголовка для empty-state при фильтрации
+pvNotFoundButtonText | string | Текст кнопки для empty-state при фильтрации
+pvNotFoundSecondButtonText | string | Текст второй кнопки для empty-state при фильтрации
+pvNotFoundImage | drawable | Изображение для empty-state при фильтрации
+pvErrorTitle | string | Текст заголовка для ошибки
+pvErrorSubtitle | string | Текст подзаголовка для ошибки
+pvErrorButtonText | string | Текст кнопки для ошибки
+pvErrorSecondButtonText | string | Текст второй кнопки для ошибки
+pvErrorImage | drawable | Изображение для ошибки
+pvTitleBottomMargin | dimen | Отступ от низ заголовка
+pvTitleTopMargin | dimen | Отступ от верха заголовка
+pvSubtitleBottomMargin | dimen | Отступ от низа подзаголовка
+pvSubtitleTopMargin | dimen | Отступ от верха подзаголовка
+pvButtonBottomMargin | dimen | Отступ от низа кнопки
+pvButtonTopMargin | dimen | Отступ от верха кнопки
+pvSecondButtonBottomMargin | dimen | Отступ от низа второй кнопки
+pvSecondButtonTopMargin | dimen | Отступ от верха второй кнопки
+pvImageBottomMargin | dimen | Отступ от низа изображения
+pvImageTopMargin | dimen | Отступ от верха изображения
+pvTitleTextAppearance | text appearance | Стиль заголовка
+pvSubtitleTextAppearance | text appearance | Стиль подзаголовка
+pvButtonTextAppearance | text appearance | Стиль текста на кнопке
+pvSecondButtonTextAppearance | text appearance | Стиль текста на второй кнопке
+pvButtonStyle | style | Стиль кнопки
+pvSecondButtonStyle | style | Стиль второй кнопки
+pvImageStyle | style | Стиль изображения
+
+##РАСПРОСТРАНЁННЫЕ ПРОБЛЕМЫ
+
+**Проблема:** К моему плейсхолдеру не применяется кастомный стиль.э
+
+**Решение:** Скорее всего при переопределении класса StandardPlaceHolderView в приложении вы 
+  переназначили значение атрибута defStyle, тем самым отменив действие стиля по умолчанию.
+     
+  Неверно:
+     
+        PlaceHolderView(context: Context, attrs: AttributeSet?, defStyle: Int = 0)
+          
+  Верно:
+  
+        PlaceHolderView(context: Context, attrs: AttributeSet?)

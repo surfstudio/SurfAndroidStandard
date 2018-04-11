@@ -30,71 +30,52 @@
 1. [standard-dialog](standard-dialog/README.md) - модуль c простым да/нет диалогом, в который можно передать строковые ресурсы или сами строки.
 1. [template](template/README.md) - модуль для инициализации нового приложения. Не провайдится в репозиторий артефактов
 
-#Деплой в репозиторий артефактов
-1. Поднимаем moduleVersionCode и moduleVersionName в файле config.gradle 
-3. Ставим тег с соответствующей версией
-3. Выполняем ``` ./gradlew clean uploadArchives ```
-3. ...
-4. Profit
-
 # Импорт атефактов
 ## build.gradle(app)
 ```
-implementation "ru.surfstudio.standard:core-app:${version}"
-implementation "ru.surfstudio.standard:core-mvp:${version}"
-implementation "ru.surfstudio.standard:core-ui:${version}"
-implementation "ru.surfstudio.standard:analytics:${version}"
-implementation "ru.surfstudio.standard:firebase-analytics:${version}"
-implementation "ru.surfstudio.standard:network:${version}"
-implementation "ru.surfstudio.standard:filestorage:${version}"
-implementation "ru.surfstudio.standard:push:${version}"
-implementation "ru.surfstudio.standard:dagger-scope:${version}"
-implementation "ru.surfstudio.standard:logger:${version}"
-implementation "ru.surfstudio.standard:converter-gson:${version}"
-implementation "ru.surfstudio.standard:easyadapter:${version}"
-implementation "ru.surfstudio.standard:easyadapter-carousel:${version}"
-implementation "ru.surfstudio.standard:imageloader:${version}"
-implementation "ru.surfstudio.standard:animations:${version}"
-implementation "ru.surfstudio.standard:picture-provider:${version}"
-implementation "ru.surfstudio.standard:camera-view:${version}"
-implementation "ru.surfstudio.standard:app-migration:${version}"
-implementation "ru.surfstudio.standard:connection:${version}"
-implementation "ru.surfstudio.standard:custom-view:${version}"
-implementation "ru.surfstudio.standard:datalist-limit-offset:${version}"
-implementation "ru.surfstudio.standard:datalist-page-count:${version}"
-implementation "ru.surfstudio.standard:mvp-dialog:${version}"
-implementation "ru.surfstudio.standard:mvp-widget:${version}"
-implementation "ru.surfstudio.standard:recycle-extension:${version}"
-implementation "ru.surfstudio.standard:rx-extension:${version}"
-implementation "ru.surfstudio.standard:shared-pref:${version}"
-implementation "ru.surfstudio.standard:util-ktx:${version}"
-implementation "ru.surfstudio.standard:template:${version}"
+implementation "ru.surfstudio.android:core-app:${version}"
+implementation "ru.surfstudio.android:core-mvp:${version}"
+implementation "ru.surfstudio.android:core-ui:${version}"
+implementation "ru.surfstudio.android:analytics:${version}"
+implementation "ru.surfstudio.android:firebase-analytics:${version}"
+implementation "ru.surfstudio.android:network:${version}"
+implementation "ru.surfstudio.android:filestorage:${version}"
+implementation "ru.surfstudio.android:push:${version}"
+implementation "ru.surfstudio.android:dagger-scope:${version}"
+implementation "ru.surfstudio.android:logger:${version}"
+implementation "ru.surfstudio.android:message-controller:${version}"
+implementation "ru.surfstudio.android:converter-gson:${version}"
+implementation "ru.surfstudio.android:easyadapter:${version}"
+implementation "ru.surfstudio.android:imageloader:${version}"
+implementation "ru.surfstudio.android:animations:${version}"
+implementation "ru.surfstudio.android:picture-provider:${version}"
+implementation "ru.surfstudio.android:camera-view:${version}"
+implementation "ru.surfstudio.android:app-migration:${version}"
+implementation "ru.surfstudio.android:connection:${version}"
+implementation "ru.surfstudio.android:custom-view:${version}"
+implementation "ru.surfstudio.android:datalist-limit-offset:${version}"
+implementation "ru.surfstudio.android:datalist-page-count:${version}"
+implementation "ru.surfstudio.android:mvp-dialog:${version}"
+implementation "ru.surfstudio.android:mvp-widget:${version}"
+implementation "ru.surfstudio.android:recycler-extension:${version}"
+implementation "ru.surfstudio.android:rx-extension:${version}"
+implementation "ru.surfstudio.android:shared-pref:${version}"
+implementation "ru.surfstudio.android:standard-dialog:${version}"
+implementation "ru.surfstudio.android:util-ktx:${version}"
 
 ```
 ## build.gradle(root)
 ```       
 maven {
 	url "${surf_maven_libs_url}"
-    credentials {
-    username = "${surf_maven_username}"
-    password = "${surf_maven_password}"
-    }
 }
 ```
 ## gradle.properties
 ```properties
 surf_maven_libs_url = http://artifactory.surfstudio.ru/artifactory/libs-release-local
-surf_maven_username = build
-surf_maven_password = AP5oyEgS8WyzJ37itfGvKvUSxdgFA8KGvyM9WJ
 ```
 #Работа со snapshot
 Если разработка приложения идет параллельно с разработкой одного или нескольких модулей стоит задуматься об обозначении версии артефакта как [SNAPSHOT](https://maven.apache.org/guides/getting-started/index.html#What_is_a_SNAPSHOT_version) 
-Это позволит оперативно вносить изменения без обновления версии артефакта в приложении каждым разработчиком.
-##Правила работы
-1. Версия snapshot-артефакта обозначается как ```{version}-SNAPSHOT```. Например: *0.1.2-SNAPSHOT*
-1. Перед началом изменений в модулях, стоит поднять версию по [правилам](https://semver.org/)
-1. После завершения работ по изменению модулей, необходимо зафиксировать текущую версию артефатов, [задеплоив](#деплой-в-репозиторий-артефактов) версию без суффикса -SNAPSHOT
-1. Для оперативного обновления нужно добавить в *build.gradle(root)*
 ```
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'seconds'

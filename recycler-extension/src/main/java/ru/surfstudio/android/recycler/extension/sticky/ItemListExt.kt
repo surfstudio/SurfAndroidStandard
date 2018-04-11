@@ -9,12 +9,15 @@ import ru.surfstudio.android.recycler.extension.sticky.item.StickyBindableItem
 /**
  *  Расширения для работы sticky header с а [ItemList]
  */
-fun <T> ItemList.addStickyHeader(item: StickyBindableItem<T, BindableViewHolder<T>>): ItemList {
-    return addItem(item)
+fun <T> ItemList.addStickyHeader(data: T,
+                                 itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return addItem(StickyBindableItem(data, itemController))
 }
 
-fun <T> ItemList.addStickyHeaderIf(condition: Boolean, item: StickyBindableItem<T, BindableViewHolder<T>>): ItemList {
-    return if (condition) addItem(item) else this
+fun <T> ItemList.addStickyHeaderIf(condition: Boolean,
+                                   data: T,
+                                   itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return if (condition) addItem(StickyBindableItem(data, itemController)) else this
 }
 
 /**
