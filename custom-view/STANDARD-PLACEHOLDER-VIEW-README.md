@@ -12,6 +12,12 @@
 
 ##ЧТО НОВОГО
 
+* Добавлено новое состояние "No Internet" для возможности кастомной обработки ошибки интернет-соединения;
+* Добавлены атрибуты `pvProgressBarWidth` и `pvProgressBarHeight` - через них можно задавать ширину и высоту прогресс-индикатора соответственно;
+* Добавлены атрибуты `pvOpaqueBackground` и `pvTransparentBackground` - через них можно задавать drawable-ресурсы в качестве фона; 
+* Появилась поддержка 28-и кастомных прогресс-индикаторов `pvProgressBarType`;
+* Атрибут `pvProgressBarColor` теперь принимает не только ссылки на цветовые ресурсы, но и коды вида `#00FFAA`;
+
 * Изменены имена всех стилевых атрибутов. В именование всех атрибутов добавлен префикс "pv";
 * Исправлен баг, при котором не применялись стилевые атрибуты к текстовым меткам;  
 * Исправлен баг приводящий к промаргиванию виджета при первом запуске экрана;
@@ -45,7 +51,7 @@
 
 + `setErrorState()` - рекомендуется вызывать при возникновении ошибки в процессе работы асинхронного 
 процесса. При установке этого состояния плейсхолдер отображается в конфигурации для отображения 
-ошибки, если оно она определена. В противном случае, плейсхолдер отображается в конфигурации по 
+ошибки, если она определена. В противном случае, плейсхолдер отображается в конфигурации по 
 умолчанию;
 
 + `setEmptyState()` - рекомендуется вызывать при получении пустого результата по итогам работы 
@@ -54,7 +60,10 @@ empty-state. В противном случае, плейсхолдер отоб
 
 + `setNotFoundState()` - рекомендуется вызывать при получении пустого результата по итогам 
 фильтрации данных. При установке этого состояния плейсхолдер отображается в конфигурации 
-empty-state для фильтрации. В противном случае, плейсхолдер отображается в конфигурации по умолчанию.
+empty-state для фильтрации. В противном случае, плейсхолдер отображается в конфигурации по умолчанию;
+
++ `setNoInternetState()` - рекомендуется вызывать при возникновении ошибки интернет-соединения, если 
+требуется кастомная обработка ошибки. В противном случае, плейсхолдер отображается в конфигурации по умолчанию.
 
 ##ИНТЕГРАЦИЯ С CORE-MVP
 
@@ -81,6 +90,7 @@ override fun render(loadState: LoadState) {
         LoadState.EMPTY -> setEmptyState()
         LoadState.ERROR -> setErrorState()
         LoadState.NOT_FOUND -> setNotFoundState()
+        LoadState.NO_INTERNET -> setNoInternetState()
     }
 ```
 
@@ -128,8 +138,13 @@ getPlaceHolderView() и вернуть из него экземпляр `PlaceHo
 Наименование атрибута | Тип | Предназначение
 ------------ | ------ | -------------
 pvOpaqueBackgroundColor | color | Цвет заливки непрозрачного фона
+pvOpaqueBackground | drawable | Фон заливки непрозрачного фона (приоритетнее `pvOpaqueBackgroundColor`)
 pvTransparentBackgroundColor | color | Цвет полупрозрачной маски
+pvTransparentBackground | drawable | Цвет полупрозрачной маски (приоритетнее `pvTransparentBackgroundColor`)
 pvProgressBarColor | color | Цвет ProgressBar (по умолчанию ?colorAccent)
+pvProgressBarType | enum | Тип прогресс-индикатора
+pvProgressBarWidth | dimen | Ширина прогресс-индикатора
+pvProgressBarHeight | dimen | Высота прогресс-индикатора
 pvTitle | string | Текст заголовка по умолчанию (отображается, если активированное состояние не задано)
 pvSubtitle | string | Текст подзаголовка по умолчанию (отображается, если активированное состояние не задано)
 pvButtonText | string | Текст кнопки по умолчанию (отображается, если активированное состояние не задано)
@@ -150,6 +165,11 @@ pvErrorSubtitle | string | Текст подзаголовка для ошибк
 pvErrorButtonText | string | Текст кнопки для ошибки
 pvErrorSecondButtonText | string | Текст второй кнопки для ошибки
 pvErrorImage | drawable | Изображение для ошибки
+pvNoInternetTitle | string | Текст заголовка для ошибки интернет-соединения
+pvNoInternetSubtitle | string | Текст подзаголовка для ошибки интернет-соединения
+pvNoInternetButtonText | string | Текст кнопки для ошибки интернет-соединения
+pvNoInternetSecondButtonText | string | Текст второй кнопки для ошибки интернет-соединения
+pvNoInternetImage | drawable | Изображение для ошибки интернет-соединения
 pvTitleBottomMargin | dimen | Отступ от низ заголовка
 pvTitleTopMargin | dimen | Отступ от верха заголовка
 pvSubtitleBottomMargin | dimen | Отступ от низа подзаголовка
@@ -167,6 +187,67 @@ pvSecondButtonTextAppearance | text appearance | Стиль текста на в
 pvButtonStyle | style | Стиль кнопки
 pvSecondButtonStyle | style | Стиль второй кнопки
 pvImageStyle | style | Стиль изображения
+
+##ПОДДЕРЖИВАЕМЫЕ ПРОГРЕСС-ИНДИКАТОРЫ
+
+![PROGRESS-INDICATORS](/custom-view/doc/progress-indicators.gif)
+
+Через атрибут `pvProgressBarType` можно задавать один из указанных прогресс-индикаторов, а также 
+стандартный круглый, который является индикатором по умолчанию. Для указания конкретного индикатора
+следует указать его название в качестве значения атрибута `pvProgressBarType`.
+
+Название стандартного круглого индикатора: **StandardCircleIndicator**.
+
+Названия индикаторов по рядам на картинке выше:
+
+Ряд 1
+ 
+* BallPulseIndicator
+* BallGridPulseIndicator
+* BallClipRotateIndicator
+* BallClipRotatePulseIndicator
+
+Ряд 2
+ 
+* SquareSpinIndicator
+* BallClipRotateMultipleIndicator
+* BallPulseRiseIndicator
+* BallRotateIndicator
+
+Ряд 3
+ 
+* CubeTransitionIndicator
+* BallZigZagIndicator
+* BallZigZagDeflectIndicator
+* BallTrianglePathIndicator
+
+Ряд 4
+ 
+* BallScaleIndicator
+* LineScaleIndicator
+* LineScalePartyIndicator
+* BallScaleMultipleIndicator
+
+Ряд 5
+ 
+* BallPulseSyncIndicator
+* BallBeatIndicator
+* LineScalePulseOutIndicator
+* LineScalePulseOutRapidIndicator
+
+Ряд 6
+ 
+* BallScaleRippleIndicator
+* BallScaleRippleMultipleIndicator
+* BallSpinFadeLoaderIndicator
+* LineSpinFadeLoaderIndicator
+
+Ряд 7
+ 
+* TriangleSkewSpinIndicator
+* PacmanIndicator
+* BallGridBeatIndicator
+* SemiCircleSpinIndicator
 
 ##РАСПРОСТРАНЁННЫЕ ПРОБЛЕМЫ
 

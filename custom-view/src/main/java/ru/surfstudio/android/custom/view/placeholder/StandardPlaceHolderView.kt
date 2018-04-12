@@ -2,26 +2,30 @@ package ru.surfstudio.android.custom.view.placeholder
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorRes
+import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
 import android.support.annotation.StyleRes
-import android.support.v4.content.ContextCompat
 import android.util.ArrayMap
 import android.util.AttributeSet
 import android.view.ContextThemeWrapper
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import com.wang.avi.AVLoadingIndicatorView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.attr.*
 import ru.surfstudio.android.utilktx.ktx.ui.view.*
 import java.util.concurrent.TimeUnit
@@ -30,8 +34,8 @@ import java.util.concurrent.TimeUnit
  * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
  */
 open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
-                                                        attrs: AttributeSet? = null,
-                                                        defStyle: Int = R.attr.standardPlaceHolderStyle)
+                                                             attrs: AttributeSet? = null,
+                                                             defStyle: Int = R.attr.standardPlaceHolderStyle)
     : FrameLayout(context, attrs, defStyle) {
 
     @Suppress("MemberVisibilityCanBePrivate")
@@ -49,6 +53,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         }
 
     private var contentContainer: ViewGroup
+    private var progressBarContainer: FrameLayout
     private var progressBar: MaterialProgressBar
     private var titleTv: TextView
     private var subtitleTv: TextView
@@ -65,6 +70,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         View.inflate(context, R.layout.placeholder_view_layout, this)
 
         contentContainer = findViewById(R.id.placeholder_content_container)
+        progressBarContainer = findViewById(R.id.progress_bar_container)
         progressBar = findViewById(R.id.placeholder_loading_pb)
         titleTv = findViewById(R.id.placeholder_title_tv)
         subtitleTv = findViewById(R.id.placeholder_subtitle_tv)
@@ -133,11 +139,25 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.stater.loadState = PlaceholderStater.LoadState.NOT_FOUND
     }
 
+    /**
+     * Состояние отсутствия интернет-соединения.
+     *
+     * При установке этого состояния плейсхолдер отображается в конфигурации для отображения ошибки интернет-соединения.
+     */
+    fun setNoInternetState() {
+        this.stater.loadState = PlaceholderStater.LoadState.NO_INTERNET
+    }
+
     private fun applyAttributes(context: Context, attrs: AttributeSet? = null, defStyle: Int) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.StandardPlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
-        this.styler.opaqueBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvOpaqueBackgroundColor)
-        this.styler.transparentBackgroundColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvTransparentBackgroundColor)
-        this.styler.progressBarColor = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvProgressBarColor)
+        this.styler.opaqueBackgroundColor = ta.obtainColorAttribute(R.styleable.StandardPlaceHolderView_pvOpaqueBackgroundColor)
+        this.styler.opaqueBackground = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvOpaqueBackground)
+        this.styler.transparentBackgroundColor = ta.obtainColorAttribute(R.styleable.StandardPlaceHolderView_pvTransparentBackgroundColor)
+        this.styler.transparentBackground = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvTransparentBackground)
+        this.styler.progressBarColor = ta.obtainColorAttribute(R.styleable.StandardPlaceHolderView_pvProgressBarColor)
+        this.styler.progressBarWidth = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvProgressBarWidth, WRAP_CONTENT)
+        this.styler.progressBarHeight = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvProgressBarHeight, WRAP_CONTENT)
+        this.styler.progressBarType = ProgressIndicatorType.byId(ta.getInt(R.styleable.StandardPlaceHolderView_pvProgressBarType, 0))
         this.styler.titleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvTitleBottomMargin)
         this.styler.subtitleBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleBottomMargin)
         this.styler.buttonBottomMargin = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvButtonBottomMargin)
@@ -196,6 +216,21 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                         notFoundButtonText,
                         notFoundSecondButtonText,
                         notFoundImage))
+
+        val noInternetTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNoInternetTitle)
+        val noInternetSubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNoInternetSubtitle)
+        val noInternetButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNoInternetButtonText)
+        val noInternetSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNoInternetSecondButtonText)
+        val noInternetImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvNoInternetImage)
+        this.dataContainer.putViewData(
+                PlaceholderStater.LoadState.NO_INTERNET,
+                PlaceholderDataContainer.ViewData(
+                        noInternetTitle,
+                        noInternetSubtitle,
+                        noInternetButtonText,
+                        noInternetSecondButtonText,
+                        noInternetImage))
+
 
         val errorFoundTitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorTitle)
         val errorFoundSubtitle = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorSubtitle)
@@ -272,7 +307,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      */
     private fun setProgressBarColor() {
         if (styler.progressBarColor != NOT_ASSIGNED_RESOURCE) {
-            progressBar.indeterminateTintList = ContextCompat.getColorStateList(context, styler.progressBarColor)
+            progressBar.indeterminateTintList = ColorStateList.valueOf(styler.progressBarColor)
         }
     }
 
@@ -312,6 +347,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         setBackgroundColor()
         setVisibility()
         setData()
+        setProgressIndicator()
     }
 
     /**
@@ -320,10 +356,23 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private fun setBackgroundColor() {
         when (stater.loadState) {
             PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
-                setBackgroundResource(styler.transparentBackgroundColor)
+                if (styler.transparentBackground != NOT_ASSIGNED_RESOURCE) {
+                    setBackgroundResource(styler.transparentBackground)
+                    return
+                }
+                if (styler.transparentBackgroundColor != NOT_ASSIGNED_RESOURCE) {
+                    setBackgroundColor(styler.transparentBackgroundColor)
+                }
             }
             else -> {
-                setBackgroundResource(styler.opaqueBackgroundColor)
+                if (styler.opaqueBackground != NOT_ASSIGNED_RESOURCE) {
+                    setBackgroundResource(styler.opaqueBackground)
+                    return
+                }
+                if (styler.opaqueBackgroundColor != NOT_ASSIGNED_RESOURCE) {
+                    setBackgroundColor(styler.opaqueBackgroundColor)
+                }
+
             }
         }
     }
@@ -338,12 +387,12 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             }
             PlaceholderStater.LoadState.MAIN_LOADING, PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
-                progressBar.visibility = View.VISIBLE
+                progressBarContainer.visibility = View.VISIBLE
                 fadeIn(this, 300L)
             }
             else -> {
                 contentContainer.visibility = View.VISIBLE
-                progressBar.visibility = View.INVISIBLE
+                progressBarContainer.visibility = View.INVISIBLE
                 fadeIn(this, 300L)
             }
         }
@@ -360,6 +409,57 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         button.setTextOrGone(viewData.buttonText)
         secondButton.setTextOrGone(viewData.secondButtonText)
         imageIv.setImageDrawableOrGone(viewData.image)
+    }
+
+    /**
+     * Установка прогресс-индикатора.
+     */
+    private fun setProgressIndicator() {
+        val progressBarType = styler.progressBarType
+
+        progressBar.invisibleIf(progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR)
+
+        val lp = progressBarContainer.layoutParams
+        lp.width = styler.progressBarWidth
+        lp.height = styler.progressBarHeight
+        progressBarContainer.layoutParams = lp
+
+        if (progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR) {
+            val avIndicatorLayout = when (progressBarType) {
+                ProgressIndicatorType.BALL_BEAT_INDICATOR -> R.layout.loader_indicator_ball_beat
+                ProgressIndicatorType.BALL_CLIP_ROTATE_INDICATOR -> R.layout.loader_indicator_ball_clip_rotate
+                ProgressIndicatorType.BALL_CLIP_ROTATE_MULTIPLE_INDICATOR -> R.layout.loader_indicator_ball_clip_rotate_multiple
+                ProgressIndicatorType.BALL_CLIP_ROTATE_PULSE_INDICATOR -> R.layout.loader_indicator_ball_clip_rotate_pulse
+                ProgressIndicatorType.BALL_GRID_BEAT_INDICATOR -> R.layout.loader_indicator_ball_grid_beat
+                ProgressIndicatorType.BALL_GRID_PULSE_INDICATOR -> R.layout.loader_indicator_ball_grid_pulse
+                ProgressIndicatorType.BALL_PULSE_INDICATOR -> R.layout.loader_indicator_ball_pulse
+                ProgressIndicatorType.BALL_PULSE_RISE_INDICATOR -> R.layout.loader_indicator_ball_pulse_rise
+                ProgressIndicatorType.BALL_PULSE_SYNC_INDICATOR -> R.layout.loader_indicator_ball_pulse_sync
+                ProgressIndicatorType.BALL_ROTATE_INDICATOR -> R.layout.loader_indicator_ball_rotate
+                ProgressIndicatorType.BALL_SCALE_INDICATOR -> R.layout.loader_indicator_ball_scale
+                ProgressIndicatorType.BALL_SCALE_MULTIPLE_INDICATOR -> R.layout.loader_indicator_ball_scale_multiple
+                ProgressIndicatorType.BALL_SCALE_RIPPLE_INDICATOR -> R.layout.loader_indicator_ball_scale_ripple
+                ProgressIndicatorType.BALL_SCALE_RIPPLE_MULTIPLE_INDICATOR -> R.layout.loader_indicator_ball_scale_ripple_multiple
+                ProgressIndicatorType.BALL_SPIN_FADE_LOADER_INDICATOR -> R.layout.loader_indicator_ball_spin_fade
+                ProgressIndicatorType.BALL_ZIG_ZAG_INDICATOR -> R.layout.loader_indicator_ball_zig_zag
+                ProgressIndicatorType.BALL_ZIG_ZAG_DEFLECT_INDICATOR -> R.layout.loader_indicator_ball_zig_zag_deflect
+                ProgressIndicatorType.BALL_TRIANGLE_PATH_INDICATOR -> R.layout.loader_indicator_ball_triangle_path
+                ProgressIndicatorType.CUBE_TRANSITION_INDICATOR -> R.layout.loader_indicator_cube_transition
+                ProgressIndicatorType.LINE_SCALE_INDICATOR -> R.layout.loader_indicator_line_scale
+                ProgressIndicatorType.LINE_SCALE_PARTY_INDICATOR -> R.layout.loader_indicator_line_scale_party
+                ProgressIndicatorType.LINE_SCALE_PULSE_OUT_INDICATOR -> R.layout.loader_indicator_line_scale_pulse_out
+                ProgressIndicatorType.LINE_SCALE_PULSE_OUT_RAPID_INDICATOR -> R.layout.loader_indicator_line_scale_pulse_out_rapid
+                ProgressIndicatorType.LINE_SPIN_FADE_LOADER_INDICATOR -> R.layout.loader_indicator_line_spin_fade
+                ProgressIndicatorType.PACMAN_INDICATOR -> R.layout.loader_indicator_pacman
+                ProgressIndicatorType.SEMI_CIRCLE_SPIN_INDICATOR -> R.layout.loader_indicator_semi_circle_spin
+                ProgressIndicatorType.SQUARE_SPIN_INDICATOR -> R.layout.loader_indicator_square_spin
+                ProgressIndicatorType.TRIANGLE_SKEW_SPIN_INDICATOR -> R.layout.loader_indicator_triangle_skew_spin
+                else -> R.layout.loader_indicator_ball_beat
+            }
+            val avIndicatorView = LayoutInflater.from(context).inflate(avIndicatorLayout, null) as AVLoadingIndicatorView
+            avIndicatorView.setIndicatorColor(styler.progressBarColor)
+            progressBarContainer.addView(avIndicatorView)
+        }
     }
 
     /**
@@ -383,9 +483,14 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     /**
      * Хранилище всех настроек визуального стиля [StandardPlaceHolderView].
      */
-    data class PlaceholderStyler(@ColorRes var opaqueBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
-                                 @ColorRes var transparentBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
-                                 @ColorRes var progressBarColor: Int = NOT_ASSIGNED_RESOURCE,
+    data class PlaceholderStyler(@ColorInt var opaqueBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
+                                 @DrawableRes var opaqueBackground: Int = NOT_ASSIGNED_RESOURCE,
+                                 @ColorInt var transparentBackgroundColor: Int = NOT_ASSIGNED_RESOURCE,
+                                 @DrawableRes var transparentBackground: Int = NOT_ASSIGNED_RESOURCE,
+                                 @ColorInt var progressBarColor: Int = Color.BLACK,
+                                 var progressBarType: ProgressIndicatorType = ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR,
+                                 var progressBarWidth: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
+                                 var progressBarHeight: Int = ViewGroup.LayoutParams.WRAP_CONTENT,
                                  var titleBottomMargin: Int = 0,
                                  var subtitleBottomMargin: Int = 0,
                                  var buttonBottomMargin: Int = 0,
@@ -452,7 +557,8 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             TRANSPARENT_LOADING, //полупрозрачный прогресс, блокирует весь интерфейс
             ERROR, //ошибка загрузки данных
             EMPTY, //данных нет
-            NOT_FOUND //нет данных по заданному фильтру
+            NOT_FOUND, //нет данных по заданному фильтру
+            NO_INTERNET //нет интернет-соединения
         }
 
         private val STATE_TOGGLE_DELAY_MS: Long = 250
@@ -472,6 +578,48 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                     .subscribe {
                         onStateChangedLambda.invoke(it)
                     }
+        }
+    }
+
+    enum class ProgressIndicatorType(var id: Int, var title: String = "") {
+        STANDARD_CIRCLE_INDICATOR(0),
+        BALL_PULSE_INDICATOR(1, "BallPulseIndicator"),
+        BALL_GRID_PULSE_INDICATOR(2, "BallGridPulseIndicator"),
+        BALL_CLIP_ROTATE_INDICATOR(3, "BallClipRotateIndicator"),
+        BALL_CLIP_ROTATE_PULSE_INDICATOR(4, "BallClipRotatePulseIndicator"),
+        SQUARE_SPIN_INDICATOR(5, "SquareSpinIndicator"),
+        BALL_CLIP_ROTATE_MULTIPLE_INDICATOR(6, "BallClipRotateMultipleIndicator"),
+        BALL_PULSE_RISE_INDICATOR(7, "BallPulseRiseIndicator"),
+        BALL_ROTATE_INDICATOR(8, "BallRotateIndicator"),
+        CUBE_TRANSITION_INDICATOR(9, "CubeTransitionIndicator"),
+        BALL_ZIG_ZAG_INDICATOR(10, "BallZigZagIndicator"),
+        BALL_ZIG_ZAG_DEFLECT_INDICATOR(11, "BallZigZagDeflectIndicator"),
+        BALL_TRIANGLE_PATH_INDICATOR(12, "BallTrianglePathIndicator"),
+        BALL_SCALE_INDICATOR(13, "BallScaleIndicator"),
+        LINE_SCALE_INDICATOR(14, "LineScaleIndicator"),
+        LINE_SCALE_PARTY_INDICATOR(15, "LineScalePartyIndicator"),
+        BALL_SCALE_MULTIPLE_INDICATOR(16, "BallScaleMultipleIndicator"),
+        BALL_PULSE_SYNC_INDICATOR(17, "BallPulseSyncIndicator"),
+        BALL_BEAT_INDICATOR(18, "BallBeatIndicator"),
+        LINE_SCALE_PULSE_OUT_INDICATOR(19, "LineScalePulseOutIndicator"),
+        LINE_SCALE_PULSE_OUT_RAPID_INDICATOR(20, "LineScalePulseOutRapidIndicator"),
+        BALL_SCALE_RIPPLE_INDICATOR(21, "BallScaleRippleIndicator"),
+        BALL_SCALE_RIPPLE_MULTIPLE_INDICATOR(22, "BallScaleRippleMultipleIndicator"),
+        BALL_SPIN_FADE_LOADER_INDICATOR(23, "BallSpinFadeLoaderIndicator"),
+        LINE_SPIN_FADE_LOADER_INDICATOR(24, "LineSpinFadeLoaderIndicator"),
+        TRIANGLE_SKEW_SPIN_INDICATOR(25, "TriangleSkewSpinIndicator"),
+        PACMAN_INDICATOR(26, "PacmanIndicator"),
+        BALL_GRID_BEAT_INDICATOR(28, "BallGridBeatIndicator"),
+        SEMI_CIRCLE_SPIN_INDICATOR(29, "SemiCircleSpinIndicator");
+
+        companion object {
+
+            internal fun byId(id: Int): ProgressIndicatorType {
+                for (f in values()) {
+                    if (f.id == id) return f
+                }
+                throw IllegalArgumentException()
+            }
         }
     }
 }

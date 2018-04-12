@@ -4,7 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/round_circle"
     tools:context="ru.surfstudio.android.custom_view_sample.MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/snap" />
 
     <ru.surfstudio.android.custom_view_sample.placeholder.PlaceHolderView
         android:id="@+id/placeholder_view"
@@ -13,6 +20,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:pvProgressBarColor="#CAFC35"
+        app:pvProgressBarType="BallScaleMultipleIndicator"
+        app:pvTransparentBackgroundColor="#000000"
+        app:pvTransparentBackground="@drawable/round_circle"/>
 
 </android.support.constraint.ConstraintLayout>
