@@ -17,6 +17,7 @@ class PlaceHolderView(context: Context, attrs: AttributeSet?)
             LoadState.EMPTY -> setEmptyState()
             LoadState.ERROR -> setErrorState()
             LoadState.NOT_FOUND -> setNotFoundState()
+            LoadState.NO_INTERNET -> setNoInternetState()
         }
     }
 

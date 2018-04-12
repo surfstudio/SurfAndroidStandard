@@ -3,9 +3,13 @@
     <attr name="standardPlaceHolderStyle" format="reference" />
 
     <declare-styleable name="StandardPlaceHolderView">
-        <attr name="pvOpaqueBackgroundColor" format="reference" />
-        <attr name="pvTransparentBackgroundColor" format="reference" />
+        <attr name="pvOpaqueBackgroundColor" format="color" />
+        <attr name="pvOpaqueBackground" format="reference" />
+        <attr name="pvTransparentBackgroundColor" format="color" />
+        <attr name="pvTransparentBackground" format="reference" />
         <attr name="pvProgressBarColor" format="color" />
+        <attr name="pvProgressBarWidth" format="dimension" />
+        <attr name="pvProgressBarHeight" format="dimension" />
         <attr name="pvProgressBarType" format="enum">
             <enum name="StandardCircleIndicator" value="0" />
             <enum name="BallPulseIndicator" value="1" />
@@ -55,6 +59,12 @@
         <attr name="pvNotFoundButtonText" format="string" />
         <attr name="pvNotFoundSecondButtonText" format="string" />
         <attr name="pvNotFoundImage" format="reference" />
+
+        <attr name="pvNoInternetTitle" format="string" />
+        <attr name="pvNoInternetSubtitle" format="string" />
+        <attr name="pvNoInternetButtonText" format="string" />
+        <attr name="pvNoInternetSecondButtonText" format="string" />
+        <attr name="pvNoInternetImage" format="reference" />
 
         <attr name="pvErrorTitle" format="string" />
         <attr name="pvErrorSubtitle" format="string" />

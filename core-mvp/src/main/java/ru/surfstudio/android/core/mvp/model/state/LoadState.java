@@ -7,4 +7,5 @@ public enum LoadState {
     ERROR,                  //ошибка загрузки данных
     EMPTY,                  //данных нет
     NOT_FOUND,              //нет данных по заданному фильтру
+    NO_INTERNET             //нет интернет-соединения
 }

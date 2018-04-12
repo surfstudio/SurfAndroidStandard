@@ -31,6 +31,7 @@
 Модуль имеет прямые зависимости от следующих сторонних библиотек:
 
     me.zhanghai.android.materialprogressbar:library:1.4.2    Улучшенная версия ProgressBar
+    com.wang.avi:library:2.1.3                               Кастомные Loader Indicators
 
 Модуль написан на `Kotlin`.
 
