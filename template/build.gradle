@@ -124,7 +124,7 @@ dependencies {
 
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 
-    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
     implementation 'com.google.guava:guava:23.0-android'
 
     //kotlin
