@@ -200,7 +200,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         if (currentViewHolder === viewHolder) {
             callDetach(lastBoundPosition)
 
-            recyclerView.adapter.onBindViewHolder(currentViewHolder, headerPosition)
+            recyclerView.adapter.onBindViewHolder(currentViewHolder!!, headerPosition)
             currentViewHolder!!.itemView.requestLayout()
             checkTranslation()
             callAttach(headerPosition)
@@ -210,7 +210,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         detachHeader(lastBoundPosition)
         this.currentViewHolder = viewHolder
 
-        recyclerView.adapter.onBindViewHolder(currentViewHolder, headerPosition)
+        recyclerView.adapter.onBindViewHolder(currentViewHolder!!, headerPosition)
         this.currentHeader = currentViewHolder!!.itemView
         callAttach(headerPosition)
         resolveElevationSettings(currentHeader!!.context)
