@@ -3,6 +3,7 @@ apply from: '../androidModule.gradle'
 dependencies {
     api "androidx.core:core-ktx:$androidKtxVersion"
 
+    compileOnly project (':logger')
     compileOnly "com.android.support:design:$appcompatVersion"
     compileOnly "com.android.support:appcompat-v7:$appcompatVersion"
 }
