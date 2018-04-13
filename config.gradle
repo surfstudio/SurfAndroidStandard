@@ -56,6 +56,6 @@ ext {
     assertJVersion = '3.5.1'
 
     // версия наших внутренних модулей
-    moduleVersionCode = 14
+    moduleVersionCode = 15
     moduleVersionName = '0.2.1-SNAPSHOT'
 }
