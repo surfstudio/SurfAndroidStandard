@@ -20,15 +20,15 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import com.wang.avi.AVLoadingIndicatorView
-import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
 import ru.surfstudio.android.utilktx.ktx.attr.*
 import ru.surfstudio.android.utilktx.ktx.ui.view.*
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
@@ -358,18 +358,14 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
                 if (styler.transparentBackground != NOT_ASSIGNED_RESOURCE) {
                     setBackgroundResource(styler.transparentBackground)
-                    return
-                }
-                if (styler.transparentBackgroundColor != NOT_ASSIGNED_RESOURCE) {
+                } else if (styler.transparentBackgroundColor != NOT_ASSIGNED_RESOURCE) {
                     setBackgroundColor(styler.transparentBackgroundColor)
                 }
             }
             else -> {
                 if (styler.opaqueBackground != NOT_ASSIGNED_RESOURCE) {
                     setBackgroundResource(styler.opaqueBackground)
-                    return
-                }
-                if (styler.opaqueBackgroundColor != NOT_ASSIGNED_RESOURCE) {
+                } else if (styler.opaqueBackgroundColor != NOT_ASSIGNED_RESOURCE) {
                     setBackgroundColor(styler.opaqueBackgroundColor)
                 }
 
@@ -383,17 +379,17 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private fun setVisibility() {
         when (stater.loadState) {
             PlaceholderStater.LoadState.NONE -> {
-                fadeOut(this, 300L)
+                fadeOut(this, 0L)
             }
             PlaceholderStater.LoadState.MAIN_LOADING, PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
                 progressBarContainer.visibility = View.VISIBLE
-                fadeIn(this, 300L)
+                fadeIn(this, 0L)
             }
             else -> {
                 contentContainer.visibility = View.VISIBLE
                 progressBarContainer.visibility = View.INVISIBLE
-                fadeIn(this, 300L)
+                fadeIn(this, 0L)
             }
         }
     }
@@ -572,8 +568,14 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         private var loadStateSubject: PublishSubject<LoadState> = PublishSubject.create() //шина изменений loadState
 
         init {
-            loadStateSubject
-                    .debounce(STATE_TOGGLE_DELAY_MS, TimeUnit.MILLISECONDS)
+            val isFirstEmission = AtomicBoolean(true)
+            loadStateSubject.debounce { t ->
+                if (isFirstEmission.getAndSet(false)) {
+                    return@debounce Observable.just(t)
+                } else {
+                    return@debounce Observable.just(t).delay(STATE_TOGGLE_DELAY_MS, TimeUnit.MILLISECONDS)
+                }
+            }
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe {
                         onStateChangedLambda.invoke(it)
