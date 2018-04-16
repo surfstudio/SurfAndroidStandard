@@ -75,7 +75,8 @@ maven {
 surf_maven_libs_url = http://artifactory.surfstudio.ru/artifactory/libs-release-local
 ```
 #Работа со snapshot
-Если разработка приложения идет параллельно с разработкой одного или нескольких модулей стоит задуматься об обозначении версии артефакта как [SNAPSHOT](https://maven.apache.org/guides/getting-started/index.html#What_is_a_SNAPSHOT_version) 
+Если разработка приложения идет параллельно с разработкой одного или нескольких модулей стоит задуматься об обозначении версии артефакта как [SNAPSHOT](https://maven.apache.org/guides/getting-started/index.html#What_is_a_SNAPSHOT_version)
+Для оперативного обновления нужно добавить в build.gradle(root):
 ```
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'seconds'
