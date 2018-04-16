@@ -10,6 +10,7 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.StyleRes
 import android.util.ArrayMap
 import android.util.AttributeSet
+import android.util.SparseArray
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.wang.avi.AVLoadingIndicatorView
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeIn
 import ru.surfstudio.android.animations.anim.AnimationUtil.fadeOut
 import ru.surfstudio.android.custom.view.R
@@ -55,6 +58,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     private var contentContainer: ViewGroup
     private var progressBarContainer: FrameLayout
     private var progressBar: MaterialProgressBar
+    private var avIndicatorView: AVLoadingIndicatorView? = null
     private var titleTv: TextView
     private var subtitleTv: TextView
     private var button: Button
@@ -345,9 +349,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      */
     private fun updateView() {
         setBackgroundColor()
-        setVisibility()
         setData()
         setProgressIndicator()
+        setVisibility()
     }
 
     /**
@@ -383,11 +387,13 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
             }
             PlaceholderStater.LoadState.MAIN_LOADING, PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
+                avIndicatorView?.smoothToShow()
                 progressBarContainer.visibility = View.VISIBLE
                 fadeIn(this, 0L)
             }
             else -> {
                 contentContainer.visibility = View.VISIBLE
+                avIndicatorView?.smoothToHide()
                 progressBarContainer.visibility = View.INVISIBLE
                 fadeIn(this, 0L)
             }
@@ -421,39 +427,10 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         progressBarContainer.layoutParams = lp
 
         if (progressBarType != ProgressIndicatorType.STANDARD_CIRCLE_INDICATOR) {
-            val avIndicatorLayout = when (progressBarType) {
-                ProgressIndicatorType.BALL_BEAT_INDICATOR -> R.layout.loader_indicator_ball_beat
-                ProgressIndicatorType.BALL_CLIP_ROTATE_INDICATOR -> R.layout.loader_indicator_ball_clip_rotate
-                ProgressIndicatorType.BALL_CLIP_ROTATE_MULTIPLE_INDICATOR -> R.layout.loader_indicator_ball_clip_rotate_multiple
-                ProgressIndicatorType.BALL_CLIP_ROTATE_PULSE_INDICATOR -> R.layout.loader_indicator_ball_clip_rotate_pulse
-                ProgressIndicatorType.BALL_GRID_BEAT_INDICATOR -> R.layout.loader_indicator_ball_grid_beat
-                ProgressIndicatorType.BALL_GRID_PULSE_INDICATOR -> R.layout.loader_indicator_ball_grid_pulse
-                ProgressIndicatorType.BALL_PULSE_INDICATOR -> R.layout.loader_indicator_ball_pulse
-                ProgressIndicatorType.BALL_PULSE_RISE_INDICATOR -> R.layout.loader_indicator_ball_pulse_rise
-                ProgressIndicatorType.BALL_PULSE_SYNC_INDICATOR -> R.layout.loader_indicator_ball_pulse_sync
-                ProgressIndicatorType.BALL_ROTATE_INDICATOR -> R.layout.loader_indicator_ball_rotate
-                ProgressIndicatorType.BALL_SCALE_INDICATOR -> R.layout.loader_indicator_ball_scale
-                ProgressIndicatorType.BALL_SCALE_MULTIPLE_INDICATOR -> R.layout.loader_indicator_ball_scale_multiple
-                ProgressIndicatorType.BALL_SCALE_RIPPLE_INDICATOR -> R.layout.loader_indicator_ball_scale_ripple
-                ProgressIndicatorType.BALL_SCALE_RIPPLE_MULTIPLE_INDICATOR -> R.layout.loader_indicator_ball_scale_ripple_multiple
-                ProgressIndicatorType.BALL_SPIN_FADE_LOADER_INDICATOR -> R.layout.loader_indicator_ball_spin_fade
-                ProgressIndicatorType.BALL_ZIG_ZAG_INDICATOR -> R.layout.loader_indicator_ball_zig_zag
-                ProgressIndicatorType.BALL_ZIG_ZAG_DEFLECT_INDICATOR -> R.layout.loader_indicator_ball_zig_zag_deflect
-                ProgressIndicatorType.BALL_TRIANGLE_PATH_INDICATOR -> R.layout.loader_indicator_ball_triangle_path
-                ProgressIndicatorType.CUBE_TRANSITION_INDICATOR -> R.layout.loader_indicator_cube_transition
-                ProgressIndicatorType.LINE_SCALE_INDICATOR -> R.layout.loader_indicator_line_scale
-                ProgressIndicatorType.LINE_SCALE_PARTY_INDICATOR -> R.layout.loader_indicator_line_scale_party
-                ProgressIndicatorType.LINE_SCALE_PULSE_OUT_INDICATOR -> R.layout.loader_indicator_line_scale_pulse_out
-                ProgressIndicatorType.LINE_SCALE_PULSE_OUT_RAPID_INDICATOR -> R.layout.loader_indicator_line_scale_pulse_out_rapid
-                ProgressIndicatorType.LINE_SPIN_FADE_LOADER_INDICATOR -> R.layout.loader_indicator_line_spin_fade
-                ProgressIndicatorType.PACMAN_INDICATOR -> R.layout.loader_indicator_pacman
-                ProgressIndicatorType.SEMI_CIRCLE_SPIN_INDICATOR -> R.layout.loader_indicator_semi_circle_spin
-                ProgressIndicatorType.SQUARE_SPIN_INDICATOR -> R.layout.loader_indicator_square_spin
-                ProgressIndicatorType.TRIANGLE_SKEW_SPIN_INDICATOR -> R.layout.loader_indicator_triangle_skew_spin
-                else -> R.layout.loader_indicator_ball_beat
-            }
-            val avIndicatorView = LayoutInflater.from(context).inflate(avIndicatorLayout, null) as AVLoadingIndicatorView
-            avIndicatorView.setIndicatorColor(styler.progressBarColor)
+            val avIndicatorLayout = styler.getLoaderIndicatorLayout(progressBarType)
+            avIndicatorView = LayoutInflater.from(context).inflate(avIndicatorLayout, null) as AVLoadingIndicatorView
+            avIndicatorView?.setIndicatorColor(styler.progressBarColor)
+            progressBarContainer.removeAllViews()
             progressBarContainer.addView(avIndicatorView)
         }
     }
@@ -503,7 +480,73 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                  @StyleRes var secondButtonTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var buttonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var secondButtonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
-                                 @StyleRes var imageStyleResId: Int = NOT_ASSIGNED_RESOURCE)
+                                 @StyleRes var imageStyleResId: Int = NOT_ASSIGNED_RESOURCE) {
+
+        private val loaderIndicatorLayoutList: SparseArray<Int> by lazy { initializeLoaderIndicatorLayout() }
+
+        fun getLoaderIndicatorLayout(type: ProgressIndicatorType): Int = loaderIndicatorLayoutList.get(type.id)
+
+        private fun initializeLoaderIndicatorLayout(): SparseArray<Int> {
+            val loaderIndicatorLayoutList = SparseArray<Int>(28)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_BEAT_INDICATOR.id,
+                    R.layout.loader_indicator_ball_beat)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_CLIP_ROTATE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_clip_rotate)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_CLIP_ROTATE_MULTIPLE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_clip_rotate_multiple)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_CLIP_ROTATE_PULSE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_clip_rotate_pulse)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_GRID_BEAT_INDICATOR.id,
+                    R.layout.loader_indicator_ball_grid_beat)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_GRID_PULSE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_grid_pulse)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_PULSE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_pulse)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_PULSE_RISE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_pulse_rise)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_PULSE_SYNC_INDICATOR.id,
+                    R.layout.loader_indicator_ball_pulse_sync)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_ROTATE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_rotate)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_SCALE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_scale)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_SCALE_MULTIPLE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_scale_multiple)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_SCALE_RIPPLE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_scale_ripple)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_SCALE_RIPPLE_MULTIPLE_INDICATOR.id,
+                    R.layout.loader_indicator_ball_scale_ripple_multiple)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_SPIN_FADE_LOADER_INDICATOR.id,
+                    R.layout.loader_indicator_ball_spin_fade)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_ZIG_ZAG_INDICATOR.id,
+                    R.layout.loader_indicator_ball_zig_zag)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_ZIG_ZAG_DEFLECT_INDICATOR.id,
+                    R.layout.loader_indicator_ball_zig_zag_deflect)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_TRIANGLE_PATH_INDICATOR.id,
+                    R.layout.loader_indicator_ball_triangle_path)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.CUBE_TRANSITION_INDICATOR.id,
+                    R.layout.loader_indicator_cube_transition)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.LINE_SCALE_INDICATOR.id,
+                    R.layout.loader_indicator_line_scale)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.LINE_SCALE_PARTY_INDICATOR.id,
+                    R.layout.loader_indicator_line_scale_party)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.LINE_SCALE_PULSE_OUT_INDICATOR.id,
+                    R.layout.loader_indicator_line_scale_pulse_out)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.LINE_SCALE_PULSE_OUT_RAPID_INDICATOR.id,
+                    R.layout.loader_indicator_line_scale_pulse_out_rapid)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.LINE_SPIN_FADE_LOADER_INDICATOR.id,
+                    R.layout.loader_indicator_line_spin_fade)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.PACMAN_INDICATOR.id,
+                    R.layout.loader_indicator_pacman)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.SEMI_CIRCLE_SPIN_INDICATOR.id,
+                    R.layout.loader_indicator_semi_circle_spin)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.SQUARE_SPIN_INDICATOR.id,
+                    R.layout.loader_indicator_square_spin)
+            loaderIndicatorLayoutList.put(ProgressIndicatorType.TRIANGLE_SKEW_SPIN_INDICATOR.id,
+                    R.layout.loader_indicator_triangle_skew_spin)
+            return loaderIndicatorLayoutList
+        }
+    }
 
     /**
      * Хранилище всех данных [StandardPlaceHolderView].
