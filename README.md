@@ -1,3 +1,7 @@
+Репозиторий с внутренними библиотеками для android проектов [surf](http://www.surfstudio.ru/)
+Репозиторий в стадии активной разработки. Актуальная документация по проекту в [wiki](https://bitbucket.org/surfstudio/android-standard/wiki/)
+
+
 #Список артефактов
 1. [core-app](core-app/README.md) - базовая часть ядра для построения приложения.  
 1. [core-mvp](core-mvp/README.md) - реализации дополненной MVP архитектуры.  
