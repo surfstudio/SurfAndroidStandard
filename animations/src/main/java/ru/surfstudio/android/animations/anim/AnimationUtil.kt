@@ -55,6 +55,7 @@ object AnimationUtil {
      * Появление вью с изменением прозрачности
      */
     fun fadeIn(inView: View, duration: Long = ANIM_ENTERING, endAction: (() -> Unit)? = null) {
+
         inView.alpha = 0f
         inView.visibility = View.VISIBLE
         ViewCompat.animate(inView)

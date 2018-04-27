@@ -70,6 +70,15 @@ fun EditText.setText(string: String?, disableUnderline: Boolean) {
 }
 
 /**
+ * Устанавливает курсор в конец EditText'а
+ */
+fun EditText.selectionToEnd() {
+    if (text.isNotEmpty()) {
+        setSelection(text.length)
+    }
+}
+
+/**
  * Убирает подчеркивание с конкретного EditText
  *
  * @param shouldDisabled - флаг отключения
@@ -89,7 +98,6 @@ fun EditText.resetToDefaultBackground() {
 
 /**
  * Установка ограничения на допустимость набора в [EditText] только текста.
- * TODO сделать обобщенный метод на запрет ввода определенных символов
  */
 fun EditText.allowJustText() {
     val notJustText: (Char) -> Boolean = {
@@ -98,7 +106,21 @@ fun EditText.allowJustText() {
     restrictMatch(notJustText)
 }
 
-private fun EditText.restrictMatch(predicate: (Char) -> Boolean) {
+/**
+ * Разрешение ввода текста в [EditText] по предикату
+ *
+ * @param predicate предикат с условием разрешенных к вводу символов
+ */
+fun EditText.allowMatch(predicate: (Char) -> Boolean) {
+    return this.restrictMatch { !predicate(it) }
+}
+
+/**
+ * Запрет ввода в [EditText] по предикату
+ *
+ * @param predicate предикат, ограничивающий возможность ввода текста
+ */
+fun EditText.restrictMatch(predicate: (Char) -> Boolean) {
     val inputTextFilter = InputFilter { source, start, end, _, _, _ ->
         if ((start until end).any { predicate(source[it]) }) {
             source.trim { predicate(it) }.toString()
@@ -146,7 +168,6 @@ fun EditText.setTextColors(@ColorRes textColorRes: Int, @ColorRes hintColorRes: 
  *
  * Клавиатура открывается с нужным для указанного [EditText] [android.text.InputType].
  */
-
 fun EditText.showKeyboard() {
     KeyboardUtil.showKeyboard(this)
 }
