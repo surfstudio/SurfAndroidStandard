@@ -40,15 +40,18 @@ fun <T> ItemList.addStickyHeaderIf(condition: Boolean,
 
 fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?,
                                    itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
-    for (i in 0 until this.size) {
+    var i = 0
+    while (i < this.size) { //Не используем for, потому что в kotlin он не динамический
         var prevItem: BindableItem<*, *>? = null
         if (i > 0) {
             if (this[i - 1] !is BindableItem<*, *>) {
+                ++i
                 continue
             }
             prevItem = this[i - 1] as BindableItem<*, *>
         }
         if (this[i] !is BindableItem<*, *>) {
+            ++i
             continue
         }
         val nextItem = this[i] as BindableItem<*, *>
@@ -56,6 +59,7 @@ fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?
         if (stickyData != null) {
             insert(i, StickyBindableItem(stickyData, itemController))
         }
+        ++i
     }
     return this
 }
