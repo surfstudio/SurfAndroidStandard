@@ -94,7 +94,7 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
 
     override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
         val scroll = super.scrollVerticallyBy(dy, recycler, state)
-        if (Math.abs(scroll) > 0) {
+        if (Math.abs(scroll) >= 0) {
             if (positioner != null) {
                 positioner!!.updateHeaderState(
                         findFirstVisibleItemPosition(), visibleHeaders, viewRetriever, findFirstCompletelyVisibleItemPosition() == 0)
@@ -105,7 +105,7 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
 
     override fun scrollHorizontallyBy(dx: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
         val scroll = super.scrollHorizontallyBy(dx, recycler, state)
-        if (Math.abs(scroll) > 0) {
+        if (Math.abs(scroll) >= 0) {
             if (positioner != null) {
                 positioner!!.updateHeaderState(
                         findFirstVisibleItemPosition(), visibleHeaders, viewRetriever, findFirstCompletelyVisibleItemPosition() == 0)
