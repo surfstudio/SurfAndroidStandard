@@ -28,7 +28,7 @@ import java.util.*
  * Хранилище для сохранения набора id, основано на SharedPref, изначально создано для хранения Enum
  */
 abstract class BaseIntIdsStorage {
-1
+
     private val SEPARATOR = ","
     /**
      * @return сохраненные id
