@@ -87,7 +87,9 @@
         <attr name="pvImageStyle" format="reference" />
 
         <attr name="pvTitleTextAppearance" format="reference" />
+        <attr name="pvTitleLineSpacingExtra" format="dimension" />
         <attr name="pvSubtitleTextAppearance" format="reference" />
+        <attr name="pvSubtitleLineSpacingExtra" format="dimension" />
         <attr name="pvButtonTextAppearance" format="reference" />
         <attr name="pvSecondButtonTextAppearance" format="reference" />
 

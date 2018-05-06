@@ -176,6 +176,8 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleTextAppearance)
         this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonTextAppearance)
         this.styler.secondButtonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonTextAppearance)
+        this.styler.titleLineSpacingExtraPx = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvTitleLineSpacingExtra)
+        this.styler.subtitleLineSpacingExtraPx = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleLineSpacingExtra)
         this.styler.buttonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonStyle)
         this.styler.secondButtonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonStyle)
         this.styler.imageStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvImageStyle)
@@ -271,7 +273,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      */
     private fun setStyles() {
         titleTv.setTextAppearanceStyle(styler.titleTextAppearanceResId)
+        titleTv.setLineSpacing(styler.titleLineSpacingExtraPx.toFloat(), 1.0f)
         subtitleTv.setTextAppearanceStyle(styler.subtitleTextAppearanceResId)
+        subtitleTv.setLineSpacing(styler.subtitleLineSpacingExtraPx.toFloat(), 1.0f)
         button.setTextAppearanceStyle(styler.buttonTextAppearanceResId)
         secondButton.setTextAppearanceStyle(styler.secondButtonTextAppearanceResId)
 
@@ -480,7 +484,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                  @StyleRes var secondButtonTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var buttonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var secondButtonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
-                                 @StyleRes var imageStyleResId: Int = NOT_ASSIGNED_RESOURCE) {
+                                 @StyleRes var imageStyleResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 var titleLineSpacingExtraPx: Int = 0,
+                                 var subtitleLineSpacingExtraPx: Int = 0) {
 
         private val loaderIndicatorLayoutList: SparseArray<Int> by lazy { initializeLoaderIndicatorLayout() }
 
