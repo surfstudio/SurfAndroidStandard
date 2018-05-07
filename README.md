@@ -82,7 +82,7 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 10, 'seconds'
 }
 ```
-##LICENSE
+##License
 ```
   Copyright (c) 2018-present, SurfStudio LLC.
 
