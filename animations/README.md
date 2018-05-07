@@ -27,3 +27,9 @@
 
 [anim]: /src/main/java/ru/surfstudio/android/animations/anim
 [behaviors]: /src/main/java/ru/surfstudio/android/animations/behaviors
+
+#Подключение
+Gradle:
+```
+    implementation "ru.surfstudio.android:animations:X.X.X"
+```

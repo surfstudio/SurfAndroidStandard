@@ -48,20 +48,20 @@ public abstract class CoreApp extends MultiDexApplication {
     /**
      * отслеживает ANR и отправляет в крашлитикс
      */
-    private void initAnrWatchDog() {
+    protected void initAnrWatchDog() {
         new ANRWatchDog().setReportMainThreadOnly()
                 .setANRListener(RemoteLogger::logError)
                 .start();
     }
 
-    private void initLog() {
+    protected void initLog() {
         Logger.init();
     }
 
     /**
      * Регистрирует слушатель аткивной активити
      */
-    private void registerActiveActivityListener() {
+    protected void registerActiveActivityListener() {
         registerActivityLifecycleCallbacks(new DefaultActivityLifecycleCallbacks() {
             @Override
             public void onActivityResumed(Activity activity) {

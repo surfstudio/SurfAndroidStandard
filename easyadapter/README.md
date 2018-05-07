@@ -1,5 +1,5 @@
 #Easy adapter
-Развитие этого [проекта](https://github.com/MaksTuev/EasyAdapter).
+Является развитие проекта [EasyAdapter](https://github.com/MaksTuev/EasyAdapter).
 
 Адаптер для легкого размещаения сложного контента в RecycleView. 
 Основная идея - использование для каждого элемента отдельного ItemController`a отвечающего за его отрисовку и поведение.
@@ -12,11 +12,7 @@
 1. Заполненный экземпляр `ItemList` передается в `EasyAdapter` через метод `setItems()`
 
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:easy-adapter:X.X.X"
+    implementation "ru.surfstudio.android:easy-adapter:X.X.X"
 ```

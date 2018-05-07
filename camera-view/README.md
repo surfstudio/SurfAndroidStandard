@@ -27,11 +27,7 @@ onPause() {
 Необходим одобренный `android.permission.CAMERA` для корректной работы перед вызовом `start()`, иначе получим `java.lang.RuntimeException: Fail to connect to camera service`
 
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:camera-view:X.X.X"
+    implementation "ru.surfstudio.android:camera-view:X.X.X"
 ```

@@ -1,14 +1,15 @@
 #Core mvp
-Основано на [ferro](https://github.com/MaksTuev/ferro).
+Cоздан в результате развития идей проекта  [ferro](https://github.com/MaksTuev/ferro).
 
-Содержит базовую часть ядра для построения приложения и реализации дополненной MVP архитектуры.
+Расширение core-ui для гибридной архитектуры MVP + Presentation Model.
+
+Основные особенности:
+1. Презентер переживает смену конфигурации
+1. Все Rx подписки приостанавливатся во время смены конфигурации, тем самым не допускается обработка результатов асинхронных операций пока вью пересоздается
+1. Добавлена новая сущность ScreenModel, которая является логическим представлением ui или другими словами - полностью описывает состояние ui. Презентер должен изменять вью только через метод void ```render(ScreenModel model)```
 
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:core-mvp:X.X.X"
+    implementation "ru.surfstudio.android:core-mvp:X.X.X"
 ```

@@ -8,6 +8,7 @@
 1. Вызвать `AppMigrationManager.tryMigrateApp()` при инициализации приложения 
 
 #Подключение
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:app-migration:X.X.X"
+    implementation "ru.surfstudio.android:app-migration:X.X.X"
 ```
