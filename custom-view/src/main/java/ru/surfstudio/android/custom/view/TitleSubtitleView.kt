@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.widjet
+package ru.surfstudio.android.core.ui.widget
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -52,15 +52,31 @@ class TitleSubtitleView @JvmOverloads constructor(
             updateView()
         }
 
-    var onTitleClickListenerCallback: (String) -> Unit = {}
-    var onSubTitleClickListenerCallback: (String) -> Unit = {}
+    var onTitleClickListenerCallback: ((String) -> Unit)? = null
+        set(value) {
+            if (value != null) {
+                titleView.setOnClickListener { value(titleText) }
+            } else {
+                titleView.setOnClickListener(null)
+                titleView.isClickable = false
+            }
+        }
+
+    var onSubTitleClickListenerCallback: ((String) -> Unit)? = null
+        set(value) {
+            if (value != null) {
+                subTitleView.setOnClickListener { value(subTitleText) }
+            } else {
+                subTitleView.setOnClickListener(null)
+                subTitleView.isClickable = false
+            }
+        }
 
     init {
         orientation = LinearLayout.VERTICAL
 
         addViews()
         applyAttrs(attributeSet)
-        initListeners()
     }
 
     /**
@@ -82,11 +98,6 @@ class TitleSubtitleView @JvmOverloads constructor(
         addView(subTitleView)
     }
 
-    private fun initListeners() {
-        titleView.setOnClickListener { onTitleClickListenerCallback(titleText) }
-        subTitleView.setOnClickListener { onSubTitleClickListenerCallback(subTitleText) }
-    }
-
     private fun updateView() {
         titleView.text = titleText
         subTitleView.text = subTitleText
@@ -106,8 +117,9 @@ class TitleSubtitleView @JvmOverloads constructor(
     private fun setupTitle(ta: TypedArray) {
         with(titleView) {
             defaultTitle = ta.getString(R.styleable.TitleSubtitleView_titleText) ?: defaultTitle
+            titleText = defaultTitle
 
-            setupTextAppearance(ta, R.styleable.TextAttributes_titleTextAppearance)
+            setupTextAppearance(ta, R.styleable.TitleSubtitleView_titleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
 
             setTextColor(ta.getColor(
@@ -140,8 +152,9 @@ class TitleSubtitleView @JvmOverloads constructor(
     private fun setupSubTitle(ta: TypedArray) {
         with(subTitleView) {
             defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText) ?: defaultSubTitle
+            subTitleText = defaultSubTitle
 
-            setupTextAppearance(ta, R.styleable.TextAttributes_subtitleTextAppearance)
+            setupTextAppearance(ta, R.styleable.TitleSubtitleView_subtitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
 
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_subTitleLineSpacingExtra, 0f), 1f)
