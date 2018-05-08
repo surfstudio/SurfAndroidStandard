@@ -20,7 +20,7 @@ open class BindData<T>(value: T) {
         listener.invoke(value)
     }
 
-    fun setValue(newValue: T, source: Any? = null) {
+    fun setValue(newValue: T, source: Any?) {
         value = newValue
         listeners.filterKeys { it != source }
                 .values
