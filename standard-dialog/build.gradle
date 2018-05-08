@@ -6,5 +6,4 @@ dependencies {
     compileOnly project(path: ':core-ui')
     compileOnly project(path: ':mvp-dialog')
     compileOnly project(path: ':dagger-scope')
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }

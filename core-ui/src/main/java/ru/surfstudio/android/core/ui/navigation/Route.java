@@ -20,4 +20,8 @@ public interface Route {
     String EXTRA_FOURTH = "EXTRA_FOURTH";
     String EXTRA_FIFTH = "EXTRA_FIFTH";
     String EXTRA_SIXTH = "EXTRA_SIXTH";
+    String EXTRA_SEVEN = "EXTRA_SEVEN";
+    String EXTRA_EIGHT = "EXTRA_EIGHT";
+    String EXTRA_NINE = "EXTRA_NINE";
+    String EXTRA_TEN = "EXTRA_TEN";
 }

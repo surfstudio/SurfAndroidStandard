@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList;
 import ru.surfstudio.android.rx.extension.FunctionSafe;
@@ -66,6 +67,19 @@ public class PaginationableUtil {
                 paginationRequestCreator,
                 DataList.empty(),
                 numPages);
+    }
+
+    public static <T> Single<DataList<T>> getPaginationSingleRequestPortion(
+            FunctionSafe<Integer, Single<DataList<T>>> paginationRequestCreator,
+            int numPages) {
+        return getPaginationRequestPortions(
+                convertSingleBiFunctionToObservable(paginationRequestCreator),
+                DataList.empty(),
+                numPages).singleOrError();
+    }
+
+    private static <T> FunctionSafe<Integer, Observable<T>> convertSingleBiFunctionToObservable(FunctionSafe<Integer, Single<T>> paginationRequestCreator) {
+        return (integer) -> paginationRequestCreator.apply(integer).toObservable();
     }
 
 }

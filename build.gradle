@@ -21,10 +21,6 @@ allprojects {
         maven { url 'https://maven.fabric.io/public' }
         maven {
             url "${surf_maven_libs_url}"
-            credentials {
-                username "${surf_maven_username}"
-                password "${surf_maven_password}"
-            }
         }
     }
 }
@@ -40,7 +36,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$androidGradleToolsVersion"
+        classpath 'com.android.tools.build:gradle:3.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
     }

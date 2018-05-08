@@ -69,11 +69,11 @@ fun View.changeViewBackgroundColor(@ColorInt color: Int) {
  */
 fun View.invisibleIf(invisible: Boolean) {
     if (invisible) {
-        visibility = View.VISIBLE
-        isEnabled = true
-    } else {
         visibility = View.INVISIBLE
         isEnabled = false
+    } else {
+        visibility = View.VISIBLE
+        isEnabled = true
     }
 }
 

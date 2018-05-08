@@ -19,28 +19,31 @@ class StandardDialog : CoreSimpleDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getScreenComponent(StandardDialogComponent::class.java).inject(this)
         route = StandardDialogRoute(arguments!!)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(this.context, theme)
         return builder
-                .setTitle(route.title)
-                .setMessage(route.message)
-                .setNegativeButton(route.negativeBtnText, { _, _ ->
-                    presenter.negativeBtnAction(dialogTag = route.tagConst)
+                .setTitle(route.getTitle(this.context!!))
+                .setMessage(route.getMessage(this.context!!))
+                .setNegativeButton(route.getNegativeBtnTxt(this.context!!), { _, _ ->
+                    inject()
+                    presenter.simpleDialogNegativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
-                .setPositiveButton(route.possitiveBtnText, { _, _ ->
-                    presenter.positiveBtnAction(route.tagConst)
+                .setPositiveButton(route.getPositiveBtnTxt(this.context!!), { _, _ ->
+                    inject()
+                    presenter.simpleDialogPositiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
                 .setCancelable(route.isCancelable)
                 .create()
     }
 
-    override fun getName(): String = "Simple Dialog"
+    override fun getName(): String = "StandardDialog"
 
-
+    private fun inject() {
+        getScreenComponent(StandardDialogComponent::class.java).inject(this)
+    }
 }

@@ -1,9 +1,6 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
-    compileOnly project(':logger')
     compileOnly "com.android.support:appcompat-v7:$appcompatVersion"
     compileOnly "com.android.support:design:$appcompatVersion"
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"

@@ -47,7 +47,7 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
 
     @Override
     public ScreenComponent getScreenComponent() {
-        return getPersistentScope().getObject(ScreenComponent.class);
+        return component;
     }
 
     private void satisfyDependencies(CoreWidgetViewInterface target) {

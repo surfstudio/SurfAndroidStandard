@@ -97,11 +97,19 @@
       "path": ""
     },
     {
+      "name": "custom-view-sample",
+      "path": ""
+    },
+    {
       "name": "mvp-dialog",
       "path": ""
     },
     {
       "name": "mvp-widget",
+      "path": ""
+    },
+    {
+      "name": "mvp-widget-sample",
       "path": ""
     },
     {
@@ -122,6 +130,10 @@
     },
     {
       "name": "animations",
+      "path": ""
+    },
+    {
+      "name": "message-controller",
       "path": ""
     }
   ]

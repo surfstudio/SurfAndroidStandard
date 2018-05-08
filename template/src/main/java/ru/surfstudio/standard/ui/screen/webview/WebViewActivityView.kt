@@ -6,9 +6,10 @@ import android.support.v7.widget.Toolbar
 import android.webkit.WebView
 import org.jetbrains.anko.find
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
+import ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderViewImpl
+import ru.surfstudio.standard.ui.screen.main.PlaceHolderView
 import javax.inject.Inject
 
 /**
@@ -20,7 +21,7 @@ class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
     @Inject
     lateinit var presenter: WebViewPresenter
 
-    private lateinit var placeholder: PlaceHolderViewImpl
+    private lateinit var placeholder: StandardPlaceHolderView
     private lateinit var webView: WebView
     private lateinit var toolbar: Toolbar
 
@@ -31,7 +32,7 @@ class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
         findViews()
     }
 
-    override fun getPlaceHolderView(): PlaceHolderViewImpl = find(R.id.placeholder)
+    override fun getPlaceHolderView(): PlaceHolderView = find(R.id.placeholder)
 
     override fun renderInternal(screenModel: WebViewScreenModel) {
         toolbar.title = screenModel.title
