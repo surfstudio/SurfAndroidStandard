@@ -1,19 +1,21 @@
-package ru.surfstudio.easyadapter.sample.ui.common.recycler.pagination
+package ru.surfstudio.standard.ui.base.recycler
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.updateLayoutParams
 import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.standard.R
 
-class PaginationableAdapter<H : RecyclerView.ViewHolder> : BasePaginationableAdapter() {
+class PaginationableAdapter : BasePaginationableAdapter<StaggeredGridLayoutManager>() {
 
     private var paginationFooterItemController: BasePaginationFooterController<*>? = null
 
@@ -48,6 +50,11 @@ class PaginationableAdapter<H : RecyclerView.ViewHolder> : BasePaginationableAda
             }
 
             override fun bind(state: PaginationState) {
+
+                itemView.updateLayoutParams<StaggeredGridLayoutManager.LayoutParams> {
+                    isFullSpan = true
+                }
+
                 when (state) {
                     PaginationState.READY -> {
                         progressBar.visibility = VISIBLE

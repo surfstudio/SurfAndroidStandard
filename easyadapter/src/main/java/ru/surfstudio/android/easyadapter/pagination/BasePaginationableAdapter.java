@@ -38,13 +38,10 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
  * Adapter emit event "onShowMore" when user scroll to bottom or click on footer with state {@link PaginationState#ERROR}.
  * Adapter can emit this event if user scroll only if state is {@link PaginationState#READY}
  */
-
 public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutManager> extends EasyAdapter {
 
     private OnShowMoreListener onShowMoreListener;
     private boolean blockShowMoreEvent = true;
-
-    private int spanCount; // для StaggeredGridLayout
 
     public interface OnShowMoreListener {
         void onShowMore();
@@ -116,10 +113,6 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
                     if (totalItemCount - lastVisibleItem < 2 * numVisibleItem) {
                         blockShowMoreEvent = true;
                         onShowMoreListener.onShowMore();
-//
-//                        if (layoutManager instanceof StaggeredGridLayoutManager) {
-//                            ((StaggeredGridLayoutManager) layoutManager).onsetSpanCount(1);
-//                        }
                     }
                 }
             }
@@ -135,7 +128,7 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
             int[] items = lm.findFirstVisibleItemPositions(new int[lm.getSpanCount()]);
             int position = 0;
 
-            for (int i = 0; i < items.length; i++) {
+            for (int i = 0; i < items.length-1; i++) {
                 position = Math.min(items[i], items[i + 1]);
             }
             pos = position;
@@ -154,19 +147,14 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
         if (layoutManager instanceof StaggeredGridLayoutManager) {
             StaggeredGridLayoutManager lm = (StaggeredGridLayoutManager) layoutManager;
 
+            int spanCount = lm.getSpanCount();
             int[] items = lm.findLastVisibleItemPositions(new int[spanCount]);
             int position = 0;
 
-            for (int i = 0; i < items.length; i++) {
+            for (int i = 0; i < items.length-1; i++) {
                 position = Math.max(items[i], items[i + 1]);
             }
             pos = position;
-
-            if (pos == getPaginationFooterPosition() && hasFooter()) {
-                lm.setSpanCount(1);
-            } else {
-                lm.setSpanCount(spanCount);
-            }
         }
 
         if (layoutManager instanceof LinearLayoutManager) {
@@ -193,11 +181,6 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
                 }
             });
         }
-
-        if (layoutManager instanceof StaggeredGridLayoutManager) {
-            spanCount = ((StaggeredGridLayoutManager) layoutManager).getSpanCount();
-        }
-
     }
 
     private int getPaginationFooterPosition() {
