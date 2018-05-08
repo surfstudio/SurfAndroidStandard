@@ -1,3 +1,9 @@
+Репозиторий с внутренними библиотеками для android проектов [surf](http://www.surfstudio.ru/).
+
+
+Репозиторий в стадии активной разработки. Актуальная документация в [wiki](https://bitbucket.org/surfstudio/android-standard/wiki/)
+
+
 #Список артефактов
 1. [core-app](core-app/README.md) - базовая часть ядра для построения приложения.  
 1. [core-mvp](core-mvp/README.md) - реализации дополненной MVP архитектуры.  
@@ -75,7 +81,8 @@ maven {
 surf_maven_libs_url = http://artifactory.surfstudio.ru/artifactory/libs-release-local
 ```
 #Работа со snapshot
-Если разработка приложения идет параллельно с разработкой одного или нескольких модулей стоит задуматься об обозначении версии артефакта как [SNAPSHOT](https://maven.apache.org/guides/getting-started/index.html#What_is_a_SNAPSHOT_version) 
+Если разработка приложения идет параллельно с разработкой одного или нескольких модулей стоит задуматься об обозначении версии артефакта как [SNAPSHOT](https://maven.apache.org/guides/getting-started/index.html#What_is_a_SNAPSHOT_version)
+Для оперативного обновления нужно добавить в build.gradle(root):
 ```
 configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 10, 'seconds'
