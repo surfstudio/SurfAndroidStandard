@@ -37,4 +37,4 @@
 
 ##ДОКУМЕНТАЦИЯ
 
-+ [`StandardPlaceHolderView`](/custom-view/STANDARD-PLACEHOLDER-VIEW-README.md);
++ [`StandardPlaceHolderView`](/surfstudio/android-standard/src/master/custom-view/STANDARD-PLACEHOLDER-VIEW-README.md);

@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.custom.view.placeholder
 
 import android.annotation.SuppressLint
@@ -176,6 +191,8 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
         this.styler.subtitleTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleTextAppearance)
         this.styler.buttonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonTextAppearance)
         this.styler.secondButtonTextAppearanceResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonTextAppearance)
+        this.styler.titleLineSpacingExtraPx = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvTitleLineSpacingExtra)
+        this.styler.subtitleLineSpacingExtraPx = ta.obtainDimensionPixelAttribute(R.styleable.StandardPlaceHolderView_pvSubtitleLineSpacingExtra)
         this.styler.buttonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvButtonStyle)
         this.styler.secondButtonStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvSecondButtonStyle)
         this.styler.imageStyleResId = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvImageStyle)
@@ -271,7 +288,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
      */
     private fun setStyles() {
         titleTv.setTextAppearanceStyle(styler.titleTextAppearanceResId)
+        titleTv.setLineSpacing(styler.titleLineSpacingExtraPx.toFloat(), 1.0f)
         subtitleTv.setTextAppearanceStyle(styler.subtitleTextAppearanceResId)
+        subtitleTv.setLineSpacing(styler.subtitleLineSpacingExtraPx.toFloat(), 1.0f)
         button.setTextAppearanceStyle(styler.buttonTextAppearanceResId)
         secondButton.setTextAppearanceStyle(styler.secondButtonTextAppearanceResId)
 
@@ -480,7 +499,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                  @StyleRes var secondButtonTextAppearanceResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var buttonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
                                  @StyleRes var secondButtonStyleResId: Int = NOT_ASSIGNED_RESOURCE,
-                                 @StyleRes var imageStyleResId: Int = NOT_ASSIGNED_RESOURCE) {
+                                 @StyleRes var imageStyleResId: Int = NOT_ASSIGNED_RESOURCE,
+                                 var titleLineSpacingExtraPx: Int = 0,
+                                 var subtitleLineSpacingExtraPx: Int = 0) {
 
         private val loaderIndicatorLayoutList: SparseArray<Int> by lazy { initializeLoaderIndicatorLayout() }
 

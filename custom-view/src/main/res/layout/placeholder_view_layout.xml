@@ -5,6 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:ignore="MissingPrefix"
     tools:parentTag="android.widget.FrameLayout">
 
@@ -47,12 +50,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
+            android:gravity="center_horizontal"
             tools:text="Данные не загружены" />
 
         <TextView
             android:id="@+id/placeholder_subtitle_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             tools:text="Попробуйте обновить экран позже" />
 
         <Button

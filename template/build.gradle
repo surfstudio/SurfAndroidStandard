@@ -154,7 +154,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
-    compile project(path: ':logger')
+    implementation project(path: ':logger')
 }
 
 apply plugin: 'kotlin-android-extensions'

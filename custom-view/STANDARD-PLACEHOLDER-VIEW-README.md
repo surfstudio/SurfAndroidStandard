@@ -12,6 +12,7 @@
 
 ##ЧТО НОВОГО
 
+* Добавлены атрибуты `pvTitleLineSpacingExtra` и `pvSubtitleLineSpacingExtra` для изменения высоты строки заголвоков;
 * Фикс бага с задержкой отрисовки состояния на старте экрана;
 * Добавлено новое состояние "No Internet" для возможности кастомной обработки ошибки интернет-соединения;
 * Добавлены атрибуты `pvProgressBarWidth` и `pvProgressBarHeight` - через них можно задавать ширину и высоту прогресс-индикатора соответственно;
@@ -185,6 +186,8 @@ pvTitleTextAppearance | text appearance | Стиль заголовка
 pvSubtitleTextAppearance | text appearance | Стиль подзаголовка
 pvButtonTextAppearance | text appearance | Стиль текста на кнопке
 pvSecondButtonTextAppearance | text appearance | Стиль текста на второй кнопке
+pvTitleLineSpacingExtra | dimen | Высота строки заголовка
+pvSubtitleLineSpacingExtra | dimen | Высота строки подзаголовка
 pvButtonStyle | style | Стиль кнопки
 pvSecondButtonStyle | style | Стиль второй кнопки
 pvImageStyle | style | Стиль изображения
