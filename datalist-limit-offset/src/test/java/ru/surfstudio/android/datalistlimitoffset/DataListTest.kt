@@ -14,15 +14,29 @@ class DataListTest {
         val list3: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), 10, 0, 10)
         list1.merge(list2)
         Assert.assertEquals(list3, list1)
+
     }
 
     @Test
     fun checkNormalMergeWIthOffset() {
         val list1: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5)), 5, 7, 10)
         val list2: DataList<Int> = DataList(ArrayList(listOf(6, 7, 8, 9, 10)), 5, 12, 10)
-        val list3: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), 10, 7, 10)
-        list1.merge(list2)
-        Assert.assertEquals(list1, list3)
+        val list3: DataList<Int> = DataList(ArrayList(listOf(6, 7, 8, 9, 10)), 5, 17, 10)
+        val list4: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 6, 7, 8, 9, 10)), 15, 7, 10)
+        list3.merge(list2)
+        list3.merge(list1)
+        Assert.assertEquals(list3, list4)
+    }
+
+    @Test
+    fun checkNormalMergeWithOffsetAndCollision() {
+        val list1: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5)), 5, 7, 10)
+        val list2: DataList<Int> = DataList(ArrayList(listOf(6, 7, 8, 9, 10)), 5, 12, 10)
+        val list3: DataList<Int> = DataList(ArrayList(listOf(6, 7, 8, 9, 10)), 5, 14, 10)
+        val list4: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5, 6, 7, 6, 7, 8, 9, 10)), 12, 7, 10)
+        list3.merge(list2)
+        list3.merge(list1)
+        Assert.assertEquals(list3, list4)
     }
 
     @Test

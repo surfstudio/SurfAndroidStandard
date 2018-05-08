@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.delegate.activity;
 
 import android.content.Intent;
@@ -39,7 +54,7 @@ public class ActivityDelegate extends BaseScreenDelegate {
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             ActivityCompletelyDestroyChecker completelyDestroyChecker) {
-        super(activity, scopeStorage, eventResolvers, completelyDestroyChecker);
+        super(scopeStorage, eventResolvers, completelyDestroyChecker);
         this.activity = activity;
         this.coreActivity = activity;
         this.scopeStorage = scopeStorage;
@@ -47,7 +62,7 @@ public class ActivityDelegate extends BaseScreenDelegate {
 
     @Override
     public ActivityPersistentScope getPersistentScope() {
-        return scopeStorage.get(getName(), ActivityPersistentScope.class);
+        return scopeStorage.get(getScopeId(), ActivityPersistentScope.class);
     }
 
     @Override
@@ -76,7 +91,7 @@ public class ActivityDelegate extends BaseScreenDelegate {
                 eventDelegateManager,
                 screenState,
                 configurator,
-                coreActivity.getName());
+                getScopeId());
         configurator.setPersistentScope(persistentScope);
         return persistentScope;
     }

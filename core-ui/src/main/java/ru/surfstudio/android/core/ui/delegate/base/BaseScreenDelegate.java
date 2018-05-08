@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.delegate.base;
 
 import android.content.Intent;
@@ -7,8 +22,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import java.util.List;
+import java.util.UUID;
 
-import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent;
@@ -25,9 +40,8 @@ import ru.surfstudio.android.core.ui.event.result.ActivityResultEvent;
 import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultEvent;
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.core.ui.state.BaseScreenState;
-import ru.surfstudio.android.logger.LogConstants;
-import ru.surfstudio.android.logger.Logger;
 
 /**
  * базовый делегат для базовых активити и фрагмента, для виджета свой делегат
@@ -40,12 +54,14 @@ import ru.surfstudio.android.logger.Logger;
 
 public abstract class BaseScreenDelegate {
 
-    private HasName screenNameProvider;
+    private static final String KEY_PSS_ID = "KEY_PSS_ID";
+
+    private String currentScopeId;
     private List<ScreenEventResolver> eventResolvers;
     private PersistentScopeStorage scopeStorage;
     private CompletelyDestroyChecker completelyDestroyChecker;
 
-    public abstract PersistentScope getPersistentScope();
+    public abstract ScreenPersistentScope getPersistentScope();
 
     protected abstract void notifyScreenStateAboutOnCreate(@Nullable Bundle savedInstanceState);
 
@@ -57,14 +73,18 @@ public abstract class BaseScreenDelegate {
     //core logic
 
     public BaseScreenDelegate(
-            HasName screenNameProvider,
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             CompletelyDestroyChecker completelyDestroyChecker) {
-        this.screenNameProvider = screenNameProvider;
         this.eventResolvers = eventResolvers;
         this.scopeStorage = scopeStorage;
         this.completelyDestroyChecker = completelyDestroyChecker;
+    }
+
+    public void initialize(@Nullable Bundle savedInstanceState) {
+        currentScopeId = savedInstanceState != null
+                ? savedInstanceState.getString(KEY_PSS_ID)
+                : UUID.randomUUID().toString();
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
@@ -88,7 +108,7 @@ public abstract class BaseScreenDelegate {
             getScreenState().onCompletelyDestroy();
             getEventDelegateManager().sendEvent(new OnCompletelyDestroyEvent());
             getEventDelegateManager().destroy();
-            scopeStorage.remove(getName());
+            scopeStorage.remove(getScopeId());
         }
     }
 
@@ -97,7 +117,7 @@ public abstract class BaseScreenDelegate {
     }
 
     private void initPersistentScope() {
-        if (!scopeStorage.isExist(getName())) {
+        if (!scopeStorage.isExist(getScopeId())) {
             PersistentScope persistentScope = createPersistentScope(eventResolvers);
             scopeStorage.put(persistentScope);
         }
@@ -109,8 +129,8 @@ public abstract class BaseScreenDelegate {
         return getPersistentScope().getScreenEventDelegateManager();
     }
 
-    protected String getName() {
-        return screenNameProvider.getName();
+    protected String getScopeId() {
+        return currentScopeId;
     }
 
     //other events
@@ -120,12 +140,10 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onResume() {
-        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getName());
         getEventDelegateManager().sendEvent(new OnResumeEvent());
     }
 
     public void onPause() {
-        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getName());
         getEventDelegateManager().sendEvent(new OnPauseEvent());
     }
 
@@ -134,6 +152,7 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onOnSaveInstantState(Bundle outState) {
+        outState.putString(KEY_PSS_ID, getPersistentScope().getScopeId());
         getEventDelegateManager().sendEvent(new OnSaveStateEvent(outState));
     }
 

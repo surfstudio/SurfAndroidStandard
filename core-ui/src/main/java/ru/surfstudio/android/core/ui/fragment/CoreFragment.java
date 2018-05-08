@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.fragment;
 
 import android.content.Intent;
@@ -10,6 +25,8 @@ import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
 import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope;
+import ru.surfstudio.android.logger.LogConstants;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * базовая активити для всего приложения
@@ -36,15 +53,21 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     }
 
     @Override
-    public String getName() {
+    public String getScreenName() {
         //уникальное имя по умолчанию для фрагмента контейнера
         return this.getClass().getCanonicalName() + getTag() + getId();
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentDelegate = createFragmentDelegate();
+        fragmentDelegate.initialize(savedInstanceState);
+    }
+
+    @Override
     public final void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        fragmentDelegate = createFragmentDelegate();
         fragmentDelegate.onCreate(savedInstanceState, null);
     }
 
@@ -57,12 +80,14 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onResume() {
         super.onResume();
+        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
         fragmentDelegate.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
         fragmentDelegate.onPause();
     }
 

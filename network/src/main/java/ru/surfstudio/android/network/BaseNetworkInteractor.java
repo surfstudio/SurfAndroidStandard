@@ -1,6 +1,22 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.network;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.error.NotModifiedException;
@@ -28,6 +44,12 @@ public class BaseNetworkInteractor {
      */
     public void onSessionChanged() {
         //default empty
+    }
+
+    protected <T> Observable<T> hybridQuery(DataStrategy priority,
+                                            Single<T> cacheRequest,
+                                            FunctionSafe<Integer, Single<T>> networkRequestCreator) {
+        return hybridQuery(priority, cacheRequest.toObservable(), integer -> networkRequestCreator.apply(integer).toObservable());
     }
 
     /**
@@ -96,6 +118,11 @@ public class BaseNetworkInteractor {
         return hybridQuery(DataStrategy.AUTO, cacheRequest, networkRequestCreator);
     }
 
+    protected <T> Observable<T> hybridQuery(Single<T> cacheRequest,
+                                            FunctionSafe<Integer, Single<T>> networkRequestCreator) {
+        return hybridQuery(DataStrategy.AUTO, cacheRequest, networkRequestCreator);
+    }
+
     /**
      * Осуществляет гибридный запрос, в методе происходит объединение данных приходящих с сервера и из кеша
      *
@@ -110,6 +137,15 @@ public class BaseNetworkInteractor {
 
     protected <T> Observable<T> hybridQueryWithSimpleCache(FunctionSafe<Integer, Observable<T>> requestCreator) {
         return hybridQueryWithSimpleCache(DataStrategy.AUTO, requestCreator);
+    }
+
+    protected <T> Observable<T> hybridQueryWithSimpleCacheForSingle(DataStrategy priority,
+                                                                    FunctionSafe<Integer, Single<T>> requestCreator) {
+        return hybridQuery(priority, requestCreator.apply(QUERY_MODE_FROM_SIMPLE_CACHE), requestCreator);
+    }
+
+    protected <T> Observable<T> hybridQueryWithSimpleCacheForSingle(FunctionSafe<Integer, Single<T>> requestCreator) {
+        return hybridQueryWithSimpleCacheForSingle(DataStrategy.AUTO, requestCreator);
     }
 
     private <T> Observable<T> processNetworkException(Throwable e) {

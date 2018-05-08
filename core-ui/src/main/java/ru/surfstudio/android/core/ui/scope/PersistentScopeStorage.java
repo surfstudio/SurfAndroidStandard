@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.scope;
 
 
@@ -19,16 +34,13 @@ public class PersistentScopeStorage {
      * @param scope
      */
     public void put(PersistentScope scope) {
-        if (scopes.get(scope.getName()) != null) {
+        if (scopes.get(scope.getScopeId()) != null) {
             throw new IllegalStateException(String.format(
-                    "ScreenScope with name %s already created", scope.getName()));
+                    "ScreenScope with name %s already created", scope.getScopeId()));
         }
 
-        if (scope instanceof ActivityPersistentScope && getActivityScopeName() != null) {
-            throw new IllegalStateException("ActivityPersistentScope already created");
-        }
-
-        scopes.put(scope.getName(), scope);
+        scopes.put(scope.getScopeId(), scope);
+        scope.setScopeAdded(true);
     }
 
     /**
@@ -37,6 +49,7 @@ public class PersistentScopeStorage {
      * @param name
      */
     public void remove(String name) {
+        scopes.get(name).setScopeAdded(false);
         scopes.remove(name);
     }
 
@@ -65,24 +78,5 @@ public class PersistentScopeStorage {
             throw new IllegalStateException(String.format("PersistentScope with name %s is not instance of %s", name, scopeClass.getCanonicalName()));
         }
         return scopeClass.cast(persistentScope);
-    }
-
-    public @NonNull
-    ActivityPersistentScope getActivityScope() {
-        String activityScopeName = getActivityScopeName();
-        if (activityScopeName == null) {
-            throw new IllegalStateException("ActivityPersistentScope doest not exist");
-        }
-        return get(activityScopeName, ActivityPersistentScope.class);
-    }
-
-    private @Nullable
-    String getActivityScopeName() {
-        for (Map.Entry<String, PersistentScope> entry : scopes.entrySet()) {
-            if (entry.getValue() instanceof ActivityPersistentScope) {
-                entry.getKey();
-            }
-        }
-        return null;
     }
 }

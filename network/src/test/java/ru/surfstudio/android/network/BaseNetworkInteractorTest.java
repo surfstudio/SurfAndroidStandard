@@ -11,6 +11,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import ru.surfstudio.android.connection.ConnectionProvider;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.error.CacheEmptyException;
@@ -35,6 +36,9 @@ public class BaseNetworkInteractorTest {
     private Observable<Response> cacheRequest;
     private Observable<Response> networkRequest;
 
+    private Single<Response> cacheSingleRequest;
+    private Single<Response> networkSingleRequest;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
@@ -42,6 +46,10 @@ public class BaseNetworkInteractorTest {
 
         networkRequest = Observable.just(SERVER);
         cacheRequest = Observable.just(CACHE);
+
+        networkSingleRequest = Single.just(SERVER);
+        cacheSingleRequest = Single.just(CACHE);
+
         repository = new BaseNetworkInteractor(qualityProvider);
 
         doReturn(true).when(qualityProvider).isConnectedFast();
@@ -124,6 +132,19 @@ public class BaseNetworkInteractorTest {
         repository.hybridQuery(DataStrategy.AUTO, cacheRequest, integer -> networkRequest)
                 .test()
                 .assertValues(SERVER);
+    }
+
+    @Test
+    public void testFromSingleCache() throws Exception {
+        repository.hybridQuery(DataStrategy.CACHE, cacheSingleRequest, integer -> networkSingleRequest)
+                .test()
+                .assertValues(CACHE, SERVER);
+    }
+
+    @Test
+    public void testFromSingleServer() {
+        repository.hybridQuery(DataStrategy.SERVER, cacheSingleRequest, integer -> networkSingleRequest)
+                .test().assertValues(SERVER);
     }
 
     enum Response {

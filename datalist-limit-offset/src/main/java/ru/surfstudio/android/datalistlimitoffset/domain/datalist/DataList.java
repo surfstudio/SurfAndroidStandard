@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.datalistlimitoffset.domain.datalist;
 
 
@@ -68,12 +83,13 @@ public class DataList<T> implements List<T>, Serializable {
         }
         this.data.clear();
         this.data.addAll(merged);
-        if (this.offset < data.offset) {
+        if (this.offset < data.offset) { //загрузка вниз, как обычно
             this.limit = data.offset + data.limit - this.offset;
-        } else if (this.offset == data.offset) {
+        } else if (this.offset == data.offset) { //коллизия?
             this.limit = data.limit;
-        } else {
+        } else { // загрузка вверх
             this.offset = data.offset;
+            this.limit = size();
         }
 
         this.totalCount = data.totalCount;

@@ -1,11 +1,13 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    implementation project(':logger')
-    implementation project(':rx-extension')
+    compileOnly project(':logger')
+    compileOnly project(':rx-extension')
 
     implementation "com.android.support:appcompat-v7:$appcompatVersion"
 
+    testImplementation project(':rx-extension')
+    testImplementation project(':logger')
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"

@@ -2,9 +2,9 @@ package ru.surfstudio.standard.ui.base.error
 
 
 import android.text.TextUtils
-import ru.surfstudio.android.core.ui.message.MessageController
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.error.ConversionException
 import ru.surfstudio.android.network.error.HttpCodes
 import ru.surfstudio.android.network.error.NoInternetException

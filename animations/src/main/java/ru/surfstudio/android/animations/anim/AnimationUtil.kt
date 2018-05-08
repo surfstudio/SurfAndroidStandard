@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.animations.anim
 
 import android.animation.ObjectAnimator
@@ -27,22 +42,26 @@ object AnimationUtil {
      */
     fun crossfadeViews(inView: View, outView: View,
                        duration: Long = ANIM_LARGE_TRANSITION,
+                       visibility: Int = View.GONE,
                        endAction: (() -> Unit)? = null) {
         fadeIn(inView, duration, endAction)
-        fadeOut(outView, duration, endAction)
+        fadeOut(outView, duration, visibility, endAction)
     }
 
     /**
      * Сокрытие вью с изменением прозрачности
      */
-    fun fadeOut(outView: View, duration: Long = ANIM_LEAVING, endAction: (() -> Unit)? = null) {
+    fun fadeOut(outView: View,
+                duration: Long = ANIM_LEAVING,
+                visibility: Int = View.GONE,
+                endAction: (() -> Unit)? = null) {
 
         ViewCompat.animate(outView)
                 .alpha(0f)
                 .setDuration(duration)
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .withEndAction {
-                    outView.visibility = View.GONE
+                    outView.visibility = visibility
                     endAction?.invoke()
                 }
     }
@@ -51,6 +70,7 @@ object AnimationUtil {
      * Появление вью с изменением прозрачности
      */
     fun fadeIn(inView: View, duration: Long = ANIM_ENTERING, endAction: (() -> Unit)? = null) {
+
         inView.alpha = 0f
         inView.visibility = View.VISIBLE
         ViewCompat.animate(inView)
@@ -61,7 +81,6 @@ object AnimationUtil {
                     endAction?.invoke()
                 }
     }
-
 
     /**
      * Анимация типа "пульс"

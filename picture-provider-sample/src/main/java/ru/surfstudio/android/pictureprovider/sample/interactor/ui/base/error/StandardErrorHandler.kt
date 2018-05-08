@@ -1,9 +1,9 @@
 package ru.surfstudio.android.pictureprovider.sample.interactor.ui.base.error
 
 
-import ru.surfstudio.android.core.ui.message.MessageController
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.error.ConversionException
 import ru.surfstudio.android.network.error.NoInternetException
 import ru.surfstudio.android.pictureprovider.sample.R

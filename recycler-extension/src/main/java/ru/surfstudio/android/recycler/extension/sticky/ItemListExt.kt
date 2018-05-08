@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.recycler.extension.sticky
 
 import ru.surfstudio.android.easyadapter.ItemList
@@ -9,12 +24,15 @@ import ru.surfstudio.android.recycler.extension.sticky.item.StickyBindableItem
 /**
  *  Расширения для работы sticky header с а [ItemList]
  */
-fun <T> ItemList.addStickyHeader(item: StickyBindableItem<T, BindableViewHolder<T>>): ItemList {
-    return addItem(item)
+fun <T> ItemList.addStickyHeader(data: T,
+                                 itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return addItem(StickyBindableItem(data, itemController))
 }
 
-fun <T> ItemList.addStickyHeaderIf(condition: Boolean, item: StickyBindableItem<T, BindableViewHolder<T>>): ItemList {
-    return if (condition) addItem(item) else this
+fun <T> ItemList.addStickyHeaderIf(condition: Boolean,
+                                   data: T,
+                                   itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return if (condition) addItem(StickyBindableItem(data, itemController)) else this
 }
 
 /**
@@ -37,15 +55,18 @@ fun <T> ItemList.addStickyHeaderIf(condition: Boolean, item: StickyBindableItem<
 
 fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?,
                                    itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
-    for (i in 0 until this.size) {
+    var i = 0
+    while (i < this.size) { //Не используем for, потому что в kotlin он не динамический
         var prevItem: BindableItem<*, *>? = null
         if (i > 0) {
             if (this[i - 1] !is BindableItem<*, *>) {
+                ++i
                 continue
             }
             prevItem = this[i - 1] as BindableItem<*, *>
         }
         if (this[i] !is BindableItem<*, *>) {
+            ++i
             continue
         }
         val nextItem = this[i] as BindableItem<*, *>
@@ -53,6 +74,7 @@ fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?
         if (stickyData != null) {
             insert(i, StickyBindableItem(stickyData, itemController))
         }
+        ++i
     }
     return this
 }

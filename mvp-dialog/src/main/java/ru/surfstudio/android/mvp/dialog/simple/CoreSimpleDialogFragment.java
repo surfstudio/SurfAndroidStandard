@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.mvp.dialog.simple;
 
 
@@ -7,10 +22,12 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
-import ru.surfstudio.android.core.mvp.activity.CoreActivityViewInterface;
-import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
-import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
+import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
+import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 
 /**
@@ -30,16 +47,16 @@ public abstract class CoreSimpleDialogFragment extends DialogFragment implements
     private SimpleDialogDelegate delegate = new SimpleDialogDelegate(this);
 
 
-    public <A extends FragmentActivity & CoreActivityViewInterface> void show(A parentActivityView) {
-        delegate.show(parentActivityView);
+    public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
+        delegate.show(parentActivityViewPersistentScope);
     }
 
-    public <F extends Fragment & CoreFragmentViewInterface> void show(F parentFragmentView) {
-        delegate.show(parentFragmentView);
+    public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
+        delegate.show(parentFragmentViewPersistentScope);
     }
 
-    public <W extends View & CoreWidgetViewInterface> void show(W parentWidgetView) {
-        delegate.show(parentWidgetView);
+    public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
+        delegate.show(parentWidgetViewPersistentScope);
     }
 
     public <T> T getScreenComponent(Class<T> componentClass) {

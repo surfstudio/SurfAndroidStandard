@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.delegate.fragment;
 
 import android.os.Bundle;
@@ -31,21 +46,23 @@ public class FragmentDelegate extends BaseScreenDelegate {
     private Fragment fragment;
     private CoreFragmentInterface coreFragment;
     private PersistentScopeStorage scopeStorage;
+    private ParentActivityPersistentScopeFinder persistentScopeFinder;
 
     public <F extends Fragment & CoreFragmentInterface> FragmentDelegate(
             F fragment,
             PersistentScopeStorage scopeStorage,
             List<ScreenEventResolver> eventResolvers,
             FragmentCompletelyDestroyChecker completelyDestroyChecker) {
-        super(fragment, scopeStorage, eventResolvers, completelyDestroyChecker);
+        super(scopeStorage, eventResolvers, completelyDestroyChecker);
         this.fragment = fragment;
         this.coreFragment = fragment;
         this.scopeStorage = scopeStorage;
+        this.persistentScopeFinder = new ParentActivityPersistentScopeFinder(fragment, scopeStorage);
     }
 
     @Override
     public FragmentPersistentScope getPersistentScope() {
-        return scopeStorage.get(getName(), FragmentPersistentScope.class);
+        return scopeStorage.get(getScopeId(), FragmentPersistentScope.class);
     }
 
     @Override
@@ -73,13 +90,13 @@ public class FragmentDelegate extends BaseScreenDelegate {
                 eventDelegateManager,
                 screenState,
                 configurator,
-                coreFragment.getName());
+                getScopeId());
         return persistentScope;
     }
 
     @NonNull
     protected FragmentScreenEventDelegateManager createFragmentScreenEventDelegateManager(List<ScreenEventResolver> eventResolvers) {
-        ActivityPersistentScope activityPersistentScope = scopeStorage.getActivityScope();
+        ActivityPersistentScope activityPersistentScope = persistentScopeFinder.find();
         if (activityPersistentScope == null) {
             throw new IllegalStateException("FragmentPersistentScope cannot be created without ActivityPersistentScope");
         }

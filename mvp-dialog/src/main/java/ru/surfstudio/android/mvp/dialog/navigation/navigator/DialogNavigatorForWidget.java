@@ -1,13 +1,27 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.mvp.dialog.navigation.navigator;
 
 
 import android.support.v4.app.DialogFragment;
-import android.view.View;
 
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 import ru.surfstudio.android.mvp.widget.provider.WidgetProvider;
-import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
  * DialogNavigator работающий из активити
@@ -15,14 +29,19 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 public class DialogNavigatorForWidget extends DialogNavigator {
 
     private WidgetProvider widgetProvider;
+    private WidgetViewPersistentScope widgetViewPersistentScope;
 
-    public DialogNavigatorForWidget(ActivityProvider activityProvider, WidgetProvider widgetProvider) {
-        super(activityProvider);
+
+    public DialogNavigatorForWidget(ActivityProvider activityProvider,
+                                    WidgetProvider widgetProvider,
+                                    WidgetViewPersistentScope widgetViewPersistentScope) {
+        super(activityProvider, widgetViewPersistentScope);
         this.widgetProvider = widgetProvider;
+        this.widgetViewPersistentScope = widgetViewPersistentScope;
     }
 
     @Override
     protected <D extends DialogFragment & CoreSimpleDialogInterface> void showSimpleDialog(D fragment) {
-        fragment.show((View & CoreWidgetViewInterface) widgetProvider.get());
+        fragment.show(widgetViewPersistentScope);
     }
 }

@@ -1,15 +1,38 @@
-package ru.surfstudio.android.core.mvp.presenter;
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
+package ru.surfstudio.android.core.mvp.presenter;
 
 import android.support.annotation.CallSuper;
 
+import com.agna.ferro.rx.CompletableOperatorFreeze;
+import com.agna.ferro.rx.MaybeOperatorFreeze;
 import com.agna.ferro.rx.ObservableOperatorFreeze;
+import com.agna.ferro.rx.SingleOperatorFreeze;
 
+import io.reactivex.Completable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.internal.functions.Functions;
 import io.reactivex.internal.observers.LambdaObserver;
+import io.reactivex.observers.DisposableCompletableObserver;
+import io.reactivex.observers.DisposableMaybeObserver;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import ru.surfstudio.android.core.mvp.view.CoreView;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
@@ -137,6 +160,8 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
         this.freezeEventsOnPause = enabled;
     }
 
+    //region subscribe
+
     /**
      * Apply {@link ObservableOperatorFreeze} and subscribe subscriber to the observable.
      * When screen finally destroyed, all subscriptions would be automatically unsubscribed.
@@ -153,6 +178,38 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
         disposables.add(disposable);
         return disposable;
     }
+
+    protected <T> Disposable subscribe(final Single<T> single,
+                                       final SingleOperatorFreeze<T> operator,
+                                       final DisposableSingleObserver<T> observer) {
+
+        Disposable disposable = single
+                .lift(operator)
+                .subscribeWith(observer);
+        disposables.add(disposable);
+        return disposable;
+    }
+
+    protected Disposable subscribe(final Completable completable,
+                                   final CompletableOperatorFreeze operator,
+                                   final DisposableCompletableObserver observer) {
+        Disposable disposable = completable
+                .lift(operator)
+                .subscribeWith(observer);
+        disposables.add(disposable);
+        return disposable;
+    }
+
+    protected <T> Disposable subscribe(final Maybe<T> maybe,
+                                       final MaybeOperatorFreeze<T> operator,
+                                       final DisposableMaybeObserver<T> observer) {
+        Disposable disposable = maybe
+                .lift(operator)
+                .subscribeWith(observer);
+        disposables.add(disposable);
+        return disposable;
+    }
+    //endregion
 
     /**
      * @see #subscribe(Observable, ObservableOperatorFreeze, LambdaObserver)
@@ -175,6 +232,64 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
         return subscribe(observable, operator, new LambdaObserver<>(onNext, onError, onComplete, Functions.emptyConsumer()));
     }
 
+    protected <T> Disposable subscribe(final Single<T> single,
+                                       final SingleOperatorFreeze<T> operator,
+                                       final ConsumerSafe<T> onSuccess,
+                                       final ConsumerSafe<Throwable> onError) {
+        return subscribe(single, operator, new DisposableSingleObserver<T>() {
+            @Override
+            public void onSuccess(T t) {
+                onSuccess.accept(t);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                onError.accept(e);
+            }
+        });
+    }
+
+    protected <T> Disposable subscribe(final Maybe<T> maybe,
+                                       final MaybeOperatorFreeze<T> operator,
+                                       final ConsumerSafe<T> onSuccess,
+                                       final ActionSafe onComplete,
+                                       final ConsumerSafe<Throwable> onError) {
+        return subscribe(maybe, operator, new DisposableMaybeObserver<T>() {
+            @Override
+            public void onSuccess(T t) {
+                onSuccess.accept(t);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                onError.accept(e);
+            }
+
+            @Override
+            public void onComplete() {
+                onComplete.run();
+            }
+        });
+    }
+
+
+    protected Disposable subscribe(final Completable completable,
+                                   final CompletableOperatorFreeze operator,
+                                   final ActionSafe onComplete,
+                                   final ConsumerSafe<Throwable> onError) {
+        return subscribe(completable, operator, new DisposableCompletableObserver() {
+            @Override
+            public void onComplete() {
+                onComplete.run();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                onError.accept(e);
+            }
+        });
+    }
+
     /**
      * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
      * @see #subscribe(Observable, ObservableOperatorFreeze, LambdaObserver)
@@ -186,6 +301,7 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
 
         return subscribe(observable, createOperatorFreeze(replaceFrozenEventPredicate), observer);
     }
+
 
     /**
      * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
@@ -229,6 +345,7 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
         return subscribe(observable, onNext, ObservableUtil.EMPTY_ACTION, onError);
     }
 
+
     /**
      * @see @link #subscribe(Observable, OperatorFreeze, Subscriber)
      */
@@ -238,6 +355,29 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
                                        final ConsumerSafe<Throwable> onError) {
 
         return subscribe(observable, this.createOperatorFreeze(), onNext, onComplete, onError);
+    }
+
+    protected <T> Disposable subscribe(final Single<T> single,
+                                       final ConsumerSafe<T> onSuccess,
+                                       final ConsumerSafe<Throwable> onError) {
+
+        return subscribe(single, new SingleOperatorFreeze<>(freezeSelector), onSuccess, onError);
+    }
+
+    protected Disposable subscribe(final Completable completable,
+                                   final ActionSafe onComplete,
+                                   final ConsumerSafe<Throwable> onError) {
+
+        return subscribe(completable, new CompletableOperatorFreeze(freezeSelector), onComplete, onError);
+    }
+
+
+    protected <T> Disposable subscribe(final Maybe<T> maybe,
+                                       final ConsumerSafe<T> onSuccess,
+                                       final ActionSafe onComplete,
+                                       final ConsumerSafe<Throwable> onError) {
+
+        return subscribe(maybe, new MaybeOperatorFreeze<>(freezeSelector), onSuccess, onComplete, onError);
     }
 
 
@@ -255,6 +395,30 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
         return disposable;
     }
 
+    protected <T> Disposable subscribeWithoutFreezing(final Single<T> single,
+                                                      final DisposableSingleObserver<T> subscriber) {
+
+        Disposable disposable = single.subscribeWith(subscriber);
+        disposables.add(disposable);
+        return disposable;
+    }
+
+    protected Disposable subscribeWithoutFreezing(final Completable completable,
+                                                  final DisposableCompletableObserver subscriber) {
+
+        Disposable disposable = completable.subscribeWith(subscriber);
+        disposables.add(disposable);
+        return disposable;
+    }
+
+    protected <T> Disposable subscribeWithoutFreezing(final Maybe<T> maybe,
+                                                      final DisposableMaybeObserver<T> subscriber) {
+
+        Disposable disposable = maybe.subscribeWith(subscriber);
+        disposables.add(disposable);
+        return disposable;
+    }
+
     /**
      * @see @link #subscribeWithoutFreezing(Observable, Subscriber)
      */
@@ -265,6 +429,60 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
                 Functions.EMPTY_ACTION, Functions.emptyConsumer()));
     }
 
+    protected <T> Disposable subscribeWithoutFreezing(final Single<T> single,
+                                                      final ConsumerSafe<T> onSuccess,
+                                                      final ConsumerSafe<Throwable> onError) {
+        return subscribeWithoutFreezing(single, new DisposableSingleObserver<T>() {
+            @Override
+            public void onSuccess(T t) {
+                onSuccess.accept(t);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                onError.accept(e);
+            }
+        });
+    }
+
+    protected Disposable subscribeWithoutFreezing(final Completable completable,
+                                                  final ActionSafe onComplete,
+                                                  final ConsumerSafe<Throwable> onError) {
+        return subscribeWithoutFreezing(completable, new DisposableCompletableObserver() {
+            @Override
+            public void onComplete() {
+                onComplete.run();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                onError.accept(e);
+            }
+        });
+    }
+
+    protected <T> Disposable subscribeWithoutFreezing(final Maybe<T> maybe,
+                                                      final ConsumerSafe<T> onSuccess,
+                                                      final ActionSafe onComplete,
+                                                      final ConsumerSafe<Throwable> onError) {
+        return subscribeWithoutFreezing(maybe, new DisposableMaybeObserver<T>() {
+
+            @Override
+            public void onSuccess(T t) {
+                onSuccess.accept(t);
+            }
+
+            @Override
+            public void onComplete() {
+                onComplete.run();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                onError.accept(e);
+            }
+        });
+    }
 
     protected <T> ObservableOperatorFreeze<T> createOperatorFreeze(BiFunctionSafe<T, T, Boolean> replaceFrozenEventPredicate) {
         return new ObservableOperatorFreeze<>(freezeSelector, replaceFrozenEventPredicate);

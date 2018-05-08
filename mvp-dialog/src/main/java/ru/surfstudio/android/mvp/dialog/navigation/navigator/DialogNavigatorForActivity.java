@@ -1,10 +1,24 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.mvp.dialog.navigation.navigator;
 
 
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 
-import ru.surfstudio.android.core.mvp.activity.CoreActivityViewInterface;
+import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 
@@ -14,14 +28,18 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 public class DialogNavigatorForActivity extends DialogNavigator {
 
     private ActivityProvider activityProvider;
+    private ActivityViewPersistentScope activityViewPersistentScope;
 
-    public DialogNavigatorForActivity(ActivityProvider activityProvider) {
-        super(activityProvider);
+
+    public DialogNavigatorForActivity(ActivityProvider activityProvider,
+                                      ActivityViewPersistentScope activityViewPersistentScope) {
+        super(activityProvider, activityViewPersistentScope);
         this.activityProvider = activityProvider;
+        this.activityViewPersistentScope = activityViewPersistentScope;
     }
 
     @Override
     protected <D extends DialogFragment & CoreSimpleDialogInterface> void showSimpleDialog(D fragment) {
-        fragment.show((FragmentActivity & CoreActivityViewInterface) activityProvider.get());
+        fragment.show(activityViewPersistentScope);
     }
 }

@@ -16,6 +16,7 @@ import javax.inject.Inject
  * Вью главного экрана
  */
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
+    override fun getScreenName(): String  = "MainActivity"
 
     @Inject
     internal lateinit var presenter: MainPresenter
@@ -39,10 +40,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}
-
-    override fun getName(): String {
-        return "main"
-    }
 
     override fun getPresenters(): Array<CorePresenter<*>> {
         return arrayOf(presenter)

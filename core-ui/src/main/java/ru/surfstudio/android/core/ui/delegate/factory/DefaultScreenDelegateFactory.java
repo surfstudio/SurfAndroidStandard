@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.delegate.factory;
 
 import android.support.annotation.NonNull;
@@ -11,6 +26,7 @@ import ru.surfstudio.android.core.ui.delegate.activity.ActivityCompletelyDestroy
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentCompletelyDestroyChecker;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
+import ru.surfstudio.android.core.ui.delegate.fragment.ParentActivityPersistentScopeFinder;
 import ru.surfstudio.android.core.ui.event.ScreenEventResolverHelper;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
@@ -26,7 +42,7 @@ public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
     public <A extends FragmentActivity & CoreActivityInterface> ActivityDelegate createActivityDelegate(A activity) {
         return new ActivityDelegate(
                 activity,
-                getScopeStorage(activity),
+                getScopeStorage(),
                 getEventResolvers(),
                 new ActivityCompletelyDestroyChecker(activity)
         );
@@ -36,7 +52,7 @@ public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
     public <A extends Fragment & CoreFragmentInterface> FragmentDelegate createFragmentDelegate(A fragment) {
         return new FragmentDelegate(
                 fragment,
-                getScopeStorage(fragment.getActivity()),
+                getScopeStorage(),
                 getEventResolvers(),
                 new FragmentCompletelyDestroyChecker(fragment)
         );
@@ -48,7 +64,7 @@ public class DefaultScreenDelegateFactory implements ScreenDelegateFactory {
     }
 
     @NonNull
-    protected PersistentScopeStorage getScopeStorage(FragmentActivity activity) {
-        return PersistentScopeStorageContainer.getFrom(activity);
+    protected PersistentScopeStorage getScopeStorage() {
+        return PersistentScopeStorageContainer.getPersistentScopeStorage();
     }
 }

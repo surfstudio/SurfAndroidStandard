@@ -1,44 +1,43 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.scope;
 
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-
 /**
  * контейнер для {@link PersistentScopeStorage}
- * По сути является Fragment с setRetainInstance(true)
+ *
+ * Существует возможность изменить PersistentScopeStorage на кастомный
+ * с помощью метода setPersistentScopeStorage()
  */
-public class PersistentScopeStorageContainer extends Fragment {
-    private static final String SCOPE_STORAGE_CONTAINER_FRAGMENT_TAG = "scope_storage_container";
-    private PersistentScopeStorage persistentScopeStorage;
+public class PersistentScopeStorageContainer {
 
-    public static PersistentScopeStorage getFrom(FragmentActivity activity) {
-        FragmentManager fragmentManager = activity.getSupportFragmentManager();
-        PersistentScopeStorageContainer container = (PersistentScopeStorageContainer) fragmentManager
-                .findFragmentByTag(SCOPE_STORAGE_CONTAINER_FRAGMENT_TAG);
-        if (container == null) {
-            container = new PersistentScopeStorageContainer();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.add(container, SCOPE_STORAGE_CONTAINER_FRAGMENT_TAG);
-            ft.commit();
-        }
-        return container.getPersistentScopeStorage();
-    }
+    private static PersistentScopeStorage persistentScopeStorage;
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
-
-    private PersistentScopeStorage getPersistentScopeStorage() {
+    public static PersistentScopeStorage getPersistentScopeStorage() {
         if (persistentScopeStorage == null) {
             persistentScopeStorage = new PersistentScopeStorage();
         }
         return persistentScopeStorage;
+    }
+
+    /**
+     * Изменение storage
+     * @param customPersistentScopeStorage наследник PersistentScopeStorage, реализующий определенную логику
+     */
+    public static void setPersistentScopeStorage(PersistentScopeStorage customPersistentScopeStorage) {
+        persistentScopeStorage = customPersistentScopeStorage;
     }
 }

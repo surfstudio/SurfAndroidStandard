@@ -1,6 +1,17 @@
 apply from: '../androidModule.gradle'
 
-dependencies {
-    api "com.android.support:appcompat-v7:$appcompatVersion"
+android {
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+}
 
+dependencies {
+    compileOnly project(':util-ktx')
+    compileOnly project(':rx-extension')
+    compileOnly project(':animations')
+    compileOnly project(':logger')
+
+    implementation "me.zhanghai.android.materialprogressbar:library:1.4.2"
+    implementation "com.wang.avi:library:2.1.3"
 }

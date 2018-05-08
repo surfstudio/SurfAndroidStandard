@@ -1,9 +1,25 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.datalistpagecount.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList;
 import ru.surfstudio.android.rx.extension.FunctionSafe;
@@ -66,6 +82,19 @@ public class PaginationableUtil {
                 paginationRequestCreator,
                 DataList.empty(),
                 numPages);
+    }
+
+    public static <T> Single<DataList<T>> getPaginationSingleRequestPortion(
+            FunctionSafe<Integer, Single<DataList<T>>> paginationRequestCreator,
+            int numPages) {
+        return getPaginationRequestPortions(
+                convertSingleBiFunctionToObservable(paginationRequestCreator),
+                DataList.empty(),
+                numPages).singleOrError();
+    }
+
+    private static <T> FunctionSafe<Integer, Observable<T>> convertSingleBiFunctionToObservable(FunctionSafe<Integer, Single<T>> paginationRequestCreator) {
+        return (integer) -> paginationRequestCreator.apply(integer).toObservable();
     }
 
 }

@@ -3,22 +3,24 @@ package ru.surfstudio.android.pictureprovider.sample.interactor.ui.base.dagger.s
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.message.DefaultMessageController
-import ru.surfstudio.android.core.ui.message.MessageController
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
-import ru.surfstudio.android.core.ui.scope.PersistentScope
+import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.message.DefaultMessageController
+import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.pictureprovider.sample.interactor.ui.base.error.ErrorHandlerModule
 
 @Module(includes = [ErrorHandlerModule::class])
 class ActivityScreenModule : ScreenModule() {
     @Provides
     @PerScreen
-    internal fun providePersistentScope(persistentScope: ActivityPersistentScope): PersistentScope {
+    internal fun providePersistentScope(persistentScope: ActivityPersistentScope): ScreenPersistentScope {
         return persistentScope
     }
 
@@ -30,8 +32,15 @@ class ActivityScreenModule : ScreenModule() {
 
     @Provides
     @PerScreen
-    internal fun provideEventDelegateManagerProvider(persistentScope: PersistentScope): ScreenEventDelegateManager {
+    internal fun provideEventDelegateManagerProvider(persistentScope: ScreenPersistentScope): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
+                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+        return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
     @Provides
