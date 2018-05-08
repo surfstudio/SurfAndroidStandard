@@ -57,5 +57,5 @@ ext {
 
     // версия наших внутренних модулей
     moduleVersionCode = 11
-    moduleVersionName = '0.1.1-SNAPSHOT'
+    moduleVersionName = '0.1.2-BZN-SNAPSHOT'
 }
