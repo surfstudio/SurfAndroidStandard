@@ -2,10 +2,8 @@ package ru.surfstudio.android.mvp.binding.sample.ui.screen.main
 
 import ru.surfstudio.android.core.mvp.binding.BaseBindingPresenter
 import ru.surfstudio.android.core.mvp.binding.BindData
-import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.mvp.binding.sample.ui.screen.main.MainActivityView
 import javax.inject.Inject
 
 /**
@@ -17,17 +15,10 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     override val screenModel: MainScreenModel = MainScreenModel()
 
-    private val relative: Map<BindData<PaneDataModel>, Set<BindData<PaneDataModel>>> = mapOf(
-            screenModel.panel1 to setOf(screenModel.panel2, screenModel.panel4, screenModel.panel5),
-            screenModel.panel2 to setOf(screenModel.panel1, screenModel.panel3, screenModel.panel4, screenModel.panel5),
-            screenModel.panel3 to setOf(screenModel.panel2, screenModel.panel5, screenModel.panel6),
-            screenModel.panel4 to setOf(screenModel.panel1, screenModel.panel2, screenModel.panel5, screenModel.panel7, screenModel.panel8),
-            screenModel.panel5 to setOf(screenModel.panel1, screenModel.panel2, screenModel.panel3, screenModel.panel4, screenModel.panel6, screenModel.panel7, screenModel.panel8, screenModel.panel9),
-            screenModel.panel6 to setOf(screenModel.panel2, screenModel.panel3, screenModel.panel4, screenModel.panel6, screenModel.panel5, screenModel.panel8, screenModel.panel9),
-            screenModel.panel7 to setOf(screenModel.panel4, screenModel.panel5, screenModel.panel8),
-            screenModel.panel8 to setOf(screenModel.panel4, screenModel.panel5, screenModel.panel6, screenModel.panel7, screenModel.panel9),
-            screenModel.panel9 to setOf(screenModel.panel5, screenModel.panel6, screenModel.panel8)
-    )
+    override fun onDestroy() {
+        super.onDestroy()
+        screenModel.unObserve(this)
+    }
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -45,8 +36,26 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     private fun observePanel(data: BindData<PaneDataModel>) {
         data.observe(this) {
-            relative[data]?.forEach { it.setValue(it.value.copy(state = data.value.state), this) }
-            data.setValue(data.value.copy(state = data.value.state.next()), this)
+            screenModel.relation[data]?.forEach { it.setValue(this, it.value.copy(state = data.value.state)) }
+            data.setValue(this, data.value.copy(state = data.value.state.next()))
+            checkToWin()
         }
     }
+
+    private fun checkToWin() {
+        if (screenModel.relation.keys
+                        .filter { it.value.state == State.PRESSED }
+                        .count() == screenModel.relation.keys.count()) {
+            screenModel.solved.setValue(this, true)
+        } else {
+            screenModel.solved.setValue(this, false)
+        }
+    }
+
+    fun onEasyWinClick() {
+        screenModel.relation.keys
+                .forEach { it.setValue(this, it.value.copy(state = State.PRESSED)) }
+        checkToWin()
+    }
+
 }

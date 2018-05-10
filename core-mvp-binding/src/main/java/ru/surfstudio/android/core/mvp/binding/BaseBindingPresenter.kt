@@ -1,13 +1,16 @@
 package ru.surfstudio.android.core.mvp.binding
 
-import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.mvp.view.CoreView
 
-abstract class BaseBindingPresenter<M: ScreenModel, V : BaseBindingView<M>>(
-        basePresenterDependency: BasePresenterDependency)
-    : BasePresenter<V>(basePresenterDependency) {
+/**
+ * Вспомогательный презентер для работы с [BindData]
+ */
+abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency: BasePresenterDependency)
+    : BasePresenter<V>(basePresenterDependency)
+        where  V : CoreView, V : BindableView<M> {
 
     abstract val screenModel: M
 
@@ -15,9 +18,4 @@ abstract class BaseBindingPresenter<M: ScreenModel, V : BaseBindingView<M>>(
         super.onLoad(viewRecreated)
         view.onBind(screenModel)
     }
-}
-
-abstract class BaseBindingView<in M: ScreenModel>: CoreActivityView() {
-
-    abstract fun onBind(screenModel: M)
 }

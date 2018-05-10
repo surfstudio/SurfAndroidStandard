@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 
 class MainScreenModel : ScreenModel() {
 
-    val panel1 = BindData(PaneDataModel(0, State.PRESSED))
+    val panel1 = BindData(PaneDataModel(1, State.PRESSED))
     val panel2 = BindData(PaneDataModel())
     val panel3 = BindData(PaneDataModel())
     val panel4 = BindData(PaneDataModel())
@@ -14,6 +14,32 @@ class MainScreenModel : ScreenModel() {
     val panel7 = BindData(PaneDataModel())
     val panel8 = BindData(PaneDataModel())
     val panel9 = BindData(PaneDataModel())
+
+    val solved = BindData(false)
+
+    val relation: Map<BindData<PaneDataModel>, Set<BindData<PaneDataModel>>> = mapOf(
+            panel1 to setOf(panel2, panel4, panel5),
+            panel2 to setOf(panel1, panel3, panel4, panel5),
+            panel3 to setOf(panel2, panel5, panel6),
+            panel4 to setOf(panel1, panel2, panel5, panel7, panel8),
+            panel5 to setOf(panel1, panel2, panel3, panel4, panel6, panel7, panel8, panel9),
+            panel6 to setOf(panel2, panel3, panel4, panel6, panel5, panel8, panel9),
+            panel7 to setOf(panel4, panel5, panel8),
+            panel8 to setOf(panel4, panel5, panel6, panel7, panel9),
+            panel9 to setOf(panel5, panel6, panel8)
+    )
+
+    fun unObserve(source: Any) {
+        panel1.unObserveSource(source)
+        panel2.unObserveSource(source)
+        panel3.unObserveSource(source)
+        panel4.unObserveSource(source)
+        panel5.unObserveSource(source)
+        panel6.unObserveSource(source)
+        panel7.unObserveSource(source)
+        panel8.unObserveSource(source)
+        panel9.unObserveSource(source)
+    }
 
 }
 
