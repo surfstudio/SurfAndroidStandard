@@ -82,18 +82,23 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
         @Override
         public Object adapt(Call<R> call) {
             Object observable = rxCallAdapter.adapt(call);
+
             if (observable instanceof Flowable) {
                 return ((Flowable) observable).onErrorResumeNext((Object throwable) ->
                         handleNetworkError((Throwable) throwable).toFlowable(BackpressureStrategy.LATEST));
+
             } else if (observable instanceof Maybe) {
                 return ((Maybe) observable).onErrorResumeNext((Object throwable) ->
                         handleNetworkError((Throwable) throwable).singleElement());
+
             } else if (observable instanceof Single) {
                 return ((Single) observable).onErrorResumeNext(throwable ->
                         handleNetworkError((Throwable) throwable).singleOrError());
+
             } else if (observable instanceof Completable) {
                 return ((Completable) observable).onErrorResumeNext((Throwable e) ->
                         handleNetworkError(e).ignoreElements());
+
             } else {
                 return ((Observable) observable).onErrorResumeNext((Object throwable) ->
                         handleNetworkError((Throwable) throwable));
