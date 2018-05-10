@@ -20,6 +20,10 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
 
+    override fun onUnbind(screenModel: MainScreenModel) {
+        screenModel.unObserve(this)
+    }
+
     override fun onBind(screenModel: MainScreenModel) {
 
         screenModel.solved.observe(this) {

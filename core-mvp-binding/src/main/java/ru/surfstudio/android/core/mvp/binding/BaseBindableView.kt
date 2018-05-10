@@ -16,4 +16,5 @@ abstract class BaseBindableFragmentView<in M: ScreenModel>: CoreFragmentView(), 
 interface BindableView<in M: ScreenModel>  {
 
     fun onBind(screenModel: M)
+    fun onUnbind(screenModel: M)
 }

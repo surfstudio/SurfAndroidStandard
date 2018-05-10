@@ -30,6 +30,7 @@ class MainScreenModel : ScreenModel() {
     )
 
     fun unObserve(source: Any) {
+        solved.unObserveSource(source)
         panel1.unObserveSource(source)
         panel2.unObserveSource(source)
         panel3.unObserveSource(source)
