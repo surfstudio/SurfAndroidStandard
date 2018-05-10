@@ -1,31 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    implementation project(':core-app')
-    implementation project(':core-ui')
-    implementation project(':core-mvp')
-    implementation project(':dagger-scope')
-    implementation project(':picture-provider')
-    implementation project(':camera-view')
-    implementation project(':network')
-    implementation project(':shared-pref')
-    implementation project(':filestorage')
-    implementation project(':logger:')
-    implementation project(':connection')
-    implementation project(':rx-extension')
-    implementation project(':util-ktx')
-    implementation project(':mvp-widget')
-    implementation project(':mvp-dialog')
-
-    implementation "com.android.support:support-annotations:$appcompatVersion"
-
-    api "com.android.support:appcompat-v7:$appcompatVersion"
-    api "com.github.bumptech.glide:glide:$glideVersion"
-    api "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-    api "com.android.support:multidex:$multidexVersion"
-
-    implementation "com.annimon:stream:$annimonStreamVersion"
-
-    //logging
-    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
+    compileOnly project(':core-app')
+    compileOnly project(':core-ui')
+    compileOnly project(':core-mvp')
+    compileOnly project(':util-ktx')
 }
