@@ -105,7 +105,7 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
             }
         }
 
-        private <R> Observable<R> handleNetworkError(Throwable e) {
+        private <T> Observable<T> handleNetworkError(Throwable e) {
             if (e instanceof IOException) {
                 return Observable.error(new NoInternetException(e));
             } else if (e instanceof HttpException) {
