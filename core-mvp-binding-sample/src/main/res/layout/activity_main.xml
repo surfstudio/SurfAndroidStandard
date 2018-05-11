@@ -82,4 +82,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/easy_win_btn"
         android:text="Easy win"/>
+
+    <Button
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/unbind_btn"
+        android:text="Unbind presenter"/>
 </LinearLayout>

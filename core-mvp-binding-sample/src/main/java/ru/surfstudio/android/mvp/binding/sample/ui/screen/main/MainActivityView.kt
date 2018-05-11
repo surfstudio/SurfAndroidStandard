@@ -20,10 +20,6 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
 
-    override fun onUnbind(screenModel: MainScreenModel) {
-        screenModel.unObserve(this)
-    }
-
     override fun onBind(screenModel: MainScreenModel) {
 
         screenModel.solved.observe(this) {
@@ -34,15 +30,15 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
             }
         }
 
-        screenModel.panel1.observeAndApply(this) { observePane(pane_1, it) }
-        screenModel.panel2.observeAndApply(this) { observePane(pane_2, it) }
-        screenModel.panel3.observeAndApply(this) { observePane(pane_3, it) }
-        screenModel.panel4.observeAndApply(this) { observePane(pane_4, it) }
-        screenModel.panel5.observeAndApply(this) { observePane(pane_5, it) }
-        screenModel.panel6.observeAndApply(this) { observePane(pane_6, it) }
-        screenModel.panel7.observeAndApply(this) { observePane(pane_7, it) }
-        screenModel.panel8.observeAndApply(this) { observePane(pane_8, it) }
-        screenModel.panel9.observeAndApply(this) { observePane(pane_9, it) }
+        observeAndApply(screenModel.panel1) { observePane(pane_1, it) }
+        observeAndApply(screenModel.panel2) { observePane(pane_2, it) }
+        observeAndApply(screenModel.panel3) { observePane(pane_3, it) }
+        observeAndApply(screenModel.panel4) { observePane(pane_4, it) }
+        observeAndApply(screenModel.panel5) { observePane(pane_5, it) }
+        observeAndApply(screenModel.panel6) { observePane(pane_6, it) }
+        observeAndApply(screenModel.panel7) { observePane(pane_7, it) }
+        observeAndApply(screenModel.panel8) { observePane(pane_8, it) }
+        observeAndApply(screenModel.panel9) { observePane(pane_9, it) }
 
         pane_1.listener = { listenPane(screenModel.panel1, it.toInt()) }
         pane_2.listener = { listenPane(screenModel.panel2, it.toInt()) }
@@ -92,5 +88,6 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         easy_win_btn.setOnClickListener { presenter.onEasyWinClick() }
+        unbind_btn.setOnClickListener{ presenter.onUnbindClick()}
     }
 }
