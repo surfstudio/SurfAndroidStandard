@@ -84,28 +84,27 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
             Object observable = rxCallAdapter.adapt(call);
 
             if (observable instanceof Flowable) {
-                return ((Flowable) observable).onErrorResumeNext((Object throwable) ->
-                        handleNetworkError((Throwable) throwable).toFlowable(BackpressureStrategy.LATEST));
+                return ((Flowable<R>) observable).onErrorResumeNext((Throwable e) ->
+                        handleNetworkError(e).toFlowable(BackpressureStrategy.LATEST));
 
             } else if (observable instanceof Maybe) {
-                return ((Maybe) observable).onErrorResumeNext((Object throwable) ->
-                        handleNetworkError((Throwable) throwable).singleElement());
+                return ((Maybe<R>) observable).onErrorResumeNext((Throwable e) ->
+                        handleNetworkError(e).singleElement());
 
             } else if (observable instanceof Single) {
-                return ((Single) observable).onErrorResumeNext(throwable ->
-                        handleNetworkError((Throwable) throwable).singleOrError());
+                return ((Single<R>) observable).onErrorResumeNext((Throwable e)->
+                        handleNetworkError(e).singleOrError());
 
             } else if (observable instanceof Completable) {
                 return ((Completable) observable).onErrorResumeNext((Throwable e) ->
                         handleNetworkError(e).ignoreElements());
 
             } else {
-                return ((Observable) observable).onErrorResumeNext((Object throwable) ->
-                        handleNetworkError((Throwable) throwable));
+                return ((Observable<R>) observable).onErrorResumeNext(this::handleNetworkError);
             }
         }
 
-        private <T> Observable<T> handleNetworkError(Throwable e) {
+        private Observable<R> handleNetworkError(Throwable e) {
             if (e instanceof IOException) {
                 return Observable.error(new NoInternetException(e));
             } else if (e instanceof HttpException) {
