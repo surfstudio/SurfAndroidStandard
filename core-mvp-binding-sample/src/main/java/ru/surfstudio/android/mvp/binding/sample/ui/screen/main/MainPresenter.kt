@@ -15,11 +15,6 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     override val screenModel: MainScreenModel = MainScreenModel()
 
-    override fun onDestroy() {
-        super.onDestroy()
-        screenModel.unObserve(this)
-    }
-
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
 
@@ -35,9 +30,9 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     private fun observePanel(data: BindData<PaneDataModel>) {
-        data.observe(this) {
-            screenModel.relation[data]?.forEach { it.setValue(this, it.value.copy(state = data.value.state)) }
-            data.setValue(this, data.value.copy(state = data.value.state.next()))
+        observe(data) {
+            screenModel.relation[data]
+                    ?.forEach { it.setValue(this, it.value.copy(state = it.value.state.next())) }
             checkToWin()
         }
     }
@@ -56,6 +51,10 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         screenModel.relation.keys
                 .forEach { it.setValue(this, it.value.copy(state = State.PRESSED)) }
         checkToWin()
+    }
+
+    fun onUnbindClick() {
+        bindsHolder.unObserve()
     }
 
 }
