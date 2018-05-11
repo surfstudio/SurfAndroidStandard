@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.mvp.widget.view;
 
 import android.annotation.TargetApi;
@@ -9,6 +24,7 @@ import android.widget.LinearLayout;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
+import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
  * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
@@ -23,7 +39,7 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 
 public abstract class CoreLinearLayoutView extends LinearLayout implements CoreWidgetViewInterface {
 
-    WidgetViewDelegate widgetViewDelegate;
+    private WidgetViewDelegate widgetViewDelegate;
 
     public CoreLinearLayoutView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -72,5 +88,10 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         widgetViewDelegate.onDestroy();
+    }
+
+    @Override
+    public WidgetViewPersistentScope getPersistentScope() {
+        return widgetViewDelegate.getPersistentScope();
     }
 }

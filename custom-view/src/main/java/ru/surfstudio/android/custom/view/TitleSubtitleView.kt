@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.ui.widjet
 
 import android.content.Context
@@ -107,7 +122,7 @@ class TitleSubtitleView @JvmOverloads constructor(
         with(titleView) {
             defaultTitle = ta.getString(R.styleable.TitleSubtitleView_titleText) ?: defaultTitle
 
-            setupTextAppearance(ta, R.styleable.TitleSubtitleView_titleTextAppearance)
+            setupTextAppearance(ta, R.styleable.TextAttributes_titleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
 
             setTextColor(ta.getColor(
@@ -141,7 +156,7 @@ class TitleSubtitleView @JvmOverloads constructor(
         with(subTitleView) {
             defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText) ?: defaultSubTitle
 
-            setupTextAppearance(ta, R.styleable.TitleSubtitleView_subTitleTextAppearance)
+            setupTextAppearance(ta, R.styleable.TextAttributes_subtitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
 
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_subTitleLineSpacingExtra, 0f), 1f)

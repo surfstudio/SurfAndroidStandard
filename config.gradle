@@ -2,14 +2,14 @@ ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
-    buildToolsVersion = "26.0.2"
+    buildToolsVersion = "27.0.3"
     minSdkVersion = 19
-    targetSdkVersion = 26
-    compileSdkVersion = 26
+    targetSdkVersion = 27
+    compileSdkVersion = 27
     debugVersionNameSuffix = ".debug"
 
     //lang
-    kotlinVersion = '1.2.21'                    //https://goo.gl/2Epeje
+    kotlinVersion = '1.2.31'                    //https://goo.gl/2Epeje
     ankoVersion = '0.10.4'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.1.8'
     gsonVersion = '2.8.1'
@@ -30,11 +30,11 @@ ext {
 
     //android framework
     androidGradleToolsVersion = '3.0.1'
-    appcompatVersion = '27.0.2'
+    appcompatVersion = '27.1.1'
     playServicesVersion = '11.6.0'
-    crashlyticsVersion = '2.9.0'
+    crashlyticsVersion = '2.9.1'
     googleServicesVersion = '3.2.0'
-    androidKtxVersion = '0.1'
+    androidKtxVersion = '0.3'
     jetbrainsAnnotationsVersion = '15.0'
     multidexVersion = '1.0.2'
     constraintLayoutVersion = '1.0.2'
@@ -56,6 +56,6 @@ ext {
     assertJVersion = '3.5.1'
 
     // версия наших внутренних модулей
-    moduleVersionCode = 11
-    moduleVersionName = '0.1.2-SNAPSHOT'
+    moduleVersionCode = 15
+    moduleVersionName = '0.2.1-BZN-SNAPSHOT'
 }

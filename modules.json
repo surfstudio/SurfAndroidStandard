@@ -17,6 +17,14 @@
       "path": ""
     },
     {
+      "name": "core-mvp-binding",
+      "path": ""
+    },
+    {
+      "name": "core-mvp-binding-sample",
+      "path": ""
+    },
+    {
       "name": "analytics",
       "path": ""
     },
@@ -97,11 +105,19 @@
       "path": ""
     },
     {
+      "name": "custom-view-sample",
+      "path": ""
+    },
+    {
       "name": "mvp-dialog",
       "path": ""
     },
     {
       "name": "mvp-widget",
+      "path": ""
+    },
+    {
+      "name": "mvp-widget-sample",
       "path": ""
     },
     {
@@ -122,6 +138,10 @@
     },
     {
       "name": "animations",
+      "path": ""
+    },
+    {
+      "name": "message-controller",
       "path": ""
     }
   ]

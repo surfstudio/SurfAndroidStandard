@@ -1,9 +1,24 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.imageloader.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
-import android.util.Patterns
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
@@ -53,24 +68,23 @@ data class ImageResourceManager(
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun prepareErrorBitmap() = prepareBitmap(errorResId)
+    fun prepareErrorDrawable() = prepareDrawable(errorResId)
 
     /**
      * Подготовка заглушки для плейсхолдера.
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun preparePreviewBitmap() = prepareBitmap(previewResId)
+    fun preparePreviewDrawable() = prepareDrawable(previewResId)
 
 
     /**
-     * Подготовка [Bitmap] с применением всех трансформаций, применяемых и к исходному изображению.
+     * Подготовка [Drawable] с применением всех трансформаций, применяемых и к исходному изображению.
      *
      * @param imageResId ссылка на drawable ресурс
      */
-    private fun prepareBitmap(@DrawableRes imageResId: Int): RequestBuilder<Bitmap> {
+    private fun prepareDrawable(@DrawableRes imageResId: Int): RequestBuilder<Drawable> {
         return Glide.with(context)
-                .asBitmap()
                 .load(imageResId)
                 .apply(RequestOptions()
                         .transforms(*imageTransformationsManager.prepareTransformations()))

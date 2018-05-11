@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="standardPlaceHolderStyle" format="reference" />
+
+    <declare-styleable name="StandardPlaceHolderView">
+        <attr name="pvOpaqueBackgroundColor" format="color" />
+        <attr name="pvOpaqueBackground" format="reference" />
+        <attr name="pvTransparentBackgroundColor" format="color" />
+        <attr name="pvTransparentBackground" format="reference" />
+        <attr name="pvProgressBarColor" format="color" />
+        <attr name="pvProgressBarWidth" format="dimension" />
+        <attr name="pvProgressBarHeight" format="dimension" />
+        <attr name="pvProgressBarType" format="enum">
+            <enum name="StandardCircleIndicator" value="0" />
+            <enum name="BallPulseIndicator" value="1" />
+            <enum name="BallGridPulseIndicator" value="2" />
+            <enum name="BallClipRotateIndicator" value="3" />
+            <enum name="BallClipRotatePulseIndicator" value="4" />
+            <enum name="SquareSpinIndicator" value="5" />
+            <enum name="BallClipRotateMultipleIndicator" value="6" />
+            <enum name="BallPulseRiseIndicator" value="7" />
+            <enum name="BallRotateIndicator" value="8" />
+            <enum name="CubeTransitionIndicator" value="9" />
+            <enum name="BallZigZagIndicator" value="10" />
+            <enum name="BallZigZagDeflectIndicator" value="11" />
+            <enum name="BallTrianglePathIndicator" value="12" />
+            <enum name="BallScaleIndicator" value="13" />
+            <enum name="LineScaleIndicator" value="14" />
+            <enum name="LineScalePartyIndicator" value="15" />
+            <enum name="BallScaleMultipleIndicator" value="16" />
+            <enum name="BallPulseSyncIndicator" value="17" />
+            <enum name="BallBeatIndicator" value="18" />
+            <enum name="LineScalePulseOutIndicator" value="19" />
+            <enum name="LineScalePulseOutRapidIndicator" value="20" />
+            <enum name="BallScaleRippleIndicator" value="21" />
+            <enum name="BallScaleRippleMultipleIndicator" value="22" />
+            <enum name="BallSpinFadeLoaderIndicator" value="23" />
+            <enum name="LineSpinFadeLoaderIndicator" value="24" />
+            <enum name="TriangleSkewSpinIndicator" value="25" />
+            <enum name="PacmanIndicator" value="27" />
+            <enum name="BallGridBeatIndicator" value="28" />
+            <enum name="SemiCircleSpinIndicator" value="29" />
+        </attr>
+
+        <attr name="pvTitle" format="string" />
+        <attr name="pvSubtitle" format="string" />
+        <attr name="pvButtonText" format="string" />
+        <attr name="pvSecondButtonText" format="string" />
+        <attr name="pvImage" format="reference" />
+
+        <attr name="pvEmptyTitle" format="string" />
+        <attr name="pvEmptySubtitle" format="string" />
+        <attr name="pvEmptyButtonText" format="string" />
+        <attr name="pvEmptySecondButtonText" format="string" />
+        <attr name="pvEmptyImage" format="reference" />
+
+        <attr name="pvNotFoundTitle" format="string" />
+        <attr name="pvNotFoundSubtitle" format="string" />
+        <attr name="pvNotFoundButtonText" format="string" />
+        <attr name="pvNotFoundSecondButtonText" format="string" />
+        <attr name="pvNotFoundImage" format="reference" />
+
+        <attr name="pvNoInternetTitle" format="string" />
+        <attr name="pvNoInternetSubtitle" format="string" />
+        <attr name="pvNoInternetButtonText" format="string" />
+        <attr name="pvNoInternetSecondButtonText" format="string" />
+        <attr name="pvNoInternetImage" format="reference" />
+
+        <attr name="pvErrorTitle" format="string" />
+        <attr name="pvErrorSubtitle" format="string" />
+        <attr name="pvErrorButtonText" format="string" />
+        <attr name="pvErrorSecondButtonText" format="string" />
+        <attr name="pvErrorImage" format="reference" />
+
+        <attr name="pvTitleBottomMargin" format="dimension" />
+        <attr name="pvTitleTopMargin" format="dimension" />
+        <attr name="pvSubtitleBottomMargin" format="dimension" />
+        <attr name="pvSubtitleTopMargin" format="dimension" />
+        <attr name="pvButtonBottomMargin" format="dimension" />
+        <attr name="pvButtonTopMargin" format="dimension" />
+        <attr name="pvSecondButtonBottomMargin" format="dimension" />
+        <attr name="pvSecondButtonTopMargin" format="dimension" />
+        <attr name="pvImageBottomMargin" format="dimension" />
+        <attr name="pvImageTopMargin" format="dimension" />
+        <attr name="pvButtonStyle" format="reference" />
+        <attr name="pvSecondButtonStyle" format="reference" />
+        <attr name="pvImageStyle" format="reference" />
+
+        <attr name="pvTitleTextAppearance" format="reference" />
+        <attr name="pvTitleLineSpacingExtra" format="dimension" />
+        <attr name="pvSubtitleTextAppearance" format="reference" />
+        <attr name="pvSubtitleLineSpacingExtra" format="dimension" />
+        <attr name="pvButtonTextAppearance" format="reference" />
+        <attr name="pvSecondButtonTextAppearance" format="reference" />
+
+    </declare-styleable>
+</resources>
