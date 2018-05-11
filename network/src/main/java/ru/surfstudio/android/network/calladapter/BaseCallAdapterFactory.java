@@ -20,7 +20,12 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.HttpException;
@@ -41,25 +46,29 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
     @SuppressWarnings("unchecked")
     @Override
     public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
-        CallAdapter<Observable<?>, Observable<?>> rxCallAdapter =
-                (CallAdapter<Observable<?>, Observable<?>>) rxJavaCallAdapterFactory.get(returnType, annotations, retrofit);
+        CallAdapter<?, ?> rxCallAdapter = rxJavaCallAdapterFactory.get(returnType, annotations, retrofit);
         return new ResultCallAdapter(rxCallAdapter, returnType);
     }
 
     /**
      * Метод обработки ошибки {@link HttpException}
      * Здесь определеяется поведение на различные коды ошибок. Например:
-     *      * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
-     *      * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
+     * * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
+     * * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
      */
     public abstract <R> Observable<R> onHttpException(HttpException e);
 
-    private final class ResultCallAdapter implements CallAdapter<Observable<?>, Observable<?>> {
+    private final class ResultCallAdapter<R> implements CallAdapter<R, Object> {
         private final Type responseType;
-        private final CallAdapter<Observable<?>, Observable<?>> rxCallAdapter;
+        private final CallAdapter<R, Object> rxCallAdapter;
 
-        protected ResultCallAdapter(CallAdapter<Observable<?>, Observable<?>> rxCallAdapter, Type returnType) {
-            Type observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
+        protected ResultCallAdapter(CallAdapter<R, Object> rxCallAdapter, Type returnType) {
+            Type observableType;
+            if (returnType instanceof ParameterizedType) {
+                observableType = getParameterUpperBound(0, (ParameterizedType) returnType);
+            } else {
+                observableType = returnType;
+            }
             this.rxCallAdapter = rxCallAdapter;
             this.responseType = observableType;
         }
@@ -71,12 +80,31 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 
         @SuppressWarnings("unchecked")
         @Override
-        public Observable<?> adapt(Call<Observable<?>> call) {
-            Observable<?> observable = rxCallAdapter.adapt(call);
-            return observable.onErrorResumeNext((Throwable e) -> handleNetworkError(e));
+        public Object adapt(Call<R> call) {
+            Object observable = rxCallAdapter.adapt(call);
+
+            if (observable instanceof Flowable) {
+                return ((Flowable<R>) observable).onErrorResumeNext((Throwable e) ->
+                        handleNetworkError(e).toFlowable(BackpressureStrategy.LATEST));
+
+            } else if (observable instanceof Maybe) {
+                return ((Maybe<R>) observable).onErrorResumeNext((Throwable e) ->
+                        handleNetworkError(e).singleElement());
+
+            } else if (observable instanceof Single) {
+                return ((Single<R>) observable).onErrorResumeNext((Throwable e)->
+                        handleNetworkError(e).singleOrError());
+
+            } else if (observable instanceof Completable) {
+                return ((Completable) observable).onErrorResumeNext((Throwable e) ->
+                        handleNetworkError(e).ignoreElements());
+
+            } else {
+                return ((Observable<R>) observable).onErrorResumeNext(this::handleNetworkError);
+            }
         }
 
-        private <R> Observable<R> handleNetworkError(Throwable e) {
+        private Observable<R> handleNetworkError(Throwable e) {
             if (e instanceof IOException) {
                 return Observable.error(new NoInternetException(e));
             } else if (e instanceof HttpException) {
@@ -87,3 +115,4 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
         }
     }
 }
+
