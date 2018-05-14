@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,7 +26,6 @@ import ru.surfstudio.android.core.ui.delegate.activity.ActivityCompletelyDestroy
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentCompletelyDestroyChecker;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
-import ru.surfstudio.android.core.ui.delegate.fragment.ParentActivityPersistentScopeFinder;
 import ru.surfstudio.android.core.ui.event.ScreenEventResolverHelper;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
