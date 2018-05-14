@@ -31,6 +31,9 @@ class PlaceHolderViewImpl @JvmOverloads constructor(context: Context,
             LoadState.NOT_FOUND -> {
                 setNotFoundState()
             }
+            LoadState.NO_INTERNET -> {
+                setNoInternetState()
+            }
         }
     }
 }

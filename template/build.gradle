@@ -40,7 +40,6 @@ android {
         debug {
             signingConfig signingConfigs.qa
             minifyEnabled false
-            resValue "bool", "only_portrait", "false"
         }
         qa {
             signingConfig signingConfigs.qa
@@ -48,13 +47,11 @@ android {
             debuggable = true
             ext.betaDistributionGroupAliases = "Surf" //todo проверить название группы в Crashlytics
             ext.betaDistributionNotifications = true
-            resValue "bool", "only_portrait", "false"
         }
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "only_portrait", "true"
         }
     }
 
