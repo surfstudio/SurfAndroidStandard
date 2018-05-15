@@ -4,7 +4,7 @@
 	<@kt.addAllKotlinDependencies />
 
     <#if screenType=='activity'>
-        <merge from="AndroidManifest.xml.ftl" 
+        <merge from="AndroidManifest.xml.ftl"
             to="${escapeXmlAttribute(manifestOut)}/AndroidManifest.xml" />
     </#if>
 
@@ -17,11 +17,8 @@
             to="${escapeXmlAttribute(srcOut)}/${className}ScreenConfigurator.kt" />
         <instantiate from="src/app_package/ScreenView.kt.ftl"
             to="${escapeXmlAttribute(srcOut)}/${className}${screenTypeCapitalized}View.kt" />
-
-        <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
-            <instantiate from="src/app_package/ScreenModel.kt.ftl"
-                to="${escapeXmlAttribute(srcOut)}/${className}ScreenModel.kt" />
-        </#if>
+        <instantiate from="src/app_package/ScreenModel.kt.ftl"
+            to="${escapeXmlAttribute(srcOut)}/${className}ScreenModel.kt" />
 
         <open file="${escapeXmlAttribute(srcOut)}/${className}${screenTypeCapitalized}View.kt" />
     <#else>
@@ -33,11 +30,8 @@
             to="${escapeXmlAttribute(srcOut)}/${className}ScreenConfigurator.java" />
         <instantiate from="src/app_package/ScreenView.java.ftl"
             to="${escapeXmlAttribute(srcOut)}/${className}${screenTypeCapitalized}View.java" />
-    
-        <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
-            <instantiate from="src/app_package/ScreenModel.java.ftl"
-                to="${escapeXmlAttribute(srcOut)}/${className}ScreenModel.java" />
-        </#if>
+				<instantiate from="src/app_package/ScreenModel.java.ftl"
+						to="${escapeXmlAttribute(srcOut)}/${className}ScreenModel.java" />
 
         <open file="${escapeXmlAttribute(srcOut)}/${className}${screenTypeCapitalized}View.java" />
     </#if>
@@ -53,7 +47,7 @@
             <instantiate from="src/app_package/Controller.java.ftl"
                 to="${escapeXmlAttribute(srcOut)}/${nameController}${defPostfixController}.java" />
 	    </#if>
-   
+
         <#if generateLayout>
             <instantiate from="res/layout/layout.xml.ftl"
                 to="${escapeXmlAttribute(resOut)}/layout/${nameRes}.xml" />

@@ -3,22 +3,18 @@
 	<#if generateKotlin>
 		<#if screenType=='activity'>
 			<#if typeViewActivity=='1'>
-    			ScreenModel()
-			<#elseif typeViewActivity=='2'>
    				ScreenModel()
-			<#elseif typeViewActivity=='3'>
+			<#elseif typeViewActivity=='2'>
    				LdsScreenModel()
-			<#elseif typeViewActivity=='4'>
+			<#elseif typeViewActivity=='3'>
 				LdsSwrScreenModel()
 			</#if>
 		<#else>
 			<#if typeViewFragment=='1'>
     			ScreenModel()
 			<#elseif typeViewFragment=='2'>
-   				ScreenModel()
-			<#elseif typeViewFragment=='3'>
    				LdsScreenModel()
-			<#elseif typeViewFragment=='4'>
+			<#elseif typeViewFragment=='3'>
 				LdsSwrScreenModel()
 			</#if>
 		</#if>
@@ -27,20 +23,16 @@
 			<#if typeViewActivity=='1'>
     			ScreenModel
 			<#elseif typeViewActivity=='2'>
-   				ScreenModel
-			<#elseif typeViewActivity=='3'>
    				LdsScreenModel
-			<#elseif typeViewActivity=='4'>
+			<#elseif typeViewActivity=='3'>
 				LdsSwrScreenModel
 			</#if>
 		<#else>
 			<#if typeViewFragment=='1'>
     			ScreenModel
 			<#elseif typeViewFragment=='2'>
-   				ScreenModel
-			<#elseif typeViewFragment=='3'>
    				LdsScreenModel
-			<#elseif typeViewFragment=='4'>
+			<#elseif typeViewFragment=='3'>
 				LdsSwrScreenModel
 			</#if>
 		</#if>

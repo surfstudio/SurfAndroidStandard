@@ -1,17 +1,14 @@
 #Core app
-Основано на [ferro](https://github.com/MaksTuev/ferro).
-
-Содержит базовую часть ядра для построения приложения.
+Используется для конфигурации всего приложения и предоставляет полезные классы для реализации
 
 #Использование
-Наследуемся от CoreApp.
+Основные классы:
 
+1. CoreApp - базовый класс приложения, скрывает часто используемую настройку окружения. Не является необходимым для других модулей
+1. ActiveActivityHolder - содержит ссылку на текущую активити. Можно получит из CoreApp
+1. StringProvider - провайдер строковых ресурсов. Позволяет скрыть использование контекста для доступа к ресурсам.
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:core-app:X.X.X"
+    implementation "ru.surfstudio.android:core-app:X.X.X"
 ```

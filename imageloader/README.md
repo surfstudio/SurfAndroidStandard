@@ -5,21 +5,11 @@
 синтаксиса, а также инкапсулирет различные операции над изображениями, которые часто требуется
 реализовывать в проектах.
 
-##ЧТО НОВОГО
-
-Здесь будет публиковаться перечень изменений при выходе новой версии модуля.
-
-1. Теперь `ImageLoader` работает с `Drawable`. Все методы , кроме `get()` возвращают `Drawable`.
-
 ##ПОДКЛЮЧЕНИЕ
 
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 
-    implementation "ru.surfstudio.standard:imageloader:X.X.X"
+    implementation "ru.surfstudio.android:imageloader:X.X.X"
 
 ##ЗАВИСИМОСТИ И ТЕХНОЛОГИИ
 

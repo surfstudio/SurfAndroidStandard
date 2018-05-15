@@ -1,5 +1,10 @@
 package ${packageName};
 
+import ru.surfstudio.android.core.mvp.presenter.BasePresenter;
+import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency;
+import ru.surfstudio.android.dagger.scope.PerScreen;
+import javax.inject.Inject;
+
 @PerScreen
 class ${className}Presenter extends BasePresenter<${className}${screenTypeCapitalized}View> {
 

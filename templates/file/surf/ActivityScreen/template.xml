@@ -40,10 +40,9 @@
         name="Родитель"
         default="1"
         visibility="screenType=='activity'">
-        <option id="1">BaseHandleableErrorActivityView</option>
-        <option id="2">BaseRenderableHandleableErrorActivityView</option>
-        <option id="3">BaseLdsActivityView</option>
-        <option id="4">BaseLdsSwrActivityView</option>
+        <option id="1">BaseRenderableActivityView</option>
+        <option id="2">BaseLdsActivityView</option>
+        <option id="3">BaseLdsSwrActivityView</option>
     </parameter>
 
     <parameter
@@ -52,10 +51,9 @@
         name="Родитель"
         default="1"
         visibility="screenType=='fragment'">
-        <option id="1">BaseHandleableErrorFragmentView</option>
-        <option id="2">BaseRenderableHandleableErrorFragmentView</option>
-        <option id="3">BaseLdsFragmentView</option>
-        <option id="4">BaseLdsSwrFragmentView</option>
+        <option id="1">BaseRenderableFragmentView</option>
+        <option id="2">BaseLdsFragmentView</option>
+        <option id="3">BaseLdsSwrFragmentView</option>
     </parameter>
 
     <parameter
@@ -86,7 +84,7 @@
         name="Тип результата экрана"
         constraints="class|nonempty"
         visibility="screenType=='activity' &amp;&amp; (typeRouteActivity=='3' || typeRouteActivity=='4')" />
-    
+
     <parameter
         id="routeParamType1"
         type="string"
@@ -146,9 +144,9 @@
         name="Controller name without postfix"
         type="string"
         constraints="class|nonempty"
-        visibility="generateRecyclerView" 
+        visibility="generateRecyclerView"
         help="Имя контроллера без суффикса ItemController"/>
-    
+
     <parameter
         id="typeController"
         name="Controller type"

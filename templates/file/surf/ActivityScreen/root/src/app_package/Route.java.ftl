@@ -4,6 +4,14 @@
 <#import "macros/select_bundle_write_method_macros.ftl" as bundleWrite>
 package ${packageName};
 
+import android.content.Context;
+import android.content.Intent;
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsAndResultRoute;
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsRoute;
+import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
+import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithParamsRoute
+
 <#if screenType=='fragment'>
 import android.support.v4.app.Fragment
 </#if>
@@ -85,7 +93,7 @@ public class ${className}${screenTypeCapitalized}Route extends <@superClass.sele
                 ${routeParam3} = <@bundleRead.selectBundleReadMethod paramType=routeParamType3 extra='EXTRA_THIRD' />
                 </#if>
     }
-    
+
     @Override
     public Bundle prepareBundle() {
         Bundle args = new Bundle();
