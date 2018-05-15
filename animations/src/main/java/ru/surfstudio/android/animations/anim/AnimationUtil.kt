@@ -39,15 +39,16 @@ object AnimationUtil {
     fun fadeOut(outView: View,
                 duration: Long = ANIM_LEAVING,
                 visibility: Int = View.GONE,
-                endAction: (() -> Unit)? = null) {
-
+                successfulEndAction: (() -> Unit)? = null) {
+        outView.clearAnimation()
         ViewCompat.animate(outView)
                 .alpha(0f)
                 .setDuration(duration)
                 .setInterpolator(LinearOutSlowInInterpolator())
+                .setListener(DefaultViewPropertyAnimatorListener())
                 .withEndAction {
                     outView.visibility = visibility
-                    endAction?.invoke()
+                    successfulEndAction?.invoke()
                 }
     }
 
@@ -56,12 +57,17 @@ object AnimationUtil {
      */
     fun fadeIn(inView: View, duration: Long = ANIM_ENTERING, endAction: (() -> Unit)? = null) {
 
+        val animatorListener = DefaultViewPropertyAnimatorListener(inView.alpha, inView.visibility)
+
         inView.alpha = 0f
         inView.visibility = View.VISIBLE
+
+        inView.clearAnimation()
         ViewCompat.animate(inView)
                 .alpha(1f)
                 .setDuration(duration)
                 .setInterpolator(FastOutLinearInInterpolator())
+                .setListener(animatorListener)
                 .withEndAction {
                     endAction?.invoke()
                 }
@@ -117,9 +123,9 @@ object AnimationUtil {
                 interpolator: TimeInterpolator = LinearInterpolator(),
                 startAction: ((View) -> Unit)? = null,
                 endAction: ((View) -> Unit)? = null) {
-        if (view.visibility == View.GONE) {
-            slide(view, gravity, duration, interpolator, endAction, startAction)
+        if (view.visibility != View.VISIBLE) {
             view.visibility = View.VISIBLE
+            slide(view, gravity, duration, interpolator, endAction, startAction)
         }
     }
 
