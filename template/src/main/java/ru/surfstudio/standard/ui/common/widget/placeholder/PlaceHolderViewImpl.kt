@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.ui.screen.main
+package ru.surfstudio.standard.ui.common.widget.placeholder
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,9 +6,9 @@ import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
 
-class PlaceHolderView @JvmOverloads constructor(context: Context,
-                                                attrs: AttributeSet,
-                                                defStyleAttr: Int = 0)
+class PlaceHolderViewImpl @JvmOverloads constructor(context: Context,
+                                                    attrs: AttributeSet,
+                                                    defStyleAttr: Int = 0)
     : StandardPlaceHolderView(context, attrs, defStyleAttr), PlaceHolderViewInterface {
 
     override fun render(loadState: LoadState) {
@@ -30,6 +30,9 @@ class PlaceHolderView @JvmOverloads constructor(context: Context,
             }
             LoadState.NOT_FOUND -> {
                 setNotFoundState()
+            }
+            LoadState.NO_INTERNET -> {
+                setNoInternetState()
             }
         }
     }

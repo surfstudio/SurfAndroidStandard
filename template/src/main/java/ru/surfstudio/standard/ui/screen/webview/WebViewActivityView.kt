@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
 import ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
 import ru.surfstudio.standard.R
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.standard.ui.screen.main.PlaceHolderView
+import ru.surfstudio.standard.ui.common.widget.placeholder.PlaceHolderViewImpl
 import javax.inject.Inject
 
 /**
@@ -32,7 +32,7 @@ class WebViewActivityView : BaseLdsActivityView<WebViewScreenModel>() {
         findViews()
     }
 
-    override fun getPlaceHolderView(): PlaceHolderView = find(R.id.placeholder)
+    override fun getPlaceHolderView(): PlaceHolderViewImpl = find(R.id.placeholder)
 
     override fun renderInternal(screenModel: WebViewScreenModel) {
         toolbar.title = screenModel.title

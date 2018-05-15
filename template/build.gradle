@@ -34,34 +34,24 @@ android {
             keyAlias "test"
             keyPassword "qatest"
         }
-        test {
-            storeFile file("../keystore/test.keystore")
-            storePassword "qatest"
-            keyAlias "test"
-            keyPassword "qatest"
-        }
     }
 
     buildTypes {
         debug {
-            signingConfig signingConfigs.test
+            signingConfig signingConfigs.qa
             minifyEnabled false
-            resValue "bool", "only_portrait", "false"
         }
         qa {
             signingConfig signingConfigs.qa
-            minifyEnabled false
+            minifyEnabled true
             debuggable = true
-            ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
-            ext.betaDistributionGroupAliases = "Surf"
+            ext.betaDistributionGroupAliases = "Surf" //todo проверить название группы в Crashlytics
             ext.betaDistributionNotifications = true
-            resValue "bool", "only_portrait", "false"
         }
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "only_portrait", "true"
         }
     }
 
@@ -84,8 +74,6 @@ dependencies {
     def assertJVersion = '3.5.1'
 
     //------------------------------------ dependencies --------------------------------------------
-//    implementation 'ru.surfstudio.standard:core:0.0.1'
-    //implementation 'ru.surfstudio.standard:easyadapter:0.0.4-SNAPSHOT'//todo
 
     implementation project(':core-app')
     implementation project(':core-ui')
@@ -158,4 +146,3 @@ dependencies {
 }
 
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.google.gms.google-services'
