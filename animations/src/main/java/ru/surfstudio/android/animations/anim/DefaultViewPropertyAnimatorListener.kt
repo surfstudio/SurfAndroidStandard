@@ -3,7 +3,11 @@ package ru.surfstudio.android.animations.anim
 import android.support.v4.view.ViewPropertyAnimatorListener
 import android.view.View
 
-
+/**
+ * ViewPropertyAnimatorListener враппер,
+ * который умеет сбрасывать состояниие вьюшки
+ * если анимация была отменена
+ */
 class DefaultViewPropertyAnimatorListener(predefinedAlpha: Float? = null,
                                           predefinedVisibility: Int? = null)
     : ViewPropertyAnimatorListener {
