@@ -44,6 +44,7 @@ android {
         qa {
             signingConfig signingConfigs.qa
             minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable = true
             ext.betaDistributionGroupAliases = "Surf" //todo проверить название группы в Crashlytics
             ext.betaDistributionNotifications = true
