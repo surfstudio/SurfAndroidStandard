@@ -1,29 +1,29 @@
-package ru.surfstudio.android.utilktx.ktx.dataextender.expandable
+package ru.surfstudio.android.utilktx.ktx.datawrapper.expandable
 
-import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
 
 /**
  * Если объект может быть выделяемым
  */
 interface ExpandableDataInterface {
     var isExpanded: Boolean
-    fun show()
-    fun hide()
+    fun expand()
+    fun collapse()
 }
 
 /**
  * Поддерживает множество выделений
  */
 class ExpandableData<T>(data: T)
-    : BaseDataExtender<T>(data), ExpandableDataInterface {
+    : BaseDataWrapper<T>(data), ExpandableDataInterface {
 
     override var isExpanded: Boolean = false
 
-    override fun show() {
+    override fun expand() {
         isExpanded = true
     }
 
-    override fun hide() {
+    override fun collapse() {
         isExpanded = false
     }
 }

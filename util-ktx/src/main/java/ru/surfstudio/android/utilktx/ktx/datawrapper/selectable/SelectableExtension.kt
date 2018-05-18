@@ -1,35 +1,27 @@
-package ru.surfstudio.android.utilktx.ktx.dataextender.selectable
+package ru.surfstudio.android.utilktx.ktx.datawrapper.selectable
+
+import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
 
 /**
  * Extension-функции для коллекции, использующая [SelectableData]
  * у [SelectableData] может быть выделен только один элемент
+ *
+ * Если необходимо множественное выделение -> смотри [CheckableData]
  */
-
-/**
- * Поставить выделение для <T>
- */
-fun <T> Collection<SelectableData<T>>.setSelected(value: T) {
-    val selected = this.getSelected()
-    if (selected != null) {
-        selected.isSelected = false
-    }
-
-    this
-            .find { it.data == value }
-            .apply { this!!.isSelected = true }
-}
 
 /**
  * Поставить выделение для <T>, используя предикат
  */
 fun <T> Collection<SelectableData<T>>.setSelected(predicate: (T) -> Boolean) {
-    val selected = this.getSelected()
-    if (selected != null) {
-        selected.isSelected = false
-    }
-    this
-            .find { predicate(it.data) }
-            .apply { this!!.isSelected = true }
+    setUnselected()
+    findAndApply(this, { predicate(it) }, { it.isSelected = true })
+}
+
+/**
+ * Поставить выделение для <T>
+ */
+fun <T> Collection<SelectableData<T>>.setSelected(value: T) {
+    setSelected(predicate = { it == value })
 }
 
 /**
@@ -47,7 +39,7 @@ fun <T> Collection<SelectableData<T>>.getSelected(): SelectableData<T>? =
 /**
  * убирает выделение у всей коллекции
  */
-fun <T> Collection<SelectableData<T>>.setUnselectedAll() {
+fun <T> Collection<SelectableData<T>>.setUnselected() {
     this.forEach {
         it.apply {
             this.isSelected = false
@@ -59,7 +51,7 @@ fun <T> Collection<SelectableData<T>>.setUnselectedAll() {
  * ставит выделение на первый элемент
  */
 fun <T> Collection<SelectableData<T>>.setSelectedFirst() {
-    this.setUnselectedAll()
+    setUnselected()
     this.first().apply {
         this.isSelected = true
     }

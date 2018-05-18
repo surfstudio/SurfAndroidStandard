@@ -1,6 +1,6 @@
-package ru.surfstudio.android.utilktx.ktx.dataextender
+package ru.surfstudio.android.utilktx.ktx.datawrapper
 
 /**
  * Базовый класс для расширяемого класса, имеющий какие-либо состояния
  */
-open class BaseDataExtender<T>(var data: T)
+open class BaseDataWrapper<T>(var data: T)

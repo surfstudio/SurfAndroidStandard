@@ -1,9 +1,9 @@
-package ru.surfstudio.android.utilktx.ktx.dataextender.blockable
+package ru.surfstudio.android.utilktx.ktx.datawrapper.blockable
 
-import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
 
 /**
- * Если может блокировать своё состояние
+ * Интерфейс сущности, если может блокировать своё состояние
  */
 interface BlockableDataInterface {
     var isBlocked: Boolean
@@ -12,7 +12,7 @@ interface BlockableDataInterface {
 }
 
 class BlockableData<T>(data: T)
-    : BaseDataExtender<T>(data), BlockableDataInterface {
+    : BaseDataWrapper<T>(data), BlockableDataInterface {
 
     override var isBlocked: Boolean = false
 
