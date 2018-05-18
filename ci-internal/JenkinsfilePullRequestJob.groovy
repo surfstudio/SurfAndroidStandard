@@ -27,7 +27,7 @@ stagesResult = [:] //stageName : execute result
 
 // =========================== MAIN ===============================================
 
-node("android.node") {
+node("android") {
     try {
         stage('Init') {
             initStageBody()
