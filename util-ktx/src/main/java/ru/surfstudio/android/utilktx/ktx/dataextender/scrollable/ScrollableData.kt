@@ -1,6 +1,6 @@
-package com.company.uidata.dataextender.scrollable
+package ru.surfstudio.android.utilktx.ktx.dataextender.scrollable
 
-import com.company.uidata.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
 
 /**
  * Если внутри элемента есть другой список

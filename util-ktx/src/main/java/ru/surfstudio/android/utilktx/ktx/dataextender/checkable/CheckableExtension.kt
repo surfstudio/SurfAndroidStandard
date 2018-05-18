@@ -1,4 +1,4 @@
-package com.company.uidata.dataextender.checkable
+package ru.surfstudio.android.utilktx.ktx.dataextender.checkable
 
 /**
  * Extension-функции для коллекции, использующая [CheckableData]
@@ -7,6 +7,7 @@ package com.company.uidata.dataextender.checkable
 
 /**
  * Поставить выделение для <T>
+ * @param T
  */
 fun <T> Collection<CheckableData<T>>.setCheck(value: T) {
     this
@@ -23,8 +24,26 @@ fun <T> Collection<CheckableData<T>>.setUncheck(value: T) {
             .apply { this!!.isChecked = false }
 }
 
-fun <T> Collection<CheckableData<T>>.setCheckLambda(valueLambda: (CheckableData<T>) -> Unit) {
-    //todo
+/**
+ * Поставить выделение для <T>, удовлетворающее предикату
+ *
+ * @param (T) -> Boolean
+ */
+fun <T> Collection<CheckableData<T>>.setCheck(predicate: (T) -> Boolean) {
+    this
+            .find { predicate(it.data) }
+            .apply { this!!.isChecked = true }
+}
+
+/**
+ * Убрать выделение для <T>, удовлетворающее предикату
+ *
+ * @param (T) -> Boolean
+ */
+fun <T> Collection<CheckableData<T>>.setUncheck(predicate: (T) -> Boolean) {
+    this
+            .find { predicate(it.data) }
+            .apply { this!!.isChecked = false }
 }
 
 /**

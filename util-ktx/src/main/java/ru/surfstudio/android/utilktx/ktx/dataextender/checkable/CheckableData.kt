@@ -1,6 +1,6 @@
-package com.company.uidata.dataextender.checkable
+package ru.surfstudio.android.utilktx.ktx.dataextender.checkable
 
-import com.company.uidata.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
 
 /**
  * Если объект может быть выделяемым

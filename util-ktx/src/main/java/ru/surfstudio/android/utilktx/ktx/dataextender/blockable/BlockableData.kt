@@ -1,6 +1,6 @@
-package com.company.uidata.dataextender.blockable
+package ru.surfstudio.android.utilktx.ktx.dataextender.blockable
 
-import com.company.uidata.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
 
 /**
  * Если может блокировать своё состояние

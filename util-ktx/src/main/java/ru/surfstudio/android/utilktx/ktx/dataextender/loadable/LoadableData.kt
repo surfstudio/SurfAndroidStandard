@@ -1,6 +1,6 @@
-package com.company.uidata.dataextender.loadable
+package ru.surfstudio.android.utilktx.ktx.dataextender.loadable
 
-import com.company.uidata.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
 
 /**
  * Если может иметь состояние загрузки

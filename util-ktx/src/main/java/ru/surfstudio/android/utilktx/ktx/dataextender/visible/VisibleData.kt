@@ -1,6 +1,6 @@
-package com.company.uidata.dataextender.visible
+package ru.surfstudio.android.utilktx.ktx.dataextender.visible
 
-import com.company.uidata.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
 
 /**
  * Если имеет возможность скрываться

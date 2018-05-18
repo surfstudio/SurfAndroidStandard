@@ -1,6 +1,6 @@
-package com.company.uidata.dataextender.deletable
+package ru.surfstudio.android.utilktx.ktx.dataextender.deletable
 
-import com.company.uidata.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
 
 /**
  * Если должен уметь удаляться с возможностью возвращения

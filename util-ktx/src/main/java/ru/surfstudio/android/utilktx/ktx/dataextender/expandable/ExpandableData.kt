@@ -1,6 +1,6 @@
-package com.company.uidata.dataextender.expandable
+package ru.surfstudio.android.utilktx.ktx.dataextender.expandable
 
-import com.company.uidata.dataextender.BaseDataExtender
+import ru.surfstudio.android.utilktx.ktx.dataextender.BaseDataExtender
 
 /**
  * Если объект может быть выделяемым
