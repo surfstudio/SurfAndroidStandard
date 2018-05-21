@@ -1,7 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.selectable
 
 import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findFirstAndApply
 
 /**
  * Extension-функции для коллекции, использующая [SelectableData]
@@ -15,8 +14,8 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findFirstAndApply
  */
 fun <T, E> Collection<E>.setSelected(predicate: (T) -> Boolean)
         where E : DataWrapperInterface<T>, E : SelectableDataInterface {
-    setUnselected()
-    findFirstAndApply(this, { predicate(it) }, { it.isSelected = true })
+    setDeselected()
+    findSingleAndApply(this, { predicate(it) }, { it.isSelected = true })
 }
 
 /**
@@ -32,14 +31,14 @@ fun <T, E> Collection<E>.setSelected(value: T)
  */
 fun <T, E> Collection<E>.getSelectedData(): T
         where E : DataWrapperInterface<T>, E : SelectableDataInterface {
-    if (!isAnySelected()) {
-        throw IllegalStateException("ни одного выделенного элемента")
-    }
+    val foundedItems = this.filter { it.isSelected }
+    if (foundedItems.size > 1) throw IllegalStateException("было найдено больше одного элемента")
+    if (foundedItems.isEmpty()) throw IllegalStateException("ни одного выделенного элемента")
     return this.filter { it.isSelected }.map { it.data }[0]
 }
 
 /**
- * @return возвращает выделенный объект <T>. Если ни один не выделе, то null
+ * @return возвращает выделенный объект <T>. Если ни один не выделен, то null
  */
 fun <T, E> Collection<E>.getSelectedDataNullable(): T?
         where E : DataWrapperInterface<T>, E : SelectableDataInterface =
@@ -48,7 +47,7 @@ fun <T, E> Collection<E>.getSelectedDataNullable(): T?
 /**
  * убирает выделение у всей коллекции
  */
-fun <T, E> Collection<E>.setUnselected()
+fun <T, E> Collection<E>.setDeselected()
         where E : DataWrapperInterface<T>, E : SelectableDataInterface {
     this.forEach {
         it.apply {
@@ -62,7 +61,7 @@ fun <T, E> Collection<E>.setUnselected()
  */
 fun <T, E> Collection<E>.setSelectedFirst()
         where E : DataWrapperInterface<T>, E : SelectableDataInterface {
-    setUnselected()
+    setDeselected()
     this.first().apply {
         this.isSelected = true
     }
@@ -74,3 +73,18 @@ fun <T, E> Collection<E>.setSelectedFirst()
 fun <T, E> Collection<E>.isAnySelected(): Boolean
         where E : DataWrapperInterface<T>, E : SelectableDataInterface =
         this.find { it.isSelected } != null
+
+/**
+ * Найти объект (только один) в коллекции по findPredicate
+ * и изменить в соответствии с applyConsumer
+ */
+private fun <T, E : DataWrapperInterface<T>> findSingleAndApply(collection: Collection<E>,
+                                                                findPredicate: (T) -> Boolean,
+                                                                applyConsumer: (E) -> Unit) {
+    val foundedItems = collection.filter { findPredicate(it.data) }
+    if (foundedItems.size > 1) {
+        throw IllegalStateException("было найдено больше одного элемента")
+    } else {
+        foundedItems.forEach(applyConsumer)
+    }
+}
