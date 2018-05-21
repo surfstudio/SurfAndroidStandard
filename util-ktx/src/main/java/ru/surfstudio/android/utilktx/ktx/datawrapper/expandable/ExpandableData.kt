@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.expandable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 
 /**
  * Если объект может быть выделяемым
@@ -14,8 +14,8 @@ interface ExpandableDataInterface {
 /**
  * Поддерживает множество выделений
  */
-class ExpandableData<T>(data: T)
-    : BaseDataWrapper<T>(data), ExpandableDataInterface {
+class ExpandableData<T>(override var data: T)
+    : DataWrapperInterface<T>, ExpandableDataInterface {
 
     override var isExpanded: Boolean = false
 

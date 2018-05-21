@@ -1,6 +1,7 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.selectable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
+import ru.surfstudio.android.utilktx.ktx.datawrapper.findFirstAndApply
 
 /**
  * Extension-функции для коллекции, использующая [SelectableData]
@@ -12,34 +13,43 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
 /**
  * Поставить выделение для <T>, используя предикат
  */
-fun <T> Collection<SelectableData<T>>.setSelected(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setSelected(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface {
     setUnselected()
-    findAndApply(this, { predicate(it) }, { it.isSelected = true })
+    findFirstAndApply(this, { predicate(it) }, { it.isSelected = true })
 }
 
 /**
  * Поставить выделение для <T>
  */
-fun <T> Collection<SelectableData<T>>.setSelected(value: T) {
+fun <T, E> Collection<E>.setSelected(value: T)
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface {
     setSelected(predicate = { it == value })
+}
+
+/**
+ * @return возвращает выделенный объект <T>.
+ */
+fun <T, E> Collection<E>.getSelectedData(): T
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface {
+    if (!isAnySelected()) {
+        throw IllegalStateException("ни одного выделенного элемента")
+    }
+    return this.filter { it.isSelected }.map { it.data }[0]
 }
 
 /**
  * @return возвращает выделенный объект <T>. Если ни один не выделе, то null
  */
-fun <T> Collection<SelectableData<T>>.getSelectedData(): T? =
+fun <T, E> Collection<E>.getSelectedDataNullable(): T?
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface =
         this.find { it.isSelected }?.data
-
-/**
- * @return возвращает выделенный объект SelectableData<T>. Если ни один не выделе, то null
- */
-fun <T> Collection<SelectableData<T>>.getSelected(): SelectableData<T>? =
-        this.find { it.isSelected }
 
 /**
  * убирает выделение у всей коллекции
  */
-fun <T> Collection<SelectableData<T>>.setUnselected() {
+fun <T, E> Collection<E>.setUnselected()
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface {
     this.forEach {
         it.apply {
             this.isSelected = false
@@ -50,7 +60,8 @@ fun <T> Collection<SelectableData<T>>.setUnselected() {
 /**
  * ставит выделение на первый элемент
  */
-fun <T> Collection<SelectableData<T>>.setSelectedFirst() {
+fun <T, E> Collection<E>.setSelectedFirst()
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface {
     setUnselected()
     this.first().apply {
         this.isSelected = true
@@ -60,5 +71,6 @@ fun <T> Collection<SelectableData<T>>.setSelectedFirst() {
 /**
  * @return есть ли выделенный объект?
  */
-fun <T> Collection<SelectableData<T>>.isAnySelected(): Boolean =
+fun <T, E> Collection<E>.isAnySelected(): Boolean
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface =
         this.find { it.isSelected } != null

@@ -1,5 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.deletable
 
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
@@ -10,7 +11,8 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
  * Удалить элемент, с возможностью возвращение,
  * используя предикат
  */
-fun <T> Collection<DeletableData<T>>.setMarkAsDeleted(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setMarkAsDeleted(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : DeletableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.markAsDeleted() })
 }
 
@@ -18,20 +20,23 @@ fun <T> Collection<DeletableData<T>>.setMarkAsDeleted(predicate: (T) -> Boolean)
  * Возврат после удаления,
  * используя предикат
  */
-fun <T> Collection<DeletableData<T>>.setUndo(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setUndo(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : DeletableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.undo() })
 }
 
 /**
  * Удалить элемент, с возможностью возвращение
  */
-fun <T> Collection<DeletableData<T>>.setMarkAsDeleted(value: T) {
+fun <T, E> Collection<E>.setMarkAsDeleted(value: T)
+        where E : DataWrapperInterface<T>, E : DeletableDataInterface {
     setMarkAsDeleted(predicate = { it == value })
 }
 
 /**
  * Возврат после удаления
  */
-fun <T> Collection<DeletableData<T>>.setUndo(value: T) {
+fun <T, E> Collection<DeletableData<T>>.setUndo(value: T)
+        where E : DataWrapperInterface<T>, E : DeletableDataInterface {
     setUndo(predicate = { it == value })
 }

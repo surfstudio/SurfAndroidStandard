@@ -1,5 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.loadable
 
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
@@ -9,41 +10,47 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 /**
  * Поставить элементу состояние загрузки
  */
-fun <T> Collection<LoadableData<T>>.setLoading(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setLoading(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : LoadableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.setLoading() })
 }
 
 /**
  * Сделать элемент в обычном состоянии
  */
-fun <T> Collection<LoadableData<T>>.setLoadingNormalState(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setLoadingNormalStatus(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : LoadableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.setNormal() })
 }
 
 /**
  * Поставить элемент в состояние ошибки
  */
-fun <T> Collection<LoadableData<T>>.setLoadingErrorState(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setLoadingErrorStatus(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : LoadableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.setErrorLoading() })
 }
 
 /**
  * Поставить элементу состояние загрузки
  */
-fun <T> Collection<LoadableData<T>>.setLoading(value: T) {
+fun <T, E> Collection<E>.setLoading(value: T)
+        where E : DataWrapperInterface<T>, E : LoadableDataInterface {
     setLoading(predicate = { it == value })
 }
 
 /**
  * Сделать элемент в обычном состоянии
  */
-fun <T> Collection<LoadableData<T>>.setLoadingNormalState(value: T) {
-    setLoadingNormalState(predicate = { it == value })
+fun <T, E> Collection<E>.setLoadingNormalStatus(value: T)
+        where E : DataWrapperInterface<T>, E : LoadableDataInterface {
+    setLoadingNormalStatus(predicate = { it == value })
 }
 
 /**
  * Поставить элемент в состояние ошибки
  */
-fun <T> Collection<LoadableData<T>>.setLoadingNormal(value: T) {
-    setLoadingErrorState(predicate = { it == value })
+fun <T, E> Collection<E>.setLoadingNormal(value: T)
+        where E : DataWrapperInterface<T>, E : LoadableDataInterface {
+    setLoadingErrorStatus(predicate = { it == value })
 }

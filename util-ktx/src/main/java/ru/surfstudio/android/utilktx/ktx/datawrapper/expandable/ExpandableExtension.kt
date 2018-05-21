@@ -1,5 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.expandable
 
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
@@ -9,14 +10,16 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 /**
  * Развернуть элемент, используя предикат
  */
-fun <T> Collection<ExpandableData<T>>.expand(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.expand(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.expand() })
 }
 
 /**
- * Развернуть элемент, используя предикат и свернуть другой развёрнутый
+ * Развернуть элемент, используя предикат и свернуть другие развёрнутые
  */
-fun <T> Collection<ExpandableData<T>>.expandAndCollapseAnother(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.expandAndCollapseAnother(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     collapseAll()
     expand(predicate)
 }
@@ -24,36 +27,40 @@ fun <T> Collection<ExpandableData<T>>.expandAndCollapseAnother(predicate: (T) ->
 /**
  * Развернуть элемент
  */
-fun <T> Collection<ExpandableData<T>>.expand(value: T) {
+fun <T, E> Collection<E>.expand(value: T)
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     expand(predicate = { it == value })
 }
 
 /**
- * Развернуть элемент и свернуть другой развёрнутый
+ * Развернуть элемент и свернуть другие развёрнутые
  */
-fun <T> Collection<ExpandableData<T>>.expandAndCollapseAnother(value: T) {
-    collapseAll()
-    expand(value)
+fun <T, E> Collection<E>.expandAndCollapseAnother(value: T)
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
+    expandAndCollapseAnother(predicate = { it == value })
 }
 
 /**
  * Свернуть элемент, используя предикат
  */
-fun <T> Collection<ExpandableData<T>>.collapse(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.collapse(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.collapse() })
 }
 
 /**
  * Свернуть элемент
  */
-fun <T> Collection<ExpandableData<T>>.collapse(value: T) {
+fun <T, E> Collection<E>.collapse(value: T)
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     collapse(predicate = { it == value })
 }
 
 /**
  * Показать всё
  */
-fun <T> Collection<ExpandableData<T>>.expandAll() {
+fun <T, E> Collection<E>.expandAll()
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     this.forEach {
         it.apply { expand() }
     }
@@ -62,7 +69,8 @@ fun <T> Collection<ExpandableData<T>>.expandAll() {
 /**
  * Свернуть всё
  */
-fun <T> Collection<ExpandableData<T>>.collapseAll() {
+fun <T, E> Collection<E>.collapseAll()
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     this.forEach {
         it.apply { expand() }
     }

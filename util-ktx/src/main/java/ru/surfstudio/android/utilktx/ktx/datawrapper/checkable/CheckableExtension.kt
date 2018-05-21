@@ -1,5 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.checkable
 
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
@@ -14,7 +15,8 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
  *
  * @param (T) -> Boolean
  */
-fun <T> Collection<CheckableData<T>>.setCheck(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setCheck(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.isChecked = true })
 }
 
@@ -23,7 +25,8 @@ fun <T> Collection<CheckableData<T>>.setCheck(predicate: (T) -> Boolean) {
  *
  * @param (T) -> Boolean
  */
-fun <T> Collection<CheckableData<T>>.setUncheck(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.setUncheck(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.isChecked = false })
 }
 
@@ -31,27 +34,42 @@ fun <T> Collection<CheckableData<T>>.setUncheck(predicate: (T) -> Boolean) {
  * Поставить выделение для <T>
  * @param T
  */
-fun <T> Collection<CheckableData<T>>.setCheck(value: T) {
+fun <T, E> Collection<E>.setCheck(value: T)
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     setCheck(predicate = { it == value })
 }
 
 /**
  * Убрать выделение для <T>
  */
-fun <T> Collection<CheckableData<T>>.setUncheck(value: T) {
+fun <T, E> Collection<E>.setUncheck(value: T)
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     setUncheck(predicate = { it == value })
 }
 
 /**
  * @return коллекции с выделенными
  */
-fun <T> Collection<CheckableData<T>>.getChecked(): Collection<T>? =
+fun <T, E> Collection<E>.getChecked(): Collection<T>
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
+    if (!isAnyChecked()) {
+        throw IllegalStateException("нет выделенных элементов")
+    }
+    return this.filter { it.isChecked }.map { it.data }
+}
+
+/**
+ * @return коллекции с выделенными. Если не найдено, то null
+ */
+fun <T, E> Collection<E>.getCheckedNullable(): Collection<T>?
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface =
         this.filter { it.isChecked }.map { it.data }
 
 /**
  * Выделить все
  */
-fun <T> Collection<CheckableData<T>>.setCheckedAll() {
+fun <T, E> Collection<E>.setCheckedAll()
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     this.forEach {
         it.apply {
             this.isChecked = true
@@ -62,7 +80,8 @@ fun <T> Collection<CheckableData<T>>.setCheckedAll() {
 /**
  * Убрать выделение у всех
  */
-fun <T> Collection<CheckableData<T>>.setUncheckedAll() {
+fun <T, E> Collection<E>.setUncheckedAll()
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     this.forEach {
         it.apply {
             this.isChecked = false
@@ -73,12 +92,14 @@ fun <T> Collection<CheckableData<T>>.setUncheckedAll() {
 /**
  * Поставить выделение для первого
  */
-fun <T> Collection<CheckableData<T>>.setCheckedFirst() {
+fun <T, E> Collection<E>.setCheckedFirst()
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     this.first().apply { this.isChecked = true }
 }
 
 /**
  * @return есть ли хотя бы один выделенный объект?
  */
-fun <T> Collection<CheckableData<T>>.isAnyChecked(): Boolean =
+fun <T, E> Collection<E>.isAnyChecked(): Boolean
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface =
         this.find { it.isChecked } != null

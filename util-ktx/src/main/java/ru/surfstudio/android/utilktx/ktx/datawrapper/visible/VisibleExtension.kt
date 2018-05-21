@@ -1,5 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.visible
 
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
@@ -9,27 +10,31 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 /**
  * Показать элемент, используя предикат
  */
-fun <T> Collection<VisibleData<T>>.show(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.show(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : VisibleDataInterface {
     filterAndApply(this, { predicate(it) }, { it.show() })
 }
 
 /**
  * Скрыть элемент, используя предикат
  */
-fun <T> Collection<VisibleData<T>>.hide(predicate: (T) -> Boolean) {
+fun <T, E> Collection<E>.hide(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : VisibleDataInterface {
     filterAndApply(this, { predicate(it) }, { it.hide() })
 }
 
 /**
  * Показать элемент
  */
-fun <T> Collection<VisibleData<T>>.show(value: T) {
+fun <T, E> Collection<E>.show(value: T)
+        where E : DataWrapperInterface<T>, E : VisibleDataInterface {
     show(predicate = { it == value })
 }
 
 /**
  * Скрыть элемент
  */
-fun <T> Collection<VisibleData<T>>.hide(value: T) {
+fun <T, E> Collection<E>.hide(value: T)
+        where E : DataWrapperInterface<T>, E : VisibleDataInterface {
     hide(predicate = { it == value })
 }

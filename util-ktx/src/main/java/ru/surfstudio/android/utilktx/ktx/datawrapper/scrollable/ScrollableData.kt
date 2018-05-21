@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.scrollable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 
 /**
  * Интерфейс сущности, которая имеет внутри элемента другой список
@@ -10,7 +10,8 @@ interface ScrollableDataInterface {
     var scrollPosition: Int
 }
 
-class ScrollableData<T>(data: T) : BaseDataWrapper<T>(data), ScrollableDataInterface {
+class ScrollableData<T>(override var data: T) :
+        DataWrapperInterface<T>, ScrollableDataInterface {
 
     private val START_POSITION = 0
 

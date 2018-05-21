@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.checkable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 
 /**
  * Интерфейс сущности, если объект может быть выделяемым
@@ -14,8 +14,8 @@ interface CheckableDataInterface {
  * Поддерживает множество выделений, через расширение коллекций
  * Если необходимо одиночное выделение -> смотри [SelectableData]
  */
-class CheckableData<T>(data: T)
-    : BaseDataWrapper<T>(data), CheckableDataInterface {
+class CheckableData<T>(override var data: T)
+    : DataWrapperInterface<T>, CheckableDataInterface {
 
     override var isChecked: Boolean = false
 

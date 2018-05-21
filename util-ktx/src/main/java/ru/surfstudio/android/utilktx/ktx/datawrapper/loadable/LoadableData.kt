@@ -1,38 +1,44 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.loadable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 
 /**
  * Интерфейс сущности, которая может иметь состояние загрузки
  */
 interface LoadableDataInterface {
     var loadStateData: LoadStatus
+    fun setNormal()
+    fun isNormal(): Boolean
+    fun setLoading()
+    fun isLoading(): Boolean
+    fun setErrorLoading()
+    fun isErrorLoading(): Boolean
 }
 
-class LoadableData<T>(data: T)
-    : BaseDataWrapper<T>(data), LoadableDataInterface {
+class LoadableData<T>(override var data: T)
+    : DataWrapperInterface<T>, LoadableDataInterface {
 
     override var loadStateData: LoadStatus = LoadStatus.NORMAL
 
-    fun setNormal() {
+    override fun setNormal() {
         this.loadStateData = LoadStatus.NORMAL
     }
 
-    fun isNormal(): Boolean =
+    override fun isNormal(): Boolean =
             loadStateData == LoadStatus.NORMAL
 
-    fun setLoading() {
+    override fun setLoading() {
         this.loadStateData = LoadStatus.LOADING
     }
 
-    fun isLoading(): Boolean =
+    override fun isLoading(): Boolean =
             loadStateData == LoadStatus.LOADING
 
-    fun setErrorLoading() {
+    override fun setErrorLoading() {
         this.loadStateData = LoadStatus.ERROR
     }
 
-    fun isErrorLoading(): Boolean =
+    override fun isErrorLoading(): Boolean =
             loadStateData == LoadStatus.ERROR
 
 }

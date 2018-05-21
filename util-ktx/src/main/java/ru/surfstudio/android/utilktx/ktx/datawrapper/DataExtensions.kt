@@ -1,25 +1,25 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper
 
 /**
- * Extension-функции для [BaseDataWrapper]
+ * Extension-функции для [DataWrapperInterface]
  */
 
-fun <T> Collection<BaseDataWrapper<T>>.getData(): Collection<T> =
+fun <T> Collection<DataWrapperInterface<T>>.getData(): Collection<T> =
         this.map { it.data }
 
-fun <T> Collection<BaseDataWrapper<T>>.getListData(): List<T> =
+fun <T> Collection<DataWrapperInterface<T>>.getListData(): List<T> =
         this.map { it.data }
 
-fun <T> Collection<BaseDataWrapper<T>>.getSetData(): Set<T> =
+fun <T> Collection<DataWrapperInterface<T>>.getSetData(): Set<T> =
         this.map { it.data }.toSet()
 
 /**
  * Найти объект(ы) в коллекции по filterPredicate
  * и изменить в соответствии с applyConsumer
  */
-fun <T, E : BaseDataWrapper<T>> filterAndApply(collection: Collection<E>,
-                                               filterPredicate: (T) -> Boolean,
-                                               applyConsumer: (E) -> Unit) {
+fun <T, E : DataWrapperInterface<T>> filterAndApply(collection: Collection<E>,
+                                                    filterPredicate: (T) -> Boolean,
+                                                    applyConsumer: (E) -> Unit) {
     collection
             .filter { filterPredicate(it.data) }
             .forEach { applyConsumer(it) }
@@ -29,13 +29,18 @@ fun <T, E : BaseDataWrapper<T>> filterAndApply(collection: Collection<E>,
  * Найти объект (только один) в коллекции по findPredicate
  * и изменить в соответствии с applyConsumer
  */
-fun <T, E : BaseDataWrapper<T>> findAndApply(collection: Collection<E>,
-                                             findPredicate: (T) -> Boolean,
-                                             applyConsumer: (E) -> Unit) {
-    val foundedItem = collection.find { findPredicate(it.data) }
-    if (foundedItem != null) {
-        foundedItem.apply { applyConsumer(this) }
-    } else {
-        throw IllegalStateException("element not found in the findPredicate")
+fun <T, E : DataWrapperInterface<T>> findFirstAndApply(collection: Collection<E>,
+                                                       findPredicate: (T) -> Boolean,
+                                                       applyConsumer: (E) -> Unit) {
+    if (isFoundedMoreThanOne(collection, findPredicate)) {
+        throw IllegalStateException("was founded more than one element")
     }
+    filterAndApply(collection, findPredicate, applyConsumer)
 }
+
+/**
+ * @return true - если по предикату найдено больше 1-го элемента
+ */
+fun <T, E : DataWrapperInterface<T>> isFoundedMoreThanOne(collection: Collection<E>,
+                                                                  findPredicate: (T) -> Boolean): Boolean =
+        collection.filter { findPredicate(it.data) }.size > 1

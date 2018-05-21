@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.blockable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
+import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
 
 /**
  * Интерфейс сущности, если может блокировать своё состояние
@@ -11,8 +11,8 @@ interface BlockableDataInterface {
     fun unblock()
 }
 
-class BlockableData<T>(data: T)
-    : BaseDataWrapper<T>(data), BlockableDataInterface {
+class BlockableData<T>(override var data: T)
+    : DataWrapperInterface<T>, BlockableDataInterface {
 
     override var isBlocked: Boolean = false
 
