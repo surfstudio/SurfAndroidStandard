@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.loadable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
+import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
  * Extension-функции для коллекции, использующая [LoadableData]
@@ -10,21 +10,21 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
  * Поставить элементу состояние загрузки
  */
 fun <T> Collection<LoadableData<T>>.setLoading(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.setLoading() })
+    filterAndApply(this, { predicate(it) }, { it.setLoading() })
 }
 
 /**
  * Сделать элемент в обычном состоянии
  */
 fun <T> Collection<LoadableData<T>>.setLoadingNormalState(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.setNormal() })
+    filterAndApply(this, { predicate(it) }, { it.setNormal() })
 }
 
 /**
  * Поставить элемент в состояние ошибки
  */
 fun <T> Collection<LoadableData<T>>.setLoadingErrorState(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.setErrorLoading() })
+    filterAndApply(this, { predicate(it) }, { it.setErrorLoading() })
 }
 
 /**

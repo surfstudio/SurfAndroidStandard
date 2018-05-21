@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.blockable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
+import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
  * Extension-функции для коллекции, использующая [BlockableData]
@@ -10,14 +10,14 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
  * Блокировать value, используя предикат
  */
 fun <T> Collection<BlockableData<T>>.setBlocked(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.block() })
+    filterAndApply(this, { predicate(it) }, { it.block() })
 }
 
 /**
  * Разблокировать value, используя предикат
  */
 fun <T> Collection<BlockableData<T>>.setUnblocked(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.unblock() })
+    filterAndApply(this, { predicate(it) }, { it.unblock() })
 }
 
 /**

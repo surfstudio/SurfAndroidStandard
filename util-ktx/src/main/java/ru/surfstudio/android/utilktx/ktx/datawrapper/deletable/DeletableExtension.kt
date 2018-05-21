@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.deletable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
+import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
  * Extension-функции для коллекции, использующая [DeletableData]
@@ -11,7 +11,7 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
  * используя предикат
  */
 fun <T> Collection<DeletableData<T>>.setMarkAsDeleted(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.markAsDeleted() })
+    filterAndApply(this, { predicate(it) }, { it.markAsDeleted() })
 }
 
 /**
@@ -19,7 +19,7 @@ fun <T> Collection<DeletableData<T>>.setMarkAsDeleted(predicate: (T) -> Boolean)
  * используя предикат
  */
 fun <T> Collection<DeletableData<T>>.setUndo(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.undo() })
+    filterAndApply(this, { predicate(it) }, { it.undo() })
 }
 
 /**

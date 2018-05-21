@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.expandable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
+import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
  * Extension-функции для коллекции, использующая [ExpandableData]
@@ -10,7 +10,7 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
  * Развернуть элемент, используя предикат
  */
 fun <T> Collection<ExpandableData<T>>.expand(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.expand() })
+    filterAndApply(this, { predicate(it) }, { it.expand() })
 }
 
 /**
@@ -40,7 +40,7 @@ fun <T> Collection<ExpandableData<T>>.expandAndCollapseAnother(value: T) {
  * Свернуть элемент, используя предикат
  */
 fun <T> Collection<ExpandableData<T>>.collapse(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.collapse() })
+    filterAndApply(this, { predicate(it) }, { it.collapse() })
 }
 
 /**

@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.visible
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
+import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
  * Extension-функции для коллекции, использующая [VisibleData]
@@ -10,14 +10,14 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
  * Показать элемент, используя предикат
  */
 fun <T> Collection<VisibleData<T>>.show(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.show() })
+    filterAndApply(this, { predicate(it) }, { it.show() })
 }
 
 /**
  * Скрыть элемент, используя предикат
  */
 fun <T> Collection<VisibleData<T>>.hide(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.hide() })
+    filterAndApply(this, { predicate(it) }, { it.hide() })
 }
 
 /**

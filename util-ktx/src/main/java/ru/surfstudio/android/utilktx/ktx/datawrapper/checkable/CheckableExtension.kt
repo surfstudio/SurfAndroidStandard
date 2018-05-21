@@ -1,6 +1,6 @@
 package ru.surfstudio.android.utilktx.ktx.datawrapper.checkable
 
-import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
+import ru.surfstudio.android.utilktx.ktx.datawrapper.filterAndApply
 
 /**
  * Extension-функции для коллекции, использующая [CheckableData]
@@ -15,7 +15,7 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.findAndApply
  * @param (T) -> Boolean
  */
 fun <T> Collection<CheckableData<T>>.setCheck(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.isChecked = true })
+    filterAndApply(this, { predicate(it) }, { it.isChecked = true })
 }
 
 /**
@@ -24,7 +24,7 @@ fun <T> Collection<CheckableData<T>>.setCheck(predicate: (T) -> Boolean) {
  * @param (T) -> Boolean
  */
 fun <T> Collection<CheckableData<T>>.setUncheck(predicate: (T) -> Boolean) {
-    findAndApply(this, { predicate(it) }, { it.isChecked = false })
+    filterAndApply(this, { predicate(it) }, { it.isChecked = false })
 }
 
 /**

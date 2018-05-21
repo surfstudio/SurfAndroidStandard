@@ -6,38 +6,38 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.BaseDataWrapper
  * Интерфейс сущности, которая может иметь состояние загрузки
  */
 interface LoadableDataInterface {
-    var loadStateData: LoadStateData
+    var loadStateData: LoadStatus
 }
 
 class LoadableData<T>(data: T)
     : BaseDataWrapper<T>(data), LoadableDataInterface {
 
-    override var loadStateData: LoadStateData = LoadStateData.NORMAL
+    override var loadStateData: LoadStatus = LoadStatus.NORMAL
 
     fun setNormal() {
-        this.loadStateData = LoadStateData.NORMAL
+        this.loadStateData = LoadStatus.NORMAL
     }
 
     fun isNormal(): Boolean =
-            loadStateData == LoadStateData.NORMAL
+            loadStateData == LoadStatus.NORMAL
 
     fun setLoading() {
-        this.loadStateData = LoadStateData.LOADING
+        this.loadStateData = LoadStatus.LOADING
     }
 
     fun isLoading(): Boolean =
-            loadStateData == LoadStateData.LOADING
+            loadStateData == LoadStatus.LOADING
 
     fun setErrorLoading() {
-        this.loadStateData = LoadStateData.ERROR
+        this.loadStateData = LoadStatus.ERROR
     }
 
     fun isErrorLoading(): Boolean =
-            loadStateData == LoadStateData.ERROR
+            loadStateData == LoadStatus.ERROR
 
 }
 
-enum class LoadStateData {
+enum class LoadStatus {
     NORMAL, //обычное состояние
     LOADING, //загружается
     ERROR //произошла ошибка
