@@ -33,7 +33,7 @@ fun <T, E : DataWrapperInterface<T>> findFirstAndApply(collection: Collection<E>
                                                        findPredicate: (T) -> Boolean,
                                                        applyConsumer: (E) -> Unit) {
     if (isFoundedMoreThanOne(collection, findPredicate)) {
-        throw IllegalStateException("was founded more than one element")
+        throw IllegalStateException("было найдено больше одного элемента")
     }
     filterAndApply(collection, findPredicate, applyConsumer)
 }
