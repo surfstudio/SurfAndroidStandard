@@ -7,8 +7,12 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
  */
 interface ExpandableDataInterface {
     var isExpanded: Boolean
-    fun expand()
-    fun collapse()
+    fun expand(){
+        isExpanded = true
+    }
+    fun collapse(){
+        isExpanded = false
+    }
 }
 
 /**

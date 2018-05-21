@@ -7,20 +7,18 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
  */
 interface VisibleDataInterface {
     var isVisible: Boolean
-    fun show()
-    fun hide()
+
+    fun show() {
+        isVisible = true
+    }
+
+    fun hide() {
+        isVisible = false
+    }
 }
 
 class VisibleData<T>(override var data: T)
     : DataWrapperInterface<T>, VisibleDataInterface {
 
     override var isVisible: Boolean = true
-
-    override fun show() {
-        isVisible = true
-    }
-
-    override fun hide() {
-        isVisible = false
-    }
 }

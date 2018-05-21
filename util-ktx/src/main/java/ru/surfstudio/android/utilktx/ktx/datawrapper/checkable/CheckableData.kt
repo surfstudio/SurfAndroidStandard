@@ -7,7 +7,9 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
  */
 interface CheckableDataInterface {
     var isChecked: Boolean
-    fun toggleChecked()
+    fun toggleChecked() {
+        isChecked = !isChecked
+    }
 }
 
 /**
@@ -18,8 +20,4 @@ class CheckableData<T>(override var data: T)
     : DataWrapperInterface<T>, CheckableDataInterface {
 
     override var isChecked: Boolean = false
-
-    override fun toggleChecked() {
-        isChecked = !isChecked
-    }
 }

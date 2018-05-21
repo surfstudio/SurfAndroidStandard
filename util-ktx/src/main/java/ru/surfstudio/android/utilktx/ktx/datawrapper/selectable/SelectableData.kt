@@ -7,7 +7,9 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
  */
 interface SelectableDataInterface {
     var isSelected: Boolean
-    fun toggleSelected()
+    fun toggleSelected() {
+        isSelected = !isSelected
+    }
 }
 
 /**
@@ -18,8 +20,4 @@ class SelectableData<T>(override var data: T)
     : DataWrapperInterface<T>, SelectableDataInterface {
 
     override var isSelected: Boolean = false
-
-    override fun toggleSelected() {
-        isSelected = !isSelected
-    }
 }

@@ -7,8 +7,14 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
  */
 interface DeletableDataInterface {
     var isDeleted: Boolean
-    fun markAsDeleted()
-    fun undo()
+
+    fun markAsDeleted() {
+        isDeleted = true
+    }
+
+    fun undo() {
+        isDeleted = false
+    }
 }
 
 class DeletableData<T>(override var data: T)

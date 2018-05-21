@@ -7,40 +7,32 @@ import ru.surfstudio.android.utilktx.ktx.datawrapper.DataWrapperInterface
  */
 interface LoadableDataInterface {
     var loadStateData: LoadStatus
-    fun setNormal()
-    fun isNormal(): Boolean
-    fun setLoading()
-    fun isLoading(): Boolean
-    fun setErrorLoading()
-    fun isErrorLoading(): Boolean
+    fun setNormal() {
+        this.loadStateData = LoadStatus.NORMAL
+    }
+
+    fun isNormal(): Boolean =
+            loadStateData == LoadStatus.NORMAL
+
+    fun setLoading() {
+        this.loadStateData = LoadStatus.LOADING
+    }
+
+    fun isLoading(): Boolean =
+            loadStateData == LoadStatus.LOADING
+
+    fun setErrorLoading() {
+        this.loadStateData = LoadStatus.ERROR
+    }
+
+    fun isErrorLoading(): Boolean =
+            loadStateData == LoadStatus.ERROR
 }
 
 class LoadableData<T>(override var data: T)
     : DataWrapperInterface<T>, LoadableDataInterface {
 
     override var loadStateData: LoadStatus = LoadStatus.NORMAL
-
-    override fun setNormal() {
-        this.loadStateData = LoadStatus.NORMAL
-    }
-
-    override fun isNormal(): Boolean =
-            loadStateData == LoadStatus.NORMAL
-
-    override fun setLoading() {
-        this.loadStateData = LoadStatus.LOADING
-    }
-
-    override fun isLoading(): Boolean =
-            loadStateData == LoadStatus.LOADING
-
-    override fun setErrorLoading() {
-        this.loadStateData = LoadStatus.ERROR
-    }
-
-    override fun isErrorLoading(): Boolean =
-            loadStateData == LoadStatus.ERROR
-
 }
 
 enum class LoadStatus {

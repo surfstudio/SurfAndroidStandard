@@ -31,18 +31,24 @@ fun <T, E> Collection<E>.setSelected(value: T)
  */
 fun <T, E> Collection<E>.getSelectedData(): T
         where E : DataWrapperInterface<T>, E : SelectableDataInterface {
-    val foundedItems = this.filter { it.isSelected }
-    if (foundedItems.size > 1) throw IllegalStateException("было найдено больше одного элемента")
-    if (foundedItems.isEmpty()) throw IllegalStateException("ни одного выделенного элемента")
-    return this.filter { it.isSelected }.map { it.data }[0]
+    return getSelectedDataNullable()
+            ?: throw IllegalStateException("ни одного выделенного элемента")
 }
 
 /**
  * @return возвращает выделенный объект <T>. Если ни один не выделен, то null
  */
 fun <T, E> Collection<E>.getSelectedDataNullable(): T?
-        where E : DataWrapperInterface<T>, E : SelectableDataInterface =
-        this.find { it.isSelected }?.data
+        where E : DataWrapperInterface<T>, E : SelectableDataInterface {
+    val foundedItems = this.filter { it.isSelected }
+    if (foundedItems.size > 1) throw IllegalStateException("было найдено больше одного элемента")
+
+    return if (foundedItems.isEmpty()) {
+        null
+    } else {
+        foundedItems.first().data
+    }
+}
 
 /**
  * убирает выделение у всей коллекции
