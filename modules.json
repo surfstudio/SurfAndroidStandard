@@ -135,6 +135,14 @@
     {
       "name": "message-controller",
       "path": ""
+    },
+    {
+      "name": "rx-downloader",
+      "path": ""
+    },
+    {
+      "name": "rx-downloader-sample",
+      "path": ""
     }
   ]
 }
