@@ -7,34 +7,34 @@ import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
  */
 interface LoadableDataInterface {
 
-    var loadStateData: LoadStatus
+    var loadStatus: LoadStatus
 
     fun setNormal() {
-        this.loadStateData = LoadStatus.NORMAL
+        this.loadStatus = LoadStatus.NORMAL
     }
 
     fun isNormal(): Boolean =
-            loadStateData == LoadStatus.NORMAL
+            loadStatus == LoadStatus.NORMAL
 
     fun setLoading() {
-        this.loadStateData = LoadStatus.LOADING
+        this.loadStatus = LoadStatus.LOADING
     }
 
     fun isLoading(): Boolean =
-            loadStateData == LoadStatus.LOADING
+            loadStatus == LoadStatus.LOADING
 
     fun setErrorLoading() {
-        this.loadStateData = LoadStatus.ERROR
+        this.loadStatus = LoadStatus.ERROR
     }
 
     fun isErrorLoading(): Boolean =
-            loadStateData == LoadStatus.ERROR
+            loadStatus == LoadStatus.ERROR
 }
 
 class LoadableData<T>(override var data: T)
     : DataWrapperInterface<T>, LoadableDataInterface {
 
-    override var loadStateData: LoadStatus = LoadStatus.NORMAL
+    override var loadStatus: LoadStatus = LoadStatus.NORMAL
 }
 
 enum class LoadStatus {
