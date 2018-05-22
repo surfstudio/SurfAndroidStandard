@@ -85,8 +85,8 @@ fun <T, E> Collection<E>.isAnySelected(): Boolean
  * и изменить в соответствии с applyConsumer
  */
 private fun <T, E : DataWrapperInterface<T>> findSingleAndApply(collection: Collection<E>,
-                                                                                                           findPredicate: (T) -> Boolean,
-                                                                                                           applyConsumer: (E) -> Unit) {
+                                                                findPredicate: (T) -> Boolean,
+                                                                applyConsumer: (E) -> Unit) {
     val foundedItems = collection.filter { findPredicate(it.data) }
     if (foundedItems.size > 1) {
         throw IllegalStateException("было найдено больше одного элемента")
