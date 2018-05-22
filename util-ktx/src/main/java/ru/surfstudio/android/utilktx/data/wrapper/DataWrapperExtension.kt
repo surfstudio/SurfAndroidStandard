@@ -18,8 +18,8 @@ fun <T> Set<DataWrapperInterface<T>>.getData(): Set<T> =
  * и изменить в соответствии с applyConsumer
  */
 fun <T, E : DataWrapperInterface<T>> filterAndApply(collection: Collection<E>,
-                                                                                               filterPredicate: (T) -> Boolean,
-                                                                                               applyConsumer: (E) -> Unit) {
+                                                    filterPredicate: (T) -> Boolean,
+                                                    applyConsumer: (E) -> Unit) {
     collection
             .filter { filterPredicate(it.data) }
             .forEach { applyConsumer(it) }
