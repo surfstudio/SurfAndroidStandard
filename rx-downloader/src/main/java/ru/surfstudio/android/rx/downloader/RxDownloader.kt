@@ -2,7 +2,7 @@ package ru.surfstudio.android.rx.downloader
 
 import android.app.DownloadManager
 import android.content.Context
-import android.database.Observable
+import ru.surfstudio.android.rx.downloader.task.DownloadTask
 
 class RxDownloader(val context: Context,
                    val downloadManager: DownloadManager,

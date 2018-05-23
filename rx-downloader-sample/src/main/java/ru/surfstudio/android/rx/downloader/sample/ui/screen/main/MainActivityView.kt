@@ -3,6 +3,7 @@ package ru.surfstudio.android.rx.downloader.sample.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.rx.downloader.sample.R
@@ -37,6 +38,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     }
 
     private fun initListeners() {
+        main_activity_download_btn.setOnClickListener { presenter.onDownloadBtnClick() }
     }
 
     override fun getScreenName(): String = "main"

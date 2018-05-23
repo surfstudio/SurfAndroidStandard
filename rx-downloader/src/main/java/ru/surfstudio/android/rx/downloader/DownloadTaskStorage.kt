@@ -1,5 +1,7 @@
 package ru.surfstudio.android.rx.downloader
 
+import ru.surfstudio.android.rx.downloader.task.DownloadTask
+
 class DownloadTaskStorage {
 
     val tasks: List<DownloadTask> = emptyList()

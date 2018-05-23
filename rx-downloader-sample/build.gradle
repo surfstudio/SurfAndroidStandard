@@ -32,4 +32,5 @@ dependencies {
     implementation project(':util-ktx')
     implementation project(':shared-pref')
     implementation project(':message-controller')
+    implementation project(':rx-downloader')
 }
