@@ -78,11 +78,11 @@ pipeline.stages = [
                     "**/outputs/androidTest-results/connected/*.xml",
                     "app/build/reports/androidTests/connected/")
         },
-        createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
+        pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             CommonAndroidStages.staticCodeAnalysisStageBody(script)
         },
-        createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
-            //script.sh "./gradlew clean uploadArchives"
+        pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+            script.sh "./gradlew clean uploadArchives"
         }
 ]
 
