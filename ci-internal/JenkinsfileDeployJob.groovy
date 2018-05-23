@@ -12,7 +12,7 @@ import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
 // Имена Шагов
 def INIT = 'Init'
-def PRE_MERGE = 'Checkout'
+def CHECKOUT = 'Checkout'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
@@ -47,6 +47,10 @@ pipeline.stages = [
                 pipeline.getStage(UNIT_TEST).strategy = SKIP_STAGE
                 pipeline.getStage(INSTRUMENTATION_TEST).strategy = SKIP_STAGE
                 pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = SKIP_STAGE
+            }
+            
+            CommonUtil.safe(script){
+                JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", script.scm.userRemoteConfigs[0].url, "bitbucket", true)
             }
 
             CommonUtil.abortDuplicateBuilds(script, branchName)
