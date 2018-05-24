@@ -42,12 +42,14 @@ import ru.surfstudio.android.network.error.NoInternetException;
 public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 
     private RxJava2CallAdapterFactory rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create();
+    private ResultCallAdapter resultCallAdapter;
 
     @SuppressWarnings("unchecked")
     @Override
     public CallAdapter<?, ?> get(Type returnType, Annotation[] annotations, Retrofit retrofit) {
         CallAdapter<?, ?> rxCallAdapter = rxJavaCallAdapterFactory.get(returnType, annotations, retrofit);
-        return new ResultCallAdapter(rxCallAdapter, returnType);
+        resultCallAdapter = new ResultCallAdapter(rxCallAdapter, returnType);
+        return resultCallAdapter;
     }
 
     /**
@@ -56,7 +58,16 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
      * * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
      * * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
      */
-    public abstract <R> Observable<R> onHttpException(HttpException e);
+    public abstract <R> Observable<R> onHttpException(HttpException e, Call<R> call);
+
+    /**
+     * метод позволяет выполнить call(например, неудавшийся запрос)
+     * необходим для предков класса BaseCallAdapterFactory
+     */
+    @SuppressWarnings("unchecked")
+    protected Object adaptCallAdapter(Call<?> call) {
+        return resultCallAdapter.adapt(call);
+    }
 
     private final class ResultCallAdapter<R> implements CallAdapter<R, Object> {
         private final Type responseType;
@@ -85,34 +96,33 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 
             if (observable instanceof Flowable) {
                 return ((Flowable<R>) observable).onErrorResumeNext((Throwable e) ->
-                        handleNetworkError(e).toFlowable(BackpressureStrategy.LATEST));
+                        handleNetworkError(e, call).toFlowable(BackpressureStrategy.LATEST));
 
             } else if (observable instanceof Maybe) {
                 return ((Maybe<R>) observable).onErrorResumeNext((Throwable e) ->
-                        handleNetworkError(e).singleElement());
+                        handleNetworkError(e, call).singleElement());
 
             } else if (observable instanceof Single) {
-                return ((Single<R>) observable).onErrorResumeNext((Throwable e)->
-                        handleNetworkError(e).singleOrError());
+                return ((Single<R>) observable).onErrorResumeNext((Throwable e) ->
+                        handleNetworkError(e, call).singleOrError());
 
             } else if (observable instanceof Completable) {
                 return ((Completable) observable).onErrorResumeNext((Throwable e) ->
-                        handleNetworkError(e).ignoreElements());
+                        handleNetworkError(e, call).ignoreElements());
 
             } else {
-                return ((Observable<R>) observable).onErrorResumeNext(this::handleNetworkError);
+                return ((Observable<R>) observable).onErrorResumeNext((Throwable e) -> handleNetworkError(e, call));
             }
         }
 
-        private Observable<R> handleNetworkError(Throwable e) {
+        private Observable<R> handleNetworkError(Throwable e, Call<R> call) {
             if (e instanceof IOException) {
                 return Observable.error(new NoInternetException(e));
             } else if (e instanceof HttpException) {
-                return onHttpException((HttpException) e);
+                return onHttpException((HttpException) e, call);
             } else {
                 return Observable.error(e);
             }
         }
     }
 }
-
