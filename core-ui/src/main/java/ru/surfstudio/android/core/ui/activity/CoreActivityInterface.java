@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 
-import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.configurator.HasConfigurator;
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
