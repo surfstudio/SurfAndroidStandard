@@ -58,7 +58,17 @@ public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
      * * c кодом 401 и если пользователь был авторизован - сбрасывает все данные пользователя и открывает экран авторизации
      * * c кодом 400 перезапрашивает токен и повторяет предыдущий запрос
      */
-    public abstract <R> Observable<R> onHttpException(HttpException e, Call<R> call);
+    protected <R> Observable<R> onHttpException(HttpException e, Call<R> call) {
+        return onHttpException(e);
+    }
+
+    /**
+     *@deprecated in version 0.2.1, replaced by {@link #onHttpException(HttpException, Call)}
+     */
+    @Deprecated
+    protected <R> Observable<R> onHttpException(HttpException e) {
+        return Observable.error(e);
+    }
 
     /**
      * метод позволяет выполнить call(например, неудавшийся запрос)
