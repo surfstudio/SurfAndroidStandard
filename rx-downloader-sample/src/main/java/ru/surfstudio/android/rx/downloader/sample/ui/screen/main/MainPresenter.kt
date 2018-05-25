@@ -18,6 +18,6 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
 
     fun onDownloadBtnClick() {
         val downloadTask = DownloadTask(testDownloadUrl)
-        downloadTask.priority = 1
+
     }
 }
