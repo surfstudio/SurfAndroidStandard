@@ -2,36 +2,41 @@ package ru.surfstudio.android.rx.downloader
 
 import android.app.DownloadManager
 import android.content.Context
+import android.database.Observable
+import ru.surfstudio.android.rx.downloader.base.Downloader
+import ru.surfstudio.android.rx.downloader.base.DownloaderConfig
 import ru.surfstudio.android.rx.downloader.task.DownloadTask
 
+/**
+ * Класс-обёртка над [DownloadManager],
+ * инкапсулирующая всю работу с загрузками
+ */
 class RxDownloader(val context: Context,
-                   val downloadManager: DownloadManager,
                    val downloaderId: Int,
-                   val downloadTaskStorage: DownloadTaskStorage) {
+                   val downloadManager: DownloadManager,
+                   val downloadTaskStorage: DownloadTaskStorageImpl,
+                   override var config: DownloaderConfigImpl) : Downloader<DownloaderConfigImpl> {
 
-    var parallelDownloadsCount: Int = 1
+
+    override var parallelDownloadsCount: Int = 1
         set(value) {
             //todo
         }
 
-    fun download(task: DownloadTask) {
-        val downloadId = downloadManager.enqueue(task)
-        task.downloadId = downloadId
-    }
-
-    fun cancelDownload(taskId: Long) {
+    override fun download(task: DownloadTask) {
         //todo
     }
 
-    /*fun observeTasksChanges(): Observable<DownloadTask> {
+    override fun cancelDownload(taskId: Long) {
+        //todo
+    }
+    /*
+    override fun observeTasksChanges(): Observable<List<DownloadTask>> {
         //todo
     }
 
-    fun observeTaskChanges(taskId: Long): Observable<DownloadTask> {
+    override fun observeTaskChanges(taskId: Long): Observable<DownloadTask> {
         //todo
-    }*/
-
-    fun setAllowedNetworkTypes(request: DownloadManager.Request) {
-
     }
+    */
 }

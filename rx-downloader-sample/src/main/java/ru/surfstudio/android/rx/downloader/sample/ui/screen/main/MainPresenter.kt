@@ -17,7 +17,7 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
     }
 
     fun onDownloadBtnClick() {
-        val downloadTask = DownloadTask(testDownloadUrl)
-
+        val task = DownloadTask(testDownloadUrl)
+        //todo downloader.download(task)
     }
 }
