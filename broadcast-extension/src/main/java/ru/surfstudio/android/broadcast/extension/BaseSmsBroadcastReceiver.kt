@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
 import android.telephony.SmsMessage
-import ru.surfstudio.android.broadcastrx.RxBroadcastReceiver
 
 /**
  * Базовый класс для парсинга SMS
@@ -23,9 +22,8 @@ abstract class BaseSmsBroadcastReceiver<T> constructor(
         val intentExtras = intent.extras
         if (intentExtras != null) {
             val messages = intentExtras.get(SMS_BUNDLE) as Array<*>?
-            var fullBody = "" //Полное тело сообщения
+            val bodyBuilder = StringBuilder("") //Полное тело сообщения
             var smsMessage: SmsMessage? = null
-
             messages?.forEach {
                 smsMessage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     val format = intentExtras.getString(FORMAT)
@@ -33,9 +31,11 @@ abstract class BaseSmsBroadcastReceiver<T> constructor(
                 } else {
                     SmsMessage.createFromPdu(it as ByteArray)
                 }
-                fullBody += smsMessage?.messageBody
+                bodyBuilder.append(smsMessage?.messageBody)
             }
-            return parseSmsMessage(smsMessage, fullBody)
+            if (smsMessage != null) {
+                return parseSmsMessage(smsMessage!!, bodyBuilder.toString())
+            }
         }
         return null
     }
@@ -54,6 +54,6 @@ abstract class BaseSmsBroadcastReceiver<T> constructor(
      *
      * @return T
      */
-    protected abstract fun parseSmsMessage(smsMessage: SmsMessage?, fullBody: String): T?
+    protected abstract fun parseSmsMessage(smsMessage: SmsMessage, fullBody: String): T?
 
 }

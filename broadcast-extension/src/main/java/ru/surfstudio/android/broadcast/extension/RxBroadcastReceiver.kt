@@ -1,4 +1,4 @@
-package ru.surfstudio.android.broadcastrx
+package ru.surfstudio.android.broadcast.extension
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -40,7 +40,6 @@ abstract class RxBroadcastReceiver<T> constructor(private val context: Context) 
                     emitter.setCancellable {
                         context.unregisterReceiver(broadcastReceiver)
                     }
-
                 })
     }
 
