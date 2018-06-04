@@ -7,6 +7,13 @@ import android.os.Bundle;
 </#if>
 
 import dagger.Component;
+import ru.surfstudio.android.core.mvp.configurator.ScreenComponent;
+import ru.surfstudio.android.dagger.scope.PerScreen;
+import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator;
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.standard.ui.base.dagger.screen.ActivityScreenModule;
+import ru.surfstudio.standard.ui.base.configurator.FragmentScreenConfigurator;
+import ru.surfstudio.standard.ui.base.dagger.screen.FragmentScreenModule;
 
 
 public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}ScreenConfigurator {
@@ -33,12 +40,10 @@ public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}Scre
     @Override
     protected ScreenComponent createScreenComponent(ActivityComponent parentComponent,
                                                     ActivityScreenModule activityScreenModule,
-                                                    CoreActivityScreenModule coreActivityScreenModule,
                                                     Intent intent) {
         return Dagger${className}ScreenConfigurator_${className}ScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .activityScreenModule(activityScreenModule)
-                .coreActivityScreenModule(coreActivityScreenModule)
                 <#if screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')>
                 .${className?uncap_first}ScreenModule(new ${className}ScreenModule(new ${className}ActivityRoute(intent)))
                 </#if>

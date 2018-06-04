@@ -1,4 +1,19 @@
-package ru.surfstudio.android.core.ui.widjet
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
+package ru.surfstudio.android.core.ui.widget
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -52,15 +67,31 @@ class TitleSubtitleView @JvmOverloads constructor(
             updateView()
         }
 
-    var onTitleClickListenerCallback: (String) -> Unit = {}
-    var onSubTitleClickListenerCallback: (String) -> Unit = {}
+    var onTitleClickListenerCallback: ((String) -> Unit)? = null
+        set(value) {
+            if (value != null) {
+                titleView.setOnClickListener { value(titleText) }
+            } else {
+                titleView.setOnClickListener(null)
+                titleView.isClickable = false
+            }
+        }
+
+    var onSubTitleClickListenerCallback: ((String) -> Unit)? = null
+        set(value) {
+            if (value != null) {
+                subTitleView.setOnClickListener { value(subTitleText) }
+            } else {
+                subTitleView.setOnClickListener(null)
+                subTitleView.isClickable = false
+            }
+        }
 
     init {
         orientation = LinearLayout.VERTICAL
 
         addViews()
         applyAttrs(attributeSet)
-        initListeners()
     }
 
     /**
@@ -82,11 +113,6 @@ class TitleSubtitleView @JvmOverloads constructor(
         addView(subTitleView)
     }
 
-    private fun initListeners() {
-        titleView.setOnClickListener { onTitleClickListenerCallback(titleText) }
-        subTitleView.setOnClickListener { onSubTitleClickListenerCallback(subTitleText) }
-    }
-
     private fun updateView() {
         titleView.text = titleText
         subTitleView.text = subTitleText
@@ -106,6 +132,7 @@ class TitleSubtitleView @JvmOverloads constructor(
     private fun setupTitle(ta: TypedArray) {
         with(titleView) {
             defaultTitle = ta.getString(R.styleable.TitleSubtitleView_titleText) ?: defaultTitle
+            titleText = defaultTitle
 
             setupTextAppearance(ta, R.styleable.TitleSubtitleView_titleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
@@ -140,8 +167,9 @@ class TitleSubtitleView @JvmOverloads constructor(
     private fun setupSubTitle(ta: TypedArray) {
         with(subTitleView) {
             defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText) ?: defaultSubTitle
+            subTitleText = defaultSubTitle
 
-            setupTextAppearance(ta, R.styleable.TitleSubtitleView_subTitleTextAppearance)
+            setupTextAppearance(ta, R.styleable.TitleSubtitleView_subtitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
 
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_subTitleLineSpacingExtra, 0f), 1f)

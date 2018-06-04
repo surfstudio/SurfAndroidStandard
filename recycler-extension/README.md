@@ -4,16 +4,14 @@
 
 1. view-карусель, основанная на [easy adapter](../easyadapter/README.md)
 1. StickyEasyAdapter, для работы со sticky header
+1. SnapHelpers
+1. Dividers
 
 #Использование
 Пример работы в [sample проекте](../recycler-extension-sample)
 
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:recycler-extensions:X.X.X"
+    implementation "ru.surfstudio.android:recycler-extensions:X.X.X"
 ```

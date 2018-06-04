@@ -1,12 +1,25 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import android.support.annotation.WorkerThread
-import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -25,9 +38,9 @@ import ru.surfstudio.android.imageloader.transformations.BlurTransformation.Blur
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
-import ru.surfstudio.android.imageloader.util.getBitmapFromRes
-import ru.surfstudio.android.imageloader.util.toBitmap
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
+import ru.surfstudio.android.utilktx.util.DrawableUtil
 import ru.surfstudio.android.utilktx.util.ValidationUtil
 import java.util.concurrent.ExecutionException
 
@@ -48,21 +61,21 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var imageTagManager: ImageTagManager =
             ImageTagManager(imageTargetManager, imageResourceManager)
 
-    private var onImageLoadedLambda: ((bitmap: Bitmap) -> (Unit))? = null
+    private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
     private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
 
-    private val glideDownloadListener = object : RequestListener<Bitmap> {
+    private val glideDownloadListener = object : RequestListener<Drawable> {
         override fun onLoadFailed(e: GlideException?,
                                   model: Any?,
-                                  target: Target<Bitmap>?,
+                                  target: Target<Drawable>?,
                                   isFirstResource: Boolean) = false.apply {
             imageTagManager.setTag(null)
             e?.let { onImageLoadErrorLambda?.invoke(it) }
         }
 
-        override fun onResourceReady(resource: Bitmap,
+        override fun onResourceReady(resource: Drawable,
                                      model: Any?,
-                                     target: Target<Bitmap>?,
+                                     target: Target<Drawable>?,
                                      dataSource: DataSource?,
                                      isFirstResource: Boolean): Boolean =
                 false.apply { onImageLoadedLambda?.invoke(resource) }
@@ -113,9 +126,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     /**
      * Установка лямбды для отслеживания загрузки изображения
      *
-     * @param lambda лямбда, возвращающая загруженный [Bitmap]
+     * @param lambda лямбда, возвращающая загруженный [Drawable]
      */
-    override fun listener(lambda: ((bitmap: Bitmap) -> (Unit))) =
+    override fun listener(lambda: ((drawable: Drawable) -> (Unit))) =
             apply { this.onImageLoadedLambda = lambda }
 
     /**
@@ -230,15 +243,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      *
      * @param simpleTarget обработчик загрузки изображения.
      */
-    fun into(simpleTarget: SimpleTarget<Bitmap>) {
-        imageResourceManager.preparePreviewBitmap().into(object : SimpleTarget<Bitmap>() {
-            override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+    fun into(simpleTarget: SimpleTarget<Drawable>) {
+        imageResourceManager.preparePreviewDrawable().into(object : SimpleTarget<Drawable>() {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
                 simpleTarget.onResourceReady(resource, transition)
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
                 super.onLoadFailed(errorDrawable)
-                getBitmapFromRes(context, imageResourceManager.errorResId)?.let {
+                errorDrawable?.let {
                     simpleTarget.onResourceReady(it, null)
                 }
             }
@@ -257,6 +270,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             result = buildRequest()
                     .submit(NO_SIZE, NO_SIZE)
                     .get()
+                    .toBitmap()
         } catch (e: Exception) {
             when (e) {
                 is InterruptedException, is ExecutionException -> {
@@ -265,7 +279,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                         throw IllegalStateException("Ошибка загрузки изображения")
                     }
                     onImageLoadErrorLambda?.invoke(e)
-                    result = getBitmapFromRes(context, imageResourceManager.errorResId)
+                    result = DrawableUtil.getBitmapFromRes(context, imageResourceManager.errorResId)
                 }
                 else -> throw e
             }
@@ -273,14 +287,14 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         return result
     }
 
+
     /**
      * Формирование запроса на загрузку изображения.
      */
-    private fun buildRequest(): RequestBuilder<Bitmap> = Glide.with(context)
-            .asBitmap()
+    private fun buildRequest(): RequestBuilder<Drawable> = Glide.with(context)
             .load(imageResourceManager.toLoad())
-            .error(imageResourceManager.prepareErrorBitmap())
-            .thumbnail(imageResourceManager.preparePreviewBitmap())
+            .error(imageResourceManager.prepareErrorDrawable())
+            .thumbnail(imageResourceManager.preparePreviewDrawable())
             .apply(
                     RequestOptions()
                             .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
@@ -288,7 +302,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                             .transforms(*imageTransformationsManager.prepareTransformations())
             )
             .listener(glideDownloadListener)
-
     /**
      * Загрузка изображения в целевую [View].
      *
@@ -298,15 +311,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         if (view is ImageView) {
             buildRequest().into(view)
         } else {
-            buildRequest().into(object : ViewTarget<View, Bitmap>(view) {
+            buildRequest().into(object : ViewTarget<View, Drawable>(view) {
 
                 override fun onLoadStarted(placeholder: Drawable?) {
                     super.onLoadStarted(placeholder)
                     view.background = placeholder
                 }
 
-                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                    view.background = BitmapDrawable(context.resources, resource)
+                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                    view.background = resource
                 }
 
                 override fun onLoadFailed(errorDrawable: Drawable?) {

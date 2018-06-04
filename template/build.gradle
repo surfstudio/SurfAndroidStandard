@@ -28,7 +28,7 @@ android {
             keyAlias "test"
             keyPassword "qatest"
         }
-        test {
+        qa {
             storeFile file("../keystore/test.keystore")
             storePassword "qatest"
             keyAlias "test"
@@ -38,24 +38,21 @@ android {
 
     buildTypes {
         debug {
-            //signingConfig signingConfigs.test
+            signingConfig signingConfigs.qa
             minifyEnabled false
-            resValue "bool", "only_portrait", "false"
         }
         qa {
-            //signingConfig signingConfigs.test
-            minifyEnabled false
+            signingConfig signingConfigs.qa
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable = true
-            ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
-            ext.betaDistributionGroupAliases = "Surf"
+            ext.betaDistributionGroupAliases = "Surf" //todo проверить название группы в Crashlytics
             ext.betaDistributionNotifications = true
-            resValue "bool", "only_portrait", "false"
         }
         release {
-            //signingConfig signingConfigs.release
-            minifyEnabled false
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "only_portrait", "true"
         }
     }
 
@@ -78,8 +75,6 @@ dependencies {
     def assertJVersion = '3.5.1'
 
     //------------------------------------ dependencies --------------------------------------------
-//    implementation 'ru.surfstudio.standard:core:0.0.1'
-    //implementation 'ru.surfstudio.standard:easyadapter:0.0.4-SNAPSHOT'//todo
 
     implementation project(':core-app')
     implementation project(':core-ui')
@@ -107,15 +102,18 @@ dependencies {
     implementation project(':animations')
     implementation project(':push')
     implementation project(':dagger-scope')
+    implementation project(':standard-dialog')
+    implementation project(':message-controller')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 
-    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.1'
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
     implementation 'com.google.guava:guava:23.0-android'
 
     //kotlin
@@ -145,8 +143,7 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
 
     implementation 'com.google.code.findbugs:jsr305:3.0.1'
-    compile project(path: ':logger')
+    implementation project(path: ':logger')
 }
 
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.google.gms.google-services'

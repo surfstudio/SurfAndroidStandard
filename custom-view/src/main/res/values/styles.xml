@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="StandardPlaceHolderView">
+        <item name="pvOpaqueBackgroundColor">@color/opaque_bg_color</item>
+        <item name="pvTransparentBackgroundColor">@color/transparent_bg_color</item>
+        <item name="pvTitleBottomMargin">10dp</item>
+        <item name="pvImageBottomMargin">28dp</item>
+        <item name="pvSubtitleBottomMargin">50dp</item>
+        <item name="pvButtonBottomMargin">10dp</item>
+    </style>
+</resources>

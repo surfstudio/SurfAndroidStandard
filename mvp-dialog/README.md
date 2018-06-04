@@ -1,12 +1,11 @@
 #MVP dialog
-Реализация паттерна mvp для работы с диалогами как со view. Продолжение идеи [core-mvp](../core-mvp/README.md)
+Расширение модуля [core-mvp](../core-mvp/README.md) для работы с диалогами.
+Предоставляет 2 парадигмы работы с диалогами
+1. Диалог как часть родительского вью, события диалога в этом случае получает презентер родительского вью (см CoreSimpleDialogFragment)
+1. Диалог с собственным презентером, родительский презентер в этом случе может получить событие с диалога через RxBus (см CoreDialogFragmentView)
 
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:mvp-dialog:X.X.X"
+    implementation "ru.surfstudio.android:mvp-dialog:X.X.X"
 ```

@@ -1,12 +1,9 @@
-apply plugin: 'com.android.library'
 apply from: '../androidModule.gradle'
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$appcompatVersion"
     api "androidx.core:core-ktx:$androidKtxVersion"
 
+    compileOnly project (':logger')
     compileOnly "com.android.support:design:$appcompatVersion"
     compileOnly "com.android.support:appcompat-v7:$appcompatVersion"
-
-    compileOnly project(path: ':logger')
 }

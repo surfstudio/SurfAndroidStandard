@@ -46,7 +46,7 @@ class NetworkModule {
     @Provides
     @PerApplication
     internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val logging = HttpLoggingInterceptor { message -> Logger.d(HTTP_LOG_TAG, message) }
+        val logging = HttpLoggingInterceptor { message -> Logger.d("$HTTP_LOG_TAG $message") }
         if (BuildConfig.DEBUG) {
             logging.level = HttpLoggingInterceptor.Level.BODY
         } else {
