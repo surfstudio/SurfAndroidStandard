@@ -1,4 +1,4 @@
-package ru.surfstudio.android.broadcastextension
+package ru.surfstudio.android.broadcast.extension
 
 import android.content.Context
 import android.content.Intent

@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':broadcast-rx')
-
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
+    compileOnly project(':logger')
+    implementation "io.reactivex.rxjava2:rxjava:$rxJava2Version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlinVersion}"
 }
