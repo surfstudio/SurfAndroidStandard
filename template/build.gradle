@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-//TODO: привести в порядок шаблонный build.gradle
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -15,7 +14,7 @@ android {
         versionCode rootProject.ext.moduleVersionCode
         versionName rootProject.ext.moduleVersionName
 
-        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        setProperty("archivesBaseName", "$applicationName-$moduleVersionName-($moduleVersionCode)")
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         multiDexEnabled true
@@ -29,7 +28,7 @@ android {
             keyAlias "test"
             keyPassword "qatest"
         }
-        test {
+        qa {
             storeFile file("../keystore/test.keystore")
             storePassword "qatest"
             keyAlias "test"
@@ -39,24 +38,21 @@ android {
 
     buildTypes {
         debug {
-            signingConfig signingConfigs.test
+            signingConfig signingConfigs.qa
             minifyEnabled false
-            resValue "bool", "only_portrait", "false"
         }
         qa {
-            signingConfig signingConfigs.test
-            minifyEnabled false
+            signingConfig signingConfigs.qa
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable = true
-            ext.betaDistributionReleaseNotes = System.getenv("GoLamaGo_Android_Crashlytics_NOTES")
-            ext.betaDistributionGroupAliases = "Surf"
+            ext.betaDistributionGroupAliases = "Surf" //todo проверить название группы в Crashlytics
             ext.betaDistributionNotifications = true
-            resValue "bool", "only_portrait", "false"
         }
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            resValue "bool", "only_portrait", "true"
         }
     }
 
@@ -108,8 +104,6 @@ dependencies {
     implementation project(':dagger-scope')
     implementation project(':standard-dialog')
     implementation project(':message-controller')
-    implementation project(':broadcast-rx')
-    implementation project(':broadcast-extension')
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
@@ -153,4 +147,3 @@ dependencies {
 }
 
 apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'com.google.gms.google-services'

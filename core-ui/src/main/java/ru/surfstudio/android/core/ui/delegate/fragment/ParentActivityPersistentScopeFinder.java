@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import ru.surfstudio.android.core.ui.activity.CoreActivity;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
-import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 
 /**
  * ищет скоуп родительской активити для фрагмента

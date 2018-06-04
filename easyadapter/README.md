@@ -14,5 +14,5 @@
 #Подключение
 Gradle:
 ```
-    implementation "ru.surfstudio.android:easy-adapter:X.X.X"
+    implementation "ru.surfstudio.android:easyadapter:X.X.X"
 ```
