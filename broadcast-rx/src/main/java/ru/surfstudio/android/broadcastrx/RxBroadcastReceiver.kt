@@ -12,13 +12,19 @@ import ru.surfstudio.android.logger.Logger
  */
 abstract class RxBroadcastReceiver<T> constructor(private val context: Context) {
 
+    /**
+     * Подписка на получение результата broadcast
+     *
+     * @return Observable с результатом типа подписки
+     */
     fun observeBroadcast(): Observable<T> {
         return Observable.create(
                 { emitter ->
                     val broadcastReceiver = object : BroadcastReceiver() {
                         override fun onReceive(context: Context, intent: Intent) {
                             try {
-                                emitter.onNext(parseBroadcastIntent(intent))
+                                val data = parseBroadcastIntent(intent)
+                                if (data != null) emitter.onNext(data)
                             } catch (throwable: Throwable) {
                                 Logger.e(throwable)
                                 emitter.onError(throwable)
@@ -38,7 +44,7 @@ abstract class RxBroadcastReceiver<T> constructor(private val context: Context) 
                 })
     }
 
-    abstract fun parseBroadcastIntent(intent: Intent): T
+    protected abstract fun parseBroadcastIntent(intent: Intent): T?
 
-    abstract fun intentFilter(): IntentFilter
+    protected abstract fun intentFilter(): IntentFilter
 }

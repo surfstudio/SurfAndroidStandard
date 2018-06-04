@@ -1,0 +1,59 @@
+package ru.surfstudio.android.broadcastextension
+
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
+import android.telephony.SmsMessage
+import ru.surfstudio.android.broadcastrx.RxBroadcastReceiver
+
+/**
+ * Базовый класс для парсинга SMS
+ */
+abstract class BaseSmsBroadcastReceiver<T> constructor(
+        context: Context
+) : RxBroadcastReceiver<T?>(context) {
+
+    private val SMS_RECEIVED = "android.provider.Telephony.SMS_RECEIVED"
+    private val SMS_BUNDLE = "pdus"
+    private val FORMAT = "format"
+
+    @Suppress("deprecation")
+    override fun parseBroadcastIntent(intent: Intent): T? {
+        val intentExtras = intent.extras
+        if (intentExtras != null) {
+            val messages = intentExtras.get(SMS_BUNDLE) as Array<*>?
+            var fullBody = "" //Полное тело сообщения
+            var smsMessage: SmsMessage? = null
+
+            messages?.forEach {
+                smsMessage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val format = intentExtras.getString(FORMAT)
+                    SmsMessage.createFromPdu(it as ByteArray, format)
+                } else {
+                    SmsMessage.createFromPdu(it as ByteArray)
+                }
+                fullBody += smsMessage?.messageBody
+            }
+            return parseSmsMessage(smsMessage, fullBody)
+        }
+        return null
+    }
+
+    override fun intentFilter() = IntentFilter(SMS_RECEIVED)
+
+    /**
+     * Функция парсинга смс-сообщения
+     * Для парсинга тела следует строго использовать fullBody.
+     * Так как сообщения в Android разделены на блоки по 140 байт, или 70 символов кириллицы.
+     * В длинных сообщениях это разделение может повлечь за собой, что требуемая для парсинга информация
+     * будет разделена на части и не обработана.
+     *
+     * @param smsMessage данные о сообщении
+     * @param fullBody полный текст сообщения
+     *
+     * @return T
+     */
+    protected abstract fun parseSmsMessage(smsMessage: SmsMessage?, fullBody: String): T?
+
+}
