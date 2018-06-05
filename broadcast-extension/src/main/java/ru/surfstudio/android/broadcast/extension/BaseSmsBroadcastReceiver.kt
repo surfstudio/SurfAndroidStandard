@@ -33,8 +33,8 @@ abstract class BaseSmsBroadcastReceiver<T> constructor(
                 }
                 bodyBuilder.append(smsMessage?.messageBody)
             }
-            if (smsMessage != null) {
-                return parseSmsMessage(smsMessage!!, bodyBuilder.toString())
+            smsMessage?.let {
+                return parseSmsMessage(it, bodyBuilder.toString())
             }
         }
         return null
