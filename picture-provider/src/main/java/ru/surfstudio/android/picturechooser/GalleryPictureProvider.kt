@@ -79,22 +79,19 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
     private inner class GalleryMultipleImageRoute : ActivityWithResultRoute<ArrayList<String>>() {
         override fun prepareIntent(context: Context?): Intent {
-            return Intent.createChooser(Intent(Intent.ACTION_GET_CONTENT, EXTERNAL_CONTENT_URI)
+            return Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI)
                     .apply {
-                        type = "image/*"
-                        action = Intent.ACTION_GET_CONTENT
                         putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                    },
-                    activity.getString(R.string.choose_app))
+                    }
         }
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return if (intent != null && intent.data != null) {
-                arrayListOf(intent.data.getRealPath())
-            } else if (intent != null && intent.clipData != null) {
+            return if (intent != null && intent.clipData != null) {
                 with(intent.clipData) {
                     (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.getRealPath() }
                 }
+            } else if (intent != null && intent.data != null) {
+                arrayListOf(intent.data.getRealPath())
             } else {
                 null
             }
