@@ -67,9 +67,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
     private inner class GallerySingleImageRoute : ActivityWithResultRoute<String>() {
         override fun prepareIntent(context: Context?): Intent {
-            return Intent.createChooser(Intent(Intent.ACTION_GET_CONTENT, EXTERNAL_CONTENT_URI)
-                    .apply { type = "image/*" },
-                    activity.getString(R.string.choose_app))
+            return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         }
 
         override fun parseResultIntent(intent: Intent?): String? {
