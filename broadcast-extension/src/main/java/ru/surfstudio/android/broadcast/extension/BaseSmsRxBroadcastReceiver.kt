@@ -7,9 +7,9 @@ import android.os.Build
 import android.telephony.SmsMessage
 
 /**
- * Базовый класс для парсинга SMS
+ * Реактивный ресивер [RxBroadcastReceiver], перехватывающий и обрабатывающий смс-сообщения
  */
-abstract class BaseSmsBroadcastReceiver<T> constructor(
+abstract class BaseSmsRxBroadcastReceiver<T> constructor(
         context: Context
 ) : RxBroadcastReceiver<T?>(context) {
 
