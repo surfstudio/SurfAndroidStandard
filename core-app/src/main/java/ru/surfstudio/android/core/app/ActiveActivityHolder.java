@@ -19,7 +19,7 @@ import android.app.Activity;
 import android.support.annotation.Nullable;
 
 /**
- * Содержит активную (отображаемуй) активти
+ * Содержит активную (отображаемую) активти
  */
 public class ActiveActivityHolder {
 
