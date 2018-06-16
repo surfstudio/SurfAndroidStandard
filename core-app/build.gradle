@@ -10,7 +10,6 @@ dependencies {
     implementation "com.android.support:support-annotations:$appcompatVersion"
 
     api "com.android.support:appcompat-v7:$appcompatVersion"
-    api "com.github.bumptech.glide:glide:$glideVersion"
     api "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     api "com.android.support:multidex:$multidexVersion"
 

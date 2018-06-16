@@ -1,0 +1,33 @@
+apply from: '../androidSample.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.custom_view_sample"
+    }
+}
+
+dependencies {
+    implementation project(':core-app')
+    implementation project(':core-ui')
+    implementation project(':core-mvp')
+    implementation project(':custom-view')
+    implementation project(':rx-extension')
+    implementation project(':dagger-scope')
+    implementation project(':picture-provider')
+    implementation project(':camera-view')
+    implementation project(':network')
+    implementation project(':filestorage')
+    implementation project(':logger:')
+    implementation project(':connection')
+    implementation project(':util-ktx')
+    implementation project(':imageloader')
+
+    implementation "ru.surfstudio.android:animations:0.2.1-SNAPSHOT"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+
+    testImplementation "junit:junit:$junitVersion"
+}

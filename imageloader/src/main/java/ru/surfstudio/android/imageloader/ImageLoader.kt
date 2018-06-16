@@ -41,7 +41,6 @@ import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransform
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
 import ru.surfstudio.android.utilktx.util.DrawableUtil
-import ru.surfstudio.android.utilktx.util.ValidationUtil
 import java.util.concurrent.ExecutionException
 
 /**
@@ -93,9 +92,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     @Throws(IllegalArgumentException::class)
     override fun url(url: String) =
             apply {
-                if (ValidationUtil.isUrlValid(url)) {
-                    Logger.e("ImageLoader.url() / Некорректная ссылка на изображение: $url")
-                }
                 this.imageResourceManager.url = url
             }
 
@@ -227,9 +223,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
 
-        if (imageResourceManager.isErrorState()) {
+        /*if (imageResourceManager.isErrorState()) {
             imageTargetManager.setErrorImage()
-        }
+        }*/
 
         if (imageTagManager.isTagUsed()) return
 
@@ -302,6 +298,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                             .transforms(*imageTransformationsManager.prepareTransformations())
             )
             .listener(glideDownloadListener)
+
     /**
      * Загрузка изображения в целевую [View].
      *

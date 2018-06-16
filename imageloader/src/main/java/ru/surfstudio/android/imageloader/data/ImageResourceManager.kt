@@ -16,7 +16,6 @@
 package ru.surfstudio.android.imageloader.data
 
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
 import com.bumptech.glide.Glide
@@ -52,13 +51,6 @@ data class ImageResourceManager(
             }
 
     /**
-     * Следует ли сразу показать ошибку.
-     *
-     * Срабатывает при отсутствии ссылки на изображение и при наличии заглушки для ошибки.
-     */
-    fun isErrorState(): Boolean = !isImagePresented() && isErrorPresented()
-
-    /**
      * Предоставлено ли изображение для ошибки
      */
     fun isErrorPresented() = errorResId != DEFAULT_DRAWABLE_URI
@@ -89,19 +81,6 @@ data class ImageResourceManager(
                 .apply(RequestOptions()
                         .transforms(*imageTransformationsManager.prepareTransformations()))
     }
-
-    /**
-     * Проверка на наличие изображения для загрузки (из ресурсов или из сети).
-     *
-     * Если изображение не предоставлено - устанавливается [errorResId].
-     */
-    private fun isImagePresented() =
-            isImageFromResourcesPresented() || isImageFromNetworkPresented()
-
-    /**
-     * Загружается ли изображение из сети
-     */
-    private fun isImageFromNetworkPresented() = url.isNotEmpty()
 
     /**
      * Загружается ли изображение из res/drawable
