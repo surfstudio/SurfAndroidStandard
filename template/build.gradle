@@ -92,6 +92,7 @@ dependencies {
     implementation project(':filestorage')
     implementation project(':easyadapter')
     implementation project(':recycler-extension')
+    implementation project(':broadcast-extension')
     implementation project(':picture-provider')
     implementation project(':camera-view')
     implementation project(':connection')
