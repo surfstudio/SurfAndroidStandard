@@ -223,10 +223,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
 
-        /*if (imageResourceManager.isErrorState()) {
-            imageTargetManager.setErrorImage()
-        }*/
-
         if (imageTagManager.isTagUsed()) return
 
         imageTagManager.setTag(imageResourceManager.url)
@@ -240,16 +236,34 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param simpleTarget обработчик загрузки изображения.
      */
     fun into(simpleTarget: SimpleTarget<Drawable>) {
-        imageResourceManager.preparePreviewDrawable().into(object : SimpleTarget<Drawable>() {
+        into(
+                { resource, transition -> simpleTarget.onResourceReady(resource, transition) },
+                {
+                    it?.let {
+                        simpleTarget.onResourceReady(it, null)
+                    }
+                }
+        )
+    }
+
+    /**
+     * Загрузка изображения в [SimpleTarget]
+     *
+     * @param resourceReadyLambda колбек в случае успеха
+     * @param loadFailedLambda колбек при ошибке
+     */
+    fun into(
+            resourceReadyLambda: (resource: Drawable, transition: Transition<in Drawable>?) -> Unit,
+            loadFailedLambda: (errorDrawable: Drawable?) -> Unit
+    ) {
+        buildRequest().into(object : SimpleTarget<Drawable>() {
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                simpleTarget.onResourceReady(resource, transition)
+                resourceReadyLambda(resource, transition)
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
                 super.onLoadFailed(errorDrawable)
-                errorDrawable?.let {
-                    simpleTarget.onResourceReady(it, null)
-                }
+                loadFailedLambda(errorDrawable)
             }
         })
     }
