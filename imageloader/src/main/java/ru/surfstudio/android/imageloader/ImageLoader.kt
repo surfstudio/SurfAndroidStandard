@@ -69,6 +69,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                                   target: Target<Drawable>?,
                                   isFirstResource: Boolean) = false.apply {
             imageTagManager.setTag(null)
+            Logger.d("DEV_INFO error in imageLoader $e")
             e?.let { onImageLoadErrorLambda?.invoke(it) }
         }
 
@@ -270,6 +271,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
     /**
      * Получение исходника изображения в формате [Bitmap].
+     * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
+     * Без отображения на UI.
+     * Для отображения на UI использовать [into]
      *
      * Запрос происходит в UI-потоке.
      */
@@ -277,10 +281,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun get(): Bitmap? {
         var result: Bitmap?
         try {
-            result = buildRequest()
-                    .submit(NO_SIZE, NO_SIZE)
+            result = Glide.with(context)
+                    .asBitmap()
+                    .load(imageResourceManager.toLoad())
+                    .apply(
+                            RequestOptions()
+                                    .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                                    .skipMemoryCache(imageCacheManager.skipCache)
+                                    .transforms(*imageTransformationsManager.prepareTransformations())
+                    )
+                    .submit()
                     .get()
-                    .toBitmap()
         } catch (e: Exception) {
             when (e) {
                 is InterruptedException, is ExecutionException -> {
