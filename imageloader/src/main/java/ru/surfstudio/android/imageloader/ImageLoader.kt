@@ -39,7 +39,6 @@ import ru.surfstudio.android.imageloader.transformations.MaskTransformation.Over
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
 
@@ -69,7 +68,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                                   target: Target<Drawable>?,
                                   isFirstResource: Boolean) = false.apply {
             imageTagManager.setTag(null)
-            Logger.d("DEV_INFO error in imageLoader $e")
             e?.let { onImageLoadErrorLambda?.invoke(it) }
         }
 
