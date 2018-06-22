@@ -18,12 +18,13 @@ package ru.surfstudio.android.imageloader.transformations
 import android.graphics.Bitmap
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import ru.surfstudio.android.imageloader.data.ImageSizeManager
+import ru.surfstudio.android.logger.Logger
 
 /**
  * Трансформатор, пережимающий изображение с учётом заданной максимальной высоты и ширины
  * без нарушение аспекта и искажения пропорций.
  */
-class SizeTransformation(private val filterOnScale: Boolean = true,
+class SizeTransformation(private val filterOnScale: Boolean = false,
                          private val imageSizeManager: ImageSizeManager = ImageSizeManager()
 ) : BaseGlideImageTransformation() {
 

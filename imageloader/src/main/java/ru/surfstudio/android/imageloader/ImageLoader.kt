@@ -27,6 +27,7 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -214,6 +215,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId)
             }
 
+    override fun sizeMultiplier(sizeMultiplier: Float): ImageLoaderInterface =
+            also {
+                imageTransformationsManager.sizeMultiplier = sizeMultiplier
+            }
+
     /**
      * Указание целевой [View]
      *
@@ -318,6 +324,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                     RequestOptions()
                             .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                             .skipMemoryCache(imageCacheManager.skipCache)
+                            .downsample(DownsampleStrategy.AT_MOST)
+                            .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
                             .transforms(*imageTransformationsManager.prepareTransformations())
             )
             .listener(glideDownloadListener)
