@@ -39,7 +39,6 @@ import ru.surfstudio.android.imageloader.transformations.MaskTransformation.Over
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
 
@@ -223,10 +222,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
 
-        /*if (imageResourceManager.isErrorState()) {
-            imageTargetManager.setErrorImage()
-        }*/
-
         if (imageTagManager.isTagUsed()) return
 
         imageTagManager.setTag(imageResourceManager.url)
@@ -240,22 +235,43 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param simpleTarget обработчик загрузки изображения.
      */
     fun into(simpleTarget: SimpleTarget<Drawable>) {
-        imageResourceManager.preparePreviewDrawable().into(object : SimpleTarget<Drawable>() {
+        into(
+                { resource, transition -> simpleTarget.onResourceReady(resource, transition) },
+                {
+                    it?.let {
+                        simpleTarget.onResourceReady(it, null)
+                    }
+                }
+        )
+    }
+
+    /**
+     * Загрузка изображения в [SimpleTarget]
+     *
+     * @param resourceReadyLambda колбек в случае успеха
+     * @param loadFailedLambda колбек при ошибке
+     */
+    fun into(
+            resourceReadyLambda: (resource: Drawable, transition: Transition<in Drawable>?) -> Unit,
+            loadFailedLambda: (errorDrawable: Drawable?) -> Unit
+    ) {
+        buildRequest().into(object : SimpleTarget<Drawable>() {
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                simpleTarget.onResourceReady(resource, transition)
+                resourceReadyLambda(resource, transition)
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
                 super.onLoadFailed(errorDrawable)
-                errorDrawable?.let {
-                    simpleTarget.onResourceReady(it, null)
-                }
+                loadFailedLambda(errorDrawable)
             }
         })
     }
 
     /**
      * Получение исходника изображения в формате [Bitmap].
+     * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
+     * Без отображения на UI.
+     * Для отображения на UI использовать [into]
      *
      * Запрос происходит в UI-потоке.
      */
@@ -263,10 +279,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun get(): Bitmap? {
         var result: Bitmap?
         try {
-            result = buildRequest()
-                    .submit(NO_SIZE, NO_SIZE)
+            result = Glide.with(context)
+                    .asBitmap()
+                    .load(imageResourceManager.toLoad())
+                    .apply(
+                            RequestOptions()
+                                    .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                                    .skipMemoryCache(imageCacheManager.skipCache)
+                                    .transforms(*imageTransformationsManager.prepareTransformations())
+                    )
+                    .submit()
                     .get()
-                    .toBitmap()
         } catch (e: Exception) {
             when (e) {
                 is InterruptedException, is ExecutionException -> {
