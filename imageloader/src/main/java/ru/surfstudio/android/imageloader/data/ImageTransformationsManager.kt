@@ -33,7 +33,8 @@ data class ImageTransformationsManager(
         var isCircle: Boolean = false,
         var roundedCornersBundle: RoundedCornersBundle = RoundedCornersBundle(),
         var blurBundle: BlurBundle = BlurBundle(),
-        var overlayBundle: OverlayBundle = OverlayBundle()
+        var overlayBundle: OverlayBundle = OverlayBundle(),
+        var sizeMultiplier: Float = 1f
 ) {
 
     private var transformations = arrayListOf<Transformation<Bitmap>>()   //список всех применяемых трансформаций
