@@ -1,0 +1,14 @@
+
+dependencies {
+
+
+    //test
+    androidTestImplementation "junit:junit:${junitVersion}"
+    androidTestImplementation "org.mockito:mockito-core:${mockitoVersion}"
+
+    //android test
+    androidTestImplementation "com.android.support.test:runner:${testRunnerVersion}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${espressoVersion}"
+
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+}

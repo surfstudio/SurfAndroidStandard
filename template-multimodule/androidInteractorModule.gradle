@@ -1,0 +1,5 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    implementation project(':template-multimodule:base')
+}
