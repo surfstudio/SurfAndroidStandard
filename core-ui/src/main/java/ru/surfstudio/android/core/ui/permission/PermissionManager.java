@@ -78,8 +78,11 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
 
     /**
      * Проверка условия, должен ли UI показать пояснение, для чего нужен запрашиваемый Permission.
-     *
      * @return true/false
+     *
+     * Это один из необходимых флагов для понимания, что стандартный диалог отключен к показу
+     * Дальнейшее использование можно посмотреть в AVS DownloadHelper.java
+     * see <a href="https://clck.ru/DfZwD">
      */
     public boolean shouldShowRequestPermissionRationale(PermissionRequest permission) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
