@@ -57,17 +57,19 @@ class DefaultMessageController @JvmOverloads constructor(
                       backgroundColor: Int?,
                       actionStringId: Int?,
                       buttonColor: Int?,
+                      duration: Int,
                       listener: (view: View) -> Unit) {
-        show(getView().resources.getString(stringId), backgroundColor, actionStringId, buttonColor, listener)
+        show(getView().resources.getString(stringId), backgroundColor, actionStringId, buttonColor, duration, listener)
     }
 
     override fun show(message: String,
                       backgroundColor: Int?,
                       actionStringId: Int?,
                       buttonColor: Int?,
+                      duration: Int,
                       listener: (view: View) -> Unit) {
         val view = getView()
-        val sb = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+        val sb = Snackbar.make(view, message, duration)
 
         if (backgroundColor == null) {
             snackBarBackgroundColor?.let {
@@ -85,13 +87,13 @@ class DefaultMessageController @JvmOverloads constructor(
         sb.show()
     }
 
-    override fun showToast(stringId: Int, gravity: Int) {
-        showToast(getView().resources.getString(stringId), gravity)
+    override fun showToast(stringId: Int, gravity: Int, duration: Int) {
+        showToast(getView().resources.getString(stringId), gravity, duration)
     }
 
-    override fun showToast(message: String, gravity: Int) {
+    override fun showToast(message: String, gravity: Int, duration: Int) {
         toast?.cancel()
-        toast = Toast.makeText(getView().context, message, Toast.LENGTH_LONG)
+        toast = Toast.makeText(getView().context, message, duration)
                 .apply {
                     setGravity(gravity, 0, 0)
                     show()
