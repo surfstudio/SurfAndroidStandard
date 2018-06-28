@@ -48,6 +48,7 @@ interface MessageController {
              duration: Int = DEFAULT_SNACK_DURATION,
              listener: (view: View) -> Unit = {})
 
+    fun closeSnack()
 
     fun showToast(@StringRes stringId: Int,
                   gravity: Int = DEFAULT_TOAST_GRAVITY,

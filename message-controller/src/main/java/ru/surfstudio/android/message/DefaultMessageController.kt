@@ -37,6 +37,7 @@ class DefaultMessageController @JvmOverloads constructor(
 
     private var snackBarBackgroundColor: Int? = null
     private var toast: Toast? = null
+    private var snackbar: Snackbar? = null
 
     init {
         val typedArray = activityProvider.get()
@@ -68,23 +69,26 @@ class DefaultMessageController @JvmOverloads constructor(
                       buttonColor: Int?,
                       duration: Int,
                       listener: (view: View) -> Unit) {
-        val view = getView()
-        val sb = Snackbar.make(view, message, duration)
-
-        if (backgroundColor == null) {
-            snackBarBackgroundColor?.let {
-                sb.view.setBackgroundColor(it)
+        snackbar = Snackbar.make(getView(), message, duration).apply {
+            if (backgroundColor == null) {
+                snackBarBackgroundColor?.let {
+                    view.setBackgroundColor(it)
+                }
+            } else {
+                view.setBackgroundColor(ContextCompat.getColor(view.context, backgroundColor))
             }
-        } else {
-            sb.view.setBackgroundColor(ContextCompat.getColor(view.context, backgroundColor))
+            actionStringId?.let {
+                setAction(it) { view -> listener.invoke(view) }
+            }
+            buttonColor?.let {
+                setActionTextColor(ContextCompat.getColor(view.context, it))
+            }
+            show()
         }
-        actionStringId?.let {
-            sb.setAction(it) { view -> listener.invoke(view) }
-        }
-        buttonColor?.let {
-            sb.setActionTextColor(ContextCompat.getColor(view.context, it))
-        }
-        sb.show()
+    }
+
+    override fun closeSnack() {
+        snackbar?.dismiss()
     }
 
     override fun showToast(stringId: Int, gravity: Int, duration: Int) {
