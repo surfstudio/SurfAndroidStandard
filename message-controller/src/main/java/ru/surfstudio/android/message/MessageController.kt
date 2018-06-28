@@ -26,7 +26,6 @@ import android.widget.Toast
  * Интерфейс контроллера отображения сообщений
  * Максимальное количество линий задается в integers:design_snackbar_text_max_lines
  */
-
 interface MessageController {
 
     companion object {
