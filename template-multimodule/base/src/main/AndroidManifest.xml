@@ -1,0 +1,13 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kfc.base">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="f682826d64bee226e4f300dd672dc8b0831596fd" />
+    </application>
+
+</manifest>
