@@ -322,10 +322,10 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .thumbnail(imageResourceManager.preparePreviewDrawable())
             .apply(
                     RequestOptions()
-                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                            /*.diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                             .skipMemoryCache(imageCacheManager.skipCache)
                             .downsample(DownsampleStrategy.AT_MOST)
-                            .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
+                            .sizeMultiplier(imageTransformationsManager.sizeMultiplier)*/
                             .transforms(*imageTransformationsManager.prepareTransformations())
             )
             .listener(glideDownloadListener)

@@ -47,7 +47,6 @@ data class ImageTransformationsManager(
                     .apply {
                         add(SizeTransformation(imageSizeManager = imageSizeManager))
                         if (isCenterCrop) add(CenterCropTransformation())
-                        //if (isCenterCrop) add(CropTransformation(1000, 1400))
                         if (isCircle) add(CircleTransformation())
                         if (roundedCornersBundle.isRoundedCorners)
                             add(RoundedCornersTransformation(context, roundedCornersBundle = roundedCornersBundle))
