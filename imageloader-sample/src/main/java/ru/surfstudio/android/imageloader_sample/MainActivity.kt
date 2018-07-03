@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
 import androidx.core.view.updateLayoutParams
+import com.bumptech.glide.Glide
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -28,8 +29,15 @@ class MainActivity : AppCompatActivity() {
 
         ImageLoader
                 .with(this)
-                .url("https://s.mdk.zone/i/8ba630e3-a996-4b44-83b5-2a1c346cc3e7")
+                /*.centerCrop()
+                .maxWidth(570)
+                .maxHeight(9300)*/
+                .url("https://s.mdk.zone/i/22096ef7-7f2b-4cd3-920b-a65a032b9e21")
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
+
+        /*Glide.with(this)
+                .load("https://s.mdk.zone/i/22096ef7-7f2b-4cd3-920b-a65a032b9e21")
+                .into(imageView)*/
     }
 }

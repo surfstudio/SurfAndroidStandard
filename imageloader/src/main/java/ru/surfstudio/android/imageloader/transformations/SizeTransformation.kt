@@ -16,6 +16,7 @@
 package ru.surfstudio.android.imageloader.transformations
 
 import android.graphics.Bitmap
+import android.util.Log
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import ru.surfstudio.android.imageloader.data.ImageSizeManager
 import ru.surfstudio.android.logger.Logger
@@ -32,8 +33,11 @@ class SizeTransformation(private val filterOnScale: Boolean = false,
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
         if (!imageSizeManager.isMaxHeightSetUp() && !imageSizeManager.isMaxWidthSetUp()) {
+            Log.d("1111", "1111 SizeTransformation return")
             return toTransform
         }
+
+        Log.d("1111", "1111 SizeTransformation transform")
 
         val originalWidth = toTransform.width
         val originalHeight = toTransform.height

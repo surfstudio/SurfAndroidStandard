@@ -7,9 +7,10 @@
 
     <ImageView
         android:id="@+id/imageloader_sample_iv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="matrix"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/a123321"
         android:contentDescription="@string/content_description" />
 
 </FrameLayout>
