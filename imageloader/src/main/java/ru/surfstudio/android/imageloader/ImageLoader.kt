@@ -224,7 +224,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param value значение множителя сжатия в диапазоне от 0 до 1
      * (0 - максимальное сжатие, 1 - минимальное сжатие)
      */
-    fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface =
+    override fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface =
             also {
                 imageTransformationsManager.isDownsampled = true
                 imageTransformationsManager.sizeMultiplier = value
