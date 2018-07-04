@@ -18,6 +18,7 @@ package ru.surfstudio.android.imageloader
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
+import android.support.annotation.FloatRange
 import android.support.annotation.WorkerThread
 import android.view.View
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
@@ -139,11 +140,11 @@ interface ImageLoaderInterface {
              @DrawableRes maskResId: Int): ImageLoaderInterface
 
     /**
-     * Применяет указанное значение к размеру 
-     * 
+     * Применяет указанное значение к размеру
+     *
      * @param sizeMultiplier множитель
      */
-    fun sizeMultiplier(sizeMultiplier: Float): ImageLoaderInterface
+    fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface
 
     /**
      * Указание целевой [View].

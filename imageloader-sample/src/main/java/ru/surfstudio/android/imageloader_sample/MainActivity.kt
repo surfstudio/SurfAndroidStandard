@@ -1,24 +1,14 @@
 package ru.surfstudio.android.imageloader_sample
 
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.ImageView
-import androidx.core.view.updateLayoutParams
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.jetbrains.anko.find
 import ru.surfstudio.android.imageloader.ImageLoader
-import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation
-import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
-import ru.surfstudio.android.utilktx.util.ViewUtil
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var imageView: ImageView
+    private lateinit var imageView: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +18,11 @@ class MainActivity : AppCompatActivity() {
 
         ImageLoader
                 .with(this)
-                .url("https://s.mdk.zone/i/8ba630e3-a996-4b44-83b5-2a1c346cc3e7")
+                .centerCrop()
+                .maxWidth(570)
+                .maxHeight(9300)
+                .url("https://s.mdk.zone/i/22096ef7-7f2b-4cd3-920b-a65a032b9e21")
+                //.url(R.drawable.a123321)
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
     }
