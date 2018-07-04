@@ -19,6 +19,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
+import android.support.annotation.FloatRange
 import android.support.annotation.WorkerThread
 import android.view.View
 import android.widget.ImageView
@@ -43,6 +44,7 @@ import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
 
+@Suppress("MemberVisibilityCanBePrivate")
 /**
  * Загрузчик изображений.
  *
@@ -215,9 +217,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId)
             }
 
-    override fun sizeMultiplier(sizeMultiplier: Float): ImageLoaderInterface =
+    /**
+     * Указание степени сжатия изображения.
+     * Применяется для сжатия больших изображений во избежание переполнения памяти на устройстве.
+     *
+     * @param value значение множителя сжатия в диапазоне от 0 до 1
+     * (0 - максимальное сжатие, 1 - минимальное сжатие)
+     */
+    fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface =
             also {
-                imageTransformationsManager.sizeMultiplier = sizeMultiplier
+                imageTransformationsManager.isDownsampled = true
+                imageTransformationsManager.sizeMultiplier = value
             }
 
     /**
@@ -322,10 +332,10 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .thumbnail(imageResourceManager.preparePreviewDrawable())
             .apply(
                     RequestOptions()
-                            /*.diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                             .skipMemoryCache(imageCacheManager.skipCache)
-                            .downsample(DownsampleStrategy.AT_MOST)
-                            .sizeMultiplier(imageTransformationsManager.sizeMultiplier)*/
+                            .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
+                            .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
                             .transforms(*imageTransformationsManager.prepareTransformations())
             )
             .listener(glideDownloadListener)

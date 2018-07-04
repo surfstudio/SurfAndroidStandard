@@ -34,6 +34,7 @@ data class ImageTransformationsManager(
         var roundedCornersBundle: RoundedCornersBundle = RoundedCornersBundle(),
         var blurBundle: BlurBundle = BlurBundle(),
         var overlayBundle: OverlayBundle = OverlayBundle(),
+        var isDownsampled: Boolean = false,
         var sizeMultiplier: Float = 1f
 ) {
 
