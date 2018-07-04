@@ -16,10 +16,8 @@
 package ru.surfstudio.android.imageloader.transformations
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import ru.surfstudio.android.imageloader.data.ImageSizeManager
-import ru.surfstudio.android.logger.Logger
 
 /**
  * Трансформатор, пережимающий изображение с учётом заданной максимальной высоты и ширины

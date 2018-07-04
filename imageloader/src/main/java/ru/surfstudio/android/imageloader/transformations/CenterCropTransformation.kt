@@ -16,11 +16,8 @@
 package ru.surfstudio.android.imageloader.transformations
 
 import android.graphics.Bitmap
-import android.util.Log
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils
-import ru.surfstudio.android.imageloader.data.ImageSizeManager
-import ru.surfstudio.android.logger.Logger
 
 /**
  * Масштабирование изображения таким образом, чтобы либо ширина изображения соответствовала ширине
@@ -32,7 +29,6 @@ class CenterCropTransformation : BaseGlideImageTransformation() {
     override fun getId() = CenterCropTransformation::class.java.canonicalName.toString()
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
-        Log.d("LOG", "1111 outWidth = $outWidth, outHeight = $outHeight")
         return TransformationUtils.centerCrop(pool, toTransform, outWidth, outHeight)
     }
 
