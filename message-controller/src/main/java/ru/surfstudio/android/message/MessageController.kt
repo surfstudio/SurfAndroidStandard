@@ -17,33 +17,44 @@ package ru.surfstudio.android.message
 
 import android.support.annotation.ColorRes
 import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
 import android.view.Gravity
 import android.view.View
+import android.widget.Toast
 
 /**
  * Интерфейс контроллера отображения сообщений
  * Максимальное количество линий задается в integers:design_snackbar_text_max_lines
  */
-private val DEFAULT_TOAST_GRAVITY = Gravity.BOTTOM
-
 interface MessageController {
+
+    companion object {
+        private const val DEFAULT_TOAST_GRAVITY = Gravity.BOTTOM
+        private const val DEFAULT_TOAST_DURATION = Toast.LENGTH_LONG
+        private const val DEFAULT_SNACK_DURATION = Snackbar.LENGTH_LONG
+    }
 
     fun show(message: String,
              @ColorRes backgroundColor: Int? = null,
              @StringRes actionStringId: Int? = null,
              @ColorRes buttonColor: Int? = null,
+             duration: Int = DEFAULT_SNACK_DURATION,
              listener: (view: View) -> Unit = {})
 
     fun show(@StringRes stringId: Int,
              @ColorRes backgroundColor: Int? = null,
              @StringRes actionStringId: Int? = null,
              @ColorRes buttonColor: Int? = null,
+             duration: Int = DEFAULT_SNACK_DURATION,
              listener: (view: View) -> Unit = {})
 
+    fun closeSnack()
 
     fun showToast(@StringRes stringId: Int,
-                  gravity: Int = DEFAULT_TOAST_GRAVITY)
+                  gravity: Int = DEFAULT_TOAST_GRAVITY,
+                  duration: Int = DEFAULT_TOAST_DURATION)
 
     fun showToast(message: String,
-                  gravity: Int = DEFAULT_TOAST_GRAVITY)
+                  gravity: Int = DEFAULT_TOAST_GRAVITY,
+                  duration: Int = Toast.LENGTH_LONG)
 }

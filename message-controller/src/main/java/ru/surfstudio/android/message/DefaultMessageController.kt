@@ -37,6 +37,7 @@ class DefaultMessageController @JvmOverloads constructor(
 
     private var snackBarBackgroundColor: Int? = null
     private var toast: Toast? = null
+    private var snackbar: Snackbar? = null
 
     init {
         val typedArray = activityProvider.get()
@@ -57,41 +58,46 @@ class DefaultMessageController @JvmOverloads constructor(
                       backgroundColor: Int?,
                       actionStringId: Int?,
                       buttonColor: Int?,
+                      duration: Int,
                       listener: (view: View) -> Unit) {
-        show(getView().resources.getString(stringId), backgroundColor, actionStringId, buttonColor, listener)
+        show(getView().resources.getString(stringId), backgroundColor, actionStringId, buttonColor, duration, listener)
     }
 
     override fun show(message: String,
                       backgroundColor: Int?,
                       actionStringId: Int?,
                       buttonColor: Int?,
+                      duration: Int,
                       listener: (view: View) -> Unit) {
-        val view = getView()
-        val sb = Snackbar.make(view, message, Snackbar.LENGTH_LONG)
-
-        if (backgroundColor == null) {
-            snackBarBackgroundColor?.let {
-                sb.view.setBackgroundColor(it)
+        snackbar = Snackbar.make(getView(), message, duration).apply {
+            if (backgroundColor == null) {
+                snackBarBackgroundColor?.let {
+                    view.setBackgroundColor(it)
+                }
+            } else {
+                view.setBackgroundColor(ContextCompat.getColor(view.context, backgroundColor))
             }
-        } else {
-            sb.view.setBackgroundColor(ContextCompat.getColor(view.context, backgroundColor))
+            actionStringId?.let {
+                setAction(it) { view -> listener.invoke(view) }
+            }
+            buttonColor?.let {
+                setActionTextColor(ContextCompat.getColor(view.context, it))
+            }
+            show()
         }
-        actionStringId?.let {
-            sb.setAction(it) { view -> listener.invoke(view) }
-        }
-        buttonColor?.let {
-            sb.setActionTextColor(ContextCompat.getColor(view.context, it))
-        }
-        sb.show()
     }
 
-    override fun showToast(stringId: Int, gravity: Int) {
-        showToast(getView().resources.getString(stringId), gravity)
+    override fun closeSnack() {
+        snackbar?.dismiss()
     }
 
-    override fun showToast(message: String, gravity: Int) {
+    override fun showToast(stringId: Int, gravity: Int, duration: Int) {
+        showToast(getView().resources.getString(stringId), gravity, duration)
+    }
+
+    override fun showToast(message: String, gravity: Int, duration: Int) {
         toast?.cancel()
-        toast = Toast.makeText(getView().context, message, Toast.LENGTH_LONG)
+        toast = Toast.makeText(getView().context, message, duration)
                 .apply {
                     setGravity(gravity, 0, 0)
                     show()
