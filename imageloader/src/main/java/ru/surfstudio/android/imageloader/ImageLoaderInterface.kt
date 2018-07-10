@@ -147,6 +147,13 @@ interface ImageLoaderInterface {
     fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface
 
     /**
+     * Добавление перехода с растворением между изображениями.
+     *
+     * @param duration продолжительность перехода (в мс)
+     */
+    fun crossFade(duration: Int = 300): ImageLoader
+
+    /**
      * Указание целевой [View].
      *
      * @param view экземпляр [View] для загрузки изображения.

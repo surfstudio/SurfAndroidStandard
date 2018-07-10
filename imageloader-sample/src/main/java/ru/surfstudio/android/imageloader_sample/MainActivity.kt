@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
                 .centerCrop()
                 .maxWidth(570)
                 .maxHeight(9300)
+                .crossFade(1000)
                 .url("https://s.mdk.zone/i/22096ef7-7f2b-4cd3-920b-a65a032b9e21")
                 //.url(R.drawable.a123321)
                 .error(R.drawable.ic_launcher_background)
