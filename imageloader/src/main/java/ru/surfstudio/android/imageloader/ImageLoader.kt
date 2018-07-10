@@ -29,6 +29,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -61,6 +62,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             ImageTargetManager(context, imageResourceManager)
     private var imageTagManager: ImageTagManager =
             ImageTagManager(imageTargetManager, imageResourceManager)
+    private var imageTransitionManager = ImageTransitionManager()
 
     private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
     private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
@@ -231,6 +233,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
     /**
+     * Добавление перехода с растворением между изображениями.
+     *
+     * @param duration продолжительность перехода (в мс)
+     */
+    override fun crossFade(duration: Int): ImageLoaderInterface =
+            also {
+                imageTransitionManager.imageTransitionOptions =
+                        DrawableTransitionOptions().crossFade(duration)
+            }
+
+    /**
      * Указание целевой [View]
      *
      * @param view экземпляр [View] для загрузки изображения
@@ -330,6 +343,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .load(imageResourceManager.toLoad())
             .error(imageResourceManager.prepareErrorDrawable())
             .thumbnail(imageResourceManager.preparePreviewDrawable())
+            .transition(imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
                             .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
