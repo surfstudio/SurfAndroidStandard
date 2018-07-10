@@ -237,7 +237,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      *
      * @param duration продолжительность перехода (в мс)
      */
-    override fun crossFade(duration: Int): ImageLoader =
+    override fun crossFade(duration: Int): ImageLoaderInterface =
             also {
                 imageTransitionManager.imageTransitionOptions =
                         DrawableTransitionOptions().crossFade(duration)

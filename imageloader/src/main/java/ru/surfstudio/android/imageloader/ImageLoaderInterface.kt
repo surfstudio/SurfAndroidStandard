@@ -151,7 +151,7 @@ interface ImageLoaderInterface {
      *
      * @param duration продолжительность перехода (в мс)
      */
-    fun crossFade(duration: Int = 300): ImageLoader
+    fun crossFade(duration: Int = 300): ImageLoaderInterface
 
     /**
      * Указание целевой [View].
