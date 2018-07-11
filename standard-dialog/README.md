@@ -33,6 +33,11 @@ StandardDialogPresenter
             return presenter
         }
     }
+Конфигуратор должен реализовывать интерфейс StandardDialogComponent
+    
+        @PerScreen
+        @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
+        internal interface MainScreenComponent : ScreenComponent<MainActivityView>, StandardDialogComponent
 
 Пример создания диалога:
 Через ресурсы:
