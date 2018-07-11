@@ -102,13 +102,17 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onDestroy() {
-        getScreenState().onDestroy();
-        getEventDelegateManager().sendEvent(new OnDestroyEvent());
-        if (completelyDestroyChecker.check()) {
-            getScreenState().onCompletelyDestroy();
-            getEventDelegateManager().sendEvent(new OnCompletelyDestroyEvent());
-            getEventDelegateManager().destroy();
-            scopeStorage.remove(getScopeId());
+        if (isPersistentScopeExist()) {
+            //onDestroy can be called without onActivityCreated for fragment,
+            //so screen scope hasn't created and initialized yet
+            getScreenState().onDestroy();
+            getEventDelegateManager().sendEvent(new OnDestroyEvent());
+            if (completelyDestroyChecker.check()) {
+                getScreenState().onCompletelyDestroy();
+                getEventDelegateManager().sendEvent(new OnCompletelyDestroyEvent());
+                getEventDelegateManager().destroy();
+                scopeStorage.remove(getScopeId());
+            }
         }
     }
 
@@ -117,7 +121,7 @@ public abstract class BaseScreenDelegate {
     }
 
     private void initPersistentScope() {
-        if (!scopeStorage.isExist(getScopeId())) {
+        if (!isPersistentScopeExist()) {
             PersistentScope persistentScope = createPersistentScope(eventResolvers);
             scopeStorage.put(persistentScope);
         }
@@ -152,8 +156,12 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onOnSaveInstantState(Bundle outState) {
-        outState.putString(KEY_PSS_ID, getPersistentScope().getScopeId());
-        getEventDelegateManager().sendEvent(new OnSaveStateEvent(outState));
+        outState.putString(KEY_PSS_ID, currentScopeId);
+        if (isPersistentScopeExist()) {
+            //onSaveInstantState can be called without onActivityCreated for fragment,
+            //so screen scope hasn't created and initialized yet
+            getEventDelegateManager().sendEvent(new OnSaveStateEvent(outState));
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -162,5 +170,9 @@ public abstract class BaseScreenDelegate {
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         getEventDelegateManager().sendEvent(new RequestPermissionsResultEvent(requestCode, permissions, grantResults));
+    }
+
+    private boolean isPersistentScopeExist() {
+        return scopeStorage.isExist(getScopeId());
     }
 }
