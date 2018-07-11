@@ -1,9 +1,11 @@
 package ${packageName};
 
-import android.content.Context;
-import android.util.AttributeSet;
+import android.content.Context
+import android.util.AttributeSet
+import android.view.View
 
-class ${className} @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ${parentClassName}(context, attrs) {
+class ${className} @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
+ : ${parentClassName}(context, attrs) {
 
     <#if generateListener>
     private var listener: ((Unit) -> Unit)? = null

@@ -19,6 +19,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
+import android.support.annotation.FloatRange
 import android.support.annotation.WorkerThread
 import android.view.View
 import android.widget.ImageView
@@ -27,6 +28,8 @@ import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.SimpleTarget
@@ -39,11 +42,10 @@ import ru.surfstudio.android.imageloader.transformations.MaskTransformation.Over
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.utilktx.ktx.convert.toBitmap
 import ru.surfstudio.android.utilktx.util.DrawableUtil
-import ru.surfstudio.android.utilktx.util.ValidationUtil
 import java.util.concurrent.ExecutionException
 
+@Suppress("MemberVisibilityCanBePrivate")
 /**
  * Загрузчик изображений.
  *
@@ -60,6 +62,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             ImageTargetManager(context, imageResourceManager)
     private var imageTagManager: ImageTagManager =
             ImageTagManager(imageTargetManager, imageResourceManager)
+    private var imageTransitionManager = ImageTransitionManager()
 
     private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
     private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
@@ -93,9 +96,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     @Throws(IllegalArgumentException::class)
     override fun url(url: String) =
             apply {
-                if (ValidationUtil.isUrlValid(url)) {
-                    Logger.e("ImageLoader.url() / Некорректная ссылка на изображение: $url")
-                }
                 this.imageResourceManager.url = url
             }
 
@@ -220,16 +220,36 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
     /**
+     * Указание степени сжатия изображения.
+     * Применяется для сжатия больших изображений во избежание переполнения памяти на устройстве.
+     *
+     * @param value значение множителя сжатия в диапазоне от 0 до 1
+     * (0 - максимальное сжатие, 1 - минимальное сжатие)
+     */
+    override fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface =
+            also {
+                imageTransformationsManager.isDownsampled = true
+                imageTransformationsManager.sizeMultiplier = value
+            }
+
+    /**
+     * Добавление перехода с растворением между изображениями.
+     *
+     * @param duration продолжительность перехода (в мс)
+     */
+    override fun crossFade(duration: Int): ImageLoaderInterface =
+            also {
+                imageTransitionManager.imageTransitionOptions =
+                        DrawableTransitionOptions().crossFade(duration)
+            }
+
+    /**
      * Указание целевой [View]
      *
      * @param view экземпляр [View] для загрузки изображения
      */
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
-
-        if (imageResourceManager.isErrorState()) {
-            imageTargetManager.setErrorImage()
-        }
 
         if (imageTagManager.isTagUsed()) return
 
@@ -244,22 +264,43 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param simpleTarget обработчик загрузки изображения.
      */
     fun into(simpleTarget: SimpleTarget<Drawable>) {
-        imageResourceManager.preparePreviewDrawable().into(object : SimpleTarget<Drawable>() {
+        into(
+                { resource, transition -> simpleTarget.onResourceReady(resource, transition) },
+                {
+                    it?.let {
+                        simpleTarget.onResourceReady(it, null)
+                    }
+                }
+        )
+    }
+
+    /**
+     * Загрузка изображения в [SimpleTarget]
+     *
+     * @param resourceReadyLambda колбек в случае успеха
+     * @param loadFailedLambda колбек при ошибке
+     */
+    fun into(
+            resourceReadyLambda: (resource: Drawable, transition: Transition<in Drawable>?) -> Unit,
+            loadFailedLambda: (errorDrawable: Drawable?) -> Unit
+    ) {
+        buildRequest().into(object : SimpleTarget<Drawable>() {
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                simpleTarget.onResourceReady(resource, transition)
+                resourceReadyLambda(resource, transition)
             }
 
             override fun onLoadFailed(errorDrawable: Drawable?) {
                 super.onLoadFailed(errorDrawable)
-                errorDrawable?.let {
-                    simpleTarget.onResourceReady(it, null)
-                }
+                loadFailedLambda(errorDrawable)
             }
         })
     }
 
     /**
      * Получение исходника изображения в формате [Bitmap].
+     * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
+     * Без отображения на UI.
+     * Для отображения на UI использовать [into]
      *
      * Запрос происходит в UI-потоке.
      */
@@ -267,10 +308,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun get(): Bitmap? {
         var result: Bitmap?
         try {
-            result = buildRequest()
-                    .submit(NO_SIZE, NO_SIZE)
+            result = Glide.with(context)
+                    .asBitmap()
+                    .load(imageResourceManager.toLoad())
+                    .apply(
+                            RequestOptions()
+                                    .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                                    .skipMemoryCache(imageCacheManager.skipCache)
+                                    .transforms(*imageTransformationsManager.prepareTransformations())
+                    )
+                    .submit()
                     .get()
-                    .toBitmap()
         } catch (e: Exception) {
             when (e) {
                 is InterruptedException, is ExecutionException -> {
@@ -295,13 +343,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .load(imageResourceManager.toLoad())
             .error(imageResourceManager.prepareErrorDrawable())
             .thumbnail(imageResourceManager.preparePreviewDrawable())
+            .transition(imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
                             .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                             .skipMemoryCache(imageCacheManager.skipCache)
+                            .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
+                            .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
                             .transforms(*imageTransformationsManager.prepareTransformations())
             )
             .listener(glideDownloadListener)
+
     /**
      * Загрузка изображения в целевую [View].
      *

@@ -23,7 +23,7 @@ import ru.surfstudio.android.imageloader.data.ImageSizeManager
  * Трансформатор, пережимающий изображение с учётом заданной максимальной высоты и ширины
  * без нарушение аспекта и искажения пропорций.
  */
-class SizeTransformation(private val filterOnScale: Boolean = true,
+class SizeTransformation(private val filterOnScale: Boolean = false,
                          private val imageSizeManager: ImageSizeManager = ImageSizeManager()
 ) : BaseGlideImageTransformation() {
 

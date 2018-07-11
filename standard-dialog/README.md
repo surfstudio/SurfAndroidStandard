@@ -1,5 +1,5 @@
 #StandardDialog
-Поставляет простой да/нет диалог, в который можно передать строковые ресурсы или сами строки
+Поставляет простой кастомизируемый да/нет диалог
 
 ##Использование
 Презентер экрана, на котором планируется использовать диалог, должен реализовывать интерфейс
@@ -64,3 +64,10 @@ StandardDialogPresenter
                   negativeBtnTextRes = R.string.negative,
                   isCancelable = true,
                   dialogTag = "tagSimple"))
+                  
+
+#Подключение
+Gradle:
+```
+    implementation "ru.surfstudio.android:standard-dialog:X.X.X"
+```

@@ -38,7 +38,7 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
  * Adapter emit event "onShowMore" when user scroll to bottom or click on footer with state {@link PaginationState#ERROR}.
  * Adapter can emit this event if user scroll only if state is {@link PaginationState#READY}
  */
-public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutManager> extends EasyAdapter {
+public abstract class BasePaginationableAdapter extends EasyAdapter {
 
     private OnShowMoreListener onShowMoreListener;
     private boolean blockShowMoreEvent = true;
@@ -94,12 +94,12 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        A layoutManager = (A) recyclerView.getLayoutManager();
+        RecyclerView.LayoutManager  layoutManager = recyclerView.getLayoutManager();
         initLayoutManager(layoutManager);
         initPaginationListener(recyclerView, layoutManager);
     }
 
-    protected void initPaginationListener(RecyclerView recyclerView, final A layoutManager) {
+    protected void initPaginationListener(RecyclerView recyclerView, final RecyclerView.LayoutManager layoutManager) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -119,7 +119,7 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
         });
     }
 
-    protected int findFirstVisibleItem(A layoutManager) {
+    protected int findFirstVisibleItem(RecyclerView.LayoutManager  layoutManager) {
         int pos = 0;
 
         if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -141,7 +141,7 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
         return pos;
     }
 
-    protected int findLastVisibleItem(A layoutManager) {
+    protected int findLastVisibleItem(RecyclerView.LayoutManager  layoutManager) {
         int pos = 0;
 
         if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -164,7 +164,7 @@ public abstract class BasePaginationableAdapter<A extends RecyclerView.LayoutMan
         return pos;
     }
 
-    protected void initLayoutManager(A layoutManager) {
+    protected void initLayoutManager(RecyclerView.LayoutManager  layoutManager) {
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager castedLayoutManager = (GridLayoutManager) layoutManager;
             final GridLayoutManager.SpanSizeLookup existingLookup = castedLayoutManager.getSpanSizeLookup();

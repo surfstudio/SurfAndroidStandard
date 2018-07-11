@@ -1,12 +1,19 @@
 #Network
-Модуль для работы с сетью. Берет на себя конвертирование ответов от сервера в `Observable`. 
-Позволяет использовать etag. Кеширует ответы от сервера используя [filestorage](../filestorage/README.md)
-Занимается предобработкой ошибок.
+Модуль для работы с сетью. Содержит классы для быстрой настройки работы с сетью на основе Retrofit + OkHttp. 
+Позволяет легко настроить кеширование сырых ответов сервера используя [filestorage](../filestorage/README.md)
 
 #Использование
 ##Cache
-Простой кеш сохраняет сырые ответы сервера в файлы. Для использования неоходимо
-`SimpleCacheInterceptor` добавить в контсруктор при создании инстанса `OkHttpClient`
+Простой кеш сохраняет сырые ответы сервера в файлы. Для использования неоходимо создать 
+`SimpleCacheInterceptor` и добавить его в конструктор при создании инстанса `OkHttpClient`. Кешированные данные получают через тот же интерфейс Api, который используется Retrofit'ом. Для поддержки кеширования метод в интерфейсе должен выглядеть так: 
+```
+@GET(SOME_URL)
+Observable<SomeResponse> getSomeContent(
+            @Header(HEADER_QUERY_MODE) @ServerConstants.QueryMode int queryMode,
+            @Path("id") int id);
+```
+Кроме того необходимо иметь инстанс класса SimpleCacheInfo для этого запроса. В зависимомти от queryMode данные будут запрошены либо с сервера либо из кеша.
+
 
 ##CallAdapter
 Конвертирует ответы сервера в `Observable` а также оборачивает ошибки в соответветствующий инстанс иерархии `NetworkException`
@@ -19,18 +26,16 @@
 `EtagInterceptor` добавить в контсруктор при создании инстанса `OkHttpClient`
 
 ##Response
-`BaseResponse` маркерный интерфейс который обозначает объекты которые нужно парсить
+`BaseResponse` маркерный интерфейс который обозначает классы которые используются для парсинга корневой сущности ответа
 
 ##Прочее
 `BaseNetworkInteractor` Интерактор для работы с сетью. Основная задача упростить взаимодейстивие с закешированными ответами и ответами сервера 
 `Transformable` и `TransformableUtil` Интрефейс и набор утилит для конвертации объекта одного класса в другой
 
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:network:X.X.X"
+    implementation "ru.surfstudio.android:network:X.X.X"
 ```
+
+TODO: Отрефакториить поиск SimpleCacheInfo по url, описать подробнее доки, добавить семпл

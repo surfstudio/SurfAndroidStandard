@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,7 +16,9 @@
 package ru.surfstudio.android.core.ui.permission;
 
 
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 
 import java.util.HashMap;
@@ -75,6 +77,22 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
     }
 
     /**
+     * Проверка условия, должен ли UI показать пояснение, для чего нужен запрашиваемый Permission.
+     * @return true/false
+     *
+     * Это один из необходимых флагов для понимания, что стандартный диалог отключен к показу
+     * Дальнейшее использование можно посмотреть в AVS DownloadHelper.java
+     * see <a href="https://clck.ru/DfZwD">
+     */
+    public boolean shouldShowRequestPermissionRationale(PermissionRequest permission) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return checkRequestPermissionRationale(permission);
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * запрашивает разрешение
      *
      * @param request
@@ -108,5 +126,17 @@ public abstract class PermissionManager implements RequestPermissionsResultDeleg
         } else {
             requestSubjects.get(request.getRequestCode()).onNext(true);
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private boolean checkRequestPermissionRationale(PermissionRequest request) {
+        boolean result = false;
+        boolean currentPermissionStatus;
+
+        for (String permission : request.getPermissions()) {
+            currentPermissionStatus = activityProvider.get().shouldShowRequestPermissionRationale(permission);
+            result = result || currentPermissionStatus;
+        }
+        return result;
     }
 }

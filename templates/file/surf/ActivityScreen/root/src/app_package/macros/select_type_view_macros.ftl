@@ -3,44 +3,36 @@
 	<#if generateKotlin>
 		<#if screenType=='activity'>
 			<#if typeViewActivity=='1'>
-    			BaseHandleableErrorActivityView()
+   				BaseRenderableActivityView<${className}ScreenModel>()
 			<#elseif typeViewActivity=='2'>
-   				BaseRenderableHandleableErrorActivityView<${className}ScreenModel>()
-			<#elseif typeViewActivity=='3'>
    				BaseLdsActivityView<${className}ScreenModel>()
-			<#elseif typeViewActivity=='4'>
+			<#elseif typeViewActivity=='3'>
 				BaseLdsSwrActivityView<${className}ScreenModel>()
 			</#if>
 		<#else>
 			<#if typeViewFragment=='1'>
-    			BaseHandleableErrorFragmentView()
+   				BaseRenderableFragmentView<${className}ScreenModel>()
 			<#elseif typeViewFragment=='2'>
-   				BaseRenderableHandleableErrorFragmentView<${className}ScreenModel>()
-			<#elseif typeViewFragment=='3'>
    				BaseLdsFragmentView<${className}ScreenModel>()
-			<#elseif typeViewFragment=='4'>
+			<#elseif typeViewFragment=='3'>
 				BaseLdsSwrFragmentView<${className}ScreenModel>()
 			</#if>
 		</#if>
 	<#else>
 		<#if screenType=='activity'>
 			<#if typeViewActivity=='1'>
-    			BaseHandleableErrorActivityView
+   				BaseRenderableActivityView<${className}ScreenModel>
 			<#elseif typeViewActivity=='2'>
-   				BaseRenderableHandleableErrorActivityView<${className}ScreenModel>
-			<#elseif typeViewActivity=='3'>
    				BaseLdsActivityView<${className}ScreenModel>
-			<#elseif typeViewActivity=='4'>
+			<#elseif typeViewActivity=='3'>
 				BaseLdsSwrActivityView<${className}ScreenModel>
 			</#if>
 		<#else>
 			<#if typeViewFragment=='1'>
-    			BaseHandleableErrorFragmentView
+   				BaseRenderableFragmentView<${className}ScreenModel>
 			<#elseif typeViewFragment=='2'>
-   				BaseRenderableHandleableErrorFragmentView<${className}ScreenModel>
-			<#elseif typeViewFragment=='3'>
    				BaseLdsFragmentView<${className}ScreenModel>
-			<#elseif typeViewFragment=='4'>
+			<#elseif typeViewFragment=='3'>
 				BaseLdsSwrFragmentView<${className}ScreenModel>
 			</#if>
 		</#if>

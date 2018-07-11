@@ -15,7 +15,7 @@ import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.standard.R
 
-class PaginationableAdapter : BasePaginationableAdapter<StaggeredGridLayoutManager>() {
+class PaginationableAdapter : BasePaginationableAdapter() {
 
     private var paginationFooterItemController: BasePaginationFooterController<*>? = null
 
@@ -50,10 +50,6 @@ class PaginationableAdapter : BasePaginationableAdapter<StaggeredGridLayoutManag
             }
 
             override fun bind(state: PaginationState) {
-
-                itemView.updateLayoutParams<StaggeredGridLayoutManager.LayoutParams> {
-                    isFullSpan = true
-                }
 
                 when (state) {
                     PaginationState.READY -> {

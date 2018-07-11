@@ -1,12 +1,12 @@
-#Datalist page count
-Структура данных с поддержкой пагинации .
+#Datalist limit offset
+Основная сущность - DataList - список для пагинируемых данных через механизм page/count
+Имеет методы:
+ 1. merge(DataList data), позволяющий обьединять 2 блока данных
+ 1. int getNextPage() - возвращает номер след блока данных
+ 1. bool canGetMore() - обозначает, можно ли загрузить еще данные
 
 #Подключение
-Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru), необходимо, 
-чтобы корневой `build.gradle` файл проекта был сконфигурирован так, как описано 
-[здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
-Для подключения модуля через Gradle:
+Gradle:
 ```
-    implementation "ru.surfstudio.standard:datalist-page-count:X.X.X"
+    implementation "ru.surfstudio.android:datalist-page-count:X.X.X"
 ```

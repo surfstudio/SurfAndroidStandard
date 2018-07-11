@@ -1,8 +1,30 @@
 <#import "macros/select_type_view_macros.ftl" as superClass>
 package ${packageName}
 
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.support.annotation.LayoutRes
+import android.support.v7.widget.RecyclerView
+import android.support.v4.widget.SwipeRefreshLayout
+import android.view.View
+import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
+import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
+import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
+import ru.surfstudio.android.core.mvp.fragment.BaseLdsFragmentView
+import ru.surfstudio.android.core.mvp.fragment.BaseLdsSwrFragmentView
+import ru.surfstudio.android.core.mvp.fragment.BaseRenderableFragmentView
+import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.easyadapter.EasyAdapter
+import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.easyadapter.sample.ui.common.recycler.pagination.PaginationableAdapter
+import ru.surfstudio.standard.R
+import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.standard.ui.base.configurator.FragmentScreenConfigurator
+import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderView
+import javax.inject.Inject
+
 <#if generateToolbar>
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar
 </#if>
 
 class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> {
@@ -38,8 +60,8 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
         override fun getContentView(): Int = R.layout.${layoutName}
     <#else>
         override fun createConfigurator(): FragmentScreenConfigurator = ${className}ScreenConfigurator(arguments)
-        override fun onCreateView(inflater: LayoutInflater, 
-                                  container: ViewGroup?, 
+        override fun onCreateView(inflater: LayoutInflater,
+                                  container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
             return inflater.inflate(R.layout.${layoutName}, container, false)
         }
@@ -128,5 +150,5 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
     }
     </#if>
 
-     override fun getName(): String = "${camelCaseToUnderscore(className)}"
+     override fun getScreenName(): String = "${camelCaseToUnderscore(className)}"
 }
