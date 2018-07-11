@@ -73,11 +73,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
                     activity.getString(R.string.choose_app))
         }
 
-        override fun parseResultIntent(intent: Intent?): String? {
-            return if (intent != null && intent.data != null) {
-                intent.data!!.uriToFilePath()
-            } else null
-        }
+        override fun parseResultIntent(intent: Intent?) = intent?.data?.uriToFilePath()
     }
 
     private inner class GalleryMultipleImageRoute : ActivityWithResultRoute<ArrayList<String>>() {
@@ -110,9 +106,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     @SuppressLint("ObsoleteSdkInt")
     fun Uri.uriToFilePath(): String {
         return when {
-            Build.VERSION.SDK_INT < 11 -> RealPathUtil.getRealPathFromUriApiBelow11(activity, this)
-            Build.VERSION.SDK_INT < 19 -> RealPathUtil.getRealPathFromUriApi11to18(activity, this)
-            else -> RealPathUtil.getRealPathFromUriApi19(activity, this)
+            Build.VERSION.SDK_INT < 19 -> RealPathUtil.getRealPathFromUriBelow19(activity, this)
+            else -> RealPathUtil.getRealPathFromUri(activity, this)
         }
     }
 }

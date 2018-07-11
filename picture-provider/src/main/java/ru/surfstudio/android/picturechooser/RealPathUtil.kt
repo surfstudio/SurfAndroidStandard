@@ -1,6 +1,5 @@
 package ru.surfstudio.android.picturechooser
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.net.Uri
@@ -16,7 +15,7 @@ object RealPathUtil {
     /**
      * Для SDK 19 и выше
      */
-    fun getRealPathFromUriApi19(activity: Activity, uri: Uri): String {
+    fun getRealPathFromUri(activity: Activity, uri: Uri): String {
         var result = ""
         if (DocumentsContract.isDocumentUri(activity, uri)) {
             val wholeID = DocumentsContract.getDocumentId(uri)
@@ -40,10 +39,9 @@ object RealPathUtil {
     }
 
     /**
-     * Для SDK от 11 до 18
+     * Для SDK ниже 19
      */
-    @SuppressLint("NewApi")
-    fun getRealPathFromUriApi11to18(context: Context, contentUri: Uri): String {
+    fun getRealPathFromUriBelow19(context: Context, contentUri: Uri): String {
         var result = ""
         val media = arrayOf(MediaStore.Images.Media.DATA)
         val cursorLoader = CursorLoader(context, contentUri, media, null, null, null)
@@ -53,21 +51,6 @@ object RealPathUtil {
             cursor.moveToFirst()
             result = cursor.getString(columnIndex)
         }
-        return result
-    }
-
-    /**
-     * Для SDK ниже 11
-     */
-    fun getRealPathFromUriApiBelow11(context: Context, contentUri: Uri): String {
-        var result = ""
-        val media = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = context.contentResolver.query(contentUri, media, null, null, null)
-        val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        if (cursor.moveToFirst()) {
-            result = cursor.getString(columnIndex)
-        }
-        cursor.close()
         return result
     }
 }
