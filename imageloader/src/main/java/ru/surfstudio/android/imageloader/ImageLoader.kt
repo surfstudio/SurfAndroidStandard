@@ -346,11 +346,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .transition(imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
-                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.RESOURCE)
                             .skipMemoryCache(imageCacheManager.skipCache)
                             .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
                             .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
-                            .transforms(*imageTransformationsManager.prepareTransformations())
+                            .applyTransformations(imageTransformationsManager)
             )
             .listener(glideDownloadListener)
 
@@ -382,4 +382,20 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         }
     }
 
+}
+
+/**
+ * Функция расширение для добавления трансформаций из [ImageTransformationsManager]
+ * Если трансформаций нет, возвращается первоначальный объект
+ *
+ * @param imageTransformationsManager менеджер трансформаций
+ *
+ * @return [RequestOptions] со списком трансформаций
+ */
+fun RequestOptions.applyTransformations(imageTransformationsManager: ImageTransformationsManager): RequestOptions {
+    val transformations = imageTransformationsManager.prepareTransformations()
+    return if (transformations.isNotEmpty())
+        transforms(*transformations)
+    else
+        this
 }
