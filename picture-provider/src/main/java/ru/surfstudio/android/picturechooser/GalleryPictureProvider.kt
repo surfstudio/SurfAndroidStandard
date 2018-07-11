@@ -106,8 +106,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     @SuppressLint("ObsoleteSdkInt")
     fun Uri.uriToFilePath(): String {
         return when {
-            Build.VERSION.SDK_INT < 19 -> RealPathUtil.getRealPathFromUriBelow19(activity, this)
-            else -> RealPathUtil.getRealPathFromUri(activity, this)
+            Build.VERSION.SDK_INT > 18 -> RealPathUtil.getRealPathFromUri(activity, this)
+            else -> RealPathUtil.getRealPathFromUriBelow19(activity, this)
         }
     }
 }

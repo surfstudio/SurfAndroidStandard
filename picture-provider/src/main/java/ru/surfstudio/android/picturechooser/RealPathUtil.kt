@@ -24,11 +24,14 @@ object RealPathUtil {
                 val id = splits[1]
                 val column = arrayOf(MediaStore.Images.Media.DATA)
                 val sel = MediaStore.Images.Media._ID + "=?"
-                val cursor = activity.contentResolver.query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                val cursor = activity.contentResolver.query(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                         column, sel, arrayOf(id), null)
-                val columnIndex = cursor!!.getColumnIndex(column[0])
-                if (cursor.moveToFirst()) {
-                    result = cursor.getString(columnIndex)
+                if (cursor != null) {
+                    val columnIndex = cursor.getColumnIndex(column[0])
+                    if (cursor.moveToFirst()) {
+                        result = cursor.getString(columnIndex)
+                    }
                 }
                 cursor.close()
             }
@@ -49,8 +52,11 @@ object RealPathUtil {
         if (cursor != null) {
             val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             cursor.moveToFirst()
-            result = cursor.getString(columnIndex)
+            if (cursor.moveToFirst()) {
+                result = cursor.getString(columnIndex)
+            }
         }
+        cursor?.close()
         return result
     }
 }
