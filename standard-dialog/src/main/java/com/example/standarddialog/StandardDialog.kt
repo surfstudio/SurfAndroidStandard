@@ -35,11 +35,13 @@ class StandardDialog : CoreSimpleDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         route = StandardDialogRoute(arguments!!)
+
+        this.isCancelable = route.isCancelable
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(this.context, theme)
-        val dialog:Dialog = builder
+        val dialog: Dialog = builder
                 .setTitle(route.getTitle(this.context!!))
                 .setMessage(route.getMessage(this.context!!))
                 .setNegativeButton(route.getNegativeBtnTxt(this.context!!), { _, _ ->
@@ -52,8 +54,8 @@ class StandardDialog : CoreSimpleDialogFragment() {
                     presenter.simpleDialogPositiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 })
+                .setCancelable(route.isCancelable)
                 .create()
-        dialog.setCanceledOnTouchOutside(route.isCancelable)
         return dialog
     }
 
