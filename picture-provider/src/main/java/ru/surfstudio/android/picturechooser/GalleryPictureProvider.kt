@@ -15,11 +15,12 @@
  */
 package ru.surfstudio.android.picturechooser
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.provider.MediaStore
+import android.os.Build
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
@@ -74,7 +75,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
         override fun parseResultIntent(intent: Intent?): String? {
             return if (intent != null && intent.data != null) {
-                intent.data!!.getRealPath()
+                intent.data!!.uriToFilePath()
             } else null
         }
     }
@@ -92,10 +93,10 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
             return if (intent != null && intent.data != null) {
-                arrayListOf(intent.data.getRealPath())
+                arrayListOf(intent.data.uriToFilePath())
             } else if (intent != null && intent.clipData != null) {
                 with(intent.clipData) {
-                    (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.getRealPath() }
+                    (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.uriToFilePath() }
                 }
             } else {
                 null
@@ -103,22 +104,15 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         }
     }
 
-    private fun Uri.getRealPath(): String {
-        val result: String
-        val cursor = activity.contentResolver
-                .query(this, null, null, null, null)
-        if (cursor == null) {
-            result = this.path
-        } else {
-            cursor.moveToFirst()
-            val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            result = if (idx > -1) {
-                cursor.getString(idx)
-            } else {
-                this.path
-            }
-            cursor.close()
+    /**
+     * Получить реальный путь до изображения
+     */
+    @SuppressLint("ObsoleteSdkInt")
+    fun Uri.uriToFilePath(): String {
+        return when {
+            Build.VERSION.SDK_INT < 11 -> RealPathUtil.getRealPathFromUriApiBelow11(activity, this)
+            Build.VERSION.SDK_INT < 19 -> RealPathUtil.getRealPathFromUriApi11to18(activity, this)
+            else -> RealPathUtil.getRealPathFromUriApi19(activity, this)
         }
-        return result
     }
 }
