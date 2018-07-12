@@ -89,7 +89,7 @@ pipeline.stages = [
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlHtmlLink(script)
     def message
-    def success = pipeline.jobResult == Result.SUCCESS
+    def success = Result.SUCCESS.equals(pipeline.jobResult)
     if (!success) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         message = "Deploy ветки ${branchName} не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
