@@ -44,9 +44,9 @@ pipeline.stages = [
         
             if(branchName.contains("project-snapshot")){
                 script.echo "Apply lightweight strategies for project-snapshot branch"
-                pipeline.getStage(UNIT_TEST).strategy = SKIP_STAGE
-                pipeline.getStage(INSTRUMENTATION_TEST).strategy = SKIP_STAGE
-                pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = SKIP_STAGE
+                pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
+                pipeline.getStage(INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
+                pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
             }
             
             CommonUtil.safe(script){
@@ -89,7 +89,7 @@ pipeline.stages = [
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlHtmlLink(script)
     def message
-    def success = pipeline.jobResult != Result.SUCCESS
+    def success = pipeline.jobResult == Result.SUCCESS
     if (!success) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         message = "Deploy ветки ${branchName} не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
