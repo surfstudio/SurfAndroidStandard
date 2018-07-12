@@ -15,9 +15,9 @@
  */
 package com.example.standarddialog
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 import javax.inject.Inject
 
@@ -38,20 +38,21 @@ class StandardDialog : CoreSimpleDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val builder = AlertDialog.Builder(this.context, theme)
+        val context = requireContext()
+        val builder = AlertDialog.Builder(context, theme)
         return builder
-                .setTitle(route.getTitle(this.context!!))
-                .setMessage(route.getMessage(this.context!!))
-                .setNegativeButton(route.getNegativeBtnTxt(this.context!!), { _, _ ->
+                .setTitle(route.getTitle(context))
+                .setMessage(route.getMessage(context))
+                .setNegativeButton(route.getNegativeBtnTxt(context)) { _, _ ->
                     inject()
                     presenter.simpleDialogNegativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
-                })
-                .setPositiveButton(route.getPositiveBtnTxt(this.context!!), { _, _ ->
+                }
+                .setPositiveButton(route.getPositiveBtnTxt(context)) { _, _ ->
                     inject()
                     presenter.simpleDialogPositiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
-                })
+                }
                 .setCancelable(route.isCancelable)
                 .create()
     }
