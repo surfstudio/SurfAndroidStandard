@@ -46,7 +46,8 @@ data class ImageTransformationsManager(
     fun prepareTransformations() =
             transformations
                     .apply {
-                        add(SizeTransformation(imageSizeManager = imageSizeManager))
+                        if (imageSizeManager.isMaxHeightSetUp() || imageSizeManager.isMaxWidthSetUp())
+                            add(SizeTransformation(imageSizeManager = imageSizeManager))
                         if (isCenterCrop) add(CenterCropTransformation())
                         if (isCircle) add(CircleTransformation())
                         if (roundedCornersBundle.isRoundedCorners)
