@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.widjet
+package ru.surfstudio.android.custom.view
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -24,7 +24,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.LinearLayout
 import android.widget.TextView
-import ru.surfstudio.android.custom.view.R
 
 private const val DEFAULT_MAX_LINES: Int = 1
 
