@@ -35,6 +35,8 @@ class StandardDialog : CoreSimpleDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         route = StandardDialogRoute(arguments!!)
+
+        this.isCancelable = route.isCancelable
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
