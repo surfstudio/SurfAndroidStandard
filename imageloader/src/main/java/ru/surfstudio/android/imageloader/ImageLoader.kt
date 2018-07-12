@@ -53,15 +53,12 @@ import java.util.concurrent.ExecutionException
  */
 class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
-    private var imageCacheManager: ImageCacheManager = ImageCacheManager()
-    private var imageTransformationsManager: ImageTransformationsManager =
-            ImageTransformationsManager(context)
-    private var imageResourceManager: ImageResourceManager =
-            ImageResourceManager(context, imageTransformationsManager)
-    private var imageTargetManager: ImageTargetManager =
-            ImageTargetManager(context, imageResourceManager)
-    private var imageTagManager: ImageTagManager =
-            ImageTagManager(imageTargetManager, imageResourceManager)
+    private var imageCacheManager = ImageCacheManager()
+    private var imageForceInto = ImageForceInto()
+    private var imageTransformationsManager = ImageTransformationsManager(context)
+    private var imageResourceManager = ImageResourceManager(context, imageTransformationsManager)
+    private var imageTargetManager = ImageTargetManager(context, imageResourceManager)
+    private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager)
     private var imageTransitionManager = ImageTransitionManager()
 
     private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
@@ -244,6 +241,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
     /**
+     * Принудительная вставка изображения во вью
+     * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
+     *
+     * @param forceInto вставлять принудительно
+     */
+    override fun forceInto(forceInto: Boolean) =
+            apply { this.imageForceInto.forceInto = forceInto }
+
+    /**
      * Указание целевой [View]
      *
      * @param view экземпляр [View] для загрузки изображения
@@ -251,8 +257,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
 
-        if (imageTagManager.isTagUsed()) return
-
+        if (!imageForceInto.forceInto) {
+            if (imageTagManager.isTagUsed()) return
+        }
         imageTagManager.setTag(imageResourceManager.url)
 
         performLoad(view)
