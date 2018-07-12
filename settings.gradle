@@ -1,4 +1,8 @@
 apply from: 'modules.gradle'
+include 'template-multimodule'
+include 'template-multimodule:app-injector', 'template-multimodule:base', 'template-multimodule:base-ui', 'template-multimodule:domain',
+        'template-multimodule:i-initialization', 'template-multimodule:i-network', 'template-multimodule:i-token', 'template-multimodule:i-session',
+        'template-multimodule:i-auth', 'template-multimodule:f-auth', 'template-multimodule:f-main'
 gradle.ext.modules.each {
     include it.name
 }

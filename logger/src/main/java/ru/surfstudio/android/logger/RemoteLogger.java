@@ -37,7 +37,7 @@ public class RemoteLogger {
         }
     }
 
-    public static void clearUsername() {
+    public static void clearUser() {
         try {
             Crashlytics.getInstance().core.setUserName("");
             Crashlytics.getInstance().core.setUserEmail("");

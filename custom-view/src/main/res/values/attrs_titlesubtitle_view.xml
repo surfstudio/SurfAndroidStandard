@@ -11,6 +11,7 @@
         <attr name="titlePaddingBottom" format="dimension"/>
         <attr name="titleLines" format="integer"/>
         <attr name="titleMaxLines" format="integer"/>
+        <attr name="titleTextAppearance" format="reference" />
         <attr name="titleGravity" >
             <flag name="bottom" value="50" />
             <flag name="center" value="11" />
@@ -43,6 +44,7 @@
         <attr name="subTitlePaddingBottom" format="dimension"/>
         <attr name="subTitleLines" format="integer"/>
         <attr name="subTitleMaxLines" format="integer"/>
+        <attr name="subtitleTextAppearance" format="reference" />
         <attr name="subTitleGravity" >
                 <flag name="bottom" value="50" />
                 <flag name="center" value="11" />

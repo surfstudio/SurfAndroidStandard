@@ -7,6 +7,13 @@ import android.os.Bundle
 </#if>
 
 import dagger.Component
+import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.standard.ui.base.dagger.activity.ActivityComponent
+import ru.surfstudio.standard.ui.base.dagger.screen.ActivityScreenModule
+import ru.surfstudio.standard.ui.base.configurator.FragmentScreenConfigurator
+import ru.surfstudio.standard.ui.base.dagger.screen.FragmentScreenModule
 
 <#if screenType=='activity'>
 class ${className}ScreenConfigurator(intent: Intent) : ${screenTypeCapitalized}ScreenConfigurator(intent) {
@@ -28,12 +35,10 @@ class ${className}ScreenConfigurator(args: Bundle?) : ${screenTypeCapitalized}Sc
     <#if screenType=='activity'>
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
-                                       coreActivityScreenModule: CoreActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
         return Dagger${className}ScreenConfigurator_${className}ScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .activityScreenModule(activityScreenModule)
-                .coreActivityScreenModule(coreActivityScreenModule)
                 <#if screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')>
                 .${className?uncap_first}ScreenModule(${className}ScreenModule(${className}ActivityRoute(intent)))
                 </#if>
@@ -42,12 +47,10 @@ class ${className}ScreenConfigurator(args: Bundle?) : ${screenTypeCapitalized}Sc
     <#else>
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                            fragmentScreenModule: FragmentScreenModule,
-                                           coreFragmentScreenModule: CoreFragmentScreenModule,
                                            args: Bundle): ScreenComponent<*> {
             return Dagger${className}ScreenConfigurator_${className}ScreenComponent.builder()
                     .activityComponent(parentComponent)
                     .fragmentScreenModule(fragmentScreenModule)
-                    .coreFragmentScreenModule(coreFragmentScreenModule)
                     <#if screenType=='fragment' && typeRouteFragment=='2'>
                     .${className?uncap_first}ScreenModule(${className}ScreenModule(${className}FragmentRoute(args)))
                     </#if>

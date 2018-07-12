@@ -18,6 +18,7 @@ package ru.surfstudio.android.imageloader
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
+import android.support.annotation.FloatRange
 import android.support.annotation.WorkerThread
 import android.view.View
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
@@ -32,42 +33,42 @@ interface ImageLoaderInterface {
      *
      * @param url сетевая ссылка на изображение
      */
-    fun url(url: String): ImageLoader
+    fun url(url: String): ImageLoaderInterface
 
     /**
      * Загрузка изображения из ресурсов
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
-    fun url(@DrawableRes drawableResId: Int): ImageLoader
+    fun url(@DrawableRes drawableResId: Int): ImageLoaderInterface
 
     /**
      * Указание графического ресурса, отображаемого в качестве плейсхолдера
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
-    fun preview(@DrawableRes drawableResId: Int): ImageLoader
+    fun preview(@DrawableRes drawableResId: Int): ImageLoaderInterface
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
-    fun error(@DrawableRes drawableResId: Int): ImageLoader
+    fun error(@DrawableRes drawableResId: Int): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания загрузки изображения
      *
      * @param lambda лямбда, возвращающая загруженный [Drawable]
      */
-    fun listener(lambda: ((drawable: Drawable) -> (Unit))): ImageLoader
+    fun listener(lambda: ((drawable: Drawable) -> (Unit))): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
      *
      * @param lambda лямбда, возвращающая ошибку [Throwable]
      */
-    fun errorListener(lambda: ((throwable: Throwable) -> (Unit))): ImageLoader
+    fun errorListener(lambda: ((throwable: Throwable) -> (Unit))): ImageLoaderInterface
 
     /**
      * Указание политики кэширования.
@@ -75,35 +76,35 @@ interface ImageLoaderInterface {
      *
      * @param skipCache true - игнорировать кэш в памяти и на диске, false - использовать кэш в памяти и на диске
      */
-    fun skipCache(skipCache: Boolean = true): ImageLoader
+    fun skipCache(skipCache: Boolean = true): ImageLoaderInterface
 
     /**
      * Установка максимальной ширины изображения в px.
      *
      * Необходима для пережатия изображения без искажения пропорций.
      */
-    fun maxWidth(maxWidth: Int): ImageLoader
+    fun maxWidth(maxWidth: Int): ImageLoaderInterface
 
     /**
      * Установка максимальной высоты изображения в px.
      *
      * Необходима для пережатия изображения без искажения пропорций.
      */
-    fun maxHeight(maxHeight: Int): ImageLoader
+    fun maxHeight(maxHeight: Int): ImageLoaderInterface
 
     /**
      * Масштабирование изображения по размеру виджета с обрезкой излишков.
      *
      * @param isCrop флаг активации трансформации
      */
-    fun centerCrop(isCrop: Boolean = true): ImageLoader
+    fun centerCrop(isCrop: Boolean = true): ImageLoaderInterface
 
     /**
      * Преобразование прямоугольного изображения в круглое.
      *
      * @param isCircle флаг активации трансформации
      */
-    fun circle(isCircle: Boolean = true): ImageLoader
+    fun circle(isCircle: Boolean = true): ImageLoaderInterface
 
     /**
      * Скругление углов у прямоугольного изображения.
@@ -116,7 +117,7 @@ interface ImageLoaderInterface {
     fun roundedCorners(isRoundedCorners: Boolean = true,
                        radiusPx: Int = 0,
                        marginPx: Int = 0,
-                       cornerType: CornerType = CornerType.ALL): ImageLoader
+                       cornerType: CornerType = CornerType.ALL): ImageLoaderInterface
 
     /**
      * Эффект размытия изображения "Blur".
@@ -127,7 +128,7 @@ interface ImageLoaderInterface {
      */
     fun blur(isBlur: Boolean = true,
              blurRadiusPx: Int = 25,
-             blurDownSampling: Int = 1): ImageLoader
+             blurDownSampling: Int = 1): ImageLoaderInterface
 
     /**
      * Наложение маски на изображение с поддержкой 9-patch маски.
@@ -136,7 +137,21 @@ interface ImageLoaderInterface {
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
      */
     fun mask(isOverlay: Boolean = true,
-             @DrawableRes maskResId: Int): ImageLoader
+             @DrawableRes maskResId: Int): ImageLoaderInterface
+
+    /**
+     * Применяет указанное значение к размеру
+     *
+     * @param sizeMultiplier множитель
+     */
+    fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface
+
+    /**
+     * Добавление перехода с растворением между изображениями.
+     *
+     * @param duration продолжительность перехода (в мс)
+     */
+    fun crossFade(duration: Int = 300): ImageLoaderInterface
 
     /**
      * Указание целевой [View].

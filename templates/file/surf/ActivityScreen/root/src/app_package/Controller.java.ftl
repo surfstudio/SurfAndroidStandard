@@ -1,6 +1,12 @@
 <#import "macros/select_type_controller_macros.ftl" as controllerMacros>
 package ${packageName};
 
+import android.view.ViewGroup;
+import ru.surfstudio.android.easyadapter.controller.BindableItemController;
+import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
+import ru.surfstudio.android.easyadapter.holder.BindableViewHolder;
+import ru.surfstudio.standard.R;
+
 public class ${nameController}${defPostfixController} extends <@controllerMacros.selectTypeController /> {
 
     <#if hasListener>
