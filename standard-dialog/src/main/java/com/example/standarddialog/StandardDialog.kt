@@ -41,22 +41,21 @@ class StandardDialog : CoreSimpleDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(this.context, theme)
-        val dialog: Dialog = builder
+        return builder
                 .setTitle(route.getTitle(this.context!!))
                 .setMessage(route.getMessage(this.context!!))
-                .setNegativeButton(route.getNegativeBtnTxt(this.context!!), { _, _ ->
+                .setNegativeButton(route.getNegativeBtnTxt(this.context!!)) { _, _ ->
                     inject()
                     presenter.simpleDialogNegativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
-                })
-                .setPositiveButton(route.getPositiveBtnTxt(this.context!!), { _, _ ->
+                }
+                .setPositiveButton(route.getPositiveBtnTxt(this.context!!)) { _, _ ->
                     inject()
                     presenter.simpleDialogPositiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
-                })
+                }
                 .setCancelable(route.isCancelable)
                 .create()
-        return dialog
     }
 
     override fun getName(): String = "StandardDialog"
