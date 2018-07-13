@@ -5,6 +5,7 @@ import ru.surfstudio.ci.stage.body.CommonAndroidStages
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.NodeProvider
+import ru.surfstudio.ci.Result
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
