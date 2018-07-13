@@ -18,12 +18,7 @@ package ru.surfstudio.android.mvp.dialog.simple;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.view.View;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatDialogFragment;
 
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
@@ -42,7 +37,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * Этот диалог следует расширять если не требуется реализация сложной логики в диалоге и обращение
  * к слою Interactor
  */
-public abstract class CoreSimpleDialogFragment extends DialogFragment implements CoreSimpleDialogInterface {
+public abstract class CoreSimpleDialogFragment extends AppCompatDialogFragment implements CoreSimpleDialogInterface {
 
     private SimpleDialogDelegate delegate = new SimpleDialogDelegate(this);
 
