@@ -53,7 +53,7 @@ class PictureProvider constructor(
 
     /**
      *  Запускает сторонее приложение галереи для получения изображение.
-     *  @return Observable Uri изображения.
+     *  @return Observable путь до изображения (может вернуть пустое значение)
      */
     fun openGalleryAndGetPhoto(noPermissionAction: () -> Unit = {}): Observable<String> {
         return cameraStoragePermissionChecker.checkGalleryStoragePermission()
@@ -66,6 +66,23 @@ class PictureProvider constructor(
                     }
                 }
     }
+
+    /**
+     *  Запускает сторонее приложение галереи для получения изображение.
+     *  @return Observable Uri.toString() изображения.
+     */
+    fun openGalleryAndGetPhotoUri(noPermissionAction: () -> Unit = {}): Observable<String> {
+        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+                .flatMap { hasPermission ->
+                    if (hasPermission) {
+                        galleryPictureProvider.openGalleryForSingleImageUri()
+                    } else {
+                        noPermissionAction()
+                        Observable.error(NoPermissionException())
+                    }
+                }
+    }
+
 
     /**
      *  Запускает сторонее приложение галереи для получения изображение.

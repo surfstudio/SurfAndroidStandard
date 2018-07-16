@@ -49,6 +49,22 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         return result
     }
 
+    fun openGalleryForSingleImageUri(): Observable<String> {
+        val route = GallerySingleImageUriRoute()
+
+        val result = activityNavigator.observeResult<String>(route)
+                .flatMap { result ->
+                    if (result.isSuccess) {
+                        Observable.just(result.data)
+                    } else {
+                        Observable.error(ActionInterruptedException())
+                    }
+                }
+
+        activityNavigator.startForResult(route)
+        return result
+    }
+
     fun openGalleryForMultipleImage(): Observable<List<String>> {
         val route = GalleryMultipleImageRoute()
 
@@ -74,6 +90,16 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         }
 
         override fun parseResultIntent(intent: Intent?) = intent?.data?.uriToFilePath()
+    }
+
+    private inner class GallerySingleImageUriRoute : ActivityWithResultRoute<String>() {
+        override fun prepareIntent(context: Context?): Intent {
+            return Intent.createChooser(Intent(Intent.ACTION_GET_CONTENT, EXTERNAL_CONTENT_URI)
+                    .apply { type = "image/*" },
+                    activity.getString(R.string.choose_app))
+        }
+
+        override fun parseResultIntent(intent: Intent?) = intent?.data?.toString()
     }
 
     private inner class GalleryMultipleImageRoute : ActivityWithResultRoute<ArrayList<String>>() {
