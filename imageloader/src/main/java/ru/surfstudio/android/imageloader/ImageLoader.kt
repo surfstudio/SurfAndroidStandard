@@ -54,7 +54,6 @@ import java.util.concurrent.ExecutionException
 class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
     private var imageCacheManager = ImageCacheManager()
-    private var imageForceManager = ImageForceManager()
     private var imageTransformationsManager = ImageTransformationsManager(context)
     private var imageResourceManager = ImageResourceManager(context, imageTransformationsManager)
     private var imageTargetManager = ImageTargetManager(context, imageResourceManager)
@@ -245,7 +244,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
     override fun force() =
-            apply { this.imageForceManager.force = true }
+            apply { this.imageTagManager.force = true }
 
     /**
      * Указание целевой [View]
@@ -255,9 +254,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
 
-        if (!imageForceManager.force) {
-            if (imageTagManager.isTagUsed()) return
-        }
+        if (imageTagManager.isTagUsed()) return
+
         imageTagManager.setTag(imageResourceManager.url)
 
         performLoad(view)

@@ -154,7 +154,7 @@ interface ImageLoaderInterface {
     fun crossFade(duration: Int = 300): ImageLoaderInterface
 
     /**
-     * Принудительная вставка изображения во вью
+     * Принудительная вставка изображения во вью.
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
     fun  force(): ImageLoaderInterface
