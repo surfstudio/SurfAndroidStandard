@@ -26,11 +26,13 @@ data class ImageTagManager(
         private var imageResourceManager: ImageResourceManager
 ) {
 
+    var force: Boolean = false // Принудительная вставка изображения
+
     /**
      * Проверка тэга на то, был ли он ранее уже использован
      */
     fun isTagUsed() =
-            getTag() != null && imageResourceManager.url == getTag()
+            getTag() != null && imageResourceManager.url == getTag() && !force
 
     /**
      * Установка тэга на целевую [View]

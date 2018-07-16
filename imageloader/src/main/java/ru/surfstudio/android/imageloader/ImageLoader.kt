@@ -53,15 +53,11 @@ import java.util.concurrent.ExecutionException
  */
 class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
-    private var imageCacheManager: ImageCacheManager = ImageCacheManager()
-    private var imageTransformationsManager: ImageTransformationsManager =
-            ImageTransformationsManager(context)
-    private var imageResourceManager: ImageResourceManager =
-            ImageResourceManager(context, imageTransformationsManager)
-    private var imageTargetManager: ImageTargetManager =
-            ImageTargetManager(context, imageResourceManager)
-    private var imageTagManager: ImageTagManager =
-            ImageTagManager(imageTargetManager, imageResourceManager)
+    private var imageCacheManager = ImageCacheManager()
+    private var imageTransformationsManager = ImageTransformationsManager(context)
+    private var imageResourceManager = ImageResourceManager(context, imageTransformationsManager)
+    private var imageTargetManager = ImageTargetManager(context, imageResourceManager)
+    private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager)
     private var imageTransitionManager = ImageTransitionManager()
 
     private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
@@ -244,6 +240,13 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
     /**
+     * Принудительная вставка изображения во вью
+     * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
+     */
+    override fun force() =
+            apply { this.imageTagManager.force = true }
+
+    /**
      * Указание целевой [View]
      *
      * @param view экземпляр [View] для загрузки изображения
@@ -346,11 +349,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .transition(imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
-                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
+                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.RESOURCE)
                             .skipMemoryCache(imageCacheManager.skipCache)
                             .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
                             .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
-                            .transforms(*imageTransformationsManager.prepareTransformations())
+                            .applyTransformations(imageTransformationsManager)
             )
             .listener(glideDownloadListener)
 
@@ -382,4 +385,20 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         }
     }
 
+}
+
+/**
+ * Функция расширение для добавления трансформаций из [ImageTransformationsManager]
+ * Если трансформаций нет, возвращается первоначальный объект
+ *
+ * @param imageTransformationsManager менеджер трансформаций
+ *
+ * @return [RequestOptions] со списком трансформаций
+ */
+fun RequestOptions.applyTransformations(imageTransformationsManager: ImageTransformationsManager): RequestOptions {
+    val transformations = imageTransformationsManager.prepareTransformations()
+    return if (transformations.isNotEmpty())
+        transforms(*transformations)
+    else
+        this
 }
