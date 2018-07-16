@@ -53,15 +53,11 @@ import java.util.concurrent.ExecutionException
  */
 class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
-    private var imageCacheManager: ImageCacheManager = ImageCacheManager()
-    private var imageTransformationsManager: ImageTransformationsManager =
-            ImageTransformationsManager(context)
-    private var imageResourceManager: ImageResourceManager =
-            ImageResourceManager(context, imageTransformationsManager)
-    private var imageTargetManager: ImageTargetManager =
-            ImageTargetManager(context, imageResourceManager)
-    private var imageTagManager: ImageTagManager =
-            ImageTagManager(imageTargetManager, imageResourceManager)
+    private var imageCacheManager = ImageCacheManager()
+    private var imageTransformationsManager = ImageTransformationsManager(context)
+    private var imageResourceManager = ImageResourceManager(context, imageTransformationsManager)
+    private var imageTargetManager = ImageTargetManager(context, imageResourceManager)
+    private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager)
     private var imageTransitionManager = ImageTransitionManager()
 
     private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
@@ -242,6 +238,13 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 imageTransitionManager.imageTransitionOptions =
                         DrawableTransitionOptions().crossFade(duration)
             }
+
+    /**
+     * Принудительная вставка изображения во вью
+     * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
+     */
+    override fun force() =
+            apply { this.imageTagManager.force = true }
 
     /**
      * Указание целевой [View]
