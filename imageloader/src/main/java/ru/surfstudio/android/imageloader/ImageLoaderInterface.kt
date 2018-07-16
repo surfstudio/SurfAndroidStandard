@@ -156,10 +156,8 @@ interface ImageLoaderInterface {
     /**
      * Принудительная вставка изображения во вью
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
-     *
-     * @param forceInto вставлять принудительно
      */
-    fun  forceInto(forceInto: Boolean = true): ImageLoaderInterface
+    fun  force(): ImageLoaderInterface
 
     /**
      * Указание целевой [View].
