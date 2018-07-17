@@ -54,5 +54,5 @@ ext {
 
     // версия наших внутренних модулей
     moduleVersionCode = 17
-    moduleVersionName = '0.3.0-SNAPSHOT'
+    moduleVersionName = '0.3.0-TWIM-SNAPSHOT'
 }
