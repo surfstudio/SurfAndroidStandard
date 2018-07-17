@@ -161,7 +161,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     private fun addToStack(route: FragmentRoute) {
         val fragment = route.createFragment()
 
-        replace(fragment, route.tag, true)
+        replace(fragment, route.tag)
         activeStack.push(fragment)
     }
 
@@ -205,7 +205,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
                         transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
         val fragment = fragmentRoute.createFragment()
         activeTabTag = fragmentRoute.tag
-        replace(fragment, fragmentRoute.tag, false, transition)
+        replace(fragment, fragmentRoute.tag, transition)
 
         val stack = Stack<Fragment>()
         stack.push(fragment)
@@ -222,7 +222,6 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
 
     private fun replace(fragment: Fragment,
                         routeTag: String?,
-                        stackable: Boolean = false,
                         transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_OPEN) {
         fragmentManager.executePendingTransactions()
 
@@ -231,7 +230,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
         if (isFragmentExistInMap(fragment)) {
             fragmentTransaction.attach(fragment)
         } else {
-            add(fragment, routeTag, fragmentTransaction, stackable, transition)
+            add(fragment, routeTag, fragmentTransaction, transition)
         }
 
         fragmentTransaction.commit()
@@ -240,14 +239,10 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     private fun add(fragment: Fragment,
                     routeTag: String?,
                     fragmentTransaction: FragmentTransaction,
-                    stackable: Boolean = false,
                     transition: Int = FragmentTransaction.TRANSIT_FRAGMENT_FADE) {
         val viewContainerId = getViewContainerIdOrThrow()
         fragmentTransaction.add(viewContainerId, fragment, routeTag)
         fragmentTransaction.setTransition(transition)
-        if (stackable) {
-            fragmentTransaction.addToBackStack(routeTag)
-        }
     }
 
     private fun detachAll(fragmentTransaction: FragmentTransaction) {
