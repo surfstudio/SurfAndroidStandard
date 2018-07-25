@@ -40,6 +40,7 @@ public class DateUtil {
     public static final String DATE_FORMAT_FULL = "dd.MM.yyyy";
     public static final String DATE_FORMAT_TEXT_FULL = "d MMMM yyyy";
     public static final String DATE_FORMAT_WITH_TIME_FULL = "d MMMM yyyy HH:mm:ss";
+
     private static final String DATE_DEFAULT_FORMAT = DATE_FORMAT_FULL;
 
     /**
@@ -86,20 +87,46 @@ public class DateUtil {
         return formatDate(new Date(date));
     }
 
+    public static String formatDate(long date, int gmtOffsetInMillis) {
+        return formatDate(new Date(date), gmtOffsetInMillis);
+    }
+
     public static String formatDate(@NonNull final String dateFormat) {
         return formatDate(getCurrentDate(), dateFormat);
+    }
+
+    public static String formatDate(@NonNull final String dateFormat, int gmtOffsetInMillis) {
+        return formatDate(getCurrentDate(), dateFormat, gmtOffsetInMillis);
     }
 
     public static String formatDate(@NonNull Date date) {
         return formatDate(date, DATE_DEFAULT_FORMAT);
     }
 
+    public static String formatDate(@NonNull Date date, int gmtOffsetInMillis) {
+        return formatDate(date, DATE_DEFAULT_FORMAT, gmtOffsetInMillis);
+    }
+
     public static String formatDate(long date, @NonNull final String dateFormat) {
         return formatDate(new Date(date), dateFormat);
     }
 
+    public static String formatDate(long date, @NonNull final String dateFormat, int gmtOffsetInMillis) {
+        return formatDate(new Date(date), dateFormat, gmtOffsetInMillis);
+    }
+
     public static String formatDate(@NonNull Date date, @NonNull final String dateFormat) {
         return DateFormatHolder.formatFor(dateFormat).format(date);
+    }
+
+    public static String formatDate(@NonNull Date date, @NonNull final String dateFormat, int gmtOffsetInMillis) {
+        return DateFormatHolder.formatFor(dateFormat, gmtOffsetInMillis).format(date);
+    }
+
+    public static int getDeviceGmtOffsetInMillis() {
+        TimeZone defaultTimeZone = TimeZone.getDefault();
+        long currentTimeInMillis = Calendar.getInstance().getTimeInMillis();
+        return defaultTimeZone.getOffset(currentTimeInMillis);
     }
 
     @Nullable
@@ -139,7 +166,7 @@ public class DateUtil {
     // ---------- скопироваино из Apache commons DateUtils.java --------------- //
 
     /**
-     * Прибавляет секудны,минуты,часы и.д.т к текущей дате.
+     * Прибавляет секудны, минуты, часы и т.д. к текущей дате.
      *
      * @param calendarField необходимо брать из {@link Calendar}. например {@link Calendar#DAY_OF_MONTH}
      */
@@ -194,6 +221,8 @@ public class DateUtil {
      */
     @SuppressWarnings("squid:ModifiersOrderCheck")
     private final static class DateFormatHolder {
+
+        private static final int ZERO_GMT_OFFSET = 0;
         private static final ThreadLocal<SoftReference<Map<String, SimpleDateFormat>>> THREADLOCAL_FORMATS =
                 new ThreadLocal<SoftReference<Map<String, SimpleDateFormat>>>() {
                     @Override
@@ -203,6 +232,10 @@ public class DateUtil {
                 };
 
         private DateFormatHolder() {
+        }
+
+        static SimpleDateFormat formatFor(final String pattern) {
+            return formatFor(pattern, ZERO_GMT_OFFSET);
         }
 
         /**
@@ -215,7 +248,7 @@ public class DateUtil {
          * to {@link SimpleDateFormat#applyPattern(String) apply} to a
          * different pattern.
          */
-        static SimpleDateFormat formatFor(final String pattern) {
+        static SimpleDateFormat formatFor(final String pattern, int gmtOffsetInMillis) {
             final SoftReference<Map<String, SimpleDateFormat>> ref = THREADLOCAL_FORMATS.get();
             Map<String, SimpleDateFormat> formats = ref.get();
             if (formats == null) {
@@ -226,8 +259,13 @@ public class DateUtil {
             SimpleDateFormat format = formats.get(pattern);
             if (format == null) {
                 format = new SimpleDateFormat(pattern, Locale.getDefault());
-                format.setTimeZone(TimeZone.getTimeZone("GMT"));
                 formats.put(pattern, format);
+            }
+
+            if (format.getTimeZone().getRawOffset() != gmtOffsetInMillis) {
+                TimeZone timeZone = TimeZone.getTimeZone("GMT");
+                timeZone.setRawOffset(gmtOffsetInMillis);
+                format.setTimeZone(timeZone);
             }
 
             return format;
