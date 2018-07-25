@@ -20,6 +20,7 @@ import android.support.annotation.Px
 import android.support.annotation.VisibleForTesting
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -60,11 +61,13 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
 
     fun updateHeaderState(firstVisiblePosition: Int, visibleHeaders: Map<Int, View>,
                           viewRetriever: ViewRetriever?, atTop: Boolean) {
-        val headerPositionToShow = if (atTop)
+        //вычисляется позиция sticky header в общем списке item'ов
+        val headerPositionToShow = if (atTop) {
             INVALID_POSITION
-        else
-            getHeaderPositionToShow(
-                    firstVisiblePosition, visibleHeaders[firstVisiblePosition])
+        } else {
+            getHeaderPositionToShow(firstVisiblePosition, visibleHeaders[firstVisiblePosition])
+        }
+        Log.d("LOG", "1111 headerPositionToShow = $headerPositionToShow")
         val headerToCopy = visibleHeaders[headerPositionToShow]
         if (headerPositionToShow != lastBoundPosition) {
             if (headerPositionToShow == INVALID_POSITION || checkMargins && headerAwayFromEdge(headerToCopy)) { // We don't want to attach yet if header view is not at edge

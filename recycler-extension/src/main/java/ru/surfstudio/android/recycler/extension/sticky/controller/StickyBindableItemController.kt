@@ -18,11 +18,11 @@ package ru.surfstudio.android.recycler.extension.sticky.controller
 
 import ru.surfstudio.android.easyadapter.controller.BaseItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
-import ru.surfstudio.android.recycler.extension.sticky.item.StickyBindableItem
+import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeaderBindableItem
 
-abstract class StickyBindableItemController<T, H : BindableViewHolder<T>> : BaseItemController<H, StickyBindableItem<T, H>>() {
+abstract class StickyBindableItemController<T, H : BindableViewHolder<T>> : BaseItemController<H, StickyHeaderBindableItem<T, H>>() {
 
-    override fun bind(holder: H, item: StickyBindableItem<T, H>) {
+    override fun bind(holder: H, item: StickyHeaderBindableItem<T, H>) {
         bind(holder, item.data)
     }
 
@@ -30,11 +30,11 @@ abstract class StickyBindableItemController<T, H : BindableViewHolder<T>> : Base
         holder.bind(data)
     }
 
-    override fun getItemId(item: StickyBindableItem<T, H>): Long {
+    override fun getItemId(item: StickyHeaderBindableItem<T, H>): Long {
         return getItemId(item.data)
     }
 
-    override fun getItemHash(item: StickyBindableItem<T, H>): Long {
+    override fun getItemHash(item: StickyHeaderBindableItem<T, H>): Long {
         return getItemHash(item.data)
     }
 

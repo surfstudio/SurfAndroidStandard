@@ -18,6 +18,7 @@ package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.View
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeader
 import java.util.*
@@ -26,7 +27,10 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
 
     private var positioner: StickyHeaderPositioner? = null
     private var headerHandler: StickyHeaderHandler? = null
-    private val headerPositions = ArrayList<Int>()
+
+    private val headerPositions = ArrayList<Int>()  //позиции элементов с поведением Sticky Header
+    private val footerPositions = ArrayList<Int>() //позиции элементов с поведением Sticky Footer
+
     private var viewRetriever: ViewRetriever.RecyclerViewRetriever? = null
     private var headerElevation = StickyHeaderPositioner.NO_ELEVATION
     private var listener: StickyHeaderListener? = null
@@ -115,6 +119,7 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
                         findFirstVisibleItemPosition(), visibleHeaders, viewRetriever, findFirstCompletelyVisibleItemPosition() == 0)
             }
         }
+        Log.d("LOG", "1111 headerPositionToShow = ${findLastVisibleItemPosition()}")
         return scroll
     }
 

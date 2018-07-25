@@ -19,20 +19,20 @@ import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.easyadapter.item.BindableItem
 import ru.surfstudio.android.recycler.extension.sticky.controller.StickyBindableItemController
-import ru.surfstudio.android.recycler.extension.sticky.item.StickyBindableItem
+import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeaderBindableItem
 
 /**
  *  Расширения для работы sticky header с а [ItemList]
  */
 fun <T> ItemList.addStickyHeader(data: T,
                                  itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
-    return addItem(StickyBindableItem(data, itemController))
+    return addItem(StickyHeaderBindableItem(data, itemController))
 }
 
 fun <T> ItemList.addStickyHeaderIf(condition: Boolean,
                                    data: T,
                                    itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
-    return if (condition) addItem(StickyBindableItem(data, itemController)) else this
+    return if (condition) addItem(StickyHeaderBindableItem(data, itemController)) else this
 }
 
 /**
@@ -72,7 +72,7 @@ fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?
         val nextItem = this[i] as BindableItem<*, *>
         val stickyData = stickyCallback(if (prevItem != null) prevItem.getData() else null, nextItem.getData())
         if (stickyData != null) {
-            insert(i, StickyBindableItem(stickyData, itemController))
+            insert(i, StickyHeaderBindableItem(stickyData, itemController))
         }
         ++i
     }
