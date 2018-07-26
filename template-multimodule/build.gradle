@@ -13,11 +13,6 @@ buildscript {
         classpath "io.fabric.tools:gradle:1.25.4"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-
-    configurations.all {
-        resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
-        resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
-    }
 }
 
 allprojects {
