@@ -148,3 +148,8 @@ dependencies {
 }
 
 apply plugin: 'kotlin-android-extensions'
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
+    resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
+}
