@@ -15,62 +15,56 @@
  */
 package ru.surfstudio.android.logger;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import com.crashlytics.android.Crashlytics;
+import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy;
+import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy;
 
 /**
  * Логгирует на удаленный сервер
  */
 public class RemoteLogger {
 
+    private static final RemoteLoggingStrategy DEFAULT_REMOTE_LOGGING_STRATEGY = new CrashlyticsRemoteLoggingStrategy();
+    private static final List<RemoteLoggingStrategy> REMOTE_LOGGING_STRATEGIES = new ArrayList<>();
+
     private RemoteLogger() {
         // do nothing
     }
 
+    public static void addRemoteLoggingStrategy(RemoteLoggingStrategy strategy) {
+        REMOTE_LOGGING_STRATEGIES.add(strategy);
+    }
+
     public static void setUser(String id, String username, String email) {
-        try {
-            Crashlytics.getInstance().core.setUserName(username);
-            Crashlytics.getInstance().core.setUserEmail(email);
-            Crashlytics.getInstance().core.setUserIdentifier(id);
-        } catch (Exception e) {
-            //ignored
-        }
+        forEachRemoteLoggingStrategyOrWithDefault(strategy -> strategy.setUser(id, username, email));
     }
 
     public static void clearUser() {
-        try {
-            Crashlytics.getInstance().core.setUserName("");
-            Crashlytics.getInstance().core.setUserEmail("");
-            Crashlytics.getInstance().core.setUserIdentifier("");
-        } catch (Exception e) {
-            //ignored
-        }
+        forEachRemoteLoggingStrategyOrWithDefault(strategy -> strategy.clearUser());
     }
 
     public static void setCustomKey(String key, String value) {
-        try {
-            Crashlytics.getInstance().core.setString(key, value);
-        } catch (Exception e) {
-            //ignored
-        }
+        forEachRemoteLoggingStrategyOrWithDefault(strategy -> strategy.logKeyValue(key, value));
     }
 
-
     public static void logError(Throwable e) {
-        try {
-            Crashlytics.getInstance().core.logException(e);
-        } catch (Exception err) {
-            //ignored
-        }
+        forEachRemoteLoggingStrategyOrWithDefault(strategy -> strategy.logError(e));
     }
 
     public static void logMessage(String message) {
-        try {
-            if (Crashlytics.getInstance() != null && message != null) {
-                Crashlytics.getInstance().core.log(message);
-            }
-        } catch (Exception e) {
-            //ignored
+        forEachRemoteLoggingStrategyOrWithDefault(strategy -> strategy.logMessage(message));
+    }
+
+    private static void forEachRemoteLoggingStrategyOrWithDefault(ActionWithParam<RemoteLoggingStrategy> action) {
+        if (REMOTE_LOGGING_STRATEGIES.isEmpty()) {
+            action.perform(DEFAULT_REMOTE_LOGGING_STRATEGY);
+            return;
+        }
+
+        for (RemoteLoggingStrategy strategy : REMOTE_LOGGING_STRATEGIES) {
+            action.perform(strategy);
         }
     }
 }
