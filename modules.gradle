@@ -8,7 +8,7 @@ class Module {
     final String name
     final String path
 
-    private def Module(String name, String path) {
+    private Module(String name, String path) {
         this.name = name
         this.path = path
     }

@@ -44,7 +44,7 @@ dependencies {
     api project(':logger')
     api project(':mvp-widget')
 
-    api('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') {
+    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
 }
