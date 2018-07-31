@@ -83,7 +83,6 @@ class PictureProvider constructor(
                 }
     }
 
-
     /**
      *  Запускает сторонее приложение галереи для получения изображение.
      *  @return Observable Uri изображения.
