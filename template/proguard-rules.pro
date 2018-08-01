@@ -27,13 +27,13 @@
 #retrofit / okhttp
 -dontwarn retrofit.**
 -keep class retrofit.** { *; }
--dontwarn okio.**
--dontwarn org.conscrypt.**
--dontwarn okhttp3.internal.platform.**
 -keep class okio.** { *; }
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
 -dontwarn com.squareup.okhttp.**
+-dontwarn okhttp3.internal.platform.**
+-dontwarn okio.**
+-dontwarn org.conscrypt.**
 
 #gson
 -keepattributes SerializedName
