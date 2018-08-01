@@ -1,6 +1,4 @@
 buildscript {
-    ext.kotlin_version = '1.2.50'
-
     repositories {
         google()
         jcenter()
@@ -9,9 +7,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
-        classpath "io.fabric.tools:gradle:1.25.4"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.android.tools.build:gradle:$androidGradleToolsVersion"
+        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 

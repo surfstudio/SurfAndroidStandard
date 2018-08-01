@@ -24,7 +24,7 @@ dependencies {
     implementation project(':util-ktx')
     implementation project(':imageloader')
 
-    implementation "ru.surfstudio.android:animations:0.2.1-SNAPSHOT"
+    implementation "ru.surfstudio.android:animations:$moduleVersionName"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
