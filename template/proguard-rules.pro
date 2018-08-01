@@ -28,6 +28,8 @@
 -dontwarn retrofit.**
 -keep class retrofit.** { *; }
 -dontwarn okio.**
+-dontwarn org.conscrypt.**
+-dontwarn okhttp3.internal.platform.**
 -keep class okio.** { *; }
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
@@ -49,6 +51,12 @@
 -dontwarn javax.annotation.ParametersAreNonnullByDefault
 -dontwarn javax.annotation.concurrent.GuardedBy
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+#guava
+-dontwarn afu.org.checkerframework.checker.formatter.**
+-dontwarn afu.org.checkerframework.checker.nullness.**
+-dontwarn afu.org.checkerframework.checker.regex.**
+-dontwarn afu.org.checkerframework.checker.units.**
 
 -keep class * implements ru.surfstudio.android.network.Transformable
 -keep class * implements ru.surfstudio.android.network.response.BaseResponse
