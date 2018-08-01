@@ -22,8 +22,8 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
         view.onBind(screenModel)
     }
 
-    override fun onViewDetach() {
-        super.onViewDetach()
+    override fun onViewDetached() {
+        super.onViewDetached()
         view.onUnbind(screenModel)
     }
 
@@ -32,7 +32,7 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
         bindsHolder.unObserve()
     }
 
-    override fun <T>observe(bindData: BindData<T>, listener: (T)-> Unit) {
+    override fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
         bindsHolder.observe(bindData, listener)
     }
 
@@ -43,6 +43,6 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
 
 interface BindSource {
 
-    fun <T>observe(bindData: BindData<T>, listener: (T)-> Unit)
-    fun <T>observeAndApply(bindData: BindData<T>, listener: (T)-> Unit)
+    fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit)
+    fun <T> observeAndApply(bindData: BindData<T>, listener: (T) -> Unit)
 }

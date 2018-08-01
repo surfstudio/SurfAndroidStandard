@@ -120,17 +120,8 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
     }
 
     public final void detachView() {
-        onViewDetach();
-        view = null;
         onViewDetached();
-    }
-
-    /**
-     * Called before view is detached
-     */
-    @CallSuper
-    protected void onViewDetach() {
-
+        view = null;
     }
 
     /**
