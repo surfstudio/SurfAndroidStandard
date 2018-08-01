@@ -49,8 +49,8 @@ ext {
     junitVersion = '4.12'
     testRunnerVersion = '1.0.2'                 //http://bit.ly/2O0uGi9
     espressoVersion = '3.0.2'                   //http://bit.ly/2v3OiKX
-    mockitoVersion = '1.10.19'                  //http://bit.ly/2OuQ9AA
-    powerMockVersion = '1.6.2'                  //http://bit.ly/2NVQXh0
+    mockitoVersion = '2.20.1'                   //http://bit.ly/2OuQ9AA
+    powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.10.0'                   //http://bit.ly/2mXO1EX
 
     // версия наших внутренних модулей
