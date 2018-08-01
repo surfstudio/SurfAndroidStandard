@@ -74,10 +74,6 @@ dependencies {
     def guavaVersion = '25.1'                   //http://bit.ly/2LSloao
     def materialProgressBarVersion = '1.4.2'    //http://bit.ly/2vrzQvE
 
-    //Testing Library, Apt Versions
-    def mockitoVersion = '1.10.19'              //http://bit.ly/2OuQ9AA
-    def assertJVersion = '3.10.0'               //http://bit.ly/2mXO1EX
-
     //------------------------------------ dependencies --------------------------------------------
 
     implementation project(':core-app')
