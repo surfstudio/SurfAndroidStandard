@@ -52,7 +52,7 @@ ext {
     powerMockVersion = '1.6.2'
     assertJVersion = '3.5.1'
 
-    // версия наших внутренних модулей
-    moduleVersionCode = 18
+    // версия android-standard
+    moduleVersionCode = 19
     moduleVersionName = '0.2.2'
 }
