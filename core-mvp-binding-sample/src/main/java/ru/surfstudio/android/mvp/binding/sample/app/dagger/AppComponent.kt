@@ -10,7 +10,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 @PerApplication
 @Component(modules = [AppModule::class,
-    SharedPrefModule::class])
+SharedPrefModule::class])
 
 interface AppComponent {
     fun context(): Context

@@ -36,7 +36,7 @@ open class BindData<T>(value: T) {
      * @param eagerNotify оповещать подписчиков, даже если значение не изменилось
      */
     fun setValue(source: Any, newValue: T, eagerNotify: Boolean = false) {
-        val previousValue  = value
+        val previousValue = value
         value = newValue
         if (value == previousValue && !eagerNotify) return
 

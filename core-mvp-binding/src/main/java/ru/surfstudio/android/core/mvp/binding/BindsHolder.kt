@@ -7,7 +7,7 @@ class BindsHolder(private val source: Any) {
 
     val binds: MutableSet<BindData<*>> = mutableSetOf()
 
-    fun <T>observe(bindData: BindData<T>, listener: (T)-> Unit) {
+    fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
         bindData.observe(source, listener)
         binds.add(bindData)
     }

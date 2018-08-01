@@ -1,4 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.surfstudio.android.core.mvp.binding">
+<manifest package="ru.surfstudio.android.core.mvp.binding">
 
 </manifest>

@@ -39,8 +39,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     private fun checkToWin() {
         if (screenModel.relation.keys
-                        .filter { it.value.state == State.PRESSED }
-                        .count() == screenModel.relation.keys.count()) {
+                .filter { it.value.state == State.PRESSED }
+                .count() == screenModel.relation.keys.count()) {
             screenModel.solved.setValue(this, true)
         } else {
             screenModel.solved.setValue(this, false)

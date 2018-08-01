@@ -88,6 +88,6 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         easy_win_btn.setOnClickListener { presenter.onEasyWinClick() }
-        unbind_btn.setOnClickListener{ presenter.onUnbindClick()}
+        unbind_btn.setOnClickListener { presenter.onUnbindClick() }
     }
 }

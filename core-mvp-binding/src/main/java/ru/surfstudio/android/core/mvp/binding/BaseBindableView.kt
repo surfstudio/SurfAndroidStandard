@@ -14,7 +14,7 @@ abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView()
     @Suppress("LeakingThis") //для BindData не имеет значения какой именно объект передается в качестве source
     private val bindsHolder = BindsHolder(this)
 
-    override fun <T>observe(bindData: BindData<T>, listener: (T)-> Unit) {
+    override fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
         bindsHolder.observe(bindData, listener)
     }
 
@@ -33,7 +33,7 @@ abstract class BaseBindableFragmentView<in M : ScreenModel> : CoreFragmentView()
 
     private val bindsHolder = BindsHolder(this)
 
-    override fun <T>observe(bindData: BindData<T>, listener: (T)-> Unit) {
+    override fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
         bindsHolder.observe(bindData, listener)
     }
 
