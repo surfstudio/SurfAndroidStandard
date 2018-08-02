@@ -1,0 +1,11 @@
+include ':app-injector',
+        ':base',
+        ':base-ui',
+        ':domain',
+        ':i-initialization',
+        ':i-network',
+        ':i-token',
+        ':i-session',
+        ':i-auth',
+        ':f-auth',
+        ':f-main'

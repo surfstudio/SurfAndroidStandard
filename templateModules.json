@@ -1,0 +1,48 @@
+{
+  "templateModules": [
+    {
+      "name": "app-injector",
+      "path": ""
+    },
+    {
+      "name": "base",
+      "path": ""
+    },
+    {
+      "name": "base-ui",
+      "path": ""
+    },
+    {
+      "name": "domain",
+      "path": ""
+    },
+    {
+      "name": "i-initialization",
+      "path": ""
+    },
+    {
+      "name": "i-network",
+      "path": ""
+    },
+    {
+      "name": "i-token",
+      "path": ""
+    },
+    {
+      "name": "i-session",
+      "path": ""
+    },
+    {
+      "name": "i-auth",
+      "path": ""
+    },
+    {
+      "name": "f-auth",
+      "path": ""
+    },
+    {
+      "name": "f-main",
+      "path": ""
+    }
+  ]
+}

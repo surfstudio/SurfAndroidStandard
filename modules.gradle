@@ -1,26 +1,27 @@
 import groovy.json.JsonSlurper
 
 gradle.ext {
-    modules = Module.modules('modules.json')
+    modules = Module.modules('modules.json', 'modules')
+    templateModules = Module.modules('templateModules.json', 'templateModules')
 }
 
 class Module {
     final String name
     final String path
 
-    private def Module(String name, String path) {
+    private Module(String name, String path) {
         this.name = name
         this.path = path
     }
 
-    static def modules(final String fileName) {
+    static def modules(final String fileName, final String modulesArrayName) {
         try {
             def jsonObject = new JsonSlurper().parse(new File(fileName), 'utf-8')
             assert jsonObject instanceof Map
-            assert jsonObject.modules instanceof List
+            assert jsonObject."$modulesArrayName" instanceof List
 
             def list = []
-            jsonObject.modules.each {
+            jsonObject."$modulesArrayName".each {
                 list.add(new Module(it.name, it.path))
             }
 
