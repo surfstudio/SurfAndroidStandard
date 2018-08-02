@@ -1,10 +1,6 @@
 {
   "modules": [
     {
-      "name": "template",
-      "path": ""
-    },
-    {
       "name": "template-multimodule",
       "path": ""
     },
