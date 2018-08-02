@@ -2,5 +2,5 @@ apply from: '../androidInteractorModule.gradle'
 apply from: '../androidTestModule.gradle'
 
 dependencies {
-    implementation project(':template-multimodule:i-token')
+    implementation project(':template:i-token')
 }

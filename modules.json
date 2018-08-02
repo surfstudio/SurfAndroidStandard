@@ -1,7 +1,7 @@
 {
   "modules": [
     {
-      "name": "template-multimodule",
+      "name": "template",
       "path": ""
     },
     {

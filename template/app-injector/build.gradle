@@ -80,15 +80,15 @@ android {
 }
 
 dependencies {
-    implementation project(':template-multimodule:base')
-    implementation project(':template-multimodule:base-ui')
-    implementation project(':template-multimodule:i-initialization')
-    implementation project(':template-multimodule:i-network')
-    implementation project(':template-multimodule:i-token')
-    implementation project(':template-multimodule:i-session')
-    implementation project(':template-multimodule:i-auth')
-    implementation project(':template-multimodule:f-auth')
-    implementation project(':template-multimodule:f-main')
+    implementation project(':template:base')
+    implementation project(':template:base-ui')
+    implementation project(':template:i-initialization')
+    implementation project(':template:i-network')
+    implementation project(':template:i-token')
+    implementation project(':template:i-session')
+    implementation project(':template:i-auth')
+    implementation project(':template:f-auth')
+    implementation project(':template:f-main')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 

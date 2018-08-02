@@ -4,5 +4,5 @@ gradle.ext.modules.each {
     include it.name
 }
 gradle.ext.templateModules.each {
-    include "template-multimodule:$it.name"
+    include "template:$it.name"
 }
