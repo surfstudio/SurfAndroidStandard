@@ -5,9 +5,10 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application>
+        <!-- todo Insert fabric key here
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="f682826d64bee226e4f300dd672dc8b0831596fd" />
+            android:value="" /> -->
     </application>
 
 </manifest>
