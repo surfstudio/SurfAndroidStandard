@@ -14,4 +14,4 @@ dependencies {
     implementation "ru.surfstudio.android:artifact-id:version"
 }
 ```
-Актуальные версии [здесь][https://bitbucket.org/surfstudio/android-standard/wiki/Home].
+Актуальные версии [здесь](https://bitbucket.org/surfstudio/android-standard/wiki/Home).
