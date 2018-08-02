@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.app_injector.migration
 
 import android.content.SharedPreferences
-import com.kfc.base.standard.intialization.migration.AppMigrationStorageImpl
+import ru.surfstudio.standard.base.intialization.migration.AppMigrationStorageImpl
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.app.migration.AppLaunchConfigurationStorage

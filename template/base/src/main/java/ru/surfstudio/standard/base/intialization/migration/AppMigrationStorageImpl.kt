@@ -1,4 +1,4 @@
-package com.kfc.base.standard.intialization.migration
+package ru.surfstudio.standard.base.intialization.migration
 
 
 import ru.surfstudio.android.app.migration.AppMigration

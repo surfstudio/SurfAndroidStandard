@@ -2,9 +2,9 @@ package ru.surfstudio.standard.base
 
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
-import com.kfc.base.BuildConfig
 import io.fabric.sdk.android.Fabric
 import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.template.base.BuildConfig
 
 
 open class BaseApp : CoreApp() {

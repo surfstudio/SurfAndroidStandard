@@ -4,7 +4,6 @@ import android.app.DownloadManager
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.kfc.app_injector.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -17,6 +16,7 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.network.BaseUrl
 import ru.surfstudio.android.network.calladapter.BaseCallAdapterFactory
+import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.base.network.CallAdapterFactory
 import ru.surfstudio.standard.i_network.BASE_API_URL
 

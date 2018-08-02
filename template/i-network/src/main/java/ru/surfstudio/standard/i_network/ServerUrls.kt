@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.i_network
 
-import com.kfc.i_network.BuildConfig
+import ru.surfstudio.android.template.i_network.BuildConfig
 
 /**
  * URL всех серверных запросов

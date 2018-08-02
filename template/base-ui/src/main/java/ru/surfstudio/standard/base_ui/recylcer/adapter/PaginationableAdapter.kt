@@ -7,9 +7,9 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.updateLayoutParams
-import com.kfc.base_ui.R
 import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.template.base_ui.R
 
 /**
  * Класс адаптера с поддержкой пагинации на основе EasyAdapter

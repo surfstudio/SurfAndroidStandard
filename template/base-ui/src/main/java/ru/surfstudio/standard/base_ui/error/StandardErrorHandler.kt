@@ -1,7 +1,6 @@
 package ru.surfstudio.standard.base_ui.error
 
 import android.text.TextUtils
-import com.kfc.base_ui.R
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
@@ -9,6 +8,7 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.error.ConversionException
 import ru.surfstudio.android.network.error.HttpCodes
 import ru.surfstudio.android.network.error.NoInternetException
+import ru.surfstudio.android.template.base_ui.R
 import ru.surfstudio.standard.base.error.HttpProtocolException
 import ru.surfstudio.standard.base.error.NetworkErrorHandler
 import ru.surfstudio.standard.base.error.NonAuthorizedException
