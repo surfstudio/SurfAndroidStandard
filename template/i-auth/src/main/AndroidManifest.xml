@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kfc.i_auth" />
+<manifest package="com.kfc.i_auth" />

@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kfc.base_ui" />
+<manifest package="com.kfc.base_ui" />
