@@ -36,7 +36,7 @@ class PictureProvider constructor(
     private val galleryPictureProvider = GalleryPictureProvider(activityNavigator, activityProvider.get())
 
     /**
-     *  Запускает сторонее приложение камеры для получения изображение.
+     *  Запускает сторонее приложение камеры для получения изображения.
      *  @return Observable Uri изображения и угол поворота.
      */
     fun openCameraAndTakePhoto(noPermissionAction: () -> Unit = {}): Observable<CameraPictureProvider.CameraResult> {
@@ -52,7 +52,7 @@ class PictureProvider constructor(
     }
 
     /**
-     *  Запускает сторонее приложение галереи для получения изображение.
+     *  Запускает сторонее приложение галереи для получения изображения.
      *  @return Observable путь до изображения (может вернуть пустое значение)
      */
     fun openGalleryAndGetPhoto(noPermissionAction: () -> Unit = {}): Observable<String> {
@@ -68,7 +68,7 @@ class PictureProvider constructor(
     }
 
     /**
-     *  Запускает сторонее приложение галереи для получения изображение.
+     *  Запускает сторонее приложение галереи для получения изображения.
      *  @return Observable Uri.toString() изображения.
      */
     fun openGalleryAndGetPhotoUri(noPermissionAction: () -> Unit = {}): Observable<String> {
@@ -84,14 +84,62 @@ class PictureProvider constructor(
     }
 
     /**
-     *  Запускает сторонее приложение галереи для получения изображение.
-     *  @return Observable Uri изображения.
+     *  Запускает сторонее приложение галереи для получения изображения.
+     *  @return Observable UriResult изображения.
+     */
+    fun openGalleryAndGetPhotoUriResult(noPermissionAction: () -> Unit = {}): Observable<UriResult> {
+        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+                .flatMap { hasPermission ->
+                    if (hasPermission) {
+                        galleryPictureProvider.openGalleryForSingleImageUriResult()
+                    } else {
+                        noPermissionAction()
+                        Observable.error(NoPermissionException())
+                    }
+                }
+    }
+
+    /**
+     *  Запускает сторонее приложение галереи для получения нескольких изображений.
+     *  @return Observable списка путей к выбранным изображениям
      */
     fun openGalleryAndGetFewPhoto(noPermissionAction: () -> Unit = {}): Observable<List<String>> {
         return cameraStoragePermissionChecker.checkGalleryStoragePermission()
                 .flatMap { hasPermission ->
                     if (hasPermission) {
                         galleryPictureProvider.openGalleryForMultipleImage()
+                    } else {
+                        noPermissionAction()
+                        Observable.error(NoPermissionException())
+                    }
+                }
+    }
+
+    /**
+     *  Запускает сторонее приложение галереи для получения нескольких изображений.
+     *  @return Observable списка Uri.toString() выбранных изображений
+     */
+    fun openGalleryAndGetFewPhotoUri(noPermissionAction: () -> Unit = {}): Observable<List<String>> {
+        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+                .flatMap { hasPermission ->
+                    if (hasPermission) {
+                        galleryPictureProvider.openGalleryForMultipleImageUri()
+                    } else {
+                        noPermissionAction()
+                        Observable.error(NoPermissionException())
+                    }
+                }
+    }
+
+    /**
+     *  Запускает сторонее приложение галереи для получения нескольких изображений.
+     *  @return Observable списка UriResult выбранных изображений
+     */
+    fun openGalleryAndGetFewPhotoUriResult(noPermissionAction: () -> Unit = {}): Observable<List<UriResult>> {
+        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+                .flatMap { hasPermission ->
+                    if (hasPermission) {
+                        galleryPictureProvider.openGalleryForMultipleImageUriResult()
                     } else {
                         noPermissionAction()
                         Observable.error(NoPermissionException())

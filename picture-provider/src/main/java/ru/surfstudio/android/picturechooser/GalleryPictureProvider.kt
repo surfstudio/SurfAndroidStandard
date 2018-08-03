@@ -178,11 +178,6 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
     //endregion
 
-    /**
-     * Класс-обертка для возвращения Uri с помощью ActivityWithResultRoute
-     */
-    data class UriResult(val uri: Uri) : Serializable
-
     //region Вспомогательные функции для роутеров
     private fun getIntentForSingleImageFromGallery(): Intent {
         return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
