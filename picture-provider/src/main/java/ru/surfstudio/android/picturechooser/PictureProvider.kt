@@ -85,13 +85,13 @@ class PictureProvider constructor(
 
     /**
      *  Запускает сторонее приложение галереи для получения изображения.
-     *  @return Observable UriResult изображения.
+     *  @return Observable UriWrapper изображения.
      */
-    fun openGalleryAndGetPhotoUriResult(noPermissionAction: () -> Unit = {}): Observable<UriResult> {
+    fun openGalleryAndGetPhotoUriWrapper(noPermissionAction: () -> Unit = {}): Observable<UriWrapper> {
         return cameraStoragePermissionChecker.checkGalleryStoragePermission()
                 .flatMap { hasPermission ->
                     if (hasPermission) {
-                        galleryPictureProvider.openGalleryForSingleImageUriResult()
+                        galleryPictureProvider.openGalleryForSingleImageUriWrapper()
                     } else {
                         noPermissionAction()
                         Observable.error(NoPermissionException())
@@ -133,13 +133,13 @@ class PictureProvider constructor(
 
     /**
      *  Запускает сторонее приложение галереи для получения нескольких изображений.
-     *  @return Observable списка UriResult выбранных изображений
+     *  @return Observable списка UriWrapper выбранных изображений
      */
-    fun openGalleryAndGetFewPhotoUriResult(noPermissionAction: () -> Unit = {}): Observable<List<UriResult>> {
+    fun openGalleryAndGetFewPhotoUriWrapper(noPermissionAction: () -> Unit = {}): Observable<List<UriWrapper>> {
         return cameraStoragePermissionChecker.checkGalleryStoragePermission()
                 .flatMap { hasPermission ->
                     if (hasPermission) {
-                        galleryPictureProvider.openGalleryForMultipleImageUriResult()
+                        galleryPictureProvider.openGalleryForMultipleImageUriWrapper()
                     } else {
                         noPermissionAction()
                         Observable.error(NoPermissionException())

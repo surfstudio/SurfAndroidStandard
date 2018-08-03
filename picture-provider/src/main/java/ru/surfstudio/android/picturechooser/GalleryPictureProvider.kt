@@ -49,8 +49,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         return result
     }
 
-    fun openGalleryForSingleImageUriResult(): Observable<UriResult> {
-        val route = GallerySingleImageUriResultRoute()
+    fun openGalleryForSingleImageUriWrapper(): Observable<UriWrapper> {
+        val route = GallerySingleImageUriWrapperRoute()
         val result = observeSingleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
@@ -72,8 +72,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         return result
     }
 
-    fun openGalleryForMultipleImageUriResult(): Observable<List<UriResult>> {
-        val route = GalleryMultipleImageUriResultRoute()
+    fun openGalleryForMultipleImageUriWrapper(): Observable<List<UriWrapper>> {
+        val route = GalleryMultipleImageUriWrapperRoute()
         val result = observeMultipleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
@@ -130,12 +130,12 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     /**
      * Роутер, возвращающий класс-обертку над Uri изображения
      */
-    private inner class GallerySingleImageUriResultRoute : ActivityWithResultRoute<UriResult>() {
+    private inner class GallerySingleImageUriWrapperRoute : ActivityWithResultRoute<UriWrapper>() {
 
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): UriResult? {
-            return parseSingleResultIntent(intent) { UriResult(it.data) }
+        override fun parseResultIntent(intent: Intent?): UriWrapper? {
+            return parseSingleResultIntent(intent) { UriWrapper(it.data) }
         }
     }
     //endregion
@@ -168,12 +168,12 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     /**
      * Роутер, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
      */
-    private inner class GalleryMultipleImageUriResultRoute : ActivityWithResultRoute<ArrayList<UriResult>>() {
+    private inner class GalleryMultipleImageUriWrapperRoute : ActivityWithResultRoute<ArrayList<UriWrapper>>() {
 
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): ArrayList<UriResult>? {
-            return parseMultipleResultIntent(intent) { UriResult(it) }
+        override fun parseResultIntent(intent: Intent?): ArrayList<UriWrapper>? {
+            return parseMultipleResultIntent(intent) { UriWrapper(it) }
         }
     }
     //endregion

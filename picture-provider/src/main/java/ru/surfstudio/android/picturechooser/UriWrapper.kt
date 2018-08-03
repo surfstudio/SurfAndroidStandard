@@ -6,4 +6,4 @@ import java.io.Serializable
 /**
  * Класс-обертка для возвращения Uri с помощью ActivityWithResultRoute
  */
-data class UriResult(val uri: Uri) : Serializable
+data class UriWrapper(val uri: Uri) : Serializable
