@@ -120,8 +120,8 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
     }
 
     public final void detachView() {
-        view = null;
         onViewDetached();
+        view = null;
     }
 
     /**
