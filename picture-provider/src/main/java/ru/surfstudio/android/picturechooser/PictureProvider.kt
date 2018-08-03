@@ -40,15 +40,9 @@ class PictureProvider constructor(
      *  @return Observable Uri изображения и угол поворота.
      */
     fun openCameraAndTakePhoto(noPermissionAction: () -> Unit = {}): Observable<CameraPictureProvider.CameraResult> {
-        return cameraStoragePermissionChecker.checkCameraStoragePermission()
-                .flatMap { hasPermission ->
-                    if (hasPermission) {
-                        cameraIntentHelper.startCameraIntent()
-                    } else {
-                        noPermissionAction()
-                        Observable.error(NoPermissionException())
-                    }
-                }
+        return checkPermissionAndPerform(
+                { cameraIntentHelper.startCameraIntent() },
+                noPermissionAction)
     }
 
     /**
@@ -56,15 +50,9 @@ class PictureProvider constructor(
      *  @return Observable путь до изображения (может вернуть пустое значение)
      */
     fun openGalleryAndGetPhoto(noPermissionAction: () -> Unit = {}): Observable<String> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
-                .flatMap { hasPermission ->
-                    if (hasPermission) {
-                        galleryPictureProvider.openGalleryForSingleImage()
-                    } else {
-                        noPermissionAction()
-                        Observable.error(NoPermissionException())
-                    }
-                }
+        return checkPermissionAndPerform(
+                { galleryPictureProvider.openGalleryForSingleImage() },
+                noPermissionAction)
     }
 
     /**
@@ -72,15 +60,9 @@ class PictureProvider constructor(
      *  @return Observable Uri.toString() изображения.
      */
     fun openGalleryAndGetPhotoUri(noPermissionAction: () -> Unit = {}): Observable<String> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
-                .flatMap { hasPermission ->
-                    if (hasPermission) {
-                        galleryPictureProvider.openGalleryForSingleImageUri()
-                    } else {
-                        noPermissionAction()
-                        Observable.error(NoPermissionException())
-                    }
-                }
+        return checkPermissionAndPerform(
+                { galleryPictureProvider.openGalleryForSingleImageUri() },
+                noPermissionAction)
     }
 
     /**
@@ -88,15 +70,9 @@ class PictureProvider constructor(
      *  @return Observable UriWrapper изображения.
      */
     fun openGalleryAndGetPhotoUriWrapper(noPermissionAction: () -> Unit = {}): Observable<UriWrapper> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
-                .flatMap { hasPermission ->
-                    if (hasPermission) {
-                        galleryPictureProvider.openGalleryForSingleImageUriWrapper()
-                    } else {
-                        noPermissionAction()
-                        Observable.error(NoPermissionException())
-                    }
-                }
+        return checkPermissionAndPerform(
+                { galleryPictureProvider.openGalleryForSingleImageUriWrapper() },
+                noPermissionAction)
     }
 
     /**
@@ -104,15 +80,9 @@ class PictureProvider constructor(
      *  @return Observable списка путей к выбранным изображениям
      */
     fun openGalleryAndGetFewPhoto(noPermissionAction: () -> Unit = {}): Observable<List<String>> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
-                .flatMap { hasPermission ->
-                    if (hasPermission) {
-                        galleryPictureProvider.openGalleryForMultipleImage()
-                    } else {
-                        noPermissionAction()
-                        Observable.error(NoPermissionException())
-                    }
-                }
+        return checkPermissionAndPerform(
+                { galleryPictureProvider.openGalleryForMultipleImage() },
+                noPermissionAction)
     }
 
     /**
@@ -120,15 +90,9 @@ class PictureProvider constructor(
      *  @return Observable списка Uri.toString() выбранных изображений
      */
     fun openGalleryAndGetFewPhotoUri(noPermissionAction: () -> Unit = {}): Observable<List<String>> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
-                .flatMap { hasPermission ->
-                    if (hasPermission) {
-                        galleryPictureProvider.openGalleryForMultipleImageUri()
-                    } else {
-                        noPermissionAction()
-                        Observable.error(NoPermissionException())
-                    }
-                }
+        return checkPermissionAndPerform(
+                { galleryPictureProvider.openGalleryForMultipleImageUri() },
+                noPermissionAction)
     }
 
     /**
@@ -136,10 +100,17 @@ class PictureProvider constructor(
      *  @return Observable списка UriWrapper выбранных изображений
      */
     fun openGalleryAndGetFewPhotoUriWrapper(noPermissionAction: () -> Unit = {}): Observable<List<UriWrapper>> {
+        return checkPermissionAndPerform(
+                { galleryPictureProvider.openGalleryForMultipleImageUriWrapper() },
+                noPermissionAction)
+    }
+
+    private fun <T> checkPermissionAndPerform(hasPermissionAction: () -> Observable<T>,
+                                              noPermissionAction: () -> Unit): Observable<T> {
         return cameraStoragePermissionChecker.checkGalleryStoragePermission()
                 .flatMap { hasPermission ->
                     if (hasPermission) {
-                        galleryPictureProvider.openGalleryForMultipleImageUriWrapper()
+                        hasPermissionAction()
                     } else {
                         noPermissionAction()
                         Observable.error(NoPermissionException())
