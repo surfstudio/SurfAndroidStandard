@@ -10,8 +10,8 @@ class DataListTest {
     @Test
     fun checkNormalMerge() {
         val list1: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5)), 5, 0, 10)
-        val list2: DataList<Int> = DataList(ArrayList(listOf(6, 7, 8, 9, 10)), 5, 5, 5)
-        val list3: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), 10, 0, 10)
+        val list2: DataList<Int> = DataList(ArrayList(listOf(4, 5, 8, 9, 10)), 5, 5, 5)
+        val list3: DataList<Int> = DataList(ArrayList(listOf(1, 2, 3, 4, 5, 8, 9, 10)), 10, 0, 10)
         list1.merge(list2)
         Assert.assertEquals(list3, list1)
 
