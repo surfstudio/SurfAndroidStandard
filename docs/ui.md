@@ -24,8 +24,11 @@
 #### Иcпользование студийных модулей
 Для построения ахитектуры UI слоя следует подключить в проект core-модули.
 * [core-ui](../core-ui/README.md)
-* [core-mvp](../core-mvp/README.md)
+
+* [core-mvp](../core-mvp/README.md) или [core-mvp-bindings]()
+
 * [core-app](../core-app/README.md)
+
 todo опистать шаги построения экрана (mvp / binding ?)
 от чего наследоваться, в каком случае ,
 что использовать. Ссылки на док
