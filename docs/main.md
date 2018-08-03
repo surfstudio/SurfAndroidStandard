@@ -21,4 +21,9 @@ Android Standard - Репозиторий с внутренними библио
 
 1. [Лучшие практики](best_practice.md)
 
+Кодстайл в студии : [Android-Java](https://docs.google.com/document/d/1EpEwi1SUY_Pu7mS6tmgYePLVS3qJwvMmWmrOBw8PCcs/edit),
+[Kotlin](https://docs.google.com/document/d/1xFlT2OzGvTTV2NPkKoHa4BoR9ePIjk4bXQYcaGuHdcM/edit#heading=h.x1nemj4berko)
+
+
+
 [][Todo]
