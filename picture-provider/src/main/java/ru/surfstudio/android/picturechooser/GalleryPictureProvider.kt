@@ -38,7 +38,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     fun openGalleryForSingleImage(): Observable<String> {
         val route = GallerySingleImageRoute()
 
-        val result = parseScreenResult(route)
+        val result = parseSingleScreenResult(route)
 
         activityNavigator.startForResult(route)
         return result
@@ -47,7 +47,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     fun openGalleryForSingleImageUri(): Observable<String> {
         val route = GallerySingleImageUriRoute()
 
-        val result = parseScreenResult(route)
+        val result = parseSingleScreenResult(route)
 
         activityNavigator.startForResult(route)
         return result
@@ -56,7 +56,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     fun openGalleryForSingleImageUriResult(): Observable<UriResult> {
         val route = GallerySingleImageUriResultRoute()
 
-        val result = parseScreenResult(route)
+        val result = parseSingleScreenResult(route)
 
         activityNavigator.startForResult(route)
         return result
@@ -67,8 +67,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     fun openGalleryForMultipleImage(): Observable<List<String>> {
         val route = GalleryMultipleImageRoute()
 
-        val result = parseScreenResult(route)
-                .map { t -> t as List<String> }
+        val result = parseMultipleScreenResult(route)
 
         activityNavigator.startForResult(route)
         return result
@@ -77,8 +76,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     fun openGalleryForMultipleImageUri(): Observable<List<String>> {
         val route = GalleryMultipleImageUriRoute()
 
-        val result = parseScreenResult(route)
-                .map { t -> t as List<String> }
+        val result = parseMultipleScreenResult(route)
 
         activityNavigator.startForResult(route)
         return result
@@ -87,25 +85,32 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     fun openGalleryForMultipleImageUriResult(): Observable<List<UriResult>> {
         val route = GalleryMultipleImageUriResultRoute()
 
-        val result = parseScreenResult(route)
-                .map { t -> t as List<UriResult> }
+        val result = parseMultipleScreenResult(route)
 
         activityNavigator.startForResult(route)
         return result
     }
-
-    private fun <T : Serializable> parseScreenResult(route: ActivityWithResultRoute<T>,
-                                                     throwable: () -> Throwable = { ActionInterruptedException() }): Observable<T> {
-        return activityNavigator.observeResult<T>(route)
-                .flatMap { result ->
-                    if (result.isSuccess) {
-                        Observable.just(result.data)
-                    } else {
-                        Observable.error(throwable)
-                    }
-                }
-    }
     //endregion
+
+    private fun <T : Serializable> parseSingleScreenResult(route: ActivityWithResultRoute<T>): Observable<T> {
+        return activityNavigator.observeResult<T>(route)
+                .flatMap { parseScreenResult(it) }
+    }
+
+    private fun <T : Serializable> parseMultipleScreenResult(route: ActivityWithResultRoute<ArrayList<T>>): Observable<List<T>> {
+        return activityNavigator.observeResult<ArrayList<T>>(route)
+                .flatMap { parseScreenResult(it) }
+                .map { it as List<T> }
+    }
+
+    private fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
+                                                     throwable: () -> Throwable = { ActionInterruptedException() }): Observable<T> {
+        return if (screenResult.isSuccess) {
+            Observable.just(screenResult.data)
+        } else {
+            Observable.error(throwable)
+        }
+    }
 
     //region Роутеры для выбора одного изображения из галереи
     /**
