@@ -111,7 +111,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): String? {
-            return parseSingleResultIntent(intent) { it.data.getRealPath() }
+            return parseSingleResultIntent(intent) { it.getRealPath() }
         }
     }
 
@@ -123,7 +123,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): String? {
-            return parseSingleResultIntent(intent) { it.data.toString() }
+            return parseSingleResultIntent(intent) { it.toString() }
         }
     }
 
@@ -135,7 +135,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): UriWrapper? {
-            return parseSingleResultIntent(intent) { UriWrapper(it.data) }
+            return parseSingleResultIntent(intent) { UriWrapper(it) }
         }
     }
     //endregion
@@ -191,9 +191,9 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     private fun <T : Serializable> parseSingleResultIntent(intent: Intent?,
-                                                           parseIntent: (intent: Intent) -> T): T? {
+                                                           parseUri: (uri: Uri) -> T): T? {
         return if (intent != null && intent.data != null) {
-            parseIntent(intent)
+            parseUri(intent.data)
         } else {
             null
         }
