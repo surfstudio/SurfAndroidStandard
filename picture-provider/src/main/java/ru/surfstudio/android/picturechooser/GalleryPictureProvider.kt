@@ -37,27 +37,21 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     //region Функции для выбора одного изображения из галереи
     fun openGalleryForSingleImage(): Observable<String> {
         val route = GallerySingleImageRoute()
-
-        val result = parseSingleScreenResult(route)
-
+        val result = observeSingleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
     }
 
     fun openGalleryForSingleImageUri(): Observable<String> {
         val route = GallerySingleImageUriRoute()
-
-        val result = parseSingleScreenResult(route)
-
+        val result = observeSingleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
     }
 
     fun openGalleryForSingleImageUriResult(): Observable<UriResult> {
         val route = GallerySingleImageUriResultRoute()
-
-        val result = parseSingleScreenResult(route)
-
+        val result = observeSingleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
     }
@@ -66,38 +60,33 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     //region Функции для выбора нескольких изображений из галереи
     fun openGalleryForMultipleImage(): Observable<List<String>> {
         val route = GalleryMultipleImageRoute()
-
-        val result = parseMultipleScreenResult(route)
-
+        val result = observeMultipleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
     }
 
     fun openGalleryForMultipleImageUri(): Observable<List<String>> {
         val route = GalleryMultipleImageUriRoute()
-
-        val result = parseMultipleScreenResult(route)
-
+        val result = observeMultipleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
     }
 
     fun openGalleryForMultipleImageUriResult(): Observable<List<UriResult>> {
         val route = GalleryMultipleImageUriResultRoute()
-
-        val result = parseMultipleScreenResult(route)
-
+        val result = observeMultipleScreenResult(route)
         activityNavigator.startForResult(route)
         return result
     }
     //endregion
 
-    private fun <T : Serializable> parseSingleScreenResult(route: ActivityWithResultRoute<T>): Observable<T> {
+    //region Вспомогательные функции для обработки результата открытия экрана
+    private fun <T : Serializable> observeSingleScreenResult(route: ActivityWithResultRoute<T>): Observable<T> {
         return activityNavigator.observeResult<T>(route)
                 .flatMap { parseScreenResult(it) }
     }
 
-    private fun <T : Serializable> parseMultipleScreenResult(route: ActivityWithResultRoute<ArrayList<T>>): Observable<List<T>> {
+    private fun <T : Serializable> observeMultipleScreenResult(route: ActivityWithResultRoute<ArrayList<T>>): Observable<List<T>> {
         return activityNavigator.observeResult<ArrayList<T>>(route)
                 .flatMap { parseScreenResult(it) }
                 .map { it as List<T> }
@@ -111,6 +100,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
             Observable.error(throwable)
         }
     }
+    //endregion
 
     //region Роутеры для выбора одного изображения из галереи
     /**
