@@ -141,9 +141,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
      * Роутер, возвращащий путь к изображению
      */
     private inner class GallerySingleImageRoute : ActivityWithResultRoute<String>() {
-        override fun prepareIntent(context: Context?): Intent {
-            return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        }
+
+        override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): String? {
             return if (intent != null && intent.data != null) {
@@ -156,9 +155,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
      * Роутер, возвращающий Uri изображения, преобразованный в String
      */
     private inner class GallerySingleImageUriRoute : ActivityWithResultRoute<String>() {
-        override fun prepareIntent(context: Context?): Intent {
-            return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        }
+
+        override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): String? {
             return if (intent != null && intent.data != null) {
@@ -171,9 +169,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
      * Роутер, возвращающий класс-обертку над Uri изображения
      */
     private inner class GallerySingleImageUriResultRoute : ActivityWithResultRoute<UriResult>() {
-        override fun prepareIntent(context: Context?): Intent {
-            return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        }
+
+        override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): UriResult? {
             return if (intent != null && intent.data != null) {
@@ -188,12 +185,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
      * Роутер, возвращающий список путей к выбранным изображениям
      */
     private inner class GalleryMultipleImageRoute : ActivityWithResultRoute<ArrayList<String>>() {
-        override fun prepareIntent(context: Context?): Intent {
-            return Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI)
-                    .apply {
-                        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                    }
-        }
+
+        override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
             return if (intent != null && intent.clipData != null) {
@@ -212,18 +205,16 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
      * Роутер, возвращающий список Uri выбранных изображений, преобразованных в String
      */
     private inner class GalleryMultipleImageUriRoute : ActivityWithResultRoute<ArrayList<String>>() {
-        override fun prepareIntent(context: Context?): Intent {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+
+        override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
     }
 
     /**
      * Роутер, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
      */
     private inner class GalleryMultipleImageUriResultRoute : ActivityWithResultRoute<ArrayList<String>>() {
-        override fun prepareIntent(context: Context?): Intent {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-        }
+
+        override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
     }
     //endregion
 
@@ -231,6 +222,17 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
      * Класс-обертка для возвращения Uri с помощью ActivityWithResultRoute
      */
     data class UriResult(val uri: Uri) : Serializable
+
+    private fun getIntentForSingleImageFromGallery(): Intent {
+        return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    }
+
+    private fun getIntentForMultipleImageFromGallery(): Intent {
+        return Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI)
+                .apply {
+                    putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                }
+    }
 
     private fun Uri.getRealPath(): String {
         val result: String
