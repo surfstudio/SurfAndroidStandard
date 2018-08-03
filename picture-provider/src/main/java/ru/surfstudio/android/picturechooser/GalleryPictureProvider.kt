@@ -119,7 +119,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     fun openGalleryForMultipleImageUriResult(): Observable<List<UriResult>> {
-        val route = GalleryMultipleImageUriRoute()
+        val route = GalleryMultipleImageUriResultRoute()
 
         val result = activityNavigator.observeResult<ArrayList<UriResult>>(route)
                 .flatMap { result ->
@@ -183,14 +183,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return when {
-                intent == null -> null
-                intent.clipData != null -> with(intent.clipData) {
-                    (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.getRealPath() }
-                }
-                intent.data != null -> arrayListOf(intent.data.getRealPath())
-                else -> null
-            }
+            return parseMultipleResultIntent(intent, { it.getRealPath() }, { it.data.getRealPath() })
         }
     }
 
@@ -202,14 +195,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return when {
-                intent == null -> null
-                intent.clipData != null -> with(intent.clipData) {
-                    (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.toString() }
-                }
-                intent.data != null -> arrayListOf(intent.data.toString())
-                else -> null
-            }
+            return parseMultipleResultIntent(intent, { it.toString() }, { it.data.toString() })
         }
     }
 
@@ -221,14 +207,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<UriResult>? {
-            return when {
-                intent == null -> null
-                intent.clipData != null -> with(intent.clipData) {
-                    (0 until itemCount).mapTo(ArrayList()) { UriResult(getItemAt(it).uri) }
-                }
-                intent.data != null -> arrayListOf(UriResult(intent.data))
-                else -> null
-            }
+            return parseMultipleResultIntent(intent, { UriResult(it) }, { UriResult(it.data) })
         }
     }
     //endregion
@@ -257,6 +236,19 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
             null
         }
 
+    }
+
+    private fun <T: Serializable> parseMultipleResultIntent(intent: Intent?,
+                                                            parseUri: (uri: Uri) -> T,
+                                                            parseIntent: (intent: Intent) -> T): ArrayList<T>? {
+        return when {
+            intent == null -> null
+            intent.clipData != null -> with(intent.clipData) {
+                (0 until itemCount).mapTo(ArrayList()) { parseUri(getItemAt(it).uri) }
+            }
+            intent.data != null -> arrayListOf(parseIntent(intent))
+            else -> null
+        }
     }
 
     private fun Uri.getRealPath(): String {
