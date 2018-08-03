@@ -145,9 +145,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): String? {
-            return if (intent != null && intent.data != null) {
-                intent.data!!.getRealPath()
-            } else null
+            return parseSingleResultIntent(intent) { it.data.getRealPath() }
         }
     }
 
@@ -159,9 +157,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): String? {
-            return if (intent != null && intent.data != null) {
-                intent.data!!.toString()
-            } else null
+            return parseSingleResultIntent(intent) { it.data.toString() }
         }
     }
 
@@ -173,9 +169,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): UriResult? {
-            return if (intent != null && intent.data != null) {
-                UriResult(intent.data)
-            } else null
+            return parseSingleResultIntent(intent) { UriResult(it.data) }
         }
     }
     //endregion
@@ -253,6 +247,16 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
                 .apply {
                     putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 }
+    }
+
+    private fun <T: Serializable> parseSingleResultIntent(intent: Intent?,
+                                                          parseIntent: (intent: Intent) -> T): T? {
+        return if (intent != null && intent.data != null) {
+            parseIntent(intent)
+        } else {
+            null
+        }
+
     }
 
     private fun Uri.getRealPath(): String {
