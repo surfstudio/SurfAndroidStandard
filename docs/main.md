@@ -11,11 +11,13 @@ Android Standard - Репозиторий с внутренними библио
 
 1. [Модули](modules.md)
 
-1. [Общие сведения о построении приложения](arch.md)
+1. [Общие сведения о построении приложения](common_info.md)
 
 1. [Слой Interactor](interactor.md)
 
 1. [UI слой](ui.md)
+
+1. [Инициализация приложения](../template-multimodule/README.md)
 
 1. [Лучшие практики](best_practice.md)
 

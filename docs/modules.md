@@ -5,8 +5,7 @@
 
 ### Модули обязательные для подключения
 
-Для быстрой инициализации проекта необходимо скопировать к себе [template-multimodule]().
-А также подлючить следующие модули:
+Минимальный набор модулей для создания приложения:
 
 - [core-ui](https://bitbucket.org/surfstudio/android-standard/src/master/core-ui) - модуль расширяющий возможности ui части Android Framework. Может быть использован для создания базовых классов, необходимых для реализации паттернов MVP, MVVM
 - [core-mvp](https://bitbucket.org/surfstudio/android-standard/src/master/core-mvp) - расширение core-ui для гибридной архитектуры MVP + Presentation Model.
