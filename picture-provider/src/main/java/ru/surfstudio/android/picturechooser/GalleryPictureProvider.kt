@@ -189,14 +189,13 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return if (intent != null && intent.clipData != null) {
-                with(intent.clipData) {
+            return when {
+                intent == null -> null
+                intent.clipData != null -> with(intent.clipData) {
                     (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.getRealPath() }
                 }
-            } else if (intent != null && intent.data != null) {
-                arrayListOf(intent.data.getRealPath())
-            } else {
-                null
+                intent.data != null -> arrayListOf(intent.data.getRealPath())
+                else -> null
             }
         }
     }
@@ -207,14 +206,36 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     private inner class GalleryMultipleImageUriRoute : ActivityWithResultRoute<ArrayList<String>>() {
 
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
+
+        override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
+            return when {
+                intent == null -> null
+                intent.clipData != null -> with(intent.clipData) {
+                    (0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri.toString() }
+                }
+                intent.data != null -> arrayListOf(intent.data.toString())
+                else -> null
+            }
+        }
     }
 
     /**
      * Роутер, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
      */
-    private inner class GalleryMultipleImageUriResultRoute : ActivityWithResultRoute<ArrayList<String>>() {
+    private inner class GalleryMultipleImageUriResultRoute : ActivityWithResultRoute<ArrayList<UriResult>>() {
 
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
+
+        override fun parseResultIntent(intent: Intent?): ArrayList<UriResult>? {
+            return when {
+                intent == null -> null
+                intent.clipData != null -> with(intent.clipData) {
+                    (0 until itemCount).mapTo(ArrayList()) { UriResult(getItemAt(it).uri) }
+                }
+                intent.data != null -> arrayListOf(UriResult(intent.data))
+                else -> null
+            }
+        }
     }
     //endregion
 
