@@ -183,7 +183,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent, { it.getRealPath() }, { it.data.getRealPath() })
+            return parseMultipleResultIntent(intent) { it.getRealPath() }
         }
     }
 
@@ -195,7 +195,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent, { it.toString() }, { it.data.toString() })
+            return parseMultipleResultIntent(intent) { it.toString() }
         }
     }
 
@@ -207,7 +207,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<UriResult>? {
-            return parseMultipleResultIntent(intent, { UriResult(it) }, { UriResult(it.data) })
+            return parseMultipleResultIntent(intent) { UriResult(it) }
         }
     }
     //endregion
@@ -239,14 +239,13 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     private fun <T: Serializable> parseMultipleResultIntent(intent: Intent?,
-                                                            parseUri: (uri: Uri) -> T,
-                                                            parseIntent: (intent: Intent) -> T): ArrayList<T>? {
+                                                            parseUri: (uri: Uri) -> T): ArrayList<T>? {
         return when {
             intent == null -> null
             intent.clipData != null -> with(intent.clipData) {
                 (0 until itemCount).mapTo(ArrayList()) { parseUri(getItemAt(it).uri) }
             }
-            intent.data != null -> arrayListOf(parseIntent(intent))
+            intent.data != null -> arrayListOf(parseUri(intent.data))
             else -> null
         }
     }
