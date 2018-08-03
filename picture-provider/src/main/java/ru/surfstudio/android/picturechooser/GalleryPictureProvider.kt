@@ -22,6 +22,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import io.reactivex.Observable
+import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
@@ -38,13 +39,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         val route = GallerySingleImageRoute()
 
         val result = activityNavigator.observeResult<String>(route)
-                .flatMap { result ->
-                    if (result.isSuccess) {
-                        Observable.just(result.data)
-                    } else {
-                        Observable.error(ActionInterruptedException())
-                    }
-                }
+                .flatMap { parseScreenResult(it) }
 
         activityNavigator.startForResult(route)
         return result
@@ -54,13 +49,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         val route = GallerySingleImageUriRoute()
 
         val result = activityNavigator.observeResult<String>(route)
-                .flatMap { result ->
-                    if (result.isSuccess) {
-                        Observable.just(result.data)
-                    } else {
-                        Observable.error(ActionInterruptedException())
-                    }
-                }
+                .flatMap { parseScreenResult(it) }
 
         activityNavigator.startForResult(route)
         return result
@@ -70,13 +59,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         val route = GallerySingleImageUriResultRoute()
 
         val result = activityNavigator.observeResult<UriResult>(route)
-                .flatMap { result ->
-                    if (result.isSuccess) {
-                        Observable.just(result.data)
-                    } else {
-                        Observable.error(ActionInterruptedException())
-                    }
-                }
+                .flatMap { parseScreenResult(it) }
 
         activityNavigator.startForResult(route)
         return result
@@ -88,13 +71,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         val route = GalleryMultipleImageRoute()
 
         val result = activityNavigator.observeResult<ArrayList<String>>(route)
-                .flatMap { result ->
-                    if (result.isSuccess) {
-                        Observable.just(result.data)
-                    } else {
-                        Observable.error(ActionInterruptedException())
-                    }
-                }
+                .flatMap { parseScreenResult(it) }
                 .map { t -> t as List<String> }
 
         activityNavigator.startForResult(route)
@@ -105,13 +82,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         val route = GalleryMultipleImageUriRoute()
 
         val result = activityNavigator.observeResult<ArrayList<String>>(route)
-                .flatMap { result ->
-                    if (result.isSuccess) {
-                        Observable.just(result.data)
-                    } else {
-                        Observable.error(ActionInterruptedException())
-                    }
-                }
+                .flatMap { parseScreenResult(it) }
                 .map { t -> t as List<String> }
 
         activityNavigator.startForResult(route)
@@ -122,17 +93,20 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         val route = GalleryMultipleImageUriResultRoute()
 
         val result = activityNavigator.observeResult<ArrayList<UriResult>>(route)
-                .flatMap { result ->
-                    if (result.isSuccess) {
-                        Observable.just(result.data)
-                    } else {
-                        Observable.error(ActionInterruptedException())
-                    }
-                }
+                .flatMap { parseScreenResult(it) }
                 .map { t -> t as List<UriResult> }
 
         activityNavigator.startForResult(route)
         return result
+    }
+
+    private fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
+                                                     throwable: () -> Throwable = { ActionInterruptedException() }): Observable<T> {
+        return if (screenResult.isSuccess) {
+            Observable.just(screenResult.data)
+        } else {
+            Observable.error(throwable)
+        }
     }
     //endregion
 
@@ -217,6 +191,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
      */
     data class UriResult(val uri: Uri) : Serializable
 
+    //region Вспомогательные функции для роутеров
     private fun getIntentForSingleImageFromGallery(): Intent {
         return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     }
@@ -228,8 +203,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
                 }
     }
 
-    private fun <T: Serializable> parseSingleResultIntent(intent: Intent?,
-                                                          parseIntent: (intent: Intent) -> T): T? {
+    private fun <T : Serializable> parseSingleResultIntent(intent: Intent?,
+                                                           parseIntent: (intent: Intent) -> T): T? {
         return if (intent != null && intent.data != null) {
             parseIntent(intent)
         } else {
@@ -238,8 +213,8 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
     }
 
-    private fun <T: Serializable> parseMultipleResultIntent(intent: Intent?,
-                                                            parseUri: (uri: Uri) -> T): ArrayList<T>? {
+    private fun <T : Serializable> parseMultipleResultIntent(intent: Intent?,
+                                                             parseUri: (uri: Uri) -> T): ArrayList<T>? {
         return when {
             intent == null -> null
             intent.clipData != null -> with(intent.clipData) {
@@ -249,6 +224,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
             else -> null
         }
     }
+    //endregion
 
     private fun Uri.getRealPath(): String {
         val result: String
