@@ -138,8 +138,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
     //region Роутеры для выбора одного изображения из галереи
     /**
-     * Роутер для выбора одного изображения из галереи,
-     * возвращащий путь к изображению
+     * Роутер, возвращащий путь к изображению
      */
     private inner class GallerySingleImageRoute : ActivityWithResultRoute<String>() {
         override fun prepareIntent(context: Context?): Intent {
@@ -154,8 +153,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер для выбора одного изображения из галереи,
-     * возвращающий Uri изображения, преобразованный в String
+     * Роутер, возвращающий Uri изображения, преобразованный в String
      */
     private inner class GallerySingleImageUriRoute : ActivityWithResultRoute<String>() {
         override fun prepareIntent(context: Context?): Intent {
@@ -170,8 +168,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер для выбора одного изображения из галереи,
-     * возвращающий класс-обертку над Uri изображения
+     * Роутер, возвращающий класс-обертку над Uri изображения
      */
     private inner class GallerySingleImageUriResultRoute : ActivityWithResultRoute<UriResult>() {
         override fun prepareIntent(context: Context?): Intent {
@@ -188,8 +185,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
     //region Роутеры для выбора нескольких изображений из галереи
     /**
-     * Роутер для выбора нескольких изображения из галереи,
-     * возвращающий список путей к выбранным изображениям
+     * Роутер, возвращающий список путей к выбранным изображениям
      */
     private inner class GalleryMultipleImageRoute : ActivityWithResultRoute<ArrayList<String>>() {
         override fun prepareIntent(context: Context?): Intent {
@@ -213,8 +209,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер для выбора нескольких изображений из галереи,
-     * возвращающий список Uri выбранных изображений, преобразованных в String
+     * Роутер, возвращающий список Uri выбранных изображений, преобразованных в String
      */
     private inner class GalleryMultipleImageUriRoute : ActivityWithResultRoute<ArrayList<String>>() {
         override fun prepareIntent(context: Context?): Intent {
@@ -223,8 +218,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер для выбора нескольких изображений из галереи,
-     * возвращающий список элементов типа класса-обертки над Uri выбранных изображений
+     * Роутер, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
      */
     private inner class GalleryMultipleImageUriResultRoute : ActivityWithResultRoute<ArrayList<String>>() {
         override fun prepareIntent(context: Context?): Intent {
