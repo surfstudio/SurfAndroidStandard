@@ -81,6 +81,10 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         return result
     }
 
+    /**
+     * Роутер для выбора одного изображения из галереи,
+     * возвращащий путь к изображению
+     */
     private inner class GallerySingleImageRoute : ActivityWithResultRoute<String>() {
         override fun prepareIntent(context: Context?): Intent {
             return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -93,6 +97,10 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         }
     }
 
+    /**
+     * Роутер для выбора одного изображения из галереи,
+     * возвращающий Uri изображения, преобразованный в String
+     */
     private inner class GallerySingleImageUriRoute : ActivityWithResultRoute<String>() {
         override fun prepareIntent(context: Context?): Intent {
             return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -105,6 +113,10 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         }
     }
 
+    /**
+     * Роутер для выбора нескольких изображения из галереи,
+     * возвращающий список путей к выбранным изображениям
+     */
     private inner class GalleryMultipleImageRoute : ActivityWithResultRoute<ArrayList<String>>() {
         override fun prepareIntent(context: Context?): Intent {
             return Intent(Intent.ACTION_PICK, EXTERNAL_CONTENT_URI)
@@ -123,6 +135,16 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
             } else {
                 null
             }
+        }
+    }
+
+    /**
+     * Роутер для выбора нескольких изображений из галереи,
+     * возвращающий список Uri выбранных изображений
+     */
+    private inner class GalleryMultipleImageUriRoute : ActivityWithResultRoute<ArrayList<String>>() {
+        override fun prepareIntent(context: Context?): Intent {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
     }
 
