@@ -9,7 +9,7 @@ ext {
     debugVersionNameSuffix = ".debug"
 
     //lang
-    kotlinVersion = '1.2.51'                    //https://goo.gl/2Epeje
+    kotlinVersion = '1.2.60'                    //https://goo.gl/2Epeje
     ankoVersion = '0.10.5'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
     gsonVersion = '2.8.5'                       //https://bit.ly/2LH5L6g
