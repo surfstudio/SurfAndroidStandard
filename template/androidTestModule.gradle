@@ -1,6 +1,7 @@
 
 dependencies {
 
+    androidTestImplementation project(":template:base")
 
     //test
     androidTestImplementation "junit:junit:${junitVersion}"
