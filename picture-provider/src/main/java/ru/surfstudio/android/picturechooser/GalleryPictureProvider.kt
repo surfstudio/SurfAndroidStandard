@@ -25,6 +25,7 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
+import java.io.Serializable
 
 /**
  * Позволяет получить одно или несколько изображений через сторонее приложение
@@ -32,6 +33,7 @@ import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedExceptio
 class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
                              private val activity: Activity) {
 
+    //region Функции для выбора одного изображения из галереи
     fun openGalleryForSingleImage(): Observable<String> {
         val route = GallerySingleImageRoute()
 
@@ -64,6 +66,24 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         return result
     }
 
+    fun openGalleryForSingleImageUriResult(): Observable<UriResult> {
+        val route = GallerySingleImageUriResultRoute()
+
+        val result = activityNavigator.observeResult<UriResult>(route)
+                .flatMap { result ->
+                    if (result.isSuccess) {
+                        Observable.just(result.data)
+                    } else {
+                        Observable.error(ActionInterruptedException())
+                    }
+                }
+
+        activityNavigator.startForResult(route)
+        return result
+    }
+    //endregion
+
+    //region Функции для выбора нескольких изображений из галереи
     fun openGalleryForMultipleImage(): Observable<List<String>> {
         val route = GalleryMultipleImageRoute()
 
@@ -81,6 +101,42 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         return result
     }
 
+    fun openGalleryForMultipleImageUri(): Observable<List<String>> {
+        val route = GalleryMultipleImageUriRoute()
+
+        val result = activityNavigator.observeResult<ArrayList<String>>(route)
+                .flatMap { result ->
+                    if (result.isSuccess) {
+                        Observable.just(result.data)
+                    } else {
+                        Observable.error(ActionInterruptedException())
+                    }
+                }
+                .map { t -> t as List<String> }
+
+        activityNavigator.startForResult(route)
+        return result
+    }
+
+    fun openGalleryForMultipleImageUriResult(): Observable<List<UriResult>> {
+        val route = GalleryMultipleImageUriRoute()
+
+        val result = activityNavigator.observeResult<ArrayList<UriResult>>(route)
+                .flatMap { result ->
+                    if (result.isSuccess) {
+                        Observable.just(result.data)
+                    } else {
+                        Observable.error(ActionInterruptedException())
+                    }
+                }
+                .map { t -> t as List<UriResult> }
+
+        activityNavigator.startForResult(route)
+        return result
+    }
+    //endregion
+
+    //region Роутеры для выбора одного изображения из галереи
     /**
      * Роутер для выбора одного изображения из галереи,
      * возвращащий путь к изображению
@@ -114,6 +170,24 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
+     * Роутер для выбора одного изображения из галереи,
+     * возвращающий класс-обертку над Uri изображения
+     */
+    private inner class GallerySingleImageUriResultRoute : ActivityWithResultRoute<UriResult>() {
+        override fun prepareIntent(context: Context?): Intent {
+            return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        }
+
+        override fun parseResultIntent(intent: Intent?): UriResult? {
+            return if (intent != null && intent.data != null) {
+                UriResult(intent.data)
+            } else null
+        }
+    }
+    //endregion
+
+    //region Роутеры для выбора нескольких изображений из галереи
+    /**
      * Роутер для выбора нескольких изображения из галереи,
      * возвращающий список путей к выбранным изображениям
      */
@@ -140,13 +214,29 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
 
     /**
      * Роутер для выбора нескольких изображений из галереи,
-     * возвращающий список Uri выбранных изображений
+     * возвращающий список Uri выбранных изображений, преобразованных в String
      */
     private inner class GalleryMultipleImageUriRoute : ActivityWithResultRoute<ArrayList<String>>() {
         override fun prepareIntent(context: Context?): Intent {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
     }
+
+    /**
+     * Роутер для выбора нескольких изображений из галереи,
+     * возвращающий список элементов типа класса-обертки над Uri выбранных изображений
+     */
+    private inner class GalleryMultipleImageUriResultRoute : ActivityWithResultRoute<ArrayList<String>>() {
+        override fun prepareIntent(context: Context?): Intent {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+    }
+    //endregion
+
+    /**
+     * Класс-обертка для возвращения Uri с помощью ActivityWithResultRoute
+     */
+    data class UriResult(val uri: Uri) : Serializable
 
     private fun Uri.getRealPath(): String {
         val result: String
