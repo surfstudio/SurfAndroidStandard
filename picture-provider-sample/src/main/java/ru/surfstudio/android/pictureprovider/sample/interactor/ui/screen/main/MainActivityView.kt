@@ -37,6 +37,10 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         openGalleryBtn.setOnClickListener { presenter.openGallerySingle() }
         val openGalleryMBtn: Button = find(R.id.gallery_m_btn)
         openGalleryMBtn.setOnClickListener { presenter.openGalleryMultiple() }
+        val openImageChooserBtn: Button = find(R.id.chooser_btn)
+        openImageChooserBtn.setOnClickListener { presenter.openChooserSingle() }
+        val openImageChooserMBtn: Button = find(R.id.chooser_m_btn)
+        openImageChooserMBtn.setOnClickListener { presenter.openChooserMultiple() }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}
@@ -48,6 +52,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     override fun createConfigurator(): ActivityScreenConfigurator {
         return MainScreenConfigurator(intent)
     }
+
+    fun getImageChooserMessage(): String = getString(R.string.image_chooser_message)
 
     fun startCamera() {
         camera_preview.start()

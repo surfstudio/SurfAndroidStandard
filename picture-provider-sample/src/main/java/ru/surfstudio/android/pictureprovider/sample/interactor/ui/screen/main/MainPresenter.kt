@@ -47,6 +47,18 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         }
     }
 
+    fun openChooserSingle() {
+        subscribeIoHandleError(photoProvider.openImageChooserAndGetPhotoUriWrapper(view.getImageChooserMessage())) { uriWrapper ->
+            messageController.show(uriWrapper.uri.toString())
+        }
+    }
+
+    fun openChooserMultiple() {
+        subscribeIoHandleError(photoProvider.openImageChooserAndGetFewPhotoUriWrapper(view.getImageChooserMessage())) { uriWrapperList ->
+            messageController.show(uriWrapperList.toString())
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         if (permissionManager.check(CameraStoragePermissionRequest())) view.startCamera()
