@@ -84,8 +84,6 @@ public class Logger {
     /**
      * используется для ожидаемых ошибок
      * Логгирует только сообщение ошибки
-     *
-     * @param e
      */
     public static void w(Throwable e) {
         i(String.format("Error: %s", e.getMessage()));

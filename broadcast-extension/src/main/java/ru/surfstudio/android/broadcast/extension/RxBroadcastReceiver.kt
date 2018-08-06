@@ -18,29 +18,28 @@ abstract class RxBroadcastReceiver<T> constructor(private val context: Context) 
      * @return Observable с результатом типа подписки
      */
     fun observeBroadcast(): Observable<T> {
-        return Observable.create(
-                { emitter ->
-                    val broadcastReceiver = object : BroadcastReceiver() {
-                        override fun onReceive(context: Context, intent: Intent) {
-                            try {
-                                val data = parseBroadcastIntent(intent)
-                                if (data != null) emitter.onNext(data)
-                            } catch (throwable: Throwable) {
-                                Logger.e(throwable)
-                                emitter.onError(throwable)
-                            }
-                        }
-                    }
+        return Observable.create { emitter ->
+            val broadcastReceiver = object : BroadcastReceiver() {
+                override fun onReceive(context: Context, intent: Intent) {
                     try {
-                        context.registerReceiver(broadcastReceiver, intentFilter())
+                        val data = parseBroadcastIntent(intent)
+                        if (data != null) emitter.onNext(data)
                     } catch (throwable: Throwable) {
                         Logger.e(throwable)
                         emitter.onError(throwable)
                     }
-                    emitter.setCancellable {
-                        context.unregisterReceiver(broadcastReceiver)
-                    }
-                })
+                }
+            }
+            try {
+                context.registerReceiver(broadcastReceiver, intentFilter())
+            } catch (throwable: Throwable) {
+                Logger.e(throwable)
+                emitter.onError(throwable)
+            }
+            emitter.setCancellable {
+                context.unregisterReceiver(broadcastReceiver)
+            }
+        }
     }
 
     protected abstract fun parseBroadcastIntent(intent: Intent): T?

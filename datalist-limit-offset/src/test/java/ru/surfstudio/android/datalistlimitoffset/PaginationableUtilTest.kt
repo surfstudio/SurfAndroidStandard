@@ -6,16 +6,16 @@ import org.junit.Assert
 import org.junit.Test
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 import ru.surfstudio.android.datalistlimitoffset.util.PaginationableUtil
-import ru.surfstudio.android.rx.extension.BiFunctionSafe
 
 class PaginationableUtilTest {
+
     @Test
     fun paginationableRequest() {
         val response = (1..100).toList()
 
-        var resultList: DataList<Int> = DataList.empty()
+        val resultList: DataList<Int> = DataList.empty()
 
-        PaginationableUtil.getPaginationRequestPortions<Int>(BiFunctionSafe { blockSize: Int, offset: Int ->
+        PaginationableUtil.getPaginationRequestPortions<Int>({ blockSize: Int, offset: Int ->
             Observable.just(DataList(arrayListOf(response[offset]), blockSize, offset))
         }, 0, 10, 1)
                 .subscribe {
@@ -30,7 +30,7 @@ class PaginationableUtilTest {
     fun paginationableRequestWithTotalCount() {
         val response = (1..100).toList()
 
-        var resultList: DataList<Int> = DataList.emptyWithTotal(10)
+        val resultList: DataList<Int> = DataList.emptyWithTotal(10)
 
         PaginationableUtil.getPaginationRequestPortionsWithTotal<Int>({ blockSize: Int, offset: Int ->
             Observable.just(DataList(arrayListOf(response[offset]), blockSize, offset))
@@ -47,7 +47,7 @@ class PaginationableUtilTest {
     fun getPaginationRequestSinglePortionWithTotal() {
         val response = (1..100).toList()
 
-        var resultList: DataList<Int> = DataList.emptyWithTotal(10)
+        val resultList: DataList<Int> = DataList.emptyWithTotal(10)
 
         PaginationableUtil.getPaginationRequestSinglePortionWithTotal<Int>({ blockSize: Int, offset: Int ->
             Single.just(DataList(arrayListOf(response[offset]), blockSize, offset))
@@ -64,7 +64,7 @@ class PaginationableUtilTest {
     fun getPaginationSingleRequestPortion() {
         val response = (1..100).toList()
 
-        var resultList: DataList<Int> = DataList.empty()
+        val resultList: DataList<Int> = DataList.empty()
 
         PaginationableUtil.getPaginationSingleRequestPortion<Int>({ blockSize: Int, offset: Int ->
             Single.just(DataList(arrayListOf(response[offset]), blockSize, offset))
@@ -76,6 +76,4 @@ class PaginationableUtilTest {
         val expected = DataList(response.subList(0, 10), 10, 0)
         Assert.assertEquals(expected, resultList)
     }
-
-
 }

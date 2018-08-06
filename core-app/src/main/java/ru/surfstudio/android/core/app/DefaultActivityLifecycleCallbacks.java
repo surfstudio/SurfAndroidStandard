@@ -20,7 +20,7 @@ import android.app.Application;
 import android.os.Bundle;
 
 /**
- * Слушатель жизненного цикла автикити по умолчанию
+ * Слушатель жизненного цикла активити по умолчанию
  */
 public class DefaultActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     @Override

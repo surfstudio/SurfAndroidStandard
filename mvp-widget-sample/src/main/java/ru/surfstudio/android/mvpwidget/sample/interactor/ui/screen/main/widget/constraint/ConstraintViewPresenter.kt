@@ -11,5 +11,4 @@ import javax.inject.Inject
 @PerScreen
 class ConstraintViewPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency)
-    : BasePresenter<ConstraintWidgetView>(basePresenterDependency) {
-}
+    : BasePresenter<ConstraintWidgetView>(basePresenterDependency)
