@@ -16,15 +16,18 @@
 package ru.surfstudio.android.picturechooser
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
+import android.support.annotation.WorkerThread
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
-import java.io.Serializable
+import java.io.*
 
 //region Вспомогательные функции для роутеров
 fun getIntentForSingleImageFromGallery(): Intent {
@@ -87,6 +90,32 @@ fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
     }
 }
 //endregion
+
+/**
+ * Сохранение изображения во временную папку для передачи между интентами
+ */
+@WorkerThread
+@Throws(IOException::class)
+fun saveTempBitmap(bitmap: Bitmap, fileName: String, context: Context): File {
+    var bos: ByteArrayOutputStream? = null
+    var fos: FileOutputStream? = null
+
+    try {
+        val file = File(context.cacheDir, fileName)
+        if (file.exists()) file.delete()
+        file.createNewFile()
+
+        bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos)
+        val bitmapData = bos.toByteArray()
+        fos = FileOutputStream(file)
+        fos.write(bitmapData)
+        return file
+    } finally {
+        bos?.close()
+        fos?.close()
+    }
+}
 
 fun Uri.getRealPath(activity: Activity): String {
     val result: String

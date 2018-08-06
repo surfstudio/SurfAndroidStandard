@@ -16,12 +16,14 @@
 package ru.surfstudio.android.picturechooser
 
 import android.content.Context
+import android.net.Uri
 import android.provider.MediaStore
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
 
+private const val DEFAULT_TEMP_FILE_NAME = "image.jpg"
 
 /**
  * Поставляет изображения находящиеся на устройстве или с камеры.
@@ -143,6 +145,21 @@ class PictureProvider constructor(
                 { chooserPictureProvider.createChooserForSingleImageUriWrapper(message) },
                 noPermissionAction)
     }
+
+    /**
+     *  Получение изображения с устройства с его сохранением во временный файл.
+     *  Следует использовать для получения валидного пути к изображению,
+     *  открытого из гугл диска или других облачных хранилищ
+     *  @return Observable путь к созданному временному файлу
+     */
+    fun openImageChooserAndSavePhoto(message: String,
+                                     fileName: String = DEFAULT_TEMP_FILE_NAME,
+                                     noPermissionAction: () -> Unit = {}): Observable<String> {
+        return openImageChooserAndGetPhotoUriWrapper(message, noPermissionAction)
+                .map { uriWrapper ->
+                    createTempBitmap(uriWrapper.uri, fileName)
+                }
+    }
     //endregion
 
     //region Функции для выбора нескольких изображений на устройстве
@@ -179,19 +196,6 @@ class PictureProvider constructor(
                 noPermissionAction)
     }
     //endregion
-
-    private fun <T> checkPermissionAndPerform(hasPermissionAction: () -> Observable<T>,
-                                              noPermissionAction: () -> Unit): Observable<T> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
-                .flatMap { hasPermission ->
-                    if (hasPermission) {
-                        hasPermissionAction()
-                    } else {
-                        noPermissionAction()
-                        Observable.error(NoPermissionException())
-                    }
-                }
-    }
 
     /**
      * @return Uri всех изображений на устройстве
@@ -230,4 +234,32 @@ class PictureProvider constructor(
             subscriber.onComplete()
         }
     }
+
+    //region Вспомогательные функции
+    /**
+     * Функция, проверяющая разрешение на чтения из хранилища
+     * и выполняющая различные действия в зависимости от его наличия или отсутствия
+     */
+    private fun <T> checkPermissionAndPerform(hasPermissionAction: () -> Observable<T>,
+                                              noPermissionAction: () -> Unit): Observable<T> {
+        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+                .flatMap { hasPermission ->
+                    if (hasPermission) {
+                        hasPermissionAction()
+                    } else {
+                        noPermissionAction()
+                        Observable.error(NoPermissionException())
+                    }
+                }
+    }
+
+    /**
+     * Функция, создающая временный файл для изображения по его Uri.
+     * @return String путь к созданному временному файлу
+     */
+    private fun createTempBitmap(imageUri: Uri, tempFileName: String): String {
+        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
+        return saveTempBitmap(bitmap, tempFileName, context).absolutePath
+    }
+    //endregion
 }
