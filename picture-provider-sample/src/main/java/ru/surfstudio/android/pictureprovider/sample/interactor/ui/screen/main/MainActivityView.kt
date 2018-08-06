@@ -41,6 +41,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         openImageChooserBtn.setOnClickListener { presenter.openChooserSingle() }
         val openImageChooserMBtn: Button = find(R.id.chooser_m_btn)
         openImageChooserMBtn.setOnClickListener { presenter.openChooserMultiple() }
+        val openImageChooserAndSaveBtn: Button = find(R.id.chooser_save_btn)
+        openImageChooserAndSaveBtn.setOnClickListener { presenter.openChooserAndSavePhoto() }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}

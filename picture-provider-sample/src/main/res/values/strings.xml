@@ -22,4 +22,5 @@
     <string name="gallery_m_btn_text">Open gallery m</string>
     <string name="chooser_btn_test">Open chooser</string>
     <string name="chooser_m_btn_text">Open chooser m</string>
+    <string name="chooser_save_btn_text">Open chooser and save</string>
 </resources>
