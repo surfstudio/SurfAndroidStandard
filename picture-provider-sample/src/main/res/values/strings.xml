@@ -17,5 +17,8 @@
     <!-- placeholder -->
     <string name="placeholder_default_subtitle">Нет подключения к интернету.\nПроверьте соединение и обновите экран.</string>
     <string name="placeholder_default_btn">Обновить</string>
+    <string name="camera_btn_text">Open camera</string>
+    <string name="gallery_btn_test">Open gallery</string>
+    <string name="gallery_m_btn_text">Open gallery m</string>
 
 </resources>
