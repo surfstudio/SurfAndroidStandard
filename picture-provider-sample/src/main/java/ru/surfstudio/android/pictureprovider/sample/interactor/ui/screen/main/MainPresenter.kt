@@ -18,7 +18,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
                                                  private val permissionManager: PermissionManager,
                                                  private val picturePermissionChecker: PicturePermissionChecker,
                                                  private val photoProvider: PictureProvider,
-                                                 private val messageController: MessageController) : BasePresenter<MainActivityView>(basePresenterDependency) {
+                                                 private val messageController: MessageController
+) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()
 
@@ -35,14 +36,14 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun openGallerySingle() {
-        subscribeIoHandleError(photoProvider.openGalleryAndGetPhoto()) { path ->
-            messageController.show(path.toString())
+        subscribeIoHandleError(photoProvider.openGalleryAndGetPhotoUriWrapper()) { uriWrapper ->
+            messageController.show(uriWrapper.uri.toString())
         }
     }
 
     fun openGalleryMultiple() {
-        subscribeIoHandleError(photoProvider.openGalleryAndGetFewPhoto()) { path ->
-            messageController.show(path.toString())
+        subscribeIoHandleError(photoProvider.openGalleryAndGetFewPhotoUriWrapper()) { uriWrapperList ->
+            messageController.show(uriWrapperList.toString())
         }
     }
 
