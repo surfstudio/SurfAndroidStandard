@@ -34,6 +34,7 @@ class PictureProvider constructor(
 
     private val cameraIntentHelper = CameraPictureProvider(activityNavigator, activityProvider.get())
     private val galleryPictureProvider = GalleryPictureProvider(activityNavigator, activityProvider.get())
+    private val chooserPictureProvider = ChooserPictureProvider(activityNavigator, activityProvider.get())
 
     /**
      *  Запускает сторонее приложение камеры для получения изображения.
@@ -45,6 +46,7 @@ class PictureProvider constructor(
                 noPermissionAction)
     }
 
+    //region Функции для выбора одного изображения из галереи
     /**
      *  Запускает сторонее приложение галереи для получения изображения.
      *  @return Observable путь до изображения (может вернуть пустое значение)
@@ -74,7 +76,9 @@ class PictureProvider constructor(
                 { galleryPictureProvider.openGalleryForSingleImageUriWrapper() },
                 noPermissionAction)
     }
+    //endregion
 
+    //region Функции для выбора нескольких изображений из галереи
     /**
      *  Запускает сторонее приложение галереи для получения нескольких изображений.
      *  @return Observable списка путей к выбранным изображениям
@@ -104,6 +108,77 @@ class PictureProvider constructor(
                 { galleryPictureProvider.openGalleryForMultipleImageUriWrapper() },
                 noPermissionAction)
     }
+    //endregion
+
+    //region Функции для выбора одного изображения на устройстве
+    /**
+     *  Показ диалога выбора приложения для получения одного изображения.
+     *  @return Observable путь до изображения (может вернуть пустое значение)
+     */
+    fun openImageChooserAndGetPhoto(message: String,
+                                    noPermissionAction: () -> Unit = {}): Observable<String> {
+        return checkPermissionAndPerform(
+                { chooserPictureProvider.createChooserForSingleImage(message) },
+                noPermissionAction)
+    }
+
+    /**
+     *  Показ диалога выбора приложения для получения одного изображения.
+     *  @return Observable Uri.toString() изображения.
+     */
+    fun openImageChooserAndGetPhotoUri(message: String,
+                                       noPermissionAction: () -> Unit = {}): Observable<String> {
+        return checkPermissionAndPerform(
+                { chooserPictureProvider.createChooserForSingleImageUri(message) },
+                noPermissionAction)
+    }
+
+    /**
+     *  Показ диалога выбора приложения для получения одного изображения.
+     *  @return Observable UriWrapper изображения.
+     */
+    fun openImageChooserAndGetPhotoUriWrapper(message: String,
+                                              noPermissionAction: () -> Unit = {}): Observable<UriWrapper> {
+        return checkPermissionAndPerform(
+                { chooserPictureProvider.createChooserForSingleImageUriWrapper(message) },
+                noPermissionAction)
+    }
+    //endregion
+
+    //region Функции для выбора нескольких изображений на устройстве
+    /**
+     *  Показ диалога выбора приложения для получения нескольких изображений.
+     *  @return Observable списка путей к выбранным изображениям
+     */
+    fun openImageChooserAndGetFewPhoto(message: String,
+                                       noPermissionAction: () -> Unit = {}): Observable<List<String>> {
+        return checkPermissionAndPerform(
+                { chooserPictureProvider.createChooserForMultipleImage(message) },
+                noPermissionAction)
+    }
+
+    /**
+     *  Показ диалога выбора приложения для получения нескольких изображений.
+     *  @return Observable списка Uri.toString() выбранных изображений
+     */
+    fun openImageChooserAndGetFewPhotoUri(message: String,
+                                          noPermissionAction: () -> Unit = {}): Observable<List<String>> {
+        return checkPermissionAndPerform(
+                { chooserPictureProvider.createChooserForMultipleImageUri(message) },
+                noPermissionAction)
+    }
+
+    /**
+     *  Показ диалога выбора приложения для получения нескольких изображений.
+     *  @return Observable списка UriWrapper выбранных изображений
+     */
+    fun openImageChooserAndGetFewPhotoUriWrapper(message: String,
+                                                 noPermissionAction: () -> Unit = {}): Observable<List<UriWrapper>> {
+        return checkPermissionAndPerform(
+                { chooserPictureProvider.createChooserForMultipleImageUriWrapper(message) },
+                noPermissionAction)
+    }
+    //endregion
 
     private fun <T> checkPermissionAndPerform(hasPermissionAction: () -> Observable<T>,
                                               noPermissionAction: () -> Unit): Observable<T> {
