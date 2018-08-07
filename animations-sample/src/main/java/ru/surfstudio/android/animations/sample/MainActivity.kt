@@ -11,11 +11,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Cross fade animation
         showCrossFadeAnimationBtn.setOnClickListener {
             AnimationUtil.crossfadeViews(first_iv, second_iv)
         }
         resetCrossFadeAnimationBtn.setOnClickListener {
             AnimationUtil.crossfadeViews(second_iv, first_iv)
         }
+
+        //Fade-In & Fade Out
+        fade_animation_widget.setShowAnimationCallback { AnimationUtil.fadeOut(it) }
+        fade_animation_widget.setResetAnimationCallback { AnimationUtil.fadeIn(it) }
     }
 }

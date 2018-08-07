@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,7 +14,9 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin">
 
             <TextView
                 android:id="@+id/animation_name_tv"
@@ -58,5 +61,15 @@
                 android:background="@color/colorPrimary"
                 android:layout_below="@id/animation_name_tv" />
         </RelativeLayout>
+
+        <ru.surfstudio.android.animations.sample.widget.AnimationWidget
+            android:id="@+id/fade_animation_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            app:animationName="Fade-In and Fade-Out"
+            app:showBtnText="Fade Out"
+            app:resetBtnText="Fade In" />
     </LinearLayout>
 </ScrollView>

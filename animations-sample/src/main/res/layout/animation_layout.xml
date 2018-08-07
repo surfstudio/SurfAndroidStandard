@@ -12,12 +12,20 @@
         tools:text="Animation name" />
 
     <Button
-        android:id="@+id/showAnimationBtn"
+        android:id="@+id/show_animation_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:text="@string/show_animation_btn_text" />
+
+    <Button
+        android:id="@+id/reset_animation_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/show_animation_btn"
+        android:layout_alignParentEnd="true"
+        android:text="@string/reset_animation_btn_text" />
 
     <ImageView
         android:id="@+id/animation_iv"
