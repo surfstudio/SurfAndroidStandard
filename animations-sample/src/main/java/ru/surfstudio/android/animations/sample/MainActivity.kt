@@ -11,8 +11,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        crossFadeAnimationWidget.setShowAnimationCallback { firstImageView, secondImageView ->
-            AnimationUtil.crossfadeViews(firstImageView, secondImageView)
+        showCrossFadeAnimationBtn.setOnClickListener {
+            AnimationUtil.crossfadeViews(first_iv, second_iv)
+        }
+        resetCrossFadeAnimationBtn.setOnClickListener {
+            AnimationUtil.crossfadeViews(second_iv, first_iv)
         }
     }
 }

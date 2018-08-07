@@ -20,21 +20,11 @@
         android:text="@string/show_animation_btn_text" />
 
     <ImageView
-        android:id="@+id/first_iv"
+        android:id="@+id/animation_iv"
         android:layout_width="@dimen/image_size"
         android:layout_height="@dimen/image_size"
         android:layout_marginTop="@dimen/default_margin"
         android:contentDescription="@string/image_view"
         android:background="@color/colorAccent"
-        android:layout_below="@id/animation_name_tv" />
-
-    <ImageView
-        android:id="@+id/second_iv"
-        android:layout_width="@dimen/image_size"
-        android:layout_height="@dimen/image_size"
-        android:layout_toEndOf="@id/first_iv"
-        android:layout_marginTop="@dimen/default_margin"
-        android:contentDescription="@string/image_view"
-        android:background="@color/colorPrimary"
         android:layout_below="@id/animation_name_tv" />
 </merge>
