@@ -3,7 +3,7 @@ package ru.surfstudio.android.animations.sample
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.surfstudio.android.animations.anim.AnimationUtil
+import ru.surfstudio.android.animations.anim.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,14 +20,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         //Fade-In & Fade Out
-        fade_animation_widget.setShowAnimationCallback { AnimationUtil.fadeOut(it) }
-        fade_animation_widget.setResetAnimationCallback { AnimationUtil.fadeIn(it) }
+        fade_animation_widget.setShowAnimationCallback { it.fadeOut() }
+        fade_animation_widget.setResetAnimationCallback { it.fadeIn() }
 
         // Pulse animation
         pulse_animation_widget.setResetBtnEnabled(false)
         pulse_animation_widget.setShowAnimationCallback{
             pulse_animation_widget.setShowBtnEnabled(false)
-            AnimationUtil.pulseAnimation(it)
+            it.pulseAnimation()
         }
+
+        // New size animation
+        //new_size_animation_widget.setShowAnimationCallback { it.toSize(100, 100) }
     }
 }
