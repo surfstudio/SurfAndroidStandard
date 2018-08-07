@@ -1,0 +1,13 @@
+apply from: '../androidSample.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.animations.sample"
+    }
+}
+
+dependencies {
+    implementation "ru.surfstudio.android:animations:$moduleVersionName"
+}
