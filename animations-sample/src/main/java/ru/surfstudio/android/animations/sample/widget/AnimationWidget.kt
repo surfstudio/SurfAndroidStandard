@@ -10,8 +10,8 @@ import ru.surfstudio.android.animations.sample.R
 
 class AnimationWidget(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
-    lateinit var firstImageView: ImageView
-    lateinit var secondImageView: ImageView
+    private lateinit var firstImageView: ImageView
+    private lateinit var secondImageView: ImageView
 
     init {
         initViews()
@@ -28,8 +28,19 @@ class AnimationWidget(context: Context, attrs: AttributeSet) : RelativeLayout(co
         val a = context.obtainStyledAttributes(attrs, R.styleable.AnimationWidget)
         try {
             animation_name_tv.text = a.getString(R.styleable.AnimationWidget_animationName)
+
+            val isSecondImageVisible: Boolean = a.getBoolean(R.styleable.AnimationWidget_secondImageVisible, false)
+            secondImageView.visibility = if (isSecondImageVisible) View.VISIBLE  else View.GONE
         } finally {
             a.recycle()
         }
+    }
+
+    fun setShowAnimationCallback(animate: (imageView: ImageView) -> Unit) {
+        showAnimationBtn.setOnClickListener { animate(firstImageView) }
+    }
+
+    fun setShowAnimationCallback(animate: (firstImageView: ImageView, secondImageView: ImageView) -> Unit) {
+        showAnimationBtn.setOnClickListener { animate(firstImageView, secondImageView) }
     }
 }

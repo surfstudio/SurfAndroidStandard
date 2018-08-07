@@ -13,8 +13,10 @@
         android:orientation="vertical">
 
         <ru.surfstudio.android.animations.sample.widget.AnimationWidget
+            android:id="@+id/crossFadeAnimationWidget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:animationName="Cross fade views" />
+            app:animationName="Cross fade views"
+            app:secondImageVisible="true" />
     </LinearLayout>
 </ScrollView>
