@@ -10,8 +10,8 @@ import ru.surfstudio.android.animations.sample.R
 
 class AnimationWidget(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
-    val firstImageView: ImageView = first_iv
-    val secondImageView: ImageView = second_iv
+    lateinit var firstImageView: ImageView
+    lateinit var secondImageView: ImageView
 
     init {
         initViews()
@@ -20,6 +20,8 @@ class AnimationWidget(context: Context, attrs: AttributeSet) : RelativeLayout(co
 
     private fun initViews() {
         View.inflate(context, R.layout.animation_layout, this)
+        firstImageView = findViewById(R.id.first_iv)
+        secondImageView = findViewById(R.id.second_iv)
     }
 
     private fun initAttr(context: Context, attrs: AttributeSet) {
