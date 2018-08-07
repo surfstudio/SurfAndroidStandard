@@ -83,5 +83,4 @@ public class PagerSnapHelper extends SnapHelper {
         }
         return mHorizontalHelper;
     }
-
 }
