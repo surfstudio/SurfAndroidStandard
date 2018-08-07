@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">animations-sample</string>
+    <string name="app_name">Animations Sample</string>
     <string name="image_view">image_view</string>
     <string name="show_animation_btn_text">show</string>
     <string name="reset_animation_btn_text">reset</string>
     <string name="cross_fade_animation">Cross fade animation</string>
     <string name="slide_animation">Slide animation</string>
+    <string name="bottom_button">Bottom button</string>
 </resources>

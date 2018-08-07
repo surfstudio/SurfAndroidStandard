@@ -1,16 +1,26 @@
 package ru.surfstudio.android.animations.sample
 
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.Gravity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.animations.anim.*
+import ru.surfstudio.android.animations.behaviors.BottomButtonBehavior
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val params = bottom_btn.layoutParams as CoordinatorLayout.LayoutParams
+        params.behavior = BottomButtonBehavior()
+
+        bottom_btn.setOnClickListener {
+            Snackbar.make(container, "Message", Snackbar.LENGTH_SHORT).show()
+        }
 
         //Cross-fade animation
         show_cross_fade_animation_btn.setOnClickListener {

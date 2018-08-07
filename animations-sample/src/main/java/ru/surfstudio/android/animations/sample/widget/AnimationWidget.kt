@@ -8,6 +8,9 @@ import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.animation_layout.view.*
 import ru.surfstudio.android.animations.sample.R
 
+/**
+ * Custom view для запуска и остановки анимации
+ */
 class AnimationWidget(context: Context, attrs: AttributeSet) : RelativeLayout(context, attrs) {
 
     private lateinit var imageView: ImageView
