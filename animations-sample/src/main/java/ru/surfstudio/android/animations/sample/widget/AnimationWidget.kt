@@ -26,8 +26,16 @@ class AnimationWidget(context: Context, attrs: AttributeSet) : RelativeLayout(co
         val a = context.obtainStyledAttributes(attrs, R.styleable.AnimationWidget)
         try {
             animation_name_tv.text = a.getString(R.styleable.AnimationWidget_animationName)
-            show_animation_btn.text = a.getString(R.styleable.AnimationWidget_showBtnText)
-            reset_animation_btn.text = a.getString(R.styleable.AnimationWidget_resetBtnText)
+
+            val showAnimationBtnText = a.getString(R.styleable.AnimationWidget_showBtnText)
+            if (!showAnimationBtnText.isNullOrEmpty()) {
+                show_animation_btn.text = showAnimationBtnText
+            }
+
+            val resetAnimationBtnText = a.getString(R.styleable.AnimationWidget_resetBtnText)
+            if (!resetAnimationBtnText.isNullOrEmpty()) {
+                reset_animation_btn.text = resetAnimationBtnText
+            }
         } finally {
             a.recycle()
         }
@@ -39,5 +47,13 @@ class AnimationWidget(context: Context, attrs: AttributeSet) : RelativeLayout(co
 
     fun setResetAnimationCallback(animate: (imageView: ImageView) -> Unit) {
         reset_animation_btn.setOnClickListener { animate(imageView) }
+    }
+
+    fun setShowBtnEnabled(enabled: Boolean) {
+        show_animation_btn.isEnabled = enabled
+    }
+
+    fun setResetBtnEnabled(enabled: Boolean) {
+        reset_animation_btn.isEnabled = enabled
     }
 }

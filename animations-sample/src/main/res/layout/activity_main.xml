@@ -25,7 +25,7 @@
                 android:text="@string/cross_fade_animation" />
 
             <Button
-                android:id="@+id/showCrossFadeAnimationBtn"
+                android:id="@+id/show_cross_fade_animation_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -34,12 +34,12 @@
                 tools:ignore="RelativeOverlap" />
 
             <Button
-                android:id="@+id/resetCrossFadeAnimationBtn"
+                android:id="@+id/reset_cross_fade_animation_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_below="@id/showCrossFadeAnimationBtn"
+                android:layout_below="@id/show_cross_fade_animation_btn"
                 android:text="@string/reset_animation_btn_text" />
 
             <ImageView
@@ -55,7 +55,6 @@
                 android:id="@+id/second_iv"
                 android:layout_width="@dimen/image_size"
                 android:layout_height="@dimen/image_size"
-                android:layout_toEndOf="@id/first_iv"
                 android:layout_marginTop="@dimen/default_margin"
                 android:contentDescription="@string/image_view"
                 android:background="@color/colorPrimary"
@@ -71,5 +70,13 @@
             app:animationName="Fade-In and Fade-Out"
             app:showBtnText="Fade Out"
             app:resetBtnText="Fade In" />
+
+        <ru.surfstudio.android.animations.sample.widget.AnimationWidget
+            android:id="@+id/pulse_animation_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            app:animationName="Pulse animation" />
     </LinearLayout>
 </ScrollView>

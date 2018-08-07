@@ -33,6 +33,6 @@
         android:layout_height="@dimen/image_size"
         android:layout_marginTop="@dimen/default_margin"
         android:contentDescription="@string/image_view"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         android:layout_below="@id/animation_name_tv" />
 </merge>

@@ -12,15 +12,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //Cross fade animation
-        showCrossFadeAnimationBtn.setOnClickListener {
+        show_cross_fade_animation_btn.setOnClickListener {
             AnimationUtil.crossfadeViews(first_iv, second_iv)
         }
-        resetCrossFadeAnimationBtn.setOnClickListener {
+        reset_cross_fade_animation_btn.setOnClickListener {
             AnimationUtil.crossfadeViews(second_iv, first_iv)
         }
 
         //Fade-In & Fade Out
         fade_animation_widget.setShowAnimationCallback { AnimationUtil.fadeOut(it) }
         fade_animation_widget.setResetAnimationCallback { AnimationUtil.fadeIn(it) }
+
+        // Pulse animation
+        pulse_animation_widget.setResetBtnEnabled(false)
+        pulse_animation_widget.setShowAnimationCallback{
+            pulse_animation_widget.setShowBtnEnabled(false)
+            AnimationUtil.pulseAnimation(it)
+        }
     }
 }
