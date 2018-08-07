@@ -4,4 +4,5 @@
     <string name="show_animation_btn_text">show</string>
     <string name="reset_animation_btn_text">reset</string>
     <string name="cross_fade_animation">Cross fade animation</string>
+    <string name="slide_animation">Slide animation</string>
 </resources>

@@ -85,6 +85,18 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
-            app:animationName="New size animation" />
+            app:animationName="New size animation"
+            app:showBtnText="Increase"
+            app:resetBtnText="Decrease" />
+
+        <ru.surfstudio.android.animations.sample.widget.AnimationWidget
+            android:id="@+id/slide_animation_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            app:animationName="Slide animation"
+            app:showBtnText="Slide out"
+            app:resetBtnText="Slide in" />
     </LinearLayout>
 </ScrollView>
