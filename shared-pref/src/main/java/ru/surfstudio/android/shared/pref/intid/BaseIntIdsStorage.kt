@@ -95,13 +95,10 @@ abstract class BaseIntIdsStorage {
     private fun replaceIds(ids: Set<Int>) {
         val sb = StringBuilder()
         Stream.of(ids).forEach { value -> sb
-                .append(if (sb.length > 0) SEPARATOR else "")
+                .append(if (sb.isNotEmpty()) SEPARATOR else "")
                 .append(value) }
         SettingsUtil.putString(sharedPreferences(), storageKey(), sb.toString())
     }
 
-    companion object {
-
-
-    }
+    companion object
 }

@@ -38,5 +38,4 @@ class StickyEasyAdapter(recyclerView: RecyclerView) : EasyAdapter() {
         recyclerView.layoutManager = stickyLayoutManager
         recyclerView.adapter = this
     }
-
 }

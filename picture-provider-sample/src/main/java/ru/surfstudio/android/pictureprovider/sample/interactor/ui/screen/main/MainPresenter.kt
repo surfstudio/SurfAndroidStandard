@@ -18,32 +18,33 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
                                                  private val permissionManager: PermissionManager,
                                                  private val picturePermissionChecker: PicturePermissionChecker,
                                                  private val photoProvider: PictureProvider,
-                                                 private val messageController: MessageController) : BasePresenter<MainActivityView>(basePresenterDependency) {
+                                                 private val messageController: MessageController
+) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         view.render(screenModel)
-        subscribeIoHandleError(picturePermissionChecker.checkCameraStoragePermission(), { _ -> })
+        subscribeIoHandleError(picturePermissionChecker.checkCameraStoragePermission()) { _ -> }
     }
 
     fun openCamera() {
-        subscribeIoHandleError(photoProvider.openCameraAndTakePhoto(), { path ->
+        subscribeIoHandleError(photoProvider.openCameraAndTakePhoto()) { path ->
             messageController.show(path.toString())
-        })
+        }
     }
 
     fun openGallerySingle() {
-        subscribeIoHandleError(photoProvider.openGalleryAndGetPhoto(), { path ->
+        subscribeIoHandleError(photoProvider.openGalleryAndGetPhoto()) { path ->
             messageController.show(path.toString())
-        })
+        }
     }
 
     fun openGalleryMultiple() {
-        subscribeIoHandleError(photoProvider.openGalleryAndGetFewPhoto(), { path ->
+        subscribeIoHandleError(photoProvider.openGalleryAndGetFewPhoto()) { path ->
             messageController.show(path.toString())
-        })
+        }
     }
 
     override fun onResume() {

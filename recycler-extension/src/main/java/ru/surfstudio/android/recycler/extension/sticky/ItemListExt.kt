@@ -70,7 +70,7 @@ fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?
             continue
         }
         val nextItem = this[i] as BindableItem<*, *>
-        val stickyData = stickyCallback(if (prevItem != null) prevItem.getData() else null, nextItem.getData())
+        val stickyData = stickyCallback(prevItem?.getData(), nextItem.getData())
         if (stickyData != null) {
             insert(i, StickyBindableItem(stickyData, itemController))
         }

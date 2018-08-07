@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.recycler.extension.sample.R.id.activity_main_recycler
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyHeaderItemController
 import ru.surfstudio.android.recycler.extension.sticky.StickyEasyAdapter
