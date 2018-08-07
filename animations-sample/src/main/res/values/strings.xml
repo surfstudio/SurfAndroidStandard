@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">animations-sample</string>
+    <string name="image_view">image_view</string>
 </resources>
