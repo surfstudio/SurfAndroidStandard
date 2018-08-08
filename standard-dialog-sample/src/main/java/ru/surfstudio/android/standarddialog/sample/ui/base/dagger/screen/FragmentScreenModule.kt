@@ -16,6 +16,8 @@ import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
+import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
 import ru.surfstudio.android.standarddialog.sample.ui.base.error.ErrorHandlerModule
 
 @Module(includes = [ErrorHandlerModule::class])
@@ -65,5 +67,12 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
                                           fragmentProvider: FragmentProvider,
                                           eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
         return ActivityNavigatorForFragment(activityProvider, fragmentProvider, eventDelegateManager)
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideDialogNavigator(activityProvider: ActivityProvider,
+                                        fragmentProvider: FragmentProvider): DialogNavigator {
+        return DialogNavigatorForFragment(activityProvider, fragmentProvider, persistentScope)
     }
 }

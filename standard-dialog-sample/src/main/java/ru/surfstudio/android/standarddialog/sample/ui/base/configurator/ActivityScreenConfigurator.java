@@ -36,6 +36,6 @@ public abstract class ActivityScreenConfigurator
 
     @Override
     protected ActivityScreenModule getActivityScreenModule() {
-        return new ActivityScreenModule();
+        return new ActivityScreenModule(getPersistentScope());
     }
 }
