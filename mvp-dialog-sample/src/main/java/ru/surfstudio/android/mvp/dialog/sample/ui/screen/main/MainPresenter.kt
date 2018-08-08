@@ -20,4 +20,20 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         super.onLoad(viewRecreated)
         view.render(screenModel)
     }
+
+    fun showSimpleDialog() {
+
+    }
+
+    fun showSimpleBottomSheetDialog() {
+
+    }
+
+    fun showComplexDialog() {
+
+    }
+
+    fun showComplexBottomSheetDialog() {
+
+    }
 }
