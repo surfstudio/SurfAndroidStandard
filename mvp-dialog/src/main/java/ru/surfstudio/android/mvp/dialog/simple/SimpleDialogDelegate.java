@@ -86,7 +86,7 @@ public class SimpleDialogDelegate {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         if (parentType == null && savedInstanceState != null) {
             parentType = (ScreenType) savedInstanceState.getSerializable(EXTRA_PARENT_TYPE);
-            parentScopeId = savedInstanceState.getString(EXTRA_PARENT_TYPE);
+            parentScopeId = savedInstanceState.getString(EXTRA_PARENT_NAME);
         }
     }
 
