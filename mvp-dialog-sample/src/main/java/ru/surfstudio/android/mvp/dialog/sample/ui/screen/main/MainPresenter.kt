@@ -5,7 +5,6 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.bus.RxBus
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.ComplexDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
@@ -29,7 +28,6 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        Logger.d("AAA MainPresenter onLoad")
         view.render(screenModel)
     }
 
