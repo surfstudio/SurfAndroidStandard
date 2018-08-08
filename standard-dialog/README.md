@@ -3,7 +3,7 @@
 
 ##Использование
 Презентер экрана, на котором планируется использовать диалог, должен реализовывать интерфейс
-StandardDialogPresenter
+StandardDialogPresenter.
 
 Пример: 
 
@@ -19,9 +19,9 @@ StandardDialogPresenter
         }
     }
 
-Если на экране вызывается несколько разных StandardDialog, dialogTag помогает разобраться от которого пришел ответ
+Если на экране вызывается несколько разных StandardDialog, dialogTag помогает разобраться, от которого диалога пришел ответ.
 
-Конфигуратор экрана, должен предоставлять StandardDialogPresenter:
+Конфигуратор экрана должен предоставлять StandardDialogPresenter:
 
     @Module
     internal class MainScreenModule(route: MainActivityRoute) :
@@ -33,13 +33,15 @@ StandardDialogPresenter
             return presenter
         }
     }
-Конфигуратор должен реализовывать интерфейс StandardDialogComponent
+    
+Конфигуратор должен реализовывать интерфейс StandardDialogComponent:
     
         @PerScreen
         @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
         internal interface MainScreenComponent : ScreenComponent<MainActivityView>, StandardDialogComponent
 
-Пример создания диалога:
+##Примеры создания диалога
+
 Через ресурсы:
 
     dialogNavigator.show(StandardDialogRoute(
@@ -50,7 +52,7 @@ StandardDialogPresenter
                 isCancelable = true,
                 dialogTag = "tagSimple"))
                 
- Через строки:
+Через строки:
  
     dialogNavigator.show(StandardDialogRoute(
                  title= "title",
@@ -60,7 +62,7 @@ StandardDialogPresenter
                  isCancelable = true,
                  dialogTag = "tagSimple"))
                  
-  Комбинированный вариант:
+ Комбинированный вариант:
   
     dialogNavigator.show(StandardDialogRoute(
                   titleRes= R.string.title,
