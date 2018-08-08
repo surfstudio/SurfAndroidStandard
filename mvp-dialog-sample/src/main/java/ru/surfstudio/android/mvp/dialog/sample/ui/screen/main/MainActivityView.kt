@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
-
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.core.ui.bus.RxBus
-import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.sample.R
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.configurator.ActivityScreenConfigurator
 import javax.inject.Inject

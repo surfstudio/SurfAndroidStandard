@@ -29,6 +29,7 @@ import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * базовый класс менеджера {@link ScreenEventDelegateManager}
@@ -58,6 +59,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public void registerDelegate(ScreenEventDelegate delegate) {
+        Logger.d("AAA registerDelegate");
         registerDelegate(delegate, null);
     }
 

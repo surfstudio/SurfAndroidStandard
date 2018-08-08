@@ -5,4 +5,6 @@ import java.io.Serializable
 /**
  * Данные, для изменения которых открывается диалог
  */
-data class SampleData(var value: Int = 0) : Serializable
+data class SampleData(var value: Int = 0) : Serializable {
+    override fun toString(): String = value.toString()
+}

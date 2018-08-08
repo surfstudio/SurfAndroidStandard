@@ -21,6 +21,7 @@ import java.util.List;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.resolver.MultipleScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * см {@link ScreenEventResolver}
@@ -43,6 +44,7 @@ public class OnViewReadyEventResolver extends MultipleScreenEventResolver<OnView
 
     @Override
     protected Void resolve(OnViewReadyDelegate delegate, OnViewReadyEvent event) {
+        Logger.d("AAA resolve");
         delegate.onViewReady();
         return null;
     }

@@ -26,4 +26,7 @@
 
     <string name="complex_bottomsheet_dialog_title">Complex bottomsheet dialog title</string>
     <string name="complex_bottomsheet_dialog_message">Complex bottomsheet dialog message</string>
+    <string name="increase_btn_text">Increase</string>
+    <string name="decrease_btn_text">Decrease</string>
+    <string name="apply_btn_text">Apply</string>
 </resources>
