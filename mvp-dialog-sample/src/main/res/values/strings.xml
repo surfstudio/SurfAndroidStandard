@@ -13,6 +13,7 @@
 
     <string name="positive_btn_text">Yes</string>
     <string name="negative_btn_text">No</string>
+    <string name="bottom_sheet_action">Perform action</string>
 
     <string name="simple_dialog_title">Simple dialog title</string>
     <string name="simple_dialog_message">Simple dialog message</string>

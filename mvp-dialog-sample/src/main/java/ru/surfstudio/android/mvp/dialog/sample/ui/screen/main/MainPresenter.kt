@@ -7,6 +7,8 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogPresenter
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogRoute
+import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.SimpleBottomSheetDialogPresenter
+import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.SimpleBottomSheetDialogRoute
 import javax.inject.Inject
 
 /**
@@ -15,7 +17,8 @@ import javax.inject.Inject
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                  private val dialogNavigator: DialogNavigator
-) : BasePresenter<MainActivityView>(basePresenterDependency), SimpleDialogPresenter {
+) : BasePresenter<MainActivityView>(basePresenterDependency),
+        SimpleDialogPresenter, SimpleBottomSheetDialogPresenter {
 
     private val screenModel: MainScreenModel = MainScreenModel()
 
@@ -28,11 +31,13 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         view.toast("Simple dialog accepted")
     }
 
+    override fun simpleBottomSheetDialogSuccessAction() {
+        view.toast("Simple bottom sheet dialog accepted")
+    }
+
     fun showSimpleDialog() = dialogNavigator.show(SimpleDialogRoute())
 
-    fun showSimpleBottomSheetDialog() {
-
-    }
+    fun showSimpleBottomSheetDialog() = dialogNavigator.show(SimpleBottomSheetDialogRoute())
 
     fun showComplexDialog() {
 

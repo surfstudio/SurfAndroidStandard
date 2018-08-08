@@ -12,6 +12,8 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.ActivityScr
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.CustomScreenModule
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogComponent
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogPresenter
+import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.SimpleBottomSheetDialogComponent
+import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.SimpleBottomSheetDialogPresenter
 
 /**
  * Конфигуратор активити главного экрана
@@ -19,7 +21,8 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDi
 internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
     @PerScreen
     @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
-    internal interface MainScreenComponent : ScreenComponent<MainActivityView>, SimpleDialogComponent
+    internal interface MainScreenComponent
+        : ScreenComponent<MainActivityView>, SimpleDialogComponent, SimpleBottomSheetDialogComponent
 
     @Module
     internal class MainScreenModule(route: MainActivityRoute) :
@@ -27,7 +30,15 @@ internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurat
 
         @Provides
         @PerScreen
-        fun provideSimpleDialogPresenter(presenter: MainPresenter): SimpleDialogPresenter = presenter
+        fun provideSimpleDialogPresenter(presenter: MainPresenter): SimpleDialogPresenter {
+            return presenter
+        }
+
+        @Provides
+        @PerScreen
+        fun provideSimpleBottomSheetDialogPresenter(presenter: MainPresenter): SimpleBottomSheetDialogPresenter {
+            return presenter
+        }
     }
 
     override fun createScreenComponent(activityComponent: ActivityComponent,
