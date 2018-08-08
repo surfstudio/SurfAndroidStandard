@@ -5,4 +5,8 @@
     <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
     <string name="unexpected_error_error_message">@string/default_http_error_message</string>
     <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
+    <string name="first_btn_text">Show first dialog</string>
+    <string name="second_btn_text">Show second dialog</string>
+    <string name="second_dialog_title">Second dialog title</string>
+    <string name="second_dialog_message">Second dialog message</string>
 </resources>
