@@ -25,8 +25,8 @@ internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurat
         : ScreenComponent<MainActivityView>, SimpleDialogComponent, SimpleBottomSheetDialogComponent
 
     @Module
-    internal class MainScreenModule(route: MainActivityRoute) :
-            CustomScreenModule<MainActivityRoute>(route) {
+    internal class MainScreenModule(route: MainActivityRoute)
+        : CustomScreenModule<MainActivityRoute>(route) {
 
         @Provides
         @PerScreen

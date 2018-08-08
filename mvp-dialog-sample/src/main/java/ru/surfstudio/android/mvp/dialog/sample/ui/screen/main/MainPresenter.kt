@@ -17,7 +17,8 @@ import javax.inject.Inject
  */
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val dialogNavigator: DialogNavigator
+                                                 private val dialogNavigator: DialogNavigator,
+                                                 private val rxBus: RxBus
 ) : BasePresenter<MainActivityView>(basePresenterDependency),
         SimpleDialogPresenter, SimpleBottomSheetDialogPresenter {
 

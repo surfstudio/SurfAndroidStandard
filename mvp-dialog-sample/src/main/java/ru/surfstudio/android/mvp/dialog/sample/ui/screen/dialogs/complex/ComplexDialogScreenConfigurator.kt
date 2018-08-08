@@ -12,7 +12,7 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.CustomScree
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.FragmentScreenModule
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
 
-class ComplexDialogScreenConfigurator(bundle: Bundle) : FragmentScreenConfigurator(bundle) {
+class ComplexDialogScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(args) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class], modules = [FragmentScreenModule::class, ComplexDialogScreenModule::class])
@@ -20,8 +20,8 @@ class ComplexDialogScreenConfigurator(bundle: Bundle) : FragmentScreenConfigurat
         : ScreenComponent<ComplexDialogFragment>
 
     @Module
-    internal class ComplexDialogScreenModule(route: ComplexDialogRoute) :
-            CustomScreenModule<ComplexDialogRoute>(route)
+    internal class ComplexDialogScreenModule(route: ComplexDialogRoute)
+        : CustomScreenModule<ComplexDialogRoute>(route)
 
     override fun createScreenComponent(parentComponent: ActivityComponent?,
                                        fragmentScreenModule: FragmentScreenModule?,
