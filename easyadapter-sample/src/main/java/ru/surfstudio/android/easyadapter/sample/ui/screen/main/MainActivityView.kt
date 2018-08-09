@@ -3,6 +3,7 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.sample.R
@@ -27,6 +28,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        show_multitype_list_btn.setOnClickListener { presenter.showMultitypeList() }
+        show_paginationable_list.setOnClickListener { presenter.showPagintationList() }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}
