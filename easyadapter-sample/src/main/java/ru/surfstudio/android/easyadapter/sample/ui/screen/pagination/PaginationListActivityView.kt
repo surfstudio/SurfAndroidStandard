@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.v7.widget.LinearLayoutManager
 import androidx.core.widget.toast
-import kotlinx.android.synthetic.main.multitype_list_layout.*
+import kotlinx.android.synthetic.main.paginationable_list_layout.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -48,7 +48,7 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
     }
 
     private fun initRecycler() {
-        rvMultitypeList.layoutManager = LinearLayoutManager(this)
-        rvMultitypeList.adapter = adapter
+        rvPaginationableList.layoutManager = LinearLayoutManager(this)
+        rvPaginationableList.adapter = adapter
     }
 }
