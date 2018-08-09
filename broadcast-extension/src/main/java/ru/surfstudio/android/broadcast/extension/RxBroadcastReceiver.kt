@@ -23,7 +23,9 @@ abstract class RxBroadcastReceiver<T> constructor(private val context: Context) 
                 override fun onReceive(context: Context, intent: Intent) {
                     try {
                         val data = parseBroadcastIntent(intent)
-                        if (data != null) emitter.onNext(data)
+                        data?.let {
+                            emitter.onNext(it)
+                        }
                     } catch (throwable: Throwable) {
                         Logger.e(throwable)
                         emitter.onError(throwable)
