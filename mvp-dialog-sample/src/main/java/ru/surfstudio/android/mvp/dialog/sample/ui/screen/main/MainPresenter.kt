@@ -8,6 +8,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.ComplexDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
+import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.event.DataChangedEvent
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogPresenter
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.SimpleBottomSheetDialogPresenter
@@ -29,6 +30,9 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         view.render(screenModel)
+        subscribe(rxBus.observeEvents(DataChangedEvent::class.java)) {
+            view.toast("New value = ${it.sampleData.value}")
+        }
     }
 
     override fun simpleDialogSuccessAction() {
