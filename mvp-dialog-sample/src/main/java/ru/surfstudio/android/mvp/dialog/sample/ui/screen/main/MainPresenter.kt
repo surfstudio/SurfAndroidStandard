@@ -8,7 +8,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.ComplexDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.bottom.ComplexBottomSheetDialogRoute
-import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
+import ru.surfstudio.android.mvp.dialog.sample.domain.SampleData
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.event.DataChangedEvent
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogPresenter
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogRoute

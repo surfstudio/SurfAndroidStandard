@@ -1,4 +1,4 @@
-package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data
+package ru.surfstudio.android.mvp.dialog.sample.domain
 
 import java.io.Serializable
 

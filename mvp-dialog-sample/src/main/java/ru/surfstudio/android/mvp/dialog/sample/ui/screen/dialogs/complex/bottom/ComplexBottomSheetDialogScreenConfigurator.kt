@@ -10,7 +10,7 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.base.configurator.FragmentScre
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.activity.ActivityComponent
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.CustomScreenModule
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.FragmentScreenModule
-import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
+import ru.surfstudio.android.mvp.dialog.sample.domain.SampleData
 
 class ComplexBottomSheetDialogScreenConfigurator(args: Bundle) : FragmentScreenConfigurator(args) {
 

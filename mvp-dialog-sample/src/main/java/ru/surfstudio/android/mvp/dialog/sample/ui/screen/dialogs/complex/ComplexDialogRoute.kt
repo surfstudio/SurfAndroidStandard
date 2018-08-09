@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogWithParamsRoute
-import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
+import ru.surfstudio.android.mvp.dialog.sample.domain.SampleData
 
 class ComplexDialogRoute(val sampleData: SampleData) : DialogWithParamsRoute() {
 
