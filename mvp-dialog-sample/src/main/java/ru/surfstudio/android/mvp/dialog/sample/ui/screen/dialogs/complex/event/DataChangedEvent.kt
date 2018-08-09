@@ -5,4 +5,5 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.Sa
 /**
  * Событие, которое возвращает ComplexDialogPresenter
  */
-data class DataChangedEvent(val sampleData: SampleData)
+data class DataChangedEvent(val sampleData: SampleData,
+                            val eventType: DataChangedEventType)

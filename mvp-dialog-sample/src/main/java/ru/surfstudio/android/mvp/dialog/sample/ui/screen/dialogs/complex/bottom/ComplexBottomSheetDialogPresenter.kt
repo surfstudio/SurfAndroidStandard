@@ -1,4 +1,4 @@
-package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex
+package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.bottom
 
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -8,13 +8,13 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.event.D
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.event.DataChangedEventType
 import javax.inject.Inject
 
-class ComplexDialogPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val route: ComplexDialogRoute,
-                                                 private val dialogNavigator: DialogNavigator,
-                                                 private val rxBus: RxBus
-) : BasePresenter<ComplexDialogFragment>(basePresenterDependency) {
+class ComplexBottomSheetDialogPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
+                                                            private val route: ComplexBottomSheetDialogRoute,
+                                                            private val dialogNavigator: DialogNavigator,
+                                                            private val rxBus: RxBus
+) : BasePresenter<ComplexBottomSheetDialogFragment>(basePresenterDependency) {
 
-    private var screenModel: ComplexDialogScreenModel = ComplexDialogScreenModel(route.sampleData)
+    private val screenModel: ComplexBottomSheetDialogScreenModel = ComplexBottomSheetDialogScreenModel(route.sampleData)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -32,7 +32,7 @@ class ComplexDialogPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun applyChanges() {
-        rxBus.emitEvent(DataChangedEvent(screenModel.sampleData, DataChangedEventType.COMPLEX_DIALOG))
+        rxBus.emitEvent(DataChangedEvent(screenModel.sampleData, DataChangedEventType.COMPLEX_BOTTOM_SHEET_DIALOG))
         dialogNavigator.dismiss(route)
     }
 }

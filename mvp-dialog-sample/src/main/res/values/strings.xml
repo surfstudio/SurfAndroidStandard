@@ -29,4 +29,6 @@
     <string name="increase_btn_text">Increase</string>
     <string name="decrease_btn_text">Decrease</string>
     <string name="apply_btn_text">Apply</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
 </resources>

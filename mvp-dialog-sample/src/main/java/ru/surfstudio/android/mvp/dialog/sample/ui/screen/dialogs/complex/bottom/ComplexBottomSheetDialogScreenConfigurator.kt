@@ -1,10 +1,10 @@
-package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex
+package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.bottom
 
 import android.os.Bundle
 import dagger.Component
 import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
-import ru.surfstudio.android.core.ui.navigation.Route.EXTRA_FIRST
+import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.configurator.FragmentScreenConfigurator
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.activity.ActivityComponent
@@ -12,28 +12,28 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.CustomScree
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.FragmentScreenModule
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
 
-class ComplexDialogScreenConfigurator(args: Bundle) : FragmentScreenConfigurator(args) {
+class ComplexBottomSheetDialogScreenConfigurator(args: Bundle) : FragmentScreenConfigurator(args) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
-            modules = [FragmentScreenModule::class, ComplexDialogScreenModule::class])
-    internal interface ComplexDialogScreenComponent
-        : ScreenComponent<ComplexDialogFragment>
+            modules = [FragmentScreenModule::class, ComplexBottomSheetDialogScreenModule::class])
+    internal interface ComplexBottomSheetDialogScreenComponent
+        : ScreenComponent<ComplexBottomSheetDialogFragment>
 
     @Module
-    internal class ComplexDialogScreenModule(route: ComplexDialogRoute)
-        : CustomScreenModule<ComplexDialogRoute>(route)
+    internal class ComplexBottomSheetDialogScreenModule(route: ComplexBottomSheetDialogRoute)
+        : CustomScreenModule<ComplexBottomSheetDialogRoute>(route)
 
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        fragmentScreenModule: FragmentScreenModule,
                                        args: Bundle): ScreenComponent<*> {
-        return DaggerComplexDialogScreenConfigurator_ComplexDialogScreenComponent.builder()
+        return DaggerComplexBottomSheetDialogScreenConfigurator_ComplexBottomSheetDialogScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .fragmentScreenModule(fragmentScreenModule)
-                .complexDialogScreenModule(
-                        ComplexDialogScreenModule(
-                                ComplexDialogRoute(
-                                        args.getSerializable(EXTRA_FIRST) as SampleData)))
+                .complexBottomSheetDialogScreenModule(
+                        ComplexBottomSheetDialogScreenModule(
+                                ComplexBottomSheetDialogRoute(
+                                        args.getSerializable(Route.EXTRA_FIRST) as SampleData)))
                 .build()
     }
 }

@@ -1,31 +1,31 @@
-package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex
+package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.bottom
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.complex_dialog_layout.*
+import kotlinx.android.synthetic.main.complex_bottom_sheet_dialog_layout.*
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
+import ru.surfstudio.android.mvp.dialog.complex.CoreBottomSheetDialogFragmentView
 import ru.surfstudio.android.mvp.dialog.sample.R
 import javax.inject.Inject
 
-class ComplexDialogFragment : CoreDialogFragmentView() {
+class ComplexBottomSheetDialogFragment : CoreBottomSheetDialogFragmentView() {
 
     @Inject
-    internal lateinit var presenter: ComplexDialogPresenter
+    lateinit var presenter: ComplexBottomSheetDialogPresenter
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): BaseFragmentViewConfigurator<*, *> {
-        return ComplexDialogScreenConfigurator(arguments!!)
+        return ComplexBottomSheetDialogScreenConfigurator(arguments!!)
     }
 
-    override fun getScreenName(): String = "Complex Dialog Fragment"
+    override fun getScreenName(): String = "Complex Bottom Sheet Dialog Fragment"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.complex_dialog_layout, container)
+        return inflater.inflate(R.layout.complex_bottom_sheet_dialog_layout, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class ComplexDialogFragment : CoreDialogFragmentView() {
         apply_btn.setOnClickListener { presenter.applyChanges() }
     }
 
-    fun render(screenModel: ComplexDialogScreenModel) {
+    fun render(screenModel: ComplexBottomSheetDialogScreenModel) {
         value_tv.text = screenModel.sampleData.toString()
     }
 }
