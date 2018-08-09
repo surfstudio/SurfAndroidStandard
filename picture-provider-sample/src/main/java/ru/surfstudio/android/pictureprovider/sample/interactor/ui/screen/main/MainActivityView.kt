@@ -55,8 +55,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         button.setOnClickListener { onClickListener(it) }
     }
 
-    fun getImageChooserMessage(): String = getString(R.string.image_chooser_message)
-
     fun startCamera() {
         camera_preview.start()
     }

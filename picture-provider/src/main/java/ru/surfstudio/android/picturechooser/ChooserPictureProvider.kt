@@ -59,9 +59,9 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     }
     //endregion
 
-    //region Роутеры для выбора одного изображения
+    //region Маршруты для выбора одного изображения
     /**
-     * Роутер, возвращащий путь к изображению
+     * Маршрут, возвращащий путь к изображению
      */
     private inner class ChooserSingleImageRoute(private val chooserMessage: String) : ActivityWithResultRoute<String>() {
 
@@ -73,7 +73,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий Uri изображения, преобразованный в String
+     * Маршрут, возвращающий Uri изображения, преобразованный в String
      */
     private inner class ChooserSingleImageUriRoute(private val chooserMessage: String) : ActivityWithResultRoute<String>() {
 
@@ -85,7 +85,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий класс-обертку над Uri изображения
+     * Маршрут, возвращающий класс-обертку над Uri изображения
      */
     private inner class ChooserSingleImageUriWrapperRoute(private val chooserMessage: String) : ActivityWithResultRoute<UriWrapper>() {
 
@@ -97,9 +97,9 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     }
     //endregion
 
-    //region Роутеры для выбора нескольких изображений
+    //region Маршруты для выбора нескольких изображений
     /**
-     * Роутер, возвращающий список путей к выбранным изображениям
+     * Маршрут, возвращающий список путей к выбранным изображениям
      */
     private inner class ChooserMultipleImageRoute(private val chooserMessage: String) : ActivityWithResultRoute<ArrayList<String>>() {
 
@@ -111,7 +111,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий список Uri выбранных изображений, преобразованных в String
+     * Маршрут, возвращающий список Uri выбранных изображений, преобразованных в String
      */
     private inner class ChooserMultipleImageUriRoute(private val chooserMessage: String) : ActivityWithResultRoute<ArrayList<String>>() {
 
@@ -123,7 +123,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
+     * Маршрут, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
      */
     private inner class ChooserMultipleImageUriWrapperRoute(private val chooserMessage: String) : ActivityWithResultRoute<ArrayList<UriWrapper>>() {
 
@@ -135,7 +135,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     }
     //endregion
 
-    //region Вспомогательные функции для роутеров
+    //region Вспомогательные функции для маршрутов
     private fun createChooserIntentForSingleImage(message: String): Intent {
         return createChooser(getIntentForSingleImageFromGallery(), message)
     }

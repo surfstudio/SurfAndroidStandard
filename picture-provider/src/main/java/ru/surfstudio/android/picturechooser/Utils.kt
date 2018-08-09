@@ -97,26 +97,25 @@ fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
 @WorkerThread
 @Throws(IOException::class)
 fun saveTempBitmap(bitmap: Bitmap, fileName: String, context: Context): File {
-    var bos: ByteArrayOutputStream? = null
-    var fos: FileOutputStream? = null
+    val file = File(context.cacheDir, fileName)
+    if (file.exists()) file.delete()
+    file.createNewFile()
 
-    try {
-        val file = File(context.cacheDir, fileName)
-        if (file.exists()) file.delete()
-        file.createNewFile()
-
-        bos = ByteArrayOutputStream()
+    val bos = ByteArrayOutputStream()
+    bos.use {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos)
         val bitmapData = bos.toByteArray()
-        fos = FileOutputStream(file)
-        fos.write(bitmapData)
-        return file
-    } finally {
-        bos?.close()
-        fos?.close()
+        val fos = FileOutputStream(file)
+        fos.use {
+            it.write(bitmapData)
+        }
     }
+    return file
 }
 
+/**
+ * Функция, возвращающая путь к файлу по его Uri
+ */
 fun Uri.getRealPath(activity: Activity): String {
     val result: String
     val cursor = activity.contentResolver

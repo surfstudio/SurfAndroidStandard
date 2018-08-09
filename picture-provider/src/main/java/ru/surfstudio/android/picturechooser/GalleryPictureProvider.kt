@@ -74,9 +74,9 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
     //endregion
 
-    //region Роутеры для выбора одного изображения из галереи
+    //region Маршруты для выбора одного изображения из галереи
     /**
-     * Роутер, возвращащий путь к изображению
+     * Маршрут, возвращащий путь к изображению
      */
     private inner class GallerySingleImageRoute : ActivityWithResultRoute<String>() {
 
@@ -88,7 +88,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий Uri изображения, преобразованный в String
+     * Маршрут, возвращающий Uri изображения, преобразованный в String
      */
     private inner class GallerySingleImageUriRoute : ActivityWithResultRoute<String>() {
 
@@ -100,7 +100,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий класс-обертку над Uri изображения
+     * Маршрут, возвращающий класс-обертку над Uri изображения
      */
     private inner class GallerySingleImageUriWrapperRoute : ActivityWithResultRoute<UriWrapper>() {
 
@@ -112,9 +112,9 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
     //endregion
 
-    //region Роутеры для выбора нескольких изображений из галереи
+    //region Маршруты для выбора нескольких изображений из галереи
     /**
-     * Роутер, возвращающий список путей к выбранным изображениям
+     * Маршрут, возвращающий список путей к выбранным изображениям
      */
     private inner class GalleryMultipleImageRoute : ActivityWithResultRoute<ArrayList<String>>() {
 
@@ -126,7 +126,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий список Uri выбранных изображений, преобразованных в String
+     * Маршрут, возвращающий список Uri выбранных изображений, преобразованных в String
      */
     private inner class GalleryMultipleImageUriRoute : ActivityWithResultRoute<ArrayList<String>>() {
 
@@ -138,7 +138,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     /**
-     * Роутер, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
+     * Маршрут, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
      */
     private inner class GalleryMultipleImageUriWrapperRoute : ActivityWithResultRoute<ArrayList<UriWrapper>>() {
 
