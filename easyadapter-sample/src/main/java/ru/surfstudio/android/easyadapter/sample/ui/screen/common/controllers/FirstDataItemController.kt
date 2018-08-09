@@ -1,5 +1,6 @@
 package ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -28,9 +29,10 @@ class FirstDataItemController(private val listener: FirstDataClickListener
             }
         }
 
+        @SuppressLint("SetTextI18n")
         override fun bind(data: FirstData) {
             this.data = data
-            firstTv.text = data.toString()
+            firstTv.text = "$data click me!"
         }
     }
 
