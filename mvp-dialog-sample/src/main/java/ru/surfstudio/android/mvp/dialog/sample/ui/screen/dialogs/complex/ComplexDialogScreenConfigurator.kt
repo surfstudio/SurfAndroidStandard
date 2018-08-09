@@ -12,7 +12,7 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.CustomScree
 import ru.surfstudio.android.mvp.dialog.sample.ui.base.dagger.screen.FragmentScreenModule
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.data.SampleData
 
-class ComplexDialogScreenConfigurator(args: Bundle?) : FragmentScreenConfigurator(args) {
+class ComplexDialogScreenConfigurator(args: Bundle) : FragmentScreenConfigurator(args) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class], modules = [FragmentScreenModule::class, ComplexDialogScreenModule::class])
@@ -23,16 +23,16 @@ class ComplexDialogScreenConfigurator(args: Bundle?) : FragmentScreenConfigurato
     internal class ComplexDialogScreenModule(route: ComplexDialogRoute)
         : CustomScreenModule<ComplexDialogRoute>(route)
 
-    override fun createScreenComponent(parentComponent: ActivityComponent?,
-                                       fragmentScreenModule: FragmentScreenModule?,
-                                       args: Bundle?): ScreenComponent<*> {
+    override fun createScreenComponent(parentComponent: ActivityComponent,
+                                       fragmentScreenModule: FragmentScreenModule,
+                                       args: Bundle): ScreenComponent<*> {
         return DaggerComplexDialogScreenConfigurator_ComplexDialogScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .fragmentScreenModule(fragmentScreenModule)
                 .complexDialogScreenModule(
                         ComplexDialogScreenModule(
                                 ComplexDialogRoute(
-                                        args?.getSerializable(EXTRA_FIRST) as SampleData)))
+                                        args.getSerializable(EXTRA_FIRST) as SampleData)))
                 .build()
     }
 }
