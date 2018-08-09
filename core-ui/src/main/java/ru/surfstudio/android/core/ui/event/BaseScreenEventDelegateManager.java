@@ -59,7 +59,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public void registerDelegate(ScreenEventDelegate delegate) {
-        Logger.d("AAA registerDelegate");
+        Logger.d("AAA registerDelegate %s", delegate.toString());
         registerDelegate(delegate, null);
     }
 
@@ -85,6 +85,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
                 parentDelegateManger.registerDelegate(delegate);
             }
         }
+        Logger.d("AAA %s %d", screenType.toString(),delegates.size());
     }
 
 
@@ -107,6 +108,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public boolean unregisterDelegate(ScreenEventDelegate delegate) {
+        Logger.d("AAA unregisterDelegate %s", delegate.toString());
         boolean removedFromCurrent = delegates.remove(delegate);
         boolean removedFromParent = throughDelegates.remove(delegate)
                 && parentDelegateManger != null
