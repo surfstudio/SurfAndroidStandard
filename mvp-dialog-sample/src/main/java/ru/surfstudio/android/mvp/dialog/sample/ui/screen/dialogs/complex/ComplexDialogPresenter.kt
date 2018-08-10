@@ -3,12 +3,14 @@ package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.bus.RxBus
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.event.DataChangedEvent
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.event.DataChangedEventType
 import javax.inject.Inject
 
-class ComplexDialogPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
+@PerScreen
+internal class ComplexDialogPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                  private val route: ComplexDialogRoute,
                                                  private val dialogNavigator: DialogNavigator,
                                                  private val rxBus: RxBus

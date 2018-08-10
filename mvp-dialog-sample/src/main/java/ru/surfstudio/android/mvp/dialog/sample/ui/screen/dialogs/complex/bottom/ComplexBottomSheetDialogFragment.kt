@@ -14,7 +14,7 @@ import javax.inject.Inject
 class ComplexBottomSheetDialogFragment : CoreBottomSheetDialogFragmentView() {
 
     @Inject
-    lateinit var presenter: ComplexBottomSheetDialogPresenter
+    internal lateinit var presenter: ComplexBottomSheetDialogPresenter
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

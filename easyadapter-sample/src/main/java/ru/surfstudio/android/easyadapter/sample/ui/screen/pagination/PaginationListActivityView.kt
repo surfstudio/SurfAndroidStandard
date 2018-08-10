@@ -6,17 +6,17 @@ import android.support.v7.widget.LinearLayoutManager
 import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.paginationable_list_layout.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
+import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.FirstDataItemController
 import javax.inject.Inject
 
 class PaginationListActivityView : BaseRenderableActivityView<PaginationListScreenModel>() {
 
     @Inject
-    lateinit var presenter: PaginationListPresenter
+    internal lateinit var presenter: PaginationListPresenter
 
     private val adapter = PaginationListAdapter { presenter.loadMore() }
 
@@ -26,11 +26,13 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
         }
     })
 
-    override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> {
+    override fun createConfigurator(): ActivityScreenConfigurator {
         return PaginationListScreenConfigurator(intent)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+    override fun onCreate(savedInstanceState: Bundle?,
+                          persistentState: PersistableBundle?,
+                          viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initRecycler()
     }

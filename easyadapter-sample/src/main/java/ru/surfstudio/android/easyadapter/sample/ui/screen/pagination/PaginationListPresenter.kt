@@ -3,11 +3,13 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.pagination
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import ru.surfstudio.android.easyadapter.sample.interactor.FirstDataRepository
 import javax.inject.Inject
 
-class PaginationListPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
+@PerScreen
+internal class PaginationListPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                   private val repository: FirstDataRepository
 ) : BasePresenter<PaginationListActivityView>(basePresenterDependency) {
 

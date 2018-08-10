@@ -6,13 +6,13 @@ import android.support.v7.widget.LinearLayoutManager
 import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.multitype_list_layout.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import ru.surfstudio.android.easyadapter.sample.domain.SecondData
+import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.EmptyItemController
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.FirstDataItemController
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.SecondDataItemController
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreenModel>() {
 
     @Inject
-    lateinit var presenter: MultitypeListPresenter
+    internal lateinit var presenter: MultitypeListPresenter
 
     private val adapter = EasyAdapter()
 
@@ -43,7 +43,7 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
                 }
             })
 
-    override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> {
+    override fun createConfigurator(): ActivityScreenConfigurator {
         return MultitypeListScreenConfigurator(intent)
     }
 
