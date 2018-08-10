@@ -17,15 +17,15 @@ package ru.surfstudio.android.recycler.extension.sticky.item
 
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.easyadapter.item.BaseItem
-import ru.surfstudio.android.recycler.extension.sticky.controller.StickyBindableItemController
+import ru.surfstudio.android.recycler.extension.sticky.controller.StickyFooterBindableItemController
 
 /**
  * Контейнер для элемента списка со свойствами Sticky Footer (прилипает к нижней части списка).
  *
  * @param data данные, необходимые для отрисовки элемента списка
- * @param itemController контроллер, описывающий внешний вид и поведение элемента списка
+ * @param itemControllerHeader контроллер, описывающий внешний вид и поведение элемента списка
  */
 class StickyFooterBindableItem<T, H : BindableViewHolder<T>>(
         val data: T,
-        itemController: StickyBindableItemController<T, H>
-) : BaseItem<H>(itemController), StickyFooter
+        itemControllerHeader: StickyFooterBindableItemController<T, H>
+) : BaseItem<H>(itemControllerHeader), StickyFooter

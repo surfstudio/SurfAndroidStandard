@@ -20,6 +20,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.View
+import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooter
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeader
 import java.util.*
 
@@ -47,6 +48,20 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
                 }
             }
             return visibleHeaders
+        }
+
+    private val visibleFooters: Map<Int, View>
+        get() {
+            val visibleFooters = LinkedHashMap<Int, View>()
+
+            for (i in 0 until childCount) {
+                val view = getChildAt(i)
+                val dataPosition = getPosition(view)
+                if (footerPositions.contains(dataPosition)) {
+                    visibleFooters[dataPosition] = view
+                }
+            }
+            return visibleFooters
         }
 
     constructor(context: Context, headerHandler: StickyHeaderHandler) : this(context, LinearLayoutManager.VERTICAL, false, headerHandler) {
@@ -109,36 +124,31 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
         if (positioner != null) {
             runPositionerInit()
         }
+        Log.d("LOG", "1111 onLayoutChildren")
+        resetStickyItemsPositioner()
     }
 
     override fun scrollVerticallyBy(dy: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
         val scroll = super.scrollVerticallyBy(dy, recycler, state)
         if (Math.abs(scroll) > 0) {
-            if (positioner != null) {
-                positioner!!.updateHeaderState(
-                        findFirstVisibleItemPosition(), visibleHeaders, viewRetriever, findFirstCompletelyVisibleItemPosition() == 0)
-            }
+            resetStickyItemsPositioner()
         }
-        Log.d("LOG", "1111 headerPositionToShow = ${findLastVisibleItemPosition()}")
+        //Log.d("LOG", "1111 headerPositionToShow = ${findLastVisibleItemPosition()}")
         return scroll
     }
 
     override fun scrollHorizontallyBy(dx: Int, recycler: RecyclerView.Recycler?, state: RecyclerView.State?): Int {
         val scroll = super.scrollHorizontallyBy(dx, recycler, state)
         if (Math.abs(scroll) > 0) {
-            if (positioner != null) {
-                positioner!!.updateHeaderState(
-                        findFirstVisibleItemPosition(), visibleHeaders, viewRetriever, findFirstCompletelyVisibleItemPosition() == 0)
-            }
+            resetStickyItemsPositioner()
         }
         return scroll
     }
 
     override fun removeAndRecycleAllViews(recycler: RecyclerView.Recycler) {
         super.removeAndRecycleAllViews(recycler)
-        if (positioner != null) {
-            positioner!!.clearHeader()
-        }
+        positioner?.clearHeader()
+        positioner?.clearFooter()
     }
 
     override fun onAttachedToWindow(view: RecyclerView?) {
@@ -149,34 +159,54 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
         positioner!!.setListener(listener)
         if (headerPositions.size > 0) {
             // Layout has already happened and header positions are cached. Catch positioner up.
-            positioner!!.setHeaderPositions(headerPositions)
+            positioner!!.setStickyPositions(headerPositions, footerPositions)
             runPositionerInit()
         }
+        Log.d("LOG", "1111 onAttachedToWindow")
         super.onAttachedToWindow(view)
     }
 
     private fun runPositionerInit() {
         positioner!!.reset(orientation)
-        positioner!!.updateHeaderState(findFirstVisibleItemPosition(), visibleHeaders, viewRetriever, findFirstCompletelyVisibleItemPosition() == 0)
+        resetStickyItemsPositioner()
+    }
+
+    /**
+     * Перерасчёт позиций закреплённых элементов списка.
+     */
+    private fun resetStickyItemsPositioner() {
+        positioner?.updateHeaderState(
+                findFirstVisibleItemPosition(),
+                visibleHeaders,
+                viewRetriever,
+                findFirstCompletelyVisibleItemPosition() == 0
+        )
+        positioner?.updateFooterState(
+                findLastVisibleItemPosition(),
+                visibleFooters,
+                viewRetriever,
+                false
+        )
     }
 
     private fun cacheHeaderPositions() {
         headerPositions.clear()
-        val adapterData = headerHandler!!.getAdapterData()
+        val adapterData = headerHandler?.getAdapterData()
         if (adapterData == null) {
-            if (positioner != null) {
-                positioner!!.setHeaderPositions(headerPositions)
-            }
+            positioner?.setStickyPositions(headerPositions, footerPositions)
             return
         }
 
         for (i in adapterData.indices) {
             if (adapterData[i] is StickyHeader) {
                 headerPositions.add(i)
+            } else if (adapterData[i] is StickyFooter) {
+                footerPositions.add(i)
             }
         }
+        Log.d("LOG", "1111 footerPositions = $footerPositions")
         if (positioner != null) {
-            positioner!!.setHeaderPositions(headerPositions)
+            positioner!!.setStickyPositions(headerPositions, footerPositions)
         }
     }
 }

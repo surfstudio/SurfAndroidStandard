@@ -18,28 +18,44 @@ import android.content.Context
 import android.os.Build
 import android.support.annotation.Px
 import android.support.annotation.VisibleForTesting
+import android.support.design.widget.CoordinatorLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.FrameLayout
 import ru.surfstudio.easyadapter.carousel.R
 
-
+/**
+ * Менеджер позиционирования Sticky-элементов.
+ *
+ * Отвечает за позиционирование Sticky Header'ов и Sticky Footer'ов.
+ */
 internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
+
     private val checkMargins: Boolean
 
-    private var currentHeader: View? = null
+    private var currentHeader: View? = null //текущий закреплённый Sticky Header
+    private var currentFooter: View? = null //текущий закреплённый Sticky Footer
+
     @get:VisibleForTesting
-    var lastBoundPosition = INVALID_POSITION
+    var lastHeaderBoundPosition = INVALID_POSITION
         private set
+    var lastFooterBoundPosition = INVALID_POSITION
+        private set
+
     private var headerPositions: List<Int>? = null
+    private var footerPositions: List<Int>? = null
+
     private var orientation: Int = 0
     private var dirty: Boolean = false
     private var headerElevation = NO_ELEVATION.toFloat()
     private var cachedElevation = NO_ELEVATION
-    private var currentViewHolder: RecyclerView.ViewHolder? = null
+    private var currentHeaderViewHolder: RecyclerView.ViewHolder? = null
+    private var currentFooterViewHolder: RecyclerView.ViewHolder? = null
     private var listener: StickyHeaderListener? = null
 
     private val recyclerParent: ViewGroup
@@ -55,27 +71,41 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         checkMargins = recyclerViewHasPadding()
     }
 
-    fun setHeaderPositions(headerPositions: List<Int>) {
+    /**
+     * Инициализация менеджера путём передачи позиций всех Sticky-элементов.
+     *
+     * @param headerPositions позиции всех Sticky Header'ов
+     * @param footerPositions позиции всех Sticky Footer'ов
+     */
+    fun setStickyPositions(headerPositions: List<Int>, footerPositions: List<Int>) {
         this.headerPositions = headerPositions
+        this.footerPositions = footerPositions
     }
 
-    fun updateHeaderState(firstVisiblePosition: Int, visibleHeaders: Map<Int, View>,
-                          viewRetriever: ViewRetriever?, atTop: Boolean) {
+    /**
+     * Обновление состояния и отображения Sticky Header'а.
+     *
+     * @param firstVisiblePosition позиция первого видимого элемента списка
+     */
+    fun updateHeaderState(firstVisiblePosition: Int,
+                          visibleHeaders: Map<Int, View>,
+                          viewRetriever: ViewRetriever?,
+                          atTop: Boolean) {
         //вычисляется позиция sticky header в общем списке item'ов
         val headerPositionToShow = if (atTop) {
             INVALID_POSITION
         } else {
             getHeaderPositionToShow(firstVisiblePosition, visibleHeaders[firstVisiblePosition])
         }
-        Log.d("LOG", "1111 headerPositionToShow = $headerPositionToShow")
+        //Log.d("LOG", "1111 headerPositionToShow = $headerPositionToShow")
         val headerToCopy = visibleHeaders[headerPositionToShow]
-        if (headerPositionToShow != lastBoundPosition) {
+        if (headerPositionToShow != lastHeaderBoundPosition) {
             if (headerPositionToShow == INVALID_POSITION || checkMargins && headerAwayFromEdge(headerToCopy)) { // We don't want to attach yet if header view is not at edge
                 dirty = true
                 safeDetachHeader()
-                lastBoundPosition = INVALID_POSITION
+                lastHeaderBoundPosition = INVALID_POSITION
             } else {
-                lastBoundPosition = headerPositionToShow
+                lastHeaderBoundPosition = headerPositionToShow
                 val viewHolder = viewRetriever?.getViewHolderForPosition(headerPositionToShow)
                 attachHeader(viewHolder, headerPositionToShow)
             }
@@ -85,11 +115,56 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
               See `#getHeaderPositionToShow` for explanation.
              */
             if (headerAwayFromEdge(headerToCopy)) {
-                detachHeader(lastBoundPosition)
-                lastBoundPosition = INVALID_POSITION
+                detachHeader(lastHeaderBoundPosition)
+                lastHeaderBoundPosition = INVALID_POSITION
             }
         }
         checkHeaderPositions(visibleHeaders)
+        recyclerView.post { checkElevation() }
+    }
+
+    fun updateFooterState(lastVisibleItemPosition: Int,
+                          visibleFooters: Map<Int, View>,
+                          viewRetriever: ViewRetriever?,
+                          showFirstAtLaunch: Boolean
+    ) {
+        //вычисляется позиция sticky header в общем списке item'ов
+        val footerPositionToShow = if (!showFirstAtLaunch) {
+            INVALID_POSITION
+        } else {
+            getFooterPositionToShow(lastVisibleItemPosition, visibleFooters[lastVisibleItemPosition])
+        }
+        Log.d("LOG", "1111 footerPositionToShow = $footerPositionToShow")
+        Log.d("LOG", "1111 lastFooterBoundPosition = $lastFooterBoundPosition")
+        //Log.d("LOG", "1111 footerPositionToShow = $footerPositionToShow")
+        val footerToCopy = visibleFooters[footerPositionToShow]
+        if (showFirstAtLaunch || footerPositionToShow != lastFooterBoundPosition) {
+            Log.d("LOG", "1111 footerPositionToShow == INVALID_POSITION = ${footerPositionToShow == INVALID_POSITION}")
+            Log.d("LOG", "1111 checkMargins = $checkMargins")
+            Log.d("LOG", "1111 footerAwayFromEdge(footerToCopy) = ${footerAwayFromEdge(footerToCopy)}")
+            if (footerPositionToShow == INVALID_POSITION || checkMargins && footerAwayFromEdge(footerToCopy)) { // We don't want to attach yet if header view is not at edge
+                dirty = true
+                safeDetachFooter()
+                lastFooterBoundPosition = INVALID_POSITION
+                Log.d("LOG", "1111 сейф детач футера")
+            } else {
+                lastFooterBoundPosition = footerPositionToShow
+                val viewHolder = viewRetriever?.getViewHolderForPosition(footerPositionToShow)
+                Log.d("LOG", "1111 аттач футера")
+                attachFooter(viewHolder, footerPositionToShow)
+            }
+        } else if (checkMargins) {
+            /*
+              This could still be our lastVisibleItemPosition even if another view is visible above it.
+              See `#getHeaderPositionToShow` for explanation.
+             */
+            if (footerAwayFromEdge(footerToCopy)) {
+                Log.d("LOG", "1111 детач футера")
+                detachFooter(lastFooterBoundPosition)
+                lastFooterBoundPosition = INVALID_POSITION
+            }
+        }
+        checkFooterPositions(visibleFooters)
         recyclerView.post { checkElevation() }
     }
 
@@ -105,14 +180,42 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         }
         var reset = true
         for ((key, nextHeader) in visibleHeaders) {
-            if (key <= lastBoundPosition) {
+            if (key <= lastHeaderBoundPosition) {
                 continue
             }
             reset = offsetHeader(nextHeader) == -1f
             break
         }
-        if (reset) resetTranslation()
+        if (reset) resetTranslationHeader()
         currentHeader!!.visibility = View.VISIBLE
+    }
+
+    // This checks visible headers and their positions to determine if the sticky header needs
+    // to be offset. In reality, only the header following the sticky header is checked. Some
+    // optimization may be possible here (not storing all visible headers in map).
+    fun checkFooterPositions(visibleFooters: Map<Int, View>) {
+        Log.d("LOG", "1111 checkFooterPositions")
+        if (currentFooter == null) return
+        // This can happen after configuration changes.
+        Log.d("LOG", "1111 1")
+        if (currentFooter!!.height == 0) {
+            Log.d("LOG", "1111 1,1")
+            waitForLayoutAndRetry(visibleFooters)
+            return
+        }
+        Log.d("LOG", "1111 2")
+        var reset = true
+        for ((key, nextFooter) in visibleFooters) {
+            if (key <= lastFooterBoundPosition) {
+                continue
+            }
+            reset = offsetFooter(nextFooter) == -1f
+            break
+        }
+        Log.d("LOG", "1111 3")
+        if (reset) resetTranslationFooter()
+        currentFooter!!.visibility = View.VISIBLE
+        Log.d("LOG", "1111 футер видимый")
     }
 
     fun setElevateHeaders(dpElevation: Int) {
@@ -128,13 +231,18 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
 
     fun reset(orientation: Int) {
         this.orientation = orientation
-        lastBoundPosition = INVALID_POSITION
+        lastHeaderBoundPosition = INVALID_POSITION
         dirty = true
         safeDetachHeader()
+        safeDetachFooter()
     }
 
     fun clearHeader() {
-        detachHeader(lastBoundPosition)
+        detachHeader(lastHeaderBoundPosition)
+    }
+
+    fun clearFooter() {
+        detachFooter(lastFooterBoundPosition)
     }
 
     fun setListener(listener: StickyHeaderListener?) {
@@ -156,6 +264,23 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         return offset
     }
 
+    //todo
+    private fun offsetFooter(nextFooter: View): Float {
+        val shouldOffsetFooter = shouldOffsetFooter(nextFooter)
+        var offset = -1f
+        if (shouldOffsetFooter) {
+            if (orientation == LinearLayoutManager.VERTICAL) {
+                offset = -(currentFooter!!.height - nextFooter.y)
+                currentFooter!!.translationY = offset
+            } else {
+                offset = -(currentFooter!!.width - nextFooter.x)
+                currentFooter!!.translationX = offset
+            }
+        }
+        return offset
+    }
+
+
     private fun shouldOffsetHeader(nextHeader: View): Boolean {
         return if (orientation == LinearLayoutManager.VERTICAL) {
             nextHeader.y < currentHeader!!.height
@@ -164,11 +289,27 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         }
     }
 
-    private fun resetTranslation() {
+    private fun shouldOffsetFooter(nextFooter: View): Boolean {
+        return if (orientation == LinearLayoutManager.VERTICAL) {
+            nextFooter.y < currentFooter!!.height
+        } else {
+            nextFooter.x < currentFooter!!.width
+        }
+    }
+
+    private fun resetTranslationHeader() {
         if (orientation == LinearLayoutManager.VERTICAL) {
             currentHeader!!.translationY = 0f
         } else {
             currentHeader!!.translationX = 0f
+        }
+    }
+
+    private fun resetTranslationFooter() {
+        if (orientation == LinearLayoutManager.VERTICAL) {
+            currentFooter!!.translationY = 0f
+        } else {
+            currentFooter!!.translationX = 0f
         }
     }
 
@@ -203,6 +344,39 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         return headerPositionToShow
     }
 
+    private fun getFooterPositionToShow(
+            lastVisiblePosition: Int,
+            footerForPosition: View?
+    ): Int {
+        //Log.d("LOG", "1111 lastVisiblePosition = $lastVisiblePosition")
+        //Log.d("LOG", "1111 footerForPosition = ${footerForPosition?.hashCode() ?: "null"}")
+        var footerPositionToShow = INVALID_POSITION
+        /*if (headerIsOffset(footerForPosition)) {
+            val offsetHeaderIndex = footerPositions!!.indexOf(lastVisiblePosition)
+            Log.d("LOG", "1111 offsetHeaderIndex = $offsetHeaderIndex")
+            if (offsetHeaderIndex > 0) {
+                Log.d("LOG", "1111 footerPosition = ${footerPositions!![offsetHeaderIndex - 1]}")
+                return footerPositions!![offsetHeaderIndex - 1]
+            }
+        }*/
+        for (footerPosition in footerPositions!!) {
+            //Log.d("LOG", "1111 footerPosition >= lastVisiblePosition = ${footerPosition >= lastVisiblePosition}")
+            //Log.d("LOG", "1111 lastVisiblePosition = $lastVisiblePosition")
+            //Log.d("LOG", "1111 footerPosition = $footerPosition")
+            if (footerPosition >= lastVisiblePosition) {
+                //Log.d("LOG", "1111 footerPosition >= lastVisiblePosition = true")
+                footerPositionToShow = footerPosition
+                //нужен самый первый подходящий футер
+                break
+            } else {
+                //Log.d("LOG", "1111 footerPosition break")
+                continue
+            }
+        }
+        //Log.d("LOG", "1111 footerPositionToShow = $footerPositionToShow")
+        return footerPositionToShow
+    }
+
     private fun headerIsOffset(headerForPosition: View?): Boolean {
         return if (headerForPosition != null) {
             if (orientation == LinearLayoutManager.VERTICAL)
@@ -214,21 +388,21 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
 
     @VisibleForTesting
     private fun attachHeader(viewHolder: RecyclerView.ViewHolder?, headerPosition: Int) {
-        if (currentViewHolder === viewHolder) {
-            callDetach(lastBoundPosition)
+        if (currentHeaderViewHolder === viewHolder) {
+            callDetach(lastHeaderBoundPosition)
 
-            recyclerView.adapter.onBindViewHolder(currentViewHolder!!, headerPosition)
-            currentViewHolder!!.itemView.requestLayout()
+            recyclerView.adapter.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
+            currentHeaderViewHolder!!.itemView.requestLayout()
             checkTranslation()
             callAttach(headerPosition)
             dirty = false
             return
         }
-        detachHeader(lastBoundPosition)
-        this.currentViewHolder = viewHolder
+        detachHeader(lastHeaderBoundPosition)
+        this.currentHeaderViewHolder = viewHolder
 
-        recyclerView.adapter.onBindViewHolder(currentViewHolder!!, headerPosition)
-        this.currentHeader = currentViewHolder!!.itemView
+        recyclerView.adapter.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
+        this.currentHeader = currentHeaderViewHolder!!.itemView
         callAttach(headerPosition)
         resolveElevationSettings(currentHeader!!.context)
         // Set to Invisible until we position it in #checkHeaderPositions.
@@ -237,6 +411,41 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         recyclerParent.addView(currentHeader)
         if (checkMargins) {
             updateLayoutParams(currentHeader!!)
+        }
+        dirty = false
+    }
+
+    @VisibleForTesting
+    private fun attachFooter(viewHolder: RecyclerView.ViewHolder?, footerPosition: Int) {
+        //Log.d("LOG", "1111 attach footer = $footerPosition")
+        if (currentFooterViewHolder === viewHolder) {
+            callDetach(lastFooterBoundPosition)
+            recyclerView.adapter.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
+            currentFooterViewHolder!!.itemView.requestLayout()
+            checkTranslation()
+            callAttach(footerPosition)
+            dirty = false
+            return
+        }
+        detachFooter(lastFooterBoundPosition)
+        this.currentFooterViewHolder = viewHolder
+
+        recyclerView.adapter.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
+        this.currentFooter = currentFooterViewHolder!!.itemView
+        callAttach(footerPosition)
+        resolveElevationSettings(currentFooter!!.context)
+        // Set to Invisible until we position it in #checkHeaderPositions.
+        currentFooter!!.visibility = View.INVISIBLE
+        currentFooter!!.id = R.id.footer_view
+
+        val frameLp = currentFooter?.layoutParams as? FrameLayout.LayoutParams
+        frameLp?.gravity = Gravity.BOTTOM
+        val coordinatorLp = currentFooter?.layoutParams as? CoordinatorLayout.LayoutParams
+        coordinatorLp?.gravity = Gravity.BOTTOM
+        currentFooter?.layoutParams = frameLp ?: coordinatorLp
+        recyclerParent.addView(currentFooter)
+        if (checkMargins) {
+            updateLayoutParams(currentFooter!!)
         }
         dirty = false
     }
@@ -334,7 +543,16 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
             recyclerParent.removeView(currentHeader)
             callDetach(position)
             currentHeader = null
-            currentViewHolder = null
+            currentHeaderViewHolder = null
+        }
+    }
+
+    private fun detachFooter(position: Int) {
+        if (currentFooter != null) {
+            recyclerParent.removeView(currentFooter)
+            callDetach(position)
+            currentFooter = null
+            currentFooterViewHolder = null
         }
     }
 
@@ -379,14 +597,33 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         layoutParams.setMargins(leftMargin, topMargin, rightMargin, 0)
     }
 
-    private fun headerAwayFromEdge(headerToCopy: View?): Boolean {
-        return if (headerToCopy != null) {
-            if (orientation == LinearLayoutManager.VERTICAL)
-                headerToCopy.y > 0
-            else
-                headerToCopy.x > 0
-        } else false
-    }
+    /**
+     * Определение признака отрыва Header'а от верхнего или левого края экрана в зависимости от
+     * ориентации LayoutManager. Требуется для того, чтобы вовремя откреплять Sticky Header от
+     * границы экрана при дальнейшем скролле списка.
+     */
+    private fun headerAwayFromEdge(headerView: View?): Boolean =
+            if (headerView != null) {
+                if (orientation == LinearLayoutManager.VERTICAL)
+                    headerView.y > 0
+                else
+                    headerView.x > 0
+            } else
+                false
+
+    /**
+     * Определение признака отрыва Footer'а от нижнего или правого края экрана в зависимости от
+     * ориентации LayoutManager. Требуется для того, чтобы вовремя откреплять Sticky Footer от
+     * границы экрана при дальнейшем скролле списка.
+     */
+    private fun footerAwayFromEdge(footerView: View?): Boolean =
+            if (footerView != null) {
+                if (orientation == LinearLayoutManager.VERTICAL) {
+                    footerView.y > 0
+                } else
+                    footerView.x > 0
+            } else
+                false
 
     private fun recyclerViewHasPadding(): Boolean {
         return (recyclerView.paddingLeft > 0
@@ -394,21 +631,39 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
                 || recyclerView.paddingTop > 0)
     }
 
-    private fun waitForLayoutAndRetry(visibleHeaders: Map<Int, View>) {
-        val view = currentHeader ?: return
-        view.viewTreeObserver.addOnGlobalLayoutListener(
+    /**
+     *
+     */
+    private fun waitForLayoutAndRetry(visibleStickyItems: Map<Int, View>) {
+        val headerView = currentHeader
+        val footerView = currentFooter
+        headerView?.viewTreeObserver?.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                            headerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
                         } else {
-
-                            view.viewTreeObserver.removeGlobalOnLayoutListener(this)
+                            headerView.viewTreeObserver.removeGlobalOnLayoutListener(this)
                         }
                         // If header was removed during layout
                         if (currentHeader == null) return
                         recyclerParent.requestLayout()
-                        checkHeaderPositions(visibleHeaders)
+                        checkHeaderPositions(visibleStickyItems)
+                    }
+                })
+
+        footerView?.viewTreeObserver?.addOnGlobalLayoutListener(
+                object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            footerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        } else {
+                            footerView.viewTreeObserver.removeGlobalOnLayoutListener(this)
+                        }
+                        // If header was removed during layout
+                        if (currentFooter == null) return
+                        recyclerParent.requestLayout()
+                        checkFooterPositions(visibleStickyItems)
                     }
                 })
     }
@@ -418,10 +673,19 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
      * state in the child count variable in [android.widget.FrameLayout] layoutChildren method
      */
     private fun safeDetachHeader() {
-        val cachedPosition = lastBoundPosition
+        val cachedPosition = lastHeaderBoundPosition
         recyclerParent.post {
             if (dirty) {
                 detachHeader(cachedPosition)
+            }
+        }
+    }
+
+    private fun safeDetachFooter() {
+        val cachedPosition = lastFooterBoundPosition
+        recyclerParent.post {
+            if (dirty) {
+                detachFooter(cachedPosition)
             }
         }
     }
