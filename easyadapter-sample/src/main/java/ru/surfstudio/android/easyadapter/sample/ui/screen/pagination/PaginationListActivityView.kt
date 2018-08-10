@@ -7,6 +7,7 @@ import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.paginationable_list_layout.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.ActivityScreenConfigurator
@@ -44,9 +45,8 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
     override fun getScreenName(): String = "Pagination List Activity"
 
     override fun renderInternal(screenModel: PaginationListScreenModel) {
-        /*
-        adapter.setData(ItemList.create()
-                .addAll(screenModel.list, controller))*/
+        adapter.setItems(ItemList.create()
+                .addAll(screenModel.list, controller), screenModel.paginationState)
     }
 
     private fun initRecycler() {
