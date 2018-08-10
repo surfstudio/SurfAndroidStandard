@@ -12,6 +12,7 @@ dependencies {
     implementation project(':core-mvp')
     implementation project(':dagger-scope')
     implementation project(':easyadapter')
+    implementation project(':datalist-page-count')
     implementation project(':network')
     implementation project(':filestorage')
     implementation project(':logger:')

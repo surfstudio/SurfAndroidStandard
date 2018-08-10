@@ -8,6 +8,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.network.sample.app.dagger.AppComponent
+import ru.surfstudio.android.network.sample.interactor.product.ProductRepository
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
@@ -25,4 +26,5 @@ interface ActivityComponent {
     fun activityProvider(): ActivityProvider
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
+    fun productRepository(): ProductRepository
 }

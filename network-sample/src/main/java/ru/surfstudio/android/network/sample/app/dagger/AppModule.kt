@@ -35,11 +35,13 @@ class AppModule(private val coreApp: CoreApp) {
 
     @PerApplication
     @Provides
-    internal fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder) = GlobalNavigator(context, activityHolder)
+    internal fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder): GlobalNavigator {
+        return GlobalNavigator(context, activityHolder)
+    }
 
     @Provides
     @PerApplication
-    fun provideSchedulerProvider(): SchedulersProvider {
+    internal fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
     }
 }
