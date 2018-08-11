@@ -17,7 +17,7 @@ package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
 import android.view.View
 
-interface StickyHeaderListener {
+interface StickyItemListener {
 
     /**
      * Called when a Sticky Header has been attached or rebound.
@@ -33,7 +33,7 @@ interface StickyHeaderListener {
      *
      * For performance reasons, if the new Sticky Header that will be replacing the current one is
      * of the same view type, the view is reused. In that case, this call will be immediately followed
-     * by a call to [StickyHeaderListener.headerAttached] with the same view instance,
+     * by a call to [StickyItemListener.headerAttached] with the same view instance,
      * but after the view is re-bound with the new adapter data.
      *
      *
