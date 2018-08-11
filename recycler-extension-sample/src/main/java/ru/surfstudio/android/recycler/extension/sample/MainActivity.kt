@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler)
+        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler,
+                isVisibleFirstFooterAtLaunch = true)
         activity_main_recycler.adapter = stickyEasyAdapter
 
         val itemList = generateData()
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
+        addStickyHeader("Блок с заголовком", stickyHeaderItemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)

@@ -24,17 +24,28 @@ import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooter
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeader
 import java.util.*
 
-class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boolean, headerHandler: StickyHeaderHandler) : LinearLayoutManager(context, orientation, reverseLayout) {
+/**
+ * Кастомный Layout Manager с поддержкой Sticky Items'ов.
+ */
+class StickyLayoutManager(
+        context: Context,
+        orientation: Int,
+        reverseLayout: Boolean,
+        headerHandler: StickyHeaderHandler,
+        private val isVisibleFirstFooterAtLaunch: Boolean = false
+) : LinearLayoutManager(context, orientation, reverseLayout) {
 
-    private var positioner: StickyHeaderPositioner? = null
-    private var headerHandler: StickyHeaderHandler? = null
+    private var positioner: StickyItemPositioner = StickyItemPositioner() //менеджер позиционирования Sticky Items
+    private var headerHandler: StickyHeaderHandler? = null //поставщик данных для анализа и автоматической расстановки Sticky Items
 
-    private val headerPositions = ArrayList<Int>()  //позиции элементов с поведением Sticky Header
-    private val footerPositions = ArrayList<Int>() //позиции элементов с поведением Sticky Footer
+    private val headerPositions = ArrayList<Int>() //позиции элементов Sticky Header
+    private val footerPositions = ArrayList<Int>() //позиции элементов Sticky Footer
 
-    private var viewRetriever: ViewRetriever.RecyclerViewRetriever? = null
-    private var headerElevation = StickyHeaderPositioner.NO_ELEVATION
-    private var listener: StickyHeaderListener? = null
+    private var viewRetriever: ViewRetriever.RecyclerViewRetriever = ViewRetriever.RecyclerViewRetriever() //поставщик ViewHolder из адаптера для закрепления в родительском контейнере RecyclerView
+    private var headerElevation = StickyItemPositioner.ElevationMode.NO_ELEVATION //режим тени Sticky Header'а
+    private var footerElevation = StickyItemPositioner.ElevationMode.NO_ELEVATION //режим тени Sticky Footer'а
+
+    private var listener: StickyItemListener? = null
 
     private val visibleHeaders: Map<Int, View>
         get() {
@@ -64,7 +75,11 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
             return visibleFooters
         }
 
-    constructor(context: Context, headerHandler: StickyHeaderHandler) : this(context, LinearLayoutManager.VERTICAL, false, headerHandler) {
+    constructor(
+            context: Context,
+            headerHandler: StickyHeaderHandler,
+            isVisibleFirstFooterAtLaunch: Boolean
+    ) : this(context, LinearLayoutManager.VERTICAL, false, headerHandler, isVisibleFirstFooterAtLaunch) {
         init(headerHandler)
     }
 
@@ -82,11 +97,9 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
      *
      * @param listener The callback that will be invoked, or null to unset.
      */
-    fun setStickyHeaderListener(listener: StickyHeaderListener?) {
+    fun setStickyHeaderListener(listener: StickyItemListener?) {
         this.listener = listener
-        if (positioner != null) {
-            positioner!!.setListener(listener)
-        }
+        positioner.setListener(listener)
     }
 
     /**
@@ -100,9 +113,9 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
      */
     fun elevateHeaders(elevateHeaders: Boolean) {
         this.headerElevation = if (elevateHeaders)
-            StickyHeaderPositioner.DEFAULT_ELEVATION
+            StickyItemPositioner.ElevationMode.DEFAULT_ELEVATION
         else
-            StickyHeaderPositioner.NO_ELEVATION
+            StickyItemPositioner.ElevationMode.NO_ELEVATION
         elevateHeaders(headerElevation)
     }
 
@@ -111,19 +124,15 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
      *
      * @param dp elevation in dp
      */
-    fun elevateHeaders(dp: Int) {
+    fun elevateHeaders(dp: StickyItemPositioner.ElevationMode) {
         this.headerElevation = dp
-        if (positioner != null) {
-            positioner!!.setElevateHeaders(dp)
-        }
+        positioner.setElevateHeaders(dp)
     }
 
     override fun onLayoutChildren(recycler: RecyclerView.Recycler?, state: RecyclerView.State) {
         super.onLayoutChildren(recycler, state)
         cacheHeaderPositions()
-        if (positioner != null) {
-            runPositionerInit()
-        }
+        runPositionerInit()
         Log.d("LOG", "1111 onLayoutChildren")
         resetStickyItemsPositioner()
     }
@@ -147,27 +156,28 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
 
     override fun removeAndRecycleAllViews(recycler: RecyclerView.Recycler) {
         super.removeAndRecycleAllViews(recycler)
-        positioner?.clearHeader()
-        positioner?.clearFooter()
+        positioner.clearHeader()
+        positioner.clearFooter()
     }
 
-    override fun onAttachedToWindow(view: RecyclerView?) {
-        Preconditions.validateParentView(view!!)
-        viewRetriever = ViewRetriever.RecyclerViewRetriever(view)
-        positioner = StickyHeaderPositioner(view)
-        positioner!!.setElevateHeaders(headerElevation)
-        positioner!!.setListener(listener)
+    override fun onAttachedToWindow(recyclerView: RecyclerView?) {
+        Preconditions.validateParentView(recyclerView)
+
+        viewRetriever.recyclerView = recyclerView
+        positioner.recyclerView = recyclerView
+
+        positioner.setElevateHeaders(headerElevation)
+        positioner.setListener(listener)
         if (headerPositions.size > 0) {
             // Layout has already happened and header positions are cached. Catch positioner up.
-            positioner!!.setStickyPositions(headerPositions, footerPositions)
+            positioner.setStickyPositions(headerPositions, footerPositions)
             runPositionerInit()
         }
-        Log.d("LOG", "1111 onAttachedToWindow")
-        super.onAttachedToWindow(view)
+        super.onAttachedToWindow(recyclerView)
     }
 
     private fun runPositionerInit() {
-        positioner!!.reset(orientation)
+        positioner.reset(orientation)
         resetStickyItemsPositioner()
     }
 
@@ -175,17 +185,17 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
      * Перерасчёт позиций закреплённых элементов списка.
      */
     private fun resetStickyItemsPositioner() {
-        positioner?.updateHeaderState(
+        positioner.updateHeaderState(
                 findFirstVisibleItemPosition(),
                 visibleHeaders,
                 viewRetriever,
                 findFirstCompletelyVisibleItemPosition() == 0
         )
-        positioner?.updateFooterState(
+        positioner.updateFooterState(
                 findLastVisibleItemPosition(),
                 visibleFooters,
                 viewRetriever,
-                false
+                isVisibleFirstFooterAtLaunch
         )
     }
 
@@ -193,7 +203,7 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
         headerPositions.clear()
         val adapterData = headerHandler?.getAdapterData()
         if (adapterData == null) {
-            positioner?.setStickyPositions(headerPositions, footerPositions)
+            positioner.setStickyPositions(headerPositions, footerPositions)
             return
         }
 
@@ -204,9 +214,6 @@ class StickyLayoutManager(context: Context, orientation: Int, reverseLayout: Boo
                 footerPositions.add(i)
             }
         }
-        Log.d("LOG", "1111 footerPositions = $footerPositions")
-        if (positioner != null) {
-            positioner!!.setStickyPositions(headerPositions, footerPositions)
-        }
+        positioner.setStickyPositions(headerPositions, footerPositions)
     }
 }

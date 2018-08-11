@@ -34,7 +34,9 @@ import ru.surfstudio.easyadapter.carousel.R
  *
  * Отвечает за позиционирование Sticky Header'ов и Sticky Footer'ов.
  */
-internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
+class StickyItemPositioner(
+        var recyclerView: RecyclerView? = null
+) {
 
     private val checkMargins: Boolean
 
@@ -52,21 +54,24 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
 
     private var orientation: Int = 0
     private var dirty: Boolean = false
-    private var headerElevation = NO_ELEVATION.toFloat()
-    private var cachedElevation = NO_ELEVATION
+    private var headerElevation = ElevationMode.NO_ELEVATION.dp
+    private var cachedElevation = ElevationMode.NO_ELEVATION
     private var currentHeaderViewHolder: RecyclerView.ViewHolder? = null
     private var currentFooterViewHolder: RecyclerView.ViewHolder? = null
-    private var listener: StickyHeaderListener? = null
+    private var listener: StickyItemListener? = null
 
     private val recyclerParent: ViewGroup
-        get() = recyclerView.parent as ViewGroup
+        get() = recyclerView?.parent as ViewGroup
 
     init {
-        recyclerView.viewTreeObserver.addOnGlobalLayoutListener {
-            val visibility = this@StickyHeaderPositioner.recyclerView.visibility
-            if (currentHeader != null) {
-                currentHeader!!.visibility = visibility
+        recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener {
+            val visibility = this@StickyItemPositioner.recyclerView?.visibility
+            visibility?.let {
+                if (currentHeader != null) {
+                    currentHeader!!.visibility = it
+                }
             }
+
         }
         checkMargins = recyclerViewHasPadding()
     }
@@ -120,7 +125,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
             }
         }
         checkHeaderPositions(visibleHeaders)
-        recyclerView.post { checkElevation() }
+        recyclerView?.post { checkElevation() }
     }
 
     fun updateFooterState(lastVisibleItemPosition: Int,
@@ -165,7 +170,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
             }
         }
         checkFooterPositions(visibleFooters)
-        recyclerView.post { checkElevation() }
+        recyclerView?.post { checkElevation() }
     }
 
     // This checks visible headers and their positions to determine if the sticky header needs
@@ -218,14 +223,14 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         Log.d("LOG", "1111 футер видимый")
     }
 
-    fun setElevateHeaders(dpElevation: Int) {
-        if (dpElevation != NO_ELEVATION) {
+    fun setElevateHeaders(dpElevation: ElevationMode) {
+        if (dpElevation != ElevationMode.NO_ELEVATION) {
             // Context may not be available at this point, so caching the dp value to be converted
             // into pixels after first header is attached.
             cachedElevation = dpElevation
         } else {
-            headerElevation = NO_ELEVATION.toFloat()
-            cachedElevation = NO_ELEVATION
+            headerElevation = ElevationMode.NO_ELEVATION.dp
+            cachedElevation = ElevationMode.NO_ELEVATION
         }
     }
 
@@ -245,7 +250,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         detachFooter(lastFooterBoundPosition)
     }
 
-    fun setListener(listener: StickyHeaderListener?) {
+    fun setListener(listener: StickyItemListener?) {
         this.listener = listener
     }
 
@@ -391,7 +396,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         if (currentHeaderViewHolder === viewHolder) {
             callDetach(lastHeaderBoundPosition)
 
-            recyclerView.adapter.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
+            recyclerView?.adapter?.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
             currentHeaderViewHolder!!.itemView.requestLayout()
             checkTranslation()
             callAttach(headerPosition)
@@ -401,7 +406,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         detachHeader(lastHeaderBoundPosition)
         this.currentHeaderViewHolder = viewHolder
 
-        recyclerView.adapter.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
+        recyclerView?.adapter?.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
         this.currentHeader = currentHeaderViewHolder!!.itemView
         callAttach(headerPosition)
         resolveElevationSettings(currentHeader!!.context)
@@ -420,7 +425,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         //Log.d("LOG", "1111 attach footer = $footerPosition")
         if (currentFooterViewHolder === viewHolder) {
             callDetach(lastFooterBoundPosition)
-            recyclerView.adapter.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
+            recyclerView?.adapter?.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
             currentFooterViewHolder!!.itemView.requestLayout()
             checkTranslation()
             callAttach(footerPosition)
@@ -430,7 +435,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
         detachFooter(lastFooterBoundPosition)
         this.currentFooterViewHolder = viewHolder
 
-        recyclerView.adapter.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
+        recyclerView?.adapter?.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
         this.currentFooter = currentFooterViewHolder!!.itemView
         callAttach(footerPosition)
         resolveElevationSettings(currentFooter!!.context)
@@ -509,7 +514,7 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
     }
 
     private fun checkElevation() {
-        if (headerElevation != NO_ELEVATION.toFloat() && currentHeader != null) {
+        if (headerElevation != ElevationMode.NO_ELEVATION.dp && currentHeader != null) {
             if (orientation == LinearLayoutManager.VERTICAL && currentHeader!!.translationY == 0f || orientation == LinearLayoutManager.HORIZONTAL && currentHeader!!.translationX == 0f) {
                 elevateHeader()
             } else {
@@ -583,18 +588,20 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
 
     private fun matchMarginsToPadding(layoutParams: ViewGroup.MarginLayoutParams) {
         @Px val leftMargin = if (orientation == LinearLayoutManager.VERTICAL)
-            recyclerView.paddingLeft
+            recyclerView?.paddingLeft
         else
             0
         @Px val topMargin = if (orientation == LinearLayoutManager.VERTICAL)
             0
         else
-            recyclerView.paddingTop
+            recyclerView?.paddingTop
         @Px val rightMargin = if (orientation == LinearLayoutManager.VERTICAL)
-            recyclerView.paddingRight
+            recyclerView?.paddingRight
         else
             0
-        layoutParams.setMargins(leftMargin, topMargin, rightMargin, 0)
+        if (leftMargin != null && topMargin != null && rightMargin != null) {
+            layoutParams.setMargins(leftMargin, topMargin, rightMargin, 0)
+        }
     }
 
     /**
@@ -626,9 +633,12 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
                 false
 
     private fun recyclerViewHasPadding(): Boolean {
-        return (recyclerView.paddingLeft > 0
-                || recyclerView.paddingRight > 0
-                || recyclerView.paddingTop > 0)
+        val paddingLeft = recyclerView?.paddingLeft ?: 0
+        val paddingRight = recyclerView?.paddingRight ?: 0
+        val paddingTop = recyclerView?.paddingTop ?: 0
+        return (paddingLeft > 0
+                || paddingRight > 0
+                || paddingTop > 0)
     }
 
     /**
@@ -691,21 +701,22 @@ internal class StickyHeaderPositioner(private val recyclerView: RecyclerView) {
     }
 
     private fun resolveElevationSettings(context: Context) {
-        if (cachedElevation != NO_ELEVATION && headerElevation == NO_ELEVATION.toFloat()) {
-            headerElevation = pxFromDp(context, cachedElevation)
+        if (cachedElevation != ElevationMode.NO_ELEVATION && headerElevation == ElevationMode.NO_ELEVATION.dp) {
+            headerElevation = pxFromDp(context, cachedElevation.dp)
         }
     }
 
-    private fun pxFromDp(context: Context, dp: Int): Float {
+    private fun pxFromDp(context: Context, dp: Float): Float {
         val scale = context.resources.displayMetrics.density
         return dp * scale
     }
 
     companion object {
-
-        val NO_ELEVATION = -1
-        val DEFAULT_ELEVATION = 5
-
         private val INVALID_POSITION = -1
+    }
+
+    enum class ElevationMode(val dp: Float) {
+        NO_ELEVATION(-1f),
+        DEFAULT_ELEVATION(5f)
     }
 }
