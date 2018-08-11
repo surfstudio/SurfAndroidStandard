@@ -16,15 +16,29 @@
 package ru.surfstudio.android.recycler.extension.sticky
 
 import android.support.v7.widget.RecyclerView
-
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderHandler
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyLayoutManager
 
 /**
- * EasyAdapter, упрощающий работу со Sticky Headers
+ * EasyAdapter, упрощающий работу со Sticky Items. Поддерживается два типа Sticky Items:
+ * * Header - прикрепляется к верхнему краю экрана;
+ * * Footer - прикрепляется к нижнему краю экрана.
+ *
+ * Допустимо в одном адаптере использовать сразу оба типа StickyItems.
+ *
+ * При использовании [StickyEasyAdapter] требуется просто передать экземпляр [RecyclerView], к
+ * которому требуется применить адаптер. Вручную устанавливать данному экземпляру [RecyclerView]
+ * адаптеры и LayoutManager'ы не разрешается, так как это нарушит работу Sticky Item'ов.
+ *
+ * @param recyclerView экземпляр [RecyclerView] для поддержки в нём Sticky Items
+ * @param isVisibleFirstFooterAtLaunch требуется ли сразу отображать первый футер по нижней границе
+ * экрана даже в том случае, если до него список ещё не доскроллен.
  */
-class StickyEasyAdapter(recyclerView: RecyclerView) : EasyAdapter() {
+class StickyEasyAdapter(
+        recyclerView: RecyclerView,
+        private val isVisibleFirstFooterAtLaunch: Boolean = false
+) : EasyAdapter() {
 
     init {
         val stickyLayoutManager = StickyLayoutManager(recyclerView.context,
@@ -32,7 +46,8 @@ class StickyEasyAdapter(recyclerView: RecyclerView) : EasyAdapter() {
                     override fun getAdapterData(): List<*> {
                         return items
                     }
-                }
+                },
+                isVisibleFirstFooterAtLaunch
 
         )
         recyclerView.layoutManager = stickyLayoutManager

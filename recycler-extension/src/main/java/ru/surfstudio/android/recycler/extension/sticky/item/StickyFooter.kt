@@ -16,6 +16,6 @@
 package ru.surfstudio.android.recycler.extension.sticky.item
 
 /**
- * Интерфейс-признак элемента списка со свойствами Sticky Header (прилипает к верхней части списка).
+ * Интерфейс-признак элемента списка со свойствами Sticky Footer (прилипает к нижней части списка).
  */
-interface StickyHeader
+interface StickyFooter

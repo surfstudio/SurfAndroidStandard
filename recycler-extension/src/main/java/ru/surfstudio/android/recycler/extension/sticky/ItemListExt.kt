@@ -18,21 +18,23 @@ package ru.surfstudio.android.recycler.extension.sticky
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.easyadapter.item.BindableItem
-import ru.surfstudio.android.recycler.extension.sticky.controller.StickyBindableItemController
-import ru.surfstudio.android.recycler.extension.sticky.item.StickyBindableItem
+import ru.surfstudio.android.recycler.extension.sticky.controller.StickyFooterBindableItemController
+import ru.surfstudio.android.recycler.extension.sticky.controller.StickyHeaderBindableItemController
+import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooterBindableItem
+import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeaderBindableItem
 
 /**
  *  Расширения для работы sticky header с а [ItemList]
  */
 fun <T> ItemList.addStickyHeader(data: T,
-                                 itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
-    return addItem(StickyBindableItem(data, itemController))
+                                 itemControllerHeader: StickyHeaderBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return addItem(StickyHeaderBindableItem(data, itemControllerHeader))
 }
 
 fun <T> ItemList.addStickyHeaderIf(condition: Boolean,
                                    data: T,
-                                   itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
-    return if (condition) addItem(StickyBindableItem(data, itemController)) else this
+                                   itemControllerHeader: StickyHeaderBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return if (condition) addItem(StickyHeaderBindableItem(data, itemControllerHeader)) else this
 }
 
 /**
@@ -48,13 +50,13 @@ fun <T> ItemList.addStickyHeaderIf(condition: Boolean,
  * на себя всю ответственность по позиционированию заголовков.
  *
  * @param stickyCallback реализация текущей политики добавления Sticky Headers;
- * @param itemController sticky-контроллер;
+ * @param itemControllerHeader sticky-контроллер;
  * @param <T>            тип значения, принимаемого sticky-контроллером
  * @return лист с добавленными в нужных местах Sticky Headers.
 </T> */
 
 fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?,
-                                   itemController: StickyBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+                                   itemControllerHeader: StickyHeaderBindableItemController<T, out BindableViewHolder<T>>): ItemList {
     var i = 0
     while (i < this.size) { //Не используем for, потому что в kotlin он не динамический
         var prevItem: BindableItem<*, *>? = null
@@ -72,7 +74,47 @@ fun <T> ItemList.addStickyHeaderIf(stickyCallback: (prev: Any?, next: Any) -> T?
         val nextItem = this[i] as BindableItem<*, *>
         val stickyData = stickyCallback(prevItem?.getData(), nextItem.getData())
         if (stickyData != null) {
-            insert(i, StickyBindableItem(stickyData, itemController))
+            insert(i, StickyHeaderBindableItem(stickyData, itemControllerHeader))
+        }
+        ++i
+    }
+    return this
+}
+
+/**
+ *  Расширения для работы sticky footer с а [ItemList]
+ */
+fun <T> ItemList.addStickyFooter(data: T,
+                                 itemControllerFooter: StickyFooterBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return addItem(StickyFooterBindableItem(data, itemControllerFooter))
+}
+
+fun <T> ItemList.addStickyFooterIf(condition: Boolean,
+                                   data: T,
+                                   itemControllerFooter: StickyFooterBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    return if (condition) addItem(StickyFooterBindableItem(data, itemControllerFooter)) else this
+}
+
+fun <T> ItemList.addStickyFooterIf(stickyCallback: (prev: Any?, next: Any) -> T?,
+                                   itemControllerHeader: StickyFooterBindableItemController<T, out BindableViewHolder<T>>): ItemList {
+    var i = 0
+    while (i < this.size) { //Не используем for, потому что в kotlin он не динамический
+        var prevItem: BindableItem<*, *>? = null
+        if (i > 0) {
+            if (this[i - 1] !is BindableItem<*, *>) {
+                ++i
+                continue
+            }
+            prevItem = this[i - 1] as BindableItem<*, *>
+        }
+        if (this[i] !is BindableItem<*, *>) {
+            ++i
+            continue
+        }
+        val nextItem = this[i] as BindableItem<*, *>
+        val stickyData = stickyCallback(if (prevItem != null) prevItem.getData() else null, nextItem.getData())
+        if (stickyData != null) {
+            insert(i, StickyFooterBindableItem(stickyData, itemControllerHeader))
         }
         ++i
     }
