@@ -54,7 +54,7 @@ class NetworkModule {
     @PerApplication
     fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor { message ->
-            Logger.d("HTTP_LOG_TAG $message")
+            Logger.d("$HTTP_LOG_TAG $message")
         }.apply {
             level = HttpLoggingInterceptor.Level.BODY
         }

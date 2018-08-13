@@ -5,4 +5,9 @@
     <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
     <string name="unexpected_error_error_message">@string/default_http_error_message</string>
     <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
+    <string name="pagination_footer_text">Загрузить еще</string>
+
+    <!-- placeholder -->
+    <string name="placeholder_error_text">Ошибка загрузки данных</string>
+    <string name="placeholder_error_btn_text">Повторить</string>
 </resources>

@@ -4,6 +4,7 @@ import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.network.sample.interactor.product.ProductRepository
 import javax.inject.Inject
 
@@ -39,12 +40,22 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     private fun loadData(page: Int) {
-        subscribe(repository.getProducts(page), { productList ->
+        subscribeIoHandleError(repository.getProducts(page), { productList ->
             screenModel.productList.merge(productList)
             screenModel.loadState = LoadState.NONE
+            screenModel.paginationState =
+                    if (screenModel.productList.canGetMore())
+                        PaginationState.READY
+                    else
+                        PaginationState.COMPLETE
             view.render(screenModel)
         }, {
-            screenModel.loadState = LoadState.ERROR
+            screenModel.loadState =
+                    if (screenModel.hasContent())
+                        LoadState.NONE
+                    else
+                        LoadState.ERROR
+            screenModel.paginationState = PaginationState.ERROR
             view.render(screenModel)
         })
     }

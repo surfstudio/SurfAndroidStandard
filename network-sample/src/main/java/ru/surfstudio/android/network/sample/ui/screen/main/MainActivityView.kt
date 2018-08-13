@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
+import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.easyadapter.sample.ui.screen.pagination.ProductListAdapter
+import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.sample.R
 import ru.surfstudio.android.network.sample.domain.product.Product
 import ru.surfstudio.android.network.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
+import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import javax.inject.Inject
 
 /**
@@ -20,7 +25,7 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
-    override fun getScreenName(): String  = "MainActivity"
+    override fun getScreenName(): String = "MainActivity"
 
     @Inject
     internal lateinit var presenter: MainPresenter
@@ -32,11 +37,11 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     private val productItemController = ProductItemController(
             object : ProductItemController.OnProductClickListener {
-                override fun onProductClick(product: Product)
-
+                override fun onProductClick(product: Product) {
+                    messageController.show(product.name)
                 }
             })
-    
+
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
@@ -52,9 +57,29 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        initListeners()
+        initRecycler()
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {
+        placeholder.render(screenModel.loadState)
+        adapter.setItems(ItemList.create()
+                .addAll(screenModel.productList, productItemController),
+                screenModel.paginationState)
+    }
 
+    override fun renderLoadState(loadState: LoadState?) {
+        super.renderLoadState(loadState)
+        swipe_refresh_layout.goneIf(loadState != LoadState.NONE)
+    }
+
+    private fun initListeners() {
+        swipe_refresh_layout.setOnRefreshListener { presenter.reloadData() }
+        placeholder.buttonLambda = { presenter.reloadData() }
+    }
+
+    private fun initRecycler() {
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = adapter
     }
 }

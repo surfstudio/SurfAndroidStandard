@@ -20,7 +20,6 @@ data class PageResponse<T : Transformable<E>, E>(@SerializedName("status") val s
                 DataList(
                         TransformUtil.transformCollection(result),
                         pager.currentPage,
-                        pager.totalPages,
                         pager.recordsPerPage,
                         pager.totalRecordCount,
                         pager.totalPages)

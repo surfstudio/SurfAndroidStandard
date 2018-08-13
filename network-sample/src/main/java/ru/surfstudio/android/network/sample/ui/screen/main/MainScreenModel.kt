@@ -5,4 +5,6 @@ import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.network.sample.domain.product.Product
 
 class MainScreenModel(val productList: DataList<Product> = DataList.empty()
-) : LdsSwrPgnScreenModel()
+) : LdsSwrPgnScreenModel() {
+    fun hasContent(): Boolean = productList.size > 0
+}

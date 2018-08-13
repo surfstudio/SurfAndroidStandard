@@ -1,4 +1,4 @@
-package ru.surfstudio.android.easyadapter.sample.ui.screen.pagination
+package ru.surfstudio.android.network.sample.ui.screen.main.list
 
 import android.view.View.GONE
 import android.view.ViewGroup
@@ -7,7 +7,7 @@ import androidx.core.view.isVisible
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
-import ru.surfstudio.android.easyadapter.sample.R
+import ru.surfstudio.android.network.sample.R
 
 class ProductListAdapter(onShowMoreListener: () -> Unit) : BasePaginationableAdapter() {
 

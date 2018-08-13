@@ -9,11 +9,10 @@ import ru.surfstudio.android.network.BaseUrl
 class ServerUrlModule {
 
     companion object {
-        private const val BASE_URL = "https://api.themoviedb.org/"
-        private const val API_VERSION = "3/"
+        private const val BASE_URL = "http://lcboapi.com/"
     }
 
     @Provides
     @PerApplication
-    fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_URL, API_VERSION)
+    fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_URL, null)
 }
