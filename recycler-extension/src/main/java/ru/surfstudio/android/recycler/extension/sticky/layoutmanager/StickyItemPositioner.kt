@@ -58,7 +58,8 @@ class StickyItemPositioner(
     private var cachedElevation = ElevationMode.NO_ELEVATION
     private var currentHeaderViewHolder: RecyclerView.ViewHolder? = null
     private var currentFooterViewHolder: RecyclerView.ViewHolder? = null
-    private var listener: StickyItemListener? = null
+    private var headerListener: StickyHeaderListener? = null
+    private var footerListener: StickyFooterListener? = null
 
     private val recyclerParent: ViewGroup
         get() = recyclerView?.parent as ViewGroup
@@ -250,8 +251,12 @@ class StickyItemPositioner(
         detachFooter(lastFooterBoundPosition)
     }
 
-    fun setListener(listener: StickyItemListener?) {
-        this.listener = listener
+    fun setStickyHeaderListener(listener: StickyHeaderListener?) {
+        this.headerListener = listener
+    }
+
+    fun setStickyFooterListener(listener: StickyFooterListener?) {
+        this.footerListener = listener
     }
 
     private fun offsetHeader(nextHeader: View): Float {
@@ -394,12 +399,12 @@ class StickyItemPositioner(
     @VisibleForTesting
     private fun attachHeader(viewHolder: RecyclerView.ViewHolder?, headerPosition: Int) {
         if (currentHeaderViewHolder === viewHolder) {
-            callDetach(lastHeaderBoundPosition)
+            callDetachHeader(lastHeaderBoundPosition)
 
             recyclerView?.adapter?.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
             currentHeaderViewHolder!!.itemView.requestLayout()
             checkTranslation()
-            callAttach(headerPosition)
+            callAttachHeader(headerPosition)
             dirty = false
             return
         }
@@ -408,7 +413,7 @@ class StickyItemPositioner(
 
         recyclerView?.adapter?.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
         this.currentHeader = currentHeaderViewHolder!!.itemView
-        callAttach(headerPosition)
+        callAttachHeader(headerPosition)
         resolveElevationSettings(currentHeader!!.context)
         // Set to Invisible until we position it in #checkHeaderPositions.
         currentHeader!!.visibility = View.INVISIBLE
@@ -424,11 +429,11 @@ class StickyItemPositioner(
     private fun attachFooter(viewHolder: RecyclerView.ViewHolder?, footerPosition: Int) {
         //Log.d("LOG", "1111 attach footer = $footerPosition")
         if (currentFooterViewHolder === viewHolder) {
-            callDetach(lastFooterBoundPosition)
+            callDetachFooter(lastFooterBoundPosition)
             recyclerView?.adapter?.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
             currentFooterViewHolder!!.itemView.requestLayout()
             checkTranslation()
-            callAttach(footerPosition)
+            callAttachFooter(footerPosition)
             dirty = false
             return
         }
@@ -437,7 +442,7 @@ class StickyItemPositioner(
 
         recyclerView?.adapter?.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
         this.currentFooter = currentFooterViewHolder!!.itemView
-        callAttach(footerPosition)
+        callAttachFooter(footerPosition)
         resolveElevationSettings(currentFooter!!.context)
         // Set to Invisible until we position it in #checkHeaderPositions.
         currentFooter!!.visibility = View.INVISIBLE
@@ -546,7 +551,7 @@ class StickyItemPositioner(
     private fun detachHeader(position: Int) {
         if (currentHeader != null) {
             recyclerParent.removeView(currentHeader)
-            callDetach(position)
+            callDetachHeader(position)
             currentHeader = null
             currentHeaderViewHolder = null
         }
@@ -555,22 +560,26 @@ class StickyItemPositioner(
     private fun detachFooter(position: Int) {
         if (currentFooter != null) {
             recyclerParent.removeView(currentFooter)
-            callDetach(position)
+            callDetachFooter(position)
             currentFooter = null
             currentFooterViewHolder = null
         }
     }
 
-    private fun callAttach(position: Int) {
-        if (listener != null) {
-            listener!!.headerAttached(currentHeader!!, position)
-        }
+    private fun callAttachHeader(position: Int) {
+        currentHeader?.let { headerListener?.headerAttached(it, position) }
     }
 
-    private fun callDetach(position: Int) {
-        if (listener != null) {
-            listener!!.headerDetached(currentHeader!!, position)
-        }
+    private fun callDetachHeader(position: Int) {
+        currentHeader?.let { headerListener?.headerDetached(it, position) }
+    }
+
+    private fun callAttachFooter(position: Int) {
+        currentFooter?.let { footerListener?.footerAttached(it, position) }
+    }
+
+    private fun callDetachFooter(position: Int) {
+        currentFooter?.let { footerListener?.footerDetached(it, position) }
     }
 
     /**

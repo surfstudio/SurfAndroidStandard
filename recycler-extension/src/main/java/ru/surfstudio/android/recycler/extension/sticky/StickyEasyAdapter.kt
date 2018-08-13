@@ -40,16 +40,16 @@ class StickyEasyAdapter(
         private val isVisibleFirstFooterAtLaunch: Boolean = false
 ) : EasyAdapter() {
 
-    init {
-        val stickyLayoutManager = StickyLayoutManager(recyclerView.context,
-                object : StickyHeaderHandler {
-                    override fun getAdapterData(): List<*> {
-                        return items
-                    }
-                },
-                isVisibleFirstFooterAtLaunch
+    val stickyLayoutManager: StickyLayoutManager = StickyLayoutManager(recyclerView.context,
+            object : StickyHeaderHandler {
+                override fun getAdapterData(): List<*> {
+                    return items
+                }
+            },
+            isVisibleFirstFooterAtLaunch
+    )
 
-        )
+    init {
         recyclerView.layoutManager = stickyLayoutManager
         recyclerView.adapter = this
     }

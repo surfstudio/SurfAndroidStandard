@@ -45,7 +45,8 @@ class StickyLayoutManager(
     private var headerElevation = StickyItemPositioner.ElevationMode.NO_ELEVATION //режим тени Sticky Header'а
     private var footerElevation = StickyItemPositioner.ElevationMode.NO_ELEVATION //режим тени Sticky Footer'а
 
-    private var listener: StickyItemListener? = null
+    private var headerListener: StickyHeaderListener? = null
+    private var footerListener: StickyFooterListener? = null
 
     private val visibleHeaders: Map<Int, View>
         get() {
@@ -97,9 +98,14 @@ class StickyLayoutManager(
      *
      * @param listener The callback that will be invoked, or null to unset.
      */
-    fun setStickyHeaderListener(listener: StickyItemListener?) {
-        this.listener = listener
-        positioner.setListener(listener)
+    fun setStickyHeaderListener(listener: StickyHeaderListener?) {
+        this.headerListener = listener
+        positioner.setStickyHeaderListener(listener)
+    }
+
+    fun setStickyFooterHeaderListener(listener: StickyFooterListener?) {
+        this.footerListener = listener
+        positioner.setStickyFooterListener(listener)
     }
 
     /**
@@ -133,7 +139,6 @@ class StickyLayoutManager(
         super.onLayoutChildren(recycler, state)
         cacheHeaderPositions()
         runPositionerInit()
-        Log.d("LOG", "1111 onLayoutChildren")
         resetStickyItemsPositioner()
     }
 
@@ -167,7 +172,8 @@ class StickyLayoutManager(
         positioner.recyclerView = recyclerView
 
         positioner.setElevateHeaders(headerElevation)
-        positioner.setListener(listener)
+        positioner.setStickyHeaderListener(headerListener)
+        positioner.setStickyFooterListener(footerListener)
         if (headerPositions.size > 0) {
             // Layout has already happened and header positions are cached. Catch positioner up.
             positioner.setStickyPositions(headerPositions, footerPositions)

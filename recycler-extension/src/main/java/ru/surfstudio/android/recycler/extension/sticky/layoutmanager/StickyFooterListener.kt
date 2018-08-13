@@ -17,7 +17,7 @@ package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
 import android.view.View
 
-interface StickyItemListener {
+interface StickyFooterListener {
 
     /**
      * Called when a Sticky Header has been attached or rebound.
@@ -25,7 +25,7 @@ interface StickyItemListener {
      * @param headerView      The view that is currently attached as the sticky header
      * @param adapterPosition The position in the adapter data set that this view represents
      */
-    fun headerAttached(headerView: View, adapterPosition: Int)
+    fun footerAttached(footerView: View, adapterPosition: Int)
 
     /**
      * Called when a Sticky Header has been detached or is about to be re-bound.
@@ -33,7 +33,7 @@ interface StickyItemListener {
      *
      * For performance reasons, if the new Sticky Header that will be replacing the current one is
      * of the same view type, the view is reused. In that case, this call will be immediately followed
-     * by a call to [StickyItemListener.headerAttached] with the same view instance,
+     * by a call to [StickyFooterListener.headerAttached] with the same view instance,
      * but after the view is re-bound with the new adapter data.
      *
      *
@@ -52,5 +52,5 @@ interface StickyItemListener {
      * @param headerView      The view that will be removed from the sticky header position, or soon to be re-bound
      * @param adapterPosition The position in the adapter data set that the header view was created from when originally bound
      */
-    fun headerDetached(headerView: View, adapterPosition: Int)
+    fun footerDetached(footerView: View, adapterPosition: Int)
 }
