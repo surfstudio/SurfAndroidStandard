@@ -2,12 +2,16 @@ package ru.surfstudio.android.recycler.extension.sample
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyFooterItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyHeaderItemController
 import ru.surfstudio.android.recycler.extension.sticky.*
+import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyFooterListener
+import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +26,25 @@ class MainActivity : AppCompatActivity() {
 
         stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler,
                 isVisibleFirstFooterAtLaunch = true)
+        stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(object : StickyHeaderListener {
+            override fun headerAttached(headerView: View, adapterPosition: Int) {
+                Log.d("LOG", "1111 headerAttached")
+            }
+
+            override fun headerDetached(headerView: View, adapterPosition: Int) {
+                Log.d("LOG", "1111 headerDetached")
+            }
+        })
+
+        stickyEasyAdapter.stickyLayoutManager.setStickyFooterHeaderListener(object : StickyFooterListener {
+            override fun footerAttached(footerView: View, adapterPosition: Int) {
+                Log.d("LOG", "1111 footerAttached")
+            }
+
+            override fun footerDetached(footerView: View, adapterPosition: Int) {
+                Log.d("LOG", "1111 footerDetached")
+            }
+        })
         activity_main_recycler.adapter = stickyEasyAdapter
 
         val itemList = generateData()
