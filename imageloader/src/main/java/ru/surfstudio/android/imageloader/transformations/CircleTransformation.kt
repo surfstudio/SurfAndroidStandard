@@ -17,8 +17,6 @@ package ru.surfstudio.android.imageloader.transformations
 
 import android.graphics.*
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils
-import ru.surfstudio.android.imageloader.data.ImageSizeManager
 
 /**
  * Преобразование прямоугольного изображения в круглое.

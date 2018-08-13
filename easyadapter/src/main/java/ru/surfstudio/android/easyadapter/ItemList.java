@@ -61,12 +61,7 @@ public class ItemList extends ArrayList<BaseItem> {
 
     public static <T> ItemList create(Collection<T> data,
                                       final BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
-        return create(data, new BindableItemControllerProvider<T>() {
-            @Override
-            public BindableItemController<T, ? extends BindableViewHolder<T>> provide(T data) {
-                return itemController;
-            }
-        });
+        return create(data, data1 -> itemController);
     }
 
     public static <T> ItemList create(Collection<T> data,

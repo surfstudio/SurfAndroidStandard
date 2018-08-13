@@ -18,5 +18,4 @@ class SampleItemController : BindableItemController<Data, SampleItemController.H
             textView.text = data?.name
         }
     }
-
 }

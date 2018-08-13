@@ -1,0 +1,11 @@
+include ':template:app-injector',
+        ':template:base',
+        ':template:base-ui',
+        ':template:domain',
+        ':template:i-initialization',
+        ':template:i-network',
+        ':template:i-token',
+        ':template:i-session',
+        ':template:i-auth',
+        ':template:f-auth',
+        ':template:f-main'

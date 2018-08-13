@@ -29,5 +29,5 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.android.support:appcompat-v7:$appcompatVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 }

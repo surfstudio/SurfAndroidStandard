@@ -13,7 +13,7 @@ class PaginationableUtilTest {
     fun paginationableRequest() {
         val response = (1..100).toList()
 
-        var resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
+        val resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
 
         PaginationableUtil.getPaginationRequestPortions<Int>({ page ->
             Observable.just(DataList(arrayListOf(response[page]), page, 1))
@@ -30,7 +30,7 @@ class PaginationableUtilTest {
     fun getPaginationSingleRequestPortion() {
         val response = (1..100).toList()
 
-        var resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
+        val resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
 
         PaginationableUtil.getPaginationSingleRequestPortion<Int>({ page ->
             Single.just(DataList(arrayListOf(response[page]), page, 1))

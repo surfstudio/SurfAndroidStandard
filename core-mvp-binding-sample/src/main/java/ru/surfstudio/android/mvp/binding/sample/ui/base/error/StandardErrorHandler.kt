@@ -1,7 +1,5 @@
 package ru.surfstudio.android.mvp.binding.sample.ui.base.error
 
-
-import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.message.MessageController

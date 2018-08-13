@@ -67,11 +67,13 @@ object FileUtil {
 
     private fun getRealPath(activity: Activity, uri: Uri): String? {
         val cursor = activity.contentResolver.query(uri, null, null, null, null)
+        var result: String? = null
         if (cursor != null) {
             cursor.moveToFirst()
             val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            return cursor.getString(idx)
+            result = cursor.getString(idx)
+            cursor.close()
         }
-        return null
+        return result
     }
 }

@@ -68,9 +68,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         }
     }
 
-    private fun getImageChooserMessage(): String {
-        return stringsProvider.getString(R.string.image_chooser_message)
-    }
+    private fun getImageChooserMessage(): String = stringsProvider.getString(R.string.image_chooser_message)
 
     override fun onResume() {
         super.onResume()
