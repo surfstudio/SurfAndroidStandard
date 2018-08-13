@@ -53,5 +53,4 @@ class StickyEasyAdapter(
         recyclerView.layoutManager = stickyLayoutManager
         recyclerView.adapter = this
     }
-
 }

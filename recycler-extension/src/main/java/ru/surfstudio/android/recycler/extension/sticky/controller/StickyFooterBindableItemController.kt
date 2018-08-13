@@ -18,7 +18,6 @@ package ru.surfstudio.android.recycler.extension.sticky.controller
 import ru.surfstudio.android.easyadapter.controller.BaseItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooterBindableItem
-import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeaderBindableItem
 
 abstract class StickyFooterBindableItemController<T, H : BindableViewHolder<T>> :
         BaseItemController<H, StickyFooterBindableItem<T, H>>() {

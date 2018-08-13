@@ -29,9 +29,7 @@ data class ImageTargetManager(
 ) {
     /**
      * Установка заглушки ошибки для [View]
-     *
-     * @param view экземпляр [View], куда устанавливается заглушка
-     */
+     **/
     fun setErrorImage() {
         if (targetView is ImageView) {
             (targetView as ImageView).setImageResource(imageResourceManager.errorResId)

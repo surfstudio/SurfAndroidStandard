@@ -120,5 +120,4 @@ object SettingsUtil {
     private fun getDefaultSharedPreferences(context: Context): SharedPreferences {
         return PreferenceManager.getDefaultSharedPreferences(context)
     }
-
 }

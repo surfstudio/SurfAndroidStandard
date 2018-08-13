@@ -5,9 +5,7 @@ import android.widget.TextView
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.recycler.extension.sample.R
 import ru.surfstudio.android.recycler.extension.sticky.controller.StickyFooterBindableItemController
-import ru.surfstudio.android.recycler.extension.sticky.controller.StickyHeaderBindableItemController
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooterBindableItem
-import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeaderBindableItem
 
 class SampleStickyFooterItemController :
         StickyFooterBindableItemController<String, SampleStickyFooterItemController.Holder>() {
