@@ -1,6 +1,0 @@
-apply from: '../androidInteractorModule.gradle'
-
-dependencies {
-    implementation project(':template-multimodule:i-network')
-    implementation project(':template-multimodule:i-session')
-}

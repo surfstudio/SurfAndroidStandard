@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.easyadapter.carousel
+package ru.surfstudio.android.recycler.extension
 
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
@@ -24,6 +24,7 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
+import ru.surfstudio.easyadapter.carousel.R
 
 /**
  * Вью-карусель элементов

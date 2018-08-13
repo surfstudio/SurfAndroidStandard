@@ -27,11 +27,13 @@
 #retrofit / okhttp
 -dontwarn retrofit.**
 -keep class retrofit.** { *; }
--dontwarn okio.**
 -keep class okio.** { *; }
 -keep class com.squareup.okhttp.** { *; }
 -keep interface com.squareup.okhttp.** { *; }
 -dontwarn com.squareup.okhttp.**
+-dontwarn okhttp3.internal.platform.**
+-dontwarn okio.**
+-dontwarn org.conscrypt.**
 
 #gson
 -keepattributes SerializedName
@@ -50,8 +52,16 @@
 -dontwarn javax.annotation.concurrent.GuardedBy
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 
+#guava
+-dontwarn afu.org.checkerframework.checker.formatter.**
+-dontwarn afu.org.checkerframework.checker.nullness.**
+-dontwarn afu.org.checkerframework.checker.regex.**
+-dontwarn afu.org.checkerframework.checker.units.**
+
 -keep class * implements ru.surfstudio.android.network.Transformable
 -keep class * implements ru.surfstudio.android.network.response.BaseResponse
+
+-dontwarn com.bumptech.glide.**
 
 #crashlytics
 -printmapping mapping.txt
@@ -62,36 +72,6 @@
 -keep class com.crashlytics.** { *; }
 -dontwarn com.crashlytics.**
 
-#nimbusds
--keep class com.nimbusds.srp6.** { *; }
--keepnames class com.nimbusds.srp6.** { *; }
--dontwarn com.nimbusds.srp6.**
-
-#glide
--dontwarn com.bumptech.glide.load.resource.bitmap.**
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public class * extends com.bumptech.glide.module.AppGlideModule
--keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
-
--dontwarn com.google.common.base.**
--keep class com.google.j2objc.annotations.** { *; }
--dontwarn   com.google.j2objc.annotations.**
--keep class java.lang.ClassValue { *; }
--dontwarn   java.lang.ClassValue
--keep class org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement { *; }
--dontwarn   org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
--dontwarn com.google.errorprone.annotations.**
-
-#ui
--keepclassmembers class android.support.design.internal.BottomNavigationMenuView {
-    boolean mShiftingMode;
-}
-
 #kotlin-reflect
 #https://stackoverflow.com/questions/45871970/kotlin-reflect-proguard-smallsortedmap
 -dontwarn kotlin.reflect.jvm.internal.**
--keep class kotlin.reflect.jvm.internal.** { *; }

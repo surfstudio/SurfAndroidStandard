@@ -22,8 +22,8 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
         view.onBind(screenModel)
     }
 
-    override fun onViewDetached() {
-        super.onViewDetached()
+    override fun onViewDetach() {
+        super.onViewDetach()
         view.onUnbind(screenModel)
     }
 

@@ -120,7 +120,7 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
     }
 
     public final void detachView() {
-        onViewDetached();
+        onViewDetach();
         view = null;
     }
 
@@ -128,7 +128,7 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
      * Called when view is detached
      */
     @CallSuper
-    protected void onViewDetached() {
+    protected void onViewDetach() {
         freezeSelector.onNext(true);
     }
 
@@ -151,7 +151,7 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
 
     /**
      * If true, all rx event would be frozen when screen paused, and unfrozen when screen resumed,
-     * otherwise event would be frozen when {@link #onViewDetached()} called.
+     * otherwise event would be frozen when {@link #onViewDetach()} called.
      * Default enabled.
      *
      * @param enabled
