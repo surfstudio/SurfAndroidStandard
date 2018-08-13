@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -179,6 +180,7 @@ public final class CacheFileProcessor {
 
     @NotNull
     private List<File> getFilesList() {
-        return Arrays.asList(rootDir.listFiles());
+        File[] listFiles = rootDir.listFiles();
+        return listFiles != null ? Arrays.asList(listFiles) : new ArrayList<>();
     }
 }
