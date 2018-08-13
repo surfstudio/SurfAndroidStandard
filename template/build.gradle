@@ -1,155 +1,30 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+buildscript {
+    ext.kotlin_version = '1.2.50'
 
-android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
 
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
-
-        applicationId rootProject.ext.applicationId
-        versionCode rootProject.ext.moduleVersionCode
-        versionName rootProject.ext.moduleVersionName
-
-        setProperty("archivesBaseName", "$applicationName-$moduleVersionName-($moduleVersionCode)")
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        multiDexEnabled true
     }
 
-    signingConfigs {
-        // todo настроить подпись приложения
-        release {
-            storeFile file("../keystore/test.keystore")
-            storePassword "qatest"
-            keyAlias "test"
-            keyPassword "qatest"
-        }
-        qa {
-            storeFile file("../keystore/test.keystore")
-            storePassword "qatest"
-            keyAlias "test"
-            keyPassword "qatest"
-        }
-    }
-
-    buildTypes {
-        debug {
-            signingConfig signingConfigs.qa
-            minifyEnabled false
-        }
-        qa {
-            signingConfig signingConfigs.qa
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable = true
-            ext.betaDistributionGroupAliases = "Surf" //todo проверить название группы в Crashlytics
-            ext.betaDistributionNotifications = true
-        }
-        release {
-            signingConfig signingConfigs.release
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-
-    compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath "io.fabric.tools:gradle:1.25.4"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-dependencies {
-    //-------------------------------------- versions ----------------------------------------------
-
-    //Testing Library, Apt Versions
-    def mockitoVersion = '1.10.19'
-    def assertJVersion = '3.5.1'
-
-    //------------------------------------ dependencies --------------------------------------------
-
-    implementation project(':core-app')
-    implementation project(':core-ui')
-    implementation project(':core-mvp')
-    implementation project(':mvp-dialog')
-    implementation project(':mvp-widget')
-    implementation project(':app-migration')
-    implementation project(':shared-pref')
-    implementation project(':custom-view')
-    implementation project(':analytics')
-    implementation project(':core-app')
-    implementation project(':analytics')
-    implementation project(':network')
-    implementation project(':converter-gson')
-    implementation project(':filestorage')
-    implementation project(':easyadapter')
-    implementation project(':recycler-extension')
-    implementation project(':broadcast-extension')
-    implementation project(':picture-provider')
-    implementation project(':camera-view')
-    implementation project(':connection')
-    implementation project(':rx-extension')
-    implementation project(':firebase-analytics')
-    implementation project(':custom-view')
-    implementation project(':util-ktx')
-    implementation project(':animations')
-    implementation project(':push')
-    implementation project(':dagger-scope')
-    implementation project(':standard-dialog')
-    implementation project(':message-controller')
-
-    implementation "com.google.dagger:dagger:$daggerVersion"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
-
-    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
-    implementation 'com.google.guava:guava:23.0-android'
-
-    //kotlin
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
-
-    //firebase
-    api "com.google.firebase:firebase-core:${playServicesVersion}"
-    implementation "com.google.firebase:firebase-messaging:${playServicesVersion}"
-
-    //--------------------------------- test dependencies ------------------------------------------
-
-    //tests
-    androidTestImplementation("com.android.support.test.espresso:espresso-core:$espressoVersion", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-
-    testImplementation "junit:junit:$junitVersion"
-
-    //unit test
-    testAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    testImplementation "org.mockito:mockito-core:$mockitoVersion"
-    testImplementation "org.assertj:assertj-core:$assertJVersion"
-
-    //instrumental test
-    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    androidTestImplementation "com.android.support:support-annotations:$appcompatVersion"
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-
-    implementation 'com.google.code.findbugs:jsr305:3.0.1'
-    implementation project(path: ':logger')
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+        maven { url "https://dl.bintray.com/terrakok/terramaven" }
+        maven { url 'https://jitpack.io' }
+    }
 }
 
-apply plugin: 'kotlin-android-extensions'
-
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
-    resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }

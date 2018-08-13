@@ -1,4 +1,0 @@
-apply from: '../androidModule.gradle'
-
-dependencies {
-}
