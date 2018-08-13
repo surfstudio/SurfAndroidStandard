@@ -29,7 +29,7 @@ ext {
     rxBinding2Version = '2.1.1'                 //https://goo.gl/KQ5Vga
 
     //android framework
-    androidGradleToolsVersion = '3.1.3'         //https://bit.ly/2NXD4Pe
+    androidGradleToolsVersion = '3.1.4'         //https://bit.ly/2NXD4Pe
     appcompatVersion = '27.1.1'
     firebaseCoreVersion = '16.0.1'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.1.0'
