@@ -29,10 +29,6 @@
       "path": ""
     },
     {
-      "name": "analytics-sample",
-      "path": ""
-    },
-    {
       "name": "network",
       "path": ""
     },
@@ -46,10 +42,6 @@
     },
     {
       "name": "push",
-      "path": ""
-    },
-    {
-      "name": "push-sample",
       "path": ""
     },
     {
@@ -90,6 +82,10 @@
     },
     {
       "name": "firebase-analytics",
+      "path": ""
+    },
+    {
+      "name": "firebase-sample",
       "path": ""
     },
     {
