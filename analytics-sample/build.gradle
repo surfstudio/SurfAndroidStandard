@@ -24,4 +24,6 @@ dependencies {
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
+
+    api "com.google.firebase:firebase-core:$firebaseCoreVersion"
 }

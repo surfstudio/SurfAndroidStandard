@@ -1,6 +1,9 @@
 package ru.surfstudio.android.analytics.sample.ui.screen.main
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.analytics.sample.R
 import ru.surfstudio.android.analytics.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
@@ -29,5 +32,12 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun createConfigurator(): ActivityScreenConfigurator {
         return MainScreenConfigurator(intent)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?,
+                          persistentState: PersistableBundle?,
+                          viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        send_event_btn.setOnClickListener { presenter.sendEvent(event_text_et.text.toString()) }
     }
 }
