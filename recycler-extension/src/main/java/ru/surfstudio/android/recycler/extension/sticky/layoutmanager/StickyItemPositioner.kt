@@ -103,7 +103,6 @@ class StickyItemPositioner(
         } else {
             getHeaderPositionToShow(firstVisiblePosition, visibleHeaders[firstVisiblePosition])
         }
-        //Log.d("LOG", "1111 headerPositionToShow = $headerPositionToShow")
         val headerToCopy = visibleHeaders[headerPositionToShow]
         if (headerPositionToShow != lastHeaderBoundPosition) {
             if (headerPositionToShow == INVALID_POSITION || checkMargins && headerAwayFromEdge(headerToCopy)) { // We don't want to attach yet if header view is not at edge
@@ -140,23 +139,15 @@ class StickyItemPositioner(
         } else {
             getFooterPositionToShow(lastVisibleItemPosition, visibleFooters[lastVisibleItemPosition])
         }
-        Log.d("LOG", "1111 footerPositionToShow = $footerPositionToShow")
-        Log.d("LOG", "1111 lastFooterBoundPosition = $lastFooterBoundPosition")
-        //Log.d("LOG", "1111 footerPositionToShow = $footerPositionToShow")
         val footerToCopy = visibleFooters[footerPositionToShow]
-        if (showFirstAtLaunch || footerPositionToShow != lastFooterBoundPosition) {
-            Log.d("LOG", "1111 footerPositionToShow == INVALID_POSITION = ${footerPositionToShow == INVALID_POSITION}")
-            Log.d("LOG", "1111 checkMargins = $checkMargins")
-            Log.d("LOG", "1111 footerAwayFromEdge(footerToCopy) = ${footerAwayFromEdge(footerToCopy)}")
+        if (footerPositionToShow != lastFooterBoundPosition) {
             if (footerPositionToShow == INVALID_POSITION || checkMargins && footerAwayFromEdge(footerToCopy)) { // We don't want to attach yet if header view is not at edge
                 dirty = true
                 safeDetachFooter()
                 lastFooterBoundPosition = INVALID_POSITION
-                Log.d("LOG", "1111 сейф детач футера")
             } else {
                 lastFooterBoundPosition = footerPositionToShow
                 val viewHolder = viewRetriever?.getViewHolderForPosition(footerPositionToShow)
-                Log.d("LOG", "1111 аттач футера")
                 attachFooter(viewHolder, footerPositionToShow)
             }
         } else if (checkMargins) {
@@ -165,7 +156,6 @@ class StickyItemPositioner(
               See `#getHeaderPositionToShow` for explanation.
              */
             if (footerAwayFromEdge(footerToCopy)) {
-                Log.d("LOG", "1111 детач футера")
                 detachFooter(lastFooterBoundPosition)
                 lastFooterBoundPosition = INVALID_POSITION
             }
@@ -200,16 +190,12 @@ class StickyItemPositioner(
     // to be offset. In reality, only the header following the sticky header is checked. Some
     // optimization may be possible here (not storing all visible headers in map).
     fun checkFooterPositions(visibleFooters: Map<Int, View>) {
-        Log.d("LOG", "1111 checkFooterPositions")
         if (currentFooter == null) return
         // This can happen after configuration changes.
-        Log.d("LOG", "1111 1")
         if (currentFooter!!.height == 0) {
-            Log.d("LOG", "1111 1,1")
             waitForLayoutAndRetry(visibleFooters)
             return
         }
-        Log.d("LOG", "1111 2")
         var reset = true
         for ((key, nextFooter) in visibleFooters) {
             if (key <= lastFooterBoundPosition) {
@@ -218,10 +204,8 @@ class StickyItemPositioner(
             reset = offsetFooter(nextFooter) == -1f
             break
         }
-        Log.d("LOG", "1111 3")
         if (reset) resetTranslationFooter()
         currentFooter!!.visibility = View.VISIBLE
-        Log.d("LOG", "1111 футер видимый")
     }
 
     fun setElevateHeaders(dpElevation: ElevationMode) {
