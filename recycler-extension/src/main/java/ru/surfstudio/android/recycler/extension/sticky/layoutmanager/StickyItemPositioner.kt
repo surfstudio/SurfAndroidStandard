@@ -133,7 +133,7 @@ class StickyItemPositioner(
                           viewRetriever: ViewRetriever?,
                           showFirstAtLaunch: Boolean
     ) {
-        Log.d("LOG", "1111 updateFooterState")
+        Log.d("LOG", "1111 updateFooterState showFirstAtLaunch = $showFirstAtLaunch")
         //вычисляется позиция sticky header в общем списке item'ов
         val footerPositionToShow = if (!showFirstAtLaunch) {
             INVALID_POSITION
@@ -148,9 +148,13 @@ class StickyItemPositioner(
                 safeDetachFooter()
                 lastFooterBoundPosition = INVALID_POSITION
             } else {
-                lastFooterBoundPosition = footerPositionToShow
-                val viewHolder = viewRetriever?.getViewHolderForPosition(footerPositionToShow)
-                attachFooter(viewHolder, footerPositionToShow)
+                Log.d("LOG", "1111 до проверки")
+                if (currentFooterViewHolder == null) {
+                    Log.d("LOG", "1111 после проверки")
+                    lastFooterBoundPosition = footerPositionToShow
+                    val viewHolder = viewRetriever?.getViewHolderForPosition(footerPositionToShow)
+                    attachFooter(viewHolder, footerPositionToShow)
+                }
             }
         } else if (checkMargins) {
             /*
