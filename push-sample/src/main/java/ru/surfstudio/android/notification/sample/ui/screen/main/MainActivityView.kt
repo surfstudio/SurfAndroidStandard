@@ -8,12 +8,13 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.notification.sample.R
 import ru.surfstudio.android.notification.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 import javax.inject.Inject
 
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
+class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), PushHandlingActivity {
     override fun getScreenName(): String  = "MainActivity"
 
     @Inject
