@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-        stickyEasyAdapter.stickyLayoutManager.setStickyFooterHeaderListener(object : StickyFooterListener {
+        stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(object : StickyFooterListener {
             override fun footerAttached(footerView: View, adapterPosition: Int) {
                 Log.d("LOG", "1111 footerAttached")
             }

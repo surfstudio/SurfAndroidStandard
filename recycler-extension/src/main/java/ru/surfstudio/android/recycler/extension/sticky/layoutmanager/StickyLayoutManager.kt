@@ -103,7 +103,7 @@ class StickyLayoutManager(
         positioner.setStickyHeaderListener(listener)
     }
 
-    fun setStickyFooterHeaderListener(listener: StickyFooterListener?) {
+    fun setStickyFooterListener(listener: StickyFooterListener?) {
         this.footerListener = listener
         positioner.setStickyFooterListener(listener)
     }
@@ -147,7 +147,6 @@ class StickyLayoutManager(
         if (Math.abs(scroll) > 0) {
             resetStickyItemsPositioner()
         }
-        //Log.d("LOG", "1111 headerPositionToShow = ${findLastVisibleItemPosition()}")
         return scroll
     }
 
