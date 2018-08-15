@@ -17,7 +17,7 @@ abstract class BaseSimplePushStrategy<out T : BaseNotificationTypeData<*>>
     : SimpleAbstractPushHandleStrategy<T>() {
 
     override val channelId: Int
-        get() = R.string.channel_id
+        get() = R.string.notification_channel_id
     override val icon: Int
         get() = R.drawable.ic_android_black_24dp
     override val color: Int
