@@ -30,10 +30,10 @@ pipeline.init()
 //configuration
 pipeline.node = NodeProvider.getAndroidNode()
 
-preExecuteStageBody = { stage ->
+pipeline.preExecuteStageBody = { stage ->
     if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, stage.name)
 }
-postExecuteStageBody = { stage ->
+pipeline.postExecuteStageBody = { stage ->
     if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, stage.name, stage.result)
 }
 
