@@ -3,10 +3,12 @@ package ru.surfstudio.android.broadcast.extension.sample.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.broadcast.extension.sample.R
 import ru.surfstudio.android.broadcast.extension.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.utilktx.ktx.ui.activity.hideKeyboard
 import javax.inject.Inject
 
 /**
@@ -27,6 +29,10 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        send_btn.setOnClickListener {
+            hideKeyboard()
+            presenter.sendSms(number_et.text.toString(), message_et.text.toString())
+        }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}

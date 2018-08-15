@@ -5,4 +5,8 @@
     <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
     <string name="unexpected_error_error_message">@string/default_http_error_message</string>
     <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
+    <string name="number_et_hint">Enter your phone number</string>
+    <string name="message_et_hint">Enter your message</string>
+    <string name="message_et_text">Message</string>
+    <string name="send_btn_text">Send SMS</string>
 </resources>

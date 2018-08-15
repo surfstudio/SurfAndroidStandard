@@ -2,6 +2,7 @@ package ru.surfstudio.android.broadcast.extension.sample.app.dagger
 
 import android.content.Context
 import dagger.Component
+import ru.surfstudio.android.broadcast.extension.sample.interactor.SmsBroadcastReceiver
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
@@ -18,4 +19,5 @@ interface AppComponent {
     fun connectionProvider(): ConnectionProvider
     fun schedulerProvider(): SchedulersProvider
     fun stringsProvider(): StringsProvider
+    fun smsBroadcastReceiver(): SmsBroadcastReceiver
 }
