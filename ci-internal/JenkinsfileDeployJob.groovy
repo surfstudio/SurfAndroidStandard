@@ -13,7 +13,6 @@ import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 //Кастомный пайплайн для деплоя артефактов
 
 // Имена Шагов
-def INIT = 'Init'
 def CHECKOUT = 'Checkout'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -37,33 +36,33 @@ pipeline.postExecuteStageBody = { stage ->
     if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, stage.name, stage.result)
 }
 
+pipeline.initStageBody = {
+    CommonUtil.printInitialStageStrategies(pipeline)
+
+    script.echo "artifactory user: ${script.env.surf_maven_username}"
+
+    //Выбираем значения веток из параметров, Установка их в параметры происходит
+    // если триггером был webhook или если стартанули Job вручную
+    //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
+    applyParameterIfNotEmpty(script, 'branchName', script.params.branchName_0, {
+        value -> branchName = value
+    })
+
+    if(branchName.contains("project-snapshot")){
+        script.echo "Apply lightweight strategies for project-snapshot branch"
+        pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
+        pipeline.getStage(INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
+        pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
+    }
+
+    CommonUtil.safe(script){
+        JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", script.scm.userRemoteConfigs[0].url, "bitbucket", true)
+    }
+
+    CommonUtil.abortDuplicateBuilds(script, branchName)
+}
+
 pipeline.stages = [
-        pipeline.createStage(INIT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-        
-            CommonUtil.printInitialStageStrategies(pipeline)
-
-            script.echo "artifactory user: ${script.env.surf_maven_username}"
-
-            //Выбираем значения веток из параметров, Установка их в параметры происходит
-            // если триггером был webhook или если стартанули Job вручную
-            //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-            applyParameterIfNotEmpty(script, 'branchName', script.params.branchName_0, {
-                value -> branchName = value
-            })
-        
-            if(branchName.contains("project-snapshot")){
-                script.echo "Apply lightweight strategies for project-snapshot branch"
-                pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
-                pipeline.getStage(INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
-                pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
-            }
-            
-            CommonUtil.safe(script){
-                JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", script.scm.userRemoteConfigs[0].url, "bitbucket", true)
-            }
-
-            CommonUtil.abortDuplicateBuilds(script, branchName)
-        },
         pipeline.createStage(CHECKOUT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             script.checkout([
                     $class                           : 'GitSCM',
