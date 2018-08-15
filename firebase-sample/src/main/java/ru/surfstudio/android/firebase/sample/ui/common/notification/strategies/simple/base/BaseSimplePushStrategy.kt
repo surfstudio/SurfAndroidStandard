@@ -1,5 +1,6 @@
-package ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple
+package ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.base
 
+import android.app.Activity
 import android.app.PendingIntent
 import android.content.Context
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
@@ -21,6 +22,8 @@ abstract class BaseSimplePushStrategy<out T : BaseNotificationTypeData<*>>
         get() = R.drawable.ic_android_black_24dp
     override val color: Int
         get() = R.color.colorPrimary
+
+    override fun handlePushInActivity(activity: Activity): Boolean = false
 
     override fun coldStartRoute(): ActivityRoute = MainActivityRoute()
 
