@@ -77,8 +77,6 @@ object Logger {
     /**
      * используется для ожидаемых ошибок
      * Логгирует только сообщение ошибки
-     *
-     * @param e
      */
     fun w(e: Throwable) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.WARN, e, null) }

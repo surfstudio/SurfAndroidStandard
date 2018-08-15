@@ -1,0 +1,102 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: '../androidTestModule.gradle'
+
+def config = rootProject.extensions.getByName("ext")
+
+android {
+    compileSdkVersion config["compileSdkVersion"]
+    buildToolsVersion config["buildToolsVersion"]
+
+    defaultConfig {
+        applicationId config["applicationId"]
+
+        minSdkVersion config["minSdkVersion"]
+        targetSdkVersion config["targetSdkVersion"]
+
+        versionCode config["moduleVersionCode"]
+        versionName config["moduleVersionName"]
+
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+
+        testBuildType 'qa'
+    }
+
+    signingConfigs {
+        //todo настроить релизную подпись приложения
+        release {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+
+        test {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+    }
+
+    buildTypes {
+        //todo настроить типы сборки
+        debug {
+            signingConfig signingConfigs.test
+            minifyEnabled false
+            debuggable = true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+            applicationIdSuffix config["debugVersionNameSuffix"]
+        }
+        qa {
+            signingConfig signingConfigs.test
+            debuggable = true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+            ext.betaDistributionGroupAliases = "Surf"
+            ext.betaDistributionNotifications = true
+        }
+        release {
+            signingConfig signingConfigs.test
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(':template:base')
+    implementation project(':template:base-ui')
+    implementation project(':template:i-initialization')
+    implementation project(':template:i-network')
+    implementation project(':template:i-token')
+    implementation project(':template:i-session')
+    implementation project(':template:i-auth')
+    implementation project(':template:f-auth')
+    implementation project(':template:f-main')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+}
+
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
+    resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
+}

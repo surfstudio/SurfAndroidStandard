@@ -1,4 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.surfstudio.android.core.app">
-
-</manifest>
+<manifest package="ru.surfstudio.android.core.app" />

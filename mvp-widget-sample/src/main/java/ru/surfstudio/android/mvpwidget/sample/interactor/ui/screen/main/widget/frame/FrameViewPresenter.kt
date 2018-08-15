@@ -11,5 +11,4 @@ import javax.inject.Inject
 @PerScreen
 class FrameViewPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency)
-    : BasePresenter<FrameWidgetView>(basePresenterDependency) {
-}
+    : BasePresenter<FrameWidgetView>(basePresenterDependency)
