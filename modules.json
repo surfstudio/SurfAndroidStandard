@@ -177,6 +177,10 @@
       "path": ""
     },
     {
+      "name": "broadcast-extension-sample",
+      "path": ""
+    },
+    {
       "name": "message-controller",
       "path": ""
     }
