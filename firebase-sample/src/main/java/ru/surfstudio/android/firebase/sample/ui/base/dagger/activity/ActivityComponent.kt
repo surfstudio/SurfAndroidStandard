@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.firebase.sample.app.dagger.AppComponent
-import ru.surfstudio.android.firebase.sample.interactor.analytics.AnalyticsService
+import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsService
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**

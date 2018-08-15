@@ -1,11 +1,11 @@
-package ru.surfstudio.android.firebase.sample.interactor.analytics
+package ru.surfstudio.android.firebase.sample.interactor.common.analytics
 
 import com.google.firebase.analytics.FirebaseAnalytics
 import ru.surfstudio.android.analytics.Analytics
 import ru.surfstudio.android.analytics.BaseAnalyticsService
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.firebase.sample.interactor.analytics.event.CustomEvent
-import ru.surfstudio.android.firebase.sample.interactor.analytics.param.CommonParam
+import ru.surfstudio.android.firebase.sample.interactor.common.analytics.event.CustomEvent
+import ru.surfstudio.android.firebase.sample.interactor.common.analytics.param.CommonParam
 import javax.inject.Inject
 
 @PerApplication

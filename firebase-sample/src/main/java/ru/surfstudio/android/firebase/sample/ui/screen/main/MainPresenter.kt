@@ -1,6 +1,6 @@
 package ru.surfstudio.android.firebase.sample.ui.screen.main
 
-import ru.surfstudio.android.firebase.sample.interactor.analytics.AnalyticsService
+import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsService
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen

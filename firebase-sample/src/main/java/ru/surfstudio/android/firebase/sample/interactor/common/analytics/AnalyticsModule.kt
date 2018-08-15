@@ -1,4 +1,4 @@
-package ru.surfstudio.android.firebase.sample.interactor.analytics
+package ru.surfstudio.android.firebase.sample.interactor.common.analytics
 
 import android.content.Context
 import com.google.firebase.analytics.FirebaseAnalytics

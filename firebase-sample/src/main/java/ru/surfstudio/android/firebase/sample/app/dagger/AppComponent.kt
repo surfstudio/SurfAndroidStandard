@@ -6,8 +6,8 @@ import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.firebase.sample.interactor.analytics.AnalyticsModule
-import ru.surfstudio.android.firebase.sample.interactor.analytics.AnalyticsService
+import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsModule
+import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsService
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 @PerApplication

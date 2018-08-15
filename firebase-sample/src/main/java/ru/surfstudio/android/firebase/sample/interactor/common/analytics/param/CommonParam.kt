@@ -1,4 +1,4 @@
-package ru.surfstudio.android.firebase.sample.interactor.analytics.param
+package ru.surfstudio.android.firebase.sample.interactor.common.analytics.param
 
 /**
  * Общие параметры для аналитики

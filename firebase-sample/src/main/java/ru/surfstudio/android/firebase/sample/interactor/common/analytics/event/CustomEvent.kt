@@ -1,4 +1,4 @@
-package ru.surfstudio.android.firebase.sample.interactor.analytics.event
+package ru.surfstudio.android.firebase.sample.interactor.common.analytics.event
 
 import ru.surfstudio.android.analytics.event.EventData
 
