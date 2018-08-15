@@ -8,4 +8,5 @@
     <string name="send_event_btn_text">Send event</string>
     <string name="event_text_et_value">Event text</string>
     <string name="channel_id">CHANNEL_ID</string>
+    <string name="push_notification_recieved_text">Push notification recieved!</string>
 </resources>
