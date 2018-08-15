@@ -1,0 +1,8 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    compileOnly project(':core-ui')
+    compileOnly project(':rx-extension')
+
+    implementation "com.google.android.gms:play-services-location:$playServicesVersion"
+}
