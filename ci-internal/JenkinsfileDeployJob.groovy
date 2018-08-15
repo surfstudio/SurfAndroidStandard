@@ -4,6 +4,7 @@ import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.stage.body.CommonAndroidStages
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
+import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
 
@@ -28,6 +29,13 @@ pipeline.init()
 
 //configuration
 pipeline.node = NodeProvider.getAndroidNode()
+
+preExecuteStageBody = { stage ->
+    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, stage.name)
+}
+postExecuteStageBody = { stage ->
+    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, stage.name, stage.result)
+}
 
 pipeline.stages = [
         pipeline.createStage(INIT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
@@ -63,6 +71,7 @@ pipeline.stages = [
                     doGenerateSubmoduleConfigurations: script.scm.doGenerateSubmoduleConfigurations,
                     userRemoteConfigs                : script.scm.userRemoteConfigs,
             ])
+            RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             CommonAndroidStages.buildStageBodyAndroid(script, "clean assemble")
