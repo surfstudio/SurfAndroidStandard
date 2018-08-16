@@ -15,7 +15,8 @@ import ru.surfstudio.android.filestorage.sample.ui.base.dagger.screen.CustomScre
  */
 internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
     @PerScreen
-    @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
+    @Component(dependencies = [ActivityComponent::class],
+            modules = [ActivityScreenModule::class, MainScreenModule::class])
     internal interface MainScreenComponent : ScreenComponent<MainActivityView>
 
     @Module
