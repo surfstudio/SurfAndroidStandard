@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.filestorage.sample.app.dagger.AppComponent
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
@@ -26,5 +27,6 @@ interface ActivityComponent {
     fun activityProvider(): ActivityProvider
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
+    fun ipStorage(): IpStorage
     fun ipRepository(): IpRepository
 }
