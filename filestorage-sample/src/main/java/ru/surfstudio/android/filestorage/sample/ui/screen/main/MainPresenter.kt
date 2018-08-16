@@ -4,7 +4,9 @@ import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.filestorage.sample.R
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
+import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
 
 /**
@@ -12,7 +14,8 @@ import javax.inject.Inject
  */
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val repository: IpRepository
+                                                 private val repository: IpRepository,
+                                                 private val messageController: MessageController
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()
@@ -46,4 +49,17 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun reloadData() = tryLoadData()
+
+    fun saveIpToCache() = repository.saveIp(screenModel.ip)
+
+    fun loadDataFromCache() {
+        val message = repository.getIpFromCache()?.value
+        if (message != null) {
+            messageController.show(message)
+        } else {
+            messageController.show(R.string.empty_cache_message)
+        }
+    }
+
+    fun clearCache() = repository.clearIpStorage()
 }

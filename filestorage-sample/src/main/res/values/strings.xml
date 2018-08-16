@@ -6,6 +6,11 @@
     <string name="unexpected_error_error_message">@string/default_http_error_message</string>
     <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
 
+    <string name="save_to_cache_btn_text">Save to cache</string>
+    <string name="get_from_cache_btn_text">Get from cache</string>
+    <string name="clear_cache_btn_text">Clear cache</string>
+    <string name="empty_cache_message">Кэш пуст</string>
+
     <!-- placeholder -->
     <string name="placeholder_error_text">Ошибка загрузки данных</string>
     <string name="placeholder_error_btn_text">Повторить</string>
