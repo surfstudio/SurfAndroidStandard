@@ -30,7 +30,11 @@ object Logger {
     private val DEFAULT_LOGGING_STRATEGY = TimberLoggingStrategy()
     private val LOGGING_STRATEGIES = ArrayList<LoggingStrategy>()
 
-    fun addLoggingStrategy(loggingStrategy: LoggingStrategy) = LOGGING_STRATEGIES.add(loggingStrategy)
+    fun getLoggingStrategies() = LOGGING_STRATEGIES
+
+    fun addLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.add(strategy)
+
+    fun removeLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.remove(strategy)
 
     /**
      * Log a verbose developerMessage with optional format args.

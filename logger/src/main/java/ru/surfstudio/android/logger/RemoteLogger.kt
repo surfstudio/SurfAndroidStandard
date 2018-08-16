@@ -28,7 +28,11 @@ object RemoteLogger {
     private val DEFAULT_REMOTE_LOGGING_STRATEGY = CrashlyticsRemoteLoggingStrategy()
     private val REMOTE_LOGGING_STRATEGIES = ArrayList<RemoteLoggingStrategy>()
 
+    fun getRemoteLoggingStrategies() = REMOTE_LOGGING_STRATEGIES
+
     fun addRemoteLoggingStrategy(strategy: RemoteLoggingStrategy) = REMOTE_LOGGING_STRATEGIES.add(strategy)
+
+    fun removeRemoteLoggingStrategies(strategy: RemoteLoggingStrategy) = REMOTE_LOGGING_STRATEGIES.remove(strategy)
 
     fun setUser(id: String, username: String, email: String) {
         forEachRemoteLoggingStrategyOrWithDefault { strategy -> strategy.setUser(id, username, email) }
