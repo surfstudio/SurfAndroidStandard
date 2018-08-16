@@ -1,7 +1,6 @@
 package ru.surfstudio.android.firebase.sample.ui.common.notification
 
 import ru.surfstudio.android.firebase.sample.domain.notification.NotificationType
-import ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.NoActionAndDataPushStrategy
 import ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.NoDataPushStrategy
 import ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.data.FirstDataTypePushStrategy
 import ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.data.SecondDataTypePushStrategy
@@ -16,7 +15,6 @@ object PushHandleStrategyFactory : AbstractPushHandleStrategyFactory() {
     override val map: HashMap<String, PushHandleStrategy<*>> = hashMapOf(
             NotificationType.FIRST_TYPE.getStringId() to FirstDataTypePushStrategy(),
             NotificationType.SECOND_TYPE.getStringId() to SecondDataTypePushStrategy(),
-            NotificationType.NO_DATA_TYPE.getStringId() to NoDataPushStrategy(),
-            NotificationType.NO_ACTION_AND_DATA_TYPE.getStringId() to NoActionAndDataPushStrategy()
+            NotificationType.NO_DATA_TYPE.getStringId() to NoDataPushStrategy()
     )
 }
