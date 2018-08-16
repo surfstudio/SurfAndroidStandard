@@ -48,7 +48,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {
-        ip_tv.text = screenModel.ip.value
+        ip_tv.text = screenModel.ip?.value
         placeholder.render(screenModel.loadState)
     }
 

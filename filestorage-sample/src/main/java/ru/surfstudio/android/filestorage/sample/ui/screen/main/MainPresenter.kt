@@ -50,16 +50,25 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     fun reloadData() = tryLoadData()
 
-    fun saveIpToCache() = repository.saveIp(screenModel.ip)
+    fun saveIpToCache() {
+        val messageRes: Int = screenModel.ip?.let {
+            repository.saveIp(it)
+            R.string.cache_created_message
+        } ?: R.string.null_ip_message
+        messageController.show(messageRes)
+    }
 
     fun loadDataFromCache() {
         val message = repository.getIpFromCache()?.value
-        if (message != null) {
-            messageController.show(message)
-        } else {
+        if (message.isNullOrEmpty()) {
             messageController.show(R.string.empty_cache_message)
+        } else {
+            messageController.show(message!!)
         }
     }
 
-    fun clearCache() = repository.clearIpStorage()
+    fun clearCache() {
+        repository.clearIpStorage()
+        messageController.show(R.string.cache_deleted_message)
+    }
 }
