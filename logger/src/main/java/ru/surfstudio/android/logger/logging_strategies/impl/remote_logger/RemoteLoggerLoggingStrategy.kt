@@ -1,4 +1,4 @@
-package ru.surfstudio.android.logger.logging_strategies.impl.concrete.remote_logger
+package ru.surfstudio.android.logger.logging_strategies.impl.remote_logger
 
 import android.util.Log
 
