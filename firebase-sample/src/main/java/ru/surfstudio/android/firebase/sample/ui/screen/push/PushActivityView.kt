@@ -4,13 +4,12 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.firebase.sample.R
 import ru.surfstudio.android.firebase.sample.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 import javax.inject.Inject
 
 /**
- * Экран, который будет открыт для пушей
+ * Экран, который будет открыт для пушей без данных
  */
-class PushActivityView : BaseRenderableActivityView<PushScreenModel>(), PushHandlingActivity {
+class PushActivityView : BaseRenderableActivityView<PushScreenModel>() {
 
     @Inject
     internal lateinit var presenter: PushPresenter

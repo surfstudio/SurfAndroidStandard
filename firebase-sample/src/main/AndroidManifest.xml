@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.screen.push.PushActivityView" />
+        <activity android:name=".ui.screen.push.data.DataPushActivityView" />
 
         <service android:name=".ui.common.notification.FirebaseMessagingService">
             <intent-filter>
