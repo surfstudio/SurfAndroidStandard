@@ -1,4 +1,4 @@
-package ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.base
+package ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple
 
 import android.app.Activity
 import android.app.PendingIntent

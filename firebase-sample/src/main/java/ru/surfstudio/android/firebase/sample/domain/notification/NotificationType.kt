@@ -4,9 +4,8 @@ package ru.surfstudio.android.firebase.sample.domain.notification
  * Типы уведомлений
  */
 enum class NotificationType(val id: Int) {
-    FIRST_TYPE(0),
-    SECOND_TYPE(1),
-    NO_DATA_TYPE(2),
+    DATA_TYPE(0),
+    NO_DATA_TYPE(1),
     UNKNOWN(-1);
 
     companion object {
