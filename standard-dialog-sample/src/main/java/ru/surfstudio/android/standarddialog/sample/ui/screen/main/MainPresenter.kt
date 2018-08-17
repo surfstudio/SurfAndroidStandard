@@ -47,7 +47,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     fun showFirstDialog() {
         dialogNavigator.show(StandardDialogRoute(
                 title = "First dialog title",
-                message = "Second dialog title",
+                message = "First dialog message",
                 positiveBtnText = "yes",
                 negativeBtnText = "no",
                 dialogTag = FIRST_DIALOG_TAG))

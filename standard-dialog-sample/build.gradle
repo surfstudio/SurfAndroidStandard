@@ -13,7 +13,6 @@ dependencies {
     implementation project(':dagger-scope')
     implementation project(':mvp-dialog')
     implementation project(':standard-dialog')
-    implementation project(':camera-view')
     implementation project(':network')
     implementation project(':filestorage')
     implementation project(':logger:')

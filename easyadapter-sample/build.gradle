@@ -12,7 +12,6 @@ dependencies {
     implementation project(':core-mvp')
     implementation project(':dagger-scope')
     implementation project(':easyadapter')
-    implementation project(':camera-view')
     implementation project(':network')
     implementation project(':filestorage')
     implementation project(':logger:')
