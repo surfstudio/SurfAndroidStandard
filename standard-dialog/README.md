@@ -1,7 +1,7 @@
 #StandardDialog
 Поставляет простой кастомизируемый да/нет диалог
 
-##Использование
+#Использование
 Презентер экрана, на котором планируется использовать диалог, должен реализовывать интерфейс
 StandardDialogPresenter.
 
@@ -40,7 +40,7 @@ StandardDialogPresenter.
         @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
         internal interface MainScreenComponent : ScreenComponent<MainActivityView>, StandardDialogComponent
 
-##Примеры создания диалога
+#Примеры создания диалога
 
 Через ресурсы:
 
@@ -72,6 +72,7 @@ StandardDialogPresenter.
                   isCancelable = true,
                   dialogTag = "tagSimple"))
                   
+[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/standard-dialog-sample/)
 
 #Подключение
 Gradle:

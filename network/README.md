@@ -32,6 +32,9 @@ Observable<SomeResponse> getSomeContent(
 `BaseNetworkInteractor` Интерактор для работы с сетью. Основная задача упростить взаимодейстивие с закешированными ответами и ответами сервера 
 `Transformable` и `TransformableUtil` Интрефейс и набор утилит для конвертации объекта одного класса в другой
 
+##Пример
+[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/network-sample/)
+
 #Подключение
 Gradle:
 ```

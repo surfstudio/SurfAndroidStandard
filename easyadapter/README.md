@@ -7,9 +7,13 @@
 
 #Использование
 1. Создается экземпляр класса `EasyAdapter` дефолтным конструктором и передается в `RecyclerView`
-1. Для каждого элемента списка создается отдельный класс соответствующего [контроллера](src/main/java/ru/surfstudio/android/easyadapter/controller)
-1. Создается и заполняется `ItemList` парами данные+контроллер
-1. Заполненный экземпляр `ItemList` передается в `EasyAdapter` через метод `setItems()`
+2. Для каждого элемента списка создается отдельный класс соответствующего [контроллера](src/main/java/ru/surfstudio/android/easyadapter/controller)
+3. Создается и заполняется `ItemList` парами данные+контроллер
+4. Заполненный экземпляр `ItemList` передается в `EasyAdapter` через метод `setItems()`
+
+[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/easyadapter-sample/)
+
+[Пример использования в приложении](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/network-sample/)
 
 #Подключение
 Gradle:

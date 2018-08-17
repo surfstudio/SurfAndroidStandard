@@ -4,9 +4,12 @@
 Основные классы:
 
 1. CoreFrameLayoutView
-1. CoreLinearLayoutView
-1. CoreRelativeLayoutView
-1. CoreConstraintLayoutView
+2. CoreLinearLayoutView
+3. CoreRelativeLayoutView
+4. CoreConstraintLayoutView
+
+#Использование
+[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/mvp-widget-sample/)
 
 #Подключение
 Gradle:
