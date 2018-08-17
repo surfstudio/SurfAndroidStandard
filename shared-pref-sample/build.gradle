@@ -2,7 +2,7 @@ apply from: '../androidSample.gradle'
 
 android {
     defaultConfig {
-        applicationId "ru.surfstudio.android.filestorage.sample"
+        applicationId "ru.surfstudio.android.shared.pref.sample"
     }
 }
 
