@@ -10,8 +10,7 @@ import ru.surfstudio.android.firebase.sample.ui.screen.push.PushActivityRoute
  * Стратегия для пушей без данных
  */
 class NoDataPushStrategy : BaseSimplePushStrategy<NoDataNotificationTypeData>() {
-    override val typeData: NoDataNotificationTypeData
-        get() = NoDataNotificationTypeData()
+    override val typeData by lazy { NoDataNotificationTypeData() }
 
     override fun coldStartRoute(): ActivityRoute = PushActivityRoute()
 
