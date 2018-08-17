@@ -11,5 +11,4 @@ class MainActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context?): Intent {
         return Intent(context, MainActivityView::class.java)
     }
-
 }

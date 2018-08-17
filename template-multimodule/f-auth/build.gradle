@@ -1,6 +1,0 @@
-apply from: '../androidFeatureModule.gradle'
-
-dependencies {
-    implementation project(':template-multimodule:i-auth')
-    implementation project(':template-multimodule:i-session')
-}

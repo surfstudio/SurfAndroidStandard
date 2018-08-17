@@ -1,5 +1,0 @@
-apply from: '../androidInteractorModule.gradle'
-
-dependencies {
-    implementation project(':template-multimodule:i-token')
-}

@@ -14,14 +14,11 @@ abstract class NetworkErrorHandler : ErrorHandler {
 
     override fun handleError(err: Throwable) {
         Logger.i(err, "NetworkErrorHandler handle error")
-        if (err is CompositeException) {
-            handleCompositeException(err)
-        } else if (err is ConversionException) {
-            handleConversionError(err)
-        } else if (err is NoInternetException) {
-            handleNoInternetError(err)
-        } else {
-            handleOtherError(err)
+        when (err) {
+            is CompositeException -> handleCompositeException(err)
+            is ConversionException -> handleConversionError(err)
+            is NoInternetException -> handleNoInternetError(err)
+            else -> handleOtherError(err)
         }
     }
 

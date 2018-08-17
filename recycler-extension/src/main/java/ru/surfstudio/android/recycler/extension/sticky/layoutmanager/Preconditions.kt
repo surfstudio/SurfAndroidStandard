@@ -28,8 +28,8 @@ internal object Preconditions {
         return item
     }
 
-    fun validateParentView(recyclerView: View) {
-        val parentView = recyclerView.parent as View
+    fun validateParentView(recyclerView: View?) {
+        val parentView = recyclerView?.parent as View
         if (parentView !is FrameLayout && parentView !is CoordinatorLayout) {
             throw IllegalArgumentException("RecyclerView parent must be either a FrameLayout or CoordinatorLayout")
         }

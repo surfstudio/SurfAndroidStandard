@@ -16,7 +16,6 @@
 package ru.surfstudio.android.mvp.widget.delegate.factory;
 
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import java.util.List;
