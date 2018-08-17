@@ -7,7 +7,7 @@
 3. Поставить `AppMigrationStorage` в конструктор `AppMigrationManager`
 4. Вызвать `AppMigrationManager.tryMigrateApp()` при инициализации приложения 
 
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/app-migration-sample/)
+[Пример использования](../app-migration-sample)
 
 #Подключение
 Gradle:

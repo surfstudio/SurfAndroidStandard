@@ -16,4 +16,4 @@
 ##2. BaseSmsRxBroadcastReceiver
 Дополнение для RxBroadcastReceiver, предназначенное для перехвата и обработки получаемых SMS-сообщений.
 
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/broadcast-extension-sample/)
+[Пример использования](../broadcast-extension-sample)

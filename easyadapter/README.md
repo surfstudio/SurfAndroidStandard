@@ -11,9 +11,9 @@
 3. Создается и заполняется `ItemList` парами данные+контроллер
 4. Заполненный экземпляр `ItemList` передается в `EasyAdapter` через метод `setItems()`
 
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/easyadapter-sample/)
+[Пример использования](../easyadapter-sample)
 
-[Пример использования в приложении](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/network-sample/)
+[Пример использования в приложении](../network-sample)
 
 #Подключение
 Gradle:

@@ -17,7 +17,7 @@
         .addCallAdapterFactory(callAdapterFactory)
         .build()
     ```
-[Пример использования в приложении](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/network-sample/)
+[Пример использования в приложении](../network-sample)
 
 #Подключение
 Gradle:

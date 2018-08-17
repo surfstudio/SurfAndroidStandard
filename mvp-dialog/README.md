@@ -7,7 +7,7 @@
 2. Диалог с собственным презентером, родительский презентер в этом случе может получить событие с диалога через RxBus (см CoreDialogFragmentView)
 
 #Использование
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/mvp-dialog-sample/)
+[Пример использования](../mvp-dialog-sample)
 
 #Подключение
 Gradle:

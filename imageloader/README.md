@@ -46,7 +46,7 @@ Gradle:
                .url(IMAGE_URL)
                .into(imageView)
 
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/imageloader-sample/)
+[Пример использования](../imageloader-sample)
 
 ##ДОКУМЕНТАЦИЯ
 

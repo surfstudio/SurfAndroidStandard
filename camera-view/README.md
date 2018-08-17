@@ -27,7 +27,7 @@ onPause() {
 Необходим одобренный `android.permission.CAMERA` для корректной работы перед вызовом `start()`, иначе получим `java.lang.RuntimeException: Fail to connect to camera service`
 
 ##Пример
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/picture-provider-sample/)
+[Пример использования](../picture-provider-sample)
 
 #Подключение
 Gradle:

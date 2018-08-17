@@ -7,7 +7,7 @@
 + `StandardPlaceHolderView` - стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
 
 ##Использование
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/custom-view-sample/)
+[Пример использования](../custom-view-sample)
 
 ##Подключение
 Gradle:
@@ -28,4 +28,4 @@ Gradle:
     com.wang.avi:library:2.1.3                               Кастомные Loader Indicators
 
 ##Документация
-[`StandardPlaceHolderView`](/surfstudio/android-standard/src/master/custom-view/STANDARD-PLACEHOLDER-VIEW-README.md)
+[`StandardPlaceHolderView`](../custom-view/STANDARD-PLACEHOLDER-VIEW-README.md)

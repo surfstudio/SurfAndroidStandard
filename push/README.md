@@ -15,7 +15,7 @@
 5. Добавить firebase в проект, в методе onMessageReceived обработать сообщение
    с помощью NotificationCenter.onMessageReceived()
    
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/firebase-sample/)
+[Пример использования](../firebase-sample)
 
 #Подключение
 Gradle:

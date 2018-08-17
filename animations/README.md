@@ -29,7 +29,7 @@
 [behaviors]: /src/main/java/ru/surfstudio/android/animations/behaviors
 
 #Использование
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/animations-sample/)
+[Пример использования](../animations-sample)
 
 #Подключение
 Gradle:

@@ -1,5 +1,5 @@
 #MVP widget
-Расширение модуля [core-mvp](../core-mvp/README.md) для работы со view(в терминах android фреймвока) как со View(в терминах MVP). 
+Расширение модуля [core-mvp](../core-mvp) для работы со view(в терминах android фреймвока) как со View(в терминах MVP). 
 
 Основные классы:
 
@@ -9,7 +9,7 @@
 4. CoreConstraintLayoutView
 
 #Использование
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/mvp-widget-sample/)
+[Пример использования](../mvp-widget-sample)
 
 #Подключение
 Gradle:

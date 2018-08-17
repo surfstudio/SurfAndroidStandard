@@ -3,7 +3,7 @@
 Поддежка data-binding
 
 #Использование
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/core-mvp-binding-sample/)
+[Пример использования](../core-mvp-binding-sample)
 
 #Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru) необходимо, 

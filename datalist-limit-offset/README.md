@@ -6,10 +6,10 @@
  3. bool canGetMore() - обозначает, можно ли загрузить еще данные
 
 #Использование
-Используется так же, как и [datalist-page-count](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/datalist-page-count/).
+Используется так же, как и [datalist-page-count](../datalist-page-count).
 
-Пример использования [datalist-page-count](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/datalist-page-count/)
-можно найти [здесь](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/network-sample/).
+Пример использования [datalist-page-count](../datalist-page-count)
+можно найти [здесь](../network-sample).
 
 #Подключение
 Gradle:

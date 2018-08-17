@@ -72,7 +72,7 @@ StandardDialogPresenter.
                   isCancelable = true,
                   dialogTag = "tagSimple"))
                   
-[Пример использования](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/standard-dialog-sample/)
+[Пример использования](../standard-dialog-sample)
 
 #Подключение
 Gradle:
