@@ -1,5 +1,4 @@
 # Лучшие практики
-[ссылка](https://docs.google.com/document/d/1tGf1Z9r16h6swXSGR48qBT2MO5nqia9dZltjg8j2N2o/edit#)
 
 
 ##### Особенности реализации View

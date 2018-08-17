@@ -3,9 +3,9 @@
 Репозиторий содержит большое готовых модулей.
 Полное описание модулей [здесь](https://bitbucket.org/surfstudio/android-standard/wiki/Modules).
 
-### Модули обязательные для подключения
+### Модули рекомендуемые для подключения
 
-Минимальный набор модулей для создания приложения:
+Рекомендуемый минимальный набор модулей для создания приложения:
 
 - [core-ui](https://bitbucket.org/surfstudio/android-standard/src/master/core-ui) - модуль расширяющий возможности ui части Android Framework. Может быть использован для создания базовых классов, необходимых для реализации паттернов MVP, MVVM
 - [core-mvp](https://bitbucket.org/surfstudio/android-standard/src/master/core-mvp) - расширение core-ui для гибридной архитектуры MVP + Presentation Model.
