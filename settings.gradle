@@ -4,4 +4,8 @@ gradle.ext.modules.each {
     include it.name
 }
 
+gradle.ext.samples.each {
+    include it.name
+}
+
 apply from: 'template/settings.gradle'
