@@ -1,2 +1,3 @@
-#Recycler extension sample
-Пример использования [recycle extension](../recycler-extension/README.md)
+#Recycler-Extension Sample
+
+Пример использования модуля [recycle extension](../recycler-extension)
