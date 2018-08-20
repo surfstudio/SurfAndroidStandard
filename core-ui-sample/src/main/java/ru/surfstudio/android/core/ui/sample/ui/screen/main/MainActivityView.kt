@@ -5,8 +5,11 @@ import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate
 import ru.surfstudio.android.core.ui.sample.R
 import ru.surfstudio.android.core.ui.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
 
 /**
@@ -18,6 +21,9 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     @Inject
     internal lateinit var presenter: MainPresenter
 
+    @Inject
+    internal lateinit var messageController: MessageController
+
     @IdRes
     override fun getContentView(): Int {
         return R.layout.activity_main
@@ -27,6 +33,17 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        // Регистрация делегата только при первом старте экрана
+        if (!viewRecreated) {
+            val delegate = object : OnPauseDelegate {
+                init {
+                    persistentScope.screenEventDelegateManager.registerDelegate(this)
+                }
+
+                override fun onPause() = Logger.d("CustomOnPauseDelegate onPause")
+            }
+            messageController.show("$delegate registered")
+        }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}

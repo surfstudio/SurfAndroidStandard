@@ -14,7 +14,5 @@ class CustomOnDestroyDelegate @Inject constructor(eventDelegateManager: ScreenEv
         eventDelegateManager.registerDelegate(this)
     }
 
-    override fun onDestroy() {
-        Logger.d("CustomOnDestroyDelegate onDestroy")
-    }
+    override fun onDestroy() = Logger.d("CustomOnDestroyDelegate onDestroy")
 }
