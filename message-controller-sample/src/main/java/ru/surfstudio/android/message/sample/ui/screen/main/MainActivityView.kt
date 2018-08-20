@@ -3,6 +3,7 @@ package ru.surfstudio.android.message.sample.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import kotlinx.android.synthetic.main.activity_main.*
 
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -20,23 +21,26 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     internal lateinit var presenter: MainPresenter
 
     @IdRes
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView(): Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        initListeners()
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator {
-        return MainScreenConfigurator(intent)
+    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
+
+    private fun initListeners() {
+        show_colored_snackbar.setOnClickListener { presenter.showColoredSnackbar() }
+        show_snackbar_with_duration.setOnClickListener { presenter.showSnackbarWithDuration() }
+        show_snackbar_with_listener.setOnClickListener { presenter.showSnackbarWithListener() }
+        show_gravity_toast.setOnClickListener { presenter.showGravityToast() }
+        close_snackbar.setOnClickListener { presenter.closeSnackbar() }
     }
 }
