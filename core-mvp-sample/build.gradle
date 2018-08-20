@@ -23,6 +23,3 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
 }
-
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
