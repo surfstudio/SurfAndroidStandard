@@ -1,41 +1,36 @@
 package ru.surfstudio.android.shared.pref.sample.interactor.ip.cache
 
-import com.google.gson.GsonBuilder
+import android.content.SharedPreferences
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.BaseLocalCache
-import ru.surfstudio.android.filestorage.CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME
-import ru.surfstudio.android.filestorage.ObjectConverter
-import ru.surfstudio.android.filestorage.naming.NamingProcessor
-import ru.surfstudio.android.filestorage.processor.CacheFileProcessor
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import ru.surfstudio.android.shared.pref.SettingsUtil
 import ru.surfstudio.android.shared.pref.sample.domain.ip.Ip
+import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import javax.inject.Inject
 import javax.inject.Named
 
 /**
- * Локальное хранилище информации об ip
+ * Хранилище для IP
  */
 @PerApplication
-class IpStorage @Inject constructor(@Named(INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String
-) : BaseLocalCache<Ip>(
-        CacheFileProcessor(cacheDir, KEY_IP_STORAGE, 1),
-        NamingProcessor { rawName -> rawName }) {
+class IpStorage @Inject
+constructor(@Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
 
     companion object {
-        private const val KEY_IP_STORAGE = "ip_storage"
+        private const val KEY_IP = "KEY_IP"
     }
 
-    private val gsonBuilder = GsonBuilder().create()
-
-    override fun getConverter(): ObjectConverter<Ip> = object : ObjectConverter<Ip> {
-
-        override fun encode(value: Ip): ByteArray = gsonBuilder.toJson(value).toByteArray()
-
-        override fun decode(rawValue: ByteArray): Ip = gsonBuilder.fromJson(String(rawValue), Ip::class.java)
+    fun setIp(ip: Ip) {
+        ipValue = ip.value
     }
 
-    var ip: Ip?
-        get() = get(KEY_IP_STORAGE)
-        set(value) {
-            value?.let { put(KEY_IP_STORAGE, it) }
-        }
+    fun getIp(): Ip? = if (ipValue.isEmpty()) null else Ip(ipValue)
+
+    fun clearIp() {
+        ipValue = EMPTY_STRING
+    }
+
+    private var ipValue: String
+        get() = SettingsUtil.getString(noBackupSharedPref, KEY_IP)
+        set(value) = SettingsUtil.putString(noBackupSharedPref, KEY_IP, value)
 }

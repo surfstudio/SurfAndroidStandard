@@ -22,24 +22,24 @@
                 android:layout_marginBottom="@dimen/default_margin" />
 
             <Button
-                android:id="@+id/save_to_cache_btn"
+                android:id="@+id/save_to_storage_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin"
-                android:text="@string/save_to_cache_btn_text" />
+                android:text="@string/save_to_storage_btn_text" />
 
             <Button
-                android:id="@+id/get_from_cache_btn"
+                android:id="@+id/get_from_storage_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin"
-                android:text="@string/get_from_cache_btn_text" />
+                android:text="@string/get_from_storage_btn_text" />
 
             <Button
-                android:id="@+id/clear_cache_btn"
+                android:id="@+id/clear_storage_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/clear_cache_btn_text" />
+                android:text="@string/clear_storage_btn_text" />
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 

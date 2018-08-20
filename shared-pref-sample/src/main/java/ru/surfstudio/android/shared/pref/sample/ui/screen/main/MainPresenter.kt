@@ -59,7 +59,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun loadDataFromCache() {
-        val message = repository.getIpFromCache()?.value
+        val message = repository.getIpFromStorage()?.value
         if (message.isNullOrEmpty()) {
             messageController.show(R.string.empty_cache_message)
         } else {

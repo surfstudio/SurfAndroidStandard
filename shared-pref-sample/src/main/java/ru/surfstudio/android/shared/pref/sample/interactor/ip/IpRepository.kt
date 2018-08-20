@@ -24,17 +24,9 @@ class IpRepository @Inject constructor(connectionQualityProvider: ConnectionProv
                 .map { ipResponse -> TransformUtil.transform(ipResponse) }
     }
 
-    fun getIpFromCache(): Ip? = ipStorage.ip
+    fun getIpFromStorage(): Ip? = ipStorage.getIp()
 
-    /**
-     * Кэширование ip
-     */
-    fun saveIp(ip: Ip) {
-        ipStorage.ip = ip
-    }
+    fun saveIp(ip: Ip) = ipStorage.setIp(ip)
 
-    /**
-     * Очистка кэша
-     */
-    fun clearIpStorage() = ipStorage.clear()
+    fun clearIpStorage() = ipStorage.clearIp()
 }

@@ -6,13 +6,13 @@
     <string name="unexpected_error_error_message">@string/default_http_error_message</string>
     <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
 
-    <string name="save_to_cache_btn_text">Save to cache</string>
-    <string name="get_from_cache_btn_text">Get from cache</string>
-    <string name="clear_cache_btn_text">Clear cache</string>
-    <string name="empty_cache_message">Кэш пуст</string>
+    <string name="save_to_storage_btn_text">Save to storage</string>
+    <string name="get_from_storage_btn_text">Get from storage</string>
+    <string name="clear_storage_btn_text">Clear storage</string>
+    <string name="empty_cache_message">Хранилище пусто</string>
     <string name="null_ip_message">IP не был успешно загружен</string>
-    <string name="cache_created_message">IP был сохранен в кэш</string>
-    <string name="cache_deleted_message">Кэш был удален</string>
+    <string name="cache_created_message">IP был сохранен в хранилище</string>
+    <string name="cache_deleted_message">Хранилище было очищено</string>
 
     <!-- placeholder -->
     <string name="placeholder_error_text">Ошибка загрузки данных</string>
