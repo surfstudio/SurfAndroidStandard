@@ -8,10 +8,5 @@
 
     <string name="open_another_screen_btn_text">Open another screen</string>
     <string name="another_screen_tv_text">Another screen</string>
-    <string name="finish_btn_text">Finish</string>
-    <string name="result_message">Result message</string>
-
-    <string name="snackbar_message">Текст сообщения</string>
-    <string name="close_app">Выйти из приложения?</string>
     <string name="main_screen_tv_text">Main screen</string>
 </resources>

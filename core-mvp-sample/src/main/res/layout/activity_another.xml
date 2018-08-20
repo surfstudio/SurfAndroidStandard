@@ -12,12 +12,4 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="@dimen/default_margin"
         android:text="@string/another_screen_tv_text" />
-
-    <Button
-        android:id="@+id/finish_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/another_screen_tv"
-        android:layout_centerHorizontal="true"
-        android:text="@string/finish_btn_text" />
 </RelativeLayout>
