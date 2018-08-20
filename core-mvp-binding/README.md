@@ -12,5 +12,5 @@
   
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.standard:core-mvp-binding:X.X.X"
+    implementation "ru.surfstudio.android:core-mvp-binding:X.X.X"
 ```
