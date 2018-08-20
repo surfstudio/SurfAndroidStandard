@@ -5,10 +5,10 @@ import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate
 import ru.surfstudio.android.core.ui.sample.R
 import ru.surfstudio.android.core.ui.sample.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.core.ui.sample.ui.core.CustomOnRestoreStateDelegate
+import ru.surfstudio.android.core.ui.sample.ui.core.CustomOnSaveStateDelegate
 import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
 
@@ -25,9 +25,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     internal lateinit var messageController: MessageController
 
     @IdRes
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView(): Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
@@ -35,24 +33,16 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         // Регистрация делегата только при первом старте экрана
         if (!viewRecreated) {
-            val delegate = object : OnPauseDelegate {
-                init {
-                    persistentScope.screenEventDelegateManager.registerDelegate(this)
-                }
-
-                override fun onPause() = Logger.d("CustomOnPauseDelegate onPause")
-            }
-            messageController.show("$delegate registered")
+            val delegateManager = persistentScope.screenEventDelegateManager
+            val saveStateDelegate = CustomOnSaveStateDelegate(delegateManager)
+            val restoreStateDelegate = CustomOnRestoreStateDelegate(delegateManager)
+            messageController.show("Delegates registered")
         }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator {
-        return MainScreenConfigurator(intent)
-    }
+    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
 }
