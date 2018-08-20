@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <exclude domain="sharedpref" path="NO_BACKUP_SHARED_PREF.xml" />
+</full-backup-content>

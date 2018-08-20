@@ -21,10 +21,6 @@
       "path": ""
     },
     {
-      "name": "core-mvp-binding-sample",
-      "path": ""
-    },
-    {
       "name": "analytics",
       "path": ""
     },
@@ -61,10 +57,6 @@
       "path": ""
     },
     {
-      "name": "recycler-extension-sample",
-      "path": ""
-    },
-    {
       "name": "datalist-limit-offset",
       "path": ""
     },
@@ -74,6 +66,10 @@
     },
     {
       "name": "firebase-analytics",
+      "path": ""
+    },
+    {
+      "name": "firebase-sample",
       "path": ""
     },
     {
@@ -105,19 +101,11 @@
       "path": ""
     },
     {
-      "name": "custom-view-sample",
-      "path": ""
-    },
-    {
       "name": "mvp-dialog",
       "path": ""
     },
     {
       "name": "mvp-widget",
-      "path": ""
-    },
-    {
-      "name": "mvp-widget-sample",
       "path": ""
     },
     {
@@ -129,15 +117,7 @@
       "path": ""
     },
     {
-      "name": "picture-provider-sample",
-      "path": ""
-    },
-    {
       "name": "imageloader",
-      "path": ""
-    },
-    {
-      "name": "imageloader-sample",
       "path": ""
     },
     {

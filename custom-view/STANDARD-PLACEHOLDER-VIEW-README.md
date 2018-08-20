@@ -4,7 +4,7 @@
 является механизм отложенного изменения состояния, позволяющий избегать промаргиваний при слишком 
 частом изменении состояния плейсхолдера.  
 
-![StandardPlaceholderView](/custom-view/doc/standard-placeholder-view.png)
+[StandardPlaceholderView](/custom-view/doc/standard-placeholder-view.png)
 
 ##ОТВЕТСТВЕННОЕ ЛИЦО
 
