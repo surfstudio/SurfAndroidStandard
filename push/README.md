@@ -1,8 +1,8 @@
-#Push
+# Push
 Содержит базовые классы для получения пушей от сервера с последующей обработкой. 
 Возможно определение поведения для различных типов сообщений.
 
-##Использование
+## Использование
 Для встраивания в проект необходимо сделать следующие действия:
 1. Проинициализировать [NotificationCenter](src/main/java/ru/surfstudio/android/notification/NotificationCenter.kt)
    с помощью метода configure(), вызвав внутри методы setActiveActivityHolder, setPushHandleStrategyFactory
