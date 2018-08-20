@@ -1,10 +1,14 @@
 #Logger
 Модуль для логирования в logcat и на сервер. Основано на [timber](https://github.com/JakeWharton/timber)
 Основные классы:
- 1. Logger
- 1. RemoteLogger
+ 1. [Logger](src/main/java/ru/surfstudio/android/logger/Logger.kt)
+ 1. [RemoteLogger](src/main/java/ru/surfstudio/android/logger/RemoteLogger.kt)
 
-#Подключение
+# Использование
+[здесь](docs/usage.md)
+
+
+# Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:logger:X.X.X"
