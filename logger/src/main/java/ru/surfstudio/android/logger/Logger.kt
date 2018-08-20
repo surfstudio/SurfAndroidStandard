@@ -19,7 +19,7 @@ import android.util.Log
 import java.util.ArrayList
 
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
-import ru.surfstudio.android.logger.logging_strategies.impl.concrete.timber.TimberLoggingStrategy
+import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
 
 /**
  * логгирует в logcat
@@ -30,15 +30,19 @@ object Logger {
     private val DEFAULT_LOGGING_STRATEGY = TimberLoggingStrategy()
     private val LOGGING_STRATEGIES = ArrayList<LoggingStrategy>()
 
+    @JvmStatic
     fun getLoggingStrategies() = LOGGING_STRATEGIES
 
+    @JvmStatic
     fun addLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.add(strategy)
 
+    @JvmStatic
     fun removeLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.remove(strategy)
 
     /**
      * Log a verbose developerMessage with optional format args.
      */
+    @JvmStatic
     fun v(message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.VERBOSE, null, message, *args) }
     }
@@ -46,13 +50,15 @@ object Logger {
     /**
      * Log a verbose exception and a developerMessage with optional format args.
      */
-    fun v(t: Throwable, message: String, vararg args: Any) {
+    @JvmStatic
+    fun v(t: Throwable?, message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.VERBOSE, t, message, *args) }
     }
 
     /**
      * Log a debug developerMessage with optional format args.
      */
+    @JvmStatic
     fun d(message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.DEBUG, null, message, *args) }
     }
@@ -60,13 +66,15 @@ object Logger {
     /**
      * Log a debug exception and a developerMessage with optional format args.
      */
-    fun d(t: Throwable, message: String, vararg args: Any) {
+    @JvmStatic
+    fun d(t: Throwable?, message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.DEBUG, t, message, *args) }
     }
 
     /**
      * Log an info developerMessage with optional format args.
      */
+    @JvmStatic
     fun i(message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.INFO, null, message, *args) }
     }
@@ -74,7 +82,8 @@ object Logger {
     /**
      * Log an info exception and a developerMessage with optional format args.
      */
-    fun i(t: Throwable, message: String, vararg args: Any) {
+    @JvmStatic
+    fun i(t: Throwable?, message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.INFO, t, message, *args) }
     }
 
@@ -82,13 +91,15 @@ object Logger {
      * используется для ожидаемых ошибок
      * Логгирует только сообщение ошибки
      */
-    fun w(e: Throwable) {
+    @JvmStatic
+    fun w(e: Throwable?) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.WARN, e, null) }
     }
 
     /**
      * Log a warning developerMessage with optional format args.
      */
+    @JvmStatic
     fun w(message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.WARN, null, message, *args) }
     }
@@ -96,13 +107,15 @@ object Logger {
     /**
      * Log a warning exception and a developerMessage with optional format args.
      */
-    fun w(t: Throwable, message: String, vararg args: Any) {
+    @JvmStatic
+    fun w(t: Throwable?, message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.WARN, t, message, *args) }
     }
 
     /**
      * Log an error developerMessage with optional format args.
      */
+    @JvmStatic
     fun e(message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.ERROR, null, message, *args) }
     }
@@ -110,11 +123,13 @@ object Logger {
     /**
      * Log an error exception and a developerMessage with optional format args.
      */
-    fun e(t: Throwable, message: String, vararg args: Any) {
+    @JvmStatic
+    fun e(t: Throwable?, message: String, vararg args: Any) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.ERROR, t, message, *args) }
     }
 
-    fun e(t: Throwable) {
+    @JvmStatic
+    fun e(t: Throwable?) {
         forEachLoggingStrategyOrWithDefault { strategy -> strategy.log(Log.ERROR, t, null) }
     }
 

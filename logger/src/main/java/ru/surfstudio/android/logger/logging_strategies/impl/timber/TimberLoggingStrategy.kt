@@ -1,4 +1,4 @@
-package ru.surfstudio.android.logger.logging_strategies.impl.concrete.timber
+package ru.surfstudio.android.logger.logging_strategies.impl.timber
 
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import timber.log.Timber
