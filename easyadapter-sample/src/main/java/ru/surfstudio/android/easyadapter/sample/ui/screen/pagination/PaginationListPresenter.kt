@@ -4,14 +4,16 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
+import ru.surfstudio.android.easyadapter.sample.interactor.DataListLimitOffset
+import ru.surfstudio.android.easyadapter.sample.interactor.DataListPageCount
 import ru.surfstudio.android.easyadapter.sample.interactor.FirstDataRepository
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerScreen
 internal class PaginationListPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                  private val repository: FirstDataRepository
+                                                           private val repository: FirstDataRepository
 ) : BasePresenter<PaginationListActivityView>(basePresenterDependency) {
 
     private val screenModel: PaginationListScreenModel = PaginationListScreenModel()
@@ -26,22 +28,47 @@ internal class PaginationListPresenter @Inject constructor(basePresenterDependen
     }
 
     private fun loadData() {
-        subscribe(getData()) {
-            screenModel.list.addAll(it)
-            view.render(screenModel)
-        }
+        subscribeIoHandleError(getDataByPage()
+                .delay(getDelay(), TimeUnit.MILLISECONDS)
+                .timeout(1000L, TimeUnit.MILLISECONDS), //в целях демонстрации
+                {
+                    with(screenModel) {
+                        pageList.merge(it)
+                        screenModel.setNormalPaginationState(pageList.canGetMore())
+                    }
+
+                    view.render(screenModel)
+                },
+                {
+                    screenModel.setErrorPaginationState()
+                    view.render(screenModel)
+                })
     }
+
+    //демонстрация ошибки
+    private fun getDelay() =
+            if (screenModel.pageList.nextPage > FirstDataRepository.ERROR_PAGE_NUMBER) {
+                Long.MAX_VALUE
+            } else {
+                500L
+            }
 
     fun loadMore() = loadData()
 
-    private fun getData(): Observable<List<FirstData>> {
-        val result = repository.getData(screenModel.page++)
-        screenModel.paginationState =
-                when {
-                    screenModel.page == FirstDataRepository.ERROR_PAGE_NUMBER -> PaginationState.ERROR
-                    screenModel.page < FirstDataRepository.PAGES_COUNT -> PaginationState.READY
-                    else -> PaginationState.COMPLETE
-                }
-        return result
+    /**
+     * Вариант загрузки по номеру страницы
+     */
+    private fun getDataByPage(): Observable<DataListPageCount<FirstData>> {
+        return repository.getDataByPage(screenModel.pageList.nextPage)
+    }
+
+    /**
+     * Алтернатива - загрузка через смещение
+     * Для использования подменить в метод getData() в loadData на тот , что ниже
+     * В коллбеке onNext заменить pageList -> limitOffsetList
+     * И на view заменить в renderInternal
+     */
+    private fun getDataByOffset(): Observable<DataListLimitOffset<FirstData>> {
+        return repository.getDataByOffset(screenModel.limitOffsetList.nextOffset)
     }
 }
