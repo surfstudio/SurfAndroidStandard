@@ -12,7 +12,6 @@ import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.FirstDataItemController
-import ru.surfstudio.android.logger.Logger
 import javax.inject.Inject
 
 class PaginationListActivityView : BaseRenderableActivityView<PaginationListScreenModel>() {
@@ -20,10 +19,7 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
     @Inject
     internal lateinit var presenter: PaginationListPresenter
 
-    private val adapter = PaginationableAdapter {
-        Logger.d("11111 loadMore")
-        presenter.loadMore()
-    }
+    private val adapter = PaginationableAdapter { presenter.loadMore() }
 
     private val controller = FirstDataItemController(object : FirstDataItemController.FirstDataClickListener {
         override fun onClick(firstData: FirstData) {
