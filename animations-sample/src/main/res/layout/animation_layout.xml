@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:parentTag="android.widget.RelativeLayout">
+
+    <TextView
+        android:id="@+id/animation_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Animation name" />
+
+    <Button
+        android:id="@+id/show_animation_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:text="@string/show_animation_btn_text" />
+
+    <Button
+        android:id="@+id/reset_animation_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/show_animation_btn"
+        android:layout_alignParentEnd="true"
+        android:text="@string/reset_animation_btn_text" />
+
+    <ImageView
+        android:id="@+id/animation_iv"
+        android:layout_width="@dimen/image_size"
+        android:layout_height="@dimen/image_size"
+        android:layout_marginTop="@dimen/default_margin"
+        android:contentDescription="@string/image_view"
+        android:background="@color/colorPrimary"
+        android:layout_below="@id/animation_name_tv" />
+</merge>
