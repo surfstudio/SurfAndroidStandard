@@ -23,8 +23,8 @@ import com.github.anrwatchdog.ANRWatchDog;
 
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.logger.RemoteLogger;
-import ru.surfstudio.android.logger.logging_strategies.impl.concrete.remote_logger.RemoteLoggerLoggingStrategy;
-import ru.surfstudio.android.logger.logging_strategies.impl.concrete.timber.TimberLoggingStrategy;
+import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy;
+import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy;
 
 /**
  * Базовый класс приложения

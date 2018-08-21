@@ -2,6 +2,7 @@ import groovy.json.JsonSlurper
 
 gradle.ext {
     modules = Module.modules('modules.json', 'modules')
+    samples = Module.modules('samples.json', 'samples')
 }
 
 class Module {

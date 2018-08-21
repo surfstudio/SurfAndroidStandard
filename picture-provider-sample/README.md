@@ -1,2 +1,5 @@
-#Picture provider sample
-Пример использования [picture-provider](../picture-provider/README.md)
+#Picture-Provider Sample
+
+Пример использования модулей:
++ [picture-provider](../picture-provider)
++ [camera-view](../camera-view)

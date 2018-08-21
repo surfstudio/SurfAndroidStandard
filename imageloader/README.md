@@ -46,6 +46,8 @@ Gradle:
                .url(IMAGE_URL)
                .into(imageView)
 
+[Пример использования](../imageloader-sample)
+
 ##ДОКУМЕНТАЦИЯ
 
 ImageLoader предоставляет сигнатуру, максимально приближенную к сигнатуре `Glide`, но с некоторыми 

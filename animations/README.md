@@ -28,6 +28,9 @@
 [anim]: /src/main/java/ru/surfstudio/android/animations/anim
 [behaviors]: /src/main/java/ru/surfstudio/android/animations/behaviors
 
+#Использование
+[Пример использования](../animations-sample)
+
 #Подключение
 Gradle:
 ```
