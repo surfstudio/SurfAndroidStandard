@@ -6,15 +6,17 @@
 Для встраивания в проект необходимо сделать следующие действия:
 1. Проинициализировать [NotificationCenter](src/main/java/ru/surfstudio/android/notification/NotificationCenter.kt)
    с помощью метода configure(), вызвав внутри методы setActiveActivityHolder, setPushHandleStrategyFactory
-1. Добавить маркерный интерфейс [PushHandlingActivity](src/main/java/ru/surfstudio/android/notification/ui/notification/PushHandlingActivity.kt)
+2. Добавить маркерный интерфейс [PushHandlingActivity](src/main/java/ru/surfstudio/android/notification/ui/notification/PushHandlingActivity.kt)
    к активити-лаунчер (или другой, с которой будет происходить навигация*)
-1. В DefaultActivityLifecycleCallbacks добавить обработку старта активити методом 
+3. В DefaultActivityLifecycleCallbacks добавить обработку старта активити методом
    NotificationCenter.onActivityStarted()
-1. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
+4. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
    в котором переопределить map c соотвествием типа пуша стратегии его обработки
-1. Добавить firebase в проект, в методе onMessageReceived обработать сообщение
+5. Добавить firebase в проект, в методе onMessageReceived обработать сообщение
    с помощью NotificationCenter.onMessageReceived()
    
+[Пример использования](../firebase-sample)
+
 #Подключение
 Gradle:
 ```

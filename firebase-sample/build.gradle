@@ -1,0 +1,40 @@
+apply from: '../androidSample.gradle'
+apply plugin: 'io.fabric'
+
+android {
+    ext.enableCrashlytics = false
+
+    defaultConfig {
+        applicationId "ru.surfstudio.android.firebase.sample"
+    }
+}
+
+dependencies {
+    implementation project(':core-app')
+    implementation project(':core-ui')
+    implementation project(':core-mvp')
+    implementation project(':dagger-scope')
+    implementation project(':analytics')
+    implementation project(':firebase-analytics')
+    implementation project(':push')
+    implementation project(':network')
+    implementation project(':filestorage')
+    implementation project(':logger:')
+    implementation project(':connection')
+    implementation project(':rx-extension')
+    implementation project(':util-ktx')
+    implementation project(':shared-pref')
+    implementation project(':message-controller')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+
+    api "com.google.firebase:firebase-core:$firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
+
+    implementation("com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}@aar") {
+        transitive = true
+    }
+}
+
+apply plugin: 'com.google.gms.google-services'

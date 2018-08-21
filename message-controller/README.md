@@ -1,7 +1,11 @@
 #MessageController
 Модуль для отображения Snackbar.
+
 Основные классы:
  1. MessageController
+
+#Использование
+[Пример использования](../message-controller-sample)
 
 #Подключение
 Gradle:

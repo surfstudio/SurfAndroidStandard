@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "461961943814",
+    "firebase_url": "https://androidstandard-sample-7707a.firebaseio.com",
+    "project_id": "androidstandard-sample-7707a",
+    "storage_bucket": "androidstandard-sample-7707a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461961943814:android:3424eee7df0a7a3e",
+        "android_client_info": {
+          "package_name": "ru.surfstudio.android.firebase.sample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461961943814-f2gpo3dt41hkusso3fkm2kuu4uile6nl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBku-YC4XFZehEdDyDiCOcIAlCG9sskh2g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

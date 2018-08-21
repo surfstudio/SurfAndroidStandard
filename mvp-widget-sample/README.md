@@ -1,2 +1,3 @@
-#Mvp widget sample
-Пример использования [mvp-widget](../mvp-widget/README.md)
+#Mvp-Widget Sample
+
+Пример использования модуля [mvp-widget](../mvp-widget)
