@@ -1,6 +1,9 @@
 #Shared preference
 Модуль c утилитами для `SharedPreferences`
 
+#Использование
+[Пример использования](../shared-pref-sample)
+
 #Подключение
 Gradle:
 ```

@@ -34,6 +34,10 @@ Observable<SomeResponse> getSomeContent(
 `Transformable` и `TransformableUtil` Интрефейс и набор утилит для конвертации объекта одного класса в другой
 
 # Подключение
+## Пример
+[Пример использования](../network-sample)
+
+#Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:network:X.X.X"

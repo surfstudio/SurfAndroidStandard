@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/default_margin">
+
+    <Button
+        android:id="@+id/decrease_btn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="@string/minus" />
+
+    <TextView
+        android:id="@+id/value_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/decrease_btn"
+        android:layout_centerVertical="true"
+        android:minWidth="80dp"
+        android:textAlignment="center"
+        tools:text="10" />
+
+    <Button
+        android:id="@+id/increase_btn"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/value_tv"
+        android:text="@string/plus" />
+
+    <Button
+        android:id="@+id/apply_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="@string/apply_btn_text"
+        tools:ignore="RelativeOverlap" />
+</RelativeLayout>

@@ -8,23 +8,26 @@ Cоздан в результате развития идей проекта [fe
 
 1. PersistentScope - хранилище для остальных сущностей,
    переживает смену конфигурации.
-1. PersistentScopeStorage - хранилище всех PersistentScope в контексте приложения
-1. ScreenState - текущее состояние экрана (пр. был ли он пересоздан в результате смены конфигурации или восстановлен с диска)
-1. Configurator - используется для настройки DI
-1. ScreenEventDelegateManager - позволяет подписываться на системные события экрана, такие как onActivityResult, onCompletelyDestroy, onNewIntent и др.
+2. PersistentScopeStorage - хранилище всех PersistentScope в контексте приложения
+3. ScreenState - текущее состояние экрана (пр. был ли он пересоздан в результате смены конфигурации или восстановлен с диска)
+4. Configurator - используется для настройки DI
+5. ScreenEventDelegateManager - позволяет подписываться на системные события экрана, такие как onActivityResult, onCompletelyDestroy, onNewIntent и др.
 
 Все эти сущности, переживают смену конфигурации, таким образом решается большая часть проблем, связанных с этим свойством фреймворка. 
 
 ### Дополнительные сущности:
 
 1. ActivityNavigator, FragmentNavigator, TabFragmentNavigator, ChildFragmentNavigator - позволяют осуществлять навигацию по приложению c помощью специальных сущностей Route
-1. PermissionManager - позволяет запрашивать RuntimePermissions
-1. RxBus - простая шина на RxJava, может быть использована, например, для связывания двух презентеров на одной активити
-1. ActivityProvider, FragmentProvider - предоставляют "живые" Activity или Fragment даже после смены конфигурации  
+2. PermissionManager - позволяет запрашивать RuntimePermissions
+3. RxBus - простая шина на RxJava, может быть использована, например, для связывания двух презентеров на одной активити
+4. ActivityProvider, FragmentProvider - предоставляют "живые" Activity или Fragment даже после смены конфигурации
 
 Механизм делегирования событий экрана (см ScreenEventDelegateManager) позволяет создавать законченные сущности, которые необходимы для "чистой" архитектуры. Например, использование ActivityNavigator избавляет от необходимости переопределять метод onActivityResult и полностью инкапсулирует работу с Intent.
 
 Большинство асинхронных взаимодействий осуществляются через rxJava. 
+
+# Использование
+[Пример использования](../core-ui-sample)
 
 # Подключение
 Gradle:

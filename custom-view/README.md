@@ -1,17 +1,20 @@
 #Custom view
 Модуль с реализаций различных полезных кастомных виджетов.
 
-##СПИСОК ВИДЖЕТОВ
+##Список виджетов
 
 + `TitleSubtitleView` - виджет для отображения текста с подписью;
 + `StandardPlaceHolderView` - стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
 
-##ПОДКЛЮЧЕНИЕ
+##Использование
+[Пример использования](../custom-view-sample)
+
+##Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:custom-view:X.X.X"
 ```    
-##ЗАВИСИМОСТИ И ТЕХНОЛОГИИ
+##Зависимости и технологии
 
 Модуль имеет прямые зависимости от следующих модулей `Core`:
 
@@ -24,6 +27,5 @@ Gradle:
     me.zhanghai.android.materialprogressbar:library:1.4.2    Улучшенная версия ProgressBar
     com.wang.avi:library:2.1.3                               Кастомные Loader Indicators
 
-##ДОКУМЕНТАЦИЯ
-
-+ [`StandardPlaceHolderView`](/surfstudio/android-standard/src/master/custom-view/STANDARD-PLACEHOLDER-VIEW-README.md);
+##Документация
+[`StandardPlaceHolderView`](../custom-view/STANDARD-PLACEHOLDER-VIEW-README.md)

@@ -1,0 +1,29 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.shared.pref.sample"
+    }
+}
+
+dependencies {
+    implementation project(':core-app')
+    implementation project(':core-ui')
+    implementation project(':core-mvp')
+    implementation project(':dagger-scope')
+    implementation project(':custom-view')
+    implementation project(':animations')
+    implementation project(':network')
+    implementation project(':filestorage')
+    implementation project(':logger:')
+    implementation project(':connection')
+    implementation project(':converter-gson')
+    implementation project(':rx-extension')
+    implementation project(':util-ktx')
+    implementation project(':shared-pref')
+    implementation project(':message-controller')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "me.zhanghai.android.materialprogressbar:library:1.4.2"
+}
