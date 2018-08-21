@@ -43,11 +43,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         subscribeIoHandleError(repository.getProducts(page), { productList ->
             screenModel.productList.merge(productList)
             screenModel.loadState = LoadState.NONE
-            screenModel.paginationState =
-                    if (screenModel.productList.canGetMore())
-                        PaginationState.READY
-                    else
-                        PaginationState.COMPLETE
+            screenModel.setNormalPaginationState(productList.canGetMore())
+
             view.render(screenModel)
         }, {
             screenModel.loadState =
@@ -55,7 +52,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
                         LoadState.NONE
                     else
                         LoadState.ERROR
-            screenModel.paginationState = PaginationState.ERROR
+            screenModel.setErrorPaginationState()
+
             view.render(screenModel)
         })
     }
