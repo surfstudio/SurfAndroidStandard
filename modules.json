@@ -135,6 +135,10 @@
     {
       "name": "sample-common",
       "path": ""
+    },
+    {
+      "name": "sample-dagger",
+      "path": ""
     }
   ]
 }
