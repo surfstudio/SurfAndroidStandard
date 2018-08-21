@@ -10,6 +10,7 @@ dependencies {
     implementation project(':custom-view')
     implementation project(':imageloader')
     implementation project(':rx-extension')
+    implementation project(':sample-common')
 
     implementation "ru.surfstudio.android:animations:$moduleVersionName"
 

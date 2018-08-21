@@ -131,6 +131,10 @@
     {
       "name": "message-controller",
       "path": ""
+    },
+    {
+      "name": "sample-common",
+      "path": ""
     }
   ]
 }

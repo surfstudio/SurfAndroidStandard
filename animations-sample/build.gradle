@@ -9,4 +9,5 @@ android {
 dependencies {
     implementation "com.android.support:design:$appcompatVersion"
     implementation "ru.surfstudio.android:animations:$moduleVersionName"
+    implementation project(':sample-common')
 }

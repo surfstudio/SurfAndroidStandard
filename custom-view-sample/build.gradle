@@ -20,6 +20,7 @@ dependencies {
     implementation project(':logger:')
     implementation project(':connection')
     implementation project(':util-ktx')
+    implementation project(':sample-common')
 
     implementation "ru.surfstudio.android:animations:$moduleVersionName"
 

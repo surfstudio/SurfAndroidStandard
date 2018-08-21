@@ -22,6 +22,7 @@ dependencies {
     implementation project(':util-ktx')
     implementation project(':shared-pref')
     implementation project(':message-controller')
+    implementation project(':sample-common')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
