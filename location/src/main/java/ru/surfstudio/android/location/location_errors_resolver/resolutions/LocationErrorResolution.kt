@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions
 
-import ru.surfstudio.android.location.exceptions.ResolvingFailedException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 
 /**
  * Решение проблемы связанной с невозможностью получения метоположения.
@@ -34,6 +34,6 @@ interface LocationErrorResolution<E : Exception> {
     fun perform(
             resolvingException: Exception,
             onSuccessAction: () -> Unit,
-            onFailureAction: (ResolvingFailedException) -> Unit
+            onFailureAction: (ResolutionFailedException) -> Unit
     )
 }

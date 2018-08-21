@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.base
 
-import ru.surfstudio.android.location.exceptions.ResolvingFailedException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 
 /**
@@ -26,13 +26,13 @@ abstract class BaseLocationErrorResolutionImpl<E : Exception> : LocationErrorRes
     protected abstract fun performWithCastedException(
             resolvingException: E,
             onSuccessAction: () -> Unit,
-            onFailureAction: (ResolvingFailedException) -> Unit
+            onFailureAction: (ResolutionFailedException) -> Unit
     )
 
     final override fun perform(
             resolvingException: Exception,
             onSuccessAction: () -> Unit,
-            onFailureAction: (ResolvingFailedException) -> Unit
+            onFailureAction: (ResolutionFailedException) -> Unit
     ) {
         val castedException = resolvingExceptionClass.cast(resolvingException)
         performWithCastedException(castedException, onSuccessAction, onFailureAction)

@@ -32,25 +32,25 @@ class LocationService(private val context: Context) {
     private val locationAvailability = LocationAvailability(context)
 
     /**
-     * Получить последнее известное метоположение.
+     * Запросить последнее известное метоположение.
      *
      * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения метоположения.
      */
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
-    fun getLastKnownLocationWithErrorResolution(
+    fun requestLastKnownLocationWithErrorResolution(
             onSuccessAction: (Location?) -> Unit,
             onFailureAction: (List<Exception>) -> Unit,
             resolutions: List<LocationErrorResolution<*>>
     ) {
-        getLastKnownLocation(
+        requestLastKnownLocation(
                 onSuccessAction,
                 onFailureAction = { exceptions ->
                     resolveLocationErrors(
                             exceptions,
                             resolutions,
-                            onFinishAction = { getLastKnownLocation(onSuccessAction, onFailureAction) },
+                            onFinishAction = { requestLastKnownLocation(onSuccessAction, onFailureAction) },
                             onFailureAction = onFailureAction
                     )
                 }
@@ -79,7 +79,7 @@ class LocationService(private val context: Context) {
             onLocationUpdateAction: (Location?) -> Unit,
             onFailureAction: (List<Exception>) -> Unit,
             resolutions: List<LocationErrorResolution<*>>
-    ): LocationCallback? {
+    ): LocationUpdatesSubscription? {
         return requestLocationUpdates(
                 intervalMillis,
                 fastestIntervalMillis,
@@ -106,8 +106,8 @@ class LocationService(private val context: Context) {
     /**
      * Отписаться от получения обновлений местоположения.
      */
-    fun removeLocationUpdates(locationCallback: LocationCallback) {
-        fusedLocationClient.removeLocationUpdates(locationCallback)
+    fun removeLocationUpdates(locationUpdatesSubscription: LocationUpdatesSubscription) {
+        fusedLocationClient.removeLocationUpdates(locationUpdatesSubscription.locationCallback)
     }
 
     /**
@@ -115,13 +115,13 @@ class LocationService(private val context: Context) {
      *
      * @return [List], содержащий исключения связанные с невозможностью получения метоположения.
      */
-    fun checkCanGetLocation(): List<Exception> = locationAvailability.checkCanGetLocation()
+    fun checkLocationAvailability(): List<Exception> = locationAvailability.checkLocationAvailability()
 
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
-    private fun getLastKnownLocation(onSuccessAction: (Location?) -> Unit, onFailureAction: (List<Exception>) -> Unit) {
-        val exceptions = locationAvailability.checkCanGetLocation()
+    private fun requestLastKnownLocation(onSuccessAction: (Location?) -> Unit, onFailureAction: (List<Exception>) -> Unit) {
+        val exceptions = locationAvailability.checkLocationAvailability()
         if (exceptions.isNotEmpty()) {
             onFailureAction(exceptions)
             return
@@ -142,8 +142,8 @@ class LocationService(private val context: Context) {
             priority: LocationPriority?,
             onLocationUpdateAction: (Location?) -> Unit,
             onFailureAction: (List<Exception>) -> Unit
-    ): LocationCallback? {
-        val exceptions = locationAvailability.checkCanGetLocation()
+    ): LocationUpdatesSubscription? {
+        val exceptions = locationAvailability.checkLocationAvailability()
         if (exceptions.isNotEmpty()) {
             onFailureAction(exceptions)
             return null
@@ -161,7 +161,7 @@ class LocationService(private val context: Context) {
                 }
                 .addOnFailureListener { exception -> onFailureAction(listOf(exception)) }
 
-        return locationCallback
+        return LocationUpdatesSubscription(locationCallback)
     }
 
     private fun createLocationRequest(

@@ -15,11 +15,11 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver
 
-import ru.surfstudio.android.location.exceptions.ResolvingFailedException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 
 /**
- * Утилита для решения проблем связанных с невозможностью получения метоположения.
+ * Утилита для решения проблем, связанных с невозможностью получения местоположения.
  */
 object LocationErrorsResolver {
 
@@ -35,7 +35,7 @@ object LocationErrorsResolver {
             resolvingExceptions: List<Exception>,
             resolutions: List<LocationErrorResolution<*>>,
             onFinishAction: (unresolvedExceptions: List<Exception>) -> Unit,
-            onFailureAction: (ResolvingFailedException) -> Unit
+            onFailureAction: (ResolutionFailedException) -> Unit
     ) {
         if (resolutions.isEmpty()) {
             onFinishAction(resolvingExceptions)

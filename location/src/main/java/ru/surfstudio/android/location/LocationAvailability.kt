@@ -18,6 +18,7 @@ package ru.surfstudio.android.location
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.support.v4.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -29,12 +30,14 @@ import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableExce
  */
 class LocationAvailability(private val context: Context) {
 
+    private val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
     /**
      * Проверить возможность получения метоположения.
      *
      * @return [List], содержащий исключения связанные с невозможностью получения метоположения.
      */
-    fun checkCanGetLocation(): List<Exception> {
+    fun checkLocationAvailability(): List<Exception> {
         val exceptions = ArrayList<Exception>()
 
         val connectionResult = getGooglePlayServicesConnection()
@@ -49,17 +52,16 @@ class LocationAvailability(private val context: Context) {
         return exceptions
     }
 
-    private fun getGooglePlayServicesConnection(): Int =
+    fun getGooglePlayServicesConnection(): Int =
             GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context)
 
-    private fun isLocationPermissionGranted() =
-            isFineLocationPermissionGranted() || isCoarseLocationPermissionGranted()
+    fun isLocationPermissionGranted() = isFineLocationPermissionGranted() || isCoarseLocationPermissionGranted()
 
-    private fun isFineLocationPermissionGranted() =
-            isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
+    fun isFineLocationPermissionGranted() = isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
 
-    private fun isCoarseLocationPermissionGranted() =
-            isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION)
+    fun isCoarseLocationPermissionGranted() = isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION)
+
+    fun isGpsEnabled() = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
     private fun isPermissionGranted(permission: String) =
             ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED

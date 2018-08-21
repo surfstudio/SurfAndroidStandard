@@ -18,7 +18,7 @@ package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl
 import android.app.Activity
 import android.content.Intent
 import ru.surfstudio.android.core.ui.event.result.ActivityResultDelegate
-import ru.surfstudio.android.location.exceptions.ResolvingFailedException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 import ru.surfstudio.android.location.exceptions.UserDeniedException
 
 /**
@@ -31,21 +31,21 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exc
 
     private var resolvingException: E? = null
     private var onSuccessAction: (() -> Unit)? = null
-    private var onFailureAction: ((ResolvingFailedException) -> Unit)? = null
+    private var onFailureAction: ((ResolutionFailedException) -> Unit)? = null
 
     protected abstract fun performResolutionRequest(resolvingException: E)
 
     final override fun performWithCastedException(
             resolvingException: E,
             onSuccessAction: () -> Unit,
-            onFailureAction: (ResolvingFailedException) -> Unit
+            onFailureAction: (ResolutionFailedException) -> Unit
     ) {
         setArgs(resolvingException, onSuccessAction, onFailureAction)
 
         try {
             performResolutionRequest(resolvingException)
         } catch (e: Exception) {
-            onFailureAction(ResolvingFailedException(resolvingException, e))
+            onFailureAction(ResolutionFailedException(resolvingException, e))
             clearArgs()
         }
     }
@@ -53,7 +53,7 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exc
     private fun setArgs(
             resolvingException: E,
             onSuccessAction: () -> Unit,
-            onFailureAction: (ResolvingFailedException) -> Unit
+            onFailureAction: (ResolutionFailedException) -> Unit
     ) {
         this.resolvingException = resolvingException
         this.onSuccessAction = onSuccessAction
@@ -70,7 +70,7 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exc
         if (resolved) {
             onSuccessAction?.invoke()
         } else {
-            onFailureAction?.invoke(ResolvingFailedException(resolvingException, UserDeniedException()))
+            onFailureAction?.invoke(ResolutionFailedException(resolvingException, UserDeniedException()))
         }
         clearArgs()
     }

@@ -16,42 +16,37 @@
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission
 
 import ru.surfstudio.android.core.ui.permission.PermissionManager
-import ru.surfstudio.android.location.domain.LocationAccuracy
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
-import ru.surfstudio.android.location.exceptions.ResolvingFailedException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 import ru.surfstudio.android.location.exceptions.UserDeniedException
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.base.BaseLocationErrorResolutionImpl
 
 /**
  * Решение проблемы [NoLocationPermissionException].
  *
- * @param locationAccuracy запрашиваемая точность определения метоположения.
  * @param permissionManager менеджер разрешений.
  */
 class NoLocationPermissionResolution(
-        locationAccuracy: LocationAccuracy,
         private val permissionManager: PermissionManager
 ) : BaseLocationErrorResolutionImpl<NoLocationPermissionException>() {
 
     override val resolvingExceptionClass = NoLocationPermissionException::class.java
 
-    private val locationPermissionRequest = LocationPermissionRequest(locationAccuracy)
-
     override fun performWithCastedException(
             resolvingException: NoLocationPermissionException,
             onSuccessAction: () -> Unit,
-            onFailureAction: (ResolvingFailedException) -> Unit
+            onFailureAction: (ResolutionFailedException) -> Unit
     ) {
-        permissionManager.request(locationPermissionRequest)
+        permissionManager.request(LocationPermissionRequest())
                 .subscribe(
                         { isSuccessful ->
                             if (isSuccessful) {
                                 onSuccessAction()
                             } else {
-                                onFailureAction(ResolvingFailedException(resolvingException, UserDeniedException()))
+                                onFailureAction(ResolutionFailedException(resolvingException, UserDeniedException()))
                             }
                         },
-                        { throwable -> onFailureAction(ResolvingFailedException(resolvingException, throwable)) }
+                        { throwable -> onFailureAction(ResolutionFailedException(resolvingException, throwable)) }
                 )
     }
 }

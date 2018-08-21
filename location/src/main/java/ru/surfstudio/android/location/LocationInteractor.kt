@@ -33,7 +33,7 @@ class LocationInteractor(context: Context) {
     private val locationService = LocationService(context)
 
     /**
-     * Получить последнее известное метоположение.
+     * Запросить последнее известное метоположение.
      *
      * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения метоположения.
      */
@@ -44,7 +44,7 @@ class LocationInteractor(context: Context) {
             vararg resolutions: LocationErrorResolution<*> = emptyArray()
     ): Maybe<Location> =
             Maybe.create { maybeEmitter ->
-                locationService.getLastKnownLocationWithErrorResolution(
+                locationService.requestLastKnownLocationWithErrorResolution(
                         onSuccessAction = { location ->
                             if (location != null) {
                                 maybeEmitter.onSuccess(location)
@@ -81,10 +81,10 @@ class LocationInteractor(context: Context) {
             priority: LocationPriority? = null,
             vararg resolutions: LocationErrorResolution<*> = emptyArray()
     ): Observable<Location> {
-        var locationCallback: LocationCallback? = null
+        var locationUpdatesSubscription: LocationUpdatesSubscription? = null
 
         return Observable.create<Location> { observableEmitter ->
-            locationCallback = locationService.requestLocationUpdatesWithErrorResolution(
+            locationUpdatesSubscription = locationService.requestLocationUpdatesWithErrorResolution(
                     intervalMillis,
                     fastestIntervalMillis,
                     priority,
@@ -96,7 +96,7 @@ class LocationInteractor(context: Context) {
                     onFailureAction = { exceptions -> observableEmitter.onError(CompositeException(exceptions)) },
                     resolutions = resolutions.toList()
             )
-        }.doOnDispose { locationService.removeLocationUpdates(locationCallback ?: return@doOnDispose) }
+        }.doOnDispose { locationService.removeLocationUpdates(locationUpdatesSubscription ?: return@doOnDispose) }
     }
 
     /**
@@ -104,5 +104,5 @@ class LocationInteractor(context: Context) {
      *
      * @return [List], содержащий исключения связанные с невозможностью получения метоположения.
      */
-    fun checkCanGetLocation(): List<Exception> = locationService.checkCanGetLocation()
+    fun checkLocationAvailability(): List<Exception> = locationService.checkLocationAvailability()
 }
