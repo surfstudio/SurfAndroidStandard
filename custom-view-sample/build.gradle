@@ -1,6 +1,4 @@
 apply from: '../androidSample.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
     defaultConfig {
@@ -25,7 +23,6 @@ dependencies {
 
     implementation "ru.surfstudio.android:animations:$moduleVersionName"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 
     testImplementation "junit:junit:$junitVersion"

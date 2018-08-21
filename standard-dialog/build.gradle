@@ -1,6 +1,4 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     compileOnly project(path: ':core-ui')
