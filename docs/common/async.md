@@ -16,3 +16,13 @@
 взаимодействия между модулями.
 
 Также в *rx-extension* представлены полезные интерфейсы и утилиты для работы с Rx.
+
+В студийной практике принято оборачивать те или иные события в rx.
+Например, есть готовые обертки для:
+- [BroadcastReceiver](../../broadcast-extension/README.md)
+- Состояния соединения,[также на Broadcast](../../connection/README.md)
+- Событие [onActivityResult](../../core-ui/README.md)
+- [RuntimePermissions](../../core-ui/README.md) [][TODO: тут пока ссылки на core-ui, стоит в будущем сделать отдельные доки]
+- [Работа с сетью](../../network/README.md)
+- [Локация]()[][todo: добавить ссылку , когда будет модуль]
+- [Получение фотографий из галлереи](../../picture-provider/README.md)
