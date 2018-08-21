@@ -10,7 +10,7 @@ import ru.surfstudio.android.network.sample.domain.product.Product
 class ProductItemController(private val listener: OnProductClickListener
 ): BindableItemController<Product, ProductItemController.Holder>() {
 
-    override fun getItemId(data: Product): Long = data.id.toLong()
+    override fun getItemId(data: Product): String = data.id.toString()
 
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
 

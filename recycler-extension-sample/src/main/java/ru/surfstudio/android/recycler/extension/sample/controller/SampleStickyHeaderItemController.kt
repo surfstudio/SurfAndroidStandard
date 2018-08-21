@@ -9,7 +9,7 @@ import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeaderBindable
 
 class SampleStickyHeaderItemController : StickyHeaderBindableItemController<String, SampleStickyHeaderItemController.Holder>() {
 
-    override fun getItemId(item: StickyHeaderBindableItem<String, Holder>) = item.data.hashCode().toLong()
+    override fun getItemId(item: StickyHeaderBindableItem<String, Holder>) = item.data.hashCode().toString()
 
     override fun createViewHolder(parent: ViewGroup?): Holder = Holder(parent)
 

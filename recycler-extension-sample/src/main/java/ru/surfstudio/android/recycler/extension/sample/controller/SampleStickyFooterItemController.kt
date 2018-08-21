@@ -11,7 +11,7 @@ class SampleStickyFooterItemController :
         StickyFooterBindableItemController<String, SampleStickyFooterItemController.Holder>() {
 
     override fun getItemId(item: StickyFooterBindableItem<String, Holder>) =
-            item.data.hashCode().toLong()
+            item.data.hashCode().toString()
 
     override fun createViewHolder(parent: ViewGroup?): Holder =
             Holder(parent)
