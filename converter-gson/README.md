@@ -17,6 +17,7 @@
         .addCallAdapterFactory(callAdapterFactory)
         .build()
     ```
+
 [Пример использования в приложении](../network-sample)
 
 #Подключение

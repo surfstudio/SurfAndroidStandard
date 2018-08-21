@@ -17,7 +17,8 @@ Cоздан в результате развития идей проекта [fe
 
 Дополнительные сущности:
 
-1. ActivityNavigator, FragmentNavigator, TabFragmentNavigator, ChildFragmentNavigator - позволяют осуществлять навигацию по приложению c помощью специальных сущностей Route
+1. ActivityNavigator, FragmentNavigator, TabFragmentNavigator, ChildFragmentNavigator,
+ GlobalNavigator - позволяют осуществлять навигацию по приложению c помощью специальных сущностей Route
 2. PermissionManager - позволяет запрашивать RuntimePermissions
 3. RxBus - простая шина на RxJava, может быть использована, например, для связывания двух презентеров на одной активити
 4. ActivityProvider, FragmentProvider - предоставляют "живые" Activity или Fragment даже после смены конфигурации
