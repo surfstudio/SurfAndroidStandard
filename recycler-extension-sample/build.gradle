@@ -10,5 +10,5 @@ dependencies {
     implementation "com.android.support:recyclerview-v7:$appcompatVersion"
     implementation project(':recycler-extension')
     implementation project(':easyadapter')
-    implementation project(':sample-common')
+    implementation project(':sample-dagger')
 }

@@ -21,7 +21,7 @@ dependencies {
     implementation project(':rx-extension')
     implementation project(':util-ktx')
     implementation project(':message-controller')
-    implementation project(':sample-common')
+    implementation project(':sample-dagger')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
