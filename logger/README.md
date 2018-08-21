@@ -1,5 +1,5 @@
-#Logger
-Модуль для логирования в logcat и на сервер. Основано на [timber](https://github.com/JakeWharton/timber)
+# Logger
+Модуль для логирования в logcat и на сервер.
 Основные классы:
  1. [Logger](src/main/java/ru/surfstudio/android/logger/Logger.kt)
  1. [RemoteLogger](src/main/java/ru/surfstudio/android/logger/RemoteLogger.kt)
