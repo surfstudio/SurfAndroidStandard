@@ -15,7 +15,7 @@
 
 ## 1. [RxBroadcastReceiver](src/main/java/ru/surfstudio/android/broadcast/extension/RxBroadcastReceiver.kt)
 Реактивная обертка над BroadcastReceiver, преобразующая поступающую информацию в Observable.
-## 2. [BaseSmsRxBroadcastReceiver](/home/azaytsev/StudioProjects/android-standard/broadcast-extension/src/main/java/ru/surfstudio/android/broadcast/extension/BaseSmsRxBroadcastReceiver.kt)
+## 2. [BaseSmsRxBroadcastReceiver](src/main/java/ru/surfstudio/android/broadcast/extension/BaseSmsRxBroadcastReceiver.kt)
 Дополнение для RxBroadcastReceiver, предназначенное для перехвата и обработки получаемых SMS-сообщений.
 
 [Пример использования](../broadcast-extension-sample)
