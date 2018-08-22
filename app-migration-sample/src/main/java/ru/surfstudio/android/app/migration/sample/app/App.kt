@@ -1,9 +1,9 @@
 package ru.surfstudio.android.app.migration.sample.app
 
 import ru.surfstudio.android.app.migration.sample.app.dagger.AppComponent
-import ru.surfstudio.android.app.migration.sample.app.dagger.AppModule
 import ru.surfstudio.android.app.migration.sample.app.dagger.DaggerAppComponent
 import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.sample.dagger.app.dagger.AppModule
 
 /**
  * Класс приложения

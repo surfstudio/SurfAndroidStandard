@@ -9,6 +9,8 @@ import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
+import ru.surfstudio.android.sample.dagger.app.dagger.AppModule
+import ru.surfstudio.android.sample.dagger.app.dagger.SharedPrefModule
 
 @PerApplication
 @Component(modules = [

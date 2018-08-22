@@ -15,17 +15,11 @@ class SplashActivityView : BaseRenderableActivityView<SplashScreenModel>() {
     @Inject internal lateinit var presenter: SplashPresenter
 
     @LayoutRes
-    override fun getContentView(): Int {
-        return R.layout.activity_splash
-    }
+    override fun getContentView(): Int = R.layout.activity_splash
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator {
-        return SplashScreenConfigurator(intent)
-    }
+    override fun createConfigurator(): ActivityScreenConfigurator = SplashScreenConfigurator(intent)
 
     override fun getScreenName() = "splash"
 

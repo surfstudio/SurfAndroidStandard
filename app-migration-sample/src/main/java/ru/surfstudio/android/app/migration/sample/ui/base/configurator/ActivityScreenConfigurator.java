@@ -4,11 +4,11 @@ import android.content.Intent;
 
 import ru.surfstudio.android.app.migration.sample.app.App;
 import ru.surfstudio.android.app.migration.sample.app.dagger.AppComponent;
-import ru.surfstudio.android.app.migration.sample.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.android.app.migration.sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.app.migration.sample.ui.base.dagger.activity.DaggerActivityComponent;
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
-import ru.surfstudio.android.app.migration.sample.ui.base.dagger.activity.ActivityComponent;
-import ru.surfstudio.android.app.migration.sample.ui.base.dagger.screen.ActivityScreenModule;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.ActivityScreenModule;
 
 /**
  * Базовый конфигуратор для экрана, основанного на активити
