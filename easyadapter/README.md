@@ -22,24 +22,7 @@ Gradle:
 ```
 
 #Что нового
-Для устранения возможных коллизий тип ```hash``` и ```id``` был заменен на ```String```.
-
-При создании контроллера метод ```getItemId``` следует переопределять следующим образом:
-
-В Java
-```
-@Override
-public String getItemId(SampleData data) {
-    return String.valueOf(data.getId());
-}
-```
-
-В Kotlin
-```
- override fun getItemId(data: SampleData): String = data.id.toString()
-```
-
-Если объект не имеет поля ```id```, можно использовать ```data.hashCode().toString()```.
+В версии AndroidStandard 0.3.0 для устранения возможных коллизий тип ```hash``` и ```id``` был заменен на ```String```.
 
 Если список содержит большое количество элементов и вероятность возникновения коллизий высока,
 то следует переопределить метод контроллера ```getItemHash``` и реализовать хеширование объекта,
