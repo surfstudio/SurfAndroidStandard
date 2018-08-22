@@ -19,8 +19,6 @@ Cоздан в результате развития идей проекта [fe
 
 1. ActivityNavigator, FragmentNavigator, TabFragmentNavigator, ChildFragmentNavigator - позволяют осуществлять навигацию по приложению c помощью специальных сущностей Route
 1. PermissionManager - позволяет запрашивать RuntimePermissions
-1. RxBus - простая шина на RxJava, может быть использована, например,
-для связывания двух презентеров на одной активити
 1. ActivityProvider, FragmentProvider - предоставляют "живые" Activity или Fragment даже после смены конфигурации
 
 Механизм делегирования событий экрана (см ScreenEventDelegateManager) позволяет создавать законченные сущности, которые необходимы для "чистой" архитектуры. Например, использование ActivityNavigator избавляет от необходимости переопределять метод onActivityResult и полностью инкапсулирует работу с Intent.
