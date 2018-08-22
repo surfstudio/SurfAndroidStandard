@@ -1,4 +1,4 @@
-package ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.dagger.widget
+package ru.surfstudio.android.sample.dagger.ui.base.dagger.widget
 
 import dagger.Module
 import dagger.Provides
@@ -23,8 +23,8 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForW
 import ru.surfstudio.android.mvp.widget.provider.WidgetProvider
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.dagger.screen.ScreenModule
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.error.ErrorHandlerModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.ScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.error.ErrorHandlerModule
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
@@ -33,7 +33,8 @@ private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
 class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope) : ScreenModule() {
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider, widgetProvider: WidgetProvider): DialogNavigator {
+    internal fun provideDialogNavigator(activityProvider: ActivityProvider,
+                                        widgetProvider: WidgetProvider): DialogNavigator {
         return DialogNavigatorForWidget(activityProvider, widgetProvider, persistentScope)
     }
 
@@ -98,8 +99,14 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider, @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType): MessageController {
-        return DefaultMessageController(activityProvider, if (screenType == ScreenType.FRAGMENT) createFragmentProvider() else null)
+    internal fun provideMessageController(activityProvider: ActivityProvider,
+                                          @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType): MessageController {
+        return DefaultMessageController(
+                activityProvider,
+                if (screenType == ScreenType.FRAGMENT)
+                    createFragmentProvider()
+                else
+                    null)
     }
 
     private fun createFragmentProvider(): FragmentProvider {
