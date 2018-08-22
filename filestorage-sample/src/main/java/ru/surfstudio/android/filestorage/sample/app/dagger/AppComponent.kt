@@ -14,6 +14,8 @@ import ru.surfstudio.android.filestorage.sample.interactor.ip.IpModule
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
+import ru.surfstudio.android.sample.dagger.app.dagger.AppModule
+import ru.surfstudio.android.sample.dagger.app.dagger.SharedPrefModule
 
 @PerApplication
 @Component(modules = [
