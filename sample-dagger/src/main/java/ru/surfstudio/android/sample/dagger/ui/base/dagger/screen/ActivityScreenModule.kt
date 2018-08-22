@@ -16,6 +16,8 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.sample.dagger.ui.base.error.ErrorHandlerModule
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
+import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForActivity
 
 
 @Module(includes = [ErrorHandlerModule::class])
@@ -57,5 +59,11 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
     @PerScreen
     internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
         return DefaultMessageController(activityProvider)
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideDialogNavigator(activityProvider: ActivityProvider): DialogNavigator {
+        return DialogNavigatorForActivity(activityProvider, activityViewPersistentScope)
     }
 }

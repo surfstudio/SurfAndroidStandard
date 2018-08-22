@@ -51,7 +51,8 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider, fragmentProvider: FragmentProvider): MessageController {
+    internal fun provideMessageController(activityProvider: ActivityProvider,
+                                          fragmentProvider: FragmentProvider): MessageController {
         return DefaultMessageController(activityProvider, fragmentProvider)
     }
 

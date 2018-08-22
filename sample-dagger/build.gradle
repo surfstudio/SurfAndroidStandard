@@ -7,6 +7,8 @@ dependencies {
     implementation project(':dagger-scope')
     implementation project(':custom-view')
     implementation project(':animations')
+    implementation project(':mvp-dialog')
+    implementation project(':standard-dialog')
     implementation project(':network')
     implementation project(':filestorage')
     implementation project(':logger:')

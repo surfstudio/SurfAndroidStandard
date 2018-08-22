@@ -2,6 +2,7 @@ package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.core.ui.bus.RxBus
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
@@ -82,5 +83,11 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     @PerActivity
     internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
         return FragmentNavigator(activityProvider)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideRxBus(): RxBus {
+        return RxBus()
     }
 }
