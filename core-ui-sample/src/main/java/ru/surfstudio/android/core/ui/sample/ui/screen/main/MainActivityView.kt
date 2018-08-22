@@ -6,10 +6,10 @@ import android.support.annotation.IdRes
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.ui.sample.R
-import ru.surfstudio.android.core.ui.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.core.ui.sample.ui.core.CustomOnRestoreStateDelegate
 import ru.surfstudio.android.core.ui.sample.ui.core.CustomOnSaveStateDelegate
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.ActivityScreenConfigurator
 import javax.inject.Inject
 
 /**

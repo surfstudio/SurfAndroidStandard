@@ -6,8 +6,10 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.TextView
 
-class PaneView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : TextView(context, attrs, defStyleAttr) {
+class PaneView @JvmOverloads constructor(context: Context,
+                                         attrs: AttributeSet? = null,
+                                         defStyleAttr: Int = 0
+) : TextView(context, attrs, defStyleAttr) {
 
     var listener: ((String) -> Unit)? = null
 

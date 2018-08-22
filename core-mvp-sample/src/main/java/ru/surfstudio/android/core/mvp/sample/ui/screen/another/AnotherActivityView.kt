@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.mvp.sample.ui.screen.another
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.mvp.sample.R
-import ru.surfstudio.android.core.mvp.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.ActivityScreenConfigurator
 import javax.inject.Inject
 
 class AnotherActivityView : BaseRenderableActivityView<AnotherScreenModel>() {
