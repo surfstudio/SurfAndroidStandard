@@ -7,14 +7,17 @@
 
 Может объединять два последующих блока, так и в обратном порядке.
 
-# Использование
+Также имеет специальную [утилиту][util] для разбиения большого запроса на мелкие блоки.
+### Использование
 Используется так же, как и [datalist-page-count](../datalist-page-count/README.md).
 
 Пример использования [datalist-page-count](../datalist-page-count)
 можно найти [здесь](../network-sample).
 
-#Подключение
+# Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:datalist-limit-offset:X.X.X"
 ```
+
+[util]: src/main/java/ru/surfstudio/android/datalistlimitoffset/util/PaginationableUtil.java

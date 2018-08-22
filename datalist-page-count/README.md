@@ -7,7 +7,9 @@
 
 Может объединять два последующих блока, так и в обратном порядке.
 
-# Использование
+Также имеет специальную [утилиту][util] для разбиения большого запроса на мелкие блоки.
+
+### Использование
 [Пример использования в приложении](../network-sample)
 
 # Подключение
@@ -15,3 +17,5 @@ Gradle:
 ```
     implementation "ru.surfstudio.android:datalist-page-count:X.X.X"
 ```
+
+[util]: src/main/java/ru/surfstudio/android/datalistpagecount/util/PaginationableUtil.java
