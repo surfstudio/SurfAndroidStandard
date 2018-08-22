@@ -11,6 +11,7 @@ import ru.surfstudio.android.shared.pref.sample.app.dagger.AppComponent
 import ru.surfstudio.android.shared.pref.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.shared.pref.sample.interactor.ip.cache.IpStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModule
 
 /**
  * Компонент для @PerActivity скоупа
