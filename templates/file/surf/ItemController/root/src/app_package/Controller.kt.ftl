@@ -8,7 +8,7 @@ class ${nameController}${defPostfixController}(<#if hasListener>
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
 
     <#if typeController='1'>
-    override fun getItemId(${nameParam}: ${nameTypeData}): Long = ${nameParam}.id
+    override fun getItemId(${nameParam}: ${nameTypeData}): String = ${nameParam}.id.toString()
     
     </#if>
     inner class Holder(parent: ViewGroup) : <#if typeController='1'>BindableViewHolder<${nameTypeData}><#else>BaseViewHolder</#if>(parent, R.layout.${nameRes}) {
