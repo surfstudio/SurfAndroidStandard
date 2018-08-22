@@ -24,7 +24,9 @@ class ComplexBottomSheetDialogFragment : CoreBottomSheetDialogFragmentView() {
 
     override fun getScreenName(): String = "Complex Bottom Sheet Dialog Fragment"
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.complex_bottom_sheet_dialog_layout, container)
     }
 
