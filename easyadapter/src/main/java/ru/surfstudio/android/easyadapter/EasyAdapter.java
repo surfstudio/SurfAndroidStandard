@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.easyadapter;
 
-
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
@@ -35,7 +34,6 @@ import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder;
 import ru.surfstudio.android.easyadapter.item.BaseItem;
 import ru.surfstudio.android.easyadapter.item.NoDataItem;
-
 
 /**
  * Adapter for RecyclerView with two features:
@@ -90,6 +88,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     @Override
     public final long getItemId(int position) {
+        return getItemStringId(position).hashCode();
+    }
+
+    public final String getItemStringId(int position) {
         BaseItem item = items.get(getListPosition(position));
         return item.getItemController().getItemId(item);
     }
@@ -143,7 +145,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
 
-    public final long getItemHash(int position) {
+    public final String getItemHash(int position) {
         BaseItem item = items.get(getListPosition(position));
         return item.getItemController().getItemHash(item);
     }
@@ -197,7 +199,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
         List<ItemInfo> currentItemsInfo = new ArrayList<>(itemCount);
         for (int i = 0; i < itemCount; i++) {
             currentItemsInfo.add(new ItemInfo(
-                    getItemId(i),
+                    getItemStringId(i),
                     getItemHash(i)));
         }
         return currentItemsInfo;
@@ -229,7 +231,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private class AutoNotifyDiffCallback extends DiffUtil.Callback {
-        private static final long MAGIC_NUMBER = 3578121127L; // used for making ids unique
+        private final String MAGIC_NUMBER = String.valueOf(3578121127L); // used for making ids unique
 
         private final List<ItemInfo> lastItemsInfo;
         private final List<ItemInfo> newItemsInfo;
@@ -262,13 +264,19 @@ public class EasyAdapter extends RecyclerView.Adapter {
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
             if (infiniteScroll) {
                 //magic numbers make every element id unique
-                long lastItemsFakeItemId = lastItemsInfo.get(oldItemPosition % lastItemsInfo.size()).getId() + oldItemPosition + MAGIC_NUMBER;
-                long newItemsFakeItemId = newItemsInfo.get(newItemPosition % newItemsInfo.size()).getId() + newItemPosition + MAGIC_NUMBER;
+                String lastItemsFakeItemId = lastItemsInfo.get(oldItemPosition % lastItemsInfo.size()).getId() +
+                        String.valueOf(oldItemPosition) +
+                        MAGIC_NUMBER;
+                String newItemsFakeItemId = newItemsInfo.get(newItemPosition % newItemsInfo.size()).getId() +
+                        String.valueOf(newItemPosition) +
+                        MAGIC_NUMBER;
 
-                return lastItemsFakeItemId == newItemsFakeItemId;
+                return lastItemsFakeItemId.equals(newItemsFakeItemId);
             }
-            return lastItemsInfo.get(oldItemPosition).getId() ==
-                    newItemsInfo.get(newItemPosition).getId();
+            return lastItemsInfo
+                    .get(oldItemPosition)
+                    .getId()
+                    .equals(newItemsInfo.get(newItemPosition).getId());
         }
 
         @Override
@@ -277,25 +285,27 @@ public class EasyAdapter extends RecyclerView.Adapter {
                 oldItemPosition = oldItemPosition % lastItemsInfo.size();
                 newItemPosition = newItemPosition % newItemsInfo.size();
             }
-            return lastItemsInfo.get(oldItemPosition).getHash() ==
-                    newItemsInfo.get(newItemPosition).getHash();
+            return lastItemsInfo
+                    .get(oldItemPosition)
+                    .getHash()
+                    .equals(newItemsInfo.get(newItemPosition).getHash());
         }
     }
 
     private class ItemInfo {
-        private long id;
-        private long hash;
+        private String id;
+        private String hash;
 
-        ItemInfo(long id, long hash) {
+        ItemInfo(String id, String hash) {
             this.id = id;
             this.hash = hash;
         }
 
-        long getId() {
+        String getId() {
             return id;
         }
 
-        long getHash() {
+        String getHash() {
             return hash;
         }
     }
