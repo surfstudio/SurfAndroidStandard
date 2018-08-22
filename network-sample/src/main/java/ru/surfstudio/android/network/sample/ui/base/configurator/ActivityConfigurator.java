@@ -1,11 +1,11 @@
 package ru.surfstudio.android.network.sample.ui.base.configurator;
 
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
-import ru.surfstudio.android.network.sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.network.sample.app.App;
 import ru.surfstudio.android.network.sample.app.dagger.AppComponent;
-import ru.surfstudio.android.network.sample.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.android.network.sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.network.sample.ui.base.dagger.activity.DaggerActivityComponent;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModule;
 
 /**
  * Базовый конфигуратор для активити
