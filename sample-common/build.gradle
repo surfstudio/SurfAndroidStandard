@@ -3,4 +3,10 @@ apply from: '../androidModule.gradle'
 dependencies {
     api project(':custom-view')
     api project(':core-mvp')
+
+    api project(':core-ui')
+    api project(':connection')
+    api project(':logger')
+    api project(':rx-extension')
+    api project(':util-ktx')
 }
