@@ -10,7 +10,7 @@ import org.jetbrains.anko.find
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.pictureprovider.sample.R
-import ru.surfstudio.android.pictureprovider.sample.interactor.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.ActivityScreenConfigurator
 import javax.inject.Inject
 
 /**

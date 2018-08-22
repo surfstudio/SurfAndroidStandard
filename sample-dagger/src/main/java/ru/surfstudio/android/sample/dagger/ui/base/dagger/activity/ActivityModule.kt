@@ -1,5 +1,6 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.bus.RxBus
@@ -16,6 +17,8 @@ import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.picturechooser.PicturePermissionChecker
+import ru.surfstudio.android.picturechooser.PictureProvider
 
 /**
  * Модуль для dagger Activity Component
@@ -89,5 +92,20 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     @PerActivity
     internal fun provideRxBus(): RxBus {
         return RxBus()
+    }
+
+    @Provides
+    @PerActivity
+    internal fun providePicturePermissionChecker(permissionManager: PermissionManager): PicturePermissionChecker {
+        return PicturePermissionChecker(permissionManager)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun providePictureProvider(context: Context,
+                                        activityNavigator: ActivityNavigator,
+                                        activityProvider: ActivityProvider,
+                                        ppChecker: PicturePermissionChecker): PictureProvider {
+        return PictureProvider(context, activityNavigator, activityProvider, ppChecker)
     }
 }
