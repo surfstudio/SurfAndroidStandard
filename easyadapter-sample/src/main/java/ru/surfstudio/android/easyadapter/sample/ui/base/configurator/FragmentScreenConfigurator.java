@@ -5,7 +5,7 @@ import android.os.Bundle;
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
 import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.ActivityComponent;
-import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.screen.FragmentScreenModule;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.FragmentScreenModule;
 
 /**
  * Базовый конфигуратор для экрана, основанного на фрагменте

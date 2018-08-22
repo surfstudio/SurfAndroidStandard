@@ -20,9 +20,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     internal lateinit var presenter: MainPresenter
 
     @IdRes
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView(): Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
@@ -34,11 +32,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun renderInternal(screenModel: MainScreenModel) {}
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator {
-        return MainScreenConfigurator(intent)
-    }
+    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
 }
