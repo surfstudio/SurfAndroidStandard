@@ -8,7 +8,7 @@ import ru.surfstudio.android.recycler.extension.sample.Data
 import ru.surfstudio.android.recycler.extension.sample.R
 
 class SampleItemController : BindableItemController<Data, SampleItemController.Holder>() {
-    override fun getItemId(data: Data?): String = data?.hashCode()?.toString() ?: "0"
+    override fun getItemId(data: Data): String = data.hashCode().toString()
 
     override fun createViewHolder(parent: ViewGroup?): Holder = Holder(parent)
 

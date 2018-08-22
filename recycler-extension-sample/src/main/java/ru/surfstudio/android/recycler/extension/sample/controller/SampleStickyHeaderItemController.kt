@@ -7,7 +7,8 @@ import ru.surfstudio.android.recycler.extension.sample.R
 import ru.surfstudio.android.recycler.extension.sticky.controller.StickyHeaderBindableItemController
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeaderBindableItem
 
-class SampleStickyHeaderItemController : StickyHeaderBindableItemController<String, SampleStickyHeaderItemController.Holder>() {
+class SampleStickyHeaderItemController
+    : StickyHeaderBindableItemController<String, SampleStickyHeaderItemController.Holder>() {
 
     override fun getItemId(item: StickyHeaderBindableItem<String, Holder>) = item.data.hashCode().toString()
 

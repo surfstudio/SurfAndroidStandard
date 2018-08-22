@@ -7,8 +7,8 @@ import ru.surfstudio.android.recycler.extension.sample.R
 import ru.surfstudio.android.recycler.extension.sticky.controller.StickyFooterBindableItemController
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooterBindableItem
 
-class SampleStickyFooterItemController :
-        StickyFooterBindableItemController<String, SampleStickyFooterItemController.Holder>() {
+class SampleStickyFooterItemController
+    : StickyFooterBindableItemController<String, SampleStickyFooterItemController.Holder>() {
 
     override fun getItemId(item: StickyFooterBindableItem<String, Holder>) =
             item.data.hashCode().toString()
