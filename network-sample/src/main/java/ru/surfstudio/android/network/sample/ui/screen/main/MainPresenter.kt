@@ -1,11 +1,12 @@
 package ru.surfstudio.android.network.sample.ui.screen.main
 
+import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.network.sample.interactor.product.ProductRepository
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -40,7 +41,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     private fun loadData(page: Int) {
-        subscribeIoHandleError(repository.getProducts(page), { productList ->
+        subscribeIoHandleError(repository.getProducts(page)
+                .timeout(1000L, TimeUnit.MILLISECONDS), { productList ->
             screenModel.productList.merge(productList)
             screenModel.loadState = LoadState.NONE
             screenModel.setNormalPaginationState(productList.canGetMore())

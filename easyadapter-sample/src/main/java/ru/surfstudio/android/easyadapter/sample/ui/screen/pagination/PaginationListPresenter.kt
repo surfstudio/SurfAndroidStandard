@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import ru.surfstudio.android.easyadapter.sample.interactor.DataListLimitOffset
 import ru.surfstudio.android.easyadapter.sample.interactor.DataListPageCount
@@ -58,17 +59,8 @@ internal class PaginationListPresenter @Inject constructor(basePresenterDependen
     /**
      * Вариант загрузки по номеру страницы
      */
-    private fun getDataByPage(): Observable<DataListPageCount<FirstData>> {
+    private fun getDataByPage(): Observable<DataList<FirstData>> {
         return repository.getDataByPage(screenModel.pageList.nextPage)
     }
 
-    /**
-     * Алтернатива - загрузка через смещение
-     * Для использования подменить в метод getData() в loadData на тот , что ниже
-     * В коллбеке onNext заменить pageList -> limitOffsetList
-     * И на view заменить в renderInternal
-     */
-    private fun getDataByOffset(): Observable<DataListLimitOffset<FirstData>> {
-        return repository.getDataByOffset(screenModel.limitOffsetList.nextOffset)
-    }
 }

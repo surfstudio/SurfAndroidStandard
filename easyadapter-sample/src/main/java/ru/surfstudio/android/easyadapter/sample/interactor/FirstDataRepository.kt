@@ -1,6 +1,7 @@
 package ru.surfstudio.android.easyadapter.sample.interactor
 
 import io.reactivex.Observable
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class FirstDataRepository @Inject constructor() {
     fun getDataByPage(page: Int): Observable<DataListPageCount<FirstData>> {
         val startIndex = PAGE_SIZE * (page - 1)
         return Observable.just(
-                DataListPageCount(
+                DataList(
                         list.subList(startIndex, startIndex + PAGE_SIZE),
                         page,
                         PAGES_COUNT,
