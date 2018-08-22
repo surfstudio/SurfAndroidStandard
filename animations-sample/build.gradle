@@ -7,7 +7,17 @@ android {
 }
 
 dependencies {
-    implementation "com.android.support:design:$appcompatVersion"
-    implementation "ru.surfstudio.android:animations:$moduleVersionName"
+    implementation project(':core-app')
+    implementation project(':core-ui')
+    implementation project(':rx-extension')
+    implementation project(':dagger-scope')
+    implementation project(':network')
+    implementation project(':filestorage')
+    implementation project(':logger')
+    implementation project(':connection')
+    implementation project(':util-ktx')
+    implementation project(':animations')
     implementation project(':sample-common')
+
+    implementation "com.android.support:design:$appcompatVersion"
 }
