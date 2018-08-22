@@ -1,11 +1,11 @@
 package ru.surfstudio.android.firebase.sample.ui.base.configurator;
 
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.firebase.sample.app.App;
 import ru.surfstudio.android.firebase.sample.app.dagger.AppComponent;
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.DaggerActivityComponent;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModule;
 
 /**
  * Базовый конфигуратор для активити

@@ -7,8 +7,8 @@ import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.firebase.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.ActivityComponent
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.screen.ActivityScreenModule
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.screen.CustomScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.ActivityScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.CustomScreenModule
 
 internal class DataPushScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
     @PerScreen

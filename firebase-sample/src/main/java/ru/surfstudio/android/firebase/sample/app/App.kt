@@ -8,10 +8,10 @@ import io.fabric.sdk.android.Kit
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.firebase.sample.app.dagger.AppComponent
-import ru.surfstudio.android.firebase.sample.app.dagger.AppModule
 import ru.surfstudio.android.firebase.sample.app.dagger.DaggerAppComponent
 import ru.surfstudio.android.firebase.sample.ui.common.notification.PushHandleStrategyFactory
 import ru.surfstudio.android.notification.NotificationCenter
+import ru.surfstudio.android.sample.dagger.app.dagger.AppModule
 
 /**
  * Класс приложения
