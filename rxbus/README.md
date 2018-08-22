@@ -11,5 +11,8 @@
 
 Хорошая практика - использовать специальные классы с постфиксом Event.
 
+Пример использования RxBus можно посмотреть [здесь][usage_example].
+
 [rxbus]: src/main/java/ru/surfstudio/android/rxbus/RxBus.kt
 [info]: ../docs/common/event_bus.md
+[usage_example]: ../mvp-dialog-sample/README.md
