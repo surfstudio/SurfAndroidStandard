@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.surfstudio.android.mvp.dialog.sample">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:name="ru.surfstudio.android.sample.dagger.app.App"
         android:allowBackup="true"
