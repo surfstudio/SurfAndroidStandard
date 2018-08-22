@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.model.state.LoadState
-import ru.surfstudio.android.custom_view_sample.placeholder.PlaceHolderView
+import ru.surfstudio.android.sample.common.ui.base.placeholder.PlaceHolderView
 
 class MainActivity : AppCompatActivity() {
 

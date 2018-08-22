@@ -10,13 +10,13 @@
         android:id="@+id/change_state_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Сменить состояние"
+        android:text="@string/change_state_btn_text"
         app:layout_constraintBottom_toTopOf="@+id/placeholder_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ru.surfstudio.android.custom_view_sample.placeholder.PlaceHolderView
+    <ru.surfstudio.android.sample.common.ui.base.placeholder.PlaceHolderView
         android:id="@+id/placeholder_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

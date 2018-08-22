@@ -3,9 +3,7 @@ apply from: '../androidModule.gradle'
 dependencies {
     api project(':core-app')
     api project(':core-ui')
-    api project(':core-mvp')
     api project(':dagger-scope')
-    api project(':custom-view')
     api project(':animations')
     api project(':picture-provider')
     api project(':mvp-dialog')
