@@ -16,7 +16,7 @@
 
 * Scope активити (аннотация [@PerActivity](src/main/java/ru/surfstudio/android/dagger/scope/PerActivity.java)) -
 предоставляет обьекты, привязанные к жизненному циклу Активити (например RxBus).
-Этот Скоуп рамполагается между PerApplication и PerScreen.
+Этот Скоуп располагается между PerApplication и PerScreen.
 Не забывайте пробрасывать обьекты из PerApplication в PerScreen через AppComponent и ActivityComponent.
 
 * Scope экрана (аннотация [@PerScreen](src/main/java/ru/surfstudio/android/dagger/scope/PerScreen.java)) -
