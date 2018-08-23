@@ -7,22 +7,9 @@ android {
 }
 
 dependencies {
-    implementation project(':core-app')
-    implementation project(':core-ui')
-    implementation project(':dagger-scope')
-    implementation project(':animations')
-    implementation project(':network')
-    implementation project(':filestorage')
-    implementation project(':logger:')
-    implementation project(':connection')
-    implementation project(':converter-gson')
-    implementation project(':rx-extension')
-    implementation project(':util-ktx')
-    implementation project(':shared-pref')
-    implementation project(':message-controller')
     implementation project(':sample-dagger')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
+
     implementation "me.zhanghai.android.materialprogressbar:library:1.4.2"
 }

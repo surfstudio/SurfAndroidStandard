@@ -4,9 +4,9 @@ dependencies {
     api project(':custom-view')
     api project(':core-mvp')
 
-    api project(':core-ui')
-    api project(':connection')
-    api project(':logger')
-    api project(':rx-extension')
-    api project(':util-ktx')
+    implementation project(':core-ui')
+    implementation project(':connection')
+    implementation project(':logger')
+    implementation project(':rx-extension')
+    implementation project(':util-ktx')
 }
