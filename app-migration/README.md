@@ -3,9 +3,11 @@
 
 #Использование
 1. Реализовать наследник класса `AppMigration`, который вмещает в себя всю логику для определенной версии прилолжения
-1. Реализовать наследник класса `AppMigrationStorage`, который поставляет экземпляры `AppMigration`
-1. Поставить `AppMigrationStorage` в конструктор `AppMigrationManager`
-1. Вызвать `AppMigrationManager.tryMigrateApp()` при инициализации приложения 
+2. Реализовать наследник класса `AppMigrationStorage`, который поставляет экземпляры `AppMigration`
+3. Поставить `AppMigrationStorage` в конструктор `AppMigrationManager`
+4. Вызвать `AppMigrationManager.tryMigrateApp()` при инициализации приложения 
+
+[Пример использования](../app-migration-sample)
 
 #Подключение
 Gradle:

@@ -28,28 +28,36 @@ object RemoteLogger {
     private val DEFAULT_REMOTE_LOGGING_STRATEGY = CrashlyticsRemoteLoggingStrategy()
     private val REMOTE_LOGGING_STRATEGIES = ArrayList<RemoteLoggingStrategy>()
 
+    @JvmStatic
     fun getRemoteLoggingStrategies() = REMOTE_LOGGING_STRATEGIES
 
+    @JvmStatic
     fun addRemoteLoggingStrategy(strategy: RemoteLoggingStrategy) = REMOTE_LOGGING_STRATEGIES.add(strategy)
 
+    @JvmStatic
     fun removeRemoteLoggingStrategies(strategy: RemoteLoggingStrategy) = REMOTE_LOGGING_STRATEGIES.remove(strategy)
 
+    @JvmStatic
     fun setUser(id: String, username: String, email: String) {
         forEachRemoteLoggingStrategyOrWithDefault { strategy -> strategy.setUser(id, username, email) }
     }
 
+    @JvmStatic
     fun clearUser() {
         forEachRemoteLoggingStrategyOrWithDefault { strategy -> strategy.clearUser() }
     }
 
+    @JvmStatic
     fun setCustomKey(key: String, value: String) {
         forEachRemoteLoggingStrategyOrWithDefault { strategy -> strategy.logKeyValue(key, value) }
     }
 
+    @JvmStatic
     fun logError(e: Throwable) {
         forEachRemoteLoggingStrategyOrWithDefault { strategy -> strategy.logError(e) }
     }
 
+    @JvmStatic
     fun logMessage(message: String) {
         forEachRemoteLoggingStrategyOrWithDefault { strategy -> strategy.logMessage(message) }
     }

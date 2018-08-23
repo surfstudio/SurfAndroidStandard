@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">MVP Dialog Sample</string>
+
+    <string name="no_internet_connection_error_message">Не удалось загрузить данные. Проверьте соединение с интернетом и попробуйте еще раз</string>
+    <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
+    <string name="unexpected_error_error_message">@string/default_http_error_message</string>
+    <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
+
+    <string name="show_simple_dialog_btn_text">Show simple dialog</string>
+    <string name="show_simple_bottomsheet_dialog_btn_text">Show simple bottomsheet dialog</string>
+    <string name="show_complex_dialog_btn_text">Show complex dialog</string>
+    <string name="show_complex_bottomsheet_dialog_btn_text">Show complex bottomsheet dialog</string>
+
+    <string name="positive_btn_text">Yes</string>
+    <string name="negative_btn_text">No</string>
+    <string name="bottom_sheet_action">Perform action</string>
+
+    <string name="simple_dialog_title">Simple dialog title</string>
+    <string name="simple_dialog_message">Simple dialog message</string>
+
+    <string name="simple_bottomsheet_dialog_title">Simple bottomsheet dialog title</string>
+    <string name="simple_bottomsheet_dialog_message">Simple bottomsheet dialog message</string>
+
+    <string name="complex_dialog_title">Complex dialog title</string>
+    <string name="complex_dialog_message">Complex dialog message</string>
+
+    <string name="complex_bottomsheet_dialog_title">Complex bottomsheet dialog title</string>
+    <string name="complex_bottomsheet_dialog_message">Complex bottomsheet dialog message</string>
+    <string name="increase_btn_text">Increase</string>
+    <string name="decrease_btn_text">Decrease</string>
+    <string name="apply_btn_text">Apply</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+</resources>
