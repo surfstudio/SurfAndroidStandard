@@ -5,7 +5,7 @@ import android.os.PersistableBundle
 import android.support.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.broadcast.extension.sample.R
-import ru.surfstudio.android.broadcast.extension.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.broadcast.extension.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.utilktx.ktx.ui.activity.hideKeyboard
@@ -37,5 +37,5 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
+    override fun createConfigurator(): CustomActivityScreenConfigurator = MainScreenConfigurator(intent)
 }

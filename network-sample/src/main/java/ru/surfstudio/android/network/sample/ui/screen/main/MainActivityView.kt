@@ -15,7 +15,7 @@ import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapt
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.sample.R
 import ru.surfstudio.android.network.sample.domain.product.Product
-import ru.surfstudio.android.network.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.network.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import javax.inject.Inject
@@ -44,7 +44,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
+    override fun createConfigurator(): CustomActivityScreenConfigurator = MainScreenConfigurator(intent)
 
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main

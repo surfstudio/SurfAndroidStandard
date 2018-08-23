@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.sample.R
-import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -34,5 +34,5 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
+    override fun createConfigurator(): CustomActivityScreenConfigurator = MainScreenConfigurator(intent)
 }

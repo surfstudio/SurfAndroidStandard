@@ -4,7 +4,7 @@ import kotlinx.android.synthetic.main.activity_data_push.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.firebase.sample.R
-import ru.surfstudio.android.firebase.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.firebase.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -15,7 +15,7 @@ class DataPushActivityView : BaseRenderableActivityView<DataPushScreenModel>() {
     @Inject
     internal lateinit var presenter: DataPushPresenter
 
-    override fun createConfigurator(): ActivityScreenConfigurator = DataPushScreenConfigurator(intent)
+    override fun createConfigurator(): CustomActivityScreenConfigurator = DataPushScreenConfigurator(intent)
 
     override fun getContentView(): Int = R.layout.activity_data_push
 
