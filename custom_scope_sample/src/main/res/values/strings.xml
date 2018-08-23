@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name" translatable="false">CustomScope Sample</string>
+
+    <string name="no_internet_connection_error_message">Не удалось загрузить данные. Проверьте соединение с интернетом и попробуйте еще раз</string>
+    <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
+    <string name="unexpected_error_error_message">@string/default_http_error_message</string>
+    <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
+
+    <string name="open_another_screen_btn_text">Open another screen</string>
+    <string name="another_screen_tv_text">Another screen</string>
+    <string name="main_screen_tv_text">Main screen</string>
+
+</resources>
