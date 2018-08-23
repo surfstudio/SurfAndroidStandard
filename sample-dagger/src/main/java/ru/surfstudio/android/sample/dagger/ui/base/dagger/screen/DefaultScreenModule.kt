@@ -15,7 +15,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
  * Общий модуль для зависимостей Activity и Fragment
  */
 @Module
-abstract class ScreenModule {
+abstract class DefaultScreenModule {
 
     @PerScreen
     @Provides

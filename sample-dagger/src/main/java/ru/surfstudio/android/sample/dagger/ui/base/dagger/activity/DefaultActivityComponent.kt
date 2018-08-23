@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
-import ru.surfstudio.android.sample.dagger.app.dagger.AppComponent
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
@@ -18,9 +18,9 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
  */
 
 @PerActivity
-@Component(dependencies = [(AppComponent::class)],
-        modules = [(ActivityModule::class)])
-interface ActivityComponent {
+@Component(dependencies = [(DefaultAppComponent::class)],
+        modules = [(DefaultActivityModule::class)])
+interface DefaultActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
     fun stringsProvider(): StringsProvider

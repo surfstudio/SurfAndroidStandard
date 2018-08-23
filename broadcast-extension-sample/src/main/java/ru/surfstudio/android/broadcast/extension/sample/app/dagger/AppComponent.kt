@@ -8,13 +8,13 @@ import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.sample.dagger.app.dagger.AppModule
-import ru.surfstudio.android.sample.dagger.app.dagger.SharedPrefModule
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
 
 @PerApplication
 @Component(modules = [
-    AppModule::class,
-    SharedPrefModule::class])
+    DefaultAppModule::class,
+    DefaultSharedPrefModule::class])
 interface AppComponent {
     fun context(): Context
     fun activeActivityHolder(): ActiveActivityHolder

@@ -11,7 +11,7 @@ import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.easyadapter.sample.app.dagger.AppComponent
 import ru.surfstudio.android.easyadapter.sample.interactor.FirstDataRepository
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 
 /**
  * Компонент для @PerActivity скоупа
@@ -19,7 +19,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModul
 
 @PerActivity
 @Component(dependencies = [(AppComponent::class)],
-        modules = [(ActivityModule::class)])
+        modules = [(DefaultActivityModule::class)])
 interface ActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider

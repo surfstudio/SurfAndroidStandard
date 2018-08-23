@@ -13,7 +13,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
 
 @Module
-class AppModule(private val coreApp: CoreApp) {
+class DefaultAppModule(private val coreApp: CoreApp) {
 
     @PerApplication
     @Provides

@@ -1,16 +1,16 @@
-package ru.surfstudio.android.network.sample.app
+package ru.surfstudio.android.sample.dagger.app
 
 import ru.surfstudio.android.core.app.CoreApp
-import ru.surfstudio.android.network.sample.app.dagger.AppComponent
-import ru.surfstudio.android.network.sample.app.dagger.DaggerAppComponent
+import ru.surfstudio.android.sample.dagger.app.dagger.DaggerDefaultAppComponent
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
 /**
  * Класс приложения
  */
-class App : CoreApp() {
+class DefaultApp : CoreApp() {
 
-    var appComponent: AppComponent? = null
+    var defaultAppComponent: DefaultAppComponent? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -18,7 +18,7 @@ class App : CoreApp() {
     }
 
     private fun initInjector() {
-        appComponent = DaggerAppComponent.builder()
+        defaultAppComponent = DaggerDefaultAppComponent.builder()
                 .defaultAppModule(DefaultAppModule(this))
                 .build()
     }

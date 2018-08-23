@@ -13,13 +13,13 @@ import ru.surfstudio.android.network.sample.interactor.common.network.cache.Cach
 import ru.surfstudio.android.network.sample.interactor.product.ProductModule
 import ru.surfstudio.android.network.sample.interactor.product.ProductRepository
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.sample.dagger.app.dagger.AppModule
-import ru.surfstudio.android.sample.dagger.app.dagger.SharedPrefModule
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
 
 @PerApplication
 @Component(modules = [
-    AppModule::class,
-    SharedPrefModule::class,
+    DefaultAppModule::class,
+    DefaultSharedPrefModule::class,
     CacheModule::class,
     NetworkModule::class,
     OkHttpModule::class,

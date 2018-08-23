@@ -1,20 +1,20 @@
-package ru.surfstudio.android.firebase.sample.ui.base.configurator;
+package ru.surfstudio.android.sample.dagger.ui.base.configurator;
 
 import android.os.Bundle;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent;
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule;
 
 /**
  * Базовый конфигуратор для экрана, основанного на фрагменте
  */
 
-public abstract class FragmentScreenConfigurator
-        extends BaseFragmentViewConfigurator<ActivityComponent, DefaultFragmentScreenModule> {
+public abstract class DefaultFragmentScreenConfigurator
+        extends BaseFragmentViewConfigurator<DefaultActivityComponent, DefaultFragmentScreenModule> {
 
-    public FragmentScreenConfigurator(Bundle args) {
+    public DefaultFragmentScreenConfigurator(Bundle args) {
         super(args);
     }
 
@@ -24,8 +24,8 @@ public abstract class FragmentScreenConfigurator
     }
 
     @Override
-    protected ActivityComponent getParentComponent() {
-        return (ActivityComponent) ((CoreActivityInterface) getTargetFragmentView().getActivity())
+    protected DefaultActivityComponent getParentComponent() {
+        return (DefaultActivityComponent) ((CoreActivityInterface) getTargetFragmentView().getActivity())
                 .getPersistentScope()
                 .getConfigurator()
                 .getActivityComponent();

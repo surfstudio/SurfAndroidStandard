@@ -1,7 +1,7 @@
 package ru.surfstudio.android.shared.pref.sample.app
 
 import ru.surfstudio.android.core.app.CoreApp
-import ru.surfstudio.android.sample.dagger.app.dagger.AppModule
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 import ru.surfstudio.android.shared.pref.sample.app.dagger.AppComponent
 import ru.surfstudio.android.shared.pref.sample.app.dagger.DaggerAppComponent
 
@@ -19,7 +19,7 @@ class App : CoreApp() {
 
     private fun initInjector() {
         appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(this))
+                .defaultAppModule(DefaultAppModule(this))
                 .build()
     }
 }

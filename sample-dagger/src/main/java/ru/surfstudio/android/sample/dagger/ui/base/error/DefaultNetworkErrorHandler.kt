@@ -10,10 +10,10 @@ import ru.surfstudio.android.network.error.NoInternetException
 /**
  * Базовый класс для обработки ошибок, возникающий при работе с Observable из слоя Interactor
  */
-abstract class NetworkErrorHandler : ErrorHandler {
+abstract class DefaultNetworkErrorHandler : ErrorHandler {
 
     override fun handleError(err: Throwable) {
-        Logger.i(err, "NetworkErrorHandler handle error")
+        Logger.i(err, "DefaultNetworkErrorHandler handle error")
         when (err) {
             is CompositeException -> handleCompositeException(err)
             is ConversionException -> handleConversionError(err)

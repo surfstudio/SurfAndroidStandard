@@ -30,7 +30,7 @@ import ru.surfstudio.android.picturechooser.PictureProvider
  */
 
 @Module
-class ActivityModule(private val persistentScope: ActivityPersistentScope) {
+class DefaultActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity

@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.FragmentScreenModule;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule;
 import ru.surfstudio.android.shared.pref.sample.ui.base.dagger.activity.ActivityComponent;
 
 /**
@@ -12,15 +12,15 @@ import ru.surfstudio.android.shared.pref.sample.ui.base.dagger.activity.Activity
  */
 
 public abstract class FragmentScreenConfigurator
-        extends BaseFragmentViewConfigurator<ActivityComponent, FragmentScreenModule> {
+        extends BaseFragmentViewConfigurator<ActivityComponent, DefaultFragmentScreenModule> {
 
     public FragmentScreenConfigurator(Bundle args) {
         super(args);
     }
 
     @Override
-    protected FragmentScreenModule getFragmentScreenModule() {
-        return new FragmentScreenModule(getPersistentScope());
+    protected DefaultFragmentScreenModule getFragmentScreenModule() {
+        return new DefaultFragmentScreenModule(getPersistentScope());
     }
 
     @Override

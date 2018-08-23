@@ -13,7 +13,7 @@ import static ru.surfstudio.android.shared.pref.SettingsUtilKt.BACKUP_SHARED_PRE
 import static ru.surfstudio.android.shared.pref.SettingsUtilKt.NO_BACKUP_SHARED_PREF;
 
 @Module
-public class SharedPrefModule {
+public class DefaultSharedPrefModule {
 
     @Provides
     @PerApplication

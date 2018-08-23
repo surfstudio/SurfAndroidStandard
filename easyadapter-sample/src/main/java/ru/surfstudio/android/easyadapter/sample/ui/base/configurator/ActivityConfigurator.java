@@ -5,7 +5,7 @@ import ru.surfstudio.android.easyadapter.sample.app.App;
 import ru.surfstudio.android.easyadapter.sample.app.dagger.AppComponent;
 import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.DaggerActivityComponent;
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModule;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule;
 
 /**
  * Базовый конфигуратор для активити
@@ -17,7 +17,7 @@ public class ActivityConfigurator extends BaseActivityConfigurator<ActivityCompo
     protected ActivityComponent createActivityComponent(AppComponent parentComponent) {
         return DaggerActivityComponent.builder()
                 .appComponent(parentComponent)
-                .activityModule(new ActivityModule(getPersistentScope()))
+                .defaultActivityModule(new DefaultActivityModule(getPersistentScope()))
                 .build();
     }
 

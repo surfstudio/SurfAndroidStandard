@@ -10,9 +10,9 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 @PerApplication
 @Component(modules = [
-    AppModule::class,
-    SharedPrefModule::class])
-interface AppComponent {
+    DefaultAppModule::class,
+    DefaultSharedPrefModule::class])
+interface DefaultAppComponent {
     fun context(): Context
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider

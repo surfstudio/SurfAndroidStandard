@@ -13,11 +13,11 @@ import ru.surfstudio.android.dagger.scope.PerScreen;
  * @param <R>
  */
 @Module
-public abstract class CustomScreenModule<R extends Route> {
+public abstract class DefaultCustomScreenModule<R extends Route> {
 
     private R route;
 
-    public CustomScreenModule(R route) {
+    public DefaultCustomScreenModule(R route) {
         this.route = route;
     }
 

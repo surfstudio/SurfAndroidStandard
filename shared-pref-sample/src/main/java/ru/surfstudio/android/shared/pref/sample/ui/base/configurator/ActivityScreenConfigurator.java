@@ -3,8 +3,8 @@ package ru.surfstudio.android.shared.pref.sample.ui.base.configurator;
 import android.content.Intent;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.ActivityModule;
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.ActivityScreenModule;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule;
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule;
 import ru.surfstudio.android.shared.pref.sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.shared.pref.sample.ui.base.dagger.activity.DaggerActivityComponent;
 import ru.surfstudio.android.shared.pref.sample.app.App;
@@ -15,7 +15,7 @@ import ru.surfstudio.android.shared.pref.sample.app.dagger.AppComponent;
  */
 
 public abstract class ActivityScreenConfigurator
-        extends BaseActivityViewConfigurator<AppComponent, ActivityComponent, ActivityScreenModule> {
+        extends BaseActivityViewConfigurator<AppComponent, ActivityComponent, DefaultActivityScreenModule> {
 
     public ActivityScreenConfigurator(Intent intent) {
         super(intent);
@@ -25,7 +25,7 @@ public abstract class ActivityScreenConfigurator
     protected ActivityComponent createActivityComponent(AppComponent parentComponent) {
         return DaggerActivityComponent.builder()
                 .appComponent(parentComponent)
-                .activityModule(new ActivityModule(getPersistentScope()))
+                .defaultActivityModule(new DefaultActivityModule(getPersistentScope()))
                 .build();
     }
 
@@ -35,7 +35,7 @@ public abstract class ActivityScreenConfigurator
     }
 
     @Override
-    protected ActivityScreenModule getActivityScreenModule() {
-        return new ActivityScreenModule(getPersistentScope());
+    protected DefaultActivityScreenModule getActivityScreenModule() {
+        return new DefaultActivityScreenModule(getPersistentScope());
     }
 }

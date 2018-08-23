@@ -23,14 +23,14 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForW
 import ru.surfstudio.android.mvp.widget.provider.WidgetProvider
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.ScreenModule
-import ru.surfstudio.android.sample.dagger.ui.base.error.ErrorHandlerModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.error.DefaultErrorHandlerModule
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
 
-@Module(includes = [ErrorHandlerModule::class])
-class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope) : ScreenModule() {
+@Module(includes = [DefaultErrorHandlerModule::class])
+class DefaultWidgetScreenModule(private val persistentScope: WidgetViewPersistentScope) : DefaultScreenModule() {
     @Provides
     @PerScreen
     internal fun provideDialogNavigator(activityProvider: ActivityProvider,

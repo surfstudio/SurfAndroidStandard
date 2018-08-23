@@ -12,8 +12,8 @@ import javax.inject.Inject
  * Стандартный обработчик ошибок, возникающих при работе с сервером
  */
 @PerScreen
-open class StandardErrorHandler @Inject
-constructor(private val messageController: MessageController) : NetworkErrorHandler() {
+open class DefaultStandardErrorHandler @Inject
+constructor(private val messageController: MessageController) : DefaultNetworkErrorHandler() {
 
     override fun handleNoInternetError(e: NoInternetException) {
         messageController.show(R.string.no_internet_connection_error_message)

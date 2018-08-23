@@ -14,14 +14,14 @@ import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.sample.dagger.ui.base.error.ErrorHandlerModule
+import ru.surfstudio.android.sample.dagger.ui.base.error.DefaultErrorHandlerModule
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
 
-@Module(includes = [ErrorHandlerModule::class])
-class FragmentScreenModule(private val persistentScope: FragmentViewPersistentScope) : ScreenModule() {
+@Module(includes = [DefaultErrorHandlerModule::class])
+class DefaultFragmentScreenModule(private val persistentScope: FragmentViewPersistentScope) : DefaultScreenModule() {
 
     @Provides
     @PerScreen

@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.mvp.binding.BindData
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
-import ru.surfstudio.android.sample.dagger.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -75,7 +75,7 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
+    override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
