@@ -24,6 +24,7 @@ dependencies {
     implementation project(':mvp-widget')
     implementation project(':mvp-dialog')
     implementation project(':message-controller')
+    implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
