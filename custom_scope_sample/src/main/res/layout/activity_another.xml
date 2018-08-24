@@ -12,4 +12,13 @@
         android:layout_centerInParent="true"
         android:layout_marginBottom="16dp"
         android:text="@string/another_screen_tv_text" />
+
+    <EditText
+        android:id="@+id/another_screen_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        android:layout_below="@id/another_screen_tv"
+        android:hint="@string/another_screen_email"/>
 </RelativeLayout>

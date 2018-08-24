@@ -39,13 +39,13 @@
 
 | Scope | Component | Configurator |
 |-------|-----------|--------------|
-|@PerApplication| AppComponent | AppInjector]|
+|@PerApplication| AppComponent | AppInjector|
 |@PerActivity| ActivityComponent | BaseActivityConfigurator |
 |@PerScreen| ScreenComponent и наследники | Base...ViewConfigurator|
 
 За время жизни каждого скоупа отвечает делегат -  BaseScreenDelegate.
-После того , как умирает экран, он убивает `PersistentScope`, который в свою
+После того , как умирает экран, он убивает [`PersistentScope`][TODO: ссылка], который в свою
 очередь и содержит в себе конфигратор с компонентом. Таким образом не остается
 внешних ссылок на компонент и он тоже стирается сборщиком мусора.
 
-Как добавить свой скоуп описано [здесь](../../custom_scope_sample.md).
+Как добавить свой скоуп описано [здесь](../../custom_scope_sample/README.md).

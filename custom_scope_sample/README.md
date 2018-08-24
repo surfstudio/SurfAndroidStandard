@@ -3,8 +3,10 @@
 Используются студийные [Scope][../dagger-scope/README.md].
 Общая информация об использовании [здесь][../docs/common/di.md].
 
-В данном примере некоторый объект [`LoginData`][ld]живет дольше чем две активити,
-но меньше чем приложение.
+В данном примере некоторый объект [`EmailData`][ld]живет дольше чем две активити,
+но меньше чем приложение. Например, это могут быть данные , который заполнил пользователь.
+В случае если он покинул экран по беку, а потом вернулся, необходимо, чтобы
+эти данные были предзаполнены.
 Управление временем жизни компонента выполняется "в ручную", c помощью
 [`LoginScopeStorage`][lss].
 
@@ -24,9 +26,9 @@ AppComponent.
 на [`LoginScreenComponent`][lcomp] -> в методе getParentComponent() получать компонент через
 хранилище.
 
-- не забыть прокинуть LoginData в ActivityComponent
+- не забыть прокинуть EmailData в ActivityComponent
 
-[ld]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/dagger/login/LoginData.kt
+[ld]: src/main/java/ru/surfstudio/android/custom_scope_sample/domain/EmailData.kt
 [lss]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/LoginScopeStorage.kt
 [pl]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/dagger/scope/PerLogin.kt
 [asc]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/configurator/ActivityScreenConfigurator.java

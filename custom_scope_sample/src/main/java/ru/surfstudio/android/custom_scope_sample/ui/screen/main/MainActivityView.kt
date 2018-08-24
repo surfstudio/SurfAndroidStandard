@@ -38,7 +38,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun onStart() {
         super.onStart()
-        LoginScopeStorage.activityList.add(this::class.java)
+        LoginScopeStorage.addActivity(this::class.java)
     }
 
     override fun onDestroy() {

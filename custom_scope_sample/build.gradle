@@ -17,6 +17,8 @@ dependencies {
     implementation project(':mvp-dialog')
     implementation project(':message-controller')
 
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger:$daggerVersion"
 

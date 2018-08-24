@@ -5,10 +5,8 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.custom_scope_sample.ui.screen.another.AnotherActivityRoute
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.custom_scope_sample.ui.base.LoginScopeStorage
-import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginData
+import ru.surfstudio.android.custom_scope_sample.domain.EmailData
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.logger.Logger
 import javax.inject.Inject
 
 /**
@@ -17,7 +15,7 @@ import javax.inject.Inject
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                  private val activityNavigator: ActivityNavigator,
-                                                 private val loginData: LoginData
+                                                 private val emailData: EmailData
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel: MainScreenModel = MainScreenModel()
@@ -30,8 +28,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     override fun onResume() {
         super.onResume()
-
-        view.toast(loginData.email)
+        view.toast(emailData.email)
     }
 
     fun openAnotherScreen() = activityNavigator.start(AnotherActivityRoute())

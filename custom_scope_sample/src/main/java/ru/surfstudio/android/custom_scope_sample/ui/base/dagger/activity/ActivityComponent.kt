@@ -8,8 +8,7 @@ import ru.surfstudio.android.core.ui.bus.RxBus
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
-import ru.surfstudio.android.custom_scope_sample.app.dagger.AppComponent
-import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginData
+import ru.surfstudio.android.custom_scope_sample.domain.EmailData
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginScreenComponent
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
@@ -30,5 +29,5 @@ interface ActivityComponent {
     fun context(): Context
     fun rxBus(): RxBus
 
-    fun loginData(): LoginData
+    fun loginData(): EmailData
 }

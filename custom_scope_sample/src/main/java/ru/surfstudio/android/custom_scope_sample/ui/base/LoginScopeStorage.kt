@@ -10,7 +10,7 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginScree
  */
 object LoginScopeStorage {
 
-    val activityList: MutableList<Class<out Activity>> = mutableListOf()
+    private val activityList: MutableList<Class<out Activity>> = mutableListOf()
 
     var loginScreenComponent: LoginScreenComponent? = null
 
@@ -27,6 +27,10 @@ object LoginScopeStorage {
 
     fun clearComponent() {
         loginScreenComponent = null
+    }
+
+    fun addActivity(clazz: Class<out Activity>) {
+        activityList.add(clazz)
     }
 
     fun removeActivity(clazz: Class<out Activity>) {
