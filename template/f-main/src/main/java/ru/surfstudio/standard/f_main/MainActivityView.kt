@@ -35,7 +35,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
 
     override fun getScreenName(): String = "MainActivityView"
 
-    override fun renderInternal(p0: MainScreenModel?) {
+    override fun renderInternal(screenModel: MainScreenModel) {
     }
 
     private fun initViews() {
