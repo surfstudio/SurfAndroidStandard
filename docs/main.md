@@ -5,10 +5,13 @@ Android Standard - Репозиторий с внутренними библио
 Содержит модули, с помощью которых можно построить качественное приложение
 в короткие сроки.
 
+[Правила ведения и оформления][rules.md] [][TODO: чтобы не забыть]
+
 Общая структура вики
 --------------------
 
 1. **Общие сведения о построении приложения**
+    1. [Требования к коду](common/code_organization.md)
     1. [Архитектура приложения](common/architect.md)
     1. [Многомодульность](common/common_info.md)
     1. [Инъекция зависимостей](common/di.md)
@@ -18,9 +21,15 @@ Android Standard - Репозиторий с внутренними библио
     1. [Асинхронные взаимодействия](common/async.md)
     1. [Пуш-уведомления](../push/README.md)
     1. [Пагинация](common/pagin.md)
-    1. [Работа с локацией](common/locatiom.md) [][<-- возможно сразу на модуль, так как мало информации]
 
 1. [Слой Interactor](interactor/interactor.md)
+    1. [Работа с сервером]()
+    1. [Работа с локацией](common/locatiom.md) [][<-- возможно сразу на модуль, так как мало информации]
+    1. [Проверка соединения](../connection/README.md)
+    1. [Миграция между версиями приложения](../app-migration/README.md)
+    1. [Работа с Broadcast]()
+    1. [Работа с файловым хранилещем]()
+    1. [Работа с SharedPrefs]()
 
 
 1. [UI слой](ui/ui.md)
@@ -36,10 +45,6 @@ Android Standard - Репозиторий с внутренними библио
 1. [Инициализация приложения](../template-multimodule/README.md)
 
 1. [Лучшие практики](best_practice.md)
-
-Кодстайл в студии : [Android-Java](https://docs.google.com/document/d/1EpEwi1SUY_Pu7mS6tmgYePLVS3qJwvMmWmrOBw8PCcs/edit),
-[Kotlin](https://docs.google.com/document/d/1xFlT2OzGvTTV2NPkKoHa4BoR9ePIjk4bXQYcaGuHdcM/edit#heading=h.x1nemj4berko)
-
 
 
 [][Todo]
