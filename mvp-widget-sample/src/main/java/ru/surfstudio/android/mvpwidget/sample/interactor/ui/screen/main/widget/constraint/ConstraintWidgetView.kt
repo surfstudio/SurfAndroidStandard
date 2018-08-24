@@ -11,9 +11,10 @@ import javax.inject.Inject
 /**
  * Базовый пример виджета на базе {@link ru.surfstudio.android.mvp.widget.view.CoreConstraintLayoutView}
  * */
-class ConstraintWidgetView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CoreConstraintLayoutView(context, attrs, defStyleAttr) {
+class ConstraintWidgetView @JvmOverloads constructor(context: Context,
+                                                     attrs: AttributeSet? = null,
+                                                     defStyleAttr: Int = 0
+) : CoreConstraintLayoutView(context, attrs, defStyleAttr) {
 
     @Inject lateinit var presenter: ConstraintViewPresenter
 

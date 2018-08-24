@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.mvpwidget.sample.R
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -18,25 +18,19 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     internal lateinit var presenter: MainPresenter
 
     @IdRes
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView(): Int = R.layout.activity_main
 
     override fun renderInternal(screenModel: MainScreenModel) {}
 
-    override fun getScreenName(): String {
-        return "main"
-    }
+    override fun getScreenName(): String = "main"
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator {
-        return MainScreenConfigurator(intent)
-    }
+    override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+    override fun onCreate(savedInstanceState: Bundle?,
+                          persistentState: PersistableBundle?,
+                          viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         constraint_widget.init()
         frame_widget.init()

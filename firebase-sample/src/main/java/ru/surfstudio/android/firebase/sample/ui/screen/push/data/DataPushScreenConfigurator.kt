@@ -5,28 +5,28 @@ import dagger.Component
 import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.firebase.sample.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.ActivityComponent
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.screen.ActivityScreenModule
-import ru.surfstudio.android.firebase.sample.ui.base.dagger.screen.CustomScreenModule
+import ru.surfstudio.android.firebase.sample.ui.base.configurator.CustomActivityScreenConfigurator
+import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.CustomActivityComponent
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
-internal class DataPushScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
+internal class DataPushScreenConfigurator(intent: Intent) : CustomActivityScreenConfigurator(intent) {
     @PerScreen
-    @Component(dependencies = [ActivityComponent::class],
-            modules = [ActivityScreenModule::class, DataPushScreenModule::class])
+    @Component(dependencies = [CustomActivityComponent::class],
+            modules = [DefaultActivityScreenModule::class, DataPushScreenModule::class])
     internal interface DataPushScreenComponent
         : ScreenComponent<DataPushActivityView>
 
     @Module
     internal class DataPushScreenModule(route: DataPushActivityRoute)
-        : CustomScreenModule<DataPushActivityRoute>(route)
+        : DefaultCustomScreenModule<DataPushActivityRoute>(route)
 
-    override fun createScreenComponent(parentActivityComponent: ActivityComponent?,
-                                       activityScreenModule: ActivityScreenModule?,
+    override fun createScreenComponent(customActivityComponent: CustomActivityComponent,
+                                       defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
         return DaggerDataPushScreenConfigurator_DataPushScreenComponent.builder()
-                .activityComponent(activityComponent)
-                .activityScreenModule(activityScreenModule)
+                .customActivityComponent(customActivityComponent)
+                .defaultActivityScreenModule(defaultActivityScreenModule)
                 .dataPushScreenModule(DataPushScreenModule(DataPushActivityRoute(intent)))
                 .build()
     }

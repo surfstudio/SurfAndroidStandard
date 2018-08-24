@@ -9,6 +9,5 @@ import javax.inject.Inject
  * Просто пример презентера для виджета
  * */
 @PerScreen
-class ConstraintViewPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency)
-    : BasePresenter<ConstraintWidgetView>(basePresenterDependency)
+class ConstraintViewPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
+) : BasePresenter<ConstraintWidgetView>(basePresenterDependency)

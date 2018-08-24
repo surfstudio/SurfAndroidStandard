@@ -33,12 +33,14 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun sendSms(phoneNumber: String, message: String) {
-        SmsManager.getDefault()
-                .sendTextMessage(
-                        phoneNumber,
-                        null,
-                        message,
-                        null,
-                        null)
+        if (phoneNumber.isNotEmpty()) {
+            SmsManager.getDefault()
+                    .sendTextMessage(
+                            phoneNumber,
+                            null,
+                            message,
+                            null,
+                            null)
+        }
     }
 }

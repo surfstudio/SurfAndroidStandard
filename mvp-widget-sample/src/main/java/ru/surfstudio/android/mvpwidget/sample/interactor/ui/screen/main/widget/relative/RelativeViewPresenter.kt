@@ -9,6 +9,5 @@ import javax.inject.Inject
  * Просто пример презентера для виджета
  * */
 @PerScreen
-class RelativeViewPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency)
-    : BasePresenter<RelativeWidgetView>(basePresenterDependency)
+class RelativeViewPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
+) : BasePresenter<RelativeWidgetView>(basePresenterDependency)
