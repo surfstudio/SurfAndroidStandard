@@ -9,3 +9,5 @@ include ':template:app-injector',
         ':template:i-auth',
         ':template:f-auth',
         ':template:f-main'
+
+apply from: 'scripts/androidStandardSettings.gradle'

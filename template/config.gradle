@@ -1,5 +1,3 @@
-apply from: '../scripts/androidStandardModules.gradle'
-
 ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"

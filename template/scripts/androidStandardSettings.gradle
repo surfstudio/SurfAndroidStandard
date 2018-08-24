@@ -1,0 +1,21 @@
+apply from: '../config.gradle'
+
+// Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
+
+if (androidStandardDebugDir == null) {
+    logger.error('androidStandardDebug.dir not defined. Please define it in local.properties file ' +
+            'to enable android-standard debug mode.')
+} else {
+    try {
+        gradle.ext.androidStandardModules.each {
+            include "$it"
+            project(":$it").projectDir = new File("$androidStandardDebugDir/$it")
+        }
+    } catch (Throwable e) {
+        logger.error(e.message)
+    }
+}
