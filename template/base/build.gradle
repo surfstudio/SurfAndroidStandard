@@ -21,8 +21,6 @@ dependencies {
     api project(':shared-pref')
     api project(':custom-view')
     api project(':analytics')
-    api project(':core-app')
-    api project(':analytics')
     api project(':network')
     api project(':converter-gson')
     api project(':filestorage')

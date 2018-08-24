@@ -10,8 +10,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 
-        versionCode rootProject.ext.moduleVersionCode
-        versionName rootProject.ext.moduleVersionName
+        versionCode rootProject.ext.moduleVersionCode //todo replace to: rootProject.ext.versionCode
+        versionName rootProject.ext.moduleVersionName //todo replace to: rootProject.ext.versionName
 
         vectorDrawables.useSupportLibrary = true
     }

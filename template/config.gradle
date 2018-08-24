@@ -3,6 +3,8 @@ ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
     buildToolsVersion = "27.0.3"
+    //todo Uncoment: versionCode = 1
+    //todo Uncoment: versionName = "0.0.1"
     minSdkVersion = 19
     targetSdkVersion = 27
     compileSdkVersion = 27
@@ -54,6 +56,5 @@ ext {
     assertJVersion = '3.10.0'                   //http://bit.ly/2mXO1EX
 
     // версия наших внутренних модулей
-    moduleVersionCode = 15
-    moduleVersionName = '0.2.1-SNAPSHOT'
+    surfCoreVersionName = '0.2.1'
 }
