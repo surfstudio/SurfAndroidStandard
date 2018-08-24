@@ -1,5 +1,7 @@
 apply from: '../config.gradle'
 
+// Скрипт для подключения модулей android-standard из artifactory
+
 dependencies {
     gradle.ext.androidStandardModules.each {
         api "$surfCoreUrl:$it:$surfCoreVersionName"

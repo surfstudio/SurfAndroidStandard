@@ -1,4 +1,5 @@
-// список модулей из AndroidStandard
+// Список модулей android-standard
+
 gradle.ext {
     androidStandardModules = [
             "core-ui",

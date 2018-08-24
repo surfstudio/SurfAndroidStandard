@@ -1,5 +1,7 @@
 apply from: '../config.gradle'
 
+// Скрипт для подключения модулей android-standard из локального репозитория для отладки
+
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
