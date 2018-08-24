@@ -5,3 +5,5 @@ dependencies {
         api "$surfCoreUrl:$it:$surfCoreVersionName"
     }
 }
+
+apply from: '../scripts/androidStandardDebugDependencies.gradle'
