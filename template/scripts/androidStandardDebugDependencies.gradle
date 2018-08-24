@@ -4,12 +4,17 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 def androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
 
-try {
-    dependencies {
-        gradle.ext.androidStandardModules.each {
-            api "$androidStandardDebugDir/$it"
+if (androidStandardDebugDir == null) {
+    logger.error('androidStandardDebug.dir not defined. Please define it in local.properties file ' +
+            'to enable android-standard debug mode.')
+} else {
+    try {
+        dependencies {
+            gradle.ext.androidStandardModules.each {
+                api "$androidStandardDebugDir/$it"
+            }
         }
+    } catch (Throwable e) {
+        logger.error(e.message)
     }
-} catch (Throwable e) {
-    logger.error(e.message)
 }
