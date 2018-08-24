@@ -14,37 +14,9 @@ apply plugin: 'io.fabric'
 dependencies {
     api project(':template:domain')
 
-    api "ru.surfstudio.android:core-app:$surfCoreVersionName"
-    api "ru.surfstudio.android:core-ui:$surfCoreVersionName"
-    api "ru.surfstudio.android:core-mvp:$surfCoreVersionName"
-    api "ru.surfstudio.android:mvp-dialog:$surfCoreVersionName"
-    api "ru.surfstudio.android:mvp-widget:$surfCoreVersionName"
-    api "ru.surfstudio.android:app-migration:$surfCoreVersionName"
-    api "ru.surfstudio.android:shared-pref:$surfCoreVersionName"
-    api "ru.surfstudio.android:custom-view:$surfCoreVersionName"
-    api "ru.surfstudio.android:analytics:$surfCoreVersionName"
-    api "ru.surfstudio.android:network:$surfCoreVersionName"
-    api "ru.surfstudio.android:converter-gson:$surfCoreVersionName"
-    api "ru.surfstudio.android:filestorage:$surfCoreVersionName"
-    api "ru.surfstudio.android:easyadapter:$surfCoreVersionName"
-    api "ru.surfstudio.android:recycler-extension:$surfCoreVersionName"
-    api "ru.surfstudio.android:broadcast-extension:$surfCoreVersionName"
-    api "ru.surfstudio.android:picture-provider:$surfCoreVersionName"
-    api "ru.surfstudio.android:camera-view:$surfCoreVersionName"
-    api "ru.surfstudio.android:connection:$surfCoreVersionName"
-    api "ru.surfstudio.android:rx-extension:$surfCoreVersionName"
-    api "ru.surfstudio.android:firebase-analytics:$surfCoreVersionName"
-    api "ru.surfstudio.android:custom-view:$surfCoreVersionName"
-    api "ru.surfstudio.android:util-ktx:$surfCoreVersionName"
-    api "ru.surfstudio.android:animations:$surfCoreVersionName"
-    api "ru.surfstudio.android:push:$surfCoreVersionName"
-    api "ru.surfstudio.android:dagger-scope:$surfCoreVersionName"
-    api "ru.surfstudio.android:standard-dialog:$surfCoreVersionName"
-    api "ru.surfstudio.android:message-controller:$surfCoreVersionName"
-    api "ru.surfstudio.android:logger:$surfCoreVersionName"
-    api "ru.surfstudio.android:mvp-widget:$surfCoreVersionName"
-
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
 }
+
+apply from: '../scripts/androidStandardDependencies.gradle'

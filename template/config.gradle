@@ -1,3 +1,5 @@
+apply from: '../scripts/androidStandardModules.gradle'
+
 ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
@@ -55,6 +57,7 @@ ext {
     powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.10.0'                   //http://bit.ly/2mXO1EX
 
-    // версия наших внутренних модулей
-    surfCoreVersionName = '0.2.1'
+    // Surf Core
+    surfCoreVersionName = '0.3.0-SNAPSHOT'              // версия AndroidStandard
+    surfCoreUrl = "ru.surfstudio.android"
 }

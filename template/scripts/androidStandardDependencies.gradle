@@ -1,0 +1,7 @@
+apply from: '../config.gradle'
+
+dependencies {
+    gradle.ext.androidStandardModules.each {
+        api "$surfCoreUrl:$it:$surfCoreVersionName"
+    }
+}
