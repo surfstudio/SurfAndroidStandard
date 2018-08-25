@@ -1,4 +1,5 @@
 apply from: '../config.gradle'
+apply from: '../scripts/androidStandardModules.gradle'
 
 // Скрипт для подключения модулей android-standard из artifactory
 
