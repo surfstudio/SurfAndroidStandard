@@ -1,36 +1,16 @@
-apply from: '../config.gradle'
-
 // Скрипт для подключения модулей android-standard из локального репозитория для отладки
 
-try {
-    Properties properties = new Properties()
-    properties.load(file('../local.properties').newDataInputStream())
-    
-    def androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
-    def androidStandardDebugMode = false
+def androidStandardDebugDir = gradle.ext.androidStandardDebugDir
+def androidStandardDebugMode = gradle.ext.androidStandardDebugMode
 
+if (androidStandardDebugDir != null && androidStandardDebugMode) {
     try {
-        androidStandardDebugOffMsg = properties.getProperty('androidStandardDebugMode').toBoolean()
-    } catch (Throwable ignored) {
-
-    }
-
-    if (androidStandardDebugDir == null) {
-        logger.error('androidStandardDebug.dir not defined. ' +
-                'Please define it in local.properties file to enable android-standard debug mode.')
-    } else if (!androidStandardDebugMode) {
-        logger.error('androidStandardDebugMode = false')
-    } else {
-        try {
-            dependencies {
-                gradle.ext.androidStandardModules.each {
-                    api "$androidStandardDebugDir/$it"
-                }
+        dependencies {
+            gradle.ext.androidStandardModules.each {
+                api "$gradle.ext.androidStandardDebugDir/$it"
             }
-        } catch (Throwable e) {
-            logger.error(e.message)
         }
+    } catch (Throwable e) {
+        logger.error(e.message)
     }
-} catch (Throwable ignored) {
-    logger.error('local.properties file not found')
 }

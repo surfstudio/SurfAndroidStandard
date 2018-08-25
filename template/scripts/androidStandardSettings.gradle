@@ -1,36 +1,15 @@
-apply from: '../config.gradle'
-apply from: '../scripts/androidStandardModules.gradle'
-
 // Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
 
-try {
-    Properties properties = new Properties()
-    properties.load(file('../local.properties').newDataInputStream())
+def androidStandardDebugDir = gradle.ext.androidStandardDebugDir
+def androidStandardDebugMode = gradle.ext.androidStandardDebugMode
 
-    def androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
-    def androidStandardDebugMode = false
-
+if (androidStandardDebugDir != null && androidStandardDebugMode) {
     try {
-        androidStandardDebugOffMsg = properties.getProperty('androidStandardDebugMode').toBoolean()
-    } catch (Throwable ignored) {
-
-    }
-
-    if (androidStandardDebugDir == null) {
-        logger.error('androidStandardDebug.dir not defined. ' +
-                'Please define it in local.properties file to enable android-standard debug mode.')
-    } else if (!androidStandardDebugMode) {
-        logger.error('androidStandardDebugMode = false')
-    } else {
-        try {
-            gradle.ext.androidStandardModules.each {
-                include "$it"
-                project(":$it").projectDir = new File("$androidStandardDebugDir/$it")
-            }
-        } catch (Throwable e) {
-            logger.error(e.message)
+        gradle.ext.androidStandardModules.each {
+            include "$it"
+            project(":$it").projectDir = new File("$ext.androidStandardDebugDir/$it")
         }
+    } catch (Throwable e) {
+        logger.error(e.message)
     }
-} catch (Throwable ignored) {
-    logger.error('local.properties file not found')
 }

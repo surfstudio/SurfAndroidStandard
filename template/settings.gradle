@@ -1,3 +1,5 @@
+apply from: 'scripts/androidStandardConfig.gradle'
+
 include ':template:app-injector',
         ':template:base',
         ':template:base-ui',

@@ -1,0 +1,28 @@
+apply from: '../scripts/androidStandardModules.gradle'
+
+def androidStandardDebugDir = null
+def androidStandardDebugMode = false
+
+try {
+    Properties properties = new Properties()
+    properties.load(file('../local.properties').newDataInputStream())
+
+    try {
+        androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
+        androidStandardDebugMode = properties.getProperty('androidStandardDebugMode').toBoolean()
+    } catch (Throwable ignored) {
+
+    }
+
+    if (androidStandardDebugDir == null) {
+        logger.error('androidStandardDebug.dir not defined. ' +
+                'Please define it in local.properties file to enable android-standard debug mode.')
+    } else if (!androidStandardDebugMode) {
+        logger.error('androidStandardDebugMode = false')
+    }
+} catch (Throwable ignored) {
+    logger.error('local.properties file not found')
+} finally {
+    gradle.ext.androidStandardDebugDir = androidStandardDebugDir
+    gradle.ext.androidStandardDebugMode = androidStandardDebugMode
+}
