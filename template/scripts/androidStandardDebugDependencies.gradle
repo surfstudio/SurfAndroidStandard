@@ -5,11 +5,21 @@ apply from: '../config.gradle'
 try {
     Properties properties = new Properties()
     properties.load(file('../local.properties').newDataInputStream())
+    
     def androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
+    def androidStandardDebugMode = false
+
+    try {
+        androidStandardDebugOffMsg = properties.getProperty('androidStandardDebugMode').toBoolean()
+    } catch (Throwable ignored) {
+
+    }
 
     if (androidStandardDebugDir == null) {
-        logger.error('androidStandardDebug.dir not defined. Please define it in local.properties file ' +
-                'to enable android-standard debug mode.')
+        logger.error('androidStandardDebug.dir not defined. ' +
+                'Please define it in local.properties file to enable android-standard debug mode.')
+    } else if (!androidStandardDebugMode) {
+        logger.error('androidStandardDebugMode = false')
     } else {
         try {
             dependencies {
