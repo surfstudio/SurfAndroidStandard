@@ -18,16 +18,16 @@ package ru.surfstudio.android.location.location_errors_resolver.resolutions
 import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 
 /**
- * Решение проблемы связанной с невозможностью получения метоположения.
+ * Решение проблемы, связанной с невозможностью получения местоположения.
  */
 interface LocationErrorResolution<E : Exception> {
 
     val resolvingExceptionClass: Class<E>
 
     /**
-     * Применить решение проблемы связанной с невозможностью получения метоположения.
+     * Применить решение проблемы, связанной с невозможностью получения местоположения.
      *
-     * @param resolvingException исключение, возникшее во время получения метоположения, которое нужно исправить.
+     * @param resolvingException исключение, возникшее во время получения местоположения, которое нужно исправить.
      * @param onSuccessAction метод вызываемый в случае успешного решения проблемы.
      * @param onFailureAction метод вызываемый в случае, если попытка решения проблемы не удалась.
      */

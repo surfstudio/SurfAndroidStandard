@@ -16,6 +16,7 @@
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available
 
 import com.google.android.gms.common.GoogleApiAvailability
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
 import ru.surfstudio.android.location.exceptions.PlayServicesAvailabilityErrorIsNotResolvableException
@@ -27,8 +28,11 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  * @param activityProvider провайдер активити.
  */
 class PlayServicesAreNotAvailableResolution(
+        screenEventDelegateManager: ScreenEventDelegateManager,
         private val activityProvider: ActivityProvider
-) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<PlayServicesAreNotAvailableException>() {
+) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<PlayServicesAreNotAvailableException>(
+        screenEventDelegateManager
+) {
 
     override val resolvingExceptionClass = PlayServicesAreNotAvailableException::class.java
     override val requestCode = 1001

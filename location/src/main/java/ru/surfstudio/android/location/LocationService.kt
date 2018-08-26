@@ -18,44 +18,43 @@ package ru.surfstudio.android.location
 import android.content.Context
 import android.location.Location
 import android.support.annotation.RequiresPermission
-import com.google.android.gms.location.*
+import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.location.domain.LocationPriority
-import ru.surfstudio.android.location.location_errors_resolver.LocationErrorsResolver
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 
 /**
- * Сервис для работы с метоположением.
+ * Сервис для работы с местоположением (Rx обёртка над [LocationProvider]).
  */
-class LocationService(private val context: Context) {
+class LocationService(context: Context) {
 
-    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
-    private val locationAvailability = LocationAvailability(context)
+    private val locationService = LocationProvider(context)
 
     /**
-     * Запросить последнее известное метоположение.
+     * Запросить последнее известное местоположение.
      *
-     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения метоположения.
+     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
      */
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
-    fun requestLastKnownLocationWithErrorResolution(
-            onSuccessAction: (Location?) -> Unit,
-            onFailureAction: (List<Exception>) -> Unit,
-            resolutions: List<LocationErrorResolution<*>>
-    ) {
-        requestLastKnownLocation(
-                onSuccessAction,
-                onFailureAction = { exceptions ->
-                    resolveLocationErrors(
-                            exceptions,
-                            resolutions,
-                            onFinishAction = { requestLastKnownLocation(onSuccessAction, onFailureAction) },
-                            onFailureAction = onFailureAction
-                    )
-                }
-        )
-    }
+    fun observeLastKnownLocation(
+            vararg resolutions: LocationErrorResolution<*> = emptyArray()
+    ): Maybe<Location> =
+            Maybe.create { maybeEmitter ->
+                locationService.requestLastKnownLocationWithErrorResolution(
+                        onSuccessAction = { location ->
+                            if (location != null) {
+                                maybeEmitter.onSuccess(location)
+                            } else {
+                                maybeEmitter.onComplete()
+                            }
+                        },
+                        onFailureAction = { exceptions -> maybeEmitter.onError(CompositeException(exceptions)) },
+                        resolutions = resolutions.toList()
+                )
+            }
 
     /**
      * Подписаться на получение обновлений местоположения.
@@ -68,164 +67,41 @@ class LocationService(private val context: Context) {
      * отправки обновлений. Google Play Services отправляют обновления с максимальной скоростью, которую запросило любое
      * приложение. Если этот показатель быстрее, чем может обрабатывать приложение, можно столкнуться с соответствующими
      * проблемами.
-     * @param priority Приоритет запроса (точность метостоположения/заряд батареи), который дает Google Play Services
+     * @param priority приоритет запроса (точность метостоположения/заряд батареи), который дает Google Play Services
      * знать, какие источники данных использовать.
-     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения метоположения.
+     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
      */
-    fun requestLocationUpdatesWithErrorResolution(
-            intervalMillis: Long?,
-            fastestIntervalMillis: Long?,
-            priority: LocationPriority?,
-            onLocationUpdateAction: (Location?) -> Unit,
-            onFailureAction: (List<Exception>) -> Unit,
-            resolutions: List<LocationErrorResolution<*>>
-    ): LocationUpdatesSubscription? {
-        return requestLocationUpdates(
-                intervalMillis,
-                fastestIntervalMillis,
-                priority,
-                onLocationUpdateAction,
-                onFailureAction = { exceptions ->
-                    resolveLocationErrors(
-                            exceptions,
-                            resolutions,
-                            onFinishAction = {
-                                requestLocationUpdates(
-                                        intervalMillis,
-                                        fastestIntervalMillis,
-                                        priority,
-                                        onLocationUpdateAction,
-                                        onFailureAction)
-                            },
-                            onFailureAction = onFailureAction
-                    )
-                }
-        )
+    @RequiresPermission(
+            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
+    fun observeLocationUpdates(
+            intervalMillis: Long? = null,
+            fastestIntervalMillis: Long? = null,
+            priority: LocationPriority? = null,
+            vararg resolutions: LocationErrorResolution<*> = emptyArray()
+    ): Observable<Location> {
+        var locationUpdatesSubscription: LocationUpdatesSubscription? = null
+
+        return Observable.create<Location> { observableEmitter ->
+            locationUpdatesSubscription = locationService.requestLocationUpdatesWithErrorResolution(
+                    intervalMillis,
+                    fastestIntervalMillis,
+                    priority,
+                    onLocationUpdateAction = { location ->
+                        if (location != null) {
+                            observableEmitter.onNext(location)
+                        }
+                    },
+                    onFailureAction = { exceptions -> observableEmitter.onError(CompositeException(exceptions)) },
+                    resolutions = resolutions.toList()
+            )
+        }.doOnDispose { locationService.removeLocationUpdates(locationUpdatesSubscription ?: return@doOnDispose) }
     }
 
     /**
-     * Отписаться от получения обновлений местоположения.
-     */
-    fun removeLocationUpdates(locationUpdatesSubscription: LocationUpdatesSubscription) {
-        fusedLocationClient.removeLocationUpdates(locationUpdatesSubscription.locationCallback)
-    }
-
-    /**
-     * Проверить возможность получения метоположения.
+     * Проверить возможность получения местоположения.
      *
-     * @return [List], содержащий исключения связанные с невозможностью получения метоположения.
+     * @return [List], содержащий исключения связанные с невозможностью получения местоположения.
      */
-    fun checkLocationAvailability(): List<Exception> = locationAvailability.checkLocationAvailability()
-
-    @RequiresPermission(
-            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
-    )
-    private fun requestLastKnownLocation(onSuccessAction: (Location?) -> Unit, onFailureAction: (List<Exception>) -> Unit) {
-        val exceptions = locationAvailability.checkLocationAvailability()
-        if (exceptions.isNotEmpty()) {
-            onFailureAction(exceptions)
-            return
-        }
-
-        fusedLocationClient
-                .lastLocation
-                .addOnSuccessListener { location -> onSuccessAction(location) }
-                .addOnFailureListener { exception -> onFailureAction(listOf(exception)) }
-    }
-
-    @RequiresPermission(
-            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
-    )
-    private fun requestLocationUpdates(
-            intervalMillis: Long?,
-            fastestIntervalMillis: Long?,
-            priority: LocationPriority?,
-            onLocationUpdateAction: (Location?) -> Unit,
-            onFailureAction: (List<Exception>) -> Unit
-    ): LocationUpdatesSubscription? {
-        val exceptions = locationAvailability.checkLocationAvailability()
-        if (exceptions.isNotEmpty()) {
-            onFailureAction(exceptions)
-            return null
-        }
-
-        val locationRequest = createLocationRequest(intervalMillis, fastestIntervalMillis, priority)
-        val locationSettingsRequest = createLocationSettingsRequest(locationRequest)
-        val locationCallback = createLocationCallback(onLocationUpdateAction)
-
-        LocationServices
-                .getSettingsClient(context)
-                .checkLocationSettings(locationSettingsRequest)
-                .addOnSuccessListener {
-                    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
-                }
-                .addOnFailureListener { exception -> onFailureAction(listOf(exception)) }
-
-        return LocationUpdatesSubscription(locationCallback)
-    }
-
-    private fun createLocationRequest(
-            intervalMillis: Long?,
-            fastestIntervalMillis: Long?,
-            priority: LocationPriority?
-    ): LocationRequest {
-        val locationRequest = LocationRequest()
-
-        if (intervalMillis != null) {
-            locationRequest.interval = intervalMillis
-        }
-
-        if (fastestIntervalMillis != null) {
-            locationRequest.fastestInterval = fastestIntervalMillis
-        }
-
-        if (priority != null) {
-            locationRequest.priority = locationPriorityToInt(priority)
-        }
-
-        return locationRequest
-    }
-
-    private fun locationPriorityToInt(locationPriority: LocationPriority) =
-            when (locationPriority) {
-                LocationPriority.HIGH_ACCURACY -> LocationRequest.PRIORITY_HIGH_ACCURACY
-                LocationPriority.BALANCED_POWER_ACCURACY -> LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-                LocationPriority.LOW_POWER -> LocationRequest.PRIORITY_LOW_POWER
-                LocationPriority.NO_POWER -> LocationRequest.PRIORITY_NO_POWER
-            }
-
-    private fun createLocationSettingsRequest(locationRequest: LocationRequest) =
-            LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest)
-                    .build()
-
-    private fun createLocationCallback(onLocationUpdateAction: (Location?) -> Unit): LocationCallback =
-            object : LocationCallback() {
-                override fun onLocationResult(locationResult: LocationResult?) {
-                    locationResult ?: return
-                    onLocationUpdateAction(locationResult.lastLocation)
-                }
-            }
-
-    private fun resolveLocationErrors(
-            exceptions: List<Exception>,
-            resolutions: List<LocationErrorResolution<*>>,
-            onFinishAction: () -> Unit,
-            onFailureAction: (List<Exception>) -> Unit
-    ) {
-        LocationErrorsResolver.resolve(
-                exceptions,
-                resolutions,
-                onFinishAction = { unresolvedExceptions ->
-                    if (unresolvedExceptions.isEmpty()) {
-                        onFinishAction()
-                    } else {
-                        onFailureAction(unresolvedExceptions)
-                    }
-                },
-                onFailureAction = { resolvingException ->
-                    onFailureAction(listOf(resolvingException))
-                }
-        )
-    }
+    fun checkLocationAvailability(): List<Exception> = locationService.checkLocationAvailability()
 }

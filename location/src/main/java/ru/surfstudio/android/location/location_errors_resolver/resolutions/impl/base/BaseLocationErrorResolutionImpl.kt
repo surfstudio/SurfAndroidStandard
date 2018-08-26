@@ -19,7 +19,7 @@ import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 
 /**
- * Основа для решения проблемы получения метоположения.
+ * Основа для решения проблемы получения местоположения.
  */
 abstract class BaseLocationErrorResolutionImpl<E : Exception> : LocationErrorResolution<E> {
 

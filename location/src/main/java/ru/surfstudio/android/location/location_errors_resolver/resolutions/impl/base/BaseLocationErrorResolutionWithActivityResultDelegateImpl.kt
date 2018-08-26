@@ -17,21 +17,27 @@ package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl
 
 import android.app.Activity
 import android.content.Intent
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.result.ActivityResultDelegate
 import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 import ru.surfstudio.android.location.exceptions.UserDeniedException
 
 /**
- * Основа для решения проблем получения метоположения с использованием [ActivityResultDelegate].
+ * Основа для решения проблем получения местоположения с использованием [ActivityResultDelegate].
  */
-abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exception> :
-        BaseLocationErrorResolutionImpl<E>() {
+abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exception>(
+        screenEventDelegateManager: ScreenEventDelegateManager
+) : BaseLocationErrorResolutionImpl<E>() {
 
     protected abstract val requestCode: Int
 
     private var resolvingException: E? = null
     private var onSuccessAction: (() -> Unit)? = null
     private var onFailureAction: ((ResolutionFailedException) -> Unit)? = null
+
+    init {
+        screenEventDelegateManager.registerDelegate(ResolutionActivityResultDelegate())
+    }
 
     protected abstract fun performResolutionRequest(resolvingException: E)
 

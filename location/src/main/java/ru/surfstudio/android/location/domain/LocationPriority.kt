@@ -15,8 +15,10 @@
  */
 package ru.surfstudio.android.location.domain
 
+import android.support.annotation.RequiresPermission
+
 /**
- * Приоритет при определении метоположения.
+ * Приоритет при определении местоположения.
  */
 enum class LocationPriority {
 
@@ -25,24 +27,34 @@ enum class LocationPriority {
      * количества источников (GPS, Wi-Fi, сотовые башни, а также различные датчики). Может привести к значительному
      * истощению батареи.
      */
+    @RequiresPermission("android.permission.ACCESS_FINE_LOCATION")
     HIGH_ACCURACY,
 
     /**
      * Обеспечивает точное местоположение при оптимизации мощности. Очень редко используется GPS. Как правило, для
      * вычисления местоположения устройства используется комбинация Wi-Fi и сотовых башен (~100м).
      */
+    @RequiresPermission(
+            anyOf = ["android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_COARSE_LOCATION"]
+    )
     BALANCED_POWER_ACCURACY,
 
     /**
      * В значительной степени полагается на сотовые башни и избегает GPS и Wi-Fi, обеспечивая грубую (городскую)
      * точность (~10км). Малый разряд батареи.
      */
+    @RequiresPermission(
+            anyOf = ["android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_COARSE_LOCATION"]
+    )
     LOW_POWER,
 
     /**
      * Получение местоположения, когда какое-то другое приложение его запрашивает. Незначительное влияние на заряд
      * батареи.
      */
+    @RequiresPermission(
+            anyOf = ["android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_COARSE_LOCATION"]
+    )
     NO_POWER
 }
 

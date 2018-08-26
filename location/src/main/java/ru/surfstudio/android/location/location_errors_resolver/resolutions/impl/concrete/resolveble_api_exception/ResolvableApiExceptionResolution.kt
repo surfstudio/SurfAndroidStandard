@@ -16,6 +16,7 @@
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception
 
 import com.google.android.gms.common.api.ResolvableApiException
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.base.BaseLocationErrorResolutionWithActivityResultDelegateImpl
 
@@ -25,8 +26,9 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  * @param activityProvider провайдер активити.
  */
 class ResolvableApiExceptionResolution(
+        screenEventDelegateManager: ScreenEventDelegateManager,
         private val activityProvider: ActivityProvider
-) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<ResolvableApiException>() {
+) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<ResolvableApiException>(screenEventDelegateManager) {
 
     override val resolvingExceptionClass = ResolvableApiException::class.java
     override val requestCode = 1002

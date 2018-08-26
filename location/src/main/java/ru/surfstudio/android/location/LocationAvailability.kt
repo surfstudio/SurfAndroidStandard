@@ -22,23 +22,24 @@ import android.location.LocationManager
 import android.support.v4.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import ru.surfstudio.android.location.exceptions.LocationProvidersAreDisabledException
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
 
 /**
- * Помощник для проверки возможности получения метоположения.
+ * Помощник для проверки возможности получения местоположения.
  */
 class LocationAvailability(private val context: Context) {
 
     private val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     /**
-     * Проверить возможность получения метоположения.
+     * Проверить возможность получения местоположения.
      *
-     * @return [List], содержащий исключения связанные с невозможностью получения метоположения.
+     * @return [List], содержащий исключения связанные с невозможностью получения местоположения.
      */
     fun checkLocationAvailability(): List<Exception> {
-        val exceptions = ArrayList<Exception>()
+        val exceptions = arrayListOf<Exception>()
 
         val connectionResult = getGooglePlayServicesConnection()
         if (connectionResult != ConnectionResult.SUCCESS) {
@@ -49,19 +50,51 @@ class LocationAvailability(private val context: Context) {
             exceptions.add(NoLocationPermissionException())
         }
 
+        if (!isAnyLocationProviderEnabled()) {
+            exceptions.add(LocationProvidersAreDisabledException())
+        }
+
         return exceptions
     }
 
+    /**
+     * Проверить, что Google Play Services установлены, включены и версия не меньше той, которая требуется клиенту.
+     *
+     * @return результат подключения {@link ConnectionResult}. Может быть одним из следующих значений: SUCCESS,
+     * SERVICE_MISSING, SERVICE_UPDATING, SERVICE_VERSION_UPDATE_REQUIRED, SERVICE_DISABLED, SERVICE_INVALID
+     */
     fun getGooglePlayServicesConnection(): Int =
             GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context)
 
+    /**
+     * Проверить, выдано ли разрешение на доступ к местоположению.
+     */
     fun isLocationPermissionGranted() = isFineLocationPermissionGranted() || isCoarseLocationPermissionGranted()
 
+    /**
+     * Проверить, выдано ли разрешение ACCESS_FINE_LOCATION.
+     */
     fun isFineLocationPermissionGranted() = isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
 
+    /**
+     * Проверить, выдано ли разрешение ACCESS_COARSE_LOCATION.
+     */
     fun isCoarseLocationPermissionGranted() = isPermissionGranted(Manifest.permission.ACCESS_COARSE_LOCATION)
 
-    fun isGpsEnabled() = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    /**
+     * Проверить, включён ли хотя бы один из поставщиков местоположения.
+     */
+    fun isAnyLocationProviderEnabled() = isGpsProviderEnabled() || isNetworkProviderEnabled()
+
+    /**
+     * Проверить, включён ли GPS.
+     */
+    fun isGpsProviderEnabled() = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+
+    /**
+     * Проверить, включена ли сеть.
+     */
+    fun isNetworkProviderEnabled() = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
     private fun isPermissionGranted(permission: String) =
             ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
