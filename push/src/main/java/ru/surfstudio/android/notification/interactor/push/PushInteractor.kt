@@ -40,5 +40,4 @@ class PushInteractor {
     fun onNewNotification(data: BaseNotificationTypeData<*>) {
         notificationPublishSubject.onNext(data)
     }
-
 }

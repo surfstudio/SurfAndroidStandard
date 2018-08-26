@@ -23,6 +23,8 @@ import com.github.anrwatchdog.ANRWatchDog;
 
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.logger.RemoteLogger;
+import ru.surfstudio.android.logger.logging_strategies.impl.concrete.remote_logger.RemoteLoggerLoggingStrategy;
+import ru.surfstudio.android.logger.logging_strategies.impl.concrete.timber.TimberLoggingStrategy;
 
 /**
  * Базовый класс приложения
@@ -55,7 +57,8 @@ public abstract class CoreApp extends MultiDexApplication {
     }
 
     protected void initLog() {
-        Logger.init();
+        Logger.addLoggingStrategy(new TimberLoggingStrategy());
+        Logger.addLoggingStrategy(new RemoteLoggerLoggingStrategy());
     }
 
     /**

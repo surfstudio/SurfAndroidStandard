@@ -16,6 +16,7 @@
 package ru.surfstudio.android.core.app
 
 import android.content.Context
+import android.support.annotation.ArrayRes
 import android.support.annotation.PluralsRes
 import android.support.annotation.StringRes
 
@@ -38,5 +39,9 @@ class StringsProvider constructor(var context: Context) {
         } else {
             context.resources.getQuantityString(id, quantity, *args)
         }
+    }
+
+    fun getStringList(@ArrayRes id: Int): List<String> {
+        return context.resources.getStringArray(id).toList()
     }
 }

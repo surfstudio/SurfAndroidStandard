@@ -142,7 +142,7 @@ interface ImageLoaderInterface {
     /**
      * Применяет указанное значение к размеру
      *
-     * @param sizeMultiplier множитель
+     * @param value множитель
      */
     fun downsamplingMultiplier(@FloatRange(from = 0.0, to = 1.0) value: Float): ImageLoaderInterface
 

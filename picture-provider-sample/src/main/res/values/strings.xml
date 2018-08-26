@@ -11,11 +11,16 @@
     <string name="server_error_message">Произошла ошибка сервера. Попробуйте позже еще раз</string>
     <string name="server_error_not_found">Произошла ошибка, данные не найдены. Попробуйте позже еще раз</string>
     <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
-
+    <string name="image_chooser_message">Выберете приложение для открытия изображения</string>
     <string name="load_more_text">Показать еще</string>
 
     <!-- placeholder -->
     <string name="placeholder_default_subtitle">Нет подключения к интернету.\nПроверьте соединение и обновите экран.</string>
     <string name="placeholder_default_btn">Обновить</string>
-
+    <string name="camera_btn_text">Open camera</string>
+    <string name="gallery_btn_test">Open gallery</string>
+    <string name="gallery_m_btn_text">Open gallery m</string>
+    <string name="chooser_btn_test">Open chooser</string>
+    <string name="chooser_m_btn_text">Open chooser m</string>
+    <string name="chooser_save_btn_text">Open chooser and save</string>
 </resources>

@@ -37,8 +37,8 @@ public class PagerSnapHelper extends SnapHelper {
         screenDensity = metrics.density;
     }
 
-    private float screenDensity = 1;
-    private int minVelocityDpX = 1800;
+    private float screenDensity;
+    private static final int MIN_VELOCITY_DP_X = 1800;
 
     @Nullable
     @Override
@@ -56,7 +56,7 @@ public class PagerSnapHelper extends SnapHelper {
 
     @Override
     public int findTargetSnapPosition(RecyclerView.LayoutManager layoutManager, int velocityX, int velocityY) {
-        if (Math.abs(velocityX / screenDensity) < minVelocityDpX) {
+        if (Math.abs(velocityX / screenDensity) < MIN_VELOCITY_DP_X) {
             return RecyclerView.NO_POSITION;
         }
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) layoutManager;
@@ -83,5 +83,4 @@ public class PagerSnapHelper extends SnapHelper {
         }
         return mHorizontalHelper;
     }
-
 }

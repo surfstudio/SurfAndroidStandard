@@ -3,6 +3,7 @@ package ru.surfstudio.android.pictureprovider.sample.interactor.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import android.view.View
 import android.widget.Button
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
@@ -31,12 +32,12 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
-        val openCameraBtn: Button = find(R.id.camera_btn)
-        openCameraBtn.setOnClickListener { presenter.openCamera() }
-        val openGalleryBtn: Button = find(R.id.gallery_btn)
-        openGalleryBtn.setOnClickListener { presenter.openGallerySingle() }
-        val openGalleryMBtn: Button = find(R.id.gallery_m_btn)
-        openGalleryMBtn.setOnClickListener { presenter.openGalleryMultiple() }
+        configureButton(R.id.camera_btn) { presenter.openCamera() }
+        configureButton(R.id.gallery_btn) { presenter.openGallerySingle()}
+        configureButton(R.id.gallery_m_btn) { presenter.openGalleryMultiple() }
+        configureButton(R.id.chooser_btn) { presenter.openChooserSingle() }
+        configureButton(R.id.chooser_m_btn) { presenter.openChooserMultiple() }
+        configureButton(R.id.chooser_save_btn) { presenter.openChooserAndSavePhoto() }
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {}
@@ -47,6 +48,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun createConfigurator(): ActivityScreenConfigurator {
         return MainScreenConfigurator(intent)
+    }
+
+    private fun configureButton(@IdRes buttonId: Int, onClickListener: (view: View) -> Unit) {
+        val button: Button = find(buttonId)
+        button.setOnClickListener { onClickListener(it) }
     }
 
     fun startCamera() {
