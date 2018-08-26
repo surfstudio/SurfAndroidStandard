@@ -1,0 +1,14 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.mvp.dialog.sample"
+    }
+}
+
+dependencies {
+    implementation project(':mvp-dialog')
+    implementation project(':sample-dagger')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+}

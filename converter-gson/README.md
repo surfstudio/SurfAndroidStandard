@@ -3,20 +3,21 @@
 
 #Использование
 1. Добавить ResponseTypeAdapterFactory в билдер gson`a
-    ```java
+    ```
     GsonBuilder()
-    .registerTypeAdapterFactory(responseTypeAdapterFactory)
-    .create()
+        .registerTypeAdapterFactory(responseTypeAdapterFactory)
+        .create()
     ```
-1. Добавить `gson` в билдер ретрофита
-    ```java
+2. Добавить `gson` в билдер ретрофита
+    ```
     Retrofit.Builder()
-                .client(okHttpClient)
-                .baseUrl(apiUrl.toString())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(callAdapterFactory)
-                .build()
+        .client(okHttpClient)
+        .baseUrl(apiUrl.toString())
+        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addCallAdapterFactory(callAdapterFactory)
+        .build()
     ```
+[Пример использования в приложении](../network-sample)
 
 #Подключение
 Gradle:

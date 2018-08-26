@@ -1,0 +1,14 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.message.sample"
+    }
+}
+
+dependencies {
+    implementation project(':message-controller')
+    implementation project(':sample-dagger')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+}

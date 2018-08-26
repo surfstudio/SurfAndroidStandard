@@ -29,19 +29,19 @@ abstract class StickyHeaderBindableItemController<T, H : BindableViewHolder<T>> 
         holder.bind(data)
     }
 
-    override fun getItemId(item: StickyHeaderBindableItem<T, H>): Long {
+    override fun getItemId(item: StickyHeaderBindableItem<T, H>): String {
         return getItemId(item.data)
     }
 
-    override fun getItemHash(item: StickyHeaderBindableItem<T, H>): Long {
+    override fun getItemHash(item: StickyHeaderBindableItem<T, H>): String {
         return getItemHash(item.data)
     }
 
-    fun getItemId(data: T): Long {
-        return BaseItemController.NO_ID
+    fun getItemId(data: T): String {
+        return BaseItemController.NO_ID.toString()
     }
 
-    fun getItemHash(data: T): Long {
-        return data?.hashCode()?.toLong() ?: 0
+    fun getItemHash(data: T): String {
+        return (data?.hashCode() ?: 0).toString()
     }
 }

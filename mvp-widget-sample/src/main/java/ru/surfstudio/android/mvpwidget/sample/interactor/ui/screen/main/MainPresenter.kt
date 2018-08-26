@@ -9,5 +9,5 @@ import javax.inject.Inject
  * Презентер главного экрана
  */
 @PerScreen
-internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : BasePresenter<MainActivityView>(basePresenterDependency)
+internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
+) : BasePresenter<MainActivityView>(basePresenterDependency)

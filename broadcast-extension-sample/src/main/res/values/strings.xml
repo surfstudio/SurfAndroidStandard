@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BroadcastExtension Sample</string>
+
+    <string name="number_et_hint">Enter your phone number</string>
+    <string name="message_et_hint">Enter your message</string>
+    <string name="message_et_text">Message</string>
+    <string name="send_btn_text">Send SMS</string>
+</resources>

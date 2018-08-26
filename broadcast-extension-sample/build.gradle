@@ -1,0 +1,14 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.broadcast.extension.sample"
+    }
+}
+
+dependencies {
+    implementation project(':broadcast-extension')
+    implementation project(':sample-dagger')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+}

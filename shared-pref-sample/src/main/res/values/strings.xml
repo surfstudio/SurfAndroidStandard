@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">SharedPref Sample</string>
+
+    <string name="save_to_storage_btn_text">Save to storage</string>
+    <string name="get_from_storage_btn_text">Get from storage</string>
+    <string name="clear_storage_btn_text">Clear storage</string>
+    <string name="empty_cache_message">Хранилище пусто</string>
+    <string name="null_ip_message">IP не был успешно загружен</string>
+    <string name="cache_created_message">IP был сохранен в хранилище</string>
+    <string name="cache_deleted_message">Хранилище было очищено</string>
+</resources>

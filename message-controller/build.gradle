@@ -1,9 +1,7 @@
 apply from: '../androidModule.gradle'
-apply plugin: 'kotlin-android'
 
 dependencies {
     compileOnly project(path: ':core-ui')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "com.android.support:exifinterface:$appcompatVersion"
 }

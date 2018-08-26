@@ -1,0 +1,16 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.filestorage.sample"
+    }
+}
+
+dependencies {
+    implementation project(':filestorage')
+    implementation project(':sample-dagger')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    implementation "me.zhanghai.android.materialprogressbar:library:1.4.2"
+}

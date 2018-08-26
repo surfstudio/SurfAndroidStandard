@@ -5,6 +5,8 @@
 #Использование
 Наследованием от `BaseLocalCache` или `BaseTextLocalCache`
 
+[Пример использования](../filestorage-sample)
+
 #Подключение
 Gradle:
 ```

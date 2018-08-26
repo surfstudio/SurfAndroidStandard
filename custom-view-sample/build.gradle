@@ -1,6 +1,4 @@
 apply from: '../androidSample.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 
 android {
     defaultConfig {
@@ -9,23 +7,9 @@ android {
 }
 
 dependencies {
-    implementation project(':core-app')
-    implementation project(':core-ui')
-    implementation project(':core-mvp')
-    implementation project(':custom-view')
-    implementation project(':rx-extension')
-    implementation project(':dagger-scope')
-    implementation project(':picture-provider')
-    implementation project(':camera-view')
-    implementation project(':network')
-    implementation project(':filestorage')
-    implementation project(':logger:')
-    implementation project(':connection')
-    implementation project(':util-ktx')
+    implementation project(':animations')
+    implementation project(':sample-common')
 
-    implementation "ru.surfstudio.android:animations:$moduleVersionName"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 
     testImplementation "junit:junit:$junitVersion"

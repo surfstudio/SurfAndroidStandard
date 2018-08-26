@@ -1,2 +1,3 @@
-#Mvp binding sample
-Пример использования [core-mvp-binding](../core-mvp-binding/README.md)
+#Mvp-Binding sample
+
+Пример использования модуля [core-mvp-binding](../core-mvp-binding/README.md)

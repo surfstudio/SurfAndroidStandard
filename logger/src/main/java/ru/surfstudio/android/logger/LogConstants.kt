@@ -17,8 +17,12 @@ package ru.surfstudio.android.logger
 
 object LogConstants {
 
+    @JvmField
     val LOG_SCREEN_RESUME_FORMAT = "Screen %s onResume"
+    @JvmField
     val LOG_SCREEN_PAUSE_FORMAT = "Screen %s onPause"
+    @JvmField
     val LOG_DIALOG_RESUME_FORMAT = "Dialog %s onResume"
+    @JvmField
     val LOG_DIALOG_PAUSE_FORMAT = "Dialog %s onPause"
 }

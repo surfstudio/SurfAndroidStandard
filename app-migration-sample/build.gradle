@@ -1,0 +1,14 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.app.migration.sample"
+    }
+}
+
+dependencies {
+    implementation project(':app-migration')
+    implementation project(':sample-dagger')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+}

@@ -1,0 +1,14 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.animations.sample"
+    }
+}
+
+dependencies {
+    implementation project(':animations')
+    implementation project(':sample-common')
+
+    implementation "com.android.support:design:$appcompatVersion"
+}

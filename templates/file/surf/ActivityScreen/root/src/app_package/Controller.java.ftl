@@ -28,8 +28,8 @@ public class ${nameController}${defPostfixController} extends <@controllerMacros
 
     <#if typeController='1'>
     @Override
-    public long getItemId(${nameTypeData} ${nameParam}) {
-        return ${nameParam}.getId();
+    public String getItemId(${nameTypeData} ${nameParam}) {
+        return String.valueOf(${nameParam}.getId());
     }
 
     </#if>
