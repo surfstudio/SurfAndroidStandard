@@ -21,20 +21,17 @@ class ${nameController}${defPostfixController}(<#if hasListener>private val onCl
     </#if>
     inner class Holder(parent: ViewGroup) : <@holderMacros.selectTypeHolder />(parent, R.layout.${nameRes}) {
 
-        <#if typeController='1'>
-        private lateinit var ${nameParam}: ${nameTypeData}
-        
-        </#if>
         init {
-           <#if hasListener>
-           itemView.setOnClickListener { onClickListener.invoke(<#if typeController='1'>${nameParam}</#if>) }
+           <#if hasListener && typeController='2'>
+           itemView.setOnClickListener { onClickListener.invoke() }
            </#if>
            //todo find view here
         }
-
         <#if typeController='1'>
         override fun bind(${nameParam}: ${nameTypeData}) {
-           this.${nameParam} = ${nameParam}
+            <#if hasListener>
+           itemView.setOnClickListener { onClickListener.invoke(${nameParam}) }
+            </#if>
            //todo render data
         }
         </#if>
