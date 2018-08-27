@@ -1,5 +1,14 @@
+<#import "macros/select_import_type_controller_macros.ftl" as importControllerMacros>
+<#import "macros/select_import_type_holder_macros.ftl" as importHolderMacros>
 <#import "macros/select_type_controller_macros.ftl" as controllerMacros>
+<#import "macros/select_type_holder_macros.ftl" as holderMacros>
+
 package ${packageName};
+
+import android.view.ViewGroup;
+<#if applicationPackage??>import ${applicationPackage}.R;</#if>
+import ru.surfstudio.android.easyadapter.controller.<@importControllerMacros.selectImportTypeController />;
+import ru.surfstudio.android.easyadapter.holder.<@importHolderMacros.selectImportTypeHolder />;
 
 public class ${nameController}${defPostfixController} extends <@controllerMacros.selectTypeController /> {
 
@@ -27,7 +36,7 @@ public class ${nameController}${defPostfixController} extends <@controllerMacros
     }
     
     </#if>
-    class Holder extends <#if typeController='1'>BindableViewHolder<${nameTypeData}><#else>BaseViewHolder</#if> {
+    class Holder extends <@holderMacros.selectTypeHolder /> {
 
         <#if typeController='1'>
         private ${nameTypeData} ${nameParam};
@@ -40,7 +49,6 @@ public class ${nameController}${defPostfixController} extends <@controllerMacros
            </#if>
            //todo find view here
         }
-
         <#if typeController='1'>
         @Override
         public void bind(${nameTypeData} ${nameParam}) {
