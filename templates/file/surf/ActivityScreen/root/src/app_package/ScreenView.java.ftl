@@ -6,6 +6,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView;
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView;
@@ -188,8 +189,8 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         adapter = new EasyAdapter();
         </#if>
 
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(<#if screenType=='activity'>this<#else>getContext()</#if>));
+        recyclerView.setAdapter(adapter);
     }
     </#if>
     @Override

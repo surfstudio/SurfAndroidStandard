@@ -6,6 +6,7 @@ import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
@@ -149,8 +150,8 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
     <#if generateRecyclerView>
 
     private fun initRecyclerView() {
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(<#if screenType=='activity'>this<#else>context</#if>)
+        recyclerView.adapter = adapter
     }
     </#if>
      override fun getScreenName(): String = "${camelCaseToUnderscore(className)}"
