@@ -16,8 +16,8 @@ import ru.surfstudio.android.core.mvp.fragment.BaseRenderableFragmentView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.easyadapter.sample.ui.common.recycler.pagination.PaginationableAdapter
-import ru.surfstudio.standard.R
+import ru.surfstudio.standard.base_ui.recylcer.adapter.PaginationableAdapter
+<#if applicationPackage??>import ${applicationPackage}.R</#if>
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.ui.base.configurator.FragmentScreenConfigurator
 import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderView
@@ -26,40 +26,46 @@ import javax.inject.Inject
 <#if generateToolbar>
 import android.support.v7.widget.Toolbar
 </#if>
-
 class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> {
 
     @Inject
     lateinit var presenter: ${className}Presenter
-
     <#if generateToolbar>
+
     private lateinit var toolbar: Toolbar
     </#if>
     <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+
     private lateinit var placeHolderView: PlaceHolderViewImpl
     </#if>
     <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
+
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     </#if>
-
     <#if generateRecyclerView>
-        private lateinit var recyclerView: RecyclerView
-        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
-            private var adapter = PaginationableAdapter<${nameTypeData}>()
-        <#else>
-            private var adapter = EasyAdapter()
-        </#if>
-        private var ${nameController?uncap_first}${defPostfixController} = ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>)
-    </#if>
 
+    private lateinit var recyclerView: RecyclerView
+        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+
+        private var adapter = PaginationableAdapter<${nameTypeData}>()
+        <#else>
+
+        private var adapter = EasyAdapter()
+        </#if>
+
+    private var ${nameController?uncap_first}${defPostfixController} = ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>)
+
+    </#if>
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     <#if screenType=='activity'>
         override fun createConfigurator(): ActivityScreenConfigurator = ${className}ScreenConfigurator(intent)
+
         @LayoutRes
         override fun getContentView(): Int = R.layout.${layoutName}
     <#else>
         override fun createConfigurator(): FragmentScreenConfigurator = ${className}ScreenConfigurator(arguments)
+
         override fun onCreateView(inflater: LayoutInflater,
                                   container: ViewGroup?,
                                   savedInstanceState: Bundle?): View? {
@@ -110,10 +116,9 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
             </#if>
         }
     </#if>
-
     private fun findViews(view: View) {
         <#if generateToolbar>
-        toolbar = view.findViewById(R.id.toolbar);
+        toolbar = view.findViewById(R.id.toolbar)
         </#if>
         <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
         placeHolderView = view.findViewById(R.id.placeholder)
@@ -125,15 +130,14 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
         recyclerView = view.findViewById(R.id.recycler)
         </#if>
     }
-
     <#if generateToolbar>
+
     private fun initToolbar() {
         toolbar.title = null // todo поправить тайтл тулбара
         toolbar.setNavigationIcon(R.drawable.ic_back)
         toolbar.setNavigationOnClickListener { _ -> presenter.finish() }
     }
     </#if>
-
     private fun initListeners() {
         <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
             placeHolderView.setOnActionClickListener { presenter.reloadData() }
@@ -142,13 +146,12 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
             swipeRefreshLayout.setOnRefreshListener { presenter.reloadData() }
         </#if>
     }
-
     <#if generateRecyclerView>
+
     private fun initRecyclerView() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(<#if screenType=='activity'>this<#else>context</#if>)
     }
     </#if>
-
      override fun getScreenName(): String = "${camelCaseToUnderscore(className)}"
 }

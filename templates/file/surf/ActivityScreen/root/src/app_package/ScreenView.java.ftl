@@ -16,8 +16,8 @@ import ru.surfstudio.android.core.mvp.fragment.BaseRenderableFragmentView;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.easyadapter.EasyAdapter;
 import ru.surfstudio.android.easyadapter.ItemList;
-import ru.surfstudio.easyadapter.sample.ui.common.recycler.pagination.PaginationableAdapter;
-import ru.surfstudio.standard.R;
+import ru.surfstudio.standard.base_ui.recylcer.adapter.PaginationableAdapter;
+<#if applicationPackage??>import ${applicationPackage}.R;</#if>
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator;
 import ru.surfstudio.standard.ui.base.configurator.FragmentScreenConfigurator;
 import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderView;
@@ -27,32 +27,35 @@ import android.support.annotation.Nullable;
 <#if generateToolbar>
 import android.support.v7.widget.Toolbar;
 </#if>
-
 public class ${className}${screenTypeCapitalized}View extends <@superClass.selectTypeView /> {
 
     @Inject
     ${className}Presenter presenter;
-
     <#if generateToolbar>
+
     private Toolbar toolbar;
     </#if>
     <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+
     private PlaceHolderViewImpl placeHolderView;
     </#if>
     <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
+
     private SwipeRefreshLayout swipeRefreshLayout;
     </#if>
-
     <#if generateRecyclerView>
-        private RecyclerView recyclerView;
-        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
-            private PaginationableAdapter adapter;
-        <#else>
-            private EasyAdapter adapter;
-        </#if>
-        private ${nameController}${defPostfixController} ${nameController?uncap_first}${defPostfixController};
-    </#if>
 
+    private RecyclerView recyclerView;
+        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+
+        private PaginationableAdapter adapter;
+        <#else>
+
+        private EasyAdapter adapter;
+        </#if>
+
+    private ${nameController}${defPostfixController} ${nameController?uncap_first}${defPostfixController};
+    </#if>
     @Override
     public CorePresenter[] getPresenters() {
         return new CorePresenter[]{presenter};
@@ -154,15 +157,14 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         recyclerView = view.findViewById(R.id.recycler);
         </#if>
     }
-
     <#if generateToolbar>
+
     private void initToolbar() {
         toolbar.setTitle(null); // todo поправить тайтл тулбара
         toolbar.setNavigationIcon(R.drawable.ic_back);
         toolbar.setNavigationOnClickListener(v -> presenter.finish());
     }
     </#if>
-
     private void initListeners() {
         <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
             placeHolderView.setOnActionClickListener(state -> {
@@ -174,8 +176,8 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
             swipeRefreshLayout.setOnRefreshListener(() -> presenter.reloadData());
         </#if>
     }
-
     <#if generateRecyclerView>
+
     private void initRecyclerView() {
         ${nameController?uncap_first}${defPostfixController} = new ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>);
 
@@ -190,7 +192,6 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         recyclerView.setLayoutManager(new LinearLayoutManager(<#if screenType=='activity'>this<#else>getContext()</#if>));
     }
     </#if>
-
     @Override
     public String getName() {
         return "${camelCaseToUnderscore(className)}";
