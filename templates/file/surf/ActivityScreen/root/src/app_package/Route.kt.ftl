@@ -10,15 +10,14 @@ import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsAndResultRoute
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsRoute
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithParamsRoute
 
 <#if screenType=='fragment'>
 import android.support.v4.app.Fragment
 </#if>
-
 class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@superClass.selectTypeRoute /> {
-
     <#if screenType=='activity'>
         <#if typeRouteActivity=='2' || typeRouteActivity=='4'>
             constructor(intent: Intent) : this(
@@ -28,8 +27,7 @@ class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@s
                 ${routeParam3} = <@intentRead.selectIntentReadMethod paramType=routeParamType3 extra='EXTRA_THIRD' />
             </#if>)
         </#if>
-
-     override fun prepareIntent(context: Context): Intent {
+    override fun prepareIntent(context: Context): Intent {
         val intent = Intent(context, ${className}${screenTypeCapitalized}View::class.java)
         <#if routeParamType1!='' && routeParam1!=''>
         intent.putExtra(EXTRA_FIRST, ${routeParam1})

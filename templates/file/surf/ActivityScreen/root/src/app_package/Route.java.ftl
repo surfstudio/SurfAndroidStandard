@@ -9,16 +9,15 @@ import android.content.Intent;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsAndResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsRoute;
-import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
-import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithParamsRoute
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
+import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute;
+import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithParamsRoute;
 
 <#if screenType=='fragment'>
-import android.support.v4.app.Fragment
+import android.support.v4.app.Fragment;
 </#if>
-
 @Data
 public class ${className}${screenTypeCapitalized}Route extends <@superClass.selectTypeRoute /> {
-
     <#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>
         <#if (routeParamType1!='' && routeParam1!='') || (routeParamType2!='' && routeParam2!='') || (routeParamType3!='' && routeParam3!='')>
             <#if routeParamType1!='' && routeParam1!=''>
@@ -44,7 +43,6 @@ public class ${className}${screenTypeCapitalized}Route extends <@superClass.sele
             }
         </#if>
     </#if>
-
     <#if screenType=='activity'>
         <#if typeRouteActivity=='3' || typeRouteActivity=='4'>
             ${className}ActivityRoute() {
@@ -65,7 +63,6 @@ public class ${className}${screenTypeCapitalized}Route extends <@superClass.sele
                 </#if>
             }
         </#if>
-
     @Override
     public Intent prepareIntent(Context context) {
         Intent intent = new Intent(context, ${className}${screenTypeCapitalized}View.class);
