@@ -7,7 +7,7 @@ buildscript {
     }
 }
 
-apply from: '../androidModule.gradle'
+apply from: '../commonModule.gradle'
 apply plugin: 'io.fabric'
 
 dependencies {
