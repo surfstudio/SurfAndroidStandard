@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply from: '../commonTestModule.gradle'
+apply from: '../androidTestModule.gradle'
 
 def config = rootProject.extensions.getByName("ext")
 
@@ -17,8 +17,8 @@ android {
         minSdkVersion config["minSdkVersion"]
         targetSdkVersion config["targetSdkVersion"]
 
-        versionCode config["moduleVersionCode"] //todo replace to: config["versionCode"]
-        versionName config["moduleVersionName"] //todo replace to: config["versionName"]
+        versionCode config["moduleVersionCode"]
+        versionName config["moduleVersionName"]
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -48,6 +48,7 @@ android {
         //todo настроить типы сборки
         debug {
             signingConfig signingConfigs.test
+            multiDexEnabled true
             minifyEnabled false
             debuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
@@ -55,6 +56,7 @@ android {
         }
         qa {
             signingConfig signingConfigs.test
+            multiDexEnabled true
             debuggable = true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
@@ -63,6 +65,7 @@ android {
         }
         release {
             signingConfig signingConfigs.test
+            multiDexEnabled false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
         }
