@@ -28,9 +28,9 @@ try {
     // Директория для локальной загрузки android-standard
     gradle.ext.androidStandardDebugDir = androidStandardDebugDir
 
-    // Префикс, который будет добавлен к именам модулей android-standard,
+    // Функцтя, добавляющая префикс "debug" к именам модулей android-standard,
     // если они загружаются локально
-    gradle.ext.androidStandardDebugPrefix = "debug-"
+    gradle.ext.androidStandardDebugModuleName = { name -> "debug-$name" }
 
     gradle.ext.androidStandardDebugMode = androidStandardDebugMode
 
