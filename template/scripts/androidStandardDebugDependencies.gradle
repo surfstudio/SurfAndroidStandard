@@ -1,13 +1,10 @@
 // Скрипт для подключения модулей android-standard из локального репозитория для отладки
 
-def androidStandardDebugDir = gradle.ext.androidStandardDebugDir
-def androidStandardDebugMode = gradle.ext.androidStandardDebugMode
-
-if (androidStandardDebugDir != null && androidStandardDebugMode) {
+if (gradle.ext.androidStandardDebugEnabled) {
     try {
         dependencies {
             gradle.ext.androidStandardModules.each {
-                api "$gradle.ext.androidStandardDebugDir/$it"
+                api project(":$it")
             }
         }
     } catch (Throwable e) {

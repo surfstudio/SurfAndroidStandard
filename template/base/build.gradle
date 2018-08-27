@@ -1,5 +1,3 @@
-apply from: '../config.gradle'
-
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -8,6 +6,7 @@ buildscript {
         classpath "io.fabric.tools:gradle:$fabricToolsVersion"
     }
 }
+
 apply from: '../androidModule.gradle'
 apply plugin: 'io.fabric'
 

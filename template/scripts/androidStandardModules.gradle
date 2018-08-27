@@ -1,4 +1,5 @@
-// Список модулей android-standard
+// Список модулей android-standard.
+// Здесь можно оставить только те модули, которые нужны приложению
 
 gradle.ext {
     androidStandardModules = [

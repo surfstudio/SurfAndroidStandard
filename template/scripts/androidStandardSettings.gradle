@@ -1,13 +1,10 @@
 // Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
 
-def androidStandardDebugDir = gradle.ext.androidStandardDebugDir
-def androidStandardDebugMode = gradle.ext.androidStandardDebugMode
-
-if (androidStandardDebugDir != null && androidStandardDebugMode) {
+if (gradle.ext.androidStandardDebugEnabled) {
     try {
         gradle.ext.androidStandardModules.each {
             include "$it"
-            project(":$it").projectDir = new File("$ext.androidStandardDebugDir/$it")
+            project(":$it").projectDir = new File("$gradle.ext.androidStandardDebugDir/$it")
         }
     } catch (Throwable e) {
         logger.error(e.message)

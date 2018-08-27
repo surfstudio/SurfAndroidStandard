@@ -1,5 +1,7 @@
 apply from: '../scripts/androidStandardModules.gradle'
 
+// Скрипт для чтения и экспорта properties для дальнейшей настройки сборки
+
 def androidStandardDebugDir = null
 def androidStandardDebugMode = false
 
@@ -25,4 +27,5 @@ try {
 } finally {
     gradle.ext.androidStandardDebugDir = androidStandardDebugDir
     gradle.ext.androidStandardDebugMode = androidStandardDebugMode
+    gradle.ext.androidStandardDebugEnabled = gradle.ext.androidStandardDebugDir != null && gradle.ext.androidStandardDebugMode
 }
