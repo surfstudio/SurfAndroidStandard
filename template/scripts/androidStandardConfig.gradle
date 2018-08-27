@@ -25,7 +25,15 @@ try {
 } catch (Throwable ignored) {
     logger.error('local.properties file not found')
 } finally {
+    // Директория для локальной загрузки android-standard
     gradle.ext.androidStandardDebugDir = androidStandardDebugDir
+
+    // Префикс, который будет добавлен к именам модулей android-standard,
+    // если они загружаются локально
+    gradle.ext.androidStandardDebugPrefix = "debug-"
+
     gradle.ext.androidStandardDebugMode = androidStandardDebugMode
+
+    // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
     gradle.ext.androidStandardDebugEnabled = gradle.ext.androidStandardDebugDir != null && gradle.ext.androidStandardDebugMode
 }

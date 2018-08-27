@@ -4,7 +4,7 @@ if (gradle.ext.androidStandardDebugEnabled) {
     try {
         dependencies {
             gradle.ext.androidStandardModules.each {
-                api project(":$it")
+                api project(":$gradle.ext.androidStandardDebug" + $it)
             }
         }
     } catch (Throwable e) {

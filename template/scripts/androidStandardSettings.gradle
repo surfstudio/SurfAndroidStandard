@@ -3,8 +3,9 @@
 if (gradle.ext.androidStandardDebugEnabled) {
     try {
         gradle.ext.androidStandardModules.each {
-            include "$it"
-            project(":$it").projectDir = new File("$gradle.ext.androidStandardDebugDir/$it")
+            moduleName = gradle.ext.androidStandardDebugPrefix + $it
+            include $moduleName
+            project(":$moduleName").projectDir = new File("$gradle.ext.androidStandardDebugDir/$it")
         }
     } catch (Throwable e) {
         logger.error(e.message)
