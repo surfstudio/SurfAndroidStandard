@@ -1,4 +1,4 @@
-apply from: 'scripts/androidStandardConfig.gradle'
+apply from: 'android-standard/androidStandardConfig.gradle'
 
 include ':template:app-injector',
         ':template:base',
@@ -12,4 +12,4 @@ include ':template:app-injector',
         ':template:f-auth',
         ':template:f-main'
 
-apply from: 'scripts/androidStandardSettings.gradle'
+apply from: 'android-standard/androidStandardSettings.gradle'
