@@ -1,3 +1,5 @@
+apply from: 'scripts/androidStandardConfig.gradle'
+
 include ':template:app-injector',
         ':template:base',
         ':template:base-ui',
@@ -9,3 +11,5 @@ include ':template:app-injector',
         ':template:i-auth',
         ':template:f-auth',
         ':template:f-main'
+
+apply from: 'scripts/androidStandardSettings.gradle'

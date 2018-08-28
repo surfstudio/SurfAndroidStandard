@@ -1,5 +1,5 @@
-apply from: '../androidInteractorModule.gradle'
-apply from: '../androidTestModule.gradle'
+apply from: '../commonInteractorModule.gradle'
+apply from: '../commonTestModule.gradle'
 
 dependencies {
     implementation project(':template:i-token')

@@ -1,4 +1,4 @@
-apply from: '../androidFeatureModule.gradle'
+apply from: '../commonFeatureModule.gradle'
 
 dependencies {
     implementation project(':template:base-ui')
