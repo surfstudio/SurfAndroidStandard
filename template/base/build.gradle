@@ -18,4 +18,4 @@ dependencies {
     }
 }
 
-apply from: '../scripts/androidStandardDependencies.gradle'
+apply from: '../android-standard/androidStandardDependencies.gradle'
