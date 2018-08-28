@@ -4,6 +4,9 @@ import android.util.Log
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import java.io.PrintStream
 
+/**
+ * Стратегия логгирования для тестов, использующая системный поток вывода для логов
+ */
 class TestLoggingStrategy : LoggingStrategy {
 
     override fun log(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {

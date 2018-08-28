@@ -22,8 +22,7 @@ import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import kotlin.reflect.KClass
 
 /**
- * логгирует в logcat
- * все логи начиная с уровня DEBUG логгируются в [RemoteLogger]
+ * Сущность для логгирования с использованием различных уровней и стратегий
  */
 object Logger {
 
