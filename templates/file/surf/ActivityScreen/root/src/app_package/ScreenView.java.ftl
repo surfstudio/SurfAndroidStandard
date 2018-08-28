@@ -47,7 +47,7 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     <#if generateRecyclerView>
 
     private RecyclerView recyclerView;
-        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+        <#if usePaginationableAdapter>
 
         private PaginationableAdapter adapter;
         <#else>
@@ -133,7 +133,7 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         @Override
         protected void renderInternal(${className}ScreenModel screenModel) {
             <#if generateRecyclerView>
-                <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+                <#if usePaginationableAdapter>
                     adapter.setItems(ItemList.create()
                         .addAll(screenModel.getItemList(), ${nameController?uncap_first}${defPostfixController}), screenModel.getPaginationState());
                     <#else>
@@ -182,7 +182,7 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     private void initRecyclerView() {
         ${nameController?uncap_first}${defPostfixController} = new ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>);
 
-        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+        <#if usePaginationableAdapter>
         adapter = new PaginationableAdapter();
         adapter.setOnShowMoreListener(() -> presenter.loadMore());
         <#else>

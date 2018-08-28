@@ -35,7 +35,7 @@ class ${className}Presenter extends BasePresenter<${className}${screenTypeCapita
             // todo перезагрузить данные здесь
         }
     </#if>
-    <#if generateRecyclerView && ((screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter))>
+    <#if generateRecyclerView && usePaginationableAdapter>
 
         void loadMore() {
             // todo постраничная загрузка след данных

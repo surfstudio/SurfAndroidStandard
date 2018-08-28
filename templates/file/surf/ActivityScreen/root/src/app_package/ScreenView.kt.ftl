@@ -46,7 +46,7 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
     <#if generateRecyclerView>
 
     private lateinit var recyclerView: RecyclerView
-        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+        <#if usePaginationableAdapter>
 
         private var adapter = PaginationableAdapter<${nameTypeData}>()
         <#else>
@@ -107,7 +107,7 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
 
         override fun renderInternal(screenModel: ${className}ScreenModel) {
             <#if generateRecyclerView>
-                <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+                <#if usePaginationableAdapter>
                     adapter.setItems(ItemList.create()
                         .addAll(screenModel.itemList, ${nameController?uncap_first}${defPostfixController}), screenModel.paginationState)
                     <#else>

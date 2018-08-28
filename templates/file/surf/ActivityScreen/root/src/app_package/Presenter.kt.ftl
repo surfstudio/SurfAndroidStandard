@@ -6,8 +6,8 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 @PerScreen
-class ${className}Presenter  @Inject constructor(basePresenterDependency: BasePresenterDependency)
- : BasePresenter<${className}${screenTypeCapitalized}View>(basePresenterDependency) {
+class ${className}Presenter  @Inject constructor(basePresenterDependency: BasePresenterDependency
+): BasePresenter<${className}${screenTypeCapitalized}View>(basePresenterDependency) {
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -31,7 +31,7 @@ class ${className}Presenter  @Inject constructor(basePresenterDependency: BasePr
             // todo перезагрузить данные здесь
         }
     </#if>
-    <#if generateRecyclerView && ((screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter))>
+    <#if generateRecyclerView && usePaginationableAdapter>
 
         fun loadMore() {
             // todo постраничная загрузка след данных

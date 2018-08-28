@@ -10,7 +10,7 @@ class ${className}ScreenModel : <@superClass.selectTypeScreenModel /> {
         <#if nameTypeData==''>
             <#assign nameTypeData='Unit' />
         </#if>
-        <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+        <#if usePaginationableAdapter>
             var itemList: DataList<${nameTypeData}> = DataList.empty()
         <#else>
             var itemList: List<${nameTypeData}> = Collections.emptyList()
