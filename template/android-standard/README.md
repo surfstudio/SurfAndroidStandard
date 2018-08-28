@@ -22,12 +22,7 @@ androidStandardDebugMode=false       # флаг для активации реж
 
 + **settings.gradle** уровня проекта
 
-В данный файл необходимо первой строкой добавить ```apply from: 'android-standard/androidStandardConfig.gradle'```
-для выполнения инициализации объекта ```gradle.ext.androidStandard```.
-
-Затем необходимо подключить все модули проекта: ```include ':first-module', ':second-module'```.
-
-В конец данного файла необходимо добавить строку ```apply from: 'android-standard/androidStandardSettings.gradle'```
+В конец данного файла необходимо добавить ```apply from: 'android-standard/androidStandardConfig.gradle'```
 для подключения локального репозитория android-standard.
 
 + **build.gradle** уровня модуля приложения

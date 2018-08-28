@@ -40,3 +40,5 @@ gradle.ext {
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
     androidStandard.debugEnabled = gradle.ext.androidStandard["debugDir"] != null && gradle.ext.androidStandard["debugMode"]
 }
+
+apply from: '../android-standard/androidStandardSettings.gradle'
