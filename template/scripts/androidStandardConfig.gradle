@@ -2,8 +2,6 @@ apply from: '../scripts/androidStandardModules.gradle'
 
 // Скрипт для чтения и экспорта properties для дальнейшей настройки сборки
 
-// Директория для локальной загрузки android-standard
-def androidStandardDebugDir = null
 // Флаг для включения режима локальной загрузки
 def androidStandardDebugMode = false
 
@@ -11,19 +9,23 @@ Properties properties = new Properties()
 
 try {
     properties.load(file('../local.properties').newDataInputStream())
-    androidStandardDebugDir = properties.getProperty('androidStandardDebugDir')
-    androidStandardDebugMode = properties.getProperty('androidStandardDebugMode').toBoolean()
 } catch (FileNotFoundException ignored) {
     logger.error('local.properties file not found')
-} catch (Throwable e) {
-    logger.error(e.message)
 }
 
+// Директория для локальной загрузки android-standard
+def androidStandardDebugDir = properties.getProperty('androidStandardDebugDir')
 if (androidStandardDebugDir == null) {
     logger.error('androidStandardDebugDir not defined. ' +
             'Please define it in local.properties file to enable android-standard debug mode.')
-} else if (!androidStandardDebugMode) {
-    logger.error('androidStandardDebugMode = false')
+} else {
+    def debugModeProperty = properties.getProperty('androidStandardDebugMode')
+    if (debugModeProperty != null) {
+        androidStandardDebugMode = debugModeProperty.toBoolean()
+    }
+    if (!androidStandardDebugMode) {
+        logger.error('androidStandardDebugMode = false')
+    }
 }
 
 // Экспорт переменных, считанных из properties
