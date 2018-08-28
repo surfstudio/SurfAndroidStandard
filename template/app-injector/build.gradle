@@ -4,8 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 apply from: '../commonTestModule.gradle'
+apply from: '../config.gradle'
 
-def config = rootProject.extensions.getByName("ext")
+def config = extensions.getByName("ext")
 
 android {
     compileSdkVersion config["compileSdkVersion"]
@@ -17,8 +18,8 @@ android {
         minSdkVersion config["minSdkVersion"]
         targetSdkVersion config["targetSdkVersion"]
 
-        versionCode config["moduleVersionCode"] //todo replace to: versionCode config["versionCode"]
-        versionName config["moduleVersionName"] //todo replace to: versionName config["versionName"]
+        versionCode config["versionCode"]
+        versionName config["versionName"]
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

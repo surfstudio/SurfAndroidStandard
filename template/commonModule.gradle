@@ -2,16 +2,20 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+apply from: '../config.gradle'
+
+def config = extensions.getByName("ext")
+
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion config["compileSdkVersion"]
+    buildToolsVersion config["buildToolsVersion"]
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion config["minSdkVersion"]
+        targetSdkVersion config["targetSdkVersion"]
 
-        versionCode rootProject.ext.moduleVersionCode //todo replace to: rootProject.ext.versionCode
-        versionName rootProject.ext.moduleVersionName //todo replace to: rootProject.ext.versionName
+        versionCode config["versionCode"]
+        versionName config["versionName"]
 
         vectorDrawables.useSupportLibrary = true
     }
