@@ -162,6 +162,7 @@ class StickyLayoutManager(
         super.removeAndRecycleAllViews(recycler)
         positioner.clearHeader()
         positioner.clearFooter()
+        positioner.clearGlobalLayout()
     }
 
     override fun onAttachedToWindow(recyclerView: RecyclerView?) {

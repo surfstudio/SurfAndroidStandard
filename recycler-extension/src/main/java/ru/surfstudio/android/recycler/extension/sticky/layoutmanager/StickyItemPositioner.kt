@@ -64,16 +64,17 @@ class StickyItemPositioner(
     private val recyclerParent: ViewGroup
         get() = recyclerView?.parent as ViewGroup
 
-    init {
-        recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener {
-            val visibility = this@StickyItemPositioner.recyclerView?.visibility
-            visibility?.let {
-                if (currentHeader != null) {
-                    currentHeader!!.visibility = it
-                }
+    var onGlobalLayoutListener: (() -> Unit)? = {
+        val visibility = this@StickyItemPositioner.recyclerView?.visibility
+        visibility?.let {
+            if (currentHeader != null) {
+                currentHeader!!.visibility = it
             }
-
         }
+    }
+
+    init {
+        recyclerView?.viewTreeObserver?.addOnGlobalLayoutListener(onGlobalLayoutListener)
         checkMargins = recyclerViewHasPadding()
     }
 
@@ -247,6 +248,11 @@ class StickyItemPositioner(
 
     fun setStickyFooterListener(listener: StickyFooterListener?) {
         this.footerListener = listener
+    }
+
+    fun clearGlobalLayout() {
+        recyclerView?.viewTreeObserver?.removeOnGlobalLayoutListener(onGlobalLayoutListener)
+        onGlobalLayoutListener = null
     }
 
     private fun offsetHeader(nextHeader: View): Float {
@@ -718,4 +724,5 @@ class StickyItemPositioner(
         NO_ELEVATION(-1f),
         DEFAULT_ELEVATION(5f)
     }
+
 }
