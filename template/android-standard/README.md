@@ -22,7 +22,7 @@ androidStandardDebugMode=false       # флаг для активации реж
 
 + **settings.gradle** уровня проекта
 
-В конец данного файла необходимо добавить ```apply from: 'android-standard/androidStandardConfig.gradle'```
+В конец данного файла необходимо добавить ```apply from: 'android-standard/androidStandardSettings.gradle'```
 для подключения локального репозитория android-standard.
 
 + **build.gradle** уровня модуля приложения
