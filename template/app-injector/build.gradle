@@ -17,8 +17,8 @@ android {
         minSdkVersion config["minSdkVersion"]
         targetSdkVersion config["targetSdkVersion"]
 
-        versionCode config["moduleVersionCode"]
-        versionName config["moduleVersionName"]
+        versionCode config["moduleVersionCode"] //todo replace to: versionCode config["versionCode"]
+        versionName config["moduleVersionName"] //todo replace to: versionName config["versionName"]
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

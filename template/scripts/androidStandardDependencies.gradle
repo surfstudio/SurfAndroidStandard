@@ -6,7 +6,7 @@ if (!gradle.ext.androidStandardDebugEnabled) {
     // Подключние модулей из artifactory
     dependencies {
         gradle.ext.androidStandardModules.each {
-            api "$surfCoreUrl:$it:$surfCoreVersionName"
+            api "ru.surfstudio.android:$it:$surfCoreVersionName"
         }
     }
 } else {
