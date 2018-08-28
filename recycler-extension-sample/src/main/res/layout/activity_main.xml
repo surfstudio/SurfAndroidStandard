@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context="ru.surfstudio.android.recycler.extension.sample.MainActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_main_recycler"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_main_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

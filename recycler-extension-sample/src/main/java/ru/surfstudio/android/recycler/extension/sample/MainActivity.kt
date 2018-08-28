@@ -24,30 +24,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler,
-                isVisibleFirstFooterAtLaunch = true)
-        stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(object : StickyHeaderListener {
-            override fun headerAttached(headerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 headerAttached")
-            }
 
-            override fun headerDetached(headerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 headerDetached")
-            }
-        })
-
-        stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(object : StickyFooterListener {
-            override fun footerAttached(footerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 footerAttached")
-            }
-
-            override fun footerDetached(footerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 footerDetached")
-            }
-        })
-        activity_main_recycler.adapter = stickyEasyAdapter
-
-        val itemList = generateData()
+        activity_main_pager.adapter = SamplePagerAdapter(supportFragmentManager)
+        activity_main_pager.offscreenPageLimit = 2
+//        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler,
+//                isVisibleFirstFooterAtLaunch = true)
+//        stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(object : StickyHeaderListener {
+//            override fun headerAttached(headerView: View, adapterPosition: Int) {
+//                Log.d("LOG", "1111 headerAttached")
+//            }
+//
+//            override fun headerDetached(headerView: View, adapterPosition: Int) {
+//                Log.d("LOG", "1111 headerDetached")
+//            }
+//        })
+//
+//        stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(object : StickyFooterListener {
+//            override fun footerAttached(footerView: View, adapterPosition: Int) {
+//                Log.d("LOG", "1111 footerAttached")
+//            }
+//
+//            override fun footerDetached(footerView: View, adapterPosition: Int) {
+//                Log.d("LOG", "1111 footerDetached")
+//            }
+//        })
+//        activity_main_recycler.adapter = stickyEasyAdapter
         /*itemList.addStickyHeaderIf({ prev, next ->
             val prv = prev as? Data
             val nxt = next as? Data
@@ -66,10 +67,10 @@ class MainActivity : AppCompatActivity() {
                 null
             }
         }, stickyFooterItemController)*/
-        stickyEasyAdapter.setItems(itemList)
+//        stickyEasyAdapter.setItems(itemList)
     }
 
-    private fun generateData() = ItemList().apply {
+    /*private fun generateData() = ItemList().apply {
         add(Data("Scooby-Doo", "Main characters"), itemController)
         add(Data("Shaggy Rogers", "Main characters"), itemController)
         add(Data("Fred Jones", "Main characters"), itemController)
@@ -111,4 +112,4 @@ class MainActivity : AppCompatActivity() {
         add(Data("Alice May", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("The Evil Entity", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
     }
-}
+*/}
