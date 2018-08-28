@@ -10,4 +10,4 @@ include ':template:app-injector',
         ':template:f-auth',
         ':template:f-main'
 
-apply from: 'android-standard/androidStandardConfig.gradle'
+apply from: 'android-standard/androidStandardSettings.gradle'

@@ -1,3 +1,5 @@
+apply from: '../android-standard/androidStandardConfig.gradle'
+
 // Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
 
 if (gradle.ext.androidStandard["debugEnabled"]) {
