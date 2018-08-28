@@ -5,35 +5,33 @@ apply from: '../scripts/androidStandardModules.gradle'
 def androidStandardDebugDir = null
 def androidStandardDebugMode = false
 
+Properties properties = new Properties()
+
 try {
-    Properties properties = new Properties()
     properties.load(file('../local.properties').newDataInputStream())
-
-    try {
-        androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
-        androidStandardDebugMode = properties.getProperty('androidStandardDebugMode').toBoolean()
-    } catch (Throwable ignored) {
-
-    }
-
-    if (androidStandardDebugDir == null) {
-        logger.error('androidStandardDebug.dir not defined. ' +
-                'Please define it in local.properties file to enable android-standard debug mode.')
-    } else if (!androidStandardDebugMode) {
-        logger.error('androidStandardDebugMode = false')
-    }
-} catch (Throwable ignored) {
+    androidStandardDebugDir = properties.getProperty('androidStandardDebug.dir')
+    androidStandardDebugMode = properties.getProperty('androidStandardDebugMode').toBoolean()
+} catch (FileNotFoundException ignored) {
     logger.error('local.properties file not found')
-} finally {
-    // Директория для локальной загрузки android-standard
-    gradle.ext.androidStandardDebugDir = androidStandardDebugDir
-
-    // Функция, добавляющая префикс "debug" к именам модулей android-standard,
-    // если они загружаются локально
-    gradle.ext.androidStandardDebugModuleName = { name -> "debug-$name" }
-
-    gradle.ext.androidStandardDebugMode = androidStandardDebugMode
-
-    // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
-    gradle.ext.androidStandardDebugEnabled = gradle.ext.androidStandardDebugDir != null && gradle.ext.androidStandardDebugMode
+} catch (Throwable e) {
+    logger.error(e.message)
 }
+
+if (androidStandardDebugDir == null) {
+    logger.error('androidStandardDebug.dir not defined. ' +
+            'Please define it in local.properties file to enable android-standard debug mode.')
+} else if (!androidStandardDebugMode) {
+    logger.error('androidStandardDebugMode = false')
+}
+
+// Директория для локальной загрузки android-standard
+gradle.ext.androidStandardDebugDir = androidStandardDebugDir
+
+// Функция, добавляющая префикс "debug" к именам модулей android-standard,
+// если они загружаются локально
+gradle.ext.androidStandardDebugModuleName = { name -> "debug-$name" }
+
+gradle.ext.androidStandardDebugMode = androidStandardDebugMode
+
+// Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
+gradle.ext.androidStandardDebugEnabled = gradle.ext.androidStandardDebugDir != null && gradle.ext.androidStandardDebugMode
