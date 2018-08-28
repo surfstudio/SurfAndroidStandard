@@ -5,6 +5,10 @@ import timber.log.Timber
 
 class TimberLoggingStrategy : LoggingStrategy {
 
+    init {
+        Timber.plant(Timber.DebugTree())
+    }
+
     override fun log(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {
         setClickableLink()
         Timber.log(priority, t, message, *args)
