@@ -28,15 +28,14 @@ if (androidStandardDebugDir == null) {
     }
 }
 
-// Экспорт переменных, считанных из properties
-gradle.ext.androidStandardDebugDir = androidStandardDebugDir
-gradle.ext.androidStandardDebugMode = androidStandardDebugMode
-
 gradle.ext {
+    androidStandard.debugDir = androidStandardDebugDir
+    androidStandard.debugMode = androidStandardDebugMode
+
     // Функция, добавляющая префикс "debug" к именам модулей android-standard,
     // если они загружаются локально
-    androidStandardDebugModuleName = { name -> "debug-$name" }
+    androidStandard.debugModuleName = { name -> "debug-$name" }
 
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
-    androidStandardDebugEnabled = gradle.ext.androidStandardDebugDir != null && gradle.ext.androidStandardDebugMode
+    androidStandard.debugEnabled = gradle.ext.androidStandard["debugDir"] != null && gradle.ext.androidStandard["debugMode"]
 }

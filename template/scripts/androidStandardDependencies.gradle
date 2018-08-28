@@ -3,13 +3,13 @@ apply from: '../config.gradle'
 // Скрипт для подключения модулей android-standard
 
 dependencies {
-    gradle.ext.androidStandardModules.each {
-        if (!gradle.ext.androidStandardDebugEnabled) {
+    gradle.ext.androidStandard["modules"].each {
+        if (!gradle.ext.androidStandard["debugEnabled"]) {
             // Подключение модулей из artifactory
             api "ru.surfstudio.android:$it:$surfCoreVersionName"
         } else {
             // Подключение модулей из локального репозитория для отладки
-            def moduleName = gradle.ext.androidStandardDebugModuleName("$it")
+            def moduleName = gradle.ext.androidStandard["debugModuleName"]("$it")
             api project(":$moduleName")
         }
     }
