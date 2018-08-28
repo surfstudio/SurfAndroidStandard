@@ -4,6 +4,9 @@ import com.crashlytics.android.Crashlytics
 
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 
+/**
+ * Стратегия логгирования в Crashlytics
+ */
 class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun setUser(id: String?, username: String?, email: String?) {
