@@ -15,27 +15,27 @@
  */
 package ru.surfstudio.android.logger
 
-import java.util.ArrayList
-
+import ru.surfstudio.android.logger.exceptions.RemoteLoggingStrategyIsNotProvidedException
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
-import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy
+import kotlin.reflect.KClass
 
 /**
  * Логгирует на удаленный сервер
  */
 object RemoteLogger {
 
-    private val DEFAULT_REMOTE_LOGGING_STRATEGY = CrashlyticsRemoteLoggingStrategy()
-    private val REMOTE_LOGGING_STRATEGIES = ArrayList<RemoteLoggingStrategy>()
+    private val REMOTE_LOGGING_STRATEGIES = hashMapOf<KClass<*>, RemoteLoggingStrategy>()
 
     @JvmStatic
     fun getRemoteLoggingStrategies() = REMOTE_LOGGING_STRATEGIES
 
     @JvmStatic
-    fun addRemoteLoggingStrategy(strategy: RemoteLoggingStrategy) = REMOTE_LOGGING_STRATEGIES.add(strategy)
+    fun addRemoteLoggingStrategy(strategy: RemoteLoggingStrategy) =
+            REMOTE_LOGGING_STRATEGIES.put(strategy::class, strategy)
 
     @JvmStatic
-    fun removeRemoteLoggingStrategies(strategy: RemoteLoggingStrategy) = REMOTE_LOGGING_STRATEGIES.remove(strategy)
+    fun removeRemoteLoggingStrategies(strategy: RemoteLoggingStrategy) =
+            REMOTE_LOGGING_STRATEGIES.remove(strategy::class)
 
     @JvmStatic
     fun setUser(id: String, username: String, email: String) {
@@ -64,9 +64,9 @@ object RemoteLogger {
 
     private fun forEachRemoteLoggingStrategyOrWithDefault(action: (RemoteLoggingStrategy) -> Unit) {
         if (REMOTE_LOGGING_STRATEGIES.isEmpty()) {
-            action(DEFAULT_REMOTE_LOGGING_STRATEGY)
+            throw RemoteLoggingStrategyIsNotProvidedException()
         } else {
-            REMOTE_LOGGING_STRATEGIES.forEach(action)
+            REMOTE_LOGGING_STRATEGIES.values.forEach(action)
         }
     }
 }
