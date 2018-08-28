@@ -16,26 +16,27 @@ class ${className}Presenter extends BasePresenter<${className}${screenTypeCapita
     public void onLoad(boolean viewRecreated) {
         super.onLoad(viewRecreated);
     }
-
     <#if generateRecyclerView && hasListener>
         <#if typeController=='1'>
+
             void on${nameTypeData}ItemClick(${nameTypeData} ${nameTypeData?uncap_first}) {
              //todo действия при нажатии на элемент
              }
         <#elseif typeController=='2'>
+
             void on${nameTypeData}ItemClick() {
              //todo действия при нажатии на элемент
              }
         </#if>
     </#if>
-
     <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+
         void reloadData() {
             // todo перезагрузить данные здесь
         }
     </#if>
-
     <#if generateRecyclerView && ((screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter))>
+
         void loadMore() {
             // todo постраничная загрузка след данных
         }
