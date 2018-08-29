@@ -5,6 +5,9 @@ import ru.surfstudio.android.core.mvp.model.LdsScreenModel
 import ru.surfstudio.android.core.mvp.model.LdsSwrScreenModel
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 
+/**
+ * Модель экрана todo
+ */
 class ${className}ScreenModel : <@superClass.selectTypeScreenModel /> {
     <#if generateRecyclerView>
         <#if nameTypeData==''>

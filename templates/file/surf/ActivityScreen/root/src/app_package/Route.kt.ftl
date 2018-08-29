@@ -17,6 +17,10 @@ import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithParam
 <#if screenType=='fragment'>
 import android.support.v4.app.Fragment
 </#if>
+
+/**
+ * Роут экрана todo
+ */
 class ${className}${screenTypeCapitalized}Route<@argsConstructor.create /> : <@superClass.selectTypeRoute /> {
     <#if screenType=='activity'>
         <#if typeRouteActivity=='2' || typeRouteActivity=='4'>

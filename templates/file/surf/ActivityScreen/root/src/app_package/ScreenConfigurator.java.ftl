@@ -15,7 +15,9 @@ import ru.surfstudio.standard.ui.base.dagger.screen.ActivityScreenModule;
 import ru.surfstudio.standard.ui.base.configurator.FragmentScreenConfigurator;
 import ru.surfstudio.standard.ui.base.dagger.screen.FragmentScreenModule;
 
-
+/**
+ * Конфигуратор экрана todo
+ */
 public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}ScreenConfigurator {
 
     @PerScreen

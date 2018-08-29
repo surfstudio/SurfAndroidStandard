@@ -16,6 +16,10 @@ import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithParam
 <#if screenType=='fragment'>
 import android.support.v4.app.Fragment;
 </#if>
+
+/**
+ * Роут экрана todo
+ */
 @Data
 public class ${className}${screenTypeCapitalized}Route extends <@superClass.selectTypeRoute /> {
     <#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>

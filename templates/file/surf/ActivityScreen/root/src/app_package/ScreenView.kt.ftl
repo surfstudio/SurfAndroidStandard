@@ -30,6 +30,9 @@ import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.ViewGroup
 
+/**
+ * Вью экрана todo
+ */
 class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> {
 
     @Inject
