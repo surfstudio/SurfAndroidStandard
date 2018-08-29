@@ -1,3 +1,5 @@
+<#import "function/lds_view_function.ftl" as ldsFunction>
+
 package ${packageName}
 
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
@@ -28,7 +30,7 @@ class ${className}Presenter  @Inject constructor(basePresenterDependency: BasePr
         }
         </#if>
     </#if>
-    <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
+    <#if ldsFunction.isLdsView()>
 
         fun reloadData() {
             // todo перезагрузить данные здесь
