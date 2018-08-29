@@ -1,7 +1,13 @@
 <#import "macros/select_type_route_macros.ftl" as superClass>
 <#import "macros/select_bundle_read_method_macros.ftl" as bundleRead>
 <#import "macros/select_bundle_write_method_macros.ftl" as bundleWrite>
+<#import "macros/select_import_type_route_macros.ftl" as dialogRoute>
+
 package ${packageName};
+
+<#if typeRoute=='2'>import android.os.Bundle;</#if>
+<@dialogRoute.importDialogRoute />;
+import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment;
 
 @Data
 public class ${className}DialogRoute extends <@superClass.selectTypeRoute /> {

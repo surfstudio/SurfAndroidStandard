@@ -2,7 +2,13 @@
 <#import "macros/select_bundle_read_method_macros.ftl" as bundleRead>
 <#import "macros/select_bundle_write_method_macros.ftl" as bundleWrite>
 <#import "macros/select_args_constructor_macros.ftl" as argsConstructor>
+<#import "macros/select_import_type_route_macros.ftl" as dialogRoute>
+
 package ${packageName}
+
+<#if typeRoute=='2'>import android.os.Bundle</#if>
+<@dialogRoute.importDialogRoute />
+import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 
 class ${className}DialogRoute<@argsConstructor.create /> : <@superClass.selectTypeRoute /> {
 
@@ -19,7 +25,6 @@ class ${className}DialogRoute<@argsConstructor.create /> : <@superClass.selectTy
                 <@bundleWrite.selectBundleWriteMethod paramType=routeParamType3 param=routeParam3 extra='EXTRA_THIRD' />
             </#if>
         return args
-
     }
     </#if>
     override fun getFragmentClass(): Class<out CoreSimpleDialogFragment> = ${className}Dialog::class.java
