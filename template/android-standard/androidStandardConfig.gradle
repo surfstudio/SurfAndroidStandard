@@ -1,5 +1,3 @@
-apply from: '../android-standard/androidStandardModules.gradle'
-
 // Скрипт для чтения и экспорта properties для дальнейшей настройки сборки
 
 // Директория для локальной загрузки android-standard
@@ -30,13 +28,17 @@ try {
 }
 
 gradle.ext {
-    androidStandard.debugDir = androidStandardDebugDir
-    androidStandard.debugMode = androidStandardDebugMode
+    androidStandard = [
+            debugDir       : androidStandardDebugDir,
+            debugMode      : androidStandardDebugMode,
 
-    // Функция, добавляющая префикс "debug" к именам модулей android-standard,
-    // если они загружаются локально
-    androidStandard.debugModuleName = { name -> "debug-$name" }
+            // Функция, добавляющая префикс "debug" к именам модулей android-standard,
+            // если они загружаются локально
+            debugModuleName: { name -> "debug-$name" }
+    ]
 
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
     androidStandard.debugEnabled = gradle.ext.androidStandard["debugDir"] != null && gradle.ext.androidStandard["debugMode"]
 }
+
+apply from: 'androidStandardDependencies.gradle'
