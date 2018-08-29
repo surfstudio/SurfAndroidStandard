@@ -1,3 +1,5 @@
+<#import "function/lds_view_function.ftl" as ldsFunction>
+<#import "function/lds_swr_view_function.ftl" as ldsSwrFunction>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,7 +17,7 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    <#elseif (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
+    <#elseif ldsSwrFunction.isLdsSwrView()>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -34,7 +36,7 @@
     </FrameLayout>
     </#if>
 
-    <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
+    <#if ldsFunction.isLdsView()>
     <${applicationPackage}.ui.base.placeholder.PlaceHolderViewImpl
         android:id="@+id/placeholder"
         android:layout_width="match_parent"

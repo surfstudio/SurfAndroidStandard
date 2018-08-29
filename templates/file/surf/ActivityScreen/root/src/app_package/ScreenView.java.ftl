@@ -1,5 +1,7 @@
 <#import "macros/select_type_view_macros.ftl" as superClass>
 <#import "macros/fragment_view_macros.ftl" as fragmentView>
+<#import "function/lds_view_function.ftl" as ldsFunction>
+<#import "function/lds_swr_view_function.ftl" as ldsSwrFunction>
 
 package ${packageName};
 
@@ -44,11 +46,11 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
 
     private Toolbar toolbar;
     </#if>
-    <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
+    <#if ldsFunction.isLdsView()>
 
     private PlaceHolderViewImpl placeHolderView;
     </#if>
-    <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
+    <#if ldsSwrFunction.isLdsSwrView()>
 
     private SwipeRefreshLayout swipeRefreshLayout;
     </#if>
@@ -114,14 +116,14 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         initRecyclerView();
         </#if>
     }
-    <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
+    <#if ldsFunction.isLdsView()>
 
     @Override
     protected PlaceHolderView getPlaceHolderView() {
         return placeHolderView;
     }
     </#if>
-    <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
+    <#if ldsSwrFunction.isLdsSwrView()>
 
     @Override
     protected SwipeRefreshLayout getSwipeRefreshLayout() {
@@ -146,10 +148,10 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         <#if generateToolbar>
         toolbar = <@fragmentView.fragmentView/>findViewById(R.id.toolbar);
         </#if>
-        <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
+        <#if ldsFunction.isLdsView()>
         placeHolderView = <@fragmentView.fragmentView/>findViewById(R.id.placeholder);
         </#if>
-        <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
+        <#if ldsSwrFunction.isLdsSwrView()>
         swipeRefreshLayout = <@fragmentView.fragmentView/>findViewById(R.id.swipe_refresh);
         </#if>
         <#if generateRecyclerView>
@@ -165,13 +167,13 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     }
     </#if>
     private void initListeners() {
-        <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
+        <#if ldsFunction.isLdsView()>
             placeHolderView.setOnActionClickListener(state -> {
                 presenter.reloadData();
                 return null;
             });
         </#if>
-        <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
+        <#if ldsSwrFunction.isLdsSwrView()>
             swipeRefreshLayout.setOnRefreshListener(() -> presenter.reloadData());
         </#if>
     }
