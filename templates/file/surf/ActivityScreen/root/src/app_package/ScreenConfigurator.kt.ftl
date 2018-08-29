@@ -7,6 +7,7 @@ import android.os.Bundle
 </#if>
 
 import dagger.Component
+import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator
@@ -25,12 +26,13 @@ class ${className}ScreenConfigurator(args: Bundle?) : ${screenTypeCapitalized}Sc
 </#if>
 
     @PerScreen
-    @Component(dependencies = arrayOf(ActivityComponent::class), modules = arrayOf(${screenTypeCapitalized}ScreenModule::class<#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>, ${className}ScreenModule::class</#if>))
+    @Component(dependencies = [ActivityComponent::class],
+            modules = [${screenTypeCapitalized}ScreenModule::class<#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>, ${className}ScreenModule::class</#if>])
     interface ${className}ScreenComponent : ScreenComponent<${className}${screenTypeCapitalized}View> {
         //do nothing
     }
-
     <#if (screenType=='activity' && (typeRouteActivity=='2' || typeRouteActivity=='4')) || (screenType=='fragment' && typeRouteFragment=='2')>
+
     @Module
     internal class ${className}ScreenModule(route: ${className}${screenTypeCapitalized}Route) : CustomScreenModule<${className}${screenTypeCapitalized}Route>(route)
     </#if>

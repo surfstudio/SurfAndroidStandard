@@ -12,7 +12,6 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParam
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute;
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithParamsRoute;
-
 <#if screenType=='fragment'>
 import android.support.v4.app.Fragment;
 </#if>
