@@ -1,8 +1,11 @@
+<#import "macros/import_r_class_macros.ftl" as importRMacros>
+
 package ${packageName};
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+<@importRMacros.importRClass />;
 
 public class ${className} extends ${parentClassName} {
 

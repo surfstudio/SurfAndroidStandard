@@ -1,14 +1,17 @@
+<#import "macros/import_r_class_macros.ftl" as importRMacros>
+
 package ${packageName};
 
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+<@importRMacros.importRClass />
 
 class ${className} @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null
 ): ${parentClassName}(context, attrs) {
     <#if generateListener>
 
-    private val listener: ((Unit) -> Unit)? = null
+    private var listener: ((Unit) -> Unit)? = null
     </#if>
 
     init {
