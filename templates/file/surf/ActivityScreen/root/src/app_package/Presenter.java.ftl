@@ -29,7 +29,7 @@ class ${className}Presenter extends BasePresenter<${className}${screenTypeCapita
              }
         </#if>
     </#if>
-    <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+    <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
 
         void reloadData() {
             // todo перезагрузить данные здесь

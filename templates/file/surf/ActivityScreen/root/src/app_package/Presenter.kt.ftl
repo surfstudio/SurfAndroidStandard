@@ -25,7 +25,7 @@ class ${className}Presenter  @Inject constructor(basePresenterDependency: BasePr
         }
         </#if>
     </#if>
-    <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+    <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
 
         fun reloadData() {
             // todo перезагрузить данные здесь

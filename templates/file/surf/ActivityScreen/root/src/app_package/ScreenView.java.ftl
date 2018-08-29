@@ -28,6 +28,9 @@ import android.support.annotation.Nullable;
 <#if generateToolbar>
 import android.support.v7.widget.Toolbar;
 </#if>
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
 public class ${className}${screenTypeCapitalized}View extends <@superClass.selectTypeView /> {
 
     @Inject
@@ -36,11 +39,11 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
 
     private Toolbar toolbar;
     </#if>
-    <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+    <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
 
     private PlaceHolderViewImpl placeHolderView;
     </#if>
-    <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
+    <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
 
     private SwipeRefreshLayout swipeRefreshLayout;
     </#if>
@@ -61,7 +64,6 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     public CorePresenter[] getPresenters() {
         return new CorePresenter[]{presenter};
     }
-
     <#if screenType=='activity'>
 
         @Override
@@ -87,8 +89,8 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
             return inflater.inflate(R.layout.${layoutName}, container, false);
         }
     </#if>
-
     <#if screenType=='activity'>
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState,
                          @Nullable PersistableBundle persistentState,
@@ -107,51 +109,42 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
         initRecyclerView();
         </#if>
     }
-
     <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
-        <#if (screenType=='activity' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='2')>
-            @Override
-            protected PlaceHolderView getPlaceHolderView() {
-                return placeHolderView;
-            }
 
-            <#if (screenType=='activity' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='3')>
-                @Override
-                protected SwipeRefreshLayout getSwipeRefreshLayout() {
-                    return swipeRefreshLayout;
-                }
-
-                <#if (screenType='activity' && typeViewActivity!='4') || (screenType=='fragment' && typeViewFragment!='4')>
-                    @Override
-                    protected BasePaginationableAdapter getPaginationableAdapter() {
-                        return adapter;
-                    }
-                </#if>
-            </#if>
-        </#if>
-
-        @Override
-        protected void renderInternal(${className}ScreenModel screenModel) {
-            <#if generateRecyclerView>
-                <#if usePaginationableAdapter>
-                    adapter.setItems(ItemList.create()
-                        .addAll(screenModel.getItemList(), ${nameController?uncap_first}${defPostfixController}), screenModel.getPaginationState());
-                    <#else>
-                    adapter.setItems(ItemList.create()
-                        .addAll(screenModel.getItemList(), ${nameController?uncap_first}${defPostfixController}));
-                </#if>
-            </#if>
-        }
+    @Override
+    protected PlaceHolderView getPlaceHolderView() {
+        return placeHolderView;
+    }
     </#if>
+    <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
+
+    @Override
+    protected SwipeRefreshLayout getSwipeRefreshLayout() {
+        return swipeRefreshLayout;
+    }
+    </#if>
+
+    @Override
+    protected void renderInternal(${className}ScreenModel screenModel) {
+    <#if generateRecyclerView>
+        <#if usePaginationableAdapter>
+             adapter.setItems(ItemList.create()
+                  .addAll(screenModel.getItemList(), ${nameController?uncap_first}${defPostfixController}), screenModel.getPaginationState());
+        <#else>
+              adapter.setItems(ItemList.create()
+                  .addAll(screenModel.getItemList(), ${nameController?uncap_first}${defPostfixController}));
+        </#if>
+    </#if>
+    }
 
     private void findViews(View view) {
         <#if generateToolbar>
         toolbar = view.findViewById(R.id.toolbar);
         </#if>
-        <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+        <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
         placeHolderView = view.findViewById(R.id.placeholder);
         </#if>
-        <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
+        <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
         </#if>
         <#if generateRecyclerView>
@@ -167,13 +160,13 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     }
     </#if>
     private void initListeners() {
-        <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2')>
+        <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
             placeHolderView.setOnActionClickListener(state -> {
                 presenter.reloadData();
                 return null;
             });
         </#if>
-        <#if (screenType=='activity' && typeViewActivity!='1' && typeViewActivity!='2' && typeViewActivity!='3') || (screenType=='fragment' && typeViewFragment!='1' && typeViewFragment!='2' && typeViewFragment!='3')>
+        <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
             swipeRefreshLayout.setOnRefreshListener(() -> presenter.reloadData());
         </#if>
     }
