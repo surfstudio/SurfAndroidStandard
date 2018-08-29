@@ -7,8 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 public class ${className}Dialog extends CoreSimpleDialogFragment {
+
     @Inject
     ${screenName}Presenter presenter;
 
@@ -45,5 +45,4 @@ public class ${className}Dialog extends CoreSimpleDialogFragment {
     private void initListeners() {
     
     }
-
 }

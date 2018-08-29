@@ -11,9 +11,9 @@ class ${className}ScreenModel : <@superClass.selectTypeScreenModel /> {
             <#assign nameTypeData='Unit' />
         </#if>
         <#if usePaginationableAdapter>
-            var itemList: DataList<${nameTypeData}> = DataList.empty()
+            val itemList: DataList<${nameTypeData}> = DataList.empty()
         <#else>
-            var itemList: List<${nameTypeData}> = Collections.emptyList()
+            val itemList: List<${nameTypeData}> = Collections.emptyList()
         </#if>
     </#if>
 }

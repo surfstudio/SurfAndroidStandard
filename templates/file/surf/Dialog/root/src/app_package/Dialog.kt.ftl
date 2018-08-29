@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import javax.inject.Inject
 
-
 class ${className}Dialog : CoreSimpleDialogFragment() {
+
     @Inject
     lateinit var presenter: ${screenName}Presenter
 

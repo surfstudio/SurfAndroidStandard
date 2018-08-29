@@ -48,13 +48,13 @@ class ${className}${screenTypeCapitalized}View : <@superClass.selectTypeView /> 
     private lateinit var recyclerView: RecyclerView
         <#if usePaginationableAdapter>
 
-        private var adapter = PaginationableAdapter<${nameTypeData}>()
+        private val adapter = PaginationableAdapter<${nameTypeData}>()
         <#else>
 
-        private var adapter = EasyAdapter()
+        private val adapter = EasyAdapter()
         </#if>
 
-    private var ${nameController?uncap_first}${defPostfixController} = ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>)
+    private val ${nameController?uncap_first}${defPostfixController} = ${nameController}${defPostfixController}(<#if hasListener>presenter::on${nameTypeData}ItemClick</#if>)
 
     </#if>
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
