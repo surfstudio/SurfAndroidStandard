@@ -3,7 +3,7 @@ package ru.surfstudio.android.utilktx.data.wrapper.expandable
 import ru.surfstudio.android.utilktx.data.wrapper.DataWrapperInterface
 
 /**
- * Если объект может быть выделяемым
+ * Если объект может быть сворачиваемым
  */
 interface ExpandableDataInterface {
 
@@ -16,13 +16,12 @@ interface ExpandableDataInterface {
     fun collapse() {
         isExpanded = false
     }
+
+    fun toggle() {
+        isExpanded = !isExpanded
+    }
 }
 
-/**
- * Поддерживает множество выделений
- */
-class ExpandableData<T>(override var data: T)
-    : DataWrapperInterface<T>, ExpandableDataInterface {
-
-    override var isExpanded: Boolean = false
-}
+data class ExpandableData<T>(override var data: T,
+                             override var isExpanded: Boolean = false)
+    : DataWrapperInterface<T>, ExpandableDataInterface

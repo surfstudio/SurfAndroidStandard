@@ -16,10 +16,12 @@ interface VisibleDataInterface {
     fun hide() {
         isVisible = false
     }
+
+    fun toggle() {
+        isVisible = !isVisible
+    }
 }
 
-class VisibleData<T>(override var data: T)
-    : DataWrapperInterface<T>, VisibleDataInterface {
-
-    override var isVisible: Boolean = true
-}
+data class VisibleData<T>(override var data: T,
+                          override var isVisible: Boolean = true)
+    : DataWrapperInterface<T>, VisibleDataInterface
