@@ -1,4 +1,6 @@
 <#import "macros/select_type_view_macros.ftl" as superClass>
+<#import "macros/fragment_view_macros.ftl" as fragmentView>
+
 package ${packageName};
 
 import android.os.Bundle;
@@ -98,7 +100,7 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     public void onCreate(@Nullable Bundle savedInstanceState,
                          @Nullable PersistableBundle persistentState,
                          boolean viewRecreated) {
-        findViews(getWindow().getDecorView());
+        findViews();
     <#else>
     @Override
     public void onActivityCreated(Bundle savedInstanceState, boolean viewRecreated) {
@@ -140,18 +142,18 @@ public class ${className}${screenTypeCapitalized}View extends <@superClass.selec
     </#if>
     }
 
-    private void findViews(View view) {
+    private void findViews(<#if screenType=='fragment'>View view</#if>) {
         <#if generateToolbar>
-        toolbar = view.findViewById(R.id.toolbar);
+        toolbar = <@fragmentView.fragmentView/>findViewById(R.id.toolbar);
         </#if>
         <#if (screenType=='activity' && typeViewActivity!='1') || (screenType=='fragment' && typeViewFragment!='1')>
-        placeHolderView = view.findViewById(R.id.placeholder);
+        placeHolderView = <@fragmentView.fragmentView/>findViewById(R.id.placeholder);
         </#if>
         <#if (screenType=='activity' && typeViewActivity=='3') || (screenType=='fragment' && typeViewFragment=='3')>
-        swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        swipeRefreshLayout = <@fragmentView.fragmentView/>findViewById(R.id.swipe_refresh);
         </#if>
         <#if generateRecyclerView>
-        recyclerView = view.findViewById(R.id.recycler);
+        recyclerView = <@fragmentView.fragmentView/>findViewById(R.id.recycler);
         </#if>
     }
     <#if generateToolbar>
