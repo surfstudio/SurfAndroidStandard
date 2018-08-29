@@ -12,10 +12,10 @@ import ru.surfstudio.android.utilktx.data.wrapper.filterAndApply
  *
  * @param collapseAnotherIfNeed необходимо ли свернуть другие, если необходимо
  */
-fun <T, E> Collection<E>.toggle(predicate: (T) -> Boolean, collapseAnotherIfNeed: Boolean = false)
+fun <T, E> Collection<E>.toggleExpandable(predicate: (T) -> Boolean, collapseAnotherIfNeed: Boolean = false)
         where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
     if (collapseAnotherIfNeed) collapseAll()
-    filterAndApply(this, { predicate(it) }, { it.toggle() })
+    filterAndApply(this, { predicate(it) }, { it.toggleExpandable() })
 }
 
 /**

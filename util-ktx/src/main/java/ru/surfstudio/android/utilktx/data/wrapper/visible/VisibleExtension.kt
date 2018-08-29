@@ -10,9 +10,9 @@ import ru.surfstudio.android.utilktx.data.wrapper.filterAndApply
 /**
  * Изменить состояние элемента на противоположный, используя предикат
  */
-fun <T, E> Collection<E>.toggle(predicate: (T) -> Boolean)
+fun <T, E> Collection<E>.toggleVisibility(predicate: (T) -> Boolean)
         where E : DataWrapperInterface<T>, E : VisibleDataInterface {
-    filterAndApply(this, { predicate(it) }, { it.toggle() })
+    filterAndApply(this, { predicate(it) }, { it.toggleVisibility() })
 }
 
 /**
@@ -34,9 +34,9 @@ fun <T, E> Collection<E>.hide(predicate: (T) -> Boolean)
 /**
  * Изменить состояние элемента на противоположный
  */
-fun <T, E> Collection<E>.toggle(value: T)
+fun <T, E> Collection<E>.toggleVisibility(value: T)
         where E : DataWrapperInterface<T>, E : VisibleDataInterface {
-    toggle(predicate = { it == value })
+    toggleVisibility(predicate = { it == value })
 }
 
 /**

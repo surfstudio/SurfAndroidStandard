@@ -17,7 +17,7 @@ interface VisibleDataInterface {
         isVisible = false
     }
 
-    fun toggle() {
+    fun toggleVisibility() {
         isVisible = !isVisible
     }
 }

@@ -17,7 +17,7 @@ interface ExpandableDataInterface {
         isExpanded = false
     }
 
-    fun toggle() {
+    fun toggleExpandable() {
         isExpanded = !isExpanded
     }
 }
