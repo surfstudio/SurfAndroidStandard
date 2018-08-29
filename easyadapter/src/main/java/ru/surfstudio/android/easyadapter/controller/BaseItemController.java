@@ -18,8 +18,6 @@ package ru.surfstudio.android.easyadapter.controller;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import java.util.Random;
-
 import ru.surfstudio.android.easyadapter.EasyAdapter;
 import ru.surfstudio.android.easyadapter.ItemList;
 import ru.surfstudio.android.easyadapter.item.BaseItem;
@@ -33,18 +31,13 @@ import ru.surfstudio.android.easyadapter.item.BaseItem;
 public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I extends BaseItem> {
 
     public static final long NO_ID = RecyclerView.NO_ID;
-    private int uniqueControllerInstanceId;
-
-    public BaseItemController() {
-        uniqueControllerInstanceId = new Random().nextInt();
-    }
 
     public abstract void bind(H holder, I item);
 
     public abstract H createViewHolder(ViewGroup parent);
 
     public int viewType() {
-        return getClass().getCanonicalName().hashCode() + uniqueControllerInstanceId;
+        return getClass().getCanonicalName().hashCode();
     }
 
     /**

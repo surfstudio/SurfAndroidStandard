@@ -1,0 +1,39 @@
+// Список модулей android-standard.
+// Здесь можно оставить только те модули, которые нужны приложению
+
+gradle.ext {
+    androidStandard = [
+            modules: ["core-ui",
+                      "core-mvp",
+                      "core-mvp-binding",
+                      "core-app",
+                      "mvp-dialog",
+                      "mvp-widget",
+                      "easyadapter",
+                      "analytics",
+                      "firebase-analytics",
+                      "network",
+                      "filestorage",
+                      "push",
+                      "dagger-scope",
+                      "logger",
+                      "converter-gson",
+                      "imageloader",
+                      "animations",
+                      "picture-provider",
+                      "camera-view",
+                      "app-migration",
+                      "connection",
+                      "custom-view",
+                      "datalist-limit-offset",
+                      "datalist-page-count",
+                      "recycler-extension",
+                      "rx-extension",
+                      "shared-pref",
+                      "util-ktx",
+                      "standard-dialog",
+                      "message-controller",
+                      "broadcast-extension"
+            ]
+    ]
+}

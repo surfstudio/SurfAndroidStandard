@@ -3,7 +3,14 @@ package ru.surfstudio.android.logger.logging_strategies.impl.timber
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import timber.log.Timber
 
+/**
+ * Стратегия для логгирования с использованием Timber
+ */
 class TimberLoggingStrategy : LoggingStrategy {
+
+    init {
+        Timber.plant(Timber.DebugTree())
+    }
 
     override fun log(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {
         setClickableLink()
