@@ -1,3 +1,5 @@
+<#import "macros/import_r_class_macros.ftl" as importRMacros>
+
 package ${packageName};
 
 import android.os.Bundle;
@@ -6,6 +8,9 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+<@importRMacros.importRClass />;
+
+import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment;
 
 public class ${className}Dialog extends CoreSimpleDialogFragment {
 
