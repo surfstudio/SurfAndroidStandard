@@ -18,6 +18,8 @@ package ru.surfstudio.android.location.exceptions
 /**
  * Исключение, возникающее, если Google Play Services недоступны.
  *
- * @param connectionResult результат подключения при проверке доступности Google Play Services.
+ * @param connectionResult {@link ConnectionResult} результат подключения при проверке доступности Google Play Services.
+ * Может быть одним из следующих значений: SERVICE_MISSING, SERVICE_UPDATING, SERVICE_VERSION_UPDATE_REQUIRED,
+ * SERVICE_DISABLED, SERVICE_INVALID
  */
 class PlayServicesAreNotAvailableException(val connectionResult: Int) : RuntimeException()

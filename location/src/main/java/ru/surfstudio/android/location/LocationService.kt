@@ -18,6 +18,8 @@ package ru.surfstudio.android.location
 import android.content.Context
 import android.location.Location
 import android.support.annotation.RequiresPermission
+import io.reactivex.Completable
+import io.reactivex.CompletableEmitter
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.exceptions.CompositeException
@@ -101,7 +103,22 @@ class LocationService(context: Context) {
     /**
      * Проверить возможность получения местоположения.
      *
-     * @return [List], содержащий исключения связанные с невозможностью получения местоположения.
+     * @param priority приоритет при получении местоположения.
+     *
+     * @return [Completable], вызывающий onComplete, если есть возможность получить местоположение, или onError,
+     * содержащий [CompositeException] с исключениями, связанными с невозможностью получения местоположения.
      */
-    fun checkLocationAvailability(): List<Exception> = locationService.checkLocationAvailability()
+    fun checkLocationAvailability(priority: LocationPriority): Completable =
+            Completable.create { completableEmitter: CompletableEmitter ->
+                locationService.checkLocationAvailability(
+                        priority,
+                        onResultAction = { exceptions ->
+                            if (exceptions.isEmpty()) {
+                                completableEmitter.onComplete()
+                            } else {
+                                completableEmitter.onError(CompositeException(exceptions))
+                            }
+                        }
+                )
+            }
 }

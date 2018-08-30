@@ -2,6 +2,7 @@ package ru.surfstudio.android.location
 
 import android.content.Context
 import android.location.Location
+import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
@@ -14,6 +15,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
 
 private const val DEFAULT_RELEVANCE_TIME_MILLIS = 5_000L
+private val DEFAULT_LOCATION_PRIORITY = LocationPriority.BALANCED_POWER_ACCURACY
 
 /**
  * Интерактор, содержащий методы для наиболее частых случаев использования. Для более гибкой настройки следует
@@ -68,9 +70,10 @@ class DefaultLocationInteractor(
     /**
      * Проверить возможность получения местоположения.
      *
-     * @return [List], содержащий исключения связанные с невозможностью получения местоположения.
+     * @return [Completable], вызывающий onComplete, если есть возможность получить местоположение, или onError,
+     * содержащий [List] с исключениями, связанными с невозможностью получения местоположения.
      */
-    fun checkLocationAvailability() = locationService.checkLocationAvailability()
+    fun checkLocationAvailability(): Completable = locationService.checkLocationAvailability(DEFAULT_LOCATION_PRIORITY)
 
     private fun observeLastKnownLocationWithErrorResolution(
             resolutions: Array<out LocationErrorResolution<*>>
@@ -89,7 +92,7 @@ class DefaultLocationInteractor(
         return if (relevantLastCurrentLocation != null) {
             Single.just(relevantLastCurrentLocation)
         } else {
-            locationService.observeLocationUpdates(0, 0, LocationPriority.HIGH_ACCURACY, *resolutions)
+            locationService.observeLocationUpdates(0, 0, DEFAULT_LOCATION_PRIORITY, *resolutions)
                     .firstOrError()
                     .doOnSuccess {
                         lastCurrentLocation = it

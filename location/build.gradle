@@ -4,5 +4,5 @@ dependencies {
     compileOnly project(':core-ui')
     compileOnly project(':rx-extension')
 
-    implementation "com.google.android.gms:play-services-location:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-location:15.0.1"
 }

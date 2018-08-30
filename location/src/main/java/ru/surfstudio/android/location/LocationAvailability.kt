@@ -22,23 +22,28 @@ import android.location.LocationManager
 import android.support.v4.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import ru.surfstudio.android.location.exceptions.LocationProvidersAreDisabledException
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
 
 /**
  * Помощник для проверки возможности получения местоположения.
  */
-class LocationAvailability(private val context: Context) {
+internal class LocationAvailability(private val context: Context) {
 
     private val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
     /**
      * Проверить возможность получения местоположения.
      *
-     * @return [List], содержащий исключения связанные с невозможностью получения местоположения.
+     * @param priority приоритет при получении местоположения.
+     * @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
+     * невозможностью получения местоположения. Если список пуст - есть возможность получить местоположение.
      */
-    fun checkLocationAvailability(): List<Exception> {
+    fun checkLocationAvailability(priority: LocationPriority?, onResultAction: (List<Exception>) -> Unit) {
         val exceptions = arrayListOf<Exception>()
 
         val connectionResult = getGooglePlayServicesConnection()
@@ -46,15 +51,16 @@ class LocationAvailability(private val context: Context) {
             exceptions.add(PlayServicesAreNotAvailableException(connectionResult))
         }
 
-        if (!isLocationPermissionGranted()) {
+        if (!isLocationPermissionGrantedForPriority(priority)) {
             exceptions.add(NoLocationPermissionException())
         }
 
-        if (!isAnyLocationProviderEnabled()) {
-            exceptions.add(LocationProvidersAreDisabledException())
-        }
-
-        return exceptions
+        checkLocationSettings(priority, onResultAction = { exception ->
+            if (exception != null) {
+                exceptions.add(exception)
+            }
+            onResultAction(exceptions)
+        })
     }
 
     /**
@@ -65,6 +71,16 @@ class LocationAvailability(private val context: Context) {
      */
     fun getGooglePlayServicesConnection(): Int =
             GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context)
+
+    /**
+     * Проверить, выдано ли разрешение на доступ к местоположению для соответствующего [LocationPriority]
+     */
+    fun isLocationPermissionGrantedForPriority(priority: LocationPriority?) =
+            if (priority == LocationPriority.HIGH_ACCURACY) {
+                isFineLocationPermissionGranted()
+            } else {
+                isLocationPermissionGranted()
+            }
 
     /**
      * Проверить, выдано ли разрешение на доступ к местоположению.
@@ -98,4 +114,22 @@ class LocationAvailability(private val context: Context) {
 
     private fun isPermissionGranted(permission: String) =
             ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+
+    private fun checkLocationSettings(priority: LocationPriority?, onResultAction: (Exception?) -> Unit) {
+        val locationRequest = LocationUtil.createLocationRequest(priority = priority)
+        val locationSettingsRequest = createLocationSettingsRequest(locationRequest)
+
+        LocationServices
+                .getSettingsClient(context)
+                .checkLocationSettings(locationSettingsRequest)
+                .addOnSuccessListener { _ -> onResultAction(null) }
+                .addOnFailureListener { exception -> onResultAction(exception) }
+
+    }
+
+    private fun createLocationSettingsRequest(locationRequest: LocationRequest) =
+            LocationSettingsRequest.Builder()
+                    .addLocationRequest(locationRequest)
+                    .setAlwaysShow(false)
+                    .build()
 }

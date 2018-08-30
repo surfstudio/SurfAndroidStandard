@@ -26,7 +26,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.Locat
 /**
  * Поставщик местоположения.
  */
-class LocationProvider(private val context: Context) {
+internal class LocationProvider(private val context: Context) {
 
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     private val locationAvailability = LocationAvailability(context)
@@ -111,26 +111,36 @@ class LocationProvider(private val context: Context) {
     }
 
     /**
-     * Проверить возможность получения меcтоположения.
+     * Проверить возможность получения местоположения.
      *
-     * @return [List], содержащий исключения связанные с невозможностью получения меcтоположения.
+     * @param priority приоритет при получении местоположения.
+     * @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
+     * невозможностью получения местоположения. Если список пуст - есть возможность получить местоположение.
      */
-    fun checkLocationAvailability(): List<Exception> = locationAvailability.checkLocationAvailability()
+    fun checkLocationAvailability(priority: LocationPriority, onResultAction: (List<Exception>) -> Unit) =
+            locationAvailability.checkLocationAvailability(priority, onResultAction)
 
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
-    private fun requestLastKnownLocation(onSuccessAction: (Location?) -> Unit, onFailureAction: (List<Exception>) -> Unit) {
-        val exceptions = locationAvailability.checkLocationAvailability()
-        if (exceptions.isNotEmpty()) {
-            onFailureAction(exceptions)
-            return
-        }
+    private fun requestLastKnownLocation(
+            onSuccessAction: (Location?) -> Unit,
+            onFailureAction: (List<Exception>) -> Unit
+    ) {
+        locationAvailability.checkLocationAvailability(
+                null,
+                onResultAction = { exceptions ->
+                    if (exceptions.isNotEmpty()) {
+                        onFailureAction(exceptions)
+                        return@checkLocationAvailability
+                    }
 
-        fusedLocationClient
-                .lastLocation
-                .addOnSuccessListener { location -> onSuccessAction(location) }
-                .addOnFailureListener { exception -> onFailureAction(listOf(exception)) }
+                    fusedLocationClient
+                            .lastLocation
+                            .addOnSuccessListener { location -> onSuccessAction(location) }
+                            .addOnFailureListener { exception -> onFailureAction(listOf(exception)) }
+                }
+        )
     }
 
     @RequiresPermission(
@@ -143,61 +153,25 @@ class LocationProvider(private val context: Context) {
             onLocationUpdateAction: (Location?) -> Unit,
             onFailureAction: (List<Exception>) -> Unit
     ): LocationUpdatesSubscription? {
-        val exceptions = locationAvailability.checkLocationAvailability()
-        if (exceptions.isNotEmpty()) {
-            onFailureAction(exceptions)
-            return null
-        }
-
-        val locationRequest = createLocationRequest(intervalMillis, fastestIntervalMillis, priority)
-        val locationSettingsRequest = createLocationSettingsRequest(locationRequest)
         val locationCallback = createLocationCallback(onLocationUpdateAction)
 
-        LocationServices
-                .getSettingsClient(context)
-                .checkLocationSettings(locationSettingsRequest)
-                .addOnSuccessListener {
+        locationAvailability.checkLocationAvailability(
+                priority,
+                onResultAction = { exceptions ->
+                    if (exceptions.isNotEmpty()) {
+                        onFailureAction(exceptions)
+                        return@checkLocationAvailability
+                    }
+
+                    val locationRequest =
+                            LocationUtil.createLocationRequest(intervalMillis, fastestIntervalMillis, priority)
+
                     fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
                 }
-                .addOnFailureListener { exception -> onFailureAction(listOf(exception)) }
+        )
 
         return LocationUpdatesSubscription(locationCallback)
     }
-
-    private fun createLocationRequest(
-            intervalMillis: Long?,
-            fastestIntervalMillis: Long?,
-            priority: LocationPriority?
-    ): LocationRequest {
-        val locationRequest = LocationRequest()
-
-        if (intervalMillis != null) {
-            locationRequest.interval = intervalMillis
-        }
-
-        if (fastestIntervalMillis != null) {
-            locationRequest.fastestInterval = fastestIntervalMillis
-        }
-
-        if (priority != null) {
-            locationRequest.priority = locationPriorityToInt(priority)
-        }
-
-        return locationRequest
-    }
-
-    private fun locationPriorityToInt(locationPriority: LocationPriority) =
-            when (locationPriority) {
-                LocationPriority.HIGH_ACCURACY -> LocationRequest.PRIORITY_HIGH_ACCURACY
-                LocationPriority.BALANCED_POWER_ACCURACY -> LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-                LocationPriority.LOW_POWER -> LocationRequest.PRIORITY_LOW_POWER
-                LocationPriority.NO_POWER -> LocationRequest.PRIORITY_NO_POWER
-            }
-
-    private fun createLocationSettingsRequest(locationRequest: LocationRequest) =
-            LocationSettingsRequest.Builder()
-                    .addLocationRequest(locationRequest)
-                    .build()
 
     private fun createLocationCallback(onLocationUpdateAction: (Location?) -> Unit): LocationCallback =
             object : LocationCallback() {
