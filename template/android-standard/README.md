@@ -1,5 +1,4 @@
 #Скрипты с механизмом подключения модулей Android Standard
-Все используемые в проекте модули android-standard следует указывать в ```androidStandardModules.gradle```
 
 Скрипты позволяют переключаться между локальным искодным кодом android-standard и артефактами из artifactory.
 Использование локального исходного кода позволит быстро тестировать изменения в android-standard на своем проекте без деплоя артефактов.
@@ -27,8 +26,19 @@ androidStandardDebugMode=false       # флаг для активации реж
 
 + **build.gradle** уровня модуля приложения
 
-В конец данного файла необходимо добавить строку ```apply from: '../android-standard/androidStandardDependencies.gradle'```
-для подключения модулей android-standard локально или из artifactory.
+Добавить модули android-standard следующим образом:
+```
+dependencies {
+    // other dependencies
+
+    gradle.ext.androidStandard.api(this, [
+                    "core-ui",     // массив модулей android-standard, который необходимо подключить к текущему модулю
+                    "core-mvp",
+                    "core-app"
+            ]
+    )
+}
+```
 
 + **gitignore** уровня проекта
 Добавить ```/android-standard/androidStandard.properties```
