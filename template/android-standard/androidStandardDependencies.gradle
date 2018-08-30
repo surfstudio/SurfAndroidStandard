@@ -5,15 +5,13 @@ apply from: '../config.gradle'
 gradle.ext.addApi = { context, modules ->
     context.dependencies {
         modules.each {
-            logger.error("$it")
-            logger.error("ru.surfstudio.android:$it:$surfCoreVersionName")
             if (!gradle.ext.androidStandard["debugEnabled"]) {
                 // Подключение модулей из artifactory
                 api "ru.surfstudio.android:$it:$surfCoreVersionName"
             } else {
                 // Подключение модулей из локального репозитория для отладки
                 def moduleName = gradle.ext.androidStandard["debugModuleName"]("$it")
-                api project(":$moduleName")
+                api context.project(":$moduleName")
             }
         }
     }
