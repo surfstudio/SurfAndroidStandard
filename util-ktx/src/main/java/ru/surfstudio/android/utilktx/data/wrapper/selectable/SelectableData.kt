@@ -18,8 +18,6 @@ interface SelectableDataInterface {
  * Поддерживает одиночное выделение, используется в extension-функциях. [SelectableExtension]
  * Если необходимо множественное выделение -> смотри [CheckableData]
  */
-class SelectableData<T>(override var data: T)
-    : DataWrapperInterface<T>, SelectableDataInterface {
-
-    override var isSelected: Boolean = false
-}
+data class SelectableData<T>(override var data: T,
+                             override var isSelected: Boolean = false)
+    : DataWrapperInterface<T>, SelectableDataInterface

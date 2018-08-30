@@ -31,11 +31,9 @@ interface LoadableDataInterface {
             loadStatus == LoadStatus.ERROR
 }
 
-class LoadableData<T>(override var data: T)
-    : DataWrapperInterface<T>, LoadableDataInterface {
-
-    override var loadStatus: LoadStatus = LoadStatus.NORMAL
-}
+data class LoadableData<T>(override var data: T,
+                           override var loadStatus: LoadStatus = LoadStatus.NORMAL)
+    : DataWrapperInterface<T>, LoadableDataInterface
 
 enum class LoadStatus {
     NORMAL, //обычное состояние

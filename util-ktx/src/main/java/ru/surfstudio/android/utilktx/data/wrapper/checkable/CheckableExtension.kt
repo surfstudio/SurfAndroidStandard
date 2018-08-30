@@ -11,6 +11,17 @@ import ru.surfstudio.android.utilktx.data.wrapper.filterAndApply
  */
 
 /**
+ * Изменить выделение для <T> на противоположный,
+ * удовлетворающее предикату
+ *
+ * @param (T) -> Boolean
+ */
+fun <T, E> Collection<E>.toggleChecked(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
+    filterAndApply(this, { predicate(it) }, { it.toggleChecked() })
+}
+
+/**
  * Поставить выделение для <T>, удовлетворающее предикату
  *
  * @param (T) -> Boolean
@@ -28,6 +39,15 @@ fun <T, E> Collection<E>.setCheck(predicate: (T) -> Boolean)
 fun <T, E> Collection<E>.setUncheck(predicate: (T) -> Boolean)
         where E : DataWrapperInterface<T>, E : CheckableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.isChecked = false })
+}
+
+/**
+ * Изменить выделение для <T> на противоположный
+ * @param T
+ */
+fun <T, E> Collection<E>.toggleChecked(value: T)
+        where E : DataWrapperInterface<T>, E : CheckableDataInterface {
+    toggleChecked(predicate = { it == value })
 }
 
 /**
