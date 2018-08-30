@@ -43,7 +43,7 @@ gradle.ext {
     androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
 
     // Функция для подключения модулей android-standard
-    androidStandard.addApi = { context, modules ->
+    androidStandard.api = { context, modules ->
         context.dependencies {
             modules.each {
                 if (!gradle.ext.androidStandard.debugEnabled) {
