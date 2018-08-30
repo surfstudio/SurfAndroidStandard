@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Location sample</string>
+    <string name="show_last_known_location">Показать последнее местоположение</string>
+    <string name="show_last_known_location_with_error_resolving">Показать последнее местоположение с решением возникающих проблем</string>
+    <string name="show_current_location">Показать текущее местоположение (с заданой актуальностью 10 сек)</string>
+    <string name="show_current_location_with_error_resolving">Показать текущее местоположение с решением возникающих проблем (с заданой актуальностью 10 сек)</string>
+    <string name="check_location_availability">Проверить возможность получения местоположения</string>
+    <string name="apply_resolutions_to_location_requests">Применить решения при запросе местоположения:</string>
+    <string name="no_location_reprmission_resolution">NoLocationPermissionResolution</string>
+    <string name="play_services_are_not_available_resolution">PlayServicesAreNotAvailableResolution</string>
+    <string name="resolvable_api_exception_resolution">ResolvableApiExceptionResolution</string>
+    <string name="subscribe_to_location_updates">Подписаться на получение обновлений местоположения (с заданными интервалом 1 сек и приоритетом HIGH_ACCURACY)</string>
+    <string name="unsubscribe_from_location_updates">Отписаться от получения обновлений местоположения</string>
+    <string name="default_location_interactor_sample">DefaultLocationInteractor sample</string>
+    <string name="location_service_sample">LocationService sample</string>
 </resources>

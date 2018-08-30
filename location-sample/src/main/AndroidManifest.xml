@@ -2,8 +2,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.surfstudio.android.location_sample">
     
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    
     <application
-        android:name="ru.surfstudio.standard.app.App"
+        android:name="ru.surfstudio.android.sample.dagger.app.DefaultApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,12 +13,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         
-        <activity android:name="ru.surfstudio.android.location.sample.ui.screen.main.MainActivityView">
+        <activity
+            android:name="ru.surfstudio.android.location.sample.ui.screen.start.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="ru.surfstudio.android.location.sample.ui.screen.default_location_interactor_sample.DefaultLocationInteractorActivityView"
+            android:screenOrientation="portrait"/>
+        
+        <activity
+            android:name="ru.surfstudio.android.location.sample.ui.screen.location_service_sample.LocationServiceActivityView"
+            android:screenOrientation="portrait"/>
         
     </application>
     

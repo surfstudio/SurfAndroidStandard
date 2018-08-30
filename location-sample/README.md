@@ -1,2 +1,2 @@
 #Location sample
-Пример использования [location](../location)
+Пример использования модуля [location](../location)
