@@ -1,5 +1,8 @@
 package ru.surfstudio.android.logger.remote_logging_strategies
 
+/**
+ * Интерфейс для стратегий логгирования на удаленный сервер
+ */
 interface RemoteLoggingStrategy {
 
     fun setUser(id: String?, username: String?, email: String?)

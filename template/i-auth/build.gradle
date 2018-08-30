@@ -1,4 +1,4 @@
-apply from: '../androidInteractorModule.gradle'
+apply from: '../commonInteractorModule.gradle'
 
 dependencies {
     implementation project(':template:i-network')
