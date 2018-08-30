@@ -31,9 +31,7 @@ androidStandardDebugMode=false       # флаг для активации реж
 dependencies {
     // other dependencies
 
-    gradle.ext.androidStandard.addApi(
-            this,
-            [
+    gradle.ext.androidStandard.api(this, [
                     "core-ui",     // массив модулей android-standard, который необходимо подключить к текущему модулю
                     "core-mvp",
                     "core-app"
