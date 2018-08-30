@@ -17,9 +17,7 @@ dependencies {
         transitive = true
     }
 
-    gradle.ext.androidStandard.addApi(
-            this,
-            [
+    gradle.ext.androidStandard.addApi(this, [
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
