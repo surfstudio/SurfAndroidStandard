@@ -1,3 +1,5 @@
+apply from: '../config.gradle'
+
 // Скрипт для чтения и экспорта properties для дальнейшей настройки сборки
 
 // Директория для локальной загрузки android-standard
@@ -38,7 +40,21 @@ gradle.ext {
     ]
 
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
-    androidStandard.debugEnabled = gradle.ext.androidStandard["debugDir"] != null && gradle.ext.androidStandard["debugMode"]
-}
+    androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
 
-apply from: 'androidStandardDependencies.gradle'
+    // Функция для подключения модулей android-standard
+    androidStandard.addApi = { context, modules ->
+        context.dependencies {
+            modules.each {
+                if (!gradle.ext.androidStandard.debugEnabled) {
+                    // Подключение модулей из artifactory
+                    api "ru.surfstudio.android:$it:$surfCoreVersionName"
+                } else {
+                    // Подключение модулей из локального репозитория для отладки
+                    def moduleName = gradle.ext.androidStandard.debugModuleName("$it")
+                    api context.project(":$moduleName")
+                }
+            }
+        }
+    }
+}

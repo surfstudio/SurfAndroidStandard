@@ -17,7 +17,7 @@ dependencies {
         transitive = true
     }
 
-    gradle.ext.addApi(
+    gradle.ext.androidStandard.addApi(
             this,
             [
                     "core-ui",
