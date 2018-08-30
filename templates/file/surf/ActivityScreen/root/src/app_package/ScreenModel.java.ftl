@@ -3,12 +3,18 @@ package ${packageName};
 
 import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
 import ru.surfstudio.android.core.mvp.model.LdsSwrScreenModel;
+import ru.surfstudio.android.core.mvp.model.LdsSwrPgnScreenModel;
 import ru.surfstudio.android.core.mvp.model.ScreenModel;
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList;
+import java.util.*;
 
+/**
+ * Модель экрана todo
+ */
 @Data
 class ${className}ScreenModel extends <@superClass.selectTypeScreenModel /> {
     <#if generateRecyclerView>
-            <#if (screenType=='activity' && usePaginationableAdapter) || (screenType=='fragment' && usePaginationableAdapter)>
+            <#if usePaginationableAdapter>
                 private DataList<${nameTypeData}> itemList = DataList.empty();
             <#else>
                 private List<${nameTypeData}> itemList = Collections.emptyList();

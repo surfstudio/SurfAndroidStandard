@@ -5,6 +5,10 @@ import android.util.Log
 import ru.surfstudio.android.logger.RemoteLogger
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 
+/**
+ * Стратегия для логгирования с использованием RemoteLogger для тех сообщений,
+ * приоритет которых начинается с Log.DEBUG
+ */
 class RemoteLoggerLoggingStrategy : LoggingStrategy {
 
     private val explicitTag = ThreadLocal<String>()

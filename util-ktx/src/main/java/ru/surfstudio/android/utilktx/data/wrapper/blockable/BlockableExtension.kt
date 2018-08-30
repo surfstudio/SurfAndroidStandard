@@ -8,6 +8,15 @@ import ru.surfstudio.android.utilktx.data.wrapper.filterAndApply
  */
 
 /**
+ * Изменить блокировку value на противоположный,
+ * используя предикат
+ */
+fun <T, E> Collection<E>.toggleBlocked(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : BlockableDataInterface {
+    filterAndApply(this, { predicate(it) }, { it.toggleBlocked() })
+}
+
+/**
  * Блокировать value, используя предикат
  */
 fun <T, E> Collection<E>.setBlocked(predicate: (T) -> Boolean)
@@ -21,6 +30,14 @@ fun <T, E> Collection<E>.setBlocked(predicate: (T) -> Boolean)
 fun <T, E> Collection<E>.setUnblocked(predicate: (T) -> Boolean)
         where E : DataWrapperInterface<T>, E : BlockableDataInterface {
     filterAndApply(this, { predicate(it) }, { it.unblock() })
+}
+
+/**
+ * Изменить блокировку value на противоположный
+ */
+fun <T, E> Collection<E>.toggleBlocked(value: T)
+        where E : DataWrapperInterface<T>, E : BlockableDataInterface {
+    toggleBlocked(predicate = { it == value })
 }
 
 /**

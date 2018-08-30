@@ -18,8 +18,6 @@ interface CheckableDataInterface {
  * Поддерживает множество выделений, через расширение коллекций
  * Если необходимо одиночное выделение -> смотри [SelectableData]
  */
-class CheckableData<T>(override var data: T)
-    : DataWrapperInterface<T>, CheckableDataInterface {
-
-    override var isChecked: Boolean = false
-}
+data class CheckableData<T>(override var data: T,
+                            override var isChecked: Boolean = false)
+    : DataWrapperInterface<T>, CheckableDataInterface

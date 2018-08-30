@@ -16,10 +16,12 @@ interface BlockableDataInterface {
     fun unblock() {
         isBlocked = false
     }
+
+    fun toggleBlocked() {
+        isBlocked = !isBlocked
+    }
 }
 
-class BlockableData<T>(override var data: T)
-    : DataWrapperInterface<T>, BlockableDataInterface {
-
-    override var isBlocked: Boolean = false
-}
+data class BlockableData<T>(override var data: T,
+                            override var isBlocked: Boolean = false)
+    : DataWrapperInterface<T>, BlockableDataInterface

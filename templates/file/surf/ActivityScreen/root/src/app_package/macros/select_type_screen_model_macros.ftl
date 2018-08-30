@@ -1,7 +1,9 @@
 <#-- Макрос выбора от какого класcа наследоваться в ScreenModel -->
 <#macro selectTypeScreenModel>
 	<#if generateKotlin>
-		<#if screenType=='activity'>
+		<#if usePaginationableAdapter>
+				LdsSwrPgnScreenModel()
+		<#elseif screenType=='activity'>
 			<#if typeViewActivity=='1'>
    				ScreenModel()
 			<#elseif typeViewActivity=='2'>
@@ -19,7 +21,9 @@
 			</#if>
 		</#if>
 	<#else>
-		<#if screenType=='activity'>
+		<#if usePaginationableAdapter>
+				LdsSwrPgnScreenModel
+		<#elseif screenType=='activity'>
 			<#if typeViewActivity=='1'>
     			ScreenModel
 			<#elseif typeViewActivity=='2'>

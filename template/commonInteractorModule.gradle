@@ -1,4 +1,4 @@
-apply from: '../androidModule.gradle'
+apply from: '../commonModule.gradle'
 
 dependencies {
     implementation project(':template:base')
