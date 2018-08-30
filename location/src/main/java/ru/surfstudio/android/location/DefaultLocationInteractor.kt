@@ -1,6 +1,5 @@
 package ru.surfstudio.android.location
 
-import android.content.Context
 import android.location.Location
 import io.reactivex.Completable
 import io.reactivex.Maybe
@@ -22,16 +21,13 @@ private val DEFAULT_LOCATION_PRIORITY = LocationPriority.BALANCED_POWER_ACCURACY
  * использовать [LocationService].
  */
 class DefaultLocationInteractor(
-        context: Context,
         permissionManager: PermissionManager,
         screenEventDelegateManager: ScreenEventDelegateManager,
-        activityProvider: ActivityProvider
+        activityProvider: ActivityProvider,
+        private val locationService: LocationService
 ) {
 
-    private val locationService = LocationService(context)
-
     private var lastCurrentLocation: Location? = null
-    private var lastCurrentLocationRequestTimeMillis: Long? = null
 
     private val resolutions = arrayOf(
             NoLocationPermissionResolution(permissionManager),
@@ -79,10 +75,7 @@ class DefaultLocationInteractor(
             resolutions: Array<out LocationErrorResolution<*>>
     ): Maybe<Location> =
             locationService.observeLastKnownLocation(*resolutions)
-                    .doOnSuccess {
-                        lastCurrentLocation = it
-                        lastCurrentLocationRequestTimeMillis = System.currentTimeMillis()
-                    }
+                    .doOnSuccess { lastCurrentLocation = it }
 
     private fun observeCurrentLocationWithErrorResolution(
             relevanceTimeoutMillis: Long,
@@ -94,18 +87,14 @@ class DefaultLocationInteractor(
         } else {
             locationService.observeLocationUpdates(0, 0, DEFAULT_LOCATION_PRIORITY, *resolutions)
                     .firstOrError()
-                    .doOnSuccess {
-                        lastCurrentLocation = it
-                        lastCurrentLocationRequestTimeMillis = System.currentTimeMillis()
-                    }
+                    .doOnSuccess { lastCurrentLocation = it }
         }
     }
 
     private fun getRelevantLastCurrentLocationOrNull(relevanceTimeoutMillis: Long): Location? {
         val nonNullLastCurrentLocation = lastCurrentLocation ?: return null
-        val nonNullRequestTimeMillis = lastCurrentLocationRequestTimeMillis ?: return null
         val currentTimeMillis = System.currentTimeMillis()
-        val requestDeltaTimeMillis = currentTimeMillis - nonNullRequestTimeMillis
+        val requestDeltaTimeMillis = currentTimeMillis - nonNullLastCurrentLocation.time
 
         return if (requestDeltaTimeMillis > relevanceTimeoutMillis) {
             null

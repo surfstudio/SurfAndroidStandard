@@ -81,7 +81,7 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exc
         clearArgs()
     }
 
-    inner class ResolutionActivityResultDelegate : ActivityResultDelegate {
+    private inner class ResolutionActivityResultDelegate : ActivityResultDelegate {
 
         override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
             if (this@BaseLocationErrorResolutionWithActivityResultDelegateImpl.requestCode != requestCode) {

@@ -13,6 +13,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.DefaultLocationInteractor
+import ru.surfstudio.android.location.LocationService
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
@@ -31,17 +32,18 @@ class DefaultLocationInteractorScreenConfigurator(intent: Intent) : DefaultActiv
             ScreenComponent<DefaultLocationInteractorActivityView>
 
     @Module
-    internal class DefaultLocationInteractorScreenModule(
-            route: DefaultLocationInteractorActivityRoute
-    ) : DefaultCustomScreenModule<DefaultLocationInteractorActivityRoute>(route) {
+    internal class DefaultLocationInteractorScreenModule {
+
+        @Provides
+        fun provideLocationService(context: Context) = LocationService(context)
 
         @Provides
         fun provideDefaultLocationInteractor(
-                context: Context,
                 permissionManager: PermissionManager,
                 screenEventDelegateManager: ScreenEventDelegateManager,
-                activityProvider: ActivityProvider
-        ) = DefaultLocationInteractor(context, permissionManager, screenEventDelegateManager, activityProvider)
+                activityProvider: ActivityProvider,
+                locationService: LocationService
+        ) = DefaultLocationInteractor(permissionManager, screenEventDelegateManager, activityProvider, locationService)
 
         @Provides
         fun provideDefaultLocationInteractorPresenter(
@@ -63,9 +65,7 @@ class DefaultLocationInteractorScreenConfigurator(intent: Intent) : DefaultActiv
         return DaggerDefaultLocationInteractorScreenConfigurator_DefaultLocationInteractorScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .defaultLocationInteractorScreenModule(
-                        DefaultLocationInteractorScreenModule(DefaultLocationInteractorActivityRoute())
-                )
+                .defaultLocationInteractorScreenModule(DefaultLocationInteractorScreenModule())
                 .build()
     }
 }

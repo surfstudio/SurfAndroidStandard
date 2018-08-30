@@ -16,7 +16,6 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
  * Конфигуратор экрана [LocationServiceActivityView]
@@ -26,21 +25,10 @@ class LocationServiceScreenConfigurator(intent: Intent) : DefaultActivityScreenC
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, LocationServiceScreenModule::class])
-    internal interface LocationServiceScreenComponent : ScreenComponent<LocationServiceActivityView> {
-
-        fun permissionManager(): PermissionManager
-
-        fun screenEventDelegateManager(): ScreenEventDelegateManager
-
-        fun schedulersProvider() : SchedulersProvider
-
-        fun activityProvider(): ActivityProvider
-    }
+    internal interface LocationServiceScreenComponent : ScreenComponent<LocationServiceActivityView>
 
     @Module
-    internal class LocationServiceScreenModule(
-            route: LocationServiceActivityRoute
-    ) : DefaultCustomScreenModule<LocationServiceActivityRoute>(route) {
+    internal class LocationServiceScreenModule {
 
         @Provides
         fun provideLocationService(context: Context) = LocationService(context)
@@ -69,7 +57,7 @@ class LocationServiceScreenConfigurator(intent: Intent) : DefaultActivityScreenC
         return DaggerLocationServiceScreenConfigurator_LocationServiceScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .locationServiceScreenModule(LocationServiceScreenModule(LocationServiceActivityRoute()))
+                .locationServiceScreenModule(LocationServiceScreenModule())
                 .build()
     }
 }
