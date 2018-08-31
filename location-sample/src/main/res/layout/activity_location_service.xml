@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:padding="12dp">
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/apply_resolutions_to_location_requests"
+                android:textColor="#000"/>
+            
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/cb_no_location_reprmission_resolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_location_reprmission_resolution"/>
+            
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/cb_play_services_are_not_available_resolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/play_services_are_not_available_resolution"/>
+            
+            <android.support.v7.widget.AppCompatCheckBox
+                android:id="@+id/cb_resolvable_api_exception_resolution"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/resolvable_api_exception_resolution"/>
+            
+            <Button
+                android:id="@+id/btn_activity_location_service_check_location_availability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/check_location_availability"/>
+            
+            <Button
+                android:id="@+id/btn_activity_location_service_show_last_known_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/show_last_known_location"/>
+            
+            <Button
+                android:id="@+id/btn_activity_location_service_subscribe_to_location_updates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/subscribe_to_location_updates"/>
+            
+            <Button
+                android:id="@+id/btn_activity_location_service_unsubscribe_from_location_updates"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/unsubscribe_from_location_updates"/>
+        
+        </LinearLayout>
+        
+        <include layout="@layout/layout_loading"/>
+        
+    </FrameLayout>
+    
+</ScrollView>

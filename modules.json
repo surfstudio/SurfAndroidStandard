@@ -123,6 +123,10 @@
     {
       "name": "message-controller",
       "path": ""
+    },
+    {
+      "name": "location",
+      "path": ""
     }
   ]
 }

@@ -87,6 +87,10 @@
     {
       "name": "standard-dialog-sample",
       "path": ""
+    },
+    {
+      "name": "location-sample",
+      "path": ""
     }
   ]
 }
