@@ -7,7 +7,7 @@ if (gradle.ext.androidStandard.debugEnabled) {
     def debugDir = gradle.ext.androidStandard.debugDir
     apply from: "$debugDir/modules.gradle"
     gradle.ext.modules.each {
-        def moduleName = gradle.ext.androidStandard.debugModuleName("$it.name")
+        def moduleName = "$it.name"
         include "$moduleName"
         project(":$moduleName").projectDir = new File("$debugDir/$it.name")
     }
