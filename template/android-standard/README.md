@@ -10,10 +10,11 @@
 
 ##Первичная настройка на конкретной машине
 
-Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
+Скопировать папку android-standard в корень проекта и добавить в нее файл ```androidStandard.properties``` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
-androidStandardDebugMode=false       # флаг для активации режима локальной загрузки репозитория android-standard
+# флаг для активации режима локальной загрузки репозитория android-standard
+androidStandardDebugMode=false
 ```
 
 ##Подключение скриптов к сборщику gradle
@@ -42,3 +43,14 @@ dependencies {
 
 + **gitignore** уровня проекта
 Добавить ```/android-standard/androidStandard.properties```
+
++ **modules.gradle** в локальном репозитории android-standard
+
+Исправить следующие строки:
+
+```
+gradle.ext {
+    modules = Module.modules('/full/path/to/local/android-standard/modules.json', 'modules')
+    samples = Module.modules('/full/path/to/local/android-standard/samples.json', 'samples')
+}
+```
