@@ -1,0 +1,11 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.test.test_module"
+    }
+}
+
+dependencies {
+    implementation project(':broadcast-extension')
+}

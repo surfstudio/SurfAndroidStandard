@@ -9,8 +9,8 @@ uploadArchives {
                     password: System.getenv('surf_maven_password'))
         }
 
-        pom.groupId = 'ru.surfstudio.android'
-        pom.artifactId = project.name
+        pom.groupId = 'ru.surfstudio.test'
+        pom.artifactId = "android-standard-test"
         pom.version = moduleVersionName
     }
 }
