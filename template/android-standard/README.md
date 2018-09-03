@@ -42,15 +42,5 @@ dependencies {
 ```
 
 + **gitignore** уровня проекта
+
 Добавить ```/android-standard/androidStandard.properties```
-
-+ **modules.gradle** в локальном репозитории android-standard
-
-Исправить следующие строки:
-
-```
-gradle.ext {
-    modules = Module.modules('/full/path/to/local/android-standard/modules.json', 'modules')
-    samples = Module.modules('/full/path/to/local/android-standard/samples.json', 'samples')
-}
-```
