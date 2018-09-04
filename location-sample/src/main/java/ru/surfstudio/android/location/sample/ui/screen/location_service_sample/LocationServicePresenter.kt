@@ -3,10 +3,11 @@ package ru.surfstudio.android.location.sample.ui.screen.location_service_sample
 import android.location.Location
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
+import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
-import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.location.LocationService
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
@@ -14,19 +15,17 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
 import ru.surfstudio.android.location.sample.ui.screen.base.BaseSamplePresenter
-import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
  * Презентер экрана [LocationServiceActivityView]
  */
 class LocationServicePresenter(
+        basePresenterDependency: BasePresenterDependency,
         screenEventDelegateManager: ScreenEventDelegateManager,
-        screenState: ScreenState,
         permissionManager: PermissionManager,
         activityProvider: ActivityProvider,
-        schedulersProvider: SchedulersProvider,
         private val locationService: LocationService
-) : BaseSamplePresenter<LocationServiceActivityView>(screenEventDelegateManager, screenState, schedulersProvider) {
+) : BaseSamplePresenter<LocationServiceActivityView>(basePresenterDependency) {
 
     private val resolutions = mutableListOf<LocationErrorResolution<*>>()
     private val noLocationPermissionResolution =
@@ -36,7 +35,7 @@ class LocationServicePresenter(
     private val resolvableApiExceptionResolution =
             ResolvableApiExceptionResolution(screenEventDelegateManager, activityProvider)
 
-    private var locationUpdatesDisposable: Disposable? = null
+    private var locationUpdatesDisposable: Disposable = Disposables.disposed()
 
     fun getLocationAvailability() {
         view.showLoading()
@@ -54,33 +53,23 @@ class LocationServicePresenter(
         val checkLocationAvailabilityCompletable: Completable =
                 locationService.checkLocationAvailability(LocationPriority.HIGH_ACCURACY)
 
-        checkLocationAvailabilityCompletable
-                .configureAndSubscribe(
-                        object : CompletableObserver {
+        subscribeIo(
+                checkLocationAvailabilityCompletable,
 
-                            /**
-                             * Вызывается, если есть возомжность получить местоположение.
-                             */
-                            override fun onComplete() {
-                                hideLoadingAndShowLocationIsAvailable()
-                            }
+                /**
+                 * onComplete() вызывается, если есть возомжность получить местоположение.
+                 */
+                { hideLoadingAndShowLocationIsAvailable() },
 
-                            /**
-                             * Вызывается, если нет возможности получить местоположение.
-                             *
-                             * Может прийти [CompositeException], содержащий список из возможных исключений:
-                             * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                             * [ResolvableApiException]
-                             */
-                            override fun onError(t: Throwable) {
-                                hideLoadingAndShowLocationIsNotAvailable(t)
-                            }
-
-                            override fun onSubscribe(d: Disposable) {
-                            }
-                        }
-                )
-
+                /**
+                 * onError() вызывается, если нет возможности получить местоположение.
+                 *
+                 * Может прийти [CompositeException], содержащий список из возможных исключений:
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+                 * [ResolvableApiException]
+                 */
+                { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
+        )
     }
 
     fun getLastKnownLocation() {
@@ -98,41 +87,31 @@ class LocationServicePresenter(
         val lastKnownLocationMaybe: Maybe<Location> =
                 locationService.observeLastKnownLocation(*resolutions.toTypedArray())
 
-        lastKnownLocationMaybe.configureAndSubscribe(
-                object : MaybeObserver<Location> {
+        subscribeIo(
+                lastKnownLocationMaybe,
 
-                    /**
-                     * Вызывается в случае удачного получения местоположения.
-                     */
-                    override fun onSuccess(location: Location) {
-                        hideLoadingAndShowLocation(location)
-                    }
+                /**
+                 * onSuccess() вызывается в случае удачного получения местоположения.
+                 */
+                { location: Location -> hideLoadingAndShowLocation(location) },
 
-                    /**
-                     * Вызывается в случае, если местоположение было получено, но равно null.
-                     */
-                    override fun onComplete() {
-                        hideLoadingAndShowNoLocation()
-                    }
+                /**
+                 * onComplete() вызывается в случае, если местоположение было получено, но равно null.
+                 */
+                { hideLoadingAndShowNoLocation() },
 
-                    /**
-                     * Вызывается в случае ошибки.
-                     *
-                     * Могут прийти следующие исключения:
-                     *
-                     * - [CompositeException], содержащий список из возможных исключений:
-                     * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                     * [ResolvableApiException]
-                     *
-                     * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась
-                     */
-                    override fun onError(t: Throwable) {
-                        hideLoadingAndShowLocationIsNotAvailable(t)
-                    }
-
-                    override fun onSubscribe(d: Disposable) {
-                    }
-                }
+                /**
+                 * onError() вызывается в случае ошибки.
+                 *
+                 * Могут прийти следующие исключения:
+                 *
+                 * - [CompositeException], содержащий список из возможных исключений:
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+                 * [ResolvableApiException]
+                 *
+                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась
+                 */
+                { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
     }
 
@@ -157,48 +136,37 @@ class LocationServicePresenter(
                         *resolutions.toTypedArray()
                 )
 
-        locationUpdatesObservable
-                .configureAndSubscribe(
-                        object : Observer<Location> {
+        locationUpdatesDisposable = subscribeIo(
+                locationUpdatesObservable,
 
-                            /**
-                             * Вызывается при каждом удачном получении местоположения
-                             */
-                            override fun onNext(location: Location) {
-                                view.showLocation(location)
-                            }
+                /**
+                 * onNext() вызывается при каждом удачном получении местоположения
+                 */
+                { location: Location -> view.showLocation(location) },
 
-                            /**
-                             * Никогда не вызывается
-                             */
-                            override fun onComplete() {
-                            }
+                /**
+                 * onComplete() никогда не вызывается
+                 */
+                {},
 
-                            /**
-                             * Вызывается в случае ошибки.
-                             *
-                             * Могут прийти следующие исключения:
-                             *
-                             * - [CompositeException], содержащий список из возможных исключений:
-                             * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                             * [ResolvableApiException]
-                             *
-                             * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения
-                             * не удалась
-                             */
-                            override fun onError(t: Throwable) {
-                                view.showLocationIsNotAvailable(t)
-                            }
-
-                            override fun onSubscribe(d: Disposable) {
-                                locationUpdatesDisposable = d
-                            }
-                        }
-                )
+                /**
+                 * onError() вызывается в случае ошибки.
+                 *
+                 * Могут прийти следующие исключения:
+                 *
+                 * - [CompositeException], содержащий список из возможных исключений:
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+                 * [ResolvableApiException]
+                 *
+                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения
+                 * не удалась
+                 */
+                { t: Throwable -> view.showLocationIsNotAvailable(t) }
+        )
     }
 
     fun unsubscribeFromLocationUpdates() {
-        locationUpdatesDisposable?.dispose()
+        locationUpdatesDisposable.dispose()
     }
 
     fun addNoLocationPermissionResolution() {
