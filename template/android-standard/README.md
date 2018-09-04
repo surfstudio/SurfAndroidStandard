@@ -13,7 +13,8 @@
 Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
-androidStandardDebugMode=false       # флаг для активации режима локальной загрузки репозитория android-standard
+# флаг для активации режима локальной загрузки репозитория android-standard
+androidStandardDebugMode=false
 ```
 
 ##Подключение скриптов к сборщику gradle
@@ -41,4 +42,22 @@ dependencies {
 ```
 
 + **gitignore** уровня проекта
+
 Добавить ```/android-standard/androidStandard.properties```
+
++ **buildTypes**
+
+Если проект содержит кастомные ```buildTypes```, отличные от ```debug``` и ```release```, необходимо
+предоставить для них ```matchingFallbacks``` следующим образом:
+
+```
+buildTypes {
+        qa {
+            // для buildType.qa необходимо сопоставить buildType.release
+            matchingFallbacks = ['release']
+        }
+        customBuildType {
+            matchingFallbacks = ['debug']
+        }
+}
+```

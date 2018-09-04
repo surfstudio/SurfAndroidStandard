@@ -25,6 +25,8 @@ android {
             buildConfigField "String", "BASE_URL", '""'
             debuggable = true
             minifyEnabled false
+            // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
+            matchingFallbacks = ['release']
         }
 
         debug {

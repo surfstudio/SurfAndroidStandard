@@ -1,8 +1,7 @@
 import groovy.json.JsonSlurper
 
 gradle.ext {
-    modules = Module.modules('modules.json', 'modules')
-    samples = Module.modules('samples.json', 'samples')
+    extractModules = { jsonFilePath -> Module.modules(jsonFilePath) }
 }
 
 class Module {
@@ -14,14 +13,13 @@ class Module {
         this.path = path
     }
 
-    static def modules(final String fileName, final String modulesArrayName) {
+    static def modules(final String fileName) {
         try {
             def jsonObject = new JsonSlurper().parse(new File(fileName), 'utf-8')
-            assert jsonObject instanceof Map
-            assert jsonObject."$modulesArrayName" instanceof List
+            assert jsonObject instanceof List
 
             def list = []
-            jsonObject."$modulesArrayName".each {
+            jsonObject.each {
                 list.add(new Module(it.name, it.path))
             }
 
