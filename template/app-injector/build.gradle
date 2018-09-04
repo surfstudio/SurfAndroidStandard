@@ -67,7 +67,7 @@ android {
             matchingFallbacks = ['release']
         }
         release {
-            signingConfig signingConfigs.test
+            signingConfig signingConfigs.test //todo заменить
             multiDexEnabled false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
