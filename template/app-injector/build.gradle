@@ -63,6 +63,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             ext.betaDistributionGroupAliases = "Surf"
             ext.betaDistributionNotifications = true
+            // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
+            matchingFallbacks = ['release']
         }
         release {
             signingConfig signingConfigs.test
