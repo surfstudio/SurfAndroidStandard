@@ -11,6 +11,7 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rxbus.RxBus
+import ru.surfstudio.standard.app_injector.AppComponent
 
 /**
  * Компонент для @PerActivity скоупа
