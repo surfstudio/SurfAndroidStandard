@@ -33,6 +33,7 @@ dependencies {
     api project(':camera-view')
     api project(':connection')
     api project(':rx-extension')
+    api project(':rxbus')
     api project(':firebase-analytics')
     api project(':custom-view')
     api project(':util-ktx')

@@ -5,12 +5,17 @@ Android Standard - Репозиторий с внутренними библио
 Содержит модули, с помощью которых можно построить качественное приложение
 в короткие сроки.
 
+[Правила ведения и оформления][rules.md] [][TODO: чтобы не забыть]
+
 Общая структура вики
 --------------------
 
 1. **Общие сведения о построении приложения**
+    1. [Требования к коду](common/code_organization.md)
     1. [Архитектура приложения](common/architect.md)
-    1. [Многомодульность](common/common_info.md)
+    1. *Многомодульность*
+        1. [Многомодульность - общие принципы](common/multimodule/abstract.md)
+        1. [Многомодульность - детали](common/multimodule/detail.md)
     1. [Инъекция зависимостей](../common/di.md)
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
@@ -42,10 +47,6 @@ Android Standard - Репозиторий с внутренними библио
 1. [Инициализация приложения](../template-multimodule/README.md)
 
 1. [Лучшие практики](best_practice.md)
-
-Кодстайл в студии : [Android-Java](https://docs.google.com/document/d/1EpEwi1SUY_Pu7mS6tmgYePLVS3qJwvMmWmrOBw8PCcs/edit),
-[Kotlin](https://docs.google.com/document/d/1xFlT2OzGvTTV2NPkKoHa4BoR9ePIjk4bXQYcaGuHdcM/edit#heading=h.x1nemj4berko)
-
 
 
 [][Todo]
