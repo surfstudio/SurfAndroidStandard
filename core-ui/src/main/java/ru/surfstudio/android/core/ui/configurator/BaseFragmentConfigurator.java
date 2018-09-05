@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.ui.configurator;
 
 /**
- * Базовый конфигуратор для активити
+ * Базовый конфигуратор для фрагмента
  * Не делает ничего, нужен для единого стиля базовой логики
  */
 public class BaseFragmentConfigurator implements Configurator {

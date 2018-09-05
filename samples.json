@@ -75,6 +75,10 @@
     {
       "name": "standard-dialog-sample",
       "path": ""
+    },
+    {
+      "name": "custom_scope_sample",
+      "path": ""
     }
   ]
 }

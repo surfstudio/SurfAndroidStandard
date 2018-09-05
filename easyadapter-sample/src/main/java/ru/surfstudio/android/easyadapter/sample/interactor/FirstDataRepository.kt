@@ -1,8 +1,13 @@
 package ru.surfstudio.android.easyadapter.sample.interactor
 
 import io.reactivex.Observable
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import javax.inject.Inject
+
+//алиасы для различения двух дата-листов. В реальном проекте используется один из них.
+typealias DataListPageCount<T> = ru.surfstudio.android.datalistpagecount.domain.datalist.DataList<T>
+typealias DataListLimitOffset<T> = ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList<T>
 
 class FirstDataRepository @Inject constructor() {
 
@@ -23,8 +28,29 @@ class FirstDataRepository @Inject constructor() {
         (1..DATA_SIZE + 1).forEach { list.add(FirstData(it)) }
     }
 
-    fun getData(page: Int): Observable<List<FirstData>> {
-        val startIndex = PAGE_SIZE * page
-        return Observable.just(list.subList(startIndex, startIndex + PAGE_SIZE))
+    /**
+     * Загрузка данных по номеру страницы
+     */
+    fun getDataByPage(page: Int): Observable<DataListPageCount<FirstData>> {
+        val startIndex = PAGE_SIZE * (page - 1)
+        return Observable.just(
+                DataList(
+                        list.subList(startIndex, startIndex + PAGE_SIZE),
+                        page,
+                        PAGES_COUNT,
+                        PAGE_SIZE
+                )
+        )
     }
+
+    /**
+     * Загрузка данных по смещению
+     */
+    fun getDataByOffset(offset: Int, limit: Int = 15) =
+            Observable.just(DataListLimitOffset(
+                    list.subList(offset, offset + limit),
+                    limit,
+                    offset,
+                    DATA_SIZE)
+            )
 }
