@@ -12,11 +12,10 @@ import ru.surfstudio.standard.f_main.MainActivityView
 class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @PerScreen
-    @Component(dependencies = arrayOf(ActivityComponent::class), modules = arrayOf(ActivityScreenModule::class))
+    @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class])
     interface MainScreenComponent : ScreenComponent<MainActivityView> {
         //do nothing
     }
-
 
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
