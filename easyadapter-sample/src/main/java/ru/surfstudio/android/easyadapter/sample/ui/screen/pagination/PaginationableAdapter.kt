@@ -9,7 +9,7 @@ import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.easyadapter.sample.R
 
-class PaginationListAdapter(onShowMoreListener: () -> Unit) : BasePaginationableAdapter() {
+class PaginationableAdapter(onShowMoreListener: () -> Unit) : BasePaginationableAdapter() {
 
     private var paginationFooterItemController: BasePaginationFooterController<*>? = null
 
