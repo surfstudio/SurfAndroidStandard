@@ -13,8 +13,10 @@ Android Standard - Репозиторий с внутренними библио
 1. **Общие сведения о построении приложения**
     1. [Требования к коду](common/code_organization.md)
     1. [Архитектура приложения](common/architect.md)
-    1. [Многомодульность](common/common_info.md)
-    1. [Инъекция зависимостей](common/di.md)
+    1. *Многомодульность*
+        1. [Многомодульность - общие принципы](common/multimodule/abstract.md)
+        1. [Многомодульность - детали](common/multimodule/detail.md)
+    1. [Инъекция зависимостей](../common/di.md)
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
     1. [Аналитика](common/analytics.md) [][<-- возможно сразу на модуль, так как мало информации]
