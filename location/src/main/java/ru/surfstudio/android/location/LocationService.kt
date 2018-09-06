@@ -31,7 +31,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.Locat
  */
 class LocationService(context: Context) {
 
-    private val locationService = LocationProvider(context)
+    private val locationProvider = LocationProvider(context)
 
     /**
      * Запросить последнее известное местоположение.
@@ -45,7 +45,7 @@ class LocationService(context: Context) {
             vararg resolutions: LocationErrorResolution<*> = emptyArray()
     ): Maybe<Location> =
             Maybe.create { maybeEmitter ->
-                locationService.requestLastKnownLocationWithErrorResolution(
+                locationProvider.requestLastKnownLocationWithErrorResolution(
                         onSuccessAction = { location ->
                             if (location != null) {
                                 maybeEmitter.onSuccess(location)
@@ -85,7 +85,7 @@ class LocationService(context: Context) {
         var locationUpdatesSubscription: LocationUpdatesSubscription? = null
 
         return Observable.create<Location> { observableEmitter ->
-            locationUpdatesSubscription = locationService.requestLocationUpdatesWithErrorResolution(
+            locationUpdatesSubscription = locationProvider.requestLocationUpdatesWithErrorResolution(
                     intervalMillis,
                     fastestIntervalMillis,
                     priority,
@@ -97,7 +97,7 @@ class LocationService(context: Context) {
                     onFailureAction = { exceptions -> observableEmitter.onError(CompositeException(exceptions)) },
                     resolutions = resolutions.toList()
             )
-        }.doOnDispose { locationService.removeLocationUpdates(locationUpdatesSubscription ?: return@doOnDispose) }
+        }.doOnDispose { locationProvider.removeLocationUpdates(locationUpdatesSubscription ?: return@doOnDispose) }
     }
 
     /**
@@ -110,7 +110,7 @@ class LocationService(context: Context) {
      */
     fun checkLocationAvailability(priority: LocationPriority): Completable =
             Completable.create { completableEmitter: CompletableEmitter ->
-                locationService.checkLocationAvailability(
+                locationProvider.checkLocationAvailability(
                         priority,
                         onResultAction = { exceptions ->
                             if (exceptions.isEmpty()) {

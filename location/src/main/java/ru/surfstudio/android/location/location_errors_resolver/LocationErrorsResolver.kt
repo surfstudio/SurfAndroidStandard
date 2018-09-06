@@ -37,7 +37,7 @@ internal object LocationErrorsResolver {
             onFinishAction: (unresolvedExceptions: List<Exception>) -> Unit,
             onFailureAction: (ResolutionFailedException) -> Unit
     ) {
-        if (resolutions.isEmpty()) {
+        if (resolvingExceptions.isEmpty() || resolutions.isEmpty()) {
             onFinishAction(resolvingExceptions)
             return
         }
