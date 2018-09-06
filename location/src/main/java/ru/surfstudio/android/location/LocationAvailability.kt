@@ -40,8 +40,13 @@ internal class LocationAvailability(private val context: Context) {
      * Проверить возможность получения местоположения.
      *
      * @param priority приоритет при получении местоположения.
+     *
      * @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
-     * невозможностью получения местоположения. Если список пуст - есть возможность получить местоположение.
+     * невозможностью получения местоположения. Если список пуст - значит есть возможность получить местоположение.
+     * Возможные исключения:
+     * - [NoLocationPermissionException];
+     * - [PlayServicesAreNotAvailableException];
+     * - [ResolvableApiException].
      */
     fun checkLocationAvailability(priority: LocationPriority?, onResultAction: (List<Exception>) -> Unit) {
         val exceptions = arrayListOf<Exception>()
@@ -124,7 +129,6 @@ internal class LocationAvailability(private val context: Context) {
                 .checkLocationSettings(locationSettingsRequest)
                 .addOnSuccessListener { _ -> onResultAction(null) }
                 .addOnFailureListener { exception -> onResultAction(exception) }
-
     }
 
     private fun createLocationSettingsRequest(locationRequest: LocationRequest) =

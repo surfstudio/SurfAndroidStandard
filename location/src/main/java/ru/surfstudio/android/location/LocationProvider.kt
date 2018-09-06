@@ -20,8 +20,13 @@ import android.location.Location
 import android.support.annotation.RequiresPermission
 import com.google.android.gms.location.*
 import ru.surfstudio.android.location.domain.LocationPriority
+import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
+import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
 import ru.surfstudio.android.location.location_errors_resolver.LocationErrorsResolver
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
+import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.NoLocationPermissionResolution
+import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
+import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
 
 /**
  * Поставщик местоположения.
@@ -32,9 +37,42 @@ internal class LocationProvider(private val context: Context) {
     private val locationAvailability = LocationAvailability(context)
 
     /**
+     * Проверить возможность получения местоположения.
+     *
+     * @param priority приоритет при получении местоположения.
+     * Доступные решения:
+     * - [NoLocationPermissionResolution];
+     * - [PlayServicesAreNotAvailableResolution];
+     * - [ResolvableApiExceptionResolution].
+     *
+     *  @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
+     * невозможностью получения местоположения. Если список пуст - значит есть возможность получить местоположение.
+     * Возможные исключения:
+     * - [NoLocationPermissionException];
+     * - [PlayServicesAreNotAvailableException];
+     * - [ResolvableApiException].
+     */
+    fun checkLocationAvailability(priority: LocationPriority, onResultAction: (List<Exception>) -> Unit) =
+            locationAvailability.checkLocationAvailability(priority, onResultAction)
+
+    /**
      * Запросить последнее известное местоположение.
      *
+     * @param onSuccessAction метод, вызываемый в случае удачного получения местоположения.
+     *
+     * @param onFailureAction метод, вызываемый в случае ошибки при получении местоположения, в который передается
+     * [List], содержащий исключения, связанные с невозможностью получения местоположения. Если список пуст - значит
+     * есть возможность получить местоположение.
+     *  Может содержать следующие исключения:
+     * - [CompositeException], содержащий список из возможных исключений:
+     * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
+     * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
+     *
      * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
+     * Доступные решения:
+     * - [NoLocationPermissionResolution];
+     * - [PlayServicesAreNotAvailableResolution];
+     * - [ResolvableApiExceptionResolution].
      */
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
@@ -63,14 +101,33 @@ internal class LocationProvider(private val context: Context) {
      * @param intervalMillis интервал в миллисекундах, при котором предпочтительно получать обновления местоположения.
      * Тем не менее, обновления местоположения могут быть чаще, чем этот интервал, если другое приложение получает
      * обновления с меньшим интервалом. Или, наоборот, реже (например, если у устройства нет возможности подключения).
+     *
      * @param fastestIntervalMillis максимальный интервал в миллисекундах, при котором возможно обрабатывать обновления
      * местоположения. Следует устанавливать этот параметр, потому что другие приложения также влияют на скорость
      * отправки обновлений. Google Play Services отправляют обновления с максимальной скоростью, которую запросило любое
      * приложение. Если этот показатель быстрее, чем может обрабатывать приложение, можно столкнуться с соответствующими
      * проблемами.
+     *
      * @param priority Приоритет запроса (точность метостоположения/заряд батареи), который дает Google Play Services
      * знать, какие источники данных использовать.
-     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения меcтоположения.
+     *
+     * @param onLocationUpdateAction метод, вызываемый при очередном получении обновления местоположения.
+     *
+     * @param onFailureAction метод, вызываемый в случае ошибки при получении местоположения, в который передается
+     * [List], содержащий исключения, связанные с невозможностью получения местоположения. Если список пуст - значит
+     * есть возможность получить местоположение.
+     *  Может содержать следующие исключения:
+     * - [CompositeException], содержащий список из возможных исключений:
+     * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],[ResolvableApiException];
+     * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
+     *
+     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
+     * Доступные решения:
+     * - [NoLocationPermissionResolution];
+     * - [PlayServicesAreNotAvailableResolution];
+     * - [ResolvableApiExceptionResolution].
+     *
+     * @return подписка на обновления местоположения.
      */
     fun requestLocationUpdatesWithErrorResolution(
             intervalMillis: Long?,
@@ -105,20 +162,12 @@ internal class LocationProvider(private val context: Context) {
 
     /**
      * Отписаться от получения обновлений местоположения.
+     *
+     * @param locationUpdatesSubscription подписка по получение обновлений местоположения.
      */
     fun removeLocationUpdates(locationUpdatesSubscription: LocationUpdatesSubscription) {
         fusedLocationClient.removeLocationUpdates(locationUpdatesSubscription.locationCallback)
     }
-
-    /**
-     * Проверить возможность получения местоположения.
-     *
-     * @param priority приоритет при получении местоположения.
-     * @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
-     * невозможностью получения местоположения. Если список пуст - есть возможность получить местоположение.
-     */
-    fun checkLocationAvailability(priority: LocationPriority, onResultAction: (List<Exception>) -> Unit) =
-            locationAvailability.checkLocationAvailability(priority, onResultAction)
 
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]

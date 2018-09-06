@@ -2,8 +2,11 @@ package ru.surfstudio.android.location.sample.ui.screen.default_location_interac
 
 import android.location.Location
 import io.reactivex.*
+import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.location.DefaultLocationInteractor
+import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
+import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.NoLocationPermissionResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
@@ -22,13 +25,6 @@ class DefaultLocationInteractorPresenter(
 
         /**
          * Проверить возможность получения местоположения.
-         *
-         * Возвращается список исключений, связанных с невозможностью получения местоположения. Если список пуст -
-         * значит есть возможность получить местоположение.
-         *
-         * Возможные исключения:
-         * - [NoLocationPermissionException]
-         * - [PlayServicesAreNotAvailableException]
          */
         val checkLocationAvailabilityCompletable: Completable = defaultLocationInteractor.checkLocationAvailability()
 
@@ -36,16 +32,15 @@ class DefaultLocationInteractorPresenter(
                 checkLocationAvailabilityCompletable,
 
                 /**
-                 * onComplete() вызывается, если есть возомжность получить местоположение.
+                 * onComplete() вызывается, если есть возможность получить местоположение.
                  */
                 { hideLoadingAndShowLocationIsAvailable() },
 
                 /**
                  * onError() вызывается, если нет возможности получить местоположение.
                  *
-                 * Может прийти [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
+                 * Приходит [CompositeException], содержащий список из возможных исключений:
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -73,11 +68,9 @@ class DefaultLocationInteractorPresenter(
                 { hideLoadingAndShowNoLocation() },
 
                 /**
-                 * onError() вызывается в случае ошибки.
-                 *
-                 * Может прийти [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
+                 * onError() вызывается, если нет возможности получить местоположение.
+                 * Приходит [CompositeException], содержащий список из возможных исключений:
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -111,15 +104,12 @@ class DefaultLocationInteractorPresenter(
                 { hideLoadingAndShowNoLocation() },
 
                 /**
-                 * onError() вызывается в случае ошибки.
+                 * onError() вызывается, если нет возможности получить местоположение.
                  *
                  * Могут прийти следующие исключения:
-                 *
                  * - [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
-                 *
-                 * - [ResolutionFailedException]
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
+                 * - [ResolutionFailedException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -146,11 +136,10 @@ class DefaultLocationInteractorPresenter(
                 { location: Location -> hideLoadingAndShowLocation(location) },
 
                 /**
-                 * onError() вызывается в случае ошибки.
+                 * onError() вызывается, если нет возможности получить местоположение.
                  *
-                 * Может прийти [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
+                 * Приходит [CompositeException], содержащий список из возможных исключений:
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -183,15 +172,11 @@ class DefaultLocationInteractorPresenter(
                 { location: Location -> hideLoadingAndShowLocation(location) },
 
                 /**
-                 * onError() вызывается в случае ошибки.
-                 *
+                 * onError() вызывается, если нет возможности получить местоположение.
                  * Могут прийти следующие исключения:
-                 *
                  * - [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
-                 *
-                 * - [ResolutionFailedException]
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
+                 * - [ResolutionFailedException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )

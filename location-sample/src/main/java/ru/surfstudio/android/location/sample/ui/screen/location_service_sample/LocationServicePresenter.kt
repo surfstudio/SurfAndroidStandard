@@ -42,13 +42,6 @@ class LocationServicePresenter(
 
         /**
          * Проверить возможность получения местоположения.
-         *
-         * Возвращается список исключений, связанных с невозможностью получения местоположения. Если список пуст -
-         * значит есть возможность получить местоположение.
-         *
-         * Возможные исключения:
-         * - [NoLocationPermissionException]
-         * - [PlayServicesAreNotAvailableException]
          */
         val checkLocationAvailabilityCompletable: Completable =
                 locationService.checkLocationAvailability(LocationPriority.HIGH_ACCURACY)
@@ -57,7 +50,7 @@ class LocationServicePresenter(
                 checkLocationAvailabilityCompletable,
 
                 /**
-                 * onComplete() вызывается, если есть возомжность получить местоположение.
+                 * onComplete() вызывается, если есть возможность получить местоположение.
                  */
                 { hideLoadingAndShowLocationIsAvailable() },
 
@@ -65,8 +58,7 @@ class LocationServicePresenter(
                  * onError() вызывается, если нет возможности получить местоположение.
                  *
                  * Может прийти [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -80,9 +72,9 @@ class LocationServicePresenter(
          *
          * Принимает в качестве параметра массив решений проблем связанных с невозможностью получения местоположения.
          * Доступные решения:
-         * - [NoLocationPermissionResolution]
-         * - [PlayServicesAreNotAvailableResolution]
-         * - [ResolvableApiExceptionResolution]
+         * - [NoLocationPermissionResolution];
+         * - [PlayServicesAreNotAvailableResolution];
+         * - [ResolvableApiExceptionResolution].
          */
         val lastKnownLocationMaybe: Maybe<Location> =
                 locationService.observeLastKnownLocation(*resolutions.toTypedArray())
@@ -101,15 +93,12 @@ class LocationServicePresenter(
                 { hideLoadingAndShowNoLocation() },
 
                 /**
-                 * onError() вызывается в случае ошибки.
+                 * onError() вызывается, если нет возможности получить местоположение.
                  *
                  * Могут прийти следующие исключения:
-                 *
                  * - [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
-                 *
-                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
+                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -140,26 +129,22 @@ class LocationServicePresenter(
                 locationUpdatesObservable,
 
                 /**
-                 * onNext() вызывается при каждом удачном получении местоположения
+                 * onNext() вызывается при каждом удачном получении местоположения.
                  */
                 { location: Location -> view.showLocation(location) },
 
                 /**
-                 * onComplete() никогда не вызывается
+                 * onComplete() никогда не вызывается.
                  */
                 {},
 
                 /**
-                 * onError() вызывается в случае ошибки.
+                 * onError() вызывается, если нет возможности получить местоположение.
                  *
                  * Могут прийти следующие исключения:
-                 *
                  * - [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-                 * [ResolvableApiException]
-                 *
-                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения
-                 * не удалась
+                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
+                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
                  */
                 { t: Throwable -> view.showLocationIsNotAvailable(t) }
         )
