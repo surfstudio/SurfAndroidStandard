@@ -27,7 +27,7 @@ import ru.surfstudio.android.location.exceptions.UserDeniedException
  */
 abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exception>(
         screenEventDelegateManager: ScreenEventDelegateManager
-) : BaseLocationErrorResolutionImpl<E>() {
+) : BaseLocationErrorResolutionImpl<E>(), ActivityResultDelegate {
 
     protected abstract val requestCode: Int
 
@@ -36,10 +36,21 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exc
     private var onFailureAction: ((ResolutionFailedException) -> Unit)? = null
 
     init {
-        screenEventDelegateManager.registerDelegate(ResolutionActivityResultDelegate())
+        screenEventDelegateManager.registerDelegate(this)
     }
 
     protected abstract fun performResolutionRequest(resolvingException: E)
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+        if (this@BaseLocationErrorResolutionWithActivityResultDelegateImpl.requestCode != requestCode) {
+            return false
+        }
+
+        val isResolved = resultCode == Activity.RESULT_OK
+        handleResolutionResult(isResolved)
+
+        return true
+    }
 
     final override fun performWithCastedException(
             resolvingException: E,
@@ -56,6 +67,15 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exc
         }
     }
 
+    private fun handleResolutionResult(isResolved: Boolean) {
+        if (isResolved) {
+            onSuccessAction?.invoke()
+        } else {
+            onFailureAction?.invoke(ResolutionFailedException(resolvingException, UserDeniedException()))
+        }
+        clearArgs()
+    }
+
     private fun setArgs(
             resolvingException: E,
             onSuccessAction: () -> Unit,
@@ -70,27 +90,5 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exc
         resolvingException = null
         onSuccessAction = null
         onFailureAction = null
-    }
-
-    private fun onResolutionResult(resolved: Boolean) {
-        if (resolved) {
-            onSuccessAction?.invoke()
-        } else {
-            onFailureAction?.invoke(ResolutionFailedException(resolvingException, UserDeniedException()))
-        }
-        clearArgs()
-    }
-
-    private inner class ResolutionActivityResultDelegate : ActivityResultDelegate {
-
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-            if (this@BaseLocationErrorResolutionWithActivityResultDelegateImpl.requestCode != requestCode) {
-                return false
-            }
-
-            val resolved = resultCode == Activity.RESULT_OK
-            onResolutionResult(resolved)
-            return true
-        }
     }
 }
