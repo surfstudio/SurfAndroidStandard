@@ -9,10 +9,27 @@ uploadArchives {
                     password: System.getenv('surf_maven_password'))
         }
 
-        println "uploadArchives $project.name"
+        def deps = gradle.ext."$project.name"
+        def first = deps.get(0)
+        println "$first"
+
         pom.groupId = 'ru.surfstudio.test'
         pom.artifactId = project.name
         pom.version = "11.11.11"
+
+        if (first != "") {
+            println "$first"
+            pom.project {
+                dependencies {
+                    dependency {
+                        groupId 'ru.surfstudio.test'
+                        artifactId "$first"
+                        version "11.11.11"
+                        scope "compile"
+                    }
+                }
+            }
+        }
     }
 }
 
