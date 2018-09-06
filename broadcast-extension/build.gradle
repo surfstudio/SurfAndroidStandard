@@ -1,8 +1,9 @@
 apply from: '../androidModule.gradle'
 
+uploadArchives.dependsOn(':logger:uploadArchives')
+
 dependencies {
-    debugApi project(':logger')
-    releaseApi "ru.surfstudio.android:logger:$moduleVersionName"
+    compileOnly project(':logger')
 
     implementation "io.reactivex.rxjava2:rxjava:$rxJava2Version"
 }

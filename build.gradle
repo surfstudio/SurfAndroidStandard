@@ -4,7 +4,9 @@ apply plugin: 'maven'
 import com.android.build.gradle.LibraryPlugin
 
 allprojects {
-    if (it != rootProject && it.name != "template" && !it.name.endsWith("-sample")) {
+    //if (it != rootProject && it.name != "test-module" && it.name != "template" && !it.name.endsWith("-sample")) {
+    def taskName = project.gradle.startParameter.taskNames.get(0)
+    if (taskName == 'uploadArchives' && it != rootProject && it.name != "test-module") {
         it.afterEvaluate {
             if (it.plugins.hasPlugin(LibraryPlugin)) {
                 it.apply from: "$rootDir/deploy.gradle"
@@ -19,9 +21,7 @@ allprojects {
         maven { url "https://jitpack.io" }
         maven { url 'https://maven.google.com' }
         maven { url 'https://maven.fabric.io/public' }
-        maven {
-            url "${surf_maven_libs_url}"
-        }
+        maven { url "http://artifactory.surfstudio.ru/artifactory/libs-release-local" }
     }
 }
 

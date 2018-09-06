@@ -3,14 +3,38 @@ apply from: '../config.gradle'
 
 uploadArchives {
     repositories.mavenDeployer {
-        repository(url: "${surf_maven_libs_url}") {
+        repository(url: "http://artifactory.surfstudio.ru/artifactory/libs-release-local") {
             authentication(
                     userName: System.getenv('surf_maven_username'),
                     password: System.getenv('surf_maven_password'))
         }
 
+        println "uploadArchives $project.name"
         pom.groupId = 'ru.surfstudio.test'
-        pom.artifactId = "android-standard-test"
-        pom.version = moduleVersionName
+        pom.artifactId = project.name
+        pom.version = "11.11.11"
     }
 }
+
+/*
+task uploadAllArchives {
+    description 'Upload all modules to Maven Repository'
+    println ''
+    println '---------------------------------'
+    println 'Version: ' + version
+    println 'UPLOAD ALL ARCHIVES'
+    println '---------------------------------'
+    println ''
+    doLast{
+        println ''
+        println '---------------------------------'
+        println 'Version: ' + version
+        println 'UPLOAD ALL ARCHIVES FINISHED'
+        println '---------------------------------'
+        println ''
+    }
+}
+
+uploadAllArchives.dependsOn(
+        ':logger:uploadArchives',
+        ':broadcast-extension:uploadArchives')*/
