@@ -22,6 +22,7 @@ import com.google.android.gms.location.*
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
 import ru.surfstudio.android.location.location_errors_resolver.LocationErrorsResolver
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.NoLocationPermissionResolution
@@ -40,12 +41,8 @@ internal class LocationProvider(private val context: Context) {
      * Проверить возможность получения местоположения.
      *
      * @param priority приоритет при получении местоположения.
-     * Доступные решения:
-     * - [NoLocationPermissionResolution];
-     * - [PlayServicesAreNotAvailableResolution];
-     * - [ResolvableApiExceptionResolution].
      *
-     *  @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
+     * @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
      * невозможностью получения местоположения. Если список пуст - значит есть возможность получить местоположение.
      * Возможные исключения:
      * - [NoLocationPermissionException];
@@ -54,6 +51,36 @@ internal class LocationProvider(private val context: Context) {
      */
     fun checkLocationAvailability(priority: LocationPriority, onResultAction: (List<Exception>) -> Unit) =
             locationAvailability.checkLocationAvailability(priority, onResultAction)
+
+    /**
+     * Решить проблемы связанные с невозможностью получения местоположения.
+     *
+     * @param priority приоритет при получении местоположения.
+     *
+     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
+     * Доступные решения:
+     * - [NoLocationPermissionResolution];
+     * - [PlayServicesAreNotAvailableResolution];
+     * - [ResolvableApiExceptionResolution].
+     *
+     * @param onFinishAction метод, вызываемый при завершении решения проблем.
+     *
+     * @param onFailureAction метод вызываемый в случае, если попытка решения проблем не удалась.
+     */
+    fun resolveLocationAvailability(
+            priority: LocationPriority,
+            resolutions: List<LocationErrorResolution<*>>,
+            onFinishAction: (unresolvedExceptions: List<Exception>) -> Unit,
+            onFailureAction: (ResolutionFailedException) -> Unit
+    ) {
+        checkLocationAvailability(priority, onResultAction = { exceptions ->
+            LocationErrorsResolver.resolve(
+                    exceptions,
+                    resolutions,
+                    onFinishAction,
+                    onFailureAction)
+        })
+    }
 
     /**
      * Запросить последнее известное местоположение.

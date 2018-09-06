@@ -19,6 +19,7 @@ package ru.surfstudio.android.location.exceptions
  * Исключение, возникающее, если попытка решения проблемы с получением местоположения не удалась.
  *
  * @param resolvingException исключение, которое требовалось решить.
+ *
  * @param failingThrowable исключение, которое возникло в ходе решения.
  */
 class ResolutionFailedException(

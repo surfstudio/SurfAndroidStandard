@@ -4,6 +4,7 @@ import android.location.Location
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.disposables.Disposables
+import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
@@ -37,7 +38,7 @@ class LocationServicePresenter(
 
     private var locationUpdatesDisposable: Disposable = Disposables.disposed()
 
-    fun getLocationAvailability() {
+    fun checkLocationAvailability() {
         view.showLoading()
 
         /**
@@ -59,6 +60,45 @@ class LocationServicePresenter(
                  *
                  * Может прийти [CompositeException], содержащий список из возможных исключений:
                  * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
+                 */
+                { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
+        )
+    }
+
+    fun resolveLocationAvailability() {
+        view.showLoading()
+
+        /**
+         * Решить проблемы связанные с невозможностью получения местоположения.
+         *
+         * Принимает в качестве параметров:
+         * - приоритет запроса (точность метостоположения/заряд батареи);
+         * - массив решений проблем связанных с невозможностью получения местоположения. Доступные решения:
+         *   - [NoLocationPermissionResolution]
+         *   - [PlayServicesAreNotAvailableResolution]
+         *   - [ResolvableApiExceptionResolution]
+         */
+        val resolveLocationAvailabilitySingle =
+                locationService.resolveLocationAvailability(LocationPriority.HIGH_ACCURACY, *resolutions.toTypedArray())
+
+        subscribeIo(
+                resolveLocationAvailabilitySingle,
+
+                /**
+                 * onSuccess() вызывается при удачном решении проблем. Содержит [List] из нерешенных исключений, для
+                 * которых не передавались решения.
+                 */
+                { unresolvedExceptions ->
+                    if (unresolvedExceptions.isEmpty()) {
+                        hideLoadingAndShowLocationIsAvailable()
+                    } else {
+                        hideLoadingAndShowLocationIsNotAvailable(CompositeException(unresolvedExceptions))
+                    }
+                },
+
+                /**
+                 * onError() вызывается в случае, если попытка решения проблем не удалась. Приходит
+                 * [ResolitionFailedException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )

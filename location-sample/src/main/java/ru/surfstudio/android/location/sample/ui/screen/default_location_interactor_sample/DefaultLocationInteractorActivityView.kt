@@ -29,7 +29,10 @@ class DefaultLocationInteractorActivityView : BaseSampleActivity() {
         title = "DefaultLocationInteractor sample"
 
         btn_activity_default_location_interactor_check_location_availability.setOnClickListener {
-            presenter.getLocationAvailability()
+            presenter.checkLocationAvailability()
+        }
+        btn_activity_default_location_interactor_resolve_location_availability.setOnClickListener {
+            presenter.resolveLocationAvailability()
         }
         btn_activity_default_location_interactor_show_last_known_location.setOnClickListener {
             presenter.getLastKnownLocation()

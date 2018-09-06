@@ -55,7 +55,10 @@ class LocationServiceActivityView : BaseSampleActivity() {
         }
 
         btn_activity_location_service_check_location_availability.setOnClickListener {
-            presenter.getLocationAvailability()
+            presenter.checkLocationAvailability()
+        }
+        btn_activity_location_service_resolve_location_availability.setOnClickListener {
+            presenter.resolveLocationAvailability()
         }
         btn_activity_location_service_show_last_known_location.setOnClickListener {
             presenter.getLastKnownLocation()

@@ -41,8 +41,6 @@ class DefaultLocationInteractor(
     /**
      * Проверить возможность получения местоположения.
      *
-     * @param priority приоритет при получении местоположения.
-     *
      * @return [Completable].
      * onComplete() вызывается, если есть возможность получить местоположение.
      * onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
@@ -50,6 +48,16 @@ class DefaultLocationInteractor(
      * [ResolvableApiException].
      */
     fun checkLocationAvailability(): Completable = locationService.checkLocationAvailability(DEFAULT_LOCATION_PRIORITY)
+
+    /**
+     * Решить проблемы связанные с невозможностью получения местоположения.
+     *
+     * @return [Completable].
+     * onComplete() вызывается при удачном решении проблем.
+     * onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolitionFailedException].
+     */
+    fun resolveLocationAvailability(): Completable =
+            locationService.resolveLocationAvailability(DEFAULT_LOCATION_PRIORITY, *resolutions).ignoreElement()
 
     /**
      * Запросить последнее известное местоположение.

@@ -23,6 +23,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="@string/check_location_availability"/>
+    
+            <Button
+                android:id="@+id/btn_activity_default_location_interactor_resolve_location_availability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/resolve_location_availability"/>
             
             <Button
                 android:id="@+id/btn_activity_default_location_interactor_show_last_known_location"

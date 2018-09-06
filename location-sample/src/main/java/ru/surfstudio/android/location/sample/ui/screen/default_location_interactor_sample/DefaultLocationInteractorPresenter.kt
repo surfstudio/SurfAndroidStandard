@@ -20,7 +20,7 @@ class DefaultLocationInteractorPresenter(
         private val defaultLocationInteractor: DefaultLocationInteractor
 ) : BaseSamplePresenter<DefaultLocationInteractorActivityView>(basePresenterDependency) {
 
-    fun getLocationAvailability() {
+    fun checkLocationAvailability() {
         view.showLoading()
 
         /**
@@ -41,6 +41,30 @@ class DefaultLocationInteractorPresenter(
                  *
                  * Приходит [CompositeException], содержащий список из возможных исключений:
                  * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
+                 */
+                { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
+        )
+    }
+
+    fun resolveLocationAvailability() {
+        view.showLoading()
+
+        /**
+         * Решить проблемы связанные с невозможностью получения местоположения.
+         */
+        val resolveLocationAvailabilityCompletable = defaultLocationInteractor.resolveLocationAvailability()
+
+        subscribeIo(
+                resolveLocationAvailabilityCompletable,
+
+                /**
+                 * onComplete() вызывается при удачном решении проблем.
+                 */
+                { hideLoadingAndShowLocationIsAvailable() },
+
+                /**
+                 * onError() вызывается в случае, если попытка решения проблем не удалась. Приходит
+                 * [ResolitionFailedException].
                  */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )

@@ -5,7 +5,8 @@
     <string name="show_current_location">Показать текущее местоположение (с заданой актуальностью 10 сек)</string>
     <string name="show_current_location_with_error_resolving">Показать текущее местоположение с решением возникающих проблем (с заданой актуальностью 10 сек)</string>
     <string name="check_location_availability">Проверить возможность получения местоположения</string>
-    <string name="apply_resolutions_to_location_requests">Применить решения при запросе местоположения:</string>
+    <string name="resolve_location_availability">Решить проблемы с получением местоположения</string>
+    <string name="apply_resolutions">Применить решения:</string>
     <string name="no_location_reprmission_resolution">NoLocationPermissionResolution</string>
     <string name="play_services_are_not_available_resolution">PlayServicesAreNotAvailableResolution</string>
     <string name="resolvable_api_exception_resolution">ResolvableApiExceptionResolution</string>

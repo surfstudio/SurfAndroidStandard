@@ -18,10 +18,7 @@ package ru.surfstudio.android.location
 import android.content.Context
 import android.location.Location
 import android.support.annotation.RequiresPermission
-import io.reactivex.Completable
-import io.reactivex.CompletableEmitter
-import io.reactivex.Maybe
-import io.reactivex.Observable
+import io.reactivex.*
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
@@ -59,6 +56,37 @@ class LocationService(context: Context) {
                             } else {
                                 completableEmitter.onError(CompositeException(exceptions))
                             }
+                        }
+                )
+            }
+
+    /**
+     * Решить проблемы связанные с невозможностью получения местоположения.
+     *
+     * @param priority приоритет при получении местоположения.
+     *
+     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
+     * Доступные решения:
+     * - [NoLocationPermissionResolution];
+     * - [PlayServicesAreNotAvailableResolution];
+     * - [ResolvableApiExceptionResolution].
+     *
+     * @return [Single].
+     * onSuccess() вызывается при удачном решении проблем. Содержит [List] из нерешенных исключений, для которых не
+     * передавались решения.
+     * onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolitionFailedException].
+     */
+    fun resolveLocationAvailability(
+            priority: LocationPriority,
+            vararg resolutions: LocationErrorResolution<*> = emptyArray()
+    ): Single<List<Exception>> =
+            Single.create { singleEmitter ->
+                locationProvider.resolveLocationAvailability(
+                        priority,
+                        resolutions.toList(),
+                        onFinishAction = { unresolvedExceptions -> singleEmitter.onSuccess(unresolvedExceptions) },
+                        onFailureAction = { resolutionFailedException ->
+                            singleEmitter.onError(resolutionFailedException)
                         }
                 )
             }
