@@ -16,16 +16,17 @@ uploadArchives {
         pom.artifactId = project.name
         pom.version = artifactVersion
 
-        gradle.ext."$project.name".each {
-            def moduleName = "$it"
-            println "$moduleName"
-            pom.project {
-                dependencies {
+        pom.project {
+            dependencies {
+                gradle.ext."$project.name".each {
+                    def moduleName = "$it"
+                    println "$moduleName"
+
                     dependency {
-                        groupId     artifactGroupId
-                        artifactId  moduleName
-                        version     artifactVersion
-                        scope       "compile"
+                        groupId artifactGroupId
+                        artifactId moduleName
+                        version artifactVersion
+                        scope "compile"
                     }
                 }
             }

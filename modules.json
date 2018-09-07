@@ -7,6 +7,14 @@
     {
       "name": "broadcast-extension",
       "path": ""
+    },
+    {
+      "name": "datalist-page-count",
+      "path": ""
+    },
+    {
+      "name": "rx-extension",
+      "path": ""
     }
   ]
 }

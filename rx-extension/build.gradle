@@ -6,3 +6,5 @@ dependencies {
 
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
+
+gradle.ext."$name" = []
