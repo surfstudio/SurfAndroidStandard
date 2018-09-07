@@ -42,6 +42,11 @@ ext {
     multidexVersion = '1.0.3'                   //http://bit.ly/2KenzA7
     constraintLayoutVersion = '1.1.2'           //http://bit.ly/2OxplzU
 
+    //ui
+    glideVersion = '4.8.0'                      //http://bit.ly/2wQzHDE
+    materialProgressBarVersion = '1.4.2'        //http://bit.ly/2vrzQvE
+    wangAviLibraryVersion = '2.1.3'             //http://bit.ly/2NVrDaI
+
     //errors
     anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY

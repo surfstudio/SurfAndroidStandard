@@ -24,8 +24,8 @@ Gradle:
     
 Модуль имеет прямые зависимости от следующих сторонних библиотек:
 
-    me.zhanghai.android.materialprogressbar:library:1.4.2    Улучшенная версия ProgressBar
-    com.wang.avi:library:2.1.3                               Кастомные Loader Indicators
+    me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion    Улучшенная версия ProgressBar
+    com.wang.avi:library:$wangAviLibraryVersion                                    Кастомные Loader Indicators
 
 ##Документация
 [`StandardPlaceHolderView`](../custom-view/STANDARD-PLACEHOLDER-VIEW-README.md)
