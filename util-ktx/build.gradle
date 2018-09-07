@@ -2,9 +2,8 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     api "androidx.core:core-ktx:$androidKtxVersion"
-
-    compileOnly "com.android.support:design:$appcompatVersion"
-    compileOnly "com.android.support:appcompat-v7:$appcompatVersion"
+    api "com.android.support:design:$appcompatVersion"
+    api "com.android.support:appcompat-v7:$appcompatVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    implementation "com.annimon:stream:$annimonStreamVersion"
+    api "com.annimon:stream:$annimonStreamVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

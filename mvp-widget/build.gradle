@@ -1,8 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly "javax.inject:javax.inject:$javaInjectVersion"
-
+    api "javax.inject:javax.inject:$javaInjectVersion"
     api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 }
 
