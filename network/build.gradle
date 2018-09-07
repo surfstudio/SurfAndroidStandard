@@ -1,12 +1,12 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project (':filestorage')
-    compileOnly project (':logger')
-    compileOnly project (':dagger-scope')
-    compileOnly project (':connection')
-    compileOnly project (':rx-extension')
-    compileOnly project (':util-ktx')
+    compileOnly project(':filestorage')
+    compileOnly project(':logger')
+    compileOnly project(':dagger-scope')
+    compileOnly project(':connection')
+    compileOnly project(':rx-extension')
+    compileOnly project(':util-ktx')
 
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
     api "com.annimon:stream:$annimonStreamVersion"
@@ -31,3 +31,5 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
+
+gradle.ext."$name" = ['filestorage', 'logger', 'dagger-scope', 'connection', 'rx-extension', 'util-ktx']

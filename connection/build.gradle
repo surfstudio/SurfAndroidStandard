@@ -4,3 +4,5 @@ dependencies {
     compileOnly project (':dagger-scope')
     api "io.reactivex.rxjava2:rxjava:$rxJava2Version"
 }
+
+gradle.ext."$name" = ['dagger-scope']

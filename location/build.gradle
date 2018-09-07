@@ -6,3 +6,5 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-location:15.0.1"
 }
+
+gradle.ext."$name" = ['core-ui', 'rx-extension']

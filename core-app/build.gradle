@@ -18,3 +18,5 @@ dependencies {
     //logging
     implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 }
+
+gradle.ext."$name" = ['logger', 'connection', 'rx-extension', 'util-ktx', 'easyadapter']

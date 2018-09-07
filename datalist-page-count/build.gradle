@@ -13,4 +13,4 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
 
-gradle.ext."$name" = ["logger", "rx-extension"]
+gradle.ext."$name" = ['logger', 'rx-extension']

@@ -7,3 +7,5 @@ dependencies {
     compileOnly "com.android.support:design:$appcompatVersion"
     compileOnly "com.android.support:appcompat-v7:$appcompatVersion"
 }
+
+gradle.ext."$name" = ['logger']

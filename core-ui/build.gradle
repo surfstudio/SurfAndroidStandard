@@ -10,3 +10,5 @@ dependencies {
     implementation "com.annimon:stream:$annimonStreamVersion"
     compileOnly "com.android.support:support-annotations:$appcompatVersion"
 }
+
+gradle.ext."$name" = ['logger', 'rx-extension', 'core-app']

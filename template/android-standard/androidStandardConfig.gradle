@@ -33,10 +33,6 @@ gradle.ext {
     androidStandard = [
             debugDir       : androidStandardDebugDir,
             debugMode      : androidStandardDebugMode,
-
-            // Функция, добавляющая префикс "debug" к именам модулей android-standard,
-            // если они загружаются локально
-            debugModuleName: { name -> "debug-$name" }
     ]
 
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
@@ -51,8 +47,7 @@ gradle.ext {
                     api "ru.surfstudio.android:$it:$surfCoreVersionName"
                 } else {
                     // Подключение модулей из локального репозитория для отладки
-                    def moduleName = gradle.ext.androidStandard.debugModuleName("$it")
-                    api context.project(":$moduleName")
+                    api context.project(":$it")
                 }
             }
         }

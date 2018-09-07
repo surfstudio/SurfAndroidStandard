@@ -2,7 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     compileOnly project(':logger')
-    compileOnly project (':util-ktx')
+    compileOnly project(':util-ktx')
 
     compileOnly "com.android.support:support-annotations:${appcompatVersion}"
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
@@ -10,3 +10,5 @@ dependencies {
 
     implementation "com.annimon:stream:${annimonStreamVersion}"
 }
+
+gradle.ext."$name" = ['logger', 'util-ktx']

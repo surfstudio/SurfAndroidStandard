@@ -5,3 +5,5 @@ dependencies {
     compileOnly project (':logger')
     compileOnly project (':rx-extension')
 }
+
+gradle.ext."$name" = ['shared-pref', 'logger', 'rx-extension']

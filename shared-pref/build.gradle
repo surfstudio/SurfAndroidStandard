@@ -5,6 +5,4 @@ dependencies {
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 
-repositories {
-    mavenCentral()
-}
+gradle.ext."$name" = ['util-ktx']

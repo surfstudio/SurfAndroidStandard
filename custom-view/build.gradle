@@ -22,3 +22,5 @@ dependencies {
     implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
     implementation "com.wang.avi:library:$wangAviLibraryVersion"
 }
+
+gradle.ext."$name" = ['util-ktx', 'rx-extension', 'animations', 'logger']

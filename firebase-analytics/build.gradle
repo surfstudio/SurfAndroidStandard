@@ -1,7 +1,9 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(path: ':analytics')
+    compileOnly project(':analytics')
     compileOnly "com.google.firebase:firebase-core:${firebaseCoreVersion}"
 }
+
+gradle.ext."$name" = ['analytics']
 

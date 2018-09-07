@@ -7,6 +7,6 @@ android {
 }
 
 dependencies {
-    //implementation "ru.surfstudio.test:broadcast-extension:11.11.11"
+    implementation "ru.surfstudio.test:app-migration:11.11.11"
     //implementation "ru.surfstudio.test.deploy:datalist-page-count:11.11.11"
 }

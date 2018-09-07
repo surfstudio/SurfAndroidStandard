@@ -1,7 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply plugin: 'maven'
+apply from: 'modules.gradle'
 
 import com.android.build.gradle.LibraryPlugin
+
+def modules = gradle.ext.extractModules('modules.json')*.name
 
 allprojects {
     /*
@@ -17,8 +20,9 @@ allprojects {
             }
         }
     }*/
-    if (it != rootProject && it.name != "test-module") {
+    if (it != rootProject && it.name in modules) {
         it.afterEvaluate {
+            println "$it.name"
             if (it.plugins.hasPlugin(LibraryPlugin)) {
                 it.apply from: "$rootDir/deploy.gradle"
             }

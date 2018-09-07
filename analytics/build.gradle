@@ -4,3 +4,5 @@ dependencies {
     implementation "com.android.support:support-annotations:$appcompatVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
+
+gradle.ext."$name" = []

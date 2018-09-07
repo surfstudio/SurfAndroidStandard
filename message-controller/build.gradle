@@ -1,7 +1,9 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(path: ':core-ui')
+    compileOnly project(':core-ui')
 
     implementation "com.android.support:exifinterface:$appcompatVersion"
 }
+
+gradle.ext."$name" = ['core-ui']

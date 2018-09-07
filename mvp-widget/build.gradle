@@ -10,3 +10,5 @@ dependencies {
 
     api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 }
+
+gradle.ext."$name" = ['logger', 'core-mvp', 'core-ui']

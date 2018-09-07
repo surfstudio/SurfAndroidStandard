@@ -10,3 +10,5 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
+
+gradle.ext."$name" = ['rx-extension']

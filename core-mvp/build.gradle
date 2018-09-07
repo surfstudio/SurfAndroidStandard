@@ -23,3 +23,5 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
+
+gradle.ext."$name" = ['logger', 'easyadapter', 'connection', 'rx-extension', 'util-ktx', 'core-ui']

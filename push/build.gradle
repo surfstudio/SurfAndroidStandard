@@ -7,3 +7,5 @@ dependencies {
     compileOnly project(':core-ui')
     compileOnly project(':util-ktx')
 }
+
+gradle.ext."$name" = ['core-app', 'logger', 'rx-extension', 'core-ui', 'util-ktx']
