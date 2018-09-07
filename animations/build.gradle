@@ -3,7 +3,6 @@ apply from: '../androidModule.gradle'
 dependencies {
     api "com.android.support:appcompat-v7:$appcompatVersion"
     api "com.android.support:design:$appcompatVersion"
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies this
