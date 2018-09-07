@@ -23,8 +23,8 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
                             password: System.getenv('surf_maven_password'))
                 }
 
-                def artifactGroupId = 'ru.surfstudio.test'
-                def artifactVersion = '88.88.88'
+                def artifactGroupId = 'ru.surfstudio.android'
+                def artifactVersion = "$moduleVersionName"
 
                 pom.groupId = artifactGroupId
                 pom.artifactId = project.name
