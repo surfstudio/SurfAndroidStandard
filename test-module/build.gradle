@@ -7,5 +7,5 @@ android {
 }
 
 dependencies {
-    implementation "ru.surfstudio.test:broadcast-extension:11.11.11"
+    //implementation "ru.surfstudio.test:broadcast-extension:11.11.11"
 }

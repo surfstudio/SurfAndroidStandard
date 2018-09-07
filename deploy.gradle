@@ -9,49 +9,26 @@ uploadArchives {
                     password: System.getenv('surf_maven_password'))
         }
 
-        def deps = gradle.ext."$project.name"
-        def first = deps.get(0)
-        println "$first"
+        def artifactGroupId = 'ru.surfstudio.test'
+        def artifactVersion = '11.11.11'
 
-        pom.groupId = 'ru.surfstudio.test'
+        pom.groupId = artifactGroupId
         pom.artifactId = project.name
-        pom.version = "11.11.11"
+        pom.version = artifactVersion
 
-        if (first != "") {
-            println "$first"
+        gradle.ext."$project.name".each {
+            def moduleName = "$it"
+            println "$moduleName"
             pom.project {
                 dependencies {
                     dependency {
-                        groupId 'ru.surfstudio.test'
-                        artifactId "$first"
-                        version "11.11.11"
-                        scope "compile"
+                        groupId     artifactGroupId
+                        artifactId  moduleName
+                        version     artifactVersion
+                        scope       "compile"
                     }
                 }
             }
         }
     }
 }
-
-/*
-task uploadAllArchives {
-    description 'Upload all modules to Maven Repository'
-    println ''
-    println '---------------------------------'
-    println 'Version: ' + version
-    println 'UPLOAD ALL ARCHIVES'
-    println '---------------------------------'
-    println ''
-    doLast{
-        println ''
-        println '---------------------------------'
-        println 'Version: ' + version
-        println 'UPLOAD ALL ARCHIVES FINISHED'
-        println '---------------------------------'
-        println ''
-    }
-}
-
-uploadAllArchives.dependsOn(
-        ':logger:uploadArchives',
-        ':broadcast-extension:uploadArchives')*/

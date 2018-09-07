@@ -1,7 +1,5 @@
 apply from: '../androidModule.gradle'
 
-uploadArchives.dependsOn(':logger:uploadArchives')
-
 dependencies {
     compileOnly project(':logger')
 

@@ -4,14 +4,23 @@ apply plugin: 'maven'
 import com.android.build.gradle.LibraryPlugin
 
 allprojects {
+    /*
     def taskNames = project.gradle.startParameter.taskNames
     if (taskNames.size() > 0) {
+        println "$taskNames"
         def currentTaskName = taskNames.get(0)
         if (currentTaskName == 'uploadArchives' && it != rootProject && it.name != "test-module") {
             it.afterEvaluate {
                 if (it.plugins.hasPlugin(LibraryPlugin)) {
                     it.apply from: "$rootDir/deploy.gradle"
                 }
+            }
+        }
+    }*/
+    if (it != rootProject && it.name != "test-module") {
+        it.afterEvaluate {
+            if (it.plugins.hasPlugin(LibraryPlugin)) {
+                it.apply from: "$rootDir/deploy.gradle"
             }
         }
     }
