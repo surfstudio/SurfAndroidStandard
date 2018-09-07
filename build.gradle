@@ -1,34 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply plugin: 'maven'
-apply from: 'modules.gradle'
-
-import com.android.build.gradle.LibraryPlugin
-
-def modules = gradle.ext.extractModules('modules.json')*.name
-
 allprojects {
-    /*
-    def taskNames = project.gradle.startParameter.taskNames
-    if (taskNames.size() > 0) {
-        println "$taskNames"
-        def currentTaskName = taskNames.get(0)
-        if (currentTaskName == 'uploadArchives' && it != rootProject && it.name != "test-module") {
-            it.afterEvaluate {
-                if (it.plugins.hasPlugin(LibraryPlugin)) {
-                    it.apply from: "$rootDir/deploy.gradle"
-                }
-            }
-        }
-    }*/
-    if (it != rootProject && it.name in modules) {
-        it.afterEvaluate {
-            println "$it.name"
-            if (it.plugins.hasPlugin(LibraryPlugin)) {
-                it.apply from: "$rootDir/deploy.gradle"
-            }
-        }
-    }
-
     repositories {
         google()
         jcenter()

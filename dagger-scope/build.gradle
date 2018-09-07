@@ -5,4 +5,4 @@ dependencies {
     api "com.google.dagger:dagger:$daggerVersion"
 }
 
-gradle.ext."$name" = []
+gradle.ext.configAndroidStandardDependencies this

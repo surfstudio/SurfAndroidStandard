@@ -1,10 +1,8 @@
 apply from: '../androidModule.gradle'
 
-dependencies {
-    compileOnly project(':core-app')
-    compileOnly project(':core-ui')
-    compileOnly project(':core-mvp')
-    compileOnly project(':util-ktx')
-}
-
-gradle.ext."$name" = ['core-app', 'core-ui', 'core-mvp', 'util-ktx']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'core-app',
+        'core-ui',
+        'core-mvp',
+        'util-ktx'
+])

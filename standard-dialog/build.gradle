@@ -1,9 +1,7 @@
 apply from: '../androidModule.gradle'
 
-dependencies {
-    compileOnly project(':core-ui')
-    compileOnly project(':mvp-dialog')
-    compileOnly project(':dagger-scope')
-}
-
-gradle.ext."$name" = ['core-ui', 'mvp-dialog', 'dagger-scope']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'core-ui',
+        'mvp-dialog',
+        'dagger-scope'
+])

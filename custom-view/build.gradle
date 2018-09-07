@@ -14,13 +14,13 @@ dependencies {
 
     //------------------------------------ dependencies --------------------------------------------
 
-    compileOnly project(':util-ktx')
-    compileOnly project(':rx-extension')
-    compileOnly project(':animations')
-    compileOnly project(':logger')
-
     implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
     implementation "com.wang.avi:library:$wangAviLibraryVersion"
 }
 
-gradle.ext."$name" = ['util-ktx', 'rx-extension', 'animations', 'logger']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'util-ktx',
+        'rx-extension',
+        'animations',
+        'logger'
+])

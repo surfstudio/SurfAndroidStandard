@@ -6,4 +6,4 @@ dependencies {
     implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 }
 
-gradle.ext."$name" = []
+gradle.ext.configAndroidStandardDependencies this

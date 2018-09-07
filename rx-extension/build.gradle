@@ -7,4 +7,4 @@ dependencies {
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 
-gradle.ext."$name" = []
+gradle.ext.configAndroidStandardDependencies this

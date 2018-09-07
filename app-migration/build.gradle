@@ -1,9 +1,7 @@
 apply from: '../androidModule.gradle'
 
-dependencies {
-    compileOnly project (':shared-pref')
-    compileOnly project (':logger')
-    compileOnly project (':rx-extension')
-}
-
-gradle.ext."$name" = ['shared-pref', 'logger', 'rx-extension']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'shared-pref',
+        'logger',
+        'rx-extension'
+])

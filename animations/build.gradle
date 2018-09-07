@@ -6,4 +6,4 @@ dependencies {
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
 
-gradle.ext."$name" = []
+gradle.ext.configAndroidStandardDependencies this

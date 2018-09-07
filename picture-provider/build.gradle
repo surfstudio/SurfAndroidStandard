@@ -1,12 +1,12 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':core-app')
-    compileOnly project(':core-ui')
-    compileOnly project(':logger')
-    compileOnly project(':rx-extension')
-
     implementation "com.android.support:exifinterface:$appcompatVersion"
 }
 
-gradle.ext."$name" = ['core-app', 'core-ui', 'logger', 'rx-extension']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'core-app',
+        'core-ui',
+        'logger',
+        'rx-extension'
+])

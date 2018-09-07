@@ -1,14 +1,13 @@
 apply from: '../androidModule.gradle'
 
-
 dependencies {
-    compileOnly project(':logger')
-    compileOnly project(':core-mvp')
-    compileOnly project(':core-ui')
-
     compileOnly "javax.inject:javax.inject:$javaInjectVersion"
 
     api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
 }
 
-gradle.ext."$name" = ['logger', 'core-mvp', 'core-ui']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'logger',
+        'core-mvp',
+        'core-ui'
+])

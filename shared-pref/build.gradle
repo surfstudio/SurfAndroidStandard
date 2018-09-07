@@ -1,8 +1,9 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':util-ktx')
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 
-gradle.ext."$name" = ['util-ktx']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'util-ktx'
+])

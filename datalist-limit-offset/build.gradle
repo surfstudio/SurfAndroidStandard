@@ -1,14 +1,13 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':rx-extension')
-
     implementation "com.android.support:appcompat-v7:$appcompatVersion"
 
-    testImplementation project(':rx-extension')
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
 
-gradle.ext."$name" = ['rx-extension']
+gradle.ext.configAndroidStandardDependencies(this, [
+        'rx-extension'
+])
