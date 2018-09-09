@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.google.android.gms:play-services-location:$locationVersion"
+    api "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

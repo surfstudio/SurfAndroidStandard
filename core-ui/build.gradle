@@ -3,8 +3,9 @@ apply from: '../androidModule.gradle'
 dependencies {
     api "com.android.support:appcompat-v7:$appcompatVersion"
     api "com.android.support:design:$appcompatVersion"
-    api "com.annimon:stream:$annimonStreamVersion"
     api "com.android.support:support-annotations:$appcompatVersion"
+
+    implementation "com.annimon:stream:$annimonStreamVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
