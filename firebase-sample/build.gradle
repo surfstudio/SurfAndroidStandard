@@ -17,10 +17,9 @@ dependencies {
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 
-    implementation("com.crashlytics.sdk.android:crashlytics:${crashlyticsVersion}@aar") {
+    implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
 }
