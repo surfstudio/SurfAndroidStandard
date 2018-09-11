@@ -1,9 +1,9 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.android.support:support-annotations:$appcompatVersion"
     api "com.jakewharton.timber:timber:$timberVersion"
     api "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
+    implementation "com.android.support:support-annotations:$appcompatVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies this

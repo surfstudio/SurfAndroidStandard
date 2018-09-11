@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.android.support:appcompat-v7:$appcompatVersion"
+    implementation "com.android.support:appcompat-v7:$appcompatVersion"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"

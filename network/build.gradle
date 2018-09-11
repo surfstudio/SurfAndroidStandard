@@ -1,8 +1,6 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.android.support:support-annotations:$appcompatVersion"
-
     // network
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -10,6 +8,7 @@ dependencies {
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation "com.annimon:stream:$annimonStreamVersion"
+    implementation "com.android.support:support-annotations:$appcompatVersion"
 
     //tests
     testImplementation "junit:junit:$junitVersion"
