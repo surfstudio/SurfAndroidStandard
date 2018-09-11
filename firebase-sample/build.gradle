@@ -1,3 +1,5 @@
+import com.google.gms.googleservices.GoogleServicesPlugin
+
 apply from: '../androidSample.gradle'
 apply plugin: 'io.fabric'
 
@@ -25,3 +27,5 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+
+GoogleServicesPlugin.config.disableVersionCheck = true
