@@ -29,9 +29,9 @@ Android Standard - Репозиторий с внутренними библио
     1. [Работа с локацией](interactor/locatiom.md) [][<-- возможно сразу на модуль, так как мало информации]
     1. [Проверка соединения](../connection/README.md)
     1. [Миграция между версиями приложения](../app-migration/README.md)
-    1. [Работа с Broadcast]()
-    1. [Работа с файловым хранилищем]()
-    1. [Работа с SharedPrefs]()
+    1. [Работа с Broadcast](../broadcast-extension/README.md)
+    1. [Работа с файловым хранилищем](../filestorage/README.md)
+    1. [Работа с SharedPrefs](../shared-pref/README.md)
 
 
 1. [UI слой](ui/ui.md)
