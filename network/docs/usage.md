@@ -1,6 +1,29 @@
 # Использование
 
+[TOC]
+
 ### Cache
+###### Низкоуровневый кеш
+
+Низкоуровневый кеш представлен модулем [filestorage][filestorage].
+
+###### Высокоуровневый кеш
+
+Предусмотрено 2 варианта реализации кеширования на высоком уровне,
+которые основаны на низкоуровневом кеше.
+
+* **Простой кеш** - при успешном запросе на сервер кешируется сырой ответ
+сервера (только для запросов, зарегистрированных в `SimpleCacheInfo`).
+Для получения данных из кеша необходимо в метод Api Retrofit'а передать header
+ключ: `BaseServerConstants#HEADER_QUERY_MODE` значение: `BaseServerConstants#QUERY_MODE_FROM_CACHE`.
+Если кеш пустой, то будет возвращен `null`.
+
+Логика простого кеша содержится в `SimpleCacheInterceptor`. Для удаления
+записей кеша следует получить кеш для соответствующего запроса через
+`SimpleCacheFactory` и произвести очистку.
+Для конкатенирования данных из кеша и с сервера предусмотрен метод
+[`BaseNetworkInteractor#hybridQueryWithSimpleCache`][hybrid]. Предусмотрена также
+возможность иметь один кеш для нескольких запросов.
 
 Простой кеш сохраняет сырые ответы сервера в файлы. Для использования неоходимо
 создать [`SimpleCacheInterceptor`](../src/main/java/ru/surfstudio/android/network/cache/SimpleCacheInterceptor.java)
@@ -15,9 +38,19 @@ Observable<SomeResponse> getSomeContent(
             @Path("id") int id);
 ```
 
-Кроме того необходимо иметь инстанс класса SimpleCacheInfo для этого запроса.
+Кроме того необходимо иметь инстанс класса `SimpleCacheInfo` для этого запроса.
 Этот инстанс необходимо зарегистрировать в `SimpleCacheStorage`.
 В зависимости от queryMode данные будут запрошены либо с сервера, либо из кеша.
+
+
+* **Гибкий кеш** - позволяет сохранять в кеш и получать из кеша модели слоя
+*Domain* или *отдельные примитивные типы*. Используется когда функционал
+простого кеша **недостаточен**. Основное отличие от Простого кеша  - возможность
+сохранять данные вручную. Для конкатенирования данных из кеша и с
+сервера предусмотрен метод [`BaseNetworkInteractor#hybridQuery`][hybrid].
+
+Если очистка кеша необходима при обновлении приложения на новую версию,
+то соответствующий код необходимо разместить в AppMigrationStorage
 
 ### CallAdapter
 Конвертирует ответы сервера в `Observable` а также оборачивает ошибки
@@ -52,15 +85,17 @@ Observable<SomeResponse> getSomeContent(
 маркерный интерфейс который обозначает классы, которые используются для
 парсинга корневой сущности ответа.
 
+
+### Маппинг сущностей
+
+[`Transformable`][t1] и [`TransformableUtil`][t2], [ObservableExtension][obExt] -
+Интерфейс и набор утилит для конвертации объекта/потока одного класса в другой.
+Основное применение [маппинг серверных ответов.][network_main]
+
 ### Прочее
 - [`BaseNetworkInteractor`][bnint] - Интерактор для работы с сетью. Основная задача
 упростить взаимодействие с закешированными ответами и ответами сервера, путем
 создания [гибридных запросов][hybrid].
-
-- [`Transformable`][t1] и [`TransformableUtil`][t2], [ObservableExtension][obExt] -
-Интрефейс и набор утилит для конвертации объекта/потока одного класса в другой.
-Основное применение [маппинг серверных ответов.][mapping]
-
 
 [bnint]: ../src/main/java/ru/surfstudio/android/network/BaseNetworkInteractor.java
 [t1]: ../src/main/java/ru/surfstudio/android/network/Transformable.java
@@ -70,3 +105,5 @@ Observable<SomeResponse> getSomeContent(
 [hybrid]: hybrid.md
 [mapping]: mapping.md
 [etag]: etag.md
+[network_main]: ../../docs/interactor/network.md
+[filestorage]: ../../filestorage/README.md
