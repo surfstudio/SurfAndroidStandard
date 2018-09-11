@@ -44,9 +44,8 @@ Observable<SomeResponse> getSomeContent(
 - [NoInternetException](../src/main/java/ru/surfstudio/android/network/error/NoInternetException.java)
 
 ### Etag
-Предоставляет поддержку механизма Etag.  Для использования неоходимо
-[`EtagInterceptor`](../src/main/java/ru/surfstudio/android/network/etag/EtagInterceptor.java)
-добавить в контсруктор при создании инстанса `OkHttpClient`
+Предоставляет поддержку [механизма Etag][etag].  Служит признаком того,
+что данные на сервере изменились.
 
 ### Response
 [`BaseResponse`](../src/main/java/ru/surfstudio/android/network/response/BaseResponse.java)
@@ -60,6 +59,7 @@ Observable<SomeResponse> getSomeContent(
 
 - [`Transformable`][t1] и [`TransformableUtil`][t2], [ObservableExtension][obExt] -
 Интрефейс и набор утилит для конвертации объекта/потока одного класса в другой.
+Основное применение [маппинг серверных ответов.][mapping]
 
 
 [bnint]: ../src/main/java/ru/surfstudio/android/network/BaseNetworkInteractor.java
@@ -67,4 +67,6 @@ Observable<SomeResponse> getSomeContent(
 [t2]: ../src/main/java/ru/surfstudio/android/network/TransformUtil.java
 [obExt]: ../src/main/java/ru/surfstudio/android/network/ObservableExtension.kt
 [call]: ../src/main/java/ru/surfstudio/android/network/calladapter/BaseCallAdapterFactory.java
-[][\[hybrid\]\[TODO: будет ссылка на гибридные\]]
+[hybrid]: hybrid.md
+[mapping]: mapping.md
+[etag]: etag.md
