@@ -24,7 +24,7 @@ allprojects {
         google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
-        maven { url "$surf_maven_libs_url" }
+        maven { url "http://artifactory.surfstudio.ru/artifactory/libs-release-local" }
         maven { url "https://dl.bintray.com/terrakok/terramaven" }
         maven { url 'https://jitpack.io' }
     }

@@ -64,8 +64,12 @@ gradle.ext {
             }
             // Установка com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
             // с помощью рефлексии для избежания ошибок при конфликте версий GoogleServices
-            def pluginClass = new GroovyClassLoader().loadClass("com.google.gms.googleservices.GoogleServicesPlugin")
-            pluginClass.getField("config").get(null).disableVersionCheck = true
+            try {
+                def pluginClass = new GroovyClassLoader().loadClass("com.google.gms.googleservices.GoogleServicesPlugin")
+                pluginClass.getField("config").get(null).disableVersionCheck = true
+            } catch (ClassNotFoundException e) {
+                logger.error(e.message)
+            }
         }
     }
 }
