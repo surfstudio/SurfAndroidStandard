@@ -1,5 +1,5 @@
 # Core mvp
-Создан в результате развития идей проекта  [ferro](https://github.com/MaksTuev/ferro).
+Создан в результате развития идей проекта [ferro](https://github.com/MaksTuev/ferro).
 
 Расширение core-ui для гибридной архитектуры MVP + Presentation Model.
 
