@@ -32,12 +32,15 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), SessionF
         initListeners()
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) { }
+    override fun renderInternal(screenModel: MainScreenModel) {
+        enter_pin_et.text.clear()
+    }
 
     override fun getScreenName(): String = "main"
 
     private fun initListeners() {
         check_root_btn.setOnClickListener { presenter.checkRoot() }
         open_session_btn.setOnClickListener { presenter.openSession() }
+        submit_pin_btn.setOnClickListener { presenter.enterPin(enter_pin_et.text.toString()) }
     }
 }

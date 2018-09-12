@@ -3,4 +3,5 @@
     <string name="check_root_btn_text">Check Root</string>
     <string name="open_session_btn_text">Open session</string>
     <string name="session_screen_tv_text">Session screen</string>
+    <string name="submit_pin_btn_text">Submit pin</string>
 </resources>

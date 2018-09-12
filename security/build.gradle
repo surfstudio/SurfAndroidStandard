@@ -24,5 +24,6 @@ dependencies {
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
-        'dagger-scope'
+        'dagger-scope',
+        'shared-pref'
 ])

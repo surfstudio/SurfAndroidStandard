@@ -7,11 +7,16 @@ import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
+import ru.surfstudio.android.security.auth.WrongEnterPinAttemptStorage
 import ru.surfstudio.android.security.session.SessionChangedInteractor
 import ru.surfstudio.android.security.session.SessionManager
 
 @PerApplication
-@Component(modules = [CustomAppModule::class])
+@Component(modules = [
+    CustomAppModule::class,
+    DefaultSharedPrefModule::class
+])
 interface CustomAppComponent {
     fun context(): Context
     fun activeActivityHolder(): ActiveActivityHolder
@@ -21,4 +26,5 @@ interface CustomAppComponent {
 
     fun sessionManager(): SessionManager
     fun sessionChangeInteractor(): SessionChangedInteractor
+    fun wrongEnterPinAttemptStorage(): WrongEnterPinAttemptStorage
 }

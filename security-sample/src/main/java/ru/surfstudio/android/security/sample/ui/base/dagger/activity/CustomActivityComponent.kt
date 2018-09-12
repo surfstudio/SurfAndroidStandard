@@ -4,6 +4,7 @@ import dagger.Component
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
+import ru.surfstudio.android.security.auth.WrongEnterPinAttemptStorage
 import ru.surfstudio.android.security.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.security.session.SessionChangedInteractor
 import ru.surfstudio.android.security.session.SessionManager
@@ -17,4 +18,5 @@ import ru.surfstudio.android.security.session.SessionManager
 interface CustomActivityComponent : DefaultActivityComponent {
     fun sessionManager(): SessionManager
     fun sessionChangeInteractor(): SessionChangedInteractor
+    fun wrongEnterPinAttemptStorage(): WrongEnterPinAttemptStorage
 }
