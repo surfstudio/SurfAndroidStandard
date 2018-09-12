@@ -16,7 +16,7 @@ Android Standard - Репозиторий с внутренними библио
     1. *Многомодульность*
         1. [Многомодульность - общие принципы](common/multimodule/abstract.md)
         1. [Многомодульность - детали](common/multimodule/detail.md)
-    1. [Инъекция зависимостей](../common/di.md)
+    1. [Инъекция зависимостей](common/di.md)
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
     1. [Аналитика](../analytics/README.md) [][<-- возможно сразу на модуль, так как мало информации]
