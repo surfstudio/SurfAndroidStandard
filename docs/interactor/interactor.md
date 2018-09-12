@@ -12,12 +12,7 @@ Api этого слоя не должно зависеть от Android Framewor
 в модели слоя Domain. Бизнес логика должна быть максимально отделена от
 деталей реализации.
 
-### Механизм ошибок
-
-Обработка большинства ошибок [происходит на UI слое][handle_errors].
-Для этого предусмотрен ErrorHandler,
-стандартная его имплементация находится в базовой вью экрана и
-используется в методе `BasePresenter`.
+Подробное описание архитектуры приложений - [здесь][../common/architect.md].
 
 ### Рассылка событий через Interactor
 
@@ -33,7 +28,7 @@ Api этого слоя не должно зависеть от Android Framewor
 некая форма, которая возвращает заполненные данные на предыдущий экран.
 
 Реализовать проброс этого события можно через создания `Subject'а` внутри
-инетрактора. При этом этот Subject должен быть приватным, а наружу должен
+интерактора. При этом этот Subject должен быть приватным, а наружу должен
 смотреть только соответствующий `Observable`.
 
 ``` kotlin
@@ -43,19 +38,62 @@ val observeSomeEvent: Observable<SomeEvent> = someEventSubject
 
 *Примечание*: выбор типа сабжекта зависит от нужд приложения.
 
-Только там интерактор может эмитить события - презентер может лишь менять данные,
+Только сам интерактор может эмитить события - презентер может лишь менять данные,
 но не напрямую рассылать сообщения.
+
+**Плохо**:
+
+```kotlin
+
+    //Presenter
+
+    private fun handleDeletedPostError() {
+            postInteractor.emitPostDeletedEvent(screenModel.postId)
+            // some other actions
+    }
+
+```
+
+**Хорошо**:
+
+```kotlin
+
+    //PostInteractor
+
+    fun doSomeActionWithPost(postId: Long) =
+        postRepository.doSomeWithPost()
+            .doOnError {
+                if (it is PostDeletedError) {
+                    emitPostDeletedEvent(postId)
+                }
+            }
+
+```
 
 Может возникнуть кейс, когда экран, который вызывает изменение данных, сам
 подписан на изменение. Тогда следует добавить в чейн с подпиской оператор filter.
+
 ``` kotlin
-    someDisposable = subscribe( interactor.observeSomeEvent
-            .filter { someDisposable.isDisposed },
+
+    val postActionDisposable = ...
+
+    //...
+
+    postActionDisposable = subsribeIoHandleError(postInteractor.doSomeActionWithPost(screenModel.postId),
+        {
+            // do something
+        })
+
+    //...
+
+    postChangedEventDisposable = subscribe(interactor.observePostChangedEvent
+            .filter { postActionDisposable.isDisposed },
         {
             // OnSuccess
         })
 ```
 
-Таким образом, можно офильтровать событие, чтобы оно не хендлилось на текущем экране.
+Таким образом можно офильтровать событие по активности запроса, который вызывает
+изменение данных, чтобы оно не хендлилось на текущем экране.
 
 [handle_errors]: ../ui/presenter.md
