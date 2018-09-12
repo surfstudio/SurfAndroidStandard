@@ -22,7 +22,7 @@ class CustomApp : CoreApp() {
         super.onCreate()
         initInjector()
         registerSessionManager()
-        AppDebuggableChecker.check(this, BuildConfig.IS_DEBUG)
+        AppDebuggableChecker.check(this, BuildConfig.CHECK_DEBUGGABLE)
     }
 
     private fun initInjector() {

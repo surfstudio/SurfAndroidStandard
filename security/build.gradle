@@ -19,7 +19,5 @@ android {
 }
 
 dependencies {
-    //todo fix android-standard dependencies
-
     implementation "com.android.support:support-annotations:$appcompatVersion"
 }

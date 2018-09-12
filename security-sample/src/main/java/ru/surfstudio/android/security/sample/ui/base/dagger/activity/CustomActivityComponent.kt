@@ -12,8 +12,8 @@ import ru.surfstudio.android.security.session.SessionManager
  * Компонент для @PerActivity скоупа
  */
 @PerActivity
-@Component(dependencies = [(CustomAppComponent::class)],
-        modules = [(DefaultActivityModule::class)])
+@Component(dependencies = [CustomAppComponent::class],
+        modules = [DefaultActivityModule::class])
 interface CustomActivityComponent : DefaultActivityComponent {
     fun sessionManager(): SessionManager
     fun sessionChangeInteractor(): SessionChangedInteractor

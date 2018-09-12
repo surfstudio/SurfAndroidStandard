@@ -1,27 +1,16 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project (':filestorage')
-    compileOnly project (':logger')
-    compileOnly project (':dagger-scope')
-    compileOnly project (':connection')
-    compileOnly project (':rx-extension')
-    compileOnly project (':util-ktx')
-
-    compileOnly "com.android.support:support-annotations:$appcompatVersion"
-    api "com.annimon:stream:$annimonStreamVersion"
-
     // network
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     api "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
+    implementation "com.annimon:stream:$annimonStreamVersion"
+    implementation "com.android.support:support-annotations:$appcompatVersion"
 
     //tests
-    testImplementation project (':logger')
-    testImplementation project (':connection')
-    testImplementation project (':rx-extension')
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
     testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
@@ -31,3 +20,12 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'filestorage',
+        'logger',
+        'dagger-scope',
+        'connection',
+        'rx-extension',
+        'util-ktx'
+])
