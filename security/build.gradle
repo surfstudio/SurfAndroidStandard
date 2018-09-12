@@ -20,7 +20,6 @@ android {
 
 dependencies {
     //todo fix android-standard dependencies
-    implementation project(':dagger-scope')
 
     implementation "com.android.support:support-annotations:$appcompatVersion"
 }

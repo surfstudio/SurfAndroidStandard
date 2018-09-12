@@ -8,5 +8,12 @@
         android:id="@+id/check_root_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
         android:text="@string/check_root_btn_text" />
+
+    <Button
+        android:id="@+id/open_session_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/open_session_btn_text"/>
 </LinearLayout>

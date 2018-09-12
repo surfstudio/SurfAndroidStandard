@@ -1,6 +1,7 @@
-package ru.surfstudio.android.security.sample.ui.screen.main
+package ru.surfstudio.android.security.sample.ui.screen.session
 
 import android.content.Intent
+
 import dagger.Component
 import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
@@ -11,27 +12,27 @@ import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivity
 import ru.surfstudio.android.security.sample.ui.base.dagger.activity.CustomActivityComponent
 
 /**
- * Конфигуратор главного экрана
+ * Конфигуратор экрана сессии
  */
-class MainScreenConfigurator(intent: Intent) : CustomActivityScreenConfigurator(intent) {
+class SessionScreenConfigurator(intent: Intent) : CustomActivityScreenConfigurator(intent) {
 
     @PerScreen
     @Component(dependencies = [CustomActivityComponent::class],
-            modules = [DefaultActivityScreenModule::class, MainScreenModule::class])
-    internal interface MainScreenComponent
-        : ScreenComponent<MainActivityView>
+            modules = [DefaultActivityScreenModule::class, SessionScreenModule::class])
+    internal interface SessionScreenComponent
+        : ScreenComponent<SessionActivityView>
 
     @Module
-    internal class MainScreenModule(route: MainActivityRoute)
-        : DefaultCustomScreenModule<MainActivityRoute>(route)
+    internal class SessionScreenModule(route: SessionActivityRoute)
+        : DefaultCustomScreenModule<SessionActivityRoute>(route)
 
     override fun createScreenComponent(customActivityComponent: CustomActivityComponent,
                                        activityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerMainScreenConfigurator_MainScreenComponent.builder()
+        return DaggerSessionScreenConfigurator_SessionScreenComponent.builder()
                 .customActivityComponent(customActivityComponent)
                 .defaultActivityScreenModule(activityScreenModule)
-                .mainScreenModule(MainScreenModule(MainActivityRoute()))
+                .sessionScreenModule(SessionScreenModule(SessionActivityRoute()))
                 .build()
     }
 }

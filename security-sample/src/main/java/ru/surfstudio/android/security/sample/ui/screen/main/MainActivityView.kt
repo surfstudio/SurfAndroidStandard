@@ -6,21 +6,22 @@ import android.support.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.security.sample.R
+import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivityScreenConfigurator
+import ru.surfstudio.android.security.session.SessionFree
 import javax.inject.Inject
 
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
+class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), SessionFree {
 
     @Inject
     lateinit var presenter: MainPresenter
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
+    override fun createConfigurator(): CustomActivityScreenConfigurator = MainScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_main
@@ -37,5 +38,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     private fun initListeners() {
         check_root_btn.setOnClickListener { presenter.checkRoot() }
+        open_session_btn.setOnClickListener { presenter.openSession() }
     }
 }

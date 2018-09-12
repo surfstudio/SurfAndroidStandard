@@ -1,12 +1,10 @@
 package ru.surfstudio.android.security.session
 
 import android.app.Activity
-import ru.surfstudio.android.dagger.scope.PerApplication
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicInteger
-import javax.inject.Inject
 
 /**
  * Класс, отвечающий за необходимость сброса сессии.
@@ -14,9 +12,8 @@ import javax.inject.Inject
  * Если приложение уходит в фон (нет ни одной активити после вызова resumed), то запускает счетчик,
  * по прошествии которого сбрасывается сессия.
  */
-@PerApplication
-class SessionManager @Inject constructor(private val sessionChangedInteractor: SessionChangedInteractor,
-                                         private val blockingTimeSec: Long) {
+class SessionManager(private val sessionChangedInteractor: SessionChangedInteractor,
+                     private val blockingTimeSec: Long) {
 
     private val executorService = Executors.newSingleThreadScheduledExecutor()
     private var scheduledFuture: ScheduledFuture<*>? = null
@@ -34,9 +31,7 @@ class SessionManager @Inject constructor(private val sessionChangedInteractor: S
         cancelSchedule()
 
         if (!isSessionFree(activity) && invalidateSession) {
-            with(sessionChangedInteractor) {
-                onSessionInvalid()
-            }
+            sessionChangedInteractor.onSessionInvalid()
         }
 
         invalidateSession = false
