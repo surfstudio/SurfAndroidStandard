@@ -56,9 +56,9 @@ Api вью может иметь только методы вида void someMet
 
 * [`BaseLdsSwrActivityView`][swr] - базовый класс ActivityView c поддержкой:
 
-   * состояния загрузки [`LoadState`][ls]
+    * состояния загрузки [`LoadState`][ls]
 
-   * состояния SwipeRefresh [`SwipeRefreshState`][sws]
+    * состояния SwipeRefresh [`SwipeRefreshState`][sws]
 
 Этот базовый класс можно **не использовать**, если с большой гарантией можно
 предвидеть, что пользователю **не потребуется** обновлять контент.
