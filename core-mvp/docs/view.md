@@ -7,9 +7,13 @@
 - Передает пользовательские события в Presenter.
 
 Для создания View экрана следует наследоваться от одного из классов:
+
 - [`CoreActivityView`][core]
+
 - [`BaseRenderableActivityView`][render] - поддерживает отрисовку и обработку ошибок из презентера
+
 - [`BaseLdsActivityView`][lds] - поддерживает состояния загрузки данных на экране
+
 - [`BaseLdsSwrActivityView`][swr] - поддерживает состояние обновления экрана
 
 аналогично для FragmentView.
@@ -40,15 +44,22 @@ Api вью может иметь только методы вида void someMet
 
 ###### Классы Activity
 Классы указаны в порядке наследования.
+
 * [`CoreActivityView`][core] - Класс с корневой логикой вью
+
 * [`BaseRenderableActivityView`][render] - базовый класс для ActivityView,
 поддерживающий отрисовку ScreenModel и обработку ошибок
+
 * [`BaseLdsActivityView`][lds]- базовый класс ActivityView c поддержкой
 состояния загрузки {@link LoadState}
 Используется вместе с [PlaceHolderView].
+
 * [`BaseLdsSwrActivityView`][swr] - базовый класс ActivityView c поддержкой:
-   * состояния загрузки {@link LoadState}
-   * состояния SwipeRefresh {@link SwipeRefreshState}
+
+   * состояния загрузки [`LoadState`][ls]
+
+   * состояния SwipeRefresh [`SwipeRefreshState`][sws]
+
 Этот базовый класс можно **не использовать**, если с большой гарантией можно
 предвидеть, что пользователю **не потребуется** обновлять контент.
 
@@ -56,8 +67,11 @@ Api вью может иметь только методы вида void someMet
 Для фрагментов предусмотрены аналогичные базовые классы.
 
 * [`CoreFragmentView`][core_f]
+
 * [`BaseRenderableFragmentView`][render_f]
+
 * [`BaseLdsFragmentView`][lds_f]
+
 * [`BaseLdsSwrFragmentView`][swr_f]
 
 ###### Кастомные вью
@@ -65,9 +79,12 @@ Api вью может иметь только методы вида void someMet
 Лучшие практики по созданию кастомных виджетов - [здесь][custom].
 
 Интерфейсы
+
    * [`CoreView`][core_v] - базовый интерфейс для всех кастомных вью
+
    * [`PresenterHolderCoreView`][presenter_holder] - может быть использован
    для кастомных android.View c поддержкой презентера.
+
    * [`RenderableView`][render_v] - для кастомных вью с поддержкой
    отрисовки модели экрана
 
@@ -84,3 +101,5 @@ Api вью может иметь только методы вида void someMet
 [presenter_holder]: ../src/main/java/ru/surfstudio/android/core/mvp/view/PresenterHolderCoreView.java
 [presenter]: presenter.md
 [custom]: ../../docs/ui/custom_views.md
+[ls]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/LoadState.java
+[sws]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/SwipeRefreshState.java
