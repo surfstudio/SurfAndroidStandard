@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Security Sample</string>
+    <string name="check_root_btn_text">Check Root</string>
+</resources>
