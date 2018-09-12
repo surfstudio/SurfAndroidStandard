@@ -35,14 +35,14 @@ Android Standard - Репозиторий с внутренними библио
 
 
 1. [UI слой](ui/ui.md)
-    1. Структура UI-слоя
-    1. Создание экрана
-    1. Кастомные вью
-    1. Диалоги
-    1. Навигация
-    1. Анимации
-    1. Загрузка изображений
-    1. Работа со списками
+    1. [Структура UI-слоя](ui/structure.md)
+    1. [Создание экрана](ui/create_screen.md)
+    1. [Кастомные вью](ui/custom_views.md)
+    1. [Диалоги](ui/dialogs.md)
+    1. [Навигация](ui/navigation.md)
+    1. [Анимации](../animations/README.md)
+    1. [Загрузка изображений](../imageloader/README.md)
+    1. [Работа со списками](../easyadapter/README.md)
 
 1. [Инициализация приложения](../template-multimodule/README.md)
 
