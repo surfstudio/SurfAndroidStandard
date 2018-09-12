@@ -1,0 +1,2 @@
+<#-- Макрос для определения, от какого типа ViewHolder'a нужно наследоваться -->
+<#macro selectTypeHolder><#if typeController='1'>BindableViewHolder<${nameTypeData}><#else>BaseViewHolder</#if></#macro>

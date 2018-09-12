@@ -12,7 +12,7 @@ import ru.surfstudio.android.easyadapter.sample.domain.SecondData
 class SecondDataItemController(private val listener: SecondDataClickListener
 ) : BindableItemController<SecondData, SecondDataItemController.Holder>() {
 
-    override fun getItemId(data: SecondData): Long = data.hashCode().toLong()
+    override fun getItemId(data: SecondData): String = data.hashCode().toString()
 
     override fun createViewHolder(parent: ViewGroup?): Holder = Holder(listener, parent)
 

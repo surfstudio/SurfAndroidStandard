@@ -1,9 +1,11 @@
+<#import "macros/import_r_class_macros.ftl" as importRMacros>
+
 package ${packageName};
 
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-
+<@importRMacros.importRClass />;
 
 public class ${className} extends ${parentClassName} {
 
@@ -11,8 +13,8 @@ public class ${className} extends ${parentClassName} {
         super(context, attrs);
         initView();
     }
-
     <#if generateListener>
+
         public interface ${className}Listener {
         }
 
@@ -22,8 +24,8 @@ public class ${className} extends ${parentClassName} {
             this.listener = listener;
         }
     </#if>
-
     <#if screenModelName!=''>
+
         public void render(${screenModelName} screenModel) {
         }
     </#if>

@@ -1,11 +1,31 @@
 package ru.surfstudio.android.datalistpagecount
 
+import org.junit.AfterClass
 import org.junit.Assert
+import org.junit.BeforeClass
 import org.junit.Test
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
+import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStrategy
 
 
 class DataListTest {
+
+    companion object {
+
+        private val testLoggingStrategy = TestLoggingStrategy()
+
+        @BeforeClass
+        @JvmStatic
+        fun setUp() {
+            Logger.addLoggingStrategy(testLoggingStrategy)
+        }
+
+        @AfterClass
+        @JvmStatic fun tearDown() {
+            Logger.removeLoggingStrategy(testLoggingStrategy)
+        }
+    }
 
     @Test
     fun checkNormalMerge() {

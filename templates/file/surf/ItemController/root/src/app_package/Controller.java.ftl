@@ -1,5 +1,15 @@
+<#import "macros/select_import_type_controller_macros.ftl" as importControllerMacros>
+<#import "macros/select_import_type_holder_macros.ftl" as importHolderMacros>
 <#import "macros/select_type_controller_macros.ftl" as controllerMacros>
+<#import "macros/select_type_holder_macros.ftl" as holderMacros>
+<#import "macros/import_r_class_macros.ftl" as importRMacros>
+
 package ${packageName};
+
+import android.view.ViewGroup;
+<@importRMacros.importRClass />;
+import ru.surfstudio.android.easyadapter.controller.<@importControllerMacros.selectImportTypeController />;
+import ru.surfstudio.android.easyadapter.holder.<@importHolderMacros.selectImportTypeHolder />;
 
 public class ${nameController}${defPostfixController} extends <@controllerMacros.selectTypeController /> {
 
@@ -22,29 +32,26 @@ public class ${nameController}${defPostfixController} extends <@controllerMacros
 
     <#if typeController='1'>
     @Override
-    public long getItemId(${nameTypeData} ${nameParam}) {
-        return ${nameParam}.getId();
+    public String getItemId(${nameTypeData} ${nameParam}) {
+        return String.valueOf(${nameParam}.getId());
     }
     
     </#if>
-    class Holder extends <#if typeController='1'>BindableViewHolder<${nameTypeData}><#else>BaseViewHolder</#if> {
+    class Holder extends <@holderMacros.selectTypeHolder /> {
 
-        <#if typeController='1'>
-        private ${nameTypeData} ${nameParam};
-        
-        </#if>
         Holder(ViewGroup parent) {
            super(parent, R.layout.${nameRes});
-           <#if hasListener>
-           itemView.setOnClickListener(v -> listener.onItemClick(<#if typeController='1'>${nameParam}</#if>));
+           <#if hasListener && typeController='2'>
+           itemView.setOnClickListener(v -> listener.onItemClick());
            </#if>
            //todo find view here
         }
-
         <#if typeController='1'>
         @Override
         public void bind(${nameTypeData} ${nameParam}) {
-           this.${nameParam} = ${nameParam};
+            <#if hasListener>
+           itemView.setOnClickListener(v -> listener.onItemClick(${nameParam}));
+            </#if>
            //todo render data here
         }
         </#if>

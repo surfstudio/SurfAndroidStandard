@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.shared.pref.sample.R
-import ru.surfstudio.android.shared.pref.sample.ui.base.configurator.ActivityScreenConfigurator
+import ru.surfstudio.android.shared.pref.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import javax.inject.Inject
 
@@ -26,7 +26,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator = MainScreenConfigurator(intent)
+    override fun createConfigurator(): CustomActivityScreenConfigurator = MainScreenConfigurator(intent)
 
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main

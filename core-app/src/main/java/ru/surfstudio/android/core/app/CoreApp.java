@@ -25,6 +25,7 @@ import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.logger.RemoteLogger;
 import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy;
 import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy;
+import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy;
 
 /**
  * Базовый класс приложения
@@ -59,6 +60,7 @@ public abstract class CoreApp extends MultiDexApplication {
     protected void initLog() {
         Logger.addLoggingStrategy(new TimberLoggingStrategy());
         Logger.addLoggingStrategy(new RemoteLoggerLoggingStrategy());
+        RemoteLogger.addRemoteLoggingStrategy(new CrashlyticsRemoteLoggingStrategy());
     }
 
     /**

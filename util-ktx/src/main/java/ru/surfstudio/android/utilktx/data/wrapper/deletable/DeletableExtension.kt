@@ -8,6 +8,15 @@ import ru.surfstudio.android.utilktx.data.wrapper.filterAndApply
  */
 
 /**
+ * Изменить состояние на противоположное,
+ * используя предикат
+ */
+fun <T, E> Collection<E>.toggleDeleted(predicate: (T) -> Boolean)
+        where E : DataWrapperInterface<T>, E : DeletableDataInterface {
+    filterAndApply(this, { predicate(it) }, { it.toggleDeleted() })
+}
+
+/**
  * Удалить элемент, с возможностью возвращение,
  * используя предикат
  */
@@ -26,7 +35,16 @@ fun <T, E> Collection<E>.setUndo(predicate: (T) -> Boolean)
 }
 
 /**
- * Удалить элемент, с возможностью возвращение
+ * Изменить состояние на противоположное,
+ * с возможностью возвращения
+ */
+fun <T, E> Collection<E>.toggleDeleted(value: T)
+        where E : DataWrapperInterface<T>, E : DeletableDataInterface {
+    toggleDeleted(predicate = { it == value })
+}
+
+/**
+ * Удалить элемент, с возможностью возвращения
  */
 fun <T, E> Collection<E>.setMarkAsDeleted(value: T)
         where E : DataWrapperInterface<T>, E : DeletableDataInterface {

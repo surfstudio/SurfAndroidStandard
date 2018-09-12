@@ -16,7 +16,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
     @Inject
     lateinit var presenter: MainPresenter
 
-
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
@@ -35,7 +34,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
 
     override fun getScreenName(): String = "MainActivityView"
 
-    override fun renderInternal(p0: MainScreenModel?) {
+    override fun renderInternal(screenModel: MainScreenModel) {
     }
 
     private fun initViews() {

@@ -8,13 +8,11 @@ import ru.surfstudio.android.mvp.widget.view.CoreLinearLayoutView
 import ru.surfstudio.android.mvpwidget.sample.R
 import javax.inject.Inject
 
-
 /**
  * Базовый пример виджета на базе {@link ru.surfstudio.android.mvp.widget.view.CoreLinearLayoutView}
  * */
-class LinearWidgetView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CoreLinearLayoutView(context, attrs, defStyleAttr) {
+class LinearWidgetView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) : CoreLinearLayoutView(context, attrs, defStyleAttr) {
 
     @Inject lateinit var presenter: LinearViewPresenter
 

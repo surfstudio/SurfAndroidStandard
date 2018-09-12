@@ -1,0 +1,14 @@
+apply from: '../android-standard/androidStandardConfig.gradle'
+
+// Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
+
+if (gradle.ext.androidStandard.debugEnabled) {
+    // Подключаем все модули android-standard, выполнив скрипт из локального репозитория
+    def androidStandardDebugDir = gradle.ext.androidStandard.debugDir
+    apply from: "$androidStandardDebugDir/modules.gradle"
+    gradle.ext.extractModules("$androidStandardDebugDir/modules.json").each {
+        def moduleName = "$it.name"
+        include "$moduleName"
+        project(":$moduleName").projectDir = new File("$androidStandardDebugDir/$moduleName")
+    }
+}
