@@ -3,6 +3,8 @@ package ru.surfstudio.android.security.sample.app
 import android.app.Activity
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.android.security.app.AppDebuggableChecker
+import ru.surfstudio.android.security.sample.BuildConfig
 import ru.surfstudio.android.security.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.security.sample.app.dagger.CustomAppModule
 import ru.surfstudio.android.security.sample.app.dagger.DaggerCustomAppComponent
@@ -20,6 +22,7 @@ class CustomApp : CoreApp() {
         super.onCreate()
         initInjector()
         registerSessionManager()
+        AppDebuggableChecker.check(this, BuildConfig.IS_DEBUG)
     }
 
     private fun initInjector() {

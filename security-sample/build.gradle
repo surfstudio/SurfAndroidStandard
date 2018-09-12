@@ -4,6 +4,21 @@ android {
     defaultConfig {
         applicationId "ru.surfstudio.android.security.sample"
     }
+
+    buildTypes {
+        debug {
+            debuggable true
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "false"
+        }
+        qa {
+            debuggable true
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "false"
+        }
+        release {
+            debuggable false
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "true"
+        }
+    }
 }
 
 dependencies {
