@@ -36,6 +36,8 @@ Android Standard - Репозиторий с внутренними библио
 
 1. [UI слой](ui/ui.md)
     1. [Структура UI-слоя](ui/structure.md)
+        1. [Слой Presenter](../core-mvp/docs/presenter.md)
+        1. [Слой View](../core-mvp/docs/view.md)
     1. [Создание экрана](ui/create_screen.md)
     1. [Кастомные вью](ui/custom_views.md)
     1. [Диалоги](ui/dialogs.md)
