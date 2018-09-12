@@ -51,8 +51,8 @@ Api вью может иметь только методы вида void someMet
 поддерживающий отрисовку ScreenModel и обработку ошибок
 
 * [`BaseLdsActivityView`][lds]- базовый класс ActivityView c поддержкой
-состояния загрузки {@link LoadState}
-Используется вместе с [PlaceHolderView].
+состояния загрузки [`LoadState`][ls]
+Используется вместе с [PlaceHolderView][placeholder].
 
 * [`BaseLdsSwrActivityView`][swr] - базовый класс ActivityView c поддержкой:
 
@@ -103,3 +103,4 @@ Api вью может иметь только методы вида void someMet
 [custom]: ../../docs/ui/custom_views.md
 [ls]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/LoadState.java
 [sws]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/SwipeRefreshState.java
+[placeholder]: ../../custom-view/README.md
