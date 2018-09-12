@@ -4,9 +4,11 @@
 
 ##### Создание экрана
 Для создания экрана необходимо проделать следующие шаги:
-1. Расширить 4 класса ..Route, BasePresenter, ..View, , ..ScreenModel
+
+1. Расширить [4 класса ..Route, BasePresenter, ..View, , ..ScreenModel][core-mvp]
+
 1. Расширить ScreenConfigurator в app-injector'е и занести его в
-ScreenConfiguratorStorage;
+[ScreenConfiguratorStorage][multi];
 
 При наследовании от одной из базовых View следует реализовать следующие методы:
 
@@ -50,3 +52,5 @@ ActivityViewModule(FragmentViewModule) и другие модули,
 
 Шаблоны работают в студии 3.0 и выше
 
+[core-mvp]: ../../core-mvp/docs/usage.md
+[multi]: ../common/multimodule/detail.md
