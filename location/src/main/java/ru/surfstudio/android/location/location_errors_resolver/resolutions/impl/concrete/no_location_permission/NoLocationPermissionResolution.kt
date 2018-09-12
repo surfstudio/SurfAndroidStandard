@@ -15,6 +15,8 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission
 
+import io.reactivex.Completable
+import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.ResolutionFailedException
@@ -30,23 +32,18 @@ class NoLocationPermissionResolution(
         private val permissionManager: PermissionManager
 ) : BaseLocationErrorResolutionImpl<NoLocationPermissionException>() {
 
-    override val resolvingExceptionClass = NoLocationPermissionException::class.java
+    override val resolvingThrowableClass = NoLocationPermissionException::class.java
 
-    override fun performWithCastedException(
-            resolvingException: NoLocationPermissionException,
-            onSuccessAction: () -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    ) {
-        permissionManager.request(LocationPermissionRequest())
-                .subscribe(
-                        { isSuccessful ->
-                            if (isSuccessful) {
-                                onSuccessAction()
-                            } else {
-                                onFailureAction(ResolutionFailedException(resolvingException, UserDeniedException()))
-                            }
-                        },
-                        { throwable -> onFailureAction(ResolutionFailedException(resolvingException, throwable)) }
-                )
+    override fun performWithCastedThrowable(resolvingThrowable: NoLocationPermissionException): Completable {
+        return permissionManager
+                .request(LocationPermissionRequest())
+                .flatMap { isSuccessful ->
+                    return@flatMap if (isSuccessful) {
+                        Observable.empty<Boolean>()
+                    } else {
+                        Observable.error<Boolean>(ResolutionFailedException(resolvingThrowable, UserDeniedException()))
+                    }
+                }
+                .ignoreElements()
     }
 }

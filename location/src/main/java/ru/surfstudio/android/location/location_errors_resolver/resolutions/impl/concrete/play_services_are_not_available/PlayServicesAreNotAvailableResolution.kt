@@ -34,18 +34,18 @@ class PlayServicesAreNotAvailableResolution(
         screenEventDelegateManager
 ) {
 
-    override val resolvingExceptionClass = PlayServicesAreNotAvailableException::class.java
+    override val resolvingThrowableClass = PlayServicesAreNotAvailableException::class.java
     override val requestCode = 1001
 
-    override fun performResolutionRequest(resolvingException: PlayServicesAreNotAvailableException) {
+    override fun performResolutionRequest(resolvingThrowable: PlayServicesAreNotAvailableException) {
         val googleApiAvailability = GoogleApiAvailability.getInstance()
 
-        if (!googleApiAvailability.isUserResolvableError(resolvingException.connectionResult)) {
+        if (!googleApiAvailability.isUserResolvableError(resolvingThrowable.connectionResult)) {
             throw PlayServicesAvailabilityErrorIsNotResolvableException()
         }
 
         googleApiAvailability
-                .getErrorDialog(activityProvider.get(), resolvingException.connectionResult, requestCode)
+                .getErrorDialog(activityProvider.get(), resolvingThrowable.connectionResult, requestCode)
                 .show()
     }
 }

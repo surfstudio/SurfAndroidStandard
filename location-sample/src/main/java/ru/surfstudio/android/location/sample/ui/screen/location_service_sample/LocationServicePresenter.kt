@@ -41,26 +41,9 @@ class LocationServicePresenter(
     fun checkLocationAvailability() {
         view.showLoading()
 
-        /**
-         * Проверить возможность получения местоположения.
-         */
-        val checkLocationAvailabilityCompletable: Completable =
-                locationService.checkLocationAvailability(LocationPriority.HIGH_ACCURACY)
-
         subscribeIo(
-                checkLocationAvailabilityCompletable,
-
-                /**
-                 * onComplete() вызывается, если есть возможность получить местоположение.
-                 */
+                locationService.observeLocationAvailability(LocationPriority.HIGH_ACCURACY),
                 { hideLoadingAndShowLocationIsAvailable() },
-
-                /**
-                 * onError() вызывается, если нет возможности получить местоположение.
-                 *
-                 * Может прийти [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
-                 */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
     }
@@ -68,26 +51,22 @@ class LocationServicePresenter(
     fun resolveLocationAvailability() {
         view.showLoading()
 
-        /**
-         * Решить проблемы связанные с невозможностью получения местоположения.
-         *
-         * Принимает в качестве параметров:
-         * - приоритет запроса (точность метостоположения/заряд батареи);
-         * - массив решений проблем связанных с невозможностью получения местоположения. Доступные решения:
-         *   - [NoLocationPermissionResolution]
-         *   - [PlayServicesAreNotAvailableResolution]
-         *   - [ResolvableApiExceptionResolution]
-         */
-        val resolveLocationAvailabilitySingle =
-                locationService.resolveLocationAvailability(LocationPriority.HIGH_ACCURACY, *resolutions.toTypedArray())
+        val locationAvailabilityResolvingSingle =
+                locationService.observeLocationAvailability(LocationPriority.HIGH_ACCURACY)
+                        .toSingle { emptyList<Throwable>() }
+                        .onErrorResumeNext { t: Throwable ->
+                            if (t is CompositeException) {
+                                locationService.observeLocationAvailabilityResolving(
+                                        t.exceptions,
+                                        *resolutions.toTypedArray()
+                                )
+                            } else {
+                                Single.error(t)
+                            }
+                        }
 
         subscribeIo(
-                resolveLocationAvailabilitySingle,
-
-                /**
-                 * onSuccess() вызывается при удачном решении проблем. Содержит [List] из нерешенных исключений, для
-                 * которых не передавались решения.
-                 */
+                locationAvailabilityResolvingSingle,
                 { unresolvedExceptions ->
                     if (unresolvedExceptions.isEmpty()) {
                         hideLoadingAndShowLocationIsAvailable()
@@ -95,11 +74,6 @@ class LocationServicePresenter(
                         hideLoadingAndShowLocationIsNotAvailable(CompositeException(unresolvedExceptions))
                     }
                 },
-
-                /**
-                 * onError() вызывается в случае, если попытка решения проблем не удалась. Приходит
-                 * [ResolitionFailedException].
-                 */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
     }
@@ -107,85 +81,19 @@ class LocationServicePresenter(
     fun getLastKnownLocation() {
         view.showLoading()
 
-        /**
-         * Запросить последнее известное местоположение.
-         *
-         * Принимает в качестве параметра массив решений проблем связанных с невозможностью получения местоположения.
-         * Доступные решения:
-         * - [NoLocationPermissionResolution];
-         * - [PlayServicesAreNotAvailableResolution];
-         * - [ResolvableApiExceptionResolution].
-         */
-        val lastKnownLocationMaybe: Maybe<Location> =
-                locationService.observeLastKnownLocation(*resolutions.toTypedArray())
-
         subscribeIo(
-                lastKnownLocationMaybe,
-
-                /**
-                 * onSuccess() вызывается в случае удачного получения местоположения.
-                 */
+                locationService.observeLastKnownLocation(),
                 { location: Location -> hideLoadingAndShowLocation(location) },
-
-                /**
-                 * onComplete() вызывается в случае, если местоположение было получено, но равно null.
-                 */
                 { hideLoadingAndShowNoLocation() },
-
-                /**
-                 * onError() вызывается, если нет возможности получить местоположение.
-                 *
-                 * Могут прийти следующие исключения:
-                 * - [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
-                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
-                 */
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
     }
 
     fun subscribeToLocationUpdates() {
-        /**
-         * Подписаться на получение обновлений местоположения.
-         *
-         * Принимает в качестве параметров:
-         * - интервал в миллисекундах, при котором предпочтительно получать обновления местоположения;
-         * - максимальный интервал в миллисекундах, при котором возможно обрабатывать обновления местоположения;
-         * - приоритет запроса (точность метостоположения/заряд батареи);
-         * - массив решений проблем связанных с невозможностью получения местоположения. Доступные решения:
-         *   - [NoLocationPermissionResolution]
-         *   - [PlayServicesAreNotAvailableResolution]
-         *   - [ResolvableApiExceptionResolution]
-         */
-        val locationUpdatesObservable: Observable<Location> =
-                locationService.observeLocationUpdates(
-                        1000,
-                        1000,
-                        LocationPriority.HIGH_ACCURACY,
-                        *resolutions.toTypedArray()
-                )
-
         locationUpdatesDisposable = subscribeIo(
-                locationUpdatesObservable,
-
-                /**
-                 * onNext() вызывается при каждом удачном получении местоположения.
-                 */
+                locationService.observeLocationUpdates(1000, 1000, LocationPriority.HIGH_ACCURACY),
                 { location: Location -> view.showLocation(location) },
-
-                /**
-                 * onComplete() никогда не вызывается.
-                 */
-                {},
-
-                /**
-                 * onError() вызывается, если нет возможности получить местоположение.
-                 *
-                 * Могут прийти следующие исключения:
-                 * - [CompositeException], содержащий список из возможных исключений:
-                 * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
-                 * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
-                 */
+                { /* do nothing */},
                 { t: Throwable -> view.showLocationIsNotAvailable(t) }
         )
     }

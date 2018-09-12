@@ -37,14 +37,8 @@ class DefaultLocationInteractorActivityView : BaseSampleActivity() {
         btn_activity_default_location_interactor_show_last_known_location.setOnClickListener {
             presenter.getLastKnownLocation()
         }
-        btn_activity_default_location_interactor_show_last_known_location_with_error_resolving.setOnClickListener {
-            presenter.getLastKnownLocationWithErrorResolution()
-        }
         btn_activity_default_location_interactor_show_current_location.setOnClickListener {
             presenter.getCurrentLocation()
-        }
-        btn_activity_default_location_interactor_show_current_location_with_error_resolving.setOnClickListener {
-            presenter.getCurrentLocationWithErrorResolution()
         }
     }
 }

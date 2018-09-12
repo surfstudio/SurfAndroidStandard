@@ -79,6 +79,7 @@ class LocationServiceActivityView : BaseSampleActivity() {
         cb_play_services_are_not_available_resolution.isEnabled = !isEnabled
         cb_resolvable_api_exception_resolution.isEnabled = !isEnabled
         btn_activity_location_service_check_location_availability.isEnabled = !isEnabled
+        btn_activity_location_service_resolve_location_availability.isEnabled = !isEnabled
         btn_activity_location_service_show_last_known_location.isEnabled = !isEnabled
         btn_activity_location_service_subscribe_to_location_updates.isEnabled = !isEnabled
     }

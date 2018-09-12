@@ -30,10 +30,10 @@ class ResolvableApiExceptionResolution(
         private val activityProvider: ActivityProvider
 ) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<ResolvableApiException>(screenEventDelegateManager) {
 
-    override val resolvingExceptionClass = ResolvableApiException::class.java
+    override val resolvingThrowableClass = ResolvableApiException::class.java
     override val requestCode = 1002
 
-    override fun performResolutionRequest(resolvingException: ResolvableApiException) {
-        resolvingException.startResolutionForResult(activityProvider.get(), requestCode)
+    override fun performResolutionRequest(resolvingThrowable: ResolvableApiException) {
+        resolvingThrowable.startResolutionForResult(activityProvider.get(), requestCode)
     }
 }

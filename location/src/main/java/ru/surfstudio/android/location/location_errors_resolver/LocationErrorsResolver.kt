@@ -15,7 +15,8 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver
 
-import ru.surfstudio.android.location.exceptions.ResolutionFailedException
+import io.reactivex.Observable
+import io.reactivex.Single
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 
 /**
@@ -26,50 +27,57 @@ internal object LocationErrorsResolver {
     /**
      * Решить проблемы, связанные с невозможностью получения местоположения.
      *
-     * @param resolvingExceptions [List], содержащий исключения связанные с невозможностью получения местоположения.
-     *
+     * @param throwables [List], содержащий исключения связанные с невозможностью получения местоположения.
      * @param resolutions [List], содержащий решения проблем связанных с невозможностью получения местоположения.
      *
-     * @param onFinishAction метод, вызываемый при завершении решения проблем.
-     *
-     * @param onFailureAction метод вызываемый в случае, если попытка решения проблем не удалась.
+     * @return [Single]:
+     * - onSuccess вызывется при завершении решения проблем. Содержит [List] из исключений, для которых не передавались
+     * решения;
+     * - onError вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolutionFailedException].
      */
-    fun resolve(
-            resolvingExceptions: List<Exception>,
-            resolutions: List<LocationErrorResolution<*>>,
-            onFinishAction: (unresolvedExceptions: List<Exception>) -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    ) {
-        if (resolvingExceptions.isEmpty() || resolutions.isEmpty()) {
-            onFinishAction(resolvingExceptions)
-            return
-        }
+    fun resolve(throwables: List<Throwable>, resolutions: List<LocationErrorResolution<*>>): Single<List<Throwable>> =
+            resolveWithMutableLists(throwables.toMutableList(), resolutions.toMutableList())
 
-        for (resolvingException in resolvingExceptions) {
-            for (resolution in resolutions) {
-                if (!resolution.resolvingExceptionClass.isInstance(resolvingException)) {
-                    continue
-                }
+    private fun resolveWithMutableLists(
+            throwables: MutableList<Throwable>,
+            resolutions: MutableList<LocationErrorResolution<*>>
+    ): Single<List<Throwable>> =
+            observeFirstValidThrowableWithResolutionPair(throwables, resolutions)
+                    .flatMap { (throwable, resolution) ->
+                        resolution
+                                .perform(throwable)
+                                .toSingle { Pair(throwable, resolution) }
+                    }
+                    .flatMap { (resolvedThrowable, performedResolution) ->
+                        throwables.remove(resolvedThrowable)
+                        resolutions.remove(performedResolution)
+                        resolveWithMutableLists(throwables, resolutions)
+                    }
+                    .onErrorResumeNext { t: Throwable ->
+                        if (t is NoSuchElementException) {
+                            Single.just(throwables)
+                        } else {
+                            Single.error(t)
+                        }
+                    }
 
-                resolution.perform(
-                        resolvingException,
-                        onSuccessAction = {
-                            val exceptionsWithoutResolvedException = resolvingExceptions.toMutableList()
-                            val resolutionsWithoutPerformedResolution = resolutions.toMutableList()
+    private fun observeFirstValidThrowableWithResolutionPair(
+            throwables: List<Throwable>,
+            resolutions: List<LocationErrorResolution<*>>
+    ): Single<Pair<Throwable, LocationErrorResolution<*>>>  =
+            observeAllPairs(throwables, resolutions)
+                    .filter { (throwable, resolution) -> resolution.resolvingThrowableClass.isInstance(throwable) }
+                    .firstOrError()
 
-                            exceptionsWithoutResolvedException.remove(resolvingException)
-                            resolutionsWithoutPerformedResolution.remove(resolution)
-
-                            resolve(
-                                    exceptionsWithoutResolvedException,
-                                    resolutionsWithoutPerformedResolution,
-                                    onFinishAction,
-                                    onFailureAction
-                            )
-                        },
-                        onFailureAction = onFailureAction
-                )
-            }
-        }
-    }
+    private fun observeAllPairs(
+            throwables: List<Throwable>,
+            resolutions: List<LocationErrorResolution<*>>
+    ): Observable<Pair<Throwable, LocationErrorResolution<*>>> =
+            Observable
+                    .fromIterable(throwables)
+                    .flatMap { throwable ->
+                        Observable
+                                .fromIterable(resolutions)
+                                .map { resolution -> Pair(throwable, resolution) }
+                    }
 }

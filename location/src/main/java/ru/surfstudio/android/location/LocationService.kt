@@ -18,114 +18,87 @@ package ru.surfstudio.android.location
 import android.content.Context
 import android.location.Location
 import android.support.annotation.RequiresPermission
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import io.reactivex.*
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
+import ru.surfstudio.android.location.location_errors_resolver.LocationErrorsResolver
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.NoLocationPermissionResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
 
 /**
- * Сервис для работы с местоположением (Rx обёртка над [LocationProvider]).
+ * Сервис для работы с местоположением
  */
 class LocationService(context: Context) {
 
-    private val locationProvider = LocationProvider(context)
+    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+    private val locationAvailability = LocationAvailability(context)
 
     /**
      * Проверить возможность получения местоположения.
      *
      * @param priority приоритет при получении местоположения.
      *
-     * @return [Completable].
-     * onComplete() вызывается, если есть возможность получить местоположение.
-     * onError() вызывается, если нет возможности получить местоположение.
-     * Приходит [CompositeException], содержащий список из возможных исключений:
-     * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException].
+     * @return [Completable]:
+     * - onComplete() вызывается, если есть возможность получить местоположение;
+     * - onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
+     * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+     * [ResolvableApiException].
      */
-    fun checkLocationAvailability(priority: LocationPriority): Completable =
-            Completable.create { completableEmitter: CompletableEmitter ->
-                locationProvider.checkLocationAvailability(
-                        priority,
-                        onResultAction = { exceptions ->
-                            if (exceptions.isEmpty()) {
-                                completableEmitter.onComplete()
-                            } else {
-                                completableEmitter.onError(CompositeException(exceptions))
-                            }
-                        }
-                )
-            }
+    fun observeLocationAvailability(priority: LocationPriority?): Completable =
+            locationAvailability.observeLocationAvailability(priority)
 
     /**
      * Решить проблемы связанные с невозможностью получения местоположения.
      *
-     * @param priority приоритет при получении местоположения.
-     *
+     * @param throwables [List], содержащий исключения связанные с невозможностью получения местоположения.
      * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
-     * Доступные решения:
-     * - [NoLocationPermissionResolution];
-     * - [PlayServicesAreNotAvailableResolution];
-     * - [ResolvableApiExceptionResolution].
+     * Доступные решения: [NoLocationPermissionResolution], [PlayServicesAreNotAvailableResolution],
+     * [ResolvableApiExceptionResolution].
      *
-     * @return [Single].
-     * onSuccess() вызывается при удачном решении проблем. Содержит [List] из нерешенных исключений, для которых не
-     * передавались решения.
-     * onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolitionFailedException].
+     * @return [Single]:
+     * - onSuccess() вызывается при удачном решении проблем. Содержит [List] из нерешенных исключений, для которых не
+     * передавались решения;
+     * - onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolutionFailedException].
      */
-    fun resolveLocationAvailability(
-            priority: LocationPriority,
-            vararg resolutions: LocationErrorResolution<*> = emptyArray()
-    ): Single<List<Exception>> =
-            Single.create { singleEmitter ->
-                locationProvider.resolveLocationAvailability(
-                        priority,
-                        resolutions.toList(),
-                        onFinishAction = { unresolvedExceptions -> singleEmitter.onSuccess(unresolvedExceptions) },
-                        onFailureAction = { resolutionFailedException ->
-                            singleEmitter.onError(resolutionFailedException)
-                        }
-                )
-            }
+    fun observeLocationAvailabilityResolving(
+            throwables: List<Throwable>,
+            vararg resolutions: LocationErrorResolution<*>
+    ): Single<List<Throwable>> = LocationErrorsResolver.resolve(throwables, resolutions.toList())
 
     /**
      * Запросить последнее известное местоположение.
      *
-     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
-     * Доступные решения:
-     * - [NoLocationPermissionResolution];
-     * - [PlayServicesAreNotAvailableResolution];
-     * - [ResolvableApiExceptionResolution].
-     *
-     * @return [Maybe].
-     * onSuccess() вызывается в случае удачного получения местоположения.
-     * onComplete() вызывается в случае, если местоположение было получено, но равно null.
-     * onError() вызывается, если нет возможности получить местоположение. Могут прийти следующие исключения:
-     * - [CompositeException], содержащий список из возможных исключений:
-     * [NoLocationPermissionException], [PlayServicesAreNotAvailableException], [ResolvableApiException];
-     * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
+     * @return [Maybe]:
+     * - onSuccess() вызывается в случае удачного получения местоположения;
+     * - onComplete() вызывается в случае, если местоположение было получено, но равно null;
+     * - onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
+     * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+     * [ResolvableApiException].
      */
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
-    fun observeLastKnownLocation(
-            vararg resolutions: LocationErrorResolution<*> = emptyArray()
-    ): Maybe<Location> =
-            Maybe.create { maybeEmitter ->
-                locationProvider.requestLastKnownLocationWithErrorResolution(
-                        onSuccessAction = { location ->
-                            if (location != null) {
-                                maybeEmitter.onSuccess(location)
-                            } else {
+    fun observeLastKnownLocation(): Maybe<Location> =
+            Maybe.create<Location> { maybeEmitter ->
+                fusedLocationClient
+                        .lastLocation
+                        .addOnSuccessListener { location ->
+                            if (location == null) {
                                 maybeEmitter.onComplete()
+                            } else {
+                                maybeEmitter.onSuccess(location)
                             }
-                        },
-                        onFailureAction = { exceptions -> maybeEmitter.onError(CompositeException(exceptions)) },
-                        resolutions = resolutions.toList()
-                )
+                        }
+                        .addOnFailureListener { exception -> maybeEmitter.onError(exception) }
             }
 
     /**
@@ -134,54 +107,46 @@ class LocationService(context: Context) {
      * @param intervalMillis интервал в миллисекундах, при котором предпочтительно получать обновления местоположения.
      * Тем не менее, обновления местоположения могут быть чаще, чем этот интервал, если другое приложение получает
      * обновления с меньшим интервалом. Или, наоборот, реже (например, если у устройства нет возможности подключения).
-     *
      * @param fastestIntervalMillis максимальный интервал в миллисекундах, при котором возможно обрабатывать обновления
      * местоположения. Следует устанавливать этот параметр, потому что другие приложения также влияют на скорость
      * отправки обновлений. Google Play Services отправляют обновления с максимальной скоростью, которую запросило любое
      * приложение. Если этот показатель быстрее, чем может обрабатывать приложение, можно столкнуться с соответствующими
      * проблемами.
-     *
      * @param priority приоритет запроса (точность метостоположения/заряд батареи), который дает Google Play Services
      * знать, какие источники данных использовать.
      *
-     * @param resolutions [Array], содержащий решения проблем связанных с невозможностью получения местоположения.
-     * Доступные решения:
-     * - [NoLocationPermissionResolution];
-     * - [PlayServicesAreNotAvailableResolution];
-     * - [ResolvableApiExceptionResolution].
-     *
-     * @return [Observable].
-     * onNext() вызывается при каждом удачном получении местоположения.
-     * onComplete() никогда не вызывается.
-     * onError() вызывается, если нет возможности получить местоположение. Могут прийти следующие исключения:
-     * - [CompositeException], содержащий список из возможных исключений:
-     * [NoLocationPermissionException], [PlayServicesAreNotAvailableException],[ResolvableApiException];
-     * - [ResolutionFailedException], если передавались экземпляры решений и попытка решения не удалась.
+     * @return [Observable]:
+     * - onNext() вызывается при очередном получении обновления местоположения;
+     * - onComplete() никогда не вызывается;
+     * - onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
+     * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+     * [ResolvableApiException].
      */
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
     )
     fun observeLocationUpdates(
-            intervalMillis: Long? = null,
-            fastestIntervalMillis: Long? = null,
-            priority: LocationPriority? = null,
-            vararg resolutions: LocationErrorResolution<*> = emptyArray()
+            intervalMillis: Long?,
+            fastestIntervalMillis: Long?,
+            priority: LocationPriority?
     ): Observable<Location> {
-        var locationUpdatesSubscription: LocationUpdatesSubscription? = null
-
-        return Observable.create<Location> { observableEmitter ->
-            locationUpdatesSubscription = locationProvider.requestLocationUpdatesWithErrorResolution(
-                    intervalMillis,
-                    fastestIntervalMillis,
-                    priority,
-                    onLocationUpdateAction = { location ->
-                        if (location != null) {
-                            observableEmitter.onNext(location)
-                        }
-                    },
-                    onFailureAction = { exceptions -> observableEmitter.onError(CompositeException(exceptions)) },
-                    resolutions = resolutions.toList()
-            )
-        }.doOnDispose { locationProvider.removeLocationUpdates(locationUpdatesSubscription ?: return@doOnDispose) }
+        var locationCallback: LocationCallback? = null
+        return Observable
+                .create<Location> { observableEmitter ->
+                    val locationRequest =
+                            LocationUtil.createLocationRequest(intervalMillis, fastestIntervalMillis, priority)
+                    locationCallback = createLocationCallback(observableEmitter)
+                    fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+                }
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .doOnDispose { fusedLocationClient.removeLocationUpdates(locationCallback) }
     }
+
+    private fun createLocationCallback(observableEmitter: ObservableEmitter<Location>): LocationCallback =
+            object : LocationCallback() {
+                override fun onLocationResult(locationResult: LocationResult?) {
+                    val nonNullLastLocation = locationResult?.lastLocation ?: return
+                    observableEmitter.onNext(nonNullLastLocation)
+                }
+            }
 }

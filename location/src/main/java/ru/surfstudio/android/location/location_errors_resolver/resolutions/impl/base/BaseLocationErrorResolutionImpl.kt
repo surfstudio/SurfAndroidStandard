@@ -15,26 +15,24 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.base
 
-import ru.surfstudio.android.location.exceptions.ResolutionFailedException
+import io.reactivex.Completable
+import io.reactivex.Single
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
 
 /**
  * Основа для решения проблемы получения местоположения.
  */
-abstract class BaseLocationErrorResolutionImpl<E : Exception> : LocationErrorResolution<E> {
+abstract class BaseLocationErrorResolutionImpl<E : Throwable> : LocationErrorResolution<E> {
 
-    protected abstract fun performWithCastedException(
-            resolvingException: E,
-            onSuccessAction: () -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    )
+    protected abstract fun performWithCastedThrowable(resolvingThrowable: E): Completable
 
-    final override fun perform(
-            resolvingException: Exception,
-            onSuccessAction: () -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    ) {
-        val castedException = resolvingExceptionClass.cast(resolvingException)
-        performWithCastedException(castedException, onSuccessAction, onFailureAction)
+    final override fun perform(resolvingThrowable: Throwable): Completable {
+        return Single.just(resolvingThrowable)
+                .map { resolvingThrowableClass.cast(resolvingThrowable) }
+                .flatMap { castedResolvingThrowable ->
+                    performWithCastedThrowable(castedResolvingThrowable)
+                            .toSingle { castedResolvingThrowable }
+                }
+                .ignoreElement()
     }
 }
