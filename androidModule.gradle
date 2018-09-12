@@ -1,3 +1,4 @@
+apply from: '../androidStandardDependenciesSettings.gradle'
 apply from: '../config.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
