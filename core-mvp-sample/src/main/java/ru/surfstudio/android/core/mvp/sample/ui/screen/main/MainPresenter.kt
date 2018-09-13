@@ -5,7 +5,6 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.sample.ui.screen.another.AnotherActivityRoute
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
 
 /**

@@ -7,24 +7,13 @@ android {
 }
 
 dependencies {
-    implementation project(':core-app')
-    implementation project(':core-ui')
-    implementation project(':core-mvp')
-    implementation project(':dagger-scope')
     implementation project(':easyadapter')
-    implementation project(':network')
-    implementation project(':filestorage')
-    implementation project(':logger:')
-    implementation project(':connection')
-    implementation project(':rx-extension')
-    implementation project(':util-ktx')
-    implementation project(':shared-pref')
-    implementation project(':message-controller')
+    implementation project(':sample-dagger')
     implementation project(':rxbus')
     implementation project(':datalist-limit-offset')
     implementation project(':datalist-page-count')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
+
     implementation "me.zhanghai.android.materialprogressbar:library:1.4.2"
 }

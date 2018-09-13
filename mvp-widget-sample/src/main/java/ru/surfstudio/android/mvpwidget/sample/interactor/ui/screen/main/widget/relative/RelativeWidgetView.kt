@@ -11,9 +11,10 @@ import javax.inject.Inject
 /**
  * Базовый пример виджета на базе {@link ru.surfstudio.android.mvp.widget.view.CoreRelativeLayoutView}
  * */
-class RelativeWidgetView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CoreRelativeLayoutView(context, attrs, defStyleAttr) {
+class RelativeWidgetView @JvmOverloads constructor(context: Context,
+                                                   attrs: AttributeSet? = null,
+                                                   defStyleAttr: Int = 0
+) : CoreRelativeLayoutView(context, attrs, defStyleAttr) {
 
     @Inject lateinit var presenter: RelativeViewPresenter
 

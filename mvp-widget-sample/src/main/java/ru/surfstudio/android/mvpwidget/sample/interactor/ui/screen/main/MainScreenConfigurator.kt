@@ -5,29 +5,31 @@ import dagger.Component
 import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.configurator.ActivityScreenConfigurator
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.dagger.activity.ActivityComponent
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.dagger.screen.ActivityScreenModule
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.base.dagger.screen.CustomScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
  * Конфигуратор активити главного экрана
  */
-internal class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
+internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
     @PerScreen
-    @Component(dependencies = [ActivityComponent::class], modules = [ActivityScreenModule::class, MainScreenModule::class])
-    internal interface MainScreenComponent : ScreenComponent<MainActivityView>
+    @Component(dependencies = [DefaultActivityComponent::class],
+            modules = [DefaultActivityScreenModule::class, MainScreenModule::class])
+    internal interface MainScreenComponent
+        : ScreenComponent<MainActivityView>
 
     @Module
-    internal class MainScreenModule(route: MainActivityRoute) :
-            CustomScreenModule<MainActivityRoute>(route)
+    internal class MainScreenModule(route: MainActivityRoute)
+        : DefaultCustomScreenModule<MainActivityRoute>(route)
 
-    override fun createScreenComponent(activityComponent: ActivityComponent,
-                                       activityScreenModule: ActivityScreenModule,
+    override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
+                                       defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
         return DaggerMainScreenConfigurator_MainScreenComponent.builder()
-                .activityComponent(activityComponent)
-                .activityScreenModule(activityScreenModule)
+                .defaultActivityComponent(defaultActivityComponent)
+                .defaultActivityScreenModule(defaultActivityScreenModule)
                 .mainScreenModule(MainScreenModule(MainActivityRoute()))
                 .build()
     }

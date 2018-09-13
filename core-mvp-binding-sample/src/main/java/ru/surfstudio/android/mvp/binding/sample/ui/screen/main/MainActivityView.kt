@@ -9,8 +9,8 @@ import ru.surfstudio.android.core.mvp.binding.BaseBindableActivityView
 import ru.surfstudio.android.core.mvp.binding.BindData
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.mvp.binding.sample.ui.base.configurator.ActivityScreenConfigurator
 import ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -69,23 +69,17 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
     internal lateinit var presenter: MainPresenter
 
     @IdRes
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView(): Int = R.layout.activity_main
 
-    override fun getScreenName(): String {
-        return "main"
-    }
+    override fun getScreenName(): String = "main"
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): ActivityScreenConfigurator {
-        return MainScreenConfigurator(intent)
-    }
+    override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+    override fun onCreate(savedInstanceState: Bundle?,
+                          persistentState: PersistableBundle?,
+                          viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         easy_win_btn.setOnClickListener { presenter.onEasyWinClick() }
         unbind_btn.setOnClickListener { presenter.onUnbindClick() }

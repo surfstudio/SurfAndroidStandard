@@ -6,15 +6,15 @@ import android.view.View
 import android.widget.TextView
 import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
 import ru.surfstudio.android.mvpwidget.sample.R
-import ru.surfstudio.standard.ui.screen.widget.frame.FrameViewConfigurator
 import javax.inject.Inject
 
 /**
  * Базовый пример виджета на базе {@link ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView}
  * */
-class FrameWidgetView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0)
-    : CoreFrameLayoutView(context, attrs, defStyleAttr) {
+class FrameWidgetView @JvmOverloads constructor(context: Context,
+                                                attrs: AttributeSet? = null,
+                                                defStyleAttr: Int = 0
+) : CoreFrameLayoutView(context, attrs, defStyleAttr) {
 
     @Inject lateinit var presenter: FrameViewPresenter
 

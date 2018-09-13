@@ -16,10 +16,12 @@ interface DeletableDataInterface {
     fun undo() {
         isDeleted = false
     }
+
+    fun toggleDeleted() {
+        isDeleted = !isDeleted
+    }
 }
 
-class DeletableData<T>(override var data: T)
-    : DataWrapperInterface<T>, DeletableDataInterface {
-
-    override var isDeleted: Boolean = false
-}
+data class DeletableData<T>(override var data: T,
+                            override var isDeleted: Boolean = false)
+    : DataWrapperInterface<T>, DeletableDataInterface

@@ -8,6 +8,17 @@ import ru.surfstudio.android.utilktx.data.wrapper.filterAndApply
  */
 
 /**
+ * Изменить состояние элемента, используя предикат
+ *
+ * @param collapseAnotherIfNeed необходимо ли свернуть другие, если необходимо
+ */
+fun <T, E> Collection<E>.toggleExpandable(predicate: (T) -> Boolean, collapseAnotherIfNeed: Boolean = false)
+        where E : DataWrapperInterface<T>, E : ExpandableDataInterface {
+    if (collapseAnotherIfNeed) collapseAll()
+    filterAndApply(this, { predicate(it) }, { it.toggleExpandable() })
+}
+
+/**
  * Развернуть элемент, используя предикат
  */
 fun <T, E> Collection<E>.expand(predicate: (T) -> Boolean)

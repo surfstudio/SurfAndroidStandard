@@ -3,13 +3,15 @@ ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
     buildToolsVersion = "27.0.3"
+    versionCode = 1
+    versionName = "0.0.1"
     minSdkVersion = 19
     targetSdkVersion = 27
     compileSdkVersion = 27
     debugVersionNameSuffix = ".debug"
 
     //lang
-    kotlinVersion = '1.2.60'                    //https://goo.gl/2Epeje
+    kotlinVersion = '1.2.61'                    //https://goo.gl/2Epeje
     ankoVersion = '0.10.5'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
     gsonVersion = '2.8.5'                       //https://bit.ly/2LH5L6g
@@ -53,7 +55,6 @@ ext {
     powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.10.0'                   //http://bit.ly/2mXO1EX
 
-    // версия наших внутренних модулей
-    moduleVersionCode = 15
-    moduleVersionName = '0.2.1-SNAPSHOT'
+    // Surf Core
+    surfCoreVersionName = '0.3.0-SNAPSHOT'      // версия android-standard
 }

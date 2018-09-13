@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+    
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="12dp">
+            
+            <Button
+                android:id="@+id/btn_activity_default_location_interactor_check_location_availability"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/check_location_availability"/>
+            
+            <Button
+                android:id="@+id/btn_activity_default_location_interactor_show_last_known_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/show_last_known_location"/>
+            
+            <Button
+                android:id="@+id/btn_activity_default_location_interactor_show_last_known_location_with_error_resolving"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/show_last_known_location_with_error_resolving"/>
+            
+            <Button
+                android:id="@+id/btn_activity_default_location_interactor_show_current_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/show_current_location"/>
+            
+            <Button
+                android:id="@+id/btn_activity_default_location_interactor_show_current_location_with_error_resolving"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_current_location_with_error_resolving"/>
+        
+        </LinearLayout>
+        
+        <include layout="@layout/layout_loading"/>
+    
+    </FrameLayout>
+    
+</ScrollView>

@@ -16,6 +16,7 @@ dependencies {
     implementation project(':mvp-widget')
     implementation project(':mvp-dialog')
     implementation project(':message-controller')
+    implementation project(':rxbus')
 
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.1.1'
 

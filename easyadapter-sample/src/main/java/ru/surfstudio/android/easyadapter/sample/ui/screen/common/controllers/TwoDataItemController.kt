@@ -10,8 +10,8 @@ import ru.surfstudio.android.easyadapter.sample.domain.SecondData
 
 class TwoDataItemController : DoubleBindableItemController<FirstData, SecondData, TwoDataItemController.Holder>() {
 
-    override fun getItemId(firstData: FirstData, secondData: SecondData): Long {
-        return (firstData.toString() + secondData.stringValue).hashCode().toLong()
+    override fun getItemId(firstData: FirstData, secondData: SecondData): String {
+        return (firstData.toString() + secondData.stringValue).hashCode().toString()
     }
 
     override fun createViewHolder(parent: ViewGroup?): Holder = Holder(parent)

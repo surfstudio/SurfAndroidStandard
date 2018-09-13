@@ -7,6 +7,7 @@ import android.os.Bundle;
 </#if>
 
 import dagger.Component;
+import dagger.Module;
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent;
 import ru.surfstudio.android.dagger.scope.PerScreen;
 import ru.surfstudio.standard.ui.base.configurator.ActivityScreenConfigurator;
@@ -15,7 +16,9 @@ import ru.surfstudio.standard.ui.base.dagger.screen.ActivityScreenModule;
 import ru.surfstudio.standard.ui.base.configurator.FragmentScreenConfigurator;
 import ru.surfstudio.standard.ui.base.dagger.screen.FragmentScreenModule;
 
-
+/**
+ * Конфигуратор экрана todo
+ */
 public class ${className}ScreenConfigurator extends ${screenTypeCapitalized}ScreenConfigurator {
 
     @PerScreen

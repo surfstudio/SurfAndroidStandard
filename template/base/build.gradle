@@ -6,46 +6,50 @@ buildscript {
         classpath "io.fabric.tools:gradle:$fabricToolsVersion"
     }
 }
-apply from: '../androidModule.gradle'
+
+apply from: '../commonModule.gradle'
 apply plugin: 'io.fabric'
 
 dependencies {
     api project(':template:domain')
 
-    api project(':core-app')
-    api project(':core-ui')
-    api project(':core-mvp')
-    api project(':mvp-dialog')
-    api project(':mvp-widget')
-    api project(':app-migration')
-    api project(':shared-pref')
-    api project(':custom-view')
-    api project(':analytics')
-    api project(':core-app')
-    api project(':analytics')
-    api project(':network')
-    api project(':converter-gson')
-    api project(':filestorage')
-    api project(':easyadapter')
-    api project(':recycler-extension')
-    api project(':broadcast-extension')
-    api project(':picture-provider')
-    api project(':camera-view')
-    api project(':connection')
-    api project(':rx-extension')
-    api project(':rxbus')
-    api project(':firebase-analytics')
-    api project(':custom-view')
-    api project(':util-ktx')
-    api project(':animations')
-    api project(':push')
-    api project(':dagger-scope')
-    api project(':standard-dialog')
-    api project(':message-controller')
-    api project(':logger')
-    api project(':mvp-widget')
-
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
+
+    gradle.ext.androidStandard.api(this, [
+            "core-ui",
+            "core-mvp",
+            "core-mvp-binding",
+            "core-app",
+            "mvp-dialog",
+            "mvp-widget",
+            "easyadapter",
+            "analytics",
+            "firebase-analytics",
+            "network",
+            "filestorage",
+            "push",
+            "dagger-scope",
+            "logger",
+            "converter-gson",
+            "imageloader",
+            "animations",
+            "picture-provider",
+            "camera-view",
+            "app-migration",
+            "connection",
+            "custom-view",
+            "datalist-limit-offset",
+            "datalist-page-count",
+            "recycler-extension",
+            "rx-extension",
+            "shared-pref",
+            "util-ktx",
+            "standard-dialog",
+            "message-controller",
+            "broadcast-extension",
+            "rxbus"
+    ]
+    )
 }
