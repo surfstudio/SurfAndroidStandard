@@ -139,7 +139,7 @@ todo
 
 При использовании nullable-объектов внутри метода, сначала занести ссылку на него в локальную переменную, и проверять на null уже ее.
 
-fun someFun( value: Any?) {
+fun someFun(value: Any?) {
     val temp = value
     if (temp != null) {
         //do something
