@@ -45,7 +45,9 @@ class PictureProvider constructor(
     fun openCameraAndTakePhoto(noPermissionAction: () -> Unit = {}): Observable<CameraPictureProvider.CameraResult> {
         return checkPermissionAndPerform(
                 { cameraIntentHelper.startCameraIntent() },
-                noPermissionAction)
+                noPermissionAction,
+                cameraStoragePermissionChecker.checkCameraStoragePermission()
+        )
     }
 
     //region Функции для выбора одного изображения из галереи
@@ -240,9 +242,12 @@ class PictureProvider constructor(
      * Функция, проверяющая разрешение на чтения из хранилища
      * и выполняющая различные действия в зависимости от его наличия или отсутствия
      */
-    private fun <T> checkPermissionAndPerform(hasPermissionAction: () -> Observable<T>,
-                                              noPermissionAction: () -> Unit): Observable<T> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+    private fun <T> checkPermissionAndPerform(
+            hasPermissionAction: () -> Observable<T>,
+            noPermissionAction: () -> Unit,
+            checkPermissionAction: Observable<Boolean> = cameraStoragePermissionChecker.checkGalleryStoragePermission()
+    ): Observable<T> {
+        return checkPermissionAction
                 .flatMap { hasPermission ->
                     if (hasPermission) {
                         hasPermissionAction()
