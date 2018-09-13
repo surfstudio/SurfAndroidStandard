@@ -1,16 +1,17 @@
 package ru.surfstudio.android.security.sample.ui.screen.main
 
 import androidx.core.widget.toast
+import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.security.auth.WrongEnterAttemptStorage
 import ru.surfstudio.android.security.root.RootChecker
+import ru.surfstudio.android.security.sample.R
+import ru.surfstudio.android.security.sample.interactor.profile.ProfileInteractor
 import ru.surfstudio.android.security.sample.ui.screen.session.SessionActivityRoute
 import javax.inject.Inject
-
-private const val CORRECT_PIN = "0000"
 
 /**
  * Презентер главного экрана
@@ -18,6 +19,8 @@ private const val CORRECT_PIN = "0000"
 @PerScreen
 class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                         private val activityNavigator: ActivityNavigator,
+                                        private val profileInteractor: ProfileInteractor,
+                                        private val stringsProvider: StringsProvider,
                                         private val wrongEnterAttemptStorage: WrongEnterAttemptStorage
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
@@ -29,11 +32,7 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
     }
 
     fun checkRoot() {
-        if (RootChecker.isRoot) {
-            view.toast("Root detected!")
-        } else {
-            view.toast("No Root")
-        }
+        view.toast(if (RootChecker.isRoot) R.string.root_message else R.string.no_root_message)
     }
 
     fun openSession() {
@@ -41,20 +40,20 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
     }
 
     fun enterPin(pinCode: String) {
-        //todo add ProfileInteractor
-        //todo add string resources
-        wrongEnterAttemptStorage.increasePinAttemptCount()
-        if (pinCode == CORRECT_PIN) {
-            view.toast("Корректный pin-код")
-            wrongEnterAttemptStorage.resetAttemptsCount()
-        } else {
-            val attemptsCount = wrongEnterAttemptStorage.getPinAttemptCount()
-            if (attemptsCount >= MainScreenModel.MAX_ENTER_PIN_ATTEMPT_COUNT) {
-                view.toast("Количество неверный попыток ввода pin равно $attemptsCount")
+        subscribeIoHandleError(profileInteractor.login(pinCode)) { isValidPin ->
+            wrongEnterAttemptStorage.increasePinAttemptCount()
+            if (isValidPin) {
+                view.toast(R.string.valid_pin_message)
+                wrongEnterAttemptStorage.resetAttemptsCount()
             } else {
-                view.toast("Неверный pin-код")
+                val attemptsCount = wrongEnterAttemptStorage.getPinAttemptCount()
+                if (attemptsCount >= MainScreenModel.MAX_ENTER_PIN_ATTEMPT_COUNT) {
+                    view.toast(stringsProvider.getString(R.string.pin_attempts_message, attemptsCount))
+                } else {
+                    view.toast(R.string.invalid_pin_message)
+                }
             }
+            view.render(screenModel)
         }
-        view.render(screenModel)
     }
 }
