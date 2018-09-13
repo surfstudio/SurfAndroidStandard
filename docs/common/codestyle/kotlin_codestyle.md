@@ -45,7 +45,7 @@
 
 Если используются свойства с функциональном типом, то делаем постфикс `Lambda`
 ```
-val someBeatifulLambda: (Int) -> Int = { it*2 }
+val someBeatifulLambda: (Int) -> Int = { it * 2 }
 ```
 
 Если такое свойство используется как *callback*, то вместо `Lambda` ->  `Callback`.
@@ -70,8 +70,11 @@ val someBeatifulLambda: (Int) -> Int = { it*2 }
 #### Расположение методов в классе
 
 1 вариант:
+
 * override методы
+
 * публичные методы
+
 * приватные методы
 
 2 вариант: см.  [Android Code Style][surf]
@@ -94,21 +97,13 @@ val someBeatifulLambda: (Int) -> Int = { it*2 }
 см [Non-empty/Empty Blocks](https://android.github.io/kotlin-guides/style.html#non-empty-blocks)
 
 ### Методы
+
 см. [Function formatting](https://kotlinlang.org/docs/reference/coding-conventions.html#function-formatting),
 [Вызов методов](https://kotlinlang.org/docs/reference/coding-conventions.html#method-call-formatting)
 
 *Замечание*: форматирование аргументов метода, когда не помещается
-в одну строку. Либо в соответствии с оф. код-стайлом, либо так:
+в одну строку. Делаем так:
 
-1)
-```
-override fun onPageScrolled(position: Int,
-                            positionOffset: Float,
-                            positionOffsetPixels: Int) {
-   //some actions
-}
-```
-2)
 ```
 override fun onPageScrolled(
         position: Int,
@@ -146,17 +141,6 @@ class SocialNetworksInteractor @Inject constructor(private val vkRepository: VkR
 ### Форматирование управляющих конструкций
 см. [Форматирование управляющих конструкций](https://kotlinlang.org/docs/reference/coding-conventions.html#formatting-control-flow-statements)
 
-todo
-
-#### Boolean?.
-При использовании `nullable Boolean` возможны два варианта написания if конструкции:
-```
-if (b ?: false) ...
-```
-```
-if (b == true) ...
-```
-
 ### Форматирование цепочных вызовов
 см. [Цепочные вызовы](https://kotlinlang.org/docs/reference/coding-conventions.html#chained-call-wrapping)
 
@@ -170,8 +154,8 @@ if (b == true) ...
 someMeth { //do something }
 ```
 
-Внутри лямбды удобно использовать `it`, если не требуется уточнения или
-внутри не используется еще одна лямбда, требующая параметр внешней лямбды(см. 2)
+Внутри лямбды удобно использовать `it`, если *не требуется* уточнения или
+внутри *не используется* еще одна лямбда, требующая параметр внешней лямбды(см. 2)
 1)
 ``` kotlin
 someList.map { it.id }.toHashSet()
@@ -263,6 +247,5 @@ fun someBool() : Boolean = screenModel.currentUserLocation?.isLocationDefault()?
 [surf]: java_codestyle.md
 [r_naming]: https://github.com/RedMadRobot/kotlin-style-guide#%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0-%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F
 [special_chars]: https://android.github.io/kotlin-guides/style.html#special-characters
-[ q]
 
 
