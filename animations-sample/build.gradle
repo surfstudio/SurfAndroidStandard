@@ -9,6 +9,4 @@ android {
 dependencies {
     implementation project(':animations')
     implementation project(':sample-common')
-
-    implementation "com.android.support:design:$appcompatVersion"
 }

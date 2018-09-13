@@ -1,6 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly "com.android.support:support-annotations:${appcompatVersion}"
-    api "com.android.support:recyclerview-v7:${appcompatVersion}"
+    api "com.android.support:recyclerview-v7:$appcompatVersion"
+    implementation "com.android.support:support-annotations:$appcompatVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies this

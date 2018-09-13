@@ -1,14 +1,10 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    //-------------------------------------- versions ----------------------------------------------
-
-    def glideVersion = '4.7.1'
-
-    //------------------------------------ dependencies --------------------------------------------
-
-    compileOnly project(':logger')
-    compileOnly project(':util-ktx')
-
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    api "com.github.bumptech.glide:glide:$glideVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'logger',
+        'util-ktx'
+])

@@ -1,5 +1,17 @@
 [
   {
+    "name": "template",
+    "path": ""
+  },
+  {
+    "name": "sample-common",
+    "path": ""
+  },
+  {
+    "name": "sample-dagger",
+    "path": ""
+  },
+  {
     "name": "animations-sample",
     "path": ""
   },
@@ -73,6 +85,10 @@
   },
   {
     "name": "standard-dialog-sample",
+    "path": ""
+  },
+  {
+    "name": "location-sample",
     "path": ""
   }
 ]

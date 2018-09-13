@@ -1,0 +1,14 @@
+apply from: '../androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.location.sample"
+    }
+}
+
+dependencies {
+    implementation project(':location')
+    implementation project(':sample-dagger')
+
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+}

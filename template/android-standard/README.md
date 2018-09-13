@@ -1,5 +1,4 @@
 #Скрипты с механизмом подключения модулей Android Standard
-Все используемые в проекте модули android-standard следует указывать в ```androidStandardModules.gradle```
 
 Скрипты позволяют переключаться между локальным искодным кодом android-standard и артефактами из artifactory.
 Использование локального исходного кода позволит быстро тестировать изменения в android-standard на своем проекте без деплоя артефактов.
@@ -14,7 +13,8 @@
 Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
-androidStandardDebugMode=false       # флаг для активации режима локальной загрузки репозитория android-standard
+# флаг для активации режима локальной загрузки репозитория android-standard
+androidStandardDebugMode=false
 ```
 
 ##Подключение скриптов к сборщику gradle
@@ -27,8 +27,37 @@ androidStandardDebugMode=false       # флаг для активации реж
 
 + **build.gradle** уровня модуля приложения
 
-В конец данного файла необходимо добавить строку ```apply from: '../android-standard/androidStandardDependencies.gradle'```
-для подключения модулей android-standard локально или из artifactory.
+Добавить модули android-standard следующим образом:
+```
+dependencies {
+    // other dependencies
+
+    gradle.ext.androidStandard.api(this, [
+                    "core-ui",     // массив модулей android-standard, который необходимо подключить к текущему модулю
+                    "core-mvp",
+                    "core-app"
+            ]
+    )
+}
+```
 
 + **gitignore** уровня проекта
+
 Добавить ```/android-standard/androidStandard.properties```
+
++ **buildTypes**
+
+Если проект содержит кастомные ```buildTypes```, отличные от ```debug``` и ```release```, необходимо
+предоставить для них ```matchingFallbacks``` следующим образом:
+
+```
+buildTypes {
+        qa {
+            // для buildType.qa необходимо сопоставить buildType.release
+            matchingFallbacks = ['release']
+        }
+        customBuildType {
+            matchingFallbacks = ['debug']
+        }
+}
+```

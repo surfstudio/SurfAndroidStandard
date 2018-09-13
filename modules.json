@@ -1,9 +1,5 @@
 [
   {
-    "name": "template",
-    "path": ""
-  },
-  {
     "name": "core-app",
     "path": ""
   },
@@ -68,10 +64,6 @@
     "path": ""
   },
   {
-    "name": "firebase-sample",
-    "path": ""
-  },
-  {
     "name": "rx-extension",
     "path": ""
   },
@@ -132,11 +124,7 @@
     "path": ""
   },
   {
-    "name": "sample-common",
-    "path": ""
-  },
-  {
-    "name": "sample-dagger",
+    "name": "location",
     "path": ""
   }
 ]

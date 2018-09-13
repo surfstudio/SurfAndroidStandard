@@ -7,18 +7,13 @@ android {
 }
 
 dependencies {
-    //-------------------------------------- versions ----------------------------------------------
-
-    def materialProgressBarVersion = '1.4.2'    //http://bit.ly/2vrzQvE
-    def wangAviLibraryVersion = '2.1.3'         //http://bit.ly/2NVrDaI
-
-    //------------------------------------ dependencies --------------------------------------------
-
-    compileOnly project(':util-ktx')
-    compileOnly project(':rx-extension')
-    compileOnly project(':animations')
-    compileOnly project(':logger')
-
-    implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
-    implementation "com.wang.avi:library:$wangAviLibraryVersion"
+    api "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
+    api "com.wang.avi:library:$wangAviLibraryVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'util-ktx',
+        'rx-extension',
+        'animations',
+        'logger'
+])

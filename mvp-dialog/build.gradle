@@ -1,12 +1,13 @@
 apply from: '../androidModule.gradle'
 
-
 dependencies {
-    compileOnly project(path: ':core-ui')
-    compileOnly project(path: ':core-mvp')
-    compileOnly project(path: ':mvp-widget')
-    compileOnly project(path: ':logger')
-    compileOnly project(path: ':rx-extension')
-
-    compileOnly "javax.inject:javax.inject:$javaInjectVersion"
+    api "javax.inject:javax.inject:$javaInjectVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'core-ui',
+        'core-mvp',
+        'mvp-widget',
+        'logger',
+        'rx-extension'
+])
