@@ -13,9 +13,9 @@ class MainActivityRoute(private val isReAuthState: Boolean = false) : ActivityRo
 
     override fun prepareIntent(context: Context) = Intent(context, MainActivityView::class.java)
             .apply {
-                when {
-                    isReAuthState -> addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
                 putExtra(Route.EXTRA_FIRST, isReAuthState)
+                if (isReAuthState) {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
             }
 }
