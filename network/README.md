@@ -18,4 +18,3 @@ Gradle:
     implementation "ru.surfstudio.android:network:X.X.X"
 ```
 
-TODO: Отрефакториить поиск SimpleCacheInfo по url, описать подробнее доки

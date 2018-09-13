@@ -29,6 +29,7 @@ Android Standard - Репозиторий с внутренними библио
     1. [Рассылка событий через интерактор](interactor/events_by_interactor.md)
     1. [Работа с сервером](interactor/network.md)
         1. [Кеширование](interactor/cache.md)
+        1. [Гибридные запросы](../network/docs/hybrid.md)
     1. [Работа с локацией](interactor/locatiom.md) [][<-- возможно сразу на модуль, так как мало информации]
     1. [Проверка соединения](../connection/README.md)
     1. [Миграция между версиями приложения](../app-migration/README.md)
