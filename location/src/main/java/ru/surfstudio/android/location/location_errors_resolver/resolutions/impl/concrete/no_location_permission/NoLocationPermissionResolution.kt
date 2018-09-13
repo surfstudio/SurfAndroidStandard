@@ -16,7 +16,7 @@
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission
 
 import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.Single
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.ResolutionFailedException
@@ -32,18 +32,27 @@ class NoLocationPermissionResolution(
         private val permissionManager: PermissionManager
 ) : BaseLocationErrorResolutionImpl<NoLocationPermissionException>() {
 
+
+//    constructor(permissionManager: PermissionManager, showPermissionRationable: Boolean = false) : this(permissionManager) {
+//    }
+//
+//    constructor(permissionManager: PermissionManager, permissionRationaleStr: String) : this(permissionManager) {
+//    }
+//
+//    constructor(permissionManager: PermissionManager, permissionRationaleRoute: ActivityWithResultRoute<*>) : this(permissionManager) {
+//    }
+
     override val resolvingThrowableClass = NoLocationPermissionException::class.java
 
-    override fun performWithCastedThrowable(resolvingThrowable: NoLocationPermissionException): Completable {
-        return permissionManager
-                .request(LocationPermissionRequest())
-                .flatMap { isSuccessful ->
-                    return@flatMap if (isSuccessful) {
-                        Observable.empty<Boolean>()
-                    } else {
-                        Observable.error<Boolean>(ResolutionFailedException(resolvingThrowable, UserDeniedException()))
+    override fun performWithCastedThrowable(resolvingThrowable: NoLocationPermissionException): Completable =
+            permissionManager
+                    .request(LocationPermissionRequest())
+                    .flatMap { isGranted ->
+                        if (isGranted) {
+                            Single.just(isGranted)
+                        } else {
+                            Single.error(ResolutionFailedException(resolvingThrowable, UserDeniedException()))
+                        }
                     }
-                }
-                .ignoreElements()
-    }
+                    .ignoreElement()
 }

@@ -13,18 +13,17 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.permission;
+package ru.surfstudio.android.core.ui.permission
+
+private const val MAX_REQUEST_CODE = 32768
 
 /**
- * базовый класс запроса Runtime Permissions
+ * Базовый класс запроса Runtime Permissions
  */
-public abstract class PermissionRequest {
+abstract class PermissionRequest {
 
-    private static final int MAX_REQUEST_CODE = 32768;
+    abstract val permissions: Array<String>
 
-    public abstract String[] getPermissions();
-
-    public int getRequestCode() {
-        return (this.getClass().getCanonicalName().hashCode() & 0x7fffffff) % MAX_REQUEST_CODE;
-    }
+    val requestCode: Int
+        get() = (this.javaClass.canonicalName.hashCode() and 0x7fffffff) % MAX_REQUEST_CODE
 }

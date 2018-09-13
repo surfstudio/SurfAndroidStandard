@@ -88,13 +88,13 @@ class DefaultWidgetScreenModule(private val persistentScope: WidgetViewPersisten
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager,
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityProvider: ActivityProvider,
                                           @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType): PermissionManager {
         return if (parentType == ScreenType.FRAGMENT)
-            PermissionManagerForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
+            PermissionManagerForFragment(eventDelegateManager, activityProvider, createFragmentProvider())
         else
-            PermissionManagerForActivity(activityProvider, eventDelegateManager)
+            PermissionManagerForActivity(eventDelegateManager, activityProvider)
     }
 
     @Provides

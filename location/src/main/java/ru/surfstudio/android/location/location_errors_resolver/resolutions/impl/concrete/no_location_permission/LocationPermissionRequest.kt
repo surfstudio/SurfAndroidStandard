@@ -8,8 +8,6 @@ import ru.surfstudio.android.core.ui.permission.PermissionRequest
  */
 class LocationPermissionRequest : PermissionRequest() {
 
-    override fun getPermissions() = arrayOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    )
+    override val permissions: Array<String>
+        get() = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
 }

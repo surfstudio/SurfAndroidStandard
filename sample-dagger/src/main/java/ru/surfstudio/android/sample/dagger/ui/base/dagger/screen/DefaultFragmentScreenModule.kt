@@ -43,10 +43,10 @@ class DefaultFragmentScreenModule(private val persistentScope: FragmentViewPersi
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForFragment(activityProvider, fragmentProvider, eventDelegateManager)
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityProvider: ActivityProvider,
+                                          fragmentProvider: FragmentProvider): PermissionManager {
+        return PermissionManagerForFragment(eventDelegateManager, activityProvider, fragmentProvider)
     }
 
     @Provides

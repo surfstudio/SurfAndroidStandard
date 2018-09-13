@@ -50,9 +50,9 @@ class DefaultActivityScreenModule(private val activityViewPersistentScope: Activ
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForActivity(activityProvider, eventDelegateManager)
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityProvider: ActivityProvider): PermissionManager {
+        return PermissionManagerForActivity(eventDelegateManager, activityProvider)
     }
 
     @Provides
