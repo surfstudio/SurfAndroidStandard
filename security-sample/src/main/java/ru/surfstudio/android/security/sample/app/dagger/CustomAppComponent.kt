@@ -8,7 +8,7 @@ import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
-import ru.surfstudio.android.security.auth.WrongEnterPinAttemptStorage
+import ru.surfstudio.android.security.auth.WrongEnterAttemptStorage
 import ru.surfstudio.android.security.session.SessionChangedInteractor
 import ru.surfstudio.android.security.session.SessionManager
 
@@ -26,5 +26,5 @@ interface CustomAppComponent {
 
     fun sessionManager(): SessionManager
     fun sessionChangeInteractor(): SessionChangedInteractor
-    fun wrongEnterPinAttemptStorage(): WrongEnterPinAttemptStorage
+    fun wrongEnterPinAttemptStorage(): WrongEnterAttemptStorage
 }
