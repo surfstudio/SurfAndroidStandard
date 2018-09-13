@@ -17,7 +17,7 @@
 `hybridQueryWithSimpleCache()`, которые принимают только сам запрос на сервер,
 так как за возврат из кеша в этом случае будет ответсвенен [`SimpleCacheInterceptor`][simple].
 
-
+todo : написать, когда какую стратегию лучше использовать - загрузка в бекграунде
 
 [base]: ../src/main/java/ru/surfstudio/android/network/BaseNetworkInteractor.java
 [strategy]: ../src/main/java/ru/surfstudio/android/network/DataStrategy.java
