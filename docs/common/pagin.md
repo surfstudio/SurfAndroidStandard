@@ -54,6 +54,9 @@
   И для удобства использовать [EasyAdapter][easy].
 
 - Маппинг содержимого DataList в другие типы.
+  Например, у элемента списка на UI может быть состояние выбран/не выбран.
+  Тогда удобно смаппить список, пришедший с сервера, в тип CheckableData
+  (предоставляемый модулем [util-ktx][ktx]).
 
   *Решение*: Использовать специальный метод внутри DataList.
 
@@ -65,3 +68,4 @@
 [control]: ../../easyadapter/README.md
 [cache]: ../../network/README.md
 [easy]: ../../easyadapter/README.md
+[ktx]: ../../util-ktx/README.md
