@@ -1,4 +1,4 @@
-package ru.surfstudio.android.security.ssl
+package ru.surfstudio.android.security.connection.ssl
 
 import android.content.Context
 import android.support.annotation.RawRes
