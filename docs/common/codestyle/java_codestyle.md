@@ -66,20 +66,23 @@ RecyclerView, к чему пишем комментарии и т.д
 
 #### Имена layout
 
-Имена xml layouts должны соответствовать шаблону semantic_postfix,
-где postfix (**исключение** для активити activity_semantic и фрагмента fragment_semantic):
+Имена xml layouts должны соответствовать шаблону prefix_semantic,
+где prefix :
+- activity_ - макет активити
 
-- _layout - некий layout, встраиваемый в другой layout
+- fragment_ - макет фрагмента
 
-- _list_item - элемент ListView
+- layout_ - некий layout, встраиваемый в другой layout
 
-- _dialog - layout диалога
+- list_item_ - элемент ListView
 
-- _view - layout для кастомной android.View
+- dialog_ - layout диалога
+
+- view_ - layout для кастомной android.View
 
 #### Имена компонент в layout
 
-id компонентов в layout должны соответствовать шаблону *layout_semantic_postfix*,
+id компонентов в layout должны соответствовать шаблону *semantic_postfix*,
 где *_postfix* тип компонента, для распространенных компонентов используется
 сокращенное название, для остальных полное:
 
