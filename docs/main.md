@@ -19,13 +19,12 @@ Android Standard - Репозиторий с внутренними библио
     1. [Инъекция зависимостей](common/di.md)
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
-    1. [Аналитика](../analytics/README.md) [][<-- возможно сразу на модуль, так как мало информации]
+    1. [Аналитика](../analytics/README.md)
     1. [Асинхронные взаимодействия](common/async.md)
     1. [Пуш-уведомления](../push/README.md)
     1. [Пагинация](common/pagin.md)
 
 1. [**Слой Interactor**](interactor/interactor.md)
-    1. [О модулях внутренней логики](interactor/about_modules_inner_logic.md)
     1. [Рассылка событий через интерактор](interactor/events_by_interactor.md)
     1. [Работа с сервером](interactor/network.md)
         1. [Кеширование](interactor/cache.md)
