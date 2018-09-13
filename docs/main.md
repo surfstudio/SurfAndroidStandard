@@ -47,7 +47,7 @@ Android Standard - Репозиторий с внутренними библио
     1. [Обработка ошибок](ui/handle_errors.md)
     1. [Управлениями сообщениями](../message-controller/README.md)
 
-1. [Инициализация приложения](../template-multimodule/README.md)
+1. [Инициализация приложения](../template/README.md)
 
 1. [Лучшие практики](best_practice.md)
 
