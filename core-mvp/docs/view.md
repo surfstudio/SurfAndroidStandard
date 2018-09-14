@@ -92,6 +92,16 @@ Api вью может иметь только методы вида void someMet
    * [`RenderableView`][render_v] - для кастомных вью с поддержкой
    отрисовки модели экрана
 
+#### Лучшие практики
+
+Если на экране производится запрос, в течении которого нельзя давать
+пользователю взаимодействовать с контентом - используем `LoadState.LOADING_TRANSPARENT`.
+
+Если при этом запрос не очень важный, лучше блокировать только необходимую
+часть контента,
+при этом демонстрировать `PullToRefresh` или другой индикатор и скрывать его
+при снятии блокировки с UI.
+
 [core]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/CoreActivityView.java
 [render]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/BaseRenderableActivityView.java
 [lds]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/BaseLdsActivityView.java

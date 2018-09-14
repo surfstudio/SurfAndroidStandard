@@ -129,6 +129,16 @@ stopCampaignDisposable = subscribeIoHandleError(postInteractor.stopPromoCampaign
                 })
 ```
 
+
+#### Лучшие практики
+
+Для объединения запросов к репозиториям необходимо использовать
+`ObservableUtil#combineLatestDelayError()` вместо `Observable#zip()`.
+Это продиктовано особенностью получения данных.
+
+Каждый Observable может эмитить 2 элемента: один из **кеша**, другой с **сервера**.
+Observables в этом случае выполняются *параллельно*.
+
 [base]: ../src/main/java/ru/surfstudio/android/core/mvp/presenter/BasePresenter.java
 [view]: view.md
 [model]: screen_model.md
