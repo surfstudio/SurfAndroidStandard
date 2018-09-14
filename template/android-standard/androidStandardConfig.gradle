@@ -39,15 +39,15 @@ gradle.ext {
     androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
 
     // Функция для подключения модулей android-standard
-    androidStandard.api = { context, modules, closure = null ->
+    androidStandard.api = { context, androidStandardVersion, modules, closure = null ->
         if (!gradle.ext.androidStandard.debugEnabled) {
             // Подключение модулей из artifactory
             context.dependencies {
                 modules.each {
                     if (closure == null) {
-                        api "ru.surfstudio.android:$it:$surfCoreVersionName"
+                        api "ru.surfstudio.android:$it:$androidStandardVersion"
                     } else {
-                        api("ru.surfstudio.android:$it:$surfCoreVersionName", closure)
+                        api("ru.surfstudio.android:$it:$androidStandardVersion", closure)
                     }
                 }
             }
