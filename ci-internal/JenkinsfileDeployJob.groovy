@@ -1,5 +1,5 @@
 @Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-import ru.surfstudio.ci.pipeline.EmptyPipeline
+import ru.surfstudio.ci.pipeline.empty.EmptyPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.JarvisUtil
