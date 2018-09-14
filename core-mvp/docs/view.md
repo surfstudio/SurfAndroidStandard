@@ -10,6 +10,9 @@
 - Показывает информацию пользователю;
 - Передает пользовательские события в Presenter.
 
+Под View подразумевается не только android.View, но и Activity, Fragment,
+Dialog или [Widget][widget].
+
 Для создания View экрана следует наследоваться от одного из классов:
 
 - [`CoreActivityView`][core]
@@ -24,24 +27,14 @@
 
 см [типы базовых классов вью](#базовые-классы-и-интерфейсы-вью)
 
-Если какая-то область экрана (View) является логически связанной,
-то следует обернуть ее в кастомную android.ViewGroup,
-даже если она не будет переиспользоваться на других экранах.
 Взаимодействие частей View (например Adapter, кастомная android.View)
 напрямую с презентером запрещено.
 Только View может взаимодействовать с презентером.
 
-Также есть возможность использовать презентеры в кастомных android.View,
-для этого необходимо:
- * заинжектить этот презентер в базовую вью
-(Activity или Fragment реализующие интерфейс PresenterHolderCoreView)
-и переопределить метод bindPresenters,
-в котором связать кастомную android.View с [презентером][presenter]
+Если экран не содержит логики, то следует наследоваться от `CoreActivityView`
+или `CoreFragmentView`.
 
-Если экран не содержит логики, то следует наследоваться от CoreActivityView
-или CoreFragmentView.
-
-Api вью может иметь только методы вида void someMethod(params...),
+Api вью может иметь только методы вида `void someMethod(params...)`,
 это нужно для соответствия принципу [Unidirectional data flow][presenter].
 
 ##### Базовые классы и интерфейсы вью
@@ -98,6 +91,14 @@ Api вью может иметь только методы вида void someMet
    * [`RenderableView`][render_v] - для кастомных вью с поддержкой
    отрисовки модели экрана
 
+
+Также есть возможность использовать презентеры в кастомных android.View,
+для этого необходимо:
+ * заинжектить этот презентер в базовую вью
+(Activity или Fragment реализующие интерфейс PresenterHolderCoreView)
+и переопределить метод `bindPresenters`,
+в котором связать кастомную android.View с [презентером][presenter]
+
 #### Лучшие практики
 
 todo
@@ -118,3 +119,4 @@ todo
 [ls]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/LoadState.java
 [sws]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/SwipeRefreshState.java
 [placeholder]: ../../custom-view/README.md
+[widget]: ../../mvp-widget/README.md
