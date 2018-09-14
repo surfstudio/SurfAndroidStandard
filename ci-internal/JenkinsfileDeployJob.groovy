@@ -77,7 +77,7 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.createStage(UNIT_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
