@@ -67,8 +67,8 @@ gradle.ext {
             try {
                 def pluginClass = new GroovyClassLoader().loadClass("com.google.gms.googleservices.GoogleServicesPlugin")
                 pluginClass.getField("config").get(null).disableVersionCheck = true
-            } catch (ClassNotFoundException e) {
-                logger.error(e.message)
+            } catch (Throwable e) {
+                logger.error("Ошибка установки GoogleServicesPlugin.config.disableVersionCheck: $e.message")
             }
         }
     }
