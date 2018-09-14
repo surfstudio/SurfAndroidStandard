@@ -19,9 +19,7 @@ android {
 }
 
 dependencies {
-    api "com.nimbusds:srp6a:$srp6aVersion"
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-
     implementation "com.android.support:support-annotations:$appcompatVersion"
 }
 

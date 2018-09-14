@@ -24,9 +24,6 @@ ext {
     okHttpVersion = '3.11.0'                    //https://bit.ly/1Iijjtl
     retrofitVersion = '2.4.0'                   //https://bit.ly/2eZa7nz
 
-    //secure
-    srp6aVersion = '2.0.2'                      //http://bit.ly/2QrG9cn
-
     //rx
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
     rxJava2Version = '2.2.0'                    //https://goo.gl/uzna2x
