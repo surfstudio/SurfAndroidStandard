@@ -53,9 +53,10 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
         private const val ITERATION_COUNT = 16384
     }
 
+    //todo create 2 methods
     fun saveSecureData(secureData: String,
                        pin: String,
-                       cryptoObject: FingerprintManager.CryptoObject?): Boolean = try {
+                       cryptoObject: FingerprintManager.CryptoObject?) {
         val salt = generateSalt()
         val spec = PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
 
@@ -75,13 +76,9 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
                             generateSalt())
                             .toString())
         }
-
-        true
-    } catch (ignored: Throwable) {
-        false
     }
 
-    fun getSecureData(pin: String): String? = try {
+    fun getSecureData(pin: String): String? {
         val secretValue = SecretValue.fromString(SettingsUtil.getString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN))
         val spec = PBEKeySpec(pin.toCharArray(), secretValue.salt, ITERATION_COUNT, KEY_LENGTH)
 
@@ -91,13 +88,11 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
                 SecretKeyFactory.getInstance(KEY_ALGORITHM).generateSecret(spec),
                 IvParameterSpec(secretValue.iv))
 
-        String(cipher.doFinal(secretValue.secret))
-    } catch (ignored: Throwable) {
-        null
+        return String(cipher.doFinal(secretValue.secret))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun getSecureData(cryptoObject: FingerprintManager.CryptoObject): String? = try {
+    fun getSecureData(cryptoObject: FingerprintManager.CryptoObject): String? {
         val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
         keyStore.load(null)
 
@@ -107,9 +102,7 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
         val cipher = cryptoObject.cipher
         cipher.init(Cipher.DECRYPT_MODE, key, IvParameterSpec(secretValue.iv))
 
-        String(cipher.doFinal(secretValue.secret))
-    } catch (ignored: Throwable) {
-        null
+        return String(cipher.doFinal(secretValue.secret))
     }
 
     @TargetApi(Build.VERSION_CODES.M)

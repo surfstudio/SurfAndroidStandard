@@ -19,8 +19,6 @@ import android.content.Context
 import android.support.annotation.RawRes
 import android.util.Base64
 import okhttp3.CertificatePinner
-import java.io.IOException
-import java.io.InputStream
 import java.security.MessageDigest
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
@@ -39,16 +37,16 @@ class CertificatePinnerCreator(private val context: Context) {
 
     fun create(@RawRes certId: Int, hostName: String): CertificatePinner {
         return CertificatePinner.Builder()
-                .add(hostName, extractPeerCertificate(context.resources.openRawResource(certId)))
+                .add(hostName, extractPeerCertificate(certId))
                 .build()
     }
 
     /**
      * Get peer certificate (Public key to sha256 to base64)
-     * @param certificateInputStream InputStream from Crt or der or pem file with a valid certificate
+     * @param certId certificate ID
      */
-    private fun extractPeerCertificate(certificateInputStream: InputStream?): String {
-        try {
+    private fun extractPeerCertificate(@RawRes certId: Int): String {
+        context.resources.openRawResource(certId).use { certificateInputStream ->
             val x509Certificate = CertificateFactory.getInstance(certificateType)
                     .generateCertificate(certificateInputStream) as X509Certificate
 
@@ -58,15 +56,6 @@ class CertificatePinnerCreator(private val context: Context) {
             val publicKeyShaBase64 = Base64.encode(publicKeySha256, Base64.NO_WRAP)
 
             return certificatePrefix + publicKeyShaBase64
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            try {
-                certificateInputStream?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
         }
-        return ""
     }
 }
