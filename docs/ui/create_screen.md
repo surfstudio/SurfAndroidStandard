@@ -21,6 +21,9 @@ Id Layout’а этого экрана.
 * `#createConfigurator()` - получает конфигуратор через компонент
 провайдер -  ComponentProvider.
 
+* `#getScreenName()` - имя экрана для логирования(не использовать имя класса 
+через рефлексию из-за обфускации)
+
 **ScreenConfigurator** инкапсулирует всю логику работы с Dagger.
 ScreenConfigurator должен содержать:
 
