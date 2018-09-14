@@ -61,5 +61,5 @@ ext {
 
     // версия android-standard
     moduleVersionCode = 19
-    moduleVersionName = '0.3.0-SNAPSHOT'
+    moduleVersionName = '0.2.1-TWIM-0.0.0-SNAPSHOT'
 }
