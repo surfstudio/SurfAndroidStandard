@@ -46,6 +46,7 @@ Android Standard - Репозиторий с внутренними библио
     1. [Работа со списками](../easyadapter/README.md)
     1. [Обработка ошибок](ui/handle_errors.md)
     1. [Управлениями сообщениями](../message-controller/README.md)
+    1. [Особенности реализации View](ui/view_realization_specs.md)
 
 1. [Инициализация приложения](../template/README.md)
 
