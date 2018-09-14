@@ -5,8 +5,4 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 /**
  * Модель главного экрана
  */
-class MainScreenModel : ScreenModel() {
-    companion object {
-        const val MAX_ENTER_PIN_ATTEMPT_COUNT = 3
-    }
-}
+class MainScreenModel : ScreenModel()

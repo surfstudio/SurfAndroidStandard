@@ -5,8 +5,4 @@
     <string name="no_root_message">No Root</string>
     <string name="open_session_btn_text">Open session</string>
     <string name="session_screen_tv_text">Session screen</string>
-    <string name="submit_pin_btn_text">Submit pin</string>
-    <string name="valid_pin_message">Корректный pin</string>
-    <string name="invalid_pin_message">Неверный pin-код</string>
-    <string name="pin_attempts_message">Количество неверный попыток ввода pin равно %d</string>
 </resources>
