@@ -8,13 +8,12 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivityScreenConfigurator
-import ru.surfstudio.android.security.session.SessionFree
 import javax.inject.Inject
 
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), SessionFree {
+class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     @Inject
     lateinit var presenter: MainPresenter

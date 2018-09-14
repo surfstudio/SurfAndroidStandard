@@ -8,8 +8,6 @@ import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
-import ru.surfstudio.android.security.session.SessionChangedInteractor
-import ru.surfstudio.android.security.session.SessionManager
 
 @PerApplication
 @Component(modules = [
@@ -22,7 +20,4 @@ interface CustomAppComponent {
     fun connectionProvider(): ConnectionProvider
     fun schedulerProvider(): SchedulersProvider
     fun stringsProvider(): StringsProvider
-
-    fun sessionManager(): SessionManager
-    fun sessionChangeInteractor(): SessionChangedInteractor
 }

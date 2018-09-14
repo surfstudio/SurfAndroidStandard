@@ -26,7 +26,6 @@ dependencies {
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
-        'dagger-scope',
         'shared-pref',
         'util-ktx'
 ])

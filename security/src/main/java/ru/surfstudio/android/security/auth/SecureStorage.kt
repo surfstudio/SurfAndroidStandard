@@ -22,8 +22,6 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
-import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.android.shared.pref.SettingsUtil
 import java.security.KeyStore
 import java.security.SecureRandom
@@ -33,15 +31,11 @@ import javax.crypto.SecretKey
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
-import javax.inject.Inject
-import javax.inject.Named
 
 /**
  * Защищенное хранилище, использующее AES-шифрование.
  */
-@PerApplication
-class SecureStorage
-@Inject constructor(@Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
+class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
 
     companion object {
         private const val KEY_SECURE_DATA_BY_PIN = "data_pin"

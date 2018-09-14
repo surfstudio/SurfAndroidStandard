@@ -13,26 +13,23 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.security.connection.ssl
+package ru.surfstudio.android.security.ssl
 
 import android.content.Context
 import android.support.annotation.RawRes
 import android.util.Base64
 import okhttp3.CertificatePinner
-import ru.surfstudio.android.dagger.scope.PerApplication
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
-import javax.inject.Inject
 
 /**
  * Класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
  * Проверяется только сертификат сайта.
  */
-@PerApplication
-class CertificatePinnerCreator @Inject constructor(private val context: Context) {
+class CertificatePinnerCreator(private val context: Context) {
 
     companion object {
         private const val certificateType = "X509"

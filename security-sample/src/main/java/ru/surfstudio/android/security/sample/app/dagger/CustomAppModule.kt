@@ -10,9 +10,6 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigat
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
-import ru.surfstudio.android.security.sample.interactor.auth.SessionChangedInteractorImpl
-import ru.surfstudio.android.security.session.SessionChangedInteractor
-import ru.surfstudio.android.security.session.SessionManager
 
 @Module
 class CustomAppModule(private val coreApp: CoreApp) {
@@ -46,17 +43,5 @@ class CustomAppModule(private val coreApp: CoreApp) {
     @PerApplication
     internal fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
-    }
-
-    @Provides
-    @PerApplication
-    internal fun provideSessionChangedInteractor(globalNavigator: GlobalNavigator): SessionChangedInteractor {
-        return SessionChangedInteractorImpl(globalNavigator)
-    }
-
-    @Provides
-    @PerApplication
-    internal fun provideSessionManager(sessionChangedInteractor: SessionChangedInteractor): SessionManager {
-        return SessionManager(sessionChangedInteractor, 10L)
     }
 }
