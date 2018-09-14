@@ -11,11 +11,21 @@
 тем самым не допускается обработка результатов [асинхронных операций][async]
 пока вью пересоздается
 
+![](https://raw.githubusercontent.com/MaksTuev/ferro/master/ferro.gif)
+
 3. Добавлена новая сущность ScreenModel, которая является логическим
 представлением ui или другими словами - полностью описывает состояние ui.
 Презентер должен изменять вью только через метод ```void render(ScreenModel model)```
 
-Описание и примеры [здесь](docs/usage.md)
+#### Основные сущности
+
+Модуль содержит следующие сущности:
+
+* [Presenter](docs/presenter.md);
+* [View](docs/view.md);
+* [ScreenModel](docs/screen_model.md);
+* [Configurator](docs/configurator.md).
+
 
 #### Подключение
 Gradle:

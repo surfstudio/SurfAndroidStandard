@@ -129,6 +129,12 @@ stopCampaignDisposable = subscribeIoHandleError(postInteractor.stopPromoCampaign
                 })
 ```
 
+#### Автоматическа перезагрузка данных при появлении соединения с сетью
+
+`BasePresenter` предоставляет механизм для автоматической перезагрузки данных,
+в случае, когда пропало соединение с сетью, а потом появилось.
+
+Этот механизм представлен методами `BasePresenter#subscribe...AutoReload()`.
 
 #### Лучшие практики
 
