@@ -50,6 +50,7 @@ pipeline.initStageBody = {
 
     if(branchName.contains("project-snapshot")){
         script.echo "Apply lightweight strategies for project-snapshot branch"
+        pipeline.getStage(BUILD).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
