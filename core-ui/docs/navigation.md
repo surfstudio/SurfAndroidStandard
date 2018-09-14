@@ -57,7 +57,8 @@ abstract class CustomScreenModule<out R : Route>(private val route: R) {
 
 Если необходимо стартовать экран с последующим получением результата,
 необходимо зарегистрировать обработчик этого события через
-`АctivityNavigator#observeActivityResult` в презентере.
+`АctivityNavigator#observeActivityResult` в презентере. При этом подписаться
+следует один раз за время жизни презентера (например в `onFirstLoad()`).
 
 
 [core-ui]: ../README.md

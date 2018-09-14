@@ -56,7 +56,7 @@ BottomSheet на основе простого диалога
 
 #### CoreBottomSheetDialogFragmentView
 
-BottomSheet с собственным презентером.
+BottomSheetDialog с собственным презентером.
 
 # Навигация
 Общая информация по навигации - [здесь][../docs/ui/navigation.md].
@@ -71,7 +71,7 @@ BottomSheet с собственным презентером.
 
 [simple]: src/main/java/ru/surfstudio/android/mvp/dialog/simple/CoreSimpleDialogFragment.java
 [core]: src/main/java/ru/surfstudio/android/mvp/dialog/complex/CoreDialogFragmentView.java
-[bottom]: src/main/java/ru/surfstudio/android/mvp/dialog/complex/CoreBottomSheetDialogFragmentView.java
+[bottom]: src/main/java/ru/surfstudio/android/mvp/dialog/complex/CoreBottomSheetDialogDialogFragmentView.java
 [bottom_simple]: src/main/java/ru/surfstudio/android/mvp/dialog/simple/bottomsheet/CoreSimpleBottomSheetDialogFragment.kt
 [nav]: src/main/java/ru/surfstudio/android/mvp/dialog/navigation/navigator/DialogNavigator.java
 [dr]: src/main/java/ru/surfstudio/android/mvp/dialog/navigation/route/DialogRoute.java
