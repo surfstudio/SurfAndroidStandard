@@ -77,22 +77,22 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            CommonAndroidStages.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.createStage(UNIT_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            CommonAndroidStages.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                             "testReleaseUnitTest",
                             "**/test-results/testReleaseUnitTest/*.xml",
                             "app/build/reports/tests/testReleaseUnitTest/")
         },
         pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            CommonAndroidStages.instrumentationTestStageBodyAndroid(script,
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(script,
                     "connectedAndroidTest",
                     "**/outputs/androidTest-results/connected/*.xml",
                     "app/build/reports/androidTests/connected/")
         },
         pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            CommonAndroidStages.staticCodeAnalysisStageBody(script)
+            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             script.sh "./gradlew clean uploadArchives"
