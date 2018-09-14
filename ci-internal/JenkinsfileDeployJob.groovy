@@ -49,7 +49,7 @@ pipeline.initializeBody = {
         value -> branchName = value
     })
 
-    if(branchName.contains("project-snapshot")){
+    if(branchName.contains("project-snapshot")){ //todo do not ignore stages fore project-release build (нжно парсить config файл и смотреть на постфикс SNAPSHOT)
         script.echo "Apply lightweight strategies for project-snapshot branch"
         pipeline.getStage(BUILD).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
