@@ -1,5 +1,5 @@
 @Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-import ru.surfstudio.ci.pipeline.empty.EmptyPipeline
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.JarvisUtil
@@ -7,6 +7,7 @@ import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
+import ru.surfstudio.ci.AbortDuplicateStrategy
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
@@ -22,7 +23,7 @@ def DEPLOY = 'Deploy'
 
 //init
 def script = this
-def pipeline = new EmptyPipeline(script)
+def pipeline = new EmptyScmPipeline(script)
 def branchName = ""
 pipeline.init()
 
@@ -30,10 +31,10 @@ pipeline.init()
 pipeline.node = NodeProvider.getAndroidNode()
 
 pipeline.preExecuteStageBody = { stage ->
-    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, stage.name)
+    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, stage.name, stage.result)
+    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -57,10 +58,12 @@ pipeline.initializeBody = {
     }
 
     CommonUtil.safe(script){
-        JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", script.scm.userRemoteConfigs[0].url, "bitbucket", true)
+        JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", pipeline.repoUrl, "bitbucket", true)
     }
 
-    CommonUtil.abortDuplicateBuilds(script, branchName)
+    def buildDescription = branchName
+    CommonUtil.setBuildDescription(script, buildDescription)
+    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
 pipeline.stages = [
@@ -106,7 +109,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy ветки ${branchName} успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, script.scm.userRemoteConfigs[0].url, "bitbucket", success)
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 }
 
 pipeline.run()
