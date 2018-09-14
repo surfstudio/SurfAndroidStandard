@@ -83,7 +83,7 @@ ActivityProvider, которые поставляют валидные Fragment 
 Api презентера может иметь только методы вида **`void someMethod(params...)`**,
 это необходимо для соответствия принципу **unidirection data flow**
 
-![](images/unidirect-dataflow.png)
+![](https://preview.ibb.co/jpCbUp/unidirect_dataflow.png)
 
 
 
