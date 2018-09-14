@@ -46,7 +46,6 @@ Android Standard - Репозиторий с внутренними библио
     1. [Анимации](../animations/README.md)
     1. [Загрузка изображений](../imageloader/README.md)
     1. [Работа со списками](../easyadapter/README.md)
-    1. [Обработка ошибок](ui/handle_errors.md)
     1. [Управлениями сообщениями](../message-controller/README.md)
 
 1. [Инициализация приложения](../template/README.md)

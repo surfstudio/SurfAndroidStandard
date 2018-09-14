@@ -1,3 +1,7 @@
+[Главная](../../docs/main.md)
+
+[Ридми модуля](../README.md)
+
 [TOC]
 
 # Presenter
@@ -87,14 +91,32 @@ Api презентера может иметь только методы вид�
 
 Ошибки с запросов к репозиторию обрабатываются в презентере.
 
-Для этого предусмотрен механизм, с возможностью поставить стандартный обработчик
-ошибок на все запросы. Он предоставляется модулем [core-mvp][mvp].
+Для этого предусмотрен механизм, с возможностью поставить [стандартный обработчик
+ошибок][handler] на все запросы. Он предоставляется модулем [core-mvp][mvp].
+
+Для этого необходимо реализовать интерфейс [`ErrorHandler`][handler] и предоставить
+ее как зависимость, напрмер, через даггер:
+```
+@Module
+class ErrorHandlerModule {
+
+    @Provides
+    @PerScreen
+    fun provideNetworkErrorHandler(standardErrorHandler: StandardErrorHandler): ErrorHandler {
+        return standardErrorHandler
+    }
+}
+```
+
+Конкретную реализацию можно посмотреть [здесь][ex1] и [здесь][ex2].
+
+Данный обработчик будет автоматически перехватывать ошибки при использовании
+метода `BasePresenter#subscribeIoHandleError`.
 
 Частные случаи и установку состояния экрана при ошибке следует производить
-в коллбеках Rx-цепочек.
+в коллбеках метода `BasePresenter#subscribeIo` и `BasePresenter#subscribeIoHandleError`.
 
-Например, при использовании *core-mvp* и поставлемого с им базового презентера
-обрабтка будет выглядить так:
+Например так:
 
 ```
 stopCampaignDisposable = subscribeIoHandleError(postInteractor.stopPromoCampaign(screenModel.postId),
@@ -109,8 +131,11 @@ stopCampaignDisposable = subscribeIoHandleError(postInteractor.stopPromoCampaign
 
 [base]: ../src/main/java/ru/surfstudio/android/core/mvp/presenter/BasePresenter.java
 [view]: view.md
-[model]: usage.md
+[model]: screen_model.md
 [delegates]: ../../core-ui/README.md
 [nav]: ../../docs/ui/navigation.md
 [async]: ../../docs/common/async.md
 [mvp]: ../README.md
+[handler]: ../src/main/java/ru/surfstudio/android/core/mvp/error/ErrorHandler.java
+[ex1]: ../../template/base/src/main/java/ru/surfstudio/standard/base/error/NetworkErrorHandler.kt
+[ex2]: ../../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/error/StandardErrorHandler.kt
