@@ -47,7 +47,7 @@ Gradle:
 
 #### CoreSimpleBottomSheetDialogFragment
 
-BottomSheet на основе простого диалога
+Простой BottomSheetDialog без презентера, аналогичен `CoreSimpleDialogFragment`.
 
 #### CoreDialogFragmentView
 Диалог с собственным презентером.
