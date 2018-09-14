@@ -1,7 +1,7 @@
-@Library('surf-lib') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.EmptyPipeline
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.stage.body.CommonAndroidStages
+import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.RepositoryUtil
@@ -36,7 +36,7 @@ pipeline.postExecuteStageBody = { stage ->
     if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, stage.name, stage.result)
 }
 
-pipeline.initStageBody = {
+pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
     script.echo "artifactory user: ${script.env.surf_maven_username}"
@@ -97,7 +97,7 @@ pipeline.stages = [
 ]
 
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlHtmlLink(script)
+    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
     def message
     def success = Result.SUCCESS.equals(pipeline.jobResult)
     if (!success) {
