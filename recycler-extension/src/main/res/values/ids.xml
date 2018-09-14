@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="header_view" type="id">header_view</item>
-    <item name="footer_view" type="id">footer_view</item>
+    <item name="header_view" type="id" />
+    <item name="footer_view" type="id" />
 </resources>
