@@ -2,7 +2,6 @@
 
 [TOC]
 
-
 ### Рассылка событий через Interactor
 
 Еще один кейс использования интеракторов: построение событийной модели общения
@@ -13,7 +12,7 @@
 Тогда можно пробросить событие через общий интерактор у данных активити.
 Данный кейс, показывает, что приоритетнее использовать именно интерактор для
 обновления данных, а не результат активити(например через `RouteWithParams`).
-Маршрут с параметрами сдледует использовать там, где очевиден возврат результата, например,
+Маршрут с параметрами следует использовать там, где очевиден возврат результата, например,
 некая форма, которая возвращает заполненные данные на предыдущий экран.
 
 Реализовать проброс этого события можно через создания `Subject'а` внутри
@@ -35,6 +34,20 @@ val observeSomeEvent: Observable<SomeEvent> = someEventSubject
 ```kotlin
 
     //Presenter
+    
+    fun doSomethingWithPost() {
+        postActionDisposable = subsribeIoHandleError(
+            postInteractor.doSomeActionWithPost(screenModel.postId),
+            {
+                // do something
+            },
+            {
+                 if (it is PostDeletedError) {
+                    handleDeletedPostError()
+                }
+            }
+        )
+    }
 
     private fun handleDeletedPostError() {
             postInteractor.emitPostDeletedEvent(screenModel.postId)
@@ -46,8 +59,21 @@ val observeSomeEvent: Observable<SomeEvent> = someEventSubject
 **Хорошо**:
 
 ```kotlin
-
-    //PostInteractor
+    //Presenter
+    
+    fun doSomethingWithPost() {
+        postActionDisposable = subsribeIoHandleError(
+            postInteractor.doSomeActionWithPost(screenModel.postId),
+            {
+                // do something
+            },
+            {
+                //handle something error
+            }
+        )
+    }
+    
+    //Interactor
 
     fun doSomeActionWithPost(postId: Long) =
         postRepository.doSomeWithPost()
@@ -84,5 +110,3 @@ val observeSomeEvent: Observable<SomeEvent> = someEventSubject
 
 Таким образом можно офильтровать событие по активности запроса, который вызывает
 изменение данных, чтобы оно не хендлилось на текущем экране.
-
-[handle_errors]: ../ui/presenter.md
