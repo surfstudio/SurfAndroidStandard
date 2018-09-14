@@ -18,7 +18,7 @@ Presenter с помощью инъекции в поле;
 * `#getContentView()` - (только для BaseActivityView) должен вернуть
 Id Layout’а этого экрана.
 
-* `#getScreenConfigurator()` - получает конфигуратор через компонент
+* `#createConfigurator()` - получает конфигуратор через компонент
 провайдер -  ComponentProvider.
 
 **ScreenConfigurator** инкапсулирует всю логику работы с Dagger.
