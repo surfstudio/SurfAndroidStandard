@@ -21,10 +21,11 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import android.util.Base64
+import android.support.annotation.RequiresApi
+import ru.surfstudio.android.security.utils.SecretValue
+import ru.surfstudio.android.security.utils.SecurityUtils.generateSalt
 import ru.surfstudio.android.shared.pref.SettingsUtil
 import java.security.KeyStore
-import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
@@ -48,51 +49,63 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
 
         private const val ANDROID_KEYSTORE = "AndroidKeyStore"
 
-        private const val SALT_SIZE = 16
         private const val KEY_LENGTH = 256
         private const val ITERATION_COUNT = 16384
     }
 
-    //todo create 2 methods
-    fun saveSecureData(secureData: String,
-                       pin: String,
-                       cryptoObject: FingerprintManager.CryptoObject?) {
+    /**
+     * Функция для сохранения данных с подписанием их pin-кодом
+     */
+    fun <T> saveSecureData(secureData: T, pin: String) {
         val salt = generateSalt()
         val spec = PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
 
         val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, SecretKeyFactory.getInstance(KEY_ALGORITHM).generateSecret(spec))
+        cipher.init(
+                Cipher.ENCRYPT_MODE,
+                SecretKeyFactory
+                        .getInstance(KEY_ALGORITHM)
+                        .generateSecret(spec))
 
-        val secretValue = SecretValue(cipher.doFinal(secureData.toByteArray()), cipher.iv, salt)
+        val secretValue = SecretValue(cipher.doFinal(secureData.toString().toByteArray()), cipher.iv, salt)
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN, secretValue.toString())
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && cryptoObject != null) {
-            SettingsUtil.putString(
-                    noBackupSharedPref,
-                    KEY_SECURE_DATA_BY_FINGERPRINT,
-                    SecretValue(
-                            cryptoObject.cipher.doFinal(secureData.toByteArray()),
-                            cryptoObject.cipher.iv,
-                            generateSalt())
-                            .toString())
-        }
     }
 
-    fun getSecureData(pin: String): String? {
+    /**
+     * Функция для сохранения данных с подписанием их отпечатком пальца
+     */
+    @TargetApi(Build.VERSION_CODES.M)
+    fun <T> saveSecureData(secureData: T, cryptoObject: FingerprintManager.CryptoObject) {
+        val salt = generateSalt()
+        val cipher = cryptoObject.cipher
+
+        val secretValue = SecretValue(cipher.doFinal(secureData.toString().toByteArray()), cipher.iv, salt)
+        SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_FINGERPRINT, secretValue.toString())
+    }
+
+    /**
+     * Функция для получения данных по pin-коду
+     */
+    fun getSecureData(pin: String): String {
         val secretValue = SecretValue.fromString(SettingsUtil.getString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN))
         val spec = PBEKeySpec(pin.toCharArray(), secretValue.salt, ITERATION_COUNT, KEY_LENGTH)
 
         val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
         cipher.init(
                 Cipher.DECRYPT_MODE,
-                SecretKeyFactory.getInstance(KEY_ALGORITHM).generateSecret(spec),
+                SecretKeyFactory
+                        .getInstance(KEY_ALGORITHM)
+                        .generateSecret(spec),
                 IvParameterSpec(secretValue.iv))
 
         return String(cipher.doFinal(secretValue.secret))
     }
 
+    /**
+     * Функция для получения данных по отпечатку пальца
+     */
     @TargetApi(Build.VERSION_CODES.M)
-    fun getSecureData(cryptoObject: FingerprintManager.CryptoObject): String? {
+    fun getSecureData(cryptoObject: FingerprintManager.CryptoObject): String {
         val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
         keyStore.load(null)
 
@@ -105,16 +118,30 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
         return String(cipher.doFinal(secretValue.secret))
     }
 
+    /**
+     * Функция для получения FingerprintManager.CryptoObject из хранилища
+     */
     @TargetApi(Build.VERSION_CODES.M)
-    fun prepareFingerprintCryptoObject(createKey: Boolean): FingerprintManager.CryptoObject {
+    fun getFingerPrintCryptoObject(): FingerprintManager.CryptoObject {
         val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
         keyStore.load(null)
 
-        val key = if (createKey) {
-            createFingerprintKey(ALIAS_FINGERPRINT, keyStore)
-        } else {
-            keyStore.getKey(ALIAS_FINGERPRINT, null) as SecretKey
-        }
+        val key = keyStore.getKey(ALIAS_FINGERPRINT, null) as SecretKey
+
+        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, key)
+        return FingerprintManager.CryptoObject(cipher)
+    }
+
+    /**
+     * Функция для создания FingerprintManager.CryptoObject
+     */
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun createFingerPrintCryptoObject(): FingerprintManager.CryptoObject {
+        val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
+        keyStore.load(null)
+
+        val key = createFingerprintKey(ALIAS_FINGERPRINT, keyStore)
 
         val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, key)
@@ -139,35 +166,11 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
         return keyGenerator.generateKey()
     }
 
-    private fun generateSalt(): ByteArray {
-        val salt = ByteArray(SALT_SIZE)
-        SecureRandom().nextBytes(salt)
-        return salt
-    }
-
+    /**
+     * Функция для очистки данных хранилища
+     */
     fun clear() {
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN, SettingsUtil.EMPTY_STRING_SETTING)
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_FINGERPRINT, SettingsUtil.EMPTY_STRING_SETTING)
-    }
-
-    private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
-        companion object {
-            private const val DELIMITER = "["
-
-            fun fromString(value: String): SecretValue {
-                val split = value.split(DELIMITER)
-                if (split.size != 3) error("IllegalArgumentException while splitting value")
-
-                return SecretValue(iv = decode(split[0]), salt = decode(split[1]), secret = decode(split[2]))
-            }
-
-            private fun decode(value: String): ByteArray = Base64.decode(value, Base64.NO_WRAP)
-
-            private fun encode(value: ByteArray): String = Base64.encodeToString(value, Base64.NO_WRAP)
-        }
-
-        override fun toString(): String {
-            return encode(iv) + DELIMITER + encode(salt) + DELIMITER + encode(secret)
-        }
     }
 }
