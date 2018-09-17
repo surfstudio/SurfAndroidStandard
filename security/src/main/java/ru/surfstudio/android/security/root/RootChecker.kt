@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.security.root
 
-import ru.surfstudio.android.security.jni.Natives
+import ru.surfstudio.android.security.jni.NativeRootChecker
 import ru.surfstudio.android.security.root.error.RootDetectedException
 
 /**
@@ -24,10 +24,10 @@ import ru.surfstudio.android.security.root.error.RootDetectedException
 object RootChecker {
     val isRoot: Boolean = isRootInternal()
 
-    fun failIfRoot() = Natives.init()
+    fun failIfRoot() = NativeRootChecker.init()
 
     private fun isRootInternal(): Boolean = try {
-        Natives.init()
+        NativeRootChecker.init()
         false
     } catch (ignored: RootDetectedException) {
         true

@@ -4,9 +4,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 set(SOURCES src/main/cpp/main.cpp)
 
-add_library(native_jni SHARED ${SOURCES})
+add_library(root_checker_jni SHARED ${SOURCES})
 
 find_library(M m)
 find_library(LOG log)
 
-target_link_libraries(native_jni ${M} ${LOG})
+target_link_libraries(root_checker_jni ${M} ${LOG})

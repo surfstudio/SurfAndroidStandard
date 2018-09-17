@@ -24,8 +24,7 @@ import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
 /**
- * Класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
- * Проверяется только сертификат сайта.
+ * Класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning
  */
 class CertificatePinnerCreator(private val context: Context) {
 

@@ -35,7 +35,7 @@ const string folders[] = {"/system/app/Superuser.apk", "/system/app/KingUser.apk
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_ru_surfstudio_android_security_jni_Natives_init(JNIEnv *env) {
+Java_ru_surfstudio_android_security_jni_NativeRootChecker_init(JNIEnv *env) {
     initJavaClasses(env);
     checkRooted(env);
 }

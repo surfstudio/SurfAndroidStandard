@@ -20,13 +20,13 @@ import ru.surfstudio.android.security.root.error.RootDetectedException;
 /**
  * JNI мост, при инициализации проходит проверка на root-права
  */
-public class Natives {
+public class NativeRootChecker {
 
     static {
-        System.loadLibrary("native_jni");
+        System.loadLibrary("root_checker_jni");
     }
 
-    private Natives() {
+    private NativeRootChecker() {
 
     }
 
