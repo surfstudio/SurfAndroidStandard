@@ -1,6 +1,6 @@
 package ru.surfstudio.android.security.sample.ui.screen.main
 
-import androidx.core.widget.toast
+import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
@@ -15,7 +15,8 @@ import javax.inject.Inject
  */
 @PerScreen
 class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                        private val activityNavigator: ActivityNavigator
+                                        private val activityNavigator: ActivityNavigator,
+                                        private val stringsProvider: StringsProvider
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val screenModel = MainScreenModel()
@@ -26,7 +27,12 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
     }
 
     fun checkRoot() {
-        view.toast(if (RootChecker.isRoot) R.string.root_message else R.string.no_root_message)
+        val message = stringsProvider.getString(
+                if (RootChecker.isRoot)
+                    R.string.root_message
+                else
+                    R.string.no_root_message)
+        view.showMessage(message)
     }
 
     fun createPin(apiKey: String) {

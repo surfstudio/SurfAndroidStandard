@@ -3,6 +3,7 @@ package ru.surfstudio.android.security.sample.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
+import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -38,5 +39,9 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     private fun initListeners() {
         check_root_btn.setOnClickListener { presenter.checkRoot() }
         sign_in_btn.setOnClickListener { presenter.createPin(api_key_et.text.toString()) }
+    }
+
+    fun showMessage(message: String) {
+        toast(message)
     }
 }

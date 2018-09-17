@@ -3,6 +3,7 @@ package ru.surfstudio.android.security.sample.ui.screen.pin
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
+import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_session.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -44,4 +45,8 @@ class CreatePinActivityView : BaseRenderableActivityView<CreatePinScreenModel>()
     }
 
     private fun getPin(): String = enter_pin_et.text.toString()
+
+    fun showMessage(message: String) {
+        toast(message)
+    }
 }

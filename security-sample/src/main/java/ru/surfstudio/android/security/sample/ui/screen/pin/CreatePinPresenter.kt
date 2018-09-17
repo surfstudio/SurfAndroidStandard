@@ -1,6 +1,6 @@
 package ru.surfstudio.android.security.sample.ui.screen.pin
 
-import androidx.core.widget.toast
+import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -14,6 +14,7 @@ import javax.inject.Inject
 @PerScreen
 class CreatePinPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                              private val route: CreatePinActivityRoute,
+                                             private val stringsProvider: StringsProvider,
                                              private val profileInteractor: ProfileInteractor
 ) : BasePresenter<CreatePinActivityView>(basePresenterDependency) {
 
@@ -26,14 +27,19 @@ class CreatePinPresenter @Inject constructor(basePresenterDependency: BasePresen
 
     fun submitPin(pin: String) {
         subscribeIoHandleError(profileInteractor.signIn(route.apiKey, pin)) { success ->
-            view.toast(if (success) R.string.pin_created_message else R.string.pin_error_message)
+            val message = stringsProvider.getString(
+                    if (success)
+                        R.string.pin_created_message
+                    else
+                        R.string.pin_error_message)
+            view.showMessage(message)
             view.render(screenModel)
         }
     }
 
     fun getApiKey(pin: String) {
         subscribeIoHandleError(profileInteractor.getApiKey(pin)) { apiKey ->
-            view.toast(apiKey)
+            view.showMessage(apiKey)
             view.render(screenModel)
         }
     }
