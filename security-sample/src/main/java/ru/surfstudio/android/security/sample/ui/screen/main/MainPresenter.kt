@@ -7,7 +7,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.security.root.RootChecker
 import ru.surfstudio.android.security.sample.R
-import ru.surfstudio.android.security.sample.ui.screen.session.SessionActivityRoute
+import ru.surfstudio.android.security.sample.ui.screen.pin.CreatePinActivityRoute
 import javax.inject.Inject
 
 /**
@@ -29,7 +29,9 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
         view.toast(if (RootChecker.isRoot) R.string.root_message else R.string.no_root_message)
     }
 
-    fun openSession() {
-        activityNavigator.start(SessionActivityRoute())
+    fun createPin(apiKey: String) {
+        if (apiKey.isNotEmpty()) {
+            activityNavigator.start(CreatePinActivityRoute(apiKey))
+        }
     }
 }

@@ -5,6 +5,7 @@ import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 import ru.surfstudio.android.security.sample.app.dagger.CustomAppComponent
+import ru.surfstudio.android.security.sample.interactor.profile.ProfileInteractor
 
 /**
  * Компонент для @PerActivity скоупа
@@ -12,4 +13,6 @@ import ru.surfstudio.android.security.sample.app.dagger.CustomAppComponent
 @PerActivity
 @Component(dependencies = [CustomAppComponent::class],
         modules = [DefaultActivityModule::class])
-interface CustomActivityComponent : DefaultActivityComponent
+interface CustomActivityComponent : DefaultActivityComponent {
+    fun profileInteractor(): ProfileInteractor
+}

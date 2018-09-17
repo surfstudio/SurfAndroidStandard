@@ -1,4 +1,4 @@
-package ru.surfstudio.android.security.sample.ui.screen.session
+package ru.surfstudio.android.security.sample.ui.screen.pin
 
 import android.content.Intent
 
@@ -12,27 +12,27 @@ import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivity
 import ru.surfstudio.android.security.sample.ui.base.dagger.activity.CustomActivityComponent
 
 /**
- * Конфигуратор экрана сессии
+ * Конфигуратор экрана ввода pin-кода
  */
-class SessionScreenConfigurator(intent: Intent) : CustomActivityScreenConfigurator(intent) {
+class CreatePinScreenConfigurator(intent: Intent) : CustomActivityScreenConfigurator(intent) {
 
     @PerScreen
     @Component(dependencies = [CustomActivityComponent::class],
-            modules = [DefaultActivityScreenModule::class, SessionScreenModule::class])
-    internal interface SessionScreenComponent
-        : ScreenComponent<SessionActivityView>
+            modules = [DefaultActivityScreenModule::class, CreatePinScreenModule::class])
+    internal interface CreatePinScreenComponent
+        : ScreenComponent<CreatePinActivityView>
 
     @Module
-    internal class SessionScreenModule(route: SessionActivityRoute)
-        : DefaultCustomScreenModule<SessionActivityRoute>(route)
+    internal class CreatePinScreenModule(route: CreatePinActivityRoute)
+        : DefaultCustomScreenModule<CreatePinActivityRoute>(route)
 
     override fun createScreenComponent(customActivityComponent: CustomActivityComponent,
                                        activityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerSessionScreenConfigurator_SessionScreenComponent.builder()
+        return DaggerCreatePinScreenConfigurator_CreatePinScreenComponent.builder()
                 .customActivityComponent(customActivityComponent)
                 .defaultActivityScreenModule(activityScreenModule)
-                .sessionScreenModule(SessionScreenModule(SessionActivityRoute()))
+                .createPinScreenModule(CreatePinScreenModule(CreatePinActivityRoute(intent)))
                 .build()
     }
 }

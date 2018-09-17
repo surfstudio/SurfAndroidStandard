@@ -1,6 +1,7 @@
 package ru.surfstudio.android.security.sample.app.dagger
 
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.app.ActiveActivityHolder
@@ -10,6 +11,9 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigat
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
+import ru.surfstudio.android.security.auth.SecureStorage
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 @Module
 class CustomAppModule(private val coreApp: CoreApp) {
@@ -43,5 +47,11 @@ class CustomAppModule(private val coreApp: CoreApp) {
     @PerApplication
     internal fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideSecureStorage(@Named(NO_BACKUP_SHARED_PREF) noBackupSharedPref: SharedPreferences): SecureStorage {
+        return SecureStorage(noBackupSharedPref)
     }
 }

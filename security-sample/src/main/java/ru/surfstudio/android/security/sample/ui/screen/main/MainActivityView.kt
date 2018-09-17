@@ -37,6 +37,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     private fun initListeners() {
         check_root_btn.setOnClickListener { presenter.checkRoot() }
-        open_session_btn.setOnClickListener { presenter.openSession() }
+        sign_in_btn.setOnClickListener { presenter.createPin(api_key_et.text.toString()) }
     }
 }
