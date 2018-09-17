@@ -22,7 +22,7 @@
 
 ### Memory Monitor
 
-![](img/leak_monitor.png)
+![](https://image.ibb.co/mJOJHK/leak_monitor.png)
 
 C помощью этого инструмента можно находить те сценарии, в результате которых происходит
 утечка памяти. Для чистоты эксперимента лучше после такого сценария запускать сборщик
@@ -36,7 +36,7 @@ Memory allocation.
 
 ### HPROF Viewer and Analyzer
 
-![](img/leak_viewer.png)
+![](https://preview.ibb.co/jW87Be/leak_viewer.png)
 
 Позволяет просматривать Heap Dump.
 
