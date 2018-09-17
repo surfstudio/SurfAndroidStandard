@@ -37,6 +37,8 @@ Android Standard - Репозиторий с внутренними библио
 
 1. [UI слой](ui/ui.md)
     1. [Структура UI-слоя](ui/structure.md)
+        1. [Presenter](../core-mvp/docs/presenter.md)
+        1. [View](../core-mvp/docs/view.md)
     1. [Создание экрана](ui/create_screen.md)
     1. [Кастомные вью](ui/custom_views.md)
     1. [Виджеты](../mvp-widget/README.md)
@@ -45,7 +47,6 @@ Android Standard - Репозиторий с внутренними библио
     1. [Анимации](../animations/README.md)
     1. [Загрузка изображений](../imageloader/README.md)
     1. [Работа со списками](../easyadapter/README.md)
-    1. [Обработка ошибок](ui/handle_errors.md)
     1. [Управлениями сообщениями](../message-controller/README.md)
     1. [Загрузка данных](ui/load_data/load_data.md)
     1. [Особенности реализации View](ui/view_realization_specs.md)
