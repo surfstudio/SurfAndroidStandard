@@ -25,6 +25,7 @@ Android Standard - Репозиторий с внутренними библио
     1. [Пагинация](common/pagin.md)
 
 1. [**Слой Interactor**](interactor/interactor.md)
+    1. [О модулях внутренней логики][interactor/about_modules_inner_logic.md]
     1. [Работа с сервером](interactor/network.md)
     1. [Работа с локацией](interactor/locatiom.md) [][<-- возможно сразу на модуль, так как мало информации]
     1. [Проверка соединения](../connection/README.md)
@@ -38,13 +39,18 @@ Android Standard - Репозиторий с внутренними библио
     1. [Структура UI-слоя](ui/structure.md)
     1. [Создание экрана](ui/create_screen.md)
     1. [Кастомные вью](ui/custom_views.md)
+    1. [Виджеты](../mvp-widget/README.md)
     1. [Диалоги](../mvp-dialog/README.md)
     1. [Навигация](../core-ui/docs/navigation.md)
     1. [Анимации](../animations/README.md)
     1. [Загрузка изображений](../imageloader/README.md)
     1. [Работа со списками](../easyadapter/README.md)
+    1. [Обработка ошибок](ui/handle_errors.md)
+    1. [Управлениями сообщениями](../message-controller/README.md)
+    1. [Загрузка данных](ui/load_data/load_data.md)
+    1. [Особенности реализации View](ui/view_realization_specs.md)
 
-1. [Инициализация приложения](../template-multimodule/README.md)
+1. [Инициализация приложения](../template/README.md)
 
 1. [Лучшие практики](best_practice.md)
 
