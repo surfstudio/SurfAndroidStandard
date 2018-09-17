@@ -53,7 +53,8 @@ Android Standard - Репозиторий с внутренними библио
 
 1. [Инициализация приложения](../template/README.md)
 
-1. [Лучшие практики](best_practice.md)
+1. [Лучшие практики](best_practice/best_practice.md)
+    1. [Поиск утечек](best_practice/memory_leak.md)
 
 
 [][Todo]
