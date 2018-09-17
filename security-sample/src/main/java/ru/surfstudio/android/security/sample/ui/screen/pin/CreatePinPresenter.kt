@@ -25,8 +25,8 @@ class CreatePinPresenter @Inject constructor(basePresenterDependency: BasePresen
     }
 
     fun submitPin(pin: String) {
-        subscribeIoHandleError(profileInteractor.signIn(route.apiKey, pin)) {
-            view.toast(R.string.pin_created_message)
+        subscribeIoHandleError(profileInteractor.signIn(route.apiKey, pin)) { success ->
+            view.toast(if (success) R.string.pin_created_message else R.string.pin_error_message)
             view.render(screenModel)
         }
     }

@@ -8,4 +8,6 @@
     <string name="submit_pin_btn_text">Submit pin</string>
     <string name="get_apikey_by_pin_btn">Get apiKey by PIN</string>
     <string name="pin_created_message">New pin created</string>
+    <string name="pin_error_message">Auth error</string>
+    <string name="security_error">Security error</string>
 </resources>

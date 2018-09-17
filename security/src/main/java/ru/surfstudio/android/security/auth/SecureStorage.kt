@@ -22,6 +22,7 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.support.annotation.RequiresApi
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.security.utils.SecretValue
 import ru.surfstudio.android.security.utils.SecurityUtils.generateSalt
 import ru.surfstudio.android.shared.pref.SettingsUtil
@@ -56,7 +57,7 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
     /**
      * Функция для сохранения данных с подписанием их pin-кодом
      */
-    fun <T> saveSecureData(secureData: T, pin: String) {
+    fun <T> saveSecureData(secureData: T, pin: String): Boolean = try {
         val salt = generateSalt()
         val spec = PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
 
@@ -69,24 +70,34 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
 
         val secretValue = SecretValue(cipher.doFinal(secureData.toString().toByteArray()), cipher.iv, salt)
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN, secretValue.toString())
+
+        true
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        false
     }
 
     /**
      * Функция для сохранения данных с подписанием их отпечатком пальца
      */
     @TargetApi(Build.VERSION_CODES.M)
-    fun <T> saveSecureData(secureData: T, cryptoObject: FingerprintManager.CryptoObject) {
+    fun <T> saveSecureData(secureData: T, cryptoObject: FingerprintManager.CryptoObject): Boolean = try {
         val salt = generateSalt()
         val cipher = cryptoObject.cipher
 
         val secretValue = SecretValue(cipher.doFinal(secureData.toString().toByteArray()), cipher.iv, salt)
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_FINGERPRINT, secretValue.toString())
+
+        true
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        false
     }
 
     /**
      * Функция для получения данных по pin-коду
      */
-    fun getSecureData(pin: String): String {
+    fun getSecureData(pin: String): String? = try {
         val secretValue = SecretValue.fromString(SettingsUtil.getString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN))
         val spec = PBEKeySpec(pin.toCharArray(), secretValue.salt, ITERATION_COUNT, KEY_LENGTH)
 
@@ -98,14 +109,17 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
                         .generateSecret(spec),
                 IvParameterSpec(secretValue.iv))
 
-        return String(cipher.doFinal(secretValue.secret))
+        String(cipher.doFinal(secretValue.secret))
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        null
     }
 
     /**
      * Функция для получения данных по отпечатку пальца
      */
     @TargetApi(Build.VERSION_CODES.M)
-    fun getSecureData(cryptoObject: FingerprintManager.CryptoObject): String {
+    fun getSecureData(cryptoObject: FingerprintManager.CryptoObject): String? = try {
         val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
         keyStore.load(null)
 
@@ -115,14 +129,17 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
         val cipher = cryptoObject.cipher
         cipher.init(Cipher.DECRYPT_MODE, key, IvParameterSpec(secretValue.iv))
 
-        return String(cipher.doFinal(secretValue.secret))
+        String(cipher.doFinal(secretValue.secret))
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        null
     }
 
     /**
      * Функция для получения FingerprintManager.CryptoObject из хранилища
      */
     @TargetApi(Build.VERSION_CODES.M)
-    fun getFingerPrintCryptoObject(): FingerprintManager.CryptoObject {
+    fun getFingerPrintCryptoObject(): FingerprintManager.CryptoObject? = try {
         val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
         keyStore.load(null)
 
@@ -130,14 +147,18 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
 
         val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, key)
-        return FingerprintManager.CryptoObject(cipher)
+
+        FingerprintManager.CryptoObject(cipher)
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        null
     }
 
     /**
      * Функция для создания FingerprintManager.CryptoObject
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    fun createFingerPrintCryptoObject(): FingerprintManager.CryptoObject {
+    fun createFingerPrintCryptoObject(): FingerprintManager.CryptoObject? = try {
         val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
         keyStore.load(null)
 
@@ -145,11 +166,15 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
 
         val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, key)
-        return FingerprintManager.CryptoObject(cipher)
+
+        FingerprintManager.CryptoObject(cipher)
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        null
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private fun createFingerprintKey(alias: String, keystore: KeyStore): SecretKey {
+    private fun createFingerprintKey(alias: String, keystore: KeyStore): SecretKey? = try {
         val builder = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
@@ -163,7 +188,10 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
 
         val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, keystore.provider)
         keyGenerator.init(builder.build())
-        return keyGenerator.generateKey()
+        keyGenerator.generateKey()
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        null
     }
 
     /**

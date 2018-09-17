@@ -24,6 +24,7 @@ dependencies {
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
+        'logger',
         'shared-pref',
         'util-ktx'
 ])

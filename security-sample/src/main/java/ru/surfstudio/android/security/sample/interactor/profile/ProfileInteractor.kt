@@ -9,10 +9,12 @@ import javax.inject.Inject
 class ProfileInteractor @Inject constructor(private val secureStorage: SecureStorage) {
 
     fun getApiKey(pin: String): Observable<String> {
-        return Observable.just(secureStorage.getSecureData(pin))
+        return Observable.defer {
+            Observable.just(secureStorage.getSecureData(pin) ?: throw SecurityException())
+        }
     }
 
-    fun signIn(apiKey: String, pin: String): Observable<Unit> {
+    fun signIn(apiKey: String, pin: String): Observable<Boolean> {
         return Observable.just(secureStorage.saveSecureData(apiKey, pin))
     }
 }
