@@ -10,12 +10,13 @@
 Основано на [Coding Conventions][conv] и [Android Style Guide][style]
 
 Перед *Pull Request* **ОБЯЗАТЕЛЬНО** делаем форматирование кода по `Ctrl+Alt+L`
+(`⌘ + ⌥ + L`)
 
 ## Правила оформления комментариев
 
 см. [Android Code Style][surf]
 
-Оформляются по правилам KDoc. см [Coding Conventions][conv], [Android Style Guide][style]
+Оформляются по правилам `KDoc`. см [Coding Conventions][conv], [Android Style Guide][style]
 
 ## Именование сущностей
 см. [Coding Conventions][conv], [Android Code Style][surf]
@@ -45,7 +46,7 @@
 
 Если используются свойства с функциональном типом, то делаем постфикс `Lambda`
 ```
-val someBeatifulLambda: (Int) -> Int = { it * 2 }
+val someBeautifulLambda: (Int) -> Int = { it * 2 }
 ```
 
 Если такое свойство используется как *callback*, то вместо `Lambda` ->  `Callback`.
@@ -55,6 +56,7 @@ val someBeatifulLambda: (Int) -> Int = { it * 2 }
 Используется `camelCase`. Правила оформления смотри [Android Code Style][surf].
 
 ### Использование спец символов
+
 см. [Special Characters from Android Style Guide](https://android.github.io/kotlin-guides/style.html#special-characters)
 
 ## Структура класса
@@ -70,10 +72,15 @@ val someBeatifulLambda: (Int) -> Int = { it * 2 }
 #### Расположение методов в классе
 
 1 вариант:
+* abstract методы
 
 * override методы
 
 * публичные методы
+
+* internal методы
+
+* protected методы
 
 * приватные методы
 
@@ -84,6 +91,9 @@ val someBeatifulLambda: (Int) -> Int = { it * 2 }
 Выносить extension-методы в отдельные, логически связанные файлы,
 если они не используются только в одном месте. Файл именуется с
 постфиксом Extensions, например `UiExtensions`, `InputExtensions` …
+
+**Совет:** Префикс должен соответсвовать классу, которой эти методы расширяют,
+т.е `EditTextExtensions`, `ListExtensions`, `ActivityExtensions` и тд.
 
 Публичные глобальные константы хранить как val свойства в отдельном файле,
 на глобальном уровне.
@@ -129,12 +139,12 @@ fun authByEmail(email: String, password: String): Observable<User> =
 ### Заголовок классов
 см. [Форматирование заголовка класса](https://kotlinlang.org/docs/reference/coding-conventions.html#class-header-formatting)
 
-*Возможен другой вариант*:
 ```
-class SocialNetworksInteractor @Inject constructor(private val vkRepository: VkRepository,
-                                                  private val fbRepository: FbRepository,
-                                                  private val analyticsService: AnalyticsService,
-                                                  private val activityProvider: ActivityProvider
+class SocialNetworksInteractor @Inject constructor(
+    private val vkRepository: VkRepository,
+    private val fbRepository: FbRepository,
+    private val analyticsService: AnalyticsService,
+    private val activityProvider: ActivityProvider
 ) : OAuthCallback, ActivityResultDelegate {
 ```
 
@@ -151,7 +161,7 @@ class SocialNetworksInteractor @Inject constructor(private val vkRepository: VkR
 без круглых скобок
 
 ```
-someMeth { //do something }
+    doSomething { //do something }
 ```
 
 Внутри лямбды удобно использовать `it`, если *не требуется* уточнения или
@@ -167,30 +177,26 @@ someList.map {
 2)
 ```kotlin
 someList.map { objInList ->
-	// someAnotherListj - коллекция вне лямбды
+	// someAnotherList - коллекция вне лямбды
 	someAnotherList.filter { it.id == objInList.id}
 }
 ```
 
 ### Форматирование выражений
 
+##### Подписки
+
 В методах `subscribe` писать лямбды с новой строки для лучшей читаемости кода.
-Для сравнения первый(без переноса) и второй(с переносом) варианты:
 
 ```
-subscribe(activityNavigator.observeResult(CategoryChooserRoute::class.java)
-   .filter { result -> result.isSuccess }, { categoryChooserParam ->
-   screenModel.categoryList = categoryChooserParam.data.categoryList
-   view.render(screenModel)
-})
-```
-```
-subscribe(activityNavigator.observeResult(AddressChooserRoute::class.java)
-   .filter { result -> result.isSuccess },
-   { pinWithAddresss ->
-       screenModel.pinWithAddress = pinWithAddresss.data
-       view.render(screenModel)
-   })
+subscribe(
+    activityNavigator.observeResult(CategoryChooserRoute::class.java)
+        .filter { result -> result.isSuccess },
+        { categoryChooserParam ->
+            screenModel.categoryList = categoryChooserParam.data.categoryList
+            view.render(screenModel)
+    }
+)
 ```
 
 Плюс к этому в случае передачи в subscribe метода принимающего большое
@@ -215,12 +221,31 @@ subscribeIoHandleError(placesRepository.getShortPlaces(
 {})
 ```
 
+**Примечание:** Если Observable большой, то выносить в переменную (или даже метод)
+и там применять нужные операторы, а то метод может стать очень большим и страшным
+```kotlin
+    val someObservable = activityNavigator
+            .observeResult(CategoryChooserRoute::class.java)
+            .filter { result -> result.isSuccess }
+
+    subscribe(
+        someObservable,
+        { categoryChooserParam ->
+            screenModel.categoryList = categoryChooserParam.data.categoryList
+            view.render(screenModel)
+        },
+        { t: Throwable -> handleError(t) }
+    )
+
+```
+
+##### Логические выражения
 В **логических выражениях** предпочтительнее использовать логические
 операторы &, | и  тд, а не методы в явном виде. Данный тезис не касается `nullable` типов.
 ```
 return isEmptyFirstName.not().and(isEmptyLastName.not()).and(isEmptyPhone.not())
 
-return !isEmptyFirstName && !isEmptyLastName && !isEmptyPhone
+return !isEmptyFirstName & !isEmptyLastName & !isEmptyPhone
 ```
 
 Здесь нельзя написать `!screenModel.currentUserLocation?.isLocationDefault()`,
@@ -230,6 +255,7 @@ fun someBool() : Boolean = screenModel.currentUserLocation?.isLocationDefault()?
 ```
 
 ## Идиомы
+
 см. [Idiomatic use of language features](https://kotlinlang.org/docs/reference/coding-conventions.html#idiomatic-use-of-language-features)
 
 ### Kotlin конструкции
