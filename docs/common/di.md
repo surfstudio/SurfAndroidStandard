@@ -24,7 +24,7 @@
 
 *Замечание*: несмотря на название Activity помечается скоупом экрана.
 
-Основные скоупы в наших приложениях представлены аннотациями из модуля [dagger-scope][].
+Основные скоупы в наших приложениях представлены аннотациями из модуля [dagger-scope][ds].
 При дальнейшем описании будут исользоваться они же.
 
 Разрешается [добавлять][#добавление-кастомного-скоупа] скоупы для собственных нужд, между уровнем приложения и уровнем экрана.
@@ -39,7 +39,7 @@
 
 | Scope | Component | Configurator |
 |-------|-----------|--------------|
-|@PerApplication| AppComponent | AppInjector|
+|@PerApplication| AppComponent | AppConfigurator|
 |@PerActivity| ActivityComponent | BaseActivityConfigurator |
 |@PerScreen| ScreenComponent и наследники | Base...ViewConfigurator|
 
@@ -48,4 +48,12 @@
 очередь и содержит в себе конфигратор с компонентом. Таким образом не остается
 внешних ссылок на компонент и он тоже стирается сборщиком мусора.
 
+`BaseActivityConfigurator` и `Base...ViewConfigurator` расширяют [базовые конфигураторы][configurator]
+из модулей [core-mvp][mvp], [core-ui][ui]
+
 Как добавить свой скоуп описано [здесь](../../custom_scope_sample/README.md).
+
+[ds]: ../../dagger-scope/README.md
+[configurator]: ../../core-mvp/docs/configurator.md
+[mvp]: ../../core-mvp/README.md
+[ui]: ../../core-ui/README.md
