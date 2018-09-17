@@ -25,7 +25,7 @@
 
 Конфигураторы:
 
-1. [`BaseWidgetViewConfigurator`][conf]
+* [`BaseWidgetViewConfigurator`][conf]
 
 ### Подключение
 
