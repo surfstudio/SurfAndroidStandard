@@ -38,23 +38,6 @@
 
 Навигация для диалогов предоставляется модулем [mvp-dialog][dial]
 
-Передача параметров при старте экрана происходит через `Route`
-и эти параметры получает презентер в конструктор также обернутые в `Route`.
-Для упрощения этой передачи следует создать базовый класс для модуля экрана
-`CustomScreenModule`.
-
-``` kotlin
-@Module
-abstract class CustomScreenModule<out R : Route>(private val route: R) {
-
-    @Provides
-    @PerScreen
-    fun provideRoute(): R {
-        return route
-    }
-}
-```
-
 Если необходимо стартовать экран с последующим получением результата,
 необходимо зарегистрировать обработчик этого события через
 `АctivityNavigator#observeActivityResult` в презентере. При этом подписаться
