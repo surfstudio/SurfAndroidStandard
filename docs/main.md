@@ -5,7 +5,7 @@ Android Standard - Репозиторий с внутренними библио
 Содержит модули, с помощью которых можно построить качественное приложение
 в короткие сроки.
 
-[Правила ведения и оформления][rules.md] [][TODO: чтобы не забыть]
+[Правила ведения и оформления](rules.md)
 
 Общая структура вики
 --------------------
@@ -21,7 +21,7 @@ Android Standard - Репозиторий с внутренними библио
     1. [Инъекция зависимостей](common/di.md)
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
-    1. [Аналитика](../analytics/README.md) [][<-- возможно сразу на модуль, так как мало информации]
+    1. [Аналитика](../analytics/README.md)
     1. [Асинхронные взаимодействия](common/async.md)
     1. [Пуш-уведомления](../push/README.md)
     1. [Пагинация](common/pagin.md)
@@ -29,7 +29,7 @@ Android Standard - Репозиторий с внутренними библио
 1. [**Слой Interactor**](interactor/interactor.md)
     1. [О модулях внутренней логики][interactor/about_modules_inner_logic.md]
     1. [Работа с сервером](interactor/network.md)
-    1. [Работа с локацией](interactor/locatiom.md) [][<-- возможно сразу на модуль, так как мало информации]
+    1. [Работа с локацией](interactor/locatiom.md)
     1. [Проверка соединения](../connection/README.md)
     1. [Миграция между версиями приложения](../app-migration/README.md)
     1. [Работа с Broadcast](../broadcast-extension/README.md)
@@ -39,15 +39,19 @@ Android Standard - Репозиторий с внутренними библио
 
 1. [UI слой](ui/ui.md)
     1. [Структура UI-слоя](ui/structure.md)
+        1. [Presenter](../core-mvp/docs/presenter.md)
+        1. [View](../core-mvp/docs/view.md)
     1. [Создание экрана](ui/create_screen.md)
     1. [Кастомные вью](ui/custom_views.md)
-    1. [Диалоги](ui/dialogs.md)
-    1. [Навигация](ui/navigation.md)
+    1. [Виджеты](../mvp-widget/README.md)
+    1. [Диалоги](../mvp-dialog/README.md)
+    1. [Навигация](../core-ui/docs/navigation.md)
     1. [Анимации](../animations/README.md)
     1. [Загрузка изображений](../imageloader/README.md)
     1. [Работа со списками](../easyadapter/README.md)
-    1. [Обработка ошибок](ui/handle_errors.md)
     1. [Управлениями сообщениями](../message-controller/README.md)
+    1. [Загрузка данных](ui/load_data/load_data.md)
+    1. [Особенности реализации View](ui/view_realization_specs.md)
 
 1. [Инициализация приложения](../template/README.md)
 

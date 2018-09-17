@@ -10,7 +10,10 @@ Cоздан в результате развития идей проекта [fe
    переживает смену конфигурации.
 2. PersistentScopeStorage - хранилище всех PersistentScope в контексте приложения
 3. ScreenState - текущее состояние экрана (пр. был ли он пересоздан в результате смены конфигурации или восстановлен с диска)
-4. Configurator - используется для настройки DI
+4. `Configurator` - используется для настройки DI
+    * [`BaseActivityConfigurator`][bac]
+    * [`BaseFragmentConfigurator`][bfc]
+    * [`Configurator`][c]
 5. ScreenEventDelegateManager - позволяет подписываться на системные события экрана, такие как onActivityResult, onCompletelyDestroy, onNewIntent и др.
 
 Все эти сущности, переживают смену конфигурации, таким образом решается большая часть проблем, связанных с этим свойством фреймворка. 
@@ -36,3 +39,7 @@ Gradle:
 ```
 
 TODO: Добавить страницу с описанием нашей архитектуры и подходов
+
+[bac]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseActivityConfigurator.java
+[bfc]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseFragmentConfigurator.java
+[c]: src/main/java/ru/surfstudio/android/core/ui/configurator/Configurator.java
