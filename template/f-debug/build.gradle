@@ -1,0 +1,4 @@
+apply from: '../commonFeatureModule.gradle'
+
+dependencies {
+}
