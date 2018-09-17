@@ -1,3 +1,7 @@
+[Главная страница репозитория](../docs/main.md)
+
+[TOC]
+
 #Easy adapter
 Является развитием проекта [EasyAdapter](https://github.com/MaksTuev/EasyAdapter).
 

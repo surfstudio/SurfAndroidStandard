@@ -1,3 +1,7 @@
+[Главная страница репозитория](../docs/main.md)
+
+[TOC]
+
 # MVP dialog
 
 Расширение модуля [core-mvp](../core-mvp/README.md) для работы с диалогами.

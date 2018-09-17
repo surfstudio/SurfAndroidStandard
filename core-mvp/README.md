@@ -1,3 +1,7 @@
+[Главная страница репозитория](../docs/main.md)
+
+[TOC]
+
 # Core mvp
 Создан в результате развития идей проекта [ferro](https://github.com/MaksTuev/ferro).
 
