@@ -266,6 +266,22 @@ fun someBool() : Boolean = screenModel.currentUserLocation?.isLocationDefault()?
 объекта при передачи, как аргумента, в метод. Но надо быть внимательным
 и по возможности не собирать все в одном месте.
 
+#### .let{}
+
+Удобно использовать как проверку на `null`. При этом, внутри блока let,
+переменная будет гарантировано не null.
+```kotlin
+var nullableInt: Int? = null
+
+nullableInt = 11
+
+// if (nullableInt == 11) <- будет требовать
+// выражения nullableInt?.equals(11) ?: false
+
+nullableInt?.let {
+    if (it == 11) //do something
+}
+```
 
 [conv]: https://kotlinlang.org/docs/reference/coding-conventions.html
 [style]: https://android.github.io/kotlin-guides/style.html

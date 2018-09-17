@@ -101,13 +101,18 @@ todo
 
 
 При использовании nullable-объектов внутри метода, сначала занести ссылку на него в локальную переменную, и проверять на null уже ее.
+```
+var value: Any? = null
 
-fun someFun(value: Any?) {
+fun someFun() {
     val temp = value
     if (temp != null) {
         //do something
     }
 }
+```
+
+
 
 Использовать синтаксис свойств вместо сеттеров.
 
