@@ -17,11 +17,12 @@ import javax.inject.Named
 @PerApplication
 class IpStorage @Inject constructor(@Named(INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String
 ) : BaseLocalCache<Ip>(
-        CacheFileProcessor(cacheDir, KEY_IP_STORAGE, 1),
+        CacheFileProcessor(cacheDir, KEY_IP_STORAGE, 2),
         NamingProcessor { rawName -> rawName }) {
 
     companion object {
         private const val KEY_IP_STORAGE = "ip_storage"
+        private const val KEY_IP_STORAGE_SECURE = "ip_storage_secure"
     }
 
     private val gsonBuilder = GsonBuilder().create()
@@ -37,5 +38,11 @@ class IpStorage @Inject constructor(@Named(INTERNAL_CACHE_DIR_DAGGER_NAME) cache
         get() = get(KEY_IP_STORAGE)
         set(value) {
             value?.let { put(KEY_IP_STORAGE, it) }
+        }
+
+    var ipSecure: Ip?
+        get() = getSecure(KEY_IP_STORAGE_SECURE)
+        set(value) {
+            value?.let { putSecure(KEY_IP_STORAGE_SECURE, it) }
         }
 }

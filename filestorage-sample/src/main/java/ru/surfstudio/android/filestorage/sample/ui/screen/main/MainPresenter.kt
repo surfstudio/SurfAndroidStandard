@@ -58,8 +58,25 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         messageController.show(messageRes)
     }
 
+    fun saveIpToSecureCache() {
+        val messageRes: Int = screenModel.ip?.let {
+            repository.saveIpSecure(it)
+            R.string.cache_created_message
+        } ?: R.string.null_ip_message
+        messageController.show(messageRes)
+    }
+
     fun loadDataFromCache() {
         val message = repository.getIpFromCache()?.value
+        if (message.isNullOrEmpty()) {
+            messageController.show(R.string.empty_cache_message)
+        } else {
+            messageController.show(message!!)
+        }
+    }
+
+    fun loadDataFromSecureCache() {
+        val message = repository.getIpFromCacheSecure()?.value
         if (message.isNullOrEmpty()) {
             messageController.show(R.string.empty_cache_message)
         } else {

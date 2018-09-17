@@ -26,11 +26,20 @@ class IpRepository @Inject constructor(connectionQualityProvider: ConnectionProv
 
     fun getIpFromCache(): Ip? = ipStorage.ip
 
+    fun getIpFromCacheSecure(): Ip? = ipStorage.ipSecure
+
     /**
      * Кэширование ip
      */
     fun saveIp(ip: Ip) {
         ipStorage.ip = ip
+    }
+
+    /**
+     * Кэшировние с шифрованием
+     */
+    fun saveIpSecure(ip: Ip) {
+        ipStorage.ipSecure = ip
     }
 
     /**

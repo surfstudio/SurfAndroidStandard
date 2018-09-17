@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -26,21 +26,42 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin"
+                android:layout_below="@id/ip_tv"
                 android:text="@string/save_to_cache_btn_text" />
+
+            <Button
+                android:id="@+id/save_to_secure_cache_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_below="@id/ip_tv"
+                android:layout_alignParentEnd="true"
+                android:text="@string/save_to_secure_cache_btn_text" />
 
             <Button
                 android:id="@+id/get_from_cache_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin"
+                android:layout_below="@id/save_to_cache_btn"
                 android:text="@string/get_from_cache_btn_text" />
+
+            <Button
+                android:id="@+id/get_from_secure_cache_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_below="@id/save_to_secure_cache_btn"
+                android:layout_alignParentEnd="true"
+                android:text="@string/get_from_secure_cache_btn_text" />
 
             <Button
                 android:id="@+id/clear_cache_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/get_from_cache_btn"
                 android:text="@string/clear_cache_btn_text" />
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ru.surfstudio.android.sample.common.ui.base.placeholder.PlaceHolderView

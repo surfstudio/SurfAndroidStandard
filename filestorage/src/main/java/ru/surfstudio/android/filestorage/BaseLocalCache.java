@@ -16,6 +16,7 @@
 package ru.surfstudio.android.filestorage;
 
 import android.support.annotation.Nullable;
+import android.util.Base64;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -70,6 +71,18 @@ public abstract class BaseLocalCache<T> {
     }
 
     /**
+     * Метод, который возвращает значение по определенному ключу или null, если не существует
+     *
+     * @param key - ключ (не может быть null)
+     * @return - данные или null - если не существует
+     */
+    @Nullable
+    public T getSecure(@NotNull String key) {
+        final String name = convertName(key);
+        return getInternalSecure(name);
+    }
+
+    /**
      * Метод, который кодирует объект в массив байтов и сохраняет его в файловой системе или перезаписывает текущий файл.
      *
      * @param key - ключ (не может быть null)
@@ -78,6 +91,18 @@ public abstract class BaseLocalCache<T> {
     public void put(@NotNull String key, @NotNull T t) {
         final String name = convertName(key);
         putInternal(t, name);
+    }
+
+    /**
+     * Метод, который кодирует объект в массив байтов с использованием Base64
+     * и сохраняет его в файловой системе или перезаписывает текущий файл.
+     *
+     * @param key - ключ (не может быть null)
+     * @param t   - значение (не может быть null)
+     */
+    public void putSecure(@NotNull String key, @NotNull T t) {
+        final String name = convertName(key);
+        putInternalSecure(t, name);
     }
 
     /**
@@ -109,8 +134,21 @@ public abstract class BaseLocalCache<T> {
         return getConverter().decode(bytes);
     }
 
+    private synchronized T getInternalSecure(final String name) {
+        byte[] bytes = fileProcessor.getBytesOrNull(name);
+        if (bytes == null) {
+            return null;
+        }
+        return getConverter().decode(Base64.decode(bytes, Base64.NO_WRAP));
+    }
+
     private synchronized void putInternal(@NotNull final T t, final String name) {
         byte[] encode = getConverter().encode(t);
+        fileProcessor.saveBytesOrRewrite(name, encode);
+    }
+
+    private synchronized void putInternalSecure(@NotNull final T t, final String name) {
+        byte[] encode = Base64.encode(getConverter().encode(t), Base64.NO_WRAP);
         fileProcessor.saveBytesOrRewrite(name, encode);
     }
 

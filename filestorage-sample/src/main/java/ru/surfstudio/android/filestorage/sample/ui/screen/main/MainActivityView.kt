@@ -55,8 +55,13 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
     private fun initListeners() {
         swipe_refresh_layout.setOnRefreshListener { presenter.reloadData() }
         placeholder.buttonLambda = { presenter.reloadData() }
+
         save_to_cache_btn.setOnClickListener { presenter.saveIpToCache() }
+        save_to_secure_cache_btn.setOnClickListener { presenter.saveIpToSecureCache() }
+
         get_from_cache_btn.setOnClickListener { presenter.loadDataFromCache() }
+        get_from_secure_cache_btn.setOnClickListener { presenter.loadDataFromSecureCache() }
+
         clear_cache_btn.setOnClickListener { presenter.clearCache() }
     }
 }
