@@ -7,9 +7,9 @@ import ru.surfstudio.android.filestorage.processor.CacheFileProcessor
 /**
  * Базовый класс кэша, шифрующего данные с использованием Base64
  */
-class BaseSecureLocalCache(cacheFileProccessor: CacheFileProcessor,
-                              namingProcessor: NamingProcessor
-) : BaseLocalCache<String>(cacheFileProccessor, namingProcessor) {
+class BaseSecureLocalCache(cacheFileProcessor: CacheFileProcessor,
+                           namingProcessor: NamingProcessor
+) : BaseLocalCache<String>(cacheFileProcessor, namingProcessor) {
 
     override fun getConverter() = object : ObjectConverter<String> {
 
