@@ -5,10 +5,6 @@
 
 # Android Java Code Style
 
-//todo
-добавить код стайл специфичный для наших подходов, пр как работаем с
-RecyclerView, к чему пишем комментарии и т.д
-
 ## Основные положения
 
 Код должен соответствовать [*Code Conventions for the Java TM Programming Language*][java_conv]

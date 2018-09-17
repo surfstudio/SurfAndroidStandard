@@ -3,7 +3,6 @@
 [TOC]
 
 # Kotlin CodeStyle
-**В разработке**
 
 ## Основные положения
 
@@ -16,12 +15,13 @@
 
 см. [Android Code Style][surf]
 
-Оформляются по правилам `KDoc`. см [Coding Conventions][conv], [Android Style Guide][style]
+Оформляются по правилам `KDoc`.
+(см. [Coding Conventions][conv], [Android Style Guide][style])
 
 ## Именование сущностей
 см. [Coding Conventions][conv], [Android Code Style][surf]
 
-**Указаны отличия от код-стайла из вики Surf**
+**Указаны отличия от [Java код-стайла Surf][surf]**
 
 ### Имена констант в xml:
 
@@ -55,7 +55,7 @@ val someBeautifulLambda: (Int) -> Int = { it * 2 }
 
 Используется `camelCase`. Правила оформления смотри [Android Code Style][surf].
 
-### Использование спец символов
+### Использование спец. символов
 
 см. [Special Characters from Android Style Guide](https://android.github.io/kotlin-guides/style.html#special-characters)
 
@@ -71,7 +71,8 @@ val someBeautifulLambda: (Int) -> Int = { it * 2 }
 
 #### Расположение методов в классе
 
-1 вариант:
+**1 вариант**:
+
 * abstract методы
 
 * override методы
@@ -84,21 +85,22 @@ val someBeautifulLambda: (Int) -> Int = { it * 2 }
 
 * приватные методы
 
-2 вариант: см.  [Android Code Style][surf]
+**2 вариант**:
+
+* по уровням абстракции (см.  [Android Code Style][surf])
 
 ## Организация файлов и пакетов
 
-Выносить extension-методы в отдельные, логически связанные файлы,
+* Выносить extension-методы в отдельные, логически связанные файлы,
 если они не используются только в одном месте. Файл именуется с
-постфиксом Extensions, например `UiExtensions`, `InputExtensions` …
-
-**Совет:** Префикс должен соответсвовать классу, которой эти методы расширяют,
+постфиксом Extensions, при этом префикс должен соответсвовать классу,
+который эти методы расширяют,
 т.е `EditTextExtensions`, `ListExtensions`, `ActivityExtensions` и тд.
 
-Публичные глобальные константы хранить как val свойства в отдельном файле,
+* Публичные глобальные константы хранить как `val` свойства в отдельном файле,
 на глобальном уровне.
 
-Утилитные функции удобно хранить либо в виде *глобальных функций*, либо
+* Утилитные функции удобно хранить либо в виде *глобальных функций*, либо
 оборачивать в `object`.
 
 ## Форматирование
@@ -146,13 +148,15 @@ class SocialNetworksInteractor @Inject constructor(
     private val analyticsService: AnalyticsService,
     private val activityProvider: ActivityProvider
 ) : OAuthCallback, ActivityResultDelegate {
+
+}
 ```
 
 ### Форматирование управляющих конструкций
 см. [Форматирование управляющих конструкций](https://kotlinlang.org/docs/reference/coding-conventions.html#formatting-control-flow-statements)
 
-### Форматирование цепочных вызовов
-см. [Цепочные вызовы](https://kotlinlang.org/docs/reference/coding-conventions.html#chained-call-wrapping)
+### Форматирование цепных вызовов
+см. [Цепные вызовы](https://kotlinlang.org/docs/reference/coding-conventions.html#chained-call-wrapping)
 
 ### Форматирование лямбд
 см. [Форматирование лямбд](https://kotlinlang.org/docs/reference/coding-conventions.html#lambda-formatting)
@@ -240,6 +244,7 @@ subscribeIoHandleError(placesRepository.getShortPlaces(
 ```
 
 ##### Логические выражения
+
 В **логических выражениях** предпочтительнее использовать логические
 операторы &, | и  тд, а не методы в явном виде. Данный тезис не касается `nullable` типов.
 ```
@@ -283,11 +288,31 @@ nullableInt?.let {
 }
 ```
 
+
+## Лучшие практики
+
+* Обращение к вью через kotlin.synthetic.* (через имена в xml в lower_snake_case).
+*Искл*: в контроллерах удобнее использовать findViewById или Anko.find(),
+либо инициализацию через lazy {}
+
+* С помощью lazy удобно инициализировать большие объемные списки, объекты.
+
+* Использовать синтаксис свойств вместо сеттеров.
+
+* Для конкатенации элементов списка в строку(например с идентификаторами
+или именами элементов) удобно использовать метод joinToString().
+
+* [**Delegates**][delegates]
+
+* Созд
+
+
 [conv]: https://kotlinlang.org/docs/reference/coding-conventions.html
 [style]: https://android.github.io/kotlin-guides/style.html
 [robot]: https://habrahabr.ru/company/redmadrobot/blog/343458/
 [surf]: java_codestyle.md
 [r_naming]: https://github.com/RedMadRobot/kotlin-style-guide#%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0-%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F
 [special_chars]: https://android.github.io/kotlin-guides/style.html#special-characters
+[delegates]: kotlin_delegates.md
 
 
