@@ -17,7 +17,7 @@
         style="@style/Widget.MaterialProgressBar.ProgressBar.Small"
         android:layout_width="38dp"
         android:layout_height="38dp"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:indeterminate="true"
         app:mpb_progressStyle="circular" />
 </RelativeLayout>

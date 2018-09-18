@@ -19,7 +19,7 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
     @Inject
     internal lateinit var presenter: PaginationListPresenter
 
-    private val adapter = PaginationListAdapter { presenter.loadMore() }
+    private val adapter = PaginationableAdapter { presenter.loadMore() }
 
     private val controller = FirstDataItemController(object : FirstDataItemController.FirstDataClickListener {
         override fun onClick(firstData: FirstData) {
@@ -46,7 +46,7 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
 
     override fun renderInternal(screenModel: PaginationListScreenModel) {
         adapter.setItems(ItemList.create()
-                .addAll(screenModel.list, controller), screenModel.paginationState)
+                .addAll(screenModel.pageList, controller), screenModel.paginationState)
     }
 
     private fun initRecycler() {
