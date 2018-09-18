@@ -1,8 +1,6 @@
 package ru.surfstudio.standard.app_injector
 
 import android.content.Context
-import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
-import ru.surfstudio.standard.i_session.SessionChangedInteractor
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
@@ -15,6 +13,8 @@ import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
+import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
+import ru.surfstudio.standard.i_session.SessionChangedInteractor
 
 @PerApplication
 @Component(modules = [

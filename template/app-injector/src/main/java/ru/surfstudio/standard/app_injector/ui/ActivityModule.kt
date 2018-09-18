@@ -88,7 +88,8 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideTabFragmentNavigator(activityProvider: ActivityProvider, eventDelegateManager: ScreenEventDelegateManager): TabFragmentNavigator {
+    internal fun provideTabFragmentNavigator(activityProvider: ActivityProvider,
+                                             eventDelegateManager: ScreenEventDelegateManager): TabFragmentNavigator {
         return TabFragmentNavigator(activityProvider, eventDelegateManager)
     }
 

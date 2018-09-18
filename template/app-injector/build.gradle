@@ -1,3 +1,5 @@
+import com.google.gms.googleservices.GoogleServicesPlugin
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
@@ -85,6 +87,11 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
+    resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
+}
+
 dependencies {
     implementation project(':template:base')
     implementation project(':template:base-ui')
@@ -98,12 +105,13 @@ dependencies {
     implementation project(':template:f-debug')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
 
-configurations.all {
-    resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
-    resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
-}
+//todo replace google-services.json
+apply plugin: 'com.google.gms.google-services'
+
+GoogleServicesPlugin.config.disableVersionCheck = true
