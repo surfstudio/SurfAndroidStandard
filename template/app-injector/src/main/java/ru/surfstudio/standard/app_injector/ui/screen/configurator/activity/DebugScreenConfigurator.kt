@@ -9,28 +9,31 @@ import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
-import ru.surfstudio.standard.f_main.MainActivityRoute
-import ru.surfstudio.standard.f_main.MainActivityView
+import ru.surfstudio.standard.f_debug.DebugActivityRoute
+import ru.surfstudio.standard.f_debug.DebugActivityView
 
-class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
+/**
+ * Конфигуратор экрана показа информации для дебага
+ */
+class DebugScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
-            modules = [ActivityScreenModule::class, MainScreenModule::class])
-    interface MainScreenComponent
-        : ScreenComponent<MainActivityView>
+            modules = [ActivityScreenModule::class, DebugScreenModule::class])
+    interface DebugScreenComponent
+        : ScreenComponent<DebugActivityView>
 
     @Module
-    internal class MainScreenModule(route: MainActivityRoute)
-        : CustomScreenModule<MainActivityRoute>(route)
+    internal class DebugScreenModule(route: DebugActivityRoute)
+        : CustomScreenModule<DebugActivityRoute>(route)
 
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerMainScreenConfigurator_MainScreenComponent.builder()
+        return DaggerDebugScreenConfigurator_DebugScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .activityScreenModule(activityScreenModule)
-                .mainScreenModule(MainScreenModule(MainActivityRoute()))
+                .debugScreenModule(DebugScreenModule(DebugActivityRoute()))
                 .build()
     }
 }

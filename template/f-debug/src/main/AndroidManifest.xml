@@ -1,1 +1,8 @@
-<manifest package="ru.surfstudio.android.template.f_debug" />
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ru.surfstudio.android.template.f_debug">
+
+    <application>
+        <activity android:name="ru.surfstudio.standard.f_debug.DebugActivityView" />
+    </application>
+</manifest>
