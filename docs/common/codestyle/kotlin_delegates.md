@@ -27,8 +27,8 @@ private val locationManager: LocationManager by lazy {
 
 ```kotlin
 private var selectedPinChangeDelegateData: PinSelectedData by Delegates.observable(
-PinSelectedData())
-{ _, oldValue, newValue ->
+    PinSelectedData()
+) { _, oldValue, newValue ->
    if (newValue != oldValue) {
        pinSelectedSubject.onNext(newValue)
        renderMarkerSelection(oldValue, newValue)
