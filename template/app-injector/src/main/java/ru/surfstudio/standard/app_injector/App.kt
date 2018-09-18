@@ -11,14 +11,21 @@ import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.app_injector.ui.notification.PushHandleStrategyFactory
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
+import ru.surfstudio.standard.domain.notification.NotificationType
 
 class App : CoreApp() {
+
+    companion object {
+        private const val debugNotificationTitle = "Debug screen"
+        private const val debugNotificationBody = "Show debug info"
+    }
 
     override fun onCreate() {
         super.onCreate()
         initFabric()
         initComponentProvider()
         initNotificationCenter()
+        initDebugNotification()
 
         AppInjector.initInjector(this)
     }
@@ -66,5 +73,15 @@ class App : CoreApp() {
                 NotificationCenter.onActivityStarted(activity)
             }
         })
+    }
+
+    private fun initDebugNotification() {
+        NotificationCenter.onReceiveMessage(
+                this,
+                debugNotificationTitle,
+                debugNotificationBody,
+                // todo use AbstractPushHandleStrategyFactory.key instead of "event"
+                mapOf("event" to NotificationType.DEBUG_DATA_TYPE.getStringId())
+        )
     }
 }
