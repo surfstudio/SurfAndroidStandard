@@ -22,8 +22,8 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.support.annotation.RequiresApi
+import android.util.Base64
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.security.utils.SecretValue
 import ru.surfstudio.android.security.utils.SecurityUtils.generateSalt
 import ru.surfstudio.android.shared.pref.SettingsUtil
 import java.security.KeyStore
@@ -200,5 +200,29 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
     fun clear() {
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN, SettingsUtil.EMPTY_STRING_SETTING)
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_FINGERPRINT, SettingsUtil.EMPTY_STRING_SETTING)
+    }
+
+    private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
+        companion object {
+            private const val DELIMITER = "["
+
+            fun fromString(value: String): SecretValue {
+                val split = value.split(DELIMITER)
+                if (split.size != 3) error("IllegalArgumentException while splitting value")
+
+                return SecretValue(
+                        iv = decode(split[0]),
+                        salt = decode(split[1]),
+                        secret = decode(split[2]))
+            }
+
+            private fun decode(value: String): ByteArray = Base64.decode(value, Base64.NO_WRAP)
+
+            private fun encode(value: ByteArray): String = Base64.encodeToString(value, Base64.NO_WRAP)
+        }
+
+        override fun toString(): String {
+            return encode(iv) + DELIMITER + encode(salt) + DELIMITER + encode(secret)
+        }
     }
 }
