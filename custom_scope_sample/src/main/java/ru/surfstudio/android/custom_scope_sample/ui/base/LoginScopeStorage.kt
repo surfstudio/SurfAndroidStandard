@@ -1,7 +1,7 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base
 
 import android.app.Activity
-import ru.surfstudio.android.custom_scope_sample.app.AppInjector
+import ru.surfstudio.android.custom_scope_sample.app.AppConfigurator
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.DaggerLoginScreenComponent
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginScreenComponent
 
@@ -12,13 +12,12 @@ object LoginScopeStorage {
 
     private val activityList: MutableList<Class<out Activity>> = mutableListOf()
 
-    var loginScreenComponent: LoginScreenComponent? = null
-
+    private var loginScreenComponent: LoginScreenComponent? = null
 
     fun getLoginComponent(): LoginScreenComponent? {
         if (loginScreenComponent == null) {
             loginScreenComponent = DaggerLoginScreenComponent.builder()
-                    .appComponent(AppInjector.appComponent)
+                    .appComponent(AppConfigurator.appComponent)
                     .build()
         }
 
