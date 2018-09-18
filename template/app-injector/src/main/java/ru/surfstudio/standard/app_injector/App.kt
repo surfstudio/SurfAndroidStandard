@@ -1,10 +1,14 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
 import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.android.notification.NotificationCenter
 import ru.surfstudio.android.template.app_injector.BuildConfig
+import ru.surfstudio.standard.app_injector.ui.notification.PushHandleStrategyFactory
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
 
@@ -14,6 +18,7 @@ class App : CoreApp() {
         super.onCreate()
         initFabric()
         initComponentProvider()
+        initNotificationCenter()
 
         AppInjector.initInjector(this)
     }
@@ -49,4 +54,17 @@ class App : CoreApp() {
                     .disabled(BuildConfig.DEBUG)
                     .build())
             .build())
+
+    private fun initNotificationCenter() {
+        NotificationCenter.configure {
+            setActiveActivityHolder(activeActivityHolder)
+            setPushHandleStrategyFactory(PushHandleStrategyFactory)
+        }
+
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                NotificationCenter.onActivityStarted(activity)
+            }
+        })
+    }
 }
