@@ -16,7 +16,6 @@
 package ru.surfstudio.android.filestorage;
 
 import android.support.annotation.Nullable;
-import android.util.Base64;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -28,7 +27,6 @@ import java.util.List;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 
-
 /**
  * класс, позволяющий хранить обьекты в кеше, является оберткой над {@link CacheFileProcessor}
  *
@@ -37,14 +35,19 @@ import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 public abstract class BaseLocalCache<T> {
 
     private final CacheFileProcessor fileProcessor;
-    private NamingProcessor namingProcessor;
+    private final NamingProcessor namingProcessor;
+    private final ObjectConverter<T> objectConverter;
+    private final SecureBytesConverter secureBytesConverter;
 
-    public BaseLocalCache(final CacheFileProcessor fileProcessor, final NamingProcessor namingProcessor) {
+    public BaseLocalCache(final CacheFileProcessor fileProcessor,
+                          final NamingProcessor namingProcessor,
+                          final SecureBytesConverter secureBytesConverter,
+                          final ObjectConverter<T> objectConverter) {
         this.fileProcessor = fileProcessor;
         this.namingProcessor = namingProcessor;
+        this.secureBytesConverter = secureBytesConverter;
+        this.objectConverter = objectConverter;
     }
-
-    public abstract ObjectConverter<T> getConverter();
 
     /**
      * Метод, который очищает все элементы кэша в конкретном кэш класс-типе
@@ -71,18 +74,6 @@ public abstract class BaseLocalCache<T> {
     }
 
     /**
-     * Метод, который возвращает значение по определенному ключу или null, если не существует
-     *
-     * @param key - ключ (не может быть null)
-     * @return - данные или null - если не существует
-     */
-    @Nullable
-    public T getSecure(@NotNull String key) {
-        final String name = convertName(key);
-        return getInternalSecure(name);
-    }
-
-    /**
      * Метод, который кодирует объект в массив байтов и сохраняет его в файловой системе или перезаписывает текущий файл.
      *
      * @param key - ключ (не может быть null)
@@ -91,18 +82,6 @@ public abstract class BaseLocalCache<T> {
     public void put(@NotNull String key, @NotNull T t) {
         final String name = convertName(key);
         putInternal(t, name);
-    }
-
-    /**
-     * Метод, который кодирует объект в массив байтов с использованием Base64
-     * и сохраняет его в файловой системе или перезаписывает текущий файл.
-     *
-     * @param key - ключ (не может быть null)
-     * @param t   - значение (не может быть null)
-     */
-    public void putSecure(@NotNull String key, @NotNull T t) {
-        final String name = convertName(key);
-        putInternalSecure(t, name);
     }
 
     /**
@@ -131,24 +110,11 @@ public abstract class BaseLocalCache<T> {
         if (bytes == null) {
             return null;
         }
-        return getConverter().decode(bytes);
-    }
-
-    private synchronized T getInternalSecure(final String name) {
-        byte[] bytes = fileProcessor.getBytesOrNull(name);
-        if (bytes == null) {
-            return null;
-        }
-        return getConverter().decode(Base64.decode(bytes, Base64.NO_WRAP));
+        return objectConverter.decode(secureBytesConverter.decode(bytes));
     }
 
     private synchronized void putInternal(@NotNull final T t, final String name) {
-        byte[] encode = getConverter().encode(t);
-        fileProcessor.saveBytesOrRewrite(name, encode);
-    }
-
-    private synchronized void putInternalSecure(@NotNull final T t, final String name) {
-        byte[] encode = Base64.encode(getConverter().encode(t), Base64.NO_WRAP);
+        byte[] encode = secureBytesConverter.encode(objectConverter.encode(t));
         fileProcessor.saveBytesOrRewrite(name, encode);
     }
 

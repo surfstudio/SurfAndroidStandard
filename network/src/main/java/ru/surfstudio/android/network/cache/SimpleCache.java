@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import org.jetbrains.annotations.NotNull;
 
 import ru.surfstudio.android.filestorage.BaseTextLocalCache;
+import ru.surfstudio.android.filestorage.SecureBytesConverter;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
 import ru.surfstudio.android.filestorage.naming.SimpleNamingProcessor;
@@ -35,10 +36,18 @@ public class SimpleCache extends BaseTextLocalCache {
     private static final NamingProcessor simpleNamingProcessor = new SimpleNamingProcessor();
     private static final NamingProcessor sha256NamingProcessor = new Sha256NamingProcessor();
 
-    public SimpleCache(String cacheDir, String cacheDirName, int maxSize) {
-        super(new CacheFileProcessor(cacheDir,
-                        simpleNamingProcessor.getNameFrom(cacheDirName), maxSize),
-                maxSize == 1 ? new SingleFileNamingProcessor(cacheDirName) : sha256NamingProcessor);
+    public SimpleCache(String cacheDir,
+                       String cacheDirName,
+                       int maxSize,
+                       SecureBytesConverter secureBytesConverter) {
+        super(new CacheFileProcessor(
+                        cacheDir,
+                        simpleNamingProcessor.getNameFrom(cacheDirName),
+                        maxSize),
+                maxSize == 1
+                        ? new SingleFileNamingProcessor(cacheDirName)
+                        : sha256NamingProcessor,
+                secureBytesConverter);
     }
 
     private static class SingleFileNamingProcessor implements NamingProcessor {

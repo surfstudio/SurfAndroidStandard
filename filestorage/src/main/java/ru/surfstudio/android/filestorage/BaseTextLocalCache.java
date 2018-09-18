@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.filestorage;
 
-
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 
@@ -24,13 +23,10 @@ import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
  */
 public abstract class BaseTextLocalCache extends BaseLocalCache<String> {
 
-    public BaseTextLocalCache(CacheFileProcessor fileProcessor, NamingProcessor namingProcessor) {
-        super(fileProcessor, namingProcessor);
-    }
-
-    @Override
-    public ObjectConverter<String> getConverter() {
-        return new ObjectConverter<String>() {
+    public BaseTextLocalCache(CacheFileProcessor fileProcessor,
+                              NamingProcessor namingProcessor,
+                              SecureBytesConverter secureBytesConverter) {
+        super(fileProcessor, namingProcessor, secureBytesConverter, new ObjectConverter<String>() {
             @Override
             public byte[] encode(String value) {
                 return value.getBytes();
@@ -40,6 +36,7 @@ public abstract class BaseTextLocalCache extends BaseLocalCache<String> {
             public String decode(byte[] rawValue) {
                 return new String(rawValue);
             }
-        };
+        });
+
     }
 }

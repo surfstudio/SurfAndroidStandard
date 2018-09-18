@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC, Fedor Atyakshin.
+  Copyright (c) 2018-present, SurfStudio LLC.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,11 +13,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.filestorage;
+package ru.surfstudio.android.filestorage
 
-public interface ObjectConverter<T> {
+/**
+ * Интерфейс для шифрования и дешифрования байтов,
+ * использующийся для безопасного кеширования
+ */
+interface SecureBytesConverter {
 
-    byte[] encode(T value);
+    fun encode(decodedBytes: ByteArray) : ByteArray
 
-    T decode(byte[] rawValue);
+    fun decode(rawBytes: ByteArray) : ByteArray
 }
