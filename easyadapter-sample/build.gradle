@@ -9,6 +9,9 @@ android {
 dependencies {
     implementation project(':easyadapter')
     implementation project(':sample-dagger')
+    implementation project(':rxbus')
+    implementation project(':datalist-limit-offset')
+    implementation project(':datalist-page-count')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 

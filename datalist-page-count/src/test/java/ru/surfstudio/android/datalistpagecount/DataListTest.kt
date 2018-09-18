@@ -72,6 +72,17 @@ class DataListTest {
     }
 
     @Test
+    fun mergeWithEmptyList2() {
+        val list1 = DataList.empty<Int>()
+        val list2 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
+
+        val list3 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 1, 5)
+
+        list1.merge(list2)
+        Assert.assertEquals(list3, list1)
+    }
+
+    @Test
     fun mergeEmptyListWithAnotherList() {
         val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
         val list2 = DataList.empty<Int>()

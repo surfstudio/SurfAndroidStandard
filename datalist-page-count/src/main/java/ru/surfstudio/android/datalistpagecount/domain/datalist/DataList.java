@@ -205,6 +205,8 @@ public class DataList<T> implements List<T>, Serializable {
             int itemsRemained = data.size() - startItemIndex;
             int endItemIndex = startItemIndex +
                     (itemsRemained < pageSize ? itemsRemained : pageSize);
+            if (itemsRemained <= 0) break;
+
             result.put(i, data.subList(startItemIndex, endItemIndex));
         }
         return result;
@@ -247,7 +249,7 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * возвращает значение offset c которого нужно начать чтобы подгрузить слкдующий блок данных
+     * возвращает значение page, c которого нужно начать чтобы подгрузить следующий блок данных
      */
     public int getNextPage() {
         return startPage == UNSPECIFIED_PAGE ? 1 : startPage + numPages;
