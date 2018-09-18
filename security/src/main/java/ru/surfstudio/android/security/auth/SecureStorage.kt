@@ -135,28 +135,16 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
      * Функция для получения FingerprintManager.CryptoObject из хранилища
      */
     @TargetApi(Build.VERSION_CODES.M)
-    fun getFingerPrintCryptoObject(): FingerprintManager.CryptoObject? = try {
-        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, getSecretKeyForFingerPrint())
-
-        FingerprintManager.CryptoObject(cipher)
-    } catch (throwable: Throwable) {
-        Logger.e(throwable)
-        null
+    fun getFingerPrintCryptoObject(): FingerprintManager.CryptoObject? {
+        return getFingerPrintCryptoObject(getSecretKeyForFingerPrint())
     }
 
     /**
      * Функция для создания FingerprintManager.CryptoObject
      */
     @RequiresApi(Build.VERSION_CODES.M)
-    fun createFingerPrintCryptoObject(): FingerprintManager.CryptoObject? = try {
-        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, createFingerprintKey())
-
-        FingerprintManager.CryptoObject(cipher)
-    } catch (throwable: Throwable) {
-        Logger.e(throwable)
-        null
+    fun createFingerPrintCryptoObject(): FingerprintManager.CryptoObject? {
+        return getFingerPrintCryptoObject(createFingerprintKey())
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -197,6 +185,17 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
 
     private fun getAndroidKeyStore(): KeyStore = KeyStore.getInstance(ANDROID_KEYSTORE).apply {
         load(null)
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun getFingerPrintCryptoObject(secretKey: SecretKey?): FingerprintManager.CryptoObject? = try {
+        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
+
+        FingerprintManager.CryptoObject(cipher)
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        null
     }
 
     private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
