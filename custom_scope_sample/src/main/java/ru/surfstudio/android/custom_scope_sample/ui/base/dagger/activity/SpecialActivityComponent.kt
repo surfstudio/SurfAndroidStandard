@@ -18,8 +18,9 @@ import ru.surfstudio.android.rxbus.RxBus
 
 @PerActivity
 @Component(dependencies = [(LoginScreenComponent::class)],
-        modules = [(ActivityModule::class)])
-interface ActivityComponent {
+        modules = [ActivityModule::class,
+            SpecialActivityModule::class])
+interface SpecialActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
     fun stringsProvider(): StringsProvider
@@ -27,6 +28,7 @@ interface ActivityComponent {
     fun activityProvider(): ActivityProvider
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
+    fun rxBus(): RxBus
 
     fun loginData(): EmailData
 }

@@ -84,10 +84,4 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
         return FragmentNavigator(activityProvider)
     }
-
-    @Provides
-    @PerActivity
-    internal fun provideRxBus(): RxBus {
-        return RxBus()
-    }
 }
