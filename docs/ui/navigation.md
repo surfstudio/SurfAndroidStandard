@@ -50,6 +50,24 @@ Route - является оберткой над Intent(навигация по 
 Для реализации навигации, необходимо реализовать класс-наследник одного из базовых
 `Route`.
 
+Передача параметров при старте экрана происходит через `Route`
+и эти параметры получает презентер в конструктор также обернутые в `Route`.
+Для упрощения этой передачи следует создать базовый класс для модуля экрана
+`CustomScreenModule`.
+
+``` kotlin
+@Module
+abstract class CustomScreenModule<out R : Route>(private val route: R) {
+
+    @Provides
+    @PerScreen
+    fun provideRoute(): R {
+        return route
+    }
+}
+```
+
+
 Более подробно [Основные Routes и Navigators][nav], [Навигаторы для диалогов][dial]
 
 [core-ui]: ../../core-ui/README.md

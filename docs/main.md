@@ -45,7 +45,7 @@ Android Standard - Репозиторий с внутренними библио
     1. [Кастомные вью](ui/custom_views.md)
     1. [Виджеты](../mvp-widget/README.md)
     1. [Диалоги](../mvp-dialog/README.md)
-    1. [Навигация](../core-ui/docs/navigation.md)
+    1. [Навигация](ui/navigation.md)
     1. [Анимации](../animations/README.md)
     1. [Загрузка изображений](../imageloader/README.md)
     1. [Работа со списками](../easyadapter/README.md)
@@ -55,7 +55,8 @@ Android Standard - Репозиторий с внутренними библио
 
 1. [Инициализация приложения](../template/README.md)
 
-1. [Лучшие практики](best_practice.md)
+1. [Лучшие практики](best_practice/best_practice.md)
+    1. [Поиск утечек](best_practice/memory_leak.md)
 
 
 [][Todo]
