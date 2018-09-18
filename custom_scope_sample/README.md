@@ -1,3 +1,5 @@
+[TOC]
+
 # Пример создания собственного Scope
 
 Используются студийные [Scope][../dagger-scope/README.md].
@@ -10,7 +12,7 @@
 Управление временем жизни компонента выполняется "в ручную", c помощью
 [`LoginScopeStorage`][lss].
 
-# Добавление кастомного скоупа между `@PerApplication` и `@PerActivity`
+## Добавление кастомного скоупа между `@PerApplication` и `@PerActivity`
 
 Иногда возникает ситуация, когда надо сделать выделенную область видимости
 для нескольких активити.
@@ -27,6 +29,23 @@ AppComponent.
 хранилище.
 
 - не забыть прокинуть EmailData в ActivityComponent
+
+## Добавление сущности в ActivityScope конкретной Activity
+
+1 способ :
+* Создать кастомный компонент `SpecialComponent`, который будет иметь скоуп
+`@PerActivity` и зависеть от `AppComponent`.
+
+* Создать модуль с необходимыми зависимостями.
+
+* Добавить этот модуль к компоненту, а так же прокинуть через него зависимости
+из `AppComponent`
+
+* Создать `SpecialActivityScreenConfigurator`, который будет абтрактным и
+станет базовым для будущего экрана. Его код будет аналогичен `ActivityScreenConfigurator`
+За исключением того, что он будет типизирован `SpecialComponent`'ом
+
+2 способ: todo - subcomponents
 
 [ld]: src/main/java/ru/surfstudio/android/custom_scope_sample/domain/EmailData.kt
 [lss]: src/main/java/ru/surfstudio/android/custom_scope_sample/ui/base/LoginScopeStorage.kt
