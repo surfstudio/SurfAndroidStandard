@@ -21,7 +21,7 @@ ActivityViewModule(FragmentViewModule) и другие модули,
 
 * Dagger модуль экрана (опционально),
 который необходим передачи аргументов, с которыми стартовал экран,
-и для простоты может расширять `CustomScreenModule`. <-todo закинуть про навигацию
+и для простоты может расширять [`CustomScreenModule`][nav].
 
 При наследовании от `BasePresenter` следует указать View экрана как параметр типа.
 
@@ -39,3 +39,4 @@ ActivityViewModule(FragmentViewModule) и другие модули,
 [vc]: ../src/main/java/ru/surfstudio/android/core/mvp/configurator/ViewConfigurator.java
 [di]: ../../docs/common/di.md
 [core-ui]: ../../core-ui/README.md
+[nav]: ../../docs/ui/navigation.md

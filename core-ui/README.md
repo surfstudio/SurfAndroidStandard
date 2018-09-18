@@ -1,31 +1,43 @@
+[Главная страница репозитория](../docs/main.md)
+
+[TOC]
+
 # Core ui
-Cоздан в результате развития идей проекта [ferro](https://github.com/MaksTuev/ferro).
+Создан в результате развития идей проекта [ferro](https://github.com/MaksTuev/ferro).
 
 Модуль расширяющий возможности ui части Android Framework.
 Может быть использован для создания базовых классов, необходимых для реализации паттернов MVP, MVVM
 
 ### Основные сущности:
 
-1. PersistentScope - хранилище для остальных сущностей,
+1. [`PersistentScope`][ps] - хранилище для остальных сущностей,
    переживает смену конфигурации.
-2. PersistentScopeStorage - хранилище всех PersistentScope в контексте приложения
-3. ScreenState - текущее состояние экрана (пр. был ли он пересоздан в результате смены конфигурации или восстановлен с диска)
+2. [`PersistentScopeStorage`][pss] - хранилище всех PersistentScope в контексте приложения
+3. [`ScreenState`][ss] - текущее состояние экрана (пр. был ли он пересоздан в
+результате смены конфигурации или восстановлен с диска)
 4. `Configurator` - используется для настройки DI
     * [`BaseActivityConfigurator`][bac]
     * [`BaseFragmentConfigurator`][bfc]
     * [`Configurator`][c]
-5. ScreenEventDelegateManager - позволяет подписываться на системные события экрана, такие как onActivityResult, onCompletelyDestroy, onNewIntent и др.
+5. [`ScreenEventDelegateManager`][sedm] - позволяет подписываться на системные события
+экрана, такие как onActivityResult, onCompletelyDestroy, onNewIntent и др.
 
-Все эти сущности, переживают смену конфигурации, таким образом решается большая часть проблем, связанных с этим свойством фреймворка. 
+Все эти сущности, переживают смену конфигурации, таким образом решается
+большая часть проблем, связанных с этим свойством фреймворка.
 
 ### Дополнительные сущности:
 
-1. ActivityNavigator, FragmentNavigator, TabFragmentNavigator, ChildFragmentNavigator,
- GlobalNavigator - позволяют осуществлять навигацию по приложению c помощью специальных сущностей Route
-1. PermissionManager - позволяет запрашивать RuntimePermissions
-1. ActivityProvider, FragmentProvider - предоставляют "живые" Activity или Fragment даже после смены конфигурации
+1. [ActivityNavigator, FragmentNavigator, TabFragmentNavigator, ChildFragmentNavigator,
+ GlobalNavigator][nav] - позволяют осуществлять навигацию по приложению c помощью
+ специальных сущностей Route
+1. [`PermissionManager`][pm] - позволяет запрашивать RuntimePermissions
+1. [`ActivityProvider`][ap], [`FragmentProvider`][fp] - предоставляют "живые" Activity
+или Fragment даже после смены конфигурации
 
-Механизм делегирования событий экрана (см ScreenEventDelegateManager) позволяет создавать законченные сущности, которые необходимы для "чистой" архитектуры. Например, использование ActivityNavigator избавляет от необходимости переопределять метод onActivityResult и полностью инкапсулирует работу с Intent.
+Механизм делегирования событий экрана (см ScreenEventDelegateManager)
+позволяет создавать законченные сущности, которые необходимы для "чистой"
+архитектуры. Например, использование ActivityNavigator избавляет от необходимости
+переопределять метод onActivityResult и полностью инкапсулирует работу с Intent.
 
 Большинство асинхронных взаимодействий осуществляются через rxJava. 
 
@@ -43,3 +55,11 @@ TODO: Добавить страницу с описанием нашей арх�
 [bac]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseActivityConfigurator.java
 [bfc]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseFragmentConfigurator.java
 [c]: src/main/java/ru/surfstudio/android/core/ui/configurator/Configurator.java
+[ps]: src/main/java/ru/surfstudio/android/core/ui/scope/PersistentScope.java
+[pss]: src/main/java/ru/surfstudio/android/core/ui/scope/PersistentScopeStorage.java
+[ss]: src/main/java/ru/surfstudio/android/core/ui/state/ScreenState.java
+[sedm]: src/main/java/ru/surfstudio/android/core/ui/event/ScreenEventDelegateManager.java
+[nav]: docs/navigation.md
+[pm]: src/main/java/ru/surfstudio/android/core/ui/permission/PermissionManager.java
+[ap]: src/main/java/ru/surfstudio/android/core/ui/provider/ActivityProvider.java
+[fp]: src/main/java/ru/surfstudio/android/core/ui/provider/FragmentProvider.java
