@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.logger
 
-import ru.surfstudio.android.logger.exceptions.RemoteLoggingStrategyIsNotProvidedException
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 import kotlin.reflect.KClass
 
@@ -63,10 +62,6 @@ object RemoteLogger {
     }
 
     private fun forEachRemoteLoggingStrategyOrWithDefault(action: (RemoteLoggingStrategy) -> Unit) {
-        if (REMOTE_LOGGING_STRATEGIES.isEmpty()) {
-            throw RemoteLoggingStrategyIsNotProvidedException()
-        } else {
-            REMOTE_LOGGING_STRATEGIES.values.forEach(action)
-        }
+        REMOTE_LOGGING_STRATEGIES.values.forEach(action)
     }
 }

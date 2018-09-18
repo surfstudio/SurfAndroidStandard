@@ -1,12 +1,13 @@
-@Library('surf-lib') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-import ru.surfstudio.ci.pipeline.EmptyPipeline
+@Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.stage.body.CommonAndroidStages
+import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
+import ru.surfstudio.ci.AbortDuplicateStrategy
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
@@ -22,7 +23,7 @@ def DEPLOY = 'Deploy'
 
 //init
 def script = this
-def pipeline = new EmptyPipeline(script)
+def pipeline = new EmptyScmPipeline(script)
 def branchName = ""
 pipeline.init()
 
@@ -30,13 +31,13 @@ pipeline.init()
 pipeline.node = NodeProvider.getAndroidNode()
 
 pipeline.preExecuteStageBody = { stage ->
-    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, stage.name)
+    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, stage.name, stage.result)
+    if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
-pipeline.initStageBody = {
+pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
     script.echo "artifactory user: ${script.env.surf_maven_username}"
@@ -48,18 +49,21 @@ pipeline.initStageBody = {
         value -> branchName = value
     })
 
-    if(branchName.contains("project-snapshot")){
+    if(branchName.contains("project-snapshot")){ //todo do not ignore stages fore project-release build (нжно парсить config файл и смотреть на постфикс SNAPSHOT)
         script.echo "Apply lightweight strategies for project-snapshot branch"
+        pipeline.getStage(BUILD).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
     }
 
     CommonUtil.safe(script){
-        JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", script.scm.userRemoteConfigs[0].url, "bitbucket", true)
+        JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", pipeline.repoUrl, "bitbucket", true)
     }
 
-    CommonUtil.abortDuplicateBuilds(script, branchName)
+    def buildDescription = branchName
+    CommonUtil.setBuildDescription(script, buildDescription)
+    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
 pipeline.stages = [
@@ -73,22 +77,22 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            CommonAndroidStages.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.createStage(UNIT_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            CommonAndroidStages.unitTestStageBodyAndroid(script,
+            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                             "testReleaseUnitTest",
                             "**/test-results/testReleaseUnitTest/*.xml",
                             "app/build/reports/tests/testReleaseUnitTest/")
         },
         pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            CommonAndroidStages.instrumentationTestStageBodyAndroid(script,
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(script,
                     "connectedAndroidTest",
                     "**/outputs/androidTest-results/connected/*.xml",
                     "app/build/reports/androidTests/connected/")
         },
         pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            CommonAndroidStages.staticCodeAnalysisStageBody(script)
+            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             script.sh "./gradlew clean uploadArchives"
@@ -96,7 +100,7 @@ pipeline.stages = [
 ]
 
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlHtmlLink(script)
+    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
     def message
     def success = Result.SUCCESS.equals(pipeline.jobResult)
     if (!success) {
@@ -105,7 +109,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy ветки ${branchName} успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, script.scm.userRemoteConfigs[0].url, "bitbucket", success)
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 }
 
 pipeline.run()

@@ -31,24 +31,44 @@ try {
 
 gradle.ext {
     androidStandard = [
-            debugDir       : androidStandardDebugDir,
-            debugMode      : androidStandardDebugMode,
+            debugDir : androidStandardDebugDir,
+            debugMode: androidStandardDebugMode,
     ]
 
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
     androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
 
     // Функция для подключения модулей android-standard
-    androidStandard.api = { context, modules ->
-        context.dependencies {
-            modules.each {
-                if (!gradle.ext.androidStandard.debugEnabled) {
-                    // Подключение модулей из artifactory
-                    api "ru.surfstudio.android:$it:$surfCoreVersionName"
-                } else {
-                    // Подключение модулей из локального репозитория для отладки
-                    api context.project(":$it")
+    androidStandard.api = { context, androidStandardVersion, modules, closure = null ->
+        if (!gradle.ext.androidStandard.debugEnabled) {
+            // Подключение модулей из artifactory
+            context.dependencies {
+                modules.each {
+                    if (closure == null) {
+                        api "ru.surfstudio.android:$it:$androidStandardVersion"
+                    } else {
+                        api("ru.surfstudio.android:$it:$androidStandardVersion", closure)
+                    }
                 }
+            }
+        } else {
+            // Подключение модулей из локального репозитория для отладки
+            context.dependencies {
+                modules.each {
+                    if (closure == null) {
+                        api context.project(":$it")
+                    } else {
+                        api(context.project(":$it"), closure)
+                    }
+                }
+            }
+            // Установка com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
+            // с помощью рефлексии для избежания ошибок при конфликте версий GoogleServices
+            try {
+                def pluginClass = new GroovyClassLoader().loadClass("com.google.gms.googleservices.GoogleServicesPlugin")
+                pluginClass.getField("config").get(null).disableVersionCheck = true
+            } catch (Throwable e) {
+                logger.error("Ошибка установки GoogleServicesPlugin.config.disableVersionCheck: $e.message")
             }
         }
     }

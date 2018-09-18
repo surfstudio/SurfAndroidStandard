@@ -44,8 +44,10 @@ class PictureProvider constructor(
      */
     fun openCameraAndTakePhoto(noPermissionAction: () -> Unit = {}): Observable<CameraPictureProvider.CameraResult> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkCameraStoragePermission(),
                 { cameraIntentHelper.startCameraIntent() },
-                noPermissionAction)
+                noPermissionAction
+        )
     }
 
     //region Функции для выбора одного изображения из галереи
@@ -55,6 +57,7 @@ class PictureProvider constructor(
      */
     fun openGalleryAndGetPhoto(noPermissionAction: () -> Unit = {}): Observable<String> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { galleryPictureProvider.openGalleryForSingleImage() },
                 noPermissionAction)
     }
@@ -65,6 +68,7 @@ class PictureProvider constructor(
      */
     fun openGalleryAndGetPhotoUri(noPermissionAction: () -> Unit = {}): Observable<String> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { galleryPictureProvider.openGalleryForSingleImageUri() },
                 noPermissionAction)
     }
@@ -75,6 +79,7 @@ class PictureProvider constructor(
      */
     fun openGalleryAndGetPhotoUriWrapper(noPermissionAction: () -> Unit = {}): Observable<UriWrapper> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { galleryPictureProvider.openGalleryForSingleImageUriWrapper() },
                 noPermissionAction)
     }
@@ -87,6 +92,7 @@ class PictureProvider constructor(
      */
     fun openGalleryAndGetFewPhoto(noPermissionAction: () -> Unit = {}): Observable<List<String>> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { galleryPictureProvider.openGalleryForMultipleImage() },
                 noPermissionAction)
     }
@@ -97,6 +103,7 @@ class PictureProvider constructor(
      */
     fun openGalleryAndGetFewPhotoUri(noPermissionAction: () -> Unit = {}): Observable<List<String>> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { galleryPictureProvider.openGalleryForMultipleImageUri() },
                 noPermissionAction)
     }
@@ -107,6 +114,7 @@ class PictureProvider constructor(
      */
     fun openGalleryAndGetFewPhotoUriWrapper(noPermissionAction: () -> Unit = {}): Observable<List<UriWrapper>> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { galleryPictureProvider.openGalleryForMultipleImageUriWrapper() },
                 noPermissionAction)
     }
@@ -120,6 +128,7 @@ class PictureProvider constructor(
     fun openImageChooserAndGetPhoto(message: String,
                                     noPermissionAction: () -> Unit = {}): Observable<String> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { chooserPictureProvider.createChooserForSingleImage(message) },
                 noPermissionAction)
     }
@@ -131,6 +140,7 @@ class PictureProvider constructor(
     fun openImageChooserAndGetPhotoUri(message: String,
                                        noPermissionAction: () -> Unit = {}): Observable<String> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { chooserPictureProvider.createChooserForSingleImageUri(message) },
                 noPermissionAction)
     }
@@ -142,6 +152,7 @@ class PictureProvider constructor(
     fun openImageChooserAndGetPhotoUriWrapper(message: String,
                                               noPermissionAction: () -> Unit = {}): Observable<UriWrapper> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { chooserPictureProvider.createChooserForSingleImageUriWrapper(message) },
                 noPermissionAction)
     }
@@ -170,6 +181,7 @@ class PictureProvider constructor(
     fun openImageChooserAndGetFewPhoto(message: String,
                                        noPermissionAction: () -> Unit = {}): Observable<List<String>> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { chooserPictureProvider.createChooserForMultipleImage(message) },
                 noPermissionAction)
     }
@@ -181,6 +193,7 @@ class PictureProvider constructor(
     fun openImageChooserAndGetFewPhotoUri(message: String,
                                           noPermissionAction: () -> Unit = {}): Observable<List<String>> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { chooserPictureProvider.createChooserForMultipleImageUri(message) },
                 noPermissionAction)
     }
@@ -192,6 +205,7 @@ class PictureProvider constructor(
     fun openImageChooserAndGetFewPhotoUriWrapper(message: String,
                                                  noPermissionAction: () -> Unit = {}): Observable<List<UriWrapper>> {
         return checkPermissionAndPerform(
+                cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { chooserPictureProvider.createChooserForMultipleImageUriWrapper(message) },
                 noPermissionAction)
     }
@@ -240,9 +254,12 @@ class PictureProvider constructor(
      * Функция, проверяющая разрешение на чтения из хранилища
      * и выполняющая различные действия в зависимости от его наличия или отсутствия
      */
-    private fun <T> checkPermissionAndPerform(hasPermissionAction: () -> Observable<T>,
-                                              noPermissionAction: () -> Unit): Observable<T> {
-        return cameraStoragePermissionChecker.checkGalleryStoragePermission()
+    private fun <T> checkPermissionAndPerform(
+            checkPermissionAction: Observable<Boolean>,
+            hasPermissionAction: () -> Observable<T>,
+            noPermissionAction: () -> Unit
+    ): Observable<T> {
+        return checkPermissionAction
                 .flatMap { hasPermission ->
                     if (hasPermission) {
                         hasPermissionAction()
