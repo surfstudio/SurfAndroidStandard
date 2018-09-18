@@ -4,6 +4,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 
 apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
@@ -105,10 +106,11 @@ dependencies {
     implementation project(':template:f-debug')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 }
 
 //todo replace google-services.json
