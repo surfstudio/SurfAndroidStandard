@@ -1,3 +1,7 @@
+[Главная страница репозитория](../docs/main.md)
+
+[TOC]
+
 # MVP widget
 
 Расширение модуля [core-mvp](../core-mvp) для работы со view
@@ -9,6 +13,7 @@
 Плюс к этому виджеты могут выручить в ситуации, когда экран перегружен
 фрагментами. Они вполне могут их заменить и при этом виджеты "легче",
 чем фрагменты.
+
 [Отличная презентация на тему][pres]
 
 Основные классы:
@@ -20,7 +25,7 @@
 
 Конфигураторы:
 
-1. [`BaseWidgetViewConfigurator`][conf]
+* [`BaseWidgetViewConfigurator`][conf]
 
 ### Подключение
 
@@ -41,11 +46,11 @@ Gradle:
 
 **!! Важно !!**
 
-Виджеты с презентером могут быть только в статической иерархии вью,
-то есть должны создаваться при старте экрана, и не могут быть использованы при
-динамическом создании вью, в том числе внутри элементов RecyclerView.
+Виджеты с презентером могут быть только в **статической** иерархии вью,
+то есть должны создаваться при старте экрана, и **не могут быть использованы при
+динамическом создании вью**, в том числе внутри элементов RecyclerView.
 
-[custom]: ../docs/ui/custom_view.md
+[custom]: ../docs/ui/custom_views.md
 [frame]: src/main/java/ru/surfstudio/android/mvp/widget/view/CoreFrameLayoutView.java
 [linear]: src/main/java/ru/surfstudio/android/mvp/widget/view/CoreLinearLayoutView.java
 [relative]: src/main/java/ru/surfstudio/android/mvp/widget/view/CoreRelativeLayoutView.java
