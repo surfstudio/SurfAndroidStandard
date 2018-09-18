@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.StringsProvider
-import ru.surfstudio.android.core.ui.bus.RxBus
+import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity

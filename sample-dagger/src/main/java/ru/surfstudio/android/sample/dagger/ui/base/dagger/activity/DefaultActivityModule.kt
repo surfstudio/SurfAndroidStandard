@@ -3,7 +3,6 @@ package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 import android.content.Context
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.ui.bus.RxBus
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
@@ -19,6 +18,7 @@ import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
+import ru.surfstudio.android.rxbus.RxBus
 
 /**
  * Модуль для dagger Activity Component

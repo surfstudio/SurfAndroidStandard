@@ -10,16 +10,12 @@ import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
 
 class App : CoreApp() {
 
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent.builder()
-                .appModule(AppModule(this))
-                .build()
-    }
-
     override fun onCreate() {
         super.onCreate()
         initFabric()
         initComponentProvider()
+
+        AppInjector.initInjector(this)
     }
 
     private fun initComponentProvider() {

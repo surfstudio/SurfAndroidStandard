@@ -90,5 +90,9 @@
   {
     "name": "location-sample",
     "path": ""
+  },
+  {
+    "name": "custom_scope_sample",
+    "path": ""
   }
 ]

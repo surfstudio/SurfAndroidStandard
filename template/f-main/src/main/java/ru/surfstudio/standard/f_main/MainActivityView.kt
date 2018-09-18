@@ -10,7 +10,6 @@ import ru.surfstudio.android.core.ui.FragmentContainer
 import ru.surfstudio.android.template.f_main.R
 import javax.inject.Inject
 
-
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), FragmentContainer {
 
     @Inject
