@@ -6,6 +6,9 @@
 
 Общая информация о том, что такое Route - [здесь][nav].
 
+Базовый интерфейс [`Route`][i_route] также предоставляет константы для обозначения
+ключей в Intent или Bundle.
+
 Предусмотрены следующие навигаторы:
 
 - [`GlobalNavigator`][global];
@@ -65,3 +68,4 @@
 [rfr]: ../src/main/java/ru/surfstudio/android/core/ui/navigation/fragment/route/RootFragmentRoute.kt
 [nav]: ../../docs/ui/navigation.md
 [dial]: ../../mvp-dialog/README.md
+[i_route]: ../src/main/java/ru/surfstudio/android/core/ui/navigation/Route.java
