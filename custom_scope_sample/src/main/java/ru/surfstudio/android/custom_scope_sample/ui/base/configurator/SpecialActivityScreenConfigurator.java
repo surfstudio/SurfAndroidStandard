@@ -3,14 +3,12 @@ package ru.surfstudio.android.custom_scope_sample.ui.base.configurator;
 import android.content.Intent;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
-import ru.surfstudio.android.custom_scope_sample.ui.base.LoginScopeStorage;
-import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.ActivityComponent;
+import ru.surfstudio.android.custom_scope_sample.app.AppInjector;
+import ru.surfstudio.android.custom_scope_sample.app.dagger.AppComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.ActivityModule;
-import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.DaggerActivityComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.DaggerSpecialActivityComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.SpecialActivityComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.SpecialActivityModule;
-import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginScreenComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.ActivityScreenModule;
 
 /**
@@ -18,24 +16,24 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.ActivityS
  */
 
 public abstract class SpecialActivityScreenConfigurator
-        extends BaseActivityViewConfigurator<LoginScreenComponent, SpecialActivityComponent, ActivityScreenModule> {
+        extends BaseActivityViewConfigurator<AppComponent, SpecialActivityComponent, ActivityScreenModule> {
 
     public SpecialActivityScreenConfigurator(Intent intent) {
         super(intent);
     }
 
     @Override
-    protected SpecialActivityComponent createActivityComponent(LoginScreenComponent parentComponent) {
+    protected SpecialActivityComponent createActivityComponent(AppComponent parentComponent) {
         return DaggerSpecialActivityComponent.builder()
-                .loginScreenComponent(parentComponent)
+                .appComponent(parentComponent)
                 .activityModule(new ActivityModule(getPersistentScope()))
                 .specialActivityModule(new SpecialActivityModule())
                 .build();
     }
 
     @Override
-    protected LoginScreenComponent getParentComponent() {
-        return LoginScopeStorage.INSTANCE.getLoginComponent();
+    protected AppComponent getParentComponent() {
+        return AppInjector.INSTANCE.getAppComponent();
     }
 
     @Override
