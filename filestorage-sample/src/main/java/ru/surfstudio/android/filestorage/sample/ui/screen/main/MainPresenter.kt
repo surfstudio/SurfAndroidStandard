@@ -7,7 +7,6 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.filestorage.sample.R
-import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
@@ -54,24 +53,16 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     fun reloadData() = tryLoadData()
 
-    fun saveIpToCache() = save { repository.saveIp(it) }
-
-    fun saveIpToSecureCache() = save { repository.saveIpSecure(it) }
-
-    private fun save(saveIp: (Ip) -> Unit) {
+    fun saveIpToCache() {
         val message = screenModel.ip?.let {
-            saveIp(it)
+            repository.saveIp(it)
             getString(R.string.cache_created_message)
         } ?: getString(R.string.null_ip_message)
         messageController.show(message)
     }
 
-    fun loadDataFromCache() = load { repository.getIpFromCache() }
-
-    fun loadDataFromSecureCache() = load { repository.getIpFromCacheSecure() }
-
-    private fun load(loadIp: () -> Ip?) {
-        val message = loadIp()?.value
+    fun loadDataFromCache() {
+        val message = repository.getIpFromCache() ?.value
         if (message.isNullOrEmpty()) {
             messageController.show(getString(R.string.empty_cache_message))
         } else {

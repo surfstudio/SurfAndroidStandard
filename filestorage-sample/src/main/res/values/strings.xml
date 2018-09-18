@@ -2,9 +2,7 @@
     <string name="app_name">Filestorage Sample</string>
 
     <string name="save_to_cache_btn_text">Save to cache</string>
-    <string name="save_to_secure_cache_btn_text">Save to secure cache</string>
     <string name="get_from_cache_btn_text">Get from cache</string>
-    <string name="get_from_secure_cache_btn_text">Get from secure cache</string>
     <string name="clear_cache_btn_text">Clear cache</string>
     <string name="empty_cache_message">Кэш пуст</string>
     <string name="null_ip_message">IP не был успешно загружен</string>
