@@ -1,8 +1,8 @@
-#Gson converter
+# Gson converter
 Модуль для парсинга json ответов сервера
 
-#Использование
-1. Добавить ResponseTypeAdapterFactory в билдер gson`a
+# Использование
+1. Добавить [`ResponseTypeAdapterFactory`][rtaf] в билдер gson`a
     ```
     GsonBuilder()
         .registerTypeAdapterFactory(responseTypeAdapterFactory)
@@ -20,8 +20,10 @@
 
 [Пример использования в приложении](../network-sample)
 
-#Подключение
+# Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:converter-gson:X.X.X"
 ```
+
+[rtaf]: src/main/java/ru/surfstudio/android/converter/gson/ResponseTypeAdapterFactory.java
