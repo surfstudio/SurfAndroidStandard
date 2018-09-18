@@ -59,15 +59,8 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
      */
     fun <T> saveSecureData(secureData: T, pin: String): Boolean = try {
         val salt = generateSalt()
-        val spec = PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
-
-        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
-        cipher.init(
-                Cipher.ENCRYPT_MODE,
-                SecretKeyFactory
-                        .getInstance(KEY_ALGORITHM)
-                        .generateSecret(spec))
-
+        val spec = getSpec(pin, salt)
+        val cipher = getEncryptCipher(spec)
         val secretValue = SecretValue(cipher.doFinal(secureData.toString().toByteArray()), cipher.iv, salt)
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN, secretValue.toString())
 
@@ -84,7 +77,6 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
     fun <T> saveSecureData(secureData: T, cryptoObject: FingerprintManager.CryptoObject): Boolean = try {
         val salt = generateSalt()
         val cipher = cryptoObject.cipher
-
         val secretValue = SecretValue(cipher.doFinal(secureData.toString().toByteArray()), cipher.iv, salt)
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_FINGERPRINT, secretValue.toString())
 
@@ -99,15 +91,8 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
      */
     fun getSecureData(pin: String): String? = try {
         val secretValue = SecretValue.fromString(SettingsUtil.getString(noBackupSharedPref, KEY_SECURE_DATA_BY_PIN))
-        val spec = PBEKeySpec(pin.toCharArray(), secretValue.salt, ITERATION_COUNT, KEY_LENGTH)
-
-        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
-        cipher.init(
-                Cipher.DECRYPT_MODE,
-                SecretKeyFactory
-                        .getInstance(KEY_ALGORITHM)
-                        .generateSecret(spec),
-                IvParameterSpec(secretValue.iv))
+        val spec = getSpec(pin, secretValue.salt)
+        val cipher = getDecryptCipher(spec, secretValue.iv)
 
         String(cipher.doFinal(secretValue.secret))
     } catch (throwable: Throwable) {
@@ -178,6 +163,31 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
     }
 
     //region Вспомогательные классы и утилиты
+
+    private fun getEncryptCipher(spec: PBEKeySpec): Cipher {
+        return Cipher.getInstance(CIPHER_TRANSFORMATION).apply {
+            init(
+                    Cipher.ENCRYPT_MODE,
+                    SecretKeyFactory
+                            .getInstance(KEY_ALGORITHM)
+                            .generateSecret(spec))
+        }
+    }
+
+    private fun getDecryptCipher(spec: PBEKeySpec, iv: ByteArray): Cipher {
+        return Cipher.getInstance(CIPHER_TRANSFORMATION).apply {
+            init(
+                    Cipher.DECRYPT_MODE,
+                    SecretKeyFactory
+                            .getInstance(KEY_ALGORITHM)
+                            .generateSecret(spec),
+                    IvParameterSpec(iv))
+        }
+    }
+
+    private fun getSpec(pin: String, salt: ByteArray): PBEKeySpec {
+        return PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
+    }
 
     private fun getSecretKeyForFingerPrint(): SecretKey {
         return getAndroidKeyStore().getKey(ALIAS_FINGERPRINT, null) as SecretKey
