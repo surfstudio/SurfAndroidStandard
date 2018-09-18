@@ -120,14 +120,10 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
      */
     @TargetApi(Build.VERSION_CODES.M)
     fun getSecureData(cryptoObject: FingerprintManager.CryptoObject): String? = try {
-        val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
-        keyStore.load(null)
-
-        val key = keyStore.getKey(ALIAS_FINGERPRINT, null) as SecretKey
         val secretValue = SecretValue.fromString(SettingsUtil.getString(noBackupSharedPref, KEY_SECURE_DATA_BY_FINGERPRINT))
 
         val cipher = cryptoObject.cipher
-        cipher.init(Cipher.DECRYPT_MODE, key, IvParameterSpec(secretValue.iv))
+        cipher.init(Cipher.DECRYPT_MODE, getSecretKeyForFingerPrint(), IvParameterSpec(secretValue.iv))
 
         String(cipher.doFinal(secretValue.secret))
     } catch (throwable: Throwable) {
@@ -140,13 +136,8 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
      */
     @TargetApi(Build.VERSION_CODES.M)
     fun getFingerPrintCryptoObject(): FingerprintManager.CryptoObject? = try {
-        val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
-        keyStore.load(null)
-
-        val key = keyStore.getKey(ALIAS_FINGERPRINT, null) as SecretKey
-
         val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, key)
+        cipher.init(Cipher.ENCRYPT_MODE, getSecretKeyForFingerPrint())
 
         FingerprintManager.CryptoObject(cipher)
     } catch (throwable: Throwable) {
@@ -159,13 +150,8 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
      */
     @RequiresApi(Build.VERSION_CODES.M)
     fun createFingerPrintCryptoObject(): FingerprintManager.CryptoObject? = try {
-        val keyStore = KeyStore.getInstance(ANDROID_KEYSTORE)
-        keyStore.load(null)
-
-        val key = createFingerprintKey(ALIAS_FINGERPRINT, keyStore)
-
         val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, key)
+        cipher.init(Cipher.ENCRYPT_MODE, createFingerprintKey())
 
         FingerprintManager.CryptoObject(cipher)
     } catch (throwable: Throwable) {
@@ -174,7 +160,8 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private fun createFingerprintKey(alias: String, keystore: KeyStore): SecretKey? = try {
+    fun createFingerprintKey(alias: String = ALIAS_FINGERPRINT,
+                             keystore: KeyStore = getAndroidKeyStore()): SecretKey? = try {
         val builder = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
@@ -202,6 +189,16 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
         SettingsUtil.putString(noBackupSharedPref, KEY_SECURE_DATA_BY_FINGERPRINT, SettingsUtil.EMPTY_STRING_SETTING)
     }
 
+    //region Вспомогательные классы и утилиты
+
+    private fun getSecretKeyForFingerPrint(): SecretKey {
+        return getAndroidKeyStore().getKey(ALIAS_FINGERPRINT, null) as SecretKey
+    }
+
+    private fun getAndroidKeyStore(): KeyStore = KeyStore.getInstance(ANDROID_KEYSTORE).apply {
+        load(null)
+    }
+
     private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
         companion object {
             private const val DELIMITER = "["
@@ -225,4 +222,5 @@ class SecureStorage(private val noBackupSharedPref: SharedPreferences) {
             return encode(iv) + DELIMITER + encode(salt) + DELIMITER + encode(secret)
         }
     }
+    //endregion
 }
