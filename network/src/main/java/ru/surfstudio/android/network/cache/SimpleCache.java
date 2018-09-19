@@ -38,6 +38,18 @@ public class SimpleCache extends BaseTextFileStorage {
 
     public SimpleCache(String cacheDir,
                        String cacheDirName,
+                       int maxSize) {
+        super(new FileProcessor(
+                        cacheDir,
+                        simpleNamingProcessor.getNameFrom(cacheDirName),
+                        maxSize),
+                maxSize == 1
+                        ? new SingleFileNamingProcessor(cacheDirName)
+                        : sha256NamingProcessor);
+    }
+
+    public SimpleCache(String cacheDir,
+                       String cacheDirName,
                        int maxSize,
                        Encryptor encryptor) {
         super(new FileProcessor(
@@ -49,7 +61,6 @@ public class SimpleCache extends BaseTextFileStorage {
                         : sha256NamingProcessor,
                 encryptor);
     }
-
     private static class SingleFileNamingProcessor implements NamingProcessor {
         private String singleFileName;
 

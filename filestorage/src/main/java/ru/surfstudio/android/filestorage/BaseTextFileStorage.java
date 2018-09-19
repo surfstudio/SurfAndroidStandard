@@ -21,22 +21,29 @@ import ru.surfstudio.android.filestorage.processor.FileProcessor;
 /**
  * базовый класс текстового кеша
  */
-public abstract class BaseTextFileStorage extends BaseFileStorage<String> {
+public class BaseTextFileStorage extends BaseFileStorage<String> {
 
-    public BaseTextFileStorage(FileProcessor fileProcessor,
-                               NamingProcessor namingProcessor,
-                               Encryptor encryptor) {
-        super(fileProcessor, namingProcessor, encryptor, new ObjectConverter<String>() {
-            @Override
-            public byte[] encode(String value) {
-                return value.getBytes();
-            }
+    public BaseTextFileStorage(final FileProcessor fileProcessor,
+                               final NamingProcessor namingProcessor) {
+        super(fileProcessor, namingProcessor, new StringConverter());
+    }
 
-            @Override
-            public String decode(byte[] rawValue) {
-                return new String(rawValue);
-            }
-        });
+    public BaseTextFileStorage(final FileProcessor fileProcessor,
+                               final NamingProcessor namingProcessor,
+                               final Encryptor encryptor) {
+        super(fileProcessor, namingProcessor, new StringConverter(), encryptor);
+    }
 
+    private static class StringConverter implements ObjectConverter<String> {
+
+        @Override
+        public byte[] encode(String value) {
+            return value.getBytes();
+        }
+
+        @Override
+        public String decode(byte[] rawValue) {
+            return new String(rawValue);
+        }
     }
 }

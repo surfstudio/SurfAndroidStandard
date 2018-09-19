@@ -39,14 +39,35 @@ public abstract class BaseFileStorage<T> {
     private final ObjectConverter<T> objectConverter;
     private final Encryptor encryptor;
 
-    public BaseFileStorage(final FileProcessor fileProcessor,
-                           final NamingProcessor namingProcessor,
-                           final Encryptor encryptor,
-                           final ObjectConverter<T> objectConverter) {
+    public BaseFileStorage(FileProcessor fileProcessor,
+                           NamingProcessor namingProcessor,
+                           ObjectConverter<T> objectConverter) {
         this.fileProcessor = fileProcessor;
         this.namingProcessor = namingProcessor;
-        this.encryptor = encryptor;
         this.objectConverter = objectConverter;
+        this.encryptor = new Encryptor() {
+            @NotNull
+            @Override
+            public byte[] encrypt(@NotNull byte[] decryptedBytes) {
+                return decryptedBytes;
+            }
+
+            @NotNull
+            @Override
+            public byte[] decrypt(@NotNull byte[] rawBytes) {
+                return rawBytes;
+            }
+        };
+    }
+
+    public BaseFileStorage(FileProcessor fileProcessor,
+                           NamingProcessor namingProcessor,
+                           ObjectConverter<T> objectConverter,
+                           Encryptor encryptor) {
+        this.fileProcessor = fileProcessor;
+        this.namingProcessor = namingProcessor;
+        this.objectConverter = objectConverter;
+        this.encryptor = encryptor;
     }
 
     /**

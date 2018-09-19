@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.network.cache;
 
-
 import com.annimon.stream.Stream;
 
 import java.util.HashMap;
@@ -36,10 +35,17 @@ public class SimpleCacheFactory {
 
     private final String cacheDir;
     private final SimpleCacheUrlConnector cacheUrlConnector;
-    private final Encryptor encryptor;
+
+    private Encryptor encryptor = null;
     private Map<SimpleCacheInfo, SimpleCache> caches = new HashMap<>();
 
     @Inject
+    public SimpleCacheFactory(@Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir,
+                              SimpleCacheUrlConnector cacheUrlConnector) {
+        this.cacheDir = cacheDir;
+        this.cacheUrlConnector = cacheUrlConnector;
+    }
+
     public SimpleCacheFactory(@Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir,
                               SimpleCacheUrlConnector cacheUrlConnector,
                               Encryptor encryptor) {
@@ -51,11 +57,16 @@ public class SimpleCacheFactory {
     public SimpleCache getSimpleCache(SimpleCacheInfo simpleCacheInfo) {
         SimpleCache cache = caches.get(simpleCacheInfo);
         if (cache == null) {
-            cache = new SimpleCache(
-                    cacheDir,
-                    simpleCacheInfo.getCacheName(),
-                    simpleCacheInfo.getMaxSize(),
-                    encryptor);
+            cache = encryptor != null ?
+                    new SimpleCache(
+                            cacheDir,
+                            simpleCacheInfo.getCacheName(),
+                            simpleCacheInfo.getMaxSize(),
+                            encryptor) :
+                    new SimpleCache(
+                            cacheDir,
+                            simpleCacheInfo.getCacheName(),
+                            simpleCacheInfo.getMaxSize());
             caches.put(simpleCacheInfo, cache);
         }
         return cache;
