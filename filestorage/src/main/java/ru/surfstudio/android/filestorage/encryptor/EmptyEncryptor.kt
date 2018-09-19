@@ -13,15 +13,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.filestorage
+package ru.surfstudio.android.filestorage.encryptor
 
 /**
- * Интерфейс для шифрования и дешифрования байтов,
- * использующийся для безопасного кеширования
+ * Encryptor, используемый по умолчанию, если кэш не использует шифрование
  */
-interface Encryptor {
+class EmptyEncryptor : Encryptor {
 
-    fun encrypt(decryptedBytes: ByteArray) : ByteArray
+    override fun encrypt(decryptedBytes: ByteArray): ByteArray = decryptedBytes
 
-    fun decrypt(rawBytes: ByteArray) : ByteArray
+    override fun decrypt(rawBytes: ByteArray): ByteArray = rawBytes
 }

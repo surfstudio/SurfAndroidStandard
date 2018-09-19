@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.filestorage
 
+import ru.surfstudio.android.filestorage.encryptor.Encryptor
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.FileProcessor
 import ru.surfstudio.android.logger.Logger

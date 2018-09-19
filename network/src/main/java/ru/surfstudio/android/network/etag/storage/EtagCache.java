@@ -23,7 +23,7 @@ import javax.inject.Named;
 import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.filestorage.BaseTextFileStorage;
 import ru.surfstudio.android.filestorage.CacheConstant;
-import ru.surfstudio.android.filestorage.Encryptor;
+import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.FileProcessor;
 

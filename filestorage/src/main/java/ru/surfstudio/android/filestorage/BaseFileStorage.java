@@ -24,6 +24,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import ru.surfstudio.android.filestorage.encryptor.EmptyEncryptor;
+import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
@@ -45,19 +47,7 @@ public abstract class BaseFileStorage<T> {
         this.fileProcessor = fileProcessor;
         this.namingProcessor = namingProcessor;
         this.objectConverter = objectConverter;
-        this.encryptor = new Encryptor() {
-            @NotNull
-            @Override
-            public byte[] encrypt(@NotNull byte[] decryptedBytes) {
-                return decryptedBytes;
-            }
-
-            @NotNull
-            @Override
-            public byte[] decrypt(@NotNull byte[] rawBytes) {
-                return rawBytes;
-            }
-        };
+        this.encryptor = new EmptyEncryptor();
     }
 
     public BaseFileStorage(FileProcessor fileProcessor,
