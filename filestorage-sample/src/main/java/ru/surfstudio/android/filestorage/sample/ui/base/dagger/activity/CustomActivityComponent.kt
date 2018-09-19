@@ -4,7 +4,8 @@ import dagger.Component
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.filestorage.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
-import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpStorage
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpJsonStorage
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpSerializableStorage
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 
@@ -16,6 +17,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
 @Component(dependencies = [(CustomAppComponent::class)],
         modules = [(DefaultActivityModule::class)])
 interface CustomActivityComponent : DefaultActivityComponent {
-    fun ipStorage(): IpStorage
+    fun ipSerializableStorage(): IpSerializableStorage
+    fun ipJsonStorage(): IpJsonStorage
     fun ipRepository(): IpRepository
 }

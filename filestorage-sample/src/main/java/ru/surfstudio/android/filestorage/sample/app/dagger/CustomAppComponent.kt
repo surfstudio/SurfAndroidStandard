@@ -12,7 +12,8 @@ import ru.surfstudio.android.filestorage.sample.interactor.common.network.Server
 import ru.surfstudio.android.filestorage.sample.interactor.common.network.cache.CacheModule
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpModule
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
-import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpStorage
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpJsonStorage
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpSerializableStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 @PerApplication
@@ -31,5 +32,6 @@ interface CustomAppComponent {
     fun stringsProvider(): StringsProvider
 
     fun ipRepository(): IpRepository
-    fun ipStorage(): IpStorage
+    fun ipJsonStorage(): IpJsonStorage
+    fun ipSerializableStorage(): IpSerializableStorage
 }
