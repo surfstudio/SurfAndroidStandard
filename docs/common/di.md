@@ -55,7 +55,7 @@
 
 * AppComponent - главный Dagger-компонент, является синглтоном, хранится
 в AppConfigurator;
-* ActivityComponent - компонент скоупа `@PerActivity`. Храниться в BaseActivityConfigurator.
+* ActivityComponent - компонент скоупа `@PerActivity`. Хранится в BaseActivityConfigurator.
 * ScreenComponent - компонент экрана.
 
 * Зависимости между компонентами реализуются через `Component dependency`.
