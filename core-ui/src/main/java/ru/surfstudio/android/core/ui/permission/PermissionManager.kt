@@ -25,6 +25,7 @@ import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelega
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
 import android.support.v4.content.PermissionChecker.PERMISSION_GRANTED
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 
@@ -63,9 +64,31 @@ abstract class PermissionManager(
      *
      * @return true, если все разрешения выданы, false - если хотя бы одно не выдано.
      */
-    fun check(permissionRequest: PermissionRequest): Boolean =
-            permissionRequest.permissions
-                    .all { permission -> isPermissionGranted(permission) }
+    fun check(permissionRequest: PermissionRequest): PermissionStatus =
+            when {
+                isPermissionRequestGranted(permissionRequest) -> PermissionStatus.GRANTED
+                isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
+                !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
+                else -> PermissionStatus.DENIED_FOREVER
+            }
+
+
+
+
+    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Boolean {
+        return permissionRequest.permissions
+                .all { permission -> isPermissionGranted(permission) }
+    }
+
+    private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean {
+
+    }
+
+    private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean {
+        shouldShowRequestPermissionRationale(permissionRequest)
+    }
+
+
 
     /**
      * Запросить разрешение.
@@ -75,16 +98,51 @@ abstract class PermissionManager(
      * @return [Single], содержащий [Boolean]: true, если разрешение выдано, false - если нет.
      */
     fun request(permissionRequest: PermissionRequest): Single<Boolean> {
-        if (check(permissionRequest)) {
+        val permissionRequestStatus = check(permissionRequest)
+
+        if (permissionRequest == PermissionStatus.GRANTED)
             return Single.just(true)
+
+
+        val rationalCompletable = if (permissionRequest == PermissionStatus.NOT_REQUESTED) { //или если надо показывать
+            Completable.completed()
+        } else {
+            showPermissionRequestRational(permissionRequest)
         }
 
-        return Single
-                .create<Boolean> {  singleEmitter ->
-                    singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
-                    performPermissionRequest(permissionRequest)
-                }
-                .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
+
+        return rationalCompletable
+                .toSingle()
+
+//                .toSingle { false }
+//                .flatMap {
+//                        Single.create<Boolean> { singleEmitter ->
+//                            singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
+//                            performPermissionRequest(permissionRequest)
+//                        }
+//                            .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
+//                }
+
+
+
+    }
+
+
+
+    private fun showPermissionRequestRational(permissionRequest: PermissionRequest): Completable {
+        if (permissionRequest.permissionRationalRoute != null) {
+            //запустить роут
+        } else {
+            //запустить стандартный роут
+        }
+    }
+
+
+
+
+    fun needToShowPermissionRequestRational(): Boolean {
+//TODO:            permissionRequest.showPermissionRational &&
+
     }
 
     /**
@@ -97,8 +155,13 @@ abstract class PermissionManager(
      * разрешения не следует показать объяснение.
      */
     fun shouldShowRequestPermissionRationale(permissionRequest: PermissionRequest): Boolean =
-            permissionRequest.permissions
+                    permissionRequest.permissions
                     .any { permission -> shouldShowPermissionRationale(permission) }
+
+
+
+
+
 
     private fun isAllResultsAreGranted(grantResults: IntArray): Boolean =
             grantResults
