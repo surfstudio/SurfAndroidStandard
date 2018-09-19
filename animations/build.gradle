@@ -1,7 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly "com.android.support:appcompat-v7:$appcompatVersion"
-    compileOnly "com.android.support:design:$appcompatVersion"
-    compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    api "com.android.support:design:$appcompatVersion"
+    implementation "com.android.support:appcompat-v7:$appcompatVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies this

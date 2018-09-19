@@ -1,7 +1,10 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':easyadapter')
     api "com.android.support:recyclerview-v7:$appcompatVersion"
-    implementation "com.android.support:design:$appcompatVersion"
+    api "com.android.support:design:$appcompatVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'easyadapter'
+])

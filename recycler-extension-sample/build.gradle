@@ -10,6 +10,4 @@ dependencies {
     implementation project(':recycler-extension')
     implementation project(':easyadapter')
     implementation project(':sample-common')
-
-    implementation "com.android.support:recyclerview-v7:$appcompatVersion"
 }

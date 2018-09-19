@@ -1,8 +1,10 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    compileOnly project(':core-ui')
-    compileOnly project(':rx-extension')
-
-    implementation "com.google.android.gms:play-services-location:15.0.1"
+    api "com.google.android.gms:play-services-location:$playServicesLocationVersion"
 }
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'core-ui',
+        'rx-extension'
+])

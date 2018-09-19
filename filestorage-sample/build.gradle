@@ -9,8 +9,9 @@ android {
 dependencies {
     implementation project(':filestorage')
     implementation project(':sample-dagger')
+    implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    implementation "me.zhanghai.android.materialprogressbar:library:1.4.2"
+    implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
 }

@@ -12,43 +12,47 @@ apply plugin: 'io.fabric'
 
 dependencies {
     api project(':template:domain')
+    api project(':rxbus') //пока не слили с 0.3.0 и не задеплоили новый модуль
 
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
 
-    gradle.ext.androidStandard.api(this, [
-                    "core-ui",
-                    "core-mvp",
-                    "core-mvp-binding",
-                    "core-app",
-                    "mvp-dialog",
-                    "mvp-widget",
-                    "easyadapter",
-                    "analytics",
-                    "firebase-analytics",
-                    "network",
-                    "filestorage",
-                    "push",
-                    "dagger-scope",
-                    "logger",
-                    "converter-gson",
-                    "imageloader",
-                    "animations",
-                    "picture-provider",
-                    "camera-view",
-                    "app-migration",
-                    "connection",
-                    "custom-view",
-                    "datalist-limit-offset",
-                    "datalist-page-count",
-                    "recycler-extension",
-                    "rx-extension",
-                    "shared-pref",
-                    "util-ktx",
-                    "standard-dialog",
-                    "message-controller",
-                    "broadcast-extension"
-            ]
+    gradle.ext.androidStandard.api(
+            this,
+            "$surfCoreVersionName",
+            [
+            "core-ui",
+            "core-mvp",
+            "core-mvp-binding",
+            "core-app",
+            "mvp-dialog",
+            "mvp-widget",
+            "easyadapter",
+            "analytics",
+            "firebase-analytics",
+            "network",
+            "filestorage",
+            "push",
+            "dagger-scope",
+            "logger",
+            "converter-gson",
+            "imageloader",
+            "animations",
+            "picture-provider",
+            "camera-view",
+            "app-migration",
+            "connection",
+            "custom-view",
+            "datalist-limit-offset",
+            "datalist-page-count",
+            "recycler-extension",
+            "rx-extension",
+            "shared-pref",
+            "util-ktx",
+            "standard-dialog",
+            "message-controller",
+            "broadcast-extension"
+    ]
     )
 }

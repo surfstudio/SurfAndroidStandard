@@ -1,10 +1,10 @@
 apply from: 'modules.gradle'
 
-gradle.ext.modules.each {
+gradle.ext.extractModules('modules.json').each {
     include it.name
 }
 
-gradle.ext.samples.each {
+gradle.ext.extractModules('samples.json').each {
     include it.name
 }
 

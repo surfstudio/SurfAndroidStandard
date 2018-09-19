@@ -16,6 +16,8 @@ class App : BaseApp() {
     override fun onCreate() {
         super.onCreate()
         initComponentProvider()
+
+        AppInjector.initInjector(this)
     }
 
     private fun initComponentProvider() {
