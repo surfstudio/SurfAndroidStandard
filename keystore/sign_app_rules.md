@@ -44,13 +44,6 @@ storeFile=../keystore/*название_проекта*_release.jks
 
 * **Также их не стоит хранить в репозитории.**
 
-## Загрузка в Jenkins
-
-Два файла, полученные на предыдущем этапе, `*.jks` и `*.properties` следует
-загрузить в Jenkins для поддержки сборки релизной версии приложения через
-**CI**(ContinuousIntegration).
-
-todo - как выложить в дженкинс
 
 Для того, чтобы члены команды могли локально собрать релизную версию, стоит
 также расшарить на них данные файлы(например, выложить на GoogleDrive).
@@ -60,7 +53,7 @@ todo - как выложить в дженкинс
 Далее необходимо в папке `keystore` создать файл [`keystoreConfig.gradle`][task].
 Его можно скопировать к себе в проект.
 
-В релизный `signInConfig` приложения добавить:
+В релизный `signingConfigs` приложения добавить:
 ```
 release {
             apply from: '../keystore/keystoreConfig.gradle'
@@ -70,4 +63,24 @@ release {
             storeFile file(keystoreConfig.storeFile)
             storePassword keystoreConfig.storePassword
         }
+```
+
+В `buildTypes` прописать `signingConfig signingConfigs.release`.
+
+## Загрузка в Jenkins
+
+Два файла, полученные на предыдущем этапе, `*.jks` и `*.properties` следует
+загрузить в Jenkins для поддержки сборки релизной версии приложения через
+**CI**(ContinuousIntegration).
+
+todo - как выложить в дженкинс
+
+## Настройка CI в проекте
+
+В файл `JenkinsfileTagJob.groovy` добавить:
+```
+//configuration
+pipeline.keystoreCredentials = "название_проекта_release_keystore"
+pipeline.keystorePropertiesCredentials = "название_проекта_release_keystore_properties"
+
 ```
