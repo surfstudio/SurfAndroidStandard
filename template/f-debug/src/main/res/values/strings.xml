@@ -1,2 +1,4 @@
 <resources>
+    <string name="show_controllers_btn_text">Show controllers</string>
+    <string name="show_fcm_token_btn_text">Show FCM token</string>
 </resources>

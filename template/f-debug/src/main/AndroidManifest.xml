@@ -4,5 +4,6 @@
 
     <application>
         <activity android:name="ru.surfstudio.standard.f_debug.DebugActivityView" />
+        <activity android:name="ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityView" />
     </application>
 </manifest>

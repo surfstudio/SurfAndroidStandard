@@ -1,9 +1,8 @@
-package ru.surfstudio.standard.f_debug
+package ru.surfstudio.standard.f_debug.fcm
 
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
-import kotlinx.android.synthetic.main.activity_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
@@ -11,34 +10,31 @@ import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
 import javax.inject.Inject
 
 /**
- * Вью экрана показа информации для дебага
+ * Вью экрана показа fcm-токена
  */
-class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
+class DebugFcmActivityView : BaseRenderableActivityView<DebugFcmScreenModel>() {
 
     @Inject
-    lateinit var presenter: DebugPresenter
+    lateinit var presenter: DebugFcmPresenter
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 
     @LayoutRes
-    override fun getContentView(): Int = R.layout.activity_debug
+    override fun getContentView(): Int = R.layout.activity_debug_fcm
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
-        super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initListeners()
     }
 
-    override fun renderInternal(screenModel: DebugScreenModel) { }
-
-    override fun getScreenName(): String = "debug"
+    override fun renderInternal(screenModel: DebugFcmScreenModel) {
+    }
 
     private fun initListeners() {
-        show_fcm_token_btn.setOnClickListener {
-            presenter.showFcmToken()
-        }
     }
+
+    override fun getScreenName(): String = "debug_fcm"
 }
