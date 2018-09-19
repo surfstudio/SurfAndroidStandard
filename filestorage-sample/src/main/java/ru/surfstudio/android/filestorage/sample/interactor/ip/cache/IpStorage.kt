@@ -1,9 +1,8 @@
 package ru.surfstudio.android.filestorage.sample.interactor.ip.cache
 
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.BaseFileStorage
+import ru.surfstudio.android.filestorage.BaseSerializableFileStorage
 import ru.surfstudio.android.filestorage.CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME
-import ru.surfstudio.android.filestorage.ObjectConverter
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.FileProcessor
 import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
@@ -14,12 +13,10 @@ import javax.inject.Named
  * Локальное хранилище информации об ip
  */
 @PerApplication
-class IpStorage @Inject constructor(@Named(INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String,
-                                    ipObjectConverter: ObjectConverter<Ip>
-) : BaseFileStorage<Ip>(
+class IpStorage @Inject constructor(@Named(INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String
+) : BaseSerializableFileStorage<Ip>(
         FileProcessor(cacheDir, KEY_IP_STORAGE, 1),
-        NamingProcessor { rawName -> rawName },
-        ipObjectConverter) {
+        NamingProcessor { rawName -> rawName }) {
 
     companion object {
         private const val KEY_IP_STORAGE = "ip_storage"
