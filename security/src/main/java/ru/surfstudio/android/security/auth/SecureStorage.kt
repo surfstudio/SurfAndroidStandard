@@ -24,7 +24,7 @@ import android.security.keystore.KeyProperties
 import android.support.annotation.RequiresApi
 import android.util.Base64
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.security.utils.SecurityUtils.generateSalt
+import ru.surfstudio.android.security.crypto.SecurityUtils.generateSalt
 import ru.surfstudio.android.shared.pref.SettingsUtil
 import java.security.KeyStore
 import javax.crypto.Cipher

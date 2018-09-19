@@ -13,17 +13,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.security.utils
+package ru.surfstudio.android.security.crypto
 
-import java.security.SecureRandom
+/**
+ * Интерфейс для шифрования данных с использованием подписи
+ * @param SignObject тип подписи
+ * @param EncryptedObject тип класса, получаемого при шифровании
+ */
+interface Encryptor<SignObject, EncryptedObject> {
 
-private const val DEFAULT_SALT_SIZE = 16
+    fun encrypt(secureData: String, sign: SignObject): EncryptedObject?
 
-object SecurityUtils {
-
-    fun generateSalt(saltSize: Int = DEFAULT_SALT_SIZE): ByteArray {
-        val salt = ByteArray(saltSize)
-        SecureRandom().nextBytes(salt)
-        return salt
-    }
+    fun decrypt(sign: SignObject, encrypted: EncryptedObject): String?
 }
