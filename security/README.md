@@ -7,7 +7,7 @@
 1. AppDebuggableChecker - класс, проверяющий debuggable-флаги приложения при его запуске.
 1. RootChecker - проверяет наличие рут-прав на устройстве.
 1. SecureStorage - защищенное хранилище с AES-шифрованием.
-1. CertificatePinnerCreator - класс, реализующий ssl-pinning.
+1. CertificatePinnerCreator - класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
 
 [Пример использования](../security-sample)
 

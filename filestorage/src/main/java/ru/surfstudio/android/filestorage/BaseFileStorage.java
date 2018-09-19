@@ -25,27 +25,27 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
-import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
 /**
- * класс, позволяющий хранить обьекты в кеше, является оберткой над {@link CacheFileProcessor}
+ * класс, позволяющий хранить обьекты в кеше, является оберткой над {@link FileProcessor}
  *
  * @param <T>
  */
-public abstract class BaseLocalCache<T> {
+public abstract class BaseFileStorage<T> {
 
-    private final CacheFileProcessor fileProcessor;
+    private final FileProcessor fileProcessor;
     private final NamingProcessor namingProcessor;
     private final ObjectConverter<T> objectConverter;
-    private final SecureBytesConverter secureBytesConverter;
+    private final Encryptor encryptor;
 
-    public BaseLocalCache(final CacheFileProcessor fileProcessor,
-                          final NamingProcessor namingProcessor,
-                          final SecureBytesConverter secureBytesConverter,
-                          final ObjectConverter<T> objectConverter) {
+    public BaseFileStorage(final FileProcessor fileProcessor,
+                           final NamingProcessor namingProcessor,
+                           final Encryptor encryptor,
+                           final ObjectConverter<T> objectConverter) {
         this.fileProcessor = fileProcessor;
         this.namingProcessor = namingProcessor;
-        this.secureBytesConverter = secureBytesConverter;
+        this.encryptor = encryptor;
         this.objectConverter = objectConverter;
     }
 
@@ -110,11 +110,11 @@ public abstract class BaseLocalCache<T> {
         if (bytes == null) {
             return null;
         }
-        return objectConverter.decode(secureBytesConverter.decode(bytes));
+        return objectConverter.decode(encryptor.decrypt(bytes));
     }
 
     private synchronized void putInternal(@NotNull final T t, final String name) {
-        byte[] encode = secureBytesConverter.encode(objectConverter.encode(t));
+        byte[] encode = encryptor.encrypt(objectConverter.encode(t));
         fileProcessor.saveBytesOrRewrite(name, encode);
     }
 

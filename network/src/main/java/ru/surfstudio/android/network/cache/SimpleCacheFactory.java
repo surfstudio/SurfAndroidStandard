@@ -26,7 +26,7 @@ import javax.inject.Named;
 
 import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.filestorage.CacheConstant;
-import ru.surfstudio.android.filestorage.SecureBytesConverter;
+import ru.surfstudio.android.filestorage.Encryptor;
 
 /**
  * фабрика простых кешей
@@ -36,16 +36,16 @@ public class SimpleCacheFactory {
 
     private final String cacheDir;
     private final SimpleCacheUrlConnector cacheUrlConnector;
-    private final SecureBytesConverter secureBytesConverter;
+    private final Encryptor encryptor;
     private Map<SimpleCacheInfo, SimpleCache> caches = new HashMap<>();
 
     @Inject
     public SimpleCacheFactory(@Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir,
                               SimpleCacheUrlConnector cacheUrlConnector,
-                              SecureBytesConverter secureBytesConverter) {
+                              Encryptor encryptor) {
         this.cacheDir = cacheDir;
         this.cacheUrlConnector = cacheUrlConnector;
-        this.secureBytesConverter = secureBytesConverter;
+        this.encryptor = encryptor;
     }
 
     public SimpleCache getSimpleCache(SimpleCacheInfo simpleCacheInfo) {
@@ -55,7 +55,7 @@ public class SimpleCacheFactory {
                     cacheDir,
                     simpleCacheInfo.getCacheName(),
                     simpleCacheInfo.getMaxSize(),
-                    secureBytesConverter);
+                    encryptor);
             caches.put(simpleCacheInfo, cache);
         }
         return cache;

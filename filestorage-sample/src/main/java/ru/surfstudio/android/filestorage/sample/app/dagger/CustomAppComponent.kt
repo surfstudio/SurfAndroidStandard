@@ -6,7 +6,7 @@ import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.SecureBytesConverter
+import ru.surfstudio.android.filestorage.Encryptor
 import ru.surfstudio.android.filestorage.sample.interactor.common.network.NetworkModule
 import ru.surfstudio.android.filestorage.sample.interactor.common.network.OkHttpModule
 import ru.surfstudio.android.filestorage.sample.interactor.common.network.ServerUrlModule
@@ -31,7 +31,7 @@ interface CustomAppComponent {
     fun schedulerProvider(): SchedulersProvider
     fun stringsProvider(): StringsProvider
 
-    fun secureBytesConverter(): SecureBytesConverter
+    fun encryptor(): Encryptor
     fun ipRepository(): IpRepository
     fun ipStorage(): IpStorage
 }

@@ -15,41 +15,39 @@
  */
 package ru.surfstudio.android.network.etag.storage;
 
-import android.util.Base64;
-
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import ru.surfstudio.android.dagger.scope.PerApplication;
-import ru.surfstudio.android.filestorage.BaseTextLocalCache;
+import ru.surfstudio.android.filestorage.BaseTextFileStorage;
 import ru.surfstudio.android.filestorage.CacheConstant;
-import ru.surfstudio.android.filestorage.SecureBytesConverter;
+import ru.surfstudio.android.filestorage.Encryptor;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
-import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
 @PerApplication
-final class EtagCache extends BaseTextLocalCache {
+final class EtagCache extends BaseTextFileStorage {
 
     private static final int CACHE_SIZE = 5000;
 
     @Inject
     public EtagCache(@Named(CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir) {
         super(
-                new CacheFileProcessor(cacheDir, "etag", CACHE_SIZE),
+                new FileProcessor(cacheDir, "etag", CACHE_SIZE),
                 new Sha256NamingProcessor(),
-                new SecureBytesConverter() {
+                new Encryptor() {
                     @NotNull
                     @Override
-                    public byte[] encode(@NotNull byte[] decodedBytes) {
-                        return Base64.encode(decodedBytes, Base64.NO_WRAP);
+                    public byte[] encrypt(@NotNull byte[] decryptedBytes) {
+                        return decryptedBytes;
                     }
 
                     @NotNull
                     @Override
-                    public byte[] decode(@NotNull byte[] rawBytes) {
-                        return Base64.decode(rawBytes, Base64.NO_WRAP);
+                    public byte[] decrypt(@NotNull byte[] rawBytes) {
+                        return rawBytes;
                     }
                 });
     }

@@ -1,12 +1,12 @@
 package ru.surfstudio.android.filestorage.sample.interactor.ip.cache
 
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.BaseLocalCache
+import ru.surfstudio.android.filestorage.BaseFileStorage
 import ru.surfstudio.android.filestorage.CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME
 import ru.surfstudio.android.filestorage.ObjectConverter
-import ru.surfstudio.android.filestorage.SecureBytesConverter
+import ru.surfstudio.android.filestorage.Encryptor
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
-import ru.surfstudio.android.filestorage.processor.CacheFileProcessor
+import ru.surfstudio.android.filestorage.processor.FileProcessor
 import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
 import javax.inject.Inject
 import javax.inject.Named
@@ -16,12 +16,12 @@ import javax.inject.Named
  */
 @PerApplication
 class IpStorage @Inject constructor(@Named(INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String,
-                                    secureBytesConverter: SecureBytesConverter,
+                                    encryptor: Encryptor,
                                     ipObjectConverter: ObjectConverter<Ip>
-) : BaseLocalCache<Ip>(
-        CacheFileProcessor(cacheDir, KEY_IP_STORAGE, 2),
+) : BaseFileStorage<Ip>(
+        FileProcessor(cacheDir, KEY_IP_STORAGE, 1),
         NamingProcessor { rawName -> rawName },
-        secureBytesConverter,
+        encryptor,
         ipObjectConverter) {
 
     companion object {

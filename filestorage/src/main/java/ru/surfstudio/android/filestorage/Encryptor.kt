@@ -19,9 +19,9 @@ package ru.surfstudio.android.filestorage
  * Интерфейс для шифрования и дешифрования байтов,
  * использующийся для безопасного кеширования
  */
-interface SecureBytesConverter {
+interface Encryptor {
 
-    fun encode(decodedBytes: ByteArray) : ByteArray
+    fun encrypt(decryptedBytes: ByteArray) : ByteArray
 
-    fun decode(rawBytes: ByteArray) : ByteArray
+    fun decrypt(rawBytes: ByteArray) : ByteArray
 }

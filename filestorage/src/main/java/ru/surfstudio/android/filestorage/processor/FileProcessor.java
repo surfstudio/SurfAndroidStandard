@@ -36,12 +36,12 @@ import ru.surfstudio.android.logger.Logger;
 /**
  * класс для осуществления операций с файлами кэша
  */
-public final class CacheFileProcessor {
+public final class FileProcessor {
 
     private final File rootDir;
     private final int maxFilesCount;
 
-    public CacheFileProcessor(final String baseCacheDir, final String cacheDirName, final int maxFilesCount) {
+    public FileProcessor(final String baseCacheDir, final String cacheDirName, final int maxFilesCount) {
         this.maxFilesCount = maxFilesCount;
         final File cacheDir = new File(baseCacheDir, "file_cache");
         tryMakeDir(cacheDir);

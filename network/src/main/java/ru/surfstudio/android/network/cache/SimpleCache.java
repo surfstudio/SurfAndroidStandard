@@ -20,18 +20,18 @@ import android.support.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 
-import ru.surfstudio.android.filestorage.BaseTextLocalCache;
-import ru.surfstudio.android.filestorage.SecureBytesConverter;
+import ru.surfstudio.android.filestorage.BaseTextFileStorage;
+import ru.surfstudio.android.filestorage.Encryptor;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
 import ru.surfstudio.android.filestorage.naming.SimpleNamingProcessor;
-import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
 /**
  * простой кеш, кеширует сырой ответ сервера
  * если размер кеша равен 1, данные содержатся в файле с именем cacheDirName внутри папки cacheDirName
  */
-public class SimpleCache extends BaseTextLocalCache {
+public class SimpleCache extends BaseTextFileStorage {
 
     private static final NamingProcessor simpleNamingProcessor = new SimpleNamingProcessor();
     private static final NamingProcessor sha256NamingProcessor = new Sha256NamingProcessor();
@@ -39,15 +39,15 @@ public class SimpleCache extends BaseTextLocalCache {
     public SimpleCache(String cacheDir,
                        String cacheDirName,
                        int maxSize,
-                       SecureBytesConverter secureBytesConverter) {
-        super(new CacheFileProcessor(
+                       Encryptor encryptor) {
+        super(new FileProcessor(
                         cacheDir,
                         simpleNamingProcessor.getNameFrom(cacheDirName),
                         maxSize),
                 maxSize == 1
                         ? new SingleFileNamingProcessor(cacheDirName)
                         : sha256NamingProcessor,
-                secureBytesConverter);
+                encryptor);
     }
 
     private static class SingleFileNamingProcessor implements NamingProcessor {

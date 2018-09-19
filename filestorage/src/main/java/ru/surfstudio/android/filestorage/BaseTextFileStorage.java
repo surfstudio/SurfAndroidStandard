@@ -16,17 +16,17 @@
 package ru.surfstudio.android.filestorage;
 
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
-import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
 /**
  * базовый класс текстового кеша
  */
-public abstract class BaseTextLocalCache extends BaseLocalCache<String> {
+public abstract class BaseTextFileStorage extends BaseFileStorage<String> {
 
-    public BaseTextLocalCache(CacheFileProcessor fileProcessor,
-                              NamingProcessor namingProcessor,
-                              SecureBytesConverter secureBytesConverter) {
-        super(fileProcessor, namingProcessor, secureBytesConverter, new ObjectConverter<String>() {
+    public BaseTextFileStorage(FileProcessor fileProcessor,
+                               NamingProcessor namingProcessor,
+                               Encryptor encryptor) {
+        super(fileProcessor, namingProcessor, encryptor, new ObjectConverter<String>() {
             @Override
             public byte[] encode(String value) {
                 return value.getBytes();
