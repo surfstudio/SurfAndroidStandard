@@ -21,7 +21,7 @@
 
 - создать аннотацию , например [`@PerLogin`][pl]
 
-- создать Dagger-компонент, ex. LoginScreenComponent, который будет наследником
+- создать Dagger-компонент, ex. LoginComponent, который будет наследником
 AppComponent.
 
 - создать статичное хранилище(LoginScopeStorage), которое будет ответсвенным за время жизни
@@ -29,7 +29,7 @@ AppComponent.
 активити принадлежащей скоупу.
 
 - в конфигураторе активити [`ActivityScreenConfigurator`][asc] сменить тип компонента-родителя
-на [`LoginScreenComponent`][lcomp] -> в методе getParentComponent() получать компонент через
+на [`LoginComponent`][lcomp] -> в методе getParentComponent() получать компонент через
 хранилище. Либо создать отдельный конфигуратор для этого скоупа.
 ([`LoginActivityScreenConfigurator`][lasc]).
 
@@ -40,7 +40,7 @@ AppComponent.
 
 * Создать кастомный компонент `LoginActivityComponent`, который будет иметь скоуп
 `@PerActivity`, зависеть от `AppComponent`(Либо от другого вышестояшего скоупа,
-например `LoginScreenComponent` как в сэмпле), и наследоваться от `ActivityComponent`,
+например `LoginComponent` как в сэмпле), и наследоваться от `ActivityComponent`,
 чтобы не дублировать зависимости.
 
 * Создать модуль с необходимыми зависимостями.

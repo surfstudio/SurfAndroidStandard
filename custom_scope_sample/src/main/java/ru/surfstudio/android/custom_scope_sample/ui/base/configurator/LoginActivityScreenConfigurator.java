@@ -8,7 +8,7 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.Activit
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.DaggerLoginActivityComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.LoginActivityComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.LoginActivityModule;
-import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginScreenComponent;
+import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.ActivityScreenModule;
 
 /**
@@ -16,23 +16,23 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.ActivityS
  */
 
 public abstract class LoginActivityScreenConfigurator
-        extends BaseActivityViewConfigurator<LoginScreenComponent, LoginActivityComponent, ActivityScreenModule> {
+        extends BaseActivityViewConfigurator<LoginComponent, LoginActivityComponent, ActivityScreenModule> {
 
     public LoginActivityScreenConfigurator(Intent intent) {
         super(intent);
     }
 
     @Override
-    protected LoginActivityComponent createActivityComponent(LoginScreenComponent parentComponent) {
+    protected LoginActivityComponent createActivityComponent(LoginComponent parentComponent) {
         return DaggerLoginActivityComponent.builder()
-                .loginScreenComponent(parentComponent)
+                .loginComponent(parentComponent)
                 .activityModule(new ActivityModule(getPersistentScope()))
                 .loginActivityModule(new LoginActivityModule())
                 .build();
     }
 
     @Override
-    protected LoginScreenComponent getParentComponent() {
+    protected LoginComponent getParentComponent() {
         return LoginScopeStorage.INSTANCE.getLoginComponent();
     }
 
