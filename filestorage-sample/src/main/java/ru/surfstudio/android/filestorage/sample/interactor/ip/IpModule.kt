@@ -5,6 +5,8 @@ import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import ru.surfstudio.android.dagger.scope.PerApplication
+import ru.surfstudio.android.filestorage.BaseJsonFileStorage
+import ru.surfstudio.android.filestorage.BaseSerializableFileStorage
 import ru.surfstudio.android.filestorage.CacheConstant
 import ru.surfstudio.android.filestorage.ObjectConverter
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
@@ -37,7 +39,7 @@ class IpModule {
 
     @Provides
     @PerApplication
-    internal fun provideIpFileProcessor(
+    internal fun provideFileProcessor(
             @Named(CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String,
             cacheDirName: String
     ): FileProcessor {
@@ -46,7 +48,25 @@ class IpModule {
 
     @Provides
     @PerApplication
-    internal fun provideIpNamingProcessor(): NamingProcessor {
+    internal fun provideNamingProcessor(): NamingProcessor {
         return NamingProcessor { rawName -> rawName }
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideIpJsonFileStorage(
+            fileProcessor: FileProcessor,
+            namingProcessor: NamingProcessor
+    ): BaseJsonFileStorage<Ip> {
+        return BaseJsonFileStorage(fileProcessor, namingProcessor, Ip::class.java)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideIpSerializableFileStorage(
+            fileProcessor: FileProcessor,
+            ipNamingProcessor: NamingProcessor
+    ): BaseSerializableFileStorage<Ip> {
+        return BaseSerializableFileStorage(fileProcessor, ipNamingProcessor)
     }
 }

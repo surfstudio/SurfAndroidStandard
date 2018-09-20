@@ -4,8 +4,8 @@ import io.reactivex.Observable
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
-import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpJsonStorage
-import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpSerializableStorage
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpJsonStorageWrapper
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpSerializableStorageWrapper
 import ru.surfstudio.android.filestorage.sample.interactor.ip.network.IpApi
 import ru.surfstudio.android.network.BaseNetworkInteractor
 import ru.surfstudio.android.network.TransformUtil
@@ -17,8 +17,8 @@ import javax.inject.Inject
 @PerApplication
 class IpRepository @Inject constructor(connectionQualityProvider: ConnectionProvider,
                                        private val ipApi: IpApi,
-                                       private val ipJsonStorage: IpJsonStorage,
-                                       private val ipSerializableStorage: IpSerializableStorage
+                                       private val ipJsonStorageWrapper: IpJsonStorageWrapper,
+                                       private val ipSerializableStorageWrapper: IpSerializableStorageWrapper
 ) : BaseNetworkInteractor(connectionQualityProvider) {
 
     fun getIp(): Observable<Ip> {
@@ -26,23 +26,19 @@ class IpRepository @Inject constructor(connectionQualityProvider: ConnectionProv
                 .map { ipResponse -> TransformUtil.transform(ipResponse) }
     }
 
-    fun getIpFromJsonCache(): Ip? = ipJsonStorage.ip
+    fun getIpFromJsonCache(): Ip? = ipJsonStorageWrapper.getIp()
 
-    fun saveIpToJsonCache(ip: Ip) {
-        ipJsonStorage.ip = ip
-    }
+    fun saveIpToJsonCache(ip: Ip) = ipJsonStorageWrapper.saveIp(ip)
 
-    fun getIpFromSerializableCache(): Ip? = ipSerializableStorage.ip
+    fun getIpFromSerializableCache(): Ip? = ipSerializableStorageWrapper.getIp()
 
-    fun saveIpToSerializableCache(ip: Ip) {
-        ipSerializableStorage.ip = ip
-    }
+    fun saveIpToSerializableCache(ip: Ip) = ipSerializableStorageWrapper.saveIp(ip)
 
     /**
      * Очистка кэша
      */
     fun clearIpStorage() {
-        ipSerializableStorage.clear()
-        ipJsonStorage.clear()
+        ipSerializableStorageWrapper.clear()
+        ipJsonStorageWrapper.clear()
     }
 }
