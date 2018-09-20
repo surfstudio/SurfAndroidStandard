@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.security.crypto
 
+import android.util.Base64
 import ru.surfstudio.android.filestorage.encryptor.Encryptor
 import javax.crypto.Cipher
 
@@ -44,6 +45,38 @@ abstract class SecureEncryptor<T>(protected val sign: T): Encryptor {
     abstract fun getEncryptCipher(salt: ByteArray): Cipher
 
     abstract fun getDecryptCipher(salt: ByteArray, iv: ByteArray): Cipher
+}
+
+/**
+ * Класс, используемый для шифрования по умолчанию
+ */
+private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
+
+    companion object {
+        private const val DELIMITER = "["
+
+        fun fromString(value: String): SecretValue {
+            val split = value.split(DELIMITER)
+            if (split.size != 3) error("IllegalArgumentException while splitting value")
+
+            return SecretValue(
+                    iv = decode(split[0]),
+                    salt = decode(split[1]),
+                    secret = decode(split[2]))
+        }
+
+        fun fromBytes(value: ByteArray): SecretValue = fromString(String(value))
+
+        private fun decode(value: String): ByteArray = Base64.decode(value, Base64.NO_WRAP)
+
+        private fun encode(value: ByteArray): String = Base64.encodeToString(value, Base64.NO_WRAP)
+    }
+
+    override fun toString(): String {
+        return encode(iv) + DELIMITER + encode(salt) + DELIMITER + encode(secret)
+    }
+
+    fun toBytes(): ByteArray = toString().toByteArray()
 }
 
 /**
