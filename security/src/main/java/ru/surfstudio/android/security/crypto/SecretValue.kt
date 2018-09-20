@@ -34,6 +34,8 @@ class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray)
                     secret = decode(split[2]))
         }
 
+        fun fromBytes(value: ByteArray): SecretValue = fromString(encode(value))
+
         private fun decode(value: String): ByteArray = Base64.decode(value, Base64.NO_WRAP)
 
         private fun encode(value: ByteArray): String = Base64.encodeToString(value, Base64.NO_WRAP)
@@ -42,4 +44,6 @@ class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray)
     override fun toString(): String {
         return encode(iv) + DELIMITER + encode(salt) + DELIMITER + encode(secret)
     }
+
+    fun toBytes(): ByteArray = toString().toByteArray()
 }
