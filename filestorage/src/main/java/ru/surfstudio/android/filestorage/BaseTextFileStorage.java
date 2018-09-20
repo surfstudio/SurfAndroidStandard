@@ -20,7 +20,7 @@ import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
 /**
- * базовый класс текстового кеша
+ * Базовый класс текстового кэша
  */
 public class BaseTextFileStorage extends BaseFileStorage<String> {
 

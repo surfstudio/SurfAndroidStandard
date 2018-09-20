@@ -43,5 +43,6 @@ class IpRepository @Inject constructor(connectionQualityProvider: ConnectionProv
      */
     fun clearIpStorage() {
         ipSerializableStorage.clear()
+        ipJsonStorage.clear()
     }
 }

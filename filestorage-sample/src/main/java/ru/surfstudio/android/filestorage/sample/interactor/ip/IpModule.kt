@@ -41,7 +41,7 @@ class IpModule {
             @Named(CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String,
             cacheDirName: String
     ): FileProcessor {
-        return FileProcessor(cacheDir, cacheDirName, 1)
+        return FileProcessor(cacheDir, cacheDirName, 2)
     }
 
     @Provides
