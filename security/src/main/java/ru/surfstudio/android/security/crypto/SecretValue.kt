@@ -20,7 +20,7 @@ import android.util.Base64
 /**
  * Класс, используемый для шифрования по умолчанию
  */
-class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
+internal class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
 
     companion object {
         private const val DELIMITER = "["
