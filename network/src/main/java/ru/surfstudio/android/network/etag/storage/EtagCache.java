@@ -15,15 +15,12 @@
  */
 package ru.surfstudio.android.network.etag.storage;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.filestorage.BaseTextFileStorage;
 import ru.surfstudio.android.filestorage.CacheConstant;
-import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
@@ -34,21 +31,6 @@ final class EtagCache extends BaseTextFileStorage {
 
     @Inject
     public EtagCache(@Named(CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir) {
-        super(
-                new FileProcessor(cacheDir, "etag", CACHE_SIZE),
-                new Sha256NamingProcessor(),
-                new Encryptor() {
-                    @NotNull
-                    @Override
-                    public byte[] encrypt(@NotNull byte[] decryptedBytes) {
-                        return decryptedBytes;
-                    }
-
-                    @NotNull
-                    @Override
-                    public byte[] decrypt(@NotNull byte[] rawBytes) {
-                        return rawBytes;
-                    }
-                });
+        super(new FileProcessor(cacheDir, "etag", CACHE_SIZE), new Sha256NamingProcessor());
     }
 }
