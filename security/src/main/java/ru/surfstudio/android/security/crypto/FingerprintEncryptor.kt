@@ -15,8 +15,9 @@
  */
 package ru.surfstudio.android.security.crypto
 
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat
-import ru.surfstudio.android.logger.Logger
+import android.annotation.TargetApi
+import android.hardware.fingerprint.FingerprintManager
+import android.os.Build
 import ru.surfstudio.android.security.crypto.SecurityUtils.getSecretKeyForFingerPrint
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -24,33 +25,16 @@ import javax.crypto.spec.IvParameterSpec
 /**
  * Класс для шифрования данных с помощью отпечатка пальца
  */
-class FingerprintEncryptor : Encryptor<FingerprintManagerCompat.CryptoObject, SecretValue> {
+class FingerprintEncryptor(cryptoObject: FingerprintManager.CryptoObject
+): SecureEncryptor<FingerprintManager.CryptoObject>(cryptoObject) {
 
-    override fun encrypt(secureData: String,
-                         sign: FingerprintManagerCompat.CryptoObject): SecretValue? = try {
-        val salt = SecurityUtils.generateSalt()
-        val cipher = sign.cipher
-        if (cipher != null) {
-            SecretValue(cipher.doFinal(secureData.toByteArray()), cipher.iv, salt)
-        } else {
-            null
-        }
-    } catch (throwable: Throwable) {
-        Logger.e(throwable)
-        null
-    }
+    @TargetApi(Build.VERSION_CODES.M)
+    override fun getEncryptCipher(salt: ByteArray): Cipher = sign.cipher
 
-    override fun decrypt(sign: FingerprintManagerCompat.CryptoObject,
-                         encrypted: SecretValue): String? = try {
-        val cipher = sign.cipher
-        if (cipher != null) {
-            cipher.init(Cipher.DECRYPT_MODE, getSecretKeyForFingerPrint(), IvParameterSpec(encrypted.iv))
-            String(cipher.doFinal(encrypted.secret))
-        } else {
-            null
+    @TargetApi(Build.VERSION_CODES.M)
+    override fun getDecryptCipher(salt: ByteArray, iv: ByteArray): Cipher {
+        return sign.cipher.apply {
+            init(Cipher.DECRYPT_MODE, getSecretKeyForFingerPrint(), IvParameterSpec(iv))
         }
-    } catch (throwable: Throwable) {
-        Logger.e(throwable)
-        null
     }
 }

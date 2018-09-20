@@ -15,34 +15,21 @@
  */
 package ru.surfstudio.android.security.crypto
 
-import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.security.crypto.SecurityUtils.getDecryptCipher
-import ru.surfstudio.android.security.crypto.SecurityUtils.getEncryptCipher
-import ru.surfstudio.android.security.crypto.SecurityUtils.getSpec
+import javax.crypto.Cipher
+import javax.crypto.spec.PBEKeySpec
 
 /**
  * Класс для шифрования данных с помощью pin-кода
  */
-class PinEncryptor : Encryptor<String, SecretValue> {
+class PinEncryptor(pin: String): SecureEncryptor<String>(pin) {
 
-    override fun encrypt(secureData: String, sign: String): SecretValue? = try {
-        val salt = SecurityUtils.generateSalt()
-        val spec = getSpec(sign, salt)
-        val cipher = getEncryptCipher(spec)
-
-        SecretValue(cipher.doFinal(secureData.toByteArray()), cipher.iv, salt)
-    }  catch (throwable: Throwable) {
-        Logger.e(throwable)
-        null
+    override fun getEncryptCipher(salt: ByteArray): Cipher {
+        return SecurityUtils.getEncryptCipher(getSpec(salt))
     }
 
-    override fun decrypt(sign: String, encrypted: SecretValue): String? = try {
-        val spec = getSpec(sign, encrypted.salt)
-        val cipher = getDecryptCipher(spec, encrypted.iv)
-
-        String(cipher.doFinal(encrypted.secret))
-    } catch (throwable: Throwable) {
-        Logger.e(throwable)
-        null
+    override fun getDecryptCipher(salt: ByteArray, iv: ByteArray): Cipher {
+        return SecurityUtils.getDecryptCipher(getSpec(salt), iv)
     }
+
+    private fun getSpec(salt: ByteArray): PBEKeySpec = SecurityUtils.getSpec(sign, salt)
 }

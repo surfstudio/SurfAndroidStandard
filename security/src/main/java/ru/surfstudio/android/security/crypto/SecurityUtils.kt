@@ -49,28 +49,6 @@ object SecurityUtils {
         return salt
     }
 
-    @TargetApi(Build.VERSION_CODES.M)
-    fun createFingerprintKey(alias: String = ALIAS_FINGERPRINT,
-                             keystore: KeyStore = getAndroidKeyStore()): SecretKey? = try {
-        val builder = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-                .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                .setUserAuthenticationRequired(false)
-                .setUserAuthenticationValidityDurationSeconds(-1)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            builder.setInvalidatedByBiometricEnrollment(false)
-            builder.setUserAuthenticationValidWhileOnBody(false)
-        }
-
-        val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, keystore.provider)
-        keyGenerator.init(builder.build())
-        keyGenerator.generateKey()
-    } catch (throwable: Throwable) {
-        Logger.e(throwable)
-        null
-    }
-
     fun getEncryptCipher(spec: PBEKeySpec): Cipher {
         return Cipher.getInstance(CIPHER_TRANSFORMATION).apply {
             init(
@@ -110,6 +88,28 @@ object SecurityUtils {
         cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
         FingerprintManager.CryptoObject(cipher)
+    } catch (throwable: Throwable) {
+        Logger.e(throwable)
+        null
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    fun createFingerprintKey(alias: String = ALIAS_FINGERPRINT,
+                             keystore: KeyStore = getAndroidKeyStore()): SecretKey? = try {
+        val builder = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                .setUserAuthenticationRequired(false)
+                .setUserAuthenticationValidityDurationSeconds(-1)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            builder.setInvalidatedByBiometricEnrollment(false)
+            builder.setUserAuthenticationValidWhileOnBody(false)
+        }
+
+        val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, keystore.provider)
+        keyGenerator.init(builder.build())
+        keyGenerator.generateKey()
     } catch (throwable: Throwable) {
         Logger.e(throwable)
         null
