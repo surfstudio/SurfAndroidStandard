@@ -21,7 +21,7 @@ import javax.crypto.spec.PBEKeySpec
 /**
  * Класс для шифрования данных с помощью pin-кода
  */
-class PinEncryptor(pin: String): SecureEncryptor<String>(pin) {
+class PinEncryptor(pin: String): SignEncryptor<String>(pin) {
 
     override fun getEncryptCipher(salt: ByteArray): Cipher {
         return SecurityUtils.getEncryptCipher(getSpec(salt))

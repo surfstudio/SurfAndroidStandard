@@ -22,7 +22,7 @@ import javax.crypto.Cipher
 /**
  * Класс для шифрования и дешифрования данных с использованием подписи
  */
-abstract class SecureEncryptor<T>(protected val sign: T): Encryptor {
+abstract class SignEncryptor<T>(protected val sign: T): Encryptor {
 
     override fun encrypt(decryptedBytes: ByteArray): ByteArray = try {
         val salt = SecurityUtils.generateSalt()
@@ -30,7 +30,7 @@ abstract class SecureEncryptor<T>(protected val sign: T): Encryptor {
 
         SecretValue(cipher.doFinal(decryptedBytes), cipher.iv, salt).toBytes()
     } catch (throwable: Throwable) {
-        throw SecureEncryptorException(throwable)
+        throw SignEncryptorException(throwable)
     }
 
     override fun decrypt(rawBytes: ByteArray): ByteArray = try {
@@ -39,7 +39,7 @@ abstract class SecureEncryptor<T>(protected val sign: T): Encryptor {
 
         cipher.doFinal(encrypted.secret)
     } catch (throwable: Throwable) {
-        throw SecureEncryptorException(throwable)
+        throw SignEncryptorException(throwable)
     }
 
     abstract fun getEncryptCipher(salt: ByteArray): Cipher
@@ -82,4 +82,4 @@ private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: By
 /**
  * Исключение, которое является оберткой для ошибок, возникающих при шифровании данных
  */
-class SecureEncryptorException(throwable: Throwable) : Throwable(throwable)
+class SignEncryptorException(throwable: Throwable) : Throwable(throwable)
