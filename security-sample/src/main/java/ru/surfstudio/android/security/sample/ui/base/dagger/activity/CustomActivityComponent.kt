@@ -6,6 +6,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 import ru.surfstudio.android.security.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.security.sample.interactor.profile.ProfileInteractor
+import ru.surfstudio.android.security.sample.interactor.storage.ApiKeyStorageWrapper
 
 /**
  * Компонент для @PerActivity скоупа
@@ -14,5 +15,6 @@ import ru.surfstudio.android.security.sample.interactor.profile.ProfileInteracto
 @Component(dependencies = [CustomAppComponent::class],
         modules = [DefaultActivityModule::class])
 interface CustomActivityComponent : DefaultActivityComponent {
+    fun apiKeyStorageWrapper(): ApiKeyStorageWrapper
     fun profileInteractor(): ProfileInteractor
 }

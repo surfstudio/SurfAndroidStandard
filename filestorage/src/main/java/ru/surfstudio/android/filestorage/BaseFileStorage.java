@@ -39,7 +39,8 @@ public abstract class BaseFileStorage<T> {
     private final FileProcessor fileProcessor;
     private final NamingProcessor namingProcessor;
     private final ObjectConverter<T> objectConverter;
-    private final Encryptor encryptor;
+
+    private Encryptor encryptor;
 
     public BaseFileStorage(FileProcessor fileProcessor,
                            NamingProcessor namingProcessor,
@@ -57,6 +58,10 @@ public abstract class BaseFileStorage<T> {
         this.fileProcessor = fileProcessor;
         this.namingProcessor = namingProcessor;
         this.objectConverter = objectConverter;
+        this.encryptor = encryptor;
+    }
+
+    public void setEncryptor(Encryptor encryptor) {
         this.encryptor = encryptor;
     }
 
