@@ -48,7 +48,7 @@ abstract class SignEncryptor<T>(protected val sign: T): Encryptor {
 }
 
 /**
- * Класс, используемый для шифрования по умолчанию
+ * Вспомогательный класс, используемый для шифрования
  */
 private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: ByteArray) {
 
