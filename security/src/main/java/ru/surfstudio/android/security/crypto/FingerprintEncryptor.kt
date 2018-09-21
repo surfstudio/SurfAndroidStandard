@@ -18,7 +18,7 @@ package ru.surfstudio.android.security.crypto
 import android.annotation.TargetApi
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
-import ru.surfstudio.android.security.crypto.SecurityUtils.getSecretKeyForFingerPrint
+import ru.surfstudio.android.security.crypto.FingerprintUtils.getSecretKeyForFingerPrint
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 
