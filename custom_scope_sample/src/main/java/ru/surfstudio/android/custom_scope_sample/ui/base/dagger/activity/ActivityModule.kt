@@ -15,7 +15,6 @@ import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.rxbus.RxBus
 
 /**
  * Модуль для dagger Activity Component
@@ -83,11 +82,5 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     @PerActivity
     internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
         return FragmentNavigator(activityProvider)
-    }
-
-    @Provides
-    @PerActivity
-    internal fun provideRxBus(): RxBus {
-        return RxBus()
     }
 }
