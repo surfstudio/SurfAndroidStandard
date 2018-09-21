@@ -20,9 +20,9 @@ import ru.surfstudio.android.filestorage.encryptor.Encryptor
 import javax.crypto.Cipher
 
 /**
- * Класс для шифрования и дешифрования данных с использованием подписи
+ * Класс для шифрования и дешифрования данных с Cipher
  */
-abstract class SignEncryptor<T>(protected val sign: T): Encryptor {
+abstract class CipherEncryptor : Encryptor {
 
     override fun encrypt(decryptedBytes: ByteArray): ByteArray = try {
         val salt = SecurityUtils.generateSalt()
@@ -30,7 +30,7 @@ abstract class SignEncryptor<T>(protected val sign: T): Encryptor {
 
         SecretValue(cipher.doFinal(decryptedBytes), cipher.iv, salt).toBytes()
     } catch (throwable: Throwable) {
-        throw SignEncryptorException(throwable)
+        throw CipherEncryptorException(throwable)
     }
 
     override fun decrypt(rawBytes: ByteArray): ByteArray = try {
@@ -39,7 +39,7 @@ abstract class SignEncryptor<T>(protected val sign: T): Encryptor {
 
         cipher.doFinal(encrypted.secret)
     } catch (throwable: Throwable) {
-        throw SignEncryptorException(throwable)
+        throw CipherEncryptorException(throwable)
     }
 
     abstract fun getEncryptCipher(salt: ByteArray): Cipher
@@ -82,4 +82,4 @@ private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: By
 /**
  * Исключение, которое является оберткой для ошибок, возникающих при шифровании данных
  */
-class SignEncryptorException(throwable: Throwable) : Throwable(throwable)
+class CipherEncryptorException(throwable: Throwable) : Throwable(throwable)

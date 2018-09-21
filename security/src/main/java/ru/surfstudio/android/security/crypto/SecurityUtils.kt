@@ -34,44 +34,17 @@ object SecurityUtils {
 
     private const val ALIAS_FINGERPRINT = "FNGRPRNT"
 
-    private const val CIPHER_TRANSFORMATION = "AES/CBC/PKCS7Padding"
-    private const val KEY_ALGORITHM = "PBKDF2WithHmacSHA1"
+    const val DEFAULT_CIPHER_TRANSFORMATION = "AES/CBC/PKCS7Padding"
+    const val DEFAULT_KEY_ALGORITHM = "PBKDF2WithHmacSHA1"
 
     private const val ANDROID_KEYSTORE = "AndroidKeyStore"
 
-    private const val KEY_LENGTH = 256
-    private const val ITERATION_COUNT = 16384
     private const val DEFAULT_SALT_SIZE = 16
 
     fun generateSalt(saltSize: Int = DEFAULT_SALT_SIZE): ByteArray {
         val salt = ByteArray(saltSize)
         SecureRandom().nextBytes(salt)
         return salt
-    }
-
-    fun getEncryptCipher(spec: PBEKeySpec): Cipher {
-        return Cipher.getInstance(CIPHER_TRANSFORMATION).apply {
-            init(
-                    Cipher.ENCRYPT_MODE,
-                    SecretKeyFactory
-                            .getInstance(KEY_ALGORITHM)
-                            .generateSecret(spec))
-        }
-    }
-
-    fun getDecryptCipher(spec: PBEKeySpec, iv: ByteArray): Cipher {
-        return Cipher.getInstance(CIPHER_TRANSFORMATION).apply {
-            init(
-                    Cipher.DECRYPT_MODE,
-                    SecretKeyFactory
-                            .getInstance(KEY_ALGORITHM)
-                            .generateSecret(spec),
-                    IvParameterSpec(iv))
-        }
-    }
-
-    fun getSpec(pin: String, salt: ByteArray): PBEKeySpec {
-        return PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
     }
 
     fun getSecretKeyForFingerPrint(): SecretKey {
@@ -84,7 +57,7 @@ object SecurityUtils {
 
     @TargetApi(Build.VERSION_CODES.M)
     fun getFingerPrintCryptoObject(secretKey: SecretKey?): FingerprintManager.CryptoObject? = try {
-        val cipher = Cipher.getInstance(CIPHER_TRANSFORMATION)
+        val cipher = Cipher.getInstance(DEFAULT_CIPHER_TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
         FingerprintManager.CryptoObject(cipher)

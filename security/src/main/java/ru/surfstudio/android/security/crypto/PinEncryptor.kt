@@ -16,20 +16,43 @@
 package ru.surfstudio.android.security.crypto
 
 import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.SecretKeyFactory
+import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 
 /**
  * Класс для шифрования данных с помощью pin-кода
  */
-class PinEncryptor(pin: String): SignEncryptor<String>(pin) {
+class PinEncryptor(private val pin: String,
+                   private val cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION,
+                   private val keyAlgorithm: String = SecurityUtils.DEFAULT_KEY_ALGORITHM
+): CipherEncryptor() {
+
+    companion object {
+        private const val KEY_LENGTH = 256
+        private const val ITERATION_COUNT = 16384
+    }
 
     override fun getEncryptCipher(salt: ByteArray): Cipher {
-        return SecurityUtils.getEncryptCipher(getSpec(salt))
+        return Cipher.getInstance(cipherTransformation).apply {
+            init(Cipher.ENCRYPT_MODE, generateSecretKey(salt))
+        }
     }
 
     override fun getDecryptCipher(salt: ByteArray, iv: ByteArray): Cipher {
-        return SecurityUtils.getDecryptCipher(getSpec(salt), iv)
+        return Cipher.getInstance(cipherTransformation).apply {
+            init(Cipher.DECRYPT_MODE, generateSecretKey(salt), IvParameterSpec(iv))
+        }
     }
 
-    private fun getSpec(salt: ByteArray): PBEKeySpec = SecurityUtils.getSpec(sign, salt)
+    private fun generateSecretKey(salt: ByteArray): SecretKey {
+        return SecretKeyFactory
+                .getInstance(keyAlgorithm)
+                .generateSecret(getSpec(salt))
+    }
+
+    private fun getSpec(salt: ByteArray): PBEKeySpec {
+        return PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
+    }
 }

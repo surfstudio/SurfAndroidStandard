@@ -25,15 +25,16 @@ import javax.crypto.spec.IvParameterSpec
 /**
  * Класс для шифрования данных с помощью отпечатка пальца
  */
-class FingerprintEncryptor(cryptoObject: FingerprintManager.CryptoObject
-): SignEncryptor<FingerprintManager.CryptoObject>(cryptoObject) {
+class FingerprintEncryptor(
+        private val cryptoObject: FingerprintManager.CryptoObject
+): CipherEncryptor() {
 
     @TargetApi(Build.VERSION_CODES.M)
-    override fun getEncryptCipher(salt: ByteArray): Cipher = sign.cipher
+    override fun getEncryptCipher(salt: ByteArray): Cipher = cryptoObject.cipher
 
     @TargetApi(Build.VERSION_CODES.M)
     override fun getDecryptCipher(salt: ByteArray, iv: ByteArray): Cipher {
-        return sign.cipher.apply {
+        return cryptoObject.cipher.apply {
             init(Cipher.DECRYPT_MODE, getSecretKeyForFingerPrint(), IvParameterSpec(iv))
         }
     }
