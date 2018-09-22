@@ -1,7 +1,7 @@
 package ru.surfstudio.android.security.sample.interactor.storage
 
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.BaseTextFileStorage
+import ru.surfstudio.android.filestorage.storage.BaseTextFileStorage
 import ru.surfstudio.android.security.crypto.PinEncryptor
 import javax.inject.Inject
 

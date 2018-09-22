@@ -1,7 +1,7 @@
 package ru.surfstudio.android.filestorage.sample.interactor.ip.cache
 
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.BaseJsonFileStorage
+import ru.surfstudio.android.filestorage.storage.BaseJsonFileStorage
 import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
 import javax.inject.Inject
 

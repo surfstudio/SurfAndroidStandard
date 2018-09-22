@@ -3,7 +3,7 @@ package ru.surfstudio.android.security.sample.interactor.storage
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.filestorage.BaseTextFileStorage
+import ru.surfstudio.android.filestorage.storage.BaseTextFileStorage
 import ru.surfstudio.android.filestorage.CacheConstant
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.FileProcessor

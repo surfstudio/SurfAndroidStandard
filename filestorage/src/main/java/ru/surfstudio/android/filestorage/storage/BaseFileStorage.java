@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.filestorage;
+package ru.surfstudio.android.filestorage.storage;
 
 import android.support.annotation.Nullable;
 
@@ -24,13 +24,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import ru.surfstudio.android.filestorage.converter.ObjectConverter;
 import ru.surfstudio.android.filestorage.encryptor.EmptyEncryptor;
 import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.FileProcessor;
 
 /**
- * класс, позволяющий хранить обьекты в кеше, является оберткой над {@link FileProcessor}
+ * Класс, позволяющий хранить обьекты в кеше, является оберткой над {@link FileProcessor}
  *
  * @param <T>
  */

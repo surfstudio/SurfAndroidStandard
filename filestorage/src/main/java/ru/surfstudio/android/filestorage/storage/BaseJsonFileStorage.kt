@@ -13,15 +13,15 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.filestorage
+package ru.surfstudio.android.filestorage.storage
 
-import com.google.gson.GsonBuilder
+import ru.surfstudio.android.filestorage.converter.JsonConverter
 import ru.surfstudio.android.filestorage.encryptor.Encryptor
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.FileProcessor
 
 /**
- * Базовый класс для кеширования моделей в формате json
+ * Базовый класс для кэширования моделей в формате json
  */
 open class BaseJsonFileStorage<T> : BaseFileStorage<T> {
 
@@ -35,13 +35,4 @@ open class BaseJsonFileStorage<T> : BaseFileStorage<T> {
                 classType: Class<T>,
                 encryptor: Encryptor)
             : super(fileProcessor, namingProcessor, JsonConverter<T>(classType), encryptor)
-
-    private class JsonConverter<T>(private val classType: Class<T>) : ObjectConverter<T> {
-
-        private val gson = GsonBuilder().create()
-
-        override fun encode(value: T): ByteArray = gson.toJson(value).toByteArray()
-
-        override fun decode(rawValue: ByteArray): T = gson.fromJson(String(rawValue), classType)
-    }
 }

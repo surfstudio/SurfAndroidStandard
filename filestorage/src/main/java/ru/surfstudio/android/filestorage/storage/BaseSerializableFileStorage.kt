@@ -13,13 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.filestorage
+package ru.surfstudio.android.filestorage.storage
 
+import ru.surfstudio.android.filestorage.converter.SerializableConverter
 import ru.surfstudio.android.filestorage.encryptor.Encryptor
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.FileProcessor
-import ru.surfstudio.android.logger.Logger
-import java.io.*
+import java.io.Serializable
 
 /**
  * Базовый класс для кэширования Serializable данных
@@ -34,37 +34,4 @@ open class BaseSerializableFileStorage<T : Serializable> : BaseFileStorage<T> {
                 namingProcessor: NamingProcessor,
                 encryptor: Encryptor)
             : super(fileProcessor, namingProcessor, SerializableConverter<T>(), encryptor)
-
-    private class SerializableConverter<T : Serializable> : ObjectConverter<T> {
-
-        override fun encode(value: T): ByteArray? {
-            try {
-                ByteArrayOutputStream().use { byteArrayOutputStream ->
-                    ObjectOutputStream(byteArrayOutputStream).use { objectOutputStream ->
-                        objectOutputStream.writeObject(value)
-                        return byteArrayOutputStream.toByteArray()
-                    }
-                }
-            } catch (e: IOException) {
-                Logger.e(e)
-                return null
-            }
-        }
-
-        override fun decode(rawValue: ByteArray): T? {
-            try {
-                ByteArrayInputStream(rawValue).use { byteArrayInputStream ->
-                    ObjectInputStream(byteArrayInputStream).use { objectInputStream ->
-                        return objectInputStream.readObject() as T
-                    }
-                }
-            } catch (e: IOException) {
-                Logger.e(e)
-                return null
-            } catch (e: ClassNotFoundException) {
-                Logger.e(e)
-                return null
-            }
-        }
-    }
 }

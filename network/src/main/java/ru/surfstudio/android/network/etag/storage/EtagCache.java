@@ -19,10 +19,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ru.surfstudio.android.dagger.scope.PerApplication;
-import ru.surfstudio.android.filestorage.BaseTextFileStorage;
+import ru.surfstudio.android.filestorage.storage.BaseFileStorage;
 import ru.surfstudio.android.filestorage.CacheConstant;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.FileProcessor;
+import ru.surfstudio.android.filestorage.storage.BaseTextFileStorage;
 
 @PerApplication
 final class EtagCache extends BaseTextFileStorage {
