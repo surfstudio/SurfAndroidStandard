@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.security.crypto
+package ru.surfstudio.android.security.crypto.fingerprint
 
 import android.annotation.TargetApi
 import android.hardware.fingerprint.FingerprintManager
@@ -21,8 +21,9 @@ import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.security.crypto.security.SecurityUtils
+import ru.surfstudio.android.security.crypto.security.initEncryptMode
 import java.security.KeyStore
-import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
@@ -45,10 +46,9 @@ object FingerprintUtils {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private fun getFingerprintCryptoObject(secretKey: SecretKey?): FingerprintManager.CryptoObject? = try {
-        val cipher = Cipher.getInstance(SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION)
-        cipher.init(Cipher.ENCRYPT_MODE, secretKey)
-
+    private fun getFingerprintCryptoObject(secretKey: SecretKey?
+    ): FingerprintManager.CryptoObject? = try {
+        val cipher = SecurityUtils.getCipherInstance().initEncryptMode(secretKey)
         FingerprintManager.CryptoObject(cipher)
     } catch (throwable: Throwable) {
         Logger.e(throwable)

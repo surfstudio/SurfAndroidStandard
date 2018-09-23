@@ -13,15 +13,16 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.security.crypto
+package ru.surfstudio.android.security.crypto.fingerprint
 
 import android.annotation.TargetApi
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
-import ru.surfstudio.android.security.crypto.FingerprintUtils.DEFAULT_ALIAS_FINGERPRINT
-import ru.surfstudio.android.security.crypto.FingerprintUtils.getSecretKeyForFingerPrint
+import ru.surfstudio.android.security.crypto.fingerprint.FingerprintUtils.DEFAULT_ALIAS_FINGERPRINT
+import ru.surfstudio.android.security.crypto.fingerprint.FingerprintUtils.getSecretKeyForFingerPrint
+import ru.surfstudio.android.security.crypto.SignEncryptor
+import ru.surfstudio.android.security.crypto.security.initDecryptMode
 import javax.crypto.Cipher
-import javax.crypto.spec.IvParameterSpec
 
 /**
  * Класс для шифрования данных с помощью отпечатка пальца
@@ -41,8 +42,6 @@ class FingerprintEncryptor(
     override fun getDecryptCipher(sign: FingerprintManager.CryptoObject,
                                   salt: ByteArray,
                                   iv: ByteArray): Cipher {
-        return sign.cipher.apply {
-            init(Cipher.DECRYPT_MODE, getSecretKeyForFingerPrint(fingerprintAlias), IvParameterSpec(iv))
-        }
+        return sign.cipher.initDecryptMode(getSecretKeyForFingerPrint(fingerprintAlias), iv)
     }
 }

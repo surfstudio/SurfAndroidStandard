@@ -13,9 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.security.crypto
+package ru.surfstudio.android.security.crypto.security
 
 import java.security.SecureRandom
+import javax.crypto.Cipher
 
 object SecurityUtils {
 
@@ -28,5 +29,9 @@ object SecurityUtils {
         val salt = ByteArray(saltSize)
         SecureRandom().nextBytes(salt)
         return salt
+    }
+
+    fun getCipherInstance(cipherTransformation: String = DEFAULT_CIPHER_TRANSFORMATION): Cipher {
+        return Cipher.getInstance(cipherTransformation)
     }
 }

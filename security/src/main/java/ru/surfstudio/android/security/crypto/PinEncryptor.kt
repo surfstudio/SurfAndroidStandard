@@ -15,10 +15,12 @@
  */
 package ru.surfstudio.android.security.crypto
 
+import ru.surfstudio.android.security.crypto.security.SecurityUtils
+import ru.surfstudio.android.security.crypto.security.initDecryptMode
+import ru.surfstudio.android.security.crypto.security.initEncryptMode
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.SecretKeyFactory
-import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.PBEKeySpec
 
 /**
@@ -36,16 +38,14 @@ class PinEncryptor(
     }
 
     override fun getEncryptCipher(sign: String, salt: ByteArray): Cipher {
-        return Cipher.getInstance(cipherTransformation).apply {
-            init(Cipher.ENCRYPT_MODE, generateSecretKey(sign, salt))
-        }
+        return getCipher().initEncryptMode(generateSecretKey(sign, salt))
     }
 
     override fun getDecryptCipher(sign: String, salt: ByteArray, iv: ByteArray): Cipher {
-        return Cipher.getInstance(cipherTransformation).apply {
-            init(Cipher.DECRYPT_MODE, generateSecretKey(sign, salt), IvParameterSpec(iv))
-        }
+        return getCipher().initDecryptMode(generateSecretKey(sign, salt), iv)
     }
+
+    private fun getCipher(): Cipher = SecurityUtils.getCipherInstance(cipherTransformation)
 
     private fun generateSecretKey(sign: String, salt: ByteArray): SecretKey {
         return SecretKeyFactory

@@ -17,6 +17,7 @@ package ru.surfstudio.android.security.crypto
 
 import android.util.Base64
 import ru.surfstudio.android.filestorage.encryptor.Encryptor
+import ru.surfstudio.android.security.crypto.security.SecurityUtils
 import javax.crypto.Cipher
 
 /**
