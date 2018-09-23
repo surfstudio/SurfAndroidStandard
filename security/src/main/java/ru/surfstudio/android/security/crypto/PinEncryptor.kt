@@ -24,35 +24,36 @@ import javax.crypto.spec.PBEKeySpec
 /**
  * Класс для шифрования данных с помощью pin-кода
  */
-class PinEncryptor(private val pin: String,
-                   private val cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION,
-                   private val keyAlgorithm: String = SecurityUtils.DEFAULT_KEY_ALGORITHM
-): CipherEncryptor() {
+class PinEncryptor(
+        pin: String,
+        private val cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION,
+        private val keyAlgorithm: String = SecurityUtils.DEFAULT_KEY_ALGORITHM
+): SignEncryptor<String>(pin) {
 
     companion object {
         private const val KEY_LENGTH = 256
         private const val ITERATION_COUNT = 16384
     }
 
-    override fun getEncryptCipher(salt: ByteArray): Cipher {
+    override fun getEncryptCipher(sign: String, salt: ByteArray): Cipher {
         return Cipher.getInstance(cipherTransformation).apply {
-            init(Cipher.ENCRYPT_MODE, generateSecretKey(salt))
+            init(Cipher.ENCRYPT_MODE, generateSecretKey(sign, salt))
         }
     }
 
-    override fun getDecryptCipher(salt: ByteArray, iv: ByteArray): Cipher {
+    override fun getDecryptCipher(sign: String, salt: ByteArray, iv: ByteArray): Cipher {
         return Cipher.getInstance(cipherTransformation).apply {
-            init(Cipher.DECRYPT_MODE, generateSecretKey(salt), IvParameterSpec(iv))
+            init(Cipher.DECRYPT_MODE, generateSecretKey(sign, salt), IvParameterSpec(iv))
         }
     }
 
-    private fun generateSecretKey(salt: ByteArray): SecretKey {
+    private fun generateSecretKey(sign: String, salt: ByteArray): SecretKey {
         return SecretKeyFactory
                 .getInstance(keyAlgorithm)
-                .generateSecret(getSpec(salt))
+                .generateSecret(getSpec(sign, salt))
     }
 
-    private fun getSpec(salt: ByteArray): PBEKeySpec {
-        return PBEKeySpec(pin.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
+    private fun getSpec(sign: String, salt: ByteArray): PBEKeySpec {
+        return PBEKeySpec(sign.toCharArray(), salt, ITERATION_COUNT, KEY_LENGTH)
     }
 }

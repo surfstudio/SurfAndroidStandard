@@ -20,13 +20,14 @@ import ru.surfstudio.android.filestorage.encryptor.Encryptor
 import javax.crypto.Cipher
 
 /**
- * Класс для шифрования и дешифрования данных с Cipher
+ * Класс для шифрования и дешифрования данных с использованием подписи
+ * @param sign ключ для шифрования и дешифрования данных
  */
-abstract class CipherEncryptor : Encryptor {
+abstract class SignEncryptor<T>(private val sign: T) : Encryptor {
 
     override fun encrypt(decryptedBytes: ByteArray): ByteArray = try {
         val salt = SecurityUtils.generateSalt()
-        val cipher = getEncryptCipher(salt)
+        val cipher = getEncryptCipher(sign, salt)
 
         SecretValue(cipher.doFinal(decryptedBytes), cipher.iv, salt).toBytes()
     } catch (throwable: Throwable) {
@@ -35,16 +36,16 @@ abstract class CipherEncryptor : Encryptor {
 
     override fun decrypt(rawBytes: ByteArray): ByteArray = try {
         val encrypted = SecretValue.fromBytes(rawBytes)
-        val cipher = getDecryptCipher(encrypted.salt, encrypted.iv)
+        val cipher = getDecryptCipher(sign, encrypted.salt, encrypted.iv)
 
         cipher.doFinal(encrypted.secret)
     } catch (throwable: Throwable) {
         throw CipherEncryptorException(throwable)
     }
 
-    abstract fun getEncryptCipher(salt: ByteArray): Cipher
+    abstract fun getEncryptCipher(sign: T, salt: ByteArray): Cipher
 
-    abstract fun getDecryptCipher(salt: ByteArray, iv: ByteArray): Cipher
+    abstract fun getDecryptCipher(sign: T, salt: ByteArray, iv: ByteArray): Cipher
 }
 
 /**
