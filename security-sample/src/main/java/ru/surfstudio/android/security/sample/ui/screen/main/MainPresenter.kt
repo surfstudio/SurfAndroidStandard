@@ -7,6 +7,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.security.root.RootChecker
 import ru.surfstudio.android.security.sample.R
+import ru.surfstudio.android.security.sample.domain.ApiKey
 import ru.surfstudio.android.security.sample.ui.screen.pin.CreatePinActivityRoute
 import javax.inject.Inject
 
@@ -37,7 +38,7 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
 
     fun createPin(apiKey: String) {
         if (apiKey.isNotEmpty()) {
-            activityNavigator.start(CreatePinActivityRoute(apiKey))
+            activityNavigator.start(CreatePinActivityRoute(ApiKey(apiKey)))
         }
     }
 }

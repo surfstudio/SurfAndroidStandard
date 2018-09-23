@@ -34,8 +34,8 @@ class CreatePinPresenter @Inject constructor(basePresenterDependency: BasePresen
     }
 
     fun getApiKey(pin: String) {
-        subscribeIoHandleError(profileInteractor.getApiKey(pin)) { apiKey ->
-            view.showMessage(apiKey)
+        subscribeIoHandleError(profileInteractor.getApiKey(pin)) {
+            view.showMessage(it.apiKey)
             view.render(screenModel)
         }
     }
