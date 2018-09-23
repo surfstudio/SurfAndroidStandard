@@ -28,20 +28,24 @@ import javax.crypto.SecretKey
 
 object FingerprintUtils {
 
-    private const val ALIAS_FINGERPRINT = "FNGRPRNT"
+    internal const val DEFAULT_ALIAS_FINGERPRINT = "FNGRPRNT"
 
     private const val ANDROID_KEYSTORE = "AndroidKeyStore"
 
-    fun getSecretKeyForFingerPrint(): SecretKey {
-        return getAndroidKeyStore().getKey(ALIAS_FINGERPRINT, null) as SecretKey
-    }
-
-    private fun getAndroidKeyStore(): KeyStore = KeyStore.getInstance(ANDROID_KEYSTORE).apply {
-        load(null)
+    @TargetApi(Build.VERSION_CODES.M)
+    fun getFingerprintCryptoObject(fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
+    ): FingerprintManager.CryptoObject? {
+        return getFingerprintCryptoObject(getSecretKeyForFingerPrint(fingerprintAlias))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun getFingerPrintCryptoObject(secretKey: SecretKey?): FingerprintManager.CryptoObject? = try {
+    fun createFingerprintCryptoObject(fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
+    ): FingerprintManager.CryptoObject? {
+        return getFingerprintCryptoObject(createFingerprintKey(fingerprintAlias))
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun getFingerprintCryptoObject(secretKey: SecretKey?): FingerprintManager.CryptoObject? = try {
         val cipher = Cipher.getInstance(SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION)
         cipher.init(Cipher.ENCRYPT_MODE, secretKey)
 
@@ -51,9 +55,17 @@ object FingerprintUtils {
         null
     }
 
+    internal fun getSecretKeyForFingerPrint(alias: String = DEFAULT_ALIAS_FINGERPRINT): SecretKey {
+        return getAndroidKeyStore().getKey(alias, null) as SecretKey
+    }
+
+    private fun getAndroidKeyStore(): KeyStore = KeyStore.getInstance(ANDROID_KEYSTORE).apply {
+        load(null)
+    }
+
     @TargetApi(Build.VERSION_CODES.M)
-    fun createFingerprintKey(alias: String = ALIAS_FINGERPRINT,
-                             keystore: KeyStore = getAndroidKeyStore()): SecretKey? = try {
+    private fun createFingerprintKey(alias: String = DEFAULT_ALIAS_FINGERPRINT,
+                                     keystore: KeyStore = getAndroidKeyStore()): SecretKey? = try {
         val builder = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)

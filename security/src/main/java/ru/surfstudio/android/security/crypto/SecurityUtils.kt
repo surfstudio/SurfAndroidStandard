@@ -19,8 +19,8 @@ import java.security.SecureRandom
 
 object SecurityUtils {
 
-    const val DEFAULT_CIPHER_TRANSFORMATION = "AES/CBC/PKCS7Padding"
-    const val DEFAULT_KEY_ALGORITHM = "PBKDF2WithHmacSHA1"
+    internal const val DEFAULT_CIPHER_TRANSFORMATION = "AES/CBC/PKCS7Padding"
+    internal const val DEFAULT_KEY_ALGORITHM = "PBKDF2WithHmacSHA1"
 
     private const val DEFAULT_SALT_SIZE = 16
 

@@ -18,6 +18,7 @@ package ru.surfstudio.android.security.crypto
 import android.annotation.TargetApi
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
+import ru.surfstudio.android.security.crypto.FingerprintUtils.DEFAULT_ALIAS_FINGERPRINT
 import ru.surfstudio.android.security.crypto.FingerprintUtils.getSecretKeyForFingerPrint
 import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
@@ -26,7 +27,8 @@ import javax.crypto.spec.IvParameterSpec
  * Класс для шифрования данных с помощью отпечатка пальца
  */
 class FingerprintEncryptor(
-        cryptoObject: FingerprintManager.CryptoObject
+        cryptoObject: FingerprintManager.CryptoObject,
+        private val fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
 ): SignEncryptor<FingerprintManager.CryptoObject>(cryptoObject) {
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -40,7 +42,7 @@ class FingerprintEncryptor(
                                   salt: ByteArray,
                                   iv: ByteArray): Cipher {
         return sign.cipher.apply {
-            init(Cipher.DECRYPT_MODE, getSecretKeyForFingerPrint(), IvParameterSpec(iv))
+            init(Cipher.DECRYPT_MODE, getSecretKeyForFingerPrint(fingerprintAlias), IvParameterSpec(iv))
         }
     }
 }
