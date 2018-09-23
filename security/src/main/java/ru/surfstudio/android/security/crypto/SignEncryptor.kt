@@ -32,7 +32,7 @@ abstract class SignEncryptor<T>(private val sign: T) : Encryptor {
 
         SecretValue(cipher.doFinal(decryptedBytes), cipher.iv, salt).toBytes()
     } catch (throwable: Throwable) {
-        throw CipherEncryptorException(throwable)
+        throw SignEncryptorException(throwable)
     }
 
     override fun decrypt(rawBytes: ByteArray): ByteArray = try {
@@ -41,7 +41,7 @@ abstract class SignEncryptor<T>(private val sign: T) : Encryptor {
 
         cipher.doFinal(encrypted.secret)
     } catch (throwable: Throwable) {
-        throw CipherEncryptorException(throwable)
+        throw SignEncryptorException(throwable)
     }
 
     abstract fun getEncryptCipher(sign: T, salt: ByteArray): Cipher
@@ -84,4 +84,4 @@ private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: By
 /**
  * Исключение, которое является оберткой для ошибок, возникающих при шифровании данных
  */
-class CipherEncryptorException(throwable: Throwable) : Throwable(throwable)
+class SignEncryptorException(throwable: Throwable) : Throwable(throwable)

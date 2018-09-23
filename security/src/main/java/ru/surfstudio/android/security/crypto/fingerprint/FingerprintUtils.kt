@@ -34,22 +34,35 @@ object FingerprintUtils {
     private const val ANDROID_KEYSTORE = "AndroidKeyStore"
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun getFingerprintCryptoObject(fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
+    fun getFingerprintCryptoObject(
+            fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT,
+            cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION
     ): FingerprintManager.CryptoObject? {
-        return getFingerprintCryptoObject(getSecretKeyForFingerprint(fingerprintAlias))
+        return getFingerprintCryptoObject(
+                cipherTransformation,
+                getSecretKeyForFingerprint(fingerprintAlias))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    fun createFingerprintCryptoObject(fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
+    fun createFingerprintCryptoObject(
+            fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT,
+            cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION
     ): FingerprintManager.CryptoObject? {
-        return getFingerprintCryptoObject(createFingerprintKey(fingerprintAlias))
+        return getFingerprintCryptoObject(
+                cipherTransformation,
+                createFingerprintKey(fingerprintAlias))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private fun getFingerprintCryptoObject(secretKey: SecretKey?
+    private fun getFingerprintCryptoObject(
+            cipherTransformation: String,
+            secretKey: SecretKey?
     ): FingerprintManager.CryptoObject? = try {
-        val cipher = SecurityUtils.getCipherInstance().initEncryptMode(secretKey)
-        FingerprintManager.CryptoObject(cipher)
+        FingerprintManager.CryptoObject(
+                SecurityUtils
+                        .getCipherInstance(cipherTransformation)
+                        .initEncryptMode(secretKey)
+        )
     } catch (throwable: Throwable) {
         Logger.e(throwable)
         null
