@@ -19,7 +19,7 @@ import android.annotation.TargetApi
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import ru.surfstudio.android.security.crypto.fingerprint.FingerprintUtils.DEFAULT_ALIAS_FINGERPRINT
-import ru.surfstudio.android.security.crypto.fingerprint.FingerprintUtils.getSecretKeyForFingerPrint
+import ru.surfstudio.android.security.crypto.fingerprint.FingerprintUtils.getSecretKeyForFingerprint
 import ru.surfstudio.android.security.crypto.SignEncryptor
 import ru.surfstudio.android.security.crypto.security.initDecryptMode
 import javax.crypto.Cipher
@@ -42,6 +42,6 @@ class FingerprintEncryptor(
     override fun getDecryptCipher(sign: FingerprintManager.CryptoObject,
                                   salt: ByteArray,
                                   iv: ByteArray): Cipher {
-        return sign.cipher.initDecryptMode(getSecretKeyForFingerPrint(fingerprintAlias), iv)
+        return sign.cipher.initDecryptMode(getSecretKeyForFingerprint(fingerprintAlias), iv)
     }
 }

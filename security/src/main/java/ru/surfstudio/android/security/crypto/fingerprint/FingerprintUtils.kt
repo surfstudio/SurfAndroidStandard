@@ -36,7 +36,7 @@ object FingerprintUtils {
     @TargetApi(Build.VERSION_CODES.M)
     fun getFingerprintCryptoObject(fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
     ): FingerprintManager.CryptoObject? {
-        return getFingerprintCryptoObject(getSecretKeyForFingerPrint(fingerprintAlias))
+        return getFingerprintCryptoObject(getSecretKeyForFingerprint(fingerprintAlias))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -55,7 +55,7 @@ object FingerprintUtils {
         null
     }
 
-    internal fun getSecretKeyForFingerPrint(alias: String = DEFAULT_ALIAS_FINGERPRINT): SecretKey {
+    internal fun getSecretKeyForFingerprint(alias: String = DEFAULT_ALIAS_FINGERPRINT): SecretKey {
         return getAndroidKeyStore().getKey(alias, null) as SecretKey
     }
 

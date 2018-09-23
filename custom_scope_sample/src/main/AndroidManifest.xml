@@ -19,5 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.screen.another.AnotherActivityView" />
+        <activity android:name=".ui.screen.other.OtherActivityView" />
     </application>
 </manifest>

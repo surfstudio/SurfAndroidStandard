@@ -3,11 +3,11 @@ package ru.surfstudio.android.custom_scope_sample.ui.base.configurator;
 import android.content.Intent;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
-import ru.surfstudio.android.custom_scope_sample.ui.base.LoginScopeStorage;
+import ru.surfstudio.android.custom_scope_sample.app.AppConfigurator;
+import ru.surfstudio.android.custom_scope_sample.app.dagger.AppComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.ActivityComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.ActivityModule;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity.DaggerActivityComponent;
-import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.login.LoginScreenComponent;
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.ActivityScreenModule;
 
 /**
@@ -15,23 +15,23 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.ActivityS
  */
 
 public abstract class ActivityScreenConfigurator
-        extends BaseActivityViewConfigurator<LoginScreenComponent, ActivityComponent, ActivityScreenModule> {
+        extends BaseActivityViewConfigurator<AppComponent, ActivityComponent, ActivityScreenModule> {
 
     public ActivityScreenConfigurator(Intent intent) {
         super(intent);
     }
 
     @Override
-    protected ActivityComponent createActivityComponent(LoginScreenComponent parentComponent) {
+    protected ActivityComponent createActivityComponent(AppComponent parentComponent) {
         return DaggerActivityComponent.builder()
-                .loginScreenComponent(parentComponent)
+                .appComponent(parentComponent)
                 .activityModule(new ActivityModule(getPersistentScope()))
                 .build();
     }
 
     @Override
-    protected LoginScreenComponent getParentComponent() {
-        return LoginScopeStorage.INSTANCE.getLoginComponent();
+    protected AppComponent getParentComponent() {
+        return AppConfigurator.INSTANCE.getAppComponent();
     }
 
     @Override
