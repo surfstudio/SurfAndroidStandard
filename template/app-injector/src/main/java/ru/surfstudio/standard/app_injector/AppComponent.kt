@@ -13,6 +13,7 @@ import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
+import ru.surfstudio.standard.i_fcm.FcmStorage
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
 
@@ -33,4 +34,5 @@ interface AppComponent {
     fun schedulerProvider(): SchedulersProvider
     fun stringsProvider(): StringsProvider
     fun globalNavigator(): GlobalNavigator
+    fun fcmStorage(): FcmStorage
 }

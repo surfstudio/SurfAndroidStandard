@@ -49,6 +49,12 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/kotlin/']
+        }
+    }
 }
 
 dependencies {

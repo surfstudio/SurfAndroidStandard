@@ -4,5 +4,3 @@ dependencies {
     implementation project(':template:base-ui')
     implementation project(':template:f-main')
 }
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
