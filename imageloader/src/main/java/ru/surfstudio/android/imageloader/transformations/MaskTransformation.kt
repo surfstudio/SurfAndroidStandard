@@ -35,7 +35,7 @@ class MaskTransformation(val context: Context,
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
     }
 
-    override fun getId() = MaskTransformation::class.java.canonicalName.toString()
+    override fun getId() = "ru.surfstudio.android.imageloader.transformations.MaskTransformation"
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
         val width = toTransform.width

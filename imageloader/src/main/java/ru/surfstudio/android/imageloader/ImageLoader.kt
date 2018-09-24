@@ -135,6 +135,16 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun errorListener(lambda: ((throwable: Throwable) -> (Unit))) =
             apply { this.onImageLoadErrorLambda = lambda }
 
+
+    /**
+     * Указание политики кэширования.
+     * Метод предоставляет возможность настроить кеширование загруженных изображений на диске.
+     *
+     * @param cacheStrategy необходимая стратегия кеширования
+     */
+    override fun cacheStrategy(cacheStrategy: CacheStrategy): ImageLoaderInterface =
+            apply { this.imageCacheManager.cacheStrategy = cacheStrategy }
+
     /**
      * Указание политики кэширования.
      * Метод предоставляет возможность отключить кэширование загруженных изображений в памяти и на диске.
@@ -349,7 +359,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .transition(imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
-                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.RESOURCE)
+                            .diskCacheStrategy(if (imageCacheManager.skipCache) {
+                                DiskCacheStrategy.NONE
+                            } else {
+                                imageCacheManager.cacheStrategy.toGlideStrategy()
+                            })
                             .skipMemoryCache(imageCacheManager.skipCache)
                             .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
                             .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
@@ -401,4 +415,15 @@ fun RequestOptions.applyTransformations(imageTransformationsManager: ImageTransf
         transforms(*transformations)
     else
         this
+}
+
+/**
+ * Трансформирование [CacheStrategy] в [DiskCacheStrategy] из [Glide]
+ */
+private fun CacheStrategy.toGlideStrategy() = when (ordinal) {
+    CacheStrategy.CACHE_ALL.ordinal -> DiskCacheStrategy.ALL
+    CacheStrategy.CACHE_ORIGINAL.ordinal -> DiskCacheStrategy.DATA
+    CacheStrategy.CACHE_TRANSFORMED.ordinal -> DiskCacheStrategy.RESOURCE
+    CacheStrategy.CACHE_NOTHING.ordinal -> DiskCacheStrategy.NONE
+    else -> DiskCacheStrategy.AUTOMATIC
 }

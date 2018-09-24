@@ -26,7 +26,7 @@ import com.bumptech.glide.load.resource.bitmap.TransformationUtils
  */
 class CenterCropTransformation : BaseGlideImageTransformation() {
 
-    override fun getId() = CenterCropTransformation::class.java.canonicalName.toString()
+    override fun getId() = "ru.surfstudio.android.imageloader.transformations.CenterCropTransformation"
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
         return TransformationUtils.centerCrop(pool, toTransform, outWidth, outHeight)
