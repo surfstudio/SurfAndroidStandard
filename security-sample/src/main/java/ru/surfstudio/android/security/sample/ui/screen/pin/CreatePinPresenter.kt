@@ -1,6 +1,8 @@
 package ru.surfstudio.android.security.sample.ui.screen.pin
 
+import io.reactivex.Observable
 import ru.surfstudio.android.core.app.StringsProvider
+import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -26,17 +28,30 @@ class CreatePinPresenter @Inject constructor(basePresenterDependency: BasePresen
     }
 
     fun submitPin(pin: String) {
-        subscribeIoHandleError(profileInteractor.signIn(route.apiKey, pin)) {
+        loadData(profileInteractor.signIn(route.apiKey, pin)) {
             val message = stringsProvider.getString(R.string.pin_created_message)
             view.showMessage(message)
-            view.render(screenModel)
         }
     }
 
     fun getApiKey(pin: String) {
-        subscribeIoHandleError(profileInteractor.getApiKey(pin)) {
+        loadData(profileInteractor.getApiKey(pin)) {
             view.showMessage(it.apiKey)
-            view.render(screenModel)
         }
+    }
+
+    private fun <T> loadData(observable: Observable<T>,
+                             onNext: (T) -> Unit) {
+        screenModel.loadState = LoadState.TRANSPARENT_LOADING
+        view.render(screenModel)
+
+        subscribeIoHandleError(observable, {
+            onNext(it)
+            screenModel.loadState = LoadState.NONE
+            view.render(screenModel)
+        }, {
+            screenModel.loadState = LoadState.NONE
+            view.render(screenModel)
+        })
     }
 }

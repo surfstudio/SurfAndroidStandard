@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import androidx.core.widget.toast
-import kotlinx.android.synthetic.main.activity_session.*
-import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
+import kotlinx.android.synthetic.main.activity_create_pin.*
+import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
+import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivityScreenConfigurator
@@ -14,7 +15,7 @@ import javax.inject.Inject
 /**
  * Вью экрана ввода pin-кода
  */
-class CreatePinActivityView : BaseRenderableActivityView<CreatePinScreenModel>() {
+class CreatePinActivityView : BaseLdsActivityView<CreatePinScreenModel>() {
 
     @Inject
     lateinit var presenter: CreatePinPresenter
@@ -24,7 +25,7 @@ class CreatePinActivityView : BaseRenderableActivityView<CreatePinScreenModel>()
     override fun createConfigurator(): CustomActivityScreenConfigurator = CreatePinScreenConfigurator(intent)
 
     @LayoutRes
-    override fun getContentView(): Int = R.layout.activity_session
+    override fun getContentView(): Int = R.layout.activity_create_pin
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
@@ -38,6 +39,8 @@ class CreatePinActivityView : BaseRenderableActivityView<CreatePinScreenModel>()
     }
 
     override fun getScreenName(): String = "session"
+
+    override fun getPlaceHolderView(): PlaceHolderViewInterface = placeholder
 
     private fun initListeners() {
         enter_pin_btn.setOnClickListener { presenter.submitPin(getPin()) }
