@@ -4,6 +4,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
+import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
@@ -25,6 +26,7 @@ interface ActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
     fun activityProvider(): ActivityProvider
+    fun stringsProvider(): StringsProvider
     fun clipboardManager(): ClipboardManager
 
     fun activityPersistentScope(): ActivityPersistentScope

@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.f_debug.fcm
 
 import ru.surfstudio.android.core.app.StringsProvider
+import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -24,12 +25,17 @@ class DebugFcmPresenter @Inject constructor(basePresenterDependency: BasePresent
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        if (!viewRecreated) {
+            loadFcmToken()
+        } else {
+            view.render(screenModel)
+        }
     }
 
     fun loadFcmToken() {
         val fcmToken = debugInteractor.getFcmToken()
         screenModel.fcmToken = fcmToken
+        screenModel.loadState = if (fcmToken.isEmpty()) LoadState.EMPTY else LoadState.NONE
         view.render(screenModel)
         Logger.d("FCM-token: $fcmToken")
     }

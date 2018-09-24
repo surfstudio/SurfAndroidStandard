@@ -3,19 +3,21 @@ package ru.surfstudio.standard.f_debug.fcm
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
-import android.view.View
 import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_debug_fcm.*
-import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
+import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
+import ru.surfstudio.android.core.mvp.model.state.LoadState
+import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
 import javax.inject.Inject
 
 /**
  * Вью экрана показа fcm-токена
  */
-class DebugFcmActivityView : BaseRenderableActivityView<DebugFcmScreenModel>() {
+class DebugFcmActivityView : BaseLdsActivityView<DebugFcmScreenModel>() {
 
     @Inject
     lateinit var presenter: DebugFcmPresenter
@@ -31,18 +33,23 @@ class DebugFcmActivityView : BaseRenderableActivityView<DebugFcmScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         initListeners()
-        presenter.loadFcmToken()
     }
 
     override fun renderInternal(screenModel: DebugFcmScreenModel) {
-        copy_fcm_btn.visibility = if (screenModel.hasFcmToken()) View.VISIBLE else View.GONE
         fcm_tv.text = screenModel.fcmToken
+
+        val hasFcmToken = screenModel.loadState != LoadState.EMPTY
+        container.goneIf(!hasFcmToken)
+        placeholder.goneIf(hasFcmToken)
     }
 
     override fun getScreenName(): String = "debug_fcm"
 
+    override fun getPlaceHolderView(): PlaceHolderViewInterface = placeholder
+
     private fun initListeners() {
         copy_fcm_btn.setOnClickListener { presenter.copyFcmToken() }
+        placeholder.buttonLambda = { presenter.loadFcmToken() }
     }
 
     fun showMessage(message: String) {
