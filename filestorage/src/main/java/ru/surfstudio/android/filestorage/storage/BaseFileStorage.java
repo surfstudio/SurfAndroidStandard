@@ -62,7 +62,7 @@ public abstract class BaseFileStorage<T> {
         this.encryptor = encryptor;
     }
 
-    public void setEncryptor(Encryptor encryptor) {
+    private void setEncryptor(Encryptor encryptor) {
         this.encryptor = encryptor;
     }
 
@@ -91,6 +91,19 @@ public abstract class BaseFileStorage<T> {
     }
 
     /**
+     * Метод, который возвращает значение по определенному ключу или null, если не существует
+     *
+     * @param key       - ключ (не может быть null)
+     * @param encryptor - encryptor для дешифрования данных
+     * @return - данные или null - если не существует
+     */
+    @Nullable
+    public T get(@NotNull String key, Encryptor encryptor) {
+        setEncryptor(encryptor);
+        return get(key);
+    }
+
+    /**
      * Метод, который кодирует объект в массив байтов и сохраняет его в файловой системе или перезаписывает текущий файл.
      *
      * @param key - ключ (не может быть null)
@@ -99,6 +112,18 @@ public abstract class BaseFileStorage<T> {
     public void put(@NotNull String key, @NotNull T t) {
         final String name = convertName(key);
         putInternal(t, name);
+    }
+
+    /**
+     * Метод, который кодирует объект в массив байтов и сохраняет его в файловой системе или перезаписывает текущий файл.
+     *
+     * @param key       - ключ (не может быть null)
+     * @param t         - значение (не может быть null)
+     * @param encryptor - encryptor для шифрования данных
+     */
+    public void put(@NotNull String key, @NotNull T t, Encryptor encryptor) {
+        setEncryptor(encryptor);
+        put(key, t);
     }
 
     /**
