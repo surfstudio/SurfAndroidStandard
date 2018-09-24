@@ -21,27 +21,26 @@ import ru.surfstudio.android.security.crypto.security.SecurityUtils
 import javax.crypto.Cipher
 
 /**
- * Класс для шифрования и дешифрования данных с использованием подписи
- * @param sign ключ для шифрования и дешифрования данных
+ * Класс для шифрования и дешифрования данных с использованием ключа
  */
-abstract class SignEncryptor<T>(private val sign: T) : Encryptor {
+abstract class KeyEncryptor<T>(private val key: T) : Encryptor {
 
     override fun encrypt(decryptedBytes: ByteArray): ByteArray = try {
         val salt = SecurityUtils.generateSalt()
-        val cipher = getEncryptCipher(sign, salt)
+        val cipher = getEncryptCipher(key, salt)
 
         SecretValue(cipher.doFinal(decryptedBytes), cipher.iv, salt).toBytes()
     } catch (throwable: Throwable) {
-        throw SignEncryptorException(throwable)
+        throw KeyEncryptorException(throwable)
     }
 
     override fun decrypt(rawBytes: ByteArray): ByteArray = try {
         val encrypted = SecretValue.fromBytes(rawBytes)
-        val cipher = getDecryptCipher(sign, encrypted.salt, encrypted.iv)
+        val cipher = getDecryptCipher(key, encrypted.salt, encrypted.iv)
 
         cipher.doFinal(encrypted.secret)
     } catch (throwable: Throwable) {
-        throw SignEncryptorException(throwable)
+        throw KeyEncryptorException(throwable)
     }
 
     abstract fun getEncryptCipher(sign: T, salt: ByteArray): Cipher
@@ -84,4 +83,4 @@ private class SecretValue(val secret: ByteArray, val iv: ByteArray, val salt: By
 /**
  * Исключение, которое является оберткой для ошибок, возникающих при шифровании данных
  */
-class SignEncryptorException(throwable: Throwable) : Throwable(throwable)
+class KeyEncryptorException(throwable: Throwable) : Throwable(throwable)

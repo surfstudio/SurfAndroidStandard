@@ -20,7 +20,7 @@ import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import ru.surfstudio.android.security.crypto.fingerprint.FingerprintUtils.DEFAULT_ALIAS_FINGERPRINT
 import ru.surfstudio.android.security.crypto.fingerprint.FingerprintUtils.getSecretKeyForFingerprint
-import ru.surfstudio.android.security.crypto.SignEncryptor
+import ru.surfstudio.android.security.crypto.KeyEncryptor
 import ru.surfstudio.android.security.crypto.security.initDecryptMode
 import javax.crypto.Cipher
 
@@ -30,7 +30,7 @@ import javax.crypto.Cipher
 class FingerprintEncryptor(
         cryptoObject: FingerprintManager.CryptoObject,
         private val fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
-): SignEncryptor<FingerprintManager.CryptoObject>(cryptoObject) {
+): KeyEncryptor<FingerprintManager.CryptoObject>(cryptoObject) {
 
     @TargetApi(Build.VERSION_CODES.M)
     override fun getEncryptCipher(sign: FingerprintManager.CryptoObject,

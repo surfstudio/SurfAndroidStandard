@@ -46,11 +46,12 @@ object FingerprintUtils {
     @TargetApi(Build.VERSION_CODES.M)
     fun createFingerprintCryptoObject(
             fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT,
-            cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION
+            cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION,
+            keyAlgorithm: String = KeyProperties.KEY_ALGORITHM_AES
     ): FingerprintManager.CryptoObject? {
         return getFingerprintCryptoObject(
                 cipherTransformation,
-                createFingerprintKey(fingerprintAlias))
+                createFingerprintKey(fingerprintAlias, keyAlgorithm))
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -68,7 +69,7 @@ object FingerprintUtils {
         null
     }
 
-    internal fun getSecretKeyForFingerprint(alias: String = DEFAULT_ALIAS_FINGERPRINT): SecretKey {
+    internal fun getSecretKeyForFingerprint(alias: String): SecretKey {
         return getAndroidKeyStore().getKey(alias, null) as SecretKey
     }
 
@@ -77,8 +78,10 @@ object FingerprintUtils {
     }
 
     @TargetApi(Build.VERSION_CODES.M)
-    private fun createFingerprintKey(alias: String = DEFAULT_ALIAS_FINGERPRINT,
-                                     keystore: KeyStore = getAndroidKeyStore()): SecretKey? = try {
+    private fun createFingerprintKey(
+            alias: String,
+            keyAlgorithm: String
+    ): SecretKey? = try {
         val builder = KeyGenParameterSpec.Builder(alias, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                 .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
@@ -90,7 +93,7 @@ object FingerprintUtils {
             builder.setUserAuthenticationValidWhileOnBody(false)
         }
 
-        val keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, keystore.provider)
+        val keyGenerator = KeyGenerator.getInstance(keyAlgorithm, getAndroidKeyStore().provider)
         keyGenerator.init(builder.build())
         keyGenerator.generateKey()
     } catch (throwable: Throwable) {

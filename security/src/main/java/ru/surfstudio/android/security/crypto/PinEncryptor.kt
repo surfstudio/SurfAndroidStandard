@@ -30,7 +30,7 @@ class PinEncryptor(
         pin: String,
         private val cipherTransformation: String = SecurityUtils.DEFAULT_CIPHER_TRANSFORMATION,
         private val keyAlgorithm: String = SecurityUtils.DEFAULT_KEY_ALGORITHM
-): SignEncryptor<String>(pin) {
+): KeyEncryptor<String>(pin) {
 
     companion object {
         private const val KEY_LENGTH = 256
