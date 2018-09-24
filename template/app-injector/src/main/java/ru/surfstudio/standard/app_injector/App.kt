@@ -22,12 +22,12 @@ class App : CoreApp() {
 
     override fun onCreate() {
         super.onCreate()
+        AppInjector.initInjector(this)
+
         initFabric()
         initComponentProvider()
         initNotificationCenter()
         initDebugNotification()
-
-        AppInjector.initInjector(this)
     }
 
     private fun initComponentProvider() {
