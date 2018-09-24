@@ -19,5 +19,6 @@ package ru.surfstudio.android.imageloader.data
  * Класс, отвечающий за кэширование изображения
  */
 data class ImageCacheManager(
-        var skipCache: Boolean = false //использовать ли закэшированные данные
+        var skipCache: Boolean = false, //использовать ли закэшированные данные
+        var cacheStrategy: CacheStrategy = CacheStrategy.CACHE_AUTO // стратегия кеширования
 )

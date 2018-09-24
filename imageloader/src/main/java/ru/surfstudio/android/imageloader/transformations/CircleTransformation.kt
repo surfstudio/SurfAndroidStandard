@@ -23,7 +23,7 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
  */
 class CircleTransformation : BaseGlideImageTransformation() {
 
-    override fun getId() = CircleTransformation::class.java.canonicalName.toString()
+    override fun getId() = "ru.surfstudio.android.imageloader.transformations.CircleTransformation"
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap?
             = circleCrop(pool, toTransform)

@@ -27,7 +27,7 @@ class SizeTransformation(private val filterOnScale: Boolean = false,
                          private val imageSizeManager: ImageSizeManager = ImageSizeManager()
 ) : BaseGlideImageTransformation() {
 
-    override fun getId() = SizeTransformation::class.java.canonicalName.toString()
+    override fun getId() = "ru.surfstudio.android.imageloader.transformations.SizeTransformation"
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
         if (!imageSizeManager.isMaxHeightSetUp() && !imageSizeManager.isMaxWidthSetUp()) {

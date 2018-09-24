@@ -51,7 +51,7 @@ data class ImageTransformationsManager(
                         if (isCenterCrop) add(CenterCropTransformation())
                         if (isCircle) add(CircleTransformation())
                         if (roundedCornersBundle.isRoundedCorners)
-                            add(RoundedCornersTransformation(context, roundedCornersBundle = roundedCornersBundle))
+                            add(RoundedCornersTransformation(roundedCornersBundle))
                         if (blurBundle.isBlur)
                             add(BlurTransformation(context, blurBundle = blurBundle))
                         if (overlayBundle.isOverlay)
