@@ -186,3 +186,13 @@ fun EditText.setTextColors(@ColorRes textColorRes: Int, @ColorRes hintColorRes: 
 fun EditText.showKeyboard() {
     KeyboardUtil.showKeyboard(this)
 }
+
+/**
+ * Extension-функция предоставляющая фокус на [EditText] и устанавливающая курсор в конец
+ * введённого текста.
+ */
+private fun EditText.focusAndCursor() {
+    requestFocus()
+    KeyboardUtil.showKeyboard(this)
+    selectionToEnd()
+}

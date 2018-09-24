@@ -23,17 +23,15 @@ import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 
 /**
  * Эффект размытия изображения "Blur"
  */
 class BlurTransformation(val context: Context,
-                         private val bitmapPool: BitmapPool = Glide.get(context).bitmapPool,
                          private var blurBundle: BlurBundle = BlurBundle()) : BaseGlideImageTransformation() {
 
-    override fun getId() = BlurTransformation::class.java.canonicalName.toString()
+    override fun getId() = "ru.surfstudio.android.imageloader.transformations.BlurTransformation"
 
     override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
 
@@ -42,7 +40,7 @@ class BlurTransformation(val context: Context,
         val scaledWidth = width / blurBundle.downSampling
         val scaledHeight = height / blurBundle.downSampling
 
-        var bitmap: Bitmap? = bitmapPool.get(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
+        var bitmap: Bitmap? = pool.get(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
         }
