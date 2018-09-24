@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.permission
 
+import android.content.SharedPreferences
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 
@@ -28,13 +29,19 @@ import android.support.v4.content.PermissionChecker.PERMISSION_GRANTED
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.permission.screens.default_permission_rational.DefaultPermissionRationalRoute
+import ru.surfstudio.android.core.ui.permission.screens.settings_rational.SettingsRationalRoute
+import java.io.Serializable
 
 /**
  * Класс для проверки и запросов разрешений.
  */
 abstract class PermissionManager(
         eventDelegateManager: ScreenEventDelegateManager,
-        private val activityProvider: ActivityProvider
+        private val activityProvider: ActivityProvider,
+        private val activityNavigator: ActivityNavigator,
+        private val sharedPreferences: SharedPreferences
 ) : RequestPermissionsResultDelegate {
 
     private val singleEmitterPerRequestCode = HashMap<Int, SingleEmitter<Boolean>>()
@@ -53,7 +60,9 @@ abstract class PermissionManager(
         if (singleEmitterPerRequestCode.containsKey(requestCode)) {
             return false
         }
-        singleEmitterPerRequestCode[requestCode]?.onSuccess(isAllResultsAreGranted(grantResults))
+
+        val isPermissionRequestGranted = isAllResultsAreGranted(grantResults)
+        singleEmitterPerRequestCode[requestCode]?.onSuccess(isPermissionRequestGranted)
         return true
     }
 
@@ -62,7 +71,7 @@ abstract class PermissionManager(
      *
      * @param permissionRequest проверяемый [PermissionRequest].
      *
-     * @return true, если все разрешения выданы, false - если хотя бы одно не выдано.
+     * @return статус разрешения [PermissionStatus].
      */
     fun check(permissionRequest: PermissionRequest): PermissionStatus =
             when {
@@ -71,24 +80,6 @@ abstract class PermissionManager(
                 !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
                 else -> PermissionStatus.DENIED_FOREVER
             }
-
-
-
-
-    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Boolean {
-        return permissionRequest.permissions
-                .all { permission -> isPermissionGranted(permission) }
-    }
-
-    private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean {
-
-    }
-
-    private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean {
-        shouldShowRequestPermissionRationale(permissionRequest)
-    }
-
-
 
     /**
      * Запросить разрешение.
@@ -100,84 +91,117 @@ abstract class PermissionManager(
     fun request(permissionRequest: PermissionRequest): Single<Boolean> {
         val permissionRequestStatus = check(permissionRequest)
 
-        if (permissionRequest == PermissionStatus.GRANTED)
+        if (permissionRequestStatus.isGranted) {
             return Single.just(true)
-
-
-        val rationalCompletable = if (permissionRequest == PermissionStatus.NOT_REQUESTED) { //или если надо показывать
-            Completable.completed()
-        } else {
-            showPermissionRequestRational(permissionRequest)
         }
 
-
-        return rationalCompletable
-                .toSingle()
-
-//                .toSingle { false }
-//                .flatMap {
-//                        Single.create<Boolean> { singleEmitter ->
-//                            singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
-//                            performPermissionRequest(permissionRequest)
-//                        }
-//                            .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
-//                }
-
-
-
+        return showPermissionRequestRationalIfNeeded(permissionRequest)
+                .toSingleDefault(false)
+                .flatMap { performPermissionRequestByDialogOrSettings(permissionRequest, permissionRequestStatus) }
+                .doOnSubscribe { setPermissionRequestIsRequested(permissionRequest) }
     }
-
-
-
-    private fun showPermissionRequestRational(permissionRequest: PermissionRequest): Completable {
-        if (permissionRequest.permissionRationalRoute != null) {
-            //запустить роут
-        } else {
-            //запустить стандартный роут
-        }
-    }
-
-
-
-
-    fun needToShowPermissionRequestRational(): Boolean {
-//TODO:            permissionRequest.showPermissionRational &&
-
-    }
-
-    /**
-     * Проверить, следует ли показывать пользователю объяснение, для чего нужен запрашиваемый [PermissionRequest].
-     * Более подробно {@link #shouldShowPermissionRationale(String)}.
-     *
-     * @param permissionRequest проверяемый [PermissionRequest].
-     *
-     * @return true, если хотя бы для одного разрешения следует показать объяснение, false - если ни для одного
-     * разрешения не следует показать объяснение.
-     */
-    fun shouldShowRequestPermissionRationale(permissionRequest: PermissionRequest): Boolean =
-                    permissionRequest.permissions
-                    .any { permission -> shouldShowPermissionRationale(permission) }
-
-
-
-
-
 
     private fun isAllResultsAreGranted(grantResults: IntArray): Boolean =
             grantResults
                     .all { grantResult -> grantResult == PERMISSION_GRANTED }
 
+    private fun isPermissionRequestGranted(permissionRequest: PermissionRequest): Boolean =
+            permissionRequest
+                    .permissions
+                    .all { permission -> isPermissionGranted(permission) }
+
+    private fun isPermissionRequestDenied(permissionRequest: PermissionRequest): Boolean =
+            shouldShowRequestPermissionRationale(permissionRequest)
+
+    private fun isPermissionRequestRequested(permissionRequest: PermissionRequest): Boolean =
+            permissionRequest
+                    .permissions
+                    .all { permission -> isPermissionRequested(permission) }
+
+    private fun showPermissionRequestRationalIfNeeded(permissionRequest: PermissionRequest): Completable =
+            if (needToShowPermissionRequestRational(permissionRequest)) {
+                showPermissionRequestRational(permissionRequest)
+            } else {
+                Completable.complete()
+            }
+
+    private fun performPermissionRequestByDialogOrSettings(
+            permissionRequest: PermissionRequest,
+            permissionStatus: PermissionStatus
+    ): Single<Boolean> =
+            if (permissionStatus != PermissionStatus.DENIED_FOREVER) {
+                performPermissionRequestByDialog(permissionRequest)
+            } else {
+                performPermissionRequestBySettings(permissionRequest)
+            }
+
+    private fun setPermissionRequestIsRequested(permissionRequest: PermissionRequest) =
+            permissionRequest
+                    .permissions
+                    .forEach { permission -> setPermissionIsRequested(permission) }
+
     private fun isPermissionGranted(permission: String): Boolean =
             ContextCompat.checkSelfPermission(activityProvider.get(), permission) == PERMISSION_GRANTED
+
+    private fun shouldShowRequestPermissionRationale(permissionRequest: PermissionRequest): Boolean =
+            permissionRequest
+                    .permissions
+                    .any { permission -> shouldShowPermissionRationale(permission) }
+
+    private fun isPermissionRequested(permission: String) = sharedPreferences.getBoolean(permission, false)
+
+    private fun needToShowPermissionRequestRational(permissionRequest: PermissionRequest): Boolean =
+            permissionRequest.showPermissionsRational && shouldShowRequestPermissionRationale(permissionRequest)
+
+    private fun showPermissionRequestRational(permissionRequest: PermissionRequest): Completable {
+        val permissionsRationalRoute = permissionRequest.permissionsRationalRoute
+        val permissionsRationalStringRes = permissionRequest.permissionsRationalStr
+
+        val rationalRoute = when {
+            permissionsRationalRoute != null -> permissionsRationalRoute
+            permissionsRationalStringRes!= null ->
+                DefaultPermissionRationalRoute(permissionsRationalStringRes)
+            else -> throw RationalIsNotProvidedException()
+        }
+
+        return activityNavigator
+                .observeResult<Serializable>(rationalRoute)
+                .ignoreElements()
+                .doOnSubscribe { activityNavigator.startForResult(rationalRoute) }
+    }
+
+    private fun performPermissionRequestByDialog(permissionRequest: PermissionRequest): Single<Boolean> {
+        return Single
+                .create<Boolean> { singleEmitter ->
+                    singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
+                    performPermissionRequest(permissionRequest)
+                }
+                .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
+    }
+
+    private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
+        val settingsRationalRoute = SettingsRationalRoute(null)
+        return activityNavigator
+                .observeResult<Serializable>(settingsRationalRoute)
+                .ignoreElements()
+                .doOnSubscribe { activityNavigator.startForResult(settingsRationalRoute) }
+                .toSingle { check(permissionRequest).isGranted }
+    }
+
+    private fun setPermissionIsRequested(permission: String) =
+            sharedPreferences
+                    .edit()
+                    .putBoolean(permission, true)
+                    .apply()
 
     /**
      * Проверить, следует ли показывать пользователю объяснение, для чего нужен запрашиваемый Permission.
      *
      * @param permission проверяемое разрешение.
      *
-     * @return true, если во время предыдущего запроса разрешения пользователь нажал отказ и не выбрал опцию "Don't ask
-     * again", false - если разрешение запрашивается в первый раз, или если во время предыдущего запроса разрешения
-     * пользователь выбрал опцию "Don't ask again".
+     * @return true, если во время предыдущего запроса разрешения пользователь нажал отказ и не выбрал опцию "Don't
+     * ask again", false - если разрешение запрашивается в первый раз, или если во время предыдущего запроса
+     * разрешения пользователь выбрал опцию "Don't ask again".
      */
     private fun shouldShowPermissionRationale(permission: String) =
             ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.get(), permission)

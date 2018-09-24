@@ -20,21 +20,40 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResul
 private const val MAX_REQUEST_CODE = 32768
 
 /**
- * Базовый класс запроса Runtime Permissions
+ * Базовый класс запроса Runtime Permissions.
  */
 abstract class PermissionRequest {
 
+    /**
+     * Запрашиваемые разрешения.
+     */
     abstract val permissions: Array<String>
 
     val requestCode: Int
         get() = (this.javaClass.canonicalName.hashCode() and 0x7fffffff) % MAX_REQUEST_CODE
 
-    var showPermissionRational: Boolean = false
+    /**
+     * Показывать ли объяснение причины запроса разрешений при необходимости.
+     *
+     * Если задано true, то при необходимости объяснения будут выполнены следующие действия:
+     * - если задан {@link #permissionsRationalRoute}, то будет совершен переход по заданному маршруту;
+     * - если {@link #permissionsRationalRoute} не задан, но задан {@link #permissionsRationalStr}, то будет
+     * совершен переход на стандартный диалог отображающий заданную строку;
+     * - если не задано ни одно из вышеперечисленных свойств, то будет возбуждено исключение
+     * [RationalIsNotProvidedException]
+     */
+    var showPermissionsRational: Boolean = false
         protected set
 
-    var permissionRationalStringRes: Int? = null
+    /**
+     * Маршрут на экран с объяснением причины запроса разрешений.
+     */
+    var permissionsRationalRoute: ActivityWithResultRoute<*>? = null
         protected set
 
-    var permissionRationalRoute: ActivityWithResultRoute<*>? = null
+    /**
+     * Строка, отображаемая в стандартном диалоге объяснения причины запроса разрешений.
+     */
+    var permissionsRationalStr: String? = null
         protected set
 }
