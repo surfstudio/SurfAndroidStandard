@@ -11,8 +11,8 @@ import javax.inject.Named
  * Хранилище fcm-токена
  */
 @PerApplication
-class FcmStorage
-@Inject constructor(@Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
+class FcmStorage @Inject constructor(
+        @Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
 
     companion object {
         private const val KEY_FCM_TOKEN = "FCM_TOKEN"

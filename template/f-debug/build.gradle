@@ -3,4 +3,5 @@ apply from: '../commonFeatureModule.gradle'
 dependencies {
     implementation project(':template:base-ui')
     implementation project(':template:f-main')
+    implementation project(':template:i-debug')
 }
