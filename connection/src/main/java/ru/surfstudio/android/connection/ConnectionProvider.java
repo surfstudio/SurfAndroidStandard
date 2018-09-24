@@ -72,6 +72,16 @@ public class ConnectionProvider {
     }
 
     /**
+     * Проверка на подключение к Wi-Fi
+     *
+     * @return подключен ли девайс к Wi-Fi, или к мобильной сети
+     */
+    public boolean isConnectedToWifi() {
+        NetworkInfo info = getNetworkInfo(context);
+        return info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI;
+    }
+
+    /**
      * Get the network info
      *
      * @param context
