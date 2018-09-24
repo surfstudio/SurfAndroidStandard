@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector.ui
 
+import android.content.ClipboardManager
 import android.content.Context
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
@@ -24,6 +25,7 @@ interface ActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
     fun activityProvider(): ActivityProvider
+    fun clipboardManager(): ClipboardManager
 
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context

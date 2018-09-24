@@ -23,11 +23,11 @@ class DebugPresenter @Inject constructor(
         view.render(screenModel)
     }
 
-    fun showControllers() {
+    fun openControllersScreen() {
 
     }
 
-    fun showFcmToken() {
+    fun openFcmTokenScreen() {
         activityNavigator.start(DebugFcmActivityRoute())
     }
 }

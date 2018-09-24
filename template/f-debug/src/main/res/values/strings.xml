@@ -1,4 +1,6 @@
 <resources>
-    <string name="show_controllers_btn_text">Show controllers</string>
-    <string name="show_fcm_token_btn_text">Show FCM token</string>
+    <string name="show_controllers_btn_text">Показать контроллеры</string>
+    <string name="show_fcm_token_btn_text">Показать FCM-токен</string>
+    <string name="copy_fcm_btn_text">Скопировать</string>
+    <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
 </resources>

@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector
 
+import android.content.ClipboardManager
 import android.content.Context
 import dagger.Module
 import dagger.Provides
@@ -34,12 +35,20 @@ class AppModule(private val coreApp: CoreApp) {
 
     @PerApplication
     @Provides
-    fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder): GlobalNavigator =
-            GlobalNavigator(context, activityHolder)
+    fun provideGlobalNavigator(context: Context,
+                               activityHolder: ActiveActivityHolder): GlobalNavigator {
+        return GlobalNavigator(context, activityHolder)
+    }
 
     @Provides
     @PerApplication
     fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
+    }
+
+    @Provides
+    @PerApplication
+    fun provideClipboardManager(context: Context): ClipboardManager {
+        return context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
 }

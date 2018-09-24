@@ -37,8 +37,6 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
     override fun getScreenName(): String = "debug"
 
     private fun initListeners() {
-        show_fcm_token_btn.setOnClickListener {
-            presenter.showFcmToken()
-        }
+        show_fcm_token_btn.setOnClickListener { presenter.openFcmTokenScreen() }
     }
 }

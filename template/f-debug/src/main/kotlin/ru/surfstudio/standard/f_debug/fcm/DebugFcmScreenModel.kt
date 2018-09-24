@@ -5,4 +5,8 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 /**
  * Модель экрана показа fcm-токена
  */
-class DebugFcmScreenModel : ScreenModel()
+class DebugFcmScreenModel : ScreenModel() {
+    var fcmToken: String? = null
+
+    fun hasFcmToken(): Boolean = !fcmToken.isNullOrEmpty()
+}

@@ -3,6 +3,8 @@ package ru.surfstudio.standard.f_debug.fcm
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
+import android.view.View
+import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_debug_fcm.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -28,14 +30,22 @@ class DebugFcmActivityView : BaseRenderableActivityView<DebugFcmScreenModel>() {
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
+        initListeners()
         presenter.loadFcmToken()
     }
 
-    override fun renderInternal(screenModel: DebugFcmScreenModel) { }
+    override fun renderInternal(screenModel: DebugFcmScreenModel) {
+        copy_fcm_btn.visibility = if (screenModel.hasFcmToken()) View.VISIBLE else View.GONE
+        fcm_tv.text = screenModel.fcmToken
+    }
 
     override fun getScreenName(): String = "debug_fcm"
 
-    fun showFcmToken(fcmToken: String) {
-        fcm_tv.text = fcmToken
+    private fun initListeners() {
+        copy_fcm_btn.setOnClickListener { presenter.copyFcmToken() }
+    }
+
+    fun showMessage(message: String) {
+        toast(message)
     }
 }
