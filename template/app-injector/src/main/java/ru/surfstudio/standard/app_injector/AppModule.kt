@@ -3,6 +3,7 @@ package ru.surfstudio.standard.app_injector
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
@@ -34,12 +35,20 @@ class AppModule(private val coreApp: CoreApp) {
 
     @PerApplication
     @Provides
-    fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder): GlobalNavigator =
-            GlobalNavigator(context, activityHolder)
+    internal fun provideGlobalNavigator(context: Context,
+                                        activityHolder: ActiveActivityHolder): GlobalNavigator {
+        return GlobalNavigator(context, activityHolder)
+    }
 
     @Provides
     @PerApplication
-    fun provideSchedulerProvider(): SchedulersProvider {
+    internal fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
+        return ConnectionProvider(context)
     }
 }
