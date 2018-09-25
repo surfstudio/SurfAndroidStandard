@@ -24,7 +24,6 @@ dependencies {
 gradle.ext.configAndroidStandardDependencies(this, [
         'filestorage',
         'logger',
-        'dagger-scope',
         'connection',
         'rx-extension',
         'util-ktx'
