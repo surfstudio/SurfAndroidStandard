@@ -2,13 +2,9 @@ buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
     }
-    dependencies {
-        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
-    }
 }
 
 apply from: '../commonModule.gradle'
-apply plugin: 'io.fabric'
 
 dependencies {
     api project(':template:domain')
@@ -51,8 +47,4 @@ dependencies {
                     "broadcast-extension"
             ]
     )
-
-    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-        transitive = true
-    }
 }

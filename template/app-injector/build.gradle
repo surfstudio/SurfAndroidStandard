@@ -113,6 +113,10 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
+
+    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
+        transitive = true
+    }
 }
 
 //todo replace google-services.json
