@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug
+package ru.surfstudio.standard.f_debug.debug
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -11,8 +11,8 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
-import ru.surfstudio.standard.f_debug.controller.ShowControllersDebugControllerItem
-import ru.surfstudio.standard.f_debug.controller.ShowFcmTokenDebugControllerItem
+import ru.surfstudio.standard.f_debug.debug.controllers.ShowControllersDebugItemController
+import ru.surfstudio.standard.f_debug.debug.controllers.ShowFcmTokenDebugItemController
 import javax.inject.Inject
 
 /**
@@ -53,10 +53,10 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         adapter.setItems(ItemList.create()
                 .add(
                         getString(R.string.show_controllers_debug_item),
-                        ShowControllersDebugControllerItem { presenter.openControllersScreen() })
+                        ShowControllersDebugItemController { presenter.openControllersScreen() })
                 .add(
                         getString(R.string.show_fcm_token_debug_item),
-                        ShowFcmTokenDebugControllerItem { presenter.openFcmTokenScreen() })
+                        ShowFcmTokenDebugItemController { presenter.openFcmTokenScreen() })
         )
     }
 }

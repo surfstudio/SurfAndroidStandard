@@ -1,13 +1,13 @@
-package ru.surfstudio.standard.f_debug.controller
+package ru.surfstudio.standard.f_debug.debug.controllers
 
 /**
  * Контроллер для перехода на экран просмотра контроллеров, используемых в приложении
  */
-class ShowControllersDebugControllerItem(onClickListener: () -> Unit
+class ShowControllersDebugItemController(onClickListener: () -> Unit
 ): BaseDebugItemController(onClickListener)
 
 /**
  * Контроллер для перехода на экран просмотра fcm-токена
  */
-class ShowFcmTokenDebugControllerItem(onClickListener: () -> Unit
+class ShowFcmTokenDebugItemController(onClickListener: () -> Unit
 ): BaseDebugItemController(onClickListener)

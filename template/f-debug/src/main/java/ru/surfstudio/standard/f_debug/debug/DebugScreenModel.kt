@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug
+package ru.surfstudio.standard.f_debug.debug
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 

@@ -15,8 +15,8 @@ import ru.surfstudio.android.template.app_injector.R
 import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
-import ru.surfstudio.standard.f_debug.DebugActivityRoute
-import ru.surfstudio.standard.f_debug.DebugActivityView
+import ru.surfstudio.standard.f_debug.debug.DebugActivityRoute
+import ru.surfstudio.standard.f_debug.debug.DebugActivityView
 
 class App : CoreApp() {
 

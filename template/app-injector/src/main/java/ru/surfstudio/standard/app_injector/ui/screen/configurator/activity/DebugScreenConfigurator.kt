@@ -9,8 +9,8 @@ import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
-import ru.surfstudio.standard.f_debug.DebugActivityRoute
-import ru.surfstudio.standard.f_debug.DebugActivityView
+import ru.surfstudio.standard.f_debug.debug.DebugActivityRoute
+import ru.surfstudio.standard.f_debug.debug.DebugActivityView
 
 /**
  * Конфигуратор экрана показа информации для дебага

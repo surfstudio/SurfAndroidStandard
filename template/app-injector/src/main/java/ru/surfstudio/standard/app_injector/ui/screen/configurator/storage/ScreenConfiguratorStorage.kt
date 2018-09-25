@@ -6,7 +6,7 @@ import ru.surfstudio.standard.app_injector.ui.configurator.*
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.DebugFcmScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.DebugScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.MainScreenConfigurator
-import ru.surfstudio.standard.f_debug.DebugActivityView
+import ru.surfstudio.standard.f_debug.debug.DebugActivityView
 import ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityView
 import ru.surfstudio.standard.f_main.MainActivityView
 import kotlin.reflect.KClass
