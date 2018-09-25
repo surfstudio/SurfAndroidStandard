@@ -11,8 +11,7 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
-import ru.surfstudio.standard.f_debug.debug.controllers.ShowControllersDebugItemController
-import ru.surfstudio.standard.f_debug.debug.controllers.ShowFcmTokenDebugItemController
+import ru.surfstudio.standard.f_debug.debug.controllers.DebugItemController
 import javax.inject.Inject
 
 /**
@@ -24,6 +23,8 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
     lateinit var presenter: DebugPresenter
 
     private val adapter = EasyAdapter()
+
+    private val debugScreenItemController = DebugItemController()
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
@@ -53,10 +54,12 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         adapter.setItems(ItemList.create()
                 .add(
                         getString(R.string.show_controllers_debug_item),
-                        ShowControllersDebugItemController { presenter.openControllersScreen() })
+                        { presenter.openControllersScreen() },
+                        debugScreenItemController)
                 .add(
                         getString(R.string.show_fcm_token_debug_item),
-                        ShowFcmTokenDebugItemController { presenter.openFcmTokenScreen() })
+                        { presenter.openFcmTokenScreen() },
+                        debugScreenItemController)
         )
     }
 }
