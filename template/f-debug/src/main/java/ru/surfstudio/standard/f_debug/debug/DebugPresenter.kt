@@ -17,13 +17,6 @@ class DebugPresenter @Inject constructor(
         private val activityNavigator: ActivityNavigator
 ) : BasePresenter<DebugActivityView>(basePresenterDependency) {
 
-    private val screenModel = DebugScreenModel()
-
-    override fun onLoad(viewRecreated: Boolean) {
-        super.onLoad(viewRecreated)
-        view.render(screenModel)
-    }
-
     fun openControllersScreen() {
         activityNavigator.start(DebugControllersActivityRoute())
     }

@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <service android:name="ru.surfstudio.standard.app_injector.ui.notification.FirebaseMessagingService">
+        <service android:name="ru.surfstudio.standard.app_injector.ui.notification.MessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

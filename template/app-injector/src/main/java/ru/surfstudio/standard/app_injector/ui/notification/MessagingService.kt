@@ -14,7 +14,7 @@ import javax.inject.Inject
  * Срабатывает только если приложение не в фоне.
  * Иначе при клике на пуш происходит открытие LAUNCHER активити
  */
-class FirebaseMessagingService : FirebaseMessagingService() {
+class MessagingService : FirebaseMessagingService() {
 
     @Inject
     lateinit var debugInteractor: DebugInteractor

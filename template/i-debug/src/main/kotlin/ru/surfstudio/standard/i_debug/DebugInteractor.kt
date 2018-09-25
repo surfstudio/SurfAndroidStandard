@@ -5,8 +5,7 @@ import ru.surfstudio.standard.i_fcm.FcmStorage
 import javax.inject.Inject
 
 @PerApplication
-class DebugInteractor @Inject constructor(
-        private val fcmStorage: FcmStorage) {
+class DebugInteractor @Inject constructor(private val fcmStorage: FcmStorage) {
 
     fun saveFcmToken(fcmToken: String) {
         fcmStorage.fcmToken = fcmToken

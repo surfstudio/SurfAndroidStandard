@@ -14,7 +14,7 @@ import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
-import ru.surfstudio.standard.app_injector.ui.notification.FirebaseMessagingService
+import ru.surfstudio.standard.app_injector.ui.notification.MessagingService
 import ru.surfstudio.standard.i_debug.DebugInteractor
 import ru.surfstudio.standard.i_fcm.FcmStorage
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
@@ -42,5 +42,5 @@ interface AppComponent {
     fun fcmStorage(): FcmStorage
     fun debugInteractor(): DebugInteractor
 
-    fun inject(to: FirebaseMessagingService)
+    fun inject(to: MessagingService)
 }
