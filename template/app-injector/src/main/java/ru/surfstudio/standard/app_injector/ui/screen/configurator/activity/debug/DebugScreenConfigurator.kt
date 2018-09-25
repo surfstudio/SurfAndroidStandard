@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.app_injector.ui.screen.configurator.activity
+package ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.debug
 
 import android.content.Intent
 import dagger.Component
@@ -27,6 +27,7 @@ class DebugScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(inten
     internal class DebugScreenModule(route: DebugActivityRoute)
         : CustomScreenModule<DebugActivityRoute>(route)
 
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {

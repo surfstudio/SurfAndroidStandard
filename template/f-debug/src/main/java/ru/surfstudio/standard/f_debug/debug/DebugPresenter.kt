@@ -4,6 +4,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivityRoute
 import ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityRoute
 import javax.inject.Inject
 
@@ -24,7 +25,7 @@ class DebugPresenter @Inject constructor(
     }
 
     fun openControllersScreen() {
-
+        activityNavigator.start(DebugControllersActivityRoute())
     }
 
     fun openFcmTokenScreen() {

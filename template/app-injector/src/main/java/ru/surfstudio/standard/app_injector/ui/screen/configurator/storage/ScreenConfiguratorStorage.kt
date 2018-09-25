@@ -3,10 +3,12 @@ package ru.surfstudio.standard.app_injector.ui.screen.configurator.storage
 import android.content.Intent
 import android.os.Bundle
 import ru.surfstudio.standard.app_injector.ui.configurator.*
-import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.DebugFcmScreenConfigurator
-import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.DebugScreenConfigurator
+import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.debug.DebugFcmScreenConfigurator
+import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.debug.DebugScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.MainScreenConfigurator
+import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.debug.DebugControllersScreenConfigurator
 import ru.surfstudio.standard.f_debug.debug.DebugActivityView
+import ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivityView
 import ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityView
 import ru.surfstudio.standard.f_main.MainActivityView
 import kotlin.reflect.KClass
@@ -18,6 +20,7 @@ object ScreenConfiguratorStorage {
                 put(MainActivityView::class) { MainScreenConfigurator(it) }
                 put(DebugActivityView::class) { DebugScreenConfigurator(it) }
                 put(DebugFcmActivityView::class) { DebugFcmScreenConfigurator(it) }
+                put(DebugControllersActivityView::class) { DebugControllersScreenConfigurator(it) }
             }
 
     val activityConfiguratorMap = HashMap<KClass<*>, (intent: Intent) -> ActivityConfigurator>()
