@@ -52,6 +52,7 @@ ext {
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
 
     //test
+    robolectricVersion = '3.8'                  //http://bit.ly/2xLRICR
     junitVersion = '4.12'
     testRunnerVersion = '1.0.2'                 //http://bit.ly/2O0uGi9
     espressoVersion = '3.0.2'                   //http://bit.ly/2v3OiKX
