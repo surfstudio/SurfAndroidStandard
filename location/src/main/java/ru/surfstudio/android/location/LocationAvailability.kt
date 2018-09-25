@@ -42,7 +42,7 @@ internal class LocationAvailability(private val context: Context) {
     /**
      * Проверить возможность получения местоположения.
      *
-     * @param priority приоритет при получении местоположения.
+     * @param priority Приоритет при получении местоположения.
      *
      * @return [Completable]:
      * - onComplete() вызывается, если есть возможность получить местоположение;
@@ -50,7 +50,7 @@ internal class LocationAvailability(private val context: Context) {
      * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
      * [ResolvableApiException].
      */
-    fun observeLocationAvailability(priority: LocationPriority?): Completable {
+    fun checkLocationAvailability(priority: LocationPriority?): Completable {
         return Observable.
                 empty<Throwable>()
                 .concatWith(observePlayServicesAreNotAvailableException())
@@ -65,7 +65,7 @@ internal class LocationAvailability(private val context: Context) {
     /**
      * Проверить, что Google Play Services установлены, включены и версия не меньше той, которая требуется клиенту.
      *
-     * @return результат подключения {@link ConnectionResult}. Может быть одним из следующих значений: SUCCESS,
+     * @return Результат подключения {@link ConnectionResult}. Может быть одним из следующих значений: SUCCESS,
      * SERVICE_MISSING, SERVICE_UPDATING, SERVICE_VERSION_UPDATE_REQUIRED, SERVICE_DISABLED, SERVICE_INVALID
      */
     fun getGooglePlayServicesConnection(): Int =

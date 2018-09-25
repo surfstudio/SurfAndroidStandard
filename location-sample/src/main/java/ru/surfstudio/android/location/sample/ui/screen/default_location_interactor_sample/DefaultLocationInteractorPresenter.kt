@@ -19,7 +19,7 @@ class DefaultLocationInteractorPresenter(
         view.showLoading()
 
         subscribeIo(
-                defaultLocationInteractor.observeLocationAvailability(),
+                defaultLocationInteractor.checkLocationAvailability(),
                 { hideLoadingAndShowLocationIsAvailable() },
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -29,11 +29,11 @@ class DefaultLocationInteractorPresenter(
         view.showLoading()
 
         val locationAvailabilityResolvingSingle =
-                defaultLocationInteractor.observeLocationAvailability()
+                defaultLocationInteractor.checkLocationAvailability()
                         .toSingle { emptyList<Throwable>() }
                         .onErrorResumeNext { t: Throwable ->
                             if (t is CompositeException) {
-                                defaultLocationInteractor.observeLocationAvailabilityResolving(t.exceptions)
+                                defaultLocationInteractor.resolveLocationAvailability(t.exceptions)
                             } else {
                                 Single.error(t)
                             }

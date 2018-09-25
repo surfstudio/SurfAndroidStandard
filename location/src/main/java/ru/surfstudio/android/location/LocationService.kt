@@ -35,7 +35,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
 
 /**
- * Сервис для работы с местоположением
+ * Сервис для работы с местоположением.
  */
 class LocationService(context: Context) {
 
@@ -45,7 +45,7 @@ class LocationService(context: Context) {
     /**
      * Проверить возможность получения местоположения.
      *
-     * @param priority приоритет при получении местоположения.
+     * @param priority Приоритет при получении местоположения.
      *
      * @return [Completable]:
      * - onComplete() вызывается, если есть возможность получить местоположение;
@@ -53,8 +53,8 @@ class LocationService(context: Context) {
      * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
      * [ResolvableApiException].
      */
-    fun observeLocationAvailability(priority: LocationPriority?): Completable =
-            locationAvailability.observeLocationAvailability(priority)
+    fun checkLocationAvailability(priority: LocationPriority): Completable =
+            locationAvailability.checkLocationAvailability(priority)
 
     /**
      * Решить проблемы связанные с невозможностью получения местоположения.
@@ -69,7 +69,7 @@ class LocationService(context: Context) {
      * передавались решения;
      * - onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolutionFailedException].
      */
-    fun observeLocationAvailabilityResolving(
+    fun resolveLocationAvailability(
             throwables: List<Throwable>,
             vararg resolutions: LocationErrorResolution<*>
     ): Single<List<Throwable>> = LocationErrorsResolver.resolve(throwables, resolutions.toList())
@@ -104,15 +104,15 @@ class LocationService(context: Context) {
     /**
      * Подписаться на получение обновлений местоположения.
      *
-     * @param intervalMillis интервал в миллисекундах, при котором предпочтительно получать обновления местоположения.
+     * @param intervalMillis Интервал в миллисекундах, при котором предпочтительно получать обновления местоположения.
      * Тем не менее, обновления местоположения могут быть чаще, чем этот интервал, если другое приложение получает
      * обновления с меньшим интервалом. Или, наоборот, реже (например, если у устройства нет возможности подключения).
-     * @param fastestIntervalMillis максимальный интервал в миллисекундах, при котором возможно обрабатывать обновления
+     * @param fastestIntervalMillis Максимальный интервал в миллисекундах, при котором возможно обрабатывать обновления
      * местоположения. Следует устанавливать этот параметр, потому что другие приложения также влияют на скорость
      * отправки обновлений. Google Play Services отправляют обновления с максимальной скоростью, которую запросило любое
      * приложение. Если этот показатель быстрее, чем может обрабатывать приложение, можно столкнуться с соответствующими
      * проблемами.
-     * @param priority приоритет запроса (точность метостоположения/заряд батареи), который дает Google Play Services
+     * @param priority Приоритет запроса (точность метостоположения/заряд батареи), который дает Google Play Services
      * знать, какие источники данных использовать.
      *
      * @return [Observable]:

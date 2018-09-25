@@ -12,6 +12,5 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 class ApplicationSettingsRoute : ActivityRoute() {
 
     override fun prepareIntent(context: Context) =
-            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                    Uri.fromParts("package", context.packageName, null))
+            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", context.packageName, null))
 }

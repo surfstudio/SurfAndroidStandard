@@ -42,7 +42,7 @@ class LocationServicePresenter(
         view.showLoading()
 
         subscribeIo(
-                locationService.observeLocationAvailability(LocationPriority.HIGH_ACCURACY),
+                locationService.checkLocationAvailability(LocationPriority.HIGH_ACCURACY),
                 { hideLoadingAndShowLocationIsAvailable() },
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )
@@ -52,11 +52,11 @@ class LocationServicePresenter(
         view.showLoading()
 
         val locationAvailabilityResolvingSingle =
-                locationService.observeLocationAvailability(LocationPriority.HIGH_ACCURACY)
+                locationService.checkLocationAvailability(LocationPriority.HIGH_ACCURACY)
                         .toSingle { emptyList<Throwable>() }
                         .onErrorResumeNext { t: Throwable ->
                             if (t is CompositeException) {
-                                locationService.observeLocationAvailabilityResolving(
+                                locationService.resolveLocationAvailability(
                                         t.exceptions,
                                         *resolutions.toTypedArray()
                                 )

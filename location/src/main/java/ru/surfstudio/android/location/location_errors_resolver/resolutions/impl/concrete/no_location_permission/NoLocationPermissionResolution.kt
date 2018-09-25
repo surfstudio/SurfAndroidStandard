@@ -26,27 +26,19 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 /**
  * Решение проблемы [NoLocationPermissionException].
  *
- * @param permissionManager менеджер разрешений.
+ * @param permissionManager Менеджер разрешений.
+ * @param locationPermissionRequest Запрос разрешения доступа к местоположению.
  */
 class NoLocationPermissionResolution(
-        private val permissionManager: PermissionManager
+        private val permissionManager: PermissionManager,
+        private val locationPermissionRequest: LocationPermissionRequest = LocationPermissionRequest()
 ) : BaseLocationErrorResolutionImpl<NoLocationPermissionException>() {
-
-
-//    constructor(permissionManager: PermissionManager, showPermissionRationable: Boolean = false) : this(permissionManager) {
-//    }
-//
-//    constructor(permissionManager: PermissionManager, permissionRationaleStr: String) : this(permissionManager) {
-//    }
-//
-//    constructor(permissionManager: PermissionManager, permissionRationaleRoute: ActivityWithResultRoute<*>) : this(permissionManager) {
-//    }
 
     override val resolvingThrowableClass = NoLocationPermissionException::class.java
 
     override fun performWithCastedThrowable(resolvingThrowable: NoLocationPermissionException): Completable =
             permissionManager
-                    .request(LocationPermissionRequest())
+                    .request(locationPermissionRequest)
                     .flatMap { isGranted ->
                         if (isGranted) {
                             Single.just(isGranted)

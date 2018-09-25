@@ -23,7 +23,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 /**
  * Решение проблемы [ResolvableApiException].
  *
- * @param activityProvider провайдер активити.
+ * @param activityProvider Провайдер активити.
  */
 class ResolvableApiExceptionResolution(
         screenEventDelegateManager: ScreenEventDelegateManager,

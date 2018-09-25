@@ -30,6 +30,8 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.permission.exceptions.PermissionsRationalIsNotProvidedException
+import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.screens.default_permission_rational.DefaultPermissionRationalRoute
 import ru.surfstudio.android.core.ui.permission.screens.settings_rational.SettingsRationalRoute
 import java.io.Serializable
@@ -69,9 +71,9 @@ abstract class PermissionManager(
     /**
      * Проверить наличие всех разрешений в [PermissionRequest].
      *
-     * @param permissionRequest проверяемый [PermissionRequest].
+     * @param permissionRequest Проверяемый [PermissionRequest].
      *
-     * @return статус разрешения [PermissionStatus].
+     * @return Статус разрешения [PermissionStatus].
      */
     fun check(permissionRequest: PermissionRequest): PermissionStatus =
             when {
@@ -84,7 +86,7 @@ abstract class PermissionManager(
     /**
      * Запросить разрешение.
      *
-     * @param permissionRequest выполняемый [PermissionRequest].
+     * @param permissionRequest Выполняемый [PermissionRequest].
      *
      * @return [Single], содержащий [Boolean]: true, если разрешение выдано, false - если нет.
      */
@@ -161,7 +163,7 @@ abstract class PermissionManager(
             permissionsRationalRoute != null -> permissionsRationalRoute
             permissionsRationalStringRes!= null ->
                 DefaultPermissionRationalRoute(permissionsRationalStringRes)
-            else -> throw RationalIsNotProvidedException()
+            else -> throw PermissionsRationalIsNotProvidedException()
         }
 
         return activityNavigator
@@ -180,7 +182,10 @@ abstract class PermissionManager(
     }
 
     private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
-        val settingsRationalRoute = SettingsRationalRoute(null)
+        val settingsRationalStr =
+                permissionRequest.settingsRationalStr ?: throw SettingsRationalIsNotProvidedException()
+        val settingsRationalRoute = SettingsRationalRoute(settingsRationalStr)
+
         return activityNavigator
                 .observeResult<Serializable>(settingsRationalRoute)
                 .ignoreElements()
@@ -197,11 +202,11 @@ abstract class PermissionManager(
     /**
      * Проверить, следует ли показывать пользователю объяснение, для чего нужен запрашиваемый Permission.
      *
-     * @param permission проверяемое разрешение.
+     * @param permission Проверяемое разрешение.
      *
-     * @return true, если во время предыдущего запроса разрешения пользователь нажал отказ и не выбрал опцию "Don't
-     * ask again", false - если разрешение запрашивается в первый раз, или если во время предыдущего запроса
-     * разрешения пользователь выбрал опцию "Don't ask again".
+     * @return True, если во время предыдущего запроса разрешения пользователь нажал отказ и не выбрал опцию "Don't ask
+     * again", false - если разрешение запрашивается в первый раз, или если во время предыдущего запроса разрешения
+     * пользователь выбрал опцию "Don't ask again".
      */
     private fun shouldShowPermissionRationale(permission: String) =
             ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.get(), permission)

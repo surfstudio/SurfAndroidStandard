@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.ui.permission
 /**
  * Статус разрешения.
  *
- * @param isGranted выдано ли разрешение.
+ * @param isGranted Выдано ли разрешение.
  */
 enum class PermissionStatus(val isGranted: Boolean) {
 

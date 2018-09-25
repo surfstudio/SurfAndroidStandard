@@ -25,7 +25,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 /**
  * Решение проблемы [PlayServicesAreNotAvailableException].
  *
- * @param activityProvider провайдер активити.
+ * @param activityProvider Провайдер активити.
  */
 class PlayServicesAreNotAvailableResolution(
         screenEventDelegateManager: ScreenEventDelegateManager,

@@ -22,7 +22,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
 
 /**
- * PermissionManager, работающий из фрагмента
+ * PermissionManager, работающий из фрагмента.
  */
 class PermissionManagerForFragment(
         eventDelegateManager: ScreenEventDelegateManager,

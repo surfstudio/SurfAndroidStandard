@@ -40,13 +40,13 @@ abstract class PermissionRequest {
      * - если {@link #permissionsRationalRoute} не задан, но задан {@link #permissionsRationalStr}, то будет
      * совершен переход на стандартный диалог отображающий заданную строку;
      * - если не задано ни одно из вышеперечисленных свойств, то будет возбуждено исключение
-     * [RationalIsNotProvidedException]
+     * [PermissionsRationalIsNotProvidedException].
      */
     var showPermissionsRational: Boolean = false
         protected set
 
     /**
-     * Маршрут на экран с объяснением причины запроса разрешений.
+     * Маршрут на экран объяснения причины запроса разрешений.
      */
     var permissionsRationalRoute: ActivityWithResultRoute<*>? = null
         protected set
@@ -55,5 +55,14 @@ abstract class PermissionRequest {
      * Строка, отображаемая в стандартном диалоге объяснения причины запроса разрешений.
      */
     var permissionsRationalStr: String? = null
+        protected set
+
+    /**
+     * Строка, отображаемая в диалоге объяснения причины необходимости перехода в настройки приложения. Диалог
+     * отображается, если при предыдущем запросе разрешений было отказано и выбрана опция "Don't ask again". Если
+     * строка не задана, то при необходимости отображения диалога будет возбуждено исключение
+     * [SettingsRationalIsNotProvidedException].
+     */
+    var settingsRationalStr: String? = null
         protected set
 }

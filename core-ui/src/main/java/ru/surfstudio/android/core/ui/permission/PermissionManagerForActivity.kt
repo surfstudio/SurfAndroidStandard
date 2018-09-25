@@ -23,7 +23,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
 /**
- * PermissionManager, работающий из активити
+ * PermissionManager, работающий из активити.
  */
 class PermissionManagerForActivity(
         eventDelegateManager: ScreenEventDelegateManager,
