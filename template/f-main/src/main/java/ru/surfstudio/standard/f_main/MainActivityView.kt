@@ -27,6 +27,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initViews()
         initListeners()
     }

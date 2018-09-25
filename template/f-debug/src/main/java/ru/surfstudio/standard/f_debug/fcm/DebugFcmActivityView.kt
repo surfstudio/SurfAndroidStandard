@@ -32,6 +32,7 @@ class DebugFcmActivityView : BaseLdsActivityView<DebugFcmScreenModel>() {
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initListeners()
     }
 
