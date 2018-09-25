@@ -191,7 +191,7 @@ fun EditText.showKeyboard() {
  * Extension-функция предоставляющая фокус на [EditText] и устанавливающая курсор в конец
  * введённого текста.
  */
-private fun EditText.focusAndCursor() {
+fun EditText.setFocusAndCursorToEnd() {
     requestFocus()
     KeyboardUtil.showKeyboard(this)
     selectionToEnd()
