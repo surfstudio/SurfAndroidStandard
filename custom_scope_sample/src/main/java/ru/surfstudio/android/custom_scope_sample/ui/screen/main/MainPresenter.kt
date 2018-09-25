@@ -1,11 +1,10 @@
 package ru.surfstudio.android.custom_scope_sample.ui.screen.main
 
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.custom_scope_sample.ui.screen.another.AnotherActivityRoute
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.custom_scope_sample.domain.EmailData
+import ru.surfstudio.android.custom_scope_sample.ui.screen.another.AnotherActivityRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
@@ -28,7 +27,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     override fun onResume() {
         super.onResume()
-        view.toast(emailData.email)
+        view.showMessage(emailData.email)
     }
 
     fun openAnotherScreen() = activityNavigator.start(AnotherActivityRoute())
