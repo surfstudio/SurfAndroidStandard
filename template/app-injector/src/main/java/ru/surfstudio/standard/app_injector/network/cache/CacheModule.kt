@@ -42,6 +42,7 @@ class CacheModule {
     @Provides
     @PerApplication
     fun providesSimpleCacheConnector(baseUrl: BaseUrl,
-                                     simpleCacheInfoStorage: SimpleCacheInfoStorage): SimpleCacheUrlConnector =
-            SimpleCacheUrlConnector(baseUrl, simpleCacheInfoStorage.simpleCaches)
+                                     simpleCacheInfoStorage: SimpleCacheInfoStorage): SimpleCacheUrlConnector {
+        return SimpleCacheUrlConnector(baseUrl, simpleCacheInfoStorage.simpleCaches)
+    }
 }

@@ -15,6 +15,7 @@ import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
+import ru.surfstudio.standard.app_injector.network.cache.CacheModule
 
 @PerApplication
 @Component(modules = [
@@ -23,7 +24,8 @@ import ru.surfstudio.standard.app_injector.network.OkHttpModule
     SharedPrefModule::class,
     AuthModule::class,
     NetworkModule::class,
-    OkHttpModule::class])
+    OkHttpModule::class,
+    CacheModule::class])
 interface AppComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
     fun context(): Context
