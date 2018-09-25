@@ -8,7 +8,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  * @param priority Приоритет запроса (точность метостоположения/заряд батареи), который дает Google Play Services знать,
  * какие источники данных использовать.
  * @param resolveLocationErrors Нужно ли решать проблемы с получением местоположения.
- * @param locationPermissionRequest Запрос разрешения доступа к местоположению, используемый в
+ * @param locationPermissionRequest Запрос разрешения на доступ к местоположению, используемый в
  * [NoLocationPermissionResolution].
  */
 class LastKnowLocationRequest(

@@ -12,4 +12,6 @@
     <string name="unsubscribe_from_location_updates">Отписаться от получения обновлений местоположения</string>
     <string name="default_location_interactor_sample">DefaultLocationInteractor sample</string>
     <string name="location_service_sample">LocationService sample</string>
+    <string name="permission_rational">Для получения данных о местоположении требуется разрешение на доступ к местоположению.</string>
+    <string name="settings_rational">Доступ к местоположению запрещен навсегда. Выдать разрешение можно только через настройки.</string>
 </resources>

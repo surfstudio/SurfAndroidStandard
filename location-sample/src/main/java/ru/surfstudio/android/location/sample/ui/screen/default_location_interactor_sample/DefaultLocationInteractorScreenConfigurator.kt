@@ -13,6 +13,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.DefaultLocationInteractor
 import ru.surfstudio.android.location.LocationService
+import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPermissionRequest
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
@@ -35,6 +36,9 @@ class DefaultLocationInteractorScreenConfigurator(intent: Intent) : DefaultActiv
         fun provideLocationService(context: Context) = LocationService(context)
 
         @Provides
+        fun provideCommonLocationPermissionRequest(context: Context) = CommonLocationPermissionRequest(context)
+
+        @Provides
         fun provideDefaultLocationInteractor(
                 permissionManager: PermissionManager,
                 screenEventDelegateManager: ScreenEventDelegateManager,
@@ -45,8 +49,13 @@ class DefaultLocationInteractorScreenConfigurator(intent: Intent) : DefaultActiv
         @Provides
         fun provideDefaultLocationInteractorPresenter(
                 basePresenterDependency: BasePresenterDependency,
-                defaultLocationInteractor: DefaultLocationInteractor
-        ) = DefaultLocationInteractorPresenter(basePresenterDependency, defaultLocationInteractor)
+                defaultLocationInteractor: DefaultLocationInteractor,
+                commonLocationPermissionRequest: CommonLocationPermissionRequest
+        ) = DefaultLocationInteractorPresenter(
+                basePresenterDependency,
+                defaultLocationInteractor,
+                commonLocationPermissionRequest
+        )
     }
 
     override fun createScreenComponent(

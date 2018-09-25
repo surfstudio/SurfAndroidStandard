@@ -3,7 +3,7 @@ package ru.surfstudio.android.location.sample.ui.screen.default_location_interac
 import android.os.Bundle
 import android.os.PersistableBundle
 import kotlinx.android.synthetic.main.activity_default_location_interactor.*
-import ru.surfstudio.android.location.sample.ui.screen.base.BaseSampleActivity
+import ru.surfstudio.android.location.sample.ui.screen.common.BaseSampleActivity
 import ru.surfstudio.android.location_sample.R
 import javax.inject.Inject
 

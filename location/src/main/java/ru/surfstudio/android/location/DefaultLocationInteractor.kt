@@ -1,7 +1,6 @@
 package ru.surfstudio.android.location
 
 import android.location.Location
-import android.support.annotation.RequiresPermission
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Single
@@ -50,7 +49,7 @@ class DefaultLocationInteractor(
      * Решить проблемы связанные с невозможностью получения местоположения.
      *
      * @param throwables [List], содержащий исключения связанные с невозможностью получения местоположения.
-     * @param locationPermissionRequest Запрос разрешения доступа к местоположению, используемый в
+     * @param locationPermissionRequest Запрос разрешения на доступ к местоположению, используемый в
      * [NoLocationPermissionResolution].
      *
      * @return [Single]:
@@ -81,9 +80,7 @@ class DefaultLocationInteractor(
      * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
      * [ResolvableApiException].
      */
-    @RequiresPermission(
-            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
-    )
+    @SuppressWarnings("ResourceType")
     fun observeLastKnownLocation(lastKnowLocationRequest: LastKnowLocationRequest): Maybe<Location> =
             locationService
                     .checkLocationAvailability(lastKnowLocationRequest.priority)
@@ -112,9 +109,7 @@ class DefaultLocationInteractor(
      * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
      * [ResolvableApiException].
      */
-    @RequiresPermission(
-            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
-    )
+    @SuppressWarnings("ResourceType")
     fun observeCurrentLocation(currentLocationRequest: CurrentLocationRequest): Single<Location> {
         val relevantLocation = getRelevantLocationOrNull(
                 currentLocationRequest.relevanceTimeoutMillis,

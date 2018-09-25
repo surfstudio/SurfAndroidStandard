@@ -3,7 +3,7 @@ package ru.surfstudio.android.location.sample.ui.screen.location_service_sample
 import android.os.Bundle
 import android.os.PersistableBundle
 import kotlinx.android.synthetic.main.activity_location_service.*
-import ru.surfstudio.android.location.sample.ui.screen.base.BaseSampleActivity
+import ru.surfstudio.android.location.sample.ui.screen.common.BaseSampleActivity
 import ru.surfstudio.android.location_sample.R
 import javax.inject.Inject
 

@@ -27,7 +27,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  * Решение проблемы [NoLocationPermissionException].
  *
  * @param permissionManager Менеджер разрешений.
- * @param locationPermissionRequest Запрос разрешения доступа к местоположению.
+ * @param locationPermissionRequest Запрос разрешения на доступ к местоположению.
  */
 class NoLocationPermissionResolution(
         private val permissionManager: PermissionManager,

@@ -10,7 +10,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  * @param relevanceTimeoutMillis Таймаут, при котором последнее полученное местоположение актуально. Если
  * местоположение ещё актуально - запрос не инициируется, а сразу возвращается закешированное значение.
  * @param resolveLocationErrors Нужно ли решать проблемы с получением местоположения.
- * @param locationPermissionRequest Запрос разрешения доступа к местоположению, используемый в
+ * @param locationPermissionRequest Запрос разрешения на доступ к местоположению, используемый в
  * [NoLocationPermissionResolution].
  */
 class CurrentLocationRequest(

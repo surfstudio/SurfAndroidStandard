@@ -4,7 +4,7 @@ import android.Manifest
 import ru.surfstudio.android.core.ui.permission.PermissionRequest
 
 /**
- * Запрос разрешения доступа к местоположению.
+ * Запрос разрешения на доступ к местоположению.
  */
 open class LocationPermissionRequest : PermissionRequest() {
 
