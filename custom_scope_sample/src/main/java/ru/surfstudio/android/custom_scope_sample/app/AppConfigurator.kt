@@ -4,7 +4,7 @@ import ru.surfstudio.android.custom_scope_sample.app.dagger.AppComponent
 import ru.surfstudio.android.custom_scope_sample.app.dagger.AppModule
 import ru.surfstudio.android.custom_scope_sample.app.dagger.DaggerAppComponent
 
-object AppInjector {
+object AppConfigurator {
 
     var appComponent: AppComponent? = null
 
