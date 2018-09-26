@@ -62,5 +62,5 @@ ext {
     assertJVersion = '3.10.0'                   //http://bit.ly/2mXO1EX
 
     // Surf Core
-    surfCoreVersionName = '0.3.0-SNAPSHOT'      // версия android-standard
+    surfCoreVersionName = '0.3.0-MAGNIT-5.2.9-SNAPSHOT'      // версия android-standard
 }
