@@ -13,8 +13,8 @@ import javax.inject.Named
  * Хранилище для IP
  */
 @PerApplication
-class IpStorage @Inject
-constructor(@Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
+class IpStorage @Inject constructor(
+        @Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
 
     companion object {
         private const val KEY_IP = "KEY_IP"
