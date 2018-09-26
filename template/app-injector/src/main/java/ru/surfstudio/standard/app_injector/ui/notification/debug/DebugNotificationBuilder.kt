@@ -26,11 +26,10 @@ object DebugNotificationBuilder {
                     context,
                     DEBUG_NOTIFICATION_ID,
                     DebugActivityRoute().prepareIntent(context),
-                    PendingIntent.FLAG_ONE_SHOT)
+                    PendingIntent.FLAG_UPDATE_CURRENT)
 
             val notificationBuilder =  NotificationCompat.Builder(context, channelId)
                     .setSmallIcon(R.drawable.ic_launcher_background)
-                    .setAutoCancel(true)
                     .setContentTitle(notificationTitle)
                     .setContentText(notificationBody)
                     .setContentIntent(pendingIntent)

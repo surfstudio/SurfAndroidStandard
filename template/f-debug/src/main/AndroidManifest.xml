@@ -3,7 +3,8 @@
     package="ru.surfstudio.android.template.f_debug">
 
     <application>
-        <activity android:name="ru.surfstudio.standard.f_debug.debug.DebugActivityView" />
+        <activity android:name="ru.surfstudio.standard.f_debug.debug.DebugActivityView"
+            android:launchMode="singleTask"/>
         <activity android:name="ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityView" />
         <activity android:name="ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivityView" />
     </application>
