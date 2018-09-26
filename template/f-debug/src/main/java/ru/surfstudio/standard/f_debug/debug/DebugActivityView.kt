@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.LinearLayoutManager
+import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -11,7 +12,8 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
-import ru.surfstudio.standard.f_debug.debug.controllers.DebugItemController
+import ru.surfstudio.standard.f_debug.debug.controllers.ShowDebugControllersDebugItemController
+import ru.surfstudio.standard.f_debug.debug.controllers.ShowFcmTokenDebugItemController
 import javax.inject.Inject
 
 /**
@@ -23,8 +25,6 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
     lateinit var presenter: DebugPresenter
 
     private val adapter = EasyAdapter()
-
-    private val debugScreenItemController = DebugItemController()
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
@@ -55,11 +55,15 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
                 .add(
                         getString(R.string.show_controllers_debug_item),
                         { presenter.openControllersScreen() },
-                        debugScreenItemController)
+                        ShowDebugControllersDebugItemController())
                 .add(
                         getString(R.string.show_fcm_token_debug_item),
-                        { presenter.openFcmTokenScreen() },
-                        debugScreenItemController)
+                        { presenter.showFcmToken() },
+                        ShowFcmTokenDebugItemController())
         )
+    }
+
+    fun showMessage(message: String) {
+        toast(message)
     }
 }
