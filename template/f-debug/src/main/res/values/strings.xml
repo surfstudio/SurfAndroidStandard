@@ -3,6 +3,6 @@
     <string name="show_fcm_token_debug_item">Показать FCM-токен</string>
     <string name="copy_fcm_btn_text">Скопировать</string>
     <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
-    <string name="pv_empty_text">FCM-токен еще не создан</string>
+    <string name="pv_empty_text">FCM-токен еще не создан или не реализована логика сохранения токена в хранилище</string>
     <string name="pv_empty_btn_text">Обновить</string>
 </resources>

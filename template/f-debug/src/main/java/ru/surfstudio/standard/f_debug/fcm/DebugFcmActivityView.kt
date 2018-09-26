@@ -49,7 +49,7 @@ class DebugFcmActivityView : BaseLdsActivityView<DebugFcmScreenModel>() {
     override fun getPlaceHolderView(): PlaceHolderViewInterface = placeholder
 
     private fun initListeners() {
-        copy_fcm_btn.setOnClickListener { presenter.copyFcmToken() }
+        fcm_tv.setOnClickListener { presenter.copyFcmToken() }
         placeholder.buttonLambda = { presenter.loadFcmToken() }
     }
 

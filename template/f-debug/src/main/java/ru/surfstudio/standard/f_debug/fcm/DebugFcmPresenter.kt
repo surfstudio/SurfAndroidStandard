@@ -37,13 +37,16 @@ class DebugFcmPresenter @Inject constructor(basePresenterDependency: BasePresent
         screenModel.fcmToken = fcmToken
         screenModel.loadState = if (fcmToken.isEmpty()) LoadState.EMPTY else LoadState.NONE
         view.render(screenModel)
-        Logger.d("FCM-token: $fcmToken")
+        logFcmToken()
     }
 
     fun copyFcmToken() {
         screenModel.fcmToken?.let {
             clipboardManagerHelper.copyString(it)
             view.showMessage(stringsProvider.getString(R.string.fcm_copied_message))
+            logFcmToken()
         }
     }
+
+    private fun logFcmToken() = Logger.d("FCM-token: ${screenModel.fcmToken}")
 }

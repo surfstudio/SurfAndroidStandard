@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,13 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_padding"
-            android:textIsSelectable="true" />
-
-        <Button
-            android:id="@+id/copy_fcm_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/copy_fcm_btn_text" />
+            android:padding="8dp"
+            tools:text="Text"
+            android:background="?attr/selectableItemBackground"
+            android:drawableEnd="@drawable/ic_content_copy_black_24dp" />
     </LinearLayout>
 
     <ru.surfstudio.standard.base_ui.placeholder.PlaceHolderView
