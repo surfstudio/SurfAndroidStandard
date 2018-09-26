@@ -2,6 +2,7 @@ package ru.surfstudio.standard.app_injector
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.app.ActiveActivityHolder
@@ -9,8 +10,11 @@ import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
+import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 @Module
 class AppModule(private val coreApp: CoreApp) {
@@ -50,5 +54,11 @@ class AppModule(private val coreApp: CoreApp) {
     @PerApplication
     fun provideClipboardManager(context: Context): ClipboardManager {
         return context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    }
+
+    @Provides
+    @PerApplication
+    fun provideFcmStorage(@Named(NO_BACKUP_SHARED_PREF) noBackupSharedPref: SharedPreferences): FcmStorage {
+        return FcmStorage(noBackupSharedPref)
     }
 }

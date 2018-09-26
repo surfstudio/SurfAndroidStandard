@@ -96,8 +96,6 @@ configurations.all {
 dependencies {
     implementation project(':template:base')
     implementation project(':template:base-ui')
-    implementation project(':template:i-debug')
-    implementation project(':template:i-fcm')
     implementation project(':template:i-initialization')
     implementation project(':template:i-network')
     implementation project(':template:i-token')

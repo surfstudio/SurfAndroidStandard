@@ -11,10 +11,10 @@ import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
+import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.standard.app_injector.AppComponent
-import ru.surfstudio.standard.i_debug.DebugInteractor
 
 /**
  * Компонент для @PerActivity скоупа
@@ -35,5 +35,5 @@ interface ActivityComponent {
     fun tabFragmentNavigator(): TabFragmentNavigator
     fun globalNavigator(): GlobalNavigator
     fun rxBus(): RxBus
-    fun debugInteractor(): DebugInteractor
+    fun fcmStorage(): FcmStorage
 }
