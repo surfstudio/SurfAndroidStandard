@@ -9,32 +9,32 @@ import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
-import ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivityRoute
-import ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivityView
+import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityRoute
+import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView
 
 /**
  * Конфигуратор экрана для показа переиспользуемых контроллеров
  */
-class DebugControllersScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
+class CommonControllersDebugScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
-            modules = [ActivityScreenModule::class, DebugControllersScreenModule::class])
-    interface DebugControllersScreenComponent
-        : ScreenComponent<DebugControllersActivityView>
+            modules = [ActivityScreenModule::class, CommonControllersDebugScreenModule::class])
+    interface CommonControllersDebugScreenComponent
+        : ScreenComponent<CommonControllersDebugActivityView>
 
     @Module
-    internal class DebugControllersScreenModule(route: DebugControllersActivityRoute)
-        : CustomScreenModule<DebugControllersActivityRoute>(route)
+    internal class CommonControllersDebugScreenModule(route: CommonControllersDebugActivityRoute)
+        : CustomScreenModule<CommonControllersDebugActivityRoute>(route)
 
     @Suppress("DEPRECATION")
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerDebugControllersScreenConfigurator_DebugControllersScreenComponent.builder()
+        return DaggerCommonControllersDebugScreenConfigurator_CommonControllersDebugScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .activityScreenModule(activityScreenModule)
-                .debugControllersScreenModule(DebugControllersScreenModule(DebugControllersActivityRoute()))
+                .commonControllersDebugScreenModule(CommonControllersDebugScreenModule(CommonControllersDebugActivityRoute()))
                 .build()
     }
 }

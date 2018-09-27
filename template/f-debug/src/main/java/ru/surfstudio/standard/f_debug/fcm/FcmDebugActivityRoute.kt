@@ -7,8 +7,8 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 /**
  * Роут экрана показа fcm-токена
  */
-class DebugFcmActivityRoute : ActivityRoute() {
+class FcmDebugActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context): Intent {
-        return Intent(context, DebugFcmActivityView::class.java)
+        return Intent(context, FcmDebugActivityView::class.java)
     }
 }

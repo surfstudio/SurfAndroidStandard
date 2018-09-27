@@ -17,10 +17,10 @@ import javax.inject.Inject
 /**
  * Вью экрана показа fcm-токена
  */
-class DebugFcmActivityView : BaseLdsActivityView<DebugFcmScreenModel>() {
+class FcmDebugActivityView : BaseLdsActivityView<FcmDebugScreenModel>() {
 
     @Inject
-    lateinit var presenter: DebugFcmPresenter
+    lateinit var presenter: FcmDebugPresenter
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
@@ -36,7 +36,7 @@ class DebugFcmActivityView : BaseLdsActivityView<DebugFcmScreenModel>() {
         initListeners()
     }
 
-    override fun renderInternal(screenModel: DebugFcmScreenModel) {
+    override fun renderInternal(screenModel: FcmDebugScreenModel) {
         fcm_tv.text = screenModel.fcmToken
 
         val hasFcmToken = screenModel.loadState != LoadState.EMPTY

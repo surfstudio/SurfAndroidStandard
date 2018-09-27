@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug.debug_controllers.description
+package ru.surfstudio.standard.f_debug.common_controllers.description
 
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.standard.f_debug.debug.controllers.CustomControllerDescriptionItemController

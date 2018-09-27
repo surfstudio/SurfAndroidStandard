@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug.debug_controllers
+package ru.surfstudio.standard.f_debug.common_controllers
 
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -9,6 +9,6 @@ import javax.inject.Inject
  * Презентер экрана для показа переиспользуемых контроллеров
  */
 @PerScreen
-class DebugControllersPresenter @Inject constructor(
+class CommonControllersDebugPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<DebugControllersActivityView>(basePresenterDependency)
+) : BasePresenter<CommonControllersDebugActivityView>(basePresenterDependency)

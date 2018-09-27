@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug.debug_controllers
+package ru.surfstudio.standard.f_debug.common_controllers
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -12,16 +12,16 @@ import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
 import ru.surfstudio.standard.f_debug.debug.controllers.CustomControllerDescriptionItemController
-import ru.surfstudio.standard.f_debug.debug_controllers.description.addDescription
+import ru.surfstudio.standard.f_debug.common_controllers.description.addDescription
 import javax.inject.Inject
 
 /**
  * Вью экрана для показа переиспользуемых контроллеров
  */
-class DebugControllersActivityView : BaseRenderableActivityView<DebugControllersScreenModel>() {
+class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonControllersDebugScreenModel>() {
 
     @Inject
-    lateinit var presenter: DebugControllersPresenter
+    lateinit var presenter: CommonControllersDebugPresenter
 
     private val adapter = EasyAdapter()
 
@@ -42,7 +42,7 @@ class DebugControllersActivityView : BaseRenderableActivityView<DebugControllers
         initAdapter()
     }
 
-    override fun renderInternal(screenModel: DebugControllersScreenModel) { }
+    override fun renderInternal(screenModel: CommonControllersDebugScreenModel) { }
 
     override fun getScreenName(): String = "debug_controllers"
 

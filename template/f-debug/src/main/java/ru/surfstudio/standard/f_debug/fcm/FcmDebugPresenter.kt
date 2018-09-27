@@ -15,13 +15,14 @@ import javax.inject.Inject
  * Презентер экрана показа fcm-токена
  */
 @PerScreen
-class DebugFcmPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                            private val stringsProvider: StringsProvider,
-                                            private val fcmStorage: FcmStorage,
-                                            private val clipboardManagerHelper: ClipboardManagerHelper
-) : BasePresenter<DebugFcmActivityView>(basePresenterDependency) {
+class FcmDebugPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val stringsProvider: StringsProvider,
+        private val fcmStorage: FcmStorage,
+        private val clipboardManagerHelper: ClipboardManagerHelper
+) : BasePresenter<FcmDebugActivityView>(basePresenterDependency) {
 
-    private val screenModel = DebugFcmScreenModel()
+    private val screenModel = FcmDebugScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)

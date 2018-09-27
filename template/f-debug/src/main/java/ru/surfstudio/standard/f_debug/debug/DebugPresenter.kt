@@ -4,8 +4,8 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivityRoute
-import ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityRoute
+import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityRoute
+import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
 import javax.inject.Inject
 
 /**
@@ -18,10 +18,10 @@ class DebugPresenter @Inject constructor(
 ) : BasePresenter<DebugActivityView>(basePresenterDependency) {
 
     fun openControllersScreen() {
-        activityNavigator.start(DebugControllersActivityRoute())
+        activityNavigator.start(CommonControllersDebugActivityRoute())
     }
 
     fun openFcmTokenScreen() {
-        activityNavigator.start(DebugFcmActivityRoute())
+        activityNavigator.start(FcmDebugActivityRoute())
     }
 }

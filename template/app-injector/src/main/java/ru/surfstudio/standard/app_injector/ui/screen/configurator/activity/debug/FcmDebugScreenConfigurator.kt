@@ -9,32 +9,32 @@ import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
-import ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityRoute
-import ru.surfstudio.standard.f_debug.fcm.DebugFcmActivityView
+import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
+import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView
 
 /**
  * Конфигуратор экрана показа fcm-токена
  */
-class DebugFcmScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
+class FcmDebugScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @PerScreen
     @Component(dependencies = [ActivityComponent::class],
-            modules = [ActivityScreenModule::class, DebugFcmScreenModule::class])
-    interface DebugFcmScreenComponent
-        : ScreenComponent<DebugFcmActivityView>
+            modules = [ActivityScreenModule::class, FcmDebugScreenModule::class])
+    interface FcmDebugScreenComponent
+        : ScreenComponent<FcmDebugActivityView>
 
     @Module
-    internal class DebugFcmScreenModule(route: DebugFcmActivityRoute)
-        : CustomScreenModule<DebugFcmActivityRoute>(route)
+    internal class FcmDebugScreenModule(route: FcmDebugActivityRoute)
+        : CustomScreenModule<FcmDebugActivityRoute>(route)
 
     @Suppress("DEPRECATION")
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerDebugFcmScreenConfigurator_DebugFcmScreenComponent.builder()
+        return DaggerFcmDebugScreenConfigurator_FcmDebugScreenComponent.builder()
                 .activityComponent(parentComponent)
                 .activityScreenModule(activityScreenModule)
-                .debugFcmScreenModule(DebugFcmScreenModule(DebugFcmActivityRoute()))
+                .fcmDebugScreenModule(FcmDebugScreenModule(FcmDebugActivityRoute()))
                 .build()
     }
 }

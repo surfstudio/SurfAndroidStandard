@@ -5,6 +5,6 @@ import ru.surfstudio.android.core.mvp.model.LdsScreenModel
 /**
  * Модель экрана показа fcm-токена
  */
-class DebugFcmScreenModel : LdsScreenModel() {
+class FcmDebugScreenModel : LdsScreenModel() {
     var fcmToken: String? = null
 }
