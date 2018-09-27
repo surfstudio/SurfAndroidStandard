@@ -16,8 +16,6 @@
 package ru.surfstudio.android.utilktx.ktx.ui.context
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -52,18 +50,4 @@ fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap {
     } else {
         throw IllegalArgumentException("unsupported drawable type")
     }
-}
-
-/**
- * Функция для получения ClipboardManager
- */
-fun Context.getClipboardManager(): ClipboardManager {
-    return getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-}
-
-/**
- * Функция для копирования текста в буфер обмена
- */
-fun Context.copyTextToClipboard(text: CharSequence) {
-    getClipboardManager().primaryClip = ClipData.newPlainText(null, text)
 }
