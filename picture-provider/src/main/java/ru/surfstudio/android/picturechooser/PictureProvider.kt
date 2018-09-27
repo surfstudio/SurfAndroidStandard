@@ -16,14 +16,11 @@
 package ru.surfstudio.android.picturechooser
 
 import android.content.Context
-import android.net.Uri
 import android.provider.MediaStore
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
-
-private const val DEFAULT_TEMP_FILE_NAME = "image.jpg"
 
 /**
  * Поставляет изображения находящиеся на устройстве или с камеры.
@@ -159,7 +156,7 @@ class PictureProvider constructor(
                                      noPermissionAction: () -> Unit = {}): Observable<String> {
         return openImageChooserAndGetPhotoUriWrapper(message, noPermissionAction)
                 .map { uriWrapper ->
-                    createTempBitmap(uriWrapper.uri, fileName)
+                    uriWrapper.uri.createTempBitmap(context, fileName)
                 }
     }
     //endregion
@@ -256,15 +253,6 @@ class PictureProvider constructor(
                         Observable.error(NoPermissionException())
                     }
                 }
-    }
-
-    /**
-     * Функция, создающая временный файл для изображения по его Uri.
-     * @return String путь к созданному временному файлу
-     */
-    private fun createTempBitmap(imageUri: Uri, tempFileName: String): String {
-        val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, imageUri)
-        return saveTempBitmap(bitmap, tempFileName, context).absolutePath
     }
     //endregion
 }

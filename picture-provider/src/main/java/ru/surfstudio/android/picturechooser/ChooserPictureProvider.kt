@@ -106,7 +106,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = createChooserIntentForMultipleImage(chooserMessage)
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.getRealPath(activity) }
+            return parseMultipleResultIntent(intent) { it.getRealPaths(activity) }
         }
     }
 
@@ -118,7 +118,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = createChooserIntentForMultipleImage(chooserMessage)
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.toString() }
+            return parseMultipleResultIntent(intent) { it.toStringArrayList() }
         }
     }
 
@@ -130,7 +130,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = createChooserIntentForMultipleImage(chooserMessage)
 
         override fun parseResultIntent(intent: Intent?): ArrayList<UriWrapper>? {
-            return parseMultipleResultIntent(intent) { UriWrapper(it) }
+            return parseMultipleResultIntent(intent) { it.toUriWrapperList() }
         }
     }
     //endregion
@@ -140,7 +140,7 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
         return createChooser(getIntentForSingleImageFromGallery(), message)
     }
 
-    private fun createChooserIntentForMultipleImage(message: String) : Intent {
+    private fun createChooserIntentForMultipleImage(message: String): Intent {
         return createChooser(getIntentForMultipleImageFromGallery(), message)
     }
     //endregion

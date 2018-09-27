@@ -121,7 +121,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.getRealPath(activity) }
+            return parseMultipleResultIntent(intent) { it.getRealPaths(activity) }
         }
     }
 
@@ -133,7 +133,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.toString() }
+            return parseMultipleResultIntent(intent) { it.toStringArrayList() }
         }
     }
 
@@ -145,7 +145,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<UriWrapper>? {
-            return parseMultipleResultIntent(intent) { UriWrapper(it) }
+            return parseMultipleResultIntent(intent) { it.toUriWrapperList() }
         }
     }
     //endregion
