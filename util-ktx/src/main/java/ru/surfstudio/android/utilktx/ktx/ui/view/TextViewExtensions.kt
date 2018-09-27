@@ -26,6 +26,7 @@ import android.widget.EditText
 import android.widget.TextView
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.ktx.text.PHONE_NUMBER_CHARS
+import ru.surfstudio.android.utilktx.ktx.ui.context.copyTextToClipboard
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
@@ -64,6 +65,16 @@ fun TextView.setTextAppearanceStyle(@StyleRes styleResId: Int) {
         setTextAppearance(this.context, styleResId)
     }
 }
+
+/**
+ * Функция для копирования текста из TextView в буфер обмена
+ */
+fun TextView.copyTextToClipboard() = context.copyTextToClipboard(text)
+
+/**
+ * Функция для копирования текста из EditText в буфер обмена
+ */
+fun EditText.copyTextToClipboard() = context.copyTextToClipboard(text)
 
 /**
  * Установка лимита на количество символов допустимых к набору в [EditText].
