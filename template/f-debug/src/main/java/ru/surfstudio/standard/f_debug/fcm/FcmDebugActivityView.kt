@@ -10,6 +10,7 @@ import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
+import ru.surfstudio.android.utilktx.ktx.ui.view.copyTextToClipboard
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
 import javax.inject.Inject
@@ -52,6 +53,8 @@ class FcmDebugActivityView : BaseLdsActivityView<FcmDebugScreenModel>() {
         fcm_tv.setOnClickListener { presenter.copyFcmToken() }
         placeholder.buttonLambda = { presenter.loadFcmToken() }
     }
+
+    fun copyFcmToken() = fcm_tv.copyTextToClipboard()
 
     fun showMessage(message: String) {
         toast(message)

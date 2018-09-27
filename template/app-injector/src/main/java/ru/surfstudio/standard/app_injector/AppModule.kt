@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.app_injector
 
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
@@ -48,12 +47,6 @@ class AppModule(private val coreApp: CoreApp) {
     @PerApplication
     fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
-    }
-
-    @Provides
-    @PerApplication
-    fun provideClipboardManager(context: Context): ClipboardManager {
-        return context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
 
     @Provides

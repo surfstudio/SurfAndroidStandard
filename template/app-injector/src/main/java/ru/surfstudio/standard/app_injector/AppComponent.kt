@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.app_injector
 
-import android.content.ClipboardManager
 import android.content.Context
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
@@ -32,11 +31,10 @@ interface AppComponent {
     fun context(): Context
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
-    fun sessionChangeInteractor(): SessionChangedInteractor
+    fun sessionChangedInteractor(): SessionChangedInteractor
     fun schedulerProvider(): SchedulersProvider
     fun stringsProvider(): StringsProvider
     fun globalNavigator(): GlobalNavigator
-    fun clipboardManager(): ClipboardManager
     fun fcmStorage(): FcmStorage
 
     fun inject(to: MessagingService)

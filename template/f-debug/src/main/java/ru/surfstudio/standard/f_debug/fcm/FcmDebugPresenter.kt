@@ -8,7 +8,6 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base_ui.util.ClipboardManagerHelper
 import javax.inject.Inject
 
 /**
@@ -18,8 +17,7 @@ import javax.inject.Inject
 class FcmDebugPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val stringsProvider: StringsProvider,
-        private val fcmStorage: FcmStorage,
-        private val clipboardManagerHelper: ClipboardManagerHelper
+        private val fcmStorage: FcmStorage
 ) : BasePresenter<FcmDebugActivityView>(basePresenterDependency) {
 
     private val screenModel = FcmDebugScreenModel()
@@ -43,7 +41,7 @@ class FcmDebugPresenter @Inject constructor(
 
     fun copyFcmToken() {
         screenModel.fcmToken?.let {
-            clipboardManagerHelper.copyString(it)
+            view.copyFcmToken()
             view.showMessage(stringsProvider.getString(R.string.fcm_copied_message))
             logFcmToken()
         }
