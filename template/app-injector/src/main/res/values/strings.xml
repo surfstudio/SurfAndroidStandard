@@ -1,9 +1,3 @@
 <resources>
     <string name="app_name">Template Multimodule</string>
-
-    <string name="notification_channel_id">CHANNEL_ID</string>
-
-    <!-- Debug screen -->
-    <string name="debug_screen_title">Debug screen</string>
-    <string name="debug_screen_body">Show debug info</string>
 </resources>

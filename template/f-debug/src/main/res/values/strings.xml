@@ -5,4 +5,9 @@
     <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
     <string name="pv_empty_text">FCM-токен еще не создан или не реализована логика сохранения токена в хранилище</string>
     <string name="pv_empty_btn_text">Обновить</string>
+
+    <!-- Debug notification settings -->
+    <string name="notification_channel_id">CHANNEL_ID</string>
+    <string name="debug_screen_title">Debug screen</string>
+    <string name="debug_screen_body">Show debug info</string>
 </resources>
