@@ -53,8 +53,9 @@ fun createChooser(intent: Intent, message: String): Intent {
  * @param intent интент с результатом
  * @param parseUri лямбда, осуществляющая приведение к типу [T]
  */
-fun <T : Serializable> parseSingleResultIntent(intent: Intent?,
-                                               parseUri: (uri: Uri) -> T
+fun <T : Serializable> parseSingleResultIntent(
+        intent: Intent?,
+        parseUri: (uri: Uri) -> T
 ): T? {
     return if (intent != null && intent.data != null) {
         parseUri(intent.data)
@@ -69,8 +70,9 @@ fun <T : Serializable> parseSingleResultIntent(intent: Intent?,
  * @param intent интент с результатом
  * @param parseUris лямбда, осуществляющая приведение к списку типа [T]
  */
-fun <T : Serializable> parseMultipleResultIntent(intent: Intent?,
-                                                 parseUris: (uris: ArrayList<Uri>) -> ArrayList<T>
+fun <T : Serializable> parseMultipleResultIntent(
+        intent: Intent?,
+        parseUris: (uris: ArrayList<Uri>) -> ArrayList<T>
 ): ArrayList<T>? {
     return when {
         intent == null -> null
