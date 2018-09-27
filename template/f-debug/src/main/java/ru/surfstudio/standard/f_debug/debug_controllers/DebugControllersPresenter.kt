@@ -6,7 +6,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**
- * Презентер экрана для показа контроллеров, используемых в приложении
+ * Презентер экрана для показа переиспользуемых контроллеров
  */
 @PerScreen
 class DebugControllersPresenter @Inject constructor(

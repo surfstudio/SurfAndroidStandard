@@ -5,7 +5,7 @@ import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
 /**
- * Роут экрана для показа контроллеров, используемых в приложении
+ * Роут экрана для показа переиспользуемых контроллеров
  */
 class DebugControllersActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context): Intent {

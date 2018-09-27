@@ -16,7 +16,7 @@ import ru.surfstudio.standard.f_debug.debug_controllers.description.addDescripti
 import javax.inject.Inject
 
 /**
- * Вью экрана для показа контроллеров, используемых в приложении
+ * Вью экрана для показа переиспользуемых контроллеров
  */
 class DebugControllersActivityView : BaseRenderableActivityView<DebugControllersScreenModel>() {
 

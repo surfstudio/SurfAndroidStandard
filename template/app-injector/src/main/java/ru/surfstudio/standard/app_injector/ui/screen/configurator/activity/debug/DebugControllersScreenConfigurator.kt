@@ -13,7 +13,7 @@ import ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivity
 import ru.surfstudio.standard.f_debug.debug_controllers.DebugControllersActivityView
 
 /**
- * Конфигуратор экрана для показа контроллеров, используемых в приложении
+ * Конфигуратор экрана для показа переиспользуемых контроллеров
  */
 class DebugControllersScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
