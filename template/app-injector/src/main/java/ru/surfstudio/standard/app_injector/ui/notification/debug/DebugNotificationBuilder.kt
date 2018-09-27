@@ -28,7 +28,7 @@ object DebugNotificationBuilder {
                     DebugActivityRoute().prepareIntent(context),
                     PendingIntent.FLAG_UPDATE_CURRENT)
 
-            val notificationBuilder =  NotificationCompat.Builder(context, channelId)
+            val notificationBuilder = NotificationCompat.Builder(context, channelId)
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setContentTitle(notificationTitle)
                     .setContentText(notificationBody)
@@ -51,7 +51,7 @@ object DebugNotificationBuilder {
         }
     }
 
-    private fun canShowDebugScreen(): Boolean {
-        return BuildConfig.BUILD_TYPE == "debug" || BuildConfig.BUILD_TYPE == "qa"
+    private fun canShowDebugScreen(): Boolean = with(BuildConfig.BUILD_TYPE) {
+        contains("debug") || contains("qa")
     }
 }
