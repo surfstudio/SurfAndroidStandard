@@ -29,21 +29,21 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResul
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import java.io.*
 
-const val DEFAULT_TEMP_FILE_NAME = "image.jpg"
+internal const val DEFAULT_TEMP_FILE_NAME = "image.jpg"
 
 //region Вспомогательные функции для роутеров
-fun getIntentForSingleImageFromGallery(): Intent {
+internal fun getIntentForSingleImageFromGallery(): Intent {
     return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 }
 
-fun getIntentForMultipleImageFromGallery(): Intent {
+internal fun getIntentForMultipleImageFromGallery(): Intent {
     return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             .apply {
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             }
 }
 
-fun createChooser(intent: Intent, message: String): Intent {
+internal fun createChooser(intent: Intent, message: String): Intent {
     return Intent.createChooser(intent, message)
 }
 
@@ -53,7 +53,7 @@ fun createChooser(intent: Intent, message: String): Intent {
  * @param intent интент с результатом
  * @param parseUri лямбда, осуществляющая приведение к типу [T]
  */
-fun <T : Serializable> parseSingleResultIntent(
+internal fun <T : Serializable> parseSingleResultIntent(
         intent: Intent?,
         parseUri: (uri: Uri) -> T
 ): T? {
@@ -70,7 +70,7 @@ fun <T : Serializable> parseSingleResultIntent(
  * @param intent интент с результатом
  * @param parseUris лямбда, осуществляющая приведение к списку типа [T]
  */
-fun <T : Serializable> parseMultipleResultIntent(
+internal fun <T : Serializable> parseMultipleResultIntent(
         intent: Intent?,
         parseUris: (uris: ArrayList<Uri>) -> ArrayList<T>
 ): ArrayList<T>? {
@@ -86,20 +86,20 @@ fun <T : Serializable> parseMultipleResultIntent(
 //endregion
 
 //region Вспомогательные функции для обработки результата открытия экрана
-fun <T : Serializable> observeSingleScreenResult(activityNavigator: ActivityNavigator,
+internal fun <T : Serializable> observeSingleScreenResult(activityNavigator: ActivityNavigator,
                                                  route: ActivityWithResultRoute<T>): Observable<T> {
     return activityNavigator.observeResult<T>(route)
             .flatMap { parseScreenResult(it) }
 }
 
-fun <T : Serializable> observeMultipleScreenResult(activityNavigator: ActivityNavigator,
+internal fun <T : Serializable> observeMultipleScreenResult(activityNavigator: ActivityNavigator,
                                                    route: ActivityWithResultRoute<ArrayList<T>>): Observable<List<T>> {
     return activityNavigator.observeResult<ArrayList<T>>(route)
             .flatMap { parseScreenResult(it) }
             .map { it as List<T> }
 }
 
-fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
+internal fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
                                          throwable: () -> Throwable = { ActionInterruptedException() }): Observable<T> {
     return if (screenResult.isSuccess) {
         Observable.just(screenResult.data)
@@ -110,13 +110,6 @@ fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
 //endregion
 
 //region Вспомогательные функции для парсинга Uri
-/**
- * Функция, возвращающая путь ко всем файлам в списке по их Uri
- */
-fun ArrayList<Uri>.getRealPaths(activity: Activity) = mapIndexed { i, uri ->
-    uri.getRealPath(activity, i.toJpgString())
-} as ArrayList
-
 /**
  * Функция, возвращающая путь к файлу по его Uri
  */
@@ -143,19 +136,12 @@ fun Uri.getRealPath(activity: Activity, tempFileName: String = DEFAULT_TEMP_FILE
 }
 
 /**
- * Функция, преобразующая список Uri в список строк
+ * Функция, возвращающая путь ко всем файлам в списке по их Uri
  */
-fun ArrayList<Uri>.toStringArrayList() = map { it.toString() } as ArrayList
+internal fun ArrayList<Uri>.getRealPaths(activity: Activity) = mapIndexed { i, uri ->
+    uri.getRealPath(activity, i.toJpgString())
+} as ArrayList
 
-/**
- * Функция, преобразующая список Uri в список UriWrapper
- */
-fun ArrayList<Uri>.toUriWrapperList() = map { UriWrapper(it) } as ArrayList
-
-/**
- * Функция, создающая из целочисленного числа название для изображения, например 123.jpg
- */
-fun Int.toJpgString() = "$this.jpg"
 //endregion
 
 //region Вспомогательные функции работы с Bitmap при извлечении путей к изображениям
@@ -190,4 +176,21 @@ fun saveTempBitmap(bitmap: Bitmap, fileName: String, context: Context): File {
     }
     return file
 }
+//endregion
+
+//region Вспомогательные функции конвертации
+/**
+ * Функция, преобразующая список Uri в список строк
+ */
+internal fun ArrayList<Uri>.toStringArrayList() = map { it.toString() } as ArrayList
+
+/**
+ * Функция, преобразующая список Uri в список UriWrapper
+ */
+internal fun ArrayList<Uri>.toUriWrapperList() = map { UriWrapper(it) } as ArrayList
+
+/**
+ * Функция, создающая из целочисленного числа название для изображения, например 123.jpg
+ */
+internal fun Int.toJpgString() = "$this.jpg"
 //endregion

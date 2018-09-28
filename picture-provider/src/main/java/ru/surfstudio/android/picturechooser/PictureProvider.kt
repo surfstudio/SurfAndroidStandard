@@ -39,7 +39,7 @@ class PictureProvider constructor(
      *  Запускает сторонее приложение камеры для получения изображения.
      *  @return Observable Uri изображения и угол поворота.
      */
-    fun openCameraAndTakePhoto(noPermissionAction: () -> Unit = {}): Observable<CameraPictureProvider.CameraResult> {
+    fun openCameraAndTakePhoto(noPermissionAction: () -> Unit = {}): Observable<CameraResult> {
         return checkPermissionAndPerform(
                 cameraStoragePermissionChecker.checkCameraStoragePermission(),
                 { cameraIntentHelper.startCameraIntent() },

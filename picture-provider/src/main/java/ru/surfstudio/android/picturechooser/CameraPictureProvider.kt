@@ -38,8 +38,8 @@ import java.util.*
 /**
  *  Позволяет получить данные с камеры стороннего приложения
  */
-class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
-                            private val activity: Activity) {
+internal class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
+                                     private val activity: Activity) {
 
     fun startCameraIntent(): Observable<CameraResult> {
         val image = generatePicturePath()
@@ -139,6 +139,6 @@ class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     private data class ResultData(val photoPath: String) : Serializable
-
-    data class CameraResult(val photoUrl: String, val rotation: Int)
 }
+
+data class CameraResult(val photoUrl: String, val rotation: Int)

@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResul
 /**
  * Позволяет получить одно или несколько изображений из любого места на устройстве
  */
-class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
+internal class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
                              private val activity: Activity) {
 
     //region Функции для выбора одного изображения
