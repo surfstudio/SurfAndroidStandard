@@ -26,11 +26,12 @@ import ru.surfstudio.android.picturechooser.exceptions.NoPermissionException
 /**
  * Поставляет изображения находящиеся на устройстве или с камеры.
  */
-class PictureProvider(val context: Context,
-                      activityNavigator: ActivityNavigator,
-                      activityProvider: ActivityProvider,
-                      private val cameraStoragePermissionChecker: PicturePermissionChecker) {
-
+class PictureProvider(
+        val context: Context,
+        activityNavigator: ActivityNavigator,
+        activityProvider: ActivityProvider,
+        private val cameraStoragePermissionChecker: PicturePermissionChecker
+) {
     private val cameraIntentHelper = CameraPictureProvider(activityNavigator, activityProvider.get())
     private val galleryPictureProvider = GalleryPictureProvider(activityNavigator, activityProvider.get())
     private val chooserPictureProvider = ChooserPictureProvider(activityNavigator, activityProvider.get())
@@ -109,7 +110,9 @@ class PictureProvider(val context: Context,
      *  Запускает сторонее приложение галереи для получения нескольких изображений.
      *  @return Single списка UriWrapper выбранных изображений
      */
-    fun openGalleryAndGetFewPhotoUriWrapper(noPermissionAction: () -> Unit = {}): Single<List<UriWrapper>> {
+    fun openGalleryAndGetFewPhotoUriWrapper(
+            noPermissionAction: () -> Unit = {}
+    ): Single<List<UriWrapper>> {
         return checkPermissionAndPerform(
                 cameraStoragePermissionChecker.checkGalleryStoragePermission(),
                 { galleryPictureProvider.openGalleryForMultipleImageUriWrapper() },
