@@ -24,6 +24,7 @@ class MessagingService : FirebaseMessagingService() {
         AppInjector.appComponent.inject(this)
         Logger.i("Новый Firebase токен: $newToken")
         fcmStorage.fcmToken = newToken
+        //todo отправить новый токен на сервер для получения push-уведомлений
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {

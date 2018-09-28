@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import androidx.core.widget.toast
-import kotlinx.android.synthetic.main.activity_debug_fcm.*
+import kotlinx.android.synthetic.main.activity_fcm_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
@@ -28,7 +28,7 @@ class FcmDebugActivityView : BaseLdsActivityView<FcmDebugScreenModel>() {
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 
     @LayoutRes
-    override fun getContentView(): Int = R.layout.activity_debug_fcm
+    override fun getContentView(): Int = R.layout.activity_fcm_debug
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,

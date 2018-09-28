@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/custom_controller_description_height"
-    android:orientation="vertical">
+    android:layout_height="@dimen/custom_controller_description_height">
 
     <TextView
         android:id="@+id/description_tv"

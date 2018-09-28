@@ -3,15 +3,11 @@ package ru.surfstudio.standard.f_debug.debug
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
-import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.easyadapter.EasyAdapter
-import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
-import ru.surfstudio.standard.f_debug.debug.controllers.DebugItemController
 import javax.inject.Inject
 
 /**
@@ -21,10 +17,6 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
 
     @Inject
     lateinit var presenter: DebugPresenter
-
-    private val adapter = EasyAdapter()
-
-    private val debugScreenItemController = DebugItemController()
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
@@ -37,29 +29,15 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
-        initRecycler()
-        initAdapter()
+        initListeners()
     }
 
     override fun renderInternal(screenModel: DebugScreenModel) { }
 
     override fun getScreenName(): String = "debug"
 
-    private fun initRecycler() {
-        recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = adapter
-    }
-
-    private fun initAdapter() {
-        adapter.setItems(ItemList.create()
-                .add(
-                        getString(R.string.show_controllers_debug_item),
-                        { presenter.openControllersScreen() },
-                        debugScreenItemController)
-                .add(
-                        getString(R.string.show_fcm_token_debug_item),
-                        { presenter.openFcmTokenScreen() },
-                        debugScreenItemController)
-        )
+    private fun initListeners() {
+        show_controllers_item_layout.setOnClickListener { presenter.openControllersScreen() }
+        show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
     }
 }

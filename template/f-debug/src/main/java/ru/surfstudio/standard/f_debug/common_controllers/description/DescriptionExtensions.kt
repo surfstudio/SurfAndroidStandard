@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.f_debug.common_controllers.description
 
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.standard.f_debug.debug.controllers.CustomControllerDescriptionItemController
+import ru.surfstudio.standard.f_debug.common_controllers.controllers.CustomControllerDescriptionItemController
 
 private val descriptionItemController = CustomControllerDescriptionItemController()
 

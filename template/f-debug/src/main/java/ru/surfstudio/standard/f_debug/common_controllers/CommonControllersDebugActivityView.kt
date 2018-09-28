@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_debug.*
+import kotlinx.android.synthetic.main.activity_common_controllers_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
-import ru.surfstudio.standard.f_debug.debug.controllers.CustomControllerDescriptionItemController
+import ru.surfstudio.standard.f_debug.common_controllers.controllers.CustomControllerDescriptionItemController
 import ru.surfstudio.standard.f_debug.common_controllers.description.addDescription
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 
     @LayoutRes
-    override fun getContentView(): Int = R.layout.activity_debug_controllers
+    override fun getContentView(): Int = R.layout.activity_common_controllers_debug
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
