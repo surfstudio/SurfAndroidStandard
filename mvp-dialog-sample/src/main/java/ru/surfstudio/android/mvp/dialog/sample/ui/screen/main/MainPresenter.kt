@@ -1,6 +1,5 @@
 package ru.surfstudio.android.mvp.dialog.sample.ui.screen.main
 
-import androidx.core.widget.toast
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -32,16 +31,16 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         super.onLoad(viewRecreated)
         view.render(screenModel)
         subscribe(rxBus.observeEvents(DataChangedEvent::class.java)) {
-            view.toast("New value = ${it.sampleData.value} from ${it.eventType.name}")
+            view.showMessage("New value = ${it.sampleData.value} from ${it.eventType.name}")
         }
     }
 
     override fun simpleDialogSuccessAction() {
-        view.toast("Simple dialog accepted")
+        view.showMessage("Simple dialog accepted")
     }
 
     override fun simpleBottomSheetDialogSuccessAction() {
-        view.toast("Simple bottom sheet dialog accepted")
+        view.showMessage("Simple bottom sheet dialog accepted")
     }
 
     fun showSimpleDialog() = dialogNavigator.show(SimpleDialogRoute())
