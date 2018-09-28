@@ -1,10 +1,8 @@
-import com.google.gms.googleservices.GoogleServicesPlugin
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric' todo uncoment for real app
 
 apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
@@ -117,7 +115,4 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
 }
 
-//todo replace google-services.json
-apply plugin: 'com.google.gms.google-services'
-
-GoogleServicesPlugin.config.disableVersionCheck = true
+//apply plugin: 'com.google.gms.google-services' todo uncoment for real app
