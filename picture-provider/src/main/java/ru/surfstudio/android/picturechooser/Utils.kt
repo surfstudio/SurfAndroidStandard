@@ -86,21 +86,27 @@ internal fun <T : Serializable> parseMultipleResultIntent(
 //endregion
 
 //region Вспомогательные функции для обработки результата открытия экрана
-internal fun <T : Serializable> observeSingleScreenResult(activityNavigator: ActivityNavigator,
-                                                 route: ActivityWithResultRoute<T>): Observable<T> {
+internal fun <T : Serializable> observeSingleScreenResult(
+        activityNavigator: ActivityNavigator,
+        route: ActivityWithResultRoute<T>
+): Observable<T> {
     return activityNavigator.observeResult<T>(route)
             .flatMap { parseScreenResult(it) }
 }
 
-internal fun <T : Serializable> observeMultipleScreenResult(activityNavigator: ActivityNavigator,
-                                                   route: ActivityWithResultRoute<ArrayList<T>>): Observable<List<T>> {
+internal fun <T : Serializable> observeMultipleScreenResult(
+        activityNavigator: ActivityNavigator,
+        route: ActivityWithResultRoute<ArrayList<T>>
+): Observable<List<T>> {
     return activityNavigator.observeResult<ArrayList<T>>(route)
             .flatMap { parseScreenResult(it) }
             .map { it as List<T> }
 }
 
-internal fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
-                                         throwable: () -> Throwable = { ActionInterruptedException() }): Observable<T> {
+internal fun <T : Serializable> parseScreenResult(
+        screenResult: ScreenResult<T>,
+        throwable: () -> Throwable = { ActionInterruptedException() }
+): Observable<T> {
     return if (screenResult.isSuccess) {
         Observable.just(screenResult.data)
     } else {

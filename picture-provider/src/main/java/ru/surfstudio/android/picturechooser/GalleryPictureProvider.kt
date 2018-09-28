@@ -26,7 +26,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResul
  * Позволяет получить одно или несколько изображений через сторонее приложение
  */
 internal class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
-                             private val activity: Activity) {
+                                      private val activity: Activity) {
 
     //region Функции для выбора одного изображения из галереи
     fun openGalleryForSingleImage(): Observable<String> {
