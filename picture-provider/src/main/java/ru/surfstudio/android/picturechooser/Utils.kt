@@ -115,7 +115,7 @@ internal fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
  */
 fun Uri.getRealPath(activity: Activity, tempFileName: String = DEFAULT_TEMP_FILE_NAME): String {
     val result: String
-    val column = MediaStore.Images.ImageColumns.DATA
+    val column = MediaStore.Images.Media.DATA
     val projection = arrayOf(column)
 
     val cursor = activity.applicationContext.contentResolver
