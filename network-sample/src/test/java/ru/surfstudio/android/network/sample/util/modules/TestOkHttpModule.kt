@@ -1,16 +1,14 @@
-package ru.surfstudio.android.network.sample.interactor.common.network
+package ru.surfstudio.android.network.sample.util.modules
 
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.network.cache.SimpleCacheInterceptor
-import ru.surfstudio.android.network.etag.EtagInterceptor
 import java.util.concurrent.TimeUnit
 
 @Module
-class OkHttpModule {
+class TestOkHttpModule {
 
     companion object {
         private const val NETWORK_TIMEOUT = 10L //sec
@@ -18,18 +16,12 @@ class OkHttpModule {
 
     @Provides
     @PerApplication
-    fun provideOkHttpClient(
-            cacheInterceptor: SimpleCacheInterceptor,
-            etagInterceptor: EtagInterceptor,
-            httpLoggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
+    fun provideOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
             readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
 
-            addInterceptor(cacheInterceptor)
-            addInterceptor(etagInterceptor)
             addInterceptor(httpLoggingInterceptor)
         }.build()
     }

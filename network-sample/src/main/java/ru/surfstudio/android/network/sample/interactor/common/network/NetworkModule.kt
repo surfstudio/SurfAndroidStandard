@@ -5,13 +5,11 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.surfstudio.android.converter.gson.ResponseTypeAdapterFactory
 import ru.surfstudio.android.converter.gson.SafeConverterFactory
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.network.BaseUrl
 import ru.surfstudio.android.network.sample.interactor.common.network.calladapter.CallAdapterFactory
 
@@ -20,10 +18,12 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    fun provideRetrofit(okHttpClient: OkHttpClient,
-                        callAdapterFactory: CallAdapterFactory,
-                        gson: Gson,
-                        baseUrl: BaseUrl): Retrofit {
+    fun provideRetrofit(
+            okHttpClient: OkHttpClient,
+            callAdapterFactory: CallAdapterFactory,
+            gson: Gson,
+            baseUrl: BaseUrl
+    ): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(baseUrl.toString())

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.network.sample.util
+package ru.surfstudio.android.network.sample.util.modules
 
 import dagger.Module
 import dagger.Provides
