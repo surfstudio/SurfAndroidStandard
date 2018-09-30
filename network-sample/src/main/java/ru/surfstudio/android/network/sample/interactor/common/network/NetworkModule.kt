@@ -18,10 +18,6 @@ import ru.surfstudio.android.network.sample.interactor.common.network.calladapte
 @Module
 class NetworkModule {
 
-    companion object {
-        private const val HTTP_LOG_TAG = "OkHttp"
-    }
-
     @Provides
     @PerApplication
     fun provideRetrofit(okHttpClient: OkHttpClient,
@@ -48,15 +44,5 @@ class NetworkModule {
     @PerApplication
     fun provideResponseTypeAdapterFactory(): ResponseTypeAdapterFactory {
         return ResponseTypeAdapterFactory(SafeConverterFactory())
-    }
-
-    @Provides
-    @PerApplication
-    fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor { message ->
-            Logger.d("$HTTP_LOG_TAG $message")
-        }.apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        }
     }
 }

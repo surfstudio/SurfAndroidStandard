@@ -15,6 +15,7 @@ import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
     DefaultAppModule::class,
     CacheModule::class,
     NetworkModule::class,
+    TestHttpLoggingModule::class,
     OkHttpModule::class,
     ServerUrlModule::class,
     ProductModule::class])
