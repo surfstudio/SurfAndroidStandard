@@ -28,14 +28,18 @@ class AppModule(private val coreApp: CoreApp) {
 
     @PerApplication
     @Provides
-    internal fun provideStringsProvider(context: Context): StringsProvider {
+    fun provideStringsProvider(context: Context): StringsProvider {
         return StringsProvider(context)
     }
 
     @PerApplication
     @Provides
-    fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder): GlobalNavigator =
-            GlobalNavigator(context, activityHolder)
+    fun provideGlobalNavigator(
+            context: Context,
+            activityHolder: ActiveActivityHolder
+    ): GlobalNavigator {
+        return GlobalNavigator(context, activityHolder)
+    }
 
     @Provides
     @PerApplication

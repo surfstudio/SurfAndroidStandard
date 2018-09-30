@@ -13,6 +13,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.standard.app_injector.interactor.AuthModule
 import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
+import ru.surfstudio.standard.app_injector.network.HttpLoggingModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
 import ru.surfstudio.standard.app_injector.network.cache.CacheModule
@@ -24,6 +25,7 @@ import ru.surfstudio.standard.app_injector.network.cache.CacheModule
     SharedPrefModule::class,
     AuthModule::class,
     NetworkModule::class,
+    HttpLoggingModule::class,
     OkHttpModule::class,
     CacheModule::class])
 interface AppComponent {

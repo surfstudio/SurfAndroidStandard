@@ -5,12 +5,12 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //instrumental test
     androidTestImplementation project(":template:base")
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
     androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
-
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }
