@@ -15,9 +15,7 @@ import org.robolectric.annotation.Implementation
 import org.robolectric.annotation.Implements
 
 @RunWith(RobolectricTestRunner::class)
-@Config(
-        application = CustomApp::class,
-        manifest = Config.NONE,
+@Config(application = CustomApp::class,
         shadows = [BaseDaggerTest.TestNetworkSecurityPolicy::class])
 abstract class BaseDaggerTest {
 

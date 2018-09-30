@@ -1,3 +1,11 @@
+android {
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
 dependencies {
 
     //unit test

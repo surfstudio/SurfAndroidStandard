@@ -4,6 +4,12 @@ android {
     defaultConfig {
         applicationId "ru.surfstudio.android.network.sample"
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {

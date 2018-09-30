@@ -16,7 +16,7 @@ import ru.surfstudio.standard.app_injector.App
 import ru.surfstudio.standard.app_injector.AppModule
 
 @RunWith(RobolectricTestRunner::class)
-@Config(application = App::class, manifest = Config.NONE)
+@Config(application = App::class)
 abstract class BaseDaggerTest {
 
     @Suppress("DEPRECATION")
