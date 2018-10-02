@@ -1,5 +1,6 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.widget
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.ScreenType
@@ -25,6 +26,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.error.DefaultErrorHandlerModule
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import javax.inject.Named
 
 private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
@@ -88,13 +90,27 @@ class DefaultWidgetScreenModule(private val persistentScope: WidgetViewPersisten
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager,
-                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType): PermissionManager {
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityProvider: ActivityProvider,
+                                          activityNavigator: ActivityNavigator,
+                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType,
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences
+    ): PermissionManager {
         return if (parentType == ScreenType.FRAGMENT)
-            PermissionManagerForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
+            PermissionManagerForFragment(
+                    eventDelegateManager,
+                    activityProvider,
+                    activityNavigator,
+                    sharedPreferences,
+                    createFragmentProvider()
+            )
         else
-            PermissionManagerForActivity(activityProvider, eventDelegateManager)
+            PermissionManagerForActivity(
+                    eventDelegateManager,
+                    activityNavigator,
+                    sharedPreferences,
+                    activityProvider
+            )
     }
 
     @Provides

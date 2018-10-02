@@ -255,11 +255,11 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
 
     protected <T> Disposable subscribeIo(Maybe<T> maybe,
-                                         final ConsumerSafe<T> onNext,
-                                         final ActionSafe onSuccess,
+                                         final ConsumerSafe<T> onSuccess,
+                                         final ActionSafe onComplete,
                                          final ConsumerSafe<Throwable> onError) {
         maybe = maybe.subscribeOn(schedulersProvider.worker());
-        return subscribe(maybe, onNext, onSuccess, onError);
+        return subscribe(maybe, onSuccess, onComplete, onError);
     }
     //endregion
 

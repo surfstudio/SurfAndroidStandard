@@ -1,4 +1,4 @@
-package ru.surfstudio.android.location.sample.ui.screen.base
+package ru.surfstudio.android.location.sample.ui.screen.common
 
 import android.location.Location
 import android.os.Bundle
