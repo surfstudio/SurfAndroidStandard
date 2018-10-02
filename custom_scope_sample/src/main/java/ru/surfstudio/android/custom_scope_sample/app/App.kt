@@ -13,6 +13,6 @@ class App : CoreApp() {
     }
 
     private fun initInjector() {
-        AppInjector.initInjector(this)
+        AppConfigurator.initInjector(this)
     }
 }

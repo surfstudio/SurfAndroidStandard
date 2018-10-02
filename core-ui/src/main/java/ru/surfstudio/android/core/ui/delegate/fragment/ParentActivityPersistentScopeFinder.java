@@ -19,6 +19,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import ru.surfstudio.android.core.ui.activity.CoreActivity;
+import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
@@ -39,7 +40,7 @@ public class ParentActivityPersistentScopeFinder {
     public ActivityPersistentScope find() {
         ActivityPersistentScope parentScope = null;
         FragmentActivity activity = (FragmentActivity) childFragment.getContext();
-        parentScope = ((CoreActivity) activity).getPersistentScope();
+        parentScope = ((CoreActivityInterface) activity).getPersistentScope();
         return parentScope;
     }
 }

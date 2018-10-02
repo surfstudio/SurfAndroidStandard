@@ -13,7 +13,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 @PerLogin
 @Component(dependencies = [AppComponent::class],
         modules = [LoginModule::class])
-interface LoginScreenComponent {
+interface LoginComponent {
     fun context(): Context
     fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider

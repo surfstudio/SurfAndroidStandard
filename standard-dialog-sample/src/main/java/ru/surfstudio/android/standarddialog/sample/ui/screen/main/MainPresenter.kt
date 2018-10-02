@@ -1,6 +1,5 @@
 package ru.surfstudio.android.standarddialog.sample.ui.screen.main
 
-import androidx.core.widget.toast
 import com.example.standarddialog.StandardDialogPresenter
 import com.example.standarddialog.StandardDialogRoute
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
@@ -64,8 +63,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
                           firstDialogMessage: String,
                           secondDialogMessage: String) {
         when (dialogTag) {
-            FIRST_DIALOG_TAG -> view.toast(firstDialogMessage)
-            SECOND_DIALOG_TAG -> view.toast(secondDialogMessage)
+            FIRST_DIALOG_TAG -> view.showMessage(firstDialogMessage)
+            SECOND_DIALOG_TAG -> view.showMessage(secondDialogMessage)
         }
     }
 }

@@ -1,5 +1,7 @@
 package ru.surfstudio.android.filestorage.sample.ui.screen.main
 
+import android.support.annotation.StringRes
+import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @PerScreen
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                  private val repository: IpRepository,
+                                                 private val stringsProvider: StringsProvider,
                                                  private val messageController: MessageController
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
@@ -51,17 +54,17 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     fun reloadData() = tryLoadData()
 
     fun saveIpToCache() {
-        val messageRes: Int = screenModel.ip?.let {
+        val message: String = screenModel.ip?.let {
             repository.saveIp(it)
-            R.string.cache_created_message
-        } ?: R.string.null_ip_message
-        messageController.show(messageRes)
+            getString(R.string.cache_created_message)
+        } ?: getString(R.string.null_ip_message)
+        messageController.show(message)
     }
 
     fun loadDataFromCache() {
         val message = repository.getIpFromCache()?.value
         if (message.isNullOrEmpty()) {
-            messageController.show(R.string.empty_cache_message)
+            messageController.show(getString(R.string.empty_cache_message))
         } else {
             messageController.show(message!!)
         }
@@ -69,6 +72,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     fun clearCache() {
         repository.clearIpStorage()
-        messageController.show(R.string.cache_deleted_message)
+        messageController.show(getString(R.string.cache_deleted_message))
     }
+
+    private fun getString(@StringRes stringId: Int): String = stringsProvider.getString(stringId)
 }

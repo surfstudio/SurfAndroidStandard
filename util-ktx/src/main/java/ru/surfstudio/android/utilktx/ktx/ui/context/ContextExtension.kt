@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.utilktx.ktx.ui.context
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -26,14 +27,14 @@ import android.support.v4.content.ContextCompat
 import android.util.DisplayMetrics
 
 /**
- *  Extension-методы для Context
+ * Extension-методы для Context
  */
-
 fun Context.getDisplayMetrics(): DisplayMetrics = resources.displayMetrics
 
 /**
  * Возвращает Bitmap из Drawable
  */
+@SuppressLint("NewApi")
 fun Context.getBitmapFromDrawable(@DrawableRes drawableId: Int): Bitmap {
     val drawable = ContextCompat.getDrawable(this, drawableId)
 
