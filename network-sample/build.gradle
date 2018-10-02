@@ -22,20 +22,6 @@ dependencies {
 
     implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
 
-    implementation "ru.surfstudio.android:core-app:${moduleVersionName}"
-    implementation "ru.surfstudio.android:core-mvp:${moduleVersionName}"
-    implementation "ru.surfstudio.android:core-ui:${moduleVersionName}"
-    implementation "ru.surfstudio.android:network:${moduleVersionName}"
-    implementation "ru.surfstudio.android:filestorage:${moduleVersionName}"
-    implementation "ru.surfstudio.android:dagger-scope:${moduleVersionName}"
-    implementation "ru.surfstudio.android:logger:${moduleVersionName}"
-    implementation "ru.surfstudio.android:converter-gson:${moduleVersionName}"
-    implementation "ru.surfstudio.android:easyadapter:${moduleVersionName}"
-    implementation "ru.surfstudio.android:message-controller:${moduleVersionName}"
-    implementation "ru.surfstudio.android:connection:${moduleVersionName}"
-    implementation "ru.surfstudio.android:datalist-page-count:${moduleVersionName}"
-    implementation "ru.surfstudio.android:shared-pref:${moduleVersionName}"
-
     //unit test
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
