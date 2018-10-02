@@ -6,7 +6,7 @@ import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.location.DefaultLocationInteractor
 import ru.surfstudio.android.location.domain.CurrentLocationRequest
-import ru.surfstudio.android.location.domain.LastKnowLocationRequest
+import ru.surfstudio.android.location.domain.LastKnownLocationRequest
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.sample.ui.screen.common.BaseSamplePresenter
 import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPermissionRequest
@@ -54,9 +54,8 @@ class DefaultLocationInteractorPresenter(
     fun getLastKnownLocation() {
         view.showLoading()
 
-        val lastKnowLocationRequest = LastKnowLocationRequest(
+        val lastKnowLocationRequest = LastKnownLocationRequest(
                 LocationPriority.HIGH_ACCURACY,
-                0,
                 true,
                 commonLocationPermissionRequest
         )

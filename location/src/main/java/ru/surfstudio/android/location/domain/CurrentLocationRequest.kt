@@ -19,6 +19,6 @@ class CurrentLocationRequest(
         val priority: LocationPriority = LocationPriority.BALANCED_POWER_ACCURACY,
         val relevanceTimeoutMillis: Long = 5_000L,
         val expirationTimeoutMillis: Long = 0,
-        val resolveLocationErrors: Boolean = false,
+        val resolveLocationErrors: Boolean = true,
         val locationPermissionRequest: LocationPermissionRequest = LocationPermissionRequest()
 )
