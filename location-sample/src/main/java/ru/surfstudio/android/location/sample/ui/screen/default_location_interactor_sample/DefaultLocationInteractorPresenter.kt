@@ -56,6 +56,7 @@ class DefaultLocationInteractorPresenter(
 
         val lastKnowLocationRequest = LastKnowLocationRequest(
                 LocationPriority.HIGH_ACCURACY,
+                0,
                 true,
                 commonLocationPermissionRequest
         )
@@ -74,6 +75,7 @@ class DefaultLocationInteractorPresenter(
         val currentLocationRequest = CurrentLocationRequest(
                 LocationPriority.HIGH_ACCURACY,
                 10_000,
+                0,
                 true,
                 commonLocationPermissionRequest
         )

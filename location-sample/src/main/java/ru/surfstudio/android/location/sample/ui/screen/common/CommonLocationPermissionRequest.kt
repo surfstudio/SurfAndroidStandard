@@ -12,6 +12,8 @@ class CommonLocationPermissionRequest(context: Context) : LocationPermissionRequ
     init {
         showPermissionsRational = true
         permissionsRationalStr = context.getString(R.string.permission_rational)
+
+        showSettingsRational = true
         settingsRationalStr = context.getString(R.string.settings_rational)
     }
 }

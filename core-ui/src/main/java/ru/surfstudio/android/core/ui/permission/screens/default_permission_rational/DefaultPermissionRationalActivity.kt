@@ -20,7 +20,8 @@ class DefaultPermissionRationalActivity : AppCompatActivity() {
         AlertDialog
                 .Builder(this)
                 .setMessage(permissionsRationalStr)
-                .setNeutralButton(R.string.default_permission_rational_got_it) { _, _ -> finish() }
+                .setNeutralButton(R.string.default_permission_rational_got_it, null)
+                .setOnDismissListener { finish() }
                 .create()
                 .show()
     }

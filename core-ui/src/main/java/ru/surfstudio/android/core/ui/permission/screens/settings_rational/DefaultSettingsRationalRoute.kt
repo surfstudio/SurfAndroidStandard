@@ -9,9 +9,9 @@ import java.io.Serializable
 /**
  * Маршрут экрана объяснения необходимости перехода в настройки приложения.
  */
-class SettingsRationalRoute(private val settingsRationalStr: String) : ActivityWithResultRoute<Serializable>() {
+class DefaultSettingsRationalRoute(private val settingsRationalStr: String) : ActivityWithResultRoute<Serializable>() {
 
     override fun prepareIntent(context: Context?): Intent =
-            Intent(context, SettingsRationalActivity::class.java)
+            Intent(context, DefaultSettingsRationalActivity::class.java)
                     .apply { putExtra(Route.EXTRA_FIRST, settingsRationalStr) }
 }

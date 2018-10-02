@@ -30,10 +30,11 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.permission.exceptions.PermissionsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.screens.default_permission_rational.DefaultPermissionRationalRoute
-import ru.surfstudio.android.core.ui.permission.screens.settings_rational.SettingsRationalRoute
+import ru.surfstudio.android.core.ui.permission.screens.settings_rational.DefaultSettingsRationalRoute
 import java.io.Serializable
 
 /**
@@ -59,12 +60,12 @@ abstract class PermissionManager(
             permissions: Array<String>,
             grantResults: IntArray
     ): Boolean {
-        if (singleEmitterPerRequestCode.containsKey(requestCode)) {
-            return false
-        }
+        val nonNullSingleEmitter = singleEmitterPerRequestCode[requestCode] ?: return false
+        if (nonNullSingleEmitter.isDisposed) return true
 
         val isPermissionRequestGranted = isAllResultsAreGranted(grantResults)
-        singleEmitterPerRequestCode[requestCode]?.onSuccess(isPermissionRequestGranted)
+        nonNullSingleEmitter.onSuccess(isPermissionRequestGranted)
+
         return true
     }
 
@@ -78,8 +79,8 @@ abstract class PermissionManager(
     fun check(permissionRequest: PermissionRequest): PermissionStatus =
             when {
                 isPermissionRequestGranted(permissionRequest) -> PermissionStatus.GRANTED
-                isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
                 !isPermissionRequestRequested(permissionRequest) -> PermissionStatus.NOT_REQUESTED
+                isPermissionRequestDenied(permissionRequest) -> PermissionStatus.DENIED
                 else -> PermissionStatus.DENIED_FOREVER
             }
 
@@ -100,7 +101,7 @@ abstract class PermissionManager(
         return showPermissionRequestRationalIfNeeded(permissionRequest)
                 .toSingleDefault(false)
                 .flatMap { performPermissionRequestByDialogOrSettings(permissionRequest, permissionRequestStatus) }
-                .doOnSubscribe { setPermissionRequestIsRequested(permissionRequest) }
+                .doOnSuccess { setPermissionRequestIsRequested(permissionRequest) }
     }
 
     private fun isAllResultsAreGranted(grantResults: IntArray): Boolean =
@@ -131,10 +132,11 @@ abstract class PermissionManager(
             permissionRequest: PermissionRequest,
             permissionStatus: PermissionStatus
     ): Single<Boolean> =
-            if (permissionStatus != PermissionStatus.DENIED_FOREVER) {
-                performPermissionRequestByDialog(permissionRequest)
-            } else {
-                performPermissionRequestBySettings(permissionRequest)
+            when {
+                permissionStatus != PermissionStatus.DENIED_FOREVER ->
+                    performPermissionRequestByDialog(permissionRequest)
+                permissionRequest.showSettingsRational -> performPermissionRequestBySettings(permissionRequest)
+                else -> Single.just(false)
             }
 
     private fun setPermissionRequestIsRequested(permissionRequest: PermissionRequest) =
@@ -156,40 +158,36 @@ abstract class PermissionManager(
             permissionRequest.showPermissionsRational && shouldShowRequestPermissionRationale(permissionRequest)
 
     private fun showPermissionRequestRational(permissionRequest: PermissionRequest): Completable {
-        val permissionsRationalRoute = permissionRequest.permissionsRationalRoute
-        val permissionsRationalStringRes = permissionRequest.permissionsRationalStr
+        val customPermissionsRationalRoute = permissionRequest.permissionsRationalRoute
+        val customPermissionsRationalStr = permissionRequest.permissionsRationalStr
 
-        val rationalRoute = when {
-            permissionsRationalRoute != null -> permissionsRationalRoute
-            permissionsRationalStringRes!= null ->
-                DefaultPermissionRationalRoute(permissionsRationalStringRes)
-            else -> throw PermissionsRationalIsNotProvidedException()
+        val permissionRationalRoute = when {
+            customPermissionsRationalRoute != null -> customPermissionsRationalRoute
+            customPermissionsRationalStr != null -> DefaultPermissionRationalRoute(customPermissionsRationalStr)
+            else -> return Completable.error(PermissionsRationalIsNotProvidedException())
         }
 
-        return activityNavigator
-                .observeResult<Serializable>(rationalRoute)
-                .ignoreElements()
-                .doOnSubscribe { activityNavigator.startForResult(rationalRoute) }
+        return startAndObserveReturnFromScreen(permissionRationalRoute)
     }
 
-    private fun performPermissionRequestByDialog(permissionRequest: PermissionRequest): Single<Boolean> {
-        return Single
-                .create<Boolean> { singleEmitter ->
-                    singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
-                    performPermissionRequest(permissionRequest)
-                }
-                .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
-    }
+    private fun performPermissionRequestByDialog(permissionRequest: PermissionRequest): Single<Boolean> =
+            Single
+                    .create<Boolean> { singleEmitter ->
+                        singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
+                        performPermissionRequest(permissionRequest)
+                    }
+                    .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
 
     private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
-        val settingsRationalStr =
-                permissionRequest.settingsRationalStr ?: throw SettingsRationalIsNotProvidedException()
-        val settingsRationalRoute = SettingsRationalRoute(settingsRationalStr)
+        val customSettingsRationalRoute = permissionRequest.settingsRationalRoute
+        val customSettingsRationalStr = permissionRequest.settingsRationalStr
 
-        return activityNavigator
-                .observeResult<Serializable>(settingsRationalRoute)
-                .ignoreElements()
-                .doOnSubscribe { activityNavigator.startForResult(settingsRationalRoute) }
+        val settingsRationalRoute = when {
+            customSettingsRationalRoute != null -> customSettingsRationalRoute
+            customSettingsRationalStr != null -> DefaultSettingsRationalRoute(customSettingsRationalStr)
+            else -> return Single.error(SettingsRationalIsNotProvidedException())
+        }
+        return startAndObserveReturnFromScreen(settingsRationalRoute)
                 .toSingle { check(permissionRequest).isGranted }
     }
 
@@ -210,4 +208,11 @@ abstract class PermissionManager(
      */
     private fun shouldShowPermissionRationale(permission: String) =
             ActivityCompat.shouldShowRequestPermissionRationale(activityProvider.get(), permission)
+
+    private fun startAndObserveReturnFromScreen(route: ActivityWithResultRoute<*>): Completable =
+            activityNavigator
+                    .observeResult<Serializable>(route)
+                    .firstElement()
+                    .flatMapCompletable { Completable.complete() }
+                    .doOnSubscribe { activityNavigator.startForResult(route) }
 }

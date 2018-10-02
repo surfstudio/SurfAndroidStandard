@@ -58,17 +58,20 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Thr
                 setArgs(resolvingThrowable, completableEmitter)
                 try {
                     performResolutionRequest(resolvingThrowable)
-                } catch (e: Exception) {
-                    completableEmitter.onError(ResolutionFailedException(resolvingThrowable, e))
+                } catch (t: Throwable) {
+                    completableEmitter.onError(ResolutionFailedException(resolvingThrowable, t))
                     clearArgs()
                 }
             }
 
     private fun handleResolutionResult(isResolved: Boolean) {
+        val nonNullCompletableEmitter = completableEmitter ?: return
+        if (nonNullCompletableEmitter.isDisposed) return
+
         if (isResolved) {
-            completableEmitter?.onComplete()
+            nonNullCompletableEmitter.onComplete()
         } else {
-            completableEmitter?.onError(ResolutionFailedException(resolvingThrowable, UserDeniedException()))
+            nonNullCompletableEmitter.onError(ResolutionFailedException(resolvingThrowable, UserDeniedException()))
         }
         clearArgs()
     }

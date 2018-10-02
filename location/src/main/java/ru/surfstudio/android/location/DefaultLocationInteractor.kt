@@ -18,6 +18,7 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.NoLocationPermissionResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
+import java.util.concurrent.TimeUnit
 
 /**
  * Интерактор, содержащий методы для наиболее частых случаев использования. Для более гибкой настройки следует
@@ -81,22 +82,31 @@ class DefaultLocationInteractor(
      * [ResolvableApiException].
      */
     @SuppressWarnings("ResourceType")
-    fun observeLastKnownLocation(lastKnowLocationRequest: LastKnowLocationRequest): Maybe<Location> =
-            locationService
-                    .checkLocationAvailability(lastKnowLocationRequest.priority)
-                    .onErrorResumeNext { t: Throwable ->
-                        resolveAllLocationErrorsIfNeededAndPossible(
-                                lastKnowLocationRequest.resolveLocationErrors,
-                                t,
-                                lastKnowLocationRequest.locationPermissionRequest
-                        )
-                    }
-                    .toMaybe<Location>()
-                    .flatMap { locationService.observeLastKnownLocation() }
-                    .doOnSuccess {
-                        lastCurrentLocation = it
-                        lastCurrentLocationPriority = lastKnowLocationRequest.priority
-                    }
+    fun observeLastKnownLocation(lastKnowLocationRequest: LastKnowLocationRequest): Maybe<Location> {
+        var lastKnownLocationMaybe = locationService
+                .checkLocationAvailability(lastKnowLocationRequest.priority)
+                .onErrorResumeNext { t: Throwable ->
+                    resolveAllLocationErrorsIfNeededAndPossible(
+                            lastKnowLocationRequest.resolveLocationErrors,
+                            t,
+                            lastKnowLocationRequest.locationPermissionRequest
+                    )
+                }
+                .toMaybe<Location>()
+                .flatMap { locationService.observeLastKnownLocation() }
+                .doOnSuccess {
+                    lastCurrentLocation = it
+                    lastCurrentLocationPriority = lastKnowLocationRequest.priority
+                }
+
+        if (lastKnowLocationRequest.expirationTimeoutMillis > 0) {
+            lastKnownLocationMaybe =
+                    lastKnownLocationMaybe
+                            .timeout(lastKnowLocationRequest.expirationTimeoutMillis, TimeUnit.MILLISECONDS)
+        }
+
+        return lastKnownLocationMaybe
+    }
 
     /**
      * Запросить текущее местоположение.
@@ -105,9 +115,10 @@ class DefaultLocationInteractor(
      *
      * @return [Single]:
      * - onSuccess() вызывается в случае удачного получения местоположения.
-     * - onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
-     * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-     * [ResolvableApiException].
+     * - onError() вызывается, если нет возможности получить местоположение. Могут прийти:
+     *   - [CompositeException], содержащий список из возможных исключений: [NoLocationPermissionException],
+     *   [PlayServicesAreNotAvailableException], [ResolvableApiException];
+     *   - [TimeoutException].
      */
     @SuppressWarnings("ResourceType")
     fun observeCurrentLocation(currentLocationRequest: CurrentLocationRequest): Single<Location> {
@@ -116,26 +127,33 @@ class DefaultLocationInteractor(
                 currentLocationRequest.priority
         )
 
-        return if (relevantLocation != null) {
-            Single.just(relevantLocation)
-        } else {
-            locationService
-                    .checkLocationAvailability(currentLocationRequest.priority)
-                    .onErrorResumeNext { t: Throwable ->
-                        resolveAllLocationErrorsIfNeededAndPossible(
-                                currentLocationRequest.resolveLocationErrors,
-                                t,
-                                currentLocationRequest.locationPermissionRequest
-                        )
-                    }
-                    .toObservable<Location>()
-                    .flatMap { locationService.observeLocationUpdates(0, 0, currentLocationRequest.priority) }
-                    .firstOrError()
-                    .doOnSuccess {
-                        lastCurrentLocation = it
-                        lastCurrentLocationPriority = currentLocationRequest.priority
-                    }
+        if (relevantLocation != null) {
+            return Single.just(relevantLocation)
         }
+
+        var currentLocationSingle = locationService
+                .checkLocationAvailability(currentLocationRequest.priority)
+                .onErrorResumeNext { t: Throwable ->
+                    resolveAllLocationErrorsIfNeededAndPossible(
+                            currentLocationRequest.resolveLocationErrors,
+                            t,
+                            currentLocationRequest.locationPermissionRequest
+                    )
+                }
+                .toObservable<Location>()
+                .flatMap { locationService.observeLocationUpdates(0, 0, currentLocationRequest.priority) }
+                .firstOrError()
+                .doOnSuccess {
+                    lastCurrentLocation = it
+                    lastCurrentLocationPriority = currentLocationRequest.priority
+                }
+
+        if (currentLocationRequest.expirationTimeoutMillis > 0) {
+            currentLocationSingle =
+                    currentLocationSingle.timeout(currentLocationRequest.expirationTimeoutMillis, TimeUnit.MILLISECONDS)
+        }
+
+        return currentLocationSingle
     }
 
     private fun resolveAllLocationErrorsIfNeededAndPossible(
