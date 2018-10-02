@@ -17,8 +17,8 @@ import ru.surfstudio.standard.app_injector.AppComponent
  * Компонент для @PerActivity скоупа
  */
 @PerActivity
-@Component(dependencies = [(AppComponent::class)],
-        modules = [(ActivityModule::class)])
+@Component(dependencies = [AppComponent::class],
+        modules = [ActivityModule::class])
 interface ActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider

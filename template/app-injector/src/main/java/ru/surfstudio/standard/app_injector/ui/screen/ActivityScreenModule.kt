@@ -19,9 +19,10 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForActivity
 import ru.surfstudio.standard.app_injector.ui.error.ErrorHandlerModule
 
-@Module(includes = [(ErrorHandlerModule::class)])
-class ActivityScreenModule(private val activityViewPersistentScope: ActivityViewPersistentScope)
-    : ScreenModule() {
+@Module(includes = [ErrorHandlerModule::class])
+class ActivityScreenModule(
+        private val activityViewPersistentScope: ActivityViewPersistentScope
+) : ScreenModule() {
 
     @Provides
     @PerScreen
@@ -37,21 +38,27 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
 
     @Provides
     @PerScreen
-    fun provideEventDelegateManagerProvider(persistentScope: ScreenPersistentScope): ScreenEventDelegateManager {
+    fun provideEventDelegateManagerProvider(
+            persistentScope: ScreenPersistentScope
+    ): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
     }
 
     @Provides
     @PerScreen
-    fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
     @Provides
     @PerScreen
-    fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
+    fun providePermissionManager(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): PermissionManager {
         return PermissionManagerForActivity(activityProvider, eventDelegateManager)
     }
 

@@ -22,14 +22,14 @@ class CacheModule {
     @Provides
     @PerApplication
     @Named(CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME)
-    fun provideInternalCacheDir(context: Context): String {
+    internal fun provideInternalCacheDir(context: Context): String {
         return ContextCompat.getNoBackupFilesDir(context)!!.absolutePath
     }
 
     @Provides
     @PerApplication
     @Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME)
-    fun provideExternalCacheDir(context: Context): String {
+    internal fun provideExternalCacheDir(context: Context): String {
         val externalFilesDirs = ContextCompat.getExternalFilesDirs(context, null)
         // могут возвращаться null элементы, убираем их
         val filtered = CollectionUtils.filter(Arrays.asList(*externalFilesDirs)) { file -> file != null }
@@ -41,7 +41,7 @@ class CacheModule {
 
     @Provides
     @PerApplication
-    fun providesSimpleCacheConnector(
+    internal fun providesSimpleCacheConnector(
             baseUrl: BaseUrl,
             simpleCacheInfoStorage: SimpleCacheInfoStorage
     ): SimpleCacheUrlConnector {

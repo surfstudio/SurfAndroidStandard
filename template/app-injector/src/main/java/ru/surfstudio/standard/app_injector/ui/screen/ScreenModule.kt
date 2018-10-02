@@ -19,13 +19,16 @@ abstract class ScreenModule {
 
     @PerScreen
     @Provides
-    internal fun provideBaseDependency(schedulersProvider: SchedulersProvider,
-                                       screenState: ScreenState,
-                                       eventDelegateManager: ScreenEventDelegateManager,
-                                       errorHandler: ErrorHandler,
-                                       connectionProvider: ConnectionProvider,
-                                       activityNavigator: ActivityNavigator): BasePresenterDependency {
-        return BasePresenterDependency(schedulersProvider,
+    internal fun provideBaseDependency(
+            schedulersProvider: SchedulersProvider,
+            screenState: ScreenState,
+            eventDelegateManager: ScreenEventDelegateManager,
+            errorHandler: ErrorHandler,
+            connectionProvider: ConnectionProvider,
+            activityNavigator: ActivityNavigator
+    ): BasePresenterDependency {
+        return BasePresenterDependency(
+                schedulersProvider,
                 screenState,
                 eventDelegateManager,
                 errorHandler,

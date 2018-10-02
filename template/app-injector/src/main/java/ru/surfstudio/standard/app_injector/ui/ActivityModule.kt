@@ -26,7 +26,6 @@ import ru.surfstudio.android.rxbus.RxBus
  * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
  * принадлежащих скоупу @PerScreen
  */
-
 @Module
 class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
@@ -56,8 +55,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
@@ -75,8 +76,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
+    internal fun providePermissionManager(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): PermissionManager {
         return PermissionManagerForActivity(activityProvider, eventDelegateManager)
     }
 
@@ -88,7 +91,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideTabFragmentNavigator(activityProvider: ActivityProvider, eventDelegateManager: ScreenEventDelegateManager): TabFragmentNavigator {
+    internal fun provideTabFragmentNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): TabFragmentNavigator {
         return TabFragmentNavigator(activityProvider, eventDelegateManager)
     }
 

@@ -38,21 +38,25 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
     @Provides
     @PerScreen
     internal fun provideEventDelegateManager(): ScreenEventDelegateManager {
-        return persistentScope.getScreenEventDelegateManager()
+        return persistentScope.screenEventDelegateManager
     }
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
+    internal fun providePermissionManager(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): PermissionManager {
         return PermissionManagerForFragment(activityProvider, fragmentProvider, eventDelegateManager)
     }
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider): MessageController {
+    internal fun provideMessageController(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider
+    ): MessageController {
         return DefaultMessageController(activityProvider, fragmentProvider)
     }
 
@@ -64,16 +68,20 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider,
-                                        fragmentProvider: FragmentProvider): DialogNavigator {
+    internal fun provideDialogNavigator(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider
+    ): DialogNavigator {
         return DialogNavigatorForFragment(activityProvider, fragmentProvider, persistentScope)
     }
 
     @Provides
     @PerScreen
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForFragment(activityProvider, fragmentProvider, eventDelegateManager)
     }
 }
