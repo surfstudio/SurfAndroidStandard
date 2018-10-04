@@ -13,12 +13,7 @@
 
 * создать необходимые градл-таски
 
-* добавить в ci по тегу
-```
-//configuration
-pipeline.keystoreCredentials = "mdk_android_release_keystore"
-pipeline.keystorePropertiesCredentials = "mdk_android_release_keystore_properties"
-```
+* настроить CI в проекте
 
 ## Создание keystore
 
@@ -73,7 +68,7 @@ release {
 загрузить в Jenkins для поддержки сборки релизной версии приложения через
 **CI**(ContinuousIntegration).
 
-todo - как выложить в дженкинс
+Для того, чтобы загрузить файлы в систему обратитесь к администратору.
 
 ## Настройка CI в проекте
 
