@@ -23,17 +23,17 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 /**
  * Решение проблемы [ResolvableApiException].
  *
- * @param activityProvider провайдер активити.
+ * @param activityProvider Провайдер активити.
  */
 class ResolvableApiExceptionResolution(
         screenEventDelegateManager: ScreenEventDelegateManager,
         private val activityProvider: ActivityProvider
 ) : BaseLocationErrorResolutionWithActivityResultDelegateImpl<ResolvableApiException>(screenEventDelegateManager) {
 
-    override val resolvingExceptionClass = ResolvableApiException::class.java
+    override val resolvingThrowableClass = ResolvableApiException::class.java
     override val requestCode = 1002
 
-    override fun performResolutionRequest(resolvingException: ResolvableApiException) {
-        resolvingException.startResolutionForResult(activityProvider.get(), requestCode)
+    override fun performResolutionRequest(resolvingThrowable: ResolvableApiException) {
+        resolvingThrowable.startResolutionForResult(activityProvider.get(), requestCode)
     }
 }
