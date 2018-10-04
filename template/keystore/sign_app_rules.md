@@ -62,6 +62,8 @@ release {
 
 В `buildTypes` прописать `signingConfig signingConfigs.release`.
 
+Пример можно посмотреть [здесь][gradle]
+
 ## Загрузка в Jenkins
 
 Два файла, полученные на предыдущем этапе, `*.jks` и `*.properties` следует
@@ -79,3 +81,7 @@ pipeline.keystoreCredentials = "название_проекта_release_keystore
 pipeline.keystorePropertiesCredentials = "название_проекта_release_keystore_properties"
 
 ```
+
+[keystore]: https://developer.android.com/studio/publish/app-signing
+[task]: keystoreConfig.gradle
+[gradle]: ../app-injector/build.gradle
