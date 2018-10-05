@@ -61,5 +61,5 @@ ext {
 
     // версия android-standard
     moduleVersionCode = 19
-    moduleVersionName = '0.3.0-BZN-1.0.1-SNAPSHOT'
+    moduleVersionName = '0.3.0-BZN-1.0.2-SNAPSHOT'
 }
