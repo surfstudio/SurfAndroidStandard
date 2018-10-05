@@ -16,8 +16,6 @@
 package ru.surfstudio.android.logger
 
 import android.util.Log
-import ru.surfstudio.android.logger.exceptions.LoggingStrategyIsNotProvidedException
-
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import kotlin.reflect.KClass
 
@@ -132,10 +130,6 @@ object Logger {
     }
 
     private fun forEachLoggingStrategy(action: (LoggingStrategy) -> Unit) {
-        if (LOGGING_STRATEGIES.isEmpty()) {
-            throw LoggingStrategyIsNotProvidedException()
-        } else {
-            LOGGING_STRATEGIES.values.forEach(action)
-        }
+        LOGGING_STRATEGIES.values.forEach(action)
     }
 }

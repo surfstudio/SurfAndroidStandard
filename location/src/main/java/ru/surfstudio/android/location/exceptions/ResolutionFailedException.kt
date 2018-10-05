@@ -18,10 +18,10 @@ package ru.surfstudio.android.location.exceptions
 /**
  * Исключение, возникающее, если попытка решения проблемы с получением местоположения не удалась.
  *
- * @param resolvingException исключение, которое требовалось решить.
+ * @param resolvingThrowable исключение, которое требовалось решить.
  * @param failingThrowable исключение, которое возникло в ходе решения.
  */
 class ResolutionFailedException(
-        val resolvingException: Exception?,
+        val resolvingThrowable: Throwable?,
         val failingThrowable: Throwable?
-) : RuntimeException("Resolving $resolvingException failed with $failingThrowable")
+) : RuntimeException("Resolving $resolvingThrowable failed with $failingThrowable")

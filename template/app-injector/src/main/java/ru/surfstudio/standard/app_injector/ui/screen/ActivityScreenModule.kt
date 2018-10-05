@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector.ui.screen
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
@@ -17,7 +18,9 @@ import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForActivity
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.ui.error.ErrorHandlerModule
+import javax.inject.Named
 
 @Module(includes = [(ErrorHandlerModule::class)])
 class ActivityScreenModule(private val activityViewPersistentScope: ActivityViewPersistentScope)
@@ -50,9 +53,16 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
 
     @Provides
     @PerScreen
-    fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForActivity(activityProvider, eventDelegateManager)
+    fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                 activityNavigator: ActivityNavigator,
+                                 @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                 activityProvider: ActivityProvider): PermissionManager {
+        return PermissionManagerForActivity(
+                eventDelegateManager,
+                activityNavigator,
+                sharedPreferences,
+                activityProvider
+        )
     }
 
     @Provides

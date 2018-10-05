@@ -9,6 +9,7 @@ android {
 dependencies {
     implementation project(':filestorage')
     implementation project(':sample-dagger')
+    implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
