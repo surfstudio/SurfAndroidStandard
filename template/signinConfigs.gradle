@@ -1,0 +1,20 @@
+//Информация о подписи приложения
+
+android {
+    signingConfigs {
+        //todo настроить релизную подпись приложения
+        release {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+
+        test {
+            storeFile file("../keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+    }
+}

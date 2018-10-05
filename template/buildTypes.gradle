@@ -1,0 +1,36 @@
+//Данный файл описывает типы сборок
+
+apply from: '../signinConfigs.gradle'
+apply from: '../config.gradle'
+
+def config = extensions.getByName("ext")
+
+android {
+
+    buildTypes {
+        //todo настроить типы сборки
+        debug {
+            signingConfig signingConfigs.test
+            multiDexEnabled true
+            minifyEnabled false
+            debuggable = true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+        }
+        qa {
+            signingConfig signingConfigs.test
+            multiDexEnabled true
+            debuggable = true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+            // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
+            matchingFallbacks = ['release']
+        }
+        release {
+            signingConfig signingConfigs.test //todo заменить
+            multiDexEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+        }
+    }
+
+}

@@ -5,83 +5,34 @@ apply plugin: 'kotlin-kapt'
 
 apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
+apply from: '../defaultAndroidConfig.gradle'
 
 def config = extensions.getByName("ext")
 
 android {
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
 
     defaultConfig {
         applicationId config["applicationId"]
 
-        minSdkVersion config["minSdkVersion"]
-        targetSdkVersion config["targetSdkVersion"]
-
         versionCode config["versionCode"]
         versionName config["versionName"]
 
-        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
 
         testBuildType 'qa'
     }
 
-    signingConfigs {
-        //todo настроить релизную подпись приложения
-        release {
-            storeFile file("../keystore/test.keystore")
-            storePassword "qatest"
-            keyAlias "test"
-            keyPassword "qatest"
-        }
-
-        test {
-            storeFile file("../keystore/test.keystore")
-            storePassword "qatest"
-            keyAlias "test"
-            keyPassword "qatest"
-        }
-    }
-
     buildTypes {
-        //todo настроить типы сборки
+
         debug {
-            signingConfig signingConfigs.test
-            multiDexEnabled true
-            minifyEnabled false
-            debuggable = true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             applicationIdSuffix config["debugVersionNameSuffix"]
         }
+
         qa {
-            signingConfig signingConfigs.test
-            multiDexEnabled true
-            debuggable = true
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             ext.betaDistributionGroupAliases = "Surf"
             ext.betaDistributionNotifications = true
-            // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
-            matchingFallbacks = ['release']
         }
-        release {
-            signingConfig signingConfigs.test //todo заменить
-            multiDexEnabled false
-            minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
-        }
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-
-    compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
 

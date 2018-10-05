@@ -3,51 +3,21 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply from: '../config.gradle'
-
-def config = extensions.getByName("ext")
+apply from: '../defaultAndroidConfig.gradle'
 
 android {
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
-
-    defaultConfig {
-        minSdkVersion config["minSdkVersion"]
-        targetSdkVersion config["targetSdkVersion"]
-
-        versionCode config["versionCode"]
-        versionName config["versionName"]
-
-        vectorDrawables.useSupportLibrary = true
-    }
 
     buildTypes {
         qa {
             buildConfigField "String", "BASE_URL", '""'
-            debuggable = true
-            minifyEnabled false
-            // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
-            matchingFallbacks = ['release']
         }
 
         debug {
             buildConfigField "String", "BASE_URL", '""'
-            minifyEnabled false
         }
-
         release {
             buildConfigField "String", "BASE_URL", '""'
-            minifyEnabled false
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
     }
 }
 
