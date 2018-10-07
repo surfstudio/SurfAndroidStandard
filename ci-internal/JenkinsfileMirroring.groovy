@@ -2,6 +2,11 @@
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.NodeProvider
+import java.net.URLEncoder
+
+def encodeUrl(string){
+    URLEncoder.encode(string, "UTF-8") 
+}
 
 //init
 def pipeline = new EmptyScmPipeline(this)
@@ -22,21 +27,18 @@ pipeline.propertiesProvider = {
 
 //stages
 pipeline.stages = [
-        pipeline.createStage("CLONE", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
-            sh "rm -rf android-standard"
+        pipeline.createStage("Clone", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+            sh "rm -rf android-standard.git"
             withCredentials([usernamePassword(credentialsId: pipeline.repoCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 echo "credentialsId: $pipeline.repoCredentialsId"
-                echo "username: $USERNAME"
-                sh "git clone --mirror https://$USERNAME:${PASSWORD}@bitbucket.org/surfstudio/android-standard/" 
-
+                sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@bitbucket.org/surfstudio/android-standard.git"
             }
         },
-        pipeline.createStage("MIRRORING", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
-            dir("android-standard") {
+        pipeline.createStage("Mirroing", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+            dir("android-standard.git") {
                 withCredentials([usernamePassword(credentialsId: mirrorRepoCredentialID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "credentialsId: $mirrorRepoCredentialID"
-                    echo "username: $USERNAME"
-                    sh "git push --mirror https://$USERNAME:${PASSWORD}@github.com/surfstudio/SurfAndroidStandard.git"
+                    sh "git push --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@github.com/surfstudio/SurfAndroidStandard.git"
                 }
             }
         }
