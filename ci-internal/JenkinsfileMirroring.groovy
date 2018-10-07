@@ -24,7 +24,7 @@ pipeline.stages = [
         pipeline.createStage("CLONE", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             sh "rm -rf android-standard"
             withCredentials([usernamePassword(credentialsId: pipeline.repoCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                sh "git clone --mirror https://$USERNAME:$PASSWORD@bitbucket.org/surfstudio/android-standard/"
+                sh "git clone --mirror https://$USERNAME:$PASSWORD@bitbucket.org/surfstudio/android-standard.git"
             }
         },
         pipeline.createStage("MIRRORING", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
