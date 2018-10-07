@@ -27,7 +27,7 @@ pipeline.stages = [
             withCredentials([usernamePassword(credentialsId: pipeline.repoCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 echo "credentialsId: $pipeline.repoCredentialsId"
                 echo "username: $USERNAME"
-                sh "git clone --mirror https://$USERNAME:${PASSWORD.replace("@", "%40")}@bitbucket.org/surfstudio/android-standard/" //replace() for fix @ in repo url  
+                sh "git clone --mirror https://$USERNAME:${PASSWORD}@bitbucket.org/surfstudio/android-standard/" 
 
             }
         },
@@ -36,7 +36,7 @@ pipeline.stages = [
                 withCredentials([usernamePassword(credentialsId: mirrorRepoCredentialID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "credentialsId: $mirrorRepoCredentialID"
                     echo "username: $USERNAME"
-                    sh "git push --mirror https://$USERNAME:${PASSWORD.replace("@", "%40")}@github.com/surfstudio/SurfAndroidStandard.git"
+                    sh "git push --mirror https://$USERNAME:${PASSWORD}@github.com/surfstudio/SurfAndroidStandard.git"
                 }
             }
         }
