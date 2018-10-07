@@ -83,8 +83,11 @@ public class SimpleCacheInterceptor implements Interceptor {
     private Response processRequestWithSimpleCache(Chain chain, Request originalRequest, HttpUrl url, SimpleCacheInfo simpleCacheInfo, boolean fromCache) throws IOException {
         //этот запрос поддерживает простой кеш
         SimpleCache simpleCache = simpleCacheFactory.getSimpleCache(simpleCacheInfo);
+        Logger.d("AAA %s %s", url, simpleCacheInfo.getCacheName());
         String cacheKey = getCacheKeyFromUrl(url);
+        Logger.d("AAA %s", cacheKey);
         if (fromCache) {
+            Logger.d("AAA fromCache");
             //возвращаем данные из кеша
             String cachedResponseBody;
             cachedResponseBody = simpleCache.get(cacheKey);

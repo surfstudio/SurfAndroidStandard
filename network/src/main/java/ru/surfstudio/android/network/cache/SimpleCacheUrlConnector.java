@@ -25,6 +25,7 @@ import java.util.Collection;
 import java.util.List;
 
 import okhttp3.HttpUrl;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.BaseUrl;
 
 /**
@@ -44,29 +45,40 @@ public class SimpleCacheUrlConnector {
     public SimpleCacheUrlConnector(@NonNull BaseUrl baseUrl, @NonNull Collection<SimpleCacheInfo> simpleCacheInfo) {
         this.baseUrl = baseUrl;
         this.simpleCacheInfo = simpleCacheInfo;
+        Logger.d("AAA SimpleCacheUrlConnector init");
+        for (SimpleCacheInfo cacheInfo : simpleCacheInfo) {
+            Logger.d("AAA %s", cacheInfo.getCacheName());
+        }
+        Logger.d("AAA SimpleCacheUrlConnector init finish");
     }
 
     @SuppressWarnings("squid:S134")
     @Nullable
     public SimpleCacheInfo getByUrl(HttpUrl url, String method) {
         List<String> networkUrlSegments = getNetworkUrlSegments(url.toString());
+        Logger.d("AAA SimpleCacheUrlConnector getByUrl %s", url);
         for (SimpleCacheInfo cacheInfo : simpleCacheInfo) {
+            Logger.d("AAA cacheName %s", cacheInfo.getCacheName());
+            Logger.d("AAA getBaseApiMethod %s", cacheInfo.getBaseApiMethod().getUrl());
             boolean baseCacheMethodCorresponds = checkApiMethod(method,
                     networkUrlSegments,
                     cacheInfo.getBaseApiMethod());
 
             if (baseCacheMethodCorresponds) {
+                Logger.d("AAA return %s", cacheInfo.getCacheName());
                 return cacheInfo;
             } else {
                 for (SimpleCacheInfo.ApiMethod extraCacheMethod : cacheInfo.getExtraMethods()) {
                     boolean extraCacheMethodCorresponds = checkApiMethod(
                             method, networkUrlSegments, extraCacheMethod);
                     if (extraCacheMethodCorresponds) {
+                        Logger.d("AAA return %s", cacheInfo.getCacheName());
                         return cacheInfo;
                     }
                 }
             }
         }
+        Logger.d("AAA return null");
         return null;
     }
 
@@ -74,16 +86,31 @@ public class SimpleCacheUrlConnector {
     private boolean checkApiMethod(String networkMethod,
                                    List<String> networkUrlSegments,
                                    SimpleCacheInfo.ApiMethod cacheApiMethod) {
+        Logger.d("AAA checkApiMethod");
+        Logger.d("AAA ===============================");
+        Logger.d("AAA networkUrlSegments");
+        Logger.d("AAA ===============================");
+        for (String segment: networkUrlSegments) {
+            Logger.d("AAA %s", segment);
+        }
+        Logger.d("AAA ===============================");
         if (!networkMethod.equals(cacheApiMethod.getMethod())) {
             return false;
         }
         String[] cacheUrlSegments = cacheApiMethod.getUrl().split(URL_SPLIT_REGEX);
+        Logger.d("AAA cacheUrlSegments");
+        Logger.d("AAA ===============================");
+        for (String segment : cacheUrlSegments) {
+            Logger.d("AAA %s", segment);
+        }
+        Logger.d("AAA ===============================");
         if (cacheUrlSegments.length > networkUrlSegments.size()) {
             return false;
         }
         boolean urlsIdentical = true;
         for (int i = 0; i < cacheUrlSegments.length; i++) {
             String cacheUrlSegment = cacheUrlSegments[i];
+            Logger.d("AAA cacheUrlSegment %s", cacheUrlSegment);
             if (isCacheUrlSegmentParameter(cacheUrlSegment)) {
                 //в url адреса кэша идут скобки {}, в таком случае в результирующем сегменте не должно быть параметра
                 if (isNetworkUrlSegmentParameter(networkUrlSegments.get(i))) {
@@ -93,6 +120,7 @@ public class SimpleCacheUrlConnector {
                 }
             }
             String networkUrlSegment = networkUrlSegments.get(i);
+            Logger.d("AAA networkUrlSegment %s", networkUrlSegment);
             urlsIdentical = cacheUrlSegment.equals(networkUrlSegment);
             if (!urlsIdentical) {
                 break;

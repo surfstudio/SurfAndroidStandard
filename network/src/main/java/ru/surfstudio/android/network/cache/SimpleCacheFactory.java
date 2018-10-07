@@ -26,6 +26,7 @@ import javax.inject.Named;
 
 import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.filestorage.CacheConstant;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * фабрика простых кешей
@@ -46,7 +47,9 @@ public class SimpleCacheFactory {
 
     public SimpleCache getSimpleCache(SimpleCacheInfo simpleCacheInfo) {
         SimpleCache cache = caches.get(simpleCacheInfo);
+        Logger.d("AAA %s", simpleCacheInfo.getCacheName());
         if (cache == null) {
+            Logger.d("AAA create cache");
             cache = new SimpleCache(cacheDir, simpleCacheInfo.getCacheName(), simpleCacheInfo.getMaxSize());
             caches.put(simpleCacheInfo, cache);
         }
