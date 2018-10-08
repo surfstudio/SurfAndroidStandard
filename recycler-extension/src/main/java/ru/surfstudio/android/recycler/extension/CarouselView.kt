@@ -29,13 +29,19 @@ import ru.surfstudio.easyadapter.carousel.R
 /**
  * Вью-карусель элементов
  */
-class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : RecyclerView(context, attributeSet) {
+open class CarouselView<T> @JvmOverloads constructor(
+        context: Context,
+        attributeSet: AttributeSet? = null
+) : RecyclerView(context, attributeSet) {
 
     var centerItemChangedListener: (position: Int) -> Unit = {}
 
     private var realItemsCount = 0
     private val easyAdapter: EasyAdapter = EasyAdapter()
-    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            false)
 
     var centerItemPosition: Int = 0
         set(value) {
