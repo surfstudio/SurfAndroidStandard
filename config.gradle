@@ -9,7 +9,7 @@ ext {
     debugVersionNameSuffix = ".debug"
 
     //lang
-    kotlinVersion = '1.2.70'                    //https://goo.gl/2Epeje
+    kotlinVersion = '1.2.71'                    //https://goo.gl/2Epeje
     ankoVersion = '0.10.5'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
     gsonVersion = '2.8.5'                       //https://bit.ly/2LH5L6g
@@ -29,7 +29,7 @@ ext {
     rxBinding2Version = '2.1.1'                 //https://goo.gl/KQ5Vga
 
     //android framework
-    androidGradleToolsVersion = '3.1.4'         //https://bit.ly/2NXD4Pe
+    androidGradleToolsVersion = '3.2.0'         //https://bit.ly/2NXD4Pe
     appcompatVersion = '27.1.1'
     firebaseCoreVersion = '16.0.3'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.3.1'

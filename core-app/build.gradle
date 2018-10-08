@@ -3,10 +3,10 @@ apply from: '../androidModule.gradle'
 dependencies {
     api "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     api "com.android.support:multidex:$multidexVersion"
+    api "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 
     implementation "com.android.support:support-annotations:$appcompatVersion"
     implementation "com.android.support:appcompat-v7:$appcompatVersion"
-    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 

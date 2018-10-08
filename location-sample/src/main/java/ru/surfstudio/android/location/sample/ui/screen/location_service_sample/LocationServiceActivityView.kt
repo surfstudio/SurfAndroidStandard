@@ -3,7 +3,7 @@ package ru.surfstudio.android.location.sample.ui.screen.location_service_sample
 import android.os.Bundle
 import android.os.PersistableBundle
 import kotlinx.android.synthetic.main.activity_location_service.*
-import ru.surfstudio.android.location.sample.ui.screen.base.BaseSampleActivity
+import ru.surfstudio.android.location.sample.ui.screen.common.BaseSampleActivity
 import ru.surfstudio.android.location_sample.R
 import javax.inject.Inject
 
@@ -55,7 +55,10 @@ class LocationServiceActivityView : BaseSampleActivity() {
         }
 
         btn_activity_location_service_check_location_availability.setOnClickListener {
-            presenter.getLocationAvailability()
+            presenter.checkLocationAvailability()
+        }
+        btn_activity_location_service_resolve_location_availability.setOnClickListener {
+            presenter.resolveLocationAvailability()
         }
         btn_activity_location_service_show_last_known_location.setOnClickListener {
             presenter.getLastKnownLocation()
@@ -76,6 +79,7 @@ class LocationServiceActivityView : BaseSampleActivity() {
         cb_play_services_are_not_available_resolution.isEnabled = !isEnabled
         cb_resolvable_api_exception_resolution.isEnabled = !isEnabled
         btn_activity_location_service_check_location_availability.isEnabled = !isEnabled
+        btn_activity_location_service_resolve_location_availability.isEnabled = !isEnabled
         btn_activity_location_service_show_last_known_location.isEnabled = !isEnabled
         btn_activity_location_service_subscribe_to_location_updates.isEnabled = !isEnabled
     }

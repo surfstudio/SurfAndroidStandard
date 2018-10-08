@@ -1,9 +1,9 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.activity
 
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.ui.bus.RxBus
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
@@ -19,6 +19,9 @@ import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
+import ru.surfstudio.android.rxbus.RxBus
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 /**
  * Модуль для dagger Activity Component
@@ -71,9 +74,16 @@ class DefaultActivityModule(private val persistentScope: ActivityPersistentScope
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForActivity(activityProvider, eventDelegateManager)
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityNavigator: ActivityNavigator,
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                          activityProvider: ActivityProvider): PermissionManager {
+        return PermissionManagerForActivity(
+                eventDelegateManager,
+                activityNavigator,
+                sharedPreferences,
+                activityProvider
+        )
     }
 
     @Provides

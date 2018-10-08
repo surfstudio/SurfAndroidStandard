@@ -136,7 +136,7 @@ public class BaseNetworkInteractor {
     }
 
     protected <T> Observable<T> hybridQueryWithSimpleCache(FunctionSafe<Integer, Observable<T>> requestCreator) {
-        return hybridQueryWithSimpleCache(DataStrategy.AUTO, requestCreator);
+        return hybridQueryWithSimpleCache(DataStrategy.DEFAULT_DATA_STRATEGY, requestCreator);
     }
 
     protected <T> Observable<T> hybridQueryWithSimpleCacheForSingle(DataStrategy priority,
@@ -145,7 +145,7 @@ public class BaseNetworkInteractor {
     }
 
     protected <T> Observable<T> hybridQueryWithSimpleCacheForSingle(FunctionSafe<Integer, Single<T>> requestCreator) {
-        return hybridQueryWithSimpleCacheForSingle(DataStrategy.AUTO, requestCreator);
+        return hybridQueryWithSimpleCacheForSingle(DataStrategy.DEFAULT_DATA_STRATEGY, requestCreator);
     }
 
     private <T> Observable<T> processNetworkException(Throwable e) {

@@ -6,10 +6,12 @@ import ru.surfstudio.android.firebase.sample.interactor.common.analytics.Analyti
 import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsService
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
 
 @PerApplication
 @Component(modules = [
     DefaultAppModule::class,
+    DefaultSharedPrefModule::class,
     AnalyticsModule::class])
 interface CustomAppComponent : DefaultAppComponent {
     fun analyticsService(): AnalyticsService

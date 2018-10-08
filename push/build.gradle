@@ -4,6 +4,7 @@ gradle.ext.configAndroidStandardDependencies(this, [
         'core-app',
         'logger',
         'rx-extension',
+        'shared-pref',
         'core-ui',
         'util-ktx'
 ])

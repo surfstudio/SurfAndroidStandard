@@ -19,6 +19,7 @@ dependencies {
     api project(':rx-extension')
     api project(':util-ktx')
     api project(':message-controller')
+    api project(':rxbus')
 
     api project(':sample-common')
 

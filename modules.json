@@ -126,5 +126,9 @@
   {
     "name": "location",
     "path": ""
+  },
+  {
+    "name": "rxbus",
+    "path": ""
   }
 ]
