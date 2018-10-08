@@ -60,6 +60,6 @@ ext {
     assertJVersion = '3.10.0'                   //http://bit.ly/2mXO1EX
 
     // версия android-standard
-    moduleVersionCode = 19
+    moduleVersionCode = 20
     moduleVersionName = '0.3.0-BZN-1.0.2-SNAPSHOT'
 }
