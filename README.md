@@ -4,15 +4,13 @@
 
 **!!! Репозиторий в стадии активной разработки !!!**
 
-## Актуальная документация в [wiki](https://bitbucket.org/surfstudio/android-standard/wiki/)
-
-* **[Документация по модулям][docs]**
-
-* **[Стандарты разработки приложений в Surf](https://bitbucket.org/surfstudio/android-standard/src/snapshot-0.3.0/docs/main.md)**
+* **[Документация по репозиторию][docs]**
 
 * **[Список артефактов](https://bitbucket.org/surfstudio/android-standard/wiki/Modules)**
 
 * **[Release notes](https://bitbucket.org/surfstudio/android-standard/wiki/Release%20notes)**
+
+* **[Wiki в Bitbucket](https://bitbucket.org/surfstudio/android-standard/wiki/)**
 
 ## **Использование**
 
