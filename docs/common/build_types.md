@@ -137,7 +137,6 @@ buildTypes {
 }
 ```
 
-
 Пример организации gradle-файлов можно посмотреть в [template-проекте][template]
 
 [attrs]: http://google.github.io/android-gradle-dsl/current/com.android.build.gradle.internal.dsl.BuildType.html

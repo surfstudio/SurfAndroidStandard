@@ -1,9 +1,7 @@
 //Данный файл описывает типы сборок
 
-apply from: '../signinConfigs.gradle'
+apply from: '../keystore/signinConfigs.gradle'
 apply from: '../config.gradle'
-
-def config = extensions.getByName("ext")
 
 android {
 
