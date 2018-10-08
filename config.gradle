@@ -2,10 +2,10 @@ ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
-    buildToolsVersion = "27.0.3"
-    minSdkVersion = 19
-    targetSdkVersion = 27
-    compileSdkVersion = 27
+    buildToolsVersion = "28.0.2"
+    minSdkVersion = 17
+    targetSdkVersion = 28
+    compileSdkVersion = 28
     debugVersionNameSuffix = ".debug"
 
     //lang
@@ -30,7 +30,7 @@ ext {
 
     //android framework
     androidGradleToolsVersion = '3.2.0'         //https://bit.ly/2NXD4Pe
-    appcompatVersion = '27.1.1'
+    appcompatVersion = '28.0.0'
     firebaseCoreVersion = '16.0.3'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.3.1'
     playServicesLocationVersion = '15.0.1'      //http://bit.ly/2CulYrn
@@ -61,5 +61,5 @@ ext {
 
     // версия android-standard
     moduleVersionCode = 19
-    moduleVersionName = '0.3.0-SNAPSHOT'
+    moduleVersionName = '0.3.0-MEGAFON-SNAPSHOT'      // версия android-standard
 }
