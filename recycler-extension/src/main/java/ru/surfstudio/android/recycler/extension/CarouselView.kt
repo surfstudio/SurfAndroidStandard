@@ -62,7 +62,7 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
         this.adapter = easyAdapter
 
         this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 updateCenterPosition()
             }
