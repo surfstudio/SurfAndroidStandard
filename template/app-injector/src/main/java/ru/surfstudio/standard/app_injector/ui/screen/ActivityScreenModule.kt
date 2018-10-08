@@ -53,10 +53,10 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          activityProvider: ActivityProvider): PermissionManager {
+    fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                 activityNavigator: ActivityNavigator,
+                                 @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                 activityProvider: ActivityProvider): PermissionManager {
         return PermissionManagerForActivity(
                 eventDelegateManager,
                 activityNavigator,

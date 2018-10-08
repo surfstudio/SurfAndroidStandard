@@ -87,15 +87,13 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
         return persistentScope.screenEventDelegateManager
     }
 
-
     @Provides
     @PerScreen
     internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
                                           activityProvider: ActivityProvider,
                                           activityNavigator: ActivityNavigator,
-                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences
-    ): PermissionManager {
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType): PermissionManager {
         return if (parentType == ScreenType.FRAGMENT)
             PermissionManagerForFragment(
                     eventDelegateManager,
@@ -112,7 +110,6 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
                     activityProvider
             )
     }
-
 
     @Provides
     @PerScreen
