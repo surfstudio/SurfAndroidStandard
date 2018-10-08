@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector.ui.widget
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.ScreenType
@@ -23,6 +24,7 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForW
 import ru.surfstudio.android.mvp.widget.provider.WidgetProvider
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.ui.error.ErrorHandlerModule
 import ru.surfstudio.standard.app_injector.ui.screen.ScreenModule
 import javax.inject.Named
@@ -87,13 +89,21 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager,
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityProvider: ActivityProvider,
+                                          activityNavigator: ActivityNavigator,
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
                                           @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType): PermissionManager {
         return if (parentType == ScreenType.FRAGMENT)
-            PermissionManagerForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
+            PermissionManagerForFragment(
+                    eventDelegateManager,
+                    activityProvider,
+                    activityNavigator,
+                    sharedPreferences,
+                    createFragmentProvider()
+            )
         else
-            PermissionManagerForActivity(activityProvider, eventDelegateManager)
+            PermissionManagerForActivity(eventDelegateManager, activityNavigator, sharedPreferences, activityProvider)
     }
 
     @Provides

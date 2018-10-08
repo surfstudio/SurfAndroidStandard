@@ -1,6 +1,8 @@
 #Surf Android Standard
 Репозиторий с внутренними библиотеками для android проектов [surf](http://www.surfstudio.ru/).
 
+**!!! Репозиторий в стадии активной разработки !!!**
+
 
 ##Актуальная документация в [wiki](https://bitbucket.org/surfstudio/android-standard/wiki/)
 

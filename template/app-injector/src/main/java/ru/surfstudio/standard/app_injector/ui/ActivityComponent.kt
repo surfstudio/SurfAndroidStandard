@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.app_injector.ui
 
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
@@ -11,7 +12,9 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rxbus.RxBus
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.AppComponent
+import javax.inject.Named
 
 /**
  * Компонент для @PerActivity скоупа
@@ -30,4 +33,5 @@ interface ActivityComponent {
     fun tabFragmentNavigator(): TabFragmentNavigator
     fun globalNavigator(): GlobalNavigator
     fun rxBus(): RxBus
+    @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
 }
