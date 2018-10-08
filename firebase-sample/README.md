@@ -1,4 +1,4 @@
-#Firebase Sample
+# Firebase Sample
 
 Пример использования модулей:
 + [analytics](../analytics)
@@ -9,19 +9,19 @@
 
 Проект доступен для аккаунта surfstudio36@gmail.com
 
-###Инструкция для тестирования пуш-уведомлений
+### Инструкция для тестирования пуш-уведомлений
 
-####URL:
+#### URL:
 https://fcm.googleapis.com/fcm/send
 
-####Headers:
+#### Headers:
 
 Key | Value
 --- | ---
 Authorization | key=SERVER_KEY
 Content-Type | application/json
 
-####Body:
+#### Body:
 
 ```
 {
