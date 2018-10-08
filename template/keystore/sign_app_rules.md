@@ -9,9 +9,9 @@
 
 * создать keystore
 
-* загрузить keystore в jenkins
-
 * создать необходимые градл-таски
+
+* загрузить keystore в jenkins
 
 * настроить CI в проекте
 
@@ -37,11 +37,11 @@ storeFile=../keystore/*название_проекта*_release.jks
 
 * Эти файлы необходимо поместить в директорию `keystore`.
 
-* **Также их не стоит хранить в репозитории.**
+* **Запрещено их хранение в репозитории.**
 
 
 Для того, чтобы члены команды могли локально собрать релизную версию, стоит
-также расшарить на них данные файлы(например, выложить на GoogleDrive).
+также расшарить на них данные файлы.
 
 ## Настройка проекта для работы с keystore
 
@@ -64,7 +64,7 @@ release {
 
 Пример можно посмотреть [здесь][gradle]
 
-## Загрузка в Jenkins
+## Загрузка в Jenkins / Настройка CI в проекте
 
 Два файла, полученные на предыдущем этапе, `*.jks` и `*.properties` следует
 загрузить в Jenkins для поддержки сборки релизной версии приложения через
@@ -72,16 +72,14 @@ release {
 
 Для того, чтобы загрузить файлы в систему обратитесь к администратору.
 
-## Настройка CI в проекте
+Подробнее описано [здесь][release].
 
-В файл `JenkinsfileTagJob.groovy` добавить:
-```
-//configuration
-pipeline.keystoreCredentials = "название_проекта_release_keystore"
-pipeline.keystorePropertiesCredentials = "название_проекта_release_keystore_properties"
+## Локальная сборка релизной версии
 
-```
+Для того, чтобы собрать релизную версию приложения локально, необходимо
+поместить файл с подписью в папку `keystore`.
 
 [keystore]: https://developer.android.com/studio/publish/app-signing
 [task]: keystoreConfig.gradle
 [gradle]: ../app-injector/build.gradle
+[release]: https://jirasurf.atlassian.net/wiki/spaces/ANDDEP/pages/413237258
