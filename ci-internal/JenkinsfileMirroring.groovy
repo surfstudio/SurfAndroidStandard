@@ -37,7 +37,7 @@ pipeline.stages = [
                 sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@bitbucket.org/surfstudio/android-standard.git"
             }
         },
-        pipeline.createStage("Mirroing", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+        pipeline.createStage("Mirroring", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             dir("android-standard.git") {
                 withCredentials([usernamePassword(credentialsId: mirrorRepoCredentialID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "credentialsId: $mirrorRepoCredentialID"
