@@ -55,7 +55,6 @@ Android Standard - Репозиторий с внутренними библио
     1. [Управлениями сообщениями](../message-controller/README.md)
     1. [Загрузка данных](ui/load_data/load_data.md)
     1. [Особенности реализации View](ui/view_realization_specs.md)
-    1. [Обработка ошибок](ui/error_handling.md)
 
 1. [Инициализация приложения](../template/README.md)
 
