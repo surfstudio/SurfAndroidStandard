@@ -1,4 +1,3 @@
-
 [TOC]
 
 # Подпись приложения
@@ -39,16 +38,17 @@ storeFile=../keystore/*название_проекта*_release.jks
 
 * **Запрещено их хранение в репозитории.**
 
-
 Для того, чтобы члены команды могли локально собрать релизную версию, стоит
 также расшарить на них данные файлы.
 
 ## Настройка проекта для работы с keystore
 
+
 Далее необходимо в папке `keystore` создать файл [`keystoreConfig.gradle`][task].
 Его можно скопировать к себе в проект.
 
-В релизный `signingConfigs` приложения добавить:
+Скопировать себе в проект [`signinConfigs.gradle`][signin].
+Проверить, что в нем присутствует следующее:
 ```
 release {
             apply from: '../keystore/keystoreConfig.gradle'
@@ -60,7 +60,7 @@ release {
         }
 ```
 
-В `buildTypes` прописать `signingConfig signingConfigs.release`.
+В релизном [`buildTypes`][bt] прописать `signingConfig signingConfigs.release`.
 
 Пример можно посмотреть [здесь][gradle]
 
@@ -83,3 +83,5 @@ release {
 [task]: keystoreConfig.gradle
 [gradle]: ../app-injector/build.gradle
 [release]: https://jirasurf.atlassian.net/wiki/spaces/ANDDEP/pages/413237258
+[signin]: signinConfigs.gradle
+[bt]: ../buildTypes.gradle
