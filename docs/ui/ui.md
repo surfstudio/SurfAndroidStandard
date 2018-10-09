@@ -10,6 +10,10 @@
 
 * [Навигация][nav]
 
+* [Работа с диалогами][dial]
+
+* [Создание экрана][create]
+
 #### Использование студийных модулей
 
 Для построения ахитектуры UI слоя следует подключить в проект core-модули:
@@ -30,3 +34,5 @@
 [core-mvp]: ../../core-mvp/README.md
 [struct]: structure.md
 [nav]: navigation.md
+[dial]: ../../mvp-dialog/README.md
+[create]: create_screen.md

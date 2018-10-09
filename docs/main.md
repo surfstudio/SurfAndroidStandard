@@ -38,7 +38,6 @@ Android Standard - Репозиторий с внутренними библио
     1. [Работа с файловым хранилищем](../filestorage/README.md)
     1. [Работа с SharedPrefs](../shared-pref/README.md)
 
-
 1. [UI слой](ui/ui.md)
     1. [Структура UI-слоя](ui/structure.md)
         1. [Presenter](../core-mvp/docs/presenter.md)
