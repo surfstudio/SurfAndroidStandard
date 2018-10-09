@@ -1,9 +1,5 @@
-Документация Android Standard
+Стандарты разработки приложений в Surf
 =============================
-
-Android Standard - Репозиторий с внутренними библиотеками для android проектов студии Surf.
-Содержит модули, с помощью которых можно построить качественное приложение
-в короткие сроки.
 
 [Правила ведения и оформления](rules.md)
 
@@ -21,10 +17,10 @@ Android Standard - Репозиторий с внутренними библио
     1. [Инъекция зависимостей](common/di.md)
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
-    1. [Аналитика](../analytics/README.md)
     1. [Асинхронные взаимодействия](common/async.md)
-    1. [Пуш-уведомления](../push/README.md)
     1. [Пагинация](common/pagin.md)
+    1. [Аналитика](../analytics/README.md)
+    1. [Пуш-уведомления](../push/README.md)
 
 1. [**Слой Interactor**](interactor/interactor.md)
     1. [Рассылка событий через интерактор](interactor/events_by_interactor.md)
@@ -37,7 +33,6 @@ Android Standard - Репозиторий с внутренними библио
     1. [Работа с Broadcast](../broadcast-extension/README.md)
     1. [Работа с файловым хранилищем](../filestorage/README.md)
     1. [Работа с SharedPrefs](../shared-pref/README.md)
-
 
 1. [UI слой](ui/ui.md)
     1. [Структура UI-слоя](ui/structure.md)
@@ -60,5 +55,3 @@ Android Standard - Репозиторий с внутренними библио
 1. [Лучшие практики](best_practice/best_practice.md)
     1. [Поиск утечек](best_practice/memory_leak.md)
 
-
-[][Todo]

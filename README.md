@@ -1,16 +1,22 @@
 # Surf Android Standard
 
-Репозиторий с внутренними библиотеками для android проектов [surf](http://www.surfstudio.ru/).
+Репозиторий с внутренними библиотеками для android проектов [студии Surf](http://www.surfstudio.ru/).
+Содержит модули, с помощью которых можно построить качественное приложение
+в короткие сроки.
+Подробнее можно посмотреть в **Стандартах разработки** и **Списке артефактов**.
+
 
 **!!! Репозиторий в стадии активной разработки !!!**
 
-* **[Документация по репозиторию][docs]**
+* **[Стандарты разработки приложений в Surf][docs]**
 
-* **[Список артефактов](https://bitbucket.org/surfstudio/android-standard/wiki/Modules)**
+* **[Список артефактов][artifacts]**
 
-* **[Release notes](https://bitbucket.org/surfstudio/android-standard/wiki/Release%20notes)**
+* **[Release notes](RELEASE_NOTES.md)**
 
-* **[Wiki в Bitbucket](https://bitbucket.org/surfstudio/android-standard/wiki/)**
+[Workflow в репозитории](https://bitbucket.org/surfstudio/android-standard/wiki/Workflow)
+
+[Правила разработки модулей](https://bitbucket.org/surfstudio/android-standard/wiki/Rules)
 
 ## **Использование**
 
@@ -34,7 +40,7 @@ dependencies {
 
 Актуальная нестабильная версия: **0.3.0-SNAPSHOT**
 
-Список всех артефактов [здесь](https://bitbucket.org/surfstudio/android-standard/wiki/Modules).
+Список всех артефактов [здесь][artifacts].
 
 ## License
 ```
@@ -54,3 +60,4 @@ dependencies {
 ```
 
 [docs]: docs/main.md
+[artifacts]: docs/artifacts.md
