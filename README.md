@@ -6,11 +6,11 @@
 
 **!!! Репозиторий в стадии активной разработки !!!**
 
-* **[Стандарты разработки приложений в Surf][docs]**
+**[Стандарты разработки приложений в Surf][docs]**
 
-* **[Список артефактов][artifacts]**
+**[Список артефактов][artifacts]**
 
-* **[Release notes](RELEASE_NOTES.md)**
+**[Release notes](RELEASE_NOTES.md)**
 
 [Workflow в репозитории](https://bitbucket.org/surfstudio/android-standard/wiki/Workflow)
 
