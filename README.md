@@ -1,4 +1,3 @@
-[![Build Status](https://jenkins.surfstudio.ru/buildStatus/icon?job=Android_Standard_Deploy)](https://jenkins.surfstudio.ru/view/Android%20Favorite/job/Android_Standard_Deploy/)
 # Surf Android Standard
 
 Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
