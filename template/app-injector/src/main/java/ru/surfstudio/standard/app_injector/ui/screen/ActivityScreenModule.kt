@@ -47,7 +47,7 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
     @Provides
     @PerScreen
     fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+                                 eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 

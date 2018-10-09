@@ -103,7 +103,12 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
                     createFragmentProvider()
             )
         else
-            PermissionManagerForActivity(eventDelegateManager, activityNavigator, sharedPreferences, activityProvider)
+            PermissionManagerForActivity(
+                    eventDelegateManager,
+                    activityNavigator,
+                    sharedPreferences,
+                    activityProvider
+            )
     }
 
     @Provides
