@@ -2,8 +2,12 @@ package ru.surfstudio.android.firebase.sample.ui.common.notification
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import ru.surfstudio.android.firebase.sample.app.AppConfigurator
+import ru.surfstudio.android.firebase.sample.app.CustomApp
+import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.notification.NotificationCenter
+import ru.surfstudio.android.notification.NotificationManager
+import javax.inject.Inject
 
 /**
  * Сервис для обработки пришедших пуш-уведомлений от Firebase.
@@ -11,7 +15,15 @@ import ru.surfstudio.android.notification.NotificationCenter
  * Срабатывает только если приложение не в фоне.
  * Иначе при клике на пуш происходит открытие LAUNCHER активити
  */
-class FirebaseMessagingService : FirebaseMessagingService() {
+class FirebaseMessagingService: FirebaseMessagingService() {
+
+    @Inject
+    lateinit var notificationManager: NotificationManager
+
+    override fun onCreate() {
+        super.onCreate()
+        AppConfigurator.customAppComponent?.inject(this)
+    }
 
     override fun onNewToken(newToken: String?) {
         super.onNewToken(newToken)
@@ -26,7 +38,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 "data = [${remoteMessage?.data}]")
 
         remoteMessage?.let {
-            NotificationCenter.onReceiveMessage(this,
+            notificationManager.onReceiveMessage(this,
                     it.notification?.title ?: "",
                     it.notification?.body ?: "",
                     it.data)
