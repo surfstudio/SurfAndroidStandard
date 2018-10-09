@@ -1,8 +1,6 @@
 // Основная конфигурация для Android
 
 apply from: '../config.gradle'
-apply from: '../buildTypes.gradle'
-
 def config = extensions.getByName("ext")
 
 android {

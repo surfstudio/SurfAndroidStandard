@@ -5,7 +5,10 @@ apply plugin: 'kotlin-kapt'
 
 apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
-apply from: '../defaultAndroidConfig.gradle'
+
+apply from: '../keystore/signinConfigs.gradle'
+apply from: '../buildTypes.gradle'
+apply from: '../androidDefaultConfig.gradle'
 
 def config = extensions.getByName("ext")
 

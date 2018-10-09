@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply from: '../config.gradle'
-apply from: '../defaultAndroidConfig.gradle'
+apply from: '../androidDefaultConfig.gradle'
 
 android {
 
