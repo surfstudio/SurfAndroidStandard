@@ -29,7 +29,7 @@
 - [BroadcastReceiver](../../broadcast-extension/README.md)
 - Состояния соединения,[также на Broadcast](../../connection/README.md)
 - Событие [onActivityResult](../../core-ui/README.md)
-- [RuntimePermissions](../../core-ui/README.md) [][TODO: тут пока ссылки на core-ui, стоит в будущем сделать отдельные доки]
+- [RuntimePermissions](../../core-ui/README.md)
 - [Работа с сетью](../../network/README.md)
-- [Локация]()[][todo: добавить ссылку , когда будет модуль]
+- [Локация](../location/README.md)
 - [Получение фотографий из галлереи](../../picture-provider/README.md)
