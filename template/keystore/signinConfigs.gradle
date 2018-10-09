@@ -4,10 +4,12 @@ android {
     signingConfigs {
         //todo настроить релизную подпись приложения
         release {
-            storeFile file("../keystore/test.keystore")
-            storePassword "qatest"
-            keyAlias "test"
-            keyPassword "qatest"
+            apply from: '../keystore/keystoreConfig.gradle'
+
+            keyAlias keystoreConfig.keyAlias
+            keyPassword keystoreConfig.keyPassword
+            storeFile file(keystoreConfig.storeFile)
+            storePassword keystoreConfig.storePassword
         }
 
         test {
