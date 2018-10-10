@@ -5,9 +5,9 @@ import dagger.Provides
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.firebase.sample.ui.common.notification.PushHandleStrategyFactory
-import ru.surfstudio.android.notification.NotificationManager
+import ru.surfstudio.android.notification.NotificationHelper
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.notificationManager
+import ru.surfstudio.android.notification.notificationHelper
 import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.DefaultPushHandler
 import ru.surfstudio.android.notification.ui.notification.PushHandler
@@ -42,8 +42,8 @@ class NotificationModule {
     fun providesNotificationManager(
             pushHandler: PushHandler,
             pushHandleStrategyFactory: AbstractPushHandleStrategyFactory
-    ): NotificationManager =
-            notificationManager {
+    ): NotificationHelper =
+            notificationHelper {
                 setPushHandler(pushHandler)
                 setPushHandleStrategyFactory(pushHandleStrategyFactory)
             }

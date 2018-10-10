@@ -29,7 +29,7 @@ import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 /**
  * Помощник инициализации нотификаций
  */
-@Deprecated("Use NotificationManager instead")
+@Deprecated("Use NotificationHelper instead")
 object NotificationCenter {
 
     private lateinit var activeActivityHolder: ActiveActivityHolder

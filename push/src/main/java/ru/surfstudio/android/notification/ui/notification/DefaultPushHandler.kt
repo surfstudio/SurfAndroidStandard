@@ -37,6 +37,6 @@ class DefaultPushHandler(
         val pushHandleStrategy = pushHandleStrategyFactory
                 .createByData(data)
         Logger.i("DefaultPushHandler пуш $activity \n $title \n pushStrategy = $pushHandleStrategy")
-        pushHandleStrategy?.handle(activity ?: context, pushInteractor, title, body, data)
+        pushHandleStrategy?.handle(activity ?: context, pushInteractor, title, body)
     }
 }

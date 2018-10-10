@@ -3,10 +3,8 @@ package ru.surfstudio.android.firebase.sample.ui.common.notification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import ru.surfstudio.android.firebase.sample.app.AppConfigurator
-import ru.surfstudio.android.firebase.sample.app.CustomApp
-import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.notification.NotificationManager
+import ru.surfstudio.android.notification.NotificationHelper
 import javax.inject.Inject
 
 /**
@@ -18,7 +16,7 @@ import javax.inject.Inject
 class FirebaseMessagingService: FirebaseMessagingService() {
 
     @Inject
-    lateinit var notificationManager: NotificationManager
+    lateinit var notificationManager: NotificationHelper
 
     override fun onCreate() {
         super.onCreate()
