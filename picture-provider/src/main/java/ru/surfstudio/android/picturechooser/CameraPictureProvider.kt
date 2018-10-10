@@ -22,8 +22,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
-import android.support.media.ExifInterface
-import android.support.v4.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
+import androidx.core.content.FileProvider
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute

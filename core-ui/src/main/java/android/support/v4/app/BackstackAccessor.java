@@ -15,7 +15,10 @@
  *
  */
 
-package android.support.v4.app;
+package androidx.fragment.app;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * With this utility class one can access the fragment backstack

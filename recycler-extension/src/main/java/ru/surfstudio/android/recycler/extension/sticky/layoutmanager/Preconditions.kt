@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
-import android.support.design.widget.CoordinatorLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import android.view.View
 import android.widget.FrameLayout
 

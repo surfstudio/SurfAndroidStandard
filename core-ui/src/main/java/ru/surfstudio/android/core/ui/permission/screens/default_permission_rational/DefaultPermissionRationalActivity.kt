@@ -1,8 +1,8 @@
 package ru.surfstudio.android.core.ui.permission.screens.default_permission_rational
 
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.core.ui.R
 import ru.surfstudio.android.core.ui.navigation.Route
 

@@ -16,7 +16,7 @@
 package ru.surfstudio.android.utilktx.util
 
 
-import android.support.annotation.StyleRes
+import androidx.annotation.StyleRes
 import android.telephony.PhoneNumberUtils
 import android.text.Spannable
 import android.text.SpannableStringBuilder

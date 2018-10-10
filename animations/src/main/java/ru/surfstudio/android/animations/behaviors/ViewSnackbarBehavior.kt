@@ -16,11 +16,11 @@
 package ru.surfstudio.android.animations.behaviors
 
 import android.content.Context
-import android.support.design.widget.CoordinatorLayout
-import android.support.design.widget.Snackbar
-import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Behavior для view над [Snackbar]
@@ -30,10 +30,10 @@ open class ViewSnackbarBehavior<V : View> @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : CoordinatorLayout.Behavior<V>(context, attrs) {
 
-    override fun layoutDependsOn(parent: CoordinatorLayout?, child: V, dependency: View?): Boolean =
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: V, dependency: View): Boolean =
             dependency is Snackbar.SnackbarLayout
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout?, child: V, dependency: View): Boolean {
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
         val translationY: Float =  Math.min(0F, dependency.translationY - dependency.height)
 
         //прерывает предыдущую анимацию
@@ -43,7 +43,7 @@ open class ViewSnackbarBehavior<V : View> @JvmOverloads constructor(
         return true
     }
 
-    override fun onDependentViewRemoved(parent: CoordinatorLayout?, child: V, dependency: View?) {
+    override fun onDependentViewRemoved(parent: CoordinatorLayout, child: V, dependency: View) {
         ViewCompat.animate(child).translationY(0F).start()
     }
 }

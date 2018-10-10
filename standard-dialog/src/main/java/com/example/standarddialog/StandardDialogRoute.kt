@@ -17,7 +17,7 @@ package com.example.standarddialog
 
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogWithParamsRoute
 

@@ -16,8 +16,8 @@
 package ru.surfstudio.android.core.app;
 
 import android.app.Activity;
-import android.support.multidex.MultiDexApplication;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.github.anrwatchdog.ANRWatchDog;
 

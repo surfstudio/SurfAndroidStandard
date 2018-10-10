@@ -13,6 +13,7 @@ apply plugin: 'io.fabric'
 dependencies {
     api project(':template:domain')
     api project(':rxbus') //пока не слили с 0.3.0 и не задеплоили новый модуль
+    api project(':util-ktx')
 
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
@@ -49,7 +50,6 @@ dependencies {
             "recycler-extension",
             "rx-extension",
             "shared-pref",
-            "util-ktx",
             "standard-dialog",
             "message-controller",
             "broadcast-extension"
