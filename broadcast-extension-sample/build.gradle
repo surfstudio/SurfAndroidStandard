@@ -9,6 +9,7 @@ android {
 dependencies {
     implementation project(':broadcast-extension')
     implementation project(':sample-dagger')
+    implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

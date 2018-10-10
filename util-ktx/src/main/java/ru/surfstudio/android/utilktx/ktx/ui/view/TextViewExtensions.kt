@@ -15,6 +15,9 @@
  */
 package ru.surfstudio.android.utilktx.ktx.ui.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.support.annotation.ColorRes
@@ -24,8 +27,8 @@ import android.support.v4.content.ContextCompat
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
-import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.ktx.text.PHONE_NUMBER_CHARS
+import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
@@ -63,6 +66,14 @@ fun TextView.setTextAppearanceStyle(@StyleRes styleResId: Int) {
         @Suppress("DEPRECATION")
         setTextAppearance(this.context, styleResId)
     }
+}
+
+/**
+ * Функция для копирования текста из TextView в буфер обмена
+ */
+fun TextView.copyTextToClipboard() {
+    val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    clipboardManager.primaryClip = ClipData.newPlainText(null, text)
 }
 
 /**

@@ -10,6 +10,7 @@ dependencies {
     implementation project(':picture-provider')
     implementation project(':camera-view')
     implementation project(':sample-dagger')
+    implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 

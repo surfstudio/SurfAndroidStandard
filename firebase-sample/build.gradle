@@ -16,6 +16,7 @@ dependencies {
     implementation project(':firebase-analytics')
     implementation project(':push')
     implementation project(':sample-dagger')
+    implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 

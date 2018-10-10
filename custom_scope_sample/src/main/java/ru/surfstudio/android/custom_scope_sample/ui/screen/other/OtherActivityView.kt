@@ -1,0 +1,49 @@
+package ru.surfstudio.android.custom_scope_sample.ui.screen.other
+
+import android.os.Bundle
+import android.os.PersistableBundle
+import com.jakewharton.rxbinding2.widget.RxTextView
+import kotlinx.android.synthetic.main.activity_another.*
+import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
+import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.custom_scope_sample.R
+import ru.surfstudio.android.custom_scope_sample.ui.base.LoginScopeStorage
+import javax.inject.Inject
+
+class OtherActivityView : BaseRenderableActivityView<OtherScreenModel>() {
+
+    @Inject
+    internal lateinit var presenter: OtherPresenter
+
+    override fun createConfigurator() = OtherScreenConfigurator(this, intent)
+
+    override fun getContentView(): Int = R.layout.activity_another
+
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+
+    override fun getScreenName(): String = "OtherActivityView"
+
+    override fun renderInternal(screenModel: OtherScreenModel) {
+        another_screen_et.setText(screenModel.email)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+
+        initListeners()
+    }
+
+    private fun initListeners() {
+        presenter.observeTextChanges(RxTextView.textChanges(another_screen_et))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LoginScopeStorage.addActivity(this::class.java)
+    }
+
+    override fun onDestroy() {
+        LoginScopeStorage.removeActivity(this::class.java)
+        super.onDestroy()
+    }
+}

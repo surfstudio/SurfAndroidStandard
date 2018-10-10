@@ -3,6 +3,7 @@ package ru.surfstudio.android.standarddialog.sample.ui.screen.main
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
+import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
@@ -36,4 +37,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
+
+    fun showMessage(message: String) {
+        toast(message)
+    }
 }
