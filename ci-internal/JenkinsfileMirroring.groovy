@@ -2,6 +2,9 @@
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.NodeProvider
+import ru.surfstudio.ci.CommonUtil
+import ru.surfstudio.ci.JarvisUtil
+import ru.surfstudio.ci.Result
 import java.net.URLEncoder
 
 def encodeUrl(string){
@@ -34,7 +37,7 @@ pipeline.stages = [
                 sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@bitbucket.org/surfstudio/android-standard.git"
             }
         },
-        pipeline.createStage("Mirroing", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+        pipeline.createStage("Mirroring", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             dir("android-standard.git") {
                 withCredentials([usernamePassword(credentialsId: mirrorRepoCredentialID, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     echo "credentialsId: $mirrorRepoCredentialID"
@@ -43,6 +46,13 @@ pipeline.stages = [
             }
         }
 ]
+
+pipeline.finalizeBody = {
+    if (pipeline.jobResult == Result.FAILURE) {
+        def message = "Ошибка зеркалирования AndroidStandard на GitHub. ${CommonUtil.getBuildUrlMarkdownLink(this)}"
+        JarvisUtil.sendMessageToGroup(this, message, pipeline.repoUrl, "bitbucket", false)
+    }
+}
 
 //run
 pipeline.run()
