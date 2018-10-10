@@ -8,7 +8,7 @@ apply from: '../config.gradle'
 
 apply from: '../keystore/signinConfigs.gradle'
 apply from: '../buildTypes.gradle'
-apply from: '../androidDefaultConfig.gradle'
+apply from: '../commonAndroidDefaultConfig.gradle'
 
 def config = extensions.getByName("ext")
 
@@ -20,7 +20,6 @@ android {
         versionCode config["versionCode"]
         versionName config["versionName"]
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
 
         testBuildType 'qa'
