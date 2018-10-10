@@ -1,6 +1,6 @@
 package ru.surfstudio.android.filestorage.sample.ui.screen.main
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter

@@ -2,7 +2,7 @@ package ru.surfstudio.android.broadcast.extension.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.broadcast.extension.sample.R
 import ru.surfstudio.android.broadcast.extension.sample.ui.base.configurator.CustomActivityScreenConfigurator

@@ -1,7 +1,7 @@
 package ru.surfstudio.android.filestorage.sample.interactor.common.network.cache
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
