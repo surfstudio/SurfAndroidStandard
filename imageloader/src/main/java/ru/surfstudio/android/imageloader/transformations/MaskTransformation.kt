@@ -18,7 +18,7 @@ package ru.surfstudio.android.imageloader.transformations
 import android.content.Context
 import android.graphics.*
 import android.os.Build
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 
 /**

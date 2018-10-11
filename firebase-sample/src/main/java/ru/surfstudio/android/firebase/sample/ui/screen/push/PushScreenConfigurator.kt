@@ -24,6 +24,7 @@ internal class PushScreenConfigurator(intent: Intent) : CustomActivityScreenConf
     override fun createScreenComponent(customActivityComponent: CustomActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
+        @Suppress("DEPRECATION")
         return DaggerPushScreenConfigurator_PushScreenComponent.builder()
                 .customActivityComponent(customActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)

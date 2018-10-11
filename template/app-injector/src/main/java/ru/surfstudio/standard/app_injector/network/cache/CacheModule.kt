@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.app_injector.network.cache
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import ru.surfstudio.standard.i_network.cache.SimpleCacheInfoStorage
 import dagger.Module
 import dagger.Provides

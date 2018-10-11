@@ -1,6 +1,6 @@
 package ru.surfstudio.android.app.migration.sample.ui.screen.main
 
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import ru.surfstudio.android.app.migration.sample.R
 import ru.surfstudio.android.app.migration.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView

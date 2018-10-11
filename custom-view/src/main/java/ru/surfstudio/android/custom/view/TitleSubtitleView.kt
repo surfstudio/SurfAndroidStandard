@@ -17,8 +17,8 @@ package ru.surfstudio.android.custom.view
 
 import android.content.Context
 import android.content.res.TypedArray
-import android.support.v4.content.ContextCompat
-import android.support.v4.widget.TextViewCompat
+import androidx.core.content.ContextCompat
+import androidx.core.widget.TextViewCompat
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue

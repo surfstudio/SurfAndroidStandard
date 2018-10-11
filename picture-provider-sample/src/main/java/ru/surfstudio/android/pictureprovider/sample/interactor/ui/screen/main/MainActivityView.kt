@@ -2,9 +2,9 @@ package ru.surfstudio.android.pictureprovider.sample.interactor.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
 import android.view.View
 import android.widget.Button
+import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView

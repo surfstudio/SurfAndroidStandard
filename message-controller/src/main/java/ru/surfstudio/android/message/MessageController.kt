@@ -15,9 +15,9 @@
  */
 package ru.surfstudio.android.message
 
-import android.support.annotation.ColorRes
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast

@@ -17,9 +17,9 @@ package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.support.annotation.FloatRange
-import android.support.annotation.WorkerThread
+import androidx.annotation.DrawableRes
+import androidx.annotation.FloatRange
+import androidx.annotation.WorkerThread
 import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
