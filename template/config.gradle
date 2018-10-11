@@ -35,7 +35,7 @@ ext {
     appcompatVersion = '27.1.1'
     firebaseCoreVersion = '16.0.3'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.3.1'
-    playServicesLocationVersion = '15.0.1'      //http://bit.ly/2CulYrn
+    playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
     fabricToolsVersion = '1.25.4'
     crashlyticsVersion = '2.9.5'                //http://bit.ly/2v5mXbp
     googleServicesVersion = '4.1.0'             //http://bit.ly/2mZ4j0B
