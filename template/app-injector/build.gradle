@@ -24,18 +24,6 @@ android {
 
         testBuildType 'qa'
     }
-
-    buildTypes {
-
-        debug {
-            applicationIdSuffix config["debugVersionNameSuffix"]
-        }
-
-        qa {
-            ext.betaDistributionGroupAliases = "Surf"
-            ext.betaDistributionNotifications = true
-        }
-    }
 }
 
 dependencies {

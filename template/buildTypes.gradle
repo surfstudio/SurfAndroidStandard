@@ -3,6 +3,8 @@
 apply from: '../keystore/signinConfigs.gradle'
 apply from: '../config.gradle'
 
+def config = extensions.getByName("ext")
+
 android {
 
     buildTypes {
@@ -13,6 +15,7 @@ android {
             minifyEnabled false
             debuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+            applicationIdSuffix config["debugVersionNameSuffix"]
         }
         qa {
             signingConfig signingConfigs.test
@@ -22,12 +25,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']
+            ext.betaDistributionGroupAliases = "Surf"
+            ext.betaDistributionNotifications = true
         }
         release {
             signingConfig signingConfigs.test //todo заменить на signingConfigs.release
             multiDexEnabled false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
+            matchingFallbacks = ['release', 'qa']
         }
     }
 
