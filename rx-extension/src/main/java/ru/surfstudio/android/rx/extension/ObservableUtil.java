@@ -33,7 +33,11 @@ import io.reactivex.plugins.RxJavaPlugins;
  */
 public class ObservableUtil {
 
-    public static final ActionSafe EMPTY_ACTION = () -> {
+    public static final ActionSafe EMPTY_ACTION = new ActionSafe() {
+        @Override
+        public void run() {
+            //empty
+        }
     };
 
     public static final ConsumerSafe<Throwable> ON_ERROR_MISSING = throwable ->
