@@ -40,8 +40,12 @@ public class ObservableUtil {
         }
     };
 
-    public static final ConsumerSafe<Throwable> ON_ERROR_MISSING = throwable ->
+    public static final ConsumerSafe<Throwable> ON_ERROR_MISSING = new ConsumerSafe<Throwable>() {
+        @Override
+        public void accept(Throwable throwable) {
             RxJavaPlugins.onError(new OnErrorNotImplementedException(throwable));
+        }
+    };
 
     private ObservableUtil() {
         //do nothing
