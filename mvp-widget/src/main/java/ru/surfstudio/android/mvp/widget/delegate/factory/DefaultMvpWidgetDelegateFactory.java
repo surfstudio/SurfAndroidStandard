@@ -24,6 +24,7 @@ import ru.surfstudio.android.core.ui.event.ScreenEventResolverHelper;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorageContainer;
+import ru.surfstudio.android.mvp.widget.delegate.DefaultWidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.ParentPersistentScopeFinder;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
@@ -37,7 +38,7 @@ public class DefaultMvpWidgetDelegateFactory implements MvpWidgetDelegateFactory
     @Override
     public <W extends View & CoreWidgetViewInterface> WidgetViewDelegate createWidgetViewDelegate(W widget) {
         PersistentScopeStorage scopeStorage = getScopeStorage();
-        return new WidgetViewDelegate(
+        return new DefaultWidgetViewDelegate(
                 widget,
                 scopeStorage,
                 new ParentPersistentScopeFinder(widget, scopeStorage));
