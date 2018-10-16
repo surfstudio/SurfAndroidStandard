@@ -47,8 +47,10 @@ pipeline.stages = [
                 for(ref in packedRefs.split("\n")) {
                     if(!ref.contains("project-snapshot")) {
                         sanitizedPackedRefs += ref
+                        sanitizedPackedRefs += "\n"
                     }
                 }
+                echo "sanitizedPackedRefs: $sanitizedPackedRefs"
                 writeFile file: packedRefsFile, text: sanitizedPackedRefs
             }
         },
