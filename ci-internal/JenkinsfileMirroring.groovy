@@ -40,15 +40,17 @@ pipeline.stages = [
         },
         pipeline.createStage("Sanitize", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             dir("android-standard.git") {
-                sh "ls"
-                    dir("refs") {
-                        sh "ls"
-                        dir("origin") {
-                            sh "ls"
-                        }
+                def packedRefsFile = "packed-refs"
+                def packedRefs = script.readFile file: packedRefsFile
+                script.echo "packed_refs: $packedRefs"
+                def sanitizedPackedRefs = ""
+                for(ref in packedRefs.split("\n")) {
+                    if(!ref.contains("project-snapshot")) {
+                        sanitizedPackedRefs += ref
                     }
                 }
-            //"rm -rf android-standard.git"
+                script.writeFile file: packedRefsFile, text: sanitizedPackedRefs
+            }
         },
         pipeline.createStage("Mirroring", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             dir("android-standard.git") {
