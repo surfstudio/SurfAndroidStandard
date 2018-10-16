@@ -1,12 +1,10 @@
+@Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
-@Library('surf-lib@version-1.0.0-SNAPSHOT')
-import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-@Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.stage.StageStrategy
 
 def encodeUrl(string){
     URLEncoder.encode(string, "UTF-8") 
