@@ -1,11 +1,12 @@
+import ru.surfstudio.ci.CommonUtil
+import ru.surfstudio.ci.JarvisUtil
+import ru.surfstudio.ci.NodeProvider
+import ru.surfstudio.ci.Result
+@Library('surf-lib@version-1.0.0-SNAPSHOT')
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 @Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.NodeProvider
-import ru.surfstudio.ci.CommonUtil
-import ru.surfstudio.ci.JarvisUtil
-import ru.surfstudio.ci.Result
-import java.net.URLEncoder
 
 def encodeUrl(string){
     URLEncoder.encode(string, "UTF-8") 
@@ -36,6 +37,22 @@ pipeline.stages = [
                 echo "credentialsId: $pipeline.repoCredentialsId"
                 sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@bitbucket.org/surfstudio/android-standard.git"
             }
+        },
+        pipeline.createStage("Sanitize", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+            dir("android-standard.git") {
+                sh "ls"
+                dir(".git") {
+                    sh "ls"
+                    dir("refs") {
+                        sh "ls"
+                        dir("origin") {
+                            sh "ls"
+                        }
+                    }
+                }
+
+            }
+            //"rm -rf android-standard.git"
         },
         pipeline.createStage("Mirroring", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             dir("android-standard.git") {
