@@ -41,8 +41,6 @@ pipeline.stages = [
         pipeline.createStage("Sanitize", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             dir("android-standard.git") {
                 sh "ls"
-                dir(".git") {
-                    sh "ls"
                     dir("refs") {
                         sh "ls"
                         dir("origin") {
@@ -50,8 +48,6 @@ pipeline.stages = [
                         }
                     }
                 }
-
-            }
             //"rm -rf android-standard.git"
         },
         pipeline.createStage("Mirroring", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
