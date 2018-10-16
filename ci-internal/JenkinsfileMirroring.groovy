@@ -5,6 +5,7 @@ import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
+import java.net.URLEncoder
 
 def encodeUrl(string){
     URLEncoder.encode(string, "UTF-8") 
