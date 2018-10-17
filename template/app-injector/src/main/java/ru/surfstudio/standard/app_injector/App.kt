@@ -6,7 +6,8 @@ import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.template.base.BuildConfig
+import ru.surfstudio.android.template.app_injector.BuildConfig
+import ru.surfstudio.standard.app_injector.ui.notification.debug.DebugNotificationBuilder
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
 
@@ -17,8 +18,9 @@ class App : CoreApp() {
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
 
-        initComponentProvider()
         initFabric()
+        initComponentProvider()
+        DebugNotificationBuilder.showDebugNotification(this)
     }
 
     private fun initComponentProvider() {
@@ -47,10 +49,9 @@ class App : CoreApp() {
         Fabric.with(this, *getFabricKits())
     }
 
-    private fun getFabricKits() =
-            arrayOf(Crashlytics.Builder()
-                    .core(CrashlyticsCore.Builder()
-                            .disabled(BuildConfig.DEBUG)
-                            .build())
+    private fun getFabricKits() = arrayOf(Crashlytics.Builder()
+            .core(CrashlyticsCore.Builder()
+                    .disabled(BuildConfig.DEBUG)
                     .build())
+            .build())
 }
