@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.i_session
 
-
 /**
  * Состояние авторизации
  */

@@ -12,7 +12,6 @@ import retrofit2.http.Body
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-
 /**
  * Api для авторизации
  */

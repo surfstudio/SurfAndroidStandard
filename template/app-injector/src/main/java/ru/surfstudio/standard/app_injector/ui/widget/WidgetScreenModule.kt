@@ -33,9 +33,13 @@ private const val PARENT_TYPE_DAGGER_NAME = "parent_type"
 
 @Module(includes = [ErrorHandlerModule::class])
 class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope) : ScreenModule() {
+
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider, widgetProvider: WidgetProvider): DialogNavigator {
+    internal fun provideDialogNavigator(
+            activityProvider: ActivityProvider,
+            widgetProvider: WidgetProvider
+    ): DialogNavigator {
         return DialogNavigatorForWidget(activityProvider, widgetProvider, persistentScope)
     }
 
@@ -72,9 +76,11 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager,
-                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager,
+            @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType
+    ): ActivityNavigator {
         return if (parentType == ScreenType.FRAGMENT)
             ActivityNavigatorForFragment(activityProvider, createFragmentProvider(), eventDelegateManager)
         else
@@ -89,27 +95,41 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityProvider: ActivityProvider,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType): PermissionManager {
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityProvider: ActivityProvider,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            @Named(PARENT_TYPE_DAGGER_NAME) parentType: ScreenType
+    ): PermissionManager {
         return if (parentType == ScreenType.FRAGMENT)
             PermissionManagerForFragment(
                     eventDelegateManager,
                     activityProvider,
                     activityNavigator,
                     sharedPreferences,
-                    createFragmentProvider()
-            )
+                    createFragmentProvider())
         else
-            PermissionManagerForActivity(eventDelegateManager, activityNavigator, sharedPreferences, activityProvider)
+            PermissionManagerForActivity(
+                    eventDelegateManager,
+                    activityNavigator,
+                    sharedPreferences,
+                    activityProvider)
     }
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider, @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType): MessageController {
-        return DefaultMessageController(activityProvider, if (screenType == ScreenType.FRAGMENT) createFragmentProvider() else null)
+    internal fun provideMessageController(
+            activityProvider: ActivityProvider,
+            @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType)
+            : MessageController {
+        return DefaultMessageController(
+                activityProvider,
+                if (screenType == ScreenType.FRAGMENT)
+                    createFragmentProvider()
+                else
+                    null
+        )
     }
 
     private fun createFragmentProvider(): FragmentProvider {

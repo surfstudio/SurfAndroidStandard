@@ -34,8 +34,9 @@ class AppModule(private val coreApp: CoreApp) {
 
     @PerApplication
     @Provides
-    fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder): GlobalNavigator =
-            GlobalNavigator(context, activityHolder)
+    fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder): GlobalNavigator {
+        return GlobalNavigator(context, activityHolder)
+    }
 
     @Provides
     @PerApplication

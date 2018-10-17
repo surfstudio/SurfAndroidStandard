@@ -11,15 +11,13 @@ import ru.surfstudio.standrad.i_auth.request.LoginByCodeRequest
 import ru.surfstudio.standrad.i_auth.request.LoginByPhoneRequest
 import javax.inject.Inject
 
-
 private const val CODE_FORMAT = "%s:%s"
 
 /**
  * Сервис, отвечающий за авторизацию и регистрацию пользователя
  */
 @PerApplication
-class AuthRepository @Inject
-constructor(private val authApi: AuthApi) : BaseNetworkService() {
+class AuthRepository @Inject constructor(private val authApi: AuthApi) : BaseNetworkService() {
 
     /**
      * Отсылка номера телефона, для получения кода авторизации
