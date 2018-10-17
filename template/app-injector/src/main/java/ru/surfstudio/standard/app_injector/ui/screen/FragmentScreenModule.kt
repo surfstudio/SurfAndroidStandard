@@ -46,11 +46,13 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityProvider: ActivityProvider,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          fragmentProvider: FragmentProvider): PermissionManager {
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityProvider: ActivityProvider,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            fragmentProvider: FragmentProvider
+    ): PermissionManager {
         return PermissionManagerForFragment(
                 eventDelegateManager,
                 activityProvider,
@@ -62,8 +64,10 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider): MessageController {
+    internal fun provideMessageController(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider
+    ): MessageController {
         return DefaultMessageController(activityProvider, fragmentProvider)
     }
 
@@ -75,16 +79,20 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider,
-                                        fragmentProvider: FragmentProvider): DialogNavigator {
+    internal fun provideDialogNavigator(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider
+    ): DialogNavigator {
         return DialogNavigatorForFragment(activityProvider, fragmentProvider, persistentScope)
     }
 
     @Provides
     @PerScreen
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForFragment(activityProvider, fragmentProvider, eventDelegateManager)
     }
 }

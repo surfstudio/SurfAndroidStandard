@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.domain.login
 
-
 /**
  * сущность, представляющая информацию о токене и его времени жизни
  */

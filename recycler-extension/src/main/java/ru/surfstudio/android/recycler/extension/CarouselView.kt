@@ -29,7 +29,10 @@ import ru.surfstudio.easyadapter.carousel.R
 /**
  * Вью-карусель элементов
  */
-class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : RecyclerView(context, attributeSet) {
+open class CarouselView<T> @JvmOverloads constructor(
+        context: Context,
+        attributeSet: AttributeSet? = null
+) : RecyclerView(context, attributeSet) {
 
     var centerItemChangedListener: (position: Int) -> Unit = {}
 
@@ -62,7 +65,7 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
         this.adapter = easyAdapter
 
         this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 updateCenterPosition()
             }

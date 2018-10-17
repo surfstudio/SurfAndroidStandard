@@ -4,12 +4,11 @@ import android.content.Context
 import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
-
+/**
+ * Роут главного экрана
+ */
 class MainActivityRoute : ActivityRoute() {
-
-
     override fun prepareIntent(context: Context): Intent {
-        val intent = Intent(context, MainActivityView::class.java)
-        return intent
+        return Intent(context, MainActivityView::class.java)
     }
 }
