@@ -45,5 +45,11 @@ class FcmDebugPresenter @Inject constructor(
         }
     }
 
-    private fun logFcmToken() = Logger.d("FCM-token: ${screenModel.fcmToken}")
+    private fun logFcmToken() {
+        screenModel.fcmToken?.apply {
+            if (isNotEmpty()) {
+                Logger.d("FCM-token: $this")
+            }
+        }
+    }
 }
