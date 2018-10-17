@@ -11,7 +11,7 @@ object ScreenConfiguratorStorage {
 
     val activityScreenConfiguratorMap = HashMap<KClass<*>, (intent: Intent) -> ActivityScreenConfigurator>()
             .apply {
-                put(MainActivityView::class, { MainScreenConfigurator(it) })
+                put(MainActivityView::class) { MainScreenConfigurator(it) }
             }
 
     val activityConfiguratorMap = HashMap<KClass<*>, (intent: Intent) -> ActivityConfigurator>()

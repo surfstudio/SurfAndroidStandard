@@ -20,6 +20,7 @@ import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 object TimeUtils {
@@ -62,24 +63,14 @@ object TimeUtils {
     /**
      * Отдает количество дней до определенной даты
      */
-    fun getDaysBeforeTheDate(date: Date?): Int {
+    fun getDaysBefore(date: Date?): Long = getDaysBefore(Calendar.getInstance().apply { time = date })
 
-        val calendar = Calendar.getInstance()
-
-        //получаем количество дней в текущем году
-        // и порядковый номер сегодняшнего дня в текущем году
-        calendar.time = Date()
-        val daysCount = calendar.getActualMaximum(Calendar.DAY_OF_YEAR)
-        val currentDayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
-
-        //получаем порядковый номер дня до которого необходимо посчитать количество оставшихся дней
-        calendar.time = date
-        val futureDayOfTheYear = calendar.get(Calendar.DAY_OF_YEAR)
-
-        return if (currentDayOfYear <= futureDayOfTheYear)
-            futureDayOfTheYear - currentDayOfYear
-        else
-            daysCount - currentDayOfYear + futureDayOfTheYear
+    /**
+     * Отдает количество дней до определенной даты
+     */
+    fun getDaysBefore(calendar: Calendar): Long {
+        val millisBeforeDate = calendar.timeInMillis - Calendar.getInstance().timeInMillis
+        return TimeUnit.MILLISECONDS.toDays(millisBeforeDate)
     }
 
     @SuppressLint("SimpleDateFormat")

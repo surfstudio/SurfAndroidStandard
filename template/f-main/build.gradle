@@ -3,5 +3,3 @@ apply from: '../commonFeatureModule.gradle'
 dependencies {
     implementation project(':template:base-ui')
 }
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'

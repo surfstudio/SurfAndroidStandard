@@ -18,7 +18,6 @@ package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 import android.content.Context
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooter
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeader
@@ -53,10 +52,11 @@ class StickyLayoutManager(
             val visibleHeaders = LinkedHashMap<Int, View>()
 
             for (i in 0 until childCount) {
-                val view = getChildAt(i)
-                val dataPosition = getPosition(view)
-                if (headerPositions.contains(dataPosition)) {
-                    visibleHeaders[dataPosition] = view
+                getChildAt(i)?.apply {
+                    val dataPosition = getPosition(this)
+                    if (headerPositions.contains(dataPosition)) {
+                        visibleHeaders[dataPosition] = this
+                    }
                 }
             }
             return visibleHeaders
@@ -67,10 +67,11 @@ class StickyLayoutManager(
             val visibleFooters = LinkedHashMap<Int, View>()
 
             for (i in 0 until childCount) {
-                val view = getChildAt(i)
-                val dataPosition = getPosition(view)
-                if (footerPositions.contains(dataPosition)) {
-                    visibleFooters[dataPosition] = view
+                getChildAt(i)?.apply {
+                    val dataPosition = getPosition(this)
+                    if (footerPositions.contains(dataPosition)) {
+                        visibleFooters[dataPosition] = this
+                    }
                 }
             }
             return visibleFooters

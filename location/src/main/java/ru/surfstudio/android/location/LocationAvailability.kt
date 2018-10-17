@@ -22,9 +22,12 @@ import android.location.LocationManager
 import android.support.v4.content.ContextCompat
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
+import io.reactivex.*
+import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.location.domain.LocationPriority
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
@@ -39,34 +42,30 @@ internal class LocationAvailability(private val context: Context) {
     /**
      * Проверить возможность получения местоположения.
      *
-     * @param priority приоритет при получении местоположения.
-     * @param onResultAction метод обратного вызова, в который передается [List], содержащий исключения, связанные с
-     * невозможностью получения местоположения. Если список пуст - есть возможность получить местоположение.
+     * @param priority Приоритет при получении местоположения.
+     *
+     * @return [Completable]:
+     * - onComplete() вызывается, если есть возможность получить местоположение;
+     * - onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
+     * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+     * [ResolvableApiException].
      */
-    fun checkLocationAvailability(priority: LocationPriority?, onResultAction: (List<Exception>) -> Unit) {
-        val exceptions = arrayListOf<Exception>()
-
-        val connectionResult = getGooglePlayServicesConnection()
-        if (connectionResult != ConnectionResult.SUCCESS) {
-            exceptions.add(PlayServicesAreNotAvailableException(connectionResult))
-        }
-
-        if (!isLocationPermissionGrantedForPriority(priority)) {
-            exceptions.add(NoLocationPermissionException())
-        }
-
-        checkLocationSettings(priority, onResultAction = { exception ->
-            if (exception != null) {
-                exceptions.add(exception)
-            }
-            onResultAction(exceptions)
-        })
+    fun checkLocationAvailability(priority: LocationPriority?): Completable {
+        return Observable.
+                empty<Throwable>()
+                .concatWith(observePlayServicesAreNotAvailableException())
+                .concatWith(observeNoLocationPermissionException(priority))
+                .concatWith(observeResolvableApiException(priority))
+                .collect({ arrayListOf<Throwable>() }, { exceptions, exception -> exceptions.add(exception) })
+                .filter { exceptions -> exceptions.isNotEmpty() }
+                .flatMap { exceptions -> Maybe.error<Throwable>(CompositeException(exceptions)) }
+                .ignoreElement()
     }
 
     /**
      * Проверить, что Google Play Services установлены, включены и версия не меньше той, которая требуется клиенту.
      *
-     * @return результат подключения {@link ConnectionResult}. Может быть одним из следующих значений: SUCCESS,
+     * @return Результат подключения {@link ConnectionResult}. Может быть одним из следующих значений: SUCCESS,
      * SERVICE_MISSING, SERVICE_UPDATING, SERVICE_VERSION_UPDATE_REQUIRED, SERVICE_DISABLED, SERVICE_INVALID
      */
     fun getGooglePlayServicesConnection(): Int =
@@ -112,20 +111,52 @@ internal class LocationAvailability(private val context: Context) {
      */
     fun isNetworkProviderEnabled() = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
 
+    private fun observePlayServicesAreNotAvailableException(): Maybe<PlayServicesAreNotAvailableException> =
+            Maybe.fromCallable {
+                val connectionResult = getGooglePlayServicesConnection()
+                if (connectionResult != ConnectionResult.SUCCESS) {
+                    PlayServicesAreNotAvailableException(connectionResult)
+                } else {
+                    null
+                }
+            }
+
+    private fun observeNoLocationPermissionException(
+            priority: LocationPriority?
+    ): Maybe<NoLocationPermissionException> =
+            Maybe.fromCallable {
+                if (!isLocationPermissionGrantedForPriority(priority)) {
+                    NoLocationPermissionException()
+                } else {
+                    null
+                }
+            }
+
+    private fun observeResolvableApiException(priority: LocationPriority?): Maybe<ResolvableApiException> =
+            observeLocationSettingsChecking(priority)
+                    .toMaybe<ResolvableApiException>()
+                    .onErrorResumeNext { t: Throwable ->
+                        if (t is ResolvableApiException) {
+                            Maybe.just(t)
+                        } else {
+                            Maybe.error(t)
+                        }
+                    }
+
     private fun isPermissionGranted(permission: String) =
             ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
-    private fun checkLocationSettings(priority: LocationPriority?, onResultAction: (Exception?) -> Unit) {
-        val locationRequest = LocationUtil.createLocationRequest(priority = priority)
-        val locationSettingsRequest = createLocationSettingsRequest(locationRequest)
+    private fun observeLocationSettingsChecking(priority: LocationPriority?): Completable =
+            Completable.create {  completableEmitter ->
+                val locationRequest = LocationUtil.createLocationRequest(priority = priority)
+                val locationSettingsRequest = createLocationSettingsRequest(locationRequest)
 
-        LocationServices
-                .getSettingsClient(context)
-                .checkLocationSettings(locationSettingsRequest)
-                .addOnSuccessListener { _ -> onResultAction(null) }
-                .addOnFailureListener { exception -> onResultAction(exception) }
-
-    }
+                LocationServices
+                        .getSettingsClient(context)
+                        .checkLocationSettings(locationSettingsRequest)
+                        .addOnSuccessListener { _ -> completableEmitter.onComplete() }
+                        .addOnFailureListener { exception -> completableEmitter.onError(exception) }
+            }
 
     private fun createLocationSettingsRequest(locationRequest: LocationRequest) =
             LocationSettingsRequest.Builder()

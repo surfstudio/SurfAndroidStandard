@@ -71,6 +71,5 @@ open class PaginationableAdapter(onShowMoreListener: () -> Unit) : BasePaginatio
                 }
             }
         }
-
     }
 }

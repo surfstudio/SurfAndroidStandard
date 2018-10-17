@@ -9,5 +9,6 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
  */
 class DefaultLocationInteractorActivityRoute : ActivityRoute() {
 
-    override fun prepareIntent(context: Context?) = Intent(context, DefaultLocationInteractorActivityView::class.java)
+    override fun prepareIntent(context: Context?) =
+            Intent(context, DefaultLocationInteractorActivityView::class.java)
 }

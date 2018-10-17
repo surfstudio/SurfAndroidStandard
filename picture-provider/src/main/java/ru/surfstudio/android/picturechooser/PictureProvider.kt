@@ -32,11 +32,12 @@ class PictureProvider constructor(
         val context: Context,
         activityNavigator: ActivityNavigator,
         activityProvider: ActivityProvider,
-        private val cameraStoragePermissionChecker: PicturePermissionChecker) {
+        private val cameraStoragePermissionChecker: PicturePermissionChecker
+) {
 
-    private val cameraIntentHelper = CameraPictureProvider(activityNavigator, activityProvider.get())
-    private val galleryPictureProvider = GalleryPictureProvider(activityNavigator, activityProvider.get())
-    private val chooserPictureProvider = ChooserPictureProvider(activityNavigator, activityProvider.get())
+    private val cameraIntentHelper = CameraPictureProvider(activityNavigator, activityProvider)
+    private val galleryPictureProvider = GalleryPictureProvider(activityNavigator, activityProvider)
+    private val chooserPictureProvider = ChooserPictureProvider(activityNavigator, activityProvider)
 
     /**
      *  Запускает сторонее приложение камеры для получения изображения.
