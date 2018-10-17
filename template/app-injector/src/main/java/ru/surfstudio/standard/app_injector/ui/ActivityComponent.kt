@@ -11,6 +11,7 @@ import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
+import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
@@ -35,5 +36,6 @@ interface ActivityComponent {
     fun tabFragmentNavigator(): TabFragmentNavigator
     fun globalNavigator(): GlobalNavigator
     fun rxBus(): RxBus
+    fun fcmStorage(): FcmStorage
     @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
 }

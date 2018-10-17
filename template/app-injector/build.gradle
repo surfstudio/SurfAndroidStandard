@@ -8,7 +8,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//apply plugin: 'io.fabric' todo uncoment for real app
+//todo uncoment for real app
+//apply plugin: 'io.fabric'
 
 apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
@@ -102,11 +103,14 @@ dependencies {
     implementation project(':template:i-auth')
     implementation project(':template:f-auth')
     implementation project(':template:f-main')
+    implementation project(':template:f-debug')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
@@ -117,3 +121,6 @@ configurations.all {
     resolutionStrategy.cacheDynamicVersionsFor 1, 'seconds'
     resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
 }
+
+//todo uncoment for real app
+//apply plugin: 'com.google.gms.google-services'
