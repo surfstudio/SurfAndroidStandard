@@ -25,14 +25,16 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_debug
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+            savedInstanceState: Bundle?,
+            persistentState: PersistableBundle?,
+            viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initListeners()
     }
 
-    override fun renderInternal(screenModel: DebugScreenModel) { }
+    override fun renderInternal(screenModel: DebugScreenModel) {}
 
     override fun getScreenName(): String = "debug"
 

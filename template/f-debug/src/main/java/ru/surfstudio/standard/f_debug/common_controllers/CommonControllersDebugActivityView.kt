@@ -34,15 +34,17 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_common_controllers_debug
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+            savedInstanceState: Bundle?,
+            persistentState: PersistableBundle?,
+            viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initRecycler()
         initAdapter()
     }
 
-    override fun renderInternal(screenModel: CommonControllersDebugScreenModel) { }
+    override fun renderInternal(screenModel: CommonControllersDebugScreenModel) {}
 
     override fun getScreenName(): String = "debug_controllers"
 

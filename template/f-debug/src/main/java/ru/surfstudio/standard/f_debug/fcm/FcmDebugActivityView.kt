@@ -6,7 +6,6 @@ import android.support.annotation.LayoutRes
 import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_fcm_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
-import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
@@ -30,9 +29,11 @@ class FcmDebugActivityView : BaseLdsActivityView<FcmDebugScreenModel>() {
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_fcm_debug
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+            savedInstanceState: Bundle?,
+            persistentState: PersistableBundle?,
+            viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initListeners()
     }
@@ -40,7 +41,7 @@ class FcmDebugActivityView : BaseLdsActivityView<FcmDebugScreenModel>() {
     override fun renderInternal(screenModel: FcmDebugScreenModel) {
         fcm_tv.text = screenModel.fcmToken
 
-        val hasFcmToken = screenModel.loadState != LoadState.EMPTY
+        val hasFcmToken = screenModel.hasFcmToken()
         container.goneIf(!hasFcmToken)
         placeholder.goneIf(hasFcmToken)
     }
