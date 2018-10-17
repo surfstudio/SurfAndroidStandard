@@ -18,5 +18,5 @@ import ru.surfstudio.standard.util.modules.TestOkHttpModule
     TestOkHttpModule::class,
     CacheModule::class])
 interface TestNetworkAppComponent {
-    fun inject(test: BaseDaggerTest)
+    fun inject(test: BaseNetworkDaggerTest)
 }

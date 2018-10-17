@@ -17,7 +17,7 @@ import ru.surfstudio.standard.app_injector.AppModule
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = App::class)
-abstract class BaseDaggerTest {
+abstract class BaseNetworkDaggerTest {
 
     @Suppress("DEPRECATION")
     private val networkComponent = DaggerTestNetworkAppComponent.builder()
@@ -46,7 +46,7 @@ abstract class BaseDaggerTest {
 
     /**
      * Добавить в @Config
-     * shadows = [BaseDaggerTest.TestNetworkSecurityPolicy::class] (при необходимости)
+     * shadows = [BaseNetworkDaggerTest.TestNetworkSecurityPolicy::class] (при необходимости)
      */
     @Implements(NetworkSecurityPolicy::class)
     class TestNetworkSecurityPolicy {
@@ -63,7 +63,7 @@ abstract class BaseDaggerTest {
             fun getInstance(): NetworkSecurityPolicy = try {
                 Class.forName(NETWORK_SECURITY_POLICY_CLASS_NAME).newInstance() as NetworkSecurityPolicy
             } catch (e: Exception) {
-                throw AssertionError()
+                error(e)
             }
         }
     }
