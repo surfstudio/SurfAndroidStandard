@@ -1,13 +1,13 @@
 package ru.surfstudio.standard.f_debug.fcm
 
-import ru.surfstudio.android.core.mvp.model.LdsScreenModel
-import ru.surfstudio.android.core.mvp.model.state.LoadState
+import ru.surfstudio.android.core.mvp.model.ScreenModel
 
 /**
  * Модель экрана показа fcm-токена
  */
-class FcmDebugScreenModel : LdsScreenModel() {
+class FcmDebugScreenModel : ScreenModel() {
+
     var fcmToken: String? = null
 
-    fun hasFcmToken(): Boolean = loadState != LoadState.EMPTY
+    fun hasFcmToken(): Boolean = !fcmToken.isNullOrEmpty()
 }

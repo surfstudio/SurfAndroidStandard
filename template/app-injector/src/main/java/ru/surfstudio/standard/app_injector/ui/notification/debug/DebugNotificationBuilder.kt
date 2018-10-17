@@ -29,7 +29,7 @@ object DebugNotificationBuilder {
                     PendingIntent.FLAG_UPDATE_CURRENT)
 
             val notificationBuilder = NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(notificationTitle)
                     .setContentText(notificationBody)
                     .setContentIntent(pendingIntent)

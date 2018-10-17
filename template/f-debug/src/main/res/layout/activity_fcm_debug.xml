@@ -1,32 +1,40 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:padding="@dimen/default_padding">
 
-    <LinearLayout
-        android:id="@+id/container"
+    <TextView
+        android:id="@+id/fcm_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginBottom="@dimen/default_padding"
+        android:background="?attr/selectableItemBackground"
+        android:drawableEnd="@drawable/ic_copy_fcm_token"
+        android:padding="8dp"
+        tools:text="Text" />
 
-        <TextView
-            android:id="@+id/fcm_tv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/default_padding"
-            android:padding="8dp"
-            tools:text="Text"
-            android:background="?attr/selectableItemBackground"
-            android:drawableEnd="@drawable/ic_content_copy_black_24dp" />
-    </LinearLayout>
-
-    <ru.surfstudio.standard.base_ui.placeholder.PlaceHolderView
-        android:id="@+id/placeholder"
+    <RelativeLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:pvEmptyTitle="@string/pv_empty_text"
-        app:pvEmptyButtonText="@string/pv_empty_btn_text" />
-</LinearLayout>
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/fcm_empty_message_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/default_padding"
+            android:gravity="center"
+            android:text="@string/fcm_empty_text" />
+
+        <Button
+            android:id="@+id/reload_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fcm_empty_message_tv"
+            android:layout_centerHorizontal="true"
+            android:text="@string/reload_btn_text" />
+    </RelativeLayout>
+</FrameLayout>

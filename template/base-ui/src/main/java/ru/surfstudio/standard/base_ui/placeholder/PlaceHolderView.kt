@@ -11,8 +11,10 @@ import ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
  *
  * Все состояния обрабатываются стандартно.
  */
-class PlaceHolderView constructor(context: Context, attributeSet: AttributeSet)
-    : StandardPlaceHolderView(context, attributeSet), PlaceHolderViewInterface {
+class PlaceHolderView(
+        context: Context,
+        attributeSet: AttributeSet
+) : StandardPlaceHolderView(context, attributeSet), PlaceHolderViewInterface {
 
     override fun render(loadState: LoadState) {
         when (loadState) {

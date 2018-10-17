@@ -5,8 +5,7 @@ import android.os.PersistableBundle
 import android.support.annotation.LayoutRes
 import androidx.core.widget.toast
 import kotlinx.android.synthetic.main.activity_fcm_debug.*
-import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
+import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.android.utilktx.ktx.ui.view.copyTextToClipboard
@@ -17,7 +16,7 @@ import javax.inject.Inject
 /**
  * Вью экрана показа fcm-токена
  */
-class FcmDebugActivityView : BaseLdsActivityView<FcmDebugScreenModel>() {
+class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
 
     @Inject
     lateinit var presenter: FcmDebugPresenter
@@ -39,20 +38,17 @@ class FcmDebugActivityView : BaseLdsActivityView<FcmDebugScreenModel>() {
     }
 
     override fun renderInternal(screenModel: FcmDebugScreenModel) {
-        fcm_tv.text = screenModel.fcmToken
-
         val hasFcmToken = screenModel.hasFcmToken()
-        container.goneIf(!hasFcmToken)
-        placeholder.goneIf(hasFcmToken)
+        fcm_tv.text = screenModel.fcmToken
+        fcm_tv.goneIf(!hasFcmToken)
+        container.goneIf(hasFcmToken)
     }
 
     override fun getScreenName(): String = "debug_fcm"
 
-    override fun getPlaceHolderView(): PlaceHolderViewInterface = placeholder
-
     private fun initListeners() {
         fcm_tv.setOnClickListener { presenter.copyFcmToken() }
-        placeholder.buttonLambda = { presenter.loadFcmToken() }
+        reload_btn.setOnClickListener { presenter.loadFcmToken() }
     }
 
     fun copyFcmToken() = fcm_tv.copyTextToClipboard()
