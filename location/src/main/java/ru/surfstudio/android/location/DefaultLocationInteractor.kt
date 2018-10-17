@@ -1,6 +1,7 @@
 package ru.surfstudio.android.location
 
 import android.location.Location
+import android.support.annotation.RequiresPermission
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
@@ -59,6 +60,9 @@ class DefaultLocationInteractor(
      * передавались решения;
      * - onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolutionFailedException].
      */
+    @RequiresPermission(
+            allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
     fun resolveLocationAvailability(
             throwables: List<Throwable>,
             locationPermissionRequest: LocationPermissionRequest = LocationPermissionRequest()
@@ -83,7 +87,9 @@ class DefaultLocationInteractor(
      * [PlayServicesAreNotAvailableException], [ResolvableApiException];
      * - [ResolutionFailedException].
      */
-    @SuppressWarnings("ResourceType")
+    @RequiresPermission(
+            allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
     fun observeLastKnownLocationWithErrorsResolution(
             lastKnownLocationRequest: LastKnownLocationRequest
     ): Maybe<Location> =
@@ -115,6 +121,9 @@ class DefaultLocationInteractor(
      *   - [ResolutionFailedException];
      *   - [TimeoutException].
      */
+    @RequiresPermission(
+            allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
     fun observeCurrentLocationWithErrorsResolution(currentLocationRequest: CurrentLocationRequest): Single<Location> {
         val relevantLocation = getRelevantLocationOrNull(
                 currentLocationRequest.relevanceTimeoutMillis,
@@ -181,7 +190,9 @@ class DefaultLocationInteractor(
         }
     }
 
-    @SuppressWarnings("ResourceType")
+    @RequiresPermission(
+            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
     private fun observeLocationUpdates(currentLocationRequest: CurrentLocationRequest): Observable<Location> {
         var locationUpdatesObservable = locationService.observeLocationUpdates(0, 0, currentLocationRequest.priority)
 
