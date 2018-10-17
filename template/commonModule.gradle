@@ -25,7 +25,7 @@ android {
             buildConfigField "String", "BASE_URL", '""'
             debuggable = true
             minifyEnabled false
-            // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
+            // сопоставление buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']
         }
 
@@ -48,6 +48,14 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs += 'src/main/kotlin/'
+            test.java.srcDirs += 'src/test/kotlin'
+            androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        }
     }
 }
 

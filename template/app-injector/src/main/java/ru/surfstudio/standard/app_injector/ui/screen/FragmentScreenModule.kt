@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector.ui.screen
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
@@ -18,7 +19,9 @@ import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.ui.error.ErrorHandlerModule
+import javax.inject.Named
 
 @Module(includes = [ErrorHandlerModule::class])
 class FragmentScreenModule(private val persistentScope: FragmentViewPersistentScope) : ScreenModule() {
@@ -43,16 +46,28 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForFragment(activityProvider, fragmentProvider, eventDelegateManager)
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityProvider: ActivityProvider,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            fragmentProvider: FragmentProvider
+    ): PermissionManager {
+        return PermissionManagerForFragment(
+                eventDelegateManager,
+                activityProvider,
+                activityNavigator,
+                sharedPreferences,
+                fragmentProvider
+        )
     }
 
     @Provides
     @PerScreen
-    internal fun provideMessageController(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider): MessageController {
+    internal fun provideMessageController(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider
+    ): MessageController {
         return DefaultMessageController(activityProvider, fragmentProvider)
     }
 
@@ -64,16 +79,20 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider,
-                                        fragmentProvider: FragmentProvider): DialogNavigator {
+    internal fun provideDialogNavigator(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider
+    ): DialogNavigator {
         return DialogNavigatorForFragment(activityProvider, fragmentProvider, persistentScope)
     }
 
     @Provides
     @PerScreen
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            fragmentProvider: FragmentProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForFragment(activityProvider, fragmentProvider, eventDelegateManager)
     }
 }

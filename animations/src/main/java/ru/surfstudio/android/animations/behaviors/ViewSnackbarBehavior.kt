@@ -30,10 +30,10 @@ open class ViewSnackbarBehavior<V : View> @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : CoordinatorLayout.Behavior<V>(context, attrs) {
 
-    override fun layoutDependsOn(parent: CoordinatorLayout?, child: V, dependency: View?): Boolean =
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: V, dependency: View): Boolean =
             dependency is Snackbar.SnackbarLayout
 
-    override fun onDependentViewChanged(parent: CoordinatorLayout?, child: V, dependency: View): Boolean {
+    override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
         val translationY: Float =  Math.min(0F, dependency.translationY - dependency.height)
 
         //прерывает предыдущую анимацию
@@ -43,7 +43,7 @@ open class ViewSnackbarBehavior<V : View> @JvmOverloads constructor(
         return true
     }
 
-    override fun onDependentViewRemoved(parent: CoordinatorLayout?, child: V, dependency: View?) {
+    override fun onDependentViewRemoved(parent: CoordinatorLayout, child: V, dependency: View) {
         ViewCompat.animate(child).translationY(0F).start()
     }
 }

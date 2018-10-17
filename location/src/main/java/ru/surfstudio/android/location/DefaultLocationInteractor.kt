@@ -3,6 +3,7 @@ package ru.surfstudio.android.location
 import android.location.Location
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
@@ -77,9 +78,10 @@ class DefaultLocationInteractor(
      * @return [Maybe]:
      * - onSuccess() вызывается в случае удачного получения местоположения;
      * - onComplete() вызывается в случае, если местоположение было получено, но равно null;
-     * - onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
-     * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
-     * [ResolvableApiException].
+     * - onError() вызывается, если нет возможности получить местоположение. Могут прийти:
+     * - [CompositeException], содержащий список из возможных исключений: [NoLocationPermissionException],
+     * [PlayServicesAreNotAvailableException], [ResolvableApiException];
+     * - [ResolutionFailedException].
      */
     @SuppressWarnings("ResourceType")
     fun observeLastKnownLocationWithErrorsResolution(
@@ -94,8 +96,7 @@ class DefaultLocationInteractor(
                                 lastKnownLocationRequest.locationPermissionRequest
                         )
                     }
-                    .toMaybe<Location>()
-                    .flatMap { locationService.observeLastKnownLocation() }
+                    .andThen(locationService.observeLastKnownLocation())
                     .doOnSuccess {
                         lastCurrentLocation = it
                         lastCurrentLocationPriority = lastKnownLocationRequest.priority
@@ -111,9 +112,9 @@ class DefaultLocationInteractor(
      * - onError() вызывается, если нет возможности получить местоположение. Могут прийти:
      *   - [CompositeException], содержащий список из возможных исключений: [NoLocationPermissionException],
      *   [PlayServicesAreNotAvailableException], [ResolvableApiException];
+     *   - [ResolutionFailedException];
      *   - [TimeoutException].
      */
-    @SuppressWarnings("ResourceType")
     fun observeCurrentLocationWithErrorsResolution(currentLocationRequest: CurrentLocationRequest): Single<Location> {
         val relevantLocation = getRelevantLocationOrNull(
                 currentLocationRequest.relevanceTimeoutMillis,
@@ -133,19 +134,7 @@ class DefaultLocationInteractor(
                             currentLocationRequest.locationPermissionRequest
                     )
                 }
-                .toObservable<Location>()
-                .flatMap {
-                    var locationUpdatesObservable =
-                            locationService.observeLocationUpdates(0, 0, currentLocationRequest.priority)
-
-                    if (currentLocationRequest.expirationTimeoutMillis > 0) {
-                        locationUpdatesObservable =
-                                locationUpdatesObservable
-                                        .timeout(currentLocationRequest.expirationTimeoutMillis, TimeUnit.MILLISECONDS)
-                    }
-
-                    locationUpdatesObservable
-                }
+                .andThen(observeLocationUpdates(currentLocationRequest))
                 .firstOrError()
                 .doOnSuccess {
                     lastCurrentLocation = it
@@ -190,5 +179,18 @@ class DefaultLocationInteractor(
             LocationPriority.compare(locationPriority, nonNullLastCurrentLocationPriority) < 0 -> null
             else -> nonNullLastCurrentLocation
         }
+    }
+
+    @SuppressWarnings("ResourceType")
+    private fun observeLocationUpdates(currentLocationRequest: CurrentLocationRequest): Observable<Location> {
+        var locationUpdatesObservable = locationService.observeLocationUpdates(0, 0, currentLocationRequest.priority)
+
+        if (currentLocationRequest.expirationTimeoutMillis > 0) {
+            locationUpdatesObservable =
+                    locationUpdatesObservable
+                            .timeout(currentLocationRequest.expirationTimeoutMillis, TimeUnit.MILLISECONDS)
+        }
+
+        return locationUpdatesObservable
     }
 }

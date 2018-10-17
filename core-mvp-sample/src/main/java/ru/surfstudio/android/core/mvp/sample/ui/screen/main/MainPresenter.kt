@@ -22,5 +22,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         view.render(screenModel)
     }
 
-    fun openAnotherScreen() = activityNavigator.start(AnotherActivityRoute())
+    fun openAnotherScreen() {
+        activityNavigator.start(AnotherActivityRoute())
+    }
 }
