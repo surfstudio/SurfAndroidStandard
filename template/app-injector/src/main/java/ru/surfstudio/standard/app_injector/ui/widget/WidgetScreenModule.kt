@@ -121,8 +121,8 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
     @PerScreen
     internal fun provideMessageController(
             activityProvider: ActivityProvider,
-            @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType)
-            : MessageController {
+            @Named(PARENT_TYPE_DAGGER_NAME) screenType: ScreenType
+    ): MessageController {
         return DefaultMessageController(
                 activityProvider,
                 if (screenType == ScreenType.FRAGMENT)
