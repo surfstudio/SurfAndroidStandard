@@ -138,6 +138,7 @@ class TitleSubtitleView @JvmOverloads constructor(
             setupTextColor(ta, R.styleable.TitleSubtitleView_titleTextColor)
 
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_titleLineSpacingExtra, 0f), 1f)
+
             setPadding(
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titlePaddingStart, 0),
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titlePaddingTop, 0),
@@ -166,13 +167,10 @@ class TitleSubtitleView @JvmOverloads constructor(
 
             setupTextAppearance(ta, R.styleable.TitleSubtitleView_subtitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
+            setupTextColor(ta, R.styleable.TitleSubtitleView_subTitleTextColor)
 
             setLineSpacing(ta.getDimension(R.styleable.TitleSubtitleView_subTitleLineSpacingExtra, 0f), 1f)
 
-            setTextColor(ta.getColor(
-                    R.styleable.TitleSubtitleView_subTitleTextColor,
-                    ContextCompat.getColor(context, android.R.color.black)
-            ))
             setPadding(
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitlePaddingStart, 0),
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitlePaddingTop, 0),
