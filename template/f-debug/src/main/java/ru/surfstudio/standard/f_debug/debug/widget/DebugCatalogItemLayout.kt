@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.RelativeLayout
 import kotlinx.android.synthetic.main.debug_catalog_item_layout.view.*
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.android.utilktx.util.ViewUtil
 
 /**
  * Виджет для элемента каталога debug-screen
@@ -26,15 +25,7 @@ class DebugCatalogItemLayout(
 
     private fun obtainAttributes(context: Context, attributeSet: AttributeSet) {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DebugCatalogItemLayout)
-
-        for (i in 0..typedArray.indexCount) {
-            val attrId = typedArray.getIndex(i)
-            when (attrId) {
-                R.styleable.DebugCatalogItemLayout_catalog_item_name -> {
-                    debugItemName = typedArray.getString(attrId) ?: ""
-                }
-            }
-        }
+        debugItemName = typedArray.getString(R.styleable.DebugCatalogItemLayout_catalog_item_name) ?: ""
         typedArray.recycle()
     }
 
