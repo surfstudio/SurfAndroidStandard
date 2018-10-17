@@ -1,23 +1,32 @@
 package ru.surfstudio.android.network.sample.util
 
+import android.os.Build
+import android.security.NetworkSecurityPolicy
 import android.support.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
+import org.junit.After
 import org.junit.Before
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import ru.surfstudio.android.network.sample.app.CustomApp
-import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
-import android.security.NetworkSecurityPolicy
 import org.robolectric.annotation.Implementation
 import org.robolectric.annotation.Implements
+import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStrategy
+import ru.surfstudio.android.network.sample.app.CustomApp
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
 @RunWith(RobolectricTestRunner::class)
 @Config(application = CustomApp::class,
+        sdk = [Build.VERSION_CODES.O_MR1],
         shadows = [BaseDaggerTest.TestNetworkSecurityPolicy::class])
 abstract class BaseDaggerTest {
+
+    companion object {
+        private val testLoggingStrategy = TestLoggingStrategy()
+    }
 
     @Suppress("DEPRECATION")
     private val networkComponent = DaggerTestNetworkAppComponent.builder()
@@ -29,7 +38,14 @@ abstract class BaseDaggerTest {
     @Before
     @CallSuper
     open fun setUp() {
+        Logger.addLoggingStrategy(testLoggingStrategy)
         inject(networkComponent)
+    }
+
+    @After
+    @CallSuper
+    open fun tearDown() {
+        Logger.removeLoggingStrategy(testLoggingStrategy)
     }
 
     protected fun <T> test(observable: Observable<T>): TestObserver<T> {
