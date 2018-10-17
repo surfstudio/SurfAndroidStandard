@@ -82,7 +82,9 @@ class DefaultLocationInteractor(
      * [ResolvableApiException].
      */
     @SuppressWarnings("ResourceType")
-    fun observeLastKnownLocation(lastKnownLocationRequest: LastKnownLocationRequest): Maybe<Location> =
+    fun observeLastKnownLocationWithErrorsResolution(
+            lastKnownLocationRequest: LastKnownLocationRequest
+    ): Maybe<Location> =
             locationService
                     .checkLocationAvailability(lastKnownLocationRequest.priority)
                     .onErrorResumeNext { t: Throwable ->
@@ -112,7 +114,7 @@ class DefaultLocationInteractor(
      *   - [TimeoutException].
      */
     @SuppressWarnings("ResourceType")
-    fun observeCurrentLocation(currentLocationRequest: CurrentLocationRequest): Single<Location> {
+    fun observeCurrentLocationWithErrorsResolution(currentLocationRequest: CurrentLocationRequest): Single<Location> {
         val relevantLocation = getRelevantLocationOrNull(
                 currentLocationRequest.relevanceTimeoutMillis,
                 currentLocationRequest.priority
