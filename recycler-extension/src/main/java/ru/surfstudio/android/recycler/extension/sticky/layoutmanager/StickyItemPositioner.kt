@@ -12,7 +12,8 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
- */package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
+ */
+package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
 import android.content.Context
 import android.os.Build
@@ -711,7 +712,7 @@ class StickyItemPositioner(
     }
 
     companion object {
-        private val INVALID_POSITION = -1
+        private const val INVALID_POSITION = -1
     }
 
     enum class ElevationMode(val dp: Float) {

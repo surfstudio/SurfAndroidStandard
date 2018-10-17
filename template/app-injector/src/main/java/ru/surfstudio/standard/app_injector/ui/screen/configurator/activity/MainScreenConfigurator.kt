@@ -28,6 +28,7 @@ class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent
             route: MainActivityRoute
     ) : CustomScreenModule<MainActivityRoute>(route)
 
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
