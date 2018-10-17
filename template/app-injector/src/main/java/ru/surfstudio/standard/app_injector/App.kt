@@ -3,7 +3,9 @@ package ru.surfstudio.standard.app_injector
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
+import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.app_injector.ui.notification.debug.DebugNotificationBuilder
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
@@ -13,6 +15,7 @@ class App : CoreApp() {
 
     override fun onCreate() {
         super.onCreate()
+        RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
 
         initFabric()

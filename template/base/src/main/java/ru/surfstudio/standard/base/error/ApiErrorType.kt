@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.base.error
 
-
 /**
  * типы специфичных ошибок сервера
  *
@@ -13,6 +12,5 @@ enum class ApiErrorType(private val code: Int) {
 
         fun getByCode(code: Int?): ApiErrorType =
                 values().firstOrNull { error -> error.code == code } ?: UNKNOWN
-
     }
 }

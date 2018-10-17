@@ -2,7 +2,7 @@ buildscript {
     ext {
         kotlin_version = '1.2.71'
         fabricToolsVersion = '1.25.4'
-        androidGradleToolsVersion = '3.2.0'
+        androidGradleToolsVersion = '3.2.1'
     }
 
     repositories {

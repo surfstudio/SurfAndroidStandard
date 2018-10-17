@@ -10,6 +10,9 @@ import ru.surfstudio.android.core.ui.FragmentContainer
 import ru.surfstudio.android.template.f_main.R
 import javax.inject.Inject
 
+/**
+ * Вью главного экрана
+ */
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), FragmentContainer {
 
     @Inject
@@ -24,10 +27,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
 
     override fun getContentContainerViewId() = R.id.container
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
-        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+    override fun onCreate(
+            savedInstanceState: Bundle?,
+            persistentState: PersistableBundle?,
+            viewRecreated: Boolean
+    ) {
         initViews()
         initListeners()
     }
@@ -39,7 +43,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
 
     private fun initViews() {
     }
-
 
     private fun initListeners() {
     }

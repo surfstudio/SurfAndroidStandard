@@ -67,9 +67,9 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
+    internal fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
 
     @Provides
     @PerApplication
-    fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_API_URL, null)
+    internal fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_API_URL, null)
 }

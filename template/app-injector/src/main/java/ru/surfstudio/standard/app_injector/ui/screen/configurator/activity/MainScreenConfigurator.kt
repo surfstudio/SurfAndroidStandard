@@ -12,6 +12,9 @@ import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
 import ru.surfstudio.standard.f_main.MainActivityRoute
 import ru.surfstudio.standard.f_main.MainActivityView
 
+/**
+ * Конфигуратор главного экрана
+ */
 class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent) {
 
     @PerScreen
@@ -24,6 +27,7 @@ class MainScreenConfigurator(intent: Intent) : ActivityScreenConfigurator(intent
     internal class MainScreenModule(route: MainActivityRoute)
         : CustomScreenModule<MainActivityRoute>(route)
 
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(parentComponent: ActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
