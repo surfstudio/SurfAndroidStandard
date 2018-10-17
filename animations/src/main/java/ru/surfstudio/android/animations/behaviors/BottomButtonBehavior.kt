@@ -24,7 +24,6 @@ import android.view.View
 import android.widget.Button
 import ru.surfstudio.android.animations.R
 
-
 @Suppress("unused")
 /**
  * Behavior для сокрытия кнопки при скролле NestedScrollView
