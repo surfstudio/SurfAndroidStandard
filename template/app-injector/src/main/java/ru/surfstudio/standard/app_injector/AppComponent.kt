@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.app_injector
 
 import android.content.Context
+import android.content.SharedPreferences
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
@@ -9,6 +10,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigat
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.interactor.AuthModule
 import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
@@ -17,6 +19,7 @@ import ru.surfstudio.standard.app_injector.network.OkHttpModule
 import ru.surfstudio.standard.app_injector.ui.notification.MessagingService
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
+import javax.inject.Named
 
 @PerApplication
 @Component(modules = [
@@ -38,4 +41,5 @@ interface AppComponent {
     fun fcmStorage(): FcmStorage
 
     fun inject(to: MessagingService)
+    @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
 }

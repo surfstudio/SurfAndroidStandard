@@ -1,5 +1,6 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
@@ -16,6 +17,8 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.error.ErrorHandlerModul
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 
 @Module(includes = [ErrorHandlerModule::class])
@@ -48,9 +51,16 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForActivity(activityProvider, eventDelegateManager)
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityNavigator: ActivityNavigator,
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                          activityProvider: ActivityProvider): PermissionManager {
+        return PermissionManagerForActivity(
+                eventDelegateManager,
+                activityNavigator,
+                sharedPreferences,
+                activityProvider
+        )
     }
 
     @Provides
