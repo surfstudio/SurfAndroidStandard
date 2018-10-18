@@ -34,6 +34,7 @@ import javax.inject.Named
     EtagModule::class,
     NetworkModule::class,
     OkHttpModule::class,
+    CacheModule::class,
     FcmModule::class])
 interface AppComponent {
     fun initializeAppInteractor(): InitializeAppInteractor

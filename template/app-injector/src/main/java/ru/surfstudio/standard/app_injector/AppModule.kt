@@ -1,11 +1,11 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
-import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -13,25 +13,22 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
 
 @Module
-class AppModule(private val coreApp: CoreApp) {
+class AppModule(
+        private val app: Application,
+        private val activeActivityHolder: ActiveActivityHolder
+) {
 
     @Provides
     @PerApplication
-    internal fun provideActiveActivityHolder(): ActiveActivityHolder {
-        return coreApp.activeActivityHolder
-    }
+    internal fun provideActiveActivityHolder(): ActiveActivityHolder = activeActivityHolder
 
     @Provides
     @PerApplication
-    internal fun provideContext(): Context {
-        return coreApp
-    }
+    internal fun provideContext(): Context = app
 
     @Provides
     @PerApplication
-    internal fun provideStringsProvider(context: Context): StringsProvider {
-        return StringsProvider(context)
-    }
+    internal fun provideStringsProvider(context: Context): StringsProvider = StringsProvider(context)
 
     @Provides
     @PerApplication
@@ -44,9 +41,7 @@ class AppModule(private val coreApp: CoreApp) {
 
     @Provides
     @PerApplication
-    internal fun provideSchedulerProvider(): SchedulersProvider {
-        return SchedulersProviderImpl()
-    }
+    internal fun provideSchedulerProvider(): SchedulersProvider = SchedulersProviderImpl()
 
     @Provides
     @PerApplication

@@ -41,7 +41,7 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
     @Provides
     @PerScreen
     internal fun provideEventDelegateManager(): ScreenEventDelegateManager {
-        return persistentScope.getScreenEventDelegateManager()
+        return persistentScope.screenEventDelegateManager
     }
 
     @Provides

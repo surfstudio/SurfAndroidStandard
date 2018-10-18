@@ -29,7 +29,6 @@ import javax.inject.Named
  * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
  * принадлежащих скоупу @PerScreen
  */
-
 @Module
 class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
