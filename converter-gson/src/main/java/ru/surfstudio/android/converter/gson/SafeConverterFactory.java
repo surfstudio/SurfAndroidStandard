@@ -32,19 +32,18 @@ import ru.surfstudio.android.converter.gson.safe.SafeConverter;
 public class SafeConverterFactory {
 
     private Map<Class, Function<TypeToken, SafeConverter>> safeConverterCreators = new HashMap<>();
-    private Map<Class, SafeConverter> initializedSafeConverters = new HashMap<>();
+    private Map<TypeToken, SafeConverter> initializedSafeConverters = new HashMap<>();
     public SafeConverterFactory() {
         //inject constructor
     }
 
     @Nullable
     <T> SafeConverter<T> getSafeConverter(TypeToken<T> type) {
-        Class<? super T> rawType = type.getRawType();
-        SafeConverter<T> result = initializedSafeConverters.get(rawType);
+        SafeConverter<T> result = initializedSafeConverters.get(type);
         if (result == null) {
             result = tryCreateSafeConverter(type);
             if (result != null) {
-                initializedSafeConverters.put(rawType, result);
+                initializedSafeConverters.put(type, result);
             }
         }
         return result;
