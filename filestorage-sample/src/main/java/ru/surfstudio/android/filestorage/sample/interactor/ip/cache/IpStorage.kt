@@ -2,18 +2,20 @@ package ru.surfstudio.android.filestorage.sample.interactor.ip.cache
 
 import com.google.gson.GsonBuilder
 import ru.surfstudio.android.filestorage.BaseLocalCache
+import ru.surfstudio.android.filestorage.CacheConstant
 import ru.surfstudio.android.filestorage.ObjectConverter
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.CacheFileProcessor
 import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
+import javax.inject.Named
 
 /**
  * Локальное хранилище информации об ip
  */
 class IpStorage(
-        internalCacheDir: String
+        @Named(CacheConstant.CACHE_DIR_NAME) cacheDir: String
 ) : BaseLocalCache<Ip>(
-        CacheFileProcessor(internalCacheDir, KEY_IP_STORAGE, 1),
+        CacheFileProcessor(cacheDir, KEY_IP_STORAGE, 1),
         NamingProcessor { rawName -> rawName }
 ) {
 

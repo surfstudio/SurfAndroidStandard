@@ -28,16 +28,10 @@ class CacheModule {
     @Provides
     @PerApplication
     internal fun provideSimpleCacheFactory(
-            appDirectoriesProvider: AppDirectoriesProvider,
+            context: Context,
             cacheUrlConnector: SimpleCacheUrlConnector
     ): SimpleCacheFactory {
-        return SimpleCacheFactory(appDirectoriesProvider.provideExternalCacheDir(), cacheUrlConnector)
-    }
-
-    @Provides
-    @PerApplication
-    internal fun provideAppDirectoriesProvider(context: Context): AppDirectoriesProvider {
-        return AppDirectoriesProvider(context)
+        return SimpleCacheFactory(AppDirectoriesProvider.provideBackupStorageDir(context), cacheUrlConnector)
     }
 
     @Provides

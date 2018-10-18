@@ -15,7 +15,10 @@
  */
 package ru.surfstudio.android.network.etag.storage;
 
+import javax.inject.Named;
+
 import ru.surfstudio.android.filestorage.BaseTextLocalCache;
+import ru.surfstudio.android.filestorage.CacheConstant;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
 
@@ -23,7 +26,7 @@ public final class EtagCache extends BaseTextLocalCache {
 
     private static final int CACHE_SIZE = 5000;
 
-    public EtagCache(final String internalCacheDir) {
-        super(new CacheFileProcessor(internalCacheDir, "etag", CACHE_SIZE), new Sha256NamingProcessor());
+    public EtagCache(@Named(CacheConstant.NO_BACKUP_STORAGE_DIR_NAME) final String noBackupStorageDir) {
+        super(new CacheFileProcessor(noBackupStorageDir, "etag", CACHE_SIZE), new Sha256NamingProcessor());
     }
 }

@@ -1,5 +1,6 @@
 package ru.surfstudio.android.filestorage.sample.interactor.common.network
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -13,8 +14,8 @@ class EtagModule {
 
     @Provides
     @PerApplication
-    internal fun provideEtagCache(appDirectoriesProvider: AppDirectoriesProvider): EtagCache {
-        return EtagCache(appDirectoriesProvider.provideInternalCacheDir())
+    internal fun provideEtagCache(context: Context): EtagCache {
+        return EtagCache(AppDirectoriesProvider.provideNoBackupStorageDir(context))
     }
 
     @Provides

@@ -3,6 +3,7 @@ apply from: '../commonModule.gradle'
 dependencies {
     api project(':template:domain')
     api project(':filestorage') //todo временно
+    api project(':network') //todo временно
 
     gradle.ext.androidStandard.api(
             this,
@@ -17,8 +18,6 @@ dependencies {
                     "easyadapter",
                     "analytics",
                     "firebase-analytics",
-                    "network",
-                    "filestorage",
                     "push",
                     "dagger-scope",
                     "logger",

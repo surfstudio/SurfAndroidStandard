@@ -20,19 +20,30 @@ import android.support.v4.content.ContextCompat
 import ru.surfstudio.android.utilktx.util.java.CollectionUtils
 import java.util.*
 
-class AppDirectoriesProvider(private val context: Context) {
+object AppDirectoriesProvider {
 
-    fun provideInternalCacheDir(): String {
+    fun provideNoBackupStorageDir(context: Context): String {
         return ContextCompat.getNoBackupFilesDir(context)!!.absolutePath
     }
 
-    fun provideExternalCacheDir(): String {
+    fun provideBackupStorageDir(context: Context): String {
         val externalFilesDirs = ContextCompat.getExternalFilesDirs(context, null)
         // могут возвращаться null элементы, убираем их
         val filtered = CollectionUtils.filter(Arrays.asList(*externalFilesDirs)) { file -> file != null }
         // берем последний из списка
         val result = CollectionUtils.last(filtered)
         // если подходящего элемента не оказалось, берем директорию внутреннего кэша
-        return if (result != null) result.absolutePath else provideInternalCacheDir()
+        return if (result != null) result.absolutePath else provideNoBackupStorageDir(context)
+    }
+
+    //todo SD card priority
+    fun provideCacheDir(context: Context): String {
+        val externalFilesDirs = ContextCompat.getExternalCacheDirs(context)
+        // могут возвращаться null элементы, убираем их
+        val filtered = CollectionUtils.filter(Arrays.asList(*externalFilesDirs)) { file -> file != null }
+        // берем последний из списка
+        val result = CollectionUtils.last(filtered)
+        // если подходящего элемента не оказалось, берем директорию внутреннего кэша
+        return if (result != null) result.absolutePath else provideNoBackupStorageDir(context)
     }
 }

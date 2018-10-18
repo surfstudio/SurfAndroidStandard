@@ -1,5 +1,6 @@
 package ru.surfstudio.android.filestorage.sample.interactor.ip
 
+import android.content.Context
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -13,8 +14,8 @@ class IpModule {
 
     @Provides
     @PerApplication
-    internal fun provideIpStorage(appDirectoriesProvider: AppDirectoriesProvider): IpStorage {
-        return IpStorage(appDirectoriesProvider.provideInternalCacheDir())
+    internal fun provideIpStorage(context: Context): IpStorage {
+        return IpStorage(AppDirectoriesProvider.provideCacheDir(context))
     }
 
     @Provides

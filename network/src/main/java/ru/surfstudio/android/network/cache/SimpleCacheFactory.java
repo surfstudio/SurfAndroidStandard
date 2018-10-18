@@ -20,6 +20,10 @@ import com.annimon.stream.Stream;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Named;
+
+import ru.surfstudio.android.filestorage.CacheConstant;
+
 /**
  * фабрика простых кешей
  */
@@ -29,9 +33,9 @@ public class SimpleCacheFactory {
     private final SimpleCacheUrlConnector cacheUrlConnector;
     private Map<SimpleCacheInfo, SimpleCache> caches = new HashMap<>();
 
-    public SimpleCacheFactory(final String externalCacheDir,
+    public SimpleCacheFactory(@Named(CacheConstant.BACKUP_STORAGE_DIR_NAME) final String backupStorageDir,
                               SimpleCacheUrlConnector cacheUrlConnector) {
-        this.cacheDir = externalCacheDir;
+        this.cacheDir = backupStorageDir;
         this.cacheUrlConnector = cacheUrlConnector;
     }
 

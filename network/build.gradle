@@ -22,6 +22,7 @@ dependencies {
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
+        'dagger-scope',
         'filestorage',
         'logger',
         'connection',
