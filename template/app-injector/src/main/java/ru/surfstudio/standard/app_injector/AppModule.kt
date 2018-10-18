@@ -1,10 +1,10 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.app.ActiveActivityHolder
-import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -12,15 +12,18 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
 
 @Module
-class AppModule(private val coreApp: CoreApp) {
+class AppModule(
+        private val app: Application,
+        private val activeActivityHolder: ActiveActivityHolder
+) {
 
     @Provides
     @PerApplication
-    internal fun provideActiveActivityHolder(): ActiveActivityHolder = coreApp.activeActivityHolder
+    internal fun provideActiveActivityHolder(): ActiveActivityHolder = activeActivityHolder
 
     @Provides
     @PerApplication
-    internal fun provideContext(): Context = coreApp
+    internal fun provideContext(): Context = app
 
     @Provides
     @PerApplication
