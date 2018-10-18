@@ -4,12 +4,6 @@ android {
     defaultConfig {
         applicationId "ru.surfstudio.android.network.sample"
     }
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
 }
 
 dependencies {
@@ -21,12 +15,4 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
-
-    //unit test
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "com.annimon:stream:$annimonStreamVersion"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
-
-    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

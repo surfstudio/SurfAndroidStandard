@@ -11,7 +11,8 @@ private const val KEY_TOKEN = "TOKEN"
 
 @PerApplication
 class TokenStorage @Inject constructor(
-        @Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
+        @Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences
+) {
 
     var token: String
         get() = SettingsUtil.getString(noBackupSharedPref, KEY_TOKEN)
