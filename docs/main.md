@@ -55,4 +55,5 @@
 
 1. [Лучшие практики](best_practice/best_practice.md)
     1. [Поиск утечек](best_practice/memory_leak.md)
+    2. [CI](https://github.com/surfstudio/jenkins-pipeline-lib)
 
