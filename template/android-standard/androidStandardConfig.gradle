@@ -39,8 +39,8 @@ gradle.ext {
     androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
 
     // Функция для подключения модулей android-standard
-    androidStandard.api = { context, androidStandardVersion, modules, closure = null ->
-        if (!gradle.ext.androidStandard.debugEnabled) {
+    androidStandard.api = { context, androidStandardVersion, modules, closure = null, isTemplate = false ->
+        if (!gradle.ext.androidStandard.debugEnabled && !isTemplate) {
             // Подключение модулей из artifactory
             context.dependencies {
                 modules.each {

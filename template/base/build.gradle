@@ -2,8 +2,6 @@ apply from: '../commonModule.gradle'
 
 dependencies {
     api project(':template:domain')
-    api project(':filestorage') //todo временно
-    api project(':network') //todo временно
 
     gradle.ext.androidStandard.api(
             this,
@@ -21,11 +19,12 @@ dependencies {
                     "push",
                     "dagger-scope",
                     "logger",
+                    "filestorage",
+                    "network",
                     "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",
-                    "camera-view",
                     "app-migration",
                     "connection",
                     "custom-view",
@@ -39,6 +38,8 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension"
-            ]
+            ],
+            null, //todo remove for real app
+            true  //todo remove for real app
     )
 }
