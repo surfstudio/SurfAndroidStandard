@@ -17,7 +17,7 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
     context.afterEvaluate {
         uploadArchives {
             repositories.mavenDeployer {
-                repository(url: "https://artifactory.surfstudio.ru/artifactory/libs-release-local") {
+                repository(url: 'https://artifactory.surfstudio.ru/artifactory/libs-release-local') {
                     authentication(
                             userName: System.getenv('surf_maven_username'),
                             password: System.getenv('surf_maven_password'))

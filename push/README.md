@@ -21,7 +21,7 @@
    
 [Пример использования](../firebase-sample)
 
-#Подключение
+# Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:push:X.X.X"

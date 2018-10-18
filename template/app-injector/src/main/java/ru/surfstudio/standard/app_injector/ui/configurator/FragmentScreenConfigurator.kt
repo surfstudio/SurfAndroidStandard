@@ -7,8 +7,9 @@ import ru.surfstudio.android.core.ui.activity.CoreActivityInterface
 import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.screen.FragmentScreenModule
 
-abstract class FragmentScreenConfigurator(args: Bundle) :
-        BaseFragmentViewConfigurator<ActivityComponent, FragmentScreenModule>(args) {
+abstract class FragmentScreenConfigurator(
+        args: Bundle
+) : BaseFragmentViewConfigurator<ActivityComponent, FragmentScreenModule>(args) {
 
     override fun getFragmentScreenModule(): FragmentScreenModule {
         return FragmentScreenModule(persistentScope)

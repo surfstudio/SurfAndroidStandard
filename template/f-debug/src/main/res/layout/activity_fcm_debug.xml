@@ -1,0 +1,40 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/default_padding">
+
+    <TextView
+        android:id="@+id/fcm_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_padding"
+        android:background="?attr/selectableItemBackground"
+        android:drawableEnd="@drawable/ic_copy_fcm_token"
+        android:padding="8dp"
+        tools:text="Text" />
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/fcm_empty_message_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="@dimen/default_padding"
+            android:gravity="center"
+            android:text="@string/fcm_empty_text" />
+
+        <Button
+            android:id="@+id/reload_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fcm_empty_message_tv"
+            android:layout_centerHorizontal="true"
+            android:text="@string/reload_btn_text" />
+    </RelativeLayout>
+</FrameLayout>
