@@ -1,5 +1,6 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
@@ -17,6 +18,8 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.error.ErrorHandlerModul
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 @Module(includes = [ErrorHandlerModule::class])
 class FragmentScreenModule(private val persistentScope: FragmentViewPersistentScope) : ScreenModule() {
@@ -41,10 +44,18 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForFragment(activityProvider, fragmentProvider, eventDelegateManager)
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityProvider: ActivityProvider,
+                                          activityNavigator: ActivityNavigator,
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                          fragmentProvider: FragmentProvider): PermissionManager {
+        return PermissionManagerForFragment(
+                eventDelegateManager,
+                activityProvider,
+                activityNavigator,
+                sharedPreferences,
+                fragmentProvider
+        )
     }
 
     @Provides

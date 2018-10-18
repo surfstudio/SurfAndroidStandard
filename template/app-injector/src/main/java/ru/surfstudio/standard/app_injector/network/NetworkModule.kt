@@ -27,10 +27,12 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    internal fun provideRetrofit(okHttpClient: OkHttpClient,
-                                 callAdapterFactory: BaseCallAdapterFactory,
-                                 gson: Gson,
-                                 apiUrl: BaseUrl): Retrofit {
+    internal fun provideRetrofit(
+            okHttpClient: OkHttpClient,
+            callAdapterFactory: BaseCallAdapterFactory,
+            gson: Gson,
+            apiUrl: BaseUrl
+    ): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(apiUrl.toString())
@@ -67,9 +69,9 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
+    internal fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
 
     @Provides
     @PerApplication
-    fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_API_URL, null)
+    internal fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_API_URL, null)
 }

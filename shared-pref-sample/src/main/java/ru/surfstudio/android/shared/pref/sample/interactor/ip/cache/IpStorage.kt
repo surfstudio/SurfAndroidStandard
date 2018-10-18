@@ -14,7 +14,8 @@ import javax.inject.Named
  */
 @PerApplication
 class IpStorage @Inject constructor(
-        @Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences) {
+        @Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences
+) {
 
     companion object {
         private const val KEY_IP = "KEY_IP"

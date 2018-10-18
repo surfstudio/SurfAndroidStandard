@@ -4,9 +4,9 @@ import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
-import io.fabric.sdk.android.Kit
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.android.firebase.sample.BuildConfig
 import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.firebase.sample.app.dagger.DaggerCustomAppComponent
 import ru.surfstudio.android.firebase.sample.ui.common.notification.PushHandleStrategyFactory
@@ -28,13 +28,14 @@ class CustomApp : CoreApp() {
     }
 
     private fun initFabric() {
-        val kits = arrayOf<Kit<*>>(
-                Crashlytics.Builder().core(
-                        CrashlyticsCore.Builder()
-                                .build())
-                        .build())
-        Fabric.with(this, *kits)
+        Fabric.with(this, *getFabricKits())
     }
+
+    private fun getFabricKits() = arrayOf(Crashlytics.Builder()
+            .core(CrashlyticsCore.Builder()
+                    .disabled(BuildConfig.DEBUG)
+                    .build())
+            .build())
 
     private fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()

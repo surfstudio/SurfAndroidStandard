@@ -12,6 +12,7 @@
 * [`BindsHolder`][bh]
 * [`BaseBindableView`][bbv]
 * [`BaseBindingPresenter`][bbp]
+
 # Использование
 [Пример использования](../core-mvp-binding-sample)
 

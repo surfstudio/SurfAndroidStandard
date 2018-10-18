@@ -10,10 +10,12 @@ import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
 /**
  * Локальное хранилище информации об ip
  */
-class IpStorage(internalCacheDir: String
-): BaseLocalCache<Ip>(
+class IpStorage(
+        internalCacheDir: String
+) : BaseLocalCache<Ip>(
         CacheFileProcessor(internalCacheDir, KEY_IP_STORAGE, 1),
-        NamingProcessor { rawName -> rawName }) {
+        NamingProcessor { rawName -> rawName }
+) {
 
     companion object {
         private const val KEY_IP_STORAGE = "ip_storage"

@@ -12,7 +12,7 @@ import ru.surfstudio.android.network.cache.SimpleCacheUrlConnector
 import ru.surfstudio.standard.i_network.cache.SimpleCacheInfoStorage
 
 /**
- * Dagger-модуль для удовлетворения зависимостей классов , использующихся для кэширования
+ * Dagger-модуль для удовлетворения зависимостей классов, использующихся для кэширования
  */
 @Module
 class CacheModule {
@@ -37,13 +37,13 @@ class CacheModule {
 
     @Provides
     @PerApplication
-    fun provideAppDirectoriesProvider(context: Context): AppDirectoriesProvider {
+    internal fun provideAppDirectoriesProvider(context: Context): AppDirectoriesProvider {
         return AppDirectoriesProvider(context)
     }
 
     @Provides
     @PerApplication
-    fun providesSimpleCacheConnector(
+    internal fun providesSimpleCacheConnector(
             baseUrl: BaseUrl,
             simpleCacheInfoStorage: SimpleCacheInfoStorage
     ): SimpleCacheUrlConnector {

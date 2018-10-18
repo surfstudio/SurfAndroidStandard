@@ -5,13 +5,13 @@ import ru.surfstudio.android.app.migration.AppMigrationManager
 import ru.surfstudio.android.dagger.scope.PerApplication
 import javax.inject.Inject
 
-
 /**
  * Инициализирует приложение
  */
 @PerApplication
-class InitializeAppInteractor @Inject
-constructor(private val appMigrationManager: AppMigrationManager) {
+class InitializeAppInteractor @Inject constructor(
+        private val appMigrationManager: AppMigrationManager
+) {
 
     /**
      * инициализирует приложение
@@ -21,5 +21,4 @@ constructor(private val appMigrationManager: AppMigrationManager) {
     fun initialize(): Completable {
         return appMigrationManager.tryMigrateApp()
     }
-
 }

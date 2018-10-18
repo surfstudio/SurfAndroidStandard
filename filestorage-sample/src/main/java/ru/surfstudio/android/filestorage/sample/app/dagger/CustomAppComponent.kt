@@ -11,10 +11,12 @@ import ru.surfstudio.android.filestorage.sample.interactor.ip.IpModule
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
+import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
 
 @PerApplication
 @Component(modules = [
     DefaultAppModule::class,
+    DefaultSharedPrefModule::class,
     CacheModule::class,
     EtagModule::class,
     NetworkModule::class,

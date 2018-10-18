@@ -34,13 +34,13 @@ class CacheModule {
 
     @Provides
     @PerApplication
-    fun provideAppDirectoriesProvider(context: Context): AppDirectoriesProvider {
+    internal fun provideAppDirectoriesProvider(context: Context): AppDirectoriesProvider {
         return AppDirectoriesProvider(context)
     }
 
     @Provides
     @PerApplication
-    fun provideSimpleCacheUrlConnector(baseUrl: BaseUrl): SimpleCacheUrlConnector {
+    internal fun provideSimpleCacheUrlConnector(baseUrl: BaseUrl): SimpleCacheUrlConnector {
         return SimpleCacheUrlConnector(baseUrl, simpleCacheInfoList())
     }
 

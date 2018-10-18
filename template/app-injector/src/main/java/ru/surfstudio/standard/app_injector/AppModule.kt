@@ -15,28 +15,30 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
 @Module
 class AppModule(private val coreApp: CoreApp) {
 
-    @PerApplication
     @Provides
-    fun provideActiveActivityHolder(): ActiveActivityHolder {
+    @PerApplication
+    internal fun provideActiveActivityHolder(): ActiveActivityHolder {
         return coreApp.activeActivityHolder
     }
 
-    @PerApplication
     @Provides
-    fun provideContext(): Context {
+    @PerApplication
+    internal fun provideContext(): Context {
         return coreApp
     }
 
-    @PerApplication
     @Provides
+    @PerApplication
     internal fun provideStringsProvider(context: Context): StringsProvider {
         return StringsProvider(context)
     }
 
-    @PerApplication
     @Provides
-    internal fun provideGlobalNavigator(context: Context,
-                                        activityHolder: ActiveActivityHolder): GlobalNavigator {
+    @PerApplication
+    internal fun provideGlobalNavigator(
+            context: Context,
+            activityHolder: ActiveActivityHolder
+    ): GlobalNavigator {
         return GlobalNavigator(context, activityHolder)
     }
 

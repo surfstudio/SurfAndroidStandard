@@ -3,7 +3,7 @@ package ru.surfstudio.android.location.sample.ui.screen.default_location_interac
 import android.os.Bundle
 import android.os.PersistableBundle
 import kotlinx.android.synthetic.main.activity_default_location_interactor.*
-import ru.surfstudio.android.location.sample.ui.screen.base.BaseSampleActivity
+import ru.surfstudio.android.location.sample.ui.screen.common.BaseSampleActivity
 import ru.surfstudio.android.location_sample.R
 import javax.inject.Inject
 
@@ -29,19 +29,16 @@ class DefaultLocationInteractorActivityView : BaseSampleActivity() {
         title = "DefaultLocationInteractor sample"
 
         btn_activity_default_location_interactor_check_location_availability.setOnClickListener {
-            presenter.getLocationAvailability()
+            presenter.checkLocationAvailability()
+        }
+        btn_activity_default_location_interactor_resolve_location_availability.setOnClickListener {
+            presenter.resolveLocationAvailability()
         }
         btn_activity_default_location_interactor_show_last_known_location.setOnClickListener {
             presenter.getLastKnownLocation()
         }
-        btn_activity_default_location_interactor_show_last_known_location_with_error_resolving.setOnClickListener {
-            presenter.getLastKnownLocationWithErrorResolution()
-        }
         btn_activity_default_location_interactor_show_current_location.setOnClickListener {
             presenter.getCurrentLocation()
-        }
-        btn_activity_default_location_interactor_show_current_location_with_error_resolving.setOnClickListener {
-            presenter.getCurrentLocationWithErrorResolution()
         }
     }
 }
