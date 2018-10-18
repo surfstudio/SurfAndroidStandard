@@ -11,6 +11,7 @@ dependencies {
     //unit test
     testImplementation project(":template:base")
     testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.annimon:stream:$annimonStreamVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"

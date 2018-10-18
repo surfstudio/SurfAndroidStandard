@@ -24,6 +24,7 @@ dependencies {
 
     //unit test
     testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.annimon:stream:$annimonStreamVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
 

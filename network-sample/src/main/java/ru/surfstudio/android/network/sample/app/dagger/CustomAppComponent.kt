@@ -2,7 +2,6 @@ package ru.surfstudio.android.network.sample.app.dagger
 
 import dagger.Component
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.network.sample.interactor.common.network.HttpLoggingModule
 import ru.surfstudio.android.network.sample.interactor.common.network.NetworkModule
 import ru.surfstudio.android.network.sample.interactor.common.network.OkHttpModule
 import ru.surfstudio.android.network.sample.interactor.common.network.ServerUrlModule
@@ -19,7 +18,6 @@ import ru.surfstudio.android.sample.dagger.app.dagger.DefaultSharedPrefModule
     DefaultSharedPrefModule::class,
     CacheModule::class,
     NetworkModule::class,
-    HttpLoggingModule::class,
     OkHttpModule::class,
     ServerUrlModule::class,
     ProductModule::class])

@@ -4,7 +4,6 @@ import dagger.Component
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.app_injector.AppModule
 import ru.surfstudio.standard.app_injector.interactor.AuthModule
-import ru.surfstudio.standard.app_injector.network.HttpLoggingModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
 import ru.surfstudio.standard.app_injector.network.cache.CacheModule
@@ -14,7 +13,6 @@ import ru.surfstudio.standard.app_injector.network.cache.CacheModule
     AppModule::class,
     AuthModule::class,
     NetworkModule::class,
-    HttpLoggingModule::class,
     OkHttpModule::class,
     CacheModule::class])
 interface TestNetworkAppComponent {

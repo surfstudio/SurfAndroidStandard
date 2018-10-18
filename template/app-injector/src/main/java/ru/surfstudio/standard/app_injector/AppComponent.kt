@@ -14,7 +14,6 @@ import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.interactor.AuthModule
 import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
-import ru.surfstudio.standard.app_injector.network.HttpLoggingModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
 import ru.surfstudio.standard.app_injector.network.cache.CacheModule
@@ -31,7 +30,6 @@ import javax.inject.Named
     SharedPrefModule::class,
     AuthModule::class,
     NetworkModule::class,
-    HttpLoggingModule::class,
     OkHttpModule::class,
     CacheModule::class,
     FcmModule::class])
