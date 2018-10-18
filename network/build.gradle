@@ -1,6 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
+    api "javax.inject:javax.inject:$javaInjectVersion"
+
     // network
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -22,7 +24,6 @@ dependencies {
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
-        'dagger-scope',
         'filestorage',
         'logger',
         'connection',
