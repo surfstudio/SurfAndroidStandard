@@ -13,9 +13,7 @@ const val HEADER_AUTH_KEY = "Bearer"
  * добавляет необходимые для каждого запроса параметры, такие как token
  */
 @PerApplication
-class ServiceInterceptor
-@Inject
-constructor(private val tokenStorage: TokenStorage) : Interceptor {
+class ServiceInterceptor @Inject constructor(private val tokenStorage: TokenStorage) : Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -26,8 +24,8 @@ constructor(private val tokenStorage: TokenStorage) : Interceptor {
         }
 
         val headersBuilder = originalRequest.headers().newBuilder()
-        headersBuilder
                 .add(HEADER_AUTH_KEY, tokenStorage.token)
+
         val request = originalRequest.newBuilder()
                 .headers(headersBuilder.build())
                 .build()

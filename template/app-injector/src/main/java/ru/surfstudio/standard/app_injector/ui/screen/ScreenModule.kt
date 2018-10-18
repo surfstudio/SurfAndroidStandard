@@ -27,7 +27,8 @@ abstract class ScreenModule {
             connectionProvider: ConnectionProvider,
             activityNavigator: ActivityNavigator
     ): BasePresenterDependency {
-        return BasePresenterDependency(schedulersProvider,
+        return BasePresenterDependency(
+                schedulersProvider,
                 screenState,
                 eventDelegateManager,
                 errorHandler,

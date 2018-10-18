@@ -16,6 +16,7 @@ import ru.surfstudio.standard.app_injector.interactor.storage.SharedPrefModule
 import ru.surfstudio.standard.app_injector.migration.MigrationModule
 import ru.surfstudio.standard.app_injector.network.NetworkModule
 import ru.surfstudio.standard.app_injector.network.OkHttpModule
+import ru.surfstudio.standard.app_injector.network.cache.CacheModule
 import ru.surfstudio.standard.app_injector.ui.notification.FcmModule
 import ru.surfstudio.standard.app_injector.ui.notification.MessagingService
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
@@ -30,6 +31,7 @@ import javax.inject.Named
     AuthModule::class,
     NetworkModule::class,
     OkHttpModule::class,
+    CacheModule::class,
     FcmModule::class])
 interface AppComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
