@@ -3,6 +3,8 @@ apply from: '../commonModule.gradle'
 dependencies {
     api project(':template:domain')
 
+    api "ru.surfstudio.android:camera-view:$cameraViewVersion"
+
     gradle.ext.androidStandard.api(
             this,
             "$surfCoreVersionName",

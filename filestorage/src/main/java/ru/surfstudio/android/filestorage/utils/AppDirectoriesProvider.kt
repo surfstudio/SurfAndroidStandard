@@ -21,20 +21,16 @@ import java.io.File
 
 object AppDirectoriesProvider {
 
-    fun provideNoBackupStorageDir(context: Context): String = getNoBackupFilesDir(context).absolutePath
-
-    fun provideBackupStorageDir(context: Context): String {
-        return provideDir(
-                ContextCompat.getExternalFilesDirs(context, null),
-                getNoBackupFilesDir(context))
+    fun provideNoBackupStorageDir(context: Context): String {
+        return ContextCompat.getNoBackupFilesDir(context)!!.absolutePath
     }
+
+    fun provideBackupStorageDir(context: Context): String = context.filesDir.absolutePath
 
     fun provideCacheDir(context: Context): String {
         return provideDir(ContextCompat.getExternalCacheDirs(context), context.cacheDir)
     }
-
-    private fun getNoBackupFilesDir(context: Context): File = ContextCompat.getNoBackupFilesDir(context)!!
-
+    
     /**
      * Функция, возвращающая корректную директорию
      *
