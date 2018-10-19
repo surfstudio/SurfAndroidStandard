@@ -17,8 +17,8 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
 
     abstract val screenModel: M
 
-    override fun attachView(view: V) {
-        super.attachView(view)
+    override fun onFirstLoad() {
+        super.onFirstLoad()
         view.onBind(screenModel)
     }
 
