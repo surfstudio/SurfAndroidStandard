@@ -42,6 +42,6 @@ dependencies {
                     "broadcast-extension"
             ],
             null, //todo remove for real app
-            true  //todo remove for real app
+            "LOCAL"  //todo remove for real app
     )
 }
