@@ -18,11 +18,11 @@ dependencies {
                     "easyadapter",
                     "analytics",
                     "firebase-analytics",
-                    "network",
-                    "filestorage",
                     "push",
                     "dagger-scope",
                     "logger",
+                    "filestorage",
+                    "network",
                     "converter-gson",
                     "imageloader",
                     "animations",
@@ -40,6 +40,8 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension"
-            ]
+            ],
+            null, //todo remove for real app
+            "LOCAL"  //todo remove for real app
     )
 }

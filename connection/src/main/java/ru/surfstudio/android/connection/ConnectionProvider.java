@@ -21,17 +21,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 
 /**
  * Provider, позволяющий подписаться на событие изменения состояния соединения
  */
-@PerApplication
 public class ConnectionProvider {
     private static final long LAST_CONNECTION_QUALITY_RESULT_CACHE_TIME = 60L * 1000; //1 мин
 
@@ -40,7 +36,6 @@ public class ConnectionProvider {
     private boolean lastConnectionResultFast = false;
     private long lastConnectionResultTime = 0;
 
-    @Inject
     public ConnectionProvider(Context context) {
         this.context = context;
         this.receiver = new ConnectionReceiver(context);

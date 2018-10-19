@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
@@ -41,4 +42,10 @@ class AppModule(
     @Provides
     @PerApplication
     internal fun provideSchedulerProvider(): SchedulersProvider = SchedulersProviderImpl()
+
+    @Provides
+    @PerApplication
+    internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
+        return ConnectionProvider(context)
+    }
 }

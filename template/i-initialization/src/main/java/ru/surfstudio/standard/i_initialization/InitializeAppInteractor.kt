@@ -9,8 +9,9 @@ import javax.inject.Inject
  * Инициализирует приложение
  */
 @PerApplication
-class InitializeAppInteractor @Inject
-constructor(private val appMigrationManager: AppMigrationManager) {
+class InitializeAppInteractor @Inject constructor(
+        private val appMigrationManager: AppMigrationManager
+) {
 
     /**
      * инициализирует приложение
