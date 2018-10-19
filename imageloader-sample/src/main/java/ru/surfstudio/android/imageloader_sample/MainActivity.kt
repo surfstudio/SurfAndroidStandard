@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         ImageLoader
                 .with(this)
+                .skipCache(true)
                 .centerCrop()
                 .maxWidth(570)
                 .maxHeight(9300)
