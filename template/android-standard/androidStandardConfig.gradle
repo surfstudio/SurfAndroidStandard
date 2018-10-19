@@ -38,13 +38,21 @@ gradle.ext {
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
     androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
 
-    // Функция для подключения модулей android-standard
+    /**
+     * Функция для подключения модулей android-standard
+     * @param context                контекст вызова функции
+     * @param androidStandardVersion версия подключаемых модулей android-standard
+     * @param modules                список подключаемых модулей android-standard
+     * @param closure                функция, которая будет вызвана для каждого модуля;
+     * может использоваться для настройки подключения модулей, например: { exclude group: 'groupname' }
+     * @param sourceType             тип подключения модулей android-standard
+     */
     androidStandard.api = {
         context,
         androidStandardVersion,
         modules,
         closure = null,
-        sourceType = "SETTINGS_DEFINED" ->
+        sourceType = ModuleSourceType.SETTINGS_DEFINED.toString() ->
 
             def isRemoteModules
 
@@ -56,9 +64,6 @@ gradle.ext {
                     isRemoteModules = false
                     break
                 case ModuleSourceType.REMOTE:
-                    isRemoteModules = true
-                    break
-                default:
                     isRemoteModules = true
                     break
             }
@@ -115,5 +120,9 @@ enum ModuleSourceType {
 
     ModuleSourceType(sourceName) {
         this.sourceName = sourceName
+    }
+
+    String toString() {
+        return sourceName
     }
 }
