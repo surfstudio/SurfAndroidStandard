@@ -15,6 +15,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         imageView = find(R.id.imageloader_sample_iv)
+        val svgImageUrl = "https://card2card.zenit.ru/assets/images/banks/yandex.svg"
+        val imageUrl = "https://s.mdk.zone/i/22096ef7-7f2b-4cd3-920b-a65a032b9e21"
 
         ImageLoader
                 .with(this)
@@ -22,7 +24,7 @@ class MainActivity : AppCompatActivity() {
                 .maxWidth(570)
                 .maxHeight(9300)
                 .crossFade(1000)
-                .url("https://s.mdk.zone/i/22096ef7-7f2b-4cd3-920b-a65a032b9e21")
+                .url(svgImageUrl)
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
     }
