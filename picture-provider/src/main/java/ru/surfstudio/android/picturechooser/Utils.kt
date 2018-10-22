@@ -29,24 +29,34 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResul
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import java.io.*
 
+internal const val DEFAULT_TEMP_FILE_NAME = "image.jpg"
+
 //region Вспомогательные функции для роутеров
-fun getIntentForSingleImageFromGallery(): Intent {
+internal fun getIntentForSingleImageFromGallery(): Intent {
     return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
 }
 
-fun getIntentForMultipleImageFromGallery(): Intent {
+internal fun getIntentForMultipleImageFromGallery(): Intent {
     return Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             .apply {
                 putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             }
 }
 
-fun createChooser(intent: Intent, message: String): Intent {
+internal fun createChooser(intent: Intent, message: String): Intent {
     return Intent.createChooser(intent, message)
 }
 
-fun <T : Serializable> parseSingleResultIntent(intent: Intent?,
-                                               parseUri: (uri: Uri) -> T): T? {
+/**
+ * Функция парсинга результата выбора единственного фото
+ *
+ * @param intent интент с результатом
+ * @param parseUri лямбда, осуществляющая приведение к типу [T]
+ */
+internal fun <T : Serializable> parseSingleResultIntent(
+        intent: Intent?,
+        parseUri: (uri: Uri) -> T
+): T? {
     return if (intent != null && intent.data != null) {
         parseUri(intent.data)
     } else {
@@ -54,35 +64,49 @@ fun <T : Serializable> parseSingleResultIntent(intent: Intent?,
     }
 }
 
-fun <T : Serializable> parseMultipleResultIntent(intent: Intent?,
-                                                 parseUri: (uri: Uri) -> T): ArrayList<T>? {
+/**
+ * Функция парсинга результата выбора нескольких фото
+ *
+ * @param intent интент с результатом
+ * @param parseUris лямбда, осуществляющая приведение к списку типа [T]
+ */
+internal fun <T : Serializable> parseMultipleResultIntent(
+        intent: Intent?,
+        parseUris: (uris: ArrayList<Uri>) -> ArrayList<T>
+): ArrayList<T>? {
     return when {
         intent == null -> null
         intent.clipData != null -> with(intent.clipData) {
-            (0 until itemCount).mapTo(ArrayList()) { parseUri(getItemAt(it).uri) }
+            parseUris((0 until itemCount).mapTo(ArrayList()) { getItemAt(it).uri })
         }
-        intent.data != null -> arrayListOf(parseUri(intent.data))
+        intent.data != null -> parseUris(arrayListOf((intent.data)))
         else -> null
     }
 }
 //endregion
 
 //region Вспомогательные функции для обработки результата открытия экрана
-fun <T : Serializable> observeSingleScreenResult(activityNavigator: ActivityNavigator,
-                                                 route: ActivityWithResultRoute<T>): Observable<T> {
+internal fun <T : Serializable> observeSingleScreenResult(
+        activityNavigator: ActivityNavigator,
+        route: ActivityWithResultRoute<T>
+): Observable<T> {
     return activityNavigator.observeResult<T>(route)
             .flatMap { parseScreenResult(it) }
 }
 
-fun <T : Serializable> observeMultipleScreenResult(activityNavigator: ActivityNavigator,
-                                                   route: ActivityWithResultRoute<ArrayList<T>>): Observable<List<T>> {
+internal fun <T : Serializable> observeMultipleScreenResult(
+        activityNavigator: ActivityNavigator,
+        route: ActivityWithResultRoute<ArrayList<T>>
+): Observable<List<T>> {
     return activityNavigator.observeResult<ArrayList<T>>(route)
             .flatMap { parseScreenResult(it) }
             .map { it as List<T> }
 }
 
-fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
-                                         throwable: () -> Throwable = { ActionInterruptedException() }): Observable<T> {
+internal fun <T : Serializable> parseScreenResult(
+        screenResult: ScreenResult<T>,
+        throwable: () -> Throwable = { ActionInterruptedException() }
+): Observable<T> {
     return if (screenResult.isSuccess) {
         Observable.just(screenResult.data)
     } else {
@@ -90,6 +114,52 @@ fun <T : Serializable> parseScreenResult(screenResult: ScreenResult<T>,
     }
 }
 //endregion
+
+//region Вспомогательные функции для парсинга Uri
+/**
+ * Функция, возвращающая путь к файлу по его Uri
+ */
+fun Uri.getRealPath(activity: Activity, tempFileName: String = DEFAULT_TEMP_FILE_NAME): String {
+    val result: String
+    val column = MediaStore.Images.Media.DATA
+    val projection = arrayOf(column)
+
+    val cursor = activity.applicationContext.contentResolver
+            .query(this, projection, null, null, null)
+    if (cursor == null) {
+        result = this.path
+    } else {
+        cursor.moveToFirst()
+        val idx = cursor.getColumnIndexOrThrow(column)
+        result = if (idx > -1) {
+            cursor.getString(idx) ?: createTempBitmap(activity, tempFileName)
+        } else {
+            this.path
+        }
+        cursor.close()
+    }
+    return result
+}
+
+/**
+ * Функция, возвращающая путь ко всем файлам в списке по их Uri
+ */
+internal fun ArrayList<Uri>.getRealPaths(activity: Activity) = mapIndexed { i, uri ->
+    uri.getRealPath(activity, i.toJpgString())
+} as ArrayList
+
+//endregion
+
+//region Вспомогательные функции работы с Bitmap при извлечении путей к изображениям
+/**
+ * Функция, создающая временный файл для изображения по его Uri.
+ *
+ * @return String путь к созданному временному файлу
+ */
+fun Uri.createTempBitmap(context: Context, tempFileName: String): String {
+    val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, this)
+    return saveTempBitmap(bitmap, tempFileName, context).absolutePath
+}
 
 /**
  * Сохранение изображения во временную папку для передачи между интентами
@@ -112,25 +182,21 @@ fun saveTempBitmap(bitmap: Bitmap, fileName: String, context: Context): File {
     }
     return file
 }
+//endregion
+
+//region Вспомогательные функции конвертации
+/**
+ * Функция, преобразующая список Uri в список строк
+ */
+internal fun ArrayList<Uri>.toStringArrayList() = map { it.toString() } as ArrayList
 
 /**
- * Функция, возвращающая путь к файлу по его Uri
+ * Функция, преобразующая список Uri в список UriWrapper
  */
-fun Uri.getRealPath(activity: Activity): String {
-    val result: String
-    val cursor = activity.contentResolver
-            .query(this, null, null, null, null)
-    if (cursor == null) {
-        result = this.path
-    } else {
-        cursor.moveToFirst()
-        val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-        result = if (idx > -1) {
-            cursor.getString(idx)
-        } else {
-            this.path
-        }
-        cursor.close()
-    }
-    return result
-}
+internal fun ArrayList<Uri>.toUriWrapperList() = map { UriWrapper(it) } as ArrayList
+
+/**
+ * Функция, создающая из целочисленного числа название для изображения, например 123.jpg
+ */
+internal fun Int.toJpgString() = "$this.jpg"
+//endregion
