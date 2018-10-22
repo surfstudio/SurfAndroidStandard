@@ -63,10 +63,12 @@ class DefaultPushHandler(
 
             if (strategy != null) {
                 activity.startActivity(strategy.coldStartRoute().prepareIntent(activity))
+
+                //чтобы не было повторного перехода на активити, обнуляем данные из пуша
+                activity.intent.putExtra(pushHandleStrategyFactory.key, -1)
             } else {
                 Logger.i("PUSH: strategy not found for intent = ${activity.intent}")
             }
-            activity.intent = Intent()
         }
     }
 }
