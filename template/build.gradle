@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        kotlin_version = '1.2.71'
+        kotlinVersion = '1.2.71'
         fabricToolsVersion = '1.25.4'
-        androidGradleToolsVersion = '3.2.0'
+        androidGradleToolsVersion = '3.2.1'
     }
 
     repositories {
@@ -14,8 +14,9 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$androidGradleToolsVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "io.fabric.tools:gradle:$fabricToolsVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

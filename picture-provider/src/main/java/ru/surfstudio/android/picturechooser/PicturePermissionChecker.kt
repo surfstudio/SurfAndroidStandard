@@ -28,26 +28,18 @@ class PicturePermissionChecker(private val permissionManager: PermissionManager)
     /**
      * проверка и запрос пермишена на камеру и хранилища
      */
-    fun checkCameraStoragePermission(): Observable<Boolean> {
-        return permissionManager.checkObservable(CameraStoragePermissionRequest())
-                .flatMap { isGranted ->
-                    if (!isGranted)
-                        permissionManager.request(CameraStoragePermissionRequest())
-                    else Observable.just(true)
-                }
-    }
+    fun checkCameraStoragePermission(): Observable<Boolean> =
+            permissionManager
+                    .request(CameraStoragePermissionRequest())
+                    .toObservable()
 
     /**
      * проверка и запрос пермишена на чтения из хранилища
      */
-    fun checkGalleryStoragePermission(): Observable<Boolean> {
-        return permissionManager.checkObservable(GalleryStoragePermissionRequest())
-                .flatMap { isGranted ->
-                    if (!isGranted)
-                        permissionManager.request(GalleryStoragePermissionRequest())
-                    else Observable.just(true)
-                }
-    }
+    fun checkGalleryStoragePermission(): Observable<Boolean> =
+            permissionManager
+                    .request(GalleryStoragePermissionRequest())
+                    .toObservable()
 }
 
 /**
@@ -55,14 +47,16 @@ class PicturePermissionChecker(private val permissionManager: PermissionManager)
  */
 class CameraStoragePermissionRequest : PermissionRequest() {
 
-    override fun getPermissions() = arrayOf(Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    override val permissions: Array<String>
+        get() = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 }
 
 /**
  * пермишен на запрос разрешения галереи
  */
 class GalleryStoragePermissionRequest : PermissionRequest() {
-    override fun getPermissions() = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+
+    override val permissions: Array<String>
+        get() = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
 }
 

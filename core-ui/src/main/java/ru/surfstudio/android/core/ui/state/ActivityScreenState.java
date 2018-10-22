@@ -24,21 +24,24 @@ import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
 /**
  * Предоставляет текущее состояние экрана и живую активити - контейнер
  */
-
 public class ActivityScreenState extends BaseScreenState {
     private FragmentActivity activity;
     private CoreActivityInterface coreActivity;
+
+    public void onCreate(
+            FragmentActivity activity,
+            CoreActivityInterface coreActivity,
+            @Nullable Bundle savedInstanceState
+    ) {
+        super.onCreate(savedInstanceState);
+        this.activity = activity;
+        this.coreActivity = coreActivity;
+    }
 
     public void onDestroy() {
         super.onDestroy();
         activity = null;
         coreActivity = null;
-    }
-
-    public void onCreate(FragmentActivity activity, CoreActivityInterface coreActivity, @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.activity = activity;
-        this.coreActivity = coreActivity;
     }
 
     public FragmentActivity getActivity() {

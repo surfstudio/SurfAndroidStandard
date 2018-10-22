@@ -15,6 +15,9 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission
 
+import android.support.annotation.RequiresPermission
+import io.reactivex.Completable
+import io.reactivex.Single
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
 import ru.surfstudio.android.location.exceptions.ResolutionFailedException
@@ -24,29 +27,27 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 /**
  * Решение проблемы [NoLocationPermissionException].
  *
- * @param permissionManager менеджер разрешений.
+ * @param permissionManager Менеджер разрешений.
+ * @param locationPermissionRequest Запрос разрешения на доступ к местоположению.
  */
-class NoLocationPermissionResolution(
-        private val permissionManager: PermissionManager
+class NoLocationPermissionResolution @RequiresPermission(
+        allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+) constructor(
+        private val permissionManager: PermissionManager,
+        private val locationPermissionRequest: LocationPermissionRequest = LocationPermissionRequest()
 ) : BaseLocationErrorResolutionImpl<NoLocationPermissionException>() {
 
-    override val resolvingExceptionClass = NoLocationPermissionException::class.java
+    override val resolvingThrowableClass = NoLocationPermissionException::class.java
 
-    override fun performWithCastedException(
-            resolvingException: NoLocationPermissionException,
-            onSuccessAction: () -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    ) {
-        permissionManager.request(LocationPermissionRequest())
-                .subscribe(
-                        { isSuccessful ->
-                            if (isSuccessful) {
-                                onSuccessAction()
-                            } else {
-                                onFailureAction(ResolutionFailedException(resolvingException, UserDeniedException()))
-                            }
-                        },
-                        { throwable -> onFailureAction(ResolutionFailedException(resolvingException, throwable)) }
-                )
-    }
+    override fun performWithCastedThrowable(resolvingThrowable: NoLocationPermissionException): Completable =
+            permissionManager
+                    .request(locationPermissionRequest)
+                    .flatMap { isGranted ->
+                        if (isGranted) {
+                            Single.just(isGranted)
+                        } else {
+                            Single.error(ResolutionFailedException(resolvingThrowable, UserDeniedException()))
+                        }
+                    }
+                    .ignoreElement()
 }

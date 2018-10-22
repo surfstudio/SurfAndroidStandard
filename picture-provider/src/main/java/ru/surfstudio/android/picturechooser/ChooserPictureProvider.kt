@@ -1,19 +1,21 @@
 package ru.surfstudio.android.picturechooser
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
 /**
  * Позволяет получить одно или несколько изображений из любого места на устройстве
  */
-internal class ChooserPictureProvider(
+class ChooserPictureProvider(
         private val activityNavigator: ActivityNavigator,
-        private val activity: Activity
+        private val activityProvider: ActivityProvider
 ) {
+
+    private val currentActivity get() = activityProvider.get()
 
     //region Функции для выбора одного изображения
     fun createChooserForSingleImage(message: String): Observable<String> {
@@ -72,7 +74,7 @@ internal class ChooserPictureProvider(
         override fun prepareIntent(context: Context?) = createChooserIntentForSingleImage(chooserMessage)
 
         override fun parseResultIntent(intent: Intent?): String? {
-            return parseSingleResultIntent(intent) { it.getRealPath(activity) }
+            return parseSingleResultIntent(intent) { it.getRealPath(currentActivity) }
         }
     }
 
@@ -116,7 +118,7 @@ internal class ChooserPictureProvider(
         override fun prepareIntent(context: Context?) = createChooserIntentForMultipleImage(chooserMessage)
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.getRealPaths(activity) }
+            return parseMultipleResultIntent(intent) { it.getRealPaths(currentActivity) }
         }
     }
 

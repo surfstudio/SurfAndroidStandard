@@ -9,7 +9,7 @@ object AppInjector {
 
     fun initInjector(app: App) {
         appComponent = DaggerAppComponent.builder()
-                .appModule(AppModule(app))
+                .appModule(AppModule(app, app.activeActivityHolder))
                 .build()
     }
 }

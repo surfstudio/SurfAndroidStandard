@@ -1,3 +1,3 @@
-#Animations Sample
+# Animations Sample
 
 Пример использования модуля [animations](../animations)

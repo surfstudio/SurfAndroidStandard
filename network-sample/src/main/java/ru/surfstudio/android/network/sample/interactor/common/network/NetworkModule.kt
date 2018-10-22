@@ -24,10 +24,12 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    fun provideRetrofit(okHttpClient: OkHttpClient,
-                                 callAdapterFactory: CallAdapterFactory,
-                                 gson: Gson,
-                                 baseUrl: BaseUrl): Retrofit {
+    fun provideRetrofit(
+            okHttpClient: OkHttpClient,
+            callAdapterFactory: CallAdapterFactory,
+            gson: Gson,
+            baseUrl: BaseUrl
+    ): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(baseUrl.toString())

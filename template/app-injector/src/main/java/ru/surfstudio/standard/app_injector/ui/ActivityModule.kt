@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector.ui
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
@@ -17,6 +18,8 @@ import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.rxbus.RxBus
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 /**
  * Модуль для dagger Activity Component
@@ -26,7 +29,6 @@ import ru.surfstudio.android.rxbus.RxBus
  * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
  * принадлежащих скоупу @PerScreen
  */
-
 @Module
 class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
@@ -56,8 +58,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
@@ -75,9 +79,18 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForActivity(activityProvider, eventDelegateManager)
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            activityProvider: ActivityProvider
+    ): PermissionManager {
+        return PermissionManagerForActivity(
+                eventDelegateManager,
+                activityNavigator,
+                sharedPreferences,
+                activityProvider
+        )
     }
 
     @Provides
@@ -88,7 +101,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideTabFragmentNavigator(activityProvider: ActivityProvider, eventDelegateManager: ScreenEventDelegateManager): TabFragmentNavigator {
+    internal fun provideTabFragmentNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): TabFragmentNavigator {
         return TabFragmentNavigator(activityProvider, eventDelegateManager)
     }
 

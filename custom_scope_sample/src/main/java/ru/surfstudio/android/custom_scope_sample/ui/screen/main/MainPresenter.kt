@@ -30,5 +30,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         view.showMessage(emailData.email)
     }
 
-    fun openAnotherScreen() = activityNavigator.start(AnotherActivityRoute())
+    fun openAnotherScreen() {
+        activityNavigator.start(AnotherActivityRoute())
+    }
 }

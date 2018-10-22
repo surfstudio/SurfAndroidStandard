@@ -13,8 +13,9 @@ import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 /**
  * Базовый конфигуратор для экрана, основанного на [Activity]
  */
-abstract class ActivityScreenConfigurator(intent: Intent) :
-        BaseActivityViewConfigurator<AppComponent, ActivityComponent, ActivityScreenModule>(intent) {
+abstract class ActivityScreenConfigurator(
+        intent: Intent
+) : BaseActivityViewConfigurator<AppComponent, ActivityComponent, ActivityScreenModule>(intent) {
 
     override fun createActivityComponent(parentComponent: AppComponent): ActivityComponent {
         return DaggerActivityComponent.builder()
