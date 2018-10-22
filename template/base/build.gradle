@@ -32,13 +32,12 @@ dependencies {
                     "datalist-page-count",
                     "recycler-extension",
                     "rx-extension",
-                    "rxbus",
                     "shared-pref",
                     "util-ktx",
                     "standard-dialog",
                     "message-controller",
-                    "broadcast-extension"
-            ],
+                    "broadcast-extension",
+                    "rxbus"],
             null, //todo remove for real app
             "LOCAL"  //todo remove for real app
     )
