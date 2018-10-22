@@ -48,7 +48,6 @@ ext {
     glideVersion = '4.8.0'                      //http://bit.ly/2wQzHDE
     materialProgressBarVersion = '1.4.2'        //http://bit.ly/2vrzQvE
     wangAviLibraryVersion = '2.1.3'             //http://bit.ly/2NVrDaI
-    cameraViewVersion = '1.0.1'
 
     //errors
     anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
