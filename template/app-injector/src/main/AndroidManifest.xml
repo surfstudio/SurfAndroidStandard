@@ -5,6 +5,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <!-- todo Исправить в соответствии с нуждами приложения.
+    Если приложение не использует бэкап (android:allowBackup="false"),
+    то backup_scheme не нужна -->
+
     <application
         android:name="ru.surfstudio.standard.app_injector.App"
         android:allowBackup="true"
