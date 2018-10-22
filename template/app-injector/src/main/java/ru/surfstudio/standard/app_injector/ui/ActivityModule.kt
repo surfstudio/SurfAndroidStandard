@@ -92,7 +92,6 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
                 activityProvider
         )
     }
-
     @Provides
     @PerActivity
     internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
