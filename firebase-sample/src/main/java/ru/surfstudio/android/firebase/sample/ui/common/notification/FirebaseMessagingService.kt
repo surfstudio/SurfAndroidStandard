@@ -4,7 +4,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import ru.surfstudio.android.firebase.sample.app.AppConfigurator
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.notification.NotificationHelper
+import ru.surfstudio.android.notification.PushHandler
 import javax.inject.Inject
 
 /**
@@ -13,14 +13,17 @@ import javax.inject.Inject
  * Срабатывает только если приложение не в фоне.
  * Иначе при клике на пуш происходит открытие LAUNCHER активити
  */
-class FirebaseMessagingService: FirebaseMessagingService() {
+class FirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var notificationManager: NotificationHelper
+    lateinit var pushHandler: PushHandler
 
     override fun onCreate() {
         super.onCreate()
-        AppConfigurator.customAppComponent?.inject(this)
+        DaggerFirebaseServiceComponent.builder()
+                .customAppComponent(AppConfigurator.customAppComponent)
+                .build()
+                .inject(this)
     }
 
     override fun onNewToken(newToken: String?) {
@@ -36,7 +39,7 @@ class FirebaseMessagingService: FirebaseMessagingService() {
                 "data = [${remoteMessage?.data}]")
 
         remoteMessage?.let {
-            notificationManager.onReceiveMessage(this,
+            pushHandler.handleMessage(this,
                     it.notification?.title ?: "",
                     it.notification?.body ?: "",
                     it.data)

@@ -5,7 +5,7 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsModule
 import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsService
 import ru.surfstudio.android.firebase.sample.ui.common.notification.FirebaseMessagingService
-import ru.surfstudio.android.notification.NotificationHelper
+import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
@@ -22,7 +22,5 @@ interface CustomAppComponent : DefaultAppComponent {
     fun analyticsService(): AnalyticsService
 
     fun pushInteractor(): PushInteractor
-    fun notificationManager(): NotificationHelper
-
-    fun inject(s: FirebaseMessagingService)
+    fun pushHandler(): PushHandler
 }

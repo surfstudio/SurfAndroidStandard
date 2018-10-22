@@ -7,9 +7,6 @@ import io.fabric.sdk.android.Fabric
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.firebase.sample.BuildConfig
-import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent
-import ru.surfstudio.android.firebase.sample.app.dagger.DaggerCustomAppComponent
-import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
 /**
  * Класс приложения
@@ -40,7 +37,7 @@ class CustomApp : CoreApp() {
     private fun initNotificationCenter() {
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
-                AppConfigurator.customAppComponent?.notificationManager()?.onActivityStarted(activity)
+                AppConfigurator.customAppComponent?.pushHandler()?.onActivityStarted(activity)
             }
         })
     }

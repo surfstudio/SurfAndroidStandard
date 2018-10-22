@@ -22,14 +22,13 @@ import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
-import ru.surfstudio.android.notification.ui.notification.DefaultPushHandler
-import ru.surfstudio.android.notification.ui.notification.PushHandler
+import ru.surfstudio.android.notification.impl.DefaultPushHandler
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 
 /**
  * Помощник инициализации нотификаций
  */
-@Deprecated("Use NotificationHelper instead")
+@Deprecated("Use PushHandler instead")
 object NotificationCenter {
 
     private lateinit var activeActivityHolder: ActiveActivityHolder

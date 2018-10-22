@@ -13,12 +13,18 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.notification.ui.notification
+package ru.surfstudio.android.notification.impl
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.notification.PushHandler
+import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
+import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 
 /**
  * Выполняем необходимые действия при пуше на ui
@@ -33,10 +39,34 @@ class DefaultPushHandler(
 
     override fun handleMessage(context: Context, title: String, body: String, data: Map<String, String>) {
         val activity = activeActivityHolder.activity
+        val pushHandleStrategy = createStrategy(data)
 
-        val pushHandleStrategy = pushHandleStrategyFactory
-                .createByData(data)
         Logger.i("DefaultPushHandler пуш $activity \n $title \n pushStrategy = $pushHandleStrategy")
         pushHandleStrategy?.handle(activity ?: context, pushInteractor, title, body)
+    }
+
+    /**
+     * Создание стратегии по данным из интента
+     * @param data
+     */
+    override fun createStrategy(data: Map<String, String>) =
+            pushHandleStrategyFactory.createByData(data)
+
+    /**
+     * Перехват старта активити, помеченной маркерным интерфейсом [PushHandlingActivity]
+     * Данный мметод должен быть добавлен в DefaultActivityLifecycleCallbacks
+     */
+    override fun onActivityStarted(activity: Activity) {
+        if (activity is PushHandlingActivity) {
+            Logger.i("PUSH HANDLE ON $activity")
+            val strategy = createStrategy(IntentPushDataConverter.convert(activity.intent))
+
+            if (strategy != null) {
+                activity.startActivity(strategy.coldStartRoute().prepareIntent(activity))
+            } else {
+                Logger.i("PUSH: strategy not found for intent = ${activity.intent}")
+            }
+            activity.intent = Intent()
+        }
     }
 }
