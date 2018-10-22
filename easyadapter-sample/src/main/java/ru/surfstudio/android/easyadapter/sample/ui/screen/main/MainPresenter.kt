@@ -23,7 +23,11 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         view.render(screenModel)
     }
 
-    fun showMultitypeList() = activityNavigator.start(MultitypeListActivityRoute())
+    fun showMultitypeList() {
+        activityNavigator.start(MultitypeListActivityRoute())
+    }
 
-    fun showPagintationList() = activityNavigator.start(PaginationListActivityRoute())
+    fun showPagintationList() {
+        activityNavigator.start(PaginationListActivityRoute())
+    }
 }

@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.recycler.extension.snaphelper;
 
-
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;

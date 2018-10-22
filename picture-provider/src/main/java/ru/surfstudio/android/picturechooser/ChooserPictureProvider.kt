@@ -1,17 +1,21 @@
 package ru.surfstudio.android.picturechooser
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
 /**
  * Позволяет получить одно или несколько изображений из любого места на устройстве
  */
-class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
-                             private val activity: Activity) {
+class ChooserPictureProvider(
+        private val activityNavigator: ActivityNavigator,
+        private val activityProvider: ActivityProvider
+) {
+
+    private val currentActivity get() = activityProvider.get()
 
     //region Функции для выбора одного изображения
     fun createChooserForSingleImage(message: String): Observable<String> {
@@ -63,19 +67,23 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     /**
      * Маршрут, возвращащий путь к изображению
      */
-    private inner class ChooserSingleImageRoute(private val chooserMessage: String) : ActivityWithResultRoute<String>() {
+    private inner class ChooserSingleImageRoute(
+            private val chooserMessage: String
+    ) : ActivityWithResultRoute<String>() {
 
         override fun prepareIntent(context: Context?) = createChooserIntentForSingleImage(chooserMessage)
 
         override fun parseResultIntent(intent: Intent?): String? {
-            return parseSingleResultIntent(intent) { it.getRealPath(activity) }
+            return parseSingleResultIntent(intent) { it.getRealPath(currentActivity) }
         }
     }
 
     /**
      * Маршрут, возвращающий Uri изображения, преобразованный в String
      */
-    private inner class ChooserSingleImageUriRoute(private val chooserMessage: String) : ActivityWithResultRoute<String>() {
+    private inner class ChooserSingleImageUriRoute(
+            private val chooserMessage: String
+    ) : ActivityWithResultRoute<String>() {
 
         override fun prepareIntent(context: Context?) = createChooserIntentForSingleImage(chooserMessage)
 
@@ -87,7 +95,9 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     /**
      * Маршрут, возвращающий класс-обертку над Uri изображения
      */
-    private inner class ChooserSingleImageUriWrapperRoute(private val chooserMessage: String) : ActivityWithResultRoute<UriWrapper>() {
+    private inner class ChooserSingleImageUriWrapperRoute(
+            private val chooserMessage: String
+    ) : ActivityWithResultRoute<UriWrapper>() {
 
         override fun prepareIntent(context: Context?) = createChooserIntentForSingleImage(chooserMessage)
 
@@ -101,19 +111,23 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     /**
      * Маршрут, возвращающий список путей к выбранным изображениям
      */
-    private inner class ChooserMultipleImageRoute(private val chooserMessage: String) : ActivityWithResultRoute<ArrayList<String>>() {
+    private inner class ChooserMultipleImageRoute(
+            private val chooserMessage: String
+    ) : ActivityWithResultRoute<ArrayList<String>>() {
 
         override fun prepareIntent(context: Context?) = createChooserIntentForMultipleImage(chooserMessage)
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.getRealPath(activity) }
+            return parseMultipleResultIntent(intent) { it.getRealPath(currentActivity) }
         }
     }
 
     /**
      * Маршрут, возвращающий список Uri выбранных изображений, преобразованных в String
      */
-    private inner class ChooserMultipleImageUriRoute(private val chooserMessage: String) : ActivityWithResultRoute<ArrayList<String>>() {
+    private inner class ChooserMultipleImageUriRoute(
+            private val chooserMessage: String
+    ) : ActivityWithResultRoute<ArrayList<String>>() {
 
         override fun prepareIntent(context: Context?) = createChooserIntentForMultipleImage(chooserMessage)
 
@@ -125,7 +139,9 @@ class ChooserPictureProvider(private val activityNavigator: ActivityNavigator,
     /**
      * Маршрут, возвращающий список элементов типа класса-обертки над Uri выбранных изображений
      */
-    private inner class ChooserMultipleImageUriWrapperRoute(private val chooserMessage: String) : ActivityWithResultRoute<ArrayList<UriWrapper>>() {
+    private inner class ChooserMultipleImageUriWrapperRoute(
+            private val chooserMessage: String
+    ) : ActivityWithResultRoute<ArrayList<UriWrapper>>() {
 
         override fun prepareIntent(context: Context?) = createChooserIntentForMultipleImage(chooserMessage)
 

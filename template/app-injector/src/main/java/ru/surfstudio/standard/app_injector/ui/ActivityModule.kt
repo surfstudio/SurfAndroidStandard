@@ -29,7 +29,6 @@ import javax.inject.Named
  * Эти обьекты могут также использоваться внутри дополнительных обектов со специфической логикой,
  * принадлежащих скоупу @PerScreen
  */
-
 @Module
 class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
@@ -59,8 +58,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
@@ -78,10 +79,12 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                          activityNavigator: ActivityNavigator,
-                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                          activityProvider: ActivityProvider): PermissionManager {
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            activityProvider: ActivityProvider
+    ): PermissionManager {
         return PermissionManagerForActivity(
                 eventDelegateManager,
                 activityNavigator,
@@ -98,7 +101,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideTabFragmentNavigator(activityProvider: ActivityProvider, eventDelegateManager: ScreenEventDelegateManager): TabFragmentNavigator {
+    internal fun provideTabFragmentNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): TabFragmentNavigator {
         return TabFragmentNavigator(activityProvider, eventDelegateManager)
     }
 

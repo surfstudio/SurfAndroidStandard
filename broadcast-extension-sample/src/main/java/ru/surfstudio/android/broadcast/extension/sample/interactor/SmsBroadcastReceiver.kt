@@ -7,7 +7,8 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import javax.inject.Inject
 
 @PerApplication
-class SmsBroadcastReceiver @Inject constructor(context: Context
+class SmsBroadcastReceiver @Inject constructor(
+        context: Context
 ): BaseSmsRxBroadcastReceiver<String>(context) {
 
     /**
