@@ -1,6 +1,5 @@
 # Dagger scopes
 
-
 Основные скоупы приложения для работы с [dagger](https://github.com/google/dagger).
 
 Есть 3 основных вида Scope (области видимости):

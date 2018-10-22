@@ -2,18 +2,28 @@ android {
     defaultConfig {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
 }
+
 dependencies {
 
+    //unit test
+    testImplementation project(":template:base")
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "com.annimon:stream:$annimonStreamVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    //instrumental test
     androidTestImplementation project(":template:base")
-
-    //test
-    androidTestImplementation "junit:junit:${junitVersion}"
-    androidTestImplementation "org.mockito:mockito-core:${mockitoVersion}"
-
-    //android test
-    androidTestImplementation "com.android.support.test:runner:${testRunnerVersion}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${espressoVersion}"
-
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

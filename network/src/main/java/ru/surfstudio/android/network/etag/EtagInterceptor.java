@@ -15,17 +15,13 @@
  */
 package ru.surfstudio.android.network.etag;
 
-
 import java.io.IOException;
-
-import javax.inject.Inject;
 
 import okhttp3.Headers;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.etag.storage.EtagStorage;
 
@@ -39,12 +35,10 @@ import static ru.surfstudio.android.network.etag.EtagConstants.HEADER_RESPONSE_E
  * EtagStorage. Только если в запросе присутствует header queryMode: ServerConstant.QUERY_MODE_ONLY_IF_CHANGED, в запрос будет
  * добавлен header c etag, header queryMode будет удален.
  */
-@PerApplication
 public class EtagInterceptor implements Interceptor {
 
     private final EtagStorage etagStorage;
 
-    @Inject
     public EtagInterceptor(EtagStorage etagStorage) {
         this.etagStorage = etagStorage;
     }

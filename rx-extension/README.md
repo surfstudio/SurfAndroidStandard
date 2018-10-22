@@ -1,4 +1,4 @@
-#Rx extension
+# Rx extension
 Утилитарный модуль для работы с Rx.
 
 Содержит:
@@ -6,7 +6,7 @@
 2. SchedulerProvider
 3. Разные утилиты
 
-#Подключение
+# Подключение
 Gradle:
 ```
     implementation "ru.surfstudio.android:rx-extension:X.X.X"

@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Named
 
 const val DI_NAME_SERVICE_INTERCEPTOR = "DI_NAME_SERVICE_INTERCEPTOR"
-private const val NETWORK_TIMEOUT = 30 //sec
+private const val NETWORK_TIMEOUT = 30L //sec
 
 /**
  * этот модуль вынесен отдельно для возможности замены его при интеграционном тестировании
@@ -31,19 +31,21 @@ class OkHttpModule {
 
     @Provides
     @PerApplication
-    internal fun provideOkHttpClient(@Named(DI_NAME_SERVICE_INTERCEPTOR) serviceInterceptor: Interceptor,
-                                     cacheInterceptor: SimpleCacheInterceptor,
-                                     etagInterceptor: EtagInterceptor,
-                                     httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
-        val okHttpClientBuilder = OkHttpClient.Builder()
-        okHttpClientBuilder.connectTimeout(NETWORK_TIMEOUT.toLong(), TimeUnit.SECONDS)
-        okHttpClientBuilder.readTimeout(NETWORK_TIMEOUT.toLong(), TimeUnit.SECONDS)
-        okHttpClientBuilder.writeTimeout(NETWORK_TIMEOUT.toLong(), TimeUnit.SECONDS)
+    internal fun provideOkHttpClient(
+            @Named(DI_NAME_SERVICE_INTERCEPTOR) serviceInterceptor: Interceptor,
+            cacheInterceptor: SimpleCacheInterceptor,
+            etagInterceptor: EtagInterceptor,
+            httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder().apply {
+            connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+            readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+            writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
 
-        okHttpClientBuilder.addInterceptor(cacheInterceptor)
-        okHttpClientBuilder.addInterceptor(etagInterceptor)
-        okHttpClientBuilder.addInterceptor(serviceInterceptor)
-        okHttpClientBuilder.addInterceptor(httpLoggingInterceptor)
-        return okHttpClientBuilder.build()
+            addInterceptor(cacheInterceptor)
+            addInterceptor(etagInterceptor)
+            addInterceptor(serviceInterceptor)
+            addInterceptor(httpLoggingInterceptor)
+        }.build()
     }
 }
