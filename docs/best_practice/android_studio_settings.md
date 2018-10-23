@@ -5,6 +5,7 @@
 #### Tools&Contexts
 *Зачем*: удобное связывание задач в Jira и веток в git за пару кликов
 *Как настроить*:
+
 1. Tools -> Tasks&Contexts -> Configure Servers -> Add -> Заполняем:
     - Server URL: `https://jira.surfstudio.ru`
     - Логин и пароль от Jira
@@ -24,11 +25,13 @@
 #### Оптимизация ОЗУ для Android Studio
 *Зачем:* ускоряем наш главный инструмент
 *Что сделать:*  
+
 1. Settings -> Appereance&Behavior -> Appereance -> Show memory indicator (в нижнем правом углу видим кол-во потребляемой памяти студией, при клике очищается память по возможности)
 2. Settings -> Compiler -> Compile independent modules in parallel (чтобы модули собирались одновременно)
 3. Help -> Edit Custom VM Options ->  Создатся файл -> -Xmx4g (можно и 8g) ->  Перезапустить Android Studio
 
 #### Плагины
+
 1. [Android drawable preview](https://github.com/mistamek/Android-drawable-preview-plugin/blob/master/README.md). Превью в общем списке drawable (must have)
 2. Markdown support. Для просмотра и редактирования `.md` файлов
 3. [Key promoter X](https://github.com/halirutan/IntelliJ-Key-Promoter-X) учимся почти не использовать мышку
@@ -38,4 +41,5 @@
 7. [ADB idea](https://github.com/pbreault/adb-idea). Упрощение работы с ADB
 
 #### Полезные ссылки
+
 1. [Кастомная раскраска логгера](https://medium.com/@gun0912/android-studio-how-to-change-logcat-color-3c17a10beef8)
