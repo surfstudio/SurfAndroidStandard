@@ -45,6 +45,7 @@
 5. JSON Viewer. Просто форматирование JSON'а для наглядности. Так же есть огромное кол-во аналогов.
 6. [CodeGlance](https://github.com/Vektah/CodeGlance). Миниатюра всего текста в файле справа (как в Sublime text)
 7. [ADB idea](https://github.com/pbreault/adb-idea). Упрощение работы с ADB
+9. Git Branch Cleaner - Очистка старых веток гита. Использование: VCS → Git → Delete Old Branches
 
 #### Полезные ссылки
 
