@@ -6,25 +6,43 @@
 
 #### core-ui
 
-* ANDDEP-220 - исправлен баг `TabFragmentNavigator` с добавлением в бекстекж
+* ANDDEP-220 - исправлен баг `TabFragmentNavigator` с добавлением в бекстек
+* `PermissionManager` переписан на Kotlin
+* Добавлены класс `RequestStatus`, новые поля в `PermissionRequest`
 
 #### easyadapter
 
 * ANDDEP-200 - Убрана рандомизация ViewType у ItemController
+* Изменен конструктор `StickyLayoutManager`
+* `getItemId` - возвращает String
+
+#### filestorage
+
+* Изменение `CacheConstant`. Теперь подразделяются по необходимости back-up'а
+    * `INTERNAL_CACHE_DIR_DAGGER_NAME == BACKUP_STORAGE_DIR_NAME`,
+    * `EXTERNAL_CACHE_DIR_DAGGER_NAME== NO_BACKUP_STORAGE_DIR_NAME`
+    * `CACHE_DIR_NAME`- новая, используется для неважного кэша
 
 #### location
 
 * ANDDEP-21 - создан модуль для локации
 
-### logger
+#### logger
 
 * ANDDEP-222 - добавлена возможность выбрать стратегию для логгирования
+
+#### mvp-binding
+
+* `onViewDetached()` -> `onViewDetach()`
+
+#### mvp-dialog
+
+* ANDDEP-243 - Исправление SimpleDialogDelegate - фикс неверного ключа
 
 #### push
 
 * NotificationCenter - устарел
-* Основным является `PushHandler`
-и его реализация
+* Основным является `PushHandler` и его реализация
 * Теперь существует возможность конфигурировать помощник через даггер.
 * Существует возможность подписаться на пуш через `PushInteractor`
 * Добавлен `FcmStorage`
@@ -42,16 +60,20 @@
 * ANDDEP-235 - рефакторинг и добавление функцмонала:
     * Кроме перехода сразу в галерею, появилась возможность выбрать файл и файлового менеджера
     * Добавлен метод для предварительного сохранения изображения
+    * Добавлен класс-обертка над Uri
 * Фикс получения разрешения на доступ к камере
 * ANDDEP-298 - Вынесение модуля camera-view в отдельный репозиторий
 * ANDDEP-286 - Исправление работы с remote-изображениями у PictureProvider
+* Observable -> Single
 
 #### utilktx
 
 * ANDDEP-258 - добавлены toggle-методы у основных оберток(`CheckableData`, `SelectableData`)
-* Добавлены расширения для работы с ClipboardManager
+* Добавлены расширения для работы с ClipboardManager :
+    * `copyTextToClipboard()` - копирует текст в буфер обмена
 * ANDDEP-211 добавлена возможность настраивать сдвиг часового пояса
     и получать дефолтный для устройства
+
 
 #### общее
 
