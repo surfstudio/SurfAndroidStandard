@@ -8,6 +8,7 @@
 
 * ANDDEP-220 - исправлен баг `TabFragmentNavigator` с добавлением в бекстек
 * `PermissionManager` переписан на Kotlin
+* `PermissionManagerFor...` изменились конструкторы - теперь принимают дополнительно: SharedPrefs и Navigator
 * Добавлены класс `RequestStatus`, новые поля в `PermissionRequest`
 
 #### easyadapter
