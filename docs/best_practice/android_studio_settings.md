@@ -10,8 +10,11 @@
 1. Tools -> Tasks&Contexts -> Configure Servers -> Add -> Заполняем:
     - Server URL: `https://jira.surfstudio.ru`
     - Логин и пароль от Jira
-    - Search: `assignee = currentUser() order by updated`
+    - Search: `assignee = currentUser() order by updated`. Также можно использовать фильтры, 
+        которые настроили в Jira. Например: `filter = anddep-user`
+        
     - нажимаем **Test** для проверки
+    
 2. На вкладке **Commit Message** ставим галочку и выставляем `{id}`
 3. Settings -> Tools > Tasks (в зависимости от вашего git flow)
     - Changelist name format: `{id} {summary}`
