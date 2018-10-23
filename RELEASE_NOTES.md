@@ -63,6 +63,7 @@
 * ANDDEP-231 - правила работы с Dagger в студии Surf
 * ANDDEP-272 - DebugScreen
 * ANDDEP-302 - Изменены вызовы doOnDispose() на doFinally
+* ANDDEP-308 - Понижение minSdkVersion до 17
 
 
 ## 0.2.2-SNAPSHOT
