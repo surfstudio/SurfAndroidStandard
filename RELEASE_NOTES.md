@@ -13,8 +13,7 @@
 #### easyadapter
 
 * ANDDEP-200 - Убрана рандомизация ViewType у ItemController
-* Изменен конструктор `StickyLayoutManager`
-* `getItemId` - возвращает String
+* `getItemId` у контроллера - возвращает String
 
 #### filestorage
 
@@ -33,7 +32,7 @@
 
 #### mvp-binding
 
-* `onViewDetached()` -> `onViewDetach()`
+* Переименован `onViewDetached()` -> `onViewDetach()`
 
 #### mvp-dialog
 
@@ -49,7 +48,10 @@
 
 #### recycler-extension
 
-* Добавлен `StickyFooter`
+* Изменен конструктор `StickyLayoutManager`
+* Удален `StickyBindableItemController`
+* Добавлен `StickyFooter` и соответсвующий контроллер
+* Добавлен `StickyHeader` и соответсвующий контроллер
 
 #### rx-bus
 
@@ -64,7 +66,7 @@
 * Фикс получения разрешения на доступ к камере
 * ANDDEP-298 - Вынесение модуля camera-view в отдельный репозиторий
 * ANDDEP-286 - Исправление работы с remote-изображениями у PictureProvider
-* Observable -> Single
+* Заменены возвращаемые типы Observable -> Single
 
 #### utilktx
 
