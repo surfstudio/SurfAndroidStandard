@@ -176,7 +176,7 @@ abstract class PermissionManager(
                         singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
                         performPermissionRequest(permissionRequest)
                     }
-                    .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
+                    .doFinally { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
 
     private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
         val customSettingsRationalRoute = permissionRequest.settingsRationalRoute
