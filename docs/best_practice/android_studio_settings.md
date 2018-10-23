@@ -4,6 +4,7 @@
 
 #### Tools&Contexts
 *Зачем*: удобное связывание задач в Jira и веток в git за пару кликов
+
 *Как настроить*:
 
 1. Tools -> Tasks&Contexts -> Configure Servers -> Add -> Заполняем:
@@ -20,10 +21,12 @@
 
 #### Выделяем цветом kotlin.synthetic
 *Зачем:* выделить цветом используемые вью с помощью **kotl in.synthetic** для наглядности
+
 *Как настроить:*  Settings -> Editor -> Color Scheme -> Kotlin -> Properties and Variables -> Android Extensions synthetic properties -> Foreign -> Цвет `#0AB9D5` (или по вкусу)
 
 #### Оптимизация ОЗУ для Android Studio
 *Зачем:* ускоряем наш главный инструмент
+
 *Что сделать:*  
 
 1. Settings -> Appereance&Behavior -> Appereance -> Show memory indicator (в нижнем правом углу видим кол-во потребляемой памяти студией, при клике очищается память по возможности)
