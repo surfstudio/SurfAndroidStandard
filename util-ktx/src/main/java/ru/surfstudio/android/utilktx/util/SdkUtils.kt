@@ -23,20 +23,75 @@ import android.os.Build
  */
 object SdkUtils {
 
-    val isPreLollipop: Boolean
-        get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
+    fun isPreLollipop(): Boolean = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
 
-    val isAtLeastLollipop: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+    fun isAtLeastLollipop(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
 
-    val isAtLeastMarshmallow: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+    fun isAtLeastMarshmallow(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
-    val isAtLeastNougat: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+    fun isAtLeastNougat(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 
-    val isAtLeastOreo: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+    fun isAtLeastOreo(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии KitKat и ниже
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnPreLollipop(block: () -> Unit) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+            block()
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии Lollipop и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnLollipop(block: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            block()
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии Marshmallow и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnMarshmallow(block: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            block()
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии Noughat и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnNoughat(block: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            block()
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии Oreo и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnOreo(block: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            block()
+    }
+
+    /**
+     * Запускает блок кода на устройствах с андроид версии Pie и выше
+     *
+     * @param block запускаемый блок кода
+     */
+    fun runOnPie(block: () -> Unit) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+            block()
+    }
 
     /**
      * Запускает ту, или иную лямбду в зависимости какая версия api на устройстве
