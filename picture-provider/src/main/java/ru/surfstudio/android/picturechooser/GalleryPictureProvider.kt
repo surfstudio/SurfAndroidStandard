@@ -86,9 +86,8 @@ class GalleryPictureProvider(
 
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): String? {
-            return parseSingleResultIntent(intent) { it.getRealPath(currentActivity) }
-        }
+        override fun parseResultIntent(intent: Intent?): String? =
+                parseSingleResultIntent(intent) { it.getRealPath(currentActivity) }
     }
 
     /**
@@ -98,9 +97,8 @@ class GalleryPictureProvider(
 
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): String? {
-            return parseSingleResultIntent(intent) { it.toString() }
-        }
+        override fun parseResultIntent(intent: Intent?): String? =
+                parseSingleResultIntent(intent) { it.toString() }
     }
 
     /**
@@ -110,9 +108,9 @@ class GalleryPictureProvider(
 
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): UriWrapper? {
-            return parseSingleResultIntent(intent) { UriWrapper(it) }
-        }
+        override fun parseResultIntent(intent: Intent?): UriWrapper? =
+                parseSingleResultIntent(intent) { UriWrapper(it) }
+
     }
     //endregion
 
@@ -124,9 +122,8 @@ class GalleryPictureProvider(
 
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.getRealPath(currentActivity) }
-        }
+        override fun parseResultIntent(intent: Intent?): ArrayList<String>? =
+                parseMultipleResultIntent(intent) { it.getRealPaths(currentActivity) }
     }
 
     /**
@@ -136,9 +133,8 @@ class GalleryPictureProvider(
 
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.toString() }
-        }
+        override fun parseResultIntent(intent: Intent?): ArrayList<String>? =
+                parseMultipleResultIntent(intent) { it.toStringArrayList() }
     }
 
     /**
@@ -148,9 +144,8 @@ class GalleryPictureProvider(
 
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
-        override fun parseResultIntent(intent: Intent?): ArrayList<UriWrapper>? {
-            return parseMultipleResultIntent(intent) { UriWrapper(it) }
-        }
+        override fun parseResultIntent(intent: Intent?): ArrayList<UriWrapper>? =
+                parseMultipleResultIntent(intent) { it.toUriWrapperList() }
     }
     //endregion
 }

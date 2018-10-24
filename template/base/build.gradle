@@ -3,8 +3,6 @@ apply from: '../commonModule.gradle'
 dependencies {
     api project(':template:domain')
 
-    api "ru.surfstudio.android:camera-view:$cameraViewVersion"
-
     gradle.ext.androidStandard.api(
             this,
             "$surfCoreVersionName",
@@ -34,13 +32,12 @@ dependencies {
                     "datalist-page-count",
                     "recycler-extension",
                     "rx-extension",
-                    "rxbus",
                     "shared-pref",
                     "util-ktx",
                     "standard-dialog",
                     "message-controller",
-                    "broadcast-extension"
-            ],
+                    "broadcast-extension",
+                    "rxbus"],
             null, //todo remove for real app
             "LOCAL"  //todo remove for real app
     )

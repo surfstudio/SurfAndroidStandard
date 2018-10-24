@@ -25,15 +25,19 @@ import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleS
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
- * Помошник создания нотификации в системном трее
+ * Помощник создания нотификации в системном трее
  */
 object NotificationCreateHelper {
 
-    fun showNotification(context: Context, pushHandleStrategy: PushHandleStrategy<*>,
-                         title: String, body: String) {
+    fun showNotification(
+            context: Context,
+            pushHandleStrategy: PushHandleStrategy<*>,
+            title: String,
+            body: String
+    ) {
         SdkUtils.runOnOreo {
             getNotificationManager(context).createNotificationChannel(
-                    pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, title, body, context)
+                    pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, body, context)
             )
         }
 
@@ -60,13 +64,13 @@ object NotificationCreateHelper {
 
     @SuppressLint("NewApi")
     private fun buildChannel(pushHandleStrategy: PushHandleStrategy<*>,
-                             title: String,
                              body: String,
                              context: Context): NotificationChannel {
         val channel = NotificationChannel(
                 context.getString(pushHandleStrategy.channelId),
-                title,
-                NotificationManager.IMPORTANCE_HIGH)
+                context.getString(pushHandleStrategy.channelName),
+                NotificationManager.IMPORTANCE_HIGH
+        )
 
         channel.description = body
         channel.enableLights(true)
