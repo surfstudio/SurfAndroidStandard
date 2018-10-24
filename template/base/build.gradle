@@ -1,89 +1,47 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-    dependencies {
-        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
-    }
-}
-
 apply from: '../commonModule.gradle'
-apply plugin: 'io.fabric'
 
 dependencies {
     api project(':template:domain')
-    api project(':rxbus') //пока не слили с 0.3.0 и не задеплоили новый модуль
-    api project(':util-ktx')
-    api project(':core-ui')
-    api project(':core-mvp')
-    api project(':core-mvp-binding')
-    api project(':core-app')
-    api project(':mvp-dialog')
-    api project(':mvp-widget')
-    api project(':easyadapter')
-    api project(':analytics')
-    api project(':firebase-analytics')
-    api project(':network')
-    api project(':filestorage')
-    api project(':push')
-    api project(':dagger-scope')
-    api project(':logger')
-    api project(':converter-gson')
-    api project(':imageloader')
-    api project(':animations')
-    api project(':picture-provider')
-    api project(':camera-view')
-    api project(':app-migration')
-    api project(':connection')
-    api project(':custom-view')
-    api project(':datalist-limit-offset')
-    api project(':datalist-page-count')
-    api project(':recycler-extension')
-    api project(':rx-extension')
-    api project(':shared-pref')
-    api project(':standard-dialog')
-    api project(':message-controller')
-    api project(':broadcast-extension')
 
-    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-        transitive = true
-    }
+    api "ru.surfstudio.android:camera-view:$cameraViewVersion"
 
-    //для реального проекта раскомментировать зависимости ниже, и закомментировать выше
     gradle.ext.androidStandard.api(
             this,
             "$surfCoreVersionName",
             [
-            /*"core-ui",
-            "core-mvp",
-            "core-mvp-binding",
-            "core-app",
-            "mvp-dialog",
-            "mvp-widget",
-            "easyadapter",
-            "analytics",
-            "firebase-analytics",
-            "network",
-            "filestorage",
-            "push",
-            "dagger-scope",
-            "logger",
-            "converter-gson",
-            "imageloader",
-            "animations",
-            "picture-provider",
-            "camera-view",
-            "app-migration",
-            "connection",
-            "custom-view",
-            "datalist-limit-offset",
-            "datalist-page-count",
-            "recycler-extension",
-            "rx-extension",
-            "shared-pref",
-            "standard-dialog",
-            "message-controller",
-            "broadcast-extension"*/
-    ]
+                    "core-ui",
+                    "core-mvp",
+                    "core-mvp-binding",
+                    "core-app",
+                    "mvp-dialog",
+                    "mvp-widget",
+                    "easyadapter",
+                    "analytics",
+                    "firebase-analytics",
+                    "push",
+                    "dagger-scope",
+                    "logger",
+                    "filestorage",
+                    "network",
+                    "converter-gson",
+                    "imageloader",
+                    "animations",
+                    "picture-provider",
+                    "app-migration",
+                    "connection",
+                    "custom-view",
+                    "datalist-limit-offset",
+                    "datalist-page-count",
+                    "recycler-extension",
+                    "rx-extension",
+                    "rxbus",
+                    "shared-pref",
+                    "util-ktx",
+                    "standard-dialog",
+                    "message-controller",
+                    "broadcast-extension"
+            ],
+            null, //todo remove for real app
+            "LOCAL"  //todo remove for real app
     )
 }

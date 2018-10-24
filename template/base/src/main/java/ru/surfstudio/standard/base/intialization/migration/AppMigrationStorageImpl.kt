@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.base.intialization.migration
 
-
 import ru.surfstudio.android.app.migration.AppMigration
 import ru.surfstudio.android.app.migration.AppMigrationStorage
 import ru.surfstudio.android.logger.Logger
@@ -16,7 +15,7 @@ class AppMigrationStorageImpl : AppMigrationStorage {
 
     companion object {
 
-        private val MIGRATION_FOR_EACH = -1
+        private const val MIGRATION_FOR_EACH = -1
         private val MIGRATIONS = arrayOf(
                 //вызывается для каждого обновления
                 object : AppMigration(MIGRATION_FOR_EACH) {

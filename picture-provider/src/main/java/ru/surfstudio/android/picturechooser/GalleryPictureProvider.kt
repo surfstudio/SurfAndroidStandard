@@ -15,18 +15,22 @@
  */
 package ru.surfstudio.android.picturechooser
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
 /**
  * Позволяет получить одно или несколько изображений через сторонее приложение
  */
-class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
-                             private val activity: Activity) {
+class GalleryPictureProvider(
+        private val activityNavigator: ActivityNavigator,
+        private val activityProvider: ActivityProvider
+) {
+
+    private val currentActivity get() = activityProvider.get()
 
     //region Функции для выбора одного изображения из галереи
     fun openGalleryForSingleImage(): Observable<String> {
@@ -83,7 +87,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForSingleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): String? {
-            return parseSingleResultIntent(intent) { it.getRealPath(activity) }
+            return parseSingleResultIntent(intent) { it.getRealPath(currentActivity) }
         }
     }
 
@@ -121,7 +125,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.getRealPaths(activity) }
+            return parseMultipleResultIntent(intent) { it.getRealPath(currentActivity) }
         }
     }
 
@@ -133,7 +137,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<String>? {
-            return parseMultipleResultIntent(intent) { it.toStringArrayList() }
+            return parseMultipleResultIntent(intent) { it.toString() }
         }
     }
 
@@ -145,7 +149,7 @@ class GalleryPictureProvider(private val activityNavigator: ActivityNavigator,
         override fun prepareIntent(context: Context?) = getIntentForMultipleImageFromGallery()
 
         override fun parseResultIntent(intent: Intent?): ArrayList<UriWrapper>? {
-            return parseMultipleResultIntent(intent) { it.toUriWrapperList() }
+            return parseMultipleResultIntent(intent) { UriWrapper(it) }
         }
     }
     //endregion
