@@ -27,10 +27,9 @@
 #### filestorage
 
 * Добавлены утилиты для получения разных папок [`AppDirectoriesProvider`](filestorage/src/main/java/ru/surfstudio/android/filestorage/utils/AppDirectoriesProvider.kt)
-* Изменение `CacheConstant`. Теперь подразделяются по необходимости back-up'а:
-    * `INTERNAL_CACHE_DIR_DAGGER_NAME == NO_BACKUP_STORAGE_DIR_NAME`,
-    * `EXTERNAL_CACHE_DIR_DAGGER_NAME== BACKUP_STORAGE_DIR_NAME`
-    * `CACHE_DIR_NAME`- новая, используется для неважного кэша
+* Изменение `CacheConstant`. Теперь подразделяются на:
+    * `INTERNAL_CACHE_DIR_DAGGER_NAME == NO_BACKUP_STORAGE_DIR_NAME, BACKUP_STORAGE_DIR_NAME`
+    * `EXTERNAL_CACHE_DIR_DAGGER_NAME == CACHE_DIR_NAME`
 
 #### location
 
