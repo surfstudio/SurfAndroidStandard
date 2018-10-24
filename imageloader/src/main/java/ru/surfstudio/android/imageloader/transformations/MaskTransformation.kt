@@ -17,9 +17,10 @@ package ru.surfstudio.android.imageloader.transformations
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
+import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
+import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
  * Маскирование изображения произвольной фигурой.
@@ -58,13 +59,17 @@ class MaskTransformation(val context: Context,
 
     override fun equals(other: Any?) = other is MaskTransformation
 
-    private fun getMaskDrawable(context: Context, maskId: Int) =
-            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                context.getDrawable(maskId)
-            } else {
-                @Suppress("DEPRECATION")
-                context.resources.getDrawable(maskId)
-            }) ?: throw IllegalArgumentException("MaskTransformation error / maskId is invalid")
+    @Suppress("DEPRECATION")
+    private fun getMaskDrawable(context: Context, maskId: Int): Drawable {
+        val drawable = if (SdkUtils.isAtLeastLollipop()) {
+            context.getDrawable(maskId)
+        } else {
+            context.resources.getDrawable(maskId)
+        }
+
+        return drawable
+                ?: throw IllegalArgumentException("MaskTransformation error / maskId is invalid")
+    }
 
     /**
      * Конфигурационные данных для трансформации [MaskTransformation].
