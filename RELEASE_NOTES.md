@@ -2,14 +2,22 @@
 
 # Release Notes
 
-## 0.4.0
+## 0.3.0
 
 #### core-ui
 
 * ANDDEP-220 - исправлен баг `TabFragmentNavigator` с добавлением в бекстек
-* `PermissionManager` переписан на Kotlin
-* `PermissionManagerFor...` изменились конструкторы - теперь принимают дополнительно: SharedPrefs и Navigator
-* Добавлены класс `RequestStatus`, новые поля в `PermissionRequest`
+* [`PermissionManager`](core-ui/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionManager.kt):
+    * переписан на Kotlin
+    * `PermissionManagerFor...` изменились конструкторы - теперь принимают дополнительно: SharedPrefs и Navigator
+    * Добавлен класс [`PermissionStatus`](core-ui/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionStatus.kt) -
+        оборачивает ответ на проверку разрешения.
+
+        Теперь `check(permissionRequest: PermissionRequest): PermissionStatus`.
+
+    * Расширен функционал: новые поля в [`PermissionRequest`](core-ui/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionRequest.kt),
+    возможность настроить диалог об объяснении причин запроса разрешения,
+    возможность показать необходимость перехода в настройки телефона;
 
 #### easyadapter
 
@@ -18,9 +26,10 @@
 
 #### filestorage
 
-* Изменение `CacheConstant`. Теперь подразделяются по необходимости back-up'а
-    * `INTERNAL_CACHE_DIR_DAGGER_NAME == BACKUP_STORAGE_DIR_NAME`,
-    * `EXTERNAL_CACHE_DIR_DAGGER_NAME== NO_BACKUP_STORAGE_DIR_NAME`
+* Добавлены утилиты для получения разных папок [`AppDirectoriesProvider`](filestorage/src/main/java/ru/surfstudio/android/filestorage/utils/AppDirectoriesProvider.kt)
+* Изменение `CacheConstant`. Теперь подразделяются по необходимости back-up'а:
+    * `INTERNAL_CACHE_DIR_DAGGER_NAME == NO_BACKUP_STORAGE_DIR_NAME`,
+    * `EXTERNAL_CACHE_DIR_DAGGER_NAME== BACKUP_STORAGE_DIR_NAME`
     * `CACHE_DIR_NAME`- новая, используется для неважного кэша
 
 #### location
@@ -77,6 +86,15 @@
 * ANDDEP-211 добавлена возможность настраивать сдвиг часового пояса
     и получать дефолтный для устройства
 
+#### template
+
+* ANDDEP-272 - DebugScreen
+* ANDDEP-250 - вынесены типы сборок в отдельный грэдл-файл
+* ANDDEP-254 - добавлен механизм подписи приложения - директория keystore.
+* ANDDEP-255 - создано минимальное тестовое окружения для тестирования
+    без эмулятора(Robolectric)
+* Добавлена возможность подключать модули локально. Описание [здесь](template/android-standard/README.md)
+
 
 #### общее
 
@@ -86,9 +104,11 @@
 * ANDDEP-275 - фикс билда на студии 3.2 из-за AAPT2
 * ANDDEP-218 - добавлена основная документация к модулям
 * ANDDEP-231 - правила работы с Dagger в студии Surf
-* ANDDEP-272 - DebugScreen
 * ANDDEP-302 - Изменены вызовы doOnDispose() на doFinally
 * ANDDEP-308 - Понижение minSdkVersion до 17
+* Dagger-зависимости из модулей
+* Теперь для подключения двух модулей, и которых первый зависит от второго,
+    необходимо подключить только первый. Зависимости подтянуться автоматически.
 
 
 ## 0.2.2-SNAPSHOT
