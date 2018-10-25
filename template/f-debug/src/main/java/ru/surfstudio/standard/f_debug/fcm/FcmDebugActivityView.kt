@@ -2,8 +2,8 @@ package ru.surfstudio.standard.f_debug.fcm
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.LayoutRes
-import androidx.core.widget.toast
+import android.widget.Toast
+import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_fcm_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -54,6 +54,6 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
     fun copyFcmToken() = fcm_tv.copyTextToClipboard()
 
     fun showMessage(message: String) {
-        toast(message)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
