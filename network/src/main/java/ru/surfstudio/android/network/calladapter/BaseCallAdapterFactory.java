@@ -31,13 +31,11 @@ import retrofit2.CallAdapter;
 import retrofit2.HttpException;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.network.error.NoInternetException;
 
 /**
  * кроме конвертирования запроса в Observable, выполняет следующие функции:
  * Конвертирует IOException в NoConnectionException
- * Имплементация провайдится через модуль со скоупом {@link PerApplication}
  */
 public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 

@@ -1,24 +1,23 @@
 package ru.surfstudio.android.filestorage.sample.interactor.ip.cache
 
 import com.google.gson.GsonBuilder
-import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.BaseLocalCache
-import ru.surfstudio.android.filestorage.CacheConstant.INTERNAL_CACHE_DIR_DAGGER_NAME
+import ru.surfstudio.android.filestorage.CacheConstant
 import ru.surfstudio.android.filestorage.ObjectConverter
 import ru.surfstudio.android.filestorage.naming.NamingProcessor
 import ru.surfstudio.android.filestorage.processor.CacheFileProcessor
 import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
-import javax.inject.Inject
 import javax.inject.Named
 
 /**
  * Локальное хранилище информации об ip
  */
-@PerApplication
-class IpStorage @Inject constructor(@Named(INTERNAL_CACHE_DIR_DAGGER_NAME) cacheDir: String
+class IpStorage(
+        @Named(CacheConstant.CACHE_DIR_NAME) cacheDir: String
 ) : BaseLocalCache<Ip>(
         CacheFileProcessor(cacheDir, KEY_IP_STORAGE, 1),
-        NamingProcessor { rawName -> rawName }) {
+        NamingProcessor { rawName -> rawName }
+) {
 
     companion object {
         private const val KEY_IP_STORAGE = "ip_storage"

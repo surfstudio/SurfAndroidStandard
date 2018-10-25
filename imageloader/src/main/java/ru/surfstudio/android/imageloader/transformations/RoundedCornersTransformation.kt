@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.imageloader.transformations
 
+import android.content.Context
 import android.graphics.*
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 
@@ -32,7 +33,13 @@ class RoundedCornersTransformation(
 
     override fun getId() = "ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation"
 
-    override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
+    override fun transform(
+            context: Context,
+            pool: BitmapPool,
+            toTransform: Bitmap,
+            outWidth: Int,
+            outHeight: Int
+    ): Bitmap? {
         val width = toTransform.width
         val height = toTransform.height
 

@@ -40,7 +40,7 @@
 модуль c анимациями и Coordinator.Behavior
 1. [picture-provider](../picture-provider/README.md) -
 модуль для получения изображения с устройства
-1. [camera-view](../camera-view/README.md) -
+1. [camera-view](https://bitbucket.org/surfstudio/android-camera-view/src/master/camera-view/) -
 вью отображающая изображение с камеры
 1. [app-migration](../app-migration/README.md) -
 модуль для миграции приложения на новую версию
@@ -102,7 +102,6 @@ implementation "ru.surfstudio.android:easyadapter:${version}"
 implementation "ru.surfstudio.android:imageloader:${version}"
 implementation "ru.surfstudio.android:animations:${version}"
 implementation "ru.surfstudio.android:picture-provider:${version}"
-implementation "ru.surfstudio.android:camera-view:${version}"
 implementation "ru.surfstudio.android:app-migration:${version}"
 implementation "ru.surfstudio.android:connection:${version}"
 implementation "ru.surfstudio.android:custom-view:${version}"

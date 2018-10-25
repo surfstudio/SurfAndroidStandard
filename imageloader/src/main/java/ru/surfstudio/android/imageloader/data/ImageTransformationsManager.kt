@@ -53,9 +53,9 @@ data class ImageTransformationsManager(
                         if (roundedCornersBundle.isRoundedCorners)
                             add(RoundedCornersTransformation(roundedCornersBundle))
                         if (blurBundle.isBlur)
-                            add(BlurTransformation(context, blurBundle = blurBundle))
+                            add(BlurTransformation(blurBundle))
                         if (overlayBundle.isOverlay)
-                            add(MaskTransformation(context, overlayBundle))
+                            add(MaskTransformation(overlayBundle))
                     }
                     .toTypedArray()
 }

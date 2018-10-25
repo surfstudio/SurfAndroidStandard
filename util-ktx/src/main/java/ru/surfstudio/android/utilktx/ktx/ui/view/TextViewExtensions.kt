@@ -60,7 +60,7 @@ fun TextView.setDrawableColor(color: Int) {
  * Автоматически выбирается наиболее оптимальный способ сделать это в зависимости от версии системы.
  */
 fun TextView.setTextAppearanceStyle(@StyleRes styleResId: Int) {
-    if (SdkUtils.isAtLeastMarshmallow) {
+    if (SdkUtils.isAtLeastMarshmallow()) {
         setTextAppearance(styleResId)
     } else {
         @Suppress("DEPRECATION")

@@ -15,20 +15,10 @@
  */
 package ru.surfstudio.android.network.etag.storage;
 
-
-import javax.inject.Inject;
-
-import ru.surfstudio.android.dagger.scope.PerApplication;
-
-/**
- *
- */
-@PerApplication
 public final class EtagStorage {
 
     private EtagCache etagCache;
 
-    @Inject
     public EtagStorage(final EtagCache etagCache) {
         this.etagCache = etagCache;
     }

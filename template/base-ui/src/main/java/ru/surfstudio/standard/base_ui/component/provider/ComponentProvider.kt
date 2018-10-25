@@ -8,7 +8,6 @@ import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator
 import kotlin.reflect.KClass
 
-
 object ComponentProvider {
 
     lateinit var createActivityScreenConfigurator:

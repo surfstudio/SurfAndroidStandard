@@ -1,9 +1,9 @@
 @Library('surf-lib@version-1.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.JarvisUtil
+import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
 import java.net.URLEncoder
 
@@ -35,6 +35,22 @@ pipeline.stages = [
             withCredentials([usernamePassword(credentialsId: pipeline.repoCredentialsId, usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                 echo "credentialsId: $pipeline.repoCredentialsId"
                 sh "git clone --mirror https://${encodeUrl(USERNAME)}:${encodeUrl(PASSWORD)}@bitbucket.org/surfstudio/android-standard.git"
+            }
+        },
+        pipeline.createStage("Sanitize", StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+            dir("android-standard.git") {
+                def packedRefsFile = "packed-refs"
+                def packedRefs = readFile file: packedRefsFile
+                echo "packed_refs: $packedRefs"
+                def sanitizedPackedRefs = ""
+                for(ref in packedRefs.split("\n")) {
+                    if(!ref.contains("project-snapshot")) {
+                        sanitizedPackedRefs += ref
+                        sanitizedPackedRefs += "\n"
+                    }
+                }
+                echo "sanitizedPackedRefs: $sanitizedPackedRefs"
+                writeFile file: packedRefsFile, text: sanitizedPackedRefs
             }
         },
         pipeline.createStage("Mirroring", StageStrategy.FAIL_WHEN_STAGE_ERROR) {

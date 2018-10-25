@@ -8,7 +8,6 @@ android{
 
 dependencies {
     implementation project(':picture-provider')
-    implementation project(':camera-view')
     implementation project(':sample-dagger')
     implementation project(':rxbus')
 
@@ -16,4 +15,5 @@ dependencies {
 
     implementation "androidx.recyclerview:recyclerview:$androidxVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    implementation "ru.surfstudio.android:camera-view:1.0.1"
 }

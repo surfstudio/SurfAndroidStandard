@@ -3,6 +3,7 @@ package ru.surfstudio.android.firebase.sample.ui.base.configurator;
 import android.content.Intent;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
+import ru.surfstudio.android.firebase.sample.app.AppConfigurator;
 import ru.surfstudio.android.firebase.sample.app.CustomApp;
 import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent;
 import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.CustomActivityComponent;
@@ -31,7 +32,7 @@ public abstract class CustomActivityScreenConfigurator
 
     @Override
     protected CustomAppComponent getParentComponent() {
-        return ((CustomApp) (getTargetActivity()).getApplicationContext()).getCustomAppComponent();
+        return AppConfigurator.INSTANCE.getCustomAppComponent();
     }
 
     @Override

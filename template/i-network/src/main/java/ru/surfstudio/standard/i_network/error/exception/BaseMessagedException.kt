@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.i_network.error.exception
 
-
 /**
  * Базовый класс ошибки
  */

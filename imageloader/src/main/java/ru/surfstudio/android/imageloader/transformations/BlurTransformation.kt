@@ -19,26 +19,29 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.renderscript.Allocation
-import android.renderscript.Element
-import android.renderscript.RenderScript
-import android.renderscript.ScriptIntrinsicBlur
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
+import ru.surfstudio.android.imageloader.util.BlurStrategy
+import ru.surfstudio.android.imageloader.util.BlurUtil
 
 /**
  * Эффект размытия изображения "Blur"
  */
-class BlurTransformation(val context: Context,
-                         private var blurBundle: BlurBundle = BlurBundle()) : BaseGlideImageTransformation() {
+class BlurTransformation(private var blurBundle: BlurBundle = BlurBundle()) : BaseGlideImageTransformation() {
 
     override fun getId() = "ru.surfstudio.android.imageloader.transformations.BlurTransformation"
 
-    override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
-
+    override fun transform(
+            context: Context,
+            pool: BitmapPool,
+            toTransform: Bitmap,
+            outWidth: Int,
+            outHeight: Int
+    ): Bitmap? {
         val width = toTransform.width
         val height = toTransform.height
-        val scaledWidth = width / blurBundle.downSampling
-        val scaledHeight = height / blurBundle.downSampling
+        val sampling = blurBundle.downSampling
+        val scaledWidth = width / sampling
+        val scaledHeight = height / sampling
 
         var bitmap: Bitmap? = pool.get(scaledWidth, scaledHeight, Bitmap.Config.ARGB_8888)
         if (bitmap == null) {
@@ -46,41 +49,28 @@ class BlurTransformation(val context: Context,
         }
 
         val canvas = Canvas(bitmap!!)
-        canvas.scale(1 / blurBundle.downSampling.toFloat(), 1 / blurBundle.downSampling.toFloat())
+        canvas.scale(1 / sampling.toFloat(), 1 / sampling.toFloat())
         val paint = Paint()
         paint.flags = Paint.FILTER_BITMAP_FLAG
         canvas.drawBitmap(toTransform, 0f, 0f, paint)
-        return blur(context, bitmap, blurBundle.radiusPx)
+        return if (blurBundle.blurStrategy == BlurStrategy.STACK_BLUR) {
+            BlurUtil.stackBlur(bitmap, blurBundle.radiusPx, true)
+        } else {
+            BlurUtil.renderScriptBlur(context, bitmap, blurBundle.radiusPx)
+        }
     }
 
     override fun hashCode() = getId().hashCode()
 
     override fun equals(other: Any?) = other is BlurTransformation
 
-    private fun blur(context: Context, bitmap: Bitmap, radiusPx: Int): Bitmap {
-        var rs: RenderScript? = null
-        try {
-            rs = RenderScript.create(context)
-            rs.messageHandler = RenderScript.RSMessageHandler()
-            val input = Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_NONE,
-                    Allocation.USAGE_SCRIPT)
-            val output = Allocation.createTyped(rs, input.type)
-            val blur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs))
-
-            blur.setInput(input)
-            blur.setRadius(radiusPx.toFloat())
-            blur.forEach(output)
-            output.copyTo(bitmap)
-        } finally {
-            rs?.destroy()
-        }
-        return bitmap
-    }
-
     /**
      * Конфигурационные данных для трансформации [BlurTransformation].
      */
-    data class BlurBundle(val isBlur: Boolean = false,
-                          val radiusPx: Int = 25,
-                          val downSampling: Int = 1)
+    data class BlurBundle(
+            val isBlur: Boolean = false,
+            val radiusPx: Int = 25,
+            val downSampling: Int = 1,
+            val blurStrategy: BlurStrategy = BlurStrategy.RENDER_SCRIPT
+    )
 }

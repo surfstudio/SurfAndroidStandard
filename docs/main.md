@@ -27,7 +27,7 @@
     1. [Работа с сервером](interactor/network.md)
         1. [Кеширование](interactor/cache.md)
         1. [Гибридные запросы](../network/docs/hybrid.md)
-    1. [Работа с локацией](interactor/locatiom.md)
+    1. [Работа с локацией](../location/README.md)
     1. [Проверка соединения](../connection/README.md)
     1. [Миграция между версиями приложения](../app-migration/README.md)
     1. [Работа с Broadcast](../broadcast-extension/README.md)
@@ -55,4 +55,5 @@
 
 1. [Лучшие практики](best_practice/best_practice.md)
     1. [Поиск утечек](best_practice/memory_leak.md)
-
+    2. [CI](https://github.com/surfstudio/jenkins-pipeline-lib)
+    3. [Настройки и плагины для Android Studio](best_practice/android_studio_settings.md)

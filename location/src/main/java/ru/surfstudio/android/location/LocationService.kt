@@ -139,7 +139,7 @@ class LocationService(context: Context) {
                     fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
                 }
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .doOnDispose { fusedLocationClient.removeLocationUpdates(locationCallback) }
+                .doFinally { fusedLocationClient.removeLocationUpdates(locationCallback) }
     }
 
     private fun createLocationCallback(observableEmitter: ObservableEmitter<Location>): LocationCallback =
