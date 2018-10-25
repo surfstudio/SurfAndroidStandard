@@ -62,5 +62,5 @@ ext {
 
     // версия android-standard
     moduleVersionCode = 20
-    moduleVersionName = '0.3.0'
+    moduleVersionName = '0.4.0-SNAPSHOT'
 }
