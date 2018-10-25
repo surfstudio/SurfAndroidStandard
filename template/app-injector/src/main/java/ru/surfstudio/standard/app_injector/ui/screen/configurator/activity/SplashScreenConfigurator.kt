@@ -12,8 +12,6 @@ import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
 import ru.surfstudio.standard.f_splash.SplashActivityView
 import ru.surfstudio.standard.f_splash.SplashRoute
 
-const val fbKey = "_fbSourceApplicationHasBeenSet"
-
 /**
  * Конфигуратор стартового сплеш-экрана [SplashActivityView]
  */

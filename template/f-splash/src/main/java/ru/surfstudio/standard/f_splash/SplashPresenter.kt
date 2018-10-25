@@ -14,8 +14,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerScreen
-internal class SplashPresenter @Inject
-constructor(
+internal class SplashPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val activityNavigator: ActivityNavigator,
         private val route: SplashRoute,
@@ -36,15 +35,15 @@ constructor(
                 .toSingleDefault(EMPTY_STRING)
 
         subscribeIoHandleError(merge,
-        {
-            activityNavigator.start(nextRoute)
-            activityNavigator.finishAffinity()
-        },
-        {
-            Logger.e(it)
-            activityNavigator.start(nextRoute)
-            activityNavigator.finishAffinity()
-        })
+                {
+                    activityNavigator.start(nextRoute)
+                    activityNavigator.finishAffinity()
+                },
+                {
+                    Logger.e(it)
+                    activityNavigator.start(nextRoute)
+                    activityNavigator.finishAffinity()
+                })
     }
 
     companion object {
