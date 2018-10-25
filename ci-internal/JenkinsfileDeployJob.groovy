@@ -81,12 +81,14 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            def version = AndroidUtil.getGradleVariable(script, "config.gradle", "moduleVersionName")
+            def rawVersion = AndroidUtil.getGradleVariable(script, "config.gradle", "moduleVersionName")
+            def version = rawVersion.substring(1, rawVersion.length()-1) //remove quotes
             def branch = branchName
             def originPrefix = "origin/"
             if(branch.contains(originPrefix)){
                 branch = branch.substring(originPrefix.length())
             }
+            script.echo "Checking branch: '$branch' and version: '$version'..."
 
             def masterChecked = checkVersionAndBranch(script,
                     branch, /^master$/,
