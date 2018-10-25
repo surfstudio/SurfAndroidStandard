@@ -8,9 +8,12 @@ import ru.surfstudio.standard.f_main.MainActivityView
 import kotlin.reflect.KClass
 
 /**
+ * Хранилище пограничных роутов и в соответвии к классам.
+ * Необходимо для навигации между модулями.
  *
+ * Обращение происходит через {RouteClassProvider}
  */
-object RouteStorage {
+object RouteClassStorage {
 
     val activityRouteMap = HashMap<KClass<*>, Class<out Activity>>()
             .apply {

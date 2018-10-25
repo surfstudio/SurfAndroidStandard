@@ -7,7 +7,7 @@ import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.template.app_injector.BuildConfig
-import ru.surfstudio.standard.app_injector.ui.navigation.RouteStorage
+import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
 import ru.surfstudio.standard.app_injector.ui.notification.debug.DebugNotificationBuilder
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
@@ -27,9 +27,9 @@ class App : CoreApp() {
     }
 
     private fun initRouteProvider() {
-        RouteClassProvider.getActivityClass = { kclass -> RouteStorage.activityRouteMap[kclass]!! }
-        RouteClassProvider.getFragmentClass = { kclass -> RouteStorage.fragmentRouteMap[kclass]!! }
-        RouteClassProvider.getDialogClass = { kclass -> RouteStorage.dialogRouteMap[kclass]!! }
+        RouteClassProvider.getActivityClass = { kclass -> RouteClassStorage.activityRouteMap[kclass]!! }
+        RouteClassProvider.getFragmentClass = { kclass -> RouteClassStorage.fragmentRouteMap[kclass]!! }
+        RouteClassProvider.getDialogClass = { kclass -> RouteClassStorage.dialogRouteMap[kclass]!! }
     }
 
     private fun initComponentProvider() {
