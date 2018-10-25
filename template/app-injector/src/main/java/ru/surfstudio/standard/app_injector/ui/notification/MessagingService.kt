@@ -3,7 +3,7 @@ package ru.surfstudio.standard.app_injector.ui.notification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.notification.NotificationCenter
+import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.standard.app_injector.AppInjector
 import javax.inject.Inject
@@ -19,9 +19,18 @@ class MessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var fcmStorage: FcmStorage
 
+    @Inject
+    lateinit var pushHandler: PushHandler
+    override fun onCreate() {
+        super.onCreate()
+        DaggerFirebaseServiceComponent.builder()
+                .appComponent(AppInjector.appComponent)
+                .build()
+                .inject(this)
+    }
+
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
-        AppInjector.appComponent.inject(this)
         Logger.i("Новый Firebase токен: $newToken")
         fcmStorage.fcmToken = newToken
         //todo отправить новый токен на сервер для получения push-уведомлений
@@ -35,7 +44,7 @@ class MessagingService : FirebaseMessagingService() {
                 "data = [${remoteMessage?.data}]")
 
         remoteMessage?.let {
-            NotificationCenter.onReceiveMessage(this,
+            pushHandler.handleMessage(this,
                     it.notification?.title ?: "",
                     it.notification?.body ?: "",
                     it.data)

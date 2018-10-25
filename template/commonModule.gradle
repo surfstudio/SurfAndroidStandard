@@ -3,22 +3,9 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 apply from: '../config.gradle'
-
-def config = extensions.getByName("ext")
+apply from: '../commonAndroidDefaultConfig.gradle'
 
 android {
-    compileSdkVersion config["compileSdkVersion"]
-    buildToolsVersion config["buildToolsVersion"]
-
-    defaultConfig {
-        minSdkVersion config["minSdkVersion"]
-        targetSdkVersion config["targetSdkVersion"]
-
-        versionCode config["versionCode"]
-        versionName config["versionName"]
-
-        vectorDrawables.useSupportLibrary = true
-    }
 
     buildTypes {
         qa {
@@ -31,12 +18,9 @@ android {
 
         debug {
             buildConfigField "String", "BASE_URL", '""'
-            minifyEnabled false
         }
-
         release {
             buildConfigField "String", "BASE_URL", '""'
-            minifyEnabled false
         }
     }
 
