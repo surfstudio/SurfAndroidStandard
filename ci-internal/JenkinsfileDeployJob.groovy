@@ -82,18 +82,24 @@ pipeline.stages = [
         },
         pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             def version = AndroidUtil.getGradleVariable(script, "config.gradle", "moduleVersionName")
+            def branch = branchName
+            def originPrefix = "origin/"
+            if(branch.contains(originPrefix)){
+                branch = branch.substring(originPrefix.length())
+            }
+
             def masterChecked = checkVersionAndBranch(script,
-                    branchName, /^master$/,
+                    branch, /^master$/,
                     version, /^\d{1,4}\.\d{1,4}\.\d{1,4}$/)
 
             def snapshotChecked = checkVersionAndBranch(script,
-                    branchName, /^snapshot-\d{1,4}\.\d{1,4}\.\d{1,4}$/,
+                    branch, /^snapshot-\d{1,4}\.\d{1,4}\.\d{1,4}$/,
                     version, /^\d{1,4}\.\d{1,4}\.\d{1,4}-SNAPSHOT$/)
 
-            def projectSnapshotChecked = checkVersionAndBranchForProjectSnapshot(script, branchName, version)
+            def projectSnapshotChecked = checkVersionAndBranchForProjectSnapshot(script, branch, version)
 
             if(!(masterChecked || snapshotChecked || projectSnapshotChecked)) {
-                error("Deploy from branch: '$branchName' forbidden")
+                error("Deploy from branch: '$branch' forbidden")
             }
         },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
