@@ -6,6 +6,7 @@ import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.NodeProvider
+import ru.surfstudio.ci.AndroidUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 
@@ -15,6 +16,7 @@ import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
 // Имена Шагов
 def CHECKOUT = 'Checkout'
+def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
@@ -76,14 +78,30 @@ pipeline.stages = [
             ])
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
+        pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
+            def version = AndroidUtil.getGradleVariable(script, "config.gradle", "moduleVersionName")
+            def masterChecked = checkVersionAndBranch(script,
+                    branchName, /^master$/,
+                    version, /^\d{1,4}\.\d{1,4}\.\d{1,4}$/)
+
+            def snapshotChecked = checkVersionAndBranch(script,
+                    branchName, /^snapshot-\d{1,4}\.\d{1,4}\.\d{1,4}$/,
+                    version, /^\d{1,4}\.\d{1,4}\.\d{1,4}-SNAPSHOT$/)
+
+            def projectSnapshotChecked = checkVersionAndBranchForProjectSnapshot(script, branchName, version)
+
+            if(!(masterChecked || snapshotChecked || projectSnapshotChecked)) {
+                error("Deploy from branch: '$branchName' forbidden")
+            }
+        },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
         },
         pipeline.createStage(UNIT_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
-                            "testReleaseUnitTest",
-                            "**/test-results/testReleaseUnitTest/*.xml",
-                            "app/build/reports/tests/testReleaseUnitTest/")
+                    "testReleaseUnitTest",
+                    "**/test-results/testReleaseUnitTest/*.xml",
+                    "app/build/reports/tests/testReleaseUnitTest/")
         },
         pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(script,
@@ -105,11 +123,48 @@ pipeline.finalizeBody = {
     def success = Result.SUCCESS.equals(pipeline.jobResult)
     if (!success) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy ветки ${branchName} не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        message = "Deploy ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
     } else {
-        message = "Deploy ветки ${branchName} успешно выполнен. ${jenkinsLink}"
+        message = "Deploy ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
     JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 }
 
 pipeline.run()
+
+
+
+// UTILS
+
+def boolean checkVersionAndBranch(Object script, String branch, String branchRegex, String version, String versionRegex) {
+    Pattern branchPattern = Pattern.compile(branchRegex);
+    Matcher branchMatcher =  branchPattern.matcher(branch);
+    if(branchMatcher.matches()) {
+        Pattern versionPattern = Pattern.compile(versionRegex);
+        Matcher versionMatcher =  versionPattern.matcher(version);
+        if (versionMatcher.matches()) {
+            return true
+        } else {
+            script.error("Deploy version: '$version' from branch: '$branch' forbidden")
+        }
+    }
+    return false
+}
+
+def boolean checkVersionAndBranchForProjectSnapshot(Object script, String branch, String version) {
+    def branchRegex = /^project-snapshot-[A-Z]+/
+    Pattern branchPattern = Pattern.compile(branchRegex);
+    Matcher branchMatcher =  branchPattern.matcher(branch);
+    if(branchMatcher.matches()) {
+        def projectKey = branch.split('-')[2]
+        def versionRegex = /^\d{1,4}\.\d{1,4}\.\d{1,4}-$projectKey-(\d{1,4}\.\d{1,4}\.\d{1,4}-SNAPSHOT|\d{1,4}\.\d{1,4}\.\d{1,4}|SNAPSHOT)$/
+        Pattern versionPattern = Pattern.compile(versionRegex);
+        Matcher versionMatcher =  versionPattern.matcher(version);
+        if (versionMatcher.matches()) {
+            return true
+        } else {
+            script.error("Deploy version: '$version' from branch: '$branch' forbidden")
+        }
+    }
+    return false
+}
