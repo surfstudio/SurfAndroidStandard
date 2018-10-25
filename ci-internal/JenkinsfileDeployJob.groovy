@@ -9,6 +9,8 @@ import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.AndroidUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
+import java.util.regex.Pattern
+import java.util.regex.Matcher
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
