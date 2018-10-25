@@ -2,6 +2,12 @@
 
 # Release Notes
 
+## 0.4.0 - SNAPSHOT
+
+#### push
+
+* удален NotificationCenter - используйте `PushHandler`
+
 ## 0.3.0
 
 #### core-ui
