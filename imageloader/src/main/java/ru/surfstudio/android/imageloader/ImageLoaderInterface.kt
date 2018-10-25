@@ -23,6 +23,7 @@ import android.support.annotation.WorkerThread
 import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
+import ru.surfstudio.android.imageloader.util.BlurStrategy
 
 /**
  * Универсальный интерфейс загрузчика изображений.
@@ -135,10 +136,13 @@ interface ImageLoaderInterface {
      * @param isBlur флаг активации трансформации
      * @param blurRadiusPx радиус размытия
      * @param blurDownSampling уровень принудительного понижения качества разрешения изображения
+     * @param blurStrategy стратегия размытия изображения
      */
     fun blur(isBlur: Boolean = true,
              blurRadiusPx: Int = 25,
-             blurDownSampling: Int = 1): ImageLoaderInterface
+             blurDownSampling: Int = 1,
+             blurStrategy: BlurStrategy = BlurStrategy.RENDER_SCRIPT
+    ): ImageLoaderInterface
 
     /**
      * Наложение маски на изображение с поддержкой 9-patch маски.

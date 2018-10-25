@@ -41,6 +41,7 @@ import ru.surfstudio.android.imageloader.transformations.BlurTransformation.Blur
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
+import ru.surfstudio.android.imageloader.util.BlurStrategy
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
@@ -207,11 +208,12 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param isBlur флаг активации трансформации
      * @param blurRadiusPx радиус размытия
      * @param blurDownSampling уровень принудительного понижения качества разрешения изображения
+     * @param blurStrategy стратегия размытия
      */
-    override fun blur(isBlur: Boolean, blurRadiusPx: Int, blurDownSampling: Int) =
+    override fun blur(isBlur: Boolean, blurRadiusPx: Int, blurDownSampling: Int, blurStrategy: BlurStrategy) =
             also {
                 imageTransformationsManager.blurBundle =
-                        BlurBundle(isBlur, blurRadiusPx, blurDownSampling)
+                        BlurBundle(isBlur, blurRadiusPx, blurDownSampling, blurStrategy)
             }
 
     /**
