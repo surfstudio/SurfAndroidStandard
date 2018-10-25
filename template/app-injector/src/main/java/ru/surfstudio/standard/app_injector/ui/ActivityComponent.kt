@@ -16,6 +16,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.AppComponent
+import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import javax.inject.Named
 
 /**
@@ -38,4 +39,6 @@ interface ActivityComponent {
     fun rxBus(): RxBus
     fun fcmStorage(): FcmStorage
     @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
+
+    fun initializeAppInteractor(): InitializeAppInteractor
 }

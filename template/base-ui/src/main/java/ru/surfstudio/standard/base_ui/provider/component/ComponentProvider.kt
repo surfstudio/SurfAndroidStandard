@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.base_ui.component.provider
+package ru.surfstudio.standard.base_ui.provider.component
 
 import android.content.Intent
 import android.os.Bundle
