@@ -27,8 +27,7 @@ import ru.surfstudio.android.utilktx.util.SdkUtils
  *
  * Поддерживает 9-patch маски.
  */
-class MaskTransformation(val context: Context,
-                         private val overlayBundle: OverlayBundle) : BaseGlideImageTransformation() {
+class MaskTransformation(private val overlayBundle: OverlayBundle) : BaseGlideImageTransformation() {
 
     private val paint = Paint()
 
@@ -38,7 +37,13 @@ class MaskTransformation(val context: Context,
 
     override fun getId() = "ru.surfstudio.android.imageloader.transformations.MaskTransformation"
 
-    override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
+    override fun transform(
+            context: Context,
+            pool: BitmapPool,
+            toTransform: Bitmap,
+            outWidth: Int,
+            outHeight: Int
+    ): Bitmap? {
         val width = toTransform.width
         val height = toTransform.height
 
@@ -74,6 +79,8 @@ class MaskTransformation(val context: Context,
     /**
      * Конфигурационные данных для трансформации [MaskTransformation].
      */
-    data class OverlayBundle(val isOverlay: Boolean = false,
-                             @DrawableRes val maskResId: Int = -1)
+    data class OverlayBundle(
+            val isOverlay: Boolean = false,
+            @DrawableRes val maskResId: Int = -1
+    )
 }
