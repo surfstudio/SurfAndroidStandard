@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
                 .preview(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
-
     }
 
     private fun loadTransformedImage() {
