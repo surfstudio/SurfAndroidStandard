@@ -25,7 +25,9 @@ import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
@@ -356,9 +358,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     private fun buildRequest(): RequestBuilder<Drawable> = Glide.with(context)
             .load(imageResourceManager.toLoad())
-            .error(imageResourceManager.prepareErrorDrawable())
-            .thumbnail(imageResourceManager.preparePreviewDrawable())
-            .transition(imageTransitionManager.imageTransitionOptions)
+            .addErrorIf(imageResourceManager.isErrorSet, imageResourceManager.prepareErrorDrawable())
+            .addThumbnailIf(imageResourceManager.isPreviewSet, imageResourceManager.preparePreviewDrawable())
+            .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
                             .diskCacheStrategy(if (imageCacheManager.skipCache) {
@@ -417,6 +419,27 @@ fun RequestOptions.applyTransformations(imageTransformationsManager: ImageTransf
         transforms(*transformations)
     else
         this
+}
+
+fun <T> RequestBuilder<T>.addErrorIf(
+        condition: Boolean,
+        errorRequest: RequestBuilder<T>
+) : RequestBuilder<T> {
+    return if (condition) this.error(errorRequest) else this
+}
+
+fun <T> RequestBuilder<T>.addThumbnailIf(
+        condition: Boolean,
+        thumbnailRequest: RequestBuilder<T>
+) : RequestBuilder<T> {
+    return if (condition) this.thumbnail(thumbnailRequest) else this
+}
+
+fun <T, Child: TransitionOptions<Child, T>> RequestBuilder<T>.addTransitionIf(
+        condition: Boolean,
+        transitionOptions: TransitionOptions<Child, T>
+) : RequestBuilder<T> {
+    return if (condition) this.transition(transitionOptions) else this
 }
 
 /**

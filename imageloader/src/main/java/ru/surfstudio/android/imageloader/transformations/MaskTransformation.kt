@@ -66,7 +66,7 @@ class MaskTransformation(private val overlayBundle: OverlayBundle) : BaseGlideIm
 
     @Suppress("DEPRECATION")
     private fun getMaskDrawable(context: Context, maskId: Int): Drawable {
-        val drawable = if (SdkUtils.isAtLeastLollipop) {
+        val drawable = if (SdkUtils.isAtLeastLollipop()) {
             context.getDrawable(maskId)
         } else {
             context.resources.getDrawable(maskId)

@@ -39,6 +39,10 @@ data class ImageResourceManager(
         var previewResId: Int = DEFAULT_DRAWABLE_URI    //ссылка на drawable-ресурс плейсхолдера
 ) {
 
+    val isErrorSet: Boolean get() = errorResId != DEFAULT_DRAWABLE_URI
+
+    val isPreviewSet: Boolean get() = previewResId != DEFAULT_DRAWABLE_URI
+
     /**
      * Метод, автоматически предоставляющий ссылку для загрузки изображения.
      *
