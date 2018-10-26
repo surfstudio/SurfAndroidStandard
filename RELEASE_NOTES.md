@@ -12,6 +12,10 @@
 
 * обновлены file-шаблоны
 
+#### util-ktx
+* ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
+помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
+
 ## 0.3.0
 
 #### core-ui

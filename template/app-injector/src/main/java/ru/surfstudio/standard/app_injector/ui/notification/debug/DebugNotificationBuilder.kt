@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.app_injector.ui.notification.debug
 
-import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -15,7 +14,6 @@ private val DEBUG_NOTIFICATION_ID = "DEBUG_NOTIFICATION_ID".hashCode()
 
 object DebugNotificationBuilder {
 
-    @SuppressLint("NewApi")
     fun showDebugNotification(context: Context) {
         if (canShowDebugScreen()) {
             val channelId = context.getString(R.string.notification_channel_id)
@@ -36,7 +34,7 @@ object DebugNotificationBuilder {
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-            if (SdkUtils.isAtLeastOreo) {
+            SdkUtils.runOnOreo {
                 notificationManager.createNotificationChannel(
                         NotificationChannel(
                                 channelId,
