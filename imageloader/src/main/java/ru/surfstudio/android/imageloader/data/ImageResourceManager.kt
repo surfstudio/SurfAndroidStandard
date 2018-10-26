@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
 import ru.surfstudio.android.imageloader.DEFAULT_DRAWABLE_URI
-import ru.surfstudio.android.imageloader.applyTransformations
+import ru.surfstudio.android.imageloader.util.applyTransformations
 
 /**
  * Пакет со ссылками на все необходимые изображения и сервисными методами.
@@ -84,7 +84,7 @@ data class ImageResourceManager(
         return Glide.with(context)
                 .load(imageResId)
                 .apply(RequestOptions()
-                        .applyTransformations(imageTransformationsManager)
+                        .applyTransformations(imageTransformationsManager.prepareTransformations())
                 )
     }
 
