@@ -39,8 +39,9 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnPreLollipop(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             block()
+        }
     }
 
     /**
@@ -49,8 +50,9 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnLollipop(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             block()
+        }
     }
 
     /**
@@ -59,8 +61,9 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnMarshmallow(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             block()
+        }
     }
 
     /**
@@ -69,8 +72,9 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnNoughat(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             block()
+        }
     }
 
     /**
@@ -79,8 +83,9 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnOreo(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             block()
+        }
     }
 
     /**
@@ -89,8 +94,9 @@ object SdkUtils {
      * @param block запускаемый блок кода
      */
     fun runOnPie(block: () -> Unit) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             block()
+        }
     }
 
     /**
