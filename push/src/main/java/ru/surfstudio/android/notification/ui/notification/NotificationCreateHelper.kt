@@ -35,7 +35,7 @@ object NotificationCreateHelper {
             title: String,
             body: String
     ) {
-        if (SdkUtils.isAtLeastOreo) {
+        SdkUtils.runOnOreo {
             getNotificationManager(context).createNotificationChannel(
                     pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, body, context)
             )

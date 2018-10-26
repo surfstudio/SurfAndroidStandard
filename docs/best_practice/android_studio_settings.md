@@ -10,8 +10,11 @@
 1. Tools -> Tasks&Contexts -> Configure Servers -> Add -> Заполняем:
     - Server URL: `https://jira.surfstudio.ru`
     - Логин и пароль от Jira
-    - Search: `assignee = currentUser() order by updated`
+    - Search: `assignee = currentUser() order by updated`. Также можно использовать фильтры, 
+        которые настроили в Jira. Например: `filter = anddep-user`
+        
     - нажимаем **Test** для проверки
+    
 2. На вкладке **Commit Message** ставим галочку и выставляем `{id}`
 3. Settings -> Tools > Tasks (в зависимости от вашего git flow)
     - Changelist name format: `{id} {summary}`
@@ -42,6 +45,7 @@
 5. JSON Viewer. Просто форматирование JSON'а для наглядности. Так же есть огромное кол-во аналогов.
 6. [CodeGlance](https://github.com/Vektah/CodeGlance). Миниатюра всего текста в файле справа (как в Sublime text)
 7. [ADB idea](https://github.com/pbreault/adb-idea). Упрощение работы с ADB
+9. Git Branch Cleaner - Очистка старых веток гита. Использование: VCS → Git → Delete Old Branches
 
 #### Полезные ссылки
 
