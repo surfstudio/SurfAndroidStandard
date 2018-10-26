@@ -1,18 +1,17 @@
 <?xml version="1.0"?>
-<#import "root://activities/common/kotlin_macros.ftl" as kt>
 <recipe>
-	<@kt.addAllKotlinDependencies />
 
-    <#if generateKotlin>
-        <instantiate from="src/app_package/View.kt.ftl"
-            to="${escapeXmlAttribute(srcOut)}/${className}.kt" />
-    <#else>
-        <instantiate from="src/app_package/View.java.ftl"
-            to="${escapeXmlAttribute(srcOut)}/${className}.java" />
+    <#if needToGenerateLayout>
+        <instantiate from="res/layout/custom_view.xml.ftl" to="${resOut}/layout/${layoutName}.xml"/>
+        <open file="${resOut}/layout/${layoutName}.xml"/>
     </#if>
 
-    <instantiate from="res/layout/layout.xml.ftl"
-        to="${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml" />
+    <#if language='kotlin'>
+        <instantiate from="src/app_package/kotlin/CustomView.kt.ftl" to="${srcOut}/${customViewClassName}.kt"/>
+        <open file="${srcOut}/${customViewClassName}.kt"/>
+    <#else>
+        <instantiate from="src/app_package/java/CustomView.java.ftl" to="${srcOut}/${customViewClassName}.java"/>
+        <open file="${srcOut}/${customViewClassName}.java"/>
+    </#if>
 
-    <open file="${escapeXmlAttribute(srcOut)}/${className}.java" />
 </recipe>

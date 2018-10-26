@@ -57,5 +57,4 @@ data class ImageTransformationsManager(
                         if (overlayBundle.isOverlay)
                             add(MaskTransformation(overlayBundle))
                     }
-                    .toTypedArray()
 }
