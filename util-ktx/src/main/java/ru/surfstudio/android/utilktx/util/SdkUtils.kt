@@ -17,6 +17,7 @@ package ru.surfstudio.android.utilktx.util
 
 
 import android.os.Build
+import ru.surfstudio.android.utilktx.util.SdkUtils.isPreLollipop
 
 /**
  * Утилиты для проверки версии Api
@@ -32,6 +33,8 @@ object SdkUtils {
     fun isAtLeastNougat(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 
     fun isAtLeastOreo(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
+    fun isAtLeastPie(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 
     /**
      * Запускает блок кода на устройствах с андроид версии KitKat и ниже
@@ -104,4 +107,46 @@ object SdkUtils {
      */
     fun doIfSdk(atLeast: Boolean, ifTrue: () -> Unit, ifFalse: () -> Unit) =
             if (atLeast) ifTrue() else ifFalse()
+
+    //region Deprecated
+    @Deprecated(
+            message = "Необходимо заменить на метод SdkUtils.isPreLollipop()",
+            replaceWith = ReplaceWith("Sdk.isPreLollipop()")
+    )
+    val isPreLollipop: Boolean
+        @JvmName("isPreLollipopDeprecated")
+        get() = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP
+
+    @Deprecated(
+            message = "Необходимо заменить на SdkUtils.isAtLeastLollipop()",
+            replaceWith = ReplaceWith("SdkUtils.isAtLeastLollipop()")
+    )
+    val isAtLeastLollipop: Boolean
+        @JvmName("isAtLeastLollipopDeprecated")
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+
+    @Deprecated(
+            message = "Необходимо заменить на SdkUtils.isAtLeastMarshmallow()",
+            replaceWith = ReplaceWith("SdkUtils.isAtLeastMarshmallow()")
+    )
+    val isAtLeastMarshmallow: Boolean
+        @JvmName("isAtLeastMarshmallowDeprecated")
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+
+    @Deprecated(
+            message = "Необходимо заменить на SdkUtils.isAtLeastNougat()",
+            replaceWith = ReplaceWith("SdkUtils.isAtLeastNougat()")
+    )
+    val isAtLeastNougat: Boolean
+        @JvmName("isAtLeastNougatDeprecated")
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+    @Deprecated(
+            message = "Необходимо заменить на SdkUtils.isAtLeastOreo()",
+            replaceWith = ReplaceWith("SdkUtils.isAtLeastOreo()")
+    )
+    val isAtLeastOreo: Boolean
+        @JvmName("isAtLeastOreoDeprecated")
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+    //endregion
 }
