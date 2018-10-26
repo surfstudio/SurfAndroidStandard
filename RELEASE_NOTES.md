@@ -8,6 +8,10 @@
 
 * удален NotificationCenter - используйте `PushHandler`
 
+#### templates
+
+* обновлены file-шаблоны
+
 ## 0.3.0
 
 #### core-ui
