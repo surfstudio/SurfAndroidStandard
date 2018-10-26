@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 .with(this)
                 .crossFade(500)
                 .centerCrop()
-                .blur(blurStrategy = BlurStrategy.RENDER_SCRIPT)
+                .blur(blurDownSampling = 4)
                 .url(IMAGE_URL)
                 .force()
                 .error(R.drawable.ic_launcher_background)
