@@ -1,20 +1,15 @@
 <?xml version="1.0"?>
-<#import "root://activities/common/kotlin_macros.ftl" as kt>
 <recipe>
-	<@kt.addAllKotlinDependencies />
 
-	<#if generateKotlin>
-     <instantiate from="src/app_package/Controller.kt.ftl"
-             to="${escapeXmlAttribute(srcOut)}/${nameController}${defPostfixController}.kt" />
-    <open file="${escapeXmlAttribute(srcOut)}/${nameController}${defPostfixController}.kt" />
+    <instantiate from="res/layout/item.xml.ftl" to="${resOut}/layout/${layoutName}.xml"/>
+    <open file="${resOut}/layout/${layoutName}.xml"/>
+
+	<#if language='kotlin'>
+        <instantiate from="src/app_package/kotlin/ItemController.kt.ftl" to="${srcOut}/${controllerClassName}.kt"/>
+        <open file="${srcOut}/${controllerClassName}.kt"/>
 	<#else>
-     <instantiate from="src/app_package/Controller.java.ftl"
-             to="${escapeXmlAttribute(srcOut)}/${nameController}${defPostfixController}.java" />
-    <open file="${escapeXmlAttribute(srcOut)}/${nameController}${defPostfixController}.java" />
+        <instantiate from="src/app_package/java/ItemController.java.ftl" to="${srcOut}/${controllerClassName}.java"/>
+        <open file="${srcOut}/${controllerClassName}.java"/>
 	</#if>
    
-    <#if generateLayout>
-    <instantiate from="res/layout/layout.xml.ftl"
-                   to="${escapeXmlAttribute(resOut)}/layout/${nameRes}.xml" />
-    </#if>
 </recipe>
