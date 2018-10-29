@@ -23,6 +23,9 @@
 #### firebase-analytics
 #### imageloader
 #### location
+
+* Исправлена потеря callback'а `LocationErrorResolution` во фрагменте
+
 #### logger
 #### message-controller
 #### mvp-dialog
