@@ -4,9 +4,54 @@
 
 ## 0.4.0 - SNAPSHOT
 
+#### analytics
+#### animations
+#### app-migration
+#### broadcast-extension
+#### connection
+#### converter-gson
+#### core-app
+#### core-mvp
+#### core-mvp-binding
+#### core-ui
+#### custom-view
+#### dagger-scope
+#### datalist-limit-offset
+#### datalist-limit-offset
+#### easyadapter
+#### filestorage
+#### firebase-analytics
+#### imageloader
+#### location
+#### logger
+#### message-controller
+#### mvp-dialog
+#### mvp-widget
+#### network
+#### picture-provider
+
 #### push
 
 * удален NotificationCenter - используйте `PushHandler`
+
+#### recycler-extension
+#### rx-extension
+#### rxbus
+#### shared-pref
+#### standard-dialog
+
+#### templates
+
+* обновлены file-шаблоны
+
+#### template
+
+* обновлены механизмы навигации в template
+
+#### util-ktx
+
+* ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
+помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
 
 ## 0.3.0
 

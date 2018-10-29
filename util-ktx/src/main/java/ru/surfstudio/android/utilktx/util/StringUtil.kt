@@ -93,7 +93,7 @@ object StringUtil {
      * Форматирование телефонного номера
      */
     fun formatPhone(source: String): String? {
-        return if (SdkUtils.isAtLeastLollipop) {
+        return if (SdkUtils.isAtLeastLollipop()) {
             PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)
         } else {
             PhoneNumberUtils.formatNumber(source)

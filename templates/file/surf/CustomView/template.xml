@@ -2,48 +2,58 @@
 <template
     format="4"
     revision="1"
-    name="ssCustomView"
-    description="Создание кастомного вью">
-
-    <dependency
-        name="ru.surfstudio.android.core"
-        revision="1" />
-
-    <category value="Surf" />
-    <formfactor value="View" />
+    name="CustomView"
+    description="CustomView">
+    
+    <category value="Surf"/>
 
     <parameter
-        id="className"
+        id="customViewClassName"
+        name="Имя класса"
         type="string"
-        name="Наименование кастомного вью"
-        constraints="class|nonempty" />
+        constraints="class|nonempty|unique"/>
+    
+    <parameter
+        id="parentViewClassName"
+        name="Имя класса родителя"
+        type="string"
+        constraints="class|nonempty"/>
+    
+    <parameter
+        id="needToGenerateLayout"
+        name="Добавить XML разметку"
+        type="boolean"/>
 
     <parameter
         id="layoutName"
+        name="Имя файла XML разметки"
         type="string"
-        name="Наименование файла разметки"
-        constraints="layout|unique|nonempty"
-        suggest="layout_${classToResource(className)}" />
+        constraints="layout|nonempty|unique"
+        suggest="layout_${classToResource(customViewClassName)}"
+        visibility="needToGenerateLayout"/>
     
     <parameter
-        id="parentClassName"
-        type="string"
-        name="Родитель (superclass)"
-        constraints="class|nonempty" />
-
-    <parameter
-        id="screenModelName"
-        type="string"
-        name="Наименование ScreenModel (CartScreenModel)"
-        constraints="class" />
-
-    <parameter
-        id="generateListener"
-        name="Добавить Listener"
+        id="needToGenerateScreenModel"
         type="boolean"
-        default="true" />
+        name="Добавить ScreenModel"/>
 
-    <globals file="globals.xml.ftl" />
-    <execute file="recipe.xml.ftl" />
+    <parameter
+        id="screenModelClassName"
+        type="string"
+        name="Имя класса ScreenModel"
+        constraints="class|nonempty"
+        visibility="needToGenerateScreenModel"/>
+    
+    <parameter
+        id="language"
+        name="Язык"
+        type="enum"
+        default="kotlin">
+        <option id="kotlin">Kotlin</option>
+        <option id="java">Java</option>
+    </parameter>
+
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
 
 </template>
