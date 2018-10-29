@@ -19,6 +19,7 @@ import android.app.Activity
 import android.content.Intent
 import io.reactivex.Completable
 import io.reactivex.CompletableEmitter
+import ru.surfstudio.android.core.ui.ScreenType
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.result.ActivityResultDelegate
 import ru.surfstudio.android.location.exceptions.ResolutionFailedException
@@ -37,7 +38,7 @@ abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Thr
     private var completableEmitter: CompletableEmitter? = null
 
     init {
-        screenEventDelegateManager.registerDelegate(this)
+        screenEventDelegateManager.registerDelegate(this, ScreenType.ACTIVITY)
     }
 
     protected abstract fun performResolutionRequest(resolvingThrowable: E)
