@@ -52,7 +52,8 @@ dependencies {
             "util-ktx",
             "standard-dialog",
             "message-controller",
-            "broadcast-extension"
-    ]
+            "broadcast-extension"],
+            null, //todo remove for real app
+            "LOCAL"  //todo remove for real app
     )
 }
