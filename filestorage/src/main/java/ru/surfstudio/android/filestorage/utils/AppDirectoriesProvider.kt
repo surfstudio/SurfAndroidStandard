@@ -16,7 +16,7 @@
 package ru.surfstudio.android.filestorage.utils
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import java.io.File
 
 object AppDirectoriesProvider {

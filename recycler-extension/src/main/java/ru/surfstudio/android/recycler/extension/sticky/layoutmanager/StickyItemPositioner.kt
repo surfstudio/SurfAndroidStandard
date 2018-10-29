@@ -17,17 +17,16 @@ package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
 import android.content.Context
 import android.os.Build
-import android.support.annotation.Px
-import android.support.annotation.VisibleForTesting
-import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.annotation.Px
+import androidx.annotation.VisibleForTesting
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.easyadapter.carousel.R
 
 /**

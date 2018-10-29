@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission
 
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.surfstudio.android.core.ui.permission.PermissionManager

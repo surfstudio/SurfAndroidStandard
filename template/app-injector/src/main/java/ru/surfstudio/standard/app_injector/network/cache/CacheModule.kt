@@ -1,7 +1,6 @@
 package ru.surfstudio.standard.app_injector.network.cache
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import ru.surfstudio.standard.i_network.cache.SimpleCacheInfoStorage
 import dagger.Module
 import dagger.Provides
@@ -11,7 +10,6 @@ import ru.surfstudio.android.network.BaseUrl
 import ru.surfstudio.android.network.cache.SimpleCacheFactory
 import ru.surfstudio.android.network.cache.SimpleCacheInterceptor
 import ru.surfstudio.android.network.cache.SimpleCacheUrlConnector
-import ru.surfstudio.standard.i_network.cache.SimpleCacheInfoStorage
 
 /**
  * Dagger-модуль для удовлетворения зависимостей классов, использующихся для кэширования
