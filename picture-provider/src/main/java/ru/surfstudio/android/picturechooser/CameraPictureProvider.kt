@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.picturechooser
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -27,6 +26,7 @@ import androidx.core.content.FileProvider
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import ru.surfstudio.android.picturechooser.exceptions.ExternalStorageException
@@ -38,8 +38,12 @@ import java.util.*
 /**
  *  Позволяет получить данные с камеры стороннего приложения
  */
-class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
-                            private val activity: Activity) {
+class CameraPictureProvider(
+        private val activityNavigator: ActivityNavigator,
+        private val activityProvider: ActivityProvider
+) {
+
+    private val currentActivity get() = activityProvider.get()
 
     fun startCameraIntent(): Observable<CameraResult> {
         val image = generatePicturePath()
@@ -48,7 +52,12 @@ class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
         val result = activityNavigator.observeResult<ResultData>(route)
                 .flatMap { result ->
                     if (result.isSuccess) {
-                        Observable.just(CameraResult(image.absolutePath, extractRotation(image.absolutePath)))
+                        Observable.just(
+                                CameraResult(
+                                        image.absolutePath,
+                                        extractRotation(image.absolutePath)
+                                )
+                        )
                     } else {
                         Observable.error(ActionInterruptedException())
                     }
@@ -91,7 +100,7 @@ class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
         try {
             val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
             mediaScanIntent.data = uri
-            activity.sendBroadcast(mediaScanIntent)
+            currentActivity.sendBroadcast(mediaScanIntent)
         } catch (e: Exception) {
             Logger.w(e)
         }
@@ -106,8 +115,9 @@ class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
     }
 
     private fun getAlbumDir(): File {
-        val sharedPicturesDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
-        val appDirName = activity.packageManager.getApplicationLabel(activity.applicationInfo).toString()
+        val sharedPicturesDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        val appDirName = getAppDirName()
         if (Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()) {
             return File(sharedPicturesDir, appDirName)
                     .apply {
@@ -122,23 +132,39 @@ class CameraPictureProvider(private val activityNavigator: ActivityNavigator,
         }
     }
 
+    private fun getAppDirName(): String {
+        val packageManager = currentActivity.packageManager
+        val appInfo = currentActivity.applicationInfo
+        return packageManager.getApplicationLabel(appInfo).toString()
+    }
+
     private inner class CameraRoute(val image: File) : ActivityWithResultRoute<ResultData>() {
         override fun prepareIntent(context: Context?): Intent {
             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             if (Build.VERSION.SDK_INT >= 24) {
-                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(activity,
-                        activity.applicationContext.packageName + ".provider",
-                        image))
+
+                takePictureIntent.putExtra(
+                        MediaStore.EXTRA_OUTPUT,
+                        FileProvider.getUriForFile(
+                                currentActivity,
+                                currentActivity.applicationContext.packageName + ".provider",
+                                image
+                        )
+                )
+
                 takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                 takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             } else {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image))
             }
-            return Intent.createChooser(takePictureIntent, activity.getString(R.string.choose_app))
+            return Intent.createChooser(
+                    takePictureIntent,
+                    currentActivity.getString(R.string.choose_app)
+            )
         }
     }
 
     private data class ResultData(val photoPath: String) : Serializable
-
-    data class CameraResult(val photoUrl: String, val rotation: Int)
 }
+
+data class CameraResult(val photoUrl: String, val rotation: Int)

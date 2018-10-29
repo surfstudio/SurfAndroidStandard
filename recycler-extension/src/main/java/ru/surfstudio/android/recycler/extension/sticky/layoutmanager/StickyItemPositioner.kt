@@ -12,15 +12,16 @@
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
- */package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
+ */
+package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
 import android.content.Context
 import android.os.Build
-import androidx.annotation.Px
-import androidx.annotation.VisibleForTesting
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import android.support.annotation.Px
+import android.support.annotation.VisibleForTesting
+import android.support.design.widget.CoordinatorLayout
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -133,14 +134,12 @@ class StickyItemPositioner(
                           viewRetriever: ViewRetriever?,
                           showFirstAtLaunch: Boolean
     ) {
-        Log.d("LOG", "1111 updateFooterState showFirstAtLaunch = $showFirstAtLaunch")
         //вычисляется позиция sticky header в общем списке item'ов
         val footerPositionToShow = if (!showFirstAtLaunch) {
             INVALID_POSITION
         } else {
             getFooterPositionToShow(lastVisibleItemPosition, visibleFooters[lastVisibleItemPosition])
         }
-        Log.d("LOG", "1111 footerPositionToShow = $footerPositionToShow")
         val footerToCopy = visibleFooters[footerPositionToShow]
         if (showFirstAtLaunch || footerPositionToShow != lastFooterBoundPosition) {
             if (footerPositionToShow == INVALID_POSITION || checkMargins && footerAwayFromEdge(footerToCopy)) { // We don't want to attach yet if header view is not at edge
@@ -148,9 +147,7 @@ class StickyItemPositioner(
                 safeDetachFooter()
                 lastFooterBoundPosition = INVALID_POSITION
             } else {
-                Log.d("LOG", "1111 до проверки")
                 if (currentFooterViewHolder == null) {
-                    Log.d("LOG", "1111 после проверки")
                     lastFooterBoundPosition = footerPositionToShow
                     val viewHolder = viewRetriever?.getViewHolderForPosition(footerPositionToShow)
                     attachFooter(viewHolder, footerPositionToShow)
@@ -264,7 +261,6 @@ class StickyItemPositioner(
         return offset
     }
 
-    //todo
     private fun offsetFooter(nextFooter: View): Float {
         val shouldOffsetFooter = shouldOffsetFooter(nextFooter)
         var offset = -1f
@@ -348,8 +344,6 @@ class StickyItemPositioner(
             lastVisiblePosition: Int,
             footerForPosition: View?
     ): Int {
-        Log.d("LOG", "1111 lastVisiblePosition = $lastVisiblePosition")
-        Log.d("LOG", "1111 footerForPosition = ${footerForPosition?.hashCode() ?: "null"}")
         var footerPositionToShow = INVALID_POSITION
         /*if (headerIsOffset(footerForPosition)) {
             val offsetHeaderIndex = footerPositions!!.indexOf(lastVisiblePosition)
@@ -360,20 +354,14 @@ class StickyItemPositioner(
             }
         }*/
         for (footerPosition in footerPositions!!) {
-            Log.d("LOG", "1111 footerPosition >= lastVisiblePosition = ${footerPosition >= lastVisiblePosition}")
-            Log.d("LOG", "1111 lastVisiblePosition = $lastVisiblePosition")
-            Log.d("LOG", "1111 footerPosition = $footerPosition")
             if (footerPosition >= lastVisiblePosition) {
-                //Log.d("LOG", "1111 footerPosition >= lastVisiblePosition = true")
                 footerPositionToShow = footerPosition
                 //нужен самый первый подходящий футер
                 break
             } else {
-                Log.d("LOG", "1111 footerPosition break")
                 continue
             }
         }
-        //Log.d("LOG", "1111 footerPositionToShow = $footerPositionToShow")
         return footerPositionToShow
     }
 
@@ -417,7 +405,6 @@ class StickyItemPositioner(
 
     @VisibleForTesting
     private fun attachFooter(viewHolder: RecyclerView.ViewHolder?, footerPosition: Int) {
-        Log.d("LOG", "1111 attach footer = $footerPosition")
         if (currentFooterViewHolder === viewHolder) {
             callDetachFooter(lastFooterBoundPosition)
             recyclerView?.adapter?.onBindViewHolder(currentFooterViewHolder!!, footerPosition)
@@ -490,7 +477,7 @@ class StickyItemPositioner(
     private fun checkTranslation() {
         val view = currentHeader ?: return
         view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            internal var previous = currentDimension()
+            var previous = currentDimension()
 
             override fun onGlobalLayout() {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -510,7 +497,9 @@ class StickyItemPositioner(
 
     private fun checkElevation() {
         if (headerElevation != ElevationMode.NO_ELEVATION.dp && currentHeader != null) {
-            if (orientation == LinearLayoutManager.VERTICAL && currentHeader!!.translationY == 0f || orientation == LinearLayoutManager.HORIZONTAL && currentHeader!!.translationX == 0f) {
+            if (orientation == LinearLayoutManager.VERTICAL &&
+                    currentHeader!!.translationY == 0f || orientation == LinearLayoutManager.HORIZONTAL &&
+                    currentHeader!!.translationX == 0f) {
                 elevateHeader()
             } else {
                 settleHeader()

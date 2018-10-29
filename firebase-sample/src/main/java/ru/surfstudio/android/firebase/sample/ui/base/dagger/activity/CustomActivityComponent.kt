@@ -4,6 +4,7 @@ import dagger.Component
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.firebase.sample.interactor.common.analytics.AnalyticsService
+import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule
 
@@ -16,4 +17,6 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
         modules = [(DefaultActivityModule::class)])
 interface CustomActivityComponent : DefaultActivityComponent {
     fun analyticsService(): AnalyticsService
+
+    fun pushInteractor(): PushInteractor
 }

@@ -12,9 +12,7 @@
 
 **[Release notes](RELEASE_NOTES.md)**
 
-[Workflow в репозитории](https://bitbucket.org/surfstudio/android-standard/wiki/Workflow)
-
-[Правила разработки модулей](https://bitbucket.org/surfstudio/android-standard/wiki/Rules)
+[Telegram чат](https://t.me/surf_android)
 
 ## **Использование**
 
@@ -34,9 +32,9 @@ dependencies {
 }
 ```
 
-Аткуальная стабильная версия: **0.2.1**
+Аткуальная стабильная версия: **0.3.0**
 
-Актуальная нестабильная версия: **0.3.0-SNAPSHOT**
+Актуальная нестабильная версия: **0.4.0-SNAPSHOT**
 
 Список всех артефактов [здесь][artifacts].
 

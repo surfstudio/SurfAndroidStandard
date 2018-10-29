@@ -13,18 +13,20 @@ import java.util.concurrent.TimeUnit
 class OkHttpModule {
 
     companion object {
-        private const val NETWORK_TIMEOUT = 10 //sec
+        private const val NETWORK_TIMEOUT = 10L //sec
     }
 
     @Provides
     @PerApplication
-    fun provideOkHttpClient(cacheInterceptor: SimpleCacheInterceptor,
-                                     etagInterceptor: EtagInterceptor,
-                                     httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(
+            cacheInterceptor: SimpleCacheInterceptor,
+            etagInterceptor: EtagInterceptor,
+            httpLoggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
         return OkHttpClient.Builder().apply {
-            connectTimeout(NETWORK_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            readTimeout(NETWORK_TIMEOUT.toLong(), TimeUnit.SECONDS)
-            writeTimeout(NETWORK_TIMEOUT.toLong(), TimeUnit.SECONDS)
+            connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+            readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
+            writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
 
             addInterceptor(cacheInterceptor)
             addInterceptor(etagInterceptor)

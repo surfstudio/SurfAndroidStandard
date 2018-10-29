@@ -7,8 +7,9 @@ import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
 import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.screen.FragmentScreenModule
 
-abstract class DialogScreenConfigurator(args: Bundle) :
-        BaseFragmentViewConfigurator<ActivityComponent, FragmentScreenModule>(args) {
+abstract class DialogScreenConfigurator(
+        args: Bundle
+) : BaseFragmentViewConfigurator<ActivityComponent, FragmentScreenModule>(args) {
 
     override fun getFragmentScreenModule(): FragmentScreenModule {
         return FragmentScreenModule(persistentScope)
@@ -19,6 +20,5 @@ abstract class DialogScreenConfigurator(args: Bundle) :
                 .persistentScope
                 .configurator
                 .activityComponent as ActivityComponent
-
     }
 }

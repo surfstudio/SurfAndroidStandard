@@ -2,6 +2,171 @@
 
 # Release Notes
 
+## 0.4.0 - SNAPSHOT
+
+#### analytics
+#### animations
+#### app-migration
+#### broadcast-extension
+#### connection
+#### converter-gson
+#### core-app
+#### core-mvp
+#### core-mvp-binding
+#### core-ui
+#### custom-view
+#### dagger-scope
+#### datalist-limit-offset
+#### datalist-limit-offset
+#### easyadapter
+#### filestorage
+#### firebase-analytics
+#### imageloader
+#### location
+
+* Исправлена потеря callback'а `LocationErrorResolution` во фрагменте
+
+#### logger
+#### message-controller
+#### mvp-dialog
+#### mvp-widget
+#### network
+#### picture-provider
+
+#### push
+
+* удален NotificationCenter - используйте `PushHandler`
+
+#### recycler-extension
+#### rx-extension
+#### rxbus
+#### shared-pref
+#### standard-dialog
+
+#### templates
+
+* обновлены file-шаблоны
+
+#### template
+
+* обновлены механизмы навигации в template
+
+#### util-ktx
+
+* ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
+помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
+
+## 0.3.0
+
+#### core-ui
+
+* ANDDEP-220 - исправлен баг `TabFragmentNavigator` с добавлением в бекстек
+* [`PermissionManager`](core-ui/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionManager.kt):
+    * переписан на Kotlin
+    * `PermissionManagerFor...` изменились конструкторы - теперь принимают дополнительно: SharedPrefs и Navigator
+    * Добавлен класс [`PermissionStatus`](core-ui/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionStatus.kt) -
+        оборачивает ответ на проверку разрешения.
+
+        Теперь `check(permissionRequest: PermissionRequest): PermissionStatus`.
+
+    * Расширен функционал: новые поля в [`PermissionRequest`](core-ui/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionRequest.kt),
+    возможность настроить диалог об объяснении причин запроса разрешения,
+    возможность показать необходимость перехода в настройки телефона;
+
+#### camera-view
+
+* ANDDEP-298 - Вынесение модуля camera-view в отдельный репозиторий
+
+#### easyadapter
+
+* ANDDEP-200 - Убрана рандомизация ViewType у ItemController
+* `getItemId` у контроллера - возвращает String
+
+#### filestorage
+
+* Добавлены утилиты для получения разных папок [`AppDirectoriesProvider`](filestorage/src/main/java/ru/surfstudio/android/filestorage/utils/AppDirectoriesProvider.kt)
+* Изменение `CacheConstant`. Теперь подразделяются на:
+    * `INTERNAL_CACHE_DIR_DAGGER_NAME == NO_BACKUP_STORAGE_DIR_NAME, BACKUP_STORAGE_DIR_NAME`
+    * `EXTERNAL_CACHE_DIR_DAGGER_NAME == CACHE_DIR_NAME`
+
+#### location
+
+* ANDDEP-21 - создан модуль для локации
+
+#### logger
+
+* ANDDEP-222 - добавлена возможность выбрать стратегию для логгирования
+
+#### mvp-binding
+
+* Переименован `onViewDetached()` -> `onViewDetach()`
+
+#### mvp-dialog
+
+* ANDDEP-243 - Исправление SimpleDialogDelegate - фикс неверного ключа
+
+#### push
+
+* NotificationCenter - устарел
+* Основным является `PushHandler` и его реализация
+* Теперь существует возможность конфигурировать помощник через даггер.
+* Существует возможность подписаться на пуш через `PushInteractor`
+* Добавлен `FcmStorage`
+
+#### recycler-extension
+
+* Изменен конструктор `StickyLayoutManager`
+* Удален `StickyBindableItemController`
+* Добавлен `StickyFooter` и соответсвующий контроллер
+* Добавлен `StickyHeader` и соответсвующий контроллер
+
+#### rx-bus
+
+* `RxBus` вынесен в отдельный модуль
+
+#### picture-provider
+
+* ANDDEP-235 - рефакторинг и добавление функцмонала:
+    * Кроме перехода сразу в галерею, появилась возможность выбрать файл и файлового менеджера
+    * Добавлен метод для предварительного сохранения изображения
+    * Добавлен класс-обертка над Uri
+* Фикс получения разрешения на доступ к камере
+* ANDDEP-286 - Исправление работы с remote-изображениями у PictureProvider
+* Заменены возвращаемые типы Observable -> Single
+
+#### utilktx
+
+* ANDDEP-258 - добавлены toggle-методы у основных оберток(`CheckableData`, `SelectableData`)
+* Добавлены расширения для работы с ClipboardManager :
+    * `copyTextToClipboard()` - копирует текст в буфер обмена
+* ANDDEP-211 добавлена возможность настраивать сдвиг часового пояса
+    и получать дефолтный для устройства
+
+#### template
+
+* ANDDEP-272 - DebugScreen
+* ANDDEP-250 - вынесены типы сборок в отдельный грэдл-файл
+* ANDDEP-254 - добавлен механизм подписи приложения - директория keystore.
+* ANDDEP-255 - создано минимальное тестовое окружения для тестирования
+    без эмулятора(Robolectric)
+* Добавлена возможность подключать модули локально. Описание [здесь](template/android-standard/README.md)
+
+
+#### общее
+
+* ANDDEP-221 - обновлены версии используемых библиотек
+* ANDDEP-230 - добавлены сэмплы на модули
+* ANDDEP-219 - проведена оптимизация импортов
+* ANDDEP-275 - фикс билда на студии 3.2 из-за AAPT2
+* ANDDEP-218 - добавлена основная документация к модулям
+* ANDDEP-231 - правила работы с Dagger в студии Surf
+* ANDDEP-302 - Изменены вызовы doOnDispose() на doFinally
+* ANDDEP-308 - Понижение minSdkVersion до 17
+* Удалены Dagger-зависимости из модулей
+* Теперь для подключения двух модулей, где первый зависит от второго,
+    необходимо подключить только первый. Зависимости подтянутся автоматически.
+
+
 ## 0.2.2-SNAPSHOT
 * Добавлен экспериментальный модуль Core mvp binding
 * В PictureProvider добавлен метод возвращающий Uri(вместо реального пути) выбранного файла

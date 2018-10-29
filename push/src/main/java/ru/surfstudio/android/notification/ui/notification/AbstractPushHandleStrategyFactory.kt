@@ -25,7 +25,9 @@ import java.util.*
 abstract class AbstractPushHandleStrategyFactory {
 
     //ключ события в data firebase'вского пуша
-    private val KEY = "event"
+    //
+    //Можно настроить свой формат в релизации фабрики
+    var key = "event"
 
     /**
      * Переопределяем с необходимым соответствием действий(типа пуша) и стратегий
@@ -36,8 +38,8 @@ abstract class AbstractPushHandleStrategyFactory {
      * Возвращает стратегию по данным пуша
      */
     fun createByData(data: Map<String, String>): PushHandleStrategy<*>? {
-        Logger.d("data : ${data[KEY]}")
-        return map[data[KEY]].apply {
+        Logger.d("data : ${data[key]}")
+        return map[data[key]].apply {
             this?.typeData?.setDataFromMap(data)
         }
     }

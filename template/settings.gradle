@@ -8,6 +8,8 @@ include ':template:app-injector',
         ':template:i-session',
         ':template:i-auth',
         ':template:f-auth',
-        ':template:f-main'
+        ':template:f-main',
+        ':template:f-debug',
+        ':template:f-splash'
 
 apply from: 'android-standard/androidStandardSettings.gradle'
