@@ -23,7 +23,7 @@ class SplashActivityView : BaseRenderableActivityView<SplashScreenModel>() {
 
     override fun getScreenName() = "splash"
 
-    override fun renderInternal(screenModel: SplashScreenModel) {
+    override fun renderInternal(sm: SplashScreenModel) {
         // Render splash screen
     }
 }

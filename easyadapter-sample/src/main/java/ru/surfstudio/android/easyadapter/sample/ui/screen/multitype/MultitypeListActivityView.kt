@@ -60,12 +60,12 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
 
     override fun getScreenName(): String = "Multitype List Activity"
 
-    override fun renderInternal(screenModel: MultitypeListScreenModel) {
+    override fun renderInternal(sm: MultitypeListScreenModel) {
         adapter.setItems(ItemList.create()
                 .add(emptyItemController)
-                .add(screenModel.firstData, screenModel.secondData, twoDataItemController)
-                .addAll(screenModel.firstDataList, firstDataItemController)
-                .addAll(screenModel.secondDataList, secondDataItemController))
+                .add(sm.firstData, sm.secondData, twoDataItemController)
+                .addAll(sm.firstDataList, firstDataItemController)
+                .addAll(sm.secondDataList, secondDataItemController))
     }
 
     private fun initRecycler() {

@@ -33,7 +33,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         show_complex_bottomsheet_dialog_btn.setOnClickListener { presenter.showComplexBottomSheetDialog() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

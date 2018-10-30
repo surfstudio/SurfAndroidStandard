@@ -15,11 +15,11 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
                                                  private val activityNavigator: ActivityNavigator
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
-    private val screenModel: MainScreenModel = MainScreenModel()
+    private val sm: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 
     fun openAnotherScreen() {

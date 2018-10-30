@@ -8,7 +8,7 @@ import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 
 public class MockActivityView extends BaseRenderableActivityView<MockScreenModel> {
     @Override
-    protected void renderInternal(MockScreenModel screenModel) {
+    protected void renderInternal(MockScreenModel sm) {
 
     }
 

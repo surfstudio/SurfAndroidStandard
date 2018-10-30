@@ -30,7 +30,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         initListeners()
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

@@ -25,11 +25,11 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 ) : BasePresenter<MainActivityView>(basePresenterDependency),
         SimpleDialogPresenter, SimpleBottomSheetDialogPresenter {
 
-    private val screenModel: MainScreenModel = MainScreenModel()
+    private val sm: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
         subscribe(rxBus.observeEvents(DataChangedEvent::class.java)) {
             view.showMessage("New value = ${it.sampleData.value} from ${it.eventType.name}")
         }
