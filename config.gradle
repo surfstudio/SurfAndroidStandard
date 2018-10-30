@@ -2,10 +2,10 @@ ext {
     //Android APK Build Meta Info
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
-    buildToolsVersion = "28.0.3"
+    buildToolsVersion = "27.0.3"
     minSdkVersion = 19
-    targetSdkVersion = 28
-    compileSdkVersion = 28
+    targetSdkVersion = 27
+    compileSdkVersion = 27
     debugVersionNameSuffix = ".debug"
 
     //lang
@@ -29,7 +29,7 @@ ext {
     rxBinding2Version = '2.1.1'                 //https://goo.gl/KQ5Vga
 
     //android framework
-    androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
+    androidGradleToolsVersion = '3.2.0'         //https://bit.ly/2NXD4Pe
     appcompatVersion = '27.1.1'
     firebaseCoreVersion = '16.0.3'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.3.1'
