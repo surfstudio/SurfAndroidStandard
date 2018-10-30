@@ -52,7 +52,6 @@ dependencies {
             "util-ktx",
             "standard-dialog",
             "message-controller",
-            "broadcast-extension"
-    ]
+            "broadcast-extension"]
     )
 }
