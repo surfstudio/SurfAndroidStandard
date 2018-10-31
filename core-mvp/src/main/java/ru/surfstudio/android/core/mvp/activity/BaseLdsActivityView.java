@@ -16,12 +16,12 @@
 package ru.surfstudio.android.core.mvp.activity;
 
 import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface;
 
 /**
  * базовый класс ActivityView c поддержкой
- * состояния загрузки {@link LoadState}
+ * состояния загрузки {@link LoadStateInterface}
  * Используется вместе с PlaceHolderViewInterface.
  *
  * @param <M>
@@ -37,7 +37,7 @@ public abstract class BaseLdsActivityView<M extends LdsScreenModel>
         renderInternal(screenModel);
     }
 
-    public void renderLoadState(LoadState loadState) {
+    public void renderLoadState(LoadStateInterface loadState) {
         getPlaceHolderView().render(loadState);
     }
 }

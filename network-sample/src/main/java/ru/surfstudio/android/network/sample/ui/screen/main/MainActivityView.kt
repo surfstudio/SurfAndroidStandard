@@ -7,17 +7,18 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
-import ru.surfstudio.android.core.mvp.model.state.LoadState
+import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.sample.R
 import ru.surfstudio.android.network.sample.domain.product.Product
 import ru.surfstudio.android.network.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
+import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
+import ru.surfstudio.standard.base_ui.placeholder.LoadState
 import javax.inject.Inject
 
 /**
@@ -68,7 +69,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
                 screenModel.paginationState)
     }
 
-    override fun renderLoadState(loadState: LoadState?) {
+    override fun renderLoadState(loadState: LoadStateInterface?) {
         super.renderLoadState(loadState)
         swipe_refresh_layout.goneIf(loadState != LoadState.NONE)
     }

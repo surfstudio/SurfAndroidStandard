@@ -15,12 +15,12 @@
  */
 package ru.surfstudio.android.core.mvp.model;
 
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
 import ru.surfstudio.android.easyadapter.pagination.PaginationState;
 
 /**
  * модель экрана с поддержкой
- * {@link LoadState}
+ * {@link LoadStateInterface}
  * {@link PaginationState}
  * <p>
  * работает в связке c BaseLdsSwrPgn...View

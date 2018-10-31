@@ -15,11 +15,11 @@
  */
 package ru.surfstudio.android.core.mvp.placeholder;
 
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
 
 /**
- * Интрефейс для вью отрисовывающей состояние {@link LoadState}
+ * Интрефейс для вью отрисовывающей состояние {@link LoadStateInterface}
  */
 public interface PlaceHolderViewInterface {
-    void render(LoadState loadState);
+    void render(LoadStateInterface loadState);
 }

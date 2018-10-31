@@ -2,13 +2,13 @@ package ru.surfstudio.android.filestorage.sample.ui.screen.main
 
 import android.support.annotation.StringRes
 import ru.surfstudio.android.core.app.StringsProvider
-import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.filestorage.sample.R
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.standard.base_ui.placeholder.LoadState
 import javax.inject.Inject
 
 /**
