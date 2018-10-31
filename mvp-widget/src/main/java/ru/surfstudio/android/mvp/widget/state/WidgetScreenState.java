@@ -52,6 +52,10 @@ public class WidgetScreenState implements ScreenState {
         currentState = States.CREATED;
     }
 
+    public void onViewReady() {
+        currentState = States.VIEW_READY;
+    }
+
     public void onStart() {
         currentState = States.STARTED;
     }
@@ -66,6 +70,10 @@ public class WidgetScreenState implements ScreenState {
 
     public void onStop() {
         currentState = States.STOPPED;
+    }
+
+    public void onViewDestroy() {
+        currentState = States.VIEW_DESTROYED;
     }
 
     public void onDestroy() {
@@ -121,10 +129,12 @@ public class WidgetScreenState implements ScreenState {
 
     public enum States {
         CREATED,
+        VIEW_READY,
         STARTED,
         RESUMED,
         PAUSED,
         STOPPED,
+        VIEW_DESTROYED,
         DESTROYED
     }
 }

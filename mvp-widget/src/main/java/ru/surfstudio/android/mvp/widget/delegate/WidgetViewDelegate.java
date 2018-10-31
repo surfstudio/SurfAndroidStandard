@@ -22,12 +22,8 @@ import java.util.List;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent;
-import ru.surfstudio.android.core.ui.event.lifecycle.state.OnRestoreStateEvent;
-import ru.surfstudio.android.core.ui.event.lifecycle.state.OnSaveStateEvent;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
-import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager;
@@ -51,7 +47,6 @@ public class WidgetViewDelegate {
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
     private String parentScopeId; // id родительского скоупа (необходим для получения уникального имени виджета)
     private List<ScreenEventResolver> eventResolvers;
-    private String currentScopeId;
 
     public <W extends View & CoreWidgetViewInterface> WidgetViewDelegate(W coreWidgetView,
                                                                          PersistentScopeStorage scopeStorage,
@@ -76,42 +71,26 @@ public class WidgetViewDelegate {
         runConfigurator();
         coreWidgetView.bindPresenters();
         coreWidgetView.onCreate();
-        Logger.d("11111 Widget sendEvent ViewReady");
-        getEventDelegateManager().onCreate();
+        getEventDelegateManager().onViewReady();
 
-        getScreenState().onStart();
-        Logger.d("11111 Widget sendEvent StartEvent");
         getEventDelegateManager().onStart();
-//        getEventDelegateManager().sendEvent(new OnViewReadyEvent());
-//        getEventDelegateManager().sendEvent(new OnStartEvent());
     }
 
 
     public void onResume() {
-        Logger.d("11111 Widget sendEvent Resume");
-        getScreenState().onResume();
         getEventDelegateManager().onResume();
-//        getEventDelegateManager().sendEvent(new OnResumeEvent());
     }
 
     public void onPause() {
-        Logger.d("11111 Widget sendEvent Pause");
-        getScreenState().onPause();
+
         getEventDelegateManager().onPause();
-//        getEventDelegateManager().sendEvent(new OnPauseEvent());
     }
 
-
     public void onDestroy() {
-        Logger.d("11111 Widget sendEvent Stop");
-        getScreenState().onStop();
+        //todo где вызвать destroy у DelegateManager???
         getEventDelegateManager().onStop();
-//        getEventDelegateManager().sendEvent(new OnStopEvent());
-        Logger.d("11111 Widget sendEvent ViewDestroy");
-        getEventDelegateManager().onViewDetach();
-//        getEventDelegateManager().sendEvent(new OnViewDestroyEvent());
+        getEventDelegateManager().onViewDestroy();
 
-        getScreenState().onDestroy();
         if (getScreenState().isCompletelyDestroyed()) {
             scopeStorage.remove(getScopeId());
         }
@@ -145,10 +124,11 @@ public class WidgetViewDelegate {
                     parentDelegateManager
             );
 
-            WidgetLifecycleManager lifecycleManager = new WidgetLifecycleManager(parentScope.getScreenState(), screenState, delegateManager);
-            parentDelegateManager.register(lifecycleManager, OnRestoreStateEvent.class);
-            parentDelegateManager.register(lifecycleManager, OnSaveStateEvent.class);
-            parentDelegateManager.register(lifecycleManager, OnCompletelyDestroyEvent.class);
+            WidgetLifecycleManager lifecycleManager = new WidgetLifecycleManager(
+                    parentScope.getScreenState(),
+                    screenState,
+                    delegateManager,
+                    parentDelegateManager);
 
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
                     delegateManager,
@@ -156,6 +136,7 @@ public class WidgetViewDelegate {
                     configurator,
                     getScopeId(),
                     lifecycleManager);
+
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }

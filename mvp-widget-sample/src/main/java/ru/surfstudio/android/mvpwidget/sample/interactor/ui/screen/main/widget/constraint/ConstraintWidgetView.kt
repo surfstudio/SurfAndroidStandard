@@ -30,7 +30,7 @@ class ConstraintWidgetView @JvmOverloads constructor(context: Context,
         this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello ${hashCode()} on pos $s"
     }
 
-    override fun getName() = "Constraint${hashCode()}"
+    override fun getName() = "ConstraintWidget"
 
     override fun createConfigurator() = ConstraintViewConfigurator()
 
