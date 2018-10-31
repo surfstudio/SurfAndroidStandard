@@ -44,7 +44,7 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
         initAdapter()
     }
 
-    override fun renderInternal(screenModel: CommonControllersDebugScreenModel) {}
+    override fun renderInternal(sm: CommonControllersDebugScreenModel) {}
 
     override fun getScreenName(): String = "debug_controllers"
 

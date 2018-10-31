@@ -47,9 +47,9 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
         swipe_refresh_layout.goneIf(loadState != LoadState.NONE)
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {
-        ip_tv.text = screenModel.ip?.value
-        placeholder.render(screenModel.loadState)
+    override fun renderInternal(sm: MainScreenModel) {
+        ip_tv.text = sm.ip?.value
+        placeholder.render(sm.loadState)
     }
 
     private fun initListeners() {

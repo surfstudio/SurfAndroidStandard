@@ -37,9 +37,9 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
         initListeners()
     }
 
-    override fun renderInternal(screenModel: FcmDebugScreenModel) {
-        val hasFcmToken = screenModel.hasFcmToken()
-        fcm_tv.text = screenModel.fcmToken
+    override fun renderInternal(sm: FcmDebugScreenModel) {
+        val hasFcmToken = sm.hasFcmToken()
+        fcm_tv.text = sm.fcmToken
         fcm_tv.goneIf(!hasFcmToken)
         container.goneIf(hasFcmToken)
     }

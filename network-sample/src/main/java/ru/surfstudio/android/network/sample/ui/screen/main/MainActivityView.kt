@@ -61,11 +61,11 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
         initRecycler()
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {
-        placeholder.render(screenModel.loadState)
+    override fun renderInternal(sm: MainScreenModel) {
+        placeholder.render(sm.loadState)
         adapter.setItems(ItemList.create()
-                .addAll(screenModel.productList, productItemController),
-                screenModel.paginationState)
+                .addAll(sm.productList, productItemController),
+                sm.paginationState)
     }
 
     override fun renderLoadState(loadState: LoadState?) {

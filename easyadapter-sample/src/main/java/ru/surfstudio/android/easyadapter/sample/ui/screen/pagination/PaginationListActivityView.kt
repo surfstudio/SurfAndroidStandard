@@ -44,9 +44,9 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
 
     override fun getScreenName(): String = "Pagination List Activity"
 
-    override fun renderInternal(screenModel: PaginationListScreenModel) {
+    override fun renderInternal(sm: PaginationListScreenModel) {
         adapter.setItems(ItemList.create()
-                .addAll(screenModel.pageList, controller), screenModel.paginationState)
+                .addAll(sm.pageList, controller), sm.paginationState)
     }
 
     private fun initRecycler() {

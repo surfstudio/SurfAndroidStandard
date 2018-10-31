@@ -22,5 +22,5 @@ class PushActivityView : BaseRenderableActivityView<PushScreenModel>() {
 
     override fun getScreenName(): String = "PushActivityView"
 
-    override fun renderInternal(screenModel: PushScreenModel?) { }
+    override fun renderInternal(sm: PushScreenModel?) { }
 }
