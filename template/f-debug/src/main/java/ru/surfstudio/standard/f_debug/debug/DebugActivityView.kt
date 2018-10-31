@@ -34,7 +34,7 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         initListeners()
     }
 
-    override fun renderInternal(screenModel: DebugScreenModel) {}
+    override fun renderInternal(sm: DebugScreenModel) {}
 
     override fun getScreenName(): String = "debug"
 

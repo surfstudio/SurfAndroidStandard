@@ -17,7 +17,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

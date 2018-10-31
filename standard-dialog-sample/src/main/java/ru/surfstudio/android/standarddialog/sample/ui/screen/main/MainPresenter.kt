@@ -17,7 +17,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
                                                  private val dialogNavigator: DialogNavigator
 ) : BasePresenter<MainActivityView>(basePresenterDependency), StandardDialogPresenter {
 
-    private val screenModel: MainScreenModel = MainScreenModel()
+    private val sm: MainScreenModel = MainScreenModel()
 
     companion object {
         private const val FIRST_DIALOG_TAG = "FIRST_DIALOG"
@@ -26,7 +26,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 
     override fun simpleDialogPositiveBtnAction(dialogTag: String) {

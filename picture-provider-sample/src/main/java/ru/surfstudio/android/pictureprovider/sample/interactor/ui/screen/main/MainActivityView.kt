@@ -40,7 +40,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         configureButton(R.id.chooser_save_btn) { presenter.openChooserAndSavePhoto() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> {
         return arrayOf(presenter)

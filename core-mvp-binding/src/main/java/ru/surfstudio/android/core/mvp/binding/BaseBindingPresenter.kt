@@ -15,16 +15,16 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
     @Suppress("LeakingThis") //для BindData не имеет значения какой именно объект передается в качестве source
     protected val bindsHolder = BindsHolder(this)
 
-    abstract val screenModel: M
+    abstract val sm: M
 
     override fun attachView(view: V) {
         super.attachView(view)
-        view.onBind(screenModel)
+        view.onBind(sm)
     }
 
     override fun onViewDetach() {
         super.onViewDetach()
-        view.onUnbind(screenModel)
+        view.onUnbind(sm)
     }
 
     override fun onDestroy() {
