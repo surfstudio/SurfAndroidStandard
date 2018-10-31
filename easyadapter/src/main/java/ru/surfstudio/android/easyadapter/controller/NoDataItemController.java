@@ -25,6 +25,10 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
  * Controller for item of RecyclerView without data {@link NoDataItem}
  * It used with {@link EasyAdapter} and {@link ItemList}
  *
+ * Подразумевается, что NoDataItemController должен иметь единичный instance, если их больше одного, то может возникнуть креш с ошибкой:
+ * java.lang.IllegalStateException: Two different ViewHolders have the same stable ID. Stable IDs in your adapter MUST BE unique and SHOULD NOT change.
+ * Для того, чтобы от неё избавиться, необходимо переопределить метод getItemId(), чтобы он возвращал различные ID. Например: item.hashCode()
+ *
  * @param <H> type of ViewHolder
  */
 public abstract class NoDataItemController<H extends RecyclerView.ViewHolder>
