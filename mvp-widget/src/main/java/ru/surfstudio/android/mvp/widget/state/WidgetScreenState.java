@@ -26,6 +26,9 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 /**
  * {@link ScreenState} для кастомной вью с презентером
  * Паразитирует на ScreenState родительской активити или фрагмента
+ * <p>
+ * todo по-хорошему необходимо сделать у виджета собственный ЖЦ,
+ * todo так как он может жить меньше экрана(в динамике)
  */
 
 public class WidgetScreenState implements ScreenState {
@@ -33,6 +36,7 @@ public class WidgetScreenState implements ScreenState {
     private CoreWidgetViewInterface coreWidget;
     private ScreenType parentType;
     private ScreenState parentState;
+    private States currentState;
 
     public WidgetScreenState(ScreenState parentState) {
         this.parentState = parentState;
@@ -44,9 +48,28 @@ public class WidgetScreenState implements ScreenState {
     public void onCreate(View widget, CoreWidgetViewInterface coreWidget) {
         this.widget = widget;
         this.coreWidget = coreWidget;
+
+        currentState = States.CREATED;
+    }
+
+    public void onStart() {
+        currentState = States.STARTED;
+    }
+
+    public void onResume() {
+        currentState = States.RESUMED;
+    }
+
+    public void onPause() {
+        currentState = States.PAUSED;
+    }
+
+    public void onStop() {
+        currentState = States.STOPPED;
     }
 
     public void onDestroy() {
+        currentState = States.DESTROYED;
         this.widget = null;
         this.coreWidget = null;
     }
@@ -63,7 +86,7 @@ public class WidgetScreenState implements ScreenState {
 
     @Override
     public boolean isCompletelyDestroyed() {
-        return parentState.isCompletelyDestroyed();
+        return currentState == States.DESTROYED && parentState.isCompletelyDestroyed();
     }
 
     @Override
@@ -90,5 +113,18 @@ public class WidgetScreenState implements ScreenState {
 
     public CoreWidgetViewInterface getCoreWidget() {
         return coreWidget;
+    }
+
+    public States getCurrentState() {
+        return currentState;
+    }
+
+    public enum States {
+        CREATED,
+        STARTED,
+        RESUMED,
+        PAUSED,
+        STOPPED,
+        DESTROYED
     }
 }

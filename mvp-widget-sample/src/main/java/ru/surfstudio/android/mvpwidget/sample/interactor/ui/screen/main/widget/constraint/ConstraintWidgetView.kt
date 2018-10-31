@@ -16,14 +16,21 @@ class ConstraintWidgetView @JvmOverloads constructor(context: Context,
                                                      defStyleAttr: Int = 0
 ) : CoreConstraintLayoutView(context, attrs, defStyleAttr) {
 
-    @Inject lateinit var presenter: ConstraintViewPresenter
+    @Inject
+    lateinit var presenter: ConstraintViewPresenter
 
     init {
         View.inflate(context, R.layout.widget_view, this)
-        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello $name"
+        render("init")
+
+        setOnClickListener { presenter.changeTextOnWidget() }
     }
 
-    override fun getName() = "Constraint widget view"
+    fun render(s: String) {
+        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello ${hashCode()} on pos $s"
+    }
+
+    override fun getName() = "Constraint${hashCode()}"
 
     override fun createConfigurator() = ConstraintViewConfigurator()
 

@@ -1,5 +1,6 @@
 package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.support.annotation.IdRes
@@ -7,6 +8,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.mvpwidget.sample.R
+import ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.constraint.ConstraintWidgetView
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
@@ -32,9 +34,14 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
-        constraint_widget.init()
-        frame_widget.init()
-        linear_widget.init()
-        relative_widget.init()
+        val v = ConstraintWidgetView(this)
+        v.setBackgroundColor(Color.CYAN)
+        content.addView(v)
+
+        btn.setOnClickListener { presenter.openListScreen() }
+//        constraint_widget.init()
+//        frame_widget.init()
+//        linear_widget.init()
+//        relative_widget.init()
     }
 }

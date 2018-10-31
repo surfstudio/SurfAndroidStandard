@@ -19,6 +19,7 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
+import android.view.View;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
@@ -65,6 +66,31 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     public WidgetViewDelegate createWidgetViewDelegate() {
         return MvpWidgetDelegateFactoryContainer.get().createWidgetViewDelegate(this);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        init();
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        widgetViewDelegate.onSaveInstanceState();
+        return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+
+        switch (visibility) {
+            case View.INVISIBLE:
+            case View.GONE: widgetViewDelegate.onPause();
+                break;
+            case View.VISIBLE: widgetViewDelegate.onResume();
+                break;
+        }
     }
 
     @Override

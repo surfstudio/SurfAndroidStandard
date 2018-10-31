@@ -21,8 +21,11 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import ru.surfstudio.android.core.ui.ScreenType;
@@ -47,6 +50,10 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     //тип эрана контейнера
     private ScreenType screenType;
     private boolean destroyed = false;
+
+    //todo набросок
+    private Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap = new HashMap<>();
+    private Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> throughDelegatesMap = new HashMap<>();
 
     public BaseScreenEventDelegateManager(List<ScreenEventResolver> eventResolvers,
                                           @Nullable ScreenEventDelegateManager parentDelegateManger,
@@ -73,18 +80,40 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         for (ScreenEventResolver eventResolver : supportedResolvers) {
             if (eventResolver.getEventEmitterScreenTypes().contains(screenType)
                     && (emitterType == null || screenType == emitterType)) {
-                delegates.add(delegate);
+//                delegates.add(delegate);
+                register(delegate, eventResolver.getEventType());
             } else {
                 if (parentDelegateManger == null) {
                     throw new IllegalStateException(String.format("No BaseScreenEventDelegateManager for register delegate %s",
                             delegate.getClass().getCanonicalName()));
                 }
-                throughDelegates.add(delegate);
+                addToMap(throughDelegatesMap, delegate, eventResolver.getEventType());
                 parentDelegateManger.registerDelegate(delegate);
             }
         }
     }
 
+    @Override
+    public <E extends ScreenEvent> void register(ScreenEventDelegate delegate, Class<E> event) {
+        assertNotDestroyed();
+
+        //todo проверить может ли делегат перхватить этот эвент?
+        addToMap(delegatesMap, delegate, event);
+    }
+
+    private <E extends ScreenEvent> void addToMap(Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap,
+                                                  ScreenEventDelegate delegate,
+                                                  Class<E> event) {
+        List<ScreenEventDelegate> delegates = delegatesMap.get(event);
+
+        if (delegates != null) {
+            delegates.add(delegate);
+        } else {
+            List<ScreenEventDelegate> list = new ArrayList<>();
+            list.add(delegate);
+            delegatesMap.put(event, list);
+        }
+    }
 
     @Override
     public <E extends ScreenEvent, D extends ScreenEventDelegate, R> R sendEvent(E event) {
@@ -98,38 +127,55 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
             throw new IllegalArgumentException(String.format("event %s cannot be emitted from %s",
                     event.getClass().getCanonicalName(), screenType));
         }
-        Class<D> delegateType = eventResolver.getDelegateType();
-        List<D> delegates = getDelegates(delegateType);
+        //Class<D> delegateType = eventResolver.getDelegateType();
+        List<D> delegates = (List<D>) delegatesMap.get(event.getClass());
+        if (delegates == null) {
+            delegates = (List<D>) Collections.EMPTY_LIST;
+        }
         return eventResolver.resolve(delegates, event);
     }
 
     @Override
-    public boolean unregisterDelegate(ScreenEventDelegate delegate) {
-        boolean removedFromCurrent = delegates.remove(delegate);
-        boolean removedFromParent = throughDelegates.remove(delegate)
+    public <E extends ScreenEvent> boolean unregisterDelegate(ScreenEventDelegate delegate,
+                                                              Class<E> event) {
+        boolean removedFromCurrent = false;
+        List delegateList = delegatesMap.get(event);
+        if (delegateList != null) {
+            removedFromCurrent = delegatesMap.get(event).remove(delegate);
+        }
+
+        boolean removedFromThrough = false;
+        List throughDelegatesList = throughDelegatesMap.get(event);
+        if (throughDelegatesList != null) {
+            removedFromThrough = throughDelegatesMap.get(event).remove(delegate);
+        }
+
+        boolean removedFromParent = removedFromThrough
                 && parentDelegateManger != null
-                && parentDelegateManger.unregisterDelegate(delegate);
+                && parentDelegateManger.unregisterDelegate(delegate, event);
         return removedFromCurrent || removedFromParent;
     }
 
     @Override
     public void destroy() {
         destroyed = true;
-        for (ScreenEventDelegate delegate : throughDelegates) {
-            if (parentDelegateManger != null) {
-                parentDelegateManger.unregisterDelegate(delegate);
+        for (Class<? extends ScreenEvent> event : throughDelegatesMap.keySet()) {
+            for (ScreenEventDelegate delegate : throughDelegatesMap.get(event)) {
+                if (parentDelegateManger != null) {
+                    parentDelegateManger.unregisterDelegate(delegate, event);
+                }
             }
         }
-        throughDelegates.clear();
-        delegates.clear();
+        throughDelegatesMap.clear();
+        delegatesMap.clear();
     }
 
-    private <D extends ScreenEventDelegate> List<D> getDelegates(Class<? extends D> clazz) {
+    /*private <D extends ScreenEventDelegate> List<D> getDelegates(Class<? extends D> clazz) {
         return Stream.of(delegates)
                 .filter(clazz::isInstance)
                 .map(delegate -> (D) delegate)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     private List<ScreenEventResolver> getEventResolversForDelegate(ScreenEventDelegate delegate) {
         List<ScreenEventResolver> resultResolvers = new ArrayList<>();
