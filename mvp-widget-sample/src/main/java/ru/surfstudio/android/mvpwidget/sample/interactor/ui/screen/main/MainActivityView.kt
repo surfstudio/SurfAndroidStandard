@@ -35,6 +35,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         val v = ConstraintWidgetView(this)
+        v.id = "idididid".hashCode()
         v.setBackgroundColor(Color.CYAN)
         content.addView(v)
 

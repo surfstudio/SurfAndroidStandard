@@ -20,6 +20,7 @@ import android.os.Parcelable;
 import android.view.View;
 
 import java.util.List;
+import java.util.UUID;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
@@ -64,12 +65,12 @@ public class WidgetViewDelegate {
 
     public void onCreate() {
         if (currentScopeId == null) {
-            currentScopeId = coreWidgetView.getName();
+            currentScopeId = UUID.randomUUID().toString();
         }
 
         initPersistentScope();
-        //todo немного напрягает управление скрин стейтом из двух сущностей
-        getScreenState().onCreate(widget, coreWidgetView);
+        getLifecycleManager().onCreate(widget, coreWidgetView, this);
+
         runConfigurator();
         coreWidgetView.bindPresenters();
         coreWidgetView.onCreate();
@@ -87,10 +88,14 @@ public class WidgetViewDelegate {
     }
 
     public void onDestroy() {
-        getLifecycleManager().onStop();
-        getLifecycleManager().onViewDestroy();
+        if (scopeStorage.isExist(getCurrentScopeId())) {
+            getLifecycleManager().onStop();
+            getLifecycleManager().onViewDestroy();
+        }
+    }
 
-        //не вызывается !!!! баг
+    //вызов происходит по срабатыванию родительского OnCompletelyDestroy
+    public void onCompletelyDestroy() {
         if (getScreenState().isCompletelyDestroyed()) {
             scopeStorage.remove(getCurrentScopeId());
         }

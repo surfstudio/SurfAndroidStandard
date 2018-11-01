@@ -16,13 +16,16 @@ class ListItemController(
 
     inner class Holder(parent: ViewGroup) : BindableViewHolder<Int>(parent, R.layout.item_list_list) {
 
+        val constraintWidgetView = itemView.constraint_w
+
         init {
             //todo find view here
             //itemView.setOnClickListener { onItemClick(itemView.hashCode().toString()) }
         }
 
         override fun bind(int: Int) {
-            itemView.constraint_w.render(int.toString())
+            constraintWidgetView.id = int
+            constraintWidgetView.render(int.toString())
         }
     }
 }

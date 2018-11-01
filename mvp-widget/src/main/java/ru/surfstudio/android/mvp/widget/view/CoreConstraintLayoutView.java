@@ -20,6 +20,7 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.View;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
@@ -41,11 +42,12 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     private WidgetViewDelegate widgetViewDelegate;
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, -1);
     }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
     }
 
     protected abstract CorePresenter[] getPresenters();
@@ -65,7 +67,8 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        init();
+//        init();
+        widgetViewDelegate.onCreate();
     }
 
     @SuppressLint("MissingSuperCall")
@@ -77,6 +80,11 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     public Parcelable superSavedInstanceState() {
         return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
+        super.dispatchRestoreInstanceState(container);
     }
 
     @SuppressLint("MissingSuperCall")
@@ -106,7 +114,6 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     public final void init() {
         widgetViewDelegate = createWidgetViewDelegate();
-        widgetViewDelegate.onCreate();
     }
 
     @Override

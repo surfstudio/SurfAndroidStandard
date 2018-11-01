@@ -92,7 +92,7 @@ public class WidgetScreenState implements ScreenState {
 
     @Override
     public boolean isCompletelyDestroyed() {
-        return currentState == States.DESTROYED && parentState.isCompletelyDestroyed();
+        return parentState.isCompletelyDestroyed();
     }
 
     @Override
