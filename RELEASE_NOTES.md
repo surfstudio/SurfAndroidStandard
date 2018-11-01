@@ -20,7 +20,6 @@
 * Добавлен метод для проверки подключения через Wi-Fi в [`ConnectionProvider`](connection/src/main/java/ru/surfstudio/android/connection/ConnectionProvider.java)
 
 #### mvp-widget
-* Добавлены интерфейсы-маркеры состояний для Widget
 
 #### imageloader
 * ANDDEP-317 Оптимизация [`ImageLoader`](imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):
