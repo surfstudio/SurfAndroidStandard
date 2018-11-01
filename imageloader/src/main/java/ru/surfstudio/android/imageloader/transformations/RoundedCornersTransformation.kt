@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.imageloader.transformations
 
+import android.content.Context
 import android.graphics.*
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 
