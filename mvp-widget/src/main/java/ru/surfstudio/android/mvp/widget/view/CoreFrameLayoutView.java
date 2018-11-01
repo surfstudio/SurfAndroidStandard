@@ -15,10 +15,12 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
@@ -30,10 +32,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
  * <p>
  * !!!ВАЖНО!!!
- * 1) Необходимо вызвать метод init во время onCreate() Activity или onActivityCreated() Fragment
- * 2) кастомная вьюшка с презентером может быть только в статической иерархии вью,
- * то есть должна создаваться при старте экрана, и не может быть использована при
- * динамическом создании вью, в том числе внутри элементов RecyclerView
+ * Пока нельзя использовать в ресайклере
  */
 
 
@@ -64,13 +63,51 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
+    public WidgetViewDelegate createWidgetViewDelegate() {
+        return MvpWidgetDelegateFactoryContainer.get().createWidgetViewDelegate(this);
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        init();
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        return widgetViewDelegate.onSaveInstanceState();
+    }
+
+    @Override
+    public Parcelable superSavedInstanceState() {
+        return super.onSaveInstanceState();
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
     protected void onRestoreInstanceState(Parcelable state) {
+        widgetViewDelegate.onRestoreState(state);
+    }
+
+    @Override
+    public void superRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
     }
 
     @Override
-    public WidgetViewDelegate createWidgetViewDelegate() {
-        return MvpWidgetDelegateFactoryContainer.get().createWidgetViewDelegate(this);
+    protected void onWindowVisibilityChanged(int visibility) {
+        super.onWindowVisibilityChanged(visibility);
+
+        switch (visibility) {
+            case View.INVISIBLE:
+            case View.GONE:
+                widgetViewDelegate.onPause();
+                break;
+            case View.VISIBLE:
+                widgetViewDelegate.onResume();
+                break;
+        }
     }
 
     @Override

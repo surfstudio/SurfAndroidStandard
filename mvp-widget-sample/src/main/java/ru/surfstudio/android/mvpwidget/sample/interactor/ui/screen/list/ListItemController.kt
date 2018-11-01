@@ -6,7 +6,9 @@ import ru.surfstudio.android.mvpwidget.sample.R
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 
-class ListItemController() : BindableItemController<Int, ListItemController.Holder>() {
+class ListItemController(
+        val onItemClick: (String) -> Unit
+) : BindableItemController<Int, ListItemController.Holder>() {
 
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
 
@@ -16,6 +18,7 @@ class ListItemController() : BindableItemController<Int, ListItemController.Hold
 
         init {
             //todo find view here
+            //itemView.setOnClickListener { onItemClick(itemView.hashCode().toString()) }
         }
 
         override fun bind(int: Int) {

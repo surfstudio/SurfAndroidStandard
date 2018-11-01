@@ -24,7 +24,9 @@ class ListActivityView : BaseRenderableActivityView<ListScreenModel>() {
 
     private val adapter = EasyAdapter()
 
-    private val listItemController = ListItemController()
+    private val listItemController = ListItemController {
+        presenter.finishWithHash()
+    }
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

@@ -15,6 +15,8 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
+import android.os.Parcelable;
+
 import ru.surfstudio.android.core.mvp.view.PresenterHolderCoreView;
 import ru.surfstudio.android.core.ui.HasName;
 import ru.surfstudio.android.core.ui.configurator.HasConfigurator;
@@ -57,4 +59,8 @@ public interface CoreWidgetViewInterface extends
     void init();
 
     void onCreate();
+
+    Parcelable superSavedInstanceState();
+
+    void superRestoreInstanceState(Parcelable state);
 }

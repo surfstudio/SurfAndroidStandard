@@ -27,8 +27,6 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
  * {@link ScreenState} для кастомной вью с презентером
  * Паразитирует на ScreenState родительской активити или фрагмента
  * <p>
- * todo по-хорошему необходимо сделать у виджета собственный ЖЦ,
- * todo так как он может жить меньше экрана(в динамике)
  */
 
 public class WidgetScreenState implements ScreenState {
@@ -127,6 +125,9 @@ public class WidgetScreenState implements ScreenState {
         return currentState;
     }
 
+    /**
+     * Состояние виджета
+     */
     public enum States {
         CREATED,
         VIEW_READY,

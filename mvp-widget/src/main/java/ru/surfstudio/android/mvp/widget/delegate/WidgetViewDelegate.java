@@ -16,6 +16,7 @@
 package ru.surfstudio.android.mvp.widget.delegate;
 
 
+import android.os.Parcelable;
 import android.view.View;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
+import ru.surfstudio.android.mvp.widget.state.WidgetParcelableState;
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
@@ -45,8 +47,9 @@ public class WidgetViewDelegate {
     private CoreWidgetViewInterface coreWidgetView;
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
-    private String parentScopeId; // id родительского скоупа (необходим для получения уникального имени виджета)
     private List<ScreenEventResolver> eventResolvers;
+
+    private String currentScopeId;
 
     public <W extends View & CoreWidgetViewInterface> WidgetViewDelegate(W coreWidgetView,
                                                                          PersistentScopeStorage scopeStorage,
@@ -59,14 +62,13 @@ public class WidgetViewDelegate {
         this.eventResolvers = eventResolvers;
     }
 
-  /*  public void initialize(@Nullable Bundle savedInstanceState) {
-        currentScopeId = savedInstanceState != null
-                ? savedInstanceState.getString(KEY_PSS_ID)
-                : UUID.randomUUID().toString();
-    }*/
-
     public void onCreate() {
+        if (currentScopeId == null) {
+            currentScopeId = coreWidgetView.getName();
+        }
+
         initPersistentScope();
+        //todo немного напрягает управление скрин стейтом из двух сущностей
         getScreenState().onCreate(widget, coreWidgetView);
         runConfigurator();
         coreWidgetView.bindPresenters();
@@ -75,7 +77,6 @@ public class WidgetViewDelegate {
 
         getEventDelegateManager().onStart();
     }
-
 
     public void onResume() {
         getEventDelegateManager().onResume();
@@ -87,17 +88,16 @@ public class WidgetViewDelegate {
     }
 
     public void onDestroy() {
-        //todo где вызвать destroy у DelegateManager???
         getEventDelegateManager().onStop();
         getEventDelegateManager().onViewDestroy();
 
         if (getScreenState().isCompletelyDestroyed()) {
-            scopeStorage.remove(getScopeId());
+            scopeStorage.remove(getCurrentScopeId());
         }
     }
 
     public WidgetViewPersistentScope getPersistentScope() {
-        return scopeStorage.get(getScopeId(), WidgetViewPersistentScope.class);
+        return scopeStorage.get(getCurrentScopeId(), WidgetViewPersistentScope.class);
     }
 
     private void runConfigurator() {
@@ -110,11 +110,8 @@ public class WidgetViewDelegate {
             throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
         }
 
-        parentScopeId = parentScope.getScopeId();
+        if (!scopeStorage.isExist(getCurrentScopeId())) {
 
-        if (!scopeStorage.isExist(getScopeId())) {
-
-            //todo отвзяать от скрин стейта экрана?
             WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
             BaseWidgetViewConfigurator configurator = coreWidgetView.createConfigurator();
             ScreenEventDelegateManager parentDelegateManager = parentScope.getScreenEventDelegateManager();
@@ -134,7 +131,7 @@ public class WidgetViewDelegate {
                     delegateManager,
                     screenState,
                     configurator,
-                    getScopeId(),
+                    getCurrentScopeId(),
                     lifecycleManager);
 
             configurator.setPersistentScope(persistentScope);
@@ -148,15 +145,28 @@ public class WidgetViewDelegate {
         return getPersistentScope().getScreenState();
     }
 
-    private String getScopeId() {
-        return coreWidgetView.getName() + parentScopeId;
+    private String getCurrentScopeId() {
+        return currentScopeId;
     }
 
     private WidgetLifecycleManager getEventDelegateManager() {
         return getPersistentScope().getLifecycleManager();
     }
 
-    public void onSaveInstanceState() {
+    //пока оставил методы для восстановления
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = coreWidgetView.superSavedInstanceState();
+        return new WidgetParcelableState(superState, currentScopeId);
+    }
 
+    public void onRestoreState(Parcelable state) {
+        if (!(state instanceof WidgetParcelableState)) {
+            coreWidgetView.superRestoreInstanceState(state);
+            return;
+        }
+
+        WidgetParcelableState savedState = (WidgetParcelableState) state;
+        currentScopeId = savedState.viewId;
+        coreWidgetView.superRestoreInstanceState(savedState.getSuperState());
     }
 }

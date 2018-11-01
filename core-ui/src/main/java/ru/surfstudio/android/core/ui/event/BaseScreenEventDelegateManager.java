@@ -17,16 +17,11 @@ package ru.surfstudio.android.core.ui.event;
 
 import android.support.annotation.Nullable;
 
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
@@ -39,10 +34,6 @@ import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
  */
 public class BaseScreenEventDelegateManager implements ScreenEventDelegateManager {
 
-    //список делегатов, зарегистрированных в этом менеджере
-    private Set<ScreenEventDelegate> delegates = new HashSet<>();
-    //список делегатов, переданных на регистрацию в родительский менеджер
-    private Set<ScreenEventDelegate> throughDelegates = new HashSet<>();
     //список всех поддерживаемых событий и их делегатов
     private List<ScreenEventResolver> eventResolvers;
     //родительский менеджер делегатов
@@ -51,8 +42,9 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     private ScreenType screenType;
     private boolean destroyed = false;
 
-    //todo набросок
+    //список делегатов, зарегистрированных в менеджере по эвенту
     private Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap = new HashMap<>();
+    //список делегатов, зарегистрированных в менеджере родителя по эвенту
     private Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> throughDelegatesMap = new HashMap<>();
 
     public BaseScreenEventDelegateManager(List<ScreenEventResolver> eventResolvers,
@@ -80,14 +72,13 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         for (ScreenEventResolver eventResolver : supportedResolvers) {
             if (eventResolver.getEventEmitterScreenTypes().contains(screenType)
                     && (emitterType == null || screenType == emitterType)) {
-//                delegates.add(delegate);
                 register(delegate, eventResolver.getEventType());
             } else {
                 if (parentDelegateManger == null) {
                     throw new IllegalStateException(String.format("No BaseScreenEventDelegateManager for register delegate %s",
                             delegate.getClass().getCanonicalName()));
                 }
-                addToMap(throughDelegatesMap, delegate, eventResolver.getEventType());
+                register(throughDelegatesMap, delegate, eventResolver.getEventType());
                 parentDelegateManger.registerDelegate(delegate);
             }
         }
@@ -97,11 +88,10 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     public <E extends ScreenEvent> void register(ScreenEventDelegate delegate, Class<E> event) {
         assertNotDestroyed();
 
-        //todo проверить может ли делегат перхватить этот эвент?
-        addToMap(delegatesMap, delegate, event);
+        register(delegatesMap, delegate, event);
     }
 
-    private <E extends ScreenEvent> void addToMap(Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap,
+    private <E extends ScreenEvent> void register(Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap,
                                                   ScreenEventDelegate delegate,
                                                   Class<E> event) {
         List<ScreenEventDelegate> delegates = delegatesMap.get(event);

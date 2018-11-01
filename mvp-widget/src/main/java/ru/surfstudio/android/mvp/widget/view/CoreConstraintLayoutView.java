@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
@@ -22,6 +23,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -30,10 +32,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
  * <p>
  * !!!ВАЖНО!!!
- * 1) Необходимо вызвать метод init во время onCreate() Activity или onActivityCreated() Fragment
- * 2) кастомная вьюшка с презентером может быть только в статической иерархии вью,
- * то есть должна создаваться при старте экрана, и не может быть использована при
- * динамическом создании вью, в том числе внутри элементов RecyclerView
+ * Пока нельзя использовать в ресайклере
  */
 
 
@@ -59,11 +58,6 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
-    }
-
-    @Override
     public WidgetViewDelegate createWidgetViewDelegate() {
         return MvpWidgetDelegateFactoryContainer.get().createWidgetViewDelegate(this);
     }
@@ -74,10 +68,26 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         init();
     }
 
+    @SuppressLint("MissingSuperCall")
     @Override
     protected Parcelable onSaveInstanceState() {
-        widgetViewDelegate.onSaveInstanceState();
+        return widgetViewDelegate.onSaveInstanceState();
+    }
+
+    @Override
+    public Parcelable superSavedInstanceState() {
         return super.onSaveInstanceState();
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        widgetViewDelegate.onRestoreState(state);
+    }
+
+    @Override
+    public void superRestoreInstanceState(Parcelable state) {
+        super.onRestoreInstanceState(state);
     }
 
     @Override

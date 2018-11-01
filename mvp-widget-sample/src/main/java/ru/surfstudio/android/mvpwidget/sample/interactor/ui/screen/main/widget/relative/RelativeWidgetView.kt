@@ -16,7 +16,8 @@ class RelativeWidgetView @JvmOverloads constructor(context: Context,
                                                    defStyleAttr: Int = 0
 ) : CoreRelativeLayoutView(context, attrs, defStyleAttr) {
 
-    @Inject lateinit var presenter: RelativeViewPresenter
+    @Inject
+    lateinit var presenter: RelativeViewPresenter
 
     init {
         View.inflate(context, R.layout.widget_view, this)

@@ -44,6 +44,12 @@ public interface ScreenEventDelegateManager {
      */
     void registerDelegate(ScreenEventDelegate delegate, @Nullable ScreenType emitterType);
 
+    /**
+     * регистрирует делегат на конкретное событие
+     * @param delegate
+     * @param event
+     * @param <E>
+     */
     <E extends ScreenEvent> void register(ScreenEventDelegate delegate, Class<E> event);
 
     /**
