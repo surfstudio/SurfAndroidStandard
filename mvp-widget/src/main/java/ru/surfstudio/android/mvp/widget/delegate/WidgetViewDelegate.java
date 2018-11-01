@@ -73,23 +73,22 @@ public class WidgetViewDelegate {
         runConfigurator();
         coreWidgetView.bindPresenters();
         coreWidgetView.onCreate();
-        getEventDelegateManager().onViewReady();
 
-        getEventDelegateManager().onStart();
+        getLifecycleManager().onViewReady();
+        getLifecycleManager().onStart();
     }
 
     public void onResume() {
-        getEventDelegateManager().onResume();
+        getLifecycleManager().onResume();
     }
 
     public void onPause() {
-
-        getEventDelegateManager().onPause();
+        getLifecycleManager().onPause();
     }
 
     public void onDestroy() {
-        getEventDelegateManager().onStop();
-        getEventDelegateManager().onViewDestroy();
+        getLifecycleManager().onStop();
+        getLifecycleManager().onViewDestroy();
 
         //не вызывается !!!! баг
         if (getScreenState().isCompletelyDestroyed()) {
@@ -150,7 +149,7 @@ public class WidgetViewDelegate {
         return currentScopeId;
     }
 
-    private WidgetLifecycleManager getEventDelegateManager() {
+    private WidgetLifecycleManager getLifecycleManager() {
         return getPersistentScope().getLifecycleManager();
     }
 

@@ -2,6 +2,8 @@ package ru.surfstudio.android.mvp.widget.event
 
 import android.os.Bundle
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.ui.event.base.ScreenEvent
+import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate
@@ -42,6 +44,28 @@ class WidgetLifecycleManager(
         OnStopDelegate,
         OnViewDestroyDelegate {
 
+    //разрешенные переходы по состояниям
+    private val allowedStateTransition = mapOf(
+            WidgetScreenState.States.CREATED to listOf(WidgetScreenState.States.VIEW_READY),
+            WidgetScreenState.States.VIEW_READY to listOf(WidgetScreenState.States.STARTED),
+            WidgetScreenState.States.STARTED to listOf(WidgetScreenState.States.RESUMED),
+            WidgetScreenState.States.RESUMED to listOf(WidgetScreenState.States.PAUSED),
+            WidgetScreenState.States.PAUSED to listOf(WidgetScreenState.States.RESUMED, WidgetScreenState.States.STOPPED),
+            WidgetScreenState.States.STOPPED to listOf(WidgetScreenState.States.STARTED, WidgetScreenState.States.VIEW_DESTROYED),
+            WidgetScreenState.States.VIEW_DESTROYED to listOf(WidgetScreenState.States.VIEW_READY, WidgetScreenState.States.DESTROYED)
+    )
+
+    //эвенты для состояний
+    private val eventsMap = mapOf(
+            WidgetScreenState.States.VIEW_READY to OnViewReadyEvent(),
+            WidgetScreenState.States.STARTED to OnStartEvent(),
+            WidgetScreenState.States.RESUMED to OnResumeEvent(),
+            WidgetScreenState.States.PAUSED to OnPauseEvent(),
+            WidgetScreenState.States.STOPPED to OnStopEvent(),
+            WidgetScreenState.States.VIEW_DESTROYED to OnViewDestroyEvent(),
+            WidgetScreenState.States.DESTROYED to OnCompletelyDestroyEvent()
+    )
+
     init {
         parentScreenEventDelegateManager.registerDelegate(this)
     }
@@ -56,53 +80,51 @@ class WidgetLifecycleManager(
 
     fun onViewReady() {
         if (parentState.isCompletelyDestroyed) return
-        if (screenState.currentState == WidgetScreenState.States.VIEW_DESTROYED || screenState.currentState == WidgetScreenState.States.CREATED) {
+
+        if (pushState(WidgetScreenState.States.VIEW_READY)) {
             screenState.onViewReady()
-            widgetScreenEventDelegateManager.sendEvent<OnViewReadyEvent, OnViewReadyDelegate, Unit>(OnViewReadyEvent())
         }
     }
 
     override fun onStart() {
-        if (screenState.currentState == WidgetScreenState.States.VIEW_READY || screenState.currentState == WidgetScreenState.States.STOPPED) {
+        if (pushState(WidgetScreenState.States.STARTED)) {
             screenState.onStart()
-            widgetScreenEventDelegateManager.sendEvent<OnStartEvent, OnStartDelegate, Unit>(OnStartEvent())
         }
     }
 
     override fun onResume() {
-        if (screenState.currentState.ordinal in (WidgetScreenState.States.STARTED.ordinal..WidgetScreenState.States.RESUMED.ordinal + 1)) {
+        if (pushState(WidgetScreenState.States.RESUMED)) {
             screenState.onResume()
-            widgetScreenEventDelegateManager.sendEvent<OnResumeEvent, OnResumeDelegate, Unit>(OnResumeEvent())
         }
     }
 
     override fun onPause() {
         if (parentState.isCompletelyDestroyed) return
-        if (screenState.currentState == WidgetScreenState.States.RESUMED) {
+
+        if (pushState(WidgetScreenState.States.PAUSED)) {
             screenState.onPause()
-            widgetScreenEventDelegateManager.sendEvent<OnPauseEvent, OnPauseDelegate, Unit>(OnPauseEvent())
         }
     }
 
     override fun onStop() {
         if (screenState.isCompletelyDestroyed) return
-        if (screenState.currentState == WidgetScreenState.States.PAUSED) {
+
+        if (pushState(WidgetScreenState.States.STOPPED)) {
             screenState.onStop()
-            widgetScreenEventDelegateManager.sendEvent<OnStopEvent, OnStopDelegate, Unit>(OnStopEvent())
         }
     }
 
     override fun onViewDestroy() {
         if (screenState.isCompletelyDestroyed) return
-        if (screenState.currentState == WidgetScreenState.States.STOPPED) {
+
+        if (pushState(WidgetScreenState.States.VIEW_DESTROYED)) {
             screenState.onViewDestroy()
-            widgetScreenEventDelegateManager.sendEvent<OnViewDestroyEvent, OnViewDestroyDelegate, Unit>(OnViewDestroyEvent())
         }
     }
 
     override fun onCompletelyDestroy() {
         when (screenState.currentState) {
-            WidgetScreenState.States.CREATED -> {
+            WidgetScreenState.States.CREATED, WidgetScreenState.States.VIEW_READY -> {
                 onStart()
                 onResume()
                 onPause()
@@ -130,6 +152,15 @@ class WidgetLifecycleManager(
         screenState.onDestroy()
         widgetScreenEventDelegateManager.sendEvent<OnCompletelyDestroyEvent, OnCompletelyDestroyDelegate, Unit>(OnCompletelyDestroyEvent())
         destroy()
+    }
+
+    private fun pushState(state: WidgetScreenState.States): Boolean {
+        if (allowedStateTransition[screenState.currentState]?.contains(state) ?: false) {
+            widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state]!!)
+            return true
+        }
+
+        return false
     }
 
     private fun destroy() {

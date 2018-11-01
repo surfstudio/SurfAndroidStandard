@@ -23,11 +23,49 @@ class ConstraintViewPresenter @Inject constructor(
 
     private var changeTextDisposable = Disposables.disposed()
 
+    override fun onLoad(viewRecreated: Boolean) {
+        super.onLoad(viewRecreated)
+        Logger.d("1111 Widget onLoad ${hashCode()}")
+    }
+
     override fun onFirstLoad() {
+        Logger.d("1111 Widget onFirstLoad ${hashCode()}")
         super.onFirstLoad()
         subscribe(activityNavigator.observeResult(ListActivityRoute::class.java), {
             Logger.i("111111 Widget observeResult $it")
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Logger.d("1111 Widget onStart ${hashCode()}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Logger.d("1111 Widget onResume ${hashCode()}")
+    }
+
+    override fun onPause() {
+        super.onPause()
+//        view.hashCode()
+        Logger.d("1111 Widget onPause ${hashCode()}")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        //view.hashCode()
+        Logger.d("1111 Widget onStop ${hashCode()}")
+    }
+
+    override fun onViewDetach() {
+        super.onViewDetach()
+        Logger.d("1111 Widget onViewDetach ${hashCode()}")
+    }
+
+    override fun onDestroy() {
+        Logger.d("1111 Widget onDestroy ${hashCode()}")
+        super.onDestroy()
     }
 
     fun changeTextOnWidget() {
