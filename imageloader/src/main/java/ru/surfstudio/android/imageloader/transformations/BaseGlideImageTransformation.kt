@@ -15,18 +15,60 @@
  */
 package ru.surfstudio.android.imageloader.transformations
 
-import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
+import android.content.Context
+import android.graphics.Bitmap
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.Transformation
+import com.bumptech.glide.load.engine.Resource
+import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
+import com.bumptech.glide.load.resource.bitmap.BitmapResource
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.util.Util
 import java.security.MessageDigest
 
 /**
  * Базовый класс для всех трансформаций
  */
-abstract class BaseGlideImageTransformation : BitmapTransformation() {
+abstract class BaseGlideImageTransformation : Transformation<Bitmap> {
 
     abstract fun getId(): String
 
+    protected abstract fun transform(
+            context: Context,
+            pool: BitmapPool,
+            toTransform: Bitmap,
+            outWidth: Int,
+            outHeight: Int
+    ): Bitmap?
+
     final override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update(getIdBytes())
+    }
+
+    override fun transform(
+            context: Context,
+            resource: Resource<Bitmap>,
+            outWidth: Int,
+            outHeight: Int
+    ): Resource<Bitmap> {
+        if (!Util.isValidDimensions(outWidth, outHeight)) {
+            throw IllegalArgumentException(
+                    "Невозможно применить трансформацию с шириной: " + outWidth + " или высотой: " + outHeight
+                            + " меньшими, или равными нуля, и не Target.SIZE_ORIGINAL")
+        }
+        val bitmapPool = Glide.get(context).bitmapPool
+        val toTransform = resource.get()
+        val targetWidth = if (outWidth == Target.SIZE_ORIGINAL) toTransform.width else outWidth
+        val targetHeight = if (outHeight == Target.SIZE_ORIGINAL) toTransform.height else outHeight
+        val transformed = transform(context, bitmapPool, toTransform, targetWidth, targetHeight)
+
+        val result = if (toTransform == transformed) {
+            resource
+        } else {
+            BitmapResource.obtain(transformed, bitmapPool)
+        }
+
+        return result ?: throw IllegalStateException("Невозможно применить трансформацию")
     }
 
     override fun hashCode() = getId().hashCode()
