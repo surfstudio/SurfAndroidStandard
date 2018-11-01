@@ -91,6 +91,7 @@ public class WidgetViewDelegate {
         getEventDelegateManager().onStop();
         getEventDelegateManager().onViewDestroy();
 
+        //не вызывается !!!! баг
         if (getScreenState().isCompletelyDestroyed()) {
             scopeStorage.remove(getCurrentScopeId());
         }
