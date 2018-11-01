@@ -21,7 +21,9 @@ import android.support.annotation.DrawableRes
 import android.support.annotation.FloatRange
 import android.support.annotation.WorkerThread
 import android.view.View
+import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
+import ru.surfstudio.android.imageloader.util.BlurStrategy
 
 /**
  * Универсальный интерфейс загрузчика изображений.
@@ -72,7 +74,16 @@ interface ImageLoaderInterface {
 
     /**
      * Указание политики кэширования.
+     * Метод предоставляет возможность настроить кеширование загруженных изображений на диске.
+     *
+     * @param cacheStrategy необходимая стратегия кеширования
+     */
+    fun cacheStrategy(cacheStrategy: CacheStrategy): ImageLoaderInterface
+
+    /**
+     * Указание возможности полного пропуска кеширования изображения
      * Метод предоставляет возможность отключить кэширование загруженных изображений в памяти и на диске.
+     * В случае указания политики кеширования, она перезапишется
      *
      * @param skipCache true - игнорировать кэш в памяти и на диске, false - использовать кэш в памяти и на диске
      */
@@ -125,10 +136,13 @@ interface ImageLoaderInterface {
      * @param isBlur флаг активации трансформации
      * @param blurRadiusPx радиус размытия
      * @param blurDownSampling уровень принудительного понижения качества разрешения изображения
+     * @param blurStrategy стратегия размытия изображения
      */
     fun blur(isBlur: Boolean = true,
              blurRadiusPx: Int = 25,
-             blurDownSampling: Int = 1): ImageLoaderInterface
+             blurDownSampling: Int = 1,
+             blurStrategy: BlurStrategy = BlurStrategy.RENDER_SCRIPT
+    ): ImageLoaderInterface
 
     /**
      * Наложение маски на изображение с поддержкой 9-patch маски.
