@@ -73,7 +73,7 @@ class WidgetLifecycleManager(
     fun onCreate(widgetView: View, coreWidgetView: CoreWidgetViewInterface, widgetViewDelegate: WidgetViewDelegate) {
         screenState.onCreate(widgetView, coreWidgetView)
 
-        //возможные проблемы
+        //возможные проблемы(так как держим ссылку на делегат, хоть и каждый раз обновляем)
         this.widgetViewDelegate = widgetViewDelegate
     }
 

@@ -25,7 +25,7 @@ class ConstraintViewPresenter @Inject constructor(
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        Logger.d("1111 Widget onLoad ${hashCode()}")
+        Logger.i("1111 Widget onLoad ${hashCode()}")
     }
 
     override fun onFirstLoad() {
@@ -38,33 +38,31 @@ class ConstraintViewPresenter @Inject constructor(
 
     override fun onStart() {
         super.onStart()
-        Logger.d("1111 Widget onStart ${hashCode()}")
+        Logger.i("1111 Widget onStart ${hashCode()}")
     }
 
     override fun onResume() {
         super.onResume()
-        Logger.d("1111 Widget onResume ${hashCode()}")
+        Logger.i("1111 Widget onResume ${hashCode()}")
     }
 
     override fun onPause() {
         super.onPause()
-//        view.hashCode()
-        Logger.d("1111 Widget onPause ${hashCode()}")
+        Logger.i("1111 Widget onPause ${hashCode()}")
     }
 
     override fun onStop() {
         super.onStop()
-        //view.hashCode()
-        Logger.d("1111 Widget onStop ${hashCode()}")
+        Logger.i("1111 Widget onStop ${hashCode()}")
     }
 
     override fun onViewDetach() {
         super.onViewDetach()
-        Logger.d("1111 Widget onViewDetach ${hashCode()}")
+        Logger.i("1111 Widget onViewDetach ${hashCode()}")
     }
 
     override fun onDestroy() {
-        Logger.d("1111 Widget onDestroy ${hashCode()}")
+        Logger.i("1111 Widget onDestroy ${hashCode()}")
         super.onDestroy()
     }
 
