@@ -20,11 +20,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Класс для создания разделителей у RecyclerView
@@ -32,28 +32,24 @@ import android.widget.LinearLayout
  * @param context контекст
  * @param resId id drawable-ресурса, который будет использоваться для отрисовки разделителей
  * @param orientation ориентация списка
- * @param headerCount количество верхних видимых элементов списка, между которыми не будет разделителей
- * @param footerCount количество нижних видимых элементов списка, между которыми не будет разделителей
+ * @param firstItemsCountWithoutDividers количество видимых элементов в начале списка, между которыми не будет разделителей
+ * @param lastItemsCountWithoutDividers количество видимых элементов в конце списка, между которыми не будет разделителей
  * @param leftPaddingPx padding слева между разделителями и RecyclerView (для вертикальных списков)
  * @param rightPaddingPx padding справа между разделителями и RecyclerView (для вертикальных списков)
  * @param topPaddingPx padding сверху между разделятелями и RecyclerView (для горизонтальных списков)
  * @param bottomPaddingPx padding снизу между разделятелями и RecyclerView (для горизонтальных списков)
- * @param drawBeforeFirst отрисовывать ли разделитель перед первым элементом списка
- * @param drawAfterLast отрисовывать ли разделитель после последнего элемента списка
  */
 @SuppressLint("DuplicateDivider")
 class DividerItemDecoration @JvmOverloads constructor(
         context: Context,
         @DrawableRes resId: Int,
         orientation: Int,
-        headerCount: Int = 0,
-        footerCount: Int = 0,
+        firstItemsCountWithoutDividers: Int = 0,
+        lastItemsCountWithoutDividers: Int = 0,
         var leftPaddingPx: Int = 0,
         var rightPaddingPx: Int = 0,
         var topPaddingPx: Int = 0,
-        var bottomPaddingPx: Int = 0,
-        var drawBeforeFirst: Boolean = false,
-        var drawAfterLast: Boolean = false
+        var bottomPaddingPx: Int = 0
 ) : RecyclerView.ItemDecoration() {
 
     companion object {
@@ -65,14 +61,14 @@ class DividerItemDecoration @JvmOverloads constructor(
 
     private var orientation: Int = VERTICAL_LIST
 
-    private var headerCount: Int = 0
-    private var footerCount: Int = 0
+    private var firstItemsCountWithoutDividers: Int = 0
+    private var lastItemsCountWithoutDividers: Int = 0
 
     init {
         setDividerDrawable(context, resId)
         setOrientation(orientation)
-        setHeaderCount(headerCount)
-        setFooterCount(footerCount)
+        setFirstItemsCountWithoutDividers(firstItemsCountWithoutDividers)
+        setLastItemsCountWithoutDividers(lastItemsCountWithoutDividers)
     }
 
     fun setDividerDrawable(context: Context, @DrawableRes resId: Int) {
@@ -88,18 +84,18 @@ class DividerItemDecoration @JvmOverloads constructor(
         this.orientation = orientation
     }
 
-    fun setHeaderCount(headerCount: Int) {
-        if (headerCount < 0) {
-            throw IllegalArgumentException("header count must be greater than 0")
+    fun setFirstItemsCountWithoutDividers(firstItemsCountWithoutDividers: Int) {
+        if (firstItemsCountWithoutDividers < 0) {
+            throw IllegalArgumentException("firstItemsCountWithoutDividers must be greater than 0")
         }
-        this.headerCount = headerCount
+        this.firstItemsCountWithoutDividers = firstItemsCountWithoutDividers
     }
 
-    fun setFooterCount(footerCount: Int) {
-        if (footerCount < 0) {
-            throw IllegalArgumentException("footer count must be greater than zero")
+    fun setLastItemsCountWithoutDividers(lastItemsCountWithoutDividers: Int) {
+        if (lastItemsCountWithoutDividers < 0) {
+            throw IllegalArgumentException("lastItemsCountWithoutDividers must be greater than 0")
         }
-        this.footerCount = footerCount
+        this.lastItemsCountWithoutDividers = lastItemsCountWithoutDividers
     }
 
     override fun onDraw(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
@@ -112,7 +108,7 @@ class DividerItemDecoration @JvmOverloads constructor(
 
     fun drawVertical(canvas: Canvas, parent: RecyclerView) {
         val startPosition = getStartPositionForDrawing(parent)
-        val finishPosition = getFinishPositionForDrawing(parent)
+        val finishPosition = parent.childCount - lastItemsCountWithoutDividers
 
         for (i in startPosition until finishPosition) {
             val child = parent.getChildAt(i)
@@ -130,7 +126,7 @@ class DividerItemDecoration @JvmOverloads constructor(
 
     fun drawHorizontal(canvas: Canvas, parent: RecyclerView) {
         val startPosition = getStartPositionForDrawing(parent)
-        val finishPosition = getFinishPositionForDrawing(parent)
+        val finishPosition = parent.childCount - lastItemsCountWithoutDividers
 
         for (i in startPosition until finishPosition) {
             val child = parent.getChildAt(i)
@@ -148,40 +144,23 @@ class DividerItemDecoration @JvmOverloads constructor(
 
     private fun getStartPositionForDrawing(parent: RecyclerView): Int {
         val currentFirstItemChild = parent.getChildAt(0)
-        var startPositionForDrawing = if (headerCount > 0) headerCount - 1 else 0
-        if (isFirstItem(currentFirstItemChild, parent) && !drawBeforeFirst) {
-            if (startPositionForDrawing == 0) {
-                startPositionForDrawing = 1
+        return if (isFirstItem(currentFirstItemChild, parent)) {
+            if (firstItemsCountWithoutDividers > 0) {
+                firstItemsCountWithoutDividers
             } else {
-                startPositionForDrawing++
+                1
+            }
+        } else {
+            if (firstItemsCountWithoutDividers > 0) {
+                firstItemsCountWithoutDividers - 1
+            } else {
+                0
             }
         }
-        return startPositionForDrawing
-    }
-
-    private fun getFinishPositionForDrawing(parent: RecyclerView): Int {
-        val currentLastItemChild = parent.getChildAt(parent.childCount - 1)
-        var finishPositionForDrawing = parent.childCount - footerCount
-        if (isLastItem(currentLastItemChild, parent)) {
-            if (drawAfterLast) {
-                if (footerCount > 0) {
-                    finishPositionForDrawing++
-                }
-            } else {
-                if (footerCount == 0) {
-                    finishPositionForDrawing--
-                }
-            }
-        }
-        return finishPositionForDrawing
     }
 
     private fun isFirstItem(child: View, parent: RecyclerView): Boolean {
         return parent.getChildAdapterPosition(child) == 0
-    }
-
-    private fun isLastItem(child: View, parent: RecyclerView): Boolean {
-        return parent.getChildAdapterPosition(child) == parent.adapter!!.itemCount - 1
     }
 
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView, state: RecyclerView.State) {
