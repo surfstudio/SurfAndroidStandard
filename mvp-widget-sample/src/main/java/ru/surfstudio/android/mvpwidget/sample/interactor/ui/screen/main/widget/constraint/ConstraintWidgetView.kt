@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.mvp.widget.view.CoreConstraintLayoutView
 import ru.surfstudio.android.mvpwidget.sample.R
 import javax.inject.Inject
@@ -17,8 +16,6 @@ class ConstraintWidgetView @JvmOverloads constructor(context: Context,
                                                      defStyleAttr: Int = 0
 ) : CoreConstraintLayoutView(context, attrs, defStyleAttr) {
 
-    private lateinit var mixin: String
-
     @Inject
     lateinit var presenter: ConstraintViewPresenter
 
@@ -29,7 +26,6 @@ class ConstraintWidgetView @JvmOverloads constructor(context: Context,
 
     fun render(s: String) {
         this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello ${hashCode()} on pos $s"
-        mixin = s
     }
 
     override fun getName() = "ConstraintWidget"

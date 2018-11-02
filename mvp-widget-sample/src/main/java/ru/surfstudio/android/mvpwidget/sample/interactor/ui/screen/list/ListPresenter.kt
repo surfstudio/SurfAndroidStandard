@@ -8,7 +8,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**
- * Презентер экрана todo
+ * Презентер экрана [ListActivityView]
  */
 @PerScreen
 class ListPresenter @Inject constructor(

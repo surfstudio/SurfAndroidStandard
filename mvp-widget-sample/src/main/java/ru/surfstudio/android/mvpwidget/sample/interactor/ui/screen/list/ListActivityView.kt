@@ -13,7 +13,7 @@ import ru.surfstudio.android.mvpwidget.sample.R
 import javax.inject.Inject
 
 /**
- * Вью экрана todo
+ * Вью экрана Cписка виджетов
  */
 class ListActivityView : BaseRenderableActivityView<ListScreenModel>() {
 

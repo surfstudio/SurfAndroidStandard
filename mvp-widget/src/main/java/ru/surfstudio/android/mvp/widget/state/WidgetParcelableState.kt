@@ -6,7 +6,6 @@ import android.support.v4.view.AbsSavedState
 
 /**
  * Стейт виджета
- * todo пока что оставил, но сейчас не используем рестор/сейв стейт у вью
  */
 class WidgetParcelableState : AbsSavedState {
 
