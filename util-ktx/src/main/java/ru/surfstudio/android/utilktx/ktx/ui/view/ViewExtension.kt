@@ -18,7 +18,7 @@ package ru.surfstudio.android.utilktx.ktx.ui.view
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.ShapeDrawable
-import android.support.annotation.ColorInt
+import androidx.annotation.ColorInt
 import android.view.View
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import android.view.ViewGroup.MarginLayoutParams

@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.f_splash
 
 import `is`.mdk.app.f_splash.R
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity

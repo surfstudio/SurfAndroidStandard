@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.navigation.fragment.route;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import ru.surfstudio.android.core.ui.navigation.Route;
 

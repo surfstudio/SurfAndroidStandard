@@ -23,8 +23,8 @@ class AnotherActivityView : BaseRenderableActivityView<AnotherScreenModel>() {
 
     override fun getScreenName(): String = "AnotherActivityView"
 
-    override fun renderInternal(screenModel: AnotherScreenModel) {
-        another_screen_et.setText(screenModel.email)
+    override fun renderInternal(sm: AnotherScreenModel) {
+        another_screen_et.setText(sm.email)
     }
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {

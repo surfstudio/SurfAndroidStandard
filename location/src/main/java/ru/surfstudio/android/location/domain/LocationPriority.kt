@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.location.domain
 
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 
 /**
  * Приоритет при определении местоположения.

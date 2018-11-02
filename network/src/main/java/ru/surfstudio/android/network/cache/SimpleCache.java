@@ -16,7 +16,7 @@
 package ru.surfstudio.android.network.cache;
 
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import org.jetbrains.annotations.NotNull;
 

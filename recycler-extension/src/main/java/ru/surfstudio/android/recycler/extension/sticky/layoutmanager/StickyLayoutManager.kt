@@ -16,9 +16,9 @@
 package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooter
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyHeader
 import java.util.*
