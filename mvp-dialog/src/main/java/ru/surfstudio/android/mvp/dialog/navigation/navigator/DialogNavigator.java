@@ -16,8 +16,8 @@
 package ru.surfstudio.android.mvp.dialog.navigation.navigator;
 
 
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;

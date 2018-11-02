@@ -1,6 +1,6 @@
 package ru.surfstudio.android.core.mvp.binding
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
 import ru.surfstudio.android.core.mvp.model.ScreenModel

@@ -13,6 +13,6 @@ dependencies {
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    implementation "com.android.support:recyclerview-v7:$appcompatVersion"
+    implementation "androidx.recyclerview:recyclerview:$androidxVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 }

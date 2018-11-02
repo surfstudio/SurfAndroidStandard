@@ -1,7 +1,7 @@
 package ru.surfstudio.android.mvp.dialog.simple.bottomsheet
 
 import android.os.Bundle
-import android.support.design.widget.BottomSheetDialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface

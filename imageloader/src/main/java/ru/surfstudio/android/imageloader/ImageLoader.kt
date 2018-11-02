@@ -18,9 +18,9 @@ package ru.surfstudio.android.imageloader
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.support.annotation.FloatRange
-import android.support.annotation.WorkerThread
+import androidx.annotation.DrawableRes
+import androidx.annotation.FloatRange
+import androidx.annotation.WorkerThread
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide

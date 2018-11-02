@@ -2,7 +2,7 @@ package ru.surfstudio.standard.util
 
 import android.os.Build
 import android.security.NetworkSecurityPolicy
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
 import org.junit.After

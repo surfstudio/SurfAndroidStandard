@@ -22,19 +22,19 @@
                 android:text="@string/apply_resolutions"
                 android:textColor="#000"/>
             
-            <android.support.v7.widget.AppCompatCheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_no_location_reprmission_resolution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_location_reprmission_resolution"/>
             
-            <android.support.v7.widget.AppCompatCheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_play_services_are_not_available_resolution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/play_services_are_not_available_resolution"/>
             
-            <android.support.v7.widget.AppCompatCheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/cb_resolvable_api_exception_resolution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

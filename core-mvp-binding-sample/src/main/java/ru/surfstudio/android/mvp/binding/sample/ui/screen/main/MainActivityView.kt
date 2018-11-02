@@ -2,7 +2,7 @@ package ru.surfstudio.android.mvp.binding.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.binding.BaseBindableActivityView
