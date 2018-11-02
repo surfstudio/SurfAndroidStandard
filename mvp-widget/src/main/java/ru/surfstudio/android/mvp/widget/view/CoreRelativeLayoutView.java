@@ -41,11 +41,13 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     private WidgetViewDelegate widgetViewDelegate;
 
     public CoreRelativeLayoutView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, -1);
     }
 
     public CoreRelativeLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        init();
     }
 
     @TargetApi(21)
@@ -70,7 +72,7 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        init();
+        widgetViewDelegate.onCreate();
     }
 
     @SuppressLint("MissingSuperCall")
@@ -113,7 +115,6 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     @Override
     public final void init() {
         widgetViewDelegate = createWidgetViewDelegate();
-        widgetViewDelegate.onCreate();
     }
 
     @Override

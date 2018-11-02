@@ -117,7 +117,6 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
             throw new IllegalArgumentException(String.format("event %s cannot be emitted from %s",
                     event.getClass().getCanonicalName(), screenType));
         }
-        //Class<D> delegateType = eventResolver.getDelegateType();
         List<D> delegates = (List<D>) delegatesMap.get(event.getClass());
         if (delegates == null) {
             delegates = (List<D>) Collections.EMPTY_LIST;
@@ -128,17 +127,8 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     @Override
     public <E extends ScreenEvent> boolean unregisterDelegate(ScreenEventDelegate delegate,
                                                               Class<E> event) {
-        boolean removedFromCurrent = false;
-        List delegateList = delegatesMap.get(event);
-        if (delegateList != null) {
-            removedFromCurrent = delegatesMap.get(event).remove(delegate);
-        }
-
-        boolean removedFromThrough = false;
-        List throughDelegatesList = throughDelegatesMap.get(event);
-        if (throughDelegatesList != null) {
-            removedFromThrough = throughDelegatesMap.get(event).remove(delegate);
-        }
+        boolean removedFromCurrent = isDelegateRemoved(delegate, event, delegatesMap);
+        boolean removedFromThrough = isDelegateRemoved(delegate, event, throughDelegatesMap);
 
         boolean removedFromParent = removedFromThrough
                 && parentDelegateManger != null
@@ -160,13 +150,6 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         delegatesMap.clear();
     }
 
-    /*private <D extends ScreenEventDelegate> List<D> getDelegates(Class<? extends D> clazz) {
-        return Stream.of(delegates)
-                .filter(clazz::isInstance)
-                .map(delegate -> (D) delegate)
-                .collect(Collectors.toList());
-    }*/
-
     private List<ScreenEventResolver> getEventResolversForDelegate(ScreenEventDelegate delegate) {
         List<ScreenEventResolver> resultResolvers = new ArrayList<>();
         for (ScreenEventResolver eventResolver : eventResolvers) {
@@ -185,6 +168,15 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
             }
         }
         return null;
+    }
+
+    private <E extends ScreenEvent> boolean isDelegateRemoved(ScreenEventDelegate delegate, Class<E> event, Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap) {
+        boolean removed = false;
+        List delegateList = delegatesMap.get(event);
+        if (delegateList != null) {
+            removed = delegateList.remove(delegate);
+        }
+        return removed;
     }
 
     private void assertNotDestroyed() {

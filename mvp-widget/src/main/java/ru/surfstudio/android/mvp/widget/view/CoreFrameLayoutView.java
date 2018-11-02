@@ -41,11 +41,13 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     private WidgetViewDelegate widgetViewDelegate;
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, -1);
     }
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        init();
     }
 
     @TargetApi(21)
@@ -70,7 +72,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        init();
+        widgetViewDelegate.onCreate();
     }
 
     @SuppressLint("MissingSuperCall")
@@ -112,7 +114,6 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
 
     @Override
     public final void init() {
-        widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.onCreate();
     }
 

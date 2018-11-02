@@ -24,7 +24,6 @@ import android.util.SparseArray;
 import android.view.View;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
-import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -67,7 +66,6 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-//        init();
         widgetViewDelegate.onCreate();
     }
 
@@ -104,9 +102,11 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
 
         switch (visibility) {
             case View.INVISIBLE:
-            case View.GONE: widgetViewDelegate.onPause();
+            case View.GONE:
+                widgetViewDelegate.onPause();
                 break;
-            case View.VISIBLE: widgetViewDelegate.onResume();
+            case View.VISIBLE:
+                widgetViewDelegate.onResume();
                 break;
         }
     }
