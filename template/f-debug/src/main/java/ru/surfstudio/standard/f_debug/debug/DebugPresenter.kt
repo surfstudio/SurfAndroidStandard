@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityRoute
 import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
+import ru.surfstudio.standard.f_debug.info.InfoDebugActivityRoute
 import javax.inject.Inject
 
 /**
@@ -16,6 +17,10 @@ class DebugPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val activityNavigator: ActivityNavigator
 ) : BasePresenter<DebugActivityView>(basePresenterDependency) {
+
+    fun openInfoScreen() {
+        activityNavigator.start(InfoDebugActivityRoute())
+    }
 
     fun openControllersScreen() {
         activityNavigator.start(CommonControllersDebugActivityRoute())

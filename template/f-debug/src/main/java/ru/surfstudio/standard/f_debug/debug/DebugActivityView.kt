@@ -41,5 +41,6 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
     private fun initListeners() {
         show_controllers_item_layout.setOnClickListener { presenter.openControllersScreen() }
         show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
+        show_info_item_layout.setOnClickListener { presenter.openInfoScreen() }
     }
 }
