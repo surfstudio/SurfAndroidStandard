@@ -2,8 +2,8 @@ package ru.surfstudio.standard.f_debug.common_controllers
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_common_controllers_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter

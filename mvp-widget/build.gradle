@@ -2,7 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     api "javax.inject:javax.inject:$javaInjectVersion"
-    api "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    api 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

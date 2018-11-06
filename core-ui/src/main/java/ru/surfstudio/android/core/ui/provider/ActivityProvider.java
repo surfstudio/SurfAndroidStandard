@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.provider;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import ru.surfstudio.android.core.ui.state.ActivityScreenState;
 

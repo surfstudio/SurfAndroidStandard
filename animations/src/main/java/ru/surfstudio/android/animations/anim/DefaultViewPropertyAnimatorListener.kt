@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.animations.anim
 
-import android.support.v4.view.ViewPropertyAnimatorListener
+import androidx.core.view.ViewPropertyAnimatorListener
 import android.view.View
 
 /**

@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.utilktx.ktx.ui.view
 
-import android.support.design.widget.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 
