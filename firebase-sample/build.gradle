@@ -8,6 +8,7 @@ android {
 
     defaultConfig {
         applicationId "ru.surfstudio.android.firebase.sample"
+        multiDexEnabled true
     }
 }
 
@@ -19,6 +20,8 @@ dependencies {
     implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    implementation 'com.android.support:multidex:1.0.3'
 
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 

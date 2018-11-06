@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.provider;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import ru.surfstudio.android.core.ui.state.ActivityScreenState;
 
@@ -25,10 +25,10 @@ import ru.surfstudio.android.core.ui.state.ActivityScreenState;
  * every call {@link this#get()} return actual Activity
  */
 public class ActivityProvider implements Provider<AppCompatActivity> {
+
     private ActivityScreenState screenState;
 
     public ActivityProvider(ActivityScreenState screenState) {
-
         this.screenState = screenState;
     }
 

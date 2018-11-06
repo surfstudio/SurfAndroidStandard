@@ -17,7 +17,7 @@ package ru.surfstudio.android.mvp.widget.view;
 
 import android.content.Context;
 import android.os.Parcelable;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.util.AttributeSet;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;

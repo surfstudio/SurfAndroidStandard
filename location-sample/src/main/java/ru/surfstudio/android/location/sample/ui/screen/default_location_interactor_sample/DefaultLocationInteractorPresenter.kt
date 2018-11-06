@@ -61,7 +61,7 @@ class DefaultLocationInteractorPresenter(
         )
 
         subscribeIo(
-                defaultLocationInteractor.observeLastKnownLocation(lastKnowLocationRequest),
+                defaultLocationInteractor.observeLastKnownLocationWithErrorsResolution(lastKnowLocationRequest),
                 { location: Location -> hideLoadingAndShowLocation(location) },
                 { hideLoadingAndShowNoLocation() },
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
@@ -80,7 +80,7 @@ class DefaultLocationInteractorPresenter(
         )
 
         subscribeIo(
-                defaultLocationInteractor.observeCurrentLocation(currentLocationRequest),
+                defaultLocationInteractor.observeCurrentLocationWithErrorsResolution(currentLocationRequest),
                 { location: Location -> hideLoadingAndShowLocation(location) },
                 { t: Throwable -> hideLoadingAndShowLocationIsNotAvailable(t) }
         )

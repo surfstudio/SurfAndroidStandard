@@ -16,8 +16,8 @@
 package ru.surfstudio.android.core.ui.permission
 
 import android.content.SharedPreferences
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 import java.util.HashMap
 
@@ -25,7 +25,7 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelegate
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 
-import android.support.v4.content.PermissionChecker.PERMISSION_GRANTED
+import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
@@ -176,7 +176,7 @@ abstract class PermissionManager(
                         singleEmitterPerRequestCode[permissionRequest.requestCode] = singleEmitter
                         performPermissionRequest(permissionRequest)
                     }
-                    .doOnDispose { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
+                    .doFinally { singleEmitterPerRequestCode.remove(permissionRequest.requestCode) }
 
     private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
         val customSettingsRationalRoute = permissionRequest.settingsRationalRoute

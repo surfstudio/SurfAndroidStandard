@@ -2,18 +2,8 @@
     package="ru.surfstudio.android.template.f_main">
 
     <application>
-
         <activity
             android:name="ru.surfstudio.standard.f_main.MainActivityView"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-
-                <action android:name="ru.surfstudio.android.template.intent.action.main_screen" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

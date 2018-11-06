@@ -20,12 +20,12 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.annotation.StyleRes
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.StyleRes
 import android.util.ArrayMap
 import android.util.AttributeSet
-import android.util.SparseArray
+import android.util.SparseIntArray
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
@@ -51,10 +51,11 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
  */
-open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
-                                                             attrs: AttributeSet? = null,
-                                                             defStyle: Int = R.attr.standardPlaceHolderStyle)
-    : FrameLayout(context, attrs, defStyle) {
+open class StandardPlaceHolderView @JvmOverloads constructor(
+        context: Context,
+        attrs: AttributeSet? = null,
+        defStyle: Int = R.attr.standardPlaceHolderStyle
+) : FrameLayout(context, attrs, defStyle) {
 
     @Suppress("MemberVisibilityCanBePrivate")
     var buttonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null    //обработчик нажатия на первую кнопку
@@ -503,12 +504,12 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
                                  var titleLineSpacingExtraPx: Int = 0,
                                  var subtitleLineSpacingExtraPx: Int = 0) {
 
-        private val loaderIndicatorLayoutList: SparseArray<Int> by lazy { initializeLoaderIndicatorLayout() }
+        private val loaderIndicatorLayoutList: SparseIntArray by lazy { initializeLoaderIndicatorLayout() }
 
         fun getLoaderIndicatorLayout(type: ProgressIndicatorType): Int = loaderIndicatorLayoutList.get(type.id)
 
-        private fun initializeLoaderIndicatorLayout(): SparseArray<Int> {
-            val loaderIndicatorLayoutList = SparseArray<Int>(28)
+        private fun initializeLoaderIndicatorLayout(): SparseIntArray {
+            val loaderIndicatorLayoutList = SparseIntArray(28)
             loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_BEAT_INDICATOR.id,
                     R.layout.loader_indicator_ball_beat)
             loaderIndicatorLayoutList.put(ProgressIndicatorType.BALL_CLIP_ROTATE_INDICATOR.id,
@@ -572,8 +573,10 @@ open class StandardPlaceHolderView @JvmOverloads constructor(context: Context,
     /**
      * Хранилище всех данных [StandardPlaceHolderView].
      */
-    data class PlaceholderDataContainer(var defaultViewData: ViewData = ViewData(),
-                                        private var viewDataMap: ArrayMap<PlaceholderStater.LoadState, ViewData> = ArrayMap()) {
+    data class PlaceholderDataContainer(
+            var defaultViewData: ViewData = ViewData(),
+            private var viewDataMap: ArrayMap<PlaceholderStater.LoadState, ViewData> = ArrayMap()
+    ) {
 
         data class ViewData(var title: String = "",
                             var subtitle: String = "",

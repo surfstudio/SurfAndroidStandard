@@ -23,7 +23,7 @@ class DataPushActivityView : BaseRenderableActivityView<DataPushScreenModel>() {
 
     override fun getScreenName(): String = "DataPushActivityView"
 
-    override fun renderInternal(screenModel: DataPushScreenModel) {
-        notification_tv.text = screenModel.notification?.previewText
+    override fun renderInternal(sm: DataPushScreenModel) {
+        notification_tv.text = sm.notification?.previewText
     }
 }

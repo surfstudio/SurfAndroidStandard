@@ -2,9 +2,9 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.multitype
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.v7.widget.LinearLayoutManager
-import androidx.core.widget.toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.multitype_list_layout.*
+import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
@@ -60,12 +60,12 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
 
     override fun getScreenName(): String = "Multitype List Activity"
 
-    override fun renderInternal(screenModel: MultitypeListScreenModel) {
+    override fun renderInternal(sm: MultitypeListScreenModel) {
         adapter.setItems(ItemList.create()
                 .add(emptyItemController)
-                .add(screenModel.firstData, screenModel.secondData, twoDataItemController)
-                .addAll(screenModel.firstDataList, firstDataItemController)
-                .addAll(screenModel.secondDataList, secondDataItemController))
+                .add(sm.firstData, sm.secondData, twoDataItemController)
+                .addAll(sm.firstDataList, firstDataItemController)
+                .addAll(sm.secondDataList, secondDataItemController))
     }
 
     private fun initRecycler() {

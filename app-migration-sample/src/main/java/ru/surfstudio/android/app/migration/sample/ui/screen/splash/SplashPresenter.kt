@@ -24,7 +24,7 @@ internal class SplashPresenter @Inject constructor(basePresenterDependency: Base
         private const val TRANSITION_DELAY_MS = 4000L
     }
 
-    private val screenModel = SplashScreenModel()
+    private val sm = SplashScreenModel()
 
     // выбор роута для следующего экрана может зависеть от некоторой логики
     // например, в зависимости от того, авторизован ли пользователь
@@ -33,7 +33,7 @@ internal class SplashPresenter @Inject constructor(basePresenterDependency: Base
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
         if (!viewRecreated) {
             subscribeIoHandleError(
                     initializeAppInteractor

@@ -2,9 +2,9 @@ package ru.surfstudio.android.network.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
-import android.support.v4.widget.SwipeRefreshLayout
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.IdRes
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
 import ru.surfstudio.android.core.mvp.model.state.LoadState
@@ -61,11 +61,11 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
         initRecycler()
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {
-        placeholder.render(screenModel.loadState)
+    override fun renderInternal(sm: MainScreenModel) {
+        placeholder.render(sm.loadState)
         adapter.setItems(ItemList.create()
-                .addAll(screenModel.productList, productItemController),
-                screenModel.paginationState)
+                .addAll(sm.productList, productItemController),
+                sm.paginationState)
     }
 
     override fun renderLoadState(loadState: LoadState?) {

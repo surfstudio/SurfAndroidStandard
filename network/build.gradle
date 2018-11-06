@@ -1,6 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
+    api "javax.inject:javax.inject:$javaInjectVersion"
+
     // network
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
@@ -8,7 +10,7 @@ dependencies {
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation "com.annimon:stream:$annimonStreamVersion"
-    implementation "com.android.support:support-annotations:$appcompatVersion"
+    implementation "androidx.annotation:annotation:$androidxVersion"
 
     //tests
     testImplementation "junit:junit:$junitVersion"
@@ -17,14 +19,13 @@ dependencies {
     testImplementation "org.powermock:powermock-api-mockito2:$powerMockVersion"
     testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
 
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation 'androidx.test:runner:1.1.0-beta01'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-beta01'
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
         'filestorage',
         'logger',
-        'dagger-scope',
         'connection',
         'rx-extension',
         'util-ktx'

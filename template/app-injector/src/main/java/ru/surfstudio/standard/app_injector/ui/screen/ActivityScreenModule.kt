@@ -22,41 +22,48 @@ import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.ui.error.ErrorHandlerModule
 import javax.inject.Named
 
-@Module(includes = [(ErrorHandlerModule::class)])
-class ActivityScreenModule(private val activityViewPersistentScope: ActivityViewPersistentScope)
-    : ScreenModule() {
+@Module(includes = [ErrorHandlerModule::class])
+class ActivityScreenModule(
+        private val activityViewPersistentScope: ActivityViewPersistentScope
+) : ScreenModule() {
 
     @Provides
     @PerScreen
-    fun providePersistentScope(persistentScope: ActivityPersistentScope): ScreenPersistentScope {
+    internal fun providePersistentScope(persistentScope: ActivityPersistentScope): ScreenPersistentScope {
         return persistentScope
     }
 
     @Provides
     @PerScreen
-    fun provideScreenState(persistentScope: ActivityPersistentScope): ScreenState {
+    internal fun provideScreenState(persistentScope: ActivityPersistentScope): ScreenState {
         return persistentScope.screenState
     }
 
     @Provides
     @PerScreen
-    fun provideEventDelegateManagerProvider(persistentScope: ScreenPersistentScope): ScreenEventDelegateManager {
+    internal fun provideEventDelegateManagerProvider(
+            persistentScope: ScreenPersistentScope
+    ): ScreenEventDelegateManager {
         return persistentScope.screenEventDelegateManager
     }
 
     @Provides
     @PerScreen
-    fun provideActivityNavigator(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): ActivityNavigator {
+    internal fun provideActivityNavigator(
+            activityProvider: ActivityProvider,
+            eventDelegateManager: ScreenEventDelegateManager
+    ): ActivityNavigator {
         return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
     }
 
     @Provides
     @PerScreen
-    fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
-                                 activityNavigator: ActivityNavigator,
-                                 @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
-                                 activityProvider: ActivityProvider): PermissionManager {
+    internal fun providePermissionManager(
+            eventDelegateManager: ScreenEventDelegateManager,
+            activityNavigator: ActivityNavigator,
+            @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+            activityProvider: ActivityProvider
+    ): PermissionManager {
         return PermissionManagerForActivity(
                 eventDelegateManager,
                 activityNavigator,
@@ -67,13 +74,13 @@ class ActivityScreenModule(private val activityViewPersistentScope: ActivityView
 
     @Provides
     @PerScreen
-    fun provideMessageController(activityProvider: ActivityProvider): MessageController {
+    internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {
         return DefaultMessageController(activityProvider)
     }
 
     @Provides
     @PerScreen
-    fun provideDialogNavigator(activityProvider: ActivityProvider): DialogNavigator {
+    internal fun provideDialogNavigator(activityProvider: ActivityProvider): DialogNavigator {
         return DialogNavigatorForActivity(activityProvider, activityViewPersistentScope)
     }
 }

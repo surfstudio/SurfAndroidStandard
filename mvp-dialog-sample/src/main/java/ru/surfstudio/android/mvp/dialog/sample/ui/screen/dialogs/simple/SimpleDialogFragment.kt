@@ -2,7 +2,7 @@ package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import ru.surfstudio.android.mvp.dialog.sample.R
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 import javax.inject.Inject

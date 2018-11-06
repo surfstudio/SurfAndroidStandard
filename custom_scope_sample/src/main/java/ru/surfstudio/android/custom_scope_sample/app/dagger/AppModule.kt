@@ -4,6 +4,7 @@ import android.content.Context
 
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
@@ -42,7 +43,13 @@ class AppModule(private val coreApp: CoreApp) {
 
     @Provides
     @PerApplication
-    fun provideSchedulerProvider(): SchedulersProvider {
+    internal fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
+        return ConnectionProvider(context)
     }
 }
