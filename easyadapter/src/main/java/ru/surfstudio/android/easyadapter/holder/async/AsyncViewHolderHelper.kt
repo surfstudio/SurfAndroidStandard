@@ -1,59 +1,66 @@
 package ru.surfstudio.android.easyadapter.holder.async
 
-import android.animation.*
 import android.content.Context
 import android.support.annotation.LayoutRes
 import android.support.v4.view.AsyncLayoutInflater
 import android.support.v4.view.ViewCompat
 import android.support.v4.view.ViewPropertyAnimatorListener
 import android.support.v4.view.animation.FastOutLinearInInterpolator
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 
 private const val SHARED_PREFERENCE_NAME = "async-view-holder"
 
-internal fun inflateStubView(
-        parent: ViewGroup,
-        @LayoutRes stubLayoutId: Int,
-        viewHolderName: String
+internal fun AsyncViewHolder.inflateStubView(
+        itemView: ViewGroup,
+        @LayoutRes stubLayoutId: Int
 ): View {
-    return FrameLayout(parent.context).apply {
-        val height = getStubHeight(parent.context, viewHolderName)
+    return itemView.apply {
+        val height = getStubHeight(itemView.context, holderKey)
 
         layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 if (height != -1) height else ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        LayoutInflater.from(parent.context).inflate(stubLayoutId, this, true)
+        LayoutInflater.from(itemView.context).inflate(stubLayoutId, this, true)
     }
 }
 
 internal fun AsyncViewHolder.inflateItemView(
+        parent: ViewGroup,
         itemView: View,
         @LayoutRes layoutId: Int,
-        viewHolderName: String,
         endAction: () -> Unit = {}
 ) {
     itemView as FrameLayout
 
     AsyncLayoutInflater(itemView.context).inflate(layoutId, itemView) { view, _, _ ->
         val stubHeight = itemView.height
-        val itemHeight = view.layoutParams.height
+        val itemHeight = calcItemHeight(parent as RecyclerView, view)
 
-        saveStubHeight(itemView.context, viewHolderName, itemHeight)
+        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewDetachedFromWindow(v: View) {}
+
+            override fun onViewAttachedToWindow(v: View) {
+                println("view.height ${v.height}")
+            }
+
+        })
+
+        saveStubHeight(itemView.context, holderKey, itemHeight)
 
         itemView.removeAllViews()
         fadeIn(itemView)
         itemView.addView(view)
-        toSize(itemView, itemHeight, stubHeight)
+        toSize(itemView, stubHeight, itemHeight)
 
         isItemViewInflated = true
-
         endAction()
+        inflateFinish(view)
     }
 }
 
@@ -89,38 +96,8 @@ private fun AsyncViewHolder.fadeIn(view: View) {
             .setInterpolator(FastOutLinearInInterpolator())
             .setListener(animatorListener)
             .withEndAction {
-                fadeInAction()
+                fadeInFinish()
             }
-}
-
-private fun AsyncViewHolder.toSize(itemView: ViewGroup,
-                                   height: Int,
-                                   oldHeight: Int) {
-    if (resizeDuration == 0L || height == oldHeight) return
-
-    val animator = ValueAnimator.ofInt(oldHeight, height).apply {
-        duration = resizeDuration
-
-        addUpdateListener {
-            itemView.layoutParams.height = it.animatedValue as Int
-            itemView.requestLayout()
-        }
-
-        addListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {}
-            override fun onAnimationCancel(animation: Animator?) {}
-            override fun onAnimationStart(animation: Animator?) {}
-            override fun onAnimationEnd(animation: Animator?) {
-                resizeAction()
-            }
-        })
-    }
-
-    AnimatorSet().apply {
-        play(animator)
-        interpolator = AccelerateDecelerateInterpolator()
-        start()
-    }
 }
 
 private fun saveStubHeight(context: Context, viewHolderName: String, height: Int) {
@@ -133,4 +110,17 @@ private fun saveStubHeight(context: Context, viewHolderName: String, height: Int
 private fun getStubHeight(context: Context, viewHolderName: String): Int {
     return context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
             .getInt(viewHolderName, -1)
+}
+
+private fun calcItemHeight(recyclerView: RecyclerView, view: View) = when (view.layoutParams.height) {
+    ViewGroup.LayoutParams.MATCH_PARENT -> {
+        view.measure(view.layoutParams.width, ViewGroup.LayoutParams.MATCH_PARENT)
+        recyclerView.height
+
+    }
+    ViewGroup.LayoutParams.WRAP_CONTENT -> {
+        view.measure(view.layoutParams.width, ViewGroup.LayoutParams.WRAP_CONTENT)
+        view.measuredHeight
+    }
+    else -> view.layoutParams.height
 }

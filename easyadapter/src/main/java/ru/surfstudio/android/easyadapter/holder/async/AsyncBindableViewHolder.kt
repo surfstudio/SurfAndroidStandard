@@ -2,30 +2,31 @@ package ru.surfstudio.android.easyadapter.holder.async
 
 import android.support.annotation.LayoutRes
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import ru.surfstudio.android.easyadapter.R
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 
-/**
- * Имплементация BindableViewHolder для асинхроного инфлейта layoutId
- */
-abstract class AsyncBindableViewHolder<T>(
-        parent: ViewGroup,
-        @LayoutRes private val layoutId: Int,
-        name: String,
-        @LayoutRes stubLayoutId: Int = R.layout.async_stub_layout
-) : BindableViewHolder<T>(inflateStubView(parent, stubLayoutId, name)), AsyncViewHolder {
+abstract class AsyncBindableViewHolder<T> private constructor(
+        parent: ViewGroup
+) : BindableViewHolder<T>(FrameLayout(parent.context)), AsyncViewHolder {
     final override var isItemViewInflated = false
-
-    final override var fadeInDuration: Long = 500L
-    final override var fadeInAction: () -> Unit = {}
-
-    final override var resizeDuration: Long = 500L
-    final override var resizeAction: () -> Unit = {}
+    final override var fadeInDuration = 1500L
+    final override var resizeDuration = 1500L
 
     private var data: T? = null
 
-    init {
-        inflateItemView(itemView, layoutId, name) {
+    /**
+     * Имплементация BindableViewHolder для асинхроного инфлейта layoutId
+     *
+     * @param layoutId айди ресурса для инфлейта основной вью
+     * @param stubLayoutId айди ресурса для инфлейта вью, которая будет видна до появления основной
+     */
+    constructor(parent: ViewGroup,
+                @LayoutRes layoutId: Int,
+                @LayoutRes stubLayoutId: Int = R.layout.async_stub_layout
+    ) : this(parent) {
+        inflateStubView(itemView as ViewGroup, stubLayoutId)
+        inflateItemView(parent, itemView, layoutId) {
             data?.let { bind(it) }
         }
     }
@@ -35,5 +36,8 @@ abstract class AsyncBindableViewHolder<T>(
         if (isItemViewInflated) bindInternal(data)
     }
 
+    /**
+     * Метод используется для биндинга данных вместо bind
+     */
     abstract fun bindInternal(data: T)
 }
