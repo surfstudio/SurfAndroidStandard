@@ -134,8 +134,8 @@
 * Добавлен `StickyHeader` и соответсвующий контроллер
 * ANDDEP-266 Обновление DividerItemDecorator
     * Добавлена возможность задавать padding для разделителей
-    * Параметр headerCount переименован в firstItemsCountWithoutDividers
-    * Добавлена возможность задавать lastItemsCountWithoutDividers
+    * Параметр footerCount переименован в lastItemsCountWithoutDividers
+    * Добавлена возможность задавать firstItemsCountWithoutDividers
 
 #### rx-bus
 
