@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 
 private const val SHARED_PREFERENCE_NAME = "async-view-holder"
+private const val UNDEFINE_HEIGHT = -1
 
 internal fun AsyncViewHolder.inflateStubView(
         itemView: ViewGroup,
@@ -23,7 +24,7 @@ internal fun AsyncViewHolder.inflateStubView(
 
         layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                if (height != -1) height else ViewGroup.LayoutParams.WRAP_CONTENT
+                if (height != UNDEFINE_HEIGHT) height else ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
         LayoutInflater.from(itemView.context).inflate(stubLayoutId, this, true)
@@ -41,15 +42,6 @@ internal fun AsyncViewHolder.inflateItemView(
     AsyncLayoutInflater(itemView.context).inflate(layoutId, itemView) { view, _, _ ->
         val stubHeight = itemView.height
         val itemHeight = calcItemHeight(parent as RecyclerView, view)
-
-        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-            override fun onViewDetachedFromWindow(v: View) {}
-
-            override fun onViewAttachedToWindow(v: View) {
-                println("view.height ${v.height}")
-            }
-
-        })
 
         saveStubHeight(itemView.context, holderKey, itemHeight)
 
@@ -109,7 +101,7 @@ private fun saveStubHeight(context: Context, viewHolderName: String, height: Int
 
 private fun getStubHeight(context: Context, viewHolderName: String): Int {
     return context.getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE)
-            .getInt(viewHolderName, -1)
+            .getInt(viewHolderName, UNDEFINE_HEIGHT)
 }
 
 private fun calcItemHeight(recyclerView: RecyclerView, view: View) = when (view.layoutParams.height) {
