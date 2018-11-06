@@ -17,7 +17,7 @@
 #### custom-view
 #### dagger-scope
 #### datalist-limit-offset
-#### datalist-limit-offset
+#### datalist-page-count
 #### easyadapter
 #### filestorage
 #### firebase-analytics
@@ -132,6 +132,10 @@
 * Удален `StickyBindableItemController`
 * Добавлен `StickyFooter` и соответсвующий контроллер
 * Добавлен `StickyHeader` и соответсвующий контроллер
+* ANDDEP-266 Обновление DividerItemDecorator
+    * Добавлена возможность задавать padding для разделителей
+    * Параметр headerCount переименован в firstItemsCountWithoutDividers
+    * Добавлена возможность задавать lastItemsCountWithoutDividers
 
 #### rx-bus
 
