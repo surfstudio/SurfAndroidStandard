@@ -10,8 +10,8 @@ abstract class AsyncBindableViewHolder<T> private constructor(
         parent: ViewGroup
 ) : BindableViewHolder<T>(FrameLayout(parent.context)), AsyncViewHolder {
     final override var isItemViewInflated = false
-    final override var fadeInDuration = 1500L
-    final override var resizeDuration = 1500L
+    final override var fadeInDuration = DEFAULT_FADE_IN_DURATION
+    final override var resizeDuration = DEFAULT_RESIZE_DURATION
 
     private var data: T? = null
 

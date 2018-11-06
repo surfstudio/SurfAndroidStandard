@@ -12,6 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 
+const val DEFAULT_FADE_IN_DURATION = 200L
+const val DEFAULT_RESIZE_DURATION = 200L
+
 private const val SHARED_PREFERENCE_NAME = "async-view-holder"
 private const val UNDEFINE_HEIGHT = -1
 

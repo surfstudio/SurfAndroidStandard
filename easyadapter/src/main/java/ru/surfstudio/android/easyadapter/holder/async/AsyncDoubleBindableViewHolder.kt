@@ -10,8 +10,8 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
         parent: ViewGroup
 ) : DoubleBindableViewHolder<T1, T2>(FrameLayout(parent.context)), AsyncViewHolder {
     final override var isItemViewInflated = false
-    final override var fadeInDuration = 500L
-    final override var resizeDuration = 1500L
+    final override var fadeInDuration = DEFAULT_FADE_IN_DURATION
+    final override var resizeDuration = DEFAULT_RESIZE_DURATION
 
     private var firstData: T1? = null
     private var secondData: T2? = null

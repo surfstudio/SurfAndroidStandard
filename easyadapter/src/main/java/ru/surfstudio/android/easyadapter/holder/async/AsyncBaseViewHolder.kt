@@ -10,8 +10,8 @@ open class AsyncBaseViewHolder private constructor(
         parent: ViewGroup
 ) : BaseViewHolder(FrameLayout(parent.context)), AsyncViewHolder {
     final override var isItemViewInflated = false
-    final override var fadeInDuration = 500L
-    final override var resizeDuration = 500L
+    final override var fadeInDuration = DEFAULT_FADE_IN_DURATION
+    final override var resizeDuration = DEFAULT_RESIZE_DURATION
 
     /**
      * Имплементация BaseViewHolder для асинхроного инфлейта layoutId
