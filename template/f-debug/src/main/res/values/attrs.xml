@@ -3,4 +3,9 @@
     <declare-styleable name="DebugCatalogItemLayout">
         <attr name="catalog_item_name" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="TitleSubtitleSwitch">
+        <attr name="switch_title" format="string" />
+        <attr name="switch_checked" format="boolean" />
+    </declare-styleable>
 </resources>

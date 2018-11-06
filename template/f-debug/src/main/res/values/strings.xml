@@ -1,10 +1,15 @@
 <resources>
+    <string name="show_server_settings_debug_item">Настройки сервера</string>
     <string name="show_controllers_debug_item">Показать контроллеры</string>
     <string name="show_fcm_token_debug_item">Показать FCM-токен</string>
     <string name="copy_fcm_btn_text">Скопировать</string>
     <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
     <string name="fcm_empty_text">FCM-токен еще не создан или не реализована логика сохранения токена в хранилище</string>
     <string name="reload_btn_text">Обновить</string>
+    <string name="chuck_description_tw_text">Chuck перехватывает и сохраняет все HTTP-запросы и ответы внутри приложения и предоставляет пользовательский интерфейс для проверки их содержимого.</string>
+    <string name="switch_title_text" translatable="false">Chuck</string>
+    <string name="switch_subtitle_on_text" translatable="false">On</string>
+    <string name="switch_subtitle_off_text" translatable="false">Off</string>
 
     <!-- Debug notification settings -->
     <string name="notification_channel_id">CHANNEL_ID</string>
