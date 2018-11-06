@@ -21,7 +21,7 @@ open class AsyncBaseViewHolder private constructor(
      */
     constructor(parent: ViewGroup,
                 @LayoutRes layoutId: Int,
-                @LayoutRes stubLayoutId: Int = R.layout.async_stub_layout
+                @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout
     ) : this(parent) {
         inflateStubView(itemView as ViewGroup, stubLayoutId)
         inflateItemView(parent, itemView, layoutId)

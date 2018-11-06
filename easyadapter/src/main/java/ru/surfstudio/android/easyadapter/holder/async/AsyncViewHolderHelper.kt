@@ -1,9 +1,12 @@
 package ru.surfstudio.android.easyadapter.holder.async
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater
@@ -13,7 +16,7 @@ import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import androidx.recyclerview.widget.RecyclerView
 
 const val DEFAULT_FADE_IN_DURATION = 200L
-const val DEFAULT_RESIZE_DURATION = 200L
+const val DEFAULT_RESIZE_DURATION = 1200L
 
 private const val SHARED_PREFERENCE_NAME = "async-view-holder"
 private const val UNDEFINE_HEIGHT = -1
@@ -27,10 +30,13 @@ internal fun AsyncViewHolder.inflateStubView(
 
         layoutParams = ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                if (height != UNDEFINE_HEIGHT) height else ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        LayoutInflater.from(itemView.context).inflate(stubLayoutId, this, true)
+        val stubView = LayoutInflater.from(itemView.context).inflate(stubLayoutId, this, false).apply {
+            if (height != UNDEFINE_HEIGHT) layoutParams.height = height
+        }
+        addView(stubView)
     }
 }
 
@@ -49,13 +55,13 @@ internal fun AsyncViewHolder.inflateItemView(
         saveStubHeight(itemView.context, holderKey, itemHeight)
 
         itemView.removeAllViews()
-        fadeIn(itemView)
+        fadeIn(view)
         itemView.addView(view)
-        toSize(itemView, stubHeight, itemHeight)
+        toSize(itemView, stubHeight, itemHeight)?.start()
 
         isItemViewInflated = true
         endAction()
-        inflateFinish(view)
+        onViewInflated(view)
     }
 }
 
@@ -91,7 +97,7 @@ private fun AsyncViewHolder.fadeIn(view: View) {
             .setInterpolator(FastOutLinearInInterpolator())
             .setListener(animatorListener)
             .withEndAction {
-                fadeInFinish()
+                onFadeInEnd()
             }
 }
 
@@ -118,4 +124,24 @@ private fun calcItemHeight(recyclerView: RecyclerView, view: View) = when (view.
         view.measuredHeight
     }
     else -> view.layoutParams.height
+}
+
+internal fun AsyncViewHolder.resize(stubView: ViewGroup,
+                                    oldHeight: Int,
+                                    height: Int): AnimatorSet? {
+    if (resizeDuration == 0L || height == oldHeight) return null
+
+    val animator = ValueAnimator.ofInt(oldHeight, height).apply {
+        duration = resizeDuration
+
+        addUpdateListener {
+            stubView.layoutParams.height = it.animatedValue as Int
+            stubView.requestLayout()
+        }
+    }
+
+    return AnimatorSet().apply {
+        play(animator)
+        interpolator = AccelerateDecelerateInterpolator()
+    }
 }

@@ -15,6 +15,7 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
 
     private var firstData: T1? = null
     private var secondData: T2? = null
+    private var isBindExecuted = false
 
     /**
      * Имплементация DoubleBindableViewHolder для асинхроного инфлейта layoutId
@@ -24,17 +25,18 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
      */
     constructor(parent: ViewGroup,
                 @LayoutRes layoutId: Int,
-                @LayoutRes stubLayoutId: Int = R.layout.async_stub_layout
+                @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout
     ) : this(parent) {
         inflateStubView(itemView as ViewGroup, stubLayoutId)
         inflateItemView(parent, itemView, layoutId) {
-            if (firstData != null && secondData != null) bind(firstData!!, secondData!!)
+            if (isBindExecuted) bind(firstData, secondData)
         }
     }
 
-    final override fun bind(firstData: T1, secondData: T2) {
+    final override fun bind(firstData: T1?, secondData: T2?) {
         this.firstData = firstData
         this.secondData = secondData
+        isBindExecuted = true
         if (isItemViewInflated) bindInternal(firstData, secondData)
 
     }
@@ -42,5 +44,5 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
     /**
      * Метод используется для биндинга данных вместо bind
      */
-    abstract fun bindInternal(firstData: T1, secondData: T2)
+    abstract fun bindInternal(firstData: T1?, secondData: T2?)
 }

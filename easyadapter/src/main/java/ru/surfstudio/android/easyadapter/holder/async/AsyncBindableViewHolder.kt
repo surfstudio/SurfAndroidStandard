@@ -14,6 +14,7 @@ abstract class AsyncBindableViewHolder<T> private constructor(
     final override var resizeDuration = DEFAULT_RESIZE_DURATION
 
     private var data: T? = null
+    private var isBindExecuted = false
 
     /**
      * Имплементация BindableViewHolder для асинхроного инфлейта layoutId
@@ -23,15 +24,16 @@ abstract class AsyncBindableViewHolder<T> private constructor(
      */
     constructor(parent: ViewGroup,
                 @LayoutRes layoutId: Int,
-                @LayoutRes stubLayoutId: Int = R.layout.async_stub_layout
+                @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout
     ) : this(parent) {
         inflateStubView(itemView as ViewGroup, stubLayoutId)
         inflateItemView(parent, itemView, layoutId) {
-            data?.let { bind(it) }
+            if (isBindExecuted) bind(data)
         }
     }
 
-    final override fun bind(data: T) {
+    final override fun bind(data: T?) {
+        isBindExecuted = true
         this.data = data
         if (isItemViewInflated) bindInternal(data)
     }
@@ -39,5 +41,5 @@ abstract class AsyncBindableViewHolder<T> private constructor(
     /**
      * Метод используется для биндинга данных вместо bind
      */
-    abstract fun bindInternal(data: T)
+    abstract fun bindInternal(data: T?)
 }
