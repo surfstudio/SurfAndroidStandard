@@ -17,7 +17,7 @@
 #### custom-view
 #### dagger-scope
 #### datalist-limit-offset
-#### datalist-limit-offset
+#### datalist-page-count
 #### easyadapter
 #### filestorage
 #### firebase-analytics
@@ -38,6 +38,12 @@
 * удален NotificationCenter - используйте `PushHandler`
 
 #### recycler-extension
+
+* ANDDEP-266 Обновление DividerItemDecorator
+    * Добавлена возможность задавать padding для разделителей
+    * Параметр footerCount переименован в lastItemsCountWithoutDividers
+    * Добавлена возможность задавать firstItemsCountWithoutDividers
+
 #### rx-extension
 #### rxbus
 #### shared-pref
@@ -55,6 +61,19 @@
 
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
+
+#### connection
+* Добавлен метод для проверки подключения через Wi-Fi в [`ConnectionProvider`](connection/src/main/java/ru/surfstudio/android/connection/ConnectionProvider.java)
+
+#### mvp-widget
+
+#### imageloader
+* ANDDEP-317 Оптимизация [`ImageLoader`](imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):
+    * Рефакторинг трансформаций, удаление обращений к рефлексии
+    * Уход от работы на основе `SimpleTarget`, устранение утечек памяти, добавление возможности очищения памяти
+    * Ускорение работы, добавление проверок на опциональное использование переменных
+    * Добавление функций-расширений для опциональной работы с RequestBuilder [`ImageLoaderUtils.kt`](imageloader/src/main/java/ru/surfstudio/android/imageloader/util/ImageLoaderUtils.kt)
+    * Добавление расширенного списка стратегий кеширования [`CacheStrategy`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/CacheStrategy.kt)
 
 ## 0.3.0
 

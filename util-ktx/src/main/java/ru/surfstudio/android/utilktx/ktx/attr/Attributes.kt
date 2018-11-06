@@ -19,9 +19,9 @@ import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.annotation.StyleableRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorInt
+import androidx.annotation.StyleableRes
+import androidx.core.content.ContextCompat
 
 /**
  * Extension-функции для работы с кастомными атрибутами

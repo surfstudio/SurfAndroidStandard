@@ -20,10 +20,10 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.support.annotation.ColorRes
-import android.support.annotation.IntegerRes
-import android.support.annotation.StyleRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorRes
+import androidx.annotation.IntegerRes
+import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
@@ -196,4 +196,14 @@ fun EditText.setTextColors(@ColorRes textColorRes: Int, @ColorRes hintColorRes: 
  */
 fun EditText.showKeyboard() {
     KeyboardUtil.showKeyboard(this)
+}
+
+/**
+ * Extension-функция предоставляющая фокус на [EditText] и устанавливающая курсор в конец
+ * введённого текста.
+ */
+fun EditText.setFocusAndCursorToEnd() {
+    requestFocus()
+    KeyboardUtil.showKeyboard(this)
+    selectionToEnd()
 }

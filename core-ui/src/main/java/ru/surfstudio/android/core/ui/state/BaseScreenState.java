@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.ui.state;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * базовый {@link ScreenState} для активити и фрагмента, для виджета свой ScreenState

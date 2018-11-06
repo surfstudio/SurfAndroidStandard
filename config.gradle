@@ -30,7 +30,7 @@ ext {
 
     //android framework
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
-    appcompatVersion = '28.0.0'
+    androidxVersion = '1.0.0'
     firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.3.4'
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn

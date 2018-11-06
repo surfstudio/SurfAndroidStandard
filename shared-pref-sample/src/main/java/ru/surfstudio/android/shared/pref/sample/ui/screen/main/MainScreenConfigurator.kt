@@ -25,6 +25,7 @@ internal class MainScreenConfigurator(intent: Intent) : CustomActivityScreenConf
     override fun createScreenComponent(customActivityComponent: CustomActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
+        @Suppress("DEPRECATION")
         return DaggerMainScreenConfigurator_MainScreenComponent.builder()
                 .customActivityComponent(customActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)

@@ -16,7 +16,7 @@
 package ru.surfstudio.android.recycler.extension.snaphelper;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Комбинирует поведение снапига по гравитации и запрета на "бесконечный" скролл
