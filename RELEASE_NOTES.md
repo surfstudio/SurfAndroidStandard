@@ -38,6 +38,12 @@
 * удален NotificationCenter - используйте `PushHandler`
 
 #### recycler-extension
+
+* ANDDEP-266 Обновление DividerItemDecorator
+    * Добавлена возможность задавать padding для разделителей
+    * Параметр footerCount переименован в lastItemsCountWithoutDividers
+    * Добавлена возможность задавать firstItemsCountWithoutDividers
+
 #### rx-extension
 #### rxbus
 #### shared-pref
@@ -132,10 +138,6 @@
 * Удален `StickyBindableItemController`
 * Добавлен `StickyFooter` и соответсвующий контроллер
 * Добавлен `StickyHeader` и соответсвующий контроллер
-* ANDDEP-266 Обновление DividerItemDecorator
-    * Добавлена возможность задавать padding для разделителей
-    * Параметр footerCount переименован в lastItemsCountWithoutDividers
-    * Добавлена возможность задавать firstItemsCountWithoutDividers
 
 #### rx-bus
 
