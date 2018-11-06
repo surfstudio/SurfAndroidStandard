@@ -1,16 +1,16 @@
 package ru.surfstudio.android.easyadapter.holder.async
 
 import android.content.Context
-import android.support.annotation.LayoutRes
-import android.support.v4.view.AsyncLayoutInflater
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.ViewPropertyAnimatorListener
-import android.support.v4.view.animation.FastOutLinearInInterpolator
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.LayoutRes
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewPropertyAnimatorListener
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.recyclerview.widget.RecyclerView
 
 const val DEFAULT_FADE_IN_DURATION = 200L
 const val DEFAULT_RESIZE_DURATION = 200L

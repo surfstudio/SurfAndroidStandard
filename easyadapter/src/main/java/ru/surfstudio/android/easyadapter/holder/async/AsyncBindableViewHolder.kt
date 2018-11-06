@@ -1,8 +1,8 @@
 package ru.surfstudio.android.easyadapter.holder.async
 
-import android.support.annotation.LayoutRes
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.LayoutRes
 import ru.surfstudio.android.easyadapter.R
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 
