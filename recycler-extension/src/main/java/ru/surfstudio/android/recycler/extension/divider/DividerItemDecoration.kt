@@ -30,10 +30,10 @@ import androidx.recyclerview.widget.RecyclerView
  * Класс для создания разделителей у RecyclerView
  *
  * @param context контекст
- * @param resId id drawable-ресурса, который будет использоваться для отрисовки разделителей
  * @param orientation ориентация списка
- * @param firstItemsCountWithoutDividers количество видимых элементов в начале списка, между которыми не будет разделителей
+ * @param resId id drawable-ресурса, который будет использоваться для отрисовки разделителей
  * @param lastItemsCountWithoutDividers количество видимых элементов в конце списка, между которыми не будет разделителей
+ * @param firstItemsCountWithoutDividers количество видимых элементов в начале списка, между которыми не будет разделителей
  * @param leftPaddingPx padding слева между разделителями и RecyclerView (для вертикальных списков)
  * @param rightPaddingPx padding справа между разделителями и RecyclerView (для вертикальных списков)
  * @param topPaddingPx padding сверху между разделятелями и RecyclerView (для горизонтальных списков)
@@ -42,10 +42,10 @@ import androidx.recyclerview.widget.RecyclerView
 @SuppressLint("DuplicateDivider")
 class DividerItemDecoration @JvmOverloads constructor(
         context: Context,
-        @DrawableRes resId: Int,
         orientation: Int,
-        firstItemsCountWithoutDividers: Int = 0,
+        @DrawableRes resId: Int,
         lastItemsCountWithoutDividers: Int = 0,
+        firstItemsCountWithoutDividers: Int = 0,
         var leftPaddingPx: Int = 0,
         var rightPaddingPx: Int = 0,
         var topPaddingPx: Int = 0,

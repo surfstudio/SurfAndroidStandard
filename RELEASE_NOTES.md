@@ -17,7 +17,7 @@
 #### custom-view
 #### dagger-scope
 #### datalist-limit-offset
-#### datalist-limit-offset
+#### datalist-page-count
 #### easyadapter
 #### filestorage
 #### firebase-analytics
@@ -38,6 +38,12 @@
 * удален NotificationCenter - используйте `PushHandler`
 
 #### recycler-extension
+
+* ANDDEP-266 Обновление DividerItemDecorator
+    * Добавлена возможность задавать padding для разделителей
+    * Параметр footerCount переименован в lastItemsCountWithoutDividers
+    * Добавлена возможность задавать firstItemsCountWithoutDividers
+
 #### rx-extension
 #### rxbus
 #### shared-pref
