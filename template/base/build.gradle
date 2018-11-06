@@ -18,13 +18,13 @@ dependencies {
                     "firebase-analytics",
                     "push",
                     "dagger-scope",
-                    "logger",
-                    "filestorage",
+                    "logger", "filestorage",
                     "network",
                     "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",
+
                     "app-migration",
                     "connection",
                     "custom-view",
@@ -37,8 +37,7 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"],
-            null, //todo remove for real app
-            "LOCAL"  //todo remove for real app
+                    "rxbus"
+            ]
     )
 }

@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         imageView = find(R.id.imageloader_sample_iv)
+        val svgImageUrl = "https://card2card.zenit.ru/assets/images/banks/yandex.svg"
+        val imageUrl = "https://s.mdk.zone/i/22096ef7-7f2b-4cd3-920b-a65a032b9e21"
         transformButton = find(R.id.image_loader_sample_btn)
 
         var isLoadOriginal = false
@@ -36,8 +38,13 @@ class MainActivity : AppCompatActivity() {
     private fun loadOriginalImage() {
         ImageLoader
                 .with(this)
+                .skipCache(true)
                 .crossFade(500)
                 .centerCrop()
+                .maxWidth(570)
+                .maxHeight(9300)
+                .crossFade(1000)
+                .url(svgImageUrl)
                 .url(IMAGE_URL)
                 .force()
                 .preview(R.drawable.ic_launcher_background)
