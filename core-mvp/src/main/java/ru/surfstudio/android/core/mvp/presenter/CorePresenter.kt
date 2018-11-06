@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.core.mvp.presenter
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import com.agna.ferro.rx.CompletableOperatorFreeze
 import com.agna.ferro.rx.MaybeOperatorFreeze
 import com.agna.ferro.rx.ObservableOperatorFreeze
