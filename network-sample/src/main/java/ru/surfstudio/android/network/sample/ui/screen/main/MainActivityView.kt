@@ -7,12 +7,11 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
+import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStateRendererInterface
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.network.sample.R
 import ru.surfstudio.android.network.sample.domain.product.Product
 import ru.surfstudio.android.network.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
@@ -52,7 +51,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     override fun getSwipeRefreshLayout(): SwipeRefreshLayout = swipe_refresh_layout
 
-    override fun getPlaceHolderView(): PlaceHolderViewInterface = placeholder
+    override fun getLoadStateRenderer(): LoadStateRendererInterface = placeholder
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,

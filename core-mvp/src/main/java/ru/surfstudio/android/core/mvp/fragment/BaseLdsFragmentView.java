@@ -15,9 +15,9 @@
  */
 package ru.surfstudio.android.core.mvp.fragment;
 
+import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStateRendererInterface;
 import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface;
 
 /**
  * базовый класс FragmentView c поддержкой
@@ -28,7 +28,7 @@ import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface;
 public abstract class BaseLdsFragmentView<M extends LdsScreenModel>
         extends BaseRenderableFragmentView<M> {
 
-    protected abstract PlaceHolderViewInterface getPlaceHolderView();
+    protected abstract LoadStateRendererInterface getLoadStateRenderer();
 
     @Override
     public void render(M screenModel) {
@@ -37,6 +37,6 @@ public abstract class BaseLdsFragmentView<M extends LdsScreenModel>
     }
 
     protected void renderLoadState(LoadStateInterface loadState) {
-        getPlaceHolderView().render(loadState);
+        getLoadStateRenderer().render(loadState);
     }
 }

@@ -6,10 +6,9 @@ import android.support.annotation.IdRes
 import android.support.v4.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
+import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStateRendererInterface
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.filestorage.sample.R
 import ru.surfstudio.android.filestorage.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import ru.surfstudio.standard.base_ui.placeholder.LoadState
@@ -32,7 +31,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun getPlaceHolderView(): PlaceHolderViewInterface = placeholder
+    override fun getLoadStateRenderer(): LoadStateRendererInterface = placeholder
 
     override fun getSwipeRefreshLayout(): SwipeRefreshLayout = swipe_refresh_layout
 
