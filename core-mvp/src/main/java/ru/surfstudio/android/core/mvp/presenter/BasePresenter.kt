@@ -435,8 +435,8 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     }
 
     @Deprecated("Use extension instead", ReplaceWith("single.subscribeByIoHandleError(onSuccess, null)"))
-    protected fun <T> subscribeIoHandleError(completable: Completable,
-                                             onComplete: () -> Unit): Disposable {
+    protected fun subscribeIoHandleError(completable: Completable,
+                                         onComplete: () -> Unit): Disposable {
         return completable.subscribeByIoHandleError(onComplete, onErrorStub)
     }
 
