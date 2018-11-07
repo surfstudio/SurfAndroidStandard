@@ -38,7 +38,7 @@ class ServerSettingsDebugActivityView : BaseRenderableActivityView<ServerSetting
 
     private fun initListeners() {
         server_settings_chuck_switch.setOnCheckedChangeListener { _, _ ->
-            // While do nothing.
+            presenter.openRebootActivityDebug()
         }
     }
 }

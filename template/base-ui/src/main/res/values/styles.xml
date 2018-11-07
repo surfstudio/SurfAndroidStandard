@@ -10,6 +10,7 @@
         <item name="android:colorBackground">@color/colorWindowBackgroundLight</item>
 
         <item name="android:textViewStyle">@style/Text</item>
+        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
     <!-- темная тема -->
@@ -22,6 +23,7 @@
         <item name="android:colorBackground">@color/colorWindowBackgroundDark</item>
 
         <item name="android:textViewStyle">@style/Text</item>
+        <item name="cardViewStyle">@style/CardView</item>
     </style>
 
 
