@@ -20,7 +20,7 @@ import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
 
 /**
- * базовый класс FragmentView c поддержкой
+ * Базовый класс FragmentView c поддержкой
  * состояния загрузки {@link LoadStateInterface}
  *
  * @param <M>
@@ -28,7 +28,9 @@ import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
 public abstract class BaseLdsFragmentView<M extends LdsScreenModel>
         extends BaseRenderableFragmentView<M> {
 
-    protected abstract LoadStateRendererInterface getLoadStateRenderer();
+    private LoadStateRendererInterface loadStateRenderer;
+
+    protected abstract LoadStateRendererInterface createLoadStateRenderer();
 
     @Override
     public void render(M screenModel) {
@@ -39,4 +41,12 @@ public abstract class BaseLdsFragmentView<M extends LdsScreenModel>
     protected void renderLoadState(LoadStateInterface loadState) {
         getLoadStateRenderer().render(loadState);
     }
+
+    private LoadStateRendererInterface getLoadStateRenderer() {
+        if (loadStateRenderer == null) {
+            loadStateRenderer = createLoadStateRenderer();
+        }
+        return loadStateRenderer;
+    }
+
 }
