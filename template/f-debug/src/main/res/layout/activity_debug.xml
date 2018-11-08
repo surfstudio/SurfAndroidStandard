@@ -9,10 +9,10 @@
         android:orientation="vertical">
 
         <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
-            android:id="@+id/show_info_item_layout"
+            android:id="@+id/show_app_info_item_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:catalog_item_name="@string/show_info_debug_item" />
+            app:catalog_item_name="@string/show_app_info_debug_item" />
 
         <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
             android:id="@+id/show_controllers_item_layout"

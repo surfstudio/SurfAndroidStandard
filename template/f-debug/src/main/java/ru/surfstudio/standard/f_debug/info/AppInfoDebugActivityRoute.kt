@@ -7,8 +7,8 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 /**
  * Роут экрана показа общей информации
  */
-class InfoDebugActivityRoute : ActivityRoute() {
+class AppInfoDebugActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context): Intent {
-        return Intent(context, InfoDebugActivityView::class.java)
+        return Intent(context, AppInfoDebugActivityView::class.java)
     }
 }

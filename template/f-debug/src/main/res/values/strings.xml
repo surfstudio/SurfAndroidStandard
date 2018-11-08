@@ -1,13 +1,15 @@
 <resources>
     <string name="show_controllers_debug_item">Показать контроллеры</string>
     <string name="show_fcm_token_debug_item">Показать FCM-токен</string>
-    <string name="show_info_debug_item">Показать общую информацию</string>
+    <string name="show_app_info_debug_item">Показать общую информацию</string>
     <string name="copy_fcm_btn_text">Скопировать</string>
     <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
     <string name="fcm_empty_text">FCM-токен еще не создан или не реализована логика сохранения токена в хранилище</string>
     <string name="reload_btn_text">Обновить</string>
-    <string name="info_package_name_text">Package name : %1$s</string>
-    <string name="info_build_type_text">Build type : %1$s</string>
+    <string name="app_info_version_code_text">Version Code : %1$d</string>
+    <string name="app_info_version_name_text">Version name : %1$s</string>
+    <string name="app_info_package_name_text">Package name : %1$s</string>
+    <string name="app_info_build_type_text">Build type : %1$s</string>
 
     <!-- Debug notification settings -->
     <string name="notification_channel_id">CHANNEL_ID</string>

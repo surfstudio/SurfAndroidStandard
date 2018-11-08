@@ -6,7 +6,7 @@
         <activity
             android:name="ru.surfstudio.standard.f_debug.debug.DebugActivityView"
             android:launchMode="singleTask" />
-        <activity android:name="ru.surfstudio.standard.f_debug.info.InfoDebugActivityView" />
+        <activity android:name="ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView" />
         <activity android:name="ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView" />
         <activity android:name="ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView" />
     </application>

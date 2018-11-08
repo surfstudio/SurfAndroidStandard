@@ -9,13 +9,6 @@ import javax.inject.Inject
  * Презентер экрана показа общей информации
  */
 @PerScreen
-class InfoDebugPresenter @Inject constructor(
+class AppInfoDebugPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<InfoDebugActivityView>(basePresenterDependency) {
-    private val screenModel = InfoDebugScreenModel()
-
-    override fun onFirstLoad() {
-        super.onFirstLoad()
-        view.render(screenModel)
-    }
-}
+) : BasePresenter<AppInfoDebugActivityView>(basePresenterDependency)
