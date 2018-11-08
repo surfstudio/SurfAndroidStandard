@@ -5,4 +5,4 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 /**
  * Модель экрана настроек сервера
  */
-class ServerSettingsDebugScreenModel : ScreenModel()
+class ServerSettingsDebugScreenModel(var isChuckEnabled: Boolean) : ScreenModel()

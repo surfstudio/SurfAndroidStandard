@@ -11,7 +11,7 @@
     <string name="switch_subtitle_on_text" translatable="false">On</string>
     <string name="switch_subtitle_off_text" translatable="false">Off</string>
     <string name="reboot_tw_start_text">Старт перезапуска…</string>
-    <string name="reboot_tw_countdown_text">Перезапуск через: %s…</string>
+    <string name="reboot_tw_countdown_text">Перезапуск через: %s</string>
 
     <!-- Debug notification settings -->
     <string name="notification_channel_id">CHANNEL_ID</string>

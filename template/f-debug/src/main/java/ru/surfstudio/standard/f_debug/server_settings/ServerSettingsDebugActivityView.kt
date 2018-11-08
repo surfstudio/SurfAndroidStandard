@@ -1,7 +1,5 @@
 package ru.surfstudio.standard.f_debug.server_settings
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import kotlinx.android.synthetic.main.activity_server_settings_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.template.f_debug.R
@@ -25,18 +23,11 @@ class ServerSettingsDebugActivityView : BaseRenderableActivityView<ServerSetting
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 
     override fun renderInternal(sm: ServerSettingsDebugScreenModel) {
+        server_settings_chuck_switch.isChecked = sm.isChuckEnabled
+        addCheckedChangeListener()
     }
 
-    override fun onCreate(
-            savedInstanceState: Bundle?,
-            persistentState: PersistableBundle?,
-            viewRecreated: Boolean
-    ) {
-        super.onCreate(savedInstanceState, persistentState, viewRecreated)
-        initListeners()
-    }
-
-    private fun initListeners() {
+    private fun addCheckedChangeListener() {
         server_settings_chuck_switch.setOnCheckedChangeListener { _, _ ->
             presenter.openRebootActivityDebug()
         }

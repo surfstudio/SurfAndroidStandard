@@ -23,6 +23,7 @@ ext {
     //network
     okHttpVersion = '3.11.0'                    //https://bit.ly/1Iijjtl
     retrofitVersion = '2.4.0'                   //https://bit.ly/2eZa7nz
+    chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
 
     //rx
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N

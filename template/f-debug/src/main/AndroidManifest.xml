@@ -8,7 +8,9 @@
             android:name="ru.surfstudio.standard.f_debug.debug.DebugActivityView"
             android:launchMode="singleTask" />
 
-        <activity android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView" />
+        <activity
+            android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name="ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView"

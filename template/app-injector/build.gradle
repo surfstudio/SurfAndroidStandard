@@ -62,6 +62,8 @@ dependencies {
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
+
+    implementation "com.readystatesoftware.chuck:library:$chuckVersion"
 }
 
 configurations.all {

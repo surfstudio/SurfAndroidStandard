@@ -17,6 +17,7 @@ ext {
     //injections
     javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
     daggerVersion = '2.18'                      //https://bit.ly/2NUH5UC
+    chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
 
     //network
     okHttpVersion = '3.11.0'                    //https://bit.ly/1Iijjtl

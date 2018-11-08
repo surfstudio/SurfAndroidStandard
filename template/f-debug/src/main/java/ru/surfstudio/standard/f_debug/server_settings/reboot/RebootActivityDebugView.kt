@@ -52,4 +52,8 @@ class RebootActivityDebugView : BaseRenderableActivityView<RebootDebugScreenMode
         super.onResume()
         presenter.rebootApp()
     }
+
+    override fun onBackPressed() {
+        // отключаем возможность закрыть активность
+    }
 }
