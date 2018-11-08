@@ -35,6 +35,14 @@ fun performClick(textForCheck: String, @IdRes vararg viewIdResList: Int) {
 }
 
 /**
+ * Функция, проверяющая, что text для вью равен значению строкового ресурса
+ */
+fun checkTest(@IdRes viewResId: Int, @StringRes textResId: Int) {
+    onView(withId(viewResId))
+            .check(matches(withText(textResId)))
+}
+
+/**
  * Функция, проверяющая, что text или hint для вью равны значению строкового ресурса,
  * и выполняющая ввод нового значения для вью.
  *
@@ -64,6 +72,15 @@ fun checkAndInputText(
 fun checkIfToastIsVisible(@StringRes toastResId: Int) {
     onView(withText(toastResId))
             .inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
+}
+
+/**
+ * Функция, проверяющая, что на экрана отображается Snackbar с заданным сообщением
+ */
+fun checkIfSnackbarIsVisible(@StringRes messageResId: Int) {
+    onView(withId(com.google.android.material.R.id.snackbar_text))
+            .check(matches(withText(messageResId)))
             .check(matches(isDisplayed()))
 }
 

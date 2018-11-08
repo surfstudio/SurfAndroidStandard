@@ -4,9 +4,7 @@ import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
@@ -14,6 +12,7 @@ import org.hamcrest.CoreMatchers
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.surfstudio.android.sample.common.test.utils.checkIfSnackbarIsVisible
 import ru.surfstudio.android.sample.common.test.utils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.nestedScrollTo
 import ru.surfstudio.android.sample.common.test.utils.performClick
@@ -54,8 +53,7 @@ class AnimationsSampleTest {
     @Test
     fun testButtonClick() {
         performClick(R.id.bottom_btn)
-        onView(withId(com.google.android.material.R.id.snackbar_text))
-                .check(matches(isDisplayed()))
+        checkIfSnackbarIsVisible(R.string.snackbar_message)
     }
 
     private fun performClickOnWidget(@IdRes widgetResId: Int) {
