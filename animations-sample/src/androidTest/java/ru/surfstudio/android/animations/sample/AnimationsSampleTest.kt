@@ -1,7 +1,6 @@
 package ru.surfstudio.android.animations.sample
 
 import androidx.annotation.IdRes
-import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
@@ -15,6 +14,7 @@ import org.hamcrest.CoreMatchers
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.surfstudio.android.sample.common.test.utils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.nestedScrollTo
 import ru.surfstudio.android.sample.common.test.utils.performClick
 
@@ -33,8 +33,8 @@ class AnimationsSampleTest {
     )
 
     @Before
-    fun launchActivity() {
-        ActivityScenario.launch(MainActivity::class.java)
+    fun setUp() {
+        launchActivity(MainActivity::class.java)
     }
 
     @Test
