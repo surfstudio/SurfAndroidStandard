@@ -15,6 +15,7 @@ import org.junit.runner.RunWith
 import ru.surfstudio.android.app.migration.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.app.migration.sample.ui.screen.splash.SplashActivityView
 import ru.surfstudio.android.app.migration.sample.ui.screen.splash.TRANSITION_DELAY_MS
+import ru.surfstudio.android.sample.common.test.utils.ElapsedTimeIdlingResource
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
@@ -35,7 +36,7 @@ class AppMigrationSampleTest {
     fun testApplicationLaunch() {
         checkIfActivityIsVisible(SplashActivityView::class.java)
 
-        // wait until splash screen is gone
+        // Ожидаем, пока показывается splash-экран
         val idlingResource = ElapsedTimeIdlingResource(TRANSITION_DELAY_MS)
         registerIdlingResource(idlingResource)
 

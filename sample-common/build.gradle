@@ -1,4 +1,5 @@
 apply from: '../androidModule.gradle'
+apply from: '../androidTestModule.gradle'
 
 dependencies {
     api project(':custom-view')
@@ -9,4 +10,10 @@ dependencies {
     implementation project(':logger')
     implementation project(':rx-extension')
     implementation project(':util-ktx')
+
+    api "androidx.test:core:$androidxVersion"
+    api "androidx.test.ext:junit:$androidxVersion"
+    api "androidx.test:runner:$testRunnerXVersion"
+    api "androidx.test.espresso:espresso-core:$espressoXVersion"
+    api "androidx.test.espresso:espresso-intents:$espressoXVersion"
 }

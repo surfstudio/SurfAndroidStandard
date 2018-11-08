@@ -1,4 +1,4 @@
-package ru.surfstudio.android.animations.sample
+package ru.surfstudio.android.sample.common.test.utils
 
 import android.view.View
 import android.view.ViewGroup
