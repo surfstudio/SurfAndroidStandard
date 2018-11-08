@@ -1,20 +1,19 @@
 package ru.surfstudio.android.easyadapter.holder.async
 
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.annotation.LayoutRes
 import ru.surfstudio.android.easyadapter.R
 import ru.surfstudio.android.easyadapter.holder.DoubleBindableViewHolder
 
 abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
         parent: ViewGroup
-) : DoubleBindableViewHolder<T1, T2>(FrameLayout(parent.context)), AsyncViewHolder {
+) : DoubleBindableViewHolder<T1, T2>(getContainer(parent)), AsyncViewHolder {
     final override var isItemViewInflated = false
     final override var fadeInDuration = DEFAULT_FADE_IN_DURATION
-    final override var resizeDuration = DEFAULT_RESIZE_DURATION
 
     private var firstData: T1? = null
     private var secondData: T2? = null
+
     private var isBindExecuted = false
 
     /**
@@ -25,10 +24,12 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
      */
     constructor(parent: ViewGroup,
                 @LayoutRes layoutId: Int,
-                @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout
+                @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout,
+                containerWidth: Int = DEFAULT_WIDTH,
+                containerHeight: Int = DEFAULT_HEIGHT
     ) : this(parent) {
-        inflateStubView(itemView as ViewGroup, stubLayoutId)
-        inflateItemView(parent, itemView, layoutId) {
+        inflateStubView(itemView as ViewGroup, stubLayoutId, containerWidth, containerHeight)
+        inflateItemView(itemView, layoutId) {
             if (isBindExecuted) bind(firstData, secondData)
         }
     }
