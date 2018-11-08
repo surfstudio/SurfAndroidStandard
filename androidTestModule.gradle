@@ -1,8 +1,4 @@
-apply from: '../androidModule.gradle'
-
 dependencies {
-    api "com.agna.ferro:ferro-rx:$ferroRxVersion"
-
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
     testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
@@ -12,12 +8,3 @@ dependencies {
     androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
 }
-
-gradle.ext.configAndroidStandardDependencies(this, [
-        'logger',
-        'easyadapter',
-        'connection',
-        'rx-extension',
-        'util-ktx',
-        'core-ui'
-])

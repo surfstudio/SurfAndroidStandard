@@ -35,7 +35,7 @@ ext {
     firebaseMessagingVersion = '17.3.4'
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
     fabricToolsVersion = '1.25.4'
-    crashlyticsVersion = '2.9.5'                //http://bit.ly/2v5mXbp
+    crashlyticsVersion = '2.9.6'                //http://bit.ly/2v5mXbp
     googleServicesVersion = '4.1.0'             //http://bit.ly/2mZ4j0B
     androidKtxVersion = '0.3'                   //http://bit.ly/2LCdByd
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
@@ -55,7 +55,9 @@ ext {
     robolectricVersion = '3.8'                  //http://bit.ly/2xLRICR
     junitVersion = '4.12'
     testRunnerVersion = '1.0.2'                 //http://bit.ly/2O0uGi9
+    testRunnerXVersion = '1.1.0'
     espressoVersion = '3.0.2'                   //http://bit.ly/2v3OiKX
+    espressoXVersion = '3.1.0'
     mockitoVersion = '2.23.0'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
