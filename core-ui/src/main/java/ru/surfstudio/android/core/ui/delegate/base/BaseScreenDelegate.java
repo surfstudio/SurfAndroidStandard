@@ -92,6 +92,8 @@ public abstract class BaseScreenDelegate {
         runConfigurator();
         prepareView(savedInstanceState, persistableBundle);
         getEventDelegateManager().sendEvent(new OnRestoreStateEvent(savedInstanceState));
+
+        getScreenState().onViewReady();
         getEventDelegateManager().sendEvent(new OnViewReadyEvent());
     }
 
@@ -135,18 +137,22 @@ public abstract class BaseScreenDelegate {
     //other events
 
     public void onStart() {
+        getScreenState().onStart();
         getEventDelegateManager().sendEvent(new OnStartEvent());
     }
 
     public void onResume() {
+        getScreenState().onResume();
         getEventDelegateManager().sendEvent(new OnResumeEvent());
     }
 
     public void onPause() {
+        getScreenState().onPause();
         getEventDelegateManager().sendEvent(new OnPauseEvent());
     }
 
     public void onStop() {
+        getScreenState().onStop();
         getEventDelegateManager().sendEvent(new OnStopEvent());
     }
 

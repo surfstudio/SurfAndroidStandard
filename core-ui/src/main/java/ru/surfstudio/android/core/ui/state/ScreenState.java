@@ -21,6 +21,7 @@ package ru.surfstudio.android.core.ui.state;
  */
 
 public interface ScreenState {
+
     /**
      * @return пересоздана ли иерархия вью после смены конфигурации
      * если экран быль только восстановлен с диска, то метод вернет false
@@ -51,4 +52,6 @@ public interface ScreenState {
      * с диска
      */
     boolean isRestoredFromDiskJustNow();
+
+    ScreenStates getCurrentState();
 }

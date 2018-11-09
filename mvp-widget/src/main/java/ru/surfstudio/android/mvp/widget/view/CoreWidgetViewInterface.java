@@ -58,6 +58,12 @@ public interface CoreWidgetViewInterface extends
      */
     void init();
 
+    /**
+     * Для отложенной инициализации виджета с установкой коуп id на основе данных
+     * @param scopeId
+     */
+    void init(String scopeId);
+
     void onCreate();
 
     Parcelable superSavedInstanceState();

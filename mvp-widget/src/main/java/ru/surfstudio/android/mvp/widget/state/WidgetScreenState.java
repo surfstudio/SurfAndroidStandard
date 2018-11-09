@@ -21,6 +21,7 @@ import android.view.View;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.state.ActivityScreenState;
 import ru.surfstudio.android.core.ui.state.ScreenState;
+import ru.surfstudio.android.core.ui.state.ScreenStates;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
@@ -30,11 +31,13 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
  */
 
 public class WidgetScreenState implements ScreenState {
+
     private View widget;
     private CoreWidgetViewInterface coreWidget;
+
     private ScreenType parentType;
     private ScreenState parentState;
-    private States currentState;
+    private ScreenStates currentState;
 
     public WidgetScreenState(ScreenState parentState) {
         this.parentState = parentState;
@@ -47,35 +50,35 @@ public class WidgetScreenState implements ScreenState {
         this.widget = widget;
         this.coreWidget = coreWidget;
 
-        currentState = States.CREATED;
+        currentState = ScreenStates.CREATED;
     }
 
     public void onViewReady() {
-        currentState = States.VIEW_READY;
+        currentState = ScreenStates.VIEW_READY;
     }
 
     public void onStart() {
-        currentState = States.STARTED;
+        currentState = ScreenStates.STARTED;
     }
 
     public void onResume() {
-        currentState = States.RESUMED;
+        currentState = ScreenStates.RESUMED;
     }
 
     public void onPause() {
-        currentState = States.PAUSED;
+        currentState = ScreenStates.PAUSED;
     }
 
     public void onStop() {
-        currentState = States.STOPPED;
+        currentState = ScreenStates.STOPPED;
     }
 
     public void onViewDestroy() {
-        currentState = States.VIEW_DESTROYED;
+        currentState = ScreenStates.VIEW_DESTROYED;
     }
 
     public void onDestroy() {
-        currentState = States.DESTROYED;
+        currentState = ScreenStates.DESTROYED;
         this.widget = null;
         this.coreWidget = null;
     }
@@ -121,21 +124,8 @@ public class WidgetScreenState implements ScreenState {
         return coreWidget;
     }
 
-    public States getCurrentState() {
+    @Override
+    public ScreenStates getCurrentState() {
         return currentState;
-    }
-
-    /**
-     * Состояние виджета
-     */
-    public enum States {
-        CREATED,
-        VIEW_READY,
-        STARTED,
-        RESUMED,
-        PAUSED,
-        STOPPED,
-        VIEW_DESTROYED,
-        DESTROYED
     }
 }

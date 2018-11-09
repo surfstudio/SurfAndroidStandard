@@ -18,6 +18,7 @@ import ru.surfstudio.android.core.ui.event.lifecycle.stop.OnStopEvent
 import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyEvent
 import ru.surfstudio.android.core.ui.state.ScreenState
+import ru.surfstudio.android.core.ui.state.ScreenStates
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
@@ -45,25 +46,40 @@ class WidgetLifecycleManager(
 
     //разрешенные переходы по состояниям
     private val allowedStateTransition = mapOf(
-            WidgetScreenState.States.CREATED to listOf(WidgetScreenState.States.VIEW_READY),
-            WidgetScreenState.States.VIEW_READY to listOf(WidgetScreenState.States.STARTED),
-            WidgetScreenState.States.STARTED to listOf(WidgetScreenState.States.RESUMED),
-            WidgetScreenState.States.RESUMED to listOf(WidgetScreenState.States.PAUSED),
-            WidgetScreenState.States.PAUSED to listOf(WidgetScreenState.States.RESUMED, WidgetScreenState.States.STOPPED),
-            WidgetScreenState.States.STOPPED to listOf(WidgetScreenState.States.STARTED, WidgetScreenState.States.VIEW_DESTROYED),
-            WidgetScreenState.States.VIEW_DESTROYED to listOf(WidgetScreenState.States.VIEW_READY, WidgetScreenState.States.DESTROYED),
-            WidgetScreenState.States.DESTROYED to listOf()
+            ScreenStates.CREATED to listOf(ScreenStates.VIEW_READY, ScreenStates.DESTROYED),
+            ScreenStates.VIEW_READY to listOf(ScreenStates.STARTED, ScreenStates.VIEW_DESTROYED),
+            ScreenStates.STARTED to listOf(ScreenStates.RESUMED, ScreenStates.STOPPED),
+            ScreenStates.RESUMED to listOf(ScreenStates.PAUSED),
+            ScreenStates.PAUSED to listOf(ScreenStates.RESUMED, ScreenStates.STOPPED),
+            ScreenStates.STOPPED to listOf(ScreenStates.STARTED, ScreenStates.VIEW_DESTROYED),
+            ScreenStates.VIEW_DESTROYED to listOf(ScreenStates.VIEW_READY, ScreenStates.DESTROYED),
+            ScreenStates.DESTROYED to listOf()
+    )
+
+    //разрешенные переходы по состояниям
+    private val screenStateEvents = mapOf(
+            ScreenStates.VIEW_READY to { screenState.onViewReady() },
+            ScreenStates.STARTED to { screenState.onStart() },
+            ScreenStates.RESUMED to { screenState.onResume() },
+            ScreenStates.PAUSED to { screenState.onPause() },
+            ScreenStates.STOPPED to { screenState.onStop() },
+            ScreenStates.VIEW_DESTROYED to { screenState.onViewDestroy() },
+            ScreenStates.DESTROYED to { screenState.onDestroy() }
     )
 
     //эвенты для состояний
     private val eventsMap = mapOf(
-            WidgetScreenState.States.VIEW_READY to OnViewReadyEvent(),
-            WidgetScreenState.States.STARTED to OnStartEvent(),
-            WidgetScreenState.States.RESUMED to OnResumeEvent(),
-            WidgetScreenState.States.PAUSED to OnPauseEvent(),
-            WidgetScreenState.States.STOPPED to OnStopEvent(),
-            WidgetScreenState.States.VIEW_DESTROYED to OnViewDestroyEvent(),
-            WidgetScreenState.States.DESTROYED to OnCompletelyDestroyEvent()
+            ScreenStates.VIEW_READY to OnViewReadyEvent(),
+            ScreenStates.STARTED to OnStartEvent(),
+            ScreenStates.RESUMED to OnResumeEvent(),
+            ScreenStates.PAUSED to OnPauseEvent(),
+            ScreenStates.STOPPED to OnStopEvent(),
+            ScreenStates.VIEW_DESTROYED to OnViewDestroyEvent(),
+            ScreenStates.DESTROYED to OnCompletelyDestroyEvent()
+    )
+
+    private val parentsStatesEvents = mapOf(
+            ScreenStates.RESUMED to { state: ScreenStates -> allowedStateTransition[state] }
     )
 
     init {
@@ -78,92 +94,85 @@ class WidgetLifecycleManager(
     }
 
     fun onViewReady() {
-        if (parentState.isCompletelyDestroyed) return
-
-        if (pushState(WidgetScreenState.States.VIEW_READY)) {
-            screenState.onViewReady()
-        }
+        pushState(ScreenStates.VIEW_READY)
     }
 
     override fun onStart() {
-        if (pushState(WidgetScreenState.States.STARTED)) {
-            screenState.onStart()
-        }
+        pushState(ScreenStates.STARTED)
     }
 
     override fun onResume() {
-        if (pushState(WidgetScreenState.States.RESUMED)) {
-            screenState.onResume()
-        }
+        pushState(ScreenStates.RESUMED)
     }
 
     override fun onPause() {
-        if (parentState.isCompletelyDestroyed) return
-
-        if (pushState(WidgetScreenState.States.PAUSED)) {
-            screenState.onPause()
-        }
+        pushState(ScreenStates.PAUSED)
     }
 
     override fun onStop() {
-        if (screenState.isCompletelyDestroyed) return
-
-        if (pushState(WidgetScreenState.States.STOPPED)) {
-            screenState.onStop()
-        }
+        pushState(ScreenStates.STOPPED)
     }
 
     override fun onViewDestroy() {
-        if (screenState.isCompletelyDestroyed) return
-
-        if (pushState(WidgetScreenState.States.VIEW_DESTROYED)) {
-            screenState.onViewDestroy()
-        }
+        pushState(ScreenStates.VIEW_DESTROYED)
     }
 
     override fun onCompletelyDestroy() {
-        when (screenState.currentState) {
-            WidgetScreenState.States.CREATED, WidgetScreenState.States.VIEW_READY -> {
-                onStart()
-                onResume()
-                onPause()
-                onStop()
-                onViewDestroy()
-            }
-            WidgetScreenState.States.STARTED -> {
-                onResume()
-                onPause()
-                onStop()
-                onViewDestroy()
-            }
-            WidgetScreenState.States.RESUMED -> {
-                onPause()
-                onStop()
-                onViewDestroy()
-            }
-            WidgetScreenState.States.PAUSED -> {
-                onStop()
-                onViewDestroy()
-            }
-            WidgetScreenState.States.STOPPED -> onViewDestroy()
-        }
+        pushState(ScreenStates.DESTROYED)
+        destroy()
 
-        if (pushState(WidgetScreenState.States.DESTROYED)) {
-            screenState.onDestroy()
-            destroy()
+        //возможные проблемы
+        widgetViewDelegate.onCompletelyDestroy()
+    }
 
-            //возможные проблемы
-            widgetViewDelegate.onCompletelyDestroy()
+    private fun pushState(wishingState: ScreenStates) {
+        when {
+
+            wishingState == ScreenStates.STOPPED && parentState.currentState == ScreenStates.RESUMED -> {
+                applyStates(ScreenStates.PAUSED, ScreenStates.STOPPED, ScreenStates.VIEW_DESTROYED)
+            }
+
+            wishingState == ScreenStates.STARTED && parentState.currentState == ScreenStates.RESUMED -> {
+                applyStates(ScreenStates.STARTED, ScreenStates.RESUMED)
+            }
+
+            wishingState == ScreenStates.DESTROYED -> {
+                when (screenState.currentState!!) {
+
+                    ScreenStates.CREATED, ScreenStates.VIEW_READY, ScreenStates.STOPPED -> {
+                        applyStates(ScreenStates.VIEW_DESTROYED, ScreenStates.DESTROYED)
+                    }
+
+                    ScreenStates.STARTED, ScreenStates.PAUSED -> {
+                        applyStates(ScreenStates.STOPPED, ScreenStates.VIEW_DESTROYED, ScreenStates.DESTROYED)
+                    }
+
+                    ScreenStates.RESUMED -> {
+                        applyStates(ScreenStates.PAUSED, ScreenStates.STOPPED, ScreenStates.VIEW_DESTROYED, ScreenStates.DESTROYED)
+                    }
+
+                    ScreenStates.VIEW_DESTROYED -> {
+                        applyStates(ScreenStates.DESTROYED)
+                    }
+
+                    ScreenStates.DESTROYED -> {
+                    }
+                }
+            }
+
+            else -> applyStates(wishingState)
         }
     }
 
-    private fun pushState(state: WidgetScreenState.States): Boolean {
-        if (allowedStateTransition[screenState.currentState]?.contains(state) ?: false) {
-            widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state]!!)
-            return true
-        }
+    private fun applyStates(vararg states: ScreenStates) {
+        for (state in states) {
+            if (state != ScreenStates.DESTROYED && parentState.isCompletelyDestroyed) continue
 
-        return false
+            if (allowedStateTransition[screenState.currentState]?.contains(state) ?: false) {
+                widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state]!!)
+                screenStateEvents[state]?.invoke()
+            }
+        }
     }
 
     private fun destroy() {

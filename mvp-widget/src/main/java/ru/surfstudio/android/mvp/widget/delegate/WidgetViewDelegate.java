@@ -63,6 +63,14 @@ public class WidgetViewDelegate {
         this.eventResolvers = eventResolvers;
     }
 
+    /**
+     * Метод необходимо использовать в ресайклере для установки скоп айди на основе данных в bind
+     * @param scopeId
+     */
+    public void setScopeId(String scopeId) {
+        this.currentScopeId = scopeId;
+    }
+
     public void onCreate() {
         if (currentScopeId == null) {
             currentScopeId = UUID.randomUUID().toString();
@@ -77,14 +85,6 @@ public class WidgetViewDelegate {
 
         getLifecycleManager().onViewReady();
         getLifecycleManager().onStart();
-    }
-
-    public void onResume() {
-        getLifecycleManager().onResume();
-    }
-
-    public void onPause() {
-        getLifecycleManager().onPause();
     }
 
     public void onDestroy() {

@@ -17,13 +17,14 @@ package ru.surfstudio.android.mvp.widget.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.util.SparseArray;
-import android.view.View;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import ru.surfstudio.android.mvp.widget.R;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -39,6 +40,13 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 public abstract class CoreConstraintLayoutView extends ConstraintLayout implements CoreWidgetViewInterface {
 
     private WidgetViewDelegate widgetViewDelegate;
+    private boolean isManualInitEnabled;
+
+    public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled) {
+        super(context, null);
+        this.isManualInitEnabled = isManualInitEnabled;
+        widgetViewDelegate = createWidgetViewDelegate();
+    }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
         this(context, attrs, -1);
@@ -46,7 +54,15 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        obtainAttrs(attrs);
+
+        widgetViewDelegate = createWidgetViewDelegate();
+    }
+
+    private void obtainAttrs(AttributeSet attrs) {
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.WidgetView, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.WidgetView_enableManualInit, false);
+        ta.recycle();
     }
 
     protected abstract CorePresenter[] getPresenters();
@@ -66,7 +82,9 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        widgetViewDelegate.onCreate();
+        if (!isManualInitEnabled) {
+            init();
+        }
     }
 
     @SuppressLint("MissingSuperCall")
@@ -97,23 +115,14 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     }
 
     @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-        super.onWindowVisibilityChanged(visibility);
-
-        switch (visibility) {
-            case View.INVISIBLE:
-            case View.GONE:
-                widgetViewDelegate.onPause();
-                break;
-            case View.VISIBLE:
-                widgetViewDelegate.onResume();
-                break;
-        }
+    public final void init() {
+        widgetViewDelegate.onCreate();
     }
 
     @Override
-    public final void init() {
-        widgetViewDelegate = createWidgetViewDelegate();
+    public void init(String scopeId) {
+        widgetViewDelegate.setScopeId(scopeId);
+        widgetViewDelegate.onCreate();
     }
 
     @Override
@@ -130,5 +139,9 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     public WidgetViewPersistentScope getPersistentScope() {
         return widgetViewDelegate.getPersistentScope();
+    }
+
+    public void setScopeId(String scopeId) {
+        widgetViewDelegate.setScopeId(scopeId);
     }
 }

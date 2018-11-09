@@ -18,12 +18,14 @@ package ru.surfstudio.android.mvp.widget.view;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.View;
+import android.util.SparseArray;
 import android.widget.RelativeLayout;
 
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import ru.surfstudio.android.mvp.widget.R;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -39,6 +41,14 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 public abstract class CoreRelativeLayoutView extends RelativeLayout implements CoreWidgetViewInterface {
 
     private WidgetViewDelegate widgetViewDelegate;
+    private boolean isManualInitEnabled;
+
+    public CoreRelativeLayoutView(Context context, boolean isManualInitEnabled) {
+        super(context, null);
+
+        this.isManualInitEnabled = isManualInitEnabled;
+        widgetViewDelegate = createWidgetViewDelegate();
+    }
 
     public CoreRelativeLayoutView(Context context, AttributeSet attrs) {
         this(context, attrs, -1);
@@ -47,12 +57,22 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     public CoreRelativeLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        init();
+        obtainAttrs(attrs);
+        widgetViewDelegate = createWidgetViewDelegate();
     }
 
     @TargetApi(21)
     public CoreRelativeLayoutView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+
+        obtainAttrs(attrs);
+        widgetViewDelegate = createWidgetViewDelegate();
+    }
+
+    private void obtainAttrs(AttributeSet attrs) {
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.WidgetView, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.WidgetView_enableManualInit, false);
+        ta.recycle();
     }
 
     protected abstract CorePresenter[] getPresenters();
@@ -72,7 +92,9 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        widgetViewDelegate.onCreate();
+        if (!isManualInitEnabled) {
+            init();
+        }
     }
 
     @SuppressLint("MissingSuperCall")
@@ -84,6 +106,11 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     @Override
     public Parcelable superSavedInstanceState() {
         return super.onSaveInstanceState();
+    }
+
+    @Override
+    protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
+        super.dispatchRestoreInstanceState(container);
     }
 
     @SuppressLint("MissingSuperCall")
@@ -98,23 +125,14 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     }
 
     @Override
-    protected void onWindowVisibilityChanged(int visibility) {
-        super.onWindowVisibilityChanged(visibility);
-
-        switch (visibility) {
-            case View.INVISIBLE:
-            case View.GONE:
-                widgetViewDelegate.onPause();
-                break;
-            case View.VISIBLE:
-                widgetViewDelegate.onResume();
-                break;
-        }
+    public final void init() {
+        widgetViewDelegate.onCreate();
     }
 
     @Override
-    public final void init() {
-        widgetViewDelegate = createWidgetViewDelegate();
+    public void init(String scopeId) {
+        widgetViewDelegate.setScopeId(scopeId);
+        widgetViewDelegate.onCreate();
     }
 
     @Override

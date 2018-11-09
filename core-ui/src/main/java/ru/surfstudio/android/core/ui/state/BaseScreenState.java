@@ -32,22 +32,48 @@ public abstract class BaseScreenState implements ScreenState {
     private boolean viewDestroyedAtListOnce = false;
     private boolean screenDestroyedAtListOnce = false;
 
+    private ScreenStates currentState;
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         viewRecreated = viewDestroyedAtListOnce;
         screenRecreated = screenDestroyedAtListOnce;
         restoredFromDisk = restoredFromDisk ||
                 !screenDestroyedAtListOnce && savedInstanceState != null;
+
+        currentState = ScreenStates.CREATED;
     }
 
-    public void onDestroyView() {
-        viewDestroyedAtListOnce = true;
+    public void onViewReady() {
+        currentState = ScreenStates.VIEW_READY;
+    }
+
+    public void onStart() {
+        currentState = ScreenStates.STARTED;
+    }
+
+    public void onResume() {
+        currentState = ScreenStates.RESUMED;
+    }
+
+    public void onPause() {
+        currentState = ScreenStates.PAUSED;
+    }
+
+    public void onStop() {
+        currentState = ScreenStates.STOPPED;
     }
 
     public void onDestroy() {
         screenDestroyedAtListOnce = true;
     }
 
+    public void onDestroyView() {
+        currentState = ScreenStates.VIEW_DESTROYED;
+        viewDestroyedAtListOnce = true;
+    }
+
     public void onCompletelyDestroy() {
+        currentState = ScreenStates.DESTROYED;
         completelyDestroyed = true;
     }
 
@@ -74,5 +100,10 @@ public abstract class BaseScreenState implements ScreenState {
     @Override
     public boolean isRestoredFromDiskJustNow() {
         return isRestoredFromDisk() && !isViewRecreated();
+    }
+
+    @Override
+    public ScreenStates getCurrentState() {
+        return currentState;
     }
 }

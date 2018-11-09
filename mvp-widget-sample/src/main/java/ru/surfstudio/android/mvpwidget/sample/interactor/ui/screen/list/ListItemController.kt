@@ -24,7 +24,7 @@ class ListItemController(
         }
 
         override fun bind(int: Int) {
-            constraintWidgetView.id = int
+//            constraintWidgetView.setScope = int
             constraintWidgetView.render(int.toString())
         }
     }
