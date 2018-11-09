@@ -1,14 +1,13 @@
 package ru.surfstudio.android.animations.sample
 
 import androidx.annotation.IdRes
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
-import org.hamcrest.CoreMatchers
+import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -58,10 +57,8 @@ class AnimationsSampleTest {
 
     private fun performClickOnWidget(@IdRes widgetResId: Int) {
         widgetAnimationButtons.forEach {
-            Espresso.onView(CoreMatchers.allOf(
-                    ViewMatchers.withId(it),
-                    ViewMatchers.withParent(ViewMatchers.withId(widgetResId)))
-            ).perform(ViewActions.click())
+            onView(allOf(withId(it), withParent(withId(widgetResId))))
+                    .perform(click())
         }
     }
 }

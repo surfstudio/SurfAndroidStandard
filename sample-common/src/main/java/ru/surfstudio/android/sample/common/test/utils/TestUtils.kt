@@ -12,6 +12,8 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.not
 
 /**
  * Функция, выполняющая нажатие на каждую вью, id которых переданы в параметрах
@@ -35,11 +37,22 @@ fun performClick(textForCheck: String, @IdRes vararg viewIdResList: Int) {
 }
 
 /**
+ * Функция, проверяющая, что text для вью, принадлежащей другой вью,
+ * равен значению строкового ресурса
+ */
+fun checkTest(@IdRes viewResId: Int, @IdRes parentViewResId: Int, @StringRes textResId: Int) {
+    onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
+            .check(matches(withText(textResId)))
+            .check(matches(isDisplayed()))
+}
+
+/**
  * Функция, проверяющая, что text для вью равен значению строкового ресурса
  */
 fun checkTest(@IdRes viewResId: Int, @StringRes textResId: Int) {
     onView(withId(viewResId))
             .check(matches(withText(textResId)))
+            .check(matches(isDisplayed()))
 }
 
 /**
@@ -82,6 +95,38 @@ fun checkIfSnackbarIsVisible(@StringRes messageResId: Int) {
     onView(withId(com.google.android.material.R.id.snackbar_text))
             .check(matches(withText(messageResId)))
             .check(matches(isDisplayed()))
+}
+
+/**
+ * Функция, проверяющая видимость вью, принадлежащей другой вью
+ */
+fun checkIfViewIsVisible(@IdRes viewResId: Int, @IdRes parentViewResId: Int) {
+    onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
+            .check(matches(isDisplayed()))
+}
+
+/**
+ * Функция, проверяющая, что на экране отображается вью с заданным id
+ */
+fun checkIfViewIsVisible(@IdRes viewResId: Int) {
+    onView(withId(viewResId))
+            .check(matches(isDisplayed()))
+}
+
+/**
+ * Функция, проверяющая, что вью, принадлежащая другой вью, не видима
+ */
+fun checkIfViewIsNotVisible(@IdRes viewResId: Int, @IdRes parentViewResId: Int) {
+    onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
+            .check(matches(not(isDisplayed())))
+}
+
+/**
+ * Функция, проверяющая, что на экране не отображается вью с заданным id
+ */
+fun checkIfViewIsNotVisible(@IdRes viewResId: Int) {
+    onView(withId(viewResId))
+            .check(matches(not(isDisplayed())))
 }
 
 /**
