@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/another_screen_tv"
@@ -17,8 +17,10 @@
         android:id="@+id/another_screen_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/another_screen_tv"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:layout_below="@id/another_screen_tv"
-        android:hint="@string/another_screen_email"/>
+        android:hint="@string/another_screen_email"
+        android:inputType="text"
+        tools:ignore="Autofill" />
 </RelativeLayout>

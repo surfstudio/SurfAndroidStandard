@@ -89,6 +89,15 @@ fun checkIfToastIsVisible(@StringRes toastResId: Int) {
 }
 
 /**
+ * Функция, проверяющая, что на экране отображается Toast с заданным сообщением
+ */
+fun checkIfToastIsVisible(message: String) {
+    onView(withText(message))
+            .inRoot(ToastMatcher())
+            .check(matches(isDisplayed()))
+}
+
+/**
  * Функция, проверяющая, что на экрана отображается Snackbar с заданным сообщением
  */
 fun checkIfSnackbarIsVisible(@StringRes messageResId: Int) {
