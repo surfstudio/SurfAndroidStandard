@@ -1,13 +1,22 @@
 package ru.surfstudio.android.core.mvp.loadstate.renderer
 
+import android.view.View
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 
 abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     private val strategies = mutableMapOf<Class<*>, LoadStatePresentationStrategy<*>>()
 
-    private val actionsMap = mutableMapOf<Class<out LoadStateInterface>, MutableList<() -> Unit>>()
-    private val ifNotActionList = mutableListOf<Pair<(state: LoadStateInterface) -> Boolean, () -> Unit>>()
+    private val thisStateActionsMap = mutableMapOf<Class<out LoadStateInterface>, MutableList<() -> Unit>>()
+    private val notThisStateActionsList = mutableListOf<Pair<(state: LoadStateInterface) -> Boolean, () -> Unit>>()
+
+    override fun render(loadState: LoadStateInterface) {
+        getStrategy(loadState.javaClass).renderLoadState(loadState)
+
+        thisStateActionsMap[loadState::class.java]?.forEach { it.invoke() }
+        notThisStateActionsList.forEach { if (it.first.invoke(loadState)) it.second.invoke() }
+    }
+
 
     /**
      * @return BaseLoadStateRenderer in Fluent interface style
@@ -19,30 +28,84 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
         return this
     }
 
-    fun addStateAction(
-            states: List<Class<out LoadStateInterface>>,
-            action: () -> Unit = {},
-            ifNotAction: () -> Unit = {}): BaseLoadStateRenderer {
-
-        states.forEach {
-            actionsMap.getOrPut(it) { mutableListOf(action) }.add(action)
-        }
-
-        val predicate = { it: LoadStateInterface -> states.contains(it::class.java).not() }
-        ifNotActionList.add(Pair(predicate, ifNotAction))
-
-        return this
-    }
-
     @Suppress("UNCHECKED_CAST")
     fun <T : LoadStateInterface> getStrategy(loadStateClass: Class<T>) =
             strategies[loadStateClass] as? LoadStatePresentationStrategy<T>
                     ?: throw UnknownLoadStateException(loadStateClass.simpleName)
 
-    override fun render(loadState: LoadStateInterface) {
-        getStrategy(loadState.javaClass).renderLoadState(loadState)
+    fun addStateAction(
+            loadStates: List<Class<out LoadStateInterface>>,
+            thisStateAction: (() -> Unit)? = null,
+            notThisStateAction: (() -> Unit)? = null): BaseLoadStateRenderer {
 
-        actionsMap[loadState::class.java]?.forEach { it.invoke() }
-        ifNotActionList.forEach { if (it.first.invoke(loadState)) it.second.invoke() }
+        thisStateAction?.let {
+            loadStates.forEach { state ->
+                thisStateActionsMap.getOrPut(state) { mutableListOf(it) }.add(it)
+            }
+        }
+
+        notThisStateAction?.let {
+            notThisStateActionsList.add(Pair(
+                    { state: LoadStateInterface -> loadStates.contains(state::class.java).not() },
+                    it))
+        }
+        return this
     }
+
+    fun addStateAction(
+            state: Class<out LoadStateInterface>,
+            thisStateAction: (() -> Unit)? = null,
+            notThisStateAction: (() -> Unit)? = null) =
+            addStateAction(
+                    listOf(state),
+                    thisStateAction,
+                    notThisStateAction)
+
+    fun setViewsVisibilityForState(
+            loadStates: List<Class<out LoadStateInterface>>,
+            views: List<View>,
+            thisStatesVisibility: Int,
+            otherStatesVisibility: Int): BaseLoadStateRenderer {
+
+        addStateAction(
+                loadStates,
+                { views.forEach { it.visibility = thisStatesVisibility } },
+                { views.forEach { it.visibility = otherStatesVisibility } })
+
+        return this
+    }
+
+    fun setViewsVisibilityForState(
+            loadState: Class<out LoadStateInterface>,
+            views: List<View>,
+            thisStatesVisibility: Int,
+            otherStatesVisibility: Int) =
+            setViewsVisibilityForState(
+                    listOf(loadState),
+                    views,
+                    thisStatesVisibility,
+                    otherStatesVisibility)
+
+    fun setViewsVisibilityForState(
+            loadStates: List<Class<out LoadStateInterface>>,
+            views: View,
+            thisStatesVisibility: Int,
+            otherStatesVisibility: Int) =
+            setViewsVisibilityForState(
+                    loadStates,
+                    listOf(views),
+                    thisStatesVisibility,
+                    otherStatesVisibility)
+
+    fun setViewsVisibilityForState(
+            loadState: Class<out LoadStateInterface>,
+            views: View,
+            thisStatesVisibility: Int,
+            otherStatesVisibility: Int) =
+            setViewsVisibilityForState(
+                    listOf(loadState),
+                    listOf(views),
+                    thisStatesVisibility,
+                    otherStatesVisibility)
 }
+
