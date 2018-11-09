@@ -3,6 +3,7 @@ package ru.surfstudio.android.easyadapter.holder.async
 import android.annotation.TargetApi
 import android.os.Build
 import android.transition.Fade
+import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
@@ -50,6 +51,15 @@ internal fun AsyncViewHolder.inflateItemView(
                     itemView,
                     Fade(Fade.IN).apply {
                         duration = fadeInDuration
+                        addListener(object : Transition.TransitionListener {
+                            override fun onTransitionStart(transition: Transition?) {}
+                            override fun onTransitionResume(transition: Transition?) {}
+                            override fun onTransitionPause(transition: Transition?) {}
+                            override fun onTransitionCancel(transition: Transition?) {}
+                            override fun onTransitionEnd(transition: Transition?) {
+                                onFadeInEnd()
+                            }
+                        })
                     }
             )
         }
