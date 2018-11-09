@@ -17,7 +17,7 @@ class CustomViewSampleTest {
     }
 
     @Test
-    fun testCustomViw() {
+    fun testCustomView() {
 
     }
 }
