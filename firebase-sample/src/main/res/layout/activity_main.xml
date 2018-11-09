@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="@dimen/default_margin">
 
     <EditText
         android:id="@+id/event_text_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:inputType="text"
         android:text="@string/event_text_et_value"
-        android:layout_marginBottom="@dimen/default_margin" />
+        tools:ignore="Autofill,LabelFor" />
 
     <Button
         android:id="@+id/send_event_btn"
