@@ -18,6 +18,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
 
+private val SNACKBAR_ID = com.google.android.material.R.id.snackbar_text
+
 /**
  * Функция, выполняющая нажатие на каждую вью, id которых переданы в параметрах
  */
@@ -117,10 +119,10 @@ fun checkIfToastIsVisible(message: String) {
 }
 
 /**
- * Функция, проверяющая, что на экрана отображается Snackbar с заданным сообщением
+ * Функция, проверяющая, что на экране отображается Snackbar с заданным сообщением
  */
 fun checkIfSnackbarIsVisible(@StringRes messageResId: Int) {
-    onView(withId(com.google.android.material.R.id.snackbar_text))
+    onView(withId(SNACKBAR_ID))
             .check(matches(withText(messageResId)))
             .check(matches(isDisplayed()))
 }
