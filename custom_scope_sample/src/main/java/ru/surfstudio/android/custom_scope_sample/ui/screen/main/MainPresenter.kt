@@ -22,7 +22,6 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         view.render(sm)
-
     }
 
     override fun onResume() {

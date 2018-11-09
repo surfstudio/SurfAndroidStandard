@@ -8,7 +8,6 @@ android {
 
     defaultConfig {
         applicationId "ru.surfstudio.android.firebase.sample"
-        multiDexEnabled true
     }
 }
 
