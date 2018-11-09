@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector.network
 
+import android.content.Context
 import com.readystatesoftware.chuck.ChuckInterceptor
 import ru.surfstudio.standard.i_network.service.ServiceInterceptor
 import ru.surfstudio.standard.i_token.TokenStorage
@@ -11,7 +12,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.network.cache.SimpleCacheInterceptor
 import ru.surfstudio.android.network.etag.EtagInterceptor
-import ru.surfstudio.standard.f_debug.server_settings.storage.ServerSettingsStorage
+import ru.surfstudio.standard.f_debug.server_settings.storage.DebugServerSettingsStorage
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 
@@ -38,21 +39,21 @@ class OkHttpModule {
             cacheInterceptor: SimpleCacheInterceptor,
             etagInterceptor: EtagInterceptor,
             httpLoggingInterceptor: HttpLoggingInterceptor,
-            chuckInterceptor: ChuckInterceptor,
-            serverSettingsStorage: ServerSettingsStorage
+            debugServerSettingsStorage: DebugServerSettingsStorage,
+            context: Context
     ): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
             readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
             writeTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
 
+            if (debugServerSettingsStorage.isChuckEnabled) {
+                addInterceptor(ChuckInterceptor(context))
+            }
             addInterceptor(cacheInterceptor)
             addInterceptor(etagInterceptor)
             addInterceptor(serviceInterceptor)
             addInterceptor(httpLoggingInterceptor)
-            if (serverSettingsStorage.isChuckEnabled) {
-                addInterceptor(chuckInterceptor)
-            }
         }.build()
     }
 }

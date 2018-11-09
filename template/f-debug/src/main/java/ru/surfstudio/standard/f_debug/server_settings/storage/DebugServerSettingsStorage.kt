@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Named
 
 @PerApplication
-class ServerSettingsStorage @Inject constructor(
+class DebugServerSettingsStorage @Inject constructor(
         @Named(NO_BACKUP_SHARED_PREF) private val noBackupSharedPref: SharedPreferences
 ) {
     companion object {

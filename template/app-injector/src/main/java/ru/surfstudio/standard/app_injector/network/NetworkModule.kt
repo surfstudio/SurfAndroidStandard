@@ -67,12 +67,6 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    internal fun provideChuckInterceptor(context: Context): ChuckInterceptor {
-        return ChuckInterceptor(context)
-    }
-
-    @Provides
-    @PerApplication
     internal fun provideDownloadManager(context: Context): DownloadManager {
         return context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
     }

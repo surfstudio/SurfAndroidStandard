@@ -2,4 +2,7 @@ apply from: '../commonFeatureModule.gradle'
 
 dependencies {
     implementation project(':template:base-ui')
+
+    api "com.readystatesoftware.chuck:library:$chuckVersion"
+    implementation "com.jakewharton:process-phoenix:$processPhoenix"
 }

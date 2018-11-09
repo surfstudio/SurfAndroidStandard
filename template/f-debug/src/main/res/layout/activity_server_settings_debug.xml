@@ -1,35 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.surfstudio.standard.f_debug.server_settings.widget.TitleSubtitleSwitch
+    <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
         android:id="@+id/server_settings_chuck_switch"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:switch_subtitle="@string/switch_subtitle_text"
         app:switch_title="@string/switch_title_text" />
 
-    <TextView
-        android:id="@+id/chuck_description_tw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"
-        android:text="@string/chuck_description_tw_text"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/server_settings_chuck_switch" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:color/black"
-        app:layout_constraintTop_toBottomOf="@id/chuck_description_tw" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

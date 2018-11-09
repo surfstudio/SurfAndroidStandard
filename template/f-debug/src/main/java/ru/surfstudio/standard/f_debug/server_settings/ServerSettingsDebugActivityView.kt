@@ -23,13 +23,13 @@ class ServerSettingsDebugActivityView : BaseRenderableActivityView<ServerSetting
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 
     override fun renderInternal(sm: ServerSettingsDebugScreenModel) {
-        server_settings_chuck_switch.isChecked = sm.isChuckEnabled
+        server_settings_chuck_switch.setChecked(sm.isChuckEnabled)
         addCheckedChangeListener()
     }
 
     private fun addCheckedChangeListener() {
         server_settings_chuck_switch.setOnCheckedChangeListener { _, _ ->
-            presenter.openRebootActivityDebug()
+            presenter.setChuckEnabled(server_settings_chuck_switch.isChecked())
         }
     }
 }

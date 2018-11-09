@@ -9,11 +9,11 @@
             android:launchMode="singleTask" />
 
         <activity
-            android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView"
-            android:screenOrientation="portrait" />
+            android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView" />
 
         <activity
             android:name="ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView"
+            android:launchMode="singleInstance"
             android:theme="@style/Theme.Transparent" />
 
         <activity android:name="ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView" />
