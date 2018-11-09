@@ -3,12 +3,15 @@ package ru.surfstudio.android.sample.common.test.utils
 import android.app.Activity
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
+import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -34,6 +37,22 @@ fun performClick(textForCheck: String, @IdRes vararg viewIdResList: Int) {
                 .perform(click())
                 .check(matches(withText(textForCheck)))
     }
+}
+
+/**
+ * Функция, выполняющая нажатие на элемент RecyclerView с заданной позицией
+ */
+fun performClick(@IdRes recyclerViewResId: Int, position: Int) {
+    onView(withId(recyclerViewResId))
+            .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position, click()))
+}
+
+/**
+ * Функция, выполняющая скролл RecyclerView на заданную позицию
+ */
+fun scrollTo(@IdRes recyclerViewResId: Int, position: Int) {
+    onView(withId(recyclerViewResId))
+            .perform(scrollToPosition<RecyclerView.ViewHolder>(position))
 }
 
 /**

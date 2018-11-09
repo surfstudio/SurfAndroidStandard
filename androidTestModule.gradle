@@ -15,5 +15,6 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoXVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoXVersion"
 }

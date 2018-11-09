@@ -15,5 +15,6 @@ dependencies {
     api "androidx.test.ext:junit:$androidxVersion"
     api "androidx.test:runner:$testRunnerXVersion"
     api "androidx.test.espresso:espresso-core:$espressoXVersion"
+    api "androidx.test.espresso:espresso-contrib:$espressoXVersion"
     api "androidx.test.espresso:espresso-intents:$espressoXVersion"
 }
