@@ -7,6 +7,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.filestorage.sample.R
+import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
@@ -46,7 +47,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
             sm.loadState = LoadState.NONE
             view.render(sm)
         }, {
-            sm.loadState = LoadState.NONE
+            sm.ip = getIpFromCache()
+            sm.loadState = if (sm.ip != null) LoadState.NONE else LoadState.ERROR
             view.render(sm)
         })
     }
@@ -62,7 +64,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun loadDataFromCache() {
-        val message = repository.getIpFromCache()?.value
+        val message = getIpFromCache()?.value
         if (message.isNullOrEmpty()) {
             messageController.show(getString(R.string.empty_cache_message))
         } else {
@@ -74,6 +76,8 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         repository.clearIpStorage()
         messageController.show(getString(R.string.cache_deleted_message))
     }
+
+    private fun getIpFromCache(): Ip? = repository.getIpFromCache()
 
     private fun getString(@StringRes stringId: Int): String = stringsProvider.getString(stringId)
 }
