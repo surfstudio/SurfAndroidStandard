@@ -15,6 +15,8 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.S
 import ru.surfstudio.android.rxbus.RxBus
 import javax.inject.Inject
 
+const val INITIAL_COMPLEX_DIALOG_VALUE = 10
+
 /**
  * Презентер главного экрана
  */
@@ -43,7 +45,9 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     fun showSimpleBottomSheetDialog() = dialogNavigator.show(SimpleBottomSheetDialogRoute())
 
-    fun showComplexDialog() = dialogNavigator.show(ComplexDialogRoute(SampleData(10)))
+    fun showComplexDialog() = dialogNavigator.show(ComplexDialogRoute(getSampleData()))
 
-    fun showComplexBottomSheetDialog() = dialogNavigator.show(ComplexBottomSheetDialogRoute(SampleData(10)))
+    fun showComplexBottomSheetDialog() = dialogNavigator.show(ComplexBottomSheetDialogRoute(getSampleData()))
+
+    private fun getSampleData(): SampleData = SampleData(INITIAL_COMPLEX_DIALOG_VALUE)
 }

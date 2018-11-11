@@ -77,6 +77,15 @@ fun checkViewText(@IdRes viewResId: Int, @StringRes textResId: Int) {
 }
 
 /**
+ * Функция, проверяющая, что text для вью равен заданному значению
+ */
+fun checkViewText(@IdRes viewResId: Int, text: String) {
+    onView(withId(viewResId))
+            .check(matches(withText(text)))
+            .check(matches(isDisplayed()))
+}
+
+/**
  * Функция, проверяющая, что на экрана отображается вью с заданным текстом
  */
 fun checkText(@IdRes vararg textResIdList: Int) {
