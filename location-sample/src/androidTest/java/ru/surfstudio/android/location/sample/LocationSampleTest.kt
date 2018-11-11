@@ -53,11 +53,13 @@ class LocationSampleTest {
         clickAndCheckActivity(
                 R.id.btn_default_location_interactor_sample,
                 DefaultLocationInteractorActivityView::class.java,
-                defaultLocationInteractorOptions)
+                defaultLocationInteractorOptions
+        )
         clickAndCheckActivity(
                 R.id.btn_location_service_sample,
                 LocationServiceActivityView::class.java,
-                locationServiceOptions)
+                locationServiceOptions
+        )
     }
 
     private fun <T : Activity> clickAndCheckActivity(
