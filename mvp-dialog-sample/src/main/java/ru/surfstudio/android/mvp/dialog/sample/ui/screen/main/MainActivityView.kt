@@ -43,7 +43,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         toast(R.string.simple_dialog_accepted)
     }
 
-    fun showSimpleBottomsheetDialogAcceptedMessage() {
+    fun showSimpleBottomSheetDialogAcceptedMessage() {
         toast(R.string.simple_bottomsheet_dialog_accepted)
     }
 

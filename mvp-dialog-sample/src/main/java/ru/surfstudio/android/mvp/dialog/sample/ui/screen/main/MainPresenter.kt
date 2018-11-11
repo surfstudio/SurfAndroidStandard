@@ -37,7 +37,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     override fun simpleDialogSuccessAction() = view.showSimpleDialogAcceptedMessage()
 
-    override fun simpleBottomSheetDialogSuccessAction() = view.showSimpleBottomsheetDialogAcceptedMessage()
+    override fun simpleBottomSheetDialogSuccessAction() = view.showSimpleBottomSheetDialogAcceptedMessage()
 
     fun showSimpleDialog() = dialogNavigator.show(SimpleDialogRoute())
 

@@ -7,10 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.checkIfToastIsVisible
-import ru.surfstudio.android.sample.common.test.utils.checkText
-import ru.surfstudio.android.sample.common.test.utils.launchActivity
-import ru.surfstudio.android.sample.common.test.utils.performClick
+import ru.surfstudio.android.sample.common.test.utils.*
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
@@ -30,6 +27,10 @@ class MvpDialogSampleTest {
         performClick(R.id.show_simple_dialog_btn)
         checkText(R.string.simple_dialog_title, R.string.simple_dialog_message)
         performClick(acceptButtonIdRes)
-        checkIfToastIsVisible(R.string.simple_dialog_accepted)
+
+        //test simple bottom sheet dialog
+        performClick(R.id.show_simple_bottomsheet_dialog_btn)
+        checkText(R.string.bottom_sheet_action)
+        performClick(R.id.simple_bottom_sheet_dialog_action_container)
     }
 }
