@@ -1,4 +1,4 @@
-package ru.surfstudio.android.pictureprovider.sample.interactor.ui.screen.main
+package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -17,15 +17,12 @@ import javax.inject.Inject
  * Вью главного экрана
  */
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
-    override fun getScreenName(): String  = "MainActivity"
 
     @Inject
     internal lateinit var presenter: MainPresenter
 
     @IdRes
-    override fun getContentView(): Int {
-        return R.layout.activity_main
-    }
+    override fun getContentView(): Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
@@ -42,24 +39,18 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun renderInternal(sm: MainScreenModel) {}
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator(): DefaultActivityScreenConfigurator {
-        return MainScreenConfigurator(intent)
-    }
+    override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
+
+    override fun getScreenName(): String  = "MainActivity"
 
     private fun configureButton(@IdRes buttonId: Int, onClickListener: (view: View) -> Unit) {
         val button: Button = find(buttonId)
         button.setOnClickListener { onClickListener(it) }
     }
 
-    fun startCamera() {
-        camera_preview.start()
-    }
+    fun startCamera() = camera_preview.start()
 
-    fun stopCamera() {
-        camera_preview.stop()
-    }
+    fun stopCamera() = camera_preview.stop()
 }

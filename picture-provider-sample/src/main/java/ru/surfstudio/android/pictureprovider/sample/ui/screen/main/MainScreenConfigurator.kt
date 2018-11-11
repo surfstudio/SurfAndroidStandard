@@ -1,4 +1,4 @@
-package ru.surfstudio.android.pictureprovider.sample.interactor.ui.screen.main
+package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 
 import android.content.Intent
 import dagger.Component
@@ -24,6 +24,7 @@ internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenCon
     internal class MainScreenModule(route: MainActivityRoute)
         : DefaultCustomScreenModule<MainActivityRoute>(route)
 
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {

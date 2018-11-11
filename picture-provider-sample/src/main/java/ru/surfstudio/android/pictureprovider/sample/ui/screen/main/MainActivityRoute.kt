@@ -1,4 +1,4 @@
-package ru.surfstudio.android.pictureprovider.sample.interactor.ui.screen.main
+package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 
 import android.content.Context
 import android.content.Intent
