@@ -39,6 +39,14 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
+    fun showSimpleDialogAcceptedMessage() {
+        toast(R.string.simple_dialog_accepted)
+    }
+
+    fun showSimpleBottomsheetDialogAcceptedMessage() {
+        toast(R.string.simple_bottomsheet_dialog_accepted)
+    }
+
     fun showMessage(message: String) {
         toast(message)
     }

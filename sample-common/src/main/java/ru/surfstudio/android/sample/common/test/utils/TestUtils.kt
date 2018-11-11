@@ -61,7 +61,7 @@ fun scrollTo(@IdRes recyclerViewResId: Int, position: Int) {
  * Функция, проверяющая, что text для вью, принадлежащей другой вью,
  * равен значению строкового ресурса
  */
-fun checkTest(@IdRes viewResId: Int, @IdRes parentViewResId: Int, @StringRes textResId: Int) {
+fun checkViewText(@IdRes viewResId: Int, @IdRes parentViewResId: Int, @StringRes textResId: Int) {
     onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
             .check(matches(withText(textResId)))
             .check(matches(isDisplayed()))
@@ -70,10 +70,20 @@ fun checkTest(@IdRes viewResId: Int, @IdRes parentViewResId: Int, @StringRes tex
 /**
  * Функция, проверяющая, что text для вью равен значению строкового ресурса
  */
-fun checkTest(@IdRes viewResId: Int, @StringRes textResId: Int) {
+fun checkViewText(@IdRes viewResId: Int, @StringRes textResId: Int) {
     onView(withId(viewResId))
             .check(matches(withText(textResId)))
             .check(matches(isDisplayed()))
+}
+
+/**
+ * Функция, проверяющая, что на экрана отображается вью с заданным текстом
+ */
+fun checkText(@IdRes vararg textResIdList: Int) {
+    textResIdList.forEach {
+        onView(withText(it))
+                .check(matches(isDisplayed()))
+    }
 }
 
 /**

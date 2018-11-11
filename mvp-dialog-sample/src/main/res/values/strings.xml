@@ -13,6 +13,9 @@
     <string name="simple_dialog_title">Simple dialog title</string>
     <string name="simple_dialog_message">Simple dialog message</string>
 
+    <string name="simple_dialog_accepted">Simple dialog accepted</string>
+    <string name="simple_bottomsheet_dialog_accepted">Simple bottom sheet dialog accepted</string>
+
     <string name="simple_bottomsheet_dialog_title">Simple bottomsheet dialog title</string>
     <string name="simple_bottomsheet_dialog_message">Simple bottomsheet dialog message</string>
 
