@@ -28,16 +28,13 @@ class MessageControllerSampleTest {
 
         performClick(R.id.show_gravity_toast)
         checkIfToastIsVisible(R.string.toast_message)
-
-        // Проверка закрытия снека
-        clickAndCheckSnackbar(R.id.show_colored_snackbar)
-        performClick(R.id.close_snackbar)
     }
 
     private fun clickAndCheckSnackbar(@IdRes vararg buttonResArray: Int) {
         buttonResArray.forEach {
             performClick(it)
             checkIfSnackbarIsVisible(R.string.snackbar_message)
+            performClick(R.id.close_snackbar)
         }
     }
 }
