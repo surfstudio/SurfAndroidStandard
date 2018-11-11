@@ -6,9 +6,9 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**
- * Просто пример презентера для виджета
- * */
+ * Простой пример презентера для виджета
+ */
 @PerScreen
 class FrameViewPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency)
-    : BasePresenter<FrameWidgetView>(basePresenterDependency)
+        basePresenterDependency: BasePresenterDependency
+) : BasePresenter<FrameWidgetView>(basePresenterDependency)

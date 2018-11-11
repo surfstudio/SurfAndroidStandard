@@ -9,17 +9,18 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.widget.DefaultWidgetSc
 
 /**
  * Простой пример конфигуратора для виджета
- * */
+ */
 class FrameViewConfigurator : DefaultWidgetScreenConfigurator() {
 
-    override fun createScreenComponent(parentComponentDefault: DefaultActivityComponent,
-                                       widgetScreenModule: DefaultWidgetScreenModule): ScreenComponent<*> {
+    override fun createScreenComponent(
+            parentComponentDefault: DefaultActivityComponent,
+            widgetScreenModule: DefaultWidgetScreenModule
+    ): ScreenComponent<*> {
         return DaggerFrameViewConfigurator_FrameViewComponent.builder()
                 .defaultActivityComponent(parentComponentDefault)
                 .defaultWidgetScreenModule(widgetScreenModule)
                 .build()
     }
-
 
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
