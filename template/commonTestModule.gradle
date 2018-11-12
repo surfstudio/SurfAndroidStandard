@@ -1,8 +1,4 @@
 android {
-    defaultConfig {
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -11,7 +7,6 @@ android {
 }
 
 dependencies {
-
     //unit test
     testImplementation project(":template:base")
     testImplementation "junit:junit:$junitVersion"
@@ -21,9 +16,17 @@ dependencies {
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //instrumental test
-    androidTestImplementation project(":template:base")
-    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    api "androidx.test:core:$androidxVersion"
+    api "androidx.test.ext:junit:$androidxVersion"
+    api "androidx.test:runner:$testRunnerXVersion"
+    api "androidx.test.espresso:espresso-core:$espressoXVersion"
+    api "androidx.test.espresso:espresso-contrib:$espressoXVersion"
+    api "androidx.test.espresso:espresso-intents:$espressoXVersion"
+
+    androidTestImplementation "androidx.test:core:$androidxVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoXVersion"
 }

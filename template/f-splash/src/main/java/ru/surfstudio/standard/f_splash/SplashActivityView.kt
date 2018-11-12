@@ -14,18 +14,11 @@ class SplashActivityView : CoreActivityView(), PushHandlingActivity {
     internal lateinit var presenter: SplashPresenter
 
     @LayoutRes
-    override fun getContentView(): Int {
-        return R.layout.activity_splash
-    }
+    override fun getContentView(): Int = R.layout.activity_splash
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
-        return arrayOf(presenter)
-    }
+    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 
-    override fun getScreenName(): String {
-        return "splash"
-    }
-
+    override fun getScreenName(): String = "splash"
 }

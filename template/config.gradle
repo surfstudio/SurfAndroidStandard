@@ -31,13 +31,13 @@ ext {
     rxBinding2Version = '2.2.0'                 //https://goo.gl/KQ5Vga
 
     //android framework
-    androidGradleToolsVersion = '3.2.0'         //https://bit.ly/2NXD4Pe
-    appcompatVersion = '28.0.0'
+    androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
+    androidxVersion = '1.0.0'
     firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.3.4'
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
     fabricToolsVersion = '1.25.4'
-    crashlyticsVersion = '2.9.5'                //http://bit.ly/2v5mXbp
+    crashlyticsVersion = '2.9.6'                //http://bit.ly/2v5mXbp
     googleServicesVersion = '4.1.0'             //http://bit.ly/2mZ4j0B
     androidKtxVersion = '0.3'                   //http://bit.ly/2LCdByd
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
@@ -57,11 +57,13 @@ ext {
     robolectricVersion = '3.8'                  //http://bit.ly/2xLRICR
     junitVersion = '4.12'
     testRunnerVersion = '1.0.2'                 //http://bit.ly/2O0uGi9
+    testRunnerXVersion = '1.1.0'
     espressoVersion = '3.0.2'                   //http://bit.ly/2v3OiKX
+    espressoXVersion = '3.1.0'
     mockitoVersion = '2.23.0'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
 
     // Surf Core
-    surfCoreVersionName = '0.3.0-SNAPSHOT'      // версия android-standard
+    surfCoreVersionName = '0.4.0-SNAPSHOT'      // версия android-standard
 }
