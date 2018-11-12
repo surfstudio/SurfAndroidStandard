@@ -23,8 +23,7 @@ class MvpDialogSampleTest {
     fun testMvpDialogSample() {
         testSimpleDialog(
                 R.id.show_simple_dialog_btn,
-                intArrayOf(R.string.simple_dialog_title, R.string.simple_dialog_message),
-                android.R.id.button1
+                intArrayOf(R.string.simple_dialog_title, R.string.simple_dialog_message)
         )
 
         testSimpleDialog(
@@ -38,11 +37,11 @@ class MvpDialogSampleTest {
 
     private fun testSimpleDialog(
             @IdRes showSimpleDialogBtnResId: Int,
-            dialogButtons: IntArray,
-            @IdRes acceptDialogBtnResId: Int
+            @IdRes dialogTextRedList: IntArray,
+            @IdRes acceptDialogBtnResId: Int = android.R.id.button1
     ) {
         performClick(showSimpleDialogBtnResId)
-        checkText(*dialogButtons)
+        checkText(*dialogTextRedList)
         performClick(acceptDialogBtnResId)
     }
 

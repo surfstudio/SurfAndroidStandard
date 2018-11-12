@@ -2,6 +2,7 @@ package ru.surfstudio.android.standarddialog.sample.ui.screen.main
 
 import com.example.standarddialog.StandardDialogPresenter
 import com.example.standarddialog.StandardDialogRoute
+import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -13,8 +14,10 @@ import javax.inject.Inject
  * Презентер главного экрана
  */
 @PerScreen
-internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val dialogNavigator: DialogNavigator
+internal class MainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val dialogNavigator: DialogNavigator,
+        private val stringsProvider: StringsProvider
 ) : BasePresenter<MainActivityView>(basePresenterDependency), StandardDialogPresenter {
 
     private val sm: MainScreenModel = MainScreenModel()
@@ -30,38 +33,44 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     override fun simpleDialogPositiveBtnAction(dialogTag: String) {
-        showToast(
+        showMessage(
                 dialogTag,
-                "first dialog accepted",
-                "second dialog accepted")
+                stringsProvider.getString(R.string.first_dialog_accepted),
+                stringsProvider.getString(R.string.second_dialog_accepted)
+        )
     }
 
     override fun simpleDialogNegativeBtnAction(dialogTag: String) {
-        showToast(
+        showMessage(
                 dialogTag,
-                "first dialog canceled",
-                "second dialog canceled")
+                stringsProvider.getString(R.string.first_dialog_canceled),
+                stringsProvider.getString(R.string.second_dialog_canceled)
+        )
     }
 
     fun showFirstDialog() {
         dialogNavigator.show(StandardDialogRoute(
-                title = "First dialog title",
-                message = "First dialog message",
+                title = stringsProvider.getString(R.string.first_dialog_title),
+                message = stringsProvider.getString(R.string.first_dialog_message),
                 positiveBtnText = "yes",
                 negativeBtnText = "no",
-                dialogTag = FIRST_DIALOG_TAG))
+                dialogTag = FIRST_DIALOG_TAG)
+        )
     }
 
     fun showSecondDialog() {
         dialogNavigator.show(StandardDialogRoute(
                 titleRes = R.string.second_dialog_title,
                 messageRes = R.string.second_dialog_message,
-                dialogTag = SECOND_DIALOG_TAG))
+                dialogTag = SECOND_DIALOG_TAG)
+        )
     }
 
-    private fun showToast(dialogTag: String,
-                          firstDialogMessage: String,
-                          secondDialogMessage: String) {
+    private fun showMessage(
+            dialogTag: String,
+            firstDialogMessage: String,
+            secondDialogMessage: String
+    ) {
         when (dialogTag) {
             FIRST_DIALOG_TAG -> view.showMessage(firstDialogMessage)
             SECOND_DIALOG_TAG -> view.showMessage(secondDialogMessage)

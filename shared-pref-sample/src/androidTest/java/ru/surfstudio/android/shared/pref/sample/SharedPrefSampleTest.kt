@@ -9,7 +9,7 @@ import ru.surfstudio.android.shared.pref.sample.ui.screen.main.MainActivityView
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class SharedPrefSample {
+class SharedPrefSampleTest {
 
     @Test
     fun testSharedPrefSample() {

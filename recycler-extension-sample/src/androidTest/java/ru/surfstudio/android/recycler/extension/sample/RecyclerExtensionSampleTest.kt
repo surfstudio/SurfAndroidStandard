@@ -11,7 +11,7 @@ import ru.surfstudio.android.sample.common.test.utils.scrollTo
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
-class RecyclerExtensionSample {
+class RecyclerExtensionSampleTest {
 
     @Before
     fun setUp() {
