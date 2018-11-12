@@ -13,6 +13,10 @@ import ru.surfstudio.android.recycler.extension.sticky.*
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyFooterListener
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderListener
 
+const val STICKY_HEADER_TITLE = "Sticky header title"
+const val STICKY_FOOTER_TITLE = "Sticky footer title"
+const val LAST_ITEM_TITLE = "Last item title"
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var stickyEasyAdapter: StickyEasyAdapter
@@ -74,7 +78,7 @@ class MainActivity : AppCompatActivity() {
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
-        addStickyHeader("Блок с заголовком", stickyHeaderItemController)
+        addStickyHeader(STICKY_HEADER_TITLE, stickyHeaderItemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
@@ -93,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         add(Data("Red Herring", "Introduced in A Pup Named Scooby-Doo"), itemController)
         add(Data("Sheriff Bronson Stone", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Hot Dog Water", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
-        addStickyFooter("Блок с кнопками", stickyFooterItemController)
+        addStickyFooter(STICKY_FOOTER_TITLE, stickyFooterItemController)
         add(Data("Mayor Fred Jones, Sr.", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Mayor Janet Nettles", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Mr. E (Ricky Owens)", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
@@ -103,6 +107,7 @@ class MainActivity : AppCompatActivity() {
         add(Data("Nova", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Alice May", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("The Evil Entity", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
+        add(Data(LAST_ITEM_TITLE, ""), itemController)
     }
 
     private fun log(message: String) = Logger.d("RecyclerExtension $message")

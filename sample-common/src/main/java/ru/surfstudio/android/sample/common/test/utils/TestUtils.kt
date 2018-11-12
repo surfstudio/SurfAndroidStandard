@@ -10,6 +10,7 @@ import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
 import androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition
 import androidx.test.espresso.intent.Intents
@@ -58,6 +59,16 @@ fun scrollTo(@IdRes recyclerViewResId: Int, position: Int) {
 }
 
 /**
+ * Функция, выполняющая скролл RecyclerView к элементу с заданным заголовком
+ */
+fun scrollTo(@IdRes recyclerViewResId: Int, itemTitle: String) {
+    onView(withId(recyclerViewResId))
+            .perform(RecyclerViewActions.scrollTo<RecyclerView.ViewHolder>(
+                    hasDescendant(withText(itemTitle)))
+            )
+}
+
+/**
  * Функция, проверяющая, что text для вью, принадлежащей другой вью,
  * равен значению строкового ресурса
  */
@@ -90,6 +101,16 @@ fun checkViewText(@IdRes viewResId: Int, text: String) {
  */
 fun checkText(@IdRes vararg textResIdList: Int) {
     textResIdList.forEach {
+        onView(withText(it))
+                .check(matches(isDisplayed()))
+    }
+}
+
+/**
+ * Функция, проверяющая, что на экрана отображается вью с заданным текстом
+ */
+fun checkText(vararg textList: String) {
+    textList.forEach {
         onView(withText(it))
                 .check(matches(isDisplayed()))
     }
