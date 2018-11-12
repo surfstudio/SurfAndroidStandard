@@ -61,11 +61,15 @@ internal class MainPresenter @Inject constructor(
 
     override fun onResume() {
         super.onResume()
-        if (permissionManager.check(CameraStoragePermissionRequest()).isGranted) view.startCamera()
+        if (checkPermission()) view.startCamera()
     }
 
     override fun onPause() {
         super.onPause()
-        view.stopCamera()
+        if (checkPermission()) view.stopCamera()
+    }
+
+    private fun checkPermission(): Boolean {
+        return permissionManager.check(CameraStoragePermissionRequest()).isGranted
     }
 }

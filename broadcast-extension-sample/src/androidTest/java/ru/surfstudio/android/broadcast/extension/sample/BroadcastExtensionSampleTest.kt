@@ -9,7 +9,7 @@ import ru.surfstudio.android.broadcast.extension.sample.ui.screen.main.MainActiv
 import ru.surfstudio.android.sample.common.test.utils.checkAndInputText
 import ru.surfstudio.android.sample.common.test.utils.launchActivity
 
-private const val PHONE_NUMBER = "123"
+private const val PHONE_NUMBER = "123456789"
 private const val MESSAGE_TEXT = " text"
 
 @RunWith(AndroidJUnit4::class)
