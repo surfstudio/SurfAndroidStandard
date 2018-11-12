@@ -4,10 +4,10 @@ apply from: '../androidTestModule.gradle'
 dependencies {
     api project(':custom-view')
     api project(':core-mvp')
+    api project(':logger')
 
     implementation project(':core-ui')
     implementation project(':connection')
-    implementation project(':logger')
     implementation project(':rx-extension')
     implementation project(':util-ktx')
 

@@ -1,11 +1,11 @@
 package ru.surfstudio.android.recycler.extension.sample
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyFooterItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyHeaderItemController
@@ -24,26 +24,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler,
-                isVisibleFirstFooterAtLaunch = true)
+        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler, isVisibleFirstFooterAtLaunch = true)
         stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(object : StickyHeaderListener {
-            override fun headerAttached(headerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 headerAttached")
-            }
 
-            override fun headerDetached(headerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 headerDetached")
-            }
+            override fun headerAttached(headerView: View, adapterPosition: Int) = log("headerAttached")
+
+            override fun headerDetached(headerView: View, adapterPosition: Int) = log("headerDetached")
         })
 
         stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(object : StickyFooterListener {
-            override fun footerAttached(footerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 footerAttached")
-            }
 
-            override fun footerDetached(footerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 footerDetached")
-            }
+            override fun footerAttached(footerView: View, adapterPosition: Int) = log("footerAttached")
+
+            override fun footerDetached(footerView: View, adapterPosition: Int) = log("footerDetached")
         })
         activity_main_recycler.adapter = stickyEasyAdapter
 
@@ -111,4 +104,6 @@ class MainActivity : AppCompatActivity() {
         add(Data("Alice May", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("The Evil Entity", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
     }
+
+    private fun log(message: String) = Logger.d("RecyclerExtension $message")
 }
