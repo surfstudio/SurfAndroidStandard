@@ -3,7 +3,7 @@ package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main
 import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -22,7 +22,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getScreenName(): String = "main"
 

@@ -2,15 +2,15 @@ package ru.surfstudio.standard.f_debug.common_controllers
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.LayoutRes
-import android.support.v7.widget.LinearLayoutManager
+import androidx.annotation.LayoutRes
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_common_controllers_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
+import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.f_debug.common_controllers.controllers.CustomControllerDescriptionItemController
 import ru.surfstudio.standard.f_debug.common_controllers.description.addDescription
 import javax.inject.Inject
@@ -44,7 +44,7 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
         initAdapter()
     }
 
-    override fun renderInternal(screenModel: CommonControllersDebugScreenModel) {}
+    override fun renderInternal(sm: CommonControllersDebugScreenModel) {}
 
     override fun getScreenName(): String = "debug_controllers"
 

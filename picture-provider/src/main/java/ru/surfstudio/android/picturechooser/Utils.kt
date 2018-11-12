@@ -21,7 +21,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
-import android.support.annotation.WorkerThread
+import androidx.annotation.WorkerThread
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -9,15 +8,15 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/default_margin"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/default_margin">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -44,28 +43,28 @@
                     android:id="@+id/reset_cross_fade_animation_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/show_cross_fade_animation_btn"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_below="@id/show_cross_fade_animation_btn"
                     android:text="@string/reset_animation_btn_text" />
 
                 <ImageView
                     android:id="@+id/first_iv"
                     android:layout_width="@dimen/image_size"
                     android:layout_height="@dimen/image_size"
+                    android:layout_below="@id/animation_name_tv"
                     android:layout_marginTop="@dimen/default_margin"
-                    android:contentDescription="@string/image_view"
                     android:background="@color/colorAccent"
-                    android:layout_below="@id/animation_name_tv" />
+                    android:contentDescription="@string/image_view" />
 
                 <ImageView
                     android:id="@+id/second_iv"
                     android:layout_width="@dimen/image_size"
                     android:layout_height="@dimen/image_size"
+                    android:layout_below="@id/animation_name_tv"
                     android:layout_marginTop="@dimen/default_margin"
-                    android:contentDescription="@string/image_view"
                     android:background="@color/colorPrimary"
-                    android:layout_below="@id/animation_name_tv" />
+                    android:contentDescription="@string/image_view" />
             </RelativeLayout>
 
             <ru.surfstudio.android.animations.sample.widget.AnimationWidget
@@ -75,8 +74,8 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
                 app:animationName="Fade-In and Fade-Out"
-                app:showBtnText="Fade Out"
-                app:resetBtnText="Fade In" />
+                app:resetBtnText="Fade In"
+                app:showBtnText="Fade Out" />
 
             <ru.surfstudio.android.animations.sample.widget.AnimationWidget
                 android:id="@+id/pulse_animation_widget"
@@ -93,8 +92,8 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
                 app:animationName="New size animation"
-                app:showBtnText="Increase"
-                app:resetBtnText="Decrease" />
+                app:resetBtnText="Decrease"
+                app:showBtnText="Increase" />
 
             <ru.surfstudio.android.animations.sample.widget.AnimationWidget
                 android:id="@+id/slide_animation_widget"
@@ -103,16 +102,16 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
                 app:animationName="Slide animation"
-                app:showBtnText="Slide out"
-                app:resetBtnText="Slide in" />
+                app:resetBtnText="Slide in"
+                app:showBtnText="Slide out" />
         </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <Button
         android:id="@+id/bottom_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/bottom_button"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimaryDark" />
-</android.support.design.widget.CoordinatorLayout>
+        android:background="@color/colorPrimaryDark"
+        android:text="@string/bottom_button" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

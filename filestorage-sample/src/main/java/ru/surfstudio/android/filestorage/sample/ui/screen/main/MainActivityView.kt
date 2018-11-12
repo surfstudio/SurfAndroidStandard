@@ -2,8 +2,8 @@ package ru.surfstudio.android.filestorage.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
-import android.support.v4.widget.SwipeRefreshLayout
+import androidx.annotation.IdRes
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
 import ru.surfstudio.android.core.mvp.model.state.LoadState
@@ -47,9 +47,9 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
         swipe_refresh_layout.goneIf(loadState != LoadState.NONE)
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {
-        ip_tv.text = screenModel.ip?.value
-        placeholder.render(screenModel.loadState)
+    override fun renderInternal(sm: MainScreenModel) {
+        ip_tv.text = sm.ip?.value
+        placeholder.render(sm.loadState)
     }
 
     private fun initListeners() {

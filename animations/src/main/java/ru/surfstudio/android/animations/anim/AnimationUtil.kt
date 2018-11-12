@@ -18,10 +18,10 @@ package ru.surfstudio.android.animations.anim
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.animation.TimeInterpolator
-import android.support.transition.*
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.animation.FastOutLinearInInterpolator
-import android.support.v4.view.animation.LinearOutSlowInInterpolator
+import androidx.transition.*
+import androidx.core.view.ViewCompat
+import androidx.interpolator.view.animation.FastOutLinearInInterpolator
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator

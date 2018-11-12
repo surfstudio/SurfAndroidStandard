@@ -2,12 +2,12 @@ package ru.surfstudio.standard.f_debug.debug
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
+import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import javax.inject.Inject
 
 /**
@@ -34,7 +34,7 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         initListeners()
     }
 
-    override fun renderInternal(screenModel: DebugScreenModel) {}
+    override fun renderInternal(sm: DebugScreenModel) {}
 
     override fun getScreenName(): String = "debug"
 

@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.ui.event;
 
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
