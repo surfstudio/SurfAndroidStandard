@@ -49,7 +49,7 @@ public class WidgetViewDelegate {
     private CoreWidgetViewInterface coreWidgetView;
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
-    private List<ScreenEventResolver> eventResolvers;
+    private final List<ScreenEventResolver> eventResolvers;
 
     private String currentScopeId;
 
@@ -129,8 +129,8 @@ public class WidgetViewDelegate {
             );
 
             WidgetLifecycleManager lifecycleManager = new WidgetLifecycleManager(
-                    parentScope.getScreenState(),
                     screenState,
+                    parentScope.getScreenState(),
                     delegateManager,
                     parentDelegateManager);
 

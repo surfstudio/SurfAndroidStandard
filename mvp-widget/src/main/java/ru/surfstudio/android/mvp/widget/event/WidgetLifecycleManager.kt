@@ -31,8 +31,8 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface
  * @param screenState состояние виджета
  */
 class WidgetLifecycleManager(
-        private val parentState: ScreenState,
         private val screenState: WidgetScreenState,
+        private val parentState: ScreenState,
         private val widgetScreenEventDelegateManager: WidgetScreenEventDelegateManager,
         parentScreenEventDelegateManager: ScreenEventDelegateManager
 ) : OnCompletelyDestroyDelegate,
