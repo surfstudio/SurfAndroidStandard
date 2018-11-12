@@ -17,14 +17,14 @@ class ListPresenter @Inject constructor(
         private val route: ListActivityRoute
 ) : BasePresenter<ListActivityView>(basePresenterDependency) {
 
+    private val screenModel = ListScreenModel()
+
     init {
         basePresenterDependency.eventDelegateManager.registerDelegate(OnBackPressedDelegate {
             finishWithHash()
             true
         })
     }
-
-    private val screenModel = ListScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)

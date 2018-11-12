@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="WidgetView">
+    <declare-styleable name="CoreWidgetView">
         <attr name="enableManualInit" format="boolean" />
     </declare-styleable>
-<!--
+
     <declare-styleable name="CoreFrameLayoutView">
-        <attr name="enableManualInit" format="boolean" />
+        <attr name="enableManualInit"/>
     </declare-styleable>
 
     <declare-styleable name="CoreLinearLayoutView">
-        <attr name="enableManualInit" format="boolean" />
+        <attr name="enableManualInit"/>
     </declare-styleable>
 
     <declare-styleable name="CoreRelativeLayoutView">
-        <attr name="enableManualInit" format="boolean" />
-    </declare-styleable>-->
+        <attr name="enableManualInit"/>
+    </declare-styleable>
 
 </resources>

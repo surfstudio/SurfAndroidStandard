@@ -15,14 +15,13 @@
  */
 package ru.surfstudio.android.core.ui.event;
 
-import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate;
@@ -72,36 +71,29 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         for (ScreenEventResolver eventResolver : supportedResolvers) {
             if (eventResolver.getEventEmitterScreenTypes().contains(screenType)
                     && (emitterType == null || screenType == emitterType)) {
-                register(delegate, eventResolver.getEventType());
+                addDelegateToMap(delegatesMap, delegate, eventResolver.getEventType());
             } else {
                 if (parentDelegateManger == null) {
-                    throw new IllegalStateException(String.format("No BaseScreenEventDelegateManager for register delegate %s",
+                    throw new IllegalStateException(String.format("No BaseScreenEventDelegateManager for addDelegateToMap delegate %s",
                             delegate.getClass().getCanonicalName()));
                 }
-                register(throughDelegatesMap, delegate, eventResolver.getEventType());
+                addDelegateToMap(throughDelegatesMap, delegate, eventResolver.getEventType());
                 parentDelegateManger.registerDelegate(delegate);
             }
         }
     }
 
-    @Override
-    public <E extends ScreenEvent> void register(ScreenEventDelegate delegate, Class<E> event) {
-        assertNotDestroyed();
-
-        register(delegatesMap, delegate, event);
-    }
-
-    private <E extends ScreenEvent> void register(Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap,
-                                                  ScreenEventDelegate delegate,
-                                                  Class<E> event) {
+    private <E extends ScreenEvent> void addDelegateToMap(Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap,
+                                                          ScreenEventDelegate delegate,
+                                                          Class<E> event) {
         List<ScreenEventDelegate> delegates = delegatesMap.get(event);
 
         if (delegates != null) {
             delegates.add(delegate);
         } else {
-            List<ScreenEventDelegate> list = new ArrayList<>();
-            list.add(delegate);
-            delegatesMap.put(event, list);
+            List<ScreenEventDelegate> set = new ArrayList<>();
+            set.add(delegate);
+            delegatesMap.put(event, set);
         }
     }
 
@@ -127,8 +119,8 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     @Override
     public <E extends ScreenEvent> boolean unregisterDelegate(ScreenEventDelegate delegate,
                                                               Class<E> event) {
-        boolean removedFromCurrent = isDelegateRemoved(delegate, event, delegatesMap);
-        boolean removedFromThrough = isDelegateRemoved(delegate, event, throughDelegatesMap);
+        boolean removedFromCurrent = removeDelegate(delegate, event, delegatesMap);
+        boolean removedFromThrough = removeDelegate(delegate, event, throughDelegatesMap);
 
         boolean removedFromParent = removedFromThrough
                 && parentDelegateManger != null
@@ -170,7 +162,8 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         return null;
     }
 
-    private <E extends ScreenEvent> boolean isDelegateRemoved(ScreenEventDelegate delegate, Class<E> event, Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap) {
+    private <E extends ScreenEvent> boolean removeDelegate(ScreenEventDelegate delegate, Class<E> event,
+                                                           Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap) {
         boolean removed = false;
         List delegateList = delegatesMap.get(event);
         if (delegateList != null) {

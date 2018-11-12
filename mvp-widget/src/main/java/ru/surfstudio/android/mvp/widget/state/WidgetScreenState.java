@@ -26,7 +26,7 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
  * {@link ScreenState} для кастомной вью с презентером
- * Паразитирует на ScreenState родительской активити или фрагмента
+ * Использует также родительский стейт
  * <p>
  */
 

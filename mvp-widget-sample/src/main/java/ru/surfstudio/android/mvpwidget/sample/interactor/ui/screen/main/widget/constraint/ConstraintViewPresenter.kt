@@ -17,8 +17,7 @@ import javax.inject.Inject
  * */
 @PerScreen
 class ConstraintViewPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency,
-        private val activityNavigator: ActivityNavigator
+        basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<ConstraintWidgetView>(basePresenterDependency) {
 
     private var changeTextDisposable = Disposables.disposed()
@@ -31,9 +30,6 @@ class ConstraintViewPresenter @Inject constructor(
     override fun onFirstLoad() {
         Logger.d("1111 Widget onFirstLoad ${hashCode()}")
         super.onFirstLoad()
-        subscribe(activityNavigator.observeResult(ListActivityRoute::class.java), {
-            Logger.i("111111 Widget observeResult $it")
-        })
     }
 
     override fun onStart() {
@@ -71,8 +67,6 @@ class ConstraintViewPresenter @Inject constructor(
         changeTextDisposable = subscribe(Observable.timer(500L, TimeUnit.MILLISECONDS), {
             view.render("change text")
             Logger.i("11111 Widget ${view.hashCode()} receive event")
-
-            activityNavigator.startForResult(ListActivityRoute())
         }, {
 
         })

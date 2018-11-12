@@ -16,7 +16,6 @@
 package ru.surfstudio.android.mvp.widget.delegate;
 
 
-import android.os.Parcelable;
 import android.view.View;
 
 import java.util.List;
@@ -24,13 +23,14 @@ import java.util.UUID;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
-import ru.surfstudio.android.mvp.widget.state.WidgetParcelableState;
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
@@ -41,6 +41,7 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
  * - ScreenEventDelegateManager - соответствует менеджеру экрана-контейнера
  * - ScreenState - соответствует ScreenState экрана-контейнера
  * - ScreenConfigurator
+ * - WidgetLifecycleManager - управляет событиями ЖЦ виджета
  */
 public class WidgetViewDelegate {
 
@@ -65,6 +66,7 @@ public class WidgetViewDelegate {
 
     /**
      * Метод необходимо использовать в ресайклере для установки скоп айди на основе данных в bind
+     *
      * @param scopeId
      */
     public void setScopeId(String scopeId) {
@@ -156,22 +158,5 @@ public class WidgetViewDelegate {
 
     private WidgetLifecycleManager getLifecycleManager() {
         return getPersistentScope().getLifecycleManager();
-    }
-
-    //пока оставил методы для восстановления
-    public Parcelable onSaveInstanceState() {
-        Parcelable superState = coreWidgetView.superSavedInstanceState();
-        return new WidgetParcelableState(superState, currentScopeId);
-    }
-
-    public void onRestoreState(Parcelable state) {
-        if (!(state instanceof WidgetParcelableState)) {
-            coreWidgetView.superRestoreInstanceState(state);
-            return;
-        }
-
-        WidgetParcelableState savedState = (WidgetParcelableState) state;
-        currentScopeId = savedState.viewId;
-        coreWidgetView.superRestoreInstanceState(savedState.getSuperState());
     }
 }

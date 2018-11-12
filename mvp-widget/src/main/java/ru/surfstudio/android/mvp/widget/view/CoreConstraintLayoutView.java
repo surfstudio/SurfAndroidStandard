@@ -15,14 +15,11 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Parcelable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.mvp.widget.R;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
@@ -45,7 +42,9 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled) {
         super(context, null);
         this.isManualInitEnabled = isManualInitEnabled;
-        widgetViewDelegate = createWidgetViewDelegate();
+        if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
+        }
     }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
@@ -56,12 +55,14 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         super(context, attrs, defStyleAttr);
         obtainAttrs(attrs);
 
-        widgetViewDelegate = createWidgetViewDelegate();
+        if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
+        }
     }
 
     private void obtainAttrs(AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.WidgetView, -1, -1);
-        isManualInitEnabled = ta.getBoolean(R.styleable.WidgetView_enableManualInit, false);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreWidgetView, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreWidgetView_enableManualInit, false);
         ta.recycle();
     }
 
@@ -83,44 +84,13 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isManualInitEnabled) {
-            init();
+            widgetViewDelegate.onCreate();
         }
-    }
-
-    @SuppressLint("MissingSuperCall")
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        return widgetViewDelegate.onSaveInstanceState();
-    }
-
-    @Override
-    public Parcelable superSavedInstanceState() {
-        return super.onSaveInstanceState();
-    }
-
-    @Override
-    protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
-        super.dispatchRestoreInstanceState(container);
-    }
-
-    @SuppressLint("MissingSuperCall")
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        widgetViewDelegate.onRestoreState(state);
-    }
-
-    @Override
-    public void superRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
-    }
-
-    @Override
-    public final void init() {
-        widgetViewDelegate.onCreate();
     }
 
     @Override
     public void init(String scopeId) {
+        widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.setScopeId(scopeId);
         widgetViewDelegate.onCreate();
     }

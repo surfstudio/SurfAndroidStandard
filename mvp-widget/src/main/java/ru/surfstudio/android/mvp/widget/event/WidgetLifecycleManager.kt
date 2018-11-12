@@ -56,7 +56,7 @@ class WidgetLifecycleManager(
             ScreenStates.DESTROYED to listOf()
     )
 
-    //разрешенные переходы по состояниям
+    //действия с скринстейт по состоянию виджета
     private val screenStateEvents = mapOf(
             ScreenStates.VIEW_READY to { screenState.onViewReady() },
             ScreenStates.STARTED to { screenState.onStart() },
@@ -76,10 +76,6 @@ class WidgetLifecycleManager(
             ScreenStates.STOPPED to OnStopEvent(),
             ScreenStates.VIEW_DESTROYED to OnViewDestroyEvent(),
             ScreenStates.DESTROYED to OnCompletelyDestroyEvent()
-    )
-
-    private val parentsStatesEvents = mapOf(
-            ScreenStates.RESUMED to { state: ScreenStates -> allowedStateTransition[state] }
     )
 
     init {
@@ -125,6 +121,10 @@ class WidgetLifecycleManager(
         widgetViewDelegate.onCompletelyDestroy()
     }
 
+    /**
+     * Приводит виджет в состояние в зависимости от текущих родительского, виджета и желаемого
+     * @param wishingState желаемое состояние
+     */
     private fun pushState(wishingState: ScreenStates) {
         when {
 
