@@ -2,11 +2,8 @@ package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.View
-import android.widget.Button
 import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.find
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.pictureprovider.sample.R
@@ -29,12 +26,12 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
-        configureButton(R.id.camera_btn) { presenter.openCamera() }
-        configureButton(R.id.gallery_btn) { presenter.openGallerySingle()}
-        configureButton(R.id.gallery_m_btn) { presenter.openGalleryMultiple() }
-        configureButton(R.id.chooser_btn) { presenter.openChooserSingle() }
-        configureButton(R.id.chooser_m_btn) { presenter.openChooserMultiple() }
-        configureButton(R.id.chooser_save_btn) { presenter.openChooserAndSavePhoto() }
+        camera_btn.setOnClickListener { presenter.openCamera() }
+        gallery_btn.setOnClickListener { presenter.openGallerySingle() }
+        gallery_m_btn.setOnClickListener { presenter.openGalleryMultiple() }
+        chooser_btn.setOnClickListener { presenter.openChooserSingle() }
+        chooser_m_btn.setOnClickListener { presenter.openChooserMultiple() }
+        chooser_save_btn.setOnClickListener { presenter.openChooserAndSavePhoto() }
     }
 
     override fun renderInternal(sm: MainScreenModel) {}
@@ -44,11 +41,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
     override fun getScreenName(): String  = "MainActivity"
-
-    private fun configureButton(@IdRes buttonId: Int, onClickListener: (view: View) -> Unit) {
-        val button: Button = find(buttonId)
-        button.setOnClickListener { onClickListener(it) }
-    }
 
     fun startCamera() = camera_preview.start()
 
