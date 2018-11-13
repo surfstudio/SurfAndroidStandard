@@ -6,8 +6,8 @@ import androidx.test.filters.SmallTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.surfstudio.android.sample.common.test.utils.checkText
-import ru.surfstudio.android.sample.common.test.utils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkText
 import ru.surfstudio.android.sample.common.test.utils.performClick
 import ru.surfstudio.android.standarddialog.sample.ui.screen.main.MainActivityView
 

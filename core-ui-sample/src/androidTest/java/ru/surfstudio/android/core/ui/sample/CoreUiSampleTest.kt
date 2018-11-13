@@ -6,8 +6,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.core.ui.sample.ui.screen.main.MainActivityView
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
-import ru.surfstudio.android.sample.common.test.utils.launchActivity
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

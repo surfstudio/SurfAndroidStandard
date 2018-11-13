@@ -11,6 +11,8 @@ import org.junit.runner.RunWith
 import ru.surfstudio.android.custom_scope_sample.ui.screen.another.AnotherActivityView
 import ru.surfstudio.android.custom_scope_sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.utils.*
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkAndInputText
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
 

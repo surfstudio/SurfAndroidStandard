@@ -14,8 +14,8 @@ import ru.surfstudio.android.location.sample.ui.screen.default_location_interact
 import ru.surfstudio.android.location.sample.ui.screen.location_service_sample.LocationServiceActivityView
 import ru.surfstudio.android.location.sample.ui.screen.start.MainActivity
 import ru.surfstudio.android.location_sample.R
-import ru.surfstudio.android.sample.common.test.utils.checkIfActivityIsVisible
-import ru.surfstudio.android.sample.common.test.utils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.performClick
 
 @RunWith(AndroidJUnit4::class)

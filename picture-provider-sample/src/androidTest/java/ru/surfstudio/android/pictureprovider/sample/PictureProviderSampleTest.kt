@@ -17,7 +17,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.pictureprovider.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.performClick
 
 @RunWith(AndroidJUnit4::class)

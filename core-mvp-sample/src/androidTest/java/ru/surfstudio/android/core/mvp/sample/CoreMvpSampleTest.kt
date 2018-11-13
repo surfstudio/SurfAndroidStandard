@@ -9,8 +9,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.core.mvp.sample.ui.screen.another.AnotherActivityView
 import ru.surfstudio.android.core.mvp.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.checkIfActivityIsVisible
-import ru.surfstudio.android.sample.common.test.utils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.performClick
 
 @RunWith(AndroidJUnit4::class)

@@ -5,7 +5,7 @@ import androidx.test.filters.SmallTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.filestorage.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

@@ -8,6 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.message.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.utils.*
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
 
