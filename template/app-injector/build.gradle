@@ -29,10 +29,9 @@ android {
         versionName config["versionName"]
 
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
 
-        testBuildType 'qa'
+        testBuildType 'debug' //todo replace to 'qa' for real app
     }
 }
 

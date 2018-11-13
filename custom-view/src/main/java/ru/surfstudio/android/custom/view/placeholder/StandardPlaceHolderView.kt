@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
-import android.util.ArrayMap
 import android.util.AttributeSet
 import android.util.SparseIntArray
 import android.view.ContextThemeWrapper
@@ -35,6 +34,7 @@ import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.collection.ArrayMap
 import com.wang.avi.AVLoadingIndicatorView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -392,7 +392,6 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
                 } else if (styler.opaqueBackgroundColor != NOT_ASSIGNED_RESOURCE) {
                     setBackgroundColor(styler.opaqueBackgroundColor)
                 }
-
             }
         }
     }

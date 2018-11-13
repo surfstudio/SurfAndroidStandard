@@ -6,7 +6,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import org.jetbrains.anko.find
 import ru.surfstudio.android.imageloader.ImageLoader
-import ru.surfstudio.android.imageloader.util.BlurStrategy
 
 class MainActivity : AppCompatActivity() {
 
