@@ -10,9 +10,15 @@ import ru.surfstudio.android.location.sample.ui.screen.start.MainActivity
 import ru.surfstudio.android.location_sample.R
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.PermissionUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 class LocationSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
+
+    private val locationPermissions = arrayOf(
+            "android.permission.ACCESS_FINE_LOCATION",
+            "android.permission.ACCESS_COARSE_LOCATION"
+    )
 
     private val defaultLocationInteractorOptions = intArrayOf(
             R.id.btn_activity_default_location_interactor_check_location_availability,
@@ -28,6 +34,11 @@ class LocationSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java
             R.id.btn_activity_location_service_subscribe_to_location_updates,
             R.id.btn_activity_location_service_unsubscribe_from_location_updates
     )
+
+    override fun setUp() {
+        super.setUp()
+        PermissionUtils.grantPermissions(*locationPermissions)
+    }
 
     @Test
     fun testLocationSample() {
