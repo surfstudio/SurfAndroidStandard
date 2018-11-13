@@ -1,24 +1,13 @@
 package ru.surfstudio.android.mvp.binding.sample
 
-import androidx.test.core.app.ActivityScenario
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.mvp.binding.sample.ui.screen.main.MainActivityView
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class CoreMvpBindingSampleTest {
-
-    @Before
-    fun launchActivity() {
-        ActivityScenario.launch(MainActivityView::class.java)
-    }
+class CoreMvpBindingSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 
     @Test
     fun testClickActions() {
@@ -36,5 +25,6 @@ class CoreMvpBindingSampleTest {
         )
         performClick(R.id.easy_win_btn)
         checkIfToastIsVisible(R.string.win_message)
+        performClick(R.id.unbind_btn)
     }
 }

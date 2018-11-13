@@ -5,20 +5,14 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
 import org.hamcrest.CoreMatchers.allOf
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.nestedScrollTo
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class AnimationsSampleTest {
+class AnimationsSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
     // Массив id кнопок виджета для показа и скрытия анимации
     private val widgetAnimationButtons = arrayOf(R.id.show_animation_btn, R.id.reset_animation_btn)
@@ -29,11 +23,6 @@ class AnimationsSampleTest {
             R.id.pulse_animation_widget,
             R.id.new_size_animation_widget
     )
-
-    @Before
-    fun setUp() {
-        launchActivity(MainActivity::class.java)
-    }
 
     @Test
     fun testAnimations() {

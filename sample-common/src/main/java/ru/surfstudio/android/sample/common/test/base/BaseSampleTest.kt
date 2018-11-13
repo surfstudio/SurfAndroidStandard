@@ -1,0 +1,30 @@
+package ru.surfstudio.android.sample.common.test.base
+
+import android.app.Activity
+import androidx.annotation.CallSuper
+import androidx.test.espresso.intent.Intents
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import org.junit.After
+import org.junit.Before
+import org.junit.runner.RunWith
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils
+
+/**
+ * Базовый класс для всех инструментальных тестов примеров
+ */
+@RunWith(AndroidJUnit4::class)
+open class BaseSampleTest<T : Activity>(private val mainActivityClass: Class<T>) {
+
+    @Before
+    @CallSuper
+    fun setUp() {
+        Intents.init()
+        ActivityUtils.launchActivity(mainActivityClass)
+    }
+
+    @After
+    @CallSuper
+    fun tearDown() {
+        Intents.release()
+    }
+}

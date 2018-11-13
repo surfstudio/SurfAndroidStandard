@@ -1,25 +1,14 @@
 package ru.surfstudio.android.broadcast.extension.sample
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import ru.surfstudio.android.broadcast.extension.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkAndInputText
 
 private const val PHONE_NUMBER = "123456789"
 private const val MESSAGE_TEXT = " text"
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class BroadcastExtensionSampleTest {
-
-    @Before
-    fun setUp() {
-        launchActivity(MainActivityView::class.java)
-    }
+class BroadcastExtensionSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 
     @Test
     fun testInputFields() {

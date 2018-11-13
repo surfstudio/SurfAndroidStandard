@@ -1,25 +1,14 @@
 package ru.surfstudio.android.core.ui.sample
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import ru.surfstudio.android.core.ui.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class CoreUiSampleTest {
-
-    @Before
-    fun setUp() {
-        launchActivity(MainActivityView::class.java)
-    }
+class CoreUiSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 
     @Test
-    fun testMainActivity() {
+    fun testCoreUiSample() {
         checkIfSnackbarIsVisible(R.string.snackbar_message)
     }
 }
