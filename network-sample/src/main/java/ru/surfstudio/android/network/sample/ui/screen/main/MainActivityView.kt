@@ -16,8 +16,8 @@ import ru.surfstudio.android.network.sample.domain.product.Product
 import ru.surfstudio.android.network.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
+import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.LoadState
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
-import ru.surfstudio.standard.base_ui.placeholder.LoadState
 import javax.inject.Inject
 
 /**

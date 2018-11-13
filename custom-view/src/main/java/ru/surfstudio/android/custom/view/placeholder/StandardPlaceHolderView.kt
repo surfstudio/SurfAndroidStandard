@@ -171,7 +171,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
     private fun applyAttributes(context: Context, attrs: AttributeSet? = null, defStyle: Int) {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.StandardPlaceHolderView, defStyle, R.style.StandardPlaceHolderView)
 
-        with(styler) {
+        styler.apply {
             opaqueBackgroundColor = ta.obtainColorAttribute(R.styleable.StandardPlaceHolderView_pvOpaqueBackgroundColor)
             opaqueBackground = ta.obtainResourceIdAttribute(R.styleable.StandardPlaceHolderView_pvOpaqueBackground)
             transparentBackgroundColor = ta.obtainColorAttribute(R.styleable.StandardPlaceHolderView_pvTransparentBackgroundColor)

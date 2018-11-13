@@ -15,7 +15,7 @@
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <ru.surfstudio.android.sample.common.ui.base.placeholder.PlaceHolderView
+    <ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.PlaceHolderView
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

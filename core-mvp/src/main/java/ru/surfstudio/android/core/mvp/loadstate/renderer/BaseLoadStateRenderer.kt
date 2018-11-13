@@ -5,27 +5,32 @@ import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 
 abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
-    private val strategies = mutableMapOf<Class<*>, LoadStatePresentation<*>>()
+    abstract val defaultState: LoadStateInterface
 
-    private var currentState: LoadStateInterface? = null
+    private val presentations =
+            mutableMapOf<Class<*>, LoadStatePresentation<*>>()
 
-    abstract fun getDefaultState(): LoadStateInterface
+    private val doForStateActions =
+            mutableListOf<Pair<
+                    (state: LoadStateInterface) -> Boolean,
+                    (isSuitableState: Boolean) -> Unit>>()
+
+    private var _currentState: LoadStateInterface? = null
+    private val currentState: LoadStateInterface
+        get() {
+            if (_currentState == null) {
+                _currentState = defaultState
+            }
+            return _currentState!!
+        }
 
     override fun render(loadState: LoadStateInterface) {
 
-        //state to hide
-        getPresentation(getCurrentState().javaClass).apply {
-            hideLoadStatePresentation(getCurrentState(), loadState)
-            afterThisStateActions.forEach { it.invoke() }
-        }
+        getPresentation(currentState.javaClass).hidePresentation(currentState, loadState)
+        getPresentation(loadState.javaClass).showPresentation(currentState, loadState)
+        doForStateActions.forEach { it.second(it.first(loadState)) }
 
-        //state to show
-        getPresentation(loadState.javaClass).apply {
-            showLoadStatePresentation(getCurrentState(), loadState)
-            thisStateActions.forEach { it.invoke() }
-        }
-
-        currentState = loadState
+        _currentState = loadState
     }
 
     /**
@@ -34,21 +39,14 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
     fun <T : LoadStateInterface> putPresentation(
             loadState: Class<T>,
             presentationStrategy: LoadStatePresentation<T>): BaseLoadStateRenderer {
-        strategies[loadState] = presentationStrategy
+        presentations[loadState] = presentationStrategy
         return this
     }
 
     @Suppress("UNCHECKED_CAST")
     protected fun <T : LoadStateInterface> getPresentation(loadStateClass: Class<T>) =
-            strategies[loadStateClass] as? LoadStatePresentation<T>
+            presentations[loadStateClass] as? LoadStatePresentation<T>
                     ?: throw UnknownLoadStateException(loadStateClass.simpleName)
-
-    private fun getCurrentState(): LoadStateInterface {
-        if (currentState == null) {
-            currentState = getDefaultState()
-        }
-        return currentState!!
-    }
 
     //region forStates
 
@@ -87,12 +85,17 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
             ifDo: (() -> Unit)? = null,
             elseDo: (() -> Unit)? = null): BaseLoadStateRenderer {
 
-        loadStates.forEach { loadStateClass ->
-            getPresentation(loadStateClass).apply {
-                ifDo?.let { thisStateActions.add(it) }
-                elseDo?.let { afterThisStateActions.add(it) }
-            }
+        val check = { state: LoadStateInterface -> loadStates.contains(state::class.java) }
+
+        val action = { check: Boolean ->
+            if (check) {
+                ifDo?.invoke()
+            } else {
+                elseDo?.invoke()
+            } ?: Unit
         }
+
+        doForStateActions.add(Pair(check, action))
         return this
     }
     //endregion
@@ -128,113 +131,11 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
     fun doWithCheck(loadStates: List<Class<out LoadStateInterface>>,
                     actionWithCheck: (check: Boolean) -> Unit): BaseLoadStateRenderer {
 
-        loadStates.forEach { loadStateClass ->
-            getPresentation(loadStateClass).apply {
-                thisStateActions.add { actionWithCheck.invoke(true) }
-                afterThisStateActions.add { actionWithCheck.invoke(false) }
-            }
-        }
+        doForStateActions.add(Pair(
+                { it: LoadStateInterface -> loadStates.contains(it::class.java) },
+                { it: Boolean -> actionWithCheck.invoke(it) }))
         return this
     }
-    //endregion
-
-    //region setViewsVisibilityFor
-    fun setViewsVisibilityFor(
-            loadStates: List<Class<out LoadStateInterface>>,
-            views: List<View>,
-            ifVisibility: Int,
-            elseVisibility: Int): BaseLoadStateRenderer {
-
-        forStates(
-                loadStates,
-                { views.forEach { it.visibility = ifVisibility } },
-                { views.forEach { it.visibility = elseVisibility } })
-
-        return this
-    }
-
-    fun setViewsVisibilityFor(
-            loadState: Class<out LoadStateInterface>,
-            views: List<View>,
-            ifVisibility: Int,
-            elseVisibility: Int) =
-            setViewsVisibilityFor(
-                    listOf(loadState),
-                    views,
-                    ifVisibility,
-                    elseVisibility)
-
-    fun setViewsVisibilityFor(
-            firstLoadState: Class<out LoadStateInterface>,
-            secondLoadState: Class<out LoadStateInterface>,
-            views: List<View>,
-            ifVisibility: Int,
-            elseVisibility: Int) =
-            setViewsVisibilityFor(
-                    listOf(firstLoadState, secondLoadState),
-                    views,
-                    ifVisibility,
-                    elseVisibility)
-
-    fun setViewVisibilityFor(
-            firstLoadState: Class<out LoadStateInterface>,
-            secondLoadState: Class<out LoadStateInterface>,
-            view: View,
-            ifVisibility: Int,
-            elseVisibility: Int) =
-            setViewVisibilityFor(
-                    listOf(firstLoadState, secondLoadState),
-                    view,
-                    ifVisibility,
-                    elseVisibility)
-
-    fun setViewsVisibilityFor(
-            firstLoadState: Class<out LoadStateInterface>,
-            secondLoadState: Class<out LoadStateInterface>,
-            thirdLoadState: Class<out LoadStateInterface>,
-            views: List<View>,
-            ifVisibility: Int,
-            elseVisibility: Int) =
-            setViewsVisibilityFor(
-                    listOf(firstLoadState, secondLoadState, thirdLoadState),
-                    views,
-                    ifVisibility,
-                    elseVisibility)
-
-    fun setViewVisibilityFor(
-            firstLoadState: Class<out LoadStateInterface>,
-            secondLoadState: Class<out LoadStateInterface>,
-            thirdLoadState: Class<out LoadStateInterface>,
-            view: View,
-            ifVisibility: Int,
-            elseVisibility: Int) =
-            setViewVisibilityFor(
-                    listOf(firstLoadState, secondLoadState, thirdLoadState),
-                    view,
-                    ifVisibility,
-                    elseVisibility)
-
-    fun setViewVisibilityFor(
-            loadStates: List<Class<out LoadStateInterface>>,
-            views: View,
-            ifVisibility: Int,
-            elseVisibility: Int) =
-            setViewsVisibilityFor(
-                    loadStates,
-                    listOf(views),
-                    ifVisibility,
-                    elseVisibility)
-
-    fun setViewVisibilityFor(
-            loadState: Class<out LoadStateInterface>,
-            views: View,
-            ifVisibility: Int,
-            elseVisibility: Int) =
-            setViewsVisibilityFor(
-                    listOf(loadState),
-                    listOf(views),
-                    ifVisibility,
-                    elseVisibility)
     //endregion
 
     //region setViewsVisibleFor
@@ -449,5 +350,19 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
                     listOf(loadState),
                     listOf(views))
     //endregion
+
+    private fun setViewsVisibilityFor(
+            loadStates: List<Class<out LoadStateInterface>>,
+            views: List<View>,
+            ifVisibility: Int,
+            elseVisibility: Int): BaseLoadStateRenderer {
+
+        forStates(
+                loadStates,
+                { views.forEach { it.visibility = ifVisibility } },
+                { views.forEach { it.visibility = elseVisibility } })
+
+        return this
+    }
 }
 
