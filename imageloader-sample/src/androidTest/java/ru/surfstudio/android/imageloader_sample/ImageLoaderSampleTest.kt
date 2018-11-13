@@ -1,19 +1,13 @@
 package ru.surfstudio.android.imageloader_sample
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
 import org.junit.Test
-import org.junit.runner.RunWith
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class ImageLoaderSampleTest {
+class ImageLoaderSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
     @Test
     fun testImageLoaderSample() {
-        launchActivity(MainActivity::class.java)
         performClick(R.id.image_loader_sample_btn)
     }
 }

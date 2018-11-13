@@ -17,14 +17,14 @@ open class BaseSampleTest<T : Activity>(private val mainActivityClass: Class<T>)
 
     @Before
     @CallSuper
-    fun setUp() {
+    open fun setUp() {
         Intents.init()
         ActivityUtils.launchActivity(mainActivityClass)
     }
 
     @After
     @CallSuper
-    fun tearDown() {
+    open fun tearDown() {
         Intents.release()
     }
 }

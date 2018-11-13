@@ -5,24 +5,17 @@ import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
 import org.hamcrest.CoreMatchers.allOf
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import ru.surfstudio.android.pictureprovider.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class PictureProviderSampleTest {
+class PictureProviderSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 
     private val buttonResList = intArrayOf(
             R.id.camera_btn,
@@ -36,17 +29,11 @@ class PictureProviderSampleTest {
     private val canceledResult = ActivityResult(Activity.RESULT_CANCELED, Intent())
 
     @Before
-    fun setUp() {
-        Intents.init()
+    override fun setUp() {
+        super.setUp()
         registerCancelResultForIntentData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         registerCancelResultForIntentData(MediaStore.ACTION_IMAGE_CAPTURE)
         registerCancelResultForIntentAction(Intent.ACTION_CHOOSER)
-        launchActivity(MainActivityView::class.java)
-    }
-
-    @After
-    fun tearDown() {
-        Intents.release()
     }
 
     @Test

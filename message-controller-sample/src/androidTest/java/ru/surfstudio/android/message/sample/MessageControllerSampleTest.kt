@@ -1,25 +1,14 @@
 package ru.surfstudio.android.message.sample
 
 import androidx.annotation.IdRes
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import ru.surfstudio.android.message.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class MessageControllerSampleTest {
-
-    @Before
-    fun setUp() {
-        launchActivity(MainActivityView::class.java)
-    }
+class MessageControllerSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 
     @Test
     fun testMessageControllerSample() {

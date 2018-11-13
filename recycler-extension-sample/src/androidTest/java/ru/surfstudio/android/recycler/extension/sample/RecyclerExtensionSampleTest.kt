@@ -1,22 +1,11 @@
 package ru.surfstudio.android.recycler.extension.sample
 
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.filters.SmallTest
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.RecyclerViewUtils
 import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkText
 
-@RunWith(AndroidJUnit4::class)
-@SmallTest
-class RecyclerExtensionSampleTest {
-
-    @Before
-    fun setUp() {
-        launchActivity(MainActivity::class.java)
-    }
+class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
     @Test
     fun testPictureProviderSample() {
