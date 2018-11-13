@@ -18,11 +18,6 @@ class ListItemController(
 
         val constraintWidgetView = itemView.constraint_w
 
-        init {
-            //todo find view here
-            //itemView.setOnClickListener { onItemClick(itemView.hashCode().toString()) }
-        }
-
         override fun bind(int: Int) {
             constraintWidgetView.init(int.toString())
             constraintWidgetView.render(int.toString())
