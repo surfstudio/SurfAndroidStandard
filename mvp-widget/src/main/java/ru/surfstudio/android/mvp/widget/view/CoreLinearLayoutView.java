@@ -101,6 +101,9 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     }
 
     @Override
+    public void init() {}
+
+    @Override
     public void init(String scopeId) {
         widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.setScopeId(scopeId);

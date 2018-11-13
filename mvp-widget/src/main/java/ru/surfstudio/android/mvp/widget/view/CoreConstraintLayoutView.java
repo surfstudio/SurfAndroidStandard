@@ -89,6 +89,9 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     }
 
     @Override
+    public void init() {}
+
+    @Override
     public void init(String scopeId) {
         widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.setScopeId(scopeId);

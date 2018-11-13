@@ -97,6 +97,9 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
+    public void init() {}
+
+    @Override
     public void init(String scopeId) {
         widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.setScopeId(scopeId);

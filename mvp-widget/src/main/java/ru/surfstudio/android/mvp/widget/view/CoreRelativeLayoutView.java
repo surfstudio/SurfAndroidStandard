@@ -101,6 +101,9 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     }
 
     @Override
+    public void init() {}
+
+    @Override
     public void init(String scopeId) {
         widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.setScopeId(scopeId);

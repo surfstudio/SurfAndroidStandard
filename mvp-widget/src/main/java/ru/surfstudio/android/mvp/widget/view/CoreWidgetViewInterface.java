@@ -46,10 +46,15 @@ public interface CoreWidgetViewInterface extends
 
     WidgetViewDelegate createWidgetViewDelegate();
 
+    /**
+     * Устрарел, для отложенной инициализации используется init(scopeId)
+     */
+    @Deprecated
+    void init();
 
     /**
      * Для отложенной инициализации виджета с установкой скоуп id на основе данных
-     * Используется если у виджета проставлен атрибут - enableManualInit == true
+     * Используется, если у виджета проставлен атрибут - enableManualInit == true
      *
      * @param scopeId
      */

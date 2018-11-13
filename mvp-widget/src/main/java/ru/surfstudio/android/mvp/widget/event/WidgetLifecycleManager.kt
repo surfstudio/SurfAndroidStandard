@@ -23,6 +23,7 @@ import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface
+import java.lang.IllegalStateException
 import java.lang.ref.WeakReference
 
 /**
@@ -98,6 +99,10 @@ class WidgetLifecycleManager(
     }
 
     fun onViewReady() {
+        if (parentState.currentState.ordinal < ScreenStates.VIEW_READY.ordinal) {
+            throw IllegalStateException("Parent is not ready")
+        }
+
         pushState(ScreenStates.VIEW_READY)
     }
 
