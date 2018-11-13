@@ -1,4 +1,7 @@
 android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -16,13 +19,7 @@ dependencies {
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //instrumental test
-    api "androidx.test:core:$androidxVersion"
-    api "androidx.test.ext:junit:$androidxVersion"
-    api "androidx.test:runner:$testRunnerXVersion"
-    api "androidx.test.espresso:espresso-core:$espressoXVersion"
-    api "androidx.test.espresso:espresso-contrib:$espressoXVersion"
-    api "androidx.test.espresso:espresso-intents:$espressoXVersion"
-
+    androidTestImplementation project(":template:base")
     androidTestImplementation "androidx.test:core:$androidxVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
