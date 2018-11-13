@@ -10,6 +10,7 @@ import org.junit.runner.RunWith
 import ru.surfstudio.android.app.migration.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.app.migration.sample.ui.screen.splash.SplashActivityView
 import ru.surfstudio.android.app.migration.sample.ui.screen.splash.TRANSITION_DELAY_MS
+import ru.surfstudio.android.sample.common.test.ElapsedTimeIdlingResource
 import ru.surfstudio.android.sample.common.test.utils.*
 
 @RunWith(AndroidJUnit4::class)

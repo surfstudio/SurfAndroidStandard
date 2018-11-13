@@ -1,4 +1,4 @@
-package ru.surfstudio.android.sample.common.test.utils
+package ru.surfstudio.android.sample.common.test
 
 import androidx.test.espresso.IdlingResource
 

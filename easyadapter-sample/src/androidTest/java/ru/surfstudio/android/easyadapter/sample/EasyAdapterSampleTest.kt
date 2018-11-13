@@ -33,7 +33,7 @@ class EasyAdapterSampleTest {
         performClick(R.id.show_multitype_list_btn)
         checkIfActivityIsVisible(MultitypeListActivityView::class.java)
 
-        performClick(R.id.rvMultitypeList, 1)
+        RecyclerViewUtils.performClick(R.id.rvMultitypeList, 1)
         checkIfToastIsVisible("Value = 0")
         Espresso.pressBack()
 
