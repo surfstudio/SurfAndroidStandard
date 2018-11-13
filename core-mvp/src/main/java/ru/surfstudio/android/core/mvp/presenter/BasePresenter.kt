@@ -63,7 +63,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     private val activityNavigator: ActivityNavigator
     private val schedulersProvider: SchedulersProvider
     private val connectionProvider: ConnectionProvider
-    private var errorHandler: ErrorHandler? = null
+    private var errorHandler: ErrorHandler
     private var autoReloadDisposable: Disposable? = null
 
     init {
@@ -95,10 +95,10 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
      * @param e ошибка
      */
     protected fun handleError(e: Throwable) {
-        errorHandler!!.handleError(e)
+        errorHandler.handleError(e)
     }
 
-    //SubscribeUi
+    //region SubscribeUi
 
     protected fun <T> Observable<T>.subscribeUi(operator: ObservableOperatorFreeze<T>,
                                                 observer: LambdaObserver<T>): Disposable {
@@ -124,9 +124,9 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                 .subscribeBy(operator, observer)
     }
 
-    //End SubscribeUi
+    //endregion
 
-    //SubscribeWithoutFreezing
+    //region SubscribeWithoutFreezing
     protected fun <T> Observable<T>.subscribeWithoutFreezingUi(observer: LambdaObserver<T>): Disposable {
         return this.observeOn(schedulersProvider.main(), true)
                 .subscribeWithoutFreezingBy(observer)
@@ -146,9 +146,9 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
         return this.observeOn(schedulersProvider.main())
                 .subscribeWithoutFreezingBy(subscriber)
     }
-    //End SubscribeWithoutFreezing
+    //endregion
 
-    //region subscribeIoHandleError
+    //region subscribeByIoHandleError
 
     protected fun <T> Observable<T>.subscribeByIoHandleError(onNext: (T) -> Unit): Disposable {
         return subscribeByIoHandleError(onNext, onErrorStub)
@@ -201,7 +201,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
 
     //endregion
 
-    //region subscribeIo
+    //region subscribeByIo
     protected fun <T> Observable<T>.subscribeByIo(onNext: (T) -> Unit,
                                                   onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
@@ -235,7 +235,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     }
     //endregion
 
-    //region subscribeIoAutoReload
+    //region subscribeByIoAutoReload
 
     /**
      * {@see subscribeIo}
@@ -280,6 +280,8 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     }
     //endregion
 
+    //region subscribeByIoHandleErrorAutoReload
+
     protected fun <T> Observable<T>.subscribeByIoHandleErrorAutoReload(autoReloadAction: () -> Unit,
                                                                        onNext: (T) -> Unit,
                                                                        onError: (Throwable) -> Unit): Disposable {
@@ -312,6 +314,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
         return initializeAutoReload(this, autoReloadAction).subscribeByIoHandleError(onSuccess, onComplete, onError)
     }
 
+    //endregion
 
     private fun handleError(e: Throwable, onError: (Throwable) -> Unit) {
         handleError(e)
@@ -344,7 +347,6 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                         .toObservable().subscribeBy {
                             reloadAction.invoke()
                         }
-
             }
         }
     }

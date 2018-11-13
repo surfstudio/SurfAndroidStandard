@@ -60,7 +60,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     /**
      * @return screen's view
      */
-    protected var viewInternal: V? = null
+    private var viewInternal: V? = null
 
     val view: V
         get() = viewInternal!!
@@ -286,7 +286,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                                 onNext: (T) -> Unit,
                                                 onComplete: () -> Unit,
                                                 onError: (Throwable) -> Unit): Disposable {
-        return this.subscribeBy(operator, LambdaObserver(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction(), Functions.emptyConsumer()))
+        return this.subscribeBy(operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
     }
 
     protected fun <T> Single<T>.subscribeBy(operator: SingleOperatorFreeze<T>,
@@ -336,10 +336,9 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-
     protected fun <T> Observable<T>.subscribeWithoutFreezingBy(onNext: (T) -> Unit,
                                                                onError: (Throwable) -> Unit): Disposable {
-        return subscribeWithoutFreezingBy(LambdaObserver(onNext.asConsumer(), onError.asOnErrorConsumer(),
+        return subscribeWithoutFreezingBy(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(),
                 Functions.EMPTY_ACTION, Functions.emptyConsumer()))
     }
 
@@ -418,6 +417,97 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return disposable
     }
 
+    //region java compatible methods
+
+    /**
+     * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
+     * @see @link .subscribe
+     * @see @link OperatorFreeze
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                replaceFrozenEventPredicate: BiFunctionSafe<T, T, Boolean>,
+                                onNext: ConsumerSafe<T>,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeBy(replaceFrozenEventPredicate, onNext.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    /**
+     * @see @link .subscribe
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                onNext: ConsumerSafe<T>): Disposable {
+        return observable.subscribeBy(onNext.fromConsumer())
+    }
+
+    /**
+     * @see @link .subscribe
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                onNext: ConsumerSafe<T>,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeBy(onNext.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+
+    /**
+     * @see @link .subscribe
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                onNext: ConsumerSafe<T>,
+                                onComplete: ActionSafe,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeBy(onNext.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribe(single: Single<T>,
+                                onSuccess: ConsumerSafe<T>,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return single.subscribeBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    protected fun subscribe(completable: Completable,
+                            onComplete: ActionSafe,
+                            onError: ConsumerSafe<Throwable>): Disposable {
+        return completable.subscribeBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribe(maybe: Maybe<T>,
+                                onSuccess: ConsumerSafe<T>,
+                                onComplete: ActionSafe,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return maybe.subscribeBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    /**
+     * @see @link .subscribeWithoutFreezing
+     */
+    protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
+                                               onNext: ConsumerSafe<T>,
+                                               onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeWithoutFreezingBy(onNext.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribeWithoutFreezing(single: Single<T>,
+                                               onSuccess: ConsumerSafe<T>,
+                                               onError: ConsumerSafe<Throwable>): Disposable {
+        return single.subscribeWithoutFreezingBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    protected fun subscribeWithoutFreezing(completable: Completable,
+                                           onComplete: ActionSafe,
+                                           onError: ConsumerSafe<Throwable>): Disposable {
+        return completable.subscribeWithoutFreezingBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribeWithoutFreezing(maybe: Maybe<T>,
+                                               onSuccess: ConsumerSafe<T>,
+                                               onComplete: ActionSafe,
+                                               onError: ConsumerSafe<Throwable>): Disposable {
+        return maybe.subscribeWithoutFreezingBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    //endregion
+
     //TODO remove
     //deprecated methods will be removed
     @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(operator, onNext, onCompleteStub, onError)"))
@@ -434,7 +524,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                 onNext: (T) -> Unit,
                                 onComplete: () -> Unit,
                                 onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeBy(operator, LambdaObserver(onNext.asConsumer(), onError.asOnErrorConsumer(), onComplete.asOnCompleteAction(), Functions.emptyConsumer()))
+        return observable.subscribeBy(operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
     }
 
     @Deprecated("Use extension instead")
@@ -596,7 +686,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
                                                onNext: (T) -> Unit,
                                                onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeWithoutFreezingBy<T>(LambdaObserver(onNext.asConsumer(), onError.asOnErrorConsumer(),
+        return observable.subscribeWithoutFreezingBy<T>(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(),
                 Functions.EMPTY_ACTION, Functions.emptyConsumer()))
     }
 
@@ -649,17 +739,5 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                 onError.invoke(e)
             }
         })
-    }
-
-    private fun <T> ((T) -> Unit).asConsumer(): ConsumerSafe<T> {
-        return ConsumerSafe(this)
-    }
-
-    private fun ((Throwable) -> Unit).asOnErrorConsumer(): ConsumerSafe<Throwable> {
-        return ConsumerSafe(this)
-    }
-
-    private fun (() -> Unit).asOnCompleteAction(): ActionSafe {
-        return ActionSafe(this)
     }
 }
