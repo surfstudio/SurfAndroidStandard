@@ -15,6 +15,7 @@ ext {
     ankoVersion = '0.10.7'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
     gsonVersion = '2.8.5'                       //https://bit.ly/2LH5L6g
+    processPhoenix = '2.0.0'                    //https://bit.ly/2OAc0po
 
     //injections
     javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
@@ -23,6 +24,7 @@ ext {
     //network
     okHttpVersion = '3.11.0'                    //https://bit.ly/1Iijjtl
     retrofitVersion = '2.4.0'                   //https://bit.ly/2eZa7nz
+    chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
 
     //rx
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
