@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
- * Минимальное время в миллисекундах в течении которого показывается сплэш
+ * Минимальное время в миллисекундах, в течение которого показывается сплэш
  */
 const val TRANSITION_DELAY_MS = 2000L
 

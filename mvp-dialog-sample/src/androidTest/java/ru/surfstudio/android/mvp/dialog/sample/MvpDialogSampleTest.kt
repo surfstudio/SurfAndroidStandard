@@ -5,7 +5,6 @@ import org.junit.Test
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.main.INITIAL_COMPLEX_DIALOG_VALUE
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
-import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkText
 import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkViewText
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
@@ -25,16 +24,6 @@ class MvpDialogSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
         )
 
         testComplexDialog(R.id.show_complex_dialog_btn, R.id.show_complex_bottomsheet_dialog_btn)
-    }
-
-    private fun testSimpleDialog(
-            @IdRes showSimpleDialogBtnResId: Int,
-            @IdRes dialogTextRedList: IntArray,
-            @IdRes acceptDialogBtnResId: Int = android.R.id.button1
-    ) {
-        performClick(showSimpleDialogBtnResId)
-        checkText(*dialogTextRedList)
-        performClick(acceptDialogBtnResId)
     }
 
     private fun testComplexDialog(@IdRes vararg showSimpleDialogBtnResIdList: Int) {
