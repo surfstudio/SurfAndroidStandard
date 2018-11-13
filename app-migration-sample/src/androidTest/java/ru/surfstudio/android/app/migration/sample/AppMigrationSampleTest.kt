@@ -11,9 +11,10 @@ import ru.surfstudio.android.app.migration.sample.ui.screen.main.MainActivityVie
 import ru.surfstudio.android.app.migration.sample.ui.screen.splash.SplashActivityView
 import ru.surfstudio.android.app.migration.sample.ui.screen.splash.TRANSITION_DELAY_MS
 import ru.surfstudio.android.sample.common.test.ElapsedTimeIdlingResource
-import ru.surfstudio.android.sample.common.test.utils.*
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.IdlingUtils.registerIdlingResource
+import ru.surfstudio.android.sample.common.test.utils.IdlingUtils.unregisterIdlingResource
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
