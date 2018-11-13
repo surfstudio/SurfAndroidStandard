@@ -11,7 +11,7 @@ import ru.surfstudio.android.core.mvp.sample.ui.screen.another.AnotherActivityVi
 import ru.surfstudio.android.core.mvp.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
-import ru.surfstudio.android.sample.common.test.utils.performClick
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

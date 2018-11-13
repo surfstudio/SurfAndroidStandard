@@ -13,8 +13,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.sample.common.test.nestedScrollTo
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
-import ru.surfstudio.android.sample.common.test.utils.performClick
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

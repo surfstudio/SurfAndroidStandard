@@ -8,8 +8,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.mvp.binding.sample.ui.screen.main.MainActivityView
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
-import ru.surfstudio.android.sample.common.test.utils.performClick
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

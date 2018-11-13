@@ -6,7 +6,8 @@ import androidx.test.filters.SmallTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.surfstudio.android.sample.common.test.utils.*
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfViewIsNotVisible
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfViewIsVisible
 

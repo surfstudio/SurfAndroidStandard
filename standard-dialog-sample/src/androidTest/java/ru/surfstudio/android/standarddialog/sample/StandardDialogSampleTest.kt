@@ -8,7 +8,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
 import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkText
-import ru.surfstudio.android.sample.common.test.utils.performClick
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.standarddialog.sample.ui.screen.main.MainActivityView
 
 @RunWith(AndroidJUnit4::class)

@@ -17,7 +17,7 @@ object RecyclerViewUtils {
     /**
      * Функция, выполняющая нажатие на элемент RecyclerView с заданной позицией
      */
-    fun performClick(@IdRes recyclerViewResId: Int, position: Int) {
+    fun performItemClick(@IdRes recyclerViewResId: Int, position: Int) {
         onView(withId(recyclerViewResId))
                 .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(position, click()))
     }

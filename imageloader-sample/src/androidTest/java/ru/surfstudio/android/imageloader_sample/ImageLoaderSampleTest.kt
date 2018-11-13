@@ -5,7 +5,7 @@ import androidx.test.filters.SmallTest
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.launchActivity
-import ru.surfstudio.android.sample.common.test.utils.performClick
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
