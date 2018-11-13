@@ -7,6 +7,8 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.sample.common.test.utils.*
+import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfViewIsNotVisible
+import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfViewIsVisible
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

@@ -11,9 +11,9 @@ import org.hamcrest.CoreMatchers.allOf
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import ru.surfstudio.android.sample.common.test.utils.checkIfSnackbarIsVisible
 import ru.surfstudio.android.sample.common.test.utils.launchActivity
 import ru.surfstudio.android.sample.common.test.nestedScrollTo
+import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
 import ru.surfstudio.android.sample.common.test.utils.performClick
 
 @RunWith(AndroidJUnit4::class)

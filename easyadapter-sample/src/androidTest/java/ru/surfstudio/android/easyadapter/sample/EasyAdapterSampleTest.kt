@@ -12,6 +12,7 @@ import ru.surfstudio.android.easyadapter.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.easyadapter.sample.ui.screen.multitype.MultitypeListActivityView
 import ru.surfstudio.android.easyadapter.sample.ui.screen.pagination.PaginationListActivityView
 import ru.surfstudio.android.sample.common.test.utils.*
+import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
