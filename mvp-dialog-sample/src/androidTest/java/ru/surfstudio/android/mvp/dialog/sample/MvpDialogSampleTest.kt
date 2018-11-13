@@ -9,6 +9,8 @@ import org.junit.runner.RunWith
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.main.INITIAL_COMPLEX_DIALOG_VALUE
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.utils.*
+import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkText
+import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkViewText
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

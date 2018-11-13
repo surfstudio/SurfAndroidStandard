@@ -6,7 +6,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import ru.surfstudio.android.broadcast.extension.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.utils.checkAndInputText
+import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkAndInputText
 import ru.surfstudio.android.sample.common.test.utils.launchActivity
 
 private const val PHONE_NUMBER = "123456789"
