@@ -27,6 +27,14 @@ import java.lang.ref.WeakReference
 
 /**
  * Управляет ЖЦ виджета
+ *
+ * Новое состояние виджета расчитывается в зависимости от текщего состояния виджета и его родителя.
+ * allowedStateTransition - возможные переходы виджета из текущего состояния.
+ *
+ * STARTED/STOPPED, RESUMED/PAUSED  - управляются родителем, либо посылаются искуственно(см. pushState)
+ *
+ * TODO: тесты метода pushState
+ *
  * @param parentState состояние родителя
  * @param widgetScreenEventDelegateManager делегат менеджер виджета
  * @param screenState состояние виджета
@@ -117,7 +125,6 @@ class WidgetLifecycleManager(
         pushState(ScreenStates.DESTROYED)
         destroy()
 
-        //возможные проблемы
         widgetViewDelegate.get()?.onCompletelyDestroy()
     }
 
@@ -128,14 +135,17 @@ class WidgetLifecycleManager(
     private fun pushState(wishingState: ScreenStates) {
         when {
 
-            wishingState == ScreenStates.STOPPED && parentState.currentState == ScreenStates.RESUMED -> {
+            //Первые два кейса - поведение виджета в ресайклере. Необходимо послать STARTED/RESUMED и PAUSED/STOPPED
+            //на attach/detach
+            wishingState == ScreenStates.VIEW_DESTROYED && parentState.currentState == ScreenStates.RESUMED -> {
                 applyStates(ScreenStates.PAUSED, ScreenStates.STOPPED, ScreenStates.VIEW_DESTROYED)
             }
 
-            wishingState == ScreenStates.STARTED && parentState.currentState == ScreenStates.RESUMED -> {
-                applyStates(ScreenStates.STARTED, ScreenStates.RESUMED)
+            wishingState == ScreenStates.VIEW_READY && parentState.currentState == ScreenStates.RESUMED -> {
+                applyStates(ScreenStates.VIEW_READY, ScreenStates.STARTED, ScreenStates.RESUMED)
             }
 
+            // Когда уничтожаем виджет, необходимо в ручную послать предыдущие события
             wishingState == ScreenStates.DESTROYED -> {
                 when (screenState.currentState!!) {
 
@@ -164,6 +174,11 @@ class WidgetLifecycleManager(
         }
     }
 
+    /**
+     * Применяет события к виджету, если они разрешены текущим состоянием
+     * Также посылает эвент с текущим событием.
+     * @param states
+     */
     private fun applyStates(vararg states: ScreenStates) {
         for (state in states) {
             if (state != ScreenStates.DESTROYED && parentState.isCompletelyDestroyed) continue

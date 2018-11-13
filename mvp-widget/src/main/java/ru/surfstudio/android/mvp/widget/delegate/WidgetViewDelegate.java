@@ -86,12 +86,10 @@ public class WidgetViewDelegate {
         coreWidgetView.onCreate();
 
         getLifecycleManager().onViewReady();
-        getLifecycleManager().onStart();
     }
 
     public void onDestroy() {
         if (scopeStorage.isExist(getCurrentScopeId())) {
-            getLifecycleManager().onStop();
             getLifecycleManager().onViewDestroy();
         }
     }
