@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.utils
+package ru.surfstudio.standard.common
 
 import androidx.test.espresso.IdlingResource
 

@@ -7,10 +7,14 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import ru.surfstudio.standard.common.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.standard.common.utils.ActivityUtils.launchActivity
+import ru.surfstudio.standard.common.utils.IdlingUtils.registerIdlingResource
+import ru.surfstudio.standard.common.utils.IdlingUtils.unregisterIdlingResource
 import ru.surfstudio.standard.f_main.MainActivityView
 import ru.surfstudio.standard.f_splash.SplashActivityView
 import ru.surfstudio.standard.f_splash.TRANSITION_DELAY_MS
-import ru.surfstudio.standard.utils.*
+import ru.surfstudio.standard.common.*
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

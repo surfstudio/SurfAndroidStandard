@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.utils
+package ru.surfstudio.standard.common
 
 import android.view.View
 import android.view.ViewGroup
