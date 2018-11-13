@@ -61,8 +61,8 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     }
 
     private void obtainAttrs(AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreWidgetView, -1, -1);
-        isManualInitEnabled = ta.getBoolean(R.styleable.CoreWidgetView_enableManualInit, false);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreConstraintLayoutView, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreConstraintLayoutView_enableManualInit, false);
         ta.recycle();
     }
 
@@ -111,7 +111,10 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         return widgetViewDelegate.getPersistentScope();
     }
 
-    public void setScopeId(String scopeId) {
-        widgetViewDelegate.setScopeId(scopeId);
+    /**
+     * В ручную вызывает onCompletelyDestroy у виджета
+     */
+    public void manualCompletelyDestroy() {
+        widgetViewDelegate.onCompletelyDestroy();
     }
 }

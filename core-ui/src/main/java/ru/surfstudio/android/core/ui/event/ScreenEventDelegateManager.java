@@ -45,6 +45,14 @@ public interface ScreenEventDelegateManager {
     void registerDelegate(ScreenEventDelegate delegate, @Nullable ScreenType emitterType);
 
     /**
+     * Ренистрирует делегата на конкретный эвент
+     *
+     * @param delegate
+     * @param eventType
+     */
+    void registerDelegateOnEvent(ScreenEventDelegate delegate, Class<? extends ScreenEvent> eventType);
+
+    /**
      * удаляет подписку делегата
      *
      * @return была ли подписка удалена

@@ -23,6 +23,7 @@ import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface
+import java.lang.ref.WeakReference
 
 /**
  * Управляет ЖЦ виджета
@@ -42,7 +43,7 @@ class WidgetLifecycleManager(
         OnStopDelegate,
         OnViewDestroyDelegate {
 
-    private lateinit var widgetViewDelegate: WidgetViewDelegate
+    private lateinit var widgetViewDelegate: WeakReference<WidgetViewDelegate>
 
     //разрешенные переходы по состояниям
     private val allowedStateTransition = mapOf(
@@ -85,8 +86,7 @@ class WidgetLifecycleManager(
     fun onCreate(widgetView: View, coreWidgetView: CoreWidgetViewInterface, widgetViewDelegate: WidgetViewDelegate) {
         screenState.onCreate(widgetView, coreWidgetView)
 
-        //возможные проблемы(так как держим ссылку на делегат, хоть и каждый раз обновляем)
-        this.widgetViewDelegate = widgetViewDelegate
+        this.widgetViewDelegate = WeakReference(widgetViewDelegate)
     }
 
     fun onViewReady() {
@@ -118,7 +118,7 @@ class WidgetLifecycleManager(
         destroy()
 
         //возможные проблемы
-        widgetViewDelegate.onCompletelyDestroy()
+        widgetViewDelegate.get()?.onCompletelyDestroy()
     }
 
     /**

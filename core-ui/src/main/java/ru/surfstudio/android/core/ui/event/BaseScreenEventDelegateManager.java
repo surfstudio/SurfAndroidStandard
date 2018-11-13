@@ -15,6 +15,8 @@
  */
 package ru.surfstudio.android.core.ui.event;
 
+import com.annimon.stream.Stream;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,7 +39,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     private List<ScreenEventResolver> eventResolvers;
     //родительский менеджер делегатов
     private ScreenEventDelegateManager parentDelegateManger;
-    //тип эрана контейнера
+    //тип экрана контейнера
     private ScreenType screenType;
     private boolean destroyed = false;
 
@@ -61,13 +63,26 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public void registerDelegate(ScreenEventDelegate delegate, @Nullable ScreenType emitterType) {
-        assertNotDestroyed();
         //находим все EventResolvers, посколку delegate может реализовывать сразу несколько интерфейсов делегатов
         List<ScreenEventResolver> supportedResolvers = getEventResolversForDelegate(delegate);
         if (supportedResolvers.isEmpty()) {
             throw new IllegalArgumentException(String.format("No EventResolver for this delegate %s",
                     delegate.getClass().getCanonicalName()));
         }
+
+        registerDelegate(delegate, emitterType, supportedResolvers);
+    }
+
+    public void registerDelegateOnEvent(ScreenEventDelegate delegate, Class<? extends ScreenEvent> eventType) {
+        //Находим резольверы для конкретного события
+        registerDelegate(delegate, null, getEventResolversForEvent(eventType));
+    }
+
+    private void registerDelegate(ScreenEventDelegate delegate,
+                                 @Nullable ScreenType emitterType,
+                                 List<ScreenEventResolver> supportedResolvers) {
+        assertNotDestroyed();
+
         for (ScreenEventResolver eventResolver : supportedResolvers) {
             if (eventResolver.getEventEmitterScreenTypes().contains(screenType)
                     && (emitterType == null || screenType == emitterType)) {
@@ -78,9 +93,15 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
                             delegate.getClass().getCanonicalName()));
                 }
                 addDelegateToMap(throughDelegatesMap, delegate, eventResolver.getEventType());
-                parentDelegateManger.registerDelegate(delegate);
+                parentDelegateManger.registerDelegateOnEvent(delegate, eventResolver.getEventType()); //на конкретное событие
             }
         }
+    }
+
+    private List<ScreenEventResolver> getEventResolversForEvent(Class<? extends ScreenEvent> eventType) {
+        return Stream.of(eventResolvers)
+                .filter((resolvers) -> resolvers.getEventType().equals(eventType))
+                .toList();
     }
 
     private <E extends ScreenEvent> void addDelegateToMap(Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap,
@@ -118,23 +139,23 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public <E extends ScreenEvent> boolean unregisterDelegate(ScreenEventDelegate delegate,
-                                                              Class<E> event) {
-        boolean removedFromCurrent = removeDelegate(delegate, event, delegatesMap);
-        boolean removedFromThrough = removeDelegate(delegate, event, throughDelegatesMap);
+                                                              Class<E> eventType) {
+        boolean removedFromCurrent = removeDelegate(delegate, eventType, delegatesMap);
+        boolean removedFromThrough = removeDelegate(delegate, eventType, throughDelegatesMap);
 
         boolean removedFromParent = removedFromThrough
                 && parentDelegateManger != null
-                && parentDelegateManger.unregisterDelegate(delegate, event);
+                && parentDelegateManger.unregisterDelegate(delegate, eventType);
         return removedFromCurrent || removedFromParent;
     }
 
     @Override
     public void destroy() {
         destroyed = true;
-        for (Class<? extends ScreenEvent> event : throughDelegatesMap.keySet()) {
-            for (ScreenEventDelegate delegate : throughDelegatesMap.get(event)) {
+        for (Class<? extends ScreenEvent> eventType : throughDelegatesMap.keySet()) {
+            for (ScreenEventDelegate delegate : throughDelegatesMap.get(eventType)) {
                 if (parentDelegateManger != null) {
-                    parentDelegateManger.unregisterDelegate(delegate, event);
+                    parentDelegateManger.unregisterDelegate(delegate, eventType);
                 }
             }
         }

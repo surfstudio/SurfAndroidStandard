@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CoreWidgetView">
+    <declare-styleable name="CoreConstraintLayoutView">
         <attr name="enableManualInit" format="boolean" />
     </declare-styleable>
 
