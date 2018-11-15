@@ -7,7 +7,7 @@ import ru.surfstudio.android.shared.pref.SettingsUtil
 import javax.inject.Inject
 import javax.inject.Named
 
-private const val IS_LEAK_CANARY_ENABLED_KEY = "IS_CHUCK_ENABLED_KEY"
+private const val IS_LEAK_CANARY_ENABLED_KEY = "IS_LEAK_CANARY_ENABLED_KEY"
 
 @PerApplication
 class MemoryDebugStorage @Inject constructor(
