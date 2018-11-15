@@ -25,5 +25,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:catalog_item_name="@string/show_fcm_token_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/show_memory_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:catalog_item_name="@string/show_memory_debug_item" />
     </LinearLayout>
 </ScrollView>

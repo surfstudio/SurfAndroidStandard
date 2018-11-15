@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityRoute
 import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
+import ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityRoute
 import ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityRoute
 import javax.inject.Inject
 
@@ -28,5 +29,9 @@ class DebugPresenter @Inject constructor(
 
     fun openFcmTokenScreen() {
         activityNavigator.start(FcmDebugActivityRoute())
+    }
+
+    fun openMemoryScreen() {
+        activityNavigator.start(MemoryDebugActivityRoute())
     }
 }
