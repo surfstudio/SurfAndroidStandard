@@ -76,7 +76,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         get() = null
 
     init {
-        //eventDelegateManager.registerDelegate(CorePresenterGateway(this, screenState))
+        eventDelegateManager.registerDelegate(CorePresenterGateway(this, screenState))
     }
 
     open fun attachView(view: V) {
@@ -510,7 +510,8 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
 
     //TODO remove
     //deprecated methods will be removed
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(operator, onNext, onCompleteStub, onError)"))
+    @Deprecated("Use extension instead",
+            ReplaceWith("observable.subscribeBy(operator, onNext, onError)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 operator: ObservableOperatorFreeze<T>,
                                 onNext: (T) -> Unit,
@@ -518,7 +519,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return observable.subscribeBy(operator, onNext, onCompleteStub, onError)
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(operator, onNext, onComplete, onError)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 operator: ObservableOperatorFreeze<T>,
                                 onNext: (T) -> Unit,
@@ -527,7 +528,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return observable.subscribeBy(operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("single.subscribeBy(operator, onSuccess, onError)"))
     protected fun <T> subscribe(single: Single<T>,
                                 operator: SingleOperatorFreeze<T>,
                                 onSuccess: (T) -> Unit,
@@ -543,7 +544,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeBy(operator, onSuccess, onComplete, onError)"))
     protected fun <T> subscribe(maybe: Maybe<T>,
                                 operator: MaybeOperatorFreeze<T>,
                                 onSuccess: (T) -> Unit,
@@ -564,7 +565,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeBy(operator, onComplete, onError)"))
     protected fun subscribe(completable: Completable,
                             operator: CompletableOperatorFreeze,
                             onComplete: () -> Unit,
@@ -585,7 +586,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
      * @see .subscribe
      * @see ObservableOperatorFreeze
      */
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(replaceFrozenEventPredicate, observer)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 replaceFrozenEventPredicate: BiFunctionSafe<T, T, Boolean>,
                                 observer: LambdaObserver<T>): Disposable {
@@ -599,7 +600,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
      * @see @link .subscribe
      * @see @link OperatorFreeze
      */
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(replaceFrozenEventPredicate, onNext, onError)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 replaceFrozenEventPredicate: BiFunctionSafe<T, T, Boolean>,
                                 onNext: (T) -> Unit,
@@ -611,7 +612,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     /**
      * @see @link .subscribe
      */
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(replaceFrozenEventPredicate, observer)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 observer: LambdaObserver<T>): Disposable {
 
@@ -622,7 +623,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     /**
      * @see @link .subscribe
      */
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(onNext)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 onNext: (T) -> Unit): Disposable {
 
@@ -632,7 +633,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     /**
      * @see @link .subscribe
      */
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(onNext, onError)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 onNext: (T) -> Unit,
                                 onError: (Throwable) -> Unit): Disposable {
@@ -644,7 +645,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     /**
      * @see @link .subscribe
      */
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(onNext, onComplete, onError)"))
     protected fun <T> subscribe(observable: Observable<T>,
                                 onNext: (T) -> Unit,
                                 onComplete: () -> Unit,
@@ -653,7 +654,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return observable.subscribeBy(ObservableOperatorFreeze(freezeSelector), onNext, onComplete, onError)
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("single.subscribeBy(onSuccess, onError)"))
     protected fun <T> subscribe(single: Single<T>,
                                 onSuccess: (T) -> Unit,
                                 onError: (Throwable) -> Unit): Disposable {
@@ -661,7 +662,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return single.subscribeBy(SingleOperatorFreeze(freezeSelector), onSuccess, onError)
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeBy(onComplete, onError)"))
     protected fun subscribe(completable: Completable,
                             onComplete: () -> Unit,
                             onError: (Throwable) -> Unit): Disposable {
@@ -669,7 +670,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return completable.subscribeBy(CompletableOperatorFreeze(freezeSelector), onComplete, onError)
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeBy(onSuccess, onComplete, onError)"))
     protected fun <T> subscribe(maybe: Maybe<T>,
                                 onSuccess: (T) -> Unit,
                                 onComplete: () -> Unit,
@@ -682,7 +683,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     /**
      * @see @link .subscribeWithoutFreezing
      */
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(onNext, onError)"))
     protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
                                                onNext: (T) -> Unit,
                                                onError: (Throwable) -> Unit): Disposable {
@@ -690,7 +691,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                 Functions.EMPTY_ACTION, Functions.emptyConsumer()))
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("single.subscribeBy(onSuccess, onError)"))
     protected fun <T> subscribeWithoutFreezing(single: Single<T>,
                                                onSuccess: (T) -> Unit,
                                                onError: (Throwable) -> Unit): Disposable {
@@ -705,7 +706,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeBy(onComplete, onError)"))
     protected fun subscribeWithoutFreezing(completable: Completable,
                                            onComplete: () -> Unit,
                                            onError: (Throwable) -> Unit): Disposable {
@@ -720,7 +721,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-    @Deprecated("Use extension instead")
+    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeBy(onSuccess, onComplete, onError)"))
     protected fun <T> subscribeWithoutFreezing(maybe: Maybe<T>,
                                                onSuccess: (T) -> Unit,
                                                onComplete: () -> Unit,
