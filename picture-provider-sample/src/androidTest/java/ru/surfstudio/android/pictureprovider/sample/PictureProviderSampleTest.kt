@@ -13,9 +13,15 @@ import org.junit.Before
 import org.junit.Test
 import ru.surfstudio.android.pictureprovider.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
+import ru.surfstudio.android.sample.common.test.utils.PermissionUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 class PictureProviderSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
+
+    private val pictureProviderPermissions = arrayOf(
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.CAMERA"
+    )
 
     private val buttonResList = intArrayOf(
             R.id.camera_btn,
@@ -31,6 +37,7 @@ class PictureProviderSampleTest : BaseSampleTest<MainActivityView>(MainActivityV
     @Before
     override fun setUp() {
         super.setUp()
+        PermissionUtils.grantPermissions(*pictureProviderPermissions)
         registerCancelResultForIntentData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         registerCancelResultForIntentData(MediaStore.ACTION_IMAGE_CAPTURE)
         registerCancelResultForIntentAction(Intent.ACTION_CHOOSER)
