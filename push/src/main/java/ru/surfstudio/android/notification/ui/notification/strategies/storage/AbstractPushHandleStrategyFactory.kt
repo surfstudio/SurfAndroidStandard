@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.notification.ui.notification
+package ru.surfstudio.android.notification.ui.notification.strategies.storage
 
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy

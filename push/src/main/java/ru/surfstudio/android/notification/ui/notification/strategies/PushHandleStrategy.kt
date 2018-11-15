@@ -19,10 +19,11 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
-import androidx.core.app.NotificationCompat
-import androidx.annotation.StringRes
 import android.widget.RemoteViews
+import androidx.annotation.StringRes
+import androidx.core.app.NotificationCompat
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
@@ -38,9 +39,14 @@ import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelp
  */
 abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     /**
-     * тип данных пуша [BaseNotificationTypeData]
+     * Данные пуш-нотификации [BaseNotificationTypeData].
      */
     abstract val typeData: T
+
+    /**
+     * Уникальный идентификатор группы нотификаций.
+     */
+    open val groupId: Int = -1
 
     /**
      * Id канала пуш уведомлений(строковый ресурс)
@@ -91,22 +97,22 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     /**
      * Требуемое действие нотификации
      *
-     * @param context      текущий контекст
-     * @param pushInteractor пуш интерактор
-     * @param title          заголвок пуша
-     * @param body           сообщение пуша
-     * @param data           данные пуша
+     * @param context текущий контекст
+     * @param pushInteractor пуш-интерактор
+     * @param title заголовок пуш-нотификации
+     * @param body текст пуш-нотификации
      */
     open fun handle(
             context: Context,
             pushInteractor: PushInteractor,
+            uniqueId: Int,
             title: String,
             body: String
     ) {
-
         pendingIntent = preparePendingIntent(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
+        makePushId(uniqueId)
 
         pushInteractor.onNewNotification(typeData)
 
@@ -116,6 +122,19 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
             }
 
             else -> showNotification(context, title, body)
+        }
+    }
+
+    /**
+     * Инициализация идентификатора пуш-нотификации.
+     *
+     * Если ID пуша не задано явно в стратегии, все пуши будут иметь уникальный ID.
+     *
+     *
+     */
+    private fun makePushId(uniqueId: Int) {
+        if (pushId == -1) {
+            pushId = uniqueId
         }
     }
 
@@ -145,9 +164,26 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     abstract fun coldStartRoute(): ActivityRoute
 
     /**
-     * Метод для создания билдера ноификаций
+     * Метод для инициализации билдера нотификаций.
+     *
+     * @param context контекст
+     * @param title заголовок пуш-нотификации
+     * @param body текст пуш-нотификации
      */
-    abstract fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder?
+    abstract fun makeNotificationBuilder(context: Context,
+                                         title: String,
+                                         body: String): NotificationCompat.Builder?
+
+    /**
+     * Метод для инициализации билдера заголовка группы нотификаций.
+     *
+     *
+     */
+    open fun makeGroupSummaryNotificationBuilder(context: Context,
+                                                 title: String,
+                                                 body: String): NotificationCompat.Builder? {
+        return null
+    }
 
     /**
      * Метод для создания канала нотификаций

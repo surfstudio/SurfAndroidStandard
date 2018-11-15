@@ -8,7 +8,7 @@ import ru.surfstudio.android.firebase.sample.ui.common.notification.PushHandleSt
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.impl.DefaultPushHandler
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
 
 @Module
 class NotificationModule {

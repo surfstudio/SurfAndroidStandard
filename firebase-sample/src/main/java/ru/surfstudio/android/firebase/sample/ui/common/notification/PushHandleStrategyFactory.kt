@@ -3,7 +3,7 @@ package ru.surfstudio.android.firebase.sample.ui.common.notification
 import ru.surfstudio.android.firebase.sample.domain.notification.NotificationType
 import ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.DataPushStrategy
 import ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple.NoDataPushStrategy
-import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 import java.util.HashMap
 

@@ -21,7 +21,7 @@ import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.impl.DefaultPushHandler
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 
@@ -63,6 +63,6 @@ object NotificationCenter {
      * Обработка сообщения из FirebaseMessagingService
      */
     fun onReceiveMessage(context: Context, title: String, body: String, data: Map<String, String>) {
-        pushHandler.handleMessage(context, title, body, data)
+        pushHandler.handleMessage(context, -1, title, body, data)
     }
 }
