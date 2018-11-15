@@ -68,7 +68,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         if (message.isNullOrEmpty()) {
             messageController.show(getString(R.string.empty_cache_message))
         } else {
-            messageController.show(message!!)
+            messageController.show(message)
         }
     }
 

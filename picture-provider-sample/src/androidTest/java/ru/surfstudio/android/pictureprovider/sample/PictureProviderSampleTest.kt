@@ -1,26 +1,35 @@
 package ru.surfstudio.android.pictureprovider.sample
 
+import android.Manifest
 import android.app.Activity
 import android.app.Instrumentation.ActivityResult
 import android.content.Intent
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intending
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
 import org.hamcrest.CoreMatchers.allOf
+import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import ru.surfstudio.android.pictureprovider.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
-import ru.surfstudio.android.sample.common.test.utils.PermissionUtils
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
-class PictureProviderSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
+@RunWith(AndroidJUnit4::class)
+class PictureProviderSampleTest {
 
-    private val pictureProviderPermissions = arrayOf(
-            "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.CAMERA"
+    @Rule
+    @JvmField
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
     )
 
     private val buttonResList = intArrayOf(
@@ -35,12 +44,17 @@ class PictureProviderSampleTest : BaseSampleTest<MainActivityView>(MainActivityV
     private val canceledResult = ActivityResult(Activity.RESULT_CANCELED, Intent())
 
     @Before
-    override fun setUp() {
-        super.setUp()
-        PermissionUtils.grantPermissions(*pictureProviderPermissions)
+    fun setUp() {
+        Intents.init()
         registerCancelResultForIntentData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         registerCancelResultForIntentData(MediaStore.ACTION_IMAGE_CAPTURE)
         registerCancelResultForIntentAction(Intent.ACTION_CHOOSER)
+        ActivityUtils.launchActivity(MainActivityView::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        Intents.release()
     }
 
     @Test

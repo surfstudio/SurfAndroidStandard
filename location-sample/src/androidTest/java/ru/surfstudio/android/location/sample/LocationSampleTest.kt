@@ -1,23 +1,33 @@
 package ru.surfstudio.android.location.sample
 
+import android.Manifest
 import android.app.Activity
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
+import androidx.test.espresso.intent.Intents
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.rule.GrantPermissionRule
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import ru.surfstudio.android.location.sample.ui.screen.default_location_interactor_sample.DefaultLocationInteractorActivityView
 import ru.surfstudio.android.location.sample.ui.screen.location_service_sample.LocationServiceActivityView
 import ru.surfstudio.android.location.sample.ui.screen.start.MainActivity
 import ru.surfstudio.android.location_sample.R
-import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
-import ru.surfstudio.android.sample.common.test.utils.PermissionUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
-class LocationSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
+@RunWith(AndroidJUnit4::class)
+class LocationSampleTest {
 
-    private val locationPermissions = arrayOf(
-            "android.permission.ACCESS_FINE_LOCATION",
-            "android.permission.ACCESS_COARSE_LOCATION"
+    @Rule
+    @JvmField
+    val grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
     private val defaultLocationInteractorOptions = intArrayOf(
@@ -35,9 +45,15 @@ class LocationSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java
             R.id.btn_activity_location_service_unsubscribe_from_location_updates
     )
 
-    override fun setUp() {
-        super.setUp()
-        PermissionUtils.grantPermissions(*locationPermissions)
+    @Before
+    fun setUp() {
+        Intents.init()
+        ActivityUtils.launchActivity(MainActivity::class.java)
+    }
+
+    @After
+    fun tearDown() {
+        Intents.release()
     }
 
     @Test

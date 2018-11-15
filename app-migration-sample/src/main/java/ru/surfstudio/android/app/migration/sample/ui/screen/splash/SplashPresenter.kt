@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 // время в миллисекундах, после которого переходит на другой экран
-const val TRANSITION_DELAY_MS = 4000L
+const val TRANSITION_DELAY_MS = 2000L
 
 /**
  * Презентер загрузочного экрана

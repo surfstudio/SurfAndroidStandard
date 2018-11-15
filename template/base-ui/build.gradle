@@ -1,4 +1,5 @@
 apply from: '../commonModule.gradle'
+apply from: '../commonTestModule.gradle'
 
 dependencies {
     api project(':template:base')
