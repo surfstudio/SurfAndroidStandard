@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.mvp.presenter
 
-import androidx.annotation.CallSuper
 import com.agna.ferro.rx.CompletableOperatorFreeze
 import com.agna.ferro.rx.MaybeOperatorFreeze
 import com.agna.ferro.rx.ObservableOperatorFreeze
@@ -49,7 +48,7 @@ import ru.surfstudio.android.rx.extension.ConsumerSafe
  *
  * @param <V>
 </V> */
-abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDelegateManager, screenState: ScreenState) {
+abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDelegateManager, screenState: ScreenState) : Presenter<V> {
 
     private val onCompleteStub: () -> Unit = {}
     private val onErrorNotImplemented: (Throwable) -> Unit = { throwable -> RxJavaPlugins.onError(OnErrorNotImplementedException(throwable)) }
@@ -79,73 +78,42 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         eventDelegateManager.registerDelegate(CorePresenterGateway(this, screenState))
     }
 
-    open fun attachView(view: V) {
+    override fun attachView(view: V) {
         this.viewInternal = view
     }
 
-    /**
-     * This method is called, when view is ready
-     *
-     * @param viewRecreated - showSimpleDialog whether view created in first time or recreated after
-     * changing configuration
-     */
-    open fun onLoad(viewRecreated: Boolean) {}
+    override fun onLoad(viewRecreated: Boolean) {}
 
-    /**
-     * вызывается при первом запуске экрана, если экран восстановлен с диска,
-     * то это тоже считается первым запуском
-     */
-    open fun onFirstLoad() {}
+    override fun onFirstLoad() {}
 
-    /**
-     * Called when view is started
-     */
-    fun onStart() {
+    override fun onStart() {
 
     }
 
-    /**
-     * Called when view is resumed
-     */
-    @CallSuper
-    open fun onResume() {
+    override fun onResume() {
         freezeSelector.onNext(false)
     }
 
-    /**
-     * Called when view is paused
-     */
-    open fun onPause() {
+    override fun onPause() {
         if (freezeEventsOnPause) {
             freezeSelector.onNext(true)
         }
     }
 
-    /**
-     * Called when view is stopped
-     */
-    fun onStop() {
+    override fun onStop() {
 
     }
 
-    fun detachView() {
+    override fun detachView() {
         onViewDetach()
         viewInternal = null
     }
 
-    /**
-     * Called when view is detached
-     */
-    @CallSuper
-    protected open fun onViewDetach() {
+    override fun onViewDetach() {
         freezeSelector.onNext(true)
     }
 
-    /**
-     * Called when screen is finally destroyed
-     */
-    @CallSuper
-    open fun onDestroy() {
+    override fun onDestroy() {
         disposables.dispose()
     }
 
