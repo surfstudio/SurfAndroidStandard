@@ -1,15 +1,10 @@
 buildscript {
-    ext {
-        kotlinVersion = '1.2.71'
-        fabricToolsVersion = '1.25.4'
-        androidGradleToolsVersion = '3.2.1'
-    }
+    apply from: 'config.gradle'
 
     repositories {
         google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
-
     }
 
     dependencies {
