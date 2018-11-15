@@ -67,6 +67,8 @@ dependencies {
     releaseImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
     // Optional, if you use support library fragments:
     debugImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakCanaryVersion"
+    qaImplementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    qaImplementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakCanaryVersion"
 }
 
 configurations.all {
