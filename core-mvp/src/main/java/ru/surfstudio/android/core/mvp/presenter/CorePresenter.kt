@@ -54,6 +54,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     private val onErrorNotImplemented: (Throwable) -> Unit = { throwable -> RxJavaPlugins.onError(OnErrorNotImplementedException(throwable)) }
 
     private val disposables = CompositeDisposable()
+    private val uiDisposables = CompositeDisposable()
     private val freezeSelector = BehaviorSubject.createDefault(false)
 
     /**
@@ -104,17 +105,18 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
 
     }
 
-    override fun detachView() {
-        onViewDetach()
-        viewInternal = null
-    }
-
     override fun onViewDetach() {
+        uiDisposables.dispose()
         freezeSelector.onNext(true)
     }
 
     override fun onDestroy() {
         disposables.dispose()
+    }
+
+    fun detachView() {
+        onViewDetach()
+        viewInternal = null
     }
 
     /**
@@ -177,6 +179,44 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                 .lift(operator)
                 .subscribeWith(observer)
         disposables.add(disposable)
+        return disposable
+    }
+
+    protected fun <T> Maybe<T>.subscribeByUi(operator: MaybeOperatorFreeze<T>,
+                                             observer: DisposableMaybeObserver<T>): Disposable {
+        val disposable = this
+                .lift(operator)
+                .subscribeWith(observer)
+        uiDisposables.add(disposable)
+        return disposable
+    }
+
+    protected fun Completable.subscribeByUi(operator: CompletableOperatorFreeze,
+                                            observer: DisposableCompletableObserver): Disposable {
+        val disposable = this
+                .lift(operator)
+                .subscribeWith(observer)
+        uiDisposables.add(disposable)
+        return disposable
+    }
+
+    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit): Disposable {
+        return this.subscribeUiBy(onNext, onCompleteStub, onErrorNotImplemented)
+    }
+
+    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit,
+                                                  onError: (Throwable) -> Unit): Disposable {
+
+        return this.subscribeUiBy(onNext, onCompleteStub, onError)
+    }
+
+    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit,
+                                                  onComplete: () -> Unit,
+                                                  onError: (Throwable) -> Unit): Disposable {
+        val disposable = this
+                .lift(ObservableOperatorFreeze(freezeSelector))
+                .subscribeWith(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
+        uiDisposables.add(disposable)
         return disposable
     }
 

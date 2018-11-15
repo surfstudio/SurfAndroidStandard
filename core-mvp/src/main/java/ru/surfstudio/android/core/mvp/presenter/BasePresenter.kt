@@ -446,8 +446,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                   onSuccess: ConsumerSafe<T>,
                                   onComplete: ActionSafe,
                                   onError: ConsumerSafe<Throwable>): Disposable {
-        val maybeWorker = maybe.subscribeOn(schedulersProvider.worker())
-        return subscribe(maybeWorker, onSuccess, onComplete, onError)
+        return maybe.subscribeByIo(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
     }
     //endregion
 

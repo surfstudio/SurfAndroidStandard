@@ -44,8 +44,6 @@ interface Presenter<V : CoreView?> {
      */
     fun onStop()
 
-    fun detachView()
-
     /**
      * Called when view is detached
      */
