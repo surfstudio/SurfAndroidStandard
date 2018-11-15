@@ -58,14 +58,14 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
 ) : FrameLayout(context, attrs, defStyle) {
 
     @Suppress("MemberVisibilityCanBePrivate")
-    var buttonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null    //обработчик нажатия на первую кнопку
+    var buttonLambda: ((loadState: PlaceholderStater.StandardLoadState) -> Unit)? = null    //обработчик нажатия на первую кнопку
         set(value) {
             field = value
             button.setOnClickListener { buttonLambda?.invoke(stater.loadState) }
         }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    var secondButtonLambda: ((loadState: PlaceholderStater.LoadState) -> Unit)? = null  //обработчик нажатия на вторую кнопку
+    var secondButtonLambda: ((loadState: PlaceholderStater.StandardLoadState) -> Unit)? = null  //обработчик нажатия на вторую кнопку
         set(value) {
             field = value
             secondButton.setOnClickListener { secondButtonLambda?.invoke(stater.loadState) }
@@ -109,7 +109,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      * При установке этого состояния плейсхолдер скрывается.
      */
     fun setNoneState() {
-        this.stater.loadState = PlaceholderStater.LoadState.NONE
+        this.stater.loadState = PlaceholderStater.StandardLoadState.NONE
     }
 
     /**
@@ -118,7 +118,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      * При установке этого состояния плейсхолдер блокирует UI и полностью скрывает его.
      */
     fun setMainLoadingState() {
-        this.stater.loadState = PlaceholderStater.LoadState.MAIN_LOADING
+        this.stater.loadState = PlaceholderStater.StandardLoadState.MAIN_LOADING
     }
 
     /**
@@ -128,7 +128,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      * не скрывая контент.
      */
     fun setTransparentLoadingState() {
-        this.stater.loadState = PlaceholderStater.LoadState.TRANSPARENT_LOADING
+        this.stater.loadState = PlaceholderStater.StandardLoadState.TRANSPARENT_LOADING
     }
 
     /**
@@ -137,7 +137,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      * При установке этого состояния плейсхолдер отображается в конфигурации для отображения ошибки.
      */
     fun setErrorState() {
-        this.stater.loadState = PlaceholderStater.LoadState.ERROR
+        this.stater.loadState = PlaceholderStater.StandardLoadState.ERROR
     }
 
     /**
@@ -146,7 +146,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      * При установке этого состояния плейсхолдер отображается в конфигурации empty-state.
      */
     fun setEmptyState() {
-        this.stater.loadState = PlaceholderStater.LoadState.EMPTY
+        this.stater.loadState = PlaceholderStater.StandardLoadState.EMPTY
     }
 
     /**
@@ -156,7 +156,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      * для фильтрации.
      */
     fun setNotFoundState() {
-        this.stater.loadState = PlaceholderStater.LoadState.NOT_FOUND
+        this.stater.loadState = PlaceholderStater.StandardLoadState.NOT_FOUND
     }
 
     /**
@@ -165,7 +165,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      * При установке этого состояния плейсхолдер отображается в конфигурации для отображения ошибки интернет-соединения.
      */
     fun setNoInternetState() {
-        this.stater.loadState = PlaceholderStater.LoadState.NO_INTERNET
+        this.stater.loadState = PlaceholderStater.StandardLoadState.NO_INTERNET
     }
 
     private fun applyAttributes(context: Context, attrs: AttributeSet? = null, defStyle: Int) {
@@ -221,7 +221,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
         val emptySecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvEmptySecondButtonText)
         val emptyImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvEmptyImage)
         this.dataContainer.putViewData(
-                PlaceholderStater.LoadState.EMPTY,
+                PlaceholderStater.StandardLoadState.EMPTY,
                 PlaceholderDataContainer.ViewData(
                         emptyTitle,
                         emptySubtitle,
@@ -235,7 +235,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
         val notFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNotFoundSecondButtonText)
         val notFoundImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvNotFoundImage)
         this.dataContainer.putViewData(
-                PlaceholderStater.LoadState.NOT_FOUND,
+                PlaceholderStater.StandardLoadState.NOT_FOUND,
                 PlaceholderDataContainer.ViewData(
                         notFoundTitle,
                         notFoundSubtitle,
@@ -249,7 +249,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
         val noInternetSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvNoInternetSecondButtonText)
         val noInternetImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvNoInternetImage)
         this.dataContainer.putViewData(
-                PlaceholderStater.LoadState.NO_INTERNET,
+                PlaceholderStater.StandardLoadState.NO_INTERNET,
                 PlaceholderDataContainer.ViewData(
                         noInternetTitle,
                         noInternetSubtitle,
@@ -264,7 +264,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
         val errorFoundSecondButtonText = ta.obtainStringAttribute(R.styleable.StandardPlaceHolderView_pvErrorSecondButtonText)
         val errorFoundImage = ta.obtainDrawableAttribute(context, R.styleable.StandardPlaceHolderView_pvErrorImage)
         this.dataContainer.putViewData(
-                PlaceholderStater.LoadState.ERROR,
+                PlaceholderStater.StandardLoadState.ERROR,
                 PlaceholderDataContainer.ViewData(
                         errorFoundTitle,
                         errorFoundSubtitle,
@@ -383,7 +383,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      */
     private fun setBackgroundColor() {
         when (stater.loadState) {
-            PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
+            PlaceholderStater.StandardLoadState.TRANSPARENT_LOADING -> {
                 if (styler.transparentBackground != NOT_ASSIGNED_RESOURCE) {
                     setBackgroundResource(styler.transparentBackground)
                 } else if (styler.transparentBackgroundColor != NOT_ASSIGNED_RESOURCE) {
@@ -406,10 +406,10 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      */
     private fun setVisibility() {
         when (stater.loadState) {
-            PlaceholderStater.LoadState.NONE -> {
+            PlaceholderStater.StandardLoadState.NONE -> {
                 fadeOut(this, 0L)
             }
-            PlaceholderStater.LoadState.MAIN_LOADING, PlaceholderStater.LoadState.TRANSPARENT_LOADING -> {
+            PlaceholderStater.StandardLoadState.MAIN_LOADING, PlaceholderStater.StandardLoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
                 avIndicatorView?.smoothToShow()
                 progressBarContainer.visibility = View.VISIBLE
@@ -579,7 +579,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      */
     data class PlaceholderDataContainer(
             var defaultViewData: ViewData = ViewData(),
-            private var viewDataMap: ArrayMap<PlaceholderStater.LoadState, ViewData> = ArrayMap()
+            private var viewDataMap: ArrayMap<PlaceholderStater.StandardLoadState, ViewData> = ArrayMap()
     ) {
 
         data class ViewData(var title: String = "",
@@ -593,7 +593,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
                             secondButtonText.isBlank() && image == null
         }
 
-        fun putViewData(loadState: PlaceholderStater.LoadState, viewData: ViewData) {
+        fun putViewData(loadState: PlaceholderStater.StandardLoadState, viewData: ViewData) {
             if (!viewData.isEmpty()) {
                 viewDataMap[loadState] = viewData
             }
@@ -604,8 +604,8 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
          *
          * @param loadState текущее состояние загрузки
          */
-        fun getViewData(loadState: PlaceholderStater.LoadState): ViewData =
-                if (loadState == PlaceholderStater.LoadState.NONE) ViewData()
+        fun getViewData(loadState: PlaceholderStater.StandardLoadState): ViewData =
+                if (loadState == PlaceholderStater.StandardLoadState.NONE) ViewData()
                 else viewDataMap[loadState]
                         ?: defaultViewData
     }
@@ -616,9 +616,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      *
      * @param onStateChangedLambda лямбда, срабатывающая при изменении состояния [StandardPlaceHolderView].
      */
-    class PlaceholderStater(private var onStateChangedLambda: ((loadState: LoadState) -> (Unit))) {
+    class PlaceholderStater(private var onStateChangedLambda: ((loadState: StandardLoadState) -> (Unit))) {
 
-        enum class LoadState {
+        enum class StandardLoadState {
             NONE, //контент загружен
             MAIN_LOADING, //прогресс, закрывающий весь контент
             TRANSPARENT_LOADING, //полупрозрачный прогресс, блокирует весь интерфейс
@@ -630,13 +630,14 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
 
         private val STATE_TOGGLE_DELAY_MS: Long = 250
 
-        var loadState = LoadState.NONE          //текущее состояние плейсхолдера
+        var loadState = StandardLoadState.NONE          //текущее состояние плейсхолдера
             set(value) {
                 field = value
                 loadStateSubject.onNext(field)
             }
 
-        private var loadStateSubject: PublishSubject<LoadState> = PublishSubject.create() //шина изменений loadState
+        //шина изменений loadState
+        private var loadStateSubject: PublishSubject<StandardLoadState> = PublishSubject.create()
 
         init {
             val isFirstEmission = AtomicBoolean(true)

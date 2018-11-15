@@ -9,4 +9,6 @@ dependencies {
     implementation project(':logger')
     implementation project(':rx-extension')
     implementation project(':util-ktx')
+    implementation project(':animations')
+    implementation project(':easyadapter')
 }

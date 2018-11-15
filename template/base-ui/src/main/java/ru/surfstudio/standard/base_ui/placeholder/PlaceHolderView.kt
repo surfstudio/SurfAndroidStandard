@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStateRendererInterface
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 import ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
-import ru.surfstudio.android.sample.common.ui.base.placeholder.LoadState
+import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
 
 /**
  * Реализация [StandardPlaceHolderView] для приложения.

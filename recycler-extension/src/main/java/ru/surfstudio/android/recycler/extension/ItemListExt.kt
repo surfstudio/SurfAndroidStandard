@@ -13,11 +13,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.recycler.extension.sticky
+package ru.surfstudio.android.recycler.extension
 
+import android.support.v7.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.easyadapter.controller.NoDataItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.easyadapter.item.BindableItem
+import ru.surfstudio.android.easyadapter.item.NoDataItem
 import ru.surfstudio.android.recycler.extension.sticky.controller.StickyFooterBindableItemController
 import ru.surfstudio.android.recycler.extension.sticky.controller.StickyHeaderBindableItemController
 import ru.surfstudio.android.recycler.extension.sticky.item.StickyFooterBindableItem
@@ -117,6 +120,18 @@ fun <T> ItemList.addStickyFooterIf(stickyCallback: (prev: Any?, next: Any) -> T?
             insert(i, StickyFooterBindableItem(stickyData, itemControllerHeader))
         }
         ++i
+    }
+    return this
+}
+
+fun <T : RecyclerView.ViewHolder> ItemList.add(itemController: NoDataItemController<T>, count: Int): ItemList {
+    val ids = mutableSetOf<String>()
+    for (i in 1..count) {
+        add(itemController)
+        val controllerId = itemController.getItemId(NoDataItem(itemController))
+        if (ids.add(controllerId).not()) {
+            throw Exception("NoDataItemControllers of type ${itemController::class.java.simpleName} have the same ids, override getItemId() in ${itemController::class.java.simpleName}")
+        }
     }
     return this
 }

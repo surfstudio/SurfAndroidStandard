@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.recycler.extension.addStickyFooter
+import ru.surfstudio.android.recycler.extension.addStickyHeader
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyFooterItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyHeaderItemController

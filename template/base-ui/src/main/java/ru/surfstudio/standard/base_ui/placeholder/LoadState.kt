@@ -1,4 +1,4 @@
-package ru.surfstudio.android.sample.common.ui.base.placeholder
+package ru.surfstudio.android.sample.common.ui.base.loadstate
 
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 

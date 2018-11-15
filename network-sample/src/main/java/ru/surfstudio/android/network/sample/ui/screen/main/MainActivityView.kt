@@ -12,11 +12,13 @@ import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.network.sample.R
 import ru.surfstudio.android.network.sample.domain.product.Product
 import ru.surfstudio.android.network.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
-import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.LoadState
+import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
+import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.DefaultLoadStateRenderer
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import javax.inject.Inject
 
@@ -51,7 +53,9 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     override fun getSwipeRefreshLayout(): SwipeRefreshLayout = swipe_refresh_layout
 
-    override fun getLoadStateRenderer(): LoadStateRendererInterface = placeholder
+    override fun createLoadStateRenderer(): LoadStateRendererInterface =
+            DefaultLoadStateRenderer(placeholder)
+                    .configErrorState(onBtnClickedListener = { presenter.reloadData() })
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
@@ -62,7 +66,6 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
     }
 
     override fun renderInternal(screenModel: MainScreenModel) {
-        placeholder.render(screenModel.loadState)
         adapter.setItems(ItemList.create()
                 .addAll(screenModel.productList, productItemController),
                 screenModel.paginationState)
@@ -75,7 +78,6 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     private fun initListeners() {
         swipe_refresh_layout.setOnRefreshListener { presenter.reloadData() }
-        placeholder.buttonLambda = { presenter.reloadData() }
     }
 
     private fun initRecycler() {

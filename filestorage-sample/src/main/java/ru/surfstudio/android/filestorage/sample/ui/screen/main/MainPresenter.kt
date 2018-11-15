@@ -8,7 +8,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.filestorage.sample.R
 import ru.surfstudio.android.filestorage.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.standard.base_ui.placeholder.LoadState
+import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
 import javax.inject.Inject
 
 /**

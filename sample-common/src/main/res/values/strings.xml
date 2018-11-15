@@ -6,6 +6,11 @@
     <string name="pagination_footer_text">Загрузить еще</string>
 
     <!-- placeholder -->
-    <string name="placeholder_error_text">Ошибка загрузки данных</string>
-    <string name="placeholder_error_btn_text">Повторить</string>
+    <string name="placeholder_error_state_title_txt">Whooops!</string>
+    <string name="placeholder_error_state_subtitle_txt">Sorry, no data loaded. Something went wrong.</string>
+    <string name="placeholder_error_state_btn">Retry</string>
+
+    <string name="placeholder_empty_state_title_txt">Your list is empty</string>
+    <string name="placeholder_empty_state_subtitle_txt">Completely empty... Please, add something</string>
+    <string name="placeholder_empty_state_action_btn">Add something</string>
 </resources>
