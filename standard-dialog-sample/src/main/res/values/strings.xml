@@ -3,6 +3,16 @@
 
     <string name="first_btn_text">Show first dialog</string>
     <string name="second_btn_text">Show second dialog</string>
+
+    <string name="first_dialog_title">First dialog title</string>
+    <string name="first_dialog_message">First dialog message</string>
+
     <string name="second_dialog_title">Second dialog title</string>
     <string name="second_dialog_message">Second dialog message</string>
+
+    <string name="first_dialog_accepted">First dialog accepted</string>
+    <string name="second_dialog_accepted">Second dialog accepted</string>
+
+    <string name="first_dialog_canceled">First dialog canceled</string>
+    <string name="second_dialog_canceled">Second dialog canceled</string>
 </resources>

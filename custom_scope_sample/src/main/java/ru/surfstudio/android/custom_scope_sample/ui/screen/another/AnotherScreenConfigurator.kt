@@ -1,6 +1,5 @@
 package ru.surfstudio.android.custom_scope_sample.ui.screen.another
 
-import android.content.Context
 import android.content.Intent
 import dagger.Component
 import dagger.Module
@@ -11,7 +10,8 @@ import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.ActivityS
 import ru.surfstudio.android.custom_scope_sample.ui.base.dagger.screen.CustomScreenModule
 import ru.surfstudio.android.dagger.scope.PerScreen
 
-class AnotherScreenConfigurator(context: Context, intent: Intent) : LoginActivityScreenConfigurator(intent) {
+class AnotherScreenConfigurator(intent: Intent) : LoginActivityScreenConfigurator(intent) {
+
     @PerScreen
     @Component(dependencies = [LoginActivityComponent::class],
             modules = [ActivityScreenModule::class, AnotherScreenModule::class])
@@ -22,6 +22,7 @@ class AnotherScreenConfigurator(context: Context, intent: Intent) : LoginActivit
     internal class AnotherScreenModule(route: AnotherActivityRoute)
         : CustomScreenModule<AnotherActivityRoute>(route)
 
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(activityComponent: LoginActivityComponent,
                                        activityScreenModule: ActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {

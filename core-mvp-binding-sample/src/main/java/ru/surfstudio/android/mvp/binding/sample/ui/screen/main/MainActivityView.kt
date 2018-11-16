@@ -23,11 +23,7 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
     override fun onBind(sm: MainScreenModel) {
 
         sm.solved.observe(this) {
-            if (it) {
-                toast("You win")
-            } else {
-                toast("You broke it")
-            }
+            toast(if (it) R.string.win_message else R.string.lose_message)
         }
 
         observeAndApply(sm.panel1) { observePane(pane_1, it) }

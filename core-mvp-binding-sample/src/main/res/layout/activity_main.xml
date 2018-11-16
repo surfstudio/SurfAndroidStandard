@@ -77,16 +77,18 @@
     </GridLayout>
 
     <Button
-        android:layout_gravity="center"
+        android:id="@+id/easy_win_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/easy_win_btn"
-        android:text="Easy win" />
+        android:layout_gravity="center"
+        android:text="Easy win"
+        tools:ignore="HardcodedText" />
 
     <Button
-        android:layout_gravity="center"
+        android:id="@+id/unbind_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/unbind_btn"
-        android:text="Unbind presenter" />
+        android:layout_gravity="center"
+        android:text="Unbind presenter"
+        tools:ignore="HardcodedText" />
 </LinearLayout>

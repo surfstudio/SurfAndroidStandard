@@ -28,5 +28,4 @@ class AnotherPresenter @Inject constructor(
             sm.email = emailData.email
         }
     }
-
 }

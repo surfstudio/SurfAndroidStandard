@@ -6,9 +6,9 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".interactor.ui.screen.main.MainActivityView">
+    tools:context=".ui.screen.main.MainActivityView">
     <!--
-        <ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.constraint.ConstraintWidgetView
+        <ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint.ConstraintWidgetView
             android:id="@+id/constraint_widget"
             android:layout_width="match_parent"
             android:background="#2196F3"
