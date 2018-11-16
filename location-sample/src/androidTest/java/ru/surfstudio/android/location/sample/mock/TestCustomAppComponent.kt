@@ -1,4 +1,4 @@
-package ru.surfstudio.android.location.sample
+package ru.surfstudio.android.location.sample.mock
 
 import dagger.Component
 import ru.surfstudio.android.dagger.scope.PerApplication

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.location.sample
+package ru.surfstudio.android.location.sample.mock
 
 import android.content.Context
 import android.location.Location
