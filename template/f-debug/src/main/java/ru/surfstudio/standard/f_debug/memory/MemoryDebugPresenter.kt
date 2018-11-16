@@ -10,10 +10,10 @@ import javax.inject.Inject
 class MemoryDebugPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val activityNavigator: ActivityNavigator,
-        private val memoryDebugStorage: MemoryDebugStorage
+        private val debugInteractor: DebugInteractor
 ) : BasePresenter<MemoryDebugActivityView>(basePresenterDependency) {
 
-    private val screenModel = MemoryDebugScreenModel(memoryDebugStorage.isLeakCanaryEnabled)
+    private val screenModel = MemoryDebugScreenModel(debugInteractor.isLeakCanaryEnabled)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -21,7 +21,7 @@ class MemoryDebugPresenter @Inject constructor(
     }
 
     fun setLeakCanaryEnabled(isEnabled: Boolean) {
-        memoryDebugStorage.isLeakCanaryEnabled = isEnabled
+        debugInteractor.isLeakCanaryEnabled = isEnabled
         activityNavigator.start(RebootDebugActivityRoute())
         activityNavigator.finishAffinity()
     }

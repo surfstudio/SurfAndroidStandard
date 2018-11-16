@@ -29,7 +29,7 @@ class App : CoreApp() {
         initFabric()
         initComponentProvider()
         initRouteProvider()
-        initLeakCanaryIfEnabled()
+        AppInjector.appComponent.debugInteractor().onCreateApp()
         DebugNotificationBuilder.showDebugNotification(this)
     }
 
