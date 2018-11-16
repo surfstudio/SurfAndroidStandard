@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="is.mdk.app.f_splash" >
+    package="ru.surfstudio.android.template.f_splash" >
 
     <application>
         <activity android:name="ru.surfstudio.standard.f_splash.SplashActivityView"
@@ -9,6 +9,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
     </application>
 </manifest>

@@ -16,25 +16,25 @@ internal class ComplexBottomSheetDialogPresenter @Inject constructor(basePresent
                                                                      private val rxBus: RxBus
 ) : BasePresenter<ComplexBottomSheetDialogFragment>(basePresenterDependency) {
 
-    private val screenModel: ComplexBottomSheetDialogScreenModel = ComplexBottomSheetDialogScreenModel(route.sampleData)
+    private val sm: ComplexBottomSheetDialogScreenModel = ComplexBottomSheetDialogScreenModel(route.sampleData)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 
     fun increment() {
-        screenModel.sampleData.increment()
-        view.render(screenModel)
+        sm.sampleData.increment()
+        view.render(sm)
     }
 
     fun decrement() {
-        screenModel.sampleData.decrement()
-        view.render(screenModel)
+        sm.sampleData.decrement()
+        view.render(sm)
     }
 
     fun applyChanges() {
-        rxBus.emitEvent(DataChangedEvent(screenModel.sampleData, DataChangedEventType.COMPLEX_BOTTOM_SHEET_DIALOG))
+        rxBus.emitEvent(DataChangedEvent(sm.sampleData, DataChangedEventType.COMPLEX_BOTTOM_SHEET_DIALOG))
         dialogNavigator.dismiss(route)
     }
 }

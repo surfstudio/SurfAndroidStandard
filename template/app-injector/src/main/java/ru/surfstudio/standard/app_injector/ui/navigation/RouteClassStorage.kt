@@ -1,8 +1,8 @@
 package ru.surfstudio.standard.app_injector.ui.navigation
 
 import android.app.Activity
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import ru.surfstudio.standard.base_ui.navigation.MainActivityRoute
 import ru.surfstudio.standard.f_main.MainActivityView
 import kotlin.reflect.KClass

@@ -17,7 +17,7 @@ package ru.surfstudio.android.location
 
 import android.content.Context
 import android.location.Location
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices

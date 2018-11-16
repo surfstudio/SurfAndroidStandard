@@ -1,11 +1,11 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    implementation "com.android.support:appcompat-v7:$appcompatVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
 
     testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

@@ -17,12 +17,12 @@ package ru.surfstudio.android.imageloader.data
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.request.RequestOptions
 import ru.surfstudio.android.imageloader.DEFAULT_DRAWABLE_URI
-import ru.surfstudio.android.imageloader.applyTransformations
+import ru.surfstudio.android.imageloader.util.applyTransformations
 
 /**
  * Пакет со ссылками на все необходимые изображения и сервисными методами.
@@ -38,6 +38,10 @@ data class ImageResourceManager(
         @DrawableRes
         var previewResId: Int = DEFAULT_DRAWABLE_URI    //ссылка на drawable-ресурс плейсхолдера
 ) {
+
+    val isErrorSet: Boolean get() = errorResId != DEFAULT_DRAWABLE_URI
+
+    val isPreviewSet: Boolean get() = previewResId != DEFAULT_DRAWABLE_URI
 
     /**
      * Метод, автоматически предоставляющий ссылку для загрузки изображения.
@@ -80,7 +84,7 @@ data class ImageResourceManager(
         return Glide.with(context)
                 .load(imageResId)
                 .apply(RequestOptions()
-                        .applyTransformations(imageTransformationsManager)
+                        .applyTransformations(imageTransformationsManager.prepareTransformations())
                 )
     }
 

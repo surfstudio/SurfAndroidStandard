@@ -8,13 +8,13 @@ import javax.inject.Inject
 
 @PerScreen
 internal class AnotherPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                    customOnDestroyDelegate: CustomOnDestroyDelegate
+                                                    @Suppress("UNUSED_PARAMETER") customOnDestroyDelegate: CustomOnDestroyDelegate
 ) : BasePresenter<AnotherActivityView>(basePresenterDependency) {
 
-    private val screenModel = AnotherScreenModel()
+    private val sm = AnotherScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 }

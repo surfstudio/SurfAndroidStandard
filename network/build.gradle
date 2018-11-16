@@ -10,7 +10,7 @@ dependencies {
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
 
     implementation "com.annimon:stream:$annimonStreamVersion"
-    implementation "com.android.support:support-annotations:$appcompatVersion"
+    implementation "androidx.annotation:annotation:$androidxVersion"
 
     //tests
     testImplementation "junit:junit:$junitVersion"
@@ -19,8 +19,8 @@ dependencies {
     testImplementation "org.powermock:powermock-api-mockito2:$powerMockVersion"
     testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
 
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

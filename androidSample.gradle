@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+apply from: '../androidTestModule.gradle'
+
 android {
     compileSdkVersion project.ext.compileSdkVersion
     buildToolsVersion project.ext.buildToolsVersion
@@ -13,6 +15,7 @@ android {
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
         versionName project.ext.moduleVersionName
+        multiDexEnabled true
     }
 
     compileOptions {
@@ -28,6 +31,7 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "com.android.support:appcompat-v7:$appcompatVersion"
-    implementation "com.android.support.constraint:constraint-layout:$constraintLayoutVersion"
+    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
 }

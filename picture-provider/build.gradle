@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.android.support:exifinterface:$appcompatVersion"
+    api "androidx.exifinterface:exifinterface:$androidxVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

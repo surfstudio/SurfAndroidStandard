@@ -33,9 +33,9 @@ public abstract class BaseLdsFragmentView<M extends LdsScreenModel>
     protected abstract LoadStateRendererInterface createLoadStateRenderer();
 
     @Override
-    public void render(M screenModel) {
-        renderLoadState(screenModel.getLoadState());
-        renderInternal(screenModel);
+    public void render(M sm) {
+        renderLoadState(sm.getLoadState());
+        renderInternal(sm);
     }
 
     protected void renderLoadState(LoadStateInterface loadState) {

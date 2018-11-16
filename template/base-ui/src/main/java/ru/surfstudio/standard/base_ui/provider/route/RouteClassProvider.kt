@@ -1,8 +1,8 @@
 package ru.surfstudio.standard.base_ui.provider.route
 
 import android.app.Activity
-import android.support.v4.app.DialogFragment
-import android.support.v4.app.Fragment
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import kotlin.reflect.KClass
 
 /**

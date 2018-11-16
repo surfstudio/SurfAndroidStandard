@@ -12,10 +12,10 @@ import javax.inject.Inject
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
-    private val screenModel: MainScreenModel = MainScreenModel()
+    private val sm: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 }

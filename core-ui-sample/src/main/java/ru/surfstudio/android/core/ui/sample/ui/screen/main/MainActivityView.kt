@@ -2,7 +2,7 @@ package ru.surfstudio.android.core.ui.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.ui.sample.R
@@ -36,11 +36,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
             val delegateManager = persistentScope.screenEventDelegateManager
             val saveStateDelegate = CustomOnSaveStateDelegate(delegateManager)
             val restoreStateDelegate = CustomOnRestoreStateDelegate(delegateManager)
-            messageController.show("Delegates registered")
+            messageController.show(R.string.snackbar_message)
         }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

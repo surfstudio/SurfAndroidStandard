@@ -19,7 +19,7 @@ class FcmDebugPresenter @Inject constructor(
         private val fcmStorage: FcmStorage
 ) : BasePresenter<FcmDebugActivityView>(basePresenterDependency) {
 
-    private val screenModel = FcmDebugScreenModel()
+    private val sm = FcmDebugScreenModel()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -28,17 +28,17 @@ class FcmDebugPresenter @Inject constructor(
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 
     fun loadFcmToken() {
-        screenModel.fcmToken = fcmStorage.fcmToken
-        view.render(screenModel)
+        sm.fcmToken = fcmStorage.fcmToken
+        view.render(sm)
         logFcmToken()
     }
 
     fun copyFcmToken() {
-        screenModel.fcmToken?.let {
+        sm.fcmToken?.let {
             view.copyFcmToken()
             view.showMessage(stringsProvider.getString(R.string.fcm_copied_message))
             logFcmToken()
@@ -46,7 +46,7 @@ class FcmDebugPresenter @Inject constructor(
     }
 
     private fun logFcmToken() {
-        screenModel.fcmToken?.apply {
+        sm.fcmToken?.apply {
             if (isNotEmpty()) {
                 Logger.d("FCM-token: $this")
             }

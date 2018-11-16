@@ -9,8 +9,8 @@ dependencies {
     testImplementation "org.powermock:powermock-api-mockito2:$powerMockVersion"
     testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
 
-    androidTestImplementation "com.android.support.test:runner:$testRunnerVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

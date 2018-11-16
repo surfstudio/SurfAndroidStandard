@@ -34,9 +34,9 @@ public abstract class BaseLdsActivityView<M extends LdsScreenModel>
     protected abstract LoadStateRendererInterface createLoadStateRenderer();
 
     @Override
-    public void render(M screenModel) {
-        renderLoadState(screenModel.getLoadState());
-        renderInternal(screenModel);
+    public void render(M sm) {
+        renderLoadState(sm.getLoadState());
+        renderInternal(sm);
     }
 
     public void renderLoadState(LoadStateInterface loadState) {

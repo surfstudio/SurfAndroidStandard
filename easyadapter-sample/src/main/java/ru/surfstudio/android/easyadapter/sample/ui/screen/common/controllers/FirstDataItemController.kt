@@ -9,15 +9,16 @@ import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 
-class FirstDataItemController(private val listener: FirstDataClickListener
+class FirstDataItemController(
+        private val onClickListener: (FirstData) -> Unit
 ) : BindableItemController<FirstData, FirstDataItemController.Holder>() {
 
     override fun getItemId(data: FirstData): String = data.hashCode().toString()
 
-    override fun createViewHolder(parent: ViewGroup?): Holder = Holder(listener, parent)
+    override fun createViewHolder(parent: ViewGroup?): Holder = Holder(parent)
 
-    inner class Holder(private val listener: FirstDataClickListener,
-                       parent: ViewGroup?
+    inner class Holder(
+            parent: ViewGroup?
     ) : BindableViewHolder<FirstData>(parent, R.layout.first_data_item_controller) {
 
         private lateinit var data: FirstData
@@ -25,7 +26,7 @@ class FirstDataItemController(private val listener: FirstDataClickListener
 
         init {
             itemView.findViewById<RelativeLayout>(R.id.first_data_container).apply {
-                setOnClickListener { listener.onClick(data) }
+                setOnClickListener { onClickListener(data) }
             }
         }
 
@@ -34,9 +35,5 @@ class FirstDataItemController(private val listener: FirstDataClickListener
             this.data = data
             firstTv.text = "$data click me!"
         }
-    }
-
-    interface FirstDataClickListener {
-        fun onClick(firstData: FirstData)
     }
 }

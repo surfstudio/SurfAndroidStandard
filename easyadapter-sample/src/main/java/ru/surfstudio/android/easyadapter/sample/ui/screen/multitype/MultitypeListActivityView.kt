@@ -2,16 +2,14 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.multitype
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.v7.widget.LinearLayoutManager
-import androidx.core.widget.toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.multitype_list_layout.*
+import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.sample.R
-import ru.surfstudio.android.easyadapter.sample.domain.FirstData
-import ru.surfstudio.android.easyadapter.sample.domain.SecondData
 import ru.surfstudio.android.easyadapter.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.EmptyItemController
 import ru.surfstudio.android.easyadapter.sample.ui.screen.common.controllers.FirstDataItemController
@@ -29,19 +27,9 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
     private val emptyItemController = EmptyItemController()
     private val twoDataItemController = TwoDataItemController()
 
-    private val firstDataItemController = FirstDataItemController(
-            object : FirstDataItemController.FirstDataClickListener {
-                override fun onClick(firstData: FirstData) {
-                    toast("Value = $firstData")
-                }
-            })
+    private val firstDataItemController = FirstDataItemController { toast("Value = $it") }
 
-    private val secondDataItemController = SecondDataItemController(
-            object : SecondDataItemController.SecondDataClickListener {
-                override fun onClick(secondData: SecondData) {
-                    toast("Value = ${secondData.stringValue}")
-                }
-            })
+    private val secondDataItemController = SecondDataItemController { toast("Value = ${it.stringValue}") }
 
     override fun createConfigurator(): CustomActivityScreenConfigurator {
         return MultitypeListScreenConfigurator(intent)
@@ -60,12 +48,12 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
 
     override fun getScreenName(): String = "Multitype List Activity"
 
-    override fun renderInternal(screenModel: MultitypeListScreenModel) {
+    override fun renderInternal(sm: MultitypeListScreenModel) {
         adapter.setItems(ItemList.create()
+                .addAll(sm.firstDataList, firstDataItemController)
+                .addAll(sm.secondDataList, secondDataItemController)
                 .add(emptyItemController)
-                .add(screenModel.firstData, screenModel.secondData, twoDataItemController)
-                .addAll(screenModel.firstDataList, firstDataItemController)
-                .addAll(screenModel.secondDataList, secondDataItemController))
+                .add(sm.firstData, sm.secondData, twoDataItemController))
     }
 
     private fun initRecycler() {

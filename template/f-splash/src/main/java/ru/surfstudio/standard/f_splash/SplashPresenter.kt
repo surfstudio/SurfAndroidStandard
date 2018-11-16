@@ -13,17 +13,20 @@ import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+/**
+ * Минимальное время в миллисекундах, в течение которого показывается сплэш
+ */
+const val TRANSITION_DELAY_MS = 2000L
+
 @PerScreen
 internal class SplashPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val activityNavigator: ActivityNavigator,
-        private val route: SplashRoute,
         private val initializeAppInteractor: InitializeAppInteractor
 ) : BasePresenter<SplashActivityView>(basePresenterDependency) {
 
     private val nextRoute: ActivityRoute
-        get() =
-            MainActivityRoute()
+        get() = MainActivityRoute()
 
 
     override fun onFirstLoad() {
@@ -36,20 +39,16 @@ internal class SplashPresenter @Inject constructor(
 
         subscribeIoHandleError(merge,
                 {
-                    activityNavigator.start(nextRoute)
-                    activityNavigator.finishAffinity()
+                    openNextScreen()
                 },
                 {
                     Logger.e(it)
-                    activityNavigator.start(nextRoute)
-                    activityNavigator.finishAffinity()
+                    openNextScreen()
                 })
     }
 
-    companion object {
-        /**
-         * Минимальное время в миллисекундах в течении которого показывается сплэш
-         */
-        private val TRANSITION_DELAY_MS = 2000L
+    private fun openNextScreen() {
+        activityNavigator.start(nextRoute)
+        activityNavigator.finishAffinity()
     }
 }

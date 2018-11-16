@@ -28,9 +28,10 @@ android {
         versionCode config["versionCode"]
         versionName config["versionName"]
 
+        vectorDrawables.useSupportLibrary = true
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
 
-        testBuildType 'qa'
+        testBuildType 'debug' //todo replace to 'qa' for real app
     }
 }
 
@@ -48,6 +49,9 @@ dependencies {
     implementation project(':template:f-splash')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+
+    implementation "androidx.media:media:$androidxVersion"
+    implementation "androidx.legacy:legacy-support-v4:$androidxVersion"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

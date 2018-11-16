@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.core.ui;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 
 /**
  * интерфейс для вью, поддерживающей навигацию фрагментов

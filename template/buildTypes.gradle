@@ -36,5 +36,4 @@ android {
             matchingFallbacks = ['release', 'qa']
         }
     }
-
 }
