@@ -32,7 +32,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
 
-        testBuildType 'qa'
+        testBuildType 'debug' //todo replace to 'qa' for real app
     }
 }
 
@@ -47,6 +47,7 @@ dependencies {
     implementation project(':template:f-auth')
     implementation project(':template:f-main')
     implementation project(':template:f-debug')
+    implementation project(':template:f-splash')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 

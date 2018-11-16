@@ -7,7 +7,7 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.impl.DefaultPushHandler
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 
 @Module
 class NotificationModule {

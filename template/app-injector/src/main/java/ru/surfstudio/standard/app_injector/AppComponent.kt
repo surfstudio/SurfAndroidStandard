@@ -9,7 +9,6 @@ import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.PushHandler
-import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
@@ -23,6 +22,9 @@ import ru.surfstudio.standard.app_injector.network.cache.CacheModule
 import ru.surfstudio.standard.app_injector.ui.notification.FcmModule
 import ru.surfstudio.standard.app_injector.ui.notification.MessagingService
 import ru.surfstudio.standard.app_injector.ui.notification.NotificationModule
+import ru.surfstudio.standard.f_debug.memory.storage.MemoryDebugStorage
+import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
+import ru.surfstudio.standard.f_debug.server_settings.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
 import javax.inject.Named
@@ -50,6 +52,10 @@ interface AppComponent {
     fun stringsProvider(): StringsProvider
     fun globalNavigator(): GlobalNavigator
     fun fcmStorage(): FcmStorage
+    fun pushHandler(): PushHandler
+    fun serverSettingsStorage(): DebugServerSettingsStorage
+    fun rebootInteractor(): RebootInteractor
+    fun memoryDebugStorage(): MemoryDebugStorage
 
     @Named(NO_BACKUP_SHARED_PREF)
     fun sharedPreferences(): SharedPreferences

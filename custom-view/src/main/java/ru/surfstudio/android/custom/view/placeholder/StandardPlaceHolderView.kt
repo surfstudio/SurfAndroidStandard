@@ -392,7 +392,6 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
                 } else if (styler.opaqueBackgroundColor != NOT_ASSIGNED_RESOURCE) {
                     setBackgroundColor(styler.opaqueBackgroundColor)
                 }
-
             }
         }
     }

@@ -28,6 +28,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.FrameLayout
+import androidx.annotation.Px
+import androidx.annotation.VisibleForTesting
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.easyadapter.carousel.R
 
 /**
@@ -700,7 +705,7 @@ class StickyItemPositioner(
     }
 
     companion object {
-        private const val INVALID_POSITION = -1
+        private val INVALID_POSITION = -1
     }
 
     enum class ElevationMode(val dp: Float) {

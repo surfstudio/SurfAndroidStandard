@@ -2,82 +2,85 @@
 <template
     format="4"
     revision="1"
-    name="ssDialog"
-    description="Создание диалога">
+    name="Dialog"
+    description="Dialog">
 
-    <dependency
-        name="ru.surfstudio.android.core"
-        revision="1" />
-
-    <category value="Surf" />
-    <formfactor value="Dialog" />
+    <category value="Surf"/>
 
     <parameter
-        id="className"
+        id="dialogClassNameWithoutPostfix"
+        name="Имя диалога без &quot;Dialog&quot;"
         type="string"
-        name="Наименование диалога"
-        constraints="class|nonempty" />
+        constraints="class|nonempty"/>
 
     <parameter
         id="layoutName"
+        name="Имя файла разметки"
         type="string"
-        name="Наименование файла разметки"
-        constraints="layout|unique|nonempty"
-        suggest="dialog_${classToResource(className)}" />
+        constraints="layout|nonempty|unique"
+        suggest="dialog_${classToResource(dialogClassNameWithoutPostfix)}"/>
 
     <parameter
-        id="screenName"
+        id="screenClassNameWithoutPostfix"
+        name="Имя родительского экрана без окончания"
         type="string"
-        name="Наименование родительского экрана без окончания"
-        constraints="class|nonempty"
-        help="если CartActivityView -> Написать 'Cart'" />
+        constraints="nonempty"
+        help="Например, для MainActivityView - Main"/>
 
     <parameter
-        id="typeRoute"
+        id="needToGenerateParams"
+        name="Добавить параметры"
+        type="boolean"/>
+
+    <parameter
+        id="routeParamName1"
+        name="Имя параметра №1"
+        type="string"
+        visibility="needToGenerateParams"/>
+    
+    <parameter
+        id="routeParamClassName1"
+        name="Класс параметра №1"
+        type="string"
+        constraints="class"
+        visibility="needToGenerateParams"/>
+    
+    <parameter
+        id="routeParamName2"
+        name="Имя параметра №2"
+        type="string"
+        visibility="routeParamName1?has_content &amp;&amp; routeParamClassName1?has_content"/>
+    
+    <parameter
+        id="routeParamClassName2"
+        name="Класс параметра №2"
+        type="string"
+        constraints="class"
+        visibility="routeParamName1?has_content &amp;&amp; routeParamClassName1?has_content"/>
+    
+    <parameter
+        id="routeParamName3"
+        name="Имя параметра №3"
+        type="string"
+        visibility="routeParamName2?has_content &amp;&amp; routeParamClassName2?has_content"/>
+    
+    <parameter
+        id="routeParamClassName3"
+        name="Класс параметра №3"
+        type="string"
+        constraints="class"
+        visibility="routeParamName2?has_content &amp;&amp; routeParamClassName2?has_content"/>
+    
+    <parameter
+        id="language"
+        name="Язык"
         type="enum"
-        name="Тип маршрута диалога"
-        default="1">
-        <option id="1">DialogRoute</option>
-        <option id="2">DialogWithParamsRoute</option>
+        default="kotlin">
+        <option id="kotlin">Kotlin</option>
+        <option id="java">Java</option>
     </parameter>
 
-    <parameter
-        id="routeParamType1"
-        type="string"
-        name="Тип параметра маршрута #1"
-        visibility="typeRoute=='2'" />
-
-    <parameter
-        id="routeParam1"
-        type="string"
-        name="Переменная параметра маршрута #1"
-        visibility="typeRoute=='2'" />
-
-    <parameter
-        id="routeParamType2"
-        type="string"
-        name="Тип параметра маршрута #2"
-        visibility="typeRoute=='2'" />
-
-    <parameter
-        id="routeParam2"
-        type="string"
-        name="Переменная параметра маршрута #2"
-        visibility="typeRoute=='2'" />
-
-    <parameter
-        id="routeParamType3"
-        type="string"
-        name="Тип параметра маршрута #3"
-        visibility="typeRoute=='2'" />
-
-    <parameter
-        id="routeParam3"
-        type="string"
-        name="Переменная параметра маршрута #3"
-        visibility="typeRoute=='2'" />
-
-    <globals file="globals.xml.ftl" />
-    <execute file="recipe.xml.ftl" />
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
 
 </template>

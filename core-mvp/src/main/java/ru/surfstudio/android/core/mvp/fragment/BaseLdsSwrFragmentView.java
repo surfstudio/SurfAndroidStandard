@@ -34,10 +34,10 @@ public abstract class BaseLdsSwrFragmentView<M extends LdsSwrScreenModel>
     protected abstract SwipeRefreshLayout getSwipeRefreshLayout();
 
     @Override
-    public void render(M screenModel) {
-        renderLoadState(screenModel.getLoadState());
-        renderSwipeRefreshState(screenModel.getSwipeRefreshState());
-        renderInternal(screenModel);
+    public void render(M sm) {
+        renderLoadState(sm.getLoadState());
+        renderSwipeRefreshState(sm.getSwipeRefreshState());
+        renderInternal(sm);
     }
 
     protected void renderSwipeRefreshState(SwipeRefreshState swipeRefreshState) {

@@ -24,7 +24,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = MainScreenConfigurator(this, intent)
+    override fun createConfigurator() = MainScreenConfigurator(intent)
 
     override fun getScreenName(): String = "MainActivity"
 
@@ -35,7 +35,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         open_another_screen_btn.setOnClickListener { presenter.openAnotherScreen() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun onStart() {
         super.onStart()
@@ -48,6 +48,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     }
 
     fun showMessage(message: String) {
-        toast(message)
+        if (message.isNotEmpty()) {
+            toast(message)
+        }
     }
 }

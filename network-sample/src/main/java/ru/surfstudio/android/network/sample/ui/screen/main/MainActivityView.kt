@@ -14,7 +14,6 @@ import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.sample.R
-import ru.surfstudio.android.network.sample.domain.product.Product
 import ru.surfstudio.android.network.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
@@ -35,12 +34,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     private val adapter = ProductListAdapter { presenter.loadMore() }
 
-    private val productItemController = ProductItemController(
-            object : ProductItemController.OnProductClickListener {
-                override fun onProductClick(product: Product) {
-                    messageController.show(product.name)
-                }
-            })
+    private val productItemController = ProductItemController { messageController.show(it.name) }
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
@@ -61,11 +55,11 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
         initRecycler()
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {
-        placeholder.render(screenModel.loadState)
+    override fun renderInternal(sm: MainScreenModel) {
+        placeholder.render(sm.loadState)
         adapter.setItems(ItemList.create()
-                .addAll(screenModel.productList, productItemController),
-                screenModel.paginationState)
+                .addAll(sm.productList, productItemController),
+                sm.paginationState)
     }
 
     override fun renderLoadState(loadState: LoadState?) {
