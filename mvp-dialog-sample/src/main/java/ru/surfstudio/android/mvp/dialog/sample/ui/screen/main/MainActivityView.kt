@@ -33,11 +33,19 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         show_complex_bottomsheet_dialog_btn.setOnClickListener { presenter.showComplexBottomSheetDialog() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
+
+    fun showSimpleDialogAcceptedMessage() {
+        toast(R.string.simple_dialog_accepted)
+    }
+
+    fun showSimpleBottomSheetDialogAcceptedMessage() {
+        toast(R.string.simple_bottomsheet_dialog_accepted)
+    }
 
     fun showMessage(message: String) {
         toast(message)

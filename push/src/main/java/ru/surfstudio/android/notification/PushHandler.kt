@@ -25,7 +25,6 @@ import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleS
  * Перехватывает сообщение и решает, по какой стратегии его обработать
  */
 interface PushHandler {
-
     /**
      * Обработка пуш-нотификации.
      *

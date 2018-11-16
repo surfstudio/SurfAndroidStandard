@@ -9,10 +9,10 @@ import javax.inject.Inject
 internal class MultitypeListPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<MultitypeListActivityView>(basePresenterDependency) {
 
-    private val screenModel: MultitypeListScreenModel = MultitypeListScreenModel()
+    private val sm: MultitypeListScreenModel = MultitypeListScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 }

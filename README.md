@@ -1,5 +1,7 @@
 # Surf Android Standard
 
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat )]( https://android-arsenal.com/details/1/7290 )
+
 Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
 в короткие сроки.
@@ -32,9 +34,9 @@ dependencies {
 }
 ```
 
-Аткуальная стабильная версия: **0.2.1**
+Аткуальная стабильная версия: **0.3.0**
 
-Актуальная нестабильная версия: **0.3.0-SNAPSHOT**
+Актуальная нестабильная версия: **0.4.0-SNAPSHOT**
 
 Список всех артефактов [здесь][artifacts].
 

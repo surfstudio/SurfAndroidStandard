@@ -36,11 +36,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
             val delegateManager = persistentScope.screenEventDelegateManager
             val saveStateDelegate = CustomOnSaveStateDelegate(delegateManager)
             val restoreStateDelegate = CustomOnRestoreStateDelegate(delegateManager)
-            messageController.show("Delegates registered")
+            messageController.show(R.string.snackbar_message)
         }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

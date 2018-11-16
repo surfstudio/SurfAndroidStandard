@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.android.utilktx.ktx.ui.view.copyTextToClipboard
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
-import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
+import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import javax.inject.Inject
 
 /**
@@ -37,9 +37,9 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
         initListeners()
     }
 
-    override fun renderInternal(screenModel: FcmDebugScreenModel) {
-        val hasFcmToken = screenModel.hasFcmToken()
-        fcm_tv.text = screenModel.fcmToken
+    override fun renderInternal(sm: FcmDebugScreenModel) {
+        val hasFcmToken = sm.hasFcmToken()
+        fcm_tv.text = sm.fcmToken
         fcm_tv.goneIf(!hasFcmToken)
         container.goneIf(hasFcmToken)
     }

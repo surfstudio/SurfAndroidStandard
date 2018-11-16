@@ -30,7 +30,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         show_paginationable_list.setOnClickListener { presenter.showPagintationList() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

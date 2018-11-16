@@ -2,5 +2,15 @@ apply from: '../commonFeatureModule.gradle'
 
 dependencies {
     implementation project(':template:base-ui')
-    implementation project(':template:f-main')
+
+    api "com.readystatesoftware.chuck:library:$chuckVersion"
+    implementation "com.jakewharton:process-phoenix:$processPhoenix"
+
+    // leak canary
+    debugApi "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    releaseApi "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    // Optional, if you use support library fragments:
+    debugApi "com.squareup.leakcanary:leakcanary-support-fragment:$leakCanaryVersion"
+    qaApi "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    qaApi "com.squareup.leakcanary:leakcanary-support-fragment:$leakCanaryVersion"
 }

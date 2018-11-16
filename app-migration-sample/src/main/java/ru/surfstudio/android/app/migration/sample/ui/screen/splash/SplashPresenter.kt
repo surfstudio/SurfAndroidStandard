@@ -10,6 +10,9 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+// время в миллисекундах, после которого переходит на другой экран
+const val TRANSITION_DELAY_MS = 4000L
+
 /**
  * Презентер загрузочного экрана
  */
@@ -19,12 +22,7 @@ internal class SplashPresenter @Inject constructor(basePresenterDependency: Base
                                                    private val initializeAppInteractor: InitializeAppInteractor
 ) : BasePresenter<SplashActivityView>(basePresenterDependency) {
 
-    companion object {
-        // время в миллисекундах, после которого переходит на другой экран
-        private const val TRANSITION_DELAY_MS = 4000L
-    }
-
-    private val screenModel = SplashScreenModel()
+    private val sm = SplashScreenModel()
 
     // выбор роута для следующего экрана может зависеть от некоторой логики
     // например, в зависимости от того, авторизован ли пользователь
@@ -33,7 +31,7 @@ internal class SplashPresenter @Inject constructor(basePresenterDependency: Base
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
         if (!viewRecreated) {
             subscribeIoHandleError(
                     initializeAppInteractor

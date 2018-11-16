@@ -20,35 +20,31 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
 
-    override fun onBind(screenModel: MainScreenModel) {
+    override fun onBind(sm: MainScreenModel) {
 
-        screenModel.solved.observe(this) {
-            if (it) {
-                toast("You win")
-            } else {
-                toast("You broke it")
-            }
+        sm.solved.observe(this) {
+            toast(if (it) R.string.win_message else R.string.lose_message)
         }
 
-        observeAndApply(screenModel.panel1) { observePane(pane_1, it) }
-        observeAndApply(screenModel.panel2) { observePane(pane_2, it) }
-        observeAndApply(screenModel.panel3) { observePane(pane_3, it) }
-        observeAndApply(screenModel.panel4) { observePane(pane_4, it) }
-        observeAndApply(screenModel.panel5) { observePane(pane_5, it) }
-        observeAndApply(screenModel.panel6) { observePane(pane_6, it) }
-        observeAndApply(screenModel.panel7) { observePane(pane_7, it) }
-        observeAndApply(screenModel.panel8) { observePane(pane_8, it) }
-        observeAndApply(screenModel.panel9) { observePane(pane_9, it) }
+        observeAndApply(sm.panel1) { observePane(pane_1, it) }
+        observeAndApply(sm.panel2) { observePane(pane_2, it) }
+        observeAndApply(sm.panel3) { observePane(pane_3, it) }
+        observeAndApply(sm.panel4) { observePane(pane_4, it) }
+        observeAndApply(sm.panel5) { observePane(pane_5, it) }
+        observeAndApply(sm.panel6) { observePane(pane_6, it) }
+        observeAndApply(sm.panel7) { observePane(pane_7, it) }
+        observeAndApply(sm.panel8) { observePane(pane_8, it) }
+        observeAndApply(sm.panel9) { observePane(pane_9, it) }
 
-        pane_1.listener = { listenPane(screenModel.panel1, it.toInt()) }
-        pane_2.listener = { listenPane(screenModel.panel2, it.toInt()) }
-        pane_3.listener = { listenPane(screenModel.panel3, it.toInt()) }
-        pane_4.listener = { listenPane(screenModel.panel4, it.toInt()) }
-        pane_5.listener = { listenPane(screenModel.panel5, it.toInt()) }
-        pane_6.listener = { listenPane(screenModel.panel6, it.toInt()) }
-        pane_7.listener = { listenPane(screenModel.panel7, it.toInt()) }
-        pane_8.listener = { listenPane(screenModel.panel8, it.toInt()) }
-        pane_9.listener = { listenPane(screenModel.panel9, it.toInt()) }
+        pane_1.listener = { listenPane(sm.panel1, it.toInt()) }
+        pane_2.listener = { listenPane(sm.panel2, it.toInt()) }
+        pane_3.listener = { listenPane(sm.panel3, it.toInt()) }
+        pane_4.listener = { listenPane(sm.panel4, it.toInt()) }
+        pane_5.listener = { listenPane(sm.panel5, it.toInt()) }
+        pane_6.listener = { listenPane(sm.panel6, it.toInt()) }
+        pane_7.listener = { listenPane(sm.panel7, it.toInt()) }
+        pane_8.listener = { listenPane(sm.panel8, it.toInt()) }
+        pane_9.listener = { listenPane(sm.panel9, it.toInt()) }
     }
 
     private fun observePane(pane: PaneView, data: PaneDataModel) {
