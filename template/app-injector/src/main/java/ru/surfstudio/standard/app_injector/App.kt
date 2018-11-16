@@ -12,19 +12,17 @@ import ru.surfstudio.standard.app_injector.ui.notification.debug.DebugNotificati
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.base_ui.provider.route.RouteClassProvider
-import ru.surfstudio.standard.i_debug.DebugInteractor
 
 class App : CoreApp() {
 
     override fun onCreate() {
         super.onCreate()
-        if (DebugInteractor.mustNotInitializeApp(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
+        if (AppInjector.appComponent.debugInteractor().mustNotInitializeApp()) {
+            // работает LeakCanary, ненужно ничего инициализировать
+            return
+        }
 
         initFabric()
         initComponentProvider()
