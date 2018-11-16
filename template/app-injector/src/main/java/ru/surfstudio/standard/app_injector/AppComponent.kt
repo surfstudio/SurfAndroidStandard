@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.PushHandler
+import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
@@ -52,7 +53,6 @@ interface AppComponent {
     fun stringsProvider(): StringsProvider
     fun globalNavigator(): GlobalNavigator
     fun fcmStorage(): FcmStorage
-    fun pushHandler(): PushHandler
     fun serverSettingsStorage(): DebugServerSettingsStorage
     fun rebootInteractor(): RebootInteractor
     fun memoryDebugStorage(): MemoryDebugStorage

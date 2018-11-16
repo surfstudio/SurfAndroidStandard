@@ -59,6 +59,8 @@ dependencies {
 
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 
+    api "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
+
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }

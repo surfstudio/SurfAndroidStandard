@@ -19,9 +19,7 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
-import androidx.core.app.NotificationCompat
 import android.widget.RemoteViews
-import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import androidx.annotation.StringRes
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
