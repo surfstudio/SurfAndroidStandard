@@ -8,7 +8,7 @@ import ru.surfstudio.android.location.sample.app.dagger.DaggerCustomAppComponent
 /**
  * Класс приложения
  */
-class CustomApp : CoreApp() {
+open class CustomApp : CoreApp() {
 
     var customAppComponent: CustomAppComponent? = null
 
@@ -17,9 +17,9 @@ class CustomApp : CoreApp() {
         initInjector()
     }
 
-    private fun initInjector() {
+    protected open fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this))
+                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
                 .build()
     }
 }

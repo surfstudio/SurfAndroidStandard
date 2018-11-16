@@ -6,6 +6,7 @@ import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.intent.Intents
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
 import org.junit.After
 import org.junit.Before
@@ -30,8 +31,16 @@ class LocationSampleTest {
             Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
+    private val defaultLocationInteractorOptions = intArrayOf(
+            R.id.btn_activity_default_location_interactor_check_location_availability,
+            R.id.btn_activity_default_location_interactor_resolve_location_availability,
+            R.id.btn_activity_default_location_interactor_show_last_known_location,
+            R.id.btn_activity_default_location_interactor_show_current_location
+    )
+
     private val locationServiceOptions = intArrayOf(
             R.id.btn_activity_location_service_check_location_availability,
+            R.id.btn_activity_location_service_resolve_location_availability,
             R.id.btn_activity_location_service_show_last_known_location,
             R.id.btn_activity_location_service_subscribe_to_location_updates,
             R.id.btn_activity_location_service_unsubscribe_from_location_updates
@@ -39,6 +48,8 @@ class LocationSampleTest {
 
     @Before
     fun setUp() {
+        getInstrumentation().uiAutomation.executeShellCommand(
+                "settings put secure location_providers_allowed +gps")
         Intents.init()
         ActivityUtils.launchActivity(MainActivity::class.java)
     }
@@ -53,23 +64,23 @@ class LocationSampleTest {
         clickAndCheckActivity(
                 R.id.btn_default_location_interactor_sample,
                 DefaultLocationInteractorActivityView::class.java,
-                R.id.btn_activity_default_location_interactor_check_location_availability
+                defaultLocationInteractorOptions
         )
         clickAndCheckActivity(
                 R.id.btn_location_service_sample,
                 LocationServiceActivityView::class.java,
-                *locationServiceOptions
+                locationServiceOptions
         )
     }
 
     private fun <T : Activity> clickAndCheckActivity(
             @IdRes buttonResId: Int,
             activityClass: Class<T>,
-            @IdRes vararg buttonResList: Int
+            buttons: IntArray
     ) {
         performClick(buttonResId)
         checkIfActivityIsVisible(activityClass)
-        performClick(*buttonResList)
+        performClick(*buttons)
         Espresso.pressBack()
     }
 }
