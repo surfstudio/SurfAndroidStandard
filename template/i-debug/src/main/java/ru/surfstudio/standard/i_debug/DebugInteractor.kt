@@ -49,7 +49,7 @@ class DebugInteractor @Inject constructor(
     var isChuckEnabled: Boolean
         get() = debugServerSettingsStorage.isChuckEnabled
         set(value) {
-            memoryDebugStorage.isLeakCanaryEnabled = value
+            debugServerSettingsStorage.isChuckEnabled = value
         }
 
     /**
