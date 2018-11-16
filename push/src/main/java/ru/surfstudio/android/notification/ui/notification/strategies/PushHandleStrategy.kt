@@ -38,6 +38,14 @@ import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelp
  * Для Android O необходимо указать id канала
  */
 abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
+
+    /**
+     * Идентификатор пуш-нотификации. При совпадении идентификаторов пуш-нотификации заменяют друг
+     * друга. Если в стратегии не переопределить данное свойство, все нотификации будут
+     * автоматически получать уникальные идентификаторы.
+     */
+    open var pushId: Int = -1
+
     /**
      * Данные пуш-нотификации [BaseNotificationTypeData].
      */
@@ -118,10 +126,10 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
 
         when (context) {
             is Activity -> if (!handlePushInActivity(context)) {
-                showNotification(context, title, body)
+                showNotification(context, pushId, title, body)
             }
 
-            else -> showNotification(context, title, body)
+            else -> showNotification(context, pushId, title, body)
         }
     }
 
@@ -138,10 +146,14 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
         }
     }
 
-    private fun showNotification(context: Context, title: String, body: String) {
+    private fun showNotification(context: Context,
+                                 pushId: Int,
+                                 title: String,
+                                 body: String) {
         NotificationCreateHelper.showNotification(
                 context,
                 this,
+                pushId,
                 title,
                 body
         )

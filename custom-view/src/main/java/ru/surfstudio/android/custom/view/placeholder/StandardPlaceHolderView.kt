@@ -636,7 +636,8 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
 
         init {
             val isFirstEmission = AtomicBoolean(true)
-            loadStateSubject.debounce { t ->
+            @Suppress("UNUSED_VARIABLE")
+            val loadStateDisposable = loadStateSubject.debounce { t ->
                 if (isFirstEmission.getAndSet(false)) {
                     return@debounce Observable.just(t)
                 } else {
