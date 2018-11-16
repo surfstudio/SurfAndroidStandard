@@ -1,8 +1,17 @@
 package ru.surfstudio.android.core.mvp.presenter
 
+import io.reactivex.exceptions.OnErrorNotImplementedException
+import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.rx.extension.ActionSafe
 import ru.surfstudio.android.rx.extension.ConsumerSafe
 
+/**
+ * Extensions для преобразования функциональных интерфейсов в лямбду и обратно
+ */
+
+val onCompleteStub: () -> Unit = {}
+val onErrorNotImplemented: (Throwable) -> Unit = { throwable -> RxJavaPlugins.onError(OnErrorNotImplementedException(throwable)) }
+val onErrorStub: (Throwable) -> Unit = { _ -> }
 
 fun <T> ((T) -> Unit).asConsumerSafe(): ConsumerSafe<T> {
     return ConsumerSafe { this.invoke(it) }

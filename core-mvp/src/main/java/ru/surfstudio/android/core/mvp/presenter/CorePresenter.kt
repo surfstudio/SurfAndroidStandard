@@ -50,9 +50,6 @@ import ru.surfstudio.android.rx.extension.ConsumerSafe
 </V> */
 abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDelegateManager, screenState: ScreenState) : Presenter<V> {
 
-    private val onCompleteStub: () -> Unit = {}
-    private val onErrorNotImplemented: (Throwable) -> Unit = { throwable -> RxJavaPlugins.onError(OnErrorNotImplementedException(throwable)) }
-
     private val disposables = CompositeDisposable()
     private val uiDisposables = CompositeDisposable()
     private val freezeSelector = BehaviorSubject.createDefault(false)
@@ -135,88 +132,12 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     }
 
     protected fun isDisposableActive(disposable: Disposable?): Boolean {
-        return disposable?.isDisposed ?: false
-    }
-
-    /**
-     * Apply [ObservableOperatorFreeze] and subscribe subscriber to the observable.
-     * When screen finally destroyed, all subscriptions would be automatically unsubscribed.
-     * For more information see description of this class.
-     *
-     * @return subscription
-     */
-    protected fun <T> Observable<T>.subscribeBy(operator: ObservableOperatorFreeze<T>,
-                                                observer: LambdaObserver<T>): Disposable {
-        val disposable = this
-                .lift(operator)
-                .subscribeWith(observer)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun <T> Single<T>.subscribeBy(operator: SingleOperatorFreeze<T>,
-                                            observer: DisposableSingleObserver<T>): Disposable {
-
-        val disposable = this
-                .lift(operator)
-                .subscribeWith(observer)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun <T> Maybe<T>.subscribeBy(operator: MaybeOperatorFreeze<T>,
-                                           observer: DisposableMaybeObserver<T>): Disposable {
-        val disposable = this
-                .lift(operator)
-                .subscribeWith(observer)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun Completable.subscribeBy(operator: CompletableOperatorFreeze,
-                                          observer: DisposableCompletableObserver): Disposable {
-        val disposable = this
-                .lift(operator)
-                .subscribeWith(observer)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit): Disposable {
-        return this.subscribeUiBy(onNext, onCompleteStub, onErrorNotImplemented)
-    }
-
-    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit,
-                                                  onError: (Throwable) -> Unit): Disposable {
-
-        return this.subscribeUiBy(onNext, onCompleteStub, onError)
-    }
-
-    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit,
-                                                  onComplete: () -> Unit,
-                                                  onError: (Throwable) -> Unit): Disposable {
-        val disposable = this
-                .lift(ObservableOperatorFreeze(freezeSelector))
-                .subscribeWith(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
-        uiDisposables.add(disposable)
-        return disposable
+        return disposable?.isDisposed?.not() ?: false
     }
 
     protected fun <T> Observable<T>.subscribeBy(observer: LambdaObserver<T>): Disposable {
         return this.subscribeBy(ObservableOperatorFreeze(freezeSelector), observer)
     }
-
-    protected fun <T> Observable<T>.subscribeBy(onNext: (T) -> Unit): Disposable {
-
-        return this.subscribeBy(ObservableOperatorFreeze(freezeSelector), onNext, onErrorNotImplemented)
-    }
-
-    protected fun <T> Observable<T>.subscribeBy(onNext: (T) -> Unit,
-                                                onError: (Throwable) -> Unit): Disposable {
-
-        return this.subscribeBy(onNext, onCompleteStub, onError)
-    }
-
 
     protected fun <T> Observable<T>.subscribeBy(onNext: (T) -> Unit,
                                                 onComplete: () -> Unit,
@@ -266,22 +187,22 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return this.subscribeBy(ObservableOperatorFreeze(freezeSelector, replaceFrozenEventPredicate), onNext, onError)
     }
 
-    protected fun <T> Observable<T>.subscribeBy(operator: ObservableOperatorFreeze<T>,
-                                                onNext: (T) -> Unit,
-                                                onError: (Throwable) -> Unit): Disposable {
-        return this.subscribeBy(operator, onNext, onCompleteStub, onError)
-    }
-
-    protected fun <T> Observable<T>.subscribeBy(operator: ObservableOperatorFreeze<T>,
-                                                onNext: (T) -> Unit,
-                                                onComplete: () -> Unit,
-                                                onError: (Throwable) -> Unit): Disposable {
+    private fun <T> Observable<T>.subscribeBy(operator: ObservableOperatorFreeze<T>,
+                                              onNext: (T) -> Unit,
+                                              onComplete: () -> Unit,
+                                              onError: (Throwable) -> Unit): Disposable {
         return this.subscribeBy(operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
     }
 
-    protected fun <T> Single<T>.subscribeBy(operator: SingleOperatorFreeze<T>,
-                                            onSuccess: (T) -> Unit,
-                                            onError: (Throwable) -> Unit): Disposable {
+    private fun <T> Observable<T>.subscribeBy(operator: ObservableOperatorFreeze<T>,
+                                              onNext: (T) -> Unit,
+                                              onError: (Throwable) -> Unit): Disposable {
+        return this.subscribeBy(operator, onNext, onCompleteStub, onError)
+    }
+
+    private fun <T> Single<T>.subscribeBy(operator: SingleOperatorFreeze<T>,
+                                          onSuccess: (T) -> Unit,
+                                          onError: (Throwable) -> Unit): Disposable {
         return subscribeBy(operator, object : DisposableSingleObserver<T>() {
             override fun onSuccess(t: T) {
                 onSuccess.invoke(t)
@@ -293,10 +214,10 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-    protected fun <T> Maybe<T>.subscribeBy(operator: MaybeOperatorFreeze<T>,
-                                           onSuccess: (T) -> Unit,
-                                           onComplete: () -> Unit,
-                                           onError: (Throwable) -> Unit): Disposable {
+    private fun <T> Maybe<T>.subscribeBy(operator: MaybeOperatorFreeze<T>,
+                                         onSuccess: (T) -> Unit,
+                                         onComplete: () -> Unit,
+                                         onError: (Throwable) -> Unit): Disposable {
         return subscribeBy(operator, object : DisposableMaybeObserver<T>() {
             override fun onSuccess(t: T) {
                 onSuccess.invoke(t)
@@ -312,9 +233,9 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-    protected fun Completable.subscribeBy(operator: CompletableOperatorFreeze,
-                                          onComplete: () -> Unit,
-                                          onError: (Throwable) -> Unit): Disposable {
+    private fun Completable.subscribeBy(operator: CompletableOperatorFreeze,
+                                        onComplete: () -> Unit,
+                                        onError: (Throwable) -> Unit): Disposable {
         return subscribeBy(operator, object : DisposableCompletableObserver() {
             override fun onComplete() {
                 onComplete.invoke()
@@ -326,55 +247,48 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         })
     }
 
-    protected fun <T> Observable<T>.subscribeWithoutFreezingBy(onNext: (T) -> Unit,
-                                                               onError: (Throwable) -> Unit): Disposable {
-        return subscribeWithoutFreezingBy(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(),
-                Functions.EMPTY_ACTION, Functions.emptyConsumer()))
+    /**
+     * Apply [ObservableOperatorFreeze] and subscribe subscriber to the observable.
+     * When screen finally destroyed, all subscriptions would be automatically unsubscribed.
+     * For more information see description of this class.
+     *
+     * @return subscription
+     */
+    protected fun <T> Observable<T>.subscribeBy(operator: ObservableOperatorFreeze<T>,
+                                                observer: LambdaObserver<T>): Disposable {
+        val disposable = this
+                .lift(operator)
+                .subscribeWith(observer)
+        disposables.add(disposable)
+        return disposable
     }
 
-    protected fun <T> Single<T>.subscribeWithoutFreezingBy(onSuccess: (T) -> Unit,
-                                                           onError: (Throwable) -> Unit): Disposable {
-        return subscribeWithoutFreezingBy(object : DisposableSingleObserver<T>() {
-            override fun onSuccess(t: T) {
-                onSuccess.invoke(t)
-            }
+    protected fun <T> Single<T>.subscribeBy(operator: SingleOperatorFreeze<T>,
+                                            observer: DisposableSingleObserver<T>): Disposable {
 
-            override fun onError(e: Throwable) {
-                onError.invoke(e)
-            }
-        })
+        val disposable = this
+                .lift(operator)
+                .subscribeWith(observer)
+        disposables.add(disposable)
+        return disposable
     }
 
-    protected fun Completable.subscribeWithoutFreezingBy(onComplete: () -> Unit,
-                                                         onError: (Throwable) -> Unit): Disposable {
-        return subscribeWithoutFreezingBy(object : DisposableCompletableObserver() {
-            override fun onComplete() {
-                onComplete.invoke()
-            }
-
-            override fun onError(e: Throwable) {
-                onError.invoke(e)
-            }
-        })
+    protected fun <T> Maybe<T>.subscribeBy(operator: MaybeOperatorFreeze<T>,
+                                           observer: DisposableMaybeObserver<T>): Disposable {
+        val disposable = this
+                .lift(operator)
+                .subscribeWith(observer)
+        disposables.add(disposable)
+        return disposable
     }
 
-    protected fun <T> Maybe<T>.subscribeWithoutFreezingBy(onSuccess: (T) -> Unit,
-                                                          onComplete: () -> Unit,
-                                                          onError: (Throwable) -> Unit): Disposable {
-        return subscribeWithoutFreezingBy(object : DisposableMaybeObserver<T>() {
-
-            override fun onSuccess(t: T) {
-                onSuccess.invoke(t)
-            }
-
-            override fun onComplete() {
-                onComplete.invoke()
-            }
-
-            override fun onError(e: Throwable) {
-                onError.invoke(e)
-            }
-        })
+    protected fun Completable.subscribeBy(operator: CompletableOperatorFreeze,
+                                          observer: DisposableCompletableObserver): Disposable {
+        val disposable = this
+                .lift(operator)
+                .subscribeWith(observer)
+        disposables.add(disposable)
+        return disposable
     }
 
     /**
@@ -407,96 +321,15 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         return disposable
     }
 
-    //region java compatible methods
-
-    /**
-     * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
-     * @see @link .subscribe
-     * @see @link OperatorFreeze
-     */
-    protected fun <T> subscribe(observable: Observable<T>,
-                                replaceFrozenEventPredicate: BiFunctionSafe<T, T, Boolean>,
-                                onNext: ConsumerSafe<T>,
-                                onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeBy(replaceFrozenEventPredicate, onNext.fromConsumer(), onError.fromErrorConsumer())
+    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit,
+                                                  onComplete: () -> Unit,
+                                                  onError: (Throwable) -> Unit): Disposable {
+        val disposable = this
+                .lift(ObservableOperatorFreeze(freezeSelector))
+                .subscribeWith(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
+        uiDisposables.add(disposable)
+        return disposable
     }
-
-    /**
-     * @see @link .subscribe
-     */
-    protected fun <T> subscribe(observable: Observable<T>,
-                                onNext: ConsumerSafe<T>): Disposable {
-        return observable.subscribeBy(onNext.fromConsumer())
-    }
-
-    /**
-     * @see @link .subscribe
-     */
-    protected fun <T> subscribe(observable: Observable<T>,
-                                onNext: ConsumerSafe<T>,
-                                onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeBy(onNext.fromConsumer(), onError.fromErrorConsumer())
-    }
-
-
-    /**
-     * @see @link .subscribe
-     */
-    protected fun <T> subscribe(observable: Observable<T>,
-                                onNext: ConsumerSafe<T>,
-                                onComplete: ActionSafe,
-                                onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeBy(onNext.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
-    }
-
-    protected fun <T> subscribe(single: Single<T>,
-                                onSuccess: ConsumerSafe<T>,
-                                onError: ConsumerSafe<Throwable>): Disposable {
-        return single.subscribeBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
-    }
-
-    protected fun subscribe(completable: Completable,
-                            onComplete: ActionSafe,
-                            onError: ConsumerSafe<Throwable>): Disposable {
-        return completable.subscribeBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
-    }
-
-    protected fun <T> subscribe(maybe: Maybe<T>,
-                                onSuccess: ConsumerSafe<T>,
-                                onComplete: ActionSafe,
-                                onError: ConsumerSafe<Throwable>): Disposable {
-        return maybe.subscribeBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
-    }
-
-    /**
-     * @see @link .subscribeWithoutFreezing
-     */
-    protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
-                                               onNext: ConsumerSafe<T>,
-                                               onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeWithoutFreezingBy(onNext.fromConsumer(), onError.fromErrorConsumer())
-    }
-
-    protected fun <T> subscribeWithoutFreezing(single: Single<T>,
-                                               onSuccess: ConsumerSafe<T>,
-                                               onError: ConsumerSafe<Throwable>): Disposable {
-        return single.subscribeWithoutFreezingBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
-    }
-
-    protected fun subscribeWithoutFreezing(completable: Completable,
-                                           onComplete: ActionSafe,
-                                           onError: ConsumerSafe<Throwable>): Disposable {
-        return completable.subscribeWithoutFreezingBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
-    }
-
-    protected fun <T> subscribeWithoutFreezing(maybe: Maybe<T>,
-                                               onSuccess: ConsumerSafe<T>,
-                                               onComplete: ActionSafe,
-                                               onError: ConsumerSafe<Throwable>): Disposable {
-        return maybe.subscribeWithoutFreezingBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
-    }
-
-    //endregion
 
     //TODO remove
     //deprecated methods will be removed

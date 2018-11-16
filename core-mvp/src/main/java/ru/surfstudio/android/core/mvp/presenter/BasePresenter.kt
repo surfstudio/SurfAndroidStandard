@@ -24,6 +24,7 @@ import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
+import io.reactivex.internal.functions.Functions
 import io.reactivex.internal.observers.LambdaObserver
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableMaybeObserver
@@ -33,6 +34,7 @@ import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.core.mvp.view.CoreView
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.rx.extension.ActionSafe
+import ru.surfstudio.android.rx.extension.BiFunctionSafe
 import ru.surfstudio.android.rx.extension.ConsumerSafe
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
@@ -58,8 +60,6 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 </V> */
 abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresenterDependency) :
         CorePresenter<V>(basePresenterDependency.eventDelegateManager, basePresenterDependency.screenState) {
-
-    private val onErrorStub: (Throwable) -> Unit = { _ -> }
 
     private val activityNavigator: ActivityNavigator
     private val schedulersProvider: SchedulersProvider
@@ -108,101 +108,81 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
         errorHandler.handleError(e)
     }
 
-    //region SubscribeUi
+    //region subscribe
 
-    protected fun <T> Observable<T>.subscribeUi(operator: ObservableOperatorFreeze<T>,
-                                                observer: LambdaObserver<T>): Disposable {
-        return this.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
+    protected fun <T> Observable<T>.subscribeBy(onNext: (T) -> Unit): Disposable {
+
+        return this.subscribeBy(onNext, onCompleteStub, onErrorNotImplemented)
     }
 
-    protected fun <T> Single<T>.subscribeUi(operator: SingleOperatorFreeze<T>,
-                                            observer: DisposableSingleObserver<T>): Disposable {
-        return this.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
-    }
+    protected fun <T> Observable<T>.subscribeBy(onNext: (T) -> Unit,
+                                                onError: (Throwable) -> Unit): Disposable {
 
-    protected fun Completable.subscribeUi(operator: CompletableOperatorFreeze,
-                                          observer: DisposableCompletableObserver): Disposable {
-        return this.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
-    }
-
-    protected fun <T> Maybe<T>.subscribeUi(operator: MaybeOperatorFreeze<T>,
-                                           observer: DisposableMaybeObserver<T>): Disposable {
-        return this.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
+        return this.subscribeBy(onNext, onCompleteStub, onError)
     }
 
     //endregion
 
-    //region SubscribeWithoutFreezing
-    protected fun <T> Observable<T>.subscribeWithoutFreezingUi(observer: LambdaObserver<T>): Disposable {
-        return this.observeOn(schedulersProvider.main(), true)
-                .subscribeWithoutFreezingBy(observer)
+    //region subscribeUi
+
+    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit): Disposable {
+
+        return this.subscribeUiBy(onNext, onCompleteStub, onErrorNotImplemented)
     }
 
-    protected fun <T> Single<T>.subscribeWithoutFreezingUi(subscriber: DisposableSingleObserver<T>): Disposable {
-        return this.observeOn(schedulersProvider.main())
-                .subscribeWithoutFreezingBy(subscriber)
+    protected fun <T> Observable<T>.subscribeUiBy(onNext: (T) -> Unit,
+                                                  onError: (Throwable) -> Unit): Disposable {
+
+        return this.subscribeUiBy(onNext, onCompleteStub, onError)
     }
 
-    protected fun Completable.subscribeWithoutFreezingUi(subscriber: DisposableCompletableObserver): Disposable {
-        return this.observeOn(schedulersProvider.main())
-                .subscribeWithoutFreezingBy(subscriber)
-    }
-
-    protected fun <T> Maybe<T>.subscribeWithoutFreezingUi(subscriber: DisposableMaybeObserver<T>): Disposable {
-        return this.observeOn(schedulersProvider.main())
-                .subscribeWithoutFreezingBy(subscriber)
-    }
     //endregion
 
-    //region subscribeByIoHandleError
+    //region subscribeIoHandleErrorBy
 
-    protected fun <T> Observable<T>.subscribeByIoHandleError(onNext: (T) -> Unit): Disposable {
-        return subscribeByIoHandleError(onNext, onErrorStub)
+    protected fun <T> Observable<T>.subscribeIoHandleErrorBy(onNext: (T) -> Unit): Disposable {
+        return subscribeIoHandleErrorBy(onNext, onErrorStub)
     }
 
-    protected fun <T> Single<T>.subscribeByIoHandleError(onSuccess: (T) -> Unit): Disposable {
-        return subscribeByIoHandleError(onSuccess, onErrorStub)
+    protected fun <T> Single<T>.subscribeIoHandleErrorBy(onSuccess: (T) -> Unit): Disposable {
+        return subscribeIoHandleErrorBy(onSuccess, onErrorStub)
     }
 
-    protected fun Completable.subscribeByIoHandleError(onComplete: () -> Unit): Disposable {
-        return subscribeByIoHandleError(onComplete, onErrorStub)
+    protected fun Completable.subscribeIoHandleErrorBy(onComplete: () -> Unit): Disposable {
+        return subscribeIoHandleErrorBy(onComplete, onErrorStub)
     }
 
-    protected fun <T> Maybe<T>.subscribeByIoHandleError(onSuccess: (T) -> Unit,
+    protected fun <T> Maybe<T>.subscribeIoHandleErrorBy(onSuccess: (T) -> Unit,
                                                         onComplete: () -> Unit): Disposable {
-        return subscribeByIoHandleError(onSuccess, onComplete, onErrorStub)
+        return subscribeIoHandleErrorBy(onSuccess, onComplete, onErrorStub)
     }
 
-    protected fun <T> Observable<T>.subscribeByIoHandleError(onNext: (T) -> Unit,
+    protected fun <T> Observable<T>.subscribeIoHandleErrorBy(onNext: (T) -> Unit,
                                                              onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onNext, { e -> handleError(e, onError) })
     }
 
-    protected fun <T> Observable<T>.subscribeByIoHandleError(onNext: (T) -> Unit,
+    protected fun <T> Observable<T>.subscribeIoHandleErrorBy(onNext: (T) -> Unit,
                                                              onComplete: () -> Unit,
                                                              onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onNext, onComplete, { e -> handleError(e, onError) })
     }
 
-    protected fun <T> Single<T>.subscribeByIoHandleError(onSuccess: (T) -> Unit,
+    protected fun <T> Single<T>.subscribeIoHandleErrorBy(onSuccess: (T) -> Unit,
                                                          onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onSuccess, { e -> handleError(e, onError) })
     }
 
-    protected fun Completable.subscribeByIoHandleError(onComplete: () -> Unit,
+    protected fun Completable.subscribeIoHandleErrorBy(onComplete: () -> Unit,
                                                        onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onComplete, { e -> handleError(e, onError) })
     }
 
-    protected fun <T> Maybe<T>.subscribeByIoHandleError(onSuccess: (T) -> Unit,
+    protected fun <T> Maybe<T>.subscribeIoHandleErrorBy(onSuccess: (T) -> Unit,
                                                         onComplete: () -> Unit,
                                                         onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
@@ -211,33 +191,33 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
 
     //endregion
 
-    //region subscribeByIo
-    protected fun <T> Observable<T>.subscribeByIo(onNext: (T) -> Unit,
+    //region subscribeIoBy
+    protected fun <T> Observable<T>.subscribeIoBy(onNext: (T) -> Unit,
                                                   onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onNext, onError)
     }
 
-    protected fun <T> Single<T>.subscribeByIo(onSuccess: (T) -> Unit,
+    protected fun <T> Single<T>.subscribeIoBy(onSuccess: (T) -> Unit,
                                               onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onSuccess, onError)
     }
 
-    protected fun Completable.subscribeByIo(onComplete: () -> Unit,
+    protected fun Completable.subscribeIoBy(onComplete: () -> Unit,
                                             onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onComplete, onError)
     }
 
-    protected fun <T> Observable<T>.subscribeByIo(onNext: (T) -> Unit,
+    protected fun <T> Observable<T>.subscribeIoBy(onNext: (T) -> Unit,
                                                   onComplete: () -> Unit,
                                                   onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
                 .subscribeBy(onNext, onComplete, onError)
     }
 
-    protected fun <T> Maybe<T>.subscribeByIo(onSuccess: (T) -> Unit,
+    protected fun <T> Maybe<T>.subscribeIoBy(onSuccess: (T) -> Unit,
                                              onComplete: () -> Unit,
                                              onError: (Throwable) -> Unit): Disposable {
         return this.subscribeOn(schedulersProvider.worker())
@@ -256,7 +236,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                             onNext: (T) -> Unit,
                                                             onError: (Throwable) -> Unit): Disposable {
         return initializeAutoReload(this, autoReloadAction)
-                .subscribeBy(onNext, onError)
+                .subscribeIoBy(onNext, onError)
     }
 
     protected fun <T> Observable<T>.subscribeByIoAutoReload(autoReloadAction: () -> Unit,
@@ -264,21 +244,21 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                             onComplete: () -> Unit,
                                                             onError: (Throwable) -> Unit): Disposable {
         return initializeAutoReload(this, autoReloadAction)
-                .subscribeBy(onNext, onComplete, onError)
+                .subscribeIoBy(onNext, onComplete, onError)
     }
 
     protected fun <T> Single<T>.subscribeByIoAutoReload(autoReloadAction: () -> Unit,
                                                         onSuccess: (T) -> Unit,
                                                         onError: (Throwable) -> Unit): Disposable {
         return initializeAutoReload(this, autoReloadAction)
-                .subscribeBy(onSuccess, onError)
+                .subscribeIoBy(onSuccess, onError)
     }
 
     protected fun Completable.subscribeByIoAutoReload(autoReloadAction: () -> Unit,
                                                       onComplete: () -> Unit,
                                                       onError: (Throwable) -> Unit): Disposable {
         return initializeAutoReload(this, autoReloadAction)
-                .subscribeBy(onComplete, onError)
+                .subscribeIoBy(onComplete, onError)
     }
 
     protected fun <T> Maybe<T>.subscribeByIoAutoReload(autoReloadAction: () -> Unit,
@@ -286,7 +266,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                        onComplete: () -> Unit,
                                                        onError: (Throwable) -> Unit): Disposable {
         return initializeAutoReload(this, autoReloadAction)
-                .subscribeBy(onSuccess, onComplete, onError)
+                .subscribeIoBy(onSuccess, onComplete, onError)
     }
     //endregion
 
@@ -295,33 +275,93 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     protected fun <T> Observable<T>.subscribeByIoHandleErrorAutoReload(autoReloadAction: () -> Unit,
                                                                        onNext: (T) -> Unit,
                                                                        onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(this, autoReloadAction).subscribeByIoHandleError(onNext, onError)
+        return initializeAutoReload(this, autoReloadAction)
+                .subscribeIoHandleErrorBy(onNext, onError)
     }
 
     protected fun <T> Observable<T>.subscribeByIoHandleErrorAutoReload(autoReloadAction: () -> Unit,
                                                                        onNext: (T) -> Unit,
                                                                        onComplete: () -> Unit,
                                                                        onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(this, autoReloadAction).subscribeByIoHandleError(onNext, onComplete, onError)
+        return initializeAutoReload(this, autoReloadAction)
+                .subscribeIoHandleErrorBy(onNext, onComplete, onError)
     }
 
     protected fun <T> Single<T>.subscribeByIoHandleErrorAutoReload(autoReloadAction: () -> Unit,
                                                                    onSuccess: (T) -> Unit,
                                                                    onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(this, autoReloadAction).subscribeByIoHandleError(onSuccess, onError)
+        return initializeAutoReload(this, autoReloadAction)
+                .subscribeIoHandleErrorBy(onSuccess, onError)
     }
 
     protected fun Completable.subscribeByIoHandleErrorAutoReload(autoReloadAction: () -> Unit,
                                                                  onComplete: () -> Unit,
                                                                  onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(this, autoReloadAction).subscribeByIoHandleError(onComplete, onError)
+        return initializeAutoReload(this, autoReloadAction)
+                .subscribeIoHandleErrorBy(onComplete, onError)
     }
 
     protected fun <T> Maybe<T>.subscribeByIoHandleErrorAutoReload(autoReloadAction: () -> Unit,
                                                                   onSuccess: (T) -> Unit,
                                                                   onComplete: () -> Unit,
                                                                   onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(this, autoReloadAction).subscribeByIoHandleError(onSuccess, onComplete, onError)
+        return initializeAutoReload(this, autoReloadAction)
+                .subscribeIoHandleErrorBy(onSuccess, onComplete, onError)
+    }
+
+    //endregion
+
+    //region subscribeWithoutFreezing
+
+    protected fun <T> Observable<T>.subscribeWithoutFreezingBy(onNext: (T) -> Unit,
+                                                               onError: (Throwable) -> Unit): Disposable {
+        return subscribeWithoutFreezingBy(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(),
+                Functions.EMPTY_ACTION, Functions.emptyConsumer()))
+    }
+
+    protected fun <T> Single<T>.subscribeWithoutFreezingBy(onSuccess: (T) -> Unit,
+                                                           onError: (Throwable) -> Unit): Disposable {
+        return subscribeWithoutFreezingBy(object : DisposableSingleObserver<T>() {
+            override fun onSuccess(t: T) {
+                onSuccess.invoke(t)
+            }
+
+            override fun onError(e: Throwable) {
+                onError.invoke(e)
+            }
+        })
+    }
+
+    protected fun Completable.subscribeWithoutFreezingBy(onComplete: () -> Unit,
+                                                         onError: (Throwable) -> Unit): Disposable {
+        return subscribeWithoutFreezingBy(object : DisposableCompletableObserver() {
+            override fun onComplete() {
+                onComplete.invoke()
+            }
+
+            override fun onError(e: Throwable) {
+                onError.invoke(e)
+            }
+        })
+    }
+
+    protected fun <T> Maybe<T>.subscribeWithoutFreezingBy(onSuccess: (T) -> Unit,
+                                                          onComplete: () -> Unit,
+                                                          onError: (Throwable) -> Unit): Disposable {
+        return subscribeWithoutFreezingBy(object : DisposableMaybeObserver<T>() {
+
+            override fun onSuccess(t: T) {
+                onSuccess.invoke(t)
+            }
+
+            override fun onComplete() {
+                onComplete.invoke()
+            }
+
+            override fun onError(e: Throwable) {
+                onError.invoke(e)
+            }
+        })
     }
 
     //endregion
@@ -348,15 +388,16 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     }
 
     private fun reloadErrorAction(reloadAction: () -> Unit): ConsumerSafe<Throwable> {
-        return ConsumerSafe { _ ->
+        return ConsumerSafe {
             cancelAutoReload(reloadAction)
             if (connectionProvider.isDisconnected) {
                 val disposable = connectionProvider.observeConnectionChanges()
                         .filter { connected -> connected }
                         .firstElement()
-                        .toObservable().subscribeBy {
+                        .toObservable().subscribeBy({
                             reloadAction.invoke()
-                        }
+                            autoReloadDisposables.remove(reloadAction.hashCode())
+                        }, {})
                 autoReloadDisposables[reloadAction.hashCode()] = disposable
             }
         }
@@ -371,6 +412,96 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
 
     //region java compatible methods
 
+    //region subscribe
+
+    /**
+     * @param replaceFrozenEventPredicate - used for reduce num element in freeze buffer
+     * @see @link .subscribe
+     * @see @link OperatorFreeze
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                replaceFrozenEventPredicate: BiFunctionSafe<T, T, Boolean>,
+                                onNext: ConsumerSafe<T>,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeBy(replaceFrozenEventPredicate, onNext.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    /**
+     * @see @link .subscribe
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                onNext: ConsumerSafe<T>): Disposable {
+        return observable.subscribeBy(onNext.fromConsumer())
+    }
+
+    /**
+     * @see @link .subscribe
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                onNext: ConsumerSafe<T>,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeBy(onNext.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    /**
+     * @see @link .subscribe
+     */
+    protected fun <T> subscribe(observable: Observable<T>,
+                                onNext: ConsumerSafe<T>,
+                                onComplete: ActionSafe,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeBy(onNext.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribe(single: Single<T>,
+                                onSuccess: ConsumerSafe<T>,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return single.subscribeBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    protected fun subscribe(completable: Completable,
+                            onComplete: ActionSafe,
+                            onError: ConsumerSafe<Throwable>): Disposable {
+        return completable.subscribeBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribe(maybe: Maybe<T>,
+                                onSuccess: ConsumerSafe<T>,
+                                onComplete: ActionSafe,
+                                onError: ConsumerSafe<Throwable>): Disposable {
+        return maybe.subscribeBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    /**
+     * @see @link .subscribeWithoutFreezing
+     */
+    protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
+                                               onNext: ConsumerSafe<T>,
+                                               onError: ConsumerSafe<Throwable>): Disposable {
+        return observable.subscribeWithoutFreezingBy(onNext.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribeWithoutFreezing(single: Single<T>,
+                                               onSuccess: ConsumerSafe<T>,
+                                               onError: ConsumerSafe<Throwable>): Disposable {
+        return single.subscribeWithoutFreezingBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
+    }
+
+    protected fun subscribeWithoutFreezing(completable: Completable,
+                                           onComplete: ActionSafe,
+                                           onError: ConsumerSafe<Throwable>): Disposable {
+        return completable.subscribeWithoutFreezingBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    protected fun <T> subscribeWithoutFreezing(maybe: Maybe<T>,
+                                               onSuccess: ConsumerSafe<T>,
+                                               onComplete: ActionSafe,
+                                               onError: ConsumerSafe<Throwable>): Disposable {
+        return maybe.subscribeWithoutFreezingBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+    }
+
+    //endregion
+
     //region subscribeIoHandleError
 
     /**
@@ -379,50 +510,50 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
      */
     protected fun <T> subscribeIoHandleError(observable: Observable<T>,
                                              onNext: ConsumerSafe<T>): Disposable {
-        return observable.subscribeByIoHandleError(onNext.fromConsumer())
+        return observable.subscribeIoHandleErrorBy(onNext.fromConsumer())
     }
 
     protected fun <T> subscribeIoHandleError(single: Single<T>,
                                              onSuccess: ConsumerSafe<T>): Disposable {
-        return single.subscribeByIoHandleError(onSuccess.fromConsumer())
+        return single.subscribeIoHandleErrorBy(onSuccess.fromConsumer())
     }
 
     protected fun <T> subscribeIoHandleError(maybe: Maybe<T>,
                                              onSuccess: ConsumerSafe<T>,
                                              onComplete: ActionSafe): Disposable {
-        return maybe.subscribeByIoHandleError(onSuccess.fromConsumer(), onComplete.fromCompleteAction())
+        return maybe.subscribeIoHandleErrorBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction())
     }
 
     protected fun <T> subscribeIoHandleError(observable: Observable<T>,
                                              onNext: ConsumerSafe<T>,
                                              onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeByIoHandleError(onNext.fromConsumer(), onError.fromErrorConsumer())
+        return observable.subscribeIoHandleErrorBy(onNext.fromConsumer(), onError.fromErrorConsumer())
     }
 
     protected fun <T> subscribeIoHandleError(observable: Observable<T>,
                                              onNext: ConsumerSafe<T>,
                                              onComplete: ActionSafe,
                                              onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeByIoHandleError(onNext.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+        return observable.subscribeIoHandleErrorBy(onNext.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
     }
 
     protected fun <T> subscribeIoHandleError(single: Single<T>,
                                              onSuccess: ConsumerSafe<T>,
                                              onError: ConsumerSafe<Throwable>): Disposable {
-        return single.subscribeByIoHandleError(onSuccess.fromConsumer(), onError.fromErrorConsumer())
+        return single.subscribeIoHandleErrorBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
     }
 
     protected fun subscribeIoHandleError(completable: Completable,
                                          onComplete: ActionSafe,
                                          onError: ConsumerSafe<Throwable>): Disposable {
-        return completable.subscribeByIoHandleError(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+        return completable.subscribeIoHandleErrorBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
     }
 
     protected fun <T> subscribeIoHandleError(maybe: Maybe<T>,
                                              onSuccess: ConsumerSafe<T>,
                                              onComplete: ActionSafe,
                                              onError: ConsumerSafe<Throwable>): Disposable {
-        return maybe.subscribeByIoHandleError(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+        return maybe.subscribeIoHandleErrorBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
     }
 
     //endregion
@@ -431,33 +562,33 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     protected fun <T> subscribeIo(observable: Observable<T>,
                                   onNext: ConsumerSafe<T>,
                                   onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeByIo(onNext.fromConsumer(), onError.fromErrorConsumer())
+        return observable.subscribeIoBy(onNext.fromConsumer(), onError.fromErrorConsumer())
     }
 
     protected fun <T> subscribeIo(single: Single<T>,
                                   onSuccess: ConsumerSafe<T>,
                                   onError: ConsumerSafe<Throwable>): Disposable {
-        return single.subscribeByIo(onSuccess.fromConsumer(), onError.fromErrorConsumer())
+        return single.subscribeIoBy(onSuccess.fromConsumer(), onError.fromErrorConsumer())
     }
 
     protected fun subscribeIo(completable: Completable,
                               onComplete: ActionSafe,
                               onError: ConsumerSafe<Throwable>): Disposable {
-        return completable.subscribeByIo(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+        return completable.subscribeIoBy(onComplete.fromCompleteAction(), onError.fromErrorConsumer())
     }
 
     protected fun <T> subscribeIo(observable: Observable<T>,
                                   onNext: ConsumerSafe<T>,
                                   onComplete: ActionSafe,
                                   onError: ConsumerSafe<Throwable>): Disposable {
-        return observable.subscribeByIo(onNext.fromConsumer(), onComplete.fromCompleteAction(),  onError.fromErrorConsumer())
+        return observable.subscribeIoBy(onNext.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
     }
 
     protected fun <T> subscribeIo(maybe: Maybe<T>,
                                   onSuccess: ConsumerSafe<T>,
                                   onComplete: ActionSafe,
                                   onError: ConsumerSafe<Throwable>): Disposable {
-        return maybe.subscribeByIo(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
+        return maybe.subscribeIoBy(onSuccess.fromConsumer(), onComplete.fromCompleteAction(), onError.fromErrorConsumer())
     }
     //endregion
 
@@ -556,33 +687,37 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     // Deprecated methods wil be removed
 
     //region subscribe ui
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeUi(operator, observer)"))
+    @Deprecated("Use extension instead")
     protected fun <T> subscribe(observable: Observable<T>,
                                 operator: ObservableOperatorFreeze<T>,
                                 observer: LambdaObserver<T>): Disposable {
-        return observable.subscribeUi(operator, observer)
+        return observable.observeOn(schedulersProvider.main())
+                .subscribeBy(operator, observer)
     }
 
 
-    @Deprecated("Use extension instead", ReplaceWith("single.subscribeUi(operator, observer)"))
+    @Deprecated("Use extension instead")
     protected fun <T> subscribe(single: Single<T>,
                                 operator: SingleOperatorFreeze<T>,
                                 observer: DisposableSingleObserver<T>): Disposable {
-        return single.subscribeUi(operator, observer)
+        return single.observeOn(schedulersProvider.main())
+                .subscribeBy(operator, observer)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeUi(operator, observer)"))
+    @Deprecated("Use extension instead")
     protected fun subscribe(completable: Completable,
                             operator: CompletableOperatorFreeze,
                             observer: DisposableCompletableObserver): Disposable {
-        return completable.subscribeUi(operator, observer)
+        return completable.observeOn(schedulersProvider.main())
+                .subscribeBy(operator, observer)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeUi(operator, observer)"))
+    @Deprecated("Use extension instead")
     protected fun <T> subscribe(maybe: Maybe<T>,
                                 operator: MaybeOperatorFreeze<T>,
                                 observer: DisposableMaybeObserver<T>): Disposable {
-        return maybe.subscribeUi(operator, observer)
+        return maybe.observeOn(schedulersProvider.main())
+                .subscribeBy(operator, observer)
     }
     //endregion
 
@@ -590,25 +725,29 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     @Deprecated("Use extension instead", ReplaceWith("observable.subscribeWithoutFreezingUi(observer)"))
     protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
                                                observer: LambdaObserver<T>): Disposable {
-        return observable.subscribeWithoutFreezingUi(observer)
+        return observable.observeOn(schedulersProvider.main(), true)
+                .subscribeWithoutFreezingBy(observer)
     }
 
     @Deprecated("Use extension instead", ReplaceWith("single.subscribeWithoutFreezingUi(subscriber)"))
     protected fun <T> subscribeWithoutFreezing(single: Single<T>,
                                                subscriber: DisposableSingleObserver<T>): Disposable {
-        return single.subscribeWithoutFreezingUi(subscriber)
+        return single.observeOn(schedulersProvider.main())
+                .subscribeWithoutFreezingBy(subscriber)
     }
 
     @Deprecated("Use extension instead", ReplaceWith("completable.subscribeWithoutFreezingUi(subscriber)"))
     protected fun subscribeWithoutFreezing(completable: Completable,
                                            subscriber: DisposableCompletableObserver): Disposable {
-        return completable.subscribeWithoutFreezingUi(subscriber)
+        return completable.observeOn(schedulersProvider.main())
+                .subscribeWithoutFreezingBy(subscriber)
     }
 
     @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeWithoutFreezingUi(subscriber)"))
     protected fun <T> subscribeWithoutFreezing(maybe: Maybe<T>,
                                                subscriber: DisposableMaybeObserver<T>): Disposable {
-        return maybe.subscribeWithoutFreezingUi(subscriber)
+        return maybe.observeOn(schedulersProvider.main())
+                .subscribeWithoutFreezingBy(subscriber)
     }
 
     //endregion
@@ -619,106 +758,106 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
      * Работает также как [.subscribe], кроме того автоматически обрабатывает ошибки,
      * см [ErrorHandler] и переводит выполенения потока в фон
      */
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeByIoHandleError(onNext)"))
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeIoHandleErrorBy(onNext)"))
     protected fun <T> subscribeIoHandleError(observable: Observable<T>,
                                              onNext: (T) -> Unit): Disposable {
-        return observable.subscribeByIoHandleError(onNext, onErrorStub)
+        return observable.subscribeIoHandleErrorBy(onNext, onErrorStub)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("single.subscribeByIoHandleError(onSuccess)"))
+    @Deprecated("Use extension instead", ReplaceWith("single.subscribeIoHandleErrorBy(onSuccess)"))
     protected fun <T> subscribeIoHandleError(single: Single<T>,
                                              onSuccess: (T) -> Unit): Disposable {
-        return single.subscribeByIoHandleError(onSuccess, onErrorStub)
+        return single.subscribeIoHandleErrorBy(onSuccess, onErrorStub)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("single.subscribeByIoHandleError(onComplete)"))
+    @Deprecated("Use extension instead", ReplaceWith("single.subscribeIoHandleErrorBy(onComplete)"))
     protected fun subscribeIoHandleError(completable: Completable,
                                          onComplete: () -> Unit): Disposable {
-        return completable.subscribeByIoHandleError(onComplete, onErrorStub)
+        return completable.subscribeIoHandleErrorBy(onComplete, onErrorStub)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeByIoHandleError(onSuccess, onComplete)"))
+    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeIoHandleErrorBy(onSuccess, onComplete)"))
     protected fun <T> subscribeIoHandleError(maybe: Maybe<T>,
                                              onSuccess: (T) -> Unit,
                                              onComplete: () -> Unit): Disposable {
-        return maybe.subscribeByIoHandleError(onSuccess, onComplete, onErrorStub)
+        return maybe.subscribeIoHandleErrorBy(onSuccess, onComplete, onErrorStub)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeByIoHandleError(onNext, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeIoHandleErrorBy(onNext, onError)"))
     protected fun <T> subscribeIoHandleError(observable: Observable<T>,
                                              onNext: (T) -> Unit,
                                              onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoHandleError(onNext, { e -> handleError(e, onError) })
+        return observable.subscribeIoHandleErrorBy(onNext, { e -> handleError(e, onError) })
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeByIoHandleError(onNext, onComplete, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeIoHandleErrorBy(onNext, onComplete, onError)"))
     protected fun <T> subscribeIoHandleError(observable: Observable<T>,
                                              onNext: (T) -> Unit,
                                              onComplete: () -> Unit,
                                              onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoHandleError(onNext, onComplete, { e -> handleError(e, onError) })
+        return observable.subscribeIoHandleErrorBy(onNext, onComplete, { e -> handleError(e, onError) })
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("single.subscribeByIoHandleError(onSuccess, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("single.subscribeIoHandleErrorBy(onSuccess, onError)"))
     protected fun <T> subscribeIoHandleError(single: Single<T>,
                                              onSuccess: (T) -> Unit,
                                              onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeByIoHandleError(onSuccess, { e -> handleError(e, onError) })
+        return single.subscribeIoHandleErrorBy(onSuccess, { e -> handleError(e, onError) })
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeByIoHandleError(onComplete, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeIoHandleErrorBy(onComplete, onError)"))
     protected fun subscribeIoHandleError(completable: Completable,
                                          onComplete: () -> Unit,
                                          onError: (Throwable) -> Unit): Disposable {
-        return completable.subscribeByIoHandleError(onComplete, { e -> handleError(e, onError) })
+        return completable.subscribeIoHandleErrorBy(onComplete, { e -> handleError(e, onError) })
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeByIoHandleError(onSuccess, onComplete, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeIoHandleErrorBy(onSuccess, onComplete, onError)"))
     protected fun <T> subscribeIoHandleError(maybe: Maybe<T>,
                                              onSuccess: (T) -> Unit,
                                              onComplete: () -> Unit,
                                              onError: (Throwable) -> Unit): Disposable {
-        return maybe.subscribeByIoHandleError(onSuccess, onComplete, { e -> handleError(e, onError) })
+        return maybe.subscribeIoHandleErrorBy(onSuccess, onComplete, { e -> handleError(e, onError) })
     }
 
     //endregion
 
     //region subscribeIo
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeByIo(onNext, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeIoBy(onNext, onError)"))
     protected fun <T> subscribeIo(observable: Observable<T>,
                                   onNext: (T) -> Unit,
                                   onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIo(onNext, onError)
+        return observable.subscribeIoBy(onNext, onError)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("single.subscribeByIo(onSuccess, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("single.subscribeIoBy(onSuccess, onError)"))
     protected fun <T> subscribeIo(single: Single<T>,
                                   onSuccess: (T) -> Unit,
                                   onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeByIo(onSuccess, onError)
+        return single.subscribeIoBy(onSuccess, onError)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeByIo(onComplete, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeIoBy(onComplete, onError)"))
     protected fun subscribeIo(completable: Completable,
                               onComplete: () -> Unit,
                               onError: (Throwable) -> Unit): Disposable {
-        return completable.subscribeByIo(onComplete, onError)
+        return completable.subscribeIoBy(onComplete, onError)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeByIo(onNext, onComplete, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeIoBy(onNext, onComplete, onError)"))
     protected fun <T> subscribeIo(observable: Observable<T>,
                                   onNext: (T) -> Unit,
                                   onComplete: () -> Unit,
                                   onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIo(onNext, onComplete, onError)
+        return observable.subscribeIoBy(onNext, onComplete, onError)
     }
 
-    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeByIo(onSuccess, onComplete, onError)"))
+    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeIoBy(onSuccess, onComplete, onError)"))
     protected fun <T> subscribeIo(maybe: Maybe<T>,
                                   onSuccess: (T) -> Unit,
                                   onComplete: () -> Unit,
                                   onError: (Throwable) -> Unit): Disposable {
-        return maybe.subscribeByIo(onSuccess, onComplete, onError)
+        return maybe.subscribeIoBy(onSuccess, onComplete, onError)
     }
     //endregion
 
@@ -782,7 +921,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                        autoReloadAction: () -> Unit,
                                                        onNext: (T) -> Unit,
                                                        onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(observable, autoReloadAction).subscribeByIoHandleError(onNext, onError)
+        return initializeAutoReload(observable, autoReloadAction).subscribeIoHandleErrorBy(onNext, onError)
     }
 
     @Deprecated("Use extension instead", ReplaceWith("observable.subscribeByIoHandleErrorAutoReload(autoReloadAction, onNext, onComplete, onError)"))
@@ -791,7 +930,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                        onNext: (T) -> Unit,
                                                        onComplete: () -> Unit,
                                                        onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(observable, autoReloadAction).subscribeByIoHandleError(onNext, onComplete, onError)
+        return initializeAutoReload(observable, autoReloadAction).subscribeIoHandleErrorBy(onNext, onComplete, onError)
     }
 
     @Deprecated("Use extension instead", ReplaceWith("single.subscribeByIoHandleErrorAutoReload(autoReloadAction, onSuccess, onError)"))
@@ -799,7 +938,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                        autoReloadAction: () -> Unit,
                                                        onSuccess: (T) -> Unit,
                                                        onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(single, autoReloadAction).subscribeByIoHandleError(onSuccess, onError)
+        return initializeAutoReload(single, autoReloadAction).subscribeIoHandleErrorBy(onSuccess, onError)
     }
 
     @Deprecated("Use extension instead", ReplaceWith("completable.subscribeByIoHandleErrorAutoReload(autoReloadAction, onComplete, onError)"))
@@ -807,7 +946,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                    autoReloadAction: () -> Unit,
                                                    onComplete: () -> Unit,
                                                    onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(completable, autoReloadAction).subscribeByIoHandleError(onComplete, onError)
+        return initializeAutoReload(completable, autoReloadAction).subscribeIoHandleErrorBy(onComplete, onError)
     }
 
     @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeByIoHandleErrorAutoReload(autoReloadAction, onSuccess, onComplete, onError)"))
@@ -816,7 +955,7 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                                                        onSuccess: (T) -> Unit,
                                                        onComplete: () -> Unit,
                                                        onError: (Throwable) -> Unit): Disposable {
-        return initializeAutoReload(maybe, autoReloadAction).subscribeByIoHandleError(onSuccess, onComplete, onError)
+        return initializeAutoReload(maybe, autoReloadAction).subscribeIoHandleErrorBy(onSuccess, onComplete, onError)
     }
 
     //endregion

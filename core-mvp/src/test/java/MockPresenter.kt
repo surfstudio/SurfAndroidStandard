@@ -1,16 +1,8 @@
-import com.agna.ferro.rx.CompletableOperatorFreeze
-import com.agna.ferro.rx.MaybeOperatorFreeze
-import com.agna.ferro.rx.ObservableOperatorFreeze
-import com.agna.ferro.rx.SingleOperatorFreeze
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
-import io.reactivex.internal.observers.LambdaObserver
-import io.reactivex.observers.DisposableCompletableObserver
-import io.reactivex.observers.DisposableMaybeObserver
-import io.reactivex.observers.DisposableSingleObserver
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 
@@ -20,106 +12,72 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 
 class MockPresenter(basePresenterDependency: BasePresenterDependency) : BasePresenter<MockActivityView>(basePresenterDependency) {
 
-
-    fun <T> testSubscribe(observable: Observable<T>, operator: ObservableOperatorFreeze<T>, observer: LambdaObserver<T>): Disposable {
-        return observable.subscribeUi(operator, observer)
-    }
-
-    fun <T> testSubscribe(single: Single<T>, operator: SingleOperatorFreeze<T>, observer: DisposableSingleObserver<T>): Disposable {
-        return single.subscribeUi(operator, observer)
-    }
-
-    fun testSubscribe(completable: Completable, operator: CompletableOperatorFreeze, observer: DisposableCompletableObserver): Disposable {
-        return completable.subscribeUi(operator, observer);
-    }
-
-    fun <T> testSubscribe(maybe: Maybe<T>, operator: MaybeOperatorFreeze<T>, observer: DisposableMaybeObserver<T>): Disposable {
-        return maybe.subscribeUi(operator, observer)
-    }
-
-    fun <T> testSubscribeWithoutFreezing(observable: Observable<T>, observer: LambdaObserver<T>): Disposable {
-        return observable.subscribeWithoutFreezingUi(observer)
-    }
-
-    fun <T> testSubscribeWithoutFreezing(single: Single<T>, subscriber: DisposableSingleObserver<T>): Disposable {
-        return single.subscribeWithoutFreezingUi(subscriber)
-    }
-
-
-    fun testSubscribeWithoutFreezing(completable: Completable, subscriber: DisposableCompletableObserver): Disposable {
-        return completable.subscribeWithoutFreezingUi(subscriber)
-    }
-
-    fun <T> testSubscribeWithoutFreezing(maybe: Maybe<T>, subscriber: DisposableMaybeObserver<T>): Disposable {
-        return maybe.subscribeWithoutFreezingUi(subscriber)
-    }
-
     fun <T> testSubscribeIoHandleError(observable: Observable<T>, onNext: (T) -> Unit): Disposable {
-        return observable.subscribeByIoHandleError(onNext)
+        return observable.subscribeIoHandleErrorBy(onNext)
     }
 
     fun <T> testSubscribeIoHandleError(single: Single<T>, onSuccess: (T) -> Unit): Disposable {
-        return single.subscribeByIoHandleError(onSuccess)
+        return single.subscribeIoHandleErrorBy(onSuccess)
     }
 
 
     fun testSubscribeIoHandleError(completable: Completable, onComplete: () -> Unit): Disposable {
-        return completable.subscribeByIoHandleError(onComplete)
+        return completable.subscribeIoHandleErrorBy(onComplete)
     }
 
 
     fun <T> testSubscribeIoHandleError(maybe: Maybe<T>, onSuccess: (T) -> Unit, onComplete: () -> Unit): Disposable {
-        return maybe.subscribeByIoHandleError(onSuccess, onComplete)
+        return maybe.subscribeIoHandleErrorBy(onSuccess, onComplete)
     }
 
 
     fun <T> testSubscribeIoHandleError(observable: Observable<T>, onNext: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoHandleError(onNext, onError)
+        return observable.subscribeIoHandleErrorBy(onNext, onError)
     }
 
 
     fun <T> testSubscribeIoHandleError(observable: Observable<T>, onNext: (T) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoHandleError(onNext, onComplete, onError)
+        return observable.subscribeIoHandleErrorBy(onNext, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIoHandleError(single: Single<T>, onSuccess: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeByIoHandleError(onSuccess, onError);
+        return single.subscribeIoHandleErrorBy(onSuccess, onError);
     }
 
 
     fun testSubscribeIoHandleError(completable: Completable, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return completable.subscribeByIoHandleError(onComplete, onError)
+        return completable.subscribeIoHandleErrorBy(onComplete, onError)
     }
 
 
     fun <T> testSubscribeIoHandleError(maybe: Maybe<T>, onSuccess: (T) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return maybe.subscribeByIoHandleError(onSuccess, onComplete, onError)
+        return maybe.subscribeIoHandleErrorBy(onSuccess, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIo(observable: Observable<T>, onNext: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIo(onNext, onError)
+        return observable.subscribeIoBy(onNext, onError)
     }
 
 
     fun <T> testSubscribeIo(single: Single<T>, onSuccess: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeByIo(onSuccess, onError)
+        return single.subscribeIoBy(onSuccess, onError)
     }
 
 
     fun testSubscribeIo(completable: Completable, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return completable.subscribeByIo(onComplete, onError)
+        return completable.subscribeIoBy(onComplete, onError)
     }
 
 
     fun <T> testSubscribeIo(observable: Observable<T>, onNext: (T) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIo(onNext, onComplete, onError)
+        return observable.subscribeIoBy(onNext, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIo(maybe: Maybe<T>, onNext: (T) -> Unit, onSuccess: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return maybe.subscribeByIo(onNext, onSuccess, onError)
+        return maybe.subscribeIoBy(onNext, onSuccess, onError)
     }
 
 
