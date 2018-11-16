@@ -23,7 +23,6 @@ import android.graphics.drawable.Drawable
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.StyleRes
-import android.util.ArrayMap
 import android.util.AttributeSet
 import android.util.SparseIntArray
 import android.view.ContextThemeWrapper

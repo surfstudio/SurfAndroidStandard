@@ -1,11 +1,13 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
@@ -31,6 +33,8 @@ class App : CoreApp() {
         initRouteProvider()
         initLeakCanaryIfEnabled()
         DebugNotificationBuilder.showDebugNotification(this)
+
+        initNotificationHandler()
     }
 
     private fun initRouteProvider() {
@@ -75,5 +79,13 @@ class App : CoreApp() {
         if(AppInjector.appComponent.memoryDebugStorage().isLeakCanaryEnabled) {
             LeakCanary.install(this)
         }
+    }
+
+    private fun initNotificationHandler() {
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                AppInjector.appComponent.pushHandler().onActivityStarted(activity)
+            }
+        })
     }
 }
