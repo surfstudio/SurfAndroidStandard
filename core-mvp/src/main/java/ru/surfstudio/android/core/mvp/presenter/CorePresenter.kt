@@ -131,11 +131,11 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     }
 
     protected fun isDisposableInactive(disposable: Disposable?): Boolean {
-        return disposable == null || disposable.isDisposed
+        return disposable?.isDisposed ?: true
     }
 
     protected fun isDisposableActive(disposable: Disposable?): Boolean {
-        return disposable != null && !disposable.isDisposed
+        return disposable?.isDisposed ?: false
     }
 
     /**
@@ -179,24 +179,6 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                 .lift(operator)
                 .subscribeWith(observer)
         disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun <T> Maybe<T>.subscribeByUi(operator: MaybeOperatorFreeze<T>,
-                                             observer: DisposableMaybeObserver<T>): Disposable {
-        val disposable = this
-                .lift(operator)
-                .subscribeWith(observer)
-        uiDisposables.add(disposable)
-        return disposable
-    }
-
-    protected fun Completable.subscribeByUi(operator: CompletableOperatorFreeze,
-                                            observer: DisposableCompletableObserver): Disposable {
-        val disposable = this
-                .lift(operator)
-                .subscribeWith(observer)
-        uiDisposables.add(disposable)
         return disposable
     }
 

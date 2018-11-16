@@ -65,13 +65,22 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
     private val schedulersProvider: SchedulersProvider
     private val connectionProvider: ConnectionProvider
     private var errorHandler: ErrorHandler
-    private var autoReloadDisposable: Disposable? = null
+    private var autoReloadDisposables: HashMap<Int, Disposable> = hashMapOf()
 
     init {
         this.schedulersProvider = basePresenterDependency.schedulersProvider
         this.activityNavigator = basePresenterDependency.activityNavigator
         this.connectionProvider = basePresenterDependency.connectionProvider
         this.errorHandler = basePresenterDependency.errorHandler
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        for (disposable: Disposable in autoReloadDisposables.values) {
+            if (isDisposableActive(disposable)) {
+                disposable.dispose()
+            }
+        }
     }
 
     /**
@@ -340,21 +349,23 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
 
     private fun reloadErrorAction(reloadAction: () -> Unit): ConsumerSafe<Throwable> {
         return ConsumerSafe { _ ->
-            cancelAutoReload()
+            cancelAutoReload(reloadAction)
             if (connectionProvider.isDisconnected) {
-                autoReloadDisposable = connectionProvider.observeConnectionChanges()
+                val disposable = connectionProvider.observeConnectionChanges()
                         .filter { connected -> connected }
                         .firstElement()
                         .toObservable().subscribeBy {
                             reloadAction.invoke()
                         }
+                autoReloadDisposables[reloadAction.hashCode()] = disposable
             }
         }
     }
 
-    private fun cancelAutoReload() {
-        if (isDisposableActive(autoReloadDisposable)) {
-            autoReloadDisposable!!.dispose()
+    private fun cancelAutoReload(reloadAction: () -> Unit) {
+        val disposable = autoReloadDisposables[reloadAction.hashCode()]
+        if (isDisposableActive(disposable)) {
+            disposable?.dispose()
         }
     }
 
