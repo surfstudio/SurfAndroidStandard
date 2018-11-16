@@ -53,5 +53,5 @@ public interface ScreenState {
      */
     boolean isRestoredFromDiskJustNow();
 
-    ScreenStates getCurrentState();
+    LifecycleStage getLifecycleStage();
 }

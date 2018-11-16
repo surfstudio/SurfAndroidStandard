@@ -21,7 +21,7 @@ import android.view.View;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.state.ActivityScreenState;
 import ru.surfstudio.android.core.ui.state.ScreenState;
-import ru.surfstudio.android.core.ui.state.ScreenStates;
+import ru.surfstudio.android.core.ui.state.LifecycleStage;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
@@ -37,7 +37,7 @@ public class WidgetScreenState implements ScreenState {
 
     private ScreenType parentType;
     private ScreenState parentState;
-    private ScreenStates currentState;
+    private LifecycleStage lifecycleStage;
 
     public WidgetScreenState(ScreenState parentState) {
         this.parentState = parentState;
@@ -50,35 +50,35 @@ public class WidgetScreenState implements ScreenState {
         this.widget = widget;
         this.coreWidget = coreWidget;
 
-        currentState = ScreenStates.CREATED;
+        lifecycleStage = LifecycleStage.CREATED;
     }
 
     public void onViewReady() {
-        currentState = ScreenStates.VIEW_READY;
+        lifecycleStage = LifecycleStage.VIEW_READY;
     }
 
     public void onStart() {
-        currentState = ScreenStates.STARTED;
+        lifecycleStage = LifecycleStage.STARTED;
     }
 
     public void onResume() {
-        currentState = ScreenStates.RESUMED;
+        lifecycleStage = LifecycleStage.RESUMED;
     }
 
     public void onPause() {
-        currentState = ScreenStates.PAUSED;
+        lifecycleStage = LifecycleStage.PAUSED;
     }
 
     public void onStop() {
-        currentState = ScreenStates.STOPPED;
+        lifecycleStage = LifecycleStage.STOPPED;
     }
 
     public void onViewDestroy() {
-        currentState = ScreenStates.VIEW_DESTROYED;
+        lifecycleStage = LifecycleStage.VIEW_DESTROYED;
     }
 
     public void onDestroy() {
-        currentState = ScreenStates.DESTROYED;
+        lifecycleStage = LifecycleStage.DESTROYED;
         this.widget = null;
         this.coreWidget = null;
     }
@@ -125,7 +125,7 @@ public class WidgetScreenState implements ScreenState {
     }
 
     @Override
-    public ScreenStates getCurrentState() {
-        return currentState;
+    public LifecycleStage getLifecycleStage() {
+        return lifecycleStage;
     }
 }

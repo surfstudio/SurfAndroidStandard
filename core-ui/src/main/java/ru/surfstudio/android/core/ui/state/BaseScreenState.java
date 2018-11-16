@@ -32,7 +32,7 @@ public abstract class BaseScreenState implements ScreenState {
     private boolean viewDestroyedAtListOnce = false;
     private boolean screenDestroyedAtListOnce = false;
 
-    private ScreenStates currentState;
+    private LifecycleStage lifecycleStage;
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         viewRecreated = viewDestroyedAtListOnce;
@@ -40,27 +40,27 @@ public abstract class BaseScreenState implements ScreenState {
         restoredFromDisk = restoredFromDisk ||
                 !screenDestroyedAtListOnce && savedInstanceState != null;
 
-        currentState = ScreenStates.CREATED;
+        lifecycleStage = LifecycleStage.CREATED;
     }
 
     public void onViewReady() {
-        currentState = ScreenStates.VIEW_READY;
+        lifecycleStage = LifecycleStage.VIEW_READY;
     }
 
     public void onStart() {
-        currentState = ScreenStates.STARTED;
+        lifecycleStage = LifecycleStage.STARTED;
     }
 
     public void onResume() {
-        currentState = ScreenStates.RESUMED;
+        lifecycleStage = LifecycleStage.RESUMED;
     }
 
     public void onPause() {
-        currentState = ScreenStates.PAUSED;
+        lifecycleStage = LifecycleStage.PAUSED;
     }
 
     public void onStop() {
-        currentState = ScreenStates.STOPPED;
+        lifecycleStage = LifecycleStage.STOPPED;
     }
 
     public void onDestroy() {
@@ -68,12 +68,12 @@ public abstract class BaseScreenState implements ScreenState {
     }
 
     public void onDestroyView() {
-        currentState = ScreenStates.VIEW_DESTROYED;
+        lifecycleStage = LifecycleStage.VIEW_DESTROYED;
         viewDestroyedAtListOnce = true;
     }
 
     public void onCompletelyDestroy() {
-        currentState = ScreenStates.DESTROYED;
+        lifecycleStage = LifecycleStage.DESTROYED;
         completelyDestroyed = true;
     }
 
@@ -103,7 +103,7 @@ public abstract class BaseScreenState implements ScreenState {
     }
 
     @Override
-    public ScreenStates getCurrentState() {
-        return currentState;
+    public LifecycleStage getLifecycleStage() {
+        return lifecycleStage;
     }
 }

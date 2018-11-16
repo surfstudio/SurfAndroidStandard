@@ -18,7 +18,7 @@ import ru.surfstudio.android.core.ui.event.lifecycle.stop.OnStopEvent
 import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyEvent
 import ru.surfstudio.android.core.ui.state.ScreenState
-import ru.surfstudio.android.core.ui.state.ScreenStates
+import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
@@ -56,36 +56,36 @@ class WidgetLifecycleManager(
 
     //разрешенные переходы по состояниям
     private val allowedStateTransition = mapOf(
-            ScreenStates.CREATED to listOf(ScreenStates.VIEW_READY, ScreenStates.DESTROYED),
-            ScreenStates.VIEW_READY to listOf(ScreenStates.STARTED, ScreenStates.VIEW_DESTROYED),
-            ScreenStates.STARTED to listOf(ScreenStates.RESUMED, ScreenStates.STOPPED),
-            ScreenStates.RESUMED to listOf(ScreenStates.PAUSED),
-            ScreenStates.PAUSED to listOf(ScreenStates.RESUMED, ScreenStates.STOPPED),
-            ScreenStates.STOPPED to listOf(ScreenStates.STARTED, ScreenStates.VIEW_DESTROYED),
-            ScreenStates.VIEW_DESTROYED to listOf(ScreenStates.VIEW_READY, ScreenStates.DESTROYED),
-            ScreenStates.DESTROYED to listOf()
+            LifecycleStage.CREATED to listOf(LifecycleStage.VIEW_READY, LifecycleStage.DESTROYED),
+            LifecycleStage.VIEW_READY to listOf(LifecycleStage.STARTED, LifecycleStage.VIEW_DESTROYED),
+            LifecycleStage.STARTED to listOf(LifecycleStage.RESUMED, LifecycleStage.STOPPED),
+            LifecycleStage.RESUMED to listOf(LifecycleStage.PAUSED),
+            LifecycleStage.PAUSED to listOf(LifecycleStage.RESUMED, LifecycleStage.STOPPED),
+            LifecycleStage.STOPPED to listOf(LifecycleStage.STARTED, LifecycleStage.VIEW_DESTROYED),
+            LifecycleStage.VIEW_DESTROYED to listOf(LifecycleStage.VIEW_READY, LifecycleStage.DESTROYED),
+            LifecycleStage.DESTROYED to listOf()
     )
 
     //действия с скринстейт по состоянию виджета
     private val screenStateEvents = mapOf(
-            ScreenStates.VIEW_READY to { screenState.onViewReady() },
-            ScreenStates.STARTED to { screenState.onStart() },
-            ScreenStates.RESUMED to { screenState.onResume() },
-            ScreenStates.PAUSED to { screenState.onPause() },
-            ScreenStates.STOPPED to { screenState.onStop() },
-            ScreenStates.VIEW_DESTROYED to { screenState.onViewDestroy() },
-            ScreenStates.DESTROYED to { screenState.onDestroy() }
+            LifecycleStage.VIEW_READY to { screenState.onViewReady() },
+            LifecycleStage.STARTED to { screenState.onStart() },
+            LifecycleStage.RESUMED to { screenState.onResume() },
+            LifecycleStage.PAUSED to { screenState.onPause() },
+            LifecycleStage.STOPPED to { screenState.onStop() },
+            LifecycleStage.VIEW_DESTROYED to { screenState.onViewDestroy() },
+            LifecycleStage.DESTROYED to { screenState.onDestroy() }
     )
 
     //эвенты для состояний
     private val eventsMap = mapOf(
-            ScreenStates.VIEW_READY to OnViewReadyEvent(),
-            ScreenStates.STARTED to OnStartEvent(),
-            ScreenStates.RESUMED to OnResumeEvent(),
-            ScreenStates.PAUSED to OnPauseEvent(),
-            ScreenStates.STOPPED to OnStopEvent(),
-            ScreenStates.VIEW_DESTROYED to OnViewDestroyEvent(),
-            ScreenStates.DESTROYED to OnCompletelyDestroyEvent()
+            LifecycleStage.VIEW_READY to OnViewReadyEvent(),
+            LifecycleStage.STARTED to OnStartEvent(),
+            LifecycleStage.RESUMED to OnResumeEvent(),
+            LifecycleStage.PAUSED to OnPauseEvent(),
+            LifecycleStage.STOPPED to OnStopEvent(),
+            LifecycleStage.VIEW_DESTROYED to OnViewDestroyEvent(),
+            LifecycleStage.DESTROYED to OnCompletelyDestroyEvent()
     )
 
     init {
@@ -99,35 +99,35 @@ class WidgetLifecycleManager(
     }
 
     fun onViewReady() {
-        if (parentState.currentState.ordinal < ScreenStates.VIEW_READY.ordinal) {
+        if (parentState.lifecycleStage.ordinal < LifecycleStage.VIEW_READY.ordinal) {
             throw IllegalStateException("Parent is not ready")
         }
 
-        pushState(ScreenStates.VIEW_READY)
+        pushState(LifecycleStage.VIEW_READY)
     }
 
     override fun onStart() {
-        pushState(ScreenStates.STARTED)
+        pushState(LifecycleStage.STARTED)
     }
 
     override fun onResume() {
-        pushState(ScreenStates.RESUMED)
+        pushState(LifecycleStage.RESUMED)
     }
 
     override fun onPause() {
-        pushState(ScreenStates.PAUSED)
+        pushState(LifecycleStage.PAUSED)
     }
 
     override fun onStop() {
-        pushState(ScreenStates.STOPPED)
+        pushState(LifecycleStage.STOPPED)
     }
 
     override fun onViewDestroy() {
-        pushState(ScreenStates.VIEW_DESTROYED)
+        pushState(LifecycleStage.VIEW_DESTROYED)
     }
 
     override fun onCompletelyDestroy() {
-        pushState(ScreenStates.DESTROYED)
+        pushState(LifecycleStage.DESTROYED)
         destroy()
 
         widgetViewDelegate.get()?.onCompletelyDestroy()
@@ -137,40 +137,40 @@ class WidgetLifecycleManager(
      * Приводит виджет в состояние в зависимости от текущих родительского, виджета и желаемого
      * @param wishingState желаемое состояние
      */
-    private fun pushState(wishingState: ScreenStates) {
+    private fun pushState(wishingState: LifecycleStage) {
         when {
 
             //Первые два кейса - поведение виджета в ресайклере. Необходимо послать STARTED/RESUMED и PAUSED/STOPPED
             //на attach/detach
-            wishingState == ScreenStates.VIEW_DESTROYED && parentState.currentState == ScreenStates.RESUMED -> {
-                applyStates(ScreenStates.PAUSED, ScreenStates.STOPPED, ScreenStates.VIEW_DESTROYED)
+            wishingState == LifecycleStage.VIEW_DESTROYED && parentState.lifecycleStage == LifecycleStage.RESUMED -> {
+                applyStates(LifecycleStage.PAUSED, LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED)
             }
 
-            wishingState == ScreenStates.VIEW_READY && parentState.currentState == ScreenStates.RESUMED -> {
-                applyStates(ScreenStates.VIEW_READY, ScreenStates.STARTED, ScreenStates.RESUMED)
+            wishingState == LifecycleStage.VIEW_READY && parentState.lifecycleStage == LifecycleStage.RESUMED -> {
+                applyStates(LifecycleStage.VIEW_READY, LifecycleStage.STARTED, LifecycleStage.RESUMED)
             }
 
             // Когда уничтожаем виджет, необходимо в ручную послать предыдущие события
-            wishingState == ScreenStates.DESTROYED -> {
-                when (screenState.currentState!!) {
+            wishingState == LifecycleStage.DESTROYED -> {
+                when (screenState.lifecycleStage!!) {
 
-                    ScreenStates.CREATED, ScreenStates.VIEW_READY, ScreenStates.STOPPED -> {
-                        applyStates(ScreenStates.VIEW_DESTROYED, ScreenStates.DESTROYED)
+                    LifecycleStage.CREATED, LifecycleStage.VIEW_READY, LifecycleStage.STOPPED -> {
+                        applyStates(LifecycleStage.VIEW_DESTROYED, LifecycleStage.DESTROYED)
                     }
 
-                    ScreenStates.STARTED, ScreenStates.PAUSED -> {
-                        applyStates(ScreenStates.STOPPED, ScreenStates.VIEW_DESTROYED, ScreenStates.DESTROYED)
+                    LifecycleStage.STARTED, LifecycleStage.PAUSED -> {
+                        applyStates(LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED, LifecycleStage.DESTROYED)
                     }
 
-                    ScreenStates.RESUMED -> {
-                        applyStates(ScreenStates.PAUSED, ScreenStates.STOPPED, ScreenStates.VIEW_DESTROYED, ScreenStates.DESTROYED)
+                    LifecycleStage.RESUMED -> {
+                        applyStates(LifecycleStage.PAUSED, LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED, LifecycleStage.DESTROYED)
                     }
 
-                    ScreenStates.VIEW_DESTROYED -> {
-                        applyStates(ScreenStates.DESTROYED)
+                    LifecycleStage.VIEW_DESTROYED -> {
+                        applyStates(LifecycleStage.DESTROYED)
                     }
 
-                    ScreenStates.DESTROYED -> {
+                    LifecycleStage.DESTROYED -> {
                     }
                 }
             }
@@ -184,11 +184,11 @@ class WidgetLifecycleManager(
      * Также посылает эвент с текущим событием.
      * @param states
      */
-    private fun applyStates(vararg states: ScreenStates) {
+    private fun applyStates(vararg states: LifecycleStage) {
         for (state in states) {
-            if (state != ScreenStates.DESTROYED && parentState.isCompletelyDestroyed) continue
+            if (state != LifecycleStage.DESTROYED && parentState.isCompletelyDestroyed) continue
 
-            if (allowedStateTransition[screenState.currentState]?.contains(state) ?: false) {
+            if (allowedStateTransition[screenState.lifecycleStage]?.contains(state) ?: false) {
                 widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state]!!)
                 screenStateEvents[state]?.invoke()
             }

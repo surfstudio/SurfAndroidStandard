@@ -1,9 +1,9 @@
 package ru.surfstudio.android.core.ui.state;
 
 /**
- * Состояния вью
+ * Этап ЖЦ вью
  */
-public enum ScreenStates {
+public enum LifecycleStage {
     CREATED,
     VIEW_READY,
     STARTED,

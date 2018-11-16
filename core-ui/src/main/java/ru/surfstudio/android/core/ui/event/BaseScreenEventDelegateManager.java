@@ -73,14 +73,17 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         registerDelegate(delegate, emitterType, supportedResolvers);
     }
 
-    public void registerDelegateOnEvent(ScreenEventDelegate delegate, Class<? extends ScreenEvent> eventType) {
+    @Override
+    public void registerDelegateOnEvent(ScreenEventDelegate delegate,
+                                        @Nullable ScreenType emitterType,
+                                        Class<? extends ScreenEvent> eventType) {
         //Находим резольверы для конкретного события
-        registerDelegate(delegate, null, getEventResolversForEvent(eventType));
+        registerDelegate(delegate, emitterType, getEventResolversForEvent(eventType));
     }
 
     private void registerDelegate(ScreenEventDelegate delegate,
-                                 @Nullable ScreenType emitterType,
-                                 List<ScreenEventResolver> supportedResolvers) {
+                                  @Nullable ScreenType emitterType,
+                                  List<ScreenEventResolver> supportedResolvers) {
         assertNotDestroyed();
 
         for (ScreenEventResolver eventResolver : supportedResolvers) {
@@ -93,7 +96,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
                             delegate.getClass().getCanonicalName()));
                 }
                 addDelegateToMap(throughDelegatesMap, delegate, eventResolver.getEventType());
-                parentDelegateManger.registerDelegateOnEvent(delegate, eventResolver.getEventType()); //на конкретное событие
+                parentDelegateManger.registerDelegateOnEvent(delegate, emitterType, eventResolver.getEventType()); //на конкретное событие
             }
         }
     }
@@ -150,6 +153,17 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     }
 
     @Override
+    public boolean unregisterDelegate(ScreenEventDelegate delegate) {
+        List<Boolean> isRemovedList = new ArrayList<>();
+
+        for (Class<? extends ScreenEvent> eventType : throughDelegatesMap.keySet()) {
+            isRemovedList.add(unregisterDelegate(delegate, eventType));
+        }
+
+        return Stream.of(isRemovedList).anyMatch((isRemoved) -> isRemoved);
+    }
+
+    @Override
     public void destroy() {
         destroyed = true;
         for (Class<? extends ScreenEvent> eventType : throughDelegatesMap.keySet()) {
@@ -183,7 +197,8 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         return null;
     }
 
-    private <E extends ScreenEvent> boolean removeDelegate(ScreenEventDelegate delegate, Class<E> event,
+    private <E extends ScreenEvent> boolean removeDelegate(ScreenEventDelegate delegate,
+                                                           Class<E> event,
                                                            Map<Class<? extends ScreenEvent>, List<ScreenEventDelegate>> delegatesMap) {
         boolean removed = false;
         List delegateList = delegatesMap.get(event);
