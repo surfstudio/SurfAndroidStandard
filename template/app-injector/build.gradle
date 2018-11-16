@@ -43,6 +43,7 @@ dependencies {
     implementation project(':template:i-token')
     implementation project(':template:i-session')
     implementation project(':template:i-auth')
+    implementation project(':template:i-debug')
     implementation project(':template:f-auth')
     implementation project(':template:f-main')
     implementation project(':template:f-debug')

@@ -23,7 +23,9 @@ import ru.surfstudio.standard.app_injector.ui.notification.FcmModule
 import ru.surfstudio.standard.app_injector.ui.notification.MessagingService
 import ru.surfstudio.standard.app_injector.ui.notification.NotificationModule
 import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
-import ru.surfstudio.standard.f_debug.server_settings.storage.DebugServerSettingsStorage
+import ru.surfstudio.standard.i_debug.storage.DebugServerSettingsStorage
+import ru.surfstudio.standard.i_debug.DebugInteractor
+import ru.surfstudio.standard.i_debug.storage.MemoryDebugStorage
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
 import javax.inject.Named
@@ -55,6 +57,7 @@ interface AppComponent {
     fun serverSettingsStorage(): DebugServerSettingsStorage
     fun rebootInteractor(): RebootInteractor
     fun memoryDebugStorage(): MemoryDebugStorage
+    fun debugInteractor(): DebugInteractor
 
     fun inject(to: MessagingService)
     @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
