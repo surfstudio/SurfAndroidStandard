@@ -23,7 +23,6 @@ import android.widget.RemoteViews
 import androidx.annotation.StringRes
 import androidx.core.app.NotificationCompat
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor

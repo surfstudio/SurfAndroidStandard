@@ -1,10 +1,12 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.app_injector.ui.notification.debug.DebugNotificationBuilder
@@ -21,6 +23,8 @@ class App : CoreApp() {
         initFabric()
         initComponentProvider()
         DebugNotificationBuilder.showDebugNotification(this)
+
+        initNotificationHandler()
     }
 
     private fun initComponentProvider() {
@@ -54,4 +58,12 @@ class App : CoreApp() {
                     .disabled(BuildConfig.DEBUG)
                     .build())
             .build())
+
+    private fun initNotificationHandler() {
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                AppInjector.appComponent.pushHandler().onActivityStarted(activity)
+            }
+        })
+    }
 }
