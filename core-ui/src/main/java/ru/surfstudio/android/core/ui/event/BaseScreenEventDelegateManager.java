@@ -74,9 +74,9 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     }
 
     @Override
-    public void registerDelegateOnEvent(ScreenEventDelegate delegate,
-                                        @Nullable ScreenType emitterType,
-                                        Class<? extends ScreenEvent> eventType) {
+    public void registerDelegate(ScreenEventDelegate delegate,
+                                 @Nullable ScreenType emitterType,
+                                 Class<? extends ScreenEvent> eventType) {
         //Находим резольверы для конкретного события
         registerDelegate(delegate, emitterType, getEventResolversForEvent(eventType));
     }
@@ -96,7 +96,7 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
                             delegate.getClass().getCanonicalName()));
                 }
                 addDelegateToMap(throughDelegatesMap, delegate, eventResolver.getEventType());
-                parentDelegateManger.registerDelegateOnEvent(delegate, emitterType, eventResolver.getEventType()); //на конкретное событие
+                parentDelegateManger.registerDelegate(delegate, emitterType, eventResolver.getEventType()); //на конкретное событие
             }
         }
     }

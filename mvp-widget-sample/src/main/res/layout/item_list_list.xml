@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.constraint.ConstraintWidgetView
+    <ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint.ConstraintWidgetView
         android:id="@+id/constraint_w"
         android:layout_width="match_parent"
         android:layout_height="60dp"

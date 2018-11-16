@@ -8,10 +8,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.mvpwidget.sample.R
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.constraint.ConstraintWidgetView
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.frame.FrameWidgetView
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.linear.LinearWidgetView
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.relative.RelativeWidgetView
+import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint.ConstraintWidgetView
+import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.frame.FrameWidgetView
+import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.linear.LinearWidgetView
+import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.relative.RelativeWidgetView
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 

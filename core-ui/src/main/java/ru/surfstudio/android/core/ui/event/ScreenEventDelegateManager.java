@@ -50,9 +50,9 @@ public interface ScreenEventDelegateManager {
      * @param delegate
      * @param eventType
      */
-    void registerDelegateOnEvent(ScreenEventDelegate delegate,
-                                 @Nullable ScreenType emitterType,
-                                 Class<? extends ScreenEvent> eventType);
+    void registerDelegate(ScreenEventDelegate delegate,
+                          @Nullable ScreenType emitterType,
+                          Class<? extends ScreenEvent> eventType);
 
     /**
      * удаляет подписку делегата по событию
