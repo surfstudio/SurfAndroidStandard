@@ -28,6 +28,7 @@ import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelper
+import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
 
 /**
  * Стратегия обработки пуша
@@ -52,9 +53,9 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     abstract val typeData: T
 
     /**
-     * Уникальный идентификатор группы нотификаций.
+     * Данные для группировки нотификаций.
      */
-    open val groupId: Int = -1
+    open val group: NotificationsGroup? = null
 
     /**
      * Id канала пуш уведомлений(строковый ресурс)

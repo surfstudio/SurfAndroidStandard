@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package ru.surfstudio.android.notification.ui.notification.groups
 
 /**
