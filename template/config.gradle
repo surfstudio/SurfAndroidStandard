@@ -32,6 +32,9 @@ ext {
     rxAndroid2Version = '2.1.0'                 //https://goo.gl/3Kd3iP
     rxBinding2Version = '2.2.0'                 //https://goo.gl/KQ5Vga
 
+    //leakcanary
+    leakCanaryVersion = '1.6.2'                 //https://goo.gl/w3pm32
+
     //android framework
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
     androidxVersion = '1.0.0'
