@@ -30,16 +30,8 @@ class LocationSampleTest {
             Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    private val defaultLocationInteractorOptions = intArrayOf(
-            R.id.btn_activity_default_location_interactor_check_location_availability,
-            R.id.btn_activity_default_location_interactor_resolve_location_availability,
-            R.id.btn_activity_default_location_interactor_show_last_known_location,
-            R.id.btn_activity_default_location_interactor_show_current_location
-    )
-
     private val locationServiceOptions = intArrayOf(
             R.id.btn_activity_location_service_check_location_availability,
-            R.id.btn_activity_location_service_resolve_location_availability,
             R.id.btn_activity_location_service_show_last_known_location,
             R.id.btn_activity_location_service_subscribe_to_location_updates,
             R.id.btn_activity_location_service_unsubscribe_from_location_updates
@@ -61,23 +53,23 @@ class LocationSampleTest {
         clickAndCheckActivity(
                 R.id.btn_default_location_interactor_sample,
                 DefaultLocationInteractorActivityView::class.java,
-                defaultLocationInteractorOptions
+                R.id.btn_activity_default_location_interactor_check_location_availability
         )
         clickAndCheckActivity(
                 R.id.btn_location_service_sample,
                 LocationServiceActivityView::class.java,
-                locationServiceOptions
+                *locationServiceOptions
         )
     }
 
     private fun <T : Activity> clickAndCheckActivity(
             @IdRes buttonResId: Int,
             activityClass: Class<T>,
-            buttons: IntArray
+            @IdRes vararg buttonResList: Int
     ) {
         performClick(buttonResId)
         checkIfActivityIsVisible(activityClass)
-        performClick(*buttons)
+        performClick(*buttonResList)
         Espresso.pressBack()
     }
 }
