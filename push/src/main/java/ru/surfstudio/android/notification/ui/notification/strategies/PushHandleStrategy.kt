@@ -53,7 +53,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     abstract val typeData: T
 
     /**
-     * Данные для группировки нотификаций.
+     * Группа пуш-нотификации.
      */
     open val group: NotificationsGroup? = null
 
@@ -94,9 +94,14 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     var channel: NotificationChannel? = null
 
     /**
-     * Кастомный builder для пушей(если нужно какое-то особое поведение)
+     * Кастомный builder для нотификаций.
      */
     var notificationBuilder: NotificationCompat.Builder? = null
+
+    /**
+     * Кастомный builder для заголовка группы нотификаций.
+     */
+    var groupSummaryNotificationBuilder: NotificationCompat.Builder? = null
 
     /**
      * Действия при нажатии на пуш
@@ -120,18 +125,14 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     ) {
         pendingIntent = preparePendingIntent(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
+        groupSummaryNotificationBuilder = makeGroupSummaryNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
         makePushId(uniqueId)
 
         pushInteractor.onNewNotification(typeData)
 
-        when (context) {
-            is Activity -> if (!handlePushInActivity(context)) {
-                showNotification(context, pushId, title, body)
-            }
-
-            else -> showNotification(context, pushId, title, body)
-        }
+        if (context is Activity && handlePushInActivity(context)) return
+        showNotification(context, pushId, title, body)
     }
 
     /**
@@ -188,7 +189,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
                                          body: String): NotificationCompat.Builder?
 
     /**
-     * Метод для инициализации билдера заголовка группы нотификаций.
+     * Метод для инициализации builder'а заголовка группы нотификаций.
      *
      *
      */
