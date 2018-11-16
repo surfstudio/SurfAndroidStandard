@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.notification.ui.notification.strategies.storage
 
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 import java.util.*
 
@@ -38,7 +37,6 @@ abstract class AbstractPushHandleStrategyFactory {
      * Возвращает стратегию по данным пуша
      */
     fun createByData(data: Map<String, String>): PushHandleStrategy<*>? {
-        Logger.d("data : ${data[key]}")
         return map[data[key]].apply {
             this?.typeData?.setDataFromMap(data)
         }

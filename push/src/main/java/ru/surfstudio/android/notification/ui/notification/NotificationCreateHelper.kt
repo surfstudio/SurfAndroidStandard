@@ -21,7 +21,6 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
