@@ -10,6 +10,7 @@ dependencies {
     testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
     testImplementation "org.powermock:powermock-api-mockito2:$powerMockVersion"
     testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     androidTestImplementation "androidx.test:core:$androidxVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxVersion"
@@ -17,4 +18,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoXVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoXVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }
