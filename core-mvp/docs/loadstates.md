@@ -99,8 +99,8 @@ object LoadState {
  ```kotlin
  class PlaceHolderView(context: Context, attributeSet: AttributeSet
 ) : StandardPlaceHolderView(context, attributeSet), LoadStateRendererInterface {
-        override fun render(loadState: LoadStateInterface) {...}
-    ...
+        override fun render(loadState: LoadStateInterface) {}
+    
 }
  ```
   - С помощью комбинации 
