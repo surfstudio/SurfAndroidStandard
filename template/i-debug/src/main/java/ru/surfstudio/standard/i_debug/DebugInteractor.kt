@@ -29,17 +29,14 @@ class DebugInteractor @Inject constructor(
      * @return ненужно ли инициализировать [Application]
      */
     fun mustNotInitializeApp(): Boolean {
-        if (BuildConfig.DEBUG) {
-            return LeakCanary.isInAnalyzerProcess(application)
-        }
-        return false
+        return LeakCanary.isInAnalyzerProcess(application)
     }
 
     /**
      * Нужно вызвать в [Application.onCreate]
      */
     fun onCreateApp() {
-        if (BuildConfig.DEBUG && memoryDebugStorage.isLeakCanaryEnabled) {
+        if (memoryDebugStorage.isLeakCanaryEnabled) {
             LeakCanary.install(application)
         }
     }
