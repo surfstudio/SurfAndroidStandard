@@ -14,12 +14,11 @@ import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.CustomLoadStatePresentation
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.DefaultLoadStateRenderer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.CustomLoadState
-import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.NoneLoadState
 import ru.surfstudio.android.loadstate.sample.ui.screen.ordinary.controllers.ExampleDataItemController
 import javax.inject.Inject
 
 /**
- * Вью экрана todo
+ * Вью экрана для демострации работы DefaultLoadStateRenderer
  */
 class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoScreenModel>() {
     @Inject
@@ -42,6 +41,7 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
                 putPresentation(
                         CustomLoadState::class.java,
                         CustomLoadStatePresentation(placeholder))
+                // установка листнеров на кнопки, при необходимости смена ресурсов
                 configEmptyState(onBtnClickedListener = { toast("WOW! Btn clicked") })
                 configErrorState(onBtnClickedListener = { toast("WOW! Another btn clicked") })
             }

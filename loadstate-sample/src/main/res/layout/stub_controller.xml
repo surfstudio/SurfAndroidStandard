@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<io.supercharge.shimmerlayout.ShimmerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/stub_controller_shimmer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:shimmer_color="@color/white_20">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="@dimen/dp8"
+        android:background="@color/stub_background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/stub_controller_iv"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp8"
+            android:background="@color/stub_content_background"
+            android:minHeight="18dp" />
+
+    </FrameLayout>
+</io.supercharge.shimmerlayout.ShimmerLayout>

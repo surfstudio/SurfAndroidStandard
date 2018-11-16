@@ -1,4 +1,4 @@
-package ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations
+package ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.base
 
 import android.view.LayoutInflater
 import android.view.View

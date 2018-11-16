@@ -11,7 +11,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivity
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
- * Конфигуратор экрана todo
+ * Конфигуратор экрана для демострации работы DefaultLoadStateRenderer
  */
 class DefaultRendererDemoScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
 

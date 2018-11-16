@@ -12,5 +12,7 @@ dependencies {
     implementation project(':easyadapter')
     implementation project(':recycler-extension')
 
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }

@@ -5,7 +5,7 @@ import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
 /**
- * Роут экрана todo
+ * Роут главного экрана семпла работы с лоадстейтами
  */
 class MainActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context): Intent {

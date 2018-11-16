@@ -9,13 +9,12 @@ import ru.surfstudio.android.loadstate.sample.ui.screen.stubs.RendererWithStubsD
 import javax.inject.Inject
 
 /**
- * Презентер экрана todo
+ * Презентер главного экрана семпла работы с лоадстейтами
  */
 @PerScreen
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val activityNavigator: ActivityNavigator) :
-        BasePresenter<MainActivityView>(basePresenterDependency) {
+        private val activityNavigator: ActivityNavigator) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     fun openDefaultStatesScreen() {
         activityNavigator.start(DefaultRendererDemoActivityRoute())

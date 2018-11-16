@@ -5,7 +5,7 @@ import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
 /**
- * Роут экрана todo
+ * Роут экрана для демострации работы DefaultLoadStateRenderer
  */
 class DefaultRendererDemoActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context): Intent {

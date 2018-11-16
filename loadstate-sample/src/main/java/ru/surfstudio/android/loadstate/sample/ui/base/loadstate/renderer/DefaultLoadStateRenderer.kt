@@ -2,7 +2,7 @@ package ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer
 
 import ru.surfstudio.android.core.mvp.loadstate.renderer.BaseLoadStateRenderer
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
-import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.*
+import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.base.*
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.*
 
 /**

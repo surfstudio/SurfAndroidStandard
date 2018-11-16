@@ -9,7 +9,7 @@ import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.*
 import javax.inject.Inject
 
 /**
- * Презентер экрана todo
+ * Презентер экрана для демострации работы DefaultLoadStateRenderer
  */
 @PerScreen
 class DefaultRendererDemoPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
