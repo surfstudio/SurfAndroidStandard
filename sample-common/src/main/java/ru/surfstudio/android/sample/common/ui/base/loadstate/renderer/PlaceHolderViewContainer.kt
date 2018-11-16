@@ -15,13 +15,16 @@ import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
+/**
+ * Контейнер для смены вью, представляющих определенный LoadState
+ */
 class PlaceHolderViewContainer(
         context: Context,
         attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
     companion object {
         const val DEFAULT_DURATION = 300L
-        const val STATE_TOGGLE_DELAY_MS: Long = 250
+        const val STATE_TOGGLE_DELAY_MS = 250L
     }
 
     private var loadStateSubject: PublishSubject<StatePresentation> = PublishSubject.create()
@@ -59,5 +62,8 @@ class PlaceHolderViewContainer(
         }
     }
 
+    /**
+     * Сущность, представляющая состояние в виде вью или пустого объекта
+     */
     class StatePresentation(val stateView: View?)
 }

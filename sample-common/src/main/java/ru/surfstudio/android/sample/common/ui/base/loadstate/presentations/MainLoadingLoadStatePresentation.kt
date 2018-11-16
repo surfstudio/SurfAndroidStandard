@@ -1,10 +1,10 @@
 package ru.surfstudio.android.sample.common.ui.base.loadstate.presentations
 
 import android.content.res.ColorStateList
-import android.support.annotation.ColorInt
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
+import androidx.annotation.ColorInt
+import androidx.core.content.ContextCompat
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface

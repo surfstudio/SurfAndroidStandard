@@ -1,13 +1,13 @@
 package ru.surfstudio.android.sample.common.ui.base.loadstate.presentations
 
-import android.support.annotation.DrawableRes
-import android.support.annotation.StringRes
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 import ru.surfstudio.android.sample.common.R

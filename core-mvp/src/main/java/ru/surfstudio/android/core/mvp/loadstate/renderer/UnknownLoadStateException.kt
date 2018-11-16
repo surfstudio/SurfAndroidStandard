@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvp.loadstate.renderer
 
 /**
- * Exception, which can be thrown in case of unknown LoadState in {@link BaseLoadStateRenderer} and it's descendants
+ * Ошибка, которая может быть вызвана передачей для рендера неизвестного LoadState в {@link BaseLoadStateRenderer} или в его потомков
  */
 class UnknownLoadStateException(stateName: String)
-    : Throwable("Unknown LoadState $stateName, add strategy for thi s LoadState in your LoadStateRenderer")
+    : Throwable("Unknown LoadState $stateName, add strategy for this LoadState in your LoadStateRenderer")

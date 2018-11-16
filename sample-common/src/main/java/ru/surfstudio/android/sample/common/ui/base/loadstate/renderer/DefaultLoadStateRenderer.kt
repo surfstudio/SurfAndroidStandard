@@ -5,6 +5,9 @@ import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 import ru.surfstudio.android.sample.common.ui.base.loadstate.*
 import ru.surfstudio.android.sample.common.ui.base.loadstate.presentations.*
 
+/**
+ * Проектная реализация BaseLoadStateRenderer
+ */
 class DefaultLoadStateRenderer(placeHolderView: PlaceHolderViewContainer,
                                override val defaultState: LoadStateInterface = NoneLoadState()) : BaseLoadStateRenderer() {
 
@@ -21,9 +24,6 @@ class DefaultLoadStateRenderer(placeHolderView: PlaceHolderViewContainer,
         putPresentation(
                 MainLoadingState::class.java,
                 MainLoadingLoadStatePresentation(placeHolderView))
-        putPresentation(
-                TransparentLoadingState::class.java,
-                TransparentLoadingStatePresentation(placeHolderView))
     }
 
     fun configEmptyState(imageRes: Int? = null,

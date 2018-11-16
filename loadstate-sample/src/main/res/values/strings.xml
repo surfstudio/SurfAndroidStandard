@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">loadstate-sample</string>
+
+    <string name="empty">empty</string>
+    <string name="main_loading">main loading</string>
+    <string name="tr_loading">transparent loading</string>
+    <string name="error">error</string>
+    <string name="none">none</string>
+    <string name="custom">custom</string>
+
+    <string name="empty_state_title_txt">Ваш список пуст</string>
+    <string name="empty_state_subtitle_txt">Добавьте что-нибудь, пожалуйста</string>
+    <string name="empty_state_action_btn">Добавить</string>
+
+    <string name="error_state_title_txt">Упс! Произошла ошибка :(</string>
+    <string name="error_state_subtitle_txt">Попробуйте позже</string>
+    <string name="error_state_action_btn">Повторить</string>
+
+    <string name="main_activity_default_btn">Default LoadStates + one custom demo</string>
+    <string name="main_activity_stubs_btn">LoadStates with stubs demo</string>
+    <string name="main_activity_actions_btn">LoadStates Actions Demo</string>
+
+    <string name="item_list_example_data_text">Item %d</string>
+</resources>

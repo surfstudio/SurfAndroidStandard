@@ -6,12 +6,10 @@ class NoneLoadState : LoadStateInterface
 class ErrorLoadState : LoadStateInterface
 class EmptyLoadState : LoadStateInterface
 class MainLoadingState : LoadStateInterface
-class TransparentLoadingState : LoadStateInterface
 
 object LoadState {
     val NONE = NoneLoadState()
     val MAIN_LOADING = MainLoadingState()
-    val TRANSPARENT_LOADING = TransparentLoadingState()
     val ERROR = ErrorLoadState()
     val EMPTY = EmptyLoadState()
 }
