@@ -1,16 +1,16 @@
 # LoadState Concept
 
 ## Изменения в модуле core-mvp
-  - Enum ```LoasState``` заменен на interface ```LoadStateInterface```, любой класс, реализующий этот интерфейс, может выступать в качестве LoadState, он может содержать данные для рендера своего стейта
-  - В классах ```BaseLdsActivityView``` и ```BaseLdsFragmentView```  метод 
+  - Enum ```LoasState``` заменен на interface [LoadStateInterface][lsi], любой класс, реализующий этот интерфейс, может выступать в качестве LoadState, он может содержать данные для рендера своего стейта
+  - В классах [BaseLdsActivityView][blav] и [BaseLdsFragmentView][blfv]  метод
 ```PlaceHolderViewInterface getPlaceHolderView() ```
 заменен на более обобщенный 
 ```LoadStateRendererInterface createLoadStateRenderer()```
   - Добавлен пакет ***loadstate.renderer***, в который вошли классы:
-    - ```LoadStateRendererInterface``` (бывший ```PlaceHolderViewInterface```),
-    - ``` LoadStatePresentation``` - интерфейс, содержащий логику для показа и скрытия определенного стейта
-    - ```UnknownLoadStateException``` - ошибка, которая может быть вызвана передачей для рендера неизвестного LoadState в ```BaseLoadStateRenderer``` или в его потомков
-    - ```BaseLoadStateRenderer``` - базовый класс, хранящий для каждого стейта своё представление, а также список лямбд, которые необходимо выполнить при переходе в новый стейт.
+    - [LoadStateRendererInterface][lsri] (бывший ```PlaceHolderViewInterface```),
+    - [LoadStatePresentation][lsp] - интерфейс, содержащий логику для показа и скрытия определенного стейта
+    - [UnknownLoadStateException][ulse] - ошибка, которая может быть вызвана передачей для рендера неизвестного LoadState в [BaseLoadStateRenderer][blr] или в его потомков
+    - [BaseLoadStateRenderer][blr] - базовый класс, хранящий для каждого стейта своё представление, а также список лямбд, которые необходимо выполнить при переходе в новый стейт.
     Содержит группы методов:
         - **forStates()**, принимает список стейтов, для которых стоит выполнить лямбду run(), при рендере остальных стейтов выполнит elseRun()
          ```kotlin
@@ -33,9 +33,8 @@
         - **setViewsVisibleFor()**, **setViewsInvisibleFor()**, **setViewsGoneFor()**, позволяют менять видимость вью для определенных стейтов
         - Методы этого класса написаны в стиле [Fluent Interface](https://ru.wikipedia.org/wiki/Fluent_interface), для возможности цепочечного вызова.
 ## Изменения в других модулях
- - **recycler-extension:** ```ItemListExt.kt``` переехал из **ru.surfstudio.android.recycler.extension.sticky** в **ru.surfstudio.android.recycler.extension** , В него добавлен метод для добавления n-штук ```NoDataItemController```, который полезен при добавление пачки заглушек
  - **mvp-widget** ```BaseLdsRenderableView``` вместо ```PlaceHolderViewInterface``` теперь обязывает класс реализовывать поле типа ```LoadStateRendererInterface```
- - **custom-view**  в ```StandardPlaceHolderView``` enum вложенного класса ```PlaceholderStater``` переименован в ```StandardLoadState```, чтобы не путать разработчиков при импорте своего класса ```LoadState```
+ - **custom-view**  в [StandardPlaceHolderView][splhv] enum вложенного класса ```PlaceholderStater``` переименован в ```StandardLoadState```, чтобы не путать разработчиков при импорте своего класса ```LoadState```
  
 ## Миграция на новый подход с сохранением рендера LoadState через PlaceHolderView
 Если вы хотите сохранить обращение к LoadState в стиле enum в своём проекте:
@@ -99,12 +98,12 @@ object LoadState {
  ```kotlin
  class PlaceHolderView(context: Context, attributeSet: AttributeSet
 ) : StandardPlaceHolderView(context, attributeSet), LoadStateRendererInterface {
-        override fun render(loadState: LoadStateInterface) {}
+        override fun render(loadState: LoadStateInterface) {...}
     
 }
  ```
   - С помощью комбинации 
-Ctrl+Shift+R on Windows and Linux/Ubuntu
+Ctrl+Shift+R on Windows and Linux
 Cmd+Shift+R on Mac OS X
 Замените по всему проекту
    - loadState: LoadState
@@ -113,10 +112,19 @@ loadState: LoadStateInterface
 
   - import ru.surfstudio.android.core.mvp.model.state.LoadState
 на 
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface.
 
 - getLoadStateRenderer()
    на 
 createLoadStateRenderer()
 
 - далее придется пройтись по проекту и добавить импорт вашего класса LoadState.kt там, где раньше было обращение к enum, если включен автоимпорт, он может сделать это за вас
+
+[lsi]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/LoadStateInterface.java
+[blav]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/BaseLdsActivityView.java
+[blfv]: ../src/main/java/ru/surfstudio/android/core/mvp/fragment/BaseLdsFragmentView.java
+[lsri]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/LoadStateRendererInterface.java
+[lsp]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/LoadStatePresentation.kt
+[ulse]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/UnknownLoadStateException.kt
+[blr]: ../src/main/java/ru/surfstudio/android/core/mvp/loadstate/renderer/BaseLoadStateRenderer.kt
+[splhv]: ../../custom-view/src/main/java/ru/surfstudio/android/custom/view/placeholder/StandardPlaceHolderView.kt
