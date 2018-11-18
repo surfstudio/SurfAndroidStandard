@@ -18,7 +18,7 @@ package ru.surfstudio.android.core.mvp.loadstate.renderer;
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
 
 /**
- * Интрефейс для вью отрисовывающей состояние {@link LoadStateInterface}
+ * Интрефейс для вью, отрисовывающей состояние {@link LoadStateInterface}
  */
 public interface LoadStateRendererInterface {
     void render(LoadStateInterface loadState);

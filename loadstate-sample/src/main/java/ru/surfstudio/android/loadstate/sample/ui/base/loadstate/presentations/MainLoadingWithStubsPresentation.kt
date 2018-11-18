@@ -9,6 +9,9 @@ import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.co
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.MainLoadingState
 import ru.surfstudio.android.recycler.extension.add
 
+/**
+ * Представление состояния MainLoading в виде мерзающих заглушек
+ */
 class MainLoadingWithStubsPresentation(private val adapter: EasyAdapter) : LoadStatePresentation<MainLoadingState> {
 
     companion object {

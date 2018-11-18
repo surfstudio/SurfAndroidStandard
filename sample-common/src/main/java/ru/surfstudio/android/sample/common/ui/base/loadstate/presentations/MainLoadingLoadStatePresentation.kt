@@ -12,6 +12,9 @@ import ru.surfstudio.android.sample.common.R
 import ru.surfstudio.android.sample.common.ui.base.loadstate.MainLoadingState
 import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.PlaceHolderViewContainer
 
+/**
+ * Представление состояния MainLoading в виде ProgressBar
+ */
 class MainLoadingLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) : LoadStatePresentation<MainLoadingState> {
 
     @ColorInt

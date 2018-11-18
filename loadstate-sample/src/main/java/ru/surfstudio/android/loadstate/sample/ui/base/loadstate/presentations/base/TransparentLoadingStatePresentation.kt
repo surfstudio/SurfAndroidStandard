@@ -10,6 +10,9 @@ import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.TransparentLoadingState
 
+/**
+ * Представление состояния TransparentLoading в виде ProgressBar поверх затемненного фона
+ */
 class TransparentLoadingStatePresentation(private val placeHolder: PlaceHolderViewContainer)
     : LoadStatePresentation<TransparentLoadingState> {
 

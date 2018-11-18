@@ -24,7 +24,7 @@ class DefaultLoadStateRenderer(
                 ErrorLoadStatePresentation(placeHolderView))
         putPresentation(
                 MainLoadingState::class.java,
-                MainLoadingLoadStatePresentation(placeHolderView))
+                MainLoadingStatePresentation(placeHolderView))
         putPresentation(
                 TransparentLoadingState::class.java,
                 TransparentLoadingStatePresentation(placeHolderView))

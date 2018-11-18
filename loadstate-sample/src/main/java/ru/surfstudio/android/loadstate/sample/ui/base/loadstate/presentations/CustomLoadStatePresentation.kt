@@ -8,6 +8,9 @@ import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.CustomLoadState
 
+/**
+ * Пример представления какого-то кастомного состояния
+ */
 class CustomLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
         LoadStatePresentation<CustomLoadState> {
 

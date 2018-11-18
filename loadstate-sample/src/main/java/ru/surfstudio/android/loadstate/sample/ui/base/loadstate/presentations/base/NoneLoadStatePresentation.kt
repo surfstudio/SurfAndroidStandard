@@ -6,6 +6,9 @@ import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.NoneLoadState
 
+/**
+ * Представление состояния NoneLoadState, скрывающее PlaceHolderViewContainer
+ */
 class NoneLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer? = null) : LoadStatePresentation<NoneLoadState> {
 
     override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: NoneLoadState) {

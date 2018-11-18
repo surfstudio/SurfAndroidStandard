@@ -3,6 +3,11 @@ package ru.surfstudio.android.core.mvp.loadstate.renderer
 import android.view.View
 import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 
+/**
+ * Базовый класс, от которого предполагается наследовать собственные в проекте
+ * хранит Map, в котором каждому стейту соответствует представление
+ * хранит список лямбд, которые должны быть выполненными при том или ином стейте
+ */
 abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     abstract val defaultState: LoadStateInterface

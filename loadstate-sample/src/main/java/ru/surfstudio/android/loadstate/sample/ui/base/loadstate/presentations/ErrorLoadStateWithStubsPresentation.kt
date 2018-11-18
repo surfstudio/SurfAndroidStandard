@@ -9,6 +9,9 @@ import ru.surfstudio.android.recycler.extension.add
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.ErrorLoadState
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.controllers.StubLoadStateController
 
+/**
+ * Представление состояния ErrorLoadState в виде заглушек
+ */
 class ErrorLoadStateWithStubsPresentation(private val adapter: EasyAdapter) : LoadStatePresentation<ErrorLoadState> {
 
     companion object {

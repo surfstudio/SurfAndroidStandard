@@ -14,6 +14,9 @@ import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.ErrorLoadState
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 
+/**
+ * Представление состояния ErrorLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
+ */
 class ErrorLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
         LoadStatePresentation<ErrorLoadState> {
 
