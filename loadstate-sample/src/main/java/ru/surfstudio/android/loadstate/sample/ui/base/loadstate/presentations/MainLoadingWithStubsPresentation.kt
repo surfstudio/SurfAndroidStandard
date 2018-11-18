@@ -7,7 +7,6 @@ import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.controllers.StubData
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.controllers.StubLoadStateController
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.MainLoadingState
-import ru.surfstudio.android.recycler.extension.add
 
 /**
  * Представление состояния MainLoading в виде мерзающих заглушек
