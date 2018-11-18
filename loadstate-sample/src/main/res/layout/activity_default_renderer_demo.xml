@@ -14,13 +14,13 @@
             android:id="@+id/main_loading_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/main_loading" />
+            android:text="@string/main_loading_btn" />
 
         <Button
             android:id="@+id/tr_loading_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/tr_loading" />
+            android:text="@string/tr_loading_btn" />
 
     </LinearLayout>
 
@@ -35,25 +35,25 @@
             android:id="@+id/none_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/none" />
+            android:text="@string/none_btn" />
 
         <Button
             android:id="@+id/empty_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/empty" />
+            android:text="@string/empty_btn" />
 
         <Button
             android:id="@+id/error_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/error" />
+            android:text="@string/error_btn" />
 
         <Button
             android:id="@+id/custom_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/custom" />
+            android:text="@string/custom_btn" />
 
     </LinearLayout>
 

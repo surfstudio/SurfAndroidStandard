@@ -16,15 +16,7 @@
         android:id="@+id/activity_main_stubs_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:layout_margin="8dp"
         android:text="@string/main_activity_stubs_btn" />
-
-    <Button
-        android:id="@+id/activity_main_actions_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="@string/main_activity_actions_btn" />
 
 </LinearLayout>

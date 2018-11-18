@@ -4,7 +4,6 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.loadstate.sample.ui.screen.actions.RendererWithActionsDemoActivityRoute
 import ru.surfstudio.android.loadstate.sample.ui.screen.ordinary.DefaultRendererDemoActivityRoute
 import ru.surfstudio.android.loadstate.sample.ui.screen.stubs.RendererWithStubsDemoActivityRoute
 import javax.inject.Inject
@@ -23,9 +22,5 @@ class MainPresenter @Inject constructor(
 
     fun openStubsStatesScreen() {
         activityNavigator.start(RendererWithStubsDemoActivityRoute())
-    }
-
-    fun openStatesWithActionScreen() {
-        activityNavigator.start(RendererWithActionsDemoActivityRoute())
     }
 }

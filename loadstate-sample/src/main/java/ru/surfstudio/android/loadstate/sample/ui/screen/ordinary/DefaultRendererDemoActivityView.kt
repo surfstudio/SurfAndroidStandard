@@ -1,8 +1,11 @@
 package ru.surfstudio.android.loadstate.sample.ui.screen.ordinary
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.PersistableBundle
+import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_default_renderer_demo.*
 import org.jetbrains.anko.toast
@@ -14,6 +17,7 @@ import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.CustomLoadStatePresentation
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.DefaultLoadStateRenderer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.CustomLoadState
+import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.ErrorLoadState
 import ru.surfstudio.android.loadstate.sample.ui.screen.ordinary.controllers.ExampleDataItemController
 import javax.inject.Inject
 
@@ -35,15 +39,23 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_default_renderer_demo
 
+    override fun getScreenName(): String = "default_renderer_demo"
+
     override fun createLoadStateRenderer() =
             DefaultLoadStateRenderer(placeholder).apply {
                 //пример добавления представления кастомного стейта
                 putPresentation(
                         CustomLoadState::class.java,
                         CustomLoadStatePresentation(placeholder))
+
                 // установка листнеров на кнопки, при необходимости смена ресурсов
-                configEmptyState(onBtnClickedListener = { toast("WOW! Btn clicked") })
-                configErrorState(onBtnClickedListener = { toast("WOW! Another btn clicked") })
+                configEmptyState(onBtnClickedListener = { toast(R.string.empty_state_toast_msg) })
+                configErrorState(onBtnClickedListener = { toast(R.string.error_state_toast_msg) })
+
+                //пример задания дополнительных действий при смене лоадстейта
+                forState(ErrorLoadState::class.java,
+                        run = { colorToolbar(R.color.colorAccent) },
+                        elseRun = { colorToolbar(R.color.colorPrimary) })
             }
 
     override fun onCreate(savedInstanceState: Bundle?,
@@ -73,5 +85,7 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
         custom_btn.setOnClickListener { presenter.custom() }
     }
 
-    override fun getScreenName(): String = "default_renderer_demo"
+    private fun colorToolbar(@ColorRes color: Int) {
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(this, color)))
+    }
 }

@@ -20,7 +20,7 @@ class DefaultRendererDemoPresenter @Inject constructor(basePresenterDependency: 
     private val publishSubject: PublishSubject<LoadStateInterface> = PublishSubject.create()
 
     override fun onFirstLoad() {
-        load()
+        imitateLoading()
     }
 
     fun transparentLoading() {
@@ -52,7 +52,7 @@ class DefaultRendererDemoPresenter @Inject constructor(basePresenterDependency: 
         publishSubject.onNext(CustomLoadState())
     }
 
-    private fun load() {
+    private fun imitateLoading() {
         screenModel.loadState = MainLoadingState()
         view.render(screenModel)
 

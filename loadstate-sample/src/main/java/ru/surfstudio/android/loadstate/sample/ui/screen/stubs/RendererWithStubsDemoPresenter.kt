@@ -22,7 +22,7 @@ class RendererWithStubsDemoPresenter @Inject constructor(basePresenterDependency
     private val publishSubject: PublishSubject<LoadStateInterface> = PublishSubject.create()
 
     override fun onFirstLoad() {
-        load()
+        imitateLoading()
     }
 
     fun mainLoading() {
@@ -40,7 +40,7 @@ class RendererWithStubsDemoPresenter @Inject constructor(basePresenterDependency
         publishSubject.onNext(ErrorLoadState())
     }
 
-    private fun load() {
+    private fun imitateLoading() {
         screenModel.loadState = MainLoadingState()
         view.render(screenModel)
 

@@ -2,53 +2,43 @@ package ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.c
 
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.stub_controller.view.*
-import ru.surfstudio.android.easyadapter.controller.NoDataItemController
-import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
-import ru.surfstudio.android.easyadapter.item.NoDataItem
+import ru.surfstudio.android.easyadapter.controller.BindableItemController
+import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.loadstate.sample.R
-import ru.surfstudio.android.logger.Logger
 
 
 /**
  * Контроллер для пустых состний в списках
  * */
+class StubLoadStateController : BindableItemController<StubData, StubLoadStateController.Holder>() {
 
-class StubLoadStateController() : NoDataItemController<StubLoadStateController.Holder>() {
+    override fun createViewHolder(parent: ViewGroup) = Holder(parent)
 
-    var loading: Boolean = false
-        set(value) {
-            field = value
-            views.forEach { it.loading = value }
-        }
+    override fun getItemId(data: StubData) = "${data.id}${data.isAnimated}"
 
-    private val views = mutableSetOf<Holder>()
-
-    override fun getItemId(item: NoDataItem<Holder>): String {
-        Logger.v("ItemIds = $item")
-        return item.toString()
-    }
-
-    override fun getItemHash(item: NoDataItem<Holder>?): String {
-        return item.toString()
-    }
-
-    override fun createViewHolder(parent: ViewGroup) =
-            Holder(parent).also {
-                views.add(it)
-            }
-
-    inner class Holder(parent: ViewGroup) : BaseViewHolder(parent, R.layout.stub_controller) {
+    inner class Holder(parent: ViewGroup) : BindableViewHolder<StubData>(parent, R.layout.stub_controller) {
 
         val shimmer = itemView.stub_controller_shimmer
 
-        var loading: Boolean = false
-            set(value) {
-                field = value
-                animateShimmer()
-            }
+        override fun bind(data: StubData) {
+            animateShimmer(data.isAnimated)
+        }
 
-        fun animateShimmer() {
-            shimmer.post { shimmer.startShimmerAnimation() }
+        private fun animateShimmer(isAnimated: Boolean) {
+            shimmer.post {
+                if (isAnimated) {
+                    shimmer.startShimmerAnimation()
+                } else {
+                    shimmer.stopShimmerAnimation()
+                }
+            }
         }
     }
 }
+
+/**
+ * Вспомогательный класс данных, отражающий номер и состояние заглушки
+ */
+class StubData(
+        val id: Int,
+        val isAnimated: Boolean)

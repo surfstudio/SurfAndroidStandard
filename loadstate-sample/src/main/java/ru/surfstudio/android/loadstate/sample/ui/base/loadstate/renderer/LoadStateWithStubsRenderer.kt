@@ -19,5 +19,4 @@ class LoadStateWithStubsRenderer(
         putPresentation(ErrorLoadState::class.java, ErrorLoadStateWithStubsPresentation(adapter))
         putPresentation(MainLoadingState::class.java, MainLoadingWithStubsPresentation(adapter))
     }
-
 }

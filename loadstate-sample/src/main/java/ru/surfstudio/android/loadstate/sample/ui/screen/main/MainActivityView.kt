@@ -35,7 +35,6 @@ class MainActivityView : CoreActivityView() {
     private fun initListeners() {
         activity_main_default_btn.setOnClickListener { presenter.openDefaultStatesScreen() }
         activity_main_stubs_btn.setOnClickListener { presenter.openStubsStatesScreen() }
-        activity_main_actions_btn.setOnClickListener { presenter.openStatesWithActionScreen() }
     }
 
     override fun getScreenName(): String = "main"

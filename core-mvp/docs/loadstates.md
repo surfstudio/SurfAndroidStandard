@@ -120,4 +120,3 @@ import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 createLoadStateRenderer()
 
 - далее придется пройтись по проекту и добавить импорт вашего класса LoadState.kt там, где раньше было обращение к enum, если включен автоимпорт, он может сделать это за вас
-
