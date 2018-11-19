@@ -229,6 +229,7 @@ class LifecycleManagerTest {
 
             parentState.onPause()
             pushState(LifecycleStage.PAUSED)
+            //подумать над кейсом ниже
             pushState(LifecycleStage.VIEW_DESTROYED) //сделали детач
             assert(actualStage == LifecycleStage.VIEW_DESTROYED)
 

@@ -84,4 +84,9 @@ public interface ScreenEventDelegateManager {
      * отменяет все подписки, после вызова этого метода менеджером пользоваться больше нельзя
      */
     void destroy();
+
+    /**
+     * Рассылает сообщения из хранилища
+     */
+    void sendStoredEvents();
 }

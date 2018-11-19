@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import ru.surfstudio.android.core.ui.event.back.OnBackPressedEventResolver;
+import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.destroy.OnDestroyEventResolver;
@@ -40,6 +41,9 @@ import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultEventR
  * содержит список стандартных {@link ScreenEventResolver}
  */
 public class ScreenEventResolverHelper {
+
+    //буффер неразрешенных событий
+    public static List<ScreenEvent> storedEvents = new ArrayList<>();
 
     public static List<ScreenEventResolver> standardEventResolvers() {
         return new ArrayList<>(Arrays.asList(

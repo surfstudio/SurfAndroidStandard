@@ -216,17 +216,10 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
         }
     }
 
-    public void sendStoredActivityResultEvents() {
-        List<ScreenEventDelegate> delegates = delegatesMap.get(ActivityResultEvent.class);
-        if (!delegates.isEmpty()) {
-            List<ScreenEventResolver> eventResolvers = getEventResolversForDelegate(delegates.get(0));
-
-            for (ScreenEventResolver r : eventResolvers) {
-                ActivityResultEventResolver ar = (ActivityResultEventResolver) r;
-                for (ScreenEvent ev : ar.getStoredEvents()) {
-                    r.resolve(delegates, ev);
-                }
-            }
+    @Override
+    public void sendStoredEvents() {
+        for (ScreenEvent ev : ScreenEventResolverHelper.storedEvents) {
+            sendEvent(ev);
         }
     }
 }

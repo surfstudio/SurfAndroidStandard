@@ -98,7 +98,7 @@ class WidgetLifecycleManager(
 
         stageResolver.pushState(LifecycleStage.VIEW_READY)
 
-        (parentScreenEventDelegateManager as BaseScreenEventDelegateManager).sendStoredActivityResultEvents()
+        parentScreenEventDelegateManager.sendStoredEvents()
     }
 
     override fun onStart() {

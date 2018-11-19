@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.surfstudio.android.core.ui.ScreenType;
+import ru.surfstudio.android.core.ui.event.ScreenEventResolverHelper;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.SingleScreenEventResolver;
 
@@ -28,8 +29,6 @@ import ru.surfstudio.android.core.ui.event.base.resolver.SingleScreenEventResolv
  */
 public class ActivityResultEventResolver extends SingleScreenEventResolver<ActivityResultEvent, ActivityResultDelegate> {
 
-    //буффер неразрешенных событий
-    private List<ActivityResultEvent> storedEvents = new ArrayList<>();
 
     @Override
     public Class<ActivityResultDelegate> getDelegateType() {
@@ -51,14 +50,11 @@ public class ActivityResultEventResolver extends SingleScreenEventResolver<Activ
         boolean resolved = delegate.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
 
         if(!resolved) {
-            storedEvents.add(event);
+            ScreenEventResolverHelper.storedEvents.add(event);
         } else {
-            storedEvents.remove(event);
+            ScreenEventResolverHelper.storedEvents.remove(event);
         }
         return resolved;
     }
 
-    public List<ActivityResultEvent> getStoredEvents() {
-        return storedEvents;
-    }
 }
