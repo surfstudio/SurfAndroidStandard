@@ -1,7 +1,6 @@
 package ru.surfstudio.android.mvp.widget.event
 
 import android.view.View
-import ru.surfstudio.android.core.ui.event.BaseScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent
 import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate
@@ -98,7 +97,7 @@ class WidgetLifecycleManager(
 
         stageResolver.pushState(LifecycleStage.VIEW_READY)
 
-        parentScreenEventDelegateManager.sendStoredEvents()
+        parentScreenEventDelegateManager.sendUnhandledEvents()
     }
 
     override fun onStart() {

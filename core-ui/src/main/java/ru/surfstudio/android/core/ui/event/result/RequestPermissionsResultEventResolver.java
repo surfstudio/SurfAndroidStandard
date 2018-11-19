@@ -16,17 +16,26 @@
 package ru.surfstudio.android.core.ui.event.result;
 
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import ru.surfstudio.android.core.ui.ScreenType;
+import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.SingleScreenEventResolver;
+import ru.surfstudio.android.core.ui.event.base.resolver.Storable;
 
 /**
  * см {@link ScreenEventResolver}
  */
 public class RequestPermissionsResultEventResolver
-        extends SingleScreenEventResolver<RequestPermissionsResultEvent, RequestPermissionsResultDelegate> {
+        extends SingleScreenEventResolver<RequestPermissionsResultEvent, RequestPermissionsResultDelegate>
+        implements Storable {
+
+    private List<ScreenEvent> unhandledEvents = new ArrayList<>();
+
     @Override
     public Class<RequestPermissionsResultDelegate> getDelegateType() {
         return RequestPermissionsResultDelegate.class;
@@ -44,6 +53,20 @@ public class RequestPermissionsResultEventResolver
 
     @Override
     protected boolean resolve(RequestPermissionsResultDelegate delegate, RequestPermissionsResultEvent event) {
-        return delegate.onRequestPermissionsResult(event.getRequestCode(), event.getPermissions(), event.getGrantResults());
+        boolean resolved = delegate.onRequestPermissionsResult(event.getRequestCode(), event.getPermissions(), event.getGrantResults());
+
+        if (!resolved) {
+            unhandledEvents.add(event);
+        } else {
+            unhandledEvents.remove(event);
+        }
+
+        return resolved;
+    }
+
+    @NotNull
+    @Override
+    public List<ScreenEvent> getStoredEvents() {
+        return unhandledEvents;
     }
 }

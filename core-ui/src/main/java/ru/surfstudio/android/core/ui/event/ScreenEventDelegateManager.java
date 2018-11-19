@@ -88,5 +88,5 @@ public interface ScreenEventDelegateManager {
     /**
      * Рассылает сообщения из хранилища
      */
-    void sendStoredEvents();
+    void sendUnhandledEvents();
 }

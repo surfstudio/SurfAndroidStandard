@@ -19,20 +19,20 @@ package ru.surfstudio.android.core.ui.event.result;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import ru.surfstudio.android.core.ui.ScreenType;
-import ru.surfstudio.android.core.ui.event.ScreenEventResolverHelper;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.SingleScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.base.resolver.Storeable;
+import ru.surfstudio.android.core.ui.event.base.resolver.Storable;
 
 /**
  * см {@link ScreenEventResolver}
  */
 public class ActivityResultEventResolver extends SingleScreenEventResolver<ActivityResultEvent, ActivityResultDelegate>
-        implements Storeable<ActivityResultDelegate, ActivityResultEvent> {
+        implements Storable {
 
     private ActivityResultEvent unhandledEvent;
 
@@ -53,27 +53,26 @@ public class ActivityResultEventResolver extends SingleScreenEventResolver<Activ
 
     @Override
     protected boolean resolve(ActivityResultDelegate delegate, ActivityResultEvent event) {
-        return tryToResolve(delegate, event);
+        boolean resolved = delegate.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
+
+        if (!resolved) {
+            unhandledEvent = event;
+        } else {
+            unhandledEvent = null;
+        }
+
+        return resolved;
     }
 
     @NotNull
     @Override
     public List<ScreenEvent> getStoredEvents() {
-        List<ScreenEvent> events = new ArrayList<>();
-        events.add(unhandledEvent);
-        return events;
-    }
-
-    @Override
-    public boolean tryToResolve(@NotNull ActivityResultDelegate delegate, @NotNull ActivityResultEvent event) {
-        boolean resolved = delegate.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
-
-        if (!resolved) {
-            ScreenEventResolverHelper.storedEvents.add(event);
+        if (unhandledEvent != null) {
+            List<ScreenEvent> events = new ArrayList<>();
+            events.add(unhandledEvent);
+            return events;
         } else {
-            ScreenEventResolverHelper.storedEvents.remove(event);
+            return Collections.EMPTY_LIST;
         }
-
-        return resolved;
     }
 }
