@@ -6,8 +6,10 @@ import ru.surfstudio.android.easyadapter.R
 import ru.surfstudio.android.easyadapter.holder.DoubleBindableViewHolder
 
 abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
-        parent: ViewGroup
-) : DoubleBindableViewHolder<T1, T2>(getContainer(parent)), AsyncViewHolder {
+        parent: ViewGroup,
+        containerWidth: Int,
+        containerHeight: Int
+) : DoubleBindableViewHolder<T1, T2>(getContainer(parent, containerWidth, containerHeight)), AsyncViewHolder {
     final override var isItemViewInflated = false
     final override var fadeInDuration = DEFAULT_FADE_IN_DURATION
 
@@ -27,8 +29,8 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
                 @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout,
                 containerWidth: Int = DEFAULT_WIDTH,
                 containerHeight: Int = DEFAULT_HEIGHT
-    ) : this(parent) {
-        inflateStubView(itemView as ViewGroup, stubLayoutId, containerWidth, containerHeight)
+    ) : this(parent, containerWidth, containerHeight) {
+        inflateStubView(itemView as ViewGroup, stubLayoutId)
         inflateItemView(itemView, layoutId) {
             if (isBindExecuted) bind(firstData, secondData)
         }
@@ -39,7 +41,6 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
         this.secondData = secondData
         isBindExecuted = true
         if (isItemViewInflated) bindInternal(firstData, secondData)
-
     }
 
     /**

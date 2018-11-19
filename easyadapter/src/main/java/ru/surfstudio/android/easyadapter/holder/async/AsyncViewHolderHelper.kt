@@ -17,20 +17,8 @@ const val DEFAULT_FADE_IN_DURATION = 200L
 const val DEFAULT_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT
 const val DEFAULT_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT
 
-internal fun inflateStubView(
-        itemView: ViewGroup,
-        @LayoutRes stubLayoutId: Int,
-        containerWidth: Int,
-        containerHeight: Int
-): View {
-    return itemView.apply {
-        layoutParams = ViewGroup.LayoutParams(
-                containerWidth,
-                containerHeight
-        )
-
-        LayoutInflater.from(itemView.context).inflate(stubLayoutId, this, true)
-    }
+internal fun inflateStubView(itemView: ViewGroup, @LayoutRes stubLayoutId: Int): View {
+    return LayoutInflater.from(itemView.context).inflate(stubLayoutId, itemView, true)
 }
 
 @TargetApi(Build.VERSION_CODES.KITKAT)
@@ -70,4 +58,11 @@ internal fun AsyncViewHolder.inflateItemView(
     }
 }
 
-internal fun getContainer(parent: ViewGroup) = FrameLayout(parent.context)
+internal fun getContainer(parent: ViewGroup, containerWidth: Int, containerHeight: Int): ViewGroup {
+    return FrameLayout(parent.context).apply {
+        layoutParams = ViewGroup.LayoutParams(
+                containerWidth,
+                containerHeight
+        )
+    }
+}
