@@ -24,3 +24,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
     }
 }
+
+task getTestInstrumentationRunnerName {
+    doLast {
+        println "$android.defaultConfig.testInstrumentationRunner"
+    }
+}

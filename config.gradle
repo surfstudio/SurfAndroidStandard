@@ -43,6 +43,7 @@ ext {
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
     multidexVersion = '1.0.3'                   //http://bit.ly/2KenzA7
     constraintLayoutVersion = '1.1.3'           //http://bit.ly/2OxplzU
+    constraintLayoutXVersion = '2.0.0-alpha2'   //http://bit.ly/2S1WoNg
 
     //ui
     glideVersion = '4.8.0'                      //http://bit.ly/2wQzHDE
