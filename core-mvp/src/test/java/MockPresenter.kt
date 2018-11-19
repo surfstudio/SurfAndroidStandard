@@ -42,7 +42,7 @@ class MockPresenter(basePresenterDependency: BasePresenterDependency) : BasePres
 
 
     fun <T> testSubscribeIoHandleError(single: Single<T>, onSuccess: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeIoHandleErrorBy(onSuccess, onError);
+        return single.subscribeIoHandleErrorBy(onSuccess, onError)
     }
 
 
@@ -82,50 +82,50 @@ class MockPresenter(basePresenterDependency: BasePresenterDependency) : BasePres
 
 
     fun <T> testSubscribeIoAutoReload(observable: Observable<T>, autoReloadAction: () -> Unit, onNext: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoAutoReload(autoReloadAction, onNext, onError)
+        return observable.subscribeIoAutoReloadBy(autoReloadAction, onNext, onError)
     }
 
 
     fun <T> testSubscribeIoAutoReload(observable: Observable<T>, autoReloadAction: () -> Unit, onNext: (T) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoAutoReload(autoReloadAction, onNext, onComplete, onError)
+        return observable.subscribeIoAutoReloadBy(autoReloadAction, onNext, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIoAutoReload(single: Single<T>, autoReloadAction: () -> Unit, onSuccess: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeByIoAutoReload(autoReloadAction, onSuccess, onError)
+        return single.subscribeIoAutoReloadBy(autoReloadAction, onSuccess, onError)
     }
 
 
     fun testSubscribeIoAutoReload(completable: Completable, autoReloadAction: () -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return completable.subscribeByIoAutoReload(autoReloadAction, onComplete, onError)
+        return completable.subscribeIoAutoReloadBy(autoReloadAction, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIoAutoReload(maybe: Maybe<T>, autoReloadAction: () -> Unit, onSuccess: (T) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return maybe.subscribeByIoAutoReload(autoReloadAction, onSuccess, onComplete, onError)
+        return maybe.subscribeIoAutoReloadBy(autoReloadAction, onSuccess, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIoHandleErrorAutoReload(observable: Observable<T>, autoReloadAction: () -> Unit, onNext: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoHandleErrorAutoReload(autoReloadAction, onNext, onError)
+        return observable.subscribeIoHandleErrorAutoReloadBy(autoReloadAction, onNext, onError)
     }
 
     fun <T> testSubscribeIoHandleErrorAutoReload(observable: Observable<T>, autoReloadAction: () -> Unit, onNext: (T) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeByIoHandleErrorAutoReload(autoReloadAction, onNext, onComplete, onError)
+        return observable.subscribeIoHandleErrorAutoReloadBy(autoReloadAction, onNext, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIoHandleErrorAutoReload(single: Single<T>, autoReloadAction: () -> Unit, onSuccess: (T) -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeByIoHandleErrorAutoReload(autoReloadAction, onSuccess, onError)
+        return single.subscribeIoHandleErrorAutoReloadBy(autoReloadAction, onSuccess, onError)
     }
 
 
     fun testSubscribeIoHandleErrorAutoReload(completable: Completable, autoReloadAction: () -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return completable.subscribeByIoHandleErrorAutoReload(autoReloadAction, onComplete, onError)
+        return completable.subscribeIoHandleErrorAutoReloadBy(autoReloadAction, onComplete, onError)
     }
 
 
     fun <T> testSubscribeIoHandleErrorAutoReload(maybe: Maybe<T>, autoReloadAction: () -> Unit, onSuccess: (T) -> Unit, onComplete: () -> Unit, onError: (Throwable) -> Unit): Disposable {
-        return maybe.subscribeByIoHandleErrorAutoReload(autoReloadAction, onSuccess, onComplete, onError)
+        return maybe.subscribeIoHandleErrorAutoReloadBy(autoReloadAction, onSuccess, onComplete, onError)
     }
 }

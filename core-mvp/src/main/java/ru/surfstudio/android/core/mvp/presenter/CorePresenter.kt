@@ -25,26 +25,22 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.exceptions.OnErrorNotImplementedException
 import io.reactivex.internal.functions.Functions
 import io.reactivex.internal.observers.LambdaObserver
 import io.reactivex.observers.DisposableCompletableObserver
 import io.reactivex.observers.DisposableMaybeObserver
 import io.reactivex.observers.DisposableSingleObserver
-import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.subjects.BehaviorSubject
 import ru.surfstudio.android.core.mvp.view.CoreView
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.state.ScreenState
-import ru.surfstudio.android.rx.extension.ActionSafe
 import ru.surfstudio.android.rx.extension.BiFunctionSafe
-import ru.surfstudio.android.rx.extension.ConsumerSafe
 
 /**
  * базовый класс презентера, содержащий всю корневую логику
- * Методы [.subscribe] добавляют логику замораживания
+ * Методы [.subscribeBy] добавляют логику замораживания
  * Rx событий на время пересоздания вью или когда экран находится в фоне, см [ObservableOperatorFreeze]
- * Также все подписки освобождаются при полном уничтожении экрана
+ * UI подписки [.subscribeUiBy] освобождаются при уничтожении view. Все остальные подписки освобождаются при полном уничтожении экрана
  *
  * @param <V>
 </V> */
@@ -333,6 +329,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
 
     //TODO remove
     //deprecated methods will be removed
+
     @Deprecated("Use extension instead",
             ReplaceWith("observable.subscribeBy(operator, onNext, onError)"))
     protected fun <T> subscribe(observable: Observable<T>,

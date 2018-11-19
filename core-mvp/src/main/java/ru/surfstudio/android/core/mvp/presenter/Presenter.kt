@@ -1,6 +1,5 @@
 package ru.surfstudio.android.core.mvp.presenter
 
-import androidx.annotation.CallSuper
 import ru.surfstudio.android.core.mvp.view.CoreView
 
 /**
