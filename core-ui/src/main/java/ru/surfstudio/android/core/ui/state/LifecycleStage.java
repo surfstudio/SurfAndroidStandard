@@ -11,5 +11,5 @@ public enum LifecycleStage {
     PAUSED,
     STOPPED,
     VIEW_DESTROYED,
-    DESTROYED
+    DESTROYED // == completely destroyed
 }
