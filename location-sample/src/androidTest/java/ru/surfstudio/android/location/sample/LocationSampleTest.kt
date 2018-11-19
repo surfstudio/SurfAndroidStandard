@@ -9,8 +9,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
+import androidx.test.uiautomator.By
 import androidx.test.uiautomator.UiDevice
 import androidx.test.uiautomator.UiSelector
+import androidx.test.uiautomator.Until
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -35,13 +37,6 @@ class LocationSampleTest {
             Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
-    private val defaultLocationInteractorOptions = intArrayOf(
-            R.id.btn_activity_default_location_interactor_check_location_availability,
-            R.id.btn_activity_default_location_interactor_resolve_location_availability,
-            R.id.btn_activity_default_location_interactor_show_last_known_location,
-            R.id.btn_activity_default_location_interactor_show_current_location
-    )
-
     private val locationServiceOptions = intArrayOf(
             R.id.btn_activity_location_service_check_location_availability,
             R.id.btn_activity_location_service_resolve_location_availability,
@@ -51,6 +46,7 @@ class LocationSampleTest {
     )
 
     private lateinit var uiDevice: UiDevice
+    private val timeout = 1000L
 
     @Before
     fun setUp() {
@@ -68,11 +64,25 @@ class LocationSampleTest {
 
     @Test
     fun testLocationSample() {
-        clickAndCheckActivity(
-                R.id.btn_default_location_interactor_sample,
-                DefaultLocationInteractorActivityView::class.java,
-                defaultLocationInteractorOptions
+        // Test first screen
+        performClick(R.id.btn_default_location_interactor_sample)
+        checkIfActivityIsVisible(DefaultLocationInteractorActivityView::class.java)
+        performClick(
+                R.id.btn_activity_default_location_interactor_check_location_availability,
+                R.id.btn_activity_default_location_interactor_resolve_location_availability
         )
+        uiDevice.wait(
+                Until.findObject(By.text(TextUtils.getString(R.string.accept_location_settings_btn_text))),
+                timeout
+        )
+        acceptLocationSettingsDialog()
+        performClick(
+                R.id.btn_activity_default_location_interactor_show_last_known_location,
+                R.id.btn_activity_default_location_interactor_show_current_location
+        )
+        Espresso.pressBack()
+
+        // Test second screen
         clickAndCheckActivity(
                 R.id.btn_location_service_sample,
                 LocationServiceActivityView::class.java,
