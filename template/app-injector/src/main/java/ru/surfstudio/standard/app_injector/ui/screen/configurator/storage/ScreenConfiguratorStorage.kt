@@ -9,6 +9,7 @@ import ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.debug
 import ru.surfstudio.standard.f_debug.debug.DebugActivityView
 import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView
 import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView
+import ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView
 import ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView
 import ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView
 import ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView
@@ -28,6 +29,7 @@ object ScreenConfiguratorStorage {
                 put(ServerSettingsDebugActivityView::class) { ServerSettingsDebugScreenConfigurator(it) }
                 put(RebootActivityDebugView::class) { RebootDebugScreenConfigurator(it) }
                 put(MemoryDebugActivityView::class) { MemoryDebugScreenConfigurator(it) }
+                put(AppInfoDebugActivityView::class) { AppInfoDebugScreenConfigurator(it) }
             }
 
     val activityConfiguratorMap = HashMap<KClass<*>, (intent: Intent) -> ActivityConfigurator>()
@@ -39,7 +41,7 @@ object ScreenConfiguratorStorage {
 
             }
 
-    val dialogScreenConfiguratorMap= HashMap<KClass<*>, (args: Bundle) -> DialogScreenConfigurator>()
+    val dialogScreenConfiguratorMap = HashMap<KClass<*>, (args: Bundle) -> DialogScreenConfigurator>()
             .apply {
 
             }

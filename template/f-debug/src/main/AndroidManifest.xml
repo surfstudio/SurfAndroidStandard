@@ -22,6 +22,8 @@
 
         <activity android:name="ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView" />
 
+        <activity android:name="ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView" />
+
     </application>
 
 </manifest>
