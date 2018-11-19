@@ -5,6 +5,9 @@ import androidx.annotation.LayoutRes
 import ru.surfstudio.android.easyadapter.R
 import ru.surfstudio.android.easyadapter.holder.DoubleBindableViewHolder
 
+/**
+ * Имплементация DoubleBindableViewHolder для асинхроного инфлейта layoutId
+ */
 abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
         parent: ViewGroup,
         containerWidth: Int,
@@ -18,12 +21,6 @@ abstract class AsyncDoubleBindableViewHolder<T1, T2> private constructor(
 
     private var isBindExecuted = false
 
-    /**
-     * Имплементация DoubleBindableViewHolder для асинхроного инфлейта layoutId
-     *
-     * @param layoutId айди ресурса для инфлейта основной вью
-     * @param stubLayoutId айди ресурса для инфлейта вью, которая будет видна до появления основной
-     */
     constructor(parent: ViewGroup,
                 @LayoutRes layoutId: Int,
                 @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout,

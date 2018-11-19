@@ -17,10 +17,16 @@ const val DEFAULT_FADE_IN_DURATION = 200L
 const val DEFAULT_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT
 const val DEFAULT_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT
 
+/**
+ * Синхронный инфлейт stub-view которая отображается перез инфлейтом основной
+ */
 internal fun inflateStubView(itemView: ViewGroup, @LayoutRes stubLayoutId: Int): View {
     return LayoutInflater.from(itemView.context).inflate(stubLayoutId, itemView, true)
 }
 
+/**
+ * Асинхронный инфлейт основной-view
+ */
 @TargetApi(Build.VERSION_CODES.KITKAT)
 internal fun AsyncViewHolder.inflateItemView(
         itemView: ViewGroup,
@@ -58,6 +64,9 @@ internal fun AsyncViewHolder.inflateItemView(
     }
 }
 
+/**
+ * Контейнер который служит для замены stub-view на основную
+ */
 internal fun getContainer(parent: ViewGroup, containerWidth: Int, containerHeight: Int): ViewGroup {
     return FrameLayout(parent.context).apply {
         layoutParams = ViewGroup.LayoutParams(

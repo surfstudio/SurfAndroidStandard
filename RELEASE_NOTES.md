@@ -19,6 +19,8 @@
 #### datalist-limit-offset
 #### datalist-limit-offset
 #### easyadapter
+* ANDDEP-270 Добавлена поддержка асинхронного инфлейта view в ViewHolder
+
 #### filestorage
 #### firebase-analytics
 #### imageloader

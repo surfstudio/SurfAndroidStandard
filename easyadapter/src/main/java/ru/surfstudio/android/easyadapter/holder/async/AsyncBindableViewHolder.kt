@@ -5,6 +5,9 @@ import androidx.annotation.LayoutRes
 import ru.surfstudio.android.easyadapter.R
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 
+/**
+ * Имплементация BindableViewHolder для асинхроного инфлейта layoutId
+ */
 abstract class AsyncBindableViewHolder<T> private constructor(
         parent: ViewGroup,
         containerWidth: Int,
@@ -17,12 +20,6 @@ abstract class AsyncBindableViewHolder<T> private constructor(
 
     private var isBindExecuted = false
 
-    /**
-     * Имплементация BindableViewHolder для асинхроного инфлейта layoutId
-     *
-     * @param layoutId айди ресурса для инфлейта основной вью
-     * @param stubLayoutId айди ресурса для инфлейта вью, которая будет видна до появления основной
-     */
     constructor(parent: ViewGroup,
                 @LayoutRes layoutId: Int,
                 @LayoutRes stubLayoutId: Int = R.layout.default_async_stub_layout,
