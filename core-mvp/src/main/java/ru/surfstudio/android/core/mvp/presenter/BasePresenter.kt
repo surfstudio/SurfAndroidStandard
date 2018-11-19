@@ -110,6 +110,26 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
         errorHandler.handleError(e)
     }
 
+    //region subscribeBy
+
+    override fun <T> subscribeBy(observable: Observable<T>, operator: ObservableOperatorFreeze<T>, observer: LambdaObserver<T>): Disposable {
+        return super.subscribeBy(observable.observeOn(schedulersProvider.main(), true), operator, observer)
+    }
+
+    override fun <T> subscribeBy(single: Single<T>, operator: SingleOperatorFreeze<T>, observer: DisposableSingleObserver<T>): Disposable {
+        return super.subscribeBy(single.observeOn(schedulersProvider.main()), operator, observer)
+    }
+
+    override fun <T> subscribeBy(maybe: Maybe<T>, operator: MaybeOperatorFreeze<T>, observer: DisposableMaybeObserver<T>): Disposable {
+        return super.subscribeBy(maybe.observeOn(schedulersProvider.main()), operator, observer)
+    }
+
+    override fun subscribeBy(completable: Completable, operator: CompletableOperatorFreeze, observer: DisposableCompletableObserver): Disposable {
+        return super.subscribeBy(completable.observeOn(schedulersProvider.main()), operator, observer)
+    }
+
+    //endregion
+
     //region subscribe
 
     protected fun <T> Observable<T>.subscribeBy(onNext: (T) -> Unit): Disposable {
@@ -687,72 +707,6 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
 
     // TODO remove
     // Deprecated methods wil be removed
-
-    //region subscribe ui
-    @Deprecated("Use extension instead")
-    protected fun <T> subscribe(observable: Observable<T>,
-                                operator: ObservableOperatorFreeze<T>,
-                                observer: LambdaObserver<T>): Disposable {
-        return observable.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
-    }
-
-
-    @Deprecated("Use extension instead")
-    protected fun <T> subscribe(single: Single<T>,
-                                operator: SingleOperatorFreeze<T>,
-                                observer: DisposableSingleObserver<T>): Disposable {
-        return single.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
-    }
-
-    @Deprecated("Use extension instead")
-    protected fun subscribe(completable: Completable,
-                            operator: CompletableOperatorFreeze,
-                            observer: DisposableCompletableObserver): Disposable {
-        return completable.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
-    }
-
-    @Deprecated("Use extension instead")
-    protected fun <T> subscribe(maybe: Maybe<T>,
-                                operator: MaybeOperatorFreeze<T>,
-                                observer: DisposableMaybeObserver<T>): Disposable {
-        return maybe.observeOn(schedulersProvider.main())
-                .subscribeBy(operator, observer)
-    }
-    //endregion
-
-    //region subscribeWithoutFreezing
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeWithoutFreezingUi(observer)"))
-    protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
-                                               observer: LambdaObserver<T>): Disposable {
-        return observable.observeOn(schedulersProvider.main(), true)
-                .subscribeWithoutFreezingBy(observer)
-    }
-
-    @Deprecated("Use extension instead", ReplaceWith("single.subscribeWithoutFreezingUi(subscriber)"))
-    protected fun <T> subscribeWithoutFreezing(single: Single<T>,
-                                               subscriber: DisposableSingleObserver<T>): Disposable {
-        return single.observeOn(schedulersProvider.main())
-                .subscribeWithoutFreezingBy(subscriber)
-    }
-
-    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeWithoutFreezingUi(subscriber)"))
-    protected fun subscribeWithoutFreezing(completable: Completable,
-                                           subscriber: DisposableCompletableObserver): Disposable {
-        return completable.observeOn(schedulersProvider.main())
-                .subscribeWithoutFreezingBy(subscriber)
-    }
-
-    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeWithoutFreezingUi(subscriber)"))
-    protected fun <T> subscribeWithoutFreezing(maybe: Maybe<T>,
-                                               subscriber: DisposableMaybeObserver<T>): Disposable {
-        return maybe.observeOn(schedulersProvider.main())
-                .subscribeWithoutFreezingBy(subscriber)
-    }
-
-    //endregion
 
     //region subscribeIoHandleError
 
