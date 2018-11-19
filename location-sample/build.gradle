@@ -3,9 +3,7 @@ apply from: '../androidSample.gradle'
 android {
     defaultConfig {
         applicationId "ru.surfstudio.android.location.sample"
-    }
-    defaultConfig {
-        testInstrumentationRunner "ru.surfstudio.android.location.sample.LocationSampleTestRunner"
+        testInstrumentationRunner "ru.surfstudio.android.location.sample.mock.LocationSampleTestRunner"
     }
 }
 

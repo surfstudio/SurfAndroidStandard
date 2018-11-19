@@ -62,7 +62,6 @@ ext {
     testRunnerXVersion = '1.1.0'
     espressoVersion = '3.0.2'                   //http://bit.ly/2v3OiKX
     espressoXVersion = '3.1.0'
-    uiAutomatorVersion='2.2.0'                  //http://bit.ly/2ORotVQ
     mockitoVersion = '2.23.0'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX

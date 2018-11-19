@@ -11,7 +11,7 @@ android {
     buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
+        minSdkVersion project.ext.minSdkVersionSample
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
         versionName project.ext.moduleVersionName

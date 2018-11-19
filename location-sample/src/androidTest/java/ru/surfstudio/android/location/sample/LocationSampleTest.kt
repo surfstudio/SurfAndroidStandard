@@ -6,8 +6,11 @@ import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.intent.Intents
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.GrantPermissionRule
+import androidx.test.uiautomator.UiDevice
+import androidx.test.uiautomator.UiSelector
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -19,6 +22,7 @@ import ru.surfstudio.android.location.sample.ui.screen.start.MainActivity
 import ru.surfstudio.android.location_sample.R
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.TextUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 @RunWith(AndroidJUnit4::class)
@@ -46,16 +50,19 @@ class LocationSampleTest {
             R.id.btn_activity_location_service_unsubscribe_from_location_updates
     )
 
+    private lateinit var uiDevice: UiDevice
+
     @Before
     fun setUp() {
-        getInstrumentation().uiAutomation.executeShellCommand(
-                "settings put secure location_providers_allowed +gps")
+        setGpsEnabled(true)
+        uiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
         Intents.init()
         ActivityUtils.launchActivity(MainActivity::class.java)
     }
 
     @After
     fun tearDown() {
+        setGpsEnabled(false)
         Intents.release()
     }
 
@@ -80,7 +87,25 @@ class LocationSampleTest {
     ) {
         performClick(buttonResId)
         checkIfActivityIsVisible(activityClass)
-        performClick(*buttons)
+        performClick({ acceptLocationSettingsDialog() }, *buttons)
         Espresso.pressBack()
+    }
+
+    private fun acceptLocationSettingsDialog() {
+        uiDevice.apply {
+            findObject(UiSelector().text(
+                    TextUtils.getString(R.string.accept_location_settings_btn_text))
+            ).apply {
+                if (exists() && isEnabled) {
+                    click()
+                }
+            }
+        }
+    }
+
+    private fun setGpsEnabled(isEnabled: Boolean) {
+        getInstrumentation().uiAutomation.executeShellCommand(
+                "settings put secure location_providers_allowed " +
+                        "${if (isEnabled) '+' else '-'}gps")
     }
 }

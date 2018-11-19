@@ -4,6 +4,7 @@ ext {
     applicationId = "ru.surfstudio.android.template"
     buildToolsVersion = "28.0.3"
     minSdkVersion = 17
+    minSdkVersionSample = 18
     targetSdkVersion = 28
     compileSdkVersion = 28
     debugVersionNameSuffix = ".debug"
