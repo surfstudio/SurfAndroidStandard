@@ -416,10 +416,10 @@ abstract class BasePresenter<V : CoreView>(basePresenterDependency: BasePresente
                 val disposable = connectionProvider.observeConnectionChanges()
                         .filter { connected -> connected }
                         .firstElement()
-                        .toObservable().subscribeBy({
+                        .toObservable().subscribeBy {
                             reloadAction.invoke()
                             autoReloadDisposables.remove(reloadAction.hashCode())
-                        }, {})
+                        }
                 autoReloadDisposables[reloadAction.hashCode()] = disposable
             }
         }
