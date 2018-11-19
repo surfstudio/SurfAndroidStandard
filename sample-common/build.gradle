@@ -1,6 +1,12 @@
 apply from: '../androidModule.gradle'
 apply from: '../androidTestModule.gradle'
 
+android {
+    defaultConfig {
+        minSdkVersion project.ext.minSdkVersionSample
+    }
+}
+
 dependencies {
     api project(':custom-view')
     api project(':core-mvp')
