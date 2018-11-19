@@ -1,21 +1,18 @@
-package ru.surfstudio.standard.app_injector.ui.notification.debug
+package ru.surfstudio.standard.f_debug.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import androidx.core.app.NotificationCompat
-import ru.surfstudio.android.template.app_injector.BuildConfig
-import ru.surfstudio.android.template.app_injector.R
+import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.f_debug.debug.DebugActivityRoute
 
 private val DEBUG_NOTIFICATION_ID = "DEBUG_NOTIFICATION_ID".hashCode()
 
 object DebugNotificationBuilder {
-
-    fun showDebugNotification(context: Context) {
-        if (canShowDebugScreen()) {
+    fun showDebugNotification(context: Context, icon: Int) {
             val channelId = context.getString(R.string.notification_channel_id)
             val notificationTitle = context.getString(R.string.debug_screen_title)
             val notificationBody = context.getString(R.string.debug_screen_body)
@@ -27,7 +24,7 @@ object DebugNotificationBuilder {
                     PendingIntent.FLAG_UPDATE_CURRENT)
 
             val notificationBuilder = NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(icon)
                     .setContentTitle(notificationTitle)
                     .setContentText(notificationBody)
                     .setContentIntent(pendingIntent)
@@ -46,10 +43,5 @@ object DebugNotificationBuilder {
             }
 
             notificationManager.notify(DEBUG_NOTIFICATION_ID, notificationBuilder.build())
-        }
-    }
-
-    private fun canShowDebugScreen(): Boolean = with(BuildConfig.BUILD_TYPE) {
-        contains("debug") || contains("qa")
     }
 }

@@ -43,11 +43,19 @@ dependencies {
     implementation project(':template:i-token')
     implementation project(':template:i-session')
     implementation project(':template:i-auth')
-    implementation project(':template:i-debug')
     implementation project(':template:f-auth')
     implementation project(':template:f-main')
-    implementation project(':template:f-debug')
     implementation project(':template:f-splash')
+
+    //debug
+    releaseImplementation project(':template:f-debug-no-op')
+    debugImplementation project(':template:f-debug')
+    qaImplementation project(':template:f-debug')
+    releaseImplementation project(':template:i-debug-no-op')
+    debugImplementation project(':template:i-debug')
+    qaImplementation project(':template:i-debug')
+
+
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 

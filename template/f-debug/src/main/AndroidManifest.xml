@@ -22,14 +22,6 @@
 
         <activity android:name="ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView" />
 
-        <activity
-            android:name="com.krishna.debug_tools.activity.ActivityDebugTools">
-            <intent-filter>
-                <action android:name="@string/impl_intent_debug_storage" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
     </application>
 
 </manifest>

@@ -11,6 +11,8 @@ include ':template:app-injector',
         ':template:f-auth',
         ':template:f-main',
         ':template:f-debug',
-        ':template:f-splash'
+        ':template:f-splash',
+        ':template:f-debug-no-op',
+        ':template:i-debug-no-op'
 
 apply from: 'android-standard/androidStandardSettings.gradle'

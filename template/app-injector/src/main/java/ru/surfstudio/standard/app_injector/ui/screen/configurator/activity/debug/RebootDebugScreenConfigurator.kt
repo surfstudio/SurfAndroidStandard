@@ -9,7 +9,6 @@ import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
-import ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView
 import ru.surfstudio.standard.f_debug.server_settings.reboot.RebootDebugActivityRoute
 
