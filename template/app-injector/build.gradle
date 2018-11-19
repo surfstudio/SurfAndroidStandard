@@ -55,8 +55,6 @@ dependencies {
     debugImplementation project(':template:i-debug')
     qaImplementation project(':template:i-debug')
 
-
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     implementation "androidx.media:media:$androidxVersion"
