@@ -46,7 +46,7 @@ class LocationSampleTest {
     )
 
     private lateinit var uiDevice: UiDevice
-    private val timeout = 1000L
+    private val timeout = 4000L
 
     @Before
     fun setUp() {
