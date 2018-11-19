@@ -37,6 +37,12 @@ class LocationSampleTest {
             Manifest.permission.ACCESS_COARSE_LOCATION
     )
 
+    private val defaultLocationServiceOptions = intArrayOf(
+            R.id.btn_activity_default_location_interactor_check_location_availability,
+            R.id.btn_activity_default_location_interactor_show_last_known_location,
+            R.id.btn_activity_default_location_interactor_show_current_location
+    )
+
     private val locationServiceOptions = intArrayOf(
             R.id.btn_activity_location_service_check_location_availability,
             R.id.btn_activity_location_service_resolve_location_availability,
@@ -67,19 +73,13 @@ class LocationSampleTest {
         // Test first screen
         performClick(R.id.btn_default_location_interactor_sample)
         checkIfActivityIsVisible(DefaultLocationInteractorActivityView::class.java)
-        performClick(
-                R.id.btn_activity_default_location_interactor_check_location_availability,
-                R.id.btn_activity_default_location_interactor_resolve_location_availability
-        )
+        performClick(R.id.btn_activity_default_location_interactor_resolve_location_availability)
         uiDevice.wait(
                 Until.findObject(By.text(TextUtils.getString(R.string.accept_location_settings_btn_text))),
                 timeout
         )
         acceptLocationSettingsDialog()
-        performClick(
-                R.id.btn_activity_default_location_interactor_show_last_known_location,
-                R.id.btn_activity_default_location_interactor_show_current_location
-        )
+        performClick(*defaultLocationServiceOptions)
         Espresso.pressBack()
 
         // Test second screen
