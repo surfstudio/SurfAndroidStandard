@@ -94,5 +94,9 @@
   {
     "name": "custom_scope_sample",
     "path": ""
+  },
+  {
+    "name": "loadstate-sample",
+    "path": ""
   }
 ]

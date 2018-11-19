@@ -11,7 +11,7 @@ import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.NoneLoadS
  */
 class NoneLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer? = null) : LoadStatePresentation<NoneLoadState> {
 
-    override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: NoneLoadState) {
+    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: NoneLoadState) {
         placeHolder?.let {
             it.changeVisibility(View.INVISIBLE)
             it.changeViewTo()

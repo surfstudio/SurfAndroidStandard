@@ -17,7 +17,7 @@ class MainLoadingWithStubsPresentation(private val adapter: EasyAdapter) : LoadS
         private const val STUBS_COUNT = 4
     }
 
-    override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: MainLoadingState) {
+    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: MainLoadingState) {
         val stubLoadStateController =
                 StubLoadStateController()
         adapter.setItems(ItemList.create().apply {

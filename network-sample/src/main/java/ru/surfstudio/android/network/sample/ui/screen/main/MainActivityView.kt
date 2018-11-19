@@ -47,7 +47,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
 
     override fun getSwipeRefreshLayout(): SwipeRefreshLayout = swipe_refresh_layout
 
-    override fun createLoadStateRenderer(): LoadStateRendererInterface =
+    override fun getLoadStateRenderer(): LoadStateRendererInterface =
             DefaultLoadStateRenderer(placeholder)
                     .configErrorState(onBtnClickedListener = { presenter.reloadData() })
 

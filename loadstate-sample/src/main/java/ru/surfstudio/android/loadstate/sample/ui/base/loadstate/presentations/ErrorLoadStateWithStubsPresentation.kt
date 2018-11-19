@@ -17,7 +17,7 @@ class ErrorLoadStateWithStubsPresentation(private val adapter: EasyAdapter) : Lo
         private const val STUBS_COUNT = 4
     }
 
-    override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: ErrorLoadState) {
+    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: ErrorLoadState) {
         val stubLoadStateController =
                 StubLoadStateController()
         adapter.setItems(ItemList.create().apply {

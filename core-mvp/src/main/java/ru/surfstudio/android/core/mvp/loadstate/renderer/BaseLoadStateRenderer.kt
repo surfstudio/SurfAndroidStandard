@@ -32,7 +32,7 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
     override fun render(loadState: LoadStateInterface) {
 
         getPresentation(currentState.javaClass).hidePresentation(currentState, loadState)
-        getPresentation(loadState.javaClass).showPresentation(currentState, loadState)
+        getPresentation(loadState.javaClass).showLoadState(currentState, loadState)
         doForStateActions.forEach { it.second(it.first(loadState)) }
 
         _currentState = loadState
@@ -108,18 +108,18 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
     //region doWithCheck
     fun doWithCheck(
             loadState: Class<out LoadStateInterface>,
-            runWithCheck: (check: Boolean) -> Unit): BaseLoadStateRenderer {
+            action: (check: Boolean) -> Unit): BaseLoadStateRenderer {
 
-        doWithCheck(listOf(loadState), runWithCheck)
+        doWithCheck(listOf(loadState), action)
         return this
     }
 
     fun doWithCheck(
             firstLoadState: Class<out LoadStateInterface>,
             secondLoadState: Class<out LoadStateInterface>,
-            runWithCheck: (check: Boolean) -> Unit): BaseLoadStateRenderer {
+            action: (check: Boolean) -> Unit): BaseLoadStateRenderer {
 
-        doWithCheck(listOf(firstLoadState, secondLoadState), runWithCheck)
+        doWithCheck(listOf(firstLoadState, secondLoadState), action)
         return this
     }
 
@@ -127,18 +127,18 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
             firstLoadState: Class<out LoadStateInterface>,
             secondLoadState: Class<out LoadStateInterface>,
             thirdLoadState: Class<out LoadStateInterface>,
-            runWithCheck: (check: Boolean) -> Unit): BaseLoadStateRenderer {
+            action: (check: Boolean) -> Unit): BaseLoadStateRenderer {
 
-        doWithCheck(listOf(firstLoadState, secondLoadState, thirdLoadState), runWithCheck)
+        doWithCheck(listOf(firstLoadState, secondLoadState, thirdLoadState), action)
         return this
     }
 
     fun doWithCheck(loadStates: List<Class<out LoadStateInterface>>,
-                    runWithCheck: (check: Boolean) -> Unit): BaseLoadStateRenderer {
+                    action: (check: Boolean) -> Unit): BaseLoadStateRenderer {
 
         doForStateActions.add(Pair(
                 { it: LoadStateInterface -> loadStates.contains(it::class.java) },
-                { it: Boolean -> runWithCheck.invoke(it) }))
+                { it: Boolean -> action.invoke(it) }))
         return this
     }
     //endregion

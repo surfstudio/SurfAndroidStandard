@@ -49,7 +49,7 @@ class ErrorLoadStatePresentation(private val placeHolder: PlaceHolderViewContain
         }
     }
 
-    override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: ErrorLoadState) {
+    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: ErrorLoadState) {
         initViews(view)
         placeHolder.changeViewTo(view)
         placeHolder.changeVisibility(View.VISIBLE)

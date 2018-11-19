@@ -38,7 +38,7 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
 
     override fun getScreenName(): String = "renderer_with_stubs_demo"
 
-    override fun createLoadStateRenderer() =
+    override fun getLoadStateRenderer() =
             LoadStateWithStubsRenderer(adapter)
                     .apply {
                         //пример управления видимостью View в зависимости от стейта

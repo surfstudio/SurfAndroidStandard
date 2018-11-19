@@ -126,9 +126,5 @@
   {
     "name": "rxbus",
     "path": ""
-  },
-  {
-    "name": "loadstate-sample",
-    "path": ""
   }
 ]

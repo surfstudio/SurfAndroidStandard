@@ -28,7 +28,7 @@ class TransparentLoadingStatePresentation(private val placeHolder: PlaceHolderVi
                 false)
     }
 
-    override fun showPresentation(
+    override fun showLoadState(
             loadStateFrom: LoadStateInterface,
             loadStateTo: TransparentLoadingState) {
         placeHolder.setBackgroundColor(transparentBackgroundColor)

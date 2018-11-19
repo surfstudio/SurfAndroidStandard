@@ -51,7 +51,7 @@ class EmptyLoadStatePresentation(private val placeHolder: PlaceHolderViewContain
         }
     }
 
-    override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: EmptyLoadState) {
+    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: EmptyLoadState) {
         initViews(view)
         placeHolder.changeViewTo(view)
         placeHolder.changeVisibility(View.VISIBLE)

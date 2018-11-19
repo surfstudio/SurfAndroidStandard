@@ -41,7 +41,7 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
 
     override fun getScreenName(): String = "default_renderer_demo"
 
-    override fun createLoadStateRenderer() =
+    override fun getLoadStateRenderer() =
             DefaultLoadStateRenderer(placeholder).apply {
                 //пример добавления представления кастомного стейта
                 putPresentation(

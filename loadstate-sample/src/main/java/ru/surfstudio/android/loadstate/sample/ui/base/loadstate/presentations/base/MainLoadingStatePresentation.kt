@@ -30,7 +30,7 @@ class MainLoadingStatePresentation(private val placeHolder: PlaceHolderViewConta
         }
     }
 
-    override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: MainLoadingState) {
+    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: MainLoadingState) {
         placeHolder.changeVisibility(View.VISIBLE)
         placeHolder.removeAllViews()
         placeHolder.addView(view)

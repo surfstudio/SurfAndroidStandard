@@ -23,7 +23,7 @@ class CustomLoadStatePresentation(private val placeHolder: PlaceHolderViewContai
         }
     }
 
-    override fun showPresentation(loadStateFrom: LoadStateInterface, loadStateTo: CustomLoadState) {
+    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: CustomLoadState) {
         placeHolder.changeViewTo(view)
         placeHolder.changeVisibility(View.VISIBLE)
     }

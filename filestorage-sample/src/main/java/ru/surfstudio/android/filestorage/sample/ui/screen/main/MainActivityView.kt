@@ -33,7 +33,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun createLoadStateRenderer(): LoadStateRendererInterface =
+    override fun getLoadStateRenderer(): LoadStateRendererInterface =
             DefaultLoadStateRenderer(placeholder)
                     .configErrorState(onBtnClickedListener = { presenter.reloadData() })
 

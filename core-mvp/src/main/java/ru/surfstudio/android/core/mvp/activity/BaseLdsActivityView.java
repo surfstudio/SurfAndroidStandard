@@ -29,9 +29,7 @@ import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
 public abstract class BaseLdsActivityView<M extends LdsScreenModel>
         extends BaseRenderableActivityView<M> {
 
-    private LoadStateRendererInterface loadStateRenderer;
-
-    protected abstract LoadStateRendererInterface createLoadStateRenderer();
+    protected abstract LoadStateRendererInterface getLoadStateRenderer();
 
     @Override
     public void render(M sm) {
@@ -41,12 +39,5 @@ public abstract class BaseLdsActivityView<M extends LdsScreenModel>
 
     public void renderLoadState(LoadStateInterface loadState) {
         getLoadStateRenderer().render(loadState);
-    }
-
-    private LoadStateRendererInterface getLoadStateRenderer() {
-        if (loadStateRenderer == null) {
-            loadStateRenderer = createLoadStateRenderer();
-        }
-        return loadStateRenderer;
     }
 }
