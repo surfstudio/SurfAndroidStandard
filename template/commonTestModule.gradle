@@ -26,4 +26,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoXVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoXVersion"
+    androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
 }
