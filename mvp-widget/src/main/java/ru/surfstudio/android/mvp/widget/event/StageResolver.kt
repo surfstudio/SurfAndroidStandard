@@ -55,6 +55,10 @@ class StageResolver(
                 arrayOf(LifecycleStage.VIEW_READY, LifecycleStage.STARTED, LifecycleStage.RESUMED)
             }
 
+            wishingState == LifecycleStage.VIEW_DESTROYED && parentState.lifecycleStage == LifecycleStage.PAUSED -> {
+                arrayOf(LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED)
+            }
+
             // Когда уничтожаем виджет, необходимо в ручную послать предыдущие события
             wishingState == LifecycleStage.DESTROYED -> {
                 when (screenState.lifecycleStage!!) {
