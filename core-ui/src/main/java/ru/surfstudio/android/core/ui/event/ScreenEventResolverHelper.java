@@ -42,9 +42,6 @@ import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultEventR
  */
 public class ScreenEventResolverHelper {
 
-    //буффер неразрешенных событий
-    public static List<ScreenEvent> storedEvents = new ArrayList<>();
-
     public static List<ScreenEventResolver> standardEventResolvers() {
         return new ArrayList<>(Arrays.asList(
                 new ActivityResultEventResolver(),
