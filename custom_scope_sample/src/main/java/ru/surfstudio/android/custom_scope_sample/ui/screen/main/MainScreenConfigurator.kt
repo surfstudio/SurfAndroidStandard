@@ -1,6 +1,5 @@
 package ru.surfstudio.android.custom_scope_sample.ui.screen.main
 
-import android.content.Context
 import android.content.Intent
 import dagger.Component
 import dagger.Module
@@ -14,7 +13,9 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 /**
  * Конфигуратор активити главного экрана
  */
-class MainScreenConfigurator(context: Context, intent: Intent) : LoginActivityScreenConfigurator(intent) {
+class MainScreenConfigurator(intent: Intent) : LoginActivityScreenConfigurator(intent) {
+
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(
             parentActivityComponent: LoginActivityComponent,
             activityScreenModule: ActivityScreenModule?,

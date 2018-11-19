@@ -20,7 +20,7 @@ class SimpleDialogFragment : CoreSimpleDialogFragment() {
         return AlertDialog.Builder(context!!)
                 .setTitle(R.string.simple_dialog_title)
                 .setMessage(R.string.simple_dialog_message)
-                .setPositiveButton(R.string.positive_btn_text) { _, _ ->  presenter.simpleDialogSuccessAction()}
+                .setPositiveButton(R.string.positive_btn_text) { _, _ ->  presenter.simpleDialogSuccessAction() }
                 .setNegativeButton(R.string.negative_btn_text, null)
                 .create()
     }
