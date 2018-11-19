@@ -5,4 +5,6 @@ dependencies {
     implementation project(':template:i-debug')
 
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
+    debugImplementation 'com.github.kk121:Android-Debug-Tools:1.0'
+    qaImplementation 'com.github.kk121:Android-Debug-Tools:1.0'
 }

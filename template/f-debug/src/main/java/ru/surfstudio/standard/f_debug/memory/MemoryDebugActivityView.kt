@@ -28,5 +28,6 @@ class MemoryDebugActivityView : BaseRenderableActivityView<MemoryDebugScreenMode
         memory_leakcanary_switch.setOnCheckedChangeListener { _, isEnabled ->
             presenter.setLeakCanaryEnabled(isEnabled)
         }
+        show_storage_item_layout.setOnClickListener { presenter.openStorageDebugScreen() }
     }
 }
