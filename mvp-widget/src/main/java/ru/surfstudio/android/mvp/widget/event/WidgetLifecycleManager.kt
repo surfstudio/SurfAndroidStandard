@@ -1,6 +1,7 @@
 package ru.surfstudio.android.mvp.widget.event
 
 import android.view.View
+import ru.surfstudio.android.core.ui.event.BaseScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent
 import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate
@@ -43,7 +44,7 @@ class WidgetLifecycleManager(
         private val screenState: WidgetScreenState,
         private val parentState: ScreenState,
         private val widgetScreenEventDelegateManager: WidgetScreenEventDelegateManager,
-        parentScreenEventDelegateManager: ScreenEventDelegateManager
+        private val parentScreenEventDelegateManager: ScreenEventDelegateManager
 ) : OnCompletelyDestroyDelegate,
         OnStartDelegate,
         OnResumeDelegate,
@@ -96,6 +97,8 @@ class WidgetLifecycleManager(
         }
 
         stageResolver.pushState(LifecycleStage.VIEW_READY)
+
+        (parentScreenEventDelegateManager as BaseScreenEventDelegateManager).sendStoredActivityResultEvents()
     }
 
     override fun onStart() {

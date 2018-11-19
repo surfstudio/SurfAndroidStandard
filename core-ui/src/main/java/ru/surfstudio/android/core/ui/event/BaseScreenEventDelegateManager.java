@@ -28,6 +28,8 @@ import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.core.ui.event.result.ActivityResultEvent;
+import ru.surfstudio.android.core.ui.event.result.ActivityResultEventResolver;
 
 /**
  * базовый класс менеджера {@link ScreenEventDelegateManager}
@@ -211,6 +213,20 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
     private void assertNotDestroyed() {
         if (destroyed) {
             throw new IllegalStateException(String.format("Unsupported operation, EventDelegateManager %s is destroyed", this));
+        }
+    }
+
+    public void sendStoredActivityResultEvents() {
+        List<ScreenEventDelegate> delegates = delegatesMap.get(ActivityResultEvent.class);
+        if (!delegates.isEmpty()) {
+            List<ScreenEventResolver> eventResolvers = getEventResolversForDelegate(delegates.get(0));
+
+            for (ScreenEventResolver r : eventResolvers) {
+                ActivityResultEventResolver ar = (ActivityResultEventResolver) r;
+                for (ScreenEvent ev : ar.getStoredEvents()) {
+                    r.resolve(delegates, ev);
+                }
+            }
         }
     }
 }

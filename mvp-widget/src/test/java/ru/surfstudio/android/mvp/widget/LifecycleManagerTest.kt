@@ -216,6 +216,7 @@ class LifecycleManagerTest {
     @Test
     fun testSomeCases() {
         //текущее состояние виджета - CREATED
+        actualStage = LifecycleStage.CREATED
 
         parentState.onResume()
 
