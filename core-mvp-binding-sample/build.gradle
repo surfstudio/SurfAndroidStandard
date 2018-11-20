@@ -2,7 +2,7 @@ apply from: '../androidSample.gradle'
 
 android{
     defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
+        applicationId "ru.surfstudio.android.core.mvp.binding.sample"
     }
 }
 
