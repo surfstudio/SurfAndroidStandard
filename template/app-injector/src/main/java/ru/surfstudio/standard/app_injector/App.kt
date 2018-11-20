@@ -12,7 +12,8 @@ import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.base_ui.provider.route.RouteClassProvider
-import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
+import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.DebugScreenConfiguratorStorage
 
 class App : CoreApp() {
 
@@ -20,7 +21,8 @@ class App : CoreApp() {
         super.onCreate()
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
-        if (AppInjector.appComponent.debugInteractor().mustNotInitializeApp()) {
+        DebugAppInjector.initInjector(this, activeActivityHolder)
+        if (DebugAppInjector.appComponent.debugInteractor().mustNotInitializeApp()) {
             // работает LeakCanary, ненужно ничего инициализировать
             return
         }
@@ -28,8 +30,7 @@ class App : CoreApp() {
         initFabric()
         initComponentProvider()
         initRouteProvider()
-        AppInjector.appComponent.debugInteractor().onCreateApp()
-        DebugNotificationBuilder.showDebugNotification(this, R.mipmap.ic_launcher)
+        DebugAppInjector.appComponent.debugInteractor().onCreateApp(R.mipmap.ic_launcher)
     }
 
     private fun initRouteProvider() {
@@ -40,7 +41,9 @@ class App : CoreApp() {
 
     private fun initComponentProvider() {
         ComponentProvider.createActivityScreenConfigurator = { intent, kclass ->
-            ScreenConfiguratorStorage.activityScreenConfiguratorMap[kclass]?.invoke(intent)!!
+            ScreenConfiguratorStorage.activityScreenConfiguratorMap[kclass]?.invoke(intent)
+                    ?:
+            DebugScreenConfiguratorStorage.activityScreenConfiguratorMap[kclass]?.invoke(intent)!!
         }
 
         ComponentProvider.createActivityConfigurator = { intent, kclass ->

@@ -51,9 +51,6 @@ dependencies {
     releaseImplementation project(':template:f-debug-no-op')
     debugImplementation project(':template:f-debug')
     qaImplementation project(':template:f-debug')
-    releaseImplementation project(':template:i-debug-no-op')
-    debugImplementation project(':template:i-debug')
-    qaImplementation project(':template:i-debug')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
