@@ -16,4 +16,5 @@ dependencies {
 
     //tiny dancer
     debugImplementation "com.github.brianPlummer:tinydancer:$tinyDancerVerxion"
+    qaImplementation "com.github.brianPlummer:tinydancer-noop:$tinyDancerVerxion"
 }
