@@ -4,6 +4,7 @@ import android.content.Intent
 import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView
 import ru.surfstudio.standard.f_debug.debug.DebugActivityView
 import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView
+import ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView
 import ru.surfstudio.standard.f_debug.injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.*
 import ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView
@@ -20,5 +21,6 @@ object DebugScreenConfiguratorStorage {
                 put(ServerSettingsDebugActivityView::class) { ServerSettingsDebugScreenConfigurator(it) }
                 put(RebootActivityDebugView::class) { RebootDebugScreenConfigurator(it) }
                 put(MemoryDebugActivityView::class) { MemoryDebugScreenConfigurator(it) }
+                put(AppInfoDebugActivityView::class) { AppInfoDebugScreenConfigurator(it) }
             }
 }
