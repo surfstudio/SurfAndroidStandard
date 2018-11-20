@@ -18,7 +18,7 @@ const val DEFAULT_WIDTH = ViewGroup.LayoutParams.WRAP_CONTENT
 const val DEFAULT_HEIGHT = ViewGroup.LayoutParams.WRAP_CONTENT
 
 /**
- * Синхронный инфлейт stub-view которая отображается перез инфлейтом основной
+ * Синхронный инфлейт stub-view которая отображается перед инфлейтом основной
  */
 internal fun inflateStubView(itemView: ViewGroup, @LayoutRes stubLayoutId: Int): View {
     return LayoutInflater.from(itemView.context).inflate(stubLayoutId, itemView, true)
