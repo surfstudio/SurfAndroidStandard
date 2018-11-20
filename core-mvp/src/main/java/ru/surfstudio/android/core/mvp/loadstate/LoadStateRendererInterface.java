@@ -13,13 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.mvp.placeholder;
-
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+package ru.surfstudio.android.core.mvp.loadstate;
 
 /**
- * Интрефейс для вью отрисовывающей состояние {@link LoadState}
+ * Интрефейс для вью, отрисовывающей состояние {@link LoadStateInterface}
  */
-public interface PlaceHolderViewInterface {
-    void render(LoadState loadState);
+public interface LoadStateRendererInterface {
+    void render(LoadStateInterface loadState);
 }
