@@ -24,7 +24,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = MainScreenConfigurator(this, intent)
+    override fun createConfigurator() = MainScreenConfigurator(intent)
 
     override fun getScreenName(): String = "MainActivity"
 
@@ -48,6 +48,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     }
 
     fun showMessage(message: String) {
-        toast(message)
+        if (message.isNotEmpty()) {
+            toast(message)
+        }
     }
 }

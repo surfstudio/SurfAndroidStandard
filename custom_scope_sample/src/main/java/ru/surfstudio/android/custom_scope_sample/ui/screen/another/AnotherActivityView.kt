@@ -15,7 +15,7 @@ class AnotherActivityView : BaseRenderableActivityView<AnotherScreenModel>() {
     @Inject
     internal lateinit var presenter: AnotherPresenter
 
-    override fun createConfigurator() = AnotherScreenConfigurator(this, intent)
+    override fun createConfigurator() = AnotherScreenConfigurator(intent)
 
     override fun getContentView(): Int = R.layout.activity_another
 

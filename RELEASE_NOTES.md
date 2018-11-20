@@ -56,6 +56,9 @@
 #### template
 
 * обновлены механизмы навигации в template
+* ANDDEP-323 Добавлен Chuck
+    * Интеграция Chuck в template
+    * Добавлена возможность его включения/выключения на DebugScreen
 
 #### util-ktx
 

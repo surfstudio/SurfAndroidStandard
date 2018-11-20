@@ -19,10 +19,15 @@ class App : CoreApp() {
         super.onCreate()
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
+        if (AppInjector.appComponent.debugInteractor().mustNotInitializeApp()) {
+            // работает LeakCanary, ненужно ничего инициализировать
+            return
+        }
 
         initFabric()
         initComponentProvider()
         initRouteProvider()
+        AppInjector.appComponent.debugInteractor().onCreateApp()
         DebugNotificationBuilder.showDebugNotification(this)
     }
 

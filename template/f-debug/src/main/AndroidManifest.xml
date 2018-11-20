@@ -3,9 +3,27 @@
     package="ru.surfstudio.android.template.f_debug">
 
     <application>
-        <activity android:name="ru.surfstudio.standard.f_debug.debug.DebugActivityView"
-            android:launchMode="singleTask"/>
+
+        <activity
+            android:name="ru.surfstudio.standard.f_debug.debug.DebugActivityView"
+            android:launchMode="singleTask" />
+
+        <activity
+            android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView" />
+
+        <activity
+            android:name="ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.Transparent" />
+
         <activity android:name="ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView" />
+
         <activity android:name="ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView" />
+
+        <activity android:name="ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView" />
+
+        <activity android:name="ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView" />
+
     </application>
+
 </manifest>

@@ -32,18 +32,3 @@ class OtherActivityView : BaseRenderableActivityView<OtherScreenModel>() {
 
         initListeners()
     }
-
-    private fun initListeners() {
-        presenter.observeTextChanges(RxTextView.textChanges(another_screen_et))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        LoginScopeStorage.addActivity(this::class.java)
-    }
-
-    override fun onDestroy() {
-        LoginScopeStorage.removeActivity(this::class.java)
-        super.onDestroy()
-    }
-}

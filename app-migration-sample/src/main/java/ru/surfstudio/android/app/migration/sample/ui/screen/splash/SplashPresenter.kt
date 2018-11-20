@@ -10,6 +10,9 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+// время в миллисекундах, после которого переходит на другой экран
+const val TRANSITION_DELAY_MS = 4000L
+
 /**
  * Презентер загрузочного экрана
  */
@@ -18,11 +21,6 @@ internal class SplashPresenter @Inject constructor(basePresenterDependency: Base
                                                    private val activityNavigator: ActivityNavigator,
                                                    private val initializeAppInteractor: InitializeAppInteractor
 ) : BasePresenter<SplashActivityView>(basePresenterDependency) {
-
-    companion object {
-        // время в миллисекундах, после которого переходит на другой экран
-        private const val TRANSITION_DELAY_MS = 4000L
-    }
 
     private val sm = SplashScreenModel()
 

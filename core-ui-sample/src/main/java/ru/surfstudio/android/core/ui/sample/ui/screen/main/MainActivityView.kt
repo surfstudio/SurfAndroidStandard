@@ -36,7 +36,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
             val delegateManager = persistentScope.screenEventDelegateManager
             val saveStateDelegate = CustomOnSaveStateDelegate(delegateManager)
             val restoreStateDelegate = CustomOnRestoreStateDelegate(delegateManager)
-            messageController.show("Delegates registered")
+            messageController.show(R.string.snackbar_message)
         }
     }
 
