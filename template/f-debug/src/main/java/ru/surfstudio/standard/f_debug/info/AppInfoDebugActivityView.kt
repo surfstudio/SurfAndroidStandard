@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.f_debug.info
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
@@ -40,7 +41,11 @@ class AppInfoDebugActivityView : BaseRenderableActivityView<AppInfoDebugScreenMo
     @SuppressLint("StringFormatMatches")
     private fun initContent() {
         with(packageManager.getPackageInfo(packageName, 0)) {
-            app_info_version_code_tv.text = getString(R.string.app_info_version_code_text, longVersionCode)
+            app_info_version_code_tv.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                 getString(R.string.app_info_version_code_text, longVersionCode)
+            } else {
+                getString(R.string.app_info_version_code_text, versionCode)
+            }
             app_info_version_name_tv.text = getString(R.string.app_info_version_name_text, versionName)
         }
         app_info_package_name_tv.text = getString(R.string.app_info_package_name_text, packageName)
