@@ -13,4 +13,7 @@ dependencies {
 
     //chunk
     implementation "com.readystatesoftware.chuck:library:$chuckVersion"
+
+    //tiny dancer
+    debugImplementation "com.github.brianPlummer:tinydancer:$tinyDancerVerxion"
 }

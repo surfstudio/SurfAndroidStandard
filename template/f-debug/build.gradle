@@ -5,9 +5,4 @@ dependencies {
     implementation project(':template:i-debug')
 
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
-
-    def tiny_dancer_version = "0.1.2"
-    debugImplementation "com.github.brianPlummer:tinydancer:$tiny_dancer_version"
-    releaseImplementation "com.github.brianPlummer:tinydancer-noop:$tiny_dancer_version"
-    testImplementation "com.github.brianPlummer:tinydancer-noop:$tiny_dancer_version"
 }

@@ -69,6 +69,9 @@ ext {
     powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
 
+    //debug
+    tinyDancerVerxion = "0.1.2"                 //https://bit.ly/2Bluq9P
+
     // Surf Core
     surfCoreVersionName = '0.4.0-SNAPSHOT'      // версия android-standard
 }

@@ -13,6 +13,7 @@ import ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView
 import ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView
 import ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView
 import ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView
+import ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityView
 import ru.surfstudio.standard.f_main.MainActivityView
 import ru.surfstudio.standard.f_splash.SplashActivityView
 import kotlin.reflect.KClass
@@ -30,6 +31,7 @@ object ScreenConfiguratorStorage {
                 put(RebootActivityDebugView::class) { RebootDebugScreenConfigurator(it) }
                 put(MemoryDebugActivityView::class) { MemoryDebugScreenConfigurator(it) }
                 put(AppInfoDebugActivityView::class) { AppInfoDebugScreenConfigurator(it) }
+                put(UiToolsDebugActivityView::class) { UiToolsDebugScreenConfigurator(it) }
             }
 
     val activityConfiguratorMap = HashMap<KClass<*>, (intent: Intent) -> ActivityConfigurator>()

@@ -9,6 +9,7 @@ import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
 import ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityRoute
 import ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityRoute
 import ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityRoute
+import ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityRoute
 import javax.inject.Inject
 
 /**
@@ -38,5 +39,9 @@ class DebugPresenter @Inject constructor(
 
     fun openAppInfoScreen() {
         activityNavigator.start(AppInfoDebugActivityRoute())
+    }
+
+    fun openUiToolsScreen() {
+        activityNavigator.start(UiToolsDebugActivityRoute())
     }
 }
