@@ -17,7 +17,7 @@ package ru.surfstudio.android.core.mvp.activity;
 
 import ru.surfstudio.android.core.mvp.delegate.ActivityViewDelegate;
 import ru.surfstudio.android.core.mvp.delegate.factory.MvpScreenDelegateFactoryContainer;
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import ru.surfstudio.android.core.mvp.presenter.Presenter;
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.ui.activity.CoreActivity;
 
@@ -27,7 +27,7 @@ import ru.surfstudio.android.core.ui.activity.CoreActivity;
 public abstract class CoreActivityView extends CoreActivity implements
         CoreActivityViewInterface {
 
-    protected abstract CorePresenter[] getPresenters();
+    protected abstract Presenter[] getPresenters();
 
     public abstract String getScreenName();
 
@@ -47,7 +47,7 @@ public abstract class CoreActivityView extends CoreActivity implements
      */
     @Override
     public void bindPresenters() {
-        for (CorePresenter presenter : getPresenters()) {
+        for (Presenter presenter : getPresenters()) {
             presenter.attachView(this);
         }
     }

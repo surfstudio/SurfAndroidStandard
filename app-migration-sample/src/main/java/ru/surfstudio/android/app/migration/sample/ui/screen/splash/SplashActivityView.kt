@@ -4,7 +4,7 @@ import androidx.annotation.LayoutRes
 import ru.surfstudio.android.app.migration.sample.R
 import ru.surfstudio.android.app.migration.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import javax.inject.Inject
 
 /**
@@ -17,7 +17,7 @@ class SplashActivityView : BaseRenderableActivityView<SplashScreenModel>() {
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_splash
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): CustomActivityScreenConfigurator = SplashScreenConfigurator(intent)
 

@@ -17,10 +17,10 @@ package ru.surfstudio.android.mvp.widget.view;
 
 import android.content.Context;
 import android.os.Parcelable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import android.util.AttributeSet;
 
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import ru.surfstudio.android.core.mvp.presenter.Presenter;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -48,11 +48,11 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         super(context, attrs, defStyleAttr);
     }
 
-    protected abstract CorePresenter[] getPresenters();
+    protected abstract Presenter[] getPresenters();
 
     @Override
     public void bindPresenters() {
-        for (CorePresenter presenter : getPresenters()) {
+        for (Presenter presenter : getPresenters()) {
             presenter.attachView(this);
         }
     }

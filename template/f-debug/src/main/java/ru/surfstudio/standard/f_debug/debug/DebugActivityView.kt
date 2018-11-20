@@ -5,7 +5,7 @@ import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
     @Inject
     lateinit var presenter: DebugPresenter
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 

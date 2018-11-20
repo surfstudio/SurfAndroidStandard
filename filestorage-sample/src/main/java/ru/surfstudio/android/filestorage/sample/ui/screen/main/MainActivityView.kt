@@ -8,7 +8,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.filestorage.sample.R
 import ru.surfstudio.android.filestorage.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
@@ -24,7 +24,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
     @Inject
     internal lateinit var presenter: MainPresenter
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): CustomActivityScreenConfigurator = MainScreenConfigurator(intent)
 

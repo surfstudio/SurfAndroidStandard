@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_fcm_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.android.utilktx.ktx.ui.view.copyTextToClipboard
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
@@ -21,7 +21,7 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
     @Inject
     lateinit var presenter: FcmDebugPresenter
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 

@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvp.sample.ui.screen.another
 
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.core.mvp.sample.R
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
@@ -15,7 +15,7 @@ class AnotherActivityView : BaseRenderableActivityView<AnotherScreenModel>() {
 
     override fun getContentView(): Int = R.layout.activity_another
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun getScreenName(): String = "AnotherActivityView"
 

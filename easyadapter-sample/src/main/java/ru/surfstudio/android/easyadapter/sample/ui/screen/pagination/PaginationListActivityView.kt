@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.paginationable_list_layout.*
 import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
@@ -40,7 +40,7 @@ class PaginationListActivityView : BaseRenderableActivityView<PaginationListScre
 
     override fun getContentView(): Int = R.layout.paginationable_list_layout
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun getScreenName(): String = "Pagination List Activity"
 

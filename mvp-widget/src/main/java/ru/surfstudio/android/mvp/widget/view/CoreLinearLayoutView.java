@@ -21,7 +21,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import ru.surfstudio.android.core.mvp.presenter.Presenter;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -54,11 +54,11 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    protected abstract CorePresenter[] getPresenters();
+    protected abstract Presenter[] getPresenters();
 
     @Override
     public void bindPresenters() {
-        for (CorePresenter presenter : getPresenters()) {
+        for (Presenter presenter : getPresenters()) {
             presenter.attachView(this);
         }
     }

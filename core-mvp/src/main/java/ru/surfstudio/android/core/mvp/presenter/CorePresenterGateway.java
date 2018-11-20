@@ -16,8 +16,8 @@
 package ru.surfstudio.android.core.mvp.presenter;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
 
+import androidx.annotation.Nullable;
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.ready.OnViewReadyDelegate;
@@ -45,10 +45,10 @@ public class CorePresenterGateway implements
         OnRestoreStateDelegate {
 
     private static final String KEY_STATE = "KEY_STATE";
-    private CorePresenter presenter;
+    private Presenter presenter;
     private ScreenState screenState;
 
-    public CorePresenterGateway(CorePresenter presenter,
+    public CorePresenterGateway(Presenter presenter,
                                 ScreenState screenState) {
         this.presenter = presenter;
         this.screenState = screenState;

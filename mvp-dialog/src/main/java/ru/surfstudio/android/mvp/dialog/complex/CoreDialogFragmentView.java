@@ -18,15 +18,15 @@ package ru.surfstudio.android.mvp.dialog.complex;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
-
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.mvp.delegate.FragmentViewDelegate;
 import ru.surfstudio.android.core.mvp.delegate.factory.MvpScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import ru.surfstudio.android.core.mvp.presenter.Presenter;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
 import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
@@ -46,7 +46,7 @@ public abstract class CoreDialogFragmentView extends AppCompatDialogFragment imp
 
     private FragmentViewDelegate fragmentDelegate;
 
-    protected abstract CorePresenter[] getPresenters();
+    protected abstract Presenter[] getPresenters();
 
     @Override
     public abstract BaseFragmentViewConfigurator createConfigurator();
@@ -73,7 +73,7 @@ public abstract class CoreDialogFragmentView extends AppCompatDialogFragment imp
      */
     @Override
     public void bindPresenters() {
-        for (CorePresenter presenter : getPresenters()) {
+        for (Presenter presenter : getPresenters()) {
             presenter.attachView(this);
         }
     }

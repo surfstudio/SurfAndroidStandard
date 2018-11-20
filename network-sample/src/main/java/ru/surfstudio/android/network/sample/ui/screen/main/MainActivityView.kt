@@ -9,14 +9,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.network.sample.R
 import ru.surfstudio.android.network.sample.domain.product.Product
 import ru.surfstudio.android.network.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductItemController
+import ru.surfstudio.android.network.sample.ui.screen.main.list.ProductListAdapter
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import javax.inject.Inject
 
@@ -42,7 +42,7 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
                 }
             })
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): CustomActivityScreenConfigurator = MainScreenConfigurator(intent)
 

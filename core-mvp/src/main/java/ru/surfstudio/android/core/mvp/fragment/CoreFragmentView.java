@@ -20,7 +20,7 @@ import android.os.Bundle;
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
 import ru.surfstudio.android.core.mvp.delegate.FragmentViewDelegate;
 import ru.surfstudio.android.core.mvp.delegate.factory.MvpScreenDelegateFactoryContainer;
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
+import ru.surfstudio.android.core.mvp.presenter.Presenter;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
 import ru.surfstudio.android.core.ui.fragment.CoreFragment;
 
@@ -30,7 +30,7 @@ import ru.surfstudio.android.core.ui.fragment.CoreFragment;
 public abstract class CoreFragmentView extends CoreFragment
         implements CoreFragmentViewInterface {
 
-    protected abstract CorePresenter[] getPresenters();
+    protected abstract Presenter[] getPresenters();
 
     @Override
     public abstract BaseFragmentViewConfigurator createConfigurator();
@@ -62,7 +62,7 @@ public abstract class CoreFragmentView extends CoreFragment
      */
     @Override
     public void bindPresenters() {
-        for (CorePresenter presenter : getPresenters()) {
+        for (Presenter presenter : getPresenters()) {
             presenter.attachView(this);
         }
     }

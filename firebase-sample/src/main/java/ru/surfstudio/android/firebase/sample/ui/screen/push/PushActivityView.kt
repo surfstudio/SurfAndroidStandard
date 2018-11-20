@@ -1,7 +1,7 @@
 package ru.surfstudio.android.firebase.sample.ui.screen.push
 
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.firebase.sample.R
 import ru.surfstudio.android.firebase.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class PushActivityView : BaseRenderableActivityView<PushScreenModel>() {
 
     override fun getContentView(): Int = R.layout.activity_push
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun getScreenName(): String = "PushActivityView"
 

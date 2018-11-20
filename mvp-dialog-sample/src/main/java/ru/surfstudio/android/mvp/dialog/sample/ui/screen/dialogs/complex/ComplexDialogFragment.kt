@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.complex_dialog_layout.*
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
 import ru.surfstudio.android.mvp.dialog.sample.R
 import javax.inject.Inject
@@ -16,7 +16,7 @@ class ComplexDialogFragment : CoreDialogFragmentView() {
     @Inject
     internal lateinit var presenter: ComplexDialogPresenter
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): BaseFragmentViewConfigurator<*, *> {
         return ComplexDialogScreenConfigurator(arguments!!)

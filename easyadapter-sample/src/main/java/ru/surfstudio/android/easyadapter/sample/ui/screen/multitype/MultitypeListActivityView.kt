@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.multitype_list_layout.*
 import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.sample.R
@@ -56,7 +56,7 @@ class MultitypeListActivityView : BaseRenderableActivityView<MultitypeListScreen
 
     override fun getContentView(): Int = R.layout.multitype_list_layout
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun getScreenName(): String = "Multitype List Activity"
 

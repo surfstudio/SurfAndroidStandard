@@ -5,7 +5,7 @@ import android.os.PersistableBundle
 import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.core.mvp.sample.R
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 

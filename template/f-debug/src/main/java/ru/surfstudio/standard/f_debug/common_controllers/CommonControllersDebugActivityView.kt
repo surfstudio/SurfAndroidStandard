@@ -6,7 +6,7 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_common_controllers_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
@@ -27,7 +27,7 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
 
     private val sampleController = CustomControllerDescriptionItemController()
 
-    override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
+    override fun getPresenters(): Array<Presenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
 

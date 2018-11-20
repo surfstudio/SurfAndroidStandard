@@ -8,7 +8,7 @@ import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.find
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.pictureprovider.sample.R
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
@@ -42,7 +42,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun renderInternal(sm: MainScreenModel) {}
 
-    override fun getPresenters(): Array<CorePresenter<*>> {
+    override fun getPresenters(): Array<Presenter<*>> {
         return arrayOf(presenter)
     }
 
