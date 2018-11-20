@@ -8,8 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.EmptyLoadState
@@ -18,7 +17,7 @@ import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.EmptyLoad
  * Представление состояния EmptyLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
  */
 class EmptyLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
-        LoadStatePresentation<EmptyLoadState> {
+        SimpleLoadStatePresentation<EmptyLoadState>() {
 
     @DrawableRes
     private var imageRes: Int = R.drawable.ic_empty_state
@@ -51,13 +50,10 @@ class EmptyLoadStatePresentation(private val placeHolder: PlaceHolderViewContain
         }
     }
 
-    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: EmptyLoadState) {
+    override fun showState(state: EmptyLoadState) {
         initViews(view)
         placeHolder.changeViewTo(view)
         placeHolder.changeVisibility(View.VISIBLE)
-    }
-
-    override fun hidePresentation(loadStateFrom: EmptyLoadState, loadStateTo: LoadStateInterface) {
     }
 
     fun configState(@DrawableRes imageRes: Int? = null,

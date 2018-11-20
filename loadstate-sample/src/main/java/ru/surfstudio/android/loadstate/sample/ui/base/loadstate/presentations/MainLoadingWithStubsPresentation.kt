@@ -1,7 +1,6 @@
 package ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations
 
-import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.controllers.StubData
@@ -11,13 +10,14 @@ import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.MainLoadi
 /**
  * Представление состояния MainLoading в виде мерзающих заглушек
  */
-class MainLoadingWithStubsPresentation(private val adapter: EasyAdapter) : LoadStatePresentation<MainLoadingState> {
+class MainLoadingWithStubsPresentation(private val adapter: EasyAdapter) :
+        SimpleLoadStatePresentation<MainLoadingState>() {
 
     companion object {
         private const val STUBS_COUNT = 4
     }
 
-    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: MainLoadingState) {
+    override fun showState(state: MainLoadingState) {
         val stubLoadStateController =
                 StubLoadStateController()
         adapter.setItems(ItemList.create().apply {
@@ -25,8 +25,5 @@ class MainLoadingWithStubsPresentation(private val adapter: EasyAdapter) : LoadS
                 this.add(StubData(i, true), stubLoadStateController)
             }
         })
-    }
-
-    override fun hidePresentation(loadStateFrom: MainLoadingState, loadStateTo: LoadStateInterface) {
     }
 }

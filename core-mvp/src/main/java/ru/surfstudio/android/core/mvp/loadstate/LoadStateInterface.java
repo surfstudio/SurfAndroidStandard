@@ -13,13 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.mvp.loadstate.renderer;
+package ru.surfstudio.android.core.mvp.loadstate;
 
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface;
-
-/**
- * Интрефейс для вью, отрисовывающей состояние {@link LoadStateInterface}
- */
-public interface LoadStateRendererInterface {
-    void render(LoadStateInterface loadState);
+public interface LoadStateInterface {
 }

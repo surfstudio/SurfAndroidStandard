@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
-import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStateRendererInterface
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateRendererInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.message.MessageController

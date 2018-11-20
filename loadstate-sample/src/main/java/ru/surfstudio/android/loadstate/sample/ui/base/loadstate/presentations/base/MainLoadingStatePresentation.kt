@@ -6,16 +6,16 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
-import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
+import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.MainLoadingState
-import ru.surfstudio.android.loadstate.sample.R
 
 /**
  * Представление состояния MainLoading в виде ProgressBar
  */
-class MainLoadingStatePresentation(private val placeHolder: PlaceHolderViewContainer) : LoadStatePresentation<MainLoadingState> {
+class MainLoadingStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
+        SimpleLoadStatePresentation<MainLoadingState>() {
 
     @ColorInt
     private val progressBarColor: Int = ContextCompat.getColor(placeHolder.context, R.color.colorAccent)
@@ -30,13 +30,10 @@ class MainLoadingStatePresentation(private val placeHolder: PlaceHolderViewConta
         }
     }
 
-    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: MainLoadingState) {
+    override fun showState(state: MainLoadingState) {
         placeHolder.changeVisibility(View.VISIBLE)
         placeHolder.removeAllViews()
         placeHolder.addView(view)
-    }
-
-    override fun hidePresentation(loadStateFrom: MainLoadingState, loadStateTo: LoadStateInterface) {
     }
 
     private fun colorProgressBar(view: View) {

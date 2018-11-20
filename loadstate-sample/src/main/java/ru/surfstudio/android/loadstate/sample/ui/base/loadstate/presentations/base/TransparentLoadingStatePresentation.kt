@@ -4,8 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStatePresentation
 import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.TransparentLoadingState
@@ -28,17 +28,17 @@ class TransparentLoadingStatePresentation(private val placeHolder: PlaceHolderVi
                 false)
     }
 
-    override fun showLoadState(
-            loadStateFrom: LoadStateInterface,
-            loadStateTo: TransparentLoadingState) {
+    override fun showState(
+            state: TransparentLoadingState,
+            previousState: LoadStateInterface) {
         placeHolder.setBackgroundColor(transparentBackgroundColor)
         placeHolder.changeVisibility(View.VISIBLE)
         placeHolder.changeViewTo(view)
     }
 
-    override fun hidePresentation(
-            loadStateFrom: TransparentLoadingState,
-            loadStateTo: LoadStateInterface) {
+    override fun hideState(
+            state: TransparentLoadingState,
+            nextState: LoadStateInterface) {
         placeHolder.setBackgroundColor(
                 ContextCompat.getColor(
                         placeHolder.context,

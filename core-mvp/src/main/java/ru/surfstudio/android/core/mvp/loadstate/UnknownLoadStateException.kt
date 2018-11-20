@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvp.loadstate.renderer
+package ru.surfstudio.android.core.mvp.loadstate
 
 /**
  * Ошибка, которая может быть вызвана передачей для рендера неизвестного LoadState в {@link BaseLoadStateRenderer} или в его потомков

@@ -140,7 +140,7 @@ loadState: LoadStateInterface
 
   - import ru.surfstudio.android.core.mvp.model.state.LoadState
 на 
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface.
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface.
 
 - getPlaceHolderView()
    на 

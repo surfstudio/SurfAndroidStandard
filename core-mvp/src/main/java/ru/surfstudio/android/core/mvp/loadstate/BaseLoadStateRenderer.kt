@@ -1,7 +1,6 @@
-package ru.surfstudio.android.core.mvp.loadstate.renderer
+package ru.surfstudio.android.core.mvp.loadstate
 
 import android.view.View
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
 
 /**
  * Базовый класс, от которого предполагается наследовать собственные в проекте
@@ -31,8 +30,8 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     override fun render(loadState: LoadStateInterface) {
 
-        getPresentation(currentState.javaClass).hidePresentation(currentState, loadState)
-        getPresentation(loadState.javaClass).showLoadState(currentState, loadState)
+        getPresentation(currentState.javaClass).hideState(currentState, loadState)
+        getPresentation(loadState.javaClass).showState(currentState, loadState)
         doForStateActions.forEach { it.second(it.first(loadState)) }
 
         _currentState = loadState

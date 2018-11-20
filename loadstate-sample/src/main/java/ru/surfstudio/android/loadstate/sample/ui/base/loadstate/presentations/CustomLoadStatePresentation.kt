@@ -2,8 +2,8 @@ package ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations
 
 import android.view.LayoutInflater
 import android.view.View
-import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStatePresentation
 import ru.surfstudio.android.loadstate.sample.R
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.CustomLoadState
@@ -23,12 +23,12 @@ class CustomLoadStatePresentation(private val placeHolder: PlaceHolderViewContai
         }
     }
 
-    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: CustomLoadState) {
+    override fun showState(state: CustomLoadState, previousState: LoadStateInterface) {
         placeHolder.changeViewTo(view)
         placeHolder.changeVisibility(View.VISIBLE)
     }
 
-    override fun hidePresentation(loadStateFrom: CustomLoadState, loadStateTo: LoadStateInterface) {
+    override fun hideState(state: CustomLoadState, nextState: LoadStateInterface) {
 
     }
 }

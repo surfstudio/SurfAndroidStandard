@@ -8,17 +8,16 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import ru.surfstudio.android.core.mvp.loadstate.renderer.LoadStatePresentation
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.android.loadstate.sample.R
-import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.ErrorLoadState
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
+import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.ErrorLoadState
 
 /**
  * Представление состояния ErrorLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
  */
 class ErrorLoadStatePresentation(private val placeHolder: PlaceHolderViewContainer) :
-        LoadStatePresentation<ErrorLoadState> {
+        SimpleLoadStatePresentation<ErrorLoadState>() {
 
     @DrawableRes
     private var imageRes: Int = R.drawable.ic_error_state
@@ -49,13 +48,10 @@ class ErrorLoadStatePresentation(private val placeHolder: PlaceHolderViewContain
         }
     }
 
-    override fun showLoadState(loadStateFrom: LoadStateInterface, loadStateTo: ErrorLoadState) {
+    override fun showState(state: ErrorLoadState) {
         initViews(view)
         placeHolder.changeViewTo(view)
         placeHolder.changeVisibility(View.VISIBLE)
-    }
-
-    override fun hidePresentation(loadStateFrom: ErrorLoadState, loadStateTo: LoadStateInterface) {
     }
 
     fun configState(imageRes: Int? = null,

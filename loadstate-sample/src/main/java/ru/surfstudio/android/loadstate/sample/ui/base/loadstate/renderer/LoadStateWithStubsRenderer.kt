@@ -1,7 +1,7 @@
 package ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer
 
-import ru.surfstudio.android.core.mvp.loadstate.renderer.BaseLoadStateRenderer
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.BaseLoadStateRenderer
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.ErrorLoadStateWithStubsPresentation
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.presentations.MainLoadingWithStubsPresentation

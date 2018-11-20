@@ -1,7 +1,7 @@
 package ru.surfstudio.android.loadstate.sample.ui.screen.stubs
 
 import io.reactivex.subjects.PublishSubject
-import ru.surfstudio.android.core.mvp.model.state.LoadStateInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
