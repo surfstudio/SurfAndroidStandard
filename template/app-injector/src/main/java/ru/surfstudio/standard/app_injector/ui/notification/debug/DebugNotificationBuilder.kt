@@ -32,6 +32,10 @@ object DebugNotificationBuilder {
                     .setContentText(notificationBody)
                     .setContentIntent(pendingIntent)
 
+            if (!SdkUtils.isAtLeastNougat()){
+                notificationBuilder.setSubText(context.getString(R.string.app_name))
+            }
+
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
             SdkUtils.runOnOreo {
