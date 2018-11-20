@@ -28,7 +28,7 @@ import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.base.resolver.Storable;
+import ru.surfstudio.android.core.ui.event.base.resolver.UnhandledEventsStore;
 
 /**
  * базовый класс менеджера {@link ScreenEventDelegateManager}
@@ -217,18 +217,18 @@ public class BaseScreenEventDelegateManager implements ScreenEventDelegateManage
 
     @Override
     public void sendUnhandledEvents() {
-        List<Storable> resolvers = getStorableResolvers();
-        for (Storable resolver: resolvers) {
-            for (ScreenEvent ev : resolver.getStoredEvents()) {
+        List<UnhandledEventsStore> resolvers = getStorableResolvers();
+        for (UnhandledEventsStore resolver: resolvers) {
+            for (ScreenEvent ev : resolver.getUnhandledEvents()) {
                 sendEvent(ev);
             }
         }
     }
 
-    private List<Storable> getStorableResolvers() {
+    private List<UnhandledEventsStore> getStorableResolvers() {
         return Stream.of(eventResolvers)
-                .filter((resolver) -> resolver instanceof Storable)
-                .map((screenEventResolver -> (Storable) screenEventResolver))
+                .filter((resolver) -> resolver instanceof UnhandledEventsStore)
+                .map((screenEventResolver -> (UnhandledEventsStore) screenEventResolver))
                 .toList();
     }
 }

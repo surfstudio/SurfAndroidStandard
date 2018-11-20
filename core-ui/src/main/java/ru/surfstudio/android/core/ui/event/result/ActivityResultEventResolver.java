@@ -26,13 +26,13 @@ import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.SingleScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.base.resolver.Storable;
+import ru.surfstudio.android.core.ui.event.base.resolver.UnhandledEventsStore;
 
 /**
  * см {@link ScreenEventResolver}
  */
 public class ActivityResultEventResolver extends SingleScreenEventResolver<ActivityResultEvent, ActivityResultDelegate>
-        implements Storable {
+        implements UnhandledEventsStore {
 
     private ActivityResultEvent unhandledEvent;
 
@@ -66,7 +66,7 @@ public class ActivityResultEventResolver extends SingleScreenEventResolver<Activ
 
     @NotNull
     @Override
-    public List<ScreenEvent> getStoredEvents() {
+    public List<ScreenEvent> getUnhandledEvents() {
         if (unhandledEvent != null) {
             List<ScreenEvent> events = new ArrayList<>();
             events.add(unhandledEvent);

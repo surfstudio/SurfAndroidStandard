@@ -25,14 +25,14 @@ import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.SingleScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.base.resolver.Storable;
+import ru.surfstudio.android.core.ui.event.base.resolver.UnhandledEventsStore;
 
 /**
  * см {@link ScreenEventResolver}
  */
 public class RequestPermissionsResultEventResolver
         extends SingleScreenEventResolver<RequestPermissionsResultEvent, RequestPermissionsResultDelegate>
-        implements Storable {
+        implements UnhandledEventsStore {
 
     private List<ScreenEvent> unhandledEvents = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class RequestPermissionsResultEventResolver
 
     @NotNull
     @Override
-    public List<ScreenEvent> getStoredEvents() {
+    public List<ScreenEvent> getUnhandledEvents() {
         return unhandledEvents;
     }
 }
