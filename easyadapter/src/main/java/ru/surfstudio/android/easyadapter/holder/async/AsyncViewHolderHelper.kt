@@ -38,8 +38,6 @@ internal fun AsyncViewHolder.inflateItemView(
     AsyncLayoutInflater(itemView.context).inflate(layoutId, itemView) { view, _, _ ->
         itemView.removeAllViews()
 
-        itemView.addView(view)
-
         if (fadeInDuration != 0L) {
             TransitionManager.beginDelayedTransition(
                     itemView,
@@ -57,6 +55,8 @@ internal fun AsyncViewHolder.inflateItemView(
                     }
             )
         }
+
+        itemView.addView(view)
 
         isItemViewInflated = true
         onViewInflated(view)
