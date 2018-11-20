@@ -45,6 +45,6 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
         show_memory_item_layout.setOnClickListener { presenter.openMemoryScreen() }
         show_app_info_item_layout.setOnClickListener { presenter.openAppInfoScreen() }
-        show_fps_item_layout.setOnClickListener { TinyDancer.create().show(this); }
+        show_fps_item_layout.setOnClickListener { TinyDancer.create().show(applicationContext); }
     }
 }
