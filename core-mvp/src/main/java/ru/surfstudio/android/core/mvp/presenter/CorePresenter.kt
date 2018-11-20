@@ -66,7 +66,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
      *
      * @return
      */
-    val stateRestorer: StateRestorer<*>?
+    override val stateRestorer: StateRestorer<*>?
         get() = null
 
     init {
@@ -108,7 +108,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
         disposables.dispose()
     }
 
-    fun detachView() {
+    override fun detachView() {
         onViewDetach()
         viewInternal = null
     }
@@ -133,7 +133,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     }
 
     protected fun <T> Observable<T>.subscribeBy(observer: LambdaObserver<T>): Disposable {
-        return subscribeBy(this, ObservableOperatorFreeze(freezeSelector), observer)
+        return subscribe(this, ObservableOperatorFreeze(freezeSelector), observer)
     }
 
     protected fun <T> Observable<T>.subscribeBy(onNext: (T) -> Unit,
@@ -169,7 +169,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     protected fun <T> Observable<T>.subscribeBy(replaceFrozenEventPredicate: BiFunctionSafe<T, T, Boolean>,
                                                 observer: LambdaObserver<T>): Disposable {
 
-        return subscribeBy(this, ObservableOperatorFreeze(freezeSelector, replaceFrozenEventPredicate), observer)
+        return subscribe(this, ObservableOperatorFreeze(freezeSelector, replaceFrozenEventPredicate), observer)
     }
 
     /**
@@ -188,7 +188,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                               onNext: (T) -> Unit,
                                               onComplete: () -> Unit,
                                               onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(this, operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
+        return subscribe(this, operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
     }
 
     private fun <T> Observable<T>.subscribeBy(operator: ObservableOperatorFreeze<T>,
@@ -200,7 +200,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     private fun <T> Single<T>.subscribeBy(operator: SingleOperatorFreeze<T>,
                                           onSuccess: (T) -> Unit,
                                           onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(this, operator, object : DisposableSingleObserver<T>() {
+        return subscribe(this, operator, object : DisposableSingleObserver<T>() {
             override fun onSuccess(t: T) {
                 onSuccess.invoke(t)
             }
@@ -215,7 +215,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                          onSuccess: (T) -> Unit,
                                          onComplete: () -> Unit,
                                          onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(this, operator, object : DisposableMaybeObserver<T>() {
+        return subscribe(this, operator, object : DisposableMaybeObserver<T>() {
             override fun onSuccess(t: T) {
                 onSuccess.invoke(t)
             }
@@ -233,7 +233,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     private fun Completable.subscribeBy(operator: CompletableOperatorFreeze,
                                         onComplete: () -> Unit,
                                         onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(this, operator, object : DisposableCompletableObserver() {
+        return subscribe(this, operator, object : DisposableCompletableObserver() {
             override fun onComplete() {
                 onComplete.invoke()
             }
@@ -252,9 +252,9 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
      * @return subscription
      */
     @CallSuper
-    protected open fun <T> subscribeBy(observable: Observable<T>,
-                                       operator: ObservableOperatorFreeze<T>,
-                                       observer: LambdaObserver<T>): Disposable {
+    protected open fun <T> subscribe(observable: Observable<T>,
+                                     operator: ObservableOperatorFreeze<T>,
+                                     observer: LambdaObserver<T>): Disposable {
         val disposable = observable
                 .lift(operator)
                 .subscribeWith(observer)
@@ -263,9 +263,9 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     }
 
     @CallSuper
-    protected open fun <T> subscribeBy(single: Single<T>,
-                                       operator: SingleOperatorFreeze<T>,
-                                       observer: DisposableSingleObserver<T>): Disposable {
+    protected open fun <T> subscribe(single: Single<T>,
+                                     operator: SingleOperatorFreeze<T>,
+                                     observer: DisposableSingleObserver<T>): Disposable {
 
         val disposable = single
                 .lift(operator)
@@ -275,9 +275,9 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     }
 
     @CallSuper
-    protected open fun <T> subscribeBy(maybe: Maybe<T>,
-                                       operator: MaybeOperatorFreeze<T>,
-                                       observer: DisposableMaybeObserver<T>): Disposable {
+    protected open fun <T> subscribe(maybe: Maybe<T>,
+                                     operator: MaybeOperatorFreeze<T>,
+                                     observer: DisposableMaybeObserver<T>): Disposable {
         val disposable = maybe
                 .lift(operator)
                 .subscribeWith(observer)
@@ -286,42 +286,12 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     }
 
     @CallSuper
-    protected open fun subscribeBy(completable: Completable,
-                                   operator: CompletableOperatorFreeze,
-                                   observer: DisposableCompletableObserver): Disposable {
+    protected open fun subscribe(completable: Completable,
+                                 operator: CompletableOperatorFreeze,
+                                 observer: DisposableCompletableObserver): Disposable {
         val disposable = completable
                 .lift(operator)
                 .subscribeWith(observer)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    /**
-     * Subscribe subscriber to the observable without applying [ObservableOperatorFreeze]
-     * When screen finally destroyed, all subscriptions would be automatically unsubscribed.
-     *
-     * @return subscription
-     */
-    protected fun <T> Observable<T>.subscribeWithoutFreezingBy(subscriber: LambdaObserver<T>): Disposable {
-        val disposable = this.subscribeWith(subscriber)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun <T> Single<T>.subscribeWithoutFreezingBy(subscriber: DisposableSingleObserver<T>): Disposable {
-        val disposable = this.subscribeWith(subscriber)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun Completable.subscribeWithoutFreezingBy(subscriber: DisposableCompletableObserver): Disposable {
-        val disposable = this.subscribeWith(subscriber)
-        disposables.add(disposable)
-        return disposable
-    }
-
-    protected fun <T> Maybe<T>.subscribeWithoutFreezingBy(subscriber: DisposableMaybeObserver<T>): Disposable {
-        val disposable = this.subscribeWith(subscriber)
         disposables.add(disposable)
         return disposable
     }
@@ -354,7 +324,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                 onNext: (T) -> Unit,
                                 onComplete: () -> Unit,
                                 onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(observable, operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
+        return subscribe(observable, operator, LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(), onComplete.asActionSafe(), Functions.emptyConsumer()))
     }
 
     @Deprecated("Use extension instead", ReplaceWith("single.subscribeBy(operator, onSuccess, onError)"))
@@ -362,7 +332,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                 operator: SingleOperatorFreeze<T>,
                                 onSuccess: (T) -> Unit,
                                 onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(single, operator, object : DisposableSingleObserver<T>() {
+        return subscribe(single, operator, object : DisposableSingleObserver<T>() {
             override fun onSuccess(t: T) {
                 onSuccess.invoke(t)
             }
@@ -379,7 +349,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                 onSuccess: (T) -> Unit,
                                 onComplete: () -> Unit,
                                 onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(maybe, operator, object : DisposableMaybeObserver<T>() {
+        return subscribe(maybe, operator, object : DisposableMaybeObserver<T>() {
             override fun onSuccess(t: T) {
                 onSuccess.invoke(t)
             }
@@ -399,7 +369,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                             operator: CompletableOperatorFreeze,
                             onComplete: () -> Unit,
                             onError: (Throwable) -> Unit): Disposable {
-        return subscribeBy(completable, operator, object : DisposableCompletableObserver() {
+        return subscribe(completable, operator, object : DisposableCompletableObserver() {
             override fun onComplete() {
                 onComplete.invoke()
             }
@@ -420,7 +390,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                 replaceFrozenEventPredicate: BiFunctionSafe<T, T, Boolean>,
                                 observer: LambdaObserver<T>): Disposable {
 
-        return subscribeBy(observable, ObservableOperatorFreeze<T>(freezeSelector, replaceFrozenEventPredicate), observer)
+        return subscribe(observable, ObservableOperatorFreeze<T>(freezeSelector, replaceFrozenEventPredicate), observer)
     }
 
 
@@ -445,7 +415,7 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
     protected fun <T> subscribe(observable: Observable<T>,
                                 observer: LambdaObserver<T>): Disposable {
 
-        return subscribeBy(observable, ObservableOperatorFreeze(freezeSelector), observer)
+        return subscribe(observable, ObservableOperatorFreeze(freezeSelector), observer)
     }
 
 
@@ -506,68 +476,5 @@ abstract class CorePresenter<V : CoreView?>(eventDelegateManager: ScreenEventDel
                                 onError: (Throwable) -> Unit): Disposable {
 
         return maybe.subscribeBy(MaybeOperatorFreeze(freezeSelector), onSuccess, onComplete, onError)
-    }
-
-
-    /**
-     * @see @link .subscribeWithoutFreezing
-     */
-    @Deprecated("Use extension instead", ReplaceWith("observable.subscribeBy(onNext, onError)"))
-    protected fun <T> subscribeWithoutFreezing(observable: Observable<T>,
-                                               onNext: (T) -> Unit,
-                                               onError: (Throwable) -> Unit): Disposable {
-        return observable.subscribeWithoutFreezingBy<T>(LambdaObserver(onNext.asConsumerSafe(), onError.asErrorConsumerSafe(),
-                Functions.EMPTY_ACTION, Functions.emptyConsumer()))
-    }
-
-    @Deprecated("Use extension instead", ReplaceWith("single.subscribeBy(onSuccess, onError)"))
-    protected fun <T> subscribeWithoutFreezing(single: Single<T>,
-                                               onSuccess: (T) -> Unit,
-                                               onError: (Throwable) -> Unit): Disposable {
-        return single.subscribeWithoutFreezingBy(object : DisposableSingleObserver<T>() {
-            override fun onSuccess(t: T) {
-                onSuccess.invoke(t)
-            }
-
-            override fun onError(e: Throwable) {
-                onError.invoke(e)
-            }
-        })
-    }
-
-    @Deprecated("Use extension instead", ReplaceWith("completable.subscribeBy(onComplete, onError)"))
-    protected fun subscribeWithoutFreezing(completable: Completable,
-                                           onComplete: () -> Unit,
-                                           onError: (Throwable) -> Unit): Disposable {
-        return completable.subscribeWithoutFreezingBy(object : DisposableCompletableObserver() {
-            override fun onComplete() {
-                onComplete.invoke()
-            }
-
-            override fun onError(e: Throwable) {
-                onError.invoke(e)
-            }
-        })
-    }
-
-    @Deprecated("Use extension instead", ReplaceWith("maybe.subscribeBy(onSuccess, onComplete, onError)"))
-    protected fun <T> subscribeWithoutFreezing(maybe: Maybe<T>,
-                                               onSuccess: (T) -> Unit,
-                                               onComplete: () -> Unit,
-                                               onError: (Throwable) -> Unit): Disposable {
-        return maybe.subscribeWithoutFreezingBy(object : DisposableMaybeObserver<T>() {
-
-            override fun onSuccess(t: T) {
-                onSuccess.invoke(t)
-            }
-
-            override fun onComplete() {
-                onComplete.invoke()
-            }
-
-            override fun onError(e: Throwable) {
-                onError.invoke(e)
-            }
-        })
     }
 }

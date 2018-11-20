@@ -7,6 +7,9 @@ import ru.surfstudio.android.core.mvp.view.CoreView
  */
 interface Presenter<V : CoreView?> {
 
+    val stateRestorer: StateRestorer<*>?
+        get() = null
+
     fun attachView(view: V)
 
     /**
@@ -52,4 +55,6 @@ interface Presenter<V : CoreView?> {
      * Called when screen is finally destroyed
      */
     fun onDestroy()
+
+    fun detachView()
 }
