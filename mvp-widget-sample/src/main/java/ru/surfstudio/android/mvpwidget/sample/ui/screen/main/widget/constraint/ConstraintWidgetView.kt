@@ -23,11 +23,14 @@ class ConstraintWidgetView @JvmOverloads constructor(
 
     init {
         View.inflate(context, R.layout.widget_view, this)
-        @SuppressLint("SetTextI18n")
-        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello $name"
+        setOnClickListener { presenter.changeTextOnWidget() }
     }
 
-    override fun getName() = "Constraint widget view"
+    fun render(s: String) {
+        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello ${hashCode()} on pos $s"
+    }
+
+    override fun getName() = "ConstraintWidget"
 
     override fun createConfigurator() = ConstraintViewConfigurator()
 

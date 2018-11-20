@@ -20,6 +20,7 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.scope.PersistentScope;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
+import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState;
 
 /**
@@ -27,11 +28,18 @@ import ru.surfstudio.android.mvp.widget.state.WidgetScreenState;
  */
 public class WidgetViewPersistentScope extends ScreenPersistentScope {
 
-    public WidgetViewPersistentScope(ScreenEventDelegateManager parentScreenEventDelegateManager,
-                                     WidgetScreenState parentScreenState,
+    private WidgetLifecycleManager lifecycleManager;
+
+    public WidgetViewPersistentScope(ScreenEventDelegateManager screenEventDelegateManager,
+                                     WidgetScreenState screenState,
                                      BaseWidgetViewConfigurator configurator,
-                                     String scopeId) {
-        super(parentScreenEventDelegateManager, parentScreenState, configurator, scopeId);
+                                     String scopeId, WidgetLifecycleManager lifecycleManager) {
+        super(screenEventDelegateManager, screenState, configurator, scopeId);
+        this.lifecycleManager = lifecycleManager;
+    }
+
+    public WidgetLifecycleManager getLifecycleManager() {
+        return lifecycleManager;
     }
 
     @Override

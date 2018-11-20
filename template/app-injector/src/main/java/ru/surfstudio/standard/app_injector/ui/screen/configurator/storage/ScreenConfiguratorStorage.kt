@@ -26,7 +26,7 @@ object ScreenConfiguratorStorage {
 
             }
 
-    val dialogScreenConfiguratorMap= HashMap<KClass<*>, (args: Bundle) -> DialogScreenConfigurator>()
+    val dialogScreenConfiguratorMap = HashMap<KClass<*>, (args: Bundle) -> DialogScreenConfigurator>()
             .apply {
 
             }
