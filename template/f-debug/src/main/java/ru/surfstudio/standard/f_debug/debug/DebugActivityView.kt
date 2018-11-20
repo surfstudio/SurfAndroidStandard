@@ -3,6 +3,7 @@ package ru.surfstudio.standard.f_debug.debug
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
+import com.facebook.stetho.Stetho
 import kotlinx.android.synthetic.main.activity_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -44,5 +45,6 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
         show_memory_item_layout.setOnClickListener { presenter.openMemoryScreen() }
         show_app_info_item_layout.setOnClickListener { presenter.openAppInfoScreen() }
+        enable_stetho_item_layout.setOnClickListener { Stetho.initializeWithDefaults(applicationContext) }
     }
 }
