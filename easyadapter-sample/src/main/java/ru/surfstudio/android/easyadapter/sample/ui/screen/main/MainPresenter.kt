@@ -4,6 +4,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.easyadapter.sample.ui.screen.async.AsyncInflateListActivityRoute
 import ru.surfstudio.android.easyadapter.sample.ui.screen.multitype.MultitypeListActivityRoute
 import ru.surfstudio.android.easyadapter.sample.ui.screen.pagination.PaginationListActivityRoute
 import javax.inject.Inject
@@ -29,5 +30,9 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 
     fun showPagintationList() {
         activityNavigator.start(PaginationListActivityRoute())
+    }
+
+    fun showAsyncInflateList() {
+        activityNavigator.start(AsyncInflateListActivityRoute())
     }
 }

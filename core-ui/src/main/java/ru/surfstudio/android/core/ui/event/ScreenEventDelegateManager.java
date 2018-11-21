@@ -45,9 +45,27 @@ public interface ScreenEventDelegateManager {
     void registerDelegate(ScreenEventDelegate delegate, @Nullable ScreenType emitterType);
 
     /**
-     * удаляет подписку делегата
+     * Ренистрирует делегата на конкретный эвент
+     *
+     * @param delegate
+     * @param eventType
+     */
+    void registerDelegate(ScreenEventDelegate delegate,
+                          @Nullable ScreenType emitterType,
+                          Class<? extends ScreenEvent> eventType);
+
+    /**
+     * удаляет подписку делегата по событию
      *
      * @return была ли подписка удалена
+     */
+    <E extends ScreenEvent> boolean unregisterDelegate(ScreenEventDelegate delegate, Class<E> event);
+
+    /**
+     * Отписывает подписку делегата
+     *
+     * @param delegate
+     * @return
      */
     boolean unregisterDelegate(ScreenEventDelegate delegate);
 
@@ -66,4 +84,9 @@ public interface ScreenEventDelegateManager {
      * отменяет все подписки, после вызова этого метода менеджером пользоваться больше нельзя
      */
     void destroy();
+
+    /**
+     * Рассылает сообщения из хранилища
+     */
+    void sendUnhandledEvents();
 }

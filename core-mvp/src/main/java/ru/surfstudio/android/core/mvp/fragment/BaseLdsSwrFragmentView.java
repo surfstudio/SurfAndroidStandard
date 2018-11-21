@@ -18,12 +18,12 @@ package ru.surfstudio.android.core.mvp.fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import ru.surfstudio.android.core.mvp.model.LdsSwrScreenModel;
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
 import ru.surfstudio.android.core.mvp.model.state.SwipeRefreshState;
 
 /**
  * базовый класс FragmentView c поддержкой
- * состояния загрузки {@link LoadState}
+ * состояния загрузки {@link LoadStateInterface}
  * состояния SwipeRefresh {@link SwipeRefreshState}
  *
  * @param <M>

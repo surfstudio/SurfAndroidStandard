@@ -14,7 +14,7 @@ import javax.inject.Inject
  * Вью главного экрана
  */
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
-    override fun getScreenName(): String  = "MainActivity"
+    override fun getScreenName(): String = "MainActivity"
 
     @Inject
     internal lateinit var presenter: MainPresenter
@@ -28,6 +28,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         show_multitype_list_btn.setOnClickListener { presenter.showMultitypeList() }
         show_paginationable_list.setOnClickListener { presenter.showPagintationList() }
+        show_async_inflate_list.setOnClickListener { presenter.showAsyncInflateList() }
     }
 
     override fun renderInternal(sm: MainScreenModel) {}

@@ -19,6 +19,8 @@
 #### datalist-limit-offset
 #### datalist-page-count
 #### easyadapter
+* ANDDEP-270 Добавлена поддержка асинхронного инфлейта view в ViewHolder
+
 #### filestorage
 #### firebase-analytics
 #### imageloader
@@ -30,6 +32,13 @@
 #### message-controller
 #### mvp-dialog
 #### mvp-widget
+
+* Добавлена возможность использовать виджеты в динамической верстке.
+    Ликвидирована необходимость вызывать `init()` для инициализации виджета.
+* Для использования в ресайклере необходимо в использовать ручной режим инициализации.
+    Для этого создан атрибут `enableManualEdit`. Также в `onBindViewHoler` необходимо вызывать `init(scopeId)`, 
+    где scopeId должен быть основан на тех данных, которые отображает айтем. 
+    
 #### network
 #### picture-provider
 

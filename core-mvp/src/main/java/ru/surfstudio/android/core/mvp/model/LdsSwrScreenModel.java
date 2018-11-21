@@ -15,12 +15,12 @@
  */
 package ru.surfstudio.android.core.mvp.model;
 
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
 import ru.surfstudio.android.core.mvp.model.state.SwipeRefreshState;
 
 /**
  * модель экрана с поддержкой
- * {@link LoadState}
+ * {@link LoadStateInterface}
  * {@link SwipeRefreshState}
  * <p>
  * работает в связке c BaseLdsSwr...View
@@ -40,7 +40,7 @@ public class LdsSwrScreenModel extends LdsScreenModel {
     }
 
     @Override
-    public void setLoadState(LoadState loadState) {
+    public void setLoadState(LoadStateInterface loadState) {
         //В случае изменения LoadState, SwipeRefreshState устанавливается в SwipeRefreshState.HIDE
         setSwipeRefreshState(SwipeRefreshState.HIDE);
         super.setLoadState(loadState);

@@ -17,11 +17,12 @@ package ru.surfstudio.android.mvp.widget.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Parcelable;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 
 import ru.surfstudio.android.core.mvp.presenter.Presenter;
+import ru.surfstudio.android.mvp.widget.R;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
 import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactoryContainer;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -30,28 +31,47 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
  * <p>
  * !!!ВАЖНО!!!
- * 1) Необходимо вызвать метод init во время onCreate() Activity или onActivityCreated() Fragment
- * 2) кастомная вьюшка с презентером может быть только в статической иерархии вью,
- * то есть должна создаваться при старте экрана, и не может быть использована при
- * динамическом создании вью, в том числе внутри элементов RecyclerView
+ * Пока нельзя использовать в ресайклере
  */
 
 
 public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWidgetViewInterface {
 
     private WidgetViewDelegate widgetViewDelegate;
+    private boolean isManualInitEnabled;
+
+    public CoreFrameLayoutView(Context context, boolean isManualInitEnabled) {
+        super(context, null);
+        this.isManualInitEnabled = isManualInitEnabled;
+
+        if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
+        }
+    }
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, -1);
     }
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, -1);
     }
 
     @TargetApi(21)
     public CoreFrameLayoutView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        obtainAttrs(attrs);
+
+        if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
+        }
+    }
+
+
+    private void obtainAttrs(AttributeSet attrs) {
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreConstraintLayoutView, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreConstraintLayoutView_enableManualInit, false);
+        ta.recycle();
     }
 
     protected abstract Presenter[] getPresenters();
@@ -64,18 +84,25 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        super.onRestoreInstanceState(state);
-    }
-
-    @Override
     public WidgetViewDelegate createWidgetViewDelegate() {
         return MvpWidgetDelegateFactoryContainer.get().createWidgetViewDelegate(this);
     }
 
     @Override
-    public final void init() {
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (!isManualInitEnabled) {
+            widgetViewDelegate.onCreate();
+        }
+    }
+
+    @Override
+    public void init() {}
+
+    @Override
+    public void init(String scopeId) {
         widgetViewDelegate = createWidgetViewDelegate();
+        widgetViewDelegate.setScopeId(scopeId);
         widgetViewDelegate.onCreate();
     }
 
@@ -93,5 +120,12 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     @Override
     public WidgetViewPersistentScope getPersistentScope() {
         return widgetViewDelegate.getPersistentScope();
+    }
+
+    /**
+     * В ручную вызывает onCompletelyDestroy у виджета
+     */
+    public void manualCompletelyDestroy() {
+        widgetViewDelegate.onCompletelyDestroy();
     }
 }
