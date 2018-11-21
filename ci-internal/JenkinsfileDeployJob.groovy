@@ -153,7 +153,7 @@ pipeline.stages = [
         pipeline.createStage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
             def version = CommonUtil.removeQuotesFromTheEnds(
                     AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
-            script.sh "git commit -a -m \"Increase version to $version\" $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1"
+            script.sh "git commit -a -m \"Increase version to $version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             script.sh "git push"
         }
 ]
