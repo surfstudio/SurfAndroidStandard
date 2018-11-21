@@ -138,7 +138,7 @@ pipeline.stages = [
                 def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
                 String[] versionParts = rawVersion.split("-")
                 String newSnapshotVersion = String.valueOf(Integer.parseInt(versionParts[2]) + 1)
-                newRawVersion = versionParts[0] + versionParts[1] + newSnapshotVersion + versionParts[3]
+                newRawVersion = versionParts[0] + "-" + versionParts[1] + "-" + newSnapshotVersion + "-" + versionParts[3]
                 AndroidUtil.changeGradleVariable(script, gradleConfigFile, androidStandardVersionVarName, newRawVersion)
             }
         },
@@ -146,10 +146,12 @@ pipeline.stages = [
             script.sh "./gradlew clean uploadArchives"
         },
         pipeline.createStage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
-            def version = CommonUtil.removeQuotesFromTheEnds(
-                    AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
-            script.sh "git commit -a -m \"[skip ci] Increase version to $version\""
-            script.sh "git push"
+            if(isProjectSnapshotBranch(branchName)) {
+                def version = CommonUtil.removeQuotesFromTheEnds(
+                        AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
+                script.sh "git commit -a -m \"[skip ci] Increase version to $version\""
+                script.sh "git push"
+            }
         }
 ]
 
