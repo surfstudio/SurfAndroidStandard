@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -97,6 +98,38 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
+     * Слияние двух DataList
+     *
+     * @param data DataList для слияния с текущим
+     * @param distinctPredicate предикат, по которому происходит удаление дублируемых элементов
+     *
+     * @return текущий экземпляр
+     */
+    public <R> DataList<T> merge(DataList<T> data, MapFunc<R, T> distinctPredicate) {
+        boolean reverse = data.offset < this.offset;
+        ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
+        if (merged == null) {
+            //Отрезки данных не совпадают, слияние не возможно
+            throw new IncompatibleRangesException("incorrect data range");
+        }
+
+        ArrayList<T> filtered = distinctByLast(merged, distinctPredicate);
+        this.data.clear();
+        this.data.addAll(filtered);
+        if (this.offset < data.offset) { //загрузка вниз, как обычно
+            this.limit = data.offset + data.limit - this.offset;
+        } else if (this.offset == data.offset) { //коллизия?
+            this.limit = data.limit;
+        } else { // загрузка вверх
+            this.offset = data.offset;
+            this.limit = size();
+        }
+
+        this.totalCount = data.totalCount;
+        return this;
+    }
+
+    /**
      * Преобразует dataList одного типа в dataList другого типа
      *
      * @param mapFunc функция преобразования
@@ -137,7 +170,7 @@ public class DataList<T> implements List<T>, Serializable {
      * @return
      */
     public boolean canGetMore() {
-        return totalCount > data.size();
+        return totalCount > limit + offset;
     }
 
     @Nullable
@@ -306,5 +339,30 @@ public class DataList<T> implements List<T>, Serializable {
                 ", offset=" + offset +
                 ", data=" + data +
                 '}';
+    }
+
+    /**
+     * Удаление одинаковых элементов из исходного списка
+     * Критерий того, что элементы одинаковые, задается параметром distinctFunc
+     *
+     * @param source исходный список
+     * @param distinctPredicate критерий того, что элементы одинаковые
+
+     * @return отфильтрованный список без одинаковых элементов
+     */
+    private <R> ArrayList<T> distinctByLast(ArrayList<T> source, MapFunc<R, T> distinctPredicate) {
+        HashSet<R> resultSet = new HashSet<>();
+        ArrayList<T> result = new ArrayList<>();
+        ListIterator iterator = source.listIterator(source.size());
+
+        while (iterator.hasPrevious()) {
+            T current = (T) iterator.previous();
+            R key = distinctPredicate.call(current);
+            if (resultSet.add(key)) {
+                result.add(current);
+            }
+        }
+
+        return result;
     }
 }
