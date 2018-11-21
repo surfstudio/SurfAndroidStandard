@@ -15,13 +15,13 @@
  */
 package ru.surfstudio.android.core.mvp.model;
 
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
 import ru.surfstudio.android.core.mvp.model.state.SwipeRefreshState;
 import ru.surfstudio.android.easyadapter.pagination.PaginationState;
 
 /**
  * модель экрана с поддержкой
- * {@link LoadState}
+ * {@link LoadStateInterface}
  * {@link SwipeRefreshState}
  * {@link PaginationState}
  * <p>
