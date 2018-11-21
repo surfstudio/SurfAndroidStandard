@@ -2,9 +2,10 @@ package ru.surfstudio.standard.base_ui.placeholder
 
 import android.content.Context
 import android.util.AttributeSet
-import ru.surfstudio.android.core.mvp.model.state.LoadState
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateRendererInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
+import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
 
 /**
  * Реализация [StandardPlaceHolderView] для приложения.
@@ -14,9 +15,9 @@ import ru.surfstudio.android.custom.view.placeholder.StandardPlaceHolderView
 class PlaceHolderView(
         context: Context,
         attributeSet: AttributeSet
-) : StandardPlaceHolderView(context, attributeSet), PlaceHolderViewInterface {
+) : StandardPlaceHolderView(context, attributeSet), LoadStateRendererInterface {
 
-    override fun render(loadState: LoadState) {
+    override fun render(loadState: LoadStateInterface) {
         when (loadState) {
             LoadState.NONE -> setNoneState()
             LoadState.MAIN_LOADING -> setMainLoadingState()

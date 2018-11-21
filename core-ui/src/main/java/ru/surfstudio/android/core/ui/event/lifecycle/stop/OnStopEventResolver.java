@@ -38,7 +38,7 @@ public class OnStopEventResolver extends MultipleScreenEventResolver<OnStopEvent
 
     @Override
     public List<ScreenType> getEventEmitterScreenTypes() {
-        return ACTIVITY_AND_FRAGMENT_TYPES;
+        return ALL_TYPES;
     }
 
     @Override

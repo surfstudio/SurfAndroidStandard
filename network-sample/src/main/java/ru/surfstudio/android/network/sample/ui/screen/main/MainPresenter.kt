@@ -1,10 +1,10 @@
 package ru.surfstudio.android.network.sample.ui.screen.main
 
-import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.network.sample.interactor.product.ProductRepository
+import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

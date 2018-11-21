@@ -15,6 +15,7 @@
     <string name="leakcanary_text" translatable="false">LeakCanary</string>
     <string name="leakcanary_subtitle_text">Библиотека обнаружения утечки памяти. LeakCanary автоматически покажет уведомление, когда в вашей отладочной сборке обнаружена утечка памяти в Activity или Fragment.</string>
     <string name="reboot_tw_start_text">Старт перезапуска…</string>
+    <string name="show_storage_debug_item">Просмотр хранилища</string>
     <string name="app_info_version_code_text">Version Code : %1$d</string>
     <string name="app_info_version_name_text">Version name : %1$s</string>
     <string name="app_info_package_name_text">Package name : %1$s</string>

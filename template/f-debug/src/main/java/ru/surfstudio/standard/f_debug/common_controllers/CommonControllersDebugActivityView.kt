@@ -13,6 +13,7 @@ import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.f_debug.common_controllers.controllers.CustomControllerDescriptionItemController
 import ru.surfstudio.standard.f_debug.common_controllers.description.addDescription
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.CommonControllersDebugScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -29,7 +30,7 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = CommonControllersDebugScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_common_controllers_debug

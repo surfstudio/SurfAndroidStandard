@@ -1,8 +1,18 @@
 apply from: '../commonFeatureModule.gradle'
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation project(':template:base-ui')
-    implementation project(':template:i-debug')
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
+    implementation 'com.github.kk121:Android-Debug-Tools:1.0'
+
+
+    // leak canary
+    implementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    implementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakCanaryVersion"
+
+    //chunk
+    implementation "com.readystatesoftware.chuck:library:$chuckVersion"
 }

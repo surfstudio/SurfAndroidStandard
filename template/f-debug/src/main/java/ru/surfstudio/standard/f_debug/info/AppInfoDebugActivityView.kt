@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.f_debug.info
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
@@ -9,8 +10,8 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.BuildConfig
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.AppInfoDebugScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -23,7 +24,7 @@ class AppInfoDebugActivityView : BaseRenderableActivityView<AppInfoDebugScreenMo
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = AppInfoDebugScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_app_info_debug
@@ -41,8 +42,11 @@ class AppInfoDebugActivityView : BaseRenderableActivityView<AppInfoDebugScreenMo
     @SuppressLint("StringFormatMatches")
     private fun initContent() {
         with(packageManager.getPackageInfo(packageName, 0)) {
-            val vCode = if (SdkUtils.isAtLeastPie()) longVersionCode else versionCode.toLong()
-            app_info_version_code_tv.text = getString(R.string.app_info_version_code_text, vCode)
+            app_info_version_code_tv.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                 getString(R.string.app_info_version_code_text, longVersionCode)
+            } else {
+                getString(R.string.app_info_version_code_text, versionCode)
+            }
             app_info_version_name_tv.text = getString(R.string.app_info_version_name_text, versionName)
         }
         app_info_package_name_tv.text = getString(R.string.app_info_package_name_text, packageName)

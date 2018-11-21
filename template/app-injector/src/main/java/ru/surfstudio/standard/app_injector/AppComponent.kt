@@ -22,11 +22,6 @@ import ru.surfstudio.standard.app_injector.network.cache.CacheModule
 import ru.surfstudio.standard.app_injector.ui.notification.FcmModule
 import ru.surfstudio.standard.app_injector.ui.notification.MessagingService
 import ru.surfstudio.standard.app_injector.ui.notification.NotificationModule
-import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
-import ru.surfstudio.standard.i_debug.storage.DebugServerSettingsStorage
-import ru.surfstudio.standard.i_debug.DebugInteractor
-import ru.surfstudio.standard.i_debug.storage.DebugUiToolsStorage
-import ru.surfstudio.standard.i_debug.storage.MemoryDebugStorage
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
 import javax.inject.Named
@@ -41,7 +36,6 @@ import javax.inject.Named
     EtagModule::class,
     NetworkModule::class,
     OkHttpModule::class,
-    CacheModule::class,
     FcmModule::class,
     NotificationModule::class])
 interface AppComponent {
@@ -55,11 +49,6 @@ interface AppComponent {
     fun globalNavigator(): GlobalNavigator
     fun fcmStorage(): FcmStorage
     fun pushHandler(): PushHandler
-    fun serverSettingsStorage(): DebugServerSettingsStorage
-    fun rebootInteractor(): RebootInteractor
-    fun memoryDebugStorage(): MemoryDebugStorage
-    fun debugInteractor(): DebugInteractor
-    fun debugUiToolsStorage(): DebugUiToolsStorage
 
     fun inject(to: MessagingService)
 

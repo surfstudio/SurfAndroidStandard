@@ -16,9 +16,6 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.AppComponent
-import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
-import ru.surfstudio.standard.i_debug.storage.DebugServerSettingsStorage
-import ru.surfstudio.standard.i_debug.DebugInteractor
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import javax.inject.Named
 
@@ -33,8 +30,6 @@ interface ActivityComponent {
     fun connectionProvider(): ConnectionProvider
     fun activityProvider(): ActivityProvider
     fun stringsProvider(): StringsProvider
-    fun rebootInteractor(): RebootInteractor
-    fun debugInteractor(): DebugInteractor
 
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
