@@ -7,7 +7,7 @@ import kotlinx.android.synthetic.main.activity_tools_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.ToolsDebugScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -20,7 +20,7 @@ class ToolsDebugActivityView : BaseRenderableActivityView<ToolsDebugScreenModel>
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = ToolsDebugScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_tools_debug

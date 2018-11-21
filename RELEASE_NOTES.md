@@ -68,6 +68,8 @@
 * ANDDEP-323 Добавлен Chuck
     * Интеграция Chuck в template
     * Добавлена возможность его включения/выключения на DebugScreen
+* ANDDEP-335 Добавлен Stetho на DebugScreen
+    * Добавлена библиотека Stetho которая в связке с Google Chrome может использоваться для дебага.
 
 #### util-ktx
 

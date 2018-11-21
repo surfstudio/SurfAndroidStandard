@@ -1,6 +1,8 @@
 package ru.surfstudio.standard.f_debug
 
 import android.app.Application
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.leakcanary.LeakCanary
 import okhttp3.OkHttpClient
@@ -10,12 +12,14 @@ import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
 import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
 import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.f_debug.storage.MemoryDebugStorage
+import ru.surfstudio.standard.f_debug.storage.ToolsDebugStorage
 import javax.inject.Inject
 
 @PerApplication
 class DebugInteractor @Inject constructor(
         private val memoryDebugStorage: MemoryDebugStorage,
         private val debugServerSettingsStorage: DebugServerSettingsStorage,
+        private val toolsDebugStorage: ToolsDebugStorage,
         private val application: Application,
         private val rebootInteractor: RebootInteractor
 ) {
@@ -25,6 +29,12 @@ class DebugInteractor @Inject constructor(
         get() = memoryDebugStorage.isLeakCanaryEnabled
         set(value) {
             memoryDebugStorage.isLeakCanaryEnabled = value
+        }
+
+    var isStethoEnabled: Boolean
+        get() = toolsDebugStorage.isStethoEnabled
+        set(value) {
+            toolsDebugStorage.isStethoEnabled = value
         }
 
     /**
