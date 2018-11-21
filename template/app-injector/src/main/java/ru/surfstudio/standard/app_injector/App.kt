@@ -13,7 +13,6 @@ import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.Screen
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.base_ui.provider.route.RouteClassProvider
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
-import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.DebugScreenConfiguratorStorage
 
 class App : CoreApp() {
 
@@ -41,9 +40,7 @@ class App : CoreApp() {
 
     private fun initComponentProvider() {
         ComponentProvider.createActivityScreenConfigurator = { intent, kclass ->
-            ScreenConfiguratorStorage.activityScreenConfiguratorMap[kclass]?.invoke(intent)
-                    ?:
-            DebugScreenConfiguratorStorage.activityScreenConfiguratorMap[kclass]?.invoke(intent)!!
+            ScreenConfiguratorStorage.activityScreenConfiguratorMap[kclass]?.invoke(intent)!!
         }
 
         ComponentProvider.createActivityConfigurator = { intent, kclass ->

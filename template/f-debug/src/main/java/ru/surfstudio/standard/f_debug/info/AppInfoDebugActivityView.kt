@@ -11,6 +11,7 @@ import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.BuildConfig
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.AppInfoDebugScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -23,7 +24,7 @@ class AppInfoDebugActivityView : BaseRenderableActivityView<AppInfoDebugScreenMo
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = AppInfoDebugScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_app_info_debug

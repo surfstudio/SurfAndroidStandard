@@ -4,6 +4,7 @@ import kotlinx.android.synthetic.main.activity_memory_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.MemoryDebugScreenConfigurator
 import javax.inject.Inject
 
 class MemoryDebugActivityView : BaseRenderableActivityView<MemoryDebugScreenModel>() {
@@ -11,7 +12,7 @@ class MemoryDebugActivityView : BaseRenderableActivityView<MemoryDebugScreenMode
     @Inject
     lateinit var presenter: MemoryDebugPresenter
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = MemoryDebugScreenConfigurator(intent)
 
     override fun getScreenName() = "MemoryDebugActivityView"
 

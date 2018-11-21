@@ -11,6 +11,7 @@ import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.android.utilktx.ktx.ui.view.copyTextToClipboard
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.FcmDebugScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -23,7 +24,7 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = FcmDebugScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_fcm_debug
