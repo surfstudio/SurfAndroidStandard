@@ -13,6 +13,7 @@ import java.util.regex.Pattern
 import java.util.regex.Matcher
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
+
 //Кастомный пайплайн для деплоя артефактов
 
 // Имена Шагов
@@ -80,12 +81,11 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.createStage(CHECKOUT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            script.checkout([
-                    $class                           : 'GitSCM',
-                    branches                         : [[name: "${branchName}"]],
-                    doGenerateSubmoduleConfigurations: script.scm.doGenerateSubmoduleConfigurations,
-                    userRemoteConfigs                : script.scm.userRemoteConfigs,
-            ])
+            sscript.git(
+                    url: url,
+                    credentialsId: credentialsId
+            )
+            script.sh "git checkout $branchName"
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
