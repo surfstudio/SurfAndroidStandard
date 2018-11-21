@@ -5,5 +5,4 @@ dependencies {
     implementation project(':template:i-debug')
 
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
-    implementation 'com.facebook.stetho:stetho:1.5.0'
 }

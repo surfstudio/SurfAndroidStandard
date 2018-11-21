@@ -26,6 +26,7 @@ import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootIn
 import ru.surfstudio.standard.i_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.i_debug.DebugInteractor
 import ru.surfstudio.standard.i_debug.storage.MemoryDebugStorage
+import ru.surfstudio.standard.i_debug.storage.ToolsDebugStorage
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
 import javax.inject.Named
@@ -58,7 +59,10 @@ interface AppComponent {
     fun rebootInteractor(): RebootInteractor
     fun memoryDebugStorage(): MemoryDebugStorage
     fun debugInteractor(): DebugInteractor
+    fun toolsDebugStorage(): ToolsDebugStorage
 
     fun inject(to: MessagingService)
-    @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
+
+    @Named(NO_BACKUP_SHARED_PREF)
+    fun sharedPreferences(): SharedPreferences
 }

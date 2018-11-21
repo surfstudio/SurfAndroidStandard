@@ -13,4 +13,8 @@ dependencies {
 
     //chunk
     implementation "com.readystatesoftware.chuck:library:$chuckVersion"
+
+    //stetho
+    implementation "com.facebook.stetho:stetho:${stethoVersion}"
+    implementation "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
 }

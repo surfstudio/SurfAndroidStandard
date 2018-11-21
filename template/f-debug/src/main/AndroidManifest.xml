@@ -8,8 +8,7 @@
             android:name="ru.surfstudio.standard.f_debug.debug.DebugActivityView"
             android:launchMode="singleTask" />
 
-        <activity
-            android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView" />
+        <activity android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView" />
 
         <activity
             android:name="ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView"
@@ -23,6 +22,8 @@
         <activity android:name="ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView" />
 
         <activity android:name="ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView" />
+
+        <activity android:name="ru.surfstudio.standard.f_debug.tools.ToolsDebugActivityView" />
 
     </application>
 

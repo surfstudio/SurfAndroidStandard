@@ -39,9 +39,9 @@
             app:catalog_item_name="@string/show_memory_debug_item" />
 
         <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
-            android:id="@+id/enable_stetho_item_layout"
+            android:id="@+id/show_tools_item_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:catalog_item_name="@string/enable_stetho_debug_item" />
+            app:catalog_item_name="@string/show_tools_debug_item" />
     </LinearLayout>
 </ScrollView>

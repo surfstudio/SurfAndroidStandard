@@ -58,6 +58,9 @@ ext {
     anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
 
+    //debug
+    stethoVersion = '1.5.0'                     //https://bit.ly/2eZ3YI7
+
     //test
     robolectricVersion = '3.8'                  //http://bit.ly/2xLRICR
     junitVersion = '4.12'
