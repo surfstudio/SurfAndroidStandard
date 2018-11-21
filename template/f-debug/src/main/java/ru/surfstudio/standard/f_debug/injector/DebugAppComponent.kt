@@ -33,7 +33,5 @@ interface DebugAppComponent {
     fun application(): Application
     fun debugInteractor(): DebugInteractor
     fun fcmStorage(): FcmStorage
-
-    @Named(NO_BACKUP_SHARED_PREF)
-    fun sharedPreferences(): SharedPreferences
+    @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
 }

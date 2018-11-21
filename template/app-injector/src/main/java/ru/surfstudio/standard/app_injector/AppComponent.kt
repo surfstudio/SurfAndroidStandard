@@ -51,7 +51,5 @@ interface AppComponent {
     fun pushHandler(): PushHandler
 
     fun inject(to: MessagingService)
-
-    @Named(NO_BACKUP_SHARED_PREF)
-    fun sharedPreferences(): SharedPreferences
+    @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
 }
