@@ -2,7 +2,7 @@ apply from: '../commonFeatureModule.gradle'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    implementation project(':template:base-ui')
+    implementation project(localModules.baseUi)
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.jakewharton:process-phoenix:$processPhoenix"

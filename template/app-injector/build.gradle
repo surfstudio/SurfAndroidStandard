@@ -36,21 +36,21 @@ android {
 }
 
 dependencies {
-    implementation project(':template:base')
-    implementation project(':template:base-ui')
-    implementation project(':template:i-initialization')
-    implementation project(':template:i-network')
-    implementation project(':template:i-token')
-    implementation project(':template:i-session')
-    implementation project(':template:i-auth')
-    implementation project(':template:f-auth')
-    implementation project(':template:f-main')
-    implementation project(':template:f-splash')
+    implementation project(localModules.base)
+    implementation project(localModules.baseUi)
+    implementation project(localModules.iInitialization)
+    implementation project(localModules.iNetwork)
+    implementation project(localModules.iToken)
+    implementation project(localModules.iSession)
+    implementation project(localModules.iAuth)
+    implementation project(localModules.fAuth)
+    implementation project(localModules.fMain)
+    implementation project(localModules.fSplash)
 
     //debug
-    releaseImplementation project(':template:f-debug-no-op')
-    debugImplementation project(':template:f-debug')
-    qaImplementation project(':template:f-debug')
+    releaseImplementation project(localModules.fDebugNoOp)
+    debugImplementation project(localModules.fDebug)
+    qaImplementation project(localModules.fDebug)
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 

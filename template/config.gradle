@@ -71,4 +71,23 @@ ext {
 
     // Surf Core
     surfCoreVersionName = '0.4.0-SNAPSHOT'      // версия android-standard
+
+    templatePrefix=':template'
 }
+
+ext.localModules = [
+    baseUi          : "$templatePrefix:base-ui",
+    base            : "$templatePrefix:base",
+    iInitialization : "$templatePrefix:i-initialization",
+    iNetwork        : "$templatePrefix:i-network",
+    iSession        : "$templatePrefix:i-session",
+    iToken          : "$templatePrefix:i-token",
+    appInjector     : "$templatePrefix:app-injector",
+    domain          : "$templatePrefix:domain",
+    iAuth           : "$templatePrefix:i-auth",
+    fAuth           : "$templatePrefix:f-auth",
+    fMain           : "$templatePrefix:f-main",
+    fDebug          : "$templatePrefix:f-debug",
+    fSplash         : "$templatePrefix:f-splash",
+    fDebugNoOp      : "$templatePrefix:f-debug-no-op"
+]

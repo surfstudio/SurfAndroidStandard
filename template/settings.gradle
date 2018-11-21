@@ -1,16 +1,18 @@
-include ':template:app-injector',
-        ':template:base',
-        ':template:base-ui',
-        ':template:domain',
-        ':template:i-initialization',
-        ':template:i-network',
-        ':template:i-token',
-        ':template:i-session',
-        ':template:i-auth',
-        ':template:f-auth',
-        ':template:f-main',
-        ':template:f-debug',
-        ':template:f-splash',
-        ':template:f-debug-no-op'
+apply from: 'config.gradle'
+
+include localModules.appInjector,
+        localModules.base,
+        localModules.baseUi,
+        localModules.domain,
+        localModules.iInitialization,
+        localModules.iNetwork,
+        localModules.iToken,
+        localModules.iSession,
+        localModules.iAuth,
+        localModules.fAuth,
+        localModules.fMain,
+        localModules.fDebug,
+        localModules.fSplash,
+        localModules.fDebugNoOp
 
 apply from: 'android-standard/androidStandardSettings.gradle'

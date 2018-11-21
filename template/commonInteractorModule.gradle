@@ -1,5 +1,5 @@
 apply from: '../commonModule.gradle'
 
 dependencies {
-    implementation project(':template:base')
+    implementation project(localModules.base)
 }
