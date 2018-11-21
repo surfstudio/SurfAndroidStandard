@@ -5,6 +5,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityRoute
+import ru.surfstudio.standard.f_debug.developer_tools.DeveloperToolsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
 import ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityRoute
 import ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityRoute
@@ -43,5 +44,9 @@ class DebugPresenter @Inject constructor(
 
     fun openUiToolsScreen() {
         activityNavigator.start(UiToolsDebugActivityRoute())
+    }
+
+    fun openDeveloperToolsScreen() {
+        activityNavigator.start(DeveloperToolsDebugActivityRoute())
     }
 }
