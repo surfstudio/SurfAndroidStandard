@@ -23,7 +23,7 @@ def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
-def VERSION_INCREASE = 'Version Increase'
+def VERSION_INCREMENT = 'Version Increment'
 def DEPLOY = 'Deploy'
 def VERSION_PUSH = 'Version Push'
 
@@ -65,7 +65,7 @@ pipeline.initializeBody = {
         pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
-        pipeline.getStage(VERSION_INCREASE).strategy = StageStrategy.FAIL_WHEN_STAGE_ERROR
+        pipeline.getStage(VERSION_INCREMENT).strategy = StageStrategy.FAIL_WHEN_STAGE_ERROR
         pipeline.getStage(VERSION_PUSH).strategy = StageStrategy.FAIL_WHEN_STAGE_ERROR
     }
 
@@ -86,7 +86,7 @@ pipeline.stages = [
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
             )
-            script.sh "git checkout -B master origin/$branchName"
+            script.sh "git checkout -B $branchName origin/$branchName"
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
@@ -135,7 +135,7 @@ pipeline.stages = [
         pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
-        pipeline.createStage(VERSION_INCREASE, StageStrategy.SKIP_STAGE) {
+        pipeline.createStage(VERSION_INCREMENT, StageStrategy.SKIP_STAGE) {
             if(isProjectSnapshotBranch(branchName)){
                 def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
                 String[] versionParts = rawVersion.split("-")
