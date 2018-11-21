@@ -7,11 +7,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
 import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.DefaultLoadStateRenderer
-import ru.surfstudio.android.core.mvp.model.state.LoadState
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
 import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.shared.pref.sample.R
 import ru.surfstudio.android.shared.pref.sample.ui.base.configurator.CustomActivityScreenConfigurator
