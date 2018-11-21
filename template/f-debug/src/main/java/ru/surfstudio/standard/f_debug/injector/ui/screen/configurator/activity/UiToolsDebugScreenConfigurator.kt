@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.debug
+package ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity
 
 import android.content.Context
 import android.content.Intent
@@ -8,10 +8,10 @@ import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.standard.app_injector.ui.ActivityComponent
-import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
-import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
-import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
+import ru.surfstudio.standard.f_debug.injector.ui.ActivityComponent
+import ru.surfstudio.standard.f_debug.injector.ui.configurator.ActivityScreenConfigurator
+import ru.surfstudio.standard.f_debug.injector.ui.screen.ActivityScreenModule
+import ru.surfstudio.standard.f_debug.injector.ui.screen.CustomScreenModule
 import ru.surfstudio.standard.f_debug.ui_tools.OverlayPermissionChecker
 import ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityView
