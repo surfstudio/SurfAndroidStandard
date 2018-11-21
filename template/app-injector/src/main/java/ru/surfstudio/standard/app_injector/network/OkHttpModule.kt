@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.network.cache.SimpleCacheInterceptor
 import ru.surfstudio.android.network.etag.EtagInterceptor
-import ru.surfstudio.standard.i_debug.DebugInteractor
+import ru.surfstudio.standard.f_debug.DebugInteractor
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 

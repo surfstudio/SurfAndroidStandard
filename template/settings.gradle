@@ -7,10 +7,10 @@ include ':template:app-injector',
         ':template:i-token',
         ':template:i-session',
         ':template:i-auth',
-        ':template:i-debug',
         ':template:f-auth',
         ':template:f-main',
         ':template:f-debug',
-        ':template:f-splash'
+        ':template:f-splash',
+        ':template:f-debug-no-op'
 
 apply from: 'android-standard/androidStandardSettings.gradle'

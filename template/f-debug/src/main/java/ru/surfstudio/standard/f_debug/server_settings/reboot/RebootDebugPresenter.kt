@@ -3,6 +3,7 @@ package ru.surfstudio.standard.f_debug.server_settings.reboot
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.standard.f_debug.DebugInteractor
 import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
 import ru.surfstudio.standard.f_debug.server_settings.reboot.route.LauncherActivityRoute
 import java.util.concurrent.TimeUnit
@@ -15,7 +16,7 @@ private const val DELAY_SEC = 1L // количество секунд, по ис
  */
 class RebootDebugPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val rebootInteractor: RebootInteractor
+        private val debugInteractor: DebugInteractor
 ) : BasePresenter<RebootActivityDebugView>(basePresenterDependency) {
 
     override fun onFirstLoad() {
@@ -28,7 +29,7 @@ class RebootDebugPresenter @Inject constructor(
 
         subscribe(delay) {
             if (it == 0L) {
-                rebootInteractor.reboot(LauncherActivityRoute())
+                debugInteractor.reboot(LauncherActivityRoute())
             }
         }
     }

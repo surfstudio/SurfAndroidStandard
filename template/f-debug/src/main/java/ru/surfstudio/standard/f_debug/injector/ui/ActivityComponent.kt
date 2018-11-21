@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.app_injector.ui
+package ru.surfstudio.standard.f_debug.injector.ui
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -13,32 +13,29 @@ import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import ru.surfstudio.standard.app_injector.AppComponent
-import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
+import ru.surfstudio.standard.f_debug.DebugInteractor
+import ru.surfstudio.standard.f_debug.injector.DebugAppComponent
 import javax.inject.Named
 
 /**
  * Компонент для @PerActivity скоупа
  */
 @PerActivity
-@Component(dependencies = [AppComponent::class],
+@Component(dependencies = [DebugAppComponent::class],
         modules = [ActivityModule::class])
 interface ActivityComponent {
     fun schedulerProvider(): SchedulersProvider
     fun connectionProvider(): ConnectionProvider
     fun activityProvider(): ActivityProvider
     fun stringsProvider(): StringsProvider
+    fun debugInteractor(): DebugInteractor
 
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
     fun fragmentNavigator(): FragmentNavigator
     fun tabFragmentNavigator(): TabFragmentNavigator
     fun globalNavigator(): GlobalNavigator
-    fun rxBus(): RxBus
     fun fcmStorage(): FcmStorage
     @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
-
-    fun initializeAppInteractor(): InitializeAppInteractor
 }
