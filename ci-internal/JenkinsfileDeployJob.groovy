@@ -91,8 +91,13 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCi(script) && !CommonUtil.isJobStartedByUser(script)){
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit contains [skip ci] label")
+            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)){
+                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+            }
+            if (RepositoryUtil.isCurrentCommitMessageContainsVersionLabel(script)){
+                script.echo "Disable automatic version increment because commit message contains $RepositoryUtil.VERSION_LABEL1"
+                pipeline.getStage(VERSION_INCREMENT).strategy = StageStrategy.SKIP_STAGE
+                pipeline.getStage(VERSION_PUSH).strategy = StageStrategy.SKIP_STAGE
             }
             def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
             def version = CommonUtil.removeQuotesFromTheEnds(rawVersion) //remove quotes
@@ -136,24 +141,20 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.createStage(VERSION_INCREMENT, StageStrategy.SKIP_STAGE) {
-            if(isProjectSnapshotBranch(branchName)){
-                def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
-                String[] versionParts = rawVersion.split("-")
-                String newSnapshotVersion = String.valueOf(Integer.parseInt(versionParts[2]) + 1)
-                newRawVersion = versionParts[0] + "-" + versionParts[1] + "-" + newSnapshotVersion + "-" + versionParts[3]
-                AndroidUtil.changeGradleVariable(script, gradleConfigFile, androidStandardVersionVarName, newRawVersion)
-            }
+            def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
+            String[] versionParts = rawVersion.split("-")
+            String newSnapshotVersion = String.valueOf(Integer.parseInt(versionParts[2]) + 1)
+            newRawVersion = versionParts[0] + "-" + versionParts[1] + "-" + newSnapshotVersion + "-" + versionParts[3]
+            AndroidUtil.changeGradleVariable(script, gradleConfigFile, androidStandardVersionVarName, newRawVersion)
         },
         pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             script.sh "./gradlew clean uploadArchives"
         },
         pipeline.createStage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
-            if(isProjectSnapshotBranch(branchName)) {
-                def version = CommonUtil.removeQuotesFromTheEnds(
-                        AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
-                script.sh "git commit -a -m \"[skip ci] Increase version to $version\""
-                script.sh "git push"
-            }
+            def version = CommonUtil.removeQuotesFromTheEnds(
+                    AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
+            script.sh "git commit -a -m \"Increase version to $version\" $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1"
+            script.sh "git push"
         }
 ]
 
@@ -189,7 +190,7 @@ def boolean checkVersionAndBranch(Object script, String branch, String branchReg
         if (versionMatcher.matches()) {
             return true
         } else {
-            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to $versionRegex")
+            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to regexp: '$versionRegex'")
         }
     }
     return false
@@ -207,7 +208,7 @@ def boolean checkVersionAndBranchForProjectSnapshot(Object script, String branch
         if (versionMatcher.matches()) {
             return true
         } else {
-            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to $versionRegex")
+            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to regexp: '$versionRegex'")
         }
     }
     return false
