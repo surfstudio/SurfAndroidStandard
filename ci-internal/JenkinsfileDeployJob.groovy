@@ -81,6 +81,7 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.createStage(CHECKOUT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
+            RepositoryUtil.setDefaultJenkinsGitUser(script)
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
