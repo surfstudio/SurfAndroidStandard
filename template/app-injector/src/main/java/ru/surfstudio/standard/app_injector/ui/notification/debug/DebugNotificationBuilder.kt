@@ -27,9 +27,14 @@ object DebugNotificationBuilder {
                     PendingIntent.FLAG_UPDATE_CURRENT)
 
             val notificationBuilder = NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(notificationTitle)
                     .setContentIntent(pendingIntent)
+
+            if(SdkUtils.isAtLeastLollipop()){
+                notificationBuilder.setSmallIcon(R.drawable.ic_debug)
+            } else {
+                notificationBuilder.setSmallIcon(R.mipmap.ic_launcher)
+            }
 
             if (!SdkUtils.isAtLeastNougat()) {
                 notificationBuilder.setContentText(context.getString(R.string.app_name))
