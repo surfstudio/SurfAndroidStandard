@@ -29,11 +29,10 @@ object DebugNotificationBuilder {
             val notificationBuilder = NotificationCompat.Builder(context, channelId)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle(notificationTitle)
-                    .setContentText(notificationBody)
                     .setContentIntent(pendingIntent)
 
-            if (!SdkUtils.isAtLeastNougat()){
-                notificationBuilder.setSubText(context.getString(R.string.app_name))
+            if (!SdkUtils.isAtLeastNougat()) {
+                notificationBuilder.setContentText(context.getString(R.string.app_name))
             }
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
