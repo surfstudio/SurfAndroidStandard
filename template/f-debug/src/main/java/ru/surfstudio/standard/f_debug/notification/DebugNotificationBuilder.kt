@@ -11,6 +11,10 @@ import ru.surfstudio.standard.f_debug.debug.DebugActivityRoute
 
 private val DEBUG_NOTIFICATION_ID = "DEBUG_NOTIFICATION_ID".hashCode()
 
+/**
+ * Показывает нотификацию экрана отладки
+ * При нажатии нотификации откроется [DebugActivityRoute]
+ */
 object DebugNotificationBuilder {
     fun showDebugNotification(context: Context, icon: Int) {
             val channelId = context.getString(R.string.notification_channel_id)
