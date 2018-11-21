@@ -2,13 +2,11 @@ package ru.surfstudio.standard.f_debug.ui_tools
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.provider.Settings
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_ui_tools_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.android.utilktx.util.SdkUtils
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import javax.inject.Inject
 
@@ -41,12 +39,7 @@ class UiToolsDebugActivityView : BaseRenderableActivityView<UiToolsDebugScreenMo
 
     private fun initListeners() {
         fps_enable_switch.setOnCheckedChangeListener { _, isEnabled ->
-            if (SdkUtils.isAtLeastMarshmallow() && !Settings.canDrawOverlays(this)) {
-                presenter.checkOverlayPermission()
-                fps_enable_switch.setChecked(false)
-            } else {
-                presenter.setFpsEnable(isEnabled)
-            }
+            presenter.setFpsEnable(isEnabled)
         }
     }
 }

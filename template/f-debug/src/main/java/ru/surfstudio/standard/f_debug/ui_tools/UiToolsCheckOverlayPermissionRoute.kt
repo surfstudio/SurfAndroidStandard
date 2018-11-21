@@ -6,13 +6,13 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 
 /**
  * Роут экрана разрешения наложения поверз других окон
  */
 @RequiresApi(Build.VERSION_CODES.M)
-class UiToolsCheckOverlayPermissionRoute : ActivityRoute() {
+class UiToolsCheckOverlayPermissionRoute : ActivityWithResultRoute<Boolean>() {
     override fun prepareIntent(context: Context): Intent {
         return Intent(
                 Settings.ACTION_MANAGE_OVERLAY_PERMISSION,

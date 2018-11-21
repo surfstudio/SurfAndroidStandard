@@ -1,7 +1,5 @@
 package ru.surfstudio.standard.f_debug.ui_tools
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
@@ -17,6 +15,7 @@ import javax.inject.Inject
 class UiToolsDebugPresenter @Inject constructor(
         private val interactor: DebugInteractor,
         private val activityNavigator: ActivityNavigator,
+        private val overlayPermissionChecker: OverlayPermissionChecker,
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<UiToolsDebugActivityView>(basePresenterDependency) {
 
@@ -31,14 +30,16 @@ class UiToolsDebugPresenter @Inject constructor(
 
     fun setFpsEnable(enable: Boolean) {
         if (sm.isFpsEnabled != enable) {
-            interactor.isFpsEnabled = enable
-            activityNavigator.start(RebootDebugActivityRoute())
-            activityNavigator.finishAffinity()
+            subscribe(overlayPermissionChecker.checkOverlayPermission()) {
+                if (it) {
+                    interactor.isFpsEnabled = enable
+                    sm.isFpsEnabled = enable
+                    view.render(sm)
+                    activityNavigator.start(RebootDebugActivityRoute())
+                } else {
+                    view.render(sm)
+                }
+            }
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun checkOverlayPermission() {
-        activityNavigator.start(UiToolsCheckOverlayPermissionRoute())
     }
 }

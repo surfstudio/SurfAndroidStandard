@@ -1,14 +1,18 @@
 package ru.surfstudio.standard.app_injector.ui.screen.configurator.activity.debug
 
+import android.content.Context
 import android.content.Intent
 import dagger.Component
 import dagger.Module
+import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
+import ru.surfstudio.standard.f_debug.ui_tools.OverlayPermissionChecker
 import ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityView
 
@@ -25,7 +29,16 @@ class UiToolsDebugScreenConfigurator(intent: Intent) : ActivityScreenConfigurato
 
     @Module
     internal class UiToolsDebugScreenModule(route: UiToolsDebugActivityRoute)
-        : CustomScreenModule<UiToolsDebugActivityRoute>(route)
+        : CustomScreenModule<UiToolsDebugActivityRoute>(route) {
+
+        @Provides
+        fun provideOverlayPermissionChecker(
+                context: Context,
+                activityNavigator: ActivityNavigator
+        ): OverlayPermissionChecker {
+            return OverlayPermissionChecker(context, activityNavigator)
+        }
+    }
 
     @Suppress("DEPRECATION")
     override fun createScreenComponent(parentComponent: ActivityComponent,
