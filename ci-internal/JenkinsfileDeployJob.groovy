@@ -86,7 +86,8 @@ pipeline.stages = [
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
             )
-            script.sh "git checkout $branchName"
+            script.sh "git checkout -B master origin/$branchName"
+
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
