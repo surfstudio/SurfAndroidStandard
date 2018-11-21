@@ -1,5 +1,4 @@
 apply from: '../commonModule.gradle'
-apply from: '../commonTestModule.gradle'
 
 dependencies {
     implementation project(':template:base-ui')
