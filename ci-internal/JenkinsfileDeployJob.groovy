@@ -81,9 +81,9 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.createStage(CHECKOUT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            sscript.git(
-                    url: url,
-                    credentialsId: credentialsId
+            script.git(
+                    url: pipeline.repoUrl,
+                    credentialsId: pipeline.repoCredentialsId
             )
             script.sh "git checkout $branchName"
             RepositoryUtil.saveCurrentGitCommitHash(script)
