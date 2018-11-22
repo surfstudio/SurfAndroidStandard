@@ -87,12 +87,13 @@ pipeline.stages = [
             )
             script.sh "git checkout -B $branchName origin/$branchName"
 
-            RepositoryUtil.saveCurrentGitCommitHash(script)
-        },
-        pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)){
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
+
+            RepositoryUtil.saveCurrentGitCommitHash(script)
+        },
+        pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             if (RepositoryUtil.isCurrentCommitMessageContainsVersionLabel(script)){
                 script.echo "Disable automatic version increment because commit message contains $RepositoryUtil.VERSION_LABEL1"
                 pipeline.getStage(VERSION_INCREMENT).strategy = StageStrategy.SKIP_STAGE
