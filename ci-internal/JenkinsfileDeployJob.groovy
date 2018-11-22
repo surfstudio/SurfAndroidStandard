@@ -23,7 +23,13 @@ def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
+def VERSION_INCREMENT = 'Version Increment'
 def DEPLOY = 'Deploy'
+def VERSION_PUSH = 'Version Push'
+
+//constants
+def gradleConfigFile = "config.gradle"
+def androidStandardVersionVarName = "moduleVersionName"
 
 //init
 def script = this
@@ -49,20 +55,23 @@ pipeline.initializeBody = {
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    applyParameterIfNotEmpty(script, 'branchName', script.params.branchName_0, {
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
         value -> branchName = value
-    })
+    }
 
-    if(branchName.contains("project-snapshot")){ //todo do not ignore stages fore project-release build (нжно парсить config файл и смотреть на постфикс SNAPSHOT)
-        script.echo "Apply lightweight strategies for project-snapshot branch"
+    if(isProjectSnapshotBranch(branchName)){
+        script.echo "Apply lightweight strategies and automatic version increment for project-snapshot branch"
         pipeline.getStage(BUILD).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
         pipeline.getStage(STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
+        pipeline.getStage(VERSION_INCREMENT).strategy = StageStrategy.FAIL_WHEN_STAGE_ERROR
+        pipeline.getStage(VERSION_PUSH).strategy = StageStrategy.FAIL_WHEN_STAGE_ERROR
     }
 
     CommonUtil.safe(script){
-        JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}", pipeline.repoUrl, "bitbucket", true)
+        def buildLink = CommonUtil.getBuildUrlMarkdownLink(script)
+        JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}. $buildLink", pipeline.repoUrl, "bitbucket", true)
     }
 
     def buildDescription = branchName
@@ -72,17 +81,25 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.createStage(CHECKOUT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            script.checkout([
-                    $class                           : 'GitSCM',
-                    branches                         : [[name: "${branchName}"]],
-                    doGenerateSubmoduleConfigurations: script.scm.doGenerateSubmoduleConfigurations,
-                    userRemoteConfigs                : script.scm.userRemoteConfigs,
-            ])
+            script.git(
+                    url: pipeline.repoUrl,
+                    credentialsId: pipeline.repoCredentialsId
+            )
+            script.sh "git checkout -B $branchName origin/$branchName"
+
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.createStage(CHECK_BRANCH_AND_VERSION, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            def rawVersion = AndroidUtil.getGradleVariable(script, "config.gradle", "moduleVersionName")
-            def version = rawVersion.substring(1, rawVersion.length()-1) //remove quotes
+            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)){
+                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+            }
+            if (RepositoryUtil.isCurrentCommitMessageContainsVersionLabel(script)){
+                script.echo "Disable automatic version increment because commit message contains $RepositoryUtil.VERSION_LABEL1"
+                pipeline.getStage(VERSION_INCREMENT).strategy = StageStrategy.SKIP_STAGE
+                pipeline.getStage(VERSION_PUSH).strategy = StageStrategy.SKIP_STAGE
+            }
+            def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
+            def version = CommonUtil.removeQuotesFromTheEnds(rawVersion) //remove quotes
             def branch = branchName
             def originPrefix = "origin/"
             if(branch.contains(originPrefix)){
@@ -122,8 +139,22 @@ pipeline.stages = [
         pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
+        pipeline.createStage(VERSION_INCREMENT, StageStrategy.SKIP_STAGE) {
+            def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
+            String[] versionParts = rawVersion.split("-")
+            String newSnapshotVersion = String.valueOf(Integer.parseInt(versionParts[2]) + 1)
+            newRawVersion = versionParts[0] + "-" + versionParts[1] + "-" + newSnapshotVersion + "-" + versionParts[3]
+            AndroidUtil.changeGradleVariable(script, gradleConfigFile, androidStandardVersionVarName, newRawVersion)
+        },
         pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             script.sh "./gradlew clean uploadArchives"
+        },
+        pipeline.createStage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
+            def version = CommonUtil.removeQuotesFromTheEnds(
+                    AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
+            RepositoryUtil.setDefaultJenkinsGitUser(script)
+            script.sh "git commit -a -m \"Increase version to $version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         }
 ]
 
@@ -146,6 +177,10 @@ pipeline.run()
 
 // UTILS
 
+def static isProjectSnapshotBranch(branchName) {
+    branchName.contains("project-snapshot")
+}
+
 def boolean checkVersionAndBranch(Object script, String branch, String branchRegex, String version, String versionRegex) {
     Pattern branchPattern = Pattern.compile(branchRegex);
     Matcher branchMatcher =  branchPattern.matcher(branch);
@@ -155,7 +190,7 @@ def boolean checkVersionAndBranch(Object script, String branch, String branchReg
         if (versionMatcher.matches()) {
             return true
         } else {
-            script.error("Deploy version: '$version' from branch: '$branch' forbidden")
+            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to regexp: '$versionRegex'")
         }
     }
     return false
@@ -167,13 +202,13 @@ def boolean checkVersionAndBranchForProjectSnapshot(Object script, String branch
     Matcher branchMatcher =  branchPattern.matcher(branch);
     if(branchMatcher.matches()) {
         def projectKey = branch.split('-')[2]
-        def versionRegex = /^\d{1,4}\.\d{1,4}\.\d{1,4}-$projectKey-(\d{1,4}\.\d{1,4}\.\d{1,4}-SNAPSHOT|\d{1,4}\.\d{1,4}\.\d{1,4}|SNAPSHOT)$/
+        def versionRegex = /^\d{1,4}\.\d{1,4}\.\d{1,4}-$projectKey-\d{1,4}-SNAPSHOT$/
         Pattern versionPattern = Pattern.compile(versionRegex);
         Matcher versionMatcher =  versionPattern.matcher(version);
         if (versionMatcher.matches()) {
             return true
         } else {
-            script.error("Deploy version: '$version' from branch: '$branch' forbidden")
+            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to regexp: '$versionRegex'")
         }
     }
     return false
