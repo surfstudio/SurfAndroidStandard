@@ -10,9 +10,9 @@ android {
     buildTypes {
         qa {
             buildConfigField "String", "BASE_URL", '""'
-            debuggable = true
-            minifyEnabled false
             multiDexEnabled true
+            minifyEnabled true
+            debuggable = true
             // сопоставление buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']
         }
@@ -20,10 +20,12 @@ android {
         debug {
             buildConfigField "String", "BASE_URL", '""'
             multiDexEnabled true
+            debuggable = true
         }
 
         release {
             buildConfigField "String", "BASE_URL", '""'
+            minifyEnabled true
         }
     }
 
