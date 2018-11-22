@@ -13,7 +13,7 @@ apply plugin: 'kotlin-kapt'
 
 apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
-
+apply from: '../easylauncher.gradle'
 apply from: '../keystore/signinConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
