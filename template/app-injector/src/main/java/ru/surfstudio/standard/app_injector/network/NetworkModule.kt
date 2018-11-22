@@ -18,7 +18,9 @@ import ru.surfstudio.android.network.BaseUrl
 import ru.surfstudio.android.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.base.network.CallAdapterFactory
+import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 import ru.surfstudio.standard.i_network.BASE_API_URL
+import ru.surfstudio.standard.i_network.TEST_API_URL
 
 @Module
 class NetworkModule {
@@ -76,5 +78,8 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    internal fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_API_URL, null)
+    internal fun provideBaseUrl(): BaseUrl = if (DebugAppInjector.debugInteractor.isTestServerEnabled)
+                                                 BaseUrl(TEST_API_URL, null)
+                                             else
+                                                 BaseUrl(BASE_API_URL, null)
 }

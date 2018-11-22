@@ -25,12 +25,16 @@ class ServerSettingsDebugActivityView : BaseRenderableActivityView<ServerSetting
 
     override fun renderInternal(sm: ServerSettingsDebugScreenModel) {
         server_settings_chuck_switch.setChecked(sm.isChuckEnabled)
+        server_settings_test_server_switch.setChecked(sm.isTestServerEnabled)
         addCheckedChangeListener()
     }
 
     private fun addCheckedChangeListener() {
         server_settings_chuck_switch.setOnCheckedChangeListener { _, _ ->
             presenter.setChuckEnabled(server_settings_chuck_switch.isChecked())
+        }
+        server_settings_test_server_switch.setOnCheckedChangeListener { _, isEnabled ->
+            presenter.setTestServerEnabled(isEnabled)
         }
     }
 }
