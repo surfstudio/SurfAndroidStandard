@@ -30,7 +30,6 @@ class ToolsDebugPresenter @Inject constructor(
         if (sm.isStethoEnabled != enable) {
             debugInteractor.isStethoEnabled = enable
             activityNavigator.start(RebootDebugActivityRoute())
-            activityNavigator.finishAffinity()
         }
     }
 }
