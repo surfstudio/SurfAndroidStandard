@@ -1,4 +1,4 @@
-apply from: 'modules.gradle'  
+apply from: 'modules.gradle'   
 
 gradle.ext.extractModules('modules.json').each {
     include it.name
