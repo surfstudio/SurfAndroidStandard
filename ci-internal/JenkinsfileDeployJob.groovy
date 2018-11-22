@@ -59,6 +59,10 @@ pipeline.initializeBody = {
         value -> branchName = value
     }
 
+    if(branchName.contains("origin/")){
+        branchName = branchName.replace("origin/", "")
+    }
+
     if(isProjectSnapshotBranch(branchName)){
         script.echo "Apply lightweight strategies and automatic version increment for project-snapshot branch"
         pipeline.getStage(BUILD).strategy = StageStrategy.SKIP_STAGE
