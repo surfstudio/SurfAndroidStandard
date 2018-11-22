@@ -5,6 +5,8 @@ import io.reactivex.disposables.Disposables
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.f_debug.DebugInteractor
 import ru.surfstudio.standard.f_debug.server_settings.reboot.route.LauncherActivityRoute
 import java.util.concurrent.TimeUnit
@@ -19,6 +21,7 @@ class RebootDebugPresenter @Inject constructor(
         private val route: RebootDebugActivityRoute,
         private val debugInteractor: DebugInteractor,
         private val activityNavigator: ActivityNavigator,
+        private val messageController: MessageController,
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<RebootActivityDebugView>(basePresenterDependency) {
 
@@ -37,6 +40,7 @@ class RebootDebugPresenter @Inject constructor(
 
     fun cancelReboot() {
         delayDisposable.dispose()
+        messageController.showToast(R.string.reboot_canceled_toast)
         activityNavigator.finishWithResult(route, false, true)
     }
 
