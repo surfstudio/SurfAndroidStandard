@@ -1,3 +1,4 @@
+apply from: '../config.gradle'
 apply plugin: 'com.akaita.android.easylauncher'
 
 easylauncher {
@@ -8,10 +9,10 @@ easylauncher {
 
     buildTypes {
         debug {
-            filters = redRibbonFilter()
+            filters = redRibbonFilter(versionName)
         }
         qa {
-            filters = blueRibbonFilter()
+            filters = blueRibbonFilter(versionName)
         }
         release {
             enable false
