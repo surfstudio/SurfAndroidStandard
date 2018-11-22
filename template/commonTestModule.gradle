@@ -11,7 +11,7 @@ android {
 
 dependencies {
     //unit test
-    testImplementation project(localModules.base)
+    testImplementation project("$templatePrefix:base")
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.annimon:stream:$annimonStreamVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
@@ -19,7 +19,7 @@ dependencies {
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //instrumental test
-    androidTestImplementation project(localModules.base)
+    androidTestImplementation project("$templatePrefix:base")
     androidTestImplementation "androidx.test:core:$androidxVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxVersion"
     androidTestImplementation "androidx.test:runner:$testRunnerXVersion"

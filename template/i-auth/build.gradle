@@ -1,6 +1,6 @@
 apply from: '../commonInteractorModule.gradle'
 
 dependencies {
-    implementation project(localModules.iNetwork)
-    implementation project(localModules.iSession)
+    implementation project("$templatePrefix:i-network")
+    implementation project("$templatePrefix:i-session")
 }

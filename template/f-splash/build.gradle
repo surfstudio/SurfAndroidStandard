@@ -1,5 +1,5 @@
 apply from:'../commonFeatureModule.gradle'
 
 dependencies {
-    implementation project(localModules.iInitialization)
+    implementation project("$templatePrefix:i-initialization")
 }
