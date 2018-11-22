@@ -162,11 +162,15 @@ pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
     def message
     def success = Result.SUCCESS.equals(pipeline.jobResult)
+    def version = "<unknown>"
+    CommonUtil.safe(script){
+        version = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
+    }
     if (!success) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        message = "Deploy версии: $version из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
     } else {
-        message = "Deploy ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+        message = "Deploy версии: $version из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
     JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 }
