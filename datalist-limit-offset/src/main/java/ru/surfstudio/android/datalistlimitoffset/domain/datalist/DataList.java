@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -98,7 +99,8 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Слияние двух DataList
+     * Слияние двух DataList с удалением дублируемых элементов
+     * При удалении остаются актуальные (последние присланные сервером) элементы
      *
      * @param data DataList для слияния с текущим
      * @param distinctPredicate предикат, по которому происходит удаление дублируемых элементов
@@ -343,7 +345,7 @@ public class DataList<T> implements List<T>, Serializable {
 
     /**
      * Удаление одинаковых элементов из исходного списка
-     * Критерий того, что элементы одинаковые, задается параметром distinctFunc
+     * Критерий того, что элементы одинаковые, задается параметром distinctPredicate
      *
      * @param source исходный список
      * @param distinctPredicate критерий того, что элементы одинаковые
@@ -353,15 +355,19 @@ public class DataList<T> implements List<T>, Serializable {
     private <R> ArrayList<T> distinctByLast(ArrayList<T> source, MapFunc<R, T> distinctPredicate) {
         HashSet<R> resultSet = new HashSet<>();
         ArrayList<T> result = new ArrayList<>();
-        ListIterator iterator = source.listIterator(source.size());
+        ListIterator<T> iterator = source.listIterator(source.size());
 
+        //проходим в цикле по элементам, начиная с конца списка (для сохранения только новых значений)
         while (iterator.hasPrevious()) {
-            T current = (T) iterator.previous();
+            T current = iterator.previous();
             R key = distinctPredicate.call(current);
             if (resultSet.add(key)) {
                 result.add(current);
             }
         }
+
+        //переворачиваем список
+        Collections.reverse(result);
 
         return result;
     }
