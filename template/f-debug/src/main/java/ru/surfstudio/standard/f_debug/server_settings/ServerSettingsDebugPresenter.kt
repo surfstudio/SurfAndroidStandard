@@ -29,6 +29,5 @@ class ServerSettingsDebugPresenter @Inject constructor(
     fun setChuckEnabled(value: Boolean) {
         debugInteractor.isChuckEnabled = value
         activityNavigator.start(RebootDebugActivityRoute())
-        activityNavigator.finishAffinity()
     }
 }
