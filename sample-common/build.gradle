@@ -16,6 +16,9 @@ dependencies {
     implementation project(':connection')
     implementation project(':rx-extension')
     implementation project(':util-ktx')
+    implementation project(':animations')
+    implementation project(':easyadapter')
+    implementation project(':recycler-extension')
 
     api "androidx.test:core:$androidxVersion"
     api "androidx.test.ext:junit:$androidxVersion"

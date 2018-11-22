@@ -2,7 +2,6 @@ package ru.surfstudio.android.mvp.widget.base
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.surfstudio.android.core.mvp.model.LdsSwrScreenModel
-import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.model.state.SwipeRefreshState
 import ru.surfstudio.android.core.mvp.view.CoreView
 

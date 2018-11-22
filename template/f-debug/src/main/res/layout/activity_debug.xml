@@ -1,12 +1,18 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/show_app_info_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:catalog_item_name="@string/show_app_info_debug_item" />
 
         <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
             android:id="@+id/show_server_settings_item_layout"
@@ -25,5 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:catalog_item_name="@string/show_fcm_token_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/show_memory_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:catalog_item_name="@string/show_memory_debug_item" />
     </LinearLayout>
 </ScrollView>

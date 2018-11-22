@@ -20,6 +20,10 @@
 
         <activity android:name="ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView" />
 
+        <activity android:name="ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView" />
+
+        <activity android:name="ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityView" />
+
     </application>
 
 </manifest>
