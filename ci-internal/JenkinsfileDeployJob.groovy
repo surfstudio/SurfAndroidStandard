@@ -81,7 +81,6 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.createStage(CHECKOUT, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
@@ -153,9 +152,9 @@ pipeline.stages = [
         pipeline.createStage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
             def version = CommonUtil.removeQuotesFromTheEnds(
                     AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
-            RepositoryUtil.setRemoteOriginUrlWithUsername(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+            RepositoryUtil.setDefaultJenkinsGitUser(script)
             script.sh "git commit -a -m \"Increase version to $version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            script.sh "git push"
+            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         }
 ]
 
