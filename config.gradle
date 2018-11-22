@@ -61,5 +61,5 @@ ext {
 
     // версия android-standard
     moduleVersionCode = 19
-    moduleVersionName = '0.3.0-MEGAFON-3-SNAPSHOT'      // версия android-standard 
+    moduleVersionName = '0.3.0-MEGAFON-4-SNAPSHOT'      // версия android-standard 
 }
