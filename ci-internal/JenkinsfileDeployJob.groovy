@@ -35,6 +35,7 @@ def androidStandardVersionVarName = "moduleVersionName"
 def script = this
 def pipeline = new EmptyScmPipeline(script)
 def branchName = ""
+def actualAndroidStandardVersion = "<unknown>"
 pipeline.init()
 
 //configuration
@@ -105,6 +106,7 @@ pipeline.stages = [
                 pipeline.getStage(VERSION_PUSH).strategy = StageStrategy.SKIP_STAGE
             }
             def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
+            actualAndroidStandardVersion = rawVersion
             def version = CommonUtil.removeQuotesFromTheEnds(rawVersion) //remove quotes
             def branch = branchName
             def originPrefix = "origin/"
@@ -151,6 +153,7 @@ pipeline.stages = [
             String newSnapshotVersion = String.valueOf(Integer.parseInt(versionParts[2]) + 1)
             newRawVersion = versionParts[0] + "-" + versionParts[1] + "-" + newSnapshotVersion + "-" + versionParts[3]
             AndroidUtil.changeGradleVariable(script, gradleConfigFile, androidStandardVersionVarName, newRawVersion)
+            actualAndroidStandardVersion = newRawVersion
         },
         pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             script.sh "./gradlew clean uploadArchives"
@@ -168,15 +171,11 @@ pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
     def message
     def success = Result.SUCCESS.equals(pipeline.jobResult)
-    def version = "<unknown>"
-    CommonUtil.safe(script){
-        version = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
-    }
     if (!success) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy версии: $version из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        message = "Deploy версии: $actualAndroidStandardVersion из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
     } else {
-        message = "Deploy версии: $version из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+        message = "Deploy версии: $actualAndroidStandardVersion из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
     JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 }
