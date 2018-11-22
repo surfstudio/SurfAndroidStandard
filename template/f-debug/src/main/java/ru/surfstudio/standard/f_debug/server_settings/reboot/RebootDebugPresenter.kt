@@ -38,7 +38,6 @@ class RebootDebugPresenter @Inject constructor(
     fun cancelReboot() {
         delayDisposable.dispose()
         activityNavigator.finishWithResult(route, false, true)
-        finish()
     }
 
     private fun startCounting() {
