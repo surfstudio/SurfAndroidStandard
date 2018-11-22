@@ -20,7 +20,8 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class PlaceHolderViewContainer(
         context: Context,
-        attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
+        attributeSet: AttributeSet
+) : FrameLayout(context, attributeSet) {
 
     companion object {
         const val DEFAULT_DURATION = 300L

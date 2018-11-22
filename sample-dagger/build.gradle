@@ -3,6 +3,7 @@ apply from: '../androidModule.gradle'
 android {
     defaultConfig {
         minSdkVersion project.ext.minSdkVersionSample
+        multiDexEnabled true
     }
 }
 
