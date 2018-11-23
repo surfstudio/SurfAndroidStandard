@@ -71,4 +71,6 @@ ext {
 
     // Surf Core
     surfCoreVersionName = '0.4.0-SNAPSHOT'      // версия android-standard
+
+    templatePrefix=':template'
 }
