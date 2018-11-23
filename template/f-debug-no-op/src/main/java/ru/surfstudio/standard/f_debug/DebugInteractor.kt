@@ -4,6 +4,9 @@ import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 class DebugInteractor @Inject constructor() {
+
+    var isTestServerEnabled = false
+
     fun onCreateApp(icon: Int) {/* no action */}
 
     fun mustNotInitializeApp() = false
