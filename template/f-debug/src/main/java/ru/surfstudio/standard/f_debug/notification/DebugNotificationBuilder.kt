@@ -28,10 +28,18 @@ object DebugNotificationBuilder {
                     PendingIntent.FLAG_UPDATE_CURRENT)
 
             val notificationBuilder = NotificationCompat.Builder(context, channelId)
-                    .setSmallIcon(icon)
                     .setContentTitle(notificationTitle)
-                    .setContentText(notificationBody)
                     .setContentIntent(pendingIntent)
+
+            if(SdkUtils.isAtLeastLollipop()){
+                notificationBuilder.setSmallIcon(R.drawable.ic_debug)
+            } else {
+                notificationBuilder.setSmallIcon(icon)
+            }
+
+            if (!SdkUtils.isAtLeastNougat()) {
+                notificationBuilder.setContentText(context.getString(R.string.app_name))
+            }
 
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
