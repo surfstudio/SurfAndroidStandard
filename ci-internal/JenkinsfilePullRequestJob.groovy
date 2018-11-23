@@ -14,8 +14,8 @@ pipeline.getStage(pipeline.STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_S
 pipeline.buildGradleTask = "clean assemble"
 
 //
-pipeline.preExecuteStegeBody = {}
-pipeline.postExecuteStegeBody = {}
+pipeline.preExecuteStageBody = {}
+pipeline.postExecuteStageBody = {}
 
 pipeline.finalizeBody = {
 	
