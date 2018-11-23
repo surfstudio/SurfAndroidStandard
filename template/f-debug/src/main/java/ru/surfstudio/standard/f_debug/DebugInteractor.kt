@@ -4,6 +4,8 @@ import android.app.Application
 import com.codemonkeylabs.fpslibrary.TinyDancer
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.leakcanary.LeakCanary
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -12,6 +14,7 @@ import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootIn
 import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.f_debug.storage.DebugUiToolsStorage
 import ru.surfstudio.standard.f_debug.storage.MemoryDebugStorage
+import ru.surfstudio.standard.f_debug.storage.ToolsDebugStorage
 import javax.inject.Inject
 
 @PerApplication
@@ -19,6 +22,7 @@ class DebugInteractor @Inject constructor(
         private val memoryDebugStorage: MemoryDebugStorage,
         private val debugServerSettingsStorage: DebugServerSettingsStorage,
         private val debugUiToolsStorage: DebugUiToolsStorage,
+        private val toolsDebugStorage: ToolsDebugStorage,
         private val application: Application,
         private val rebootInteractor: RebootInteractor
 ) {
@@ -34,6 +38,12 @@ class DebugInteractor @Inject constructor(
         get() = debugUiToolsStorage.isFpsEnabled
         set(value) {
             debugUiToolsStorage.isFpsEnabled = value
+        }
+
+    var isStethoEnabled: Boolean
+        get() = toolsDebugStorage.isStethoEnabled
+        set(value) {
+            toolsDebugStorage.isStethoEnabled = value
         }
 
     /**
@@ -52,6 +62,10 @@ class DebugInteractor @Inject constructor(
             LeakCanary.install(application)
         }
         DebugNotificationBuilder.showDebugNotification(application, icon)
+
+        if (toolsDebugStorage.isStethoEnabled) {
+            Stetho.initializeWithDefaults(application)
+        }
     }
     //endregion
 
@@ -78,6 +92,10 @@ class DebugInteractor @Inject constructor(
 
         if (debugUiToolsStorage.isFpsEnabled) {
             TinyDancer.create().show(application)
+        }
+
+        if (toolsDebugStorage.isStethoEnabled) {
+            okHttpBuilder.addNetworkInterceptor(StethoInterceptor())
         }
     }
     //endregion

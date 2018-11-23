@@ -25,6 +25,8 @@
 
         <activity android:name="ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityView" />
 
+        <activity android:name="ru.surfstudio.standard.f_debug.tools.ToolsDebugActivityView" />
+
     </application>
 
 </manifest>

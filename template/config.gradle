@@ -24,16 +24,12 @@ ext {
     //network
     okHttpVersion = '3.11.0'                    //https://bit.ly/1Iijjtl
     retrofitVersion = '2.4.0'                   //https://bit.ly/2eZa7nz
-    chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
 
     //rx
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
     rxJava2Version = '2.2.2'                    //https://goo.gl/uzna2x
     rxAndroid2Version = '2.1.0'                 //https://goo.gl/3Kd3iP
     rxBinding2Version = '2.2.0'                 //https://goo.gl/KQ5Vga
-
-    //leakcanary
-    leakCanaryVersion = '1.6.2'                 //https://goo.gl/w3pm32
 
     //android framework
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
@@ -59,6 +55,12 @@ ext {
     anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
 
+    //debug
+    stethoVersion = '1.5.0'                     //https://bit.ly/2eZ3YI7
+    tinyDancerVerxion = "0.1.2"                 //https://bit.ly/2Bluq9P
+    leakCanaryVersion = '1.6.2'                 //https://goo.gl/w3pm32
+    chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
+
     //test
     robolectricVersion = '3.8'                  //http://bit.ly/2xLRICR
     junitVersion = '4.12'
@@ -69,9 +71,6 @@ ext {
     mockitoVersion = '2.23.0'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2NVQXh0
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
-
-    //debug
-    tinyDancerVerxion = "0.1.2"                 //https://bit.ly/2Bluq9P
 
     // Surf Core
     surfCoreVersionName = '0.4.0-SNAPSHOT'      // версия android-standard

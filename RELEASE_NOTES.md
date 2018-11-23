@@ -71,6 +71,8 @@
 * ANDDEP-336 Добавить TinyDancer на debug screen
     * Добавлена библиотека TinyDancer для отображения FPS
     * Добавлена возможность открыть Developer Tools через DebugScreen
+* ANDDEP-335 Добавлен Stetho на DebugScreen
+    * Добавлена библиотека Stetho которая в связке с Google Chrome может использоваться для дебага.
 
 #### util-ktx
 
