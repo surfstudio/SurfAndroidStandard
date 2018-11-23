@@ -1,33 +1,22 @@
 package ru.surfstudio.android.core.mvp.binding
 
 /**
- * Класс обеспечивающий подписку на изменение данных.
+ * Интерфейс описывающий сущность, которая умеет подписываться на изменение данных.
  * Реализует концепцию источников данных: "События изменения данных принимают все, кроме эммитящего источника"
  * Это исключает прослушивания источником своих же событий изменения данных и зацикливания.
  */
-open class BindData<T>(value: T) : IBindData<T> {
-
-    var value: T = value
-        private set
-
-    private val listeners: MutableMap<Any, MutableSet<((T) -> Unit)>> = mutableMapOf()
+interface IBindData<T> {
 
     /**
      * Подписка на изменеие значения
      * @param source источник получения данных
      */
-    override fun observe(source: Any, listener: (T) -> Unit) {
-        listeners[source]?.add(listener)
-        if (listeners[source] == null) listeners[source] = mutableSetOf(listener)
-    }
+    fun observe(source: Any, listener: (T) -> Unit)
 
     /**
      * Подписывает на изменение значения и вызывает подписку для с текущим значением
      */
-    override fun observeAndApply(source: Any, listener: (T) -> Unit) {
-        observe(source, listener)
-        listener.invoke(value)
-    }
+    fun observeAndApply(source: Any, listener: (T) -> Unit)
 
     /**
      * Устанавливает значение и оповещает всех подписчиков, кроме указанного источника
@@ -35,20 +24,10 @@ open class BindData<T>(value: T) : IBindData<T> {
      * @param newValue новое значение переменной
      * @param eagerNotify оповещать подписчиков, даже если значение не изменилось
      */
-    override fun setValue(source: Any, newValue: T, eagerNotify: Boolean) {
-        val previousValue = value
-        value = newValue
-        if (value == previousValue && !eagerNotify) return
-
-        listeners.filterKeys { it != source }
-                .values
-                .forEach { it.forEach { it.invoke(value) } }
-    }
+    fun setValue(source: Any, newValue: T, eagerNotify: Boolean = false)
 
     /**
      * Отписывает источник от всех событий
      */
-    override fun unObserveSource(source: Any) {
-        listeners.remove(source)
-    }
+    fun unObserveSource(source: Any)
 }
