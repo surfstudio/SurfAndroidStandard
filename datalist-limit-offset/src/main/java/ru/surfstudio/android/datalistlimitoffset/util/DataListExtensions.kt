@@ -5,7 +5,7 @@ import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 /**
  * Создание пустого DataList
  *
- * @param totalCount суммарное количество элементов в новом
+ * @param totalCount суммарное количество элементов в новом DataList
  */
 fun <T> emptyDataListOf(totalCount: Int = 0) = DataList.emptyWithTotal<T>(totalCount)
 
