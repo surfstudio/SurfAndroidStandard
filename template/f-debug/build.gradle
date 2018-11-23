@@ -8,12 +8,18 @@ dependencies {
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
     implementation 'com.github.kk121:Android-Debug-Tools:1.0'
 
+
     // leak canary
     implementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
     implementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakCanaryVersion"
 
     //chunk
     implementation "com.readystatesoftware.chuck:library:$chuckVersion"
+
+    //tiny dancer
+    debugImplementation "com.github.brianPlummer:tinydancer:$tinyDancerVerxion"
+    qaImplementation "com.github.brianPlummer:tinydancer-noop:$tinyDancerVerxion"
+    releaseImplementation "com.github.brianPlummer:tinydancer-noop:$tinyDancerVerxion"
 
     //stetho
     implementation "com.facebook.stetho:stetho:${stethoVersion}"
