@@ -21,7 +21,7 @@ class App : CoreApp() {
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
         DebugAppInjector.initInjector(this, activeActivityHolder)
-        if (DebugAppInjector.appComponent.debugInteractor().mustNotInitializeApp()) {
+        if (DebugAppInjector.debugInteractor.mustNotInitializeApp()) {
             // работает LeakCanary, ненужно ничего инициализировать
             return
         }
@@ -29,7 +29,7 @@ class App : CoreApp() {
         initFabric()
         initComponentProvider()
         initRouteProvider()
-        DebugAppInjector.appComponent.debugInteractor().onCreateApp(R.mipmap.ic_launcher)
+        DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
 
     private fun initRouteProvider() {
