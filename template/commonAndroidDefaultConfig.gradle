@@ -27,6 +27,6 @@ android {
 
 task getTestInstrumentationRunnerName {
     doLast {
-        println "$android.defaultConfig.testInstrumentationRunner $android.testBuildType"
+        println "$android.defaultConfig.testInstrumentationRunner"
     }
 }
