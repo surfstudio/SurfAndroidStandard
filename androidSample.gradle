@@ -38,6 +38,6 @@ dependencies {
 
 task getTestInstrumentationRunnerName {
     doLast {
-        println "$android.defaultConfig.testInstrumentationRunner"
+        println "$android.defaultConfig.testInstrumentationRunner $android.testBuildType"
     }
 }
