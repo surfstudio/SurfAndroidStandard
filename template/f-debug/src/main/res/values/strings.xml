@@ -4,6 +4,8 @@
     <string name="show_fcm_token_debug_item">Показать FCM-токен</string>
     <string name="show_memory_debug_item">Память</string>
     <string name="show_app_info_debug_item">Показать общую информацию</string>
+    <string name="show_ui_tools_debug_item">UI-tools</string>
+    <string name="show_developer_tools_debug_item">Открыть настройки разработчика</string>
     <string name="copy_fcm_btn_text">Скопировать</string>
     <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
     <string name="fcm_empty_text">FCM-токен еще не создан или не реализована логика сохранения токена в хранилище</string>
@@ -23,6 +25,8 @@
     <string name="reboot_now_text">Сейчас</string>
     <string name="reboot_cancel_text">Отмена</string>
     <string name="reboot_canceled_toast">Для того чтобы изменения вступили в силу требуется перезапустить приложение</string>
+    <string name="fps_title_text">Show FPS</string>
+    <string name="fps_subtitle_text">Отображает количество FPS. При долгом нажатии на вью, можно передвинуть. При Двойном нажатии, исчезает.</string>
 
     <!-- Debug notification settings -->
     <string name="notification_channel_id">CHANNEL_ID</string>

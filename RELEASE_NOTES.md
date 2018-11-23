@@ -68,6 +68,9 @@
 * ANDDEP-323 Добавлен Chuck
     * Интеграция Chuck в template
     * Добавлена возможность его включения/выключения на DebugScreen
+* ANDDEP-336 Добавить TinyDancer на debug screen
+    * Добавлена библиотека TinyDancer для отображения FPS
+    * Добавлена возможность открыть Developer Tools через DebugScreen
 
 #### util-ktx
 
