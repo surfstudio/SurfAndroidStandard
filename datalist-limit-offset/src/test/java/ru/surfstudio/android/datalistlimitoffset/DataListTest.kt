@@ -194,6 +194,50 @@ class DataListTest {
         Assert.assertEquals(list1, list4)
     }
 
+    @Test
+    fun checkDynamicDataInsertion3() {
+        val element0 = Element(0)
+        val element1 = Element(1)
+        val element2 = Element(2)
+        val element3 = Element(3)
+        val element4 = Element(4)
+        val element5 = Element(5)
+        val element6 = Element(6)
+        val element7 = Element(7)
+        val element8 = Element(8)
+        val element9 = Element(9)
+
+        val list1 = DataList(arrayListOf(
+                element1, element2, element3, element4, element5
+        ), 5, 4, 30)
+
+        val list2 = DataList(arrayListOf(
+                element0, element1, element2, element3, element4
+        ), 5, 9, 30)
+
+        val list3 = DataList(arrayListOf(
+                element5, element6, element7, element8, element9
+        ), 5, 14, 30)
+
+        list1.merge(list2) { it.id }
+        list1.merge(list3) { it.id }
+
+        val list4 = DataList(arrayListOf(
+                element1,
+                element2,
+                element3,
+                element4,
+                element5,
+                element0,
+                element6,
+                element7,
+                element8,
+                element9
+        ), 15, 4, 30)
+
+        Assert.assertEquals(list1, list4)
+    }
+
     private class Element(val id: Int) {
         override fun toString(): String {
             return "Element: $id"
