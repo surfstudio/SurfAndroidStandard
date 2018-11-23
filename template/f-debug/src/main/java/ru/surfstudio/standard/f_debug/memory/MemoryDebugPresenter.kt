@@ -26,7 +26,6 @@ class MemoryDebugPresenter @Inject constructor(
     fun setLeakCanaryEnabled(isEnabled: Boolean) {
         debugInteractor.isLeakCanaryEnabled = isEnabled
         activityNavigator.start(RebootDebugActivityRoute())
-        activityNavigator.finishAffinity()
     }
 
     fun openStorageDebugScreen() {

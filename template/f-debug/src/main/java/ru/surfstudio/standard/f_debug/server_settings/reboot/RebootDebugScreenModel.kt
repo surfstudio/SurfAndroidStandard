@@ -5,4 +5,4 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 /**
  * Модель экрана перезапуска приложения
  */
-class RebootDebugScreenModel : ScreenModel()
+class RebootDebugScreenModel(var secondBeforeReboot: Long) : ScreenModel()

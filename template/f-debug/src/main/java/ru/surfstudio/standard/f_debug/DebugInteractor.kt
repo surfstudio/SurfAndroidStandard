@@ -60,11 +60,17 @@ class DebugInteractor @Inject constructor(
     }
     //endregion
 
-    //region настройки запросов на сервер (Chuck)
+    //region настройки сервера
     var isChuckEnabled: Boolean
         get() = debugServerSettingsStorage.isChuckEnabled
         set(value) {
             debugServerSettingsStorage.isChuckEnabled = value
+        }
+
+    var isTestServerEnabled: Boolean
+        get() = debugServerSettingsStorage.isTestServerEnabled
+        set(value) {
+            debugServerSettingsStorage.isTestServerEnabled = value
         }
 
     /**

@@ -13,7 +13,7 @@ apply plugin: 'kotlin-kapt'
 
 apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
-
+apply from: '../easylauncher.gradle'
 apply from: '../keystore/signinConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
@@ -36,21 +36,21 @@ android {
 }
 
 dependencies {
-    implementation project(':template:base')
-    implementation project(':template:base-ui')
-    implementation project(':template:i-initialization')
-    implementation project(':template:i-network')
-    implementation project(':template:i-token')
-    implementation project(':template:i-session')
-    implementation project(':template:i-auth')
-    implementation project(':template:f-auth')
-    implementation project(':template:f-main')
-    implementation project(':template:f-splash')
+    implementation project("$templatePrefix:base")
+    implementation project("$templatePrefix:base-ui")
+    implementation project("$templatePrefix:i-initialization")
+    implementation project("$templatePrefix:i-network")
+    implementation project("$templatePrefix:i-token")
+    implementation project("$templatePrefix:i-session")
+    implementation project("$templatePrefix:i-auth")
+    implementation project("$templatePrefix:f-auth")
+    implementation project("$templatePrefix:f-main")
+    implementation project("$templatePrefix:f-splash")
 
     //debug
-    releaseImplementation project(':template:f-debug-no-op')
-    debugImplementation project(':template:f-debug')
-    qaImplementation project(':template:f-debug')
+    releaseImplementation project("$templatePrefix:f-debug-no-op")
+    debugImplementation project("$templatePrefix:f-debug")
+    qaImplementation project("$templatePrefix:f-debug")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
