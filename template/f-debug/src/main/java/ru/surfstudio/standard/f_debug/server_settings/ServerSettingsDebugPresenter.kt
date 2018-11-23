@@ -19,7 +19,7 @@ class ServerSettingsDebugPresenter @Inject constructor(
 ) : BasePresenter<ServerSettingsDebugActivityView>(basePresenterDependency) {
 
     private val sm: ServerSettingsDebugScreenModel =
-            ServerSettingsDebugScreenModel(debugInteractor.isChuckEnabled)
+            ServerSettingsDebugScreenModel(debugInteractor.isChuckEnabled, debugInteractor.isTestServerEnabled)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -28,6 +28,12 @@ class ServerSettingsDebugPresenter @Inject constructor(
 
     fun setChuckEnabled(value: Boolean) {
         debugInteractor.isChuckEnabled = value
+        activityNavigator.start(RebootDebugActivityRoute())
+        activityNavigator.finishAffinity()
+    }
+
+    fun setTestServerEnabled(isEnabled: Boolean) {
+        debugInteractor.isTestServerEnabled = isEnabled
         activityNavigator.start(RebootDebugActivityRoute())
         activityNavigator.finishAffinity()
     }
