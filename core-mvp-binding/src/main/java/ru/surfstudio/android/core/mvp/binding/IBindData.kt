@@ -8,6 +8,11 @@ package ru.surfstudio.android.core.mvp.binding
 interface IBindData<T> {
 
     /**
+     * Текущее значение
+     */
+    val value: T
+
+    /**
      * Подписка на изменеие значения
      * @param source источник получения данных
      */

@@ -7,8 +7,10 @@ package ru.surfstudio.android.core.mvp.binding
  */
 open class BindData<T>(value: T) : IBindData<T> {
 
-    var value: T = value
-        private set
+    override val value: T
+        get() = innerValue
+
+    private var innerValue: T = value
 
     private val listeners: MutableMap<Any, MutableSet<((T) -> Unit)>> = mutableMapOf()
 
@@ -26,7 +28,7 @@ open class BindData<T>(value: T) : IBindData<T> {
      */
     override fun observeAndApply(source: Any, listener: (T) -> Unit) {
         observe(source, listener)
-        listener.invoke(value)
+        listener.invoke(innerValue)
     }
 
     /**
@@ -36,13 +38,13 @@ open class BindData<T>(value: T) : IBindData<T> {
      * @param eagerNotify оповещать подписчиков, даже если значение не изменилось
      */
     override fun setValue(source: Any, newValue: T, eagerNotify: Boolean) {
-        val previousValue = value
-        value = newValue
-        if (value == previousValue && !eagerNotify) return
+        val previousValue = innerValue
+        innerValue = newValue
+        if (innerValue == previousValue && !eagerNotify) return
 
         listeners.filterKeys { it != source }
                 .values
-                .forEach { it.forEach { it.invoke(value) } }
+                .forEach { it.forEach { it.invoke(innerValue) } }
     }
 
     /**
