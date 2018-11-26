@@ -5,14 +5,14 @@ package ru.surfstudio.android.core.mvp.binding
  */
 class BindsHolder(private val source: Any) {
 
-    val binds: MutableSet<BindData<*>> = mutableSetOf()
+    val binds: MutableSet<IBindData<*>> = mutableSetOf()
 
-    fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
+    fun <T> observe(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindData.observe(source, listener)
         binds.add(bindData)
     }
 
-    fun <T> observeAndApply(bindData: BindData<T>, listener: (T) -> Unit) {
+    fun <T> observeAndApply(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindData.observeAndApply(source, listener)
         binds.add(bindData)
     }

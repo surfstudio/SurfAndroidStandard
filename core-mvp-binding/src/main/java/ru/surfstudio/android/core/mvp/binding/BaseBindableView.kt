@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 
 /**
- * Вспомогательные view для работы с [BindData]. Работают в паре с [BaseBindingPresenter]
+ * Вспомогательные view для работы с [IBindData]. Работают в паре с [BaseBindingPresenter]
  */
 
 abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView(), BindableView<M>, BindSource {
@@ -14,11 +14,11 @@ abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView()
     @Suppress("LeakingThis") //для BindData не имеет значения какой именно объект передается в качестве source
     private val bindsHolder = BindsHolder(this)
 
-    override fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
+    override fun <T> observe(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindsHolder.observe(bindData, listener)
     }
 
-    override fun <T> observeAndApply(bindData: BindData<T>, listener: (T) -> Unit) {
+    override fun <T> observeAndApply(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindsHolder.observeAndApply(bindData, listener)
     }
 
@@ -33,11 +33,11 @@ abstract class BaseBindableFragmentView<in M : ScreenModel> : CoreFragmentView()
 
     private val bindsHolder = BindsHolder(this)
 
-    override fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
+    override fun <T> observe(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindsHolder.observe(bindData, listener)
     }
 
-    override fun <T> observeAndApply(bindData: BindData<T>, listener: (T) -> Unit) {
+    override fun <T> observeAndApply(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindsHolder.observeAndApply(bindData, listener)
     }
 

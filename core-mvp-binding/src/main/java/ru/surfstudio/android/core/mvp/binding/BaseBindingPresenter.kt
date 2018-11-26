@@ -32,17 +32,17 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
         bindsHolder.unObserve()
     }
 
-    override fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit) {
+    override fun <T> observe(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindsHolder.observe(bindData, listener)
     }
 
-    override fun <T> observeAndApply(bindData: BindData<T>, listener: (T) -> Unit) {
+    override fun <T> observeAndApply(bindData: IBindData<T>, listener: (T) -> Unit) {
         bindsHolder.observeAndApply(bindData, listener)
     }
 }
 
 interface BindSource {
 
-    fun <T> observe(bindData: BindData<T>, listener: (T) -> Unit)
-    fun <T> observeAndApply(bindData: BindData<T>, listener: (T) -> Unit)
+    fun <T> observe(bindData: IBindData<T>, listener: (T) -> Unit)
+    fun <T> observeAndApply(bindData: IBindData<T>, listener: (T) -> Unit)
 }
