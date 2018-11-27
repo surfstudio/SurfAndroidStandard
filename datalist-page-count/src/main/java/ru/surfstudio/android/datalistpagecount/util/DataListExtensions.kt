@@ -19,6 +19,6 @@ fun <T> emptyDataListOf(totalItemsCount: Int = 0, totalPagesCount: Int = 0) =
  * @return трансформированный DataList
  */
 fun <T, R> DataList<T>.map(transform: (T) -> R): DataList<R> {
-    val result = (this as Iterable<T>).map(transform)
+    val result = this.asIterable().map(transform)
     return DataList(result, startPage, numPages, pageSize, this.totalItemsCount, this.totalPagesCount)
 }
