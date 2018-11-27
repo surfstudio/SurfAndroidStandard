@@ -15,6 +15,8 @@ import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.S
 import ru.surfstudio.android.rxbus.RxBus
 import javax.inject.Inject
 
+const val INITIAL_COMPLEX_DIALOG_VALUE = 10
+
 /**
  * Презентер главного экрана
  */
@@ -25,29 +27,27 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
 ) : BasePresenter<MainActivityView>(basePresenterDependency),
         SimpleDialogPresenter, SimpleBottomSheetDialogPresenter {
 
-    private val screenModel: MainScreenModel = MainScreenModel()
+    private val sm: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
         subscribe(rxBus.observeEvents(DataChangedEvent::class.java)) {
             view.showMessage("New value = ${it.sampleData.value} from ${it.eventType.name}")
         }
     }
 
-    override fun simpleDialogSuccessAction() {
-        view.showMessage("Simple dialog accepted")
-    }
+    override fun simpleDialogSuccessAction() = view.showSimpleDialogAcceptedMessage()
 
-    override fun simpleBottomSheetDialogSuccessAction() {
-        view.showMessage("Simple bottom sheet dialog accepted")
-    }
+    override fun simpleBottomSheetDialogSuccessAction() = view.showSimpleBottomSheetDialogAcceptedMessage()
 
     fun showSimpleDialog() = dialogNavigator.show(SimpleDialogRoute())
 
     fun showSimpleBottomSheetDialog() = dialogNavigator.show(SimpleBottomSheetDialogRoute())
 
-    fun showComplexDialog() = dialogNavigator.show(ComplexDialogRoute(SampleData(10)))
+    fun showComplexDialog() = dialogNavigator.show(ComplexDialogRoute(getSampleData()))
 
-    fun showComplexBottomSheetDialog() = dialogNavigator.show(ComplexBottomSheetDialogRoute(SampleData(10)))
+    fun showComplexBottomSheetDialog() = dialogNavigator.show(ComplexBottomSheetDialogRoute(getSampleData()))
+
+    private fun getSampleData(): SampleData = SampleData(INITIAL_COMPLEX_DIALOG_VALUE)
 }

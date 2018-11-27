@@ -34,5 +34,5 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         open_another_screen_btn.setOnClickListener { presenter.openAnotherScreen() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 }

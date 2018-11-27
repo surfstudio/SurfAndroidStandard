@@ -52,10 +52,11 @@ class StickyLayoutManager(
             val visibleHeaders = LinkedHashMap<Int, View>()
 
             for (i in 0 until childCount) {
-                val view = getChildAt(i)
-                val dataPosition = view?.let { getPosition(it) }
-                if (headerPositions.contains(dataPosition)) {
-                    visibleHeaders[dataPosition!!] = view
+                getChildAt(i)?.apply {
+                    val dataPosition = getPosition(this)
+                    if (headerPositions.contains(dataPosition)) {
+                        visibleHeaders[dataPosition] = this
+                    }
                 }
             }
             return visibleHeaders
@@ -66,10 +67,11 @@ class StickyLayoutManager(
             val visibleFooters = LinkedHashMap<Int, View>()
 
             for (i in 0 until childCount) {
-                val view = getChildAt(i)
-                val dataPosition = view?.let { getPosition(it) }
-                if (footerPositions.contains(dataPosition)) {
-                    visibleFooters[dataPosition!!] = view
+                getChildAt(i)?.apply {
+                    val dataPosition = getPosition(this)
+                    if (footerPositions.contains(dataPosition)) {
+                        visibleFooters[dataPosition] = this
+                    }
                 }
             }
             return visibleFooters

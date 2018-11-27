@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,12 +25,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/change_state_btn"
-        app:pvErrorTitle="Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок "
-        app:pvOpaqueBackgroundColor="#000000"
+        app:pvErrorTitle="@string/pv_error_title"
+        app:pvOpaqueBackgroundColor="@android:color/darker_gray"
         app:pvProgressBarColor="#CAFC35"
         app:pvProgressBarType="BallScaleMultipleIndicator"
         app:pvTitleLineSpacingExtra="10dp"
         app:pvTransparentBackground="@drawable/round_circle"
         app:pvTransparentBackgroundColor="#000000" />
-
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

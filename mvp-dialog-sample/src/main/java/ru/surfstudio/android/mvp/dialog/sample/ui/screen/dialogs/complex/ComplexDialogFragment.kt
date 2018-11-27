@@ -35,7 +35,7 @@ class ComplexDialogFragment : CoreDialogFragmentView() {
         apply_btn.setOnClickListener { presenter.applyChanges() }
     }
 
-    fun render(screenModel: ComplexDialogScreenModel) {
-        value_tv.text = screenModel.sampleData.toString()
+    fun render(sm: ComplexDialogScreenModel) {
+        value_tv.text = sm.sampleData.toString()
     }
 }

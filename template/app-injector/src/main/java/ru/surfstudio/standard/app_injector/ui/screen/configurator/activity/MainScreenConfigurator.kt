@@ -9,7 +9,7 @@ import ru.surfstudio.standard.app_injector.ui.ActivityComponent
 import ru.surfstudio.standard.app_injector.ui.configurator.ActivityScreenConfigurator
 import ru.surfstudio.standard.app_injector.ui.screen.ActivityScreenModule
 import ru.surfstudio.standard.app_injector.ui.screen.CustomScreenModule
-import ru.surfstudio.standard.f_main.MainActivityRoute
+import ru.surfstudio.standard.base_ui.navigation.MainActivityRoute
 import ru.surfstudio.standard.f_main.MainActivityView
 
 /**

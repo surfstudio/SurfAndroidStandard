@@ -17,13 +17,12 @@ package ru.surfstudio.android.notification.impl
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 
 /**
@@ -37,17 +36,34 @@ class DefaultPushHandler(
         private val pushInteractor: PushInteractor
 ) : PushHandler {
 
-    override fun handleMessage(context: Context, title: String, body: String, data: Map<String, String>) {
+    /**
+     * @see [PushHandler.handleMessage]
+     */
+    override fun handleMessage(context: Context,
+                               uniqueId: Int,
+                               title: String,
+                               body: String,
+                               data: Map<String, String>) {
         val activity = activeActivityHolder.activity
         val pushHandleStrategy = createStrategy(data)
 
-        Logger.i("DefaultPushHandler пуш $activity \n $title \n pushStrategy = $pushHandleStrategy")
-        pushHandleStrategy?.handle(activity ?: context, pushInteractor, title, body)
+        Logger.i("DefaultPushHandler пуш $activity " +
+                "\n $title " +
+                "\n pushStrategy = $pushHandleStrategy")
+
+        pushHandleStrategy?.handle(
+                context = activity ?: context,
+                pushInteractor = pushInteractor,
+                uniqueId = uniqueId,
+                title = title,
+                body = body
+        )
     }
 
     /**
-     * Создание стратегии по данным из интента
-     * @param data
+     * Создание стратегии по данным из интента.
+     *
+     * @param data данные из нотификации
      */
     override fun createStrategy(data: Map<String, String>) =
             pushHandleStrategyFactory.createByData(data)

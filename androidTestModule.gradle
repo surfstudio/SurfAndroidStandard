@@ -1,0 +1,20 @@
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
+    testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
+    testImplementation "org.powermock:powermock-api-mockito2:$powerMockVersion"
+    testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
+
+    androidTestImplementation "androidx.test:core:$androidxVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxVersion"
+    androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoXVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoXVersion"
+}

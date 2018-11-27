@@ -700,7 +700,7 @@ class StickyItemPositioner(
     }
 
     companion object {
-        private const val INVALID_POSITION = -1
+        private val INVALID_POSITION = -1
     }
 
     enum class ElevationMode(val dp: Float) {

@@ -1,6 +1,5 @@
 package ru.surfstudio.android.network.sample.ui.screen.main
 
-import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -13,29 +12,30 @@ import javax.inject.Inject
  * Презентер главного экрана
  */
 @PerScreen
-internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val repository: ProductRepository
+internal class MainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val repository: ProductRepository
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     companion object {
         private const val FIRST_PAGE = 1
     }
 
-    private val screenModel: MainScreenModel = MainScreenModel()
+    private val sm: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         if (!viewRecreated) {
             tryLoadData()
         } else {
-            view.render(screenModel)
+            view.render(sm)
         }
     }
 
     private fun tryLoadData(page: Int = FIRST_PAGE) {
-        if (screenModel.loadState == LoadState.ERROR || screenModel.loadState == LoadState.EMPTY) {
-            screenModel.loadState = LoadState.MAIN_LOADING
-            view.render(screenModel)
+        if (sm.loadState == LoadState.ERROR || sm.loadState == LoadState.EMPTY) {
+            sm.loadState = LoadState.MAIN_LOADING
+            view.render(sm)
         }
         loadData(page)
     }
@@ -43,24 +43,24 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     private fun loadData(page: Int) {
         subscribeIoHandleError(repository.getProducts(page)
                 .timeout(1000L, TimeUnit.MILLISECONDS), { productList ->
-            screenModel.productList.merge(productList)
-            screenModel.loadState = LoadState.NONE
-            screenModel.setNormalPaginationState(productList.canGetMore())
+            sm.productList.merge(productList)
+            sm.loadState = LoadState.NONE
+            sm.setNormalPaginationState(productList.canGetMore())
 
-            view.render(screenModel)
+            view.render(sm)
         }, {
-            screenModel.loadState =
-                    if (screenModel.hasContent())
+            sm.loadState =
+                    if (sm.hasContent())
                         LoadState.NONE
                     else
                         LoadState.ERROR
-            screenModel.setErrorPaginationState()
+            sm.setErrorPaginationState()
 
-            view.render(screenModel)
+            view.render(sm)
         })
     }
 
-    fun reloadData() = tryLoadData(screenModel.productList.nextPage)
+    fun reloadData() = tryLoadData(sm.productList.nextPage)
 
-    fun loadMore() = loadData(screenModel.productList.nextPage)
+    fun loadMore() = loadData(sm.productList.nextPage)
 }

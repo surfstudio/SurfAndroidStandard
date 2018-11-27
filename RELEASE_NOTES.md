@@ -4,15 +4,64 @@
 
 ## 0.4.0 - SNAPSHOT
 
+#### analytics
+#### animations
+#### app-migration
+#### broadcast-extension
+#### connection
+#### converter-gson
+#### core-app
+#### core-mvp
+#### core-mvp-binding
+#### core-ui
+#### custom-view
+#### dagger-scope
+#### datalist-limit-offset
+#### datalist-page-count
+#### easyadapter
+#### filestorage
+#### firebase-analytics
+#### imageloader
+#### location
+
+* Исправлена потеря callback'а `LocationErrorResolution` во фрагменте
+
+#### logger
+#### message-controller
+#### mvp-dialog
+#### mvp-widget
+#### network
+#### picture-provider
+
 #### push
 
 * удален NotificationCenter - используйте `PushHandler`
+
+#### recycler-extension
+
+* ANDDEP-266 Обновление DividerItemDecorator
+    * Добавлена возможность задавать padding для разделителей
+    * Параметр footerCount переименован в lastItemsCountWithoutDividers
+    * Добавлена возможность задавать firstItemsCountWithoutDividers
+
+#### rx-extension
+#### rxbus
+#### shared-pref
+#### standard-dialog
 
 #### templates
 
 * обновлены file-шаблоны
 
+#### template
+
+* обновлены механизмы навигации в template
+* ANDDEP-323 Добавлен Chuck
+    * Интеграция Chuck в template
+    * Добавлена возможность его включения/выключения на DebugScreen
+
 #### util-ktx
+
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
 
@@ -20,7 +69,6 @@
 * Добавлен метод для проверки подключения через Wi-Fi в [`ConnectionProvider`](connection/src/main/java/ru/surfstudio/android/connection/ConnectionProvider.java)
 
 #### mvp-widget
-* Добавлены интерфейсы-маркеры состояний для Widget
 
 #### imageloader
 * ANDDEP-317 Оптимизация [`ImageLoader`](imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):

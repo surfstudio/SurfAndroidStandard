@@ -1,26 +1,46 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
+import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.template.app_injector.BuildConfig
+import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
 import ru.surfstudio.standard.app_injector.ui.notification.debug.DebugNotificationBuilder
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
-import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
+import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.base_ui.provider.route.RouteClassProvider
 
 class App : CoreApp() {
 
     override fun onCreate() {
         super.onCreate()
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return
+        }
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
 
         initFabric()
         initComponentProvider()
+        initRouteProvider()
+        initLeakCanaryIfEnabled()
         DebugNotificationBuilder.showDebugNotification(this)
+
+        initNotificationHandler()
+    }
+
+    private fun initRouteProvider() {
+        RouteClassProvider.getActivityClass = { kclass -> RouteClassStorage.activityRouteMap[kclass]!! }
+        RouteClassProvider.getFragmentClass = { kclass -> RouteClassStorage.fragmentRouteMap[kclass]!! }
+        RouteClassProvider.getDialogClass = { kclass -> RouteClassStorage.dialogRouteMap[kclass]!! }
     }
 
     private fun initComponentProvider() {
@@ -54,4 +74,18 @@ class App : CoreApp() {
                     .disabled(BuildConfig.DEBUG)
                     .build())
             .build())
+
+    private fun initLeakCanaryIfEnabled() {
+        if(AppInjector.appComponent.memoryDebugStorage().isLeakCanaryEnabled) {
+            LeakCanary.install(this)
+        }
+    }
+
+    private fun initNotificationHandler() {
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                AppInjector.appComponent.pushHandler().onActivityStarted(activity)
+            }
+        })
+    }
 }

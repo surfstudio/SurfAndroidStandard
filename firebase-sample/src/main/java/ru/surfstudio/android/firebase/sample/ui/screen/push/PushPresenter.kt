@@ -14,11 +14,11 @@ internal class PushPresenter @Inject constructor(
         private val pushInteractor: PushInteractor
 ) : BasePresenter<PushActivityView>(basePresenterDependency) {
 
-    private val screenModel: PushScreenModel = PushScreenModel()
+    private val sm: PushScreenModel = PushScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
 
         subscribe(pushInteractor.observeNotificationType(NoDataNotificationTypeData::class.java)) {
             Logger.i("GET PUSH FROM INTERACTOR ON $this")

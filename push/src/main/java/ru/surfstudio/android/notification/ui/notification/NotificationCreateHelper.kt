@@ -32,6 +32,7 @@ object NotificationCreateHelper {
     fun showNotification(
             context: Context,
             pushHandleStrategy: PushHandleStrategy<*>,
+            pushId: Int,
             title: String,
             body: String
     ) {
@@ -44,7 +45,13 @@ object NotificationCreateHelper {
         val notificationBuilder = pushHandleStrategy.notificationBuilder
                 ?: buildNotification(pushHandleStrategy, title, body, context)
 
-        getNotificationManager(context).notify(title.hashCode(), notificationBuilder.build())
+        //создание заголовка группы нотификаций происходит вручную
+        pushHandleStrategy.group?.let {
+            getNotificationManager(context)
+                    .notify(it.id, pushHandleStrategy.groupSummaryNotificationBuilder?.build())
+        }
+
+        getNotificationManager(context).notify(pushId, notificationBuilder.build())
     }
 
     @SuppressLint("NewApi")

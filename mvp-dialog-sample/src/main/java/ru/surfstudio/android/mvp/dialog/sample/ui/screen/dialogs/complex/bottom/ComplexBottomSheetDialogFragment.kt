@@ -37,7 +37,7 @@ class ComplexBottomSheetDialogFragment : CoreBottomSheetDialogFragmentView() {
         apply_btn.setOnClickListener { presenter.applyChanges() }
     }
 
-    fun render(screenModel: ComplexBottomSheetDialogScreenModel) {
-        value_tv.text = screenModel.sampleData.toString()
+    fun render(sm: ComplexBottomSheetDialogScreenModel) {
+        value_tv.text = sm.sampleData.toString()
     }
 }
