@@ -4,8 +4,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxVersion"
 
     testImplementation "junit:junit:$junitVersion"
-    androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
+    androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXEspressoCoreVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

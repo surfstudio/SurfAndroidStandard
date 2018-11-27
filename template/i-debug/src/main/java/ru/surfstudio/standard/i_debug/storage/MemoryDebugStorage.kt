@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug.memory.storage
+package ru.surfstudio.standard.i_debug.storage
 
 import android.content.SharedPreferences
 import ru.surfstudio.android.dagger.scope.PerApplication

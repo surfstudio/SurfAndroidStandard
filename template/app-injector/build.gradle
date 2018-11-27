@@ -44,6 +44,7 @@ dependencies {
     implementation project(':template:i-token')
     implementation project(':template:i-session')
     implementation project(':template:i-auth')
+    implementation project(':template:i-debug')
     implementation project(':template:f-auth')
     implementation project(':template:f-main')
     implementation project(':template:f-debug')
@@ -51,8 +52,9 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    implementation "androidx.media:media:$androidxVersion"
-    implementation "androidx.legacy:legacy-support-v4:$androidxVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.media:media:$androidxMediaVersion"
+    implementation "androidx.legacy:legacy-support-v4:$androidxLegacySupportVersion"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
