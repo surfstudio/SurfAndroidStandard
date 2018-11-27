@@ -17,9 +17,7 @@ dependencies {
     implementation "com.readystatesoftware.chuck:library:$chuckVersion"
 
     //tiny dancer
-    debugImplementation "com.github.brianPlummer:tinydancer:$tinyDancerVerxion"
-    qaImplementation "com.github.brianPlummer:tinydancer-noop:$tinyDancerVerxion"
-    releaseImplementation "com.github.brianPlummer:tinydancer-noop:$tinyDancerVerxion"
+    implementation "com.github.brianPlummer:tinydancer:$tinyDancerVerxion"
 
     //stetho
     implementation "com.facebook.stetho:stetho:${stethoVersion}"
