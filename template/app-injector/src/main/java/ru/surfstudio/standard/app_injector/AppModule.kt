@@ -28,6 +28,10 @@ class AppModule(
 
     @Provides
     @PerApplication
+    internal fun provideApp(): Application = app
+
+    @Provides
+    @PerApplication
     internal fun provideStringsProvider(context: Context): StringsProvider = StringsProvider(context)
 
     @Provides

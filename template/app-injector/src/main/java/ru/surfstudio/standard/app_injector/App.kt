@@ -3,7 +3,6 @@ package ru.surfstudio.standard.app_injector
 import android.app.Activity
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
-import com.squareup.leakcanary.LeakCanary
 import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
@@ -20,18 +19,17 @@ class App : CoreApp() {
 
     override fun onCreate() {
         super.onCreate()
-        if (LeakCanary.isInAnalyzerProcess(this)) {
-            // This process is dedicated to LeakCanary for heap analysis.
-            // You should not init your app in this process.
-            return
-        }
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
+        if (AppInjector.appComponent.debugInteractor().mustNotInitializeApp()) {
+            // работает LeakCanary, ненужно ничего инициализировать
+            return
+        }
 
         initFabric()
         initComponentProvider()
         initRouteProvider()
-        initLeakCanaryIfEnabled()
+        AppInjector.appComponent.debugInteractor().onCreateApp()
         DebugNotificationBuilder.showDebugNotification(this)
 
         initNotificationHandler()
@@ -74,12 +72,6 @@ class App : CoreApp() {
                     .disabled(BuildConfig.DEBUG)
                     .build())
             .build())
-
-    private fun initLeakCanaryIfEnabled() {
-        if(AppInjector.appComponent.memoryDebugStorage().isLeakCanaryEnabled) {
-            LeakCanary.install(this)
-        }
-    }
 
     private fun initNotificationHandler() {
         registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
