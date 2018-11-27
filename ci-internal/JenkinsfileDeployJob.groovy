@@ -172,9 +172,11 @@ pipeline.finalizeBody = {
     def message
     def success = Result.SUCCESS.equals(pipeline.jobResult)
     if (!success) {
-        if (pipeline.getStage(CHECKOUT).result != Result.ABORTED) { //skip notification for bilds, wich aborted via [skip ci] label
+        if (pipeline.getStage(CHECKOUT).result != Result.ABORTED) { //change notification for bilds, wich aborted via [skip ci] label
             def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
             message = "Deploy версии: $actualAndroidStandardVersion из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        } else {
+            message = "Deploy из ветки '${branchName}' остановлен из-за метки [skip ci] в последнем коммите"
         }
     } else {
         message = "Deploy версии: $actualAndroidStandardVersion из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
