@@ -11,5 +11,5 @@ dependencies {
     implementation project(':sample-common')
 
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
-    implementation "androidx.recyclerview:recyclerview:$androidxVersion"
+    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
 }

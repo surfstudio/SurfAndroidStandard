@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.google.android.material:material:$androidxVersion"
+    api "com.google.android.material:material:$androidxMaterialVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
 }
 
