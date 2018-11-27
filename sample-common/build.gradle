@@ -14,10 +14,10 @@ dependencies {
     implementation project(':easyadapter')
     implementation project(':recycler-extension')
 
-    api "androidx.test:core:$androidxVersion"
-    api "androidx.test.ext:junit:$androidxVersion"
-    api "androidx.test:runner:$testRunnerXVersion"
-    api "androidx.test.espresso:espresso-core:$espressoXVersion"
-    api "androidx.test.espresso:espresso-contrib:$espressoXVersion"
-    api "androidx.test.espresso:espresso-intents:$espressoXVersion"
+    api "androidx.test:core:$androidxTestVersion"
+    api "androidx.test.ext:junit:$androidxTestExtJunitVersion"
+    api "androidx.test:runner:$androidXTestRunnerVersion"
+    api "androidx.test.espresso:espresso-core:$androidXEspressoCoreVersion"
+    api "androidx.test.espresso:espresso-contrib:$androidXEspressoContribVersion"
+    api "androidx.test.espresso:espresso-intents:$androidXEspressoIntentsVersion"
 }
