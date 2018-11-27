@@ -2,7 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     api "com.google.code.gson:gson:$gsonVersion"
-    implementation "androidx.annotation:annotation:$androidxVersion"
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
