@@ -15,4 +15,11 @@ dependencies {
 
     //chunk
     implementation "com.readystatesoftware.chuck:library:$chuckVersion"
+
+    //tiny dancer
+    implementation "com.github.brianPlummer:tinydancer:$tinyDancerVerxion"
+
+    //stetho
+    implementation "com.facebook.stetho:stetho:${stethoVersion}"
+    implementation "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
 }

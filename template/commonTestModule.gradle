@@ -21,12 +21,12 @@ dependencies {
 
     //instrumental test
     androidTestImplementation project("$templatePrefix:base")
-    androidTestImplementation "androidx.test:core:$androidxVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxVersion"
-    androidTestImplementation "androidx.test:runner:$testRunnerXVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoXVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoXVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoXVersion"
+    androidTestImplementation "androidx.test:core:$androidxTestVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxTestExtJunitVersion"
+    androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXEspressoCoreVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidXEspressoContribVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$androidXEspressoIntentsVersion"
     androidTestImplementation "de.schroepf:android-xml-run-listener:$xmlRunListenerVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

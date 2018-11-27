@@ -8,10 +8,10 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$androidGradleToolsVersion"
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
-        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
+        classpath "io.fabric.tools:gradle:$fabricVersion"
         classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
     }
 }

@@ -1,26 +1,33 @@
 package ru.surfstudio.standard.f_debug
 
 import android.app.Application
+import com.codemonkeylabs.fpslibrary.TinyDancer
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.leakcanary.LeakCanary
+import com.facebook.stetho.Stetho
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
 import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
 import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
+import ru.surfstudio.standard.f_debug.storage.DebugUiToolsStorage
 import ru.surfstudio.standard.f_debug.storage.MemoryDebugStorage
+import ru.surfstudio.standard.f_debug.storage.ToolsDebugStorage
 import javax.inject.Inject
 
 @PerApplication
 class DebugInteractor @Inject constructor(
         private val memoryDebugStorage: MemoryDebugStorage,
         private val debugServerSettingsStorage: DebugServerSettingsStorage,
+        private val debugUiToolsStorage: DebugUiToolsStorage,
+        private val toolsDebugStorage: ToolsDebugStorage,
         private val application: Application,
         private val rebootInteractor: RebootInteractor
 ) {
 
-    //region настройки LeakCanary
+    //region Настройки LeakCanary
     var isLeakCanaryEnabled: Boolean
         get() = memoryDebugStorage.isLeakCanaryEnabled
         set(value) {
@@ -34,19 +41,25 @@ class DebugInteractor @Inject constructor(
     fun mustNotInitializeApp(): Boolean {
         return LeakCanary.isInAnalyzerProcess(application)
     }
-
-    /**
-     * Нужно вызвать в [Application.onCreate]
-     */
-    fun onCreateApp(icon: Int) {
-        if (memoryDebugStorage.isLeakCanaryEnabled) {
-            LeakCanary.install(application)
-        }
-        DebugNotificationBuilder.showDebugNotification(application, icon)
-    }
     //endregion
 
-    //region настройки сервера
+    //region UI-tools
+    var isFpsEnabled: Boolean
+        get() = debugUiToolsStorage.isFpsEnabled
+        set(value) {
+            debugUiToolsStorage.isFpsEnabled = value
+        }
+    //endregion
+
+    //region Tools
+    var isStethoEnabled: Boolean
+        get() = toolsDebugStorage.isStethoEnabled
+        set(value) {
+            toolsDebugStorage.isStethoEnabled = value
+        }
+    //endregion
+
+    //region Настройки сервера
     var isChuckEnabled: Boolean
         get() = debugServerSettingsStorage.isChuckEnabled
         set(value) {
@@ -60,14 +73,37 @@ class DebugInteractor @Inject constructor(
         }
 
     /**
-     * Добавляет [ChuckInterceptor] в [OkHttpClient] если в настройках включено
+     * Добавляет [ChuckInterceptor], [StethoInterceptor] в [OkHttpClient] если в настройках включено
      */
     fun configureOkHttp(okHttpBuilder: OkHttpClient.Builder) {
         if (debugServerSettingsStorage.isChuckEnabled) {
             okHttpBuilder.addInterceptor(ChuckInterceptor(application))
         }
+
+        if (toolsDebugStorage.isStethoEnabled) {
+            okHttpBuilder.addNetworkInterceptor(StethoInterceptor())
+        }
     }
     //endregion
+
+    /**
+     * Нужно вызвать в [Application.onCreate]
+     * Инициализируются [LeakCanary], [DebugNotificationBuilder], [Stetho], [TinyDancer]
+     */
+    fun onCreateApp(icon: Int) {
+        if (memoryDebugStorage.isLeakCanaryEnabled) {
+            LeakCanary.install(application)
+        }
+        DebugNotificationBuilder.showDebugNotification(application, icon)
+
+        if (toolsDebugStorage.isStethoEnabled) {
+            Stetho.initializeWithDefaults(application)
+        }
+
+        if (debugUiToolsStorage.isFpsEnabled) {
+            TinyDancer.create().show(application)
+        }
+    }
 
     fun reboot(route: ActivityRoute) {
         rebootInteractor.reboot(route)
