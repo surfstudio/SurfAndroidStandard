@@ -34,7 +34,7 @@ def androidStandardVersionVarName = "moduleVersionName"
 //vars
 def branchName = ""
 def actualAndroidStandardVersion = "<unknown>"
-def removeSkippedBuilds = true
+//def removeSkippedBuilds = true - not work properly
 
 //init
 def script = this
@@ -98,9 +98,9 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                if(removeSkippedBuilds) {
-                    script.currentBuild.rawBuild.delete()
-                }
+                /*if(removeSkippedBuilds) {
+                    script.currentBuild.rawBuild.delete() - not work properly, bug in blue ocean: job activity page 404
+                }*/
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
 
