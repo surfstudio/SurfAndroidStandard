@@ -31,11 +31,15 @@ def VERSION_PUSH = 'Version Push'
 def gradleConfigFile = "config.gradle"
 def androidStandardVersionVarName = "moduleVersionName"
 
+//vars
+def branchName = ""
+def actualAndroidStandardVersion = "<unknown>"
+def removeSkippedBuilds = true
+
 //init
 def script = this
 def pipeline = new EmptyScmPipeline(script)
-def branchName = ""
-def actualAndroidStandardVersion = "<unknown>"
+
 pipeline.init()
 
 //configuration
@@ -93,7 +97,10 @@ pipeline.stages = [
             script.sh "git checkout -B $branchName origin/$branchName"
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
-            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)){
+            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+                if(removeSkippedBuilds) {
+                    script.currentBuild.rawBuild.delete()
+                }
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
 
