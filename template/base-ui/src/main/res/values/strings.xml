@@ -7,4 +7,7 @@
     <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
     <string name="unexpected_error_error_message">Непредвиденная ошибка</string>
     <string name="common_error_message">Произошла ошибка загрузки данных,\nпопробуйте обновить экран позже</string>
+
+    <string name="load_state_empty">Empty load state</string>
+    <string name="load_state_error">Error load state</string>
 </resources>
