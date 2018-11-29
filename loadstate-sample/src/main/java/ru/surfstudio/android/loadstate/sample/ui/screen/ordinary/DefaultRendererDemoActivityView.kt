@@ -32,6 +32,25 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
 
     private val adapter = EasyAdapter()
 
+    private val renderer: DefaultLoadStateRenderer by lazy {
+        DefaultLoadStateRenderer(placeholder)
+                .apply {
+                    //пример добавления представления кастомного стейта
+                    putPresentation(
+                            CustomLoadState::class.java,
+                            CustomLoadStatePresentation(placeholder))
+
+                    // установка листнеров на кнопки, при необходимости смена ресурсов
+                    configEmptyState(onBtnClickedListener = { toast(R.string.empty_state_toast_msg) })
+                    configErrorState(onBtnClickedListener = { toast(R.string.error_state_toast_msg) })
+
+                    //пример задания дополнительных действий при смене лоадстейта
+                    forState(ErrorLoadState::class.java,
+                            run = { colorToolbar(R.color.colorAccent) },
+                            elseRun = { colorToolbar(R.color.colorPrimary) })
+                }
+    }
+
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator() = DefaultRendererDemoScreenConfigurator(intent)
@@ -41,22 +60,7 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
 
     override fun getScreenName(): String = "default_renderer_demo"
 
-    override fun getLoadStateRenderer() =
-            DefaultLoadStateRenderer(placeholder).apply {
-                //пример добавления представления кастомного стейта
-                putPresentation(
-                        CustomLoadState::class.java,
-                        CustomLoadStatePresentation(placeholder))
-
-                // установка листнеров на кнопки, при необходимости смена ресурсов
-                configEmptyState(onBtnClickedListener = { toast(R.string.empty_state_toast_msg) })
-                configErrorState(onBtnClickedListener = { toast(R.string.error_state_toast_msg) })
-
-                //пример задания дополнительных действий при смене лоадстейта
-                forState(ErrorLoadState::class.java,
-                        run = { colorToolbar(R.color.colorAccent) },
-                        elseRun = { colorToolbar(R.color.colorPrimary) })
-            }
+    override fun getLoadStateRenderer() = renderer
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,

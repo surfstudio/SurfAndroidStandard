@@ -31,7 +31,7 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
     override fun render(loadState: LoadStateInterface) {
 
         getPresentation(currentState.javaClass).hideState(currentState, loadState)
-        getPresentation(loadState.javaClass).showState(currentState, loadState)
+        getPresentation(loadState.javaClass).showState(loadState, currentState)
         doForStateActions.forEach { it.second(it.first(loadState)) }
 
         _currentState = loadState

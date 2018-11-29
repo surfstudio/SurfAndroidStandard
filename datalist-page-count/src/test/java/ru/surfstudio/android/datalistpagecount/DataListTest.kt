@@ -5,6 +5,7 @@ import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
+import ru.surfstudio.android.datalistpagecount.util.emptyDataListOf
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStrategy
 
@@ -85,7 +86,7 @@ class DataListTest {
     @Test
     fun mergeEmptyListWithAnotherList() {
         val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
-        val list2 = DataList.empty<Int>()
+        val list2 = emptyDataListOf<Int>()
 
         val list3 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
 

@@ -12,6 +12,7 @@
 #### converter-gson
 #### core-app
 #### core-mvp
+* ANDDEP-320 Возможность динамически задавать LoadState, гибкий способ отображения LoadState
 #### core-mvp-binding
 #### core-ui
 #### custom-view
@@ -70,9 +71,13 @@
     * Добавлена возможность его включения/выключения на DebugScreen
 * ANDDEP-336 Добавить TinyDancer на debug screen
     * Добавлена библиотека TinyDancer для отображения FPS
-    * Добавлена возможность открыть Developer Tools через DebugScreen
 * ANDDEP-335 Добавлен Stetho на DebugScreen
     * Добавлена библиотека Stetho которая в связке с Google Chrome может использоваться для дебага.
+* Добавлен EasyLauncher: метки на иконках приложения в лаунчере
+* Добавлен переключатель между основным и тестовым сервером
+* Добавлена возможность открыть Developer Tools через DebugScreen
+* Добавлен LeakCanary
+* Добавлен просмотрщик файлового хранилища приложения
 
 #### util-ktx
 
