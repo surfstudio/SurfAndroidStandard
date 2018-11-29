@@ -28,7 +28,9 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
             return _currentState!!
         }
 
-    override fun render(loadState: LoadStateInterface) {
+    override fun render(loadState: LoadStateInterface?) {
+
+        loadState ?: return
         getPresentation(currentState.javaClass).hideState(currentState, loadState)
         getPresentation(loadState.javaClass).showState(loadState, currentState)
         doForStateActions.forEach { it.second(it.first(loadState)) }
