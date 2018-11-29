@@ -26,6 +26,16 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
 
     private val exampleDataItemController = ExampleDataItemController()
 
+    private val renderer: LoadStateWithStubsRenderer by lazy {
+        LoadStateWithStubsRenderer(adapter)
+                .apply {
+                    //пример управления видимостью View в зависимости от стейта
+                    setViewVisibleFor(
+                            ErrorLoadState::class.java,
+                            retry_btn)
+                }
+    }
+
     @Inject
     lateinit var presenter: RendererWithStubsDemoPresenter
 
@@ -38,14 +48,7 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
 
     override fun getScreenName(): String = "renderer_with_stubs_demo"
 
-    override fun getLoadStateRenderer() =
-            LoadStateWithStubsRenderer(adapter)
-                    .apply {
-                        //пример управления видимостью View в зависимости от стейта
-                        setViewVisibleFor(
-                                ErrorLoadState::class.java,
-                                retry_btn)
-                    }
+    override fun getLoadStateRenderer() = renderer
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
