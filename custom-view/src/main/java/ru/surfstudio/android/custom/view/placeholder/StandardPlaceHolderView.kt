@@ -331,7 +331,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
      */
     private fun setProgressBarColor() {
         if (styler.progressBarColor != NOT_ASSIGNED_RESOURCE) {
-            progressBar.indeterminateTintList = ColorStateList.valueOf(styler.progressBarColor)
+            progressBar.supportIndeterminateTintList = ColorStateList.valueOf(styler.progressBarColor)
         }
     }
 
