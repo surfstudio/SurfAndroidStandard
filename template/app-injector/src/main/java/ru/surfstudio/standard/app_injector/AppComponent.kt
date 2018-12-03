@@ -49,7 +49,6 @@ interface AppComponent {
     fun stringsProvider(): StringsProvider
     fun globalNavigator(): GlobalNavigator
     fun fcmStorage(): FcmStorage
-    fun pushHandler(): PushHandler
 
     @Named(NO_BACKUP_SHARED_PREF)
     fun sharedPreferences(): SharedPreferences
