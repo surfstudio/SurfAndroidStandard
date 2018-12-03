@@ -1,4 +1,9 @@
 apply from: '../androidSample.gradle'
+apply plugin: 'kotlin-android-extensions'
+
+androidExtensions {
+    experimental = true
+}
 
 android{
     defaultConfig{

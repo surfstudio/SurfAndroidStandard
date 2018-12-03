@@ -21,7 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import org.jetbrains.annotations.Nullable;
+import kotlinx.android.extensions.LayoutContainer;
 import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator;
 
 
@@ -30,7 +31,7 @@ import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator;
  * 1) has constructor with item layout resource id
  * 2) support custom animation, when used with {@link BaseItemAnimator}
  */
-public class BaseViewHolder extends RecyclerView.ViewHolder {
+public class BaseViewHolder extends RecyclerView.ViewHolder implements LayoutContainer {
 
     public BaseViewHolder(ViewGroup parent, @LayoutRes int layoutRes) {
         super(LayoutInflater.from(parent.getContext()).inflate(layoutRes, parent, false));
@@ -38,6 +39,12 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
 
     public BaseViewHolder(View itemView) {
         super(itemView);
+    }
+
+    @Nullable
+    @Override
+    public View getContainerView() {
+        return itemView;
     }
 
     /**
