@@ -5,7 +5,7 @@ import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 /**
  * Создание пустого DataList
  *
- * @param totalCount суммарное количество элементов в новом
+ * @param totalCount суммарное количество элементов в новом DataList
  */
 fun <T> emptyDataListOf(totalCount: Int = 0) = DataList.emptyWithTotal<T>(totalCount)
 
@@ -17,7 +17,7 @@ fun <T> emptyDataListOf(totalCount: Int = 0) = DataList.emptyWithTotal<T>(totalC
  * @return отфильтрованный DataList
  */
 fun <T> DataList<T>.filter(predicate: (T) -> Boolean): DataList<T> {
-    val result = (this as Iterable<T>).filter(predicate)
+    val result = this.asIterable().filter(predicate)
     return DataList(result, limit, offset, totalCount)
 }
 
@@ -29,6 +29,6 @@ fun <T> DataList<T>.filter(predicate: (T) -> Boolean): DataList<T> {
  * @return трансформированный DataList
  */
 fun <T, R> DataList<T>.map(transform: (T) -> R): DataList<R> {
-    val result = (this as Iterable<T>).map(transform)
+    val result = this.asIterable().map(transform)
     return DataList(result, limit, offset, totalCount)
 }

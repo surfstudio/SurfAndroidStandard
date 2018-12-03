@@ -21,18 +21,23 @@ import android.view.View;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.state.ActivityScreenState;
 import ru.surfstudio.android.core.ui.state.ScreenState;
+import ru.surfstudio.android.core.ui.state.LifecycleStage;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
  * {@link ScreenState} для кастомной вью с презентером
- * Паразитирует на ScreenState родительской активити или фрагмента
+ * Использует также родительский стейт
+ * <p>
  */
 
 public class WidgetScreenState implements ScreenState {
+
     private View widget;
     private CoreWidgetViewInterface coreWidget;
+
     private ScreenType parentType;
     private ScreenState parentState;
+    private LifecycleStage lifecycleStage;
 
     public WidgetScreenState(ScreenState parentState) {
         this.parentState = parentState;
@@ -44,9 +49,36 @@ public class WidgetScreenState implements ScreenState {
     public void onCreate(View widget, CoreWidgetViewInterface coreWidget) {
         this.widget = widget;
         this.coreWidget = coreWidget;
+
+        lifecycleStage = LifecycleStage.CREATED;
+    }
+
+    public void onViewReady() {
+        lifecycleStage = LifecycleStage.VIEW_READY;
+    }
+
+    public void onStart() {
+        lifecycleStage = LifecycleStage.STARTED;
+    }
+
+    public void onResume() {
+        lifecycleStage = LifecycleStage.RESUMED;
+    }
+
+    public void onPause() {
+        lifecycleStage = LifecycleStage.PAUSED;
+    }
+
+    public void onStop() {
+        lifecycleStage = LifecycleStage.STOPPED;
+    }
+
+    public void onViewDestroy() {
+        lifecycleStage = LifecycleStage.VIEW_DESTROYED;
     }
 
     public void onDestroy() {
+        lifecycleStage = LifecycleStage.DESTROYED;
         this.widget = null;
         this.coreWidget = null;
     }
@@ -90,5 +122,10 @@ public class WidgetScreenState implements ScreenState {
 
     public CoreWidgetViewInterface getCoreWidget() {
         return coreWidget;
+    }
+
+    @Override
+    public LifecycleStage getLifecycleStage() {
+        return lifecycleStage;
     }
 }

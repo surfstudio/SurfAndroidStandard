@@ -9,11 +9,12 @@ import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.template.app_injector.BuildConfig
+import ru.surfstudio.android.template.app_injector.R
 import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
-import ru.surfstudio.standard.app_injector.ui.notification.debug.DebugNotificationBuilder
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.base_ui.provider.route.RouteClassProvider
+import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
 class App : CoreApp() {
 
@@ -21,7 +22,8 @@ class App : CoreApp() {
         super.onCreate()
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
-        if (AppInjector.appComponent.debugInteractor().mustNotInitializeApp()) {
+        DebugAppInjector.initInjector(this, activeActivityHolder)
+        if (DebugAppInjector.debugInteractor.mustNotInitializeApp()) {
             // работает LeakCanary, ненужно ничего инициализировать
             return
         }
@@ -29,8 +31,7 @@ class App : CoreApp() {
         initFabric()
         initComponentProvider()
         initRouteProvider()
-        AppInjector.appComponent.debugInteractor().onCreateApp()
-        DebugNotificationBuilder.showDebugNotification(this)
+        DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
 
         initNotificationHandler()
     }

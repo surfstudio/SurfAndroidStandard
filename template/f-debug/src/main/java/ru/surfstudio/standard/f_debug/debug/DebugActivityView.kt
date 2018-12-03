@@ -8,6 +8,7 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.DebugScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -20,7 +21,7 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = DebugScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_debug
@@ -43,5 +44,9 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         show_controllers_item_layout.setOnClickListener { presenter.openControllersScreen() }
         show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
         show_memory_item_layout.setOnClickListener { presenter.openMemoryScreen() }
+        show_app_info_item_layout.setOnClickListener { presenter.openAppInfoScreen() }
+        show_ui_tools_item_layout.setOnClickListener { presenter.openUiToolsScreen() }
+        show_developer_tools_item_layout.setOnClickListener { presenter.openDeveloperToolsScreen() }
+        show_tools_item_layout.setOnClickListener { presenter.openToolsScreen() }
     }
 }

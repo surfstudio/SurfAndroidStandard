@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -102,7 +104,7 @@ public class DataList<T> implements List<T>, Serializable {
      * Слияние двух DataList с удалением дублируемых элементов
      * При удалении остаются актуальные (последние присланные сервером) элементы
      *
-     * @param data DataList для слияния с текущим
+     * @param data              DataList для слияния с текущим
      * @param distinctPredicate предикат, по которому происходит удаление дублируемых элементов
      *
      * @return текущий экземпляр
@@ -347,28 +349,18 @@ public class DataList<T> implements List<T>, Serializable {
      * Удаление одинаковых элементов из исходного списка
      * Критерий того, что элементы одинаковые, задается параметром distinctPredicate
      *
-     * @param source исходный список
+     * @param source            исходный список
      * @param distinctPredicate критерий того, что элементы одинаковые
-
      * @return отфильтрованный список без одинаковых элементов
      */
     private <R> ArrayList<T> distinctByLast(ArrayList<T> source, MapFunc<R, T> distinctPredicate) {
-        HashSet<R> resultSet = new HashSet<>();
-        ArrayList<T> result = new ArrayList<>();
-        ListIterator<T> iterator = source.listIterator(source.size());
+        HashMap<R, T> resultSet = new LinkedHashMap<>();
 
-        //проходим в цикле по элементам, начиная с конца списка (для сохранения только новых значений)
-        while (iterator.hasPrevious()) {
-            T current = iterator.previous();
-            R key = distinctPredicate.call(current);
-            if (resultSet.add(key)) {
-                result.add(current);
-            }
+        for (T element : source) {
+            R key = distinctPredicate.call(element);
+            resultSet.put(key, element);
         }
 
-        //переворачиваем список
-        Collections.reverse(result);
-
-        return result;
+        return new ArrayList<>(resultSet.values());
     }
 }

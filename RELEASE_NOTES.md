@@ -12,13 +12,26 @@
 #### converter-gson
 #### core-app
 #### core-mvp
+* ANDDEP-320 Возможность динамически задавать LoadState, гибкий способ отображения LoadState
 #### core-mvp-binding
 #### core-ui
 #### custom-view
+
+* Исправлено некорректное поведение MaterialProgressBar на Android версии 5 и ниже
+
 #### dagger-scope
 #### datalist-limit-offset
+
+* ANDDEP-242 Добавлена возможность принудительной фильтрации в методе DataList.merge по настраиваемому критерию для устранения одинаковых элементов 
+* ANDDEP-242 Добавлены extension-функции для работы с DataList как с коллекцией: emptyDataListOf, DataList.filter, DataList.map
+
 #### datalist-page-count
+
+* ANDDEP-242 Добавлены extension-функции для работы с DataList как с коллекцией: emptyDataListOf, DataList.map
+
 #### easyadapter
+* ANDDEP-270 Добавлена поддержка асинхронного инфлейта view в ViewHolder
+
 #### filestorage
 #### firebase-analytics
 #### imageloader
@@ -30,6 +43,13 @@
 #### message-controller
 #### mvp-dialog
 #### mvp-widget
+
+* Добавлена возможность использовать виджеты в динамической верстке.
+    Ликвидирована необходимость вызывать `init()` для инициализации виджета.
+* Для использования в ресайклере необходимо в использовать ручной режим инициализации.
+    Для этого создан атрибут `enableManualEdit`. Также в `onBindViewHoler` необходимо вызывать `init(scopeId)`, 
+    где scopeId должен быть основан на тех данных, которые отображает айтем. 
+    
 #### network
 #### picture-provider
 
@@ -59,6 +79,15 @@
 * ANDDEP-323 Добавлен Chuck
     * Интеграция Chuck в template
     * Добавлена возможность его включения/выключения на DebugScreen
+* ANDDEP-336 Добавить TinyDancer на debug screen
+    * Добавлена библиотека TinyDancer для отображения FPS
+* ANDDEP-335 Добавлен Stetho на DebugScreen
+    * Добавлена библиотека Stetho которая в связке с Google Chrome может использоваться для дебага.
+* Добавлен EasyLauncher: метки на иконках приложения в лаунчере
+* Добавлен переключатель между основным и тестовым сервером
+* Добавлена возможность открыть Developer Tools через DebugScreen
+* Добавлен LeakCanary
+* Добавлен просмотрщик файлового хранилища приложения
 
 #### util-ktx
 

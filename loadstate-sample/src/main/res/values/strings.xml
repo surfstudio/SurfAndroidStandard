@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">loadstate-sample</string>
+
+    <string name="empty_btn">empty</string>
+    <string name="main_loading_btn">main loading</string>
+    <string name="tr_loading_btn">transparent loading</string>
+    <string name="error_btn">error</string>
+    <string name="none_btn">none</string>
+    <string name="custom_btn">custom</string>
+
+    <string name="empty_state_title_txt">Ваш список пуст</string>
+    <string name="empty_state_subtitle_txt">Добавьте что-нибудь, пожалуйста</string>
+    <string name="empty_state_action_btn">Добавить</string>
+
+    <string name="error_state_title_txt">Упс! Произошла ошибка :(</string>
+    <string name="error_state_subtitle_txt">Попробуйте позже</string>
+    <string name="error_state_action_btn">Повторить</string>
+
+    <string name="main_activity_default_btn">Default LoadStates + one custom demo</string>
+    <string name="main_activity_stubs_btn">LoadStates with stubs demo</string>
+    <string name="main_activity_actions_btn">LoadStates Actions Demo</string>
+
+    <string name="item_list_example_data_text">Item %d</string>
+    <string name="retry_toast_msg">Retry Clicked</string>
+    <string name="empty_state_toast_msg">WOW! Btn clicked</string>
+    <string name="error_state_toast_msg">WOW! Another btn clicked</string>
+</resources>

@@ -6,9 +6,10 @@ import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseLdsSwrActivityView
-import ru.surfstudio.android.core.mvp.model.state.LoadState
-import ru.surfstudio.android.core.mvp.placeholder.PlaceHolderViewInterface
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
+import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.DefaultLoadStateRenderer
 import ru.surfstudio.android.shared.pref.sample.R
 import ru.surfstudio.android.shared.pref.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
@@ -31,7 +32,9 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun getPlaceHolderView(): PlaceHolderViewInterface = placeholder
+    override fun getLoadStateRenderer() =
+            DefaultLoadStateRenderer(placeholder)
+                    .configErrorState(onBtnClickedListener = { presenter.reloadData() })
 
     override fun getSwipeRefreshLayout(): SwipeRefreshLayout = swipe_refresh_layout
 
@@ -44,19 +47,17 @@ class MainActivityView : BaseLdsSwrActivityView<MainScreenModel>() {
         initListeners()
     }
 
-    override fun renderLoadState(loadState: LoadState?) {
+    override fun renderLoadState(loadState: LoadStateInterface?) {
         super.renderLoadState(loadState)
         swipe_refresh_layout.goneIf(loadState != LoadState.NONE)
     }
 
-    override fun renderInternal(sm: MainScreenModel) {
-        ip_tv.text = sm.ip?.value
-        placeholder.render(sm.loadState)
+    override fun renderInternal(screenModel: MainScreenModel) {
+        ip_tv.text = screenModel.ip?.value
     }
 
     private fun initListeners() {
         swipe_refresh_layout.setOnRefreshListener { presenter.reloadData() }
-        placeholder.buttonLambda = { presenter.reloadData() }
         save_to_storage_btn.setOnClickListener { presenter.saveIpToCache() }
         get_from_storage_btn.setOnClickListener { presenter.loadDataFromCache() }
         clear_storage_btn.setOnClickListener { presenter.clearCache() }

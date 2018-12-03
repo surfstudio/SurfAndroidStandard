@@ -1,7 +1,7 @@
 apply from: '../commonModule.gradle'
 
 dependencies {
-    api project(':template:domain')
+    api project("$templatePrefix:domain")
 
     gradle.ext.androidStandard.api(
             this,
