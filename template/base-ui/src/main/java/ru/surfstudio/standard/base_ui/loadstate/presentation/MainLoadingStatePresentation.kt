@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.MainLoadingState
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.template.base_ui.R
+import ru.surfstudio.standard.base_ui.loadstate.utils.clickAndFocus
 
 /**
  * Представление состояния MainLoading в виде ProgressBar
@@ -18,7 +19,7 @@ class MainLoadingStatePresentation(
 ) : SimpleLoadStatePresentation<MainLoadingState>() {
 
     @ColorInt
-    private val background = ContextCompat.getColor(placeHolder.context, R.color.colorWindowBackgroundDark)
+    private val backgroundColor = ContextCompat.getColor(placeHolder.context, R.color.colorWindowBackgroundDark)
 
     private val view: View by lazy {
         LayoutInflater.from(placeHolder.context)
@@ -26,16 +27,19 @@ class MainLoadingStatePresentation(
     }
 
     override fun showState(state: MainLoadingState) {
-        placeHolder.show()
-        placeHolder.removeAllViews()
-        placeHolder.addView(view)
-        placeHolder.setBackgroundColor(background)
-
-        //Пустой листенер проставляется для перехвата кликов по элементам, которые перекрывает placeholder
-        placeHolder.setOnClickListener { }
+        with(placeHolder) {
+            removeAllViews()
+            addView(view)
+            setBackgroundColor(backgroundColor)
+            clickAndFocus(true)
+            show()
+        }
     }
 
     override fun hideState(state: MainLoadingState, nextState: LoadStateInterface) {
-        placeHolder.setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
+        with(placeHolder) {
+            setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
+            clickAndFocus(false)
+        }
     }
 }

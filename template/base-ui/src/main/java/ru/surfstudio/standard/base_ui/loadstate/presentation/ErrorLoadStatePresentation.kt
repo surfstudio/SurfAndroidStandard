@@ -11,6 +11,7 @@ import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.ErrorLoadState
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.template.base_ui.R
+import ru.surfstudio.standard.base_ui.loadstate.utils.clickAndFocus
 
 /**
  * Представление состояния ErrorLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
@@ -23,7 +24,7 @@ class ErrorLoadStatePresentation(
     var messageText: Int = R.string.load_state_error
 
     @ColorInt
-    private val background = ContextCompat.getColor(placeHolder.context, R.color.colorWindowBackgroundDark)
+    private val backgroundColor = ContextCompat.getColor(placeHolder.context, R.color.colorWindowBackgroundDark)
 
     private lateinit var messageView: TextView
 
@@ -38,16 +39,19 @@ class ErrorLoadStatePresentation(
     override fun showState(state: ErrorLoadState) {
         initViews(view)
 
-        placeHolder.changeViewTo(view)
-        placeHolder.show()
-        placeHolder.setBackgroundColor(background)
-
-        //Пустой листенер проставляется для перехвата кликов по элементам, которые перекрывает placeholder
-        placeHolder.setOnClickListener { }
+        with(placeHolder) {
+            changeViewTo(view)
+            setBackgroundColor(backgroundColor)
+            clickAndFocus(true)
+            show()
+        }
     }
 
     override fun hideState(state: ErrorLoadState, nextState: LoadStateInterface) {
-        placeHolder.setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
+        with(placeHolder) {
+            setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
+            clickAndFocus(false)
+        }
     }
 
     private fun initViews(view: View) {

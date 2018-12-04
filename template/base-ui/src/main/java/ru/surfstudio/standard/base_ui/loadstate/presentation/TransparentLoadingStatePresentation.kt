@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.loadstate.LoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.TransparentLoadingState
 import ru.surfstudio.android.template.base_ui.R
+import ru.surfstudio.standard.base_ui.loadstate.utils.clickAndFocus
 
 /**
  * Представление состояния TransparentLoading в виде ProgressBar поверх затемненного фона
@@ -28,15 +29,18 @@ class TransparentLoadingStatePresentation(
     }
 
     override fun showState(state: TransparentLoadingState, previousState: LoadStateInterface) {
-        placeHolder.setBackgroundColor(transparentBackgroundColor)
-        placeHolder.show()
-        placeHolder.changeViewTo(view)
-
-        //Пустой листенер проставляется для перехвата кликов по элементам, которые перекрывает placeholder
-        placeHolder.setOnClickListener { }
+        with(placeHolder) {
+            setBackgroundColor(transparentBackgroundColor)
+            changeViewTo(view)
+            clickAndFocus(true)
+            show()
+        }
     }
 
     override fun hideState(state: TransparentLoadingState, nextState: LoadStateInterface) {
-        placeHolder.setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
+        with(placeHolder) {
+            setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
+            clickAndFocus(false)
+        }
     }
 }

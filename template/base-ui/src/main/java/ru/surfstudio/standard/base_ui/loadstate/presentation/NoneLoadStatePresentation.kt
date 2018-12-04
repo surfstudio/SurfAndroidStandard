@@ -12,7 +12,9 @@ class NoneLoadStatePresentation(
 ) : SimpleLoadStatePresentation<NoneLoadState>() {
 
     override fun showState(state: NoneLoadState) {
-        placeHolder.hide()
-        placeHolder.removeAllViews()
+        with(placeHolder) {
+            hide()
+            removeAllViews()
+        }
     }
 }
