@@ -3,7 +3,7 @@ ext {
     applicationId = "ru.surfstudio.android.template"
 
     moduleVersionCode = 20
-    moduleVersionName = '0.3.0-MDK-6-SNAPSHOT'
+    moduleVersionName = '0.3.0-MDK-7-SNAPSHOT'
     minSdkVersion = 17
     targetSdkVersion = 28
     compileSdkVersion = 28
