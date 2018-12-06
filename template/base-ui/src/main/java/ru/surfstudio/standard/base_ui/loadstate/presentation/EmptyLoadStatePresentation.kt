@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.load_state_empty.view.*
+import kotlinx.android.synthetic.main.state_empty.view.*
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.EmptyLoadState
@@ -30,7 +30,7 @@ class EmptyLoadStatePresentation(
 
     private val view: View by lazy {
         LayoutInflater.from(placeHolder.context)
-                .inflate(R.layout.load_state_empty, placeHolder, false)
+                .inflate(R.layout.state_empty, placeHolder, false)
                 .apply { messageView = empty_load_state_tv }
     }
 

@@ -2,11 +2,12 @@ package ru.surfstudio.standard.base_ui.loadstate.presentation
 
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.load_state_error.view.*
+import kotlinx.android.synthetic.main.state_error.view.*
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.ErrorLoadState
@@ -27,11 +28,15 @@ class ErrorLoadStatePresentation(
     private val backgroundColor = ContextCompat.getColor(placeHolder.context, R.color.colorWindowBackgroundDark)
 
     private lateinit var messageView: TextView
+    private lateinit var reloadButton: Button
 
     private val view: View by lazy {
         LayoutInflater.from(placeHolder.context)
-                .inflate(R.layout.load_state_error, placeHolder, false)
-                .apply { messageView = error_load_state_tv }
+                .inflate(R.layout.state_error, placeHolder, false)
+                .apply {
+                    messageView = error_load_state_tv
+                    reloadButton = error_load_state_b
+                }
     }
 
     override fun showState(state: ErrorLoadState) {
@@ -39,6 +44,7 @@ class ErrorLoadStatePresentation(
 
         with(placeHolder) {
             changeViewTo(view)
+            reloadButton.setOnClickListener { state.action() }
             setBackgroundColor(backgroundColor)
             clickAndFocus(true)
             show()
