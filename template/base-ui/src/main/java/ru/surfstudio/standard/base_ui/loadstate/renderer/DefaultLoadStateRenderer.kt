@@ -11,10 +11,10 @@ import ru.surfstudio.standard.base_ui.loadstate.state.*
  */
 class DefaultLoadStateRenderer(
         placeHolderView: PlaceHolderViewContainer,
-        override val defaultState: LoadStateInterface = NoneLoadState()
+        override val defaultState: LoadStateInterface = NoneState()
 ) : BaseLoadStateRenderer() {
     init {
-        putPresentation(NoneLoadState::class.java, NoneLoadStatePresentation(placeHolderView))
+        putPresentation(NoneState::class.java, NoneLoadStatePresentation(placeHolderView))
         putPresentation(EmptyLoadState::class.java, EmptyLoadStatePresentation(placeHolderView))
         putPresentation(ErrorLoadState::class.java, ErrorLoadStatePresentation(placeHolderView))
         putPresentation(MainLoadingState::class.java, MainLoadingStatePresentation(placeHolderView))

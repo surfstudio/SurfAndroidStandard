@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.mvp.loadstate
 /**
  * Упрощенная версия {@link LoadStatePresentation}
  */
-abstract class SimpleLoadStatePresentation<in T : LoadStateInterface>: LoadStatePresentation<T> {
+abstract class SimpleLoadStatePresentation<in T : LoadStateInterface> : LoadStatePresentation<T> {
 
     abstract fun showState(state: T)
 
@@ -14,6 +14,4 @@ abstract class SimpleLoadStatePresentation<in T : LoadStateInterface>: LoadState
     override fun hideState(state: T, nextState: LoadStateInterface) {
         //ignore
     }
-
-
 }

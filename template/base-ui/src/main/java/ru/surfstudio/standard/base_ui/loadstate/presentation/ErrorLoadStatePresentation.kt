@@ -6,12 +6,12 @@ import android.widget.TextView
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.load_state_error.view.*
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.ErrorLoadState
-import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.utils.clickAndFocus
+import ru.surfstudio.standard.base_ui.loadstate.clickAndFocus
 
 /**
  * Представление состояния ErrorLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
@@ -21,7 +21,7 @@ class ErrorLoadStatePresentation(
 ) : SimpleLoadStatePresentation<ErrorLoadState>() {
 
     @StringRes
-    var messageText: Int = R.string.load_state_error
+    var messageTextRes: Int = R.string.load_state_error
 
     @ColorInt
     private val backgroundColor = ContextCompat.getColor(placeHolder.context, R.color.colorWindowBackgroundDark)
@@ -31,9 +31,7 @@ class ErrorLoadStatePresentation(
     private val view: View by lazy {
         LayoutInflater.from(placeHolder.context)
                 .inflate(R.layout.load_state_error, placeHolder, false)
-                .apply {
-                    messageView = findViewById(R.id.error_load_state_tv)
-                }
+                .apply { messageView = error_load_state_tv }
     }
 
     override fun showState(state: ErrorLoadState) {
@@ -47,14 +45,7 @@ class ErrorLoadStatePresentation(
         }
     }
 
-    override fun hideState(state: ErrorLoadState, nextState: LoadStateInterface) {
-        with(placeHolder) {
-            setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
-            clickAndFocus(false)
-        }
-    }
-
     private fun initViews(view: View) {
-        messageView.text = view.context.getString(messageText)
+        messageView.text = view.context.getString(messageTextRes)
     }
 }

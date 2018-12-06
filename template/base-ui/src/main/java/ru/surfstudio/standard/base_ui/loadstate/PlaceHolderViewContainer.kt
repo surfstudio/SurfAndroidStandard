@@ -74,3 +74,9 @@ class PlaceHolderViewContainer(
      */
     class StatePresentation(val stateView: View)
 }
+
+fun PlaceHolderViewContainer.clickAndFocus(value: Boolean) {
+    isClickable = value
+    isFocusable = value
+    isFocusableInTouchMode = value
+}

@@ -2,16 +2,16 @@ package ru.surfstudio.standard.base_ui.loadstate.presentation
 
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
-import ru.surfstudio.standard.base_ui.loadstate.state.NoneLoadState
+import ru.surfstudio.standard.base_ui.loadstate.state.NoneState
 
 /**
- * Представление состояния NoneLoadState, скрывающее PlaceHolderViewContainer
+ * Представление состояния NoneState, скрывающее PlaceHolderViewContainer
  */
 class NoneLoadStatePresentation(
         private val placeHolder: PlaceHolderViewContainer
-) : SimpleLoadStatePresentation<NoneLoadState>() {
+) : SimpleLoadStatePresentation<NoneState>() {
 
-    override fun showState(state: NoneLoadState) {
+    override fun showState(state: NoneState) {
         with(placeHolder) {
             hide()
             removeAllViews()

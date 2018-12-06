@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.base_ui.loadstate.state
 
 object LoadState {
-    val none = NoneLoadState()
+    val none = NoneState()
     val empty = EmptyLoadState()
     val error = ErrorLoadState()
     val mainLoading = MainLoadingState()

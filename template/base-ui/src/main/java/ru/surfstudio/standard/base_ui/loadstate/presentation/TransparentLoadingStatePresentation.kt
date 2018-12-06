@@ -5,18 +5,17 @@ import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
-import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
-import ru.surfstudio.android.core.mvp.loadstate.LoadStatePresentation
+import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.TransparentLoadingState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.utils.clickAndFocus
+import ru.surfstudio.standard.base_ui.loadstate.clickAndFocus
 
 /**
  * Представление состояния TransparentLoading в виде ProgressBar поверх затемненного фона
  */
 class TransparentLoadingStatePresentation(
         private val placeHolder: PlaceHolderViewContainer
-) : LoadStatePresentation<TransparentLoadingState> {
+) : SimpleLoadStatePresentation<TransparentLoadingState>() {
 
     @ColorInt
     var transparentBackgroundColor = ContextCompat.getColor(placeHolder.context, R.color.transparent_bg_color)
@@ -28,19 +27,12 @@ class TransparentLoadingStatePresentation(
                 false)
     }
 
-    override fun showState(state: TransparentLoadingState, previousState: LoadStateInterface) {
+    override fun showState(state: TransparentLoadingState) {
         with(placeHolder) {
             setBackgroundColor(transparentBackgroundColor)
             changeViewTo(view)
             clickAndFocus(true)
             show()
-        }
-    }
-
-    override fun hideState(state: TransparentLoadingState, nextState: LoadStateInterface) {
-        with(placeHolder) {
-            setBackgroundColor(ContextCompat.getColor(placeHolder.context, android.R.color.transparent))
-            clickAndFocus(false)
         }
     }
 }
