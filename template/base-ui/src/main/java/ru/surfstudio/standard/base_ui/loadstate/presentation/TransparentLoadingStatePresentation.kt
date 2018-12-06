@@ -22,7 +22,7 @@ class TransparentLoadingStatePresentation(
 
     val view: View by lazy {
         LayoutInflater.from(placeHolder.context).inflate(
-                R.layout.load_state_transperant,
+                R.layout.load_state_main,
                 placeHolder,
                 false)
     }
