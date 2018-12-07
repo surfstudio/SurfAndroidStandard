@@ -3,9 +3,7 @@ package ru.surfstudio.standard.base_ui.loadstate.presentation
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
-import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.state_empty.view.*
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
@@ -23,9 +21,6 @@ class EmptyLoadStatePresentation(
     @StringRes
     var messageTextRes: Int = R.string.load_state_empty
 
-    @ColorInt
-    private val backgroundColor = ContextCompat.getColor(placeHolder.context, R.color.colorWindowBackgroundDark)
-
     private lateinit var messageView: TextView
 
     private val view: View by lazy {
@@ -39,7 +34,6 @@ class EmptyLoadStatePresentation(
 
         with(placeHolder) {
             changeViewTo(view)
-            setBackgroundColor(backgroundColor)
             clickAndFocus(true)
             show()
         }
