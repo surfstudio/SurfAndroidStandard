@@ -46,6 +46,7 @@
 6. [CodeGlance](https://github.com/Vektah/CodeGlance). Миниатюра всего текста в файле справа (как в Sublime text)
 7. [ADB idea](https://github.com/pbreault/adb-idea). Упрощение работы с ADB
 9. Git Branch Cleaner - Очистка старых веток гита. Использование: VCS → Git → Delete Old Branches
+10. [Bitbucket Linky](https://plugins.jetbrains.com/plugin/8015-bitbucket-linky) - создание PR по Ctrl+Shift+X,P из студии. (Предварительно нужно настроить в Other Settings.)
 
 #### Полезные ссылки
 
