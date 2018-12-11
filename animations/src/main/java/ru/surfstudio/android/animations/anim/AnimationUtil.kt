@@ -55,6 +55,9 @@ object AnimationUtil {
                 duration: Long = ANIM_LEAVING,
                 visibility: Int = View.GONE,
                 successfulEndAction: (() -> Unit)? = null) {
+
+        val alpha = outView.alpha
+
         outView.clearAnimation()
         ViewCompat.animate(outView)
                 .alpha(0f)
@@ -63,6 +66,7 @@ object AnimationUtil {
                 .setListener(DefaultViewPropertyAnimatorListener())
                 .withEndAction {
                     outView.visibility = visibility
+                    outView.alpha = alpha
                     successfulEndAction?.invoke()
                 }
     }
@@ -74,12 +78,14 @@ object AnimationUtil {
 
         val animatorListener = DefaultViewPropertyAnimatorListener(inView.alpha, inView.visibility)
 
+        val alpha = inView.alpha
+
         inView.alpha = 0f
         inView.visibility = View.VISIBLE
 
         inView.clearAnimation()
         ViewCompat.animate(inView)
-                .alpha(1f)
+                .alpha(alpha)
                 .setDuration(duration)
                 .setInterpolator(FastOutLinearInInterpolator())
                 .setListener(animatorListener)
