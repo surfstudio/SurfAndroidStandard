@@ -10,10 +10,7 @@ pipeline.init()
 pipeline.getStage(pipeline.UNIT_TEST).strategy = StageStrategy.SKIP_STAGE
 pipeline.getStage(pipeline.INSTRUMENTATION_TEST).strategy = StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
 pipeline.getStage(pipeline.STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
-pipeline.buildGradleTask = "clean \
-        :template:app-injector:assembleDebug \
-        :network-sample:assembleDebug \
-        :custom-view-sample:assembleDebug"
+pipeline.buildGradleTask = "clean assembleDebug"
 pipeline.androidTestConfig.testBuildType = "debug"
 
 pipeline.preExecuteStageBody = {}
