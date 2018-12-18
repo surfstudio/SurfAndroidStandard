@@ -17,6 +17,7 @@ dependencies {
     testImplementation "com.annimon:stream:$annimonStreamVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
+    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //instrumental test
