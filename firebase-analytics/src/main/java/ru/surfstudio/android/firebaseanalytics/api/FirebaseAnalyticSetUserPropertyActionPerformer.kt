@@ -1,6 +1,7 @@
 package ru.surfstudio.android.firebaseanalytics.api
 
 import com.google.firebase.analytics.FirebaseAnalytics
+import ru.surfstudio.android.analyticsv2.core.AnalyticAction
 import ru.surfstudio.android.analyticsv2.core.AnalyticActionPerformer
 
 /**
@@ -8,6 +9,8 @@ import ru.surfstudio.android.analyticsv2.core.AnalyticActionPerformer
  */
 class FirebaseAnalyticSetUserPropertyActionPerformer(private val firebaseAnalytics: FirebaseAnalytics)
     : AnalyticActionPerformer<FirebaseAnalyticSetUserPropertyAction> {
+
+    override fun canHandle(action: AnalyticAction) = action is FirebaseAnalyticSetUserPropertyAction
 
     override fun perform(action: FirebaseAnalyticSetUserPropertyAction) {
         firebaseAnalytics.setUserProperty(action.key.cut(24), action.value.cut(36))

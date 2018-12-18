@@ -10,13 +10,13 @@ import ru.surfstudio.android.firebaseanalytics.api.FirebaseAnalyticEvent
  */
 class CustomEventV2(val value1: String,
                     val value2: Int,
-                    val value3: Double) : FirebaseAnalyticEvent {
+                    val value3: Double) :  FirebaseAnalyticEvent {
 
     override fun key() = EventType.CUSTOM_EVENT_TYPE
 
-    override fun params() = Bundle().apply {
+    override fun params() = Bundle().apply {//todo соотнести с EventData
         putString("value_key_1", value1)
-        putInt("value_key_2", value2)
-        putDouble("value_key_3", value3)
+        putString("value_key_2", value2.toString())
+        putString("value_key_3", value3.toString())
     }
 }
