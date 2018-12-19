@@ -33,8 +33,6 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * !!!ВАЖНО!!!
  * Пока нельзя использовать в ресайклере
  */
-
-
 public abstract class CoreLinearLayoutView extends LinearLayout implements CoreWidgetViewInterface {
 
     private WidgetViewDelegate widgetViewDelegate;
@@ -101,6 +99,7 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     }
 
     @Override
+    @Deprecated
     public void init() {}
 
     @Override
@@ -127,7 +126,7 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     }
 
     /**
-     * В ручную вызывает onCompletelyDestroy у виджета
+     * Вручную вызывает onCompletelyDestroy у виджета
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
