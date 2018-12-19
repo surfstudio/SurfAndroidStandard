@@ -222,20 +222,20 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     fun setViewVisibleFor(
             loadStates: List<Class<out LoadStateInterface>>,
-            views: View,
+            view: View,
             visibilityWhenHidden: Int = View.INVISIBLE) =
             setViewsVisibleFor(
                     loadStates,
-                    listOf(views),
+                    listOf(view),
                     visibilityWhenHidden)
 
     fun setViewVisibleFor(
             loadState: Class<out LoadStateInterface>,
-            views: View,
+            view: View,
             visibilityWhenHidden: Int = View.INVISIBLE) =
             setViewsVisibleFor(
                     listOf(loadState),
-                    listOf(views),
+                    listOf(view),
                     visibilityWhenHidden)
     //endregion
 
@@ -292,17 +292,17 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     fun setViewInvisibleFor(
             loadStates: List<Class<out LoadStateInterface>>,
-            views: View) =
+            view: View) =
             setViewsInvisibleFor(
                     loadStates,
-                    listOf(views))
+                    listOf(view))
 
-    fun setViewsInvisibleFor(
+    fun setViewInvisibleFor(
             loadState: Class<out LoadStateInterface>,
-            views: View) =
+            view: View) =
             setViewsInvisibleFor(
                     listOf(loadState),
-                    listOf(views))
+                    listOf(view))
     //endregion
 
     //region setViewsGoneFor
@@ -358,17 +358,17 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     fun setViewGoneFor(
             loadStates: List<Class<out LoadStateInterface>>,
-            views: View) =
+            view: View) =
             setViewsGoneFor(
                     loadStates,
-                    listOf(views))
+                    listOf(view))
 
-    fun setViewsGoneFor(
+    fun setViewGoneFor(
             loadState: Class<out LoadStateInterface>,
-            views: View) =
+            view: View) =
             setViewsGoneFor(
                     listOf(loadState),
-                    listOf(views))
+                    listOf(view))
     //endregion
 
     private fun setViewsVisibilityFor(
