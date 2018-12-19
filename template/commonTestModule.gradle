@@ -1,7 +1,6 @@
 android {
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArgument "listener", "de.schroepf.androidxmlrunlistener.XmlRunListener"
     }
     testOptions {
         unitTests {
@@ -28,6 +27,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidXEspressoCoreVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidXEspressoContribVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$androidXEspressoIntentsVersion"
-    androidTestImplementation "de.schroepf:android-xml-run-listener:$xmlRunListenerVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

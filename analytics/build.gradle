@@ -1,4 +1,4 @@
-apply from: '../androidModule.gradle' 
+apply from: '../androidModule.gradle'
 
 dependencies {
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"

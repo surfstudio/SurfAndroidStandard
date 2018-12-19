@@ -76,7 +76,6 @@ ext {
     androidXEspressoCoreVersion = '3.1.0'       //http://bit.ly/2DNc0AA
     androidXEspressoIntentsVersion = '3.1.0'    //http://bit.ly/2SikuDT
     androidXEspressoContribVersion = '3.1.0'    //http://bit.ly/2E0DdAq
-    xmlRunListenerVersion='0.3.1'               //http://bit.ly/2OQs9a5
     mockitoVersion = '2.23.4'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2QisKq5
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
