@@ -8,11 +8,12 @@ import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.DefaultLoa
 
 class MainActivity : AppCompatActivity() {
 
-    private val loadStateRenderer = DefaultLoadStateRenderer(placeholder_view)
+    private lateinit var loadStateRenderer : DefaultLoadStateRenderer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        loadStateRenderer = DefaultLoadStateRenderer(placeholder_view)
         loadStateRenderer.render(LoadState.MAIN_LOADING)
         var x = 0
         change_state_btn.setOnClickListener {

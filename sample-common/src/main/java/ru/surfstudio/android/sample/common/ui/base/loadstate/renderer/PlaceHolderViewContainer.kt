@@ -11,7 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.animations.anim.fadeIn
 import ru.surfstudio.android.animations.anim.fadeOut
-import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
