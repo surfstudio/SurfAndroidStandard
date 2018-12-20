@@ -4,8 +4,8 @@ ext {
 
     moduleVersionCode = 20
     moduleVersionName = '0.4.0-SNAPSHOT'
-    minSdkVersion = 17
-    minSdkVersionSample = 18
+    libMinSdkVersion = 17
+    sampleMinSdkVersion = 18
     targetSdkVersion = 28
     compileSdkVersion = 28
     debugVersionNameSuffix = ".debug"

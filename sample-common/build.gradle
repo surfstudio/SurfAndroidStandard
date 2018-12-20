@@ -3,7 +3,7 @@ apply from: '../androidTestModule.gradle'
 
 android {
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersionSample
+        minSdkVersion project.ext.sampleMinSdkVersion
         multiDexEnabled true
     }
 }
