@@ -7,4 +7,4 @@ import ru.surfstudio.android.analyticsv2.core.AnalyticAction
  * @param key ключ userProperty
  * @param value значение userProperty
  */
-class FirebaseAnalyticSetUserPropertyAction(val key : String, val value: String) : AnalyticAction
+open class FirebaseAnalyticSetUserPropertyAction(val key : String, val value: String) : AnalyticAction

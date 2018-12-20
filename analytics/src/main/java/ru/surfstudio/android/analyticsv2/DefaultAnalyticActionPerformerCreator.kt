@@ -9,13 +9,12 @@ import java.lang.Error
 /**
  * Фабрика выполнителей действий аналитики по умолчанию
  * Выполняет действие на тех выполнителях, которые могут его обработать
- * Можно добавлять выполнители динамически
  */
-class DefaultAnalyticActionPerformerCreator<Action: AnalyticAction> : AnalyticActionPerformerCreator<Action> {
+class DefaultAnalyticActionPerformerCreator : AnalyticActionPerformerCreator<AnalyticAction> {
 
-    private val performers: MutableSet<AnalyticActionPerformer<Action>> = mutableSetOf()
+    private val performers: MutableSet<AnalyticActionPerformer<AnalyticAction>> = mutableSetOf()
 
-    override fun getPerformersByAction(event: Action): List<AnalyticActionPerformer<Action>> {
+    override fun getPerformersByAction(event: AnalyticAction): List<AnalyticActionPerformer<AnalyticAction>> {
         val performers = performers.filter { it.canHandle(event) }
         if (performers.isEmpty()) {
             if (BuildConfig.DEBUG) {
@@ -28,8 +27,8 @@ class DefaultAnalyticActionPerformerCreator<Action: AnalyticAction> : AnalyticAc
     /**
      * Добавить выполнитель действия
      */
-    fun addActionPerformer(performer: AnalyticActionPerformer<AnalyticAction>): DefaultAnalyticActionPerformerCreator<Action> {
-        performers.add(performer as AnalyticActionPerformer<Action>)
+    fun addActionPerformer(performer: AnalyticActionPerformer<AnalyticAction>): DefaultAnalyticActionPerformerCreator {
+        performers.add(performer)
         return this
     }
 }

@@ -36,7 +36,7 @@ class AnalyticsModule {
     @Provides
     @PerApplication
     internal fun provideDefaultAnalyticsService(firebaseAnalytics: FirebaseAnalytics): DefaultAnalyticService {
-        return DefaultAnalyticService(DefaultAnalyticActionPerformerCreator<AnalyticAction>()
+        return DefaultAnalyticService(DefaultAnalyticActionPerformerCreator()
                 .configDefaultFireBaseActions(firebaseAnalytics))
     }
 }

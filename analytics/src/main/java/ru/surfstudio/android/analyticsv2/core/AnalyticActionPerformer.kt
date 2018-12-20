@@ -5,7 +5,7 @@ package ru.surfstudio.android.analyticsv2.core
  */
 interface AnalyticActionPerformer<Action: AnalyticAction> {
     /**
-     * Может ли выплнитель обработать действие?
+     * Может ли выполнитель обработать действие?
      * @return true если может
      */
     fun canHandle(action: AnalyticAction) : Boolean

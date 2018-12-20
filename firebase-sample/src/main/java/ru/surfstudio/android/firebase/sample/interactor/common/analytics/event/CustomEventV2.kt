@@ -5,16 +5,15 @@ import ru.surfstudio.android.firebaseanalytics.api.FirebaseAnalyticEvent
 
 /**
  * Пример кастомного события
- *
- * //todo конвертация в старый EventData. Удобный мапинг старых событий в новую аналитику (в самих событиях по хорошему ничего менять не должно быть нужды)
  */
-class CustomEventV2(val value1: String,
+class CustomEventV2(val key: String,
+                    val value1: String,
                     val value2: Int,
-                    val value3: Double) :  FirebaseAnalyticEvent {
+                    val value3: Double) : FirebaseAnalyticEvent {
 
-    override fun key() = EventType.CUSTOM_EVENT_TYPE
+    override fun key() = key
 
-    override fun params() = Bundle().apply {//todo соотнести с EventData
+    override fun params() = Bundle().apply {
         putString("value_key_1", value1)
         putString("value_key_2", value2.toString())
         putString("value_key_3", value3.toString())
