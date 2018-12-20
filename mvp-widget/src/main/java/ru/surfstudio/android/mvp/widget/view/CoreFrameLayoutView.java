@@ -33,8 +33,6 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * !!!ВАЖНО!!!
  * Пока нельзя использовать в ресайклере
  */
-
-
 public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWidgetViewInterface {
 
     private WidgetViewDelegate widgetViewDelegate;
@@ -97,6 +95,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
+    @Deprecated
     public void init() {}
 
     @Override
@@ -123,7 +122,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     /**
-     * В ручную вызывает onCompletelyDestroy у виджета
+     * Вручную вызывает onCompletelyDestroy у виджета
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
