@@ -31,7 +31,7 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
                 .apply {
                     //пример управления видимостью View в зависимости от стейта
                     setViewVisibleFor(
-                            ErrorLoadState::class.java,
+                            ErrorLoadState::class,
                             retry_btn)
                 }
     }

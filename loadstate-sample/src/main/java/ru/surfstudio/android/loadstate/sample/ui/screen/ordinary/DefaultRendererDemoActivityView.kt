@@ -37,7 +37,7 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
                 .apply {
                     //пример добавления представления кастомного стейта
                     putPresentation(
-                            CustomLoadState::class.java,
+                            CustomLoadState::class,
                             CustomLoadStatePresentation(placeholder))
 
                     // установка листнеров на кнопки, при необходимости смена ресурсов
@@ -45,7 +45,7 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
                     configErrorState(onBtnClickedListener = { toast(R.string.error_state_toast_msg) })
 
                     //пример задания дополнительных действий при смене лоадстейта
-                    forState(ErrorLoadState::class.java,
+                    forState(ErrorLoadState::class,
                             run = { colorToolbar(R.color.colorAccent) },
                             elseRun = { colorToolbar(R.color.colorPrimary) })
                 }
