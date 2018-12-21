@@ -1,20 +1,17 @@
 package ru.surfstudio.android.loadstate.sample.ui.screen.stubs
 
 import android.content.Intent
-
 import dagger.Component
 import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.loadstate.sample.ui.screen.main.MainActivityRoute
-import ru.surfstudio.android.loadstate.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
- * Конфигуратор экрана todo
+ * Конфигуратор экрана для демонстрации работы DefaultLoadStateRenderer с использованием заглушек (шиммеров)
  */
 class RendererWithStubsDemoScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
     @PerScreen
@@ -27,6 +24,7 @@ class RendererWithStubsDemoScreenConfigurator(intent: Intent) : DefaultActivityS
     internal class RendererWithStubsDemoScreenModule(route: RendererWithStubsDemoActivityRoute)
         : DefaultCustomScreenModule<RendererWithStubsDemoActivityRoute>(route)
 
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {

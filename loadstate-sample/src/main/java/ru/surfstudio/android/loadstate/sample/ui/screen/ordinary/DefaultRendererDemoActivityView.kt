@@ -22,7 +22,7 @@ import ru.surfstudio.android.loadstate.sample.ui.screen.ordinary.controllers.Exa
 import javax.inject.Inject
 
 /**
- * Вью экрана для демострации работы DefaultLoadStateRenderer
+ * Вью экрана для демонстрации работы DefaultLoadStateRenderer
  */
 class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoScreenModel>() {
     @Inject

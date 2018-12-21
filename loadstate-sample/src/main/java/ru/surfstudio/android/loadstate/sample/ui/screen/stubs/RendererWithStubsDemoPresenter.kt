@@ -11,10 +11,11 @@ import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.NoneLoadS
 import javax.inject.Inject
 
 /**
- * Презентер экрана todo
+ * Презентер экрана для демонстрации работы DefaultLoadStateRenderer с использованием заглушек (шиммеров)
  */
 @PerScreen
-class RendererWithStubsDemoPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
+class RendererWithStubsDemoPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<RendererWithStubsDemoActivityView>(basePresenterDependency) {
 
     private val screenModel = RendererWithStubsDemoScreenModel()
