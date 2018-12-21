@@ -70,7 +70,6 @@ class DefaultRendererDemoActivityView : BaseLdsActivityView<DefaultRendererDemoS
     }
 
     override fun renderInternal(screenModel: DefaultRendererDemoScreenModel) {
-
         adapter.setItems(ItemList.create()
                 .addAll(screenModel.itemList, exampleDataItemController))
     }
