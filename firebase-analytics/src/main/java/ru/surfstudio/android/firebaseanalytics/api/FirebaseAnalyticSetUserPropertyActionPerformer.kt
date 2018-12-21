@@ -13,6 +13,6 @@ class FirebaseAnalyticSetUserPropertyActionPerformer(private val firebaseAnalyti
     override fun canHandle(action: AnalyticAction) = action is FirebaseAnalyticSetUserPropertyAction
 
     override fun perform(action: FirebaseAnalyticSetUserPropertyAction) {
-        firebaseAnalytics.setUserProperty(action.key.cut(24), action.value.cut(36))
+        firebaseAnalytics.setUserProperty(action.key.take(MAX_SET_USER_PROPERTY_KEY_LENGTH), action.value.take(MAX_SET_USER_PROPERTY_VALUE_LENGTH))
     }
 }

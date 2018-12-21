@@ -7,7 +7,7 @@ import ru.surfstudio.android.analyticsv2.core.AnalyticAction
 /**
  * Событие Firebase аналитики
  * @param name ключ события (имя)
- * @param params параметры события (може не быть)
+ * @param params параметры события (может не быть)
  */
 interface FirebaseAnalyticEvent : AnalyticAction, ActionKey {
     /**

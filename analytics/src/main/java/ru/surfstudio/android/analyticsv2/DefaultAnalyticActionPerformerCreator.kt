@@ -16,10 +16,8 @@ class DefaultAnalyticActionPerformerCreator : AnalyticActionPerformerCreator<Ana
 
     override fun getPerformersByAction(event: AnalyticAction): List<AnalyticActionPerformer<AnalyticAction>> {
         val performers = performers.filter { it.canHandle(event) }
-        if (performers.isEmpty()) {
-            if (BuildConfig.DEBUG) {
-                throw Error("No action performer for action: ${event::class.java.canonicalName} in performers ${this.performers}")
-            }
+        if (performers.isEmpty() && BuildConfig.DEBUG) {
+            throw Error("No action performer for action: ${event::class.java.canonicalName} in performers ${this.performers}")
         }
         return performers
     }

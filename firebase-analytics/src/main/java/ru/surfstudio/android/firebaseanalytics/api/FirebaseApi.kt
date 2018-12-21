@@ -28,16 +28,16 @@ open class FirebaseApi(private val firebaseAnalytics: FirebaseAnalytics) : Analy
 
 
     override fun sendEvent(event: String) {
-        firebaseAnalytics.logEvent(event, null)
+        firebaseAnalytics.logEvent(event.take(MAX_EVENT_KEY_LENGTH), null)
     }
 
     override fun sendEvent(event: String, params: Map<String, String>) {
         val bundle = Bundle()
-        params.forEach { value -> bundle.putString(value.key.cut(40), value.value.cut(100)) }
+        params.forEach { value -> bundle.putString(value.key.take(MAX_EVENT_KEY_LENGTH), value.value.take(MAX_EVENT_VALUE_LENGTH)) }
         firebaseAnalytics.logEvent(event, bundle)
     }
 
     override fun setUserProperty(key: String, value: String) {
-        firebaseAnalytics.setUserProperty(key.cut(24), value.cut(36))
+        firebaseAnalytics.setUserProperty(key.take(MAX_SET_USER_PROPERTY_KEY_LENGTH), value.take(MAX_SET_USER_PROPERTY_VALUE_LENGTH))
     }
 }

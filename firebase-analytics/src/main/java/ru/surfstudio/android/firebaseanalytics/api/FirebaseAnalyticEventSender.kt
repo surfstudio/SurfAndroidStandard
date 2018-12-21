@@ -14,7 +14,7 @@ class FirebaseAnalyticEventSender(private val firebaseAnalytics: FirebaseAnalyti
 
     override fun perform(action: FirebaseAnalyticEvent) {
         val finalParams = cutParamsLength(action.params())
-        firebaseAnalytics.logEvent(action.key().cut(40), finalParams)
+        firebaseAnalytics.logEvent(action.key().take(MAX_EVENT_KEY_LENGTH), finalParams)
     }
 
     /**
@@ -30,7 +30,7 @@ class FirebaseAnalyticEventSender(private val firebaseAnalytics: FirebaseAnalyti
                 key?.let {
                     val value = bundle.get(it)
                     if (value is String) {
-                        resultBundle.putString(it.cut(40), bundle.getString(it)?.cut(100))
+                        resultBundle.putString(it.take(MAX_EVENT_KEY_LENGTH), bundle.getString(it)?.take(MAX_EVENT_VALUE_LENGTH))
                     } else {
                         throw Error("Non string value in bundle: $params. FireBase does not support that")
                     }
