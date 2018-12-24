@@ -7,6 +7,7 @@ import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
+import ru.surfstudio.android.core.ui.FragmentContainer
 import ru.surfstudio.android.mvpwidget.sample.R
 import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint.ConstraintWidgetView
 import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.frame.FrameWidgetView
@@ -18,7 +19,7 @@ import javax.inject.Inject
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
+class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), FragmentContainer {
 
     @Inject
     internal lateinit var presenter: MainPresenter
@@ -30,6 +31,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun getScreenName(): String = "main"
 
+    override fun getContentContainerViewId(): Int = R.id.content
+
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
@@ -39,28 +42,29 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
-        val constraintWidgetView = ConstraintWidgetView(this)
-        val frame = FrameWidgetView(this)
-                .apply {
-                    setBackgroundColor(Color.MAGENTA)
-                }
-        val linear = LinearWidgetView(this)
-                .apply {
-                    setBackgroundColor(Color.YELLOW)
-                }
-        val relative = RelativeWidgetView(this)
-                .apply {
-                    setBackgroundColor(Color.GREEN)
-                }
-
-        constraintWidgetView.render("First place")
-        constraintWidgetView.setBackgroundColor(Color.CYAN)
-        content.addView(constraintWidgetView)
-
-        content.addView(frame)
-        content.addView(linear)
-        content.addView(relative)
-
-        btn.setOnClickListener { presenter.openListScreen() }
+//        val constraintWidgetView = ConstraintWidgetView(this)
+//        val frame = FrameWidgetView(this)
+//                .apply {
+//                    setBackgroundColor(Color.MAGENTA)
+//                }
+//        val linear = LinearWidgetView(this)
+//                .apply {
+//                    setBackgroundColor(Color.YELLOW)
+//                }
+//        val relative = RelativeWidgetView(this)
+//                .apply {
+//                    setBackgroundColor(Color.GREEN)
+//                }
+//
+//        constraintWidgetView.render("First place")
+//        constraintWidgetView.setBackgroundColor(Color.CYAN)
+//        content.addView(constraintWidgetView)
+//
+//        content.addView(frame)
+//        content.addView(linear)
+//        content.addView(relative)
+//
+        list_btn.setOnClickListener { presenter.openListScreen() }
+        fragment_btn.setOnClickListener { presenter.openWidgetFragment() }
     }
 }

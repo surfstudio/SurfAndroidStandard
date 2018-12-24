@@ -1,10 +1,12 @@
 package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import ru.surfstudio.android.mvp.widget.view.CoreConstraintLayoutView
+import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
 import ru.surfstudio.android.mvpwidget.sample.R
 import javax.inject.Inject
 
@@ -23,10 +25,17 @@ class ConstraintWidgetView @JvmOverloads constructor(
     init {
         View.inflate(context, R.layout.widget_view, this)
         setOnClickListener { presenter.changeTextOnWidget() }
+        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello $name ${hashCode()} "
+        setBackgroundColor(Color.MAGENTA)
     }
 
     fun render(s: String) {
-        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello ${hashCode()} on pos $s"
+        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello Constraint widget view its render from $s"
+    }
+
+    override fun getWidgetId(): Int {
+        val id = super.getWidgetId()
+        return if (id == CoreFrameLayoutView.NO_ID) name.hashCode() else id
     }
 
     override fun getName() = "ConstraintWidget"

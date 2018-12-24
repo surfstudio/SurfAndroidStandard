@@ -42,9 +42,7 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
         super(context, null);
 
         this.isManualInitEnabled = isManualInitEnabled;
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
+        initWidgetViewDelegate();
     }
 
     public CoreRelativeLayoutView(Context context, AttributeSet attrs) {
@@ -55,9 +53,7 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
         super(context, attrs, defStyleAttr);
 
         obtainAttrs(attrs);
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
+        initWidgetViewDelegate();
     }
 
     @TargetApi(21)
@@ -65,9 +61,7 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
         super(context, attrs, defStyleAttr, defStyleRes);
 
         obtainAttrs(attrs);
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
+        initWidgetViewDelegate();
     }
 
     private void obtainAttrs(AttributeSet attrs) {
@@ -103,6 +97,11 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     public void init() {}
 
     @Override
+    public int getWidgetId() {
+        return getId();
+    }
+
+    @Override
     public void init(String scopeId) {
         widgetViewDelegate = createWidgetViewDelegate();
         widgetViewDelegate.setScopeId(scopeId);
@@ -130,5 +129,14 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
+    }
+
+    private void initWidgetViewDelegate() {
+        if (!isManualInitEnabled) {
+            if (getWidgetId() == NO_ID) {
+                throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file.");
+            }
+            widgetViewDelegate = createWidgetViewDelegate();
+        }
     }
 }

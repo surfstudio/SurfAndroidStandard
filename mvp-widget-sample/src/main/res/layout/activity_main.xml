@@ -9,9 +9,15 @@
     tools:context=".ui.screen.main.MainActivityView">
 
     <Button
-        android:id="@+id/btn"
+        android:id="@+id/list_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="GO TO LIST"/>
+
+    <Button
+        android:id="@+id/fragment_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GO TO FRAGMENT"/>
 
 </LinearLayout>

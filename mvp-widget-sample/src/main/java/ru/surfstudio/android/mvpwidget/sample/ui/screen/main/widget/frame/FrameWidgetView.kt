@@ -2,6 +2,7 @@ package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.frame
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
@@ -25,6 +26,12 @@ class FrameWidgetView @JvmOverloads constructor(
         View.inflate(context, R.layout.widget_view, this)
         @SuppressLint("SetTextI18n")
         this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello $name"
+        setBackgroundColor(Color.CYAN)
+    }
+
+    override fun getWidgetId(): Int {
+        val id = super.getWidgetId()
+        return if (id == NO_ID) name.hashCode() else id
     }
 
     override fun getName() = "Frame widget view"

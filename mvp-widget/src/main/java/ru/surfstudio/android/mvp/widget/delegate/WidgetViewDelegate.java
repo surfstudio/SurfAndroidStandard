@@ -75,7 +75,9 @@ public class WidgetViewDelegate {
 
     public void onCreate() {
         if (currentScopeId == null) {
-            currentScopeId = UUID.randomUUID().toString();
+            String widgetId = Integer.toString(coreWidgetView.getWidgetId());
+            String parentScopeId = parentPersistentScopeFinder.find().getScopeId();
+            currentScopeId = widgetId + parentScopeId;
         }
 
         initPersistentScope();
