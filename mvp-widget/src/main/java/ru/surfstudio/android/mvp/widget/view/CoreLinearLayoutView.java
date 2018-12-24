@@ -28,7 +28,7 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
- * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
+ * базовый класс для кастомной вьюшки с презентером, основанном на [LinearLayout]
  * <p>
  * !!!ВАЖНО!!!
  * Пока нельзя использовать в ресайклере

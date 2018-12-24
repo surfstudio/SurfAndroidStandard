@@ -28,7 +28,7 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
- * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
+ * базовый класс для кастомной вьюшки с презентером, основанном на [FrameLayout]
  * <p>
  * !!!ВАЖНО!!!
  * Пока нельзя использовать в ресайклере
@@ -52,7 +52,12 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, -1);
+        super(context, attrs, defStyleAttr);
+        obtainAttrs(attrs);
+
+        if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
+        }
     }
 
     @TargetApi(21)
@@ -64,7 +69,6 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
             widgetViewDelegate = createWidgetViewDelegate();
         }
     }
-
 
     private void obtainAttrs(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreConstraintLayoutView, -1, -1);
