@@ -145,7 +145,7 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(script,
                     "connectedAndroidTest",
                     "**/outputs/androidTest-results/connected/*.xml",
