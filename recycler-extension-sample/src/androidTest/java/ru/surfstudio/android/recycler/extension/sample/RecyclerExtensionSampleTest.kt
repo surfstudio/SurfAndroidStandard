@@ -8,7 +8,7 @@ import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkText
 class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
     @Test
-    fun testPictureProviderSample() {
+    fun testRecyclerExtensionSample() {
         checkText(STICKY_HEADER_TITLE, STICKY_FOOTER_TITLE)
         RecyclerViewUtils.scrollTo(R.id.activity_main_recycler, LAST_ITEM_TITLE)
         checkText(LAST_ITEM_TITLE)
