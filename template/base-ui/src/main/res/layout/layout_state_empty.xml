@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textAppearance="@style/Text.Regular.14.TertiaryColor"
-        tools:text="@string/load_state_empty" />
+        tools:text="@string/state_empty_text" />
 
 </FrameLayout>

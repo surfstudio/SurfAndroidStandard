@@ -75,7 +75,10 @@ class PlaceHolderViewContainer(
     class StatePresentation(val stateView: View)
 }
 
-fun PlaceHolderViewContainer.clickAndFocus(value: Boolean) {
+/**
+ * Метод используется в тех случаях, когда PlaceHolderViewContainer должен перехватывать клики
+ */
+fun PlaceHolderViewContainer.setClickableAndFocusable(value: Boolean) {
     isClickable = value
     isFocusable = value
     isFocusableInTouchMode = value

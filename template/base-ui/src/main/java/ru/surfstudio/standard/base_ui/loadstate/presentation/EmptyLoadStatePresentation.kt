@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
-import kotlinx.android.synthetic.main.state_empty.view.*
+import kotlinx.android.synthetic.main.layout_state_empty.view.*
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.EmptyLoadState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.clickAndFocus
+import ru.surfstudio.standard.base_ui.loadstate.setClickableAndFocusable
 
 /**
  * Представление состояния EmptyLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
@@ -19,13 +19,13 @@ class EmptyLoadStatePresentation(
 ) : SimpleLoadStatePresentation<EmptyLoadState>() {
 
     @StringRes
-    var messageTextRes: Int = R.string.load_state_empty
+    var messageTextRes: Int = R.string.state_empty_text
 
     private lateinit var messageView: TextView
 
     private val view: View by lazy {
         LayoutInflater.from(placeHolder.context)
-                .inflate(R.layout.state_empty, placeHolder, false)
+                .inflate(R.layout.layout_state_empty, placeHolder, false)
                 .apply { messageView = empty_load_state_tv }
     }
 
@@ -34,7 +34,7 @@ class EmptyLoadStatePresentation(
 
         with(placeHolder) {
             changeViewTo(view)
-            clickAndFocus(true)
+            setClickableAndFocusable(true)
             show()
         }
     }

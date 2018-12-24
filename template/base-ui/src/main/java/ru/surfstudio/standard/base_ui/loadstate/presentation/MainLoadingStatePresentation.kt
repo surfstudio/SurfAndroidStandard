@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.standard.base_ui.loadstate.state.MainLoadingState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.clickAndFocus
+import ru.surfstudio.standard.base_ui.loadstate.setClickableAndFocusable
 
 /**
  * Представление состояния MainLoading в виде ProgressBar
@@ -16,13 +16,13 @@ class MainLoadingStatePresentation(
 ) : SimpleLoadStatePresentation<MainLoadingState>() {
 
     private val view: View by lazy {
-        LayoutInflater.from(placeHolder.context).inflate(R.layout.load_state_main, placeHolder, false)
+        LayoutInflater.from(placeHolder.context).inflate(R.layout.layout_load_state, placeHolder, false)
     }
 
     override fun showState(state: MainLoadingState) {
         with(placeHolder) {
             changeViewTo(view)
-            clickAndFocus(true)
+            setClickableAndFocusable(true)
             show()
         }
     }

@@ -5,12 +5,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.StringRes
-import kotlinx.android.synthetic.main.state_error.view.*
+import kotlinx.android.synthetic.main.layout_state_error.view.*
 import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.ErrorLoadState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.clickAndFocus
+import ru.surfstudio.standard.base_ui.loadstate.setClickableAndFocusable
 
 /**
  * Представление состояния ErrorLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
@@ -20,14 +20,14 @@ class ErrorLoadStatePresentation(
 ) : SimpleLoadStatePresentation<ErrorLoadState>() {
 
     @StringRes
-    var messageTextRes: Int = R.string.load_state_error
+    var messageTextRes: Int = R.string.state_error_message
 
     private lateinit var messageView: TextView
     private lateinit var reloadButton: Button
 
     private val view: View by lazy {
         LayoutInflater.from(placeHolder.context)
-                .inflate(R.layout.state_error, placeHolder, false)
+                .inflate(R.layout.layout_state_error, placeHolder, false)
                 .apply {
                     messageView = error_load_state_tv
                     reloadButton = error_load_state_b
@@ -40,7 +40,7 @@ class ErrorLoadStatePresentation(
         with(placeHolder) {
             changeViewTo(view)
             reloadButton.setOnClickListener { state.action() }
-            clickAndFocus(true)
+            setClickableAndFocusable(true)
             show()
         }
     }

@@ -8,7 +8,7 @@ import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.TransparentLoadingState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.clickAndFocus
+import ru.surfstudio.standard.base_ui.loadstate.setClickableAndFocusable
 
 /**
  * Представление состояния TransparentLoading в виде ProgressBar поверх затемненного фона
@@ -22,7 +22,7 @@ class TransparentLoadingStatePresentation(
 
     val view: View by lazy {
         LayoutInflater.from(placeHolder.context).inflate(
-                R.layout.load_state_main,
+                R.layout.layout_load_state,
                 placeHolder,
                 false)
     }
@@ -31,7 +31,7 @@ class TransparentLoadingStatePresentation(
         with(placeHolder) {
             setBackgroundColor(transparentBackgroundColor)
             changeViewTo(view)
-            clickAndFocus(true)
+            setClickableAndFocusable(true)
             show()
         }
     }
