@@ -27,4 +27,5 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidXEspressoCoreVersion"
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidXEspressoContribVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$androidXEspressoIntentsVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
 }

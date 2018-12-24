@@ -20,8 +20,8 @@ android {
         qa {
             signingConfig signingConfigs.test
             multiDexEnabled true
-            debuggable = true
             minifyEnabled true
+            debuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']

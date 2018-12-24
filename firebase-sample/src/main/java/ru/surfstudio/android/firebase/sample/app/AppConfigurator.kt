@@ -11,7 +11,7 @@ object AppConfigurator {
 
     fun initInjector(app: CoreApp) {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(app))
+                .defaultAppModule(DefaultAppModule(app, app.activeActivityHolder))
                 .build()
     }
 }

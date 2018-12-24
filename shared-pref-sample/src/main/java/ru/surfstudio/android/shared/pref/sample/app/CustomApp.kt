@@ -19,7 +19,7 @@ class CustomApp : CoreApp() {
 
     private fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this))
+                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
                 .build()
     }
 }
