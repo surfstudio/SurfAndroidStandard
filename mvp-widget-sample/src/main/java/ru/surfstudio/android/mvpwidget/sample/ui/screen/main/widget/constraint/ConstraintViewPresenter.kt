@@ -1,14 +1,11 @@
 package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint
 
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.disposables.Disposables
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.list.ListActivityRoute
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

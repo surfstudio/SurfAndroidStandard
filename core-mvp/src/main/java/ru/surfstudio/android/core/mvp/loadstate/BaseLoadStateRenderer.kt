@@ -1,3 +1,18 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.mvp.loadstate
 
 import android.view.View
@@ -207,20 +222,20 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     fun setViewVisibleFor(
             loadStates: List<Class<out LoadStateInterface>>,
-            views: View,
+            view: View,
             visibilityWhenHidden: Int = View.INVISIBLE) =
             setViewsVisibleFor(
                     loadStates,
-                    listOf(views),
+                    listOf(view),
                     visibilityWhenHidden)
 
     fun setViewVisibleFor(
             loadState: Class<out LoadStateInterface>,
-            views: View,
+            view: View,
             visibilityWhenHidden: Int = View.INVISIBLE) =
             setViewsVisibleFor(
                     listOf(loadState),
-                    listOf(views),
+                    listOf(view),
                     visibilityWhenHidden)
     //endregion
 
@@ -277,17 +292,17 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     fun setViewInvisibleFor(
             loadStates: List<Class<out LoadStateInterface>>,
-            views: View) =
+            view: View) =
             setViewsInvisibleFor(
                     loadStates,
-                    listOf(views))
+                    listOf(view))
 
-    fun setViewsInvisibleFor(
+    fun setViewInvisibleFor(
             loadState: Class<out LoadStateInterface>,
-            views: View) =
+            view: View) =
             setViewsInvisibleFor(
                     listOf(loadState),
-                    listOf(views))
+                    listOf(view))
     //endregion
 
     //region setViewsGoneFor
@@ -343,17 +358,17 @@ abstract class BaseLoadStateRenderer : LoadStateRendererInterface {
 
     fun setViewGoneFor(
             loadStates: List<Class<out LoadStateInterface>>,
-            views: View) =
+            view: View) =
             setViewsGoneFor(
                     loadStates,
-                    listOf(views))
+                    listOf(view))
 
-    fun setViewsGoneFor(
+    fun setViewGoneFor(
             loadState: Class<out LoadStateInterface>,
-            views: View) =
+            view: View) =
             setViewsGoneFor(
                     listOf(loadState),
-                    listOf(views))
+                    listOf(view))
     //endregion
 
     private fun setViewsVisibilityFor(

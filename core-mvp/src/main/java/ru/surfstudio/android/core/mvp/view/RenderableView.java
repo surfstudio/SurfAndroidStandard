@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.mvp.view;
 
-
 import ru.surfstudio.android.core.mvp.model.ScreenModel;
 
 /**

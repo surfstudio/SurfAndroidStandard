@@ -28,7 +28,7 @@ class StandardDialogRoute(var title: String = "",
                           var message: String = "",
                           var positiveBtnText: String = "",
                           var negativeBtnText: String = "",
-                          @StringRes var titleRes: Int = R.string.title,
+                          @StringRes var titleRes: Int = -1,
                           @StringRes var messageRes: Int = R.string.message,
                           @StringRes var positiveBtnTextRes: Int = R.string.possitive_btn,
                           @StringRes var negativeBtnTextRes: Int = R.string.negative_btn,
@@ -66,7 +66,7 @@ class StandardDialogRoute(var title: String = "",
     }
 
     fun getTitle(context: Context): String {
-        return if (title.isEmpty()) {
+        return if (title.isEmpty() && titleRes != -1) {
             context.resources.getString(titleRes)
         } else {
             title
