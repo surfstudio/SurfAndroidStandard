@@ -36,7 +36,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
 }
 
-task getTestInstrumentationRunnerName {
+task printTestInstrumentationRunnerName {
     doLast {
         println "$android.defaultConfig.testInstrumentationRunner"
     }
