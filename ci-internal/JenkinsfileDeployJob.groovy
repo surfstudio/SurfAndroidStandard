@@ -8,6 +8,8 @@ import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
+import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
+import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
@@ -20,6 +22,14 @@ def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY = 'Deploy'
+
+def getTestInstrumentationRunnerName = { script, prefix ->
+    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
+    return script.sh(
+            returnStdout: true,
+            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
+    )
+}
 
 //init
 def script = this
@@ -86,10 +96,17 @@ pipeline.stages = [
                             "app/build/reports/tests/testReleaseUnitTest/")
         },
         pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(script,
-                    "connectedAndroidTest",
-                    "**/outputs/androidTest-results/connected/*.xml",
-                    "app/build/reports/androidTests/connected/")
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                    script,
+                    new AvdConfig(),
+                    "qa",
+                    getTestInstrumentationRunnerName,
+                    new AndroidTestConfig(
+                            "assembleAndroidTest",
+                            "build/outputs/androidTest-results/instrumental",
+                            "build/reports/androidTests/instrumental"
+                    )
+            )
         },
         pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
