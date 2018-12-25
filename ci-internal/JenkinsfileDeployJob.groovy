@@ -6,9 +6,11 @@ import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.NodeProvider
-import ru.surfstudio.ci.AndroidUtil
+import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
+import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
+import ru.surfstudio.ci.utils.android.config.AvdConfig
 import java.util.regex.Pattern
 import java.util.regex.Matcher
 
@@ -35,6 +37,14 @@ def androidStandardVersionVarName = "moduleVersionName"
 def branchName = ""
 def actualAndroidStandardVersion = "<unknown>"
 //def removeSkippedBuilds = true - not work properly
+
+def getTestInstrumentationRunnerName = { script, prefix ->
+    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
+    return script.sh(
+            returnStdout: true,
+            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
+    )
+}
 
 //init
 def script = this
@@ -146,10 +156,17 @@ pipeline.stages = [
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
         pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(script,
-                    "connectedAndroidTest",
-                    "**/outputs/androidTest-results/connected/*.xml",
-                    "app/build/reports/androidTests/connected/")
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                    script,
+                    new AvdConfig(),
+                    "debug",
+                    getTestInstrumentationRunnerName,
+                    new AndroidTestConfig(
+                            "assembleAndroidTest",
+                            "build/outputs/androidTest-results/instrumental",
+                            "build/reports/androidTests/instrumental"
+                    )
+            )
         },
         pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
