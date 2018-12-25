@@ -6,15 +6,15 @@
     </declare-styleable>
 
     <declare-styleable name="CoreFrameLayoutView">
-        <attr name="enableManualInit"/>
+        <attr name="enableManualInit" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="CoreLinearLayoutView">
-        <attr name="enableManualInit"/>
+        <attr name="enableManualInit" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="CoreRelativeLayoutView">
-        <attr name="enableManualInit"/>
+        <attr name="enableManualInit" format="boolean" />
     </declare-styleable>
 
 </resources>

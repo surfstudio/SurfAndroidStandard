@@ -75,6 +75,9 @@ public class WidgetViewDelegate {
 
     public void onCreate() {
         if (currentScopeId == null) {
+            if (coreWidgetView.getWidgetId()== View.NO_ID) {
+                throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file.");
+            }
             String widgetId = Integer.toString(coreWidgetView.getWidgetId());
             String parentScopeId = parentPersistentScopeFinder.find().getScopeId();
             currentScopeId = widgetId + parentScopeId;

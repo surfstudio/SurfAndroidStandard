@@ -63,7 +63,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
 //        content.addView(frame)
 //        content.addView(linear)
 //        content.addView(relative)
-//
+
         list_btn.setOnClickListener { presenter.openListScreen() }
         fragment_btn.setOnClickListener { presenter.openWidgetFragment() }
     }

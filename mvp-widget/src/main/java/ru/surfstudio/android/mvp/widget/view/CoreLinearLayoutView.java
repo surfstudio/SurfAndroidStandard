@@ -37,11 +37,17 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
 
     private WidgetViewDelegate widgetViewDelegate;
     private boolean isManualInitEnabled;
+    private int widgetId = NO_ID;
 
     public CoreLinearLayoutView(Context context, boolean isManualInitEnabled) {
+        this(context, isManualInitEnabled, NO_ID);
+    }
+
+    public CoreLinearLayoutView(Context context, boolean isManualInitEnabled, int widgetId) {
         super(context, null);
 
         this.isManualInitEnabled = isManualInitEnabled;
+        this.widgetId = widgetId;
         initWidgetViewDelegate();
     }
 
@@ -65,8 +71,8 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     }
 
     private void obtainAttrs(AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreConstraintLayoutView, -1, -1);
-        isManualInitEnabled = ta.getBoolean(R.styleable.CoreConstraintLayoutView_enableManualInit, false);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreLinearLayoutView, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreLinearLayoutView_enableManualInit, false);
         ta.recycle();
     }
 
@@ -98,7 +104,7 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
 
     @Override
     public int getWidgetId() {
-        return getId();
+        return widgetId != NO_ID ? widgetId : getId();
     }
 
     @Override
@@ -133,9 +139,6 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
 
     private void initWidgetViewDelegate() {
         if (!isManualInitEnabled) {
-            if (getWidgetId() == NO_ID) {
-                throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file.");
-            }
             widgetViewDelegate = createWidgetViewDelegate();
         }
     }

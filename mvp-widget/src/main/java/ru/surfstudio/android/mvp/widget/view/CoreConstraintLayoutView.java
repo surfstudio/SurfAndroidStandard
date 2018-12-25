@@ -36,12 +36,20 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
 
     private WidgetViewDelegate widgetViewDelegate;
     private boolean isManualInitEnabled;
+    private int widgetId = NO_ID;
 
     public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled) {
+        this(context, isManualInitEnabled, NO_ID);
+    }
+
+    public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled, int widgetId) {
         super(context, null);
+
         this.isManualInitEnabled = isManualInitEnabled;
+        this.widgetId = widgetId;
         initWidgetViewDelegate();
     }
+
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
         this(context, attrs, -1);
@@ -88,7 +96,7 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
 
     @Override
     public int getWidgetId() {
-        return getId();
+        return widgetId != NO_ID ? widgetId : getId();
     }
 
     @Override
@@ -123,9 +131,6 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
 
     private void initWidgetViewDelegate() {
         if (!isManualInitEnabled) {
-            if (getWidgetId() == NO_ID) {
-                throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file.");
-            }
             widgetViewDelegate = createWidgetViewDelegate();
         }
     }
