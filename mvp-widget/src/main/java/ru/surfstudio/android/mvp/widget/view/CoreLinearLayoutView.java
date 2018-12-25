@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -70,9 +71,10 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
         initWidgetViewDelegate();
     }
 
+    @SuppressLint("CustomViewStyleable")
     private void obtainAttrs(AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreLinearLayoutView, -1, -1);
-        isManualInitEnabled = ta.getBoolean(R.styleable.CoreLinearLayoutView_enableManualInit, false);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreWidgetViewInterface, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreWidgetViewInterface_enableManualInit, false);
         ta.recycle();
     }
 

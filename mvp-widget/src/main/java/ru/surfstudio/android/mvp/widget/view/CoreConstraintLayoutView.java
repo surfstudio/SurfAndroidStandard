@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
@@ -61,10 +62,10 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         obtainAttrs(attrs);
         initWidgetViewDelegate();
     }
-
+    @SuppressLint("CustomViewStyleable")
     private void obtainAttrs(AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreConstraintLayoutView, -1, -1);
-        isManualInitEnabled = ta.getBoolean(R.styleable.CoreConstraintLayoutView_enableManualInit, false);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreWidgetViewInterface, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreWidgetViewInterface_enableManualInit, false);
         ta.recycle();
     }
 

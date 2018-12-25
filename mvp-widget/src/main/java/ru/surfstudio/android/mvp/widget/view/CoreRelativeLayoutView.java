@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -70,9 +71,10 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
         initWidgetViewDelegate();
     }
 
+    @SuppressLint("CustomViewStyleable")
     private void obtainAttrs(AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreRelativeLayoutView, -1, -1);
-        isManualInitEnabled = ta.getBoolean(R.styleable.CoreRelativeLayoutView_enableManualInit, false);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreWidgetViewInterface, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreWidgetViewInterface_enableManualInit, false);
         ta.recycle();
     }
 
