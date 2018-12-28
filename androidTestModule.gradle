@@ -1,6 +1,6 @@
 android {
     defaultConfig {
-        testBuildType 'release'
+        testBuildType "release"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }

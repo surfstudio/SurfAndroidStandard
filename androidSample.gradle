@@ -27,6 +27,24 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../template/keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+    }
+
+    buildTypes {
+        debug {
+
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 dependencies {
