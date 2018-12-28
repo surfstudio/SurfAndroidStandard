@@ -1,4 +1,4 @@
-@Library('surf-lib@android-instrumental-tests') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@instrumentation-stage-error-on-fail') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.pr.PrPipelineAndroid
 import ru.surfstudio.ci.stage.StageStrategy
 
