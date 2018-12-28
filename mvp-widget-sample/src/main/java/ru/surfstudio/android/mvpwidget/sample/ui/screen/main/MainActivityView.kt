@@ -41,29 +41,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
-
-//        val constraintWidgetView = ConstraintWidgetView(this)
-//        val frame = FrameWidgetView(this)
-//                .apply {
-//                    setBackgroundColor(Color.MAGENTA)
-//                }
-//        val linear = LinearWidgetView(this)
-//                .apply {
-//                    setBackgroundColor(Color.YELLOW)
-//                }
-//        val relative = RelativeWidgetView(this)
-//                .apply {
-//                    setBackgroundColor(Color.GREEN)
-//                }
-//
-//        constraintWidgetView.render("First place")
-//        constraintWidgetView.setBackgroundColor(Color.CYAN)
-//        content.addView(constraintWidgetView)
-//
-//        content.addView(frame)
-//        content.addView(linear)
-//        content.addView(relative)
-
         list_btn.setOnClickListener { presenter.openListScreen() }
         fragment_btn.setOnClickListener { presenter.openWidgetFragment() }
     }

@@ -19,6 +19,8 @@ class ConstraintWidgetView @JvmOverloads constructor(
         defStyleAttr: Int = 0
 ) : CoreConstraintLayoutView(context, attrs, defStyleAttr) {
 
+    var widgetDataId: String = name.hashCode().toString()
+
     @Inject
     lateinit var presenter: ConstraintViewPresenter
 
@@ -33,10 +35,7 @@ class ConstraintWidgetView @JvmOverloads constructor(
         this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello Constraint widget view its render from $s"
     }
 
-    override fun getWidgetId(): Int {
-        val id = super.getWidgetId()
-        return if (id == CoreFrameLayoutView.NO_ID) name.hashCode() else id
-    }
+    override fun getWidgetId(): String = widgetDataId
 
     override fun getName() = "ConstraintWidget"
 

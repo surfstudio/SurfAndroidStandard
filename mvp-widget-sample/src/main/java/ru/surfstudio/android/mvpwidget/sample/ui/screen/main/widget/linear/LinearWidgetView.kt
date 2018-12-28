@@ -31,9 +31,10 @@ class LinearWidgetView @JvmOverloads constructor(
 
     }
 
-    override fun getWidgetId(): Int {
+    override fun getWidgetId(): String {
         val id = super.getWidgetId()
-        return if (id == CoreFrameLayoutView.NO_ID) name.hashCode() else id
+        val invalidId = CoreFrameLayoutView.NO_ID.toString()
+        return if (id == invalidId) name.hashCode().toString() else id
     }
 
     override fun getName() = "Linear widget view"

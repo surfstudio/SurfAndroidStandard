@@ -74,14 +74,6 @@ public class WidgetViewDelegate {
     }
 
     public void onCreate() {
-        if (currentScopeId == null) {
-            if (coreWidgetView.getWidgetId()== View.NO_ID) {
-                throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file.");
-            }
-            String widgetId = Integer.toString(coreWidgetView.getWidgetId());
-            String parentScopeId = parentPersistentScopeFinder.find().getScopeId();
-            currentScopeId = widgetId + parentScopeId;
-        }
 
         initPersistentScope();
         getLifecycleManager().onCreate(widget, coreWidgetView, this);
@@ -116,8 +108,21 @@ public class WidgetViewDelegate {
 
     private void initPersistentScope() {
         ScreenPersistentScope parentScope = parentPersistentScopeFinder.find();
+
         if (parentScope == null) {
             throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
+        }
+
+        if (getCurrentScopeId() == null) {
+            String widgetId = coreWidgetView.getWidgetId();
+            String invalidId = Integer.toString(View.NO_ID);
+
+            if (widgetId.equals(invalidId)) {
+                throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file or override getWidgetId method.");
+            }
+
+            String parentScopeId = parentScope.getScopeId();
+            setScopeId(widgetId + parentScopeId);
         }
 
         if (!scopeStorage.isExist(getCurrentScopeId())) {

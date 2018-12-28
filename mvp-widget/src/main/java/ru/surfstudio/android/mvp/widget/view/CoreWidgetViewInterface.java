@@ -47,12 +47,6 @@ public interface CoreWidgetViewInterface extends
     WidgetViewDelegate createWidgetViewDelegate();
 
     /**
-     * Устрарел, для отложенной инициализации используется init(scopeId)
-     */
-    @Deprecated
-    void init();
-
-    /**
      * Метод, используемый для получения уникального идентификатора виджета на экране.
      * Стандартная реализация извлекает id из layout, если он был там задан.
      * Следует переопределять, если задание id из layout невозможно.
@@ -60,15 +54,29 @@ public interface CoreWidgetViewInterface extends
      *
      * @return уникальный идентификатор виджета на экране
      */
-    int getWidgetId();
+    String getWidgetId();
 
     /**
-     * Для отложенной инициализации виджета с установкой скоуп id на основе данных
+     * Для отложенной инициализации виджета с установкой идентификатора scope на основе данных
      * Используется, если у виджета проставлен атрибут - enableManualInit == true
      *
-     * @param scopeId
+     * Для динамически создаваемых виджетов, необходимо переопределить метод getWidgetId,
+     * чтобы виджет получал уникальные данные (например, data из viewHolder в RecyclerView),
+     * и возвращал идентификатор на основе этих данных в getWidgetId.
      */
-    void init(String scopeId);
+    void lazyInit();
 
     void onCreate();
+
+    /**
+     * Устрарел, для отложенной инициализации используется init(scopeId)
+     */
+    @Deprecated
+    void init();
+
+    /**
+     * Устрарел, для отложенной инициализации используется lazyInit
+     */
+    @Deprecated
+    void init(String scopeId);
 }

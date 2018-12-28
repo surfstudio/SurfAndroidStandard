@@ -38,17 +38,10 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
 
     private WidgetViewDelegate widgetViewDelegate;
     private boolean isManualInitEnabled;
-    private int widgetId = NO_ID;
 
     public CoreLinearLayoutView(Context context, boolean isManualInitEnabled) {
-        this(context, isManualInitEnabled, NO_ID);
-    }
-
-    public CoreLinearLayoutView(Context context, boolean isManualInitEnabled, int widgetId) {
         super(context, null);
-
         this.isManualInitEnabled = isManualInitEnabled;
-        this.widgetId = widgetId;
         initWidgetViewDelegate();
     }
 
@@ -105,14 +98,16 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     public void init() {}
 
     @Override
-    public int getWidgetId() {
-        return widgetId != NO_ID ? widgetId : getId();
+    public void init(String scopeId) {}
+
+    @Override
+    public String getWidgetId() {
+        return Integer.toString(getId());
     }
 
     @Override
-    public void init(String scopeId) {
+    public void lazyInit() {
         widgetViewDelegate = createWidgetViewDelegate();
-        widgetViewDelegate.setScopeId(scopeId);
         widgetViewDelegate.onCreate();
     }
 

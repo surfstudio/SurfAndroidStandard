@@ -37,24 +37,14 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
 
     private WidgetViewDelegate widgetViewDelegate;
     private boolean isManualInitEnabled;
-    private int widgetId = NO_ID;
 
     public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled) {
-        this(context, isManualInitEnabled, NO_ID);
-    }
-
-    public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled, int widgetId) {
         super(context, null);
-
         this.isManualInitEnabled = isManualInitEnabled;
-        this.widgetId = widgetId;
         initWidgetViewDelegate();
     }
 
-
-    public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
-        this(context, attrs, -1);
-    }
+    public CoreConstraintLayoutView(Context context, AttributeSet attrs) { this(context, attrs, -1); }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -62,6 +52,14 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         obtainAttrs(attrs);
         initWidgetViewDelegate();
     }
+
+    public CoreConstraintLayoutView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr);
+
+        obtainAttrs(attrs);
+        initWidgetViewDelegate();
+    }
+
     @SuppressLint("CustomViewStyleable")
     private void obtainAttrs(AttributeSet attrs) {
         TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreWidgetViewInterface, -1, -1);
@@ -96,14 +94,16 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     public void init() {}
 
     @Override
-    public int getWidgetId() {
-        return widgetId != NO_ID ? widgetId : getId();
+    public void init(String scopeId) {}
+
+    @Override
+    public String getWidgetId() {
+        return Integer.toString(getId());
     }
 
     @Override
-    public void init(String scopeId) {
+    public void lazyInit() {
         widgetViewDelegate = createWidgetViewDelegate();
-        widgetViewDelegate.setScopeId(scopeId);
         widgetViewDelegate.onCreate();
     }
 
