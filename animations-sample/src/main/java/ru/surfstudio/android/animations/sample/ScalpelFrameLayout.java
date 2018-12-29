@@ -8,8 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -25,8 +23,6 @@ import java.util.Deque;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Paint.Style.STROKE;
-import static android.graphics.Typeface.NORMAL;
-import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_POINTER_UP;
 import static android.view.MotionEvent.INVALID_POINTER_ID;
@@ -52,13 +48,16 @@ public class ScalpelFrameLayout extends FrameLayout {
     private static final float ZOOM_DEFAULT = 0.6f;
     private static final float ZOOM_MIN = 0.33f;
     private static final float ZOOM_MAX = 2f;
-    private static final int SPACING_DEFAULT = 25;
+    private static final int SPACING_DEFAULT = 50;
     private static final int SPACING_MIN = 10;
     private static final int SPACING_MAX = 100;
     private static final int CHROME_COLOR = 0xFF888888;
     private static final int CHROME_SHADOW_COLOR = 0xFF000000;
+    private static final int ID_TEXT_COLOR = 0xFF8C0000;
+    private static final int CLASS_TEXT_COLOR = 0xFF2F006C;
     private static final int TEXT_OFFSET_DP = 2;
-    private static final int TEXT_SIZE_DP = 10;
+    private static final int ID_TEXT_SIZE_DP = 10;
+    private static final int CLASS_TEXT_SIZE_DP = 13;
     private static final int CHILD_COUNT_ESTIMATION = 25;
     private static final boolean DEBUG = false;
 
@@ -83,6 +82,8 @@ public class ScalpelFrameLayout extends FrameLayout {
 
     private final Rect viewBoundsRect = new Rect();
     private final Paint viewBorderPaint = new Paint(ANTI_ALIAS_FLAG);
+    private final Paint idTextPaint = new Paint(ANTI_ALIAS_FLAG);
+    private final Paint classTextPaint = new Paint(ANTI_ALIAS_FLAG);
     private final Camera camera = new Camera();
     private final Matrix matrix = new Matrix();
     private final int[] location = new int[2];
@@ -100,11 +101,13 @@ public class ScalpelFrameLayout extends FrameLayout {
     private final float density;
     private final float slop;
     private final float textOffset;
-    private final float textSize;
+    private final float idTextSize;
+    private final float classTextSize;
 
     private boolean enabled;
     private boolean drawViews = true;
     private boolean drawIds;
+    private boolean drawViewClasses = true;
 
     private int pointerOne = INVALID_POINTER_ID;
     private float lastOneX;
@@ -136,16 +139,26 @@ public class ScalpelFrameLayout extends FrameLayout {
         density = context.getResources().getDisplayMetrics().density;
         slop = ViewConfiguration.get(context).getScaledTouchSlop();
 
-        textSize = TEXT_SIZE_DP * density;
+        idTextSize = ID_TEXT_SIZE_DP * density;
+        classTextSize = CLASS_TEXT_SIZE_DP * density;
         textOffset = TEXT_OFFSET_DP * density;
 
         setChromeColor(CHROME_COLOR);
         viewBorderPaint.setStyle(STROKE);
-        viewBorderPaint.setTextSize(textSize);
+        //viewBorderPaint.setTextSize(idTextSize);
+        idTextPaint.setStyle(STROKE);
+        idTextPaint.setTextSize(idTextSize);
+        idTextPaint.setColor(ID_TEXT_COLOR);
+
+        classTextPaint.setStyle(STROKE);
+        classTextPaint.setTextSize(classTextSize);
+        classTextPaint.setColor(CLASS_TEXT_COLOR);
+
         setChromeShadowColor(CHROME_SHADOW_COLOR);
-        if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
+
+        /*if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
             viewBorderPaint.setTypeface(Typeface.create("sans-serif-condensed", NORMAL));
-        }
+        }*/
     }
 
     /**
@@ -218,6 +231,25 @@ public class ScalpelFrameLayout extends FrameLayout {
     public boolean isDrawingViews() {
         return drawViews;
     }
+
+
+    /**
+     * Set whether the view layers draw their Class.
+     */
+    public void setDrawViewClasses(boolean drawClass) {
+        if (this.drawViewClasses != drawViewClasses) {
+            this.drawViewClasses = drawClass;
+            invalidate();
+        }
+    }
+
+    /**
+     * Returns true when view layers draw their contents.
+     */
+    public boolean isDrawingViewClasses() {
+        return drawViewClasses;
+    }
+
 
     /**
      * Set whether the view layers draw their IDs.
@@ -463,8 +495,13 @@ public class ScalpelFrameLayout extends FrameLayout {
             if (drawIds) {
                 int id = view.getId();
                 if (id != NO_ID) {
-                    canvas.drawText(nameForId(id), textOffset, textSize, viewBorderPaint);
+                    canvas.drawText(nameForId(id), textOffset, -textOffset, idTextPaint);
                 }
+            }
+
+            if (drawViewClasses) {
+                float yOffset = (drawIds ? idTextSize : 0) + textOffset;
+                canvas.drawText(view.getClass().getSimpleName(), textOffset, -yOffset, classTextPaint);
             }
 
             canvas.restoreToCount(viewSaveCount);
