@@ -24,9 +24,4 @@ class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.ja
         checkIfActivityIsVisible(MainActivity::class.java)
         performClick(R.id.change_state_btn)
     }
-
-    @Test
-    fun failedTest() {
-        performClick(1)
-    }
 }
