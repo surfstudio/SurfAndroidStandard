@@ -159,7 +159,7 @@ pipeline.stages = [
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
-                    "debug",
+                    "release",
                     getTestInstrumentationRunnerName,
                     new AndroidTestConfig(
                             "assembleAndroidTest",
@@ -218,7 +218,7 @@ def static isProjectSnapshotBranch(branchName) {
     branchName.contains("project-snapshot")
 }
 
-def boolean checkVersionAndBranch(Object script, String branch, String branchRegex, String version, String versionRegex) {
+static boolean checkVersionAndBranch(Object script, String branch, String branchRegex, String version, String versionRegex) {
     Pattern branchPattern = Pattern.compile(branchRegex);
     Matcher branchMatcher =  branchPattern.matcher(branch);
     if(branchMatcher.matches()) {
@@ -233,7 +233,7 @@ def boolean checkVersionAndBranch(Object script, String branch, String branchReg
     return false
 }
 
-def boolean checkVersionAndBranchForProjectSnapshot(Object script, String branch, String version) {
+static boolean checkVersionAndBranchForProjectSnapshot(Object script, String branch, String version) {
     def branchRegex = /^project-snapshot-[A-Z]+/
     Pattern branchPattern = Pattern.compile(branchRegex);
     Matcher branchMatcher =  branchPattern.matcher(branch);
