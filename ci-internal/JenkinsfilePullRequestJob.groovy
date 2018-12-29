@@ -8,7 +8,7 @@ pipeline.init()
 
 //customization
 pipeline.getStage(pipeline.STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
-pipeline.buildGradleTask = "clean assemble"
+pipeline.buildGradleTask = "clean assembleRelease"
 pipeline.androidTestBuildType = "release"
 
 //run
