@@ -1,10 +1,15 @@
 package ru.surfstudio.android.animations.sample
 
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.Gravity
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.scalpel.ScalpelFrameLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.animations.anim.*
 import ru.surfstudio.android.animations.behaviors.BottomButtonBehavior
@@ -14,6 +19,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Handler().postDelayed({
+            val scalpel = ScalpelFrameLayout(this)
+            val content = this.findViewById<ViewGroup>(android.R.id.content)
+            val childViews = (0..content.childCount - 1)
+                    .map { content.getChildAt(it) }
+                    .toList()
+            Log.d("AAA", childViews.toString())
+            content.removeAllViews()
+            content.addView(scalpel,
+                    FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT))
+            childViews.forEach { scalpel.addView(it) }
+            scalpel.isLayerInteractionEnabled = true
+        }, 1000)
+
+
 
         val params = bottom_btn.layoutParams as CoordinatorLayout.LayoutParams
         params.behavior = BottomButtonBehavior()

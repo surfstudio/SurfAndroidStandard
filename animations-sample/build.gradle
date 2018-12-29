@@ -9,4 +9,5 @@ android {
 dependencies {
     implementation project(':animations')
     implementation project(':sample-common')
+    implementation 'com.jakewharton.scalpel:scalpel:1.1.2'
 }
