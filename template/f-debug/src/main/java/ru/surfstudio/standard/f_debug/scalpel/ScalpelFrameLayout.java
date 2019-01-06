@@ -517,7 +517,7 @@ public class ScalpelFrameLayout extends FrameLayout {
             );
 
             if (!needDrawView) {
-                viewColor += 0x22000000; //add transparent to color
+                viewColor += 0x30000000; //add transparent to color
             }
 
             viewBorderPaint.setColor(viewColor);
