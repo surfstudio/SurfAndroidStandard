@@ -23,7 +23,7 @@ class ScalpelSettings(val context: Context) {
         set(value) = SettingsUtil.putBoolean(sharedPref, DRAW_CLASSES_KEY, value)
 
     var drawViewsContent: Boolean
-        get() = SettingsUtil.getBoolean(sharedPref, DRAW_VIEWS_CONTENT_KEY, false)
+        get() = SettingsUtil.getBoolean(sharedPref, DRAW_VIEWS_CONTENT_KEY, true)
         set(value) = SettingsUtil.putBoolean(sharedPref, DRAW_VIEWS_CONTENT_KEY, value)
 
 }
