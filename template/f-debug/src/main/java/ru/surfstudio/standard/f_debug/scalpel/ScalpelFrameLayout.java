@@ -57,7 +57,7 @@ public class ScalpelFrameLayout extends FrameLayout {
     private static final float ZOOM_MAX = 2f;
     private static final int SPACING_DEFAULT = 50;
     private static final int SPACING_MIN = 10;
-    private static final int SPACING_MAX = 100;
+    private static final int SPACING_MAX = 160;
     private static final int CHROME_COLOR = 0xFF888888;
     private static final int CHROME_SHADOW_COLOR = 0xFF000000;
     private static final int TEXT_OFFSET_DP = 2;
@@ -506,13 +506,19 @@ public class ScalpelFrameLayout extends FrameLayout {
 
             int viewSaveCount = canvas.save();
 
-            int rawViewClassColor = view.getClass().getCanonicalName().hashCode() % 0xffffff;
+            boolean needDrawView = currentStartViewLayer <= layer
+                    && (currentEndViewLayer == UNSPECIFIED_END_VIEW_LAYER || currentEndViewLayer >= layer);
 
+            int rawViewClassColor = view.getClass().getCanonicalName().hashCode() % 0xffffff;
             int viewColor = Color.rgb(
                     Color.red(rawViewClassColor)/2,
                     Color.green(rawViewClassColor)/2,
                     Color.blue(rawViewClassColor)/2
             );
+
+            if (!needDrawView) {
+                viewColor += 0x33000000; //add transparent to color
+            }
 
             viewBorderPaint.setColor(viewColor);
             classTextPaint.setColor(viewColor);
@@ -533,7 +539,7 @@ public class ScalpelFrameLayout extends FrameLayout {
             canvas.drawRect(viewBoundsRect, viewBorderPaint);
 
             endViewLayer = Math.max(endViewLayer, layer);
-            if(currentStartViewLayer <= layer && (currentEndViewLayer == UNSPECIFIED_END_VIEW_LAYER || currentEndViewLayer >= layer)) {
+            if (needDrawView) {
                 if (drawViews) {
                     view.draw(canvas);
                 }

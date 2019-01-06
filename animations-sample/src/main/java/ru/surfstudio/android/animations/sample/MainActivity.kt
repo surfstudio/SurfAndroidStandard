@@ -1,67 +1,19 @@
 package ru.surfstudio.android.animations.sample
 
-import android.app.Activity
-import android.app.Application
-import android.hardware.SensorManager
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.view.Gravity
-import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.animations.anim.*
 import ru.surfstudio.android.animations.behaviors.BottomButtonBehavior
-import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
-import ru.surfstudio.android.sample.dagger.app.DefaultApp
-import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val scalpelEnabled = false
-
-        val shakeDetector = ShakeDetector {
-            val scalpel = ScalpelFrameLayout(this)
-            val content = this.findViewById<ViewGroup>(android.R.id.content)
-            val childViews = (0..content.childCount - 1)
-                    .map { content.getChildAt(it) }
-                    .toList()
-            Log.d("AAA", childViews.toString())
-            content.removeAllViews()
-            content.addView(scalpel,
-                    FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                            FrameLayout.LayoutParams.MATCH_PARENT))
-            childViews.forEach { scalpel.addView(it) }
-            scalpel.isLayerInteractionEnabled = true
-            //scalpel.setDrawIds(true)
-            ru.surfstudio.android.logger.Logger.d("AAA", "Shake")
-        }
-        val app = (this.applicationContext as DefaultApp)
-        app.registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
-            override fun onActivityResumed(activity: Activity) {
-                shakeDetector.start(app.getSystemService(SENSOR_SERVICE) as SensorManager)
-                shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_LIGHT)
-            }
-
-            override fun onActivityPaused(activity: Activity) {
-                shakeDetector.stop()
-
-            }
-        })
-
-        Handler().postDelayed({
-
-        }, 1000)
-
-
-
 
         val params = bottom_btn.layoutParams as CoordinatorLayout.LayoutParams
         params.behavior = BottomButtonBehavior()
