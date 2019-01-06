@@ -9,5 +9,4 @@ android {
 dependencies {
     implementation project(':animations')
     implementation project(':sample-common')
-    implementation project(':sample-dagger')
 }
