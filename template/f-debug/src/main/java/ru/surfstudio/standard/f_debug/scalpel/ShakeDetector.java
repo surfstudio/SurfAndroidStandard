@@ -1,4 +1,4 @@
-package ru.surfstudio.android.animations.sample;
+package ru.surfstudio.standard.f_debug.scalpel;
 
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

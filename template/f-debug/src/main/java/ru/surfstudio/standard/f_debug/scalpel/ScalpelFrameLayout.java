@@ -1,13 +1,16 @@
-package ru.surfstudio.android.animations.sample;
+package ru.surfstudio.standard.f_debug.scalpel;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.Camera;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
@@ -23,6 +26,8 @@ import java.util.Deque;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Paint.Style.STROKE;
+import static android.graphics.Typeface.NORMAL;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_POINTER_UP;
 import static android.view.MotionEvent.INVALID_POINTER_ID;
@@ -36,6 +41,8 @@ import static android.view.MotionEvent.INVALID_POINTER_ID;
  * <li>Two finger vertical pinch: Adjust zoom.</li>
  * <li>Two finger horizontal pinch: Adjust layer spacing.</li>
  * </ul>
+ *
+ * Changed By Surf
  */
 public class ScalpelFrameLayout extends FrameLayout {
     private static final int TRACKING_UNKNOWN = 0;
@@ -53,8 +60,6 @@ public class ScalpelFrameLayout extends FrameLayout {
     private static final int SPACING_MAX = 100;
     private static final int CHROME_COLOR = 0xFF888888;
     private static final int CHROME_SHADOW_COLOR = 0xFF000000;
-    private static final int ID_TEXT_COLOR = 0xFF8C0000;
-    private static final int CLASS_TEXT_COLOR = 0xFF2F006C;
     private static final int TEXT_OFFSET_DP = 2;
     private static final int ID_TEXT_SIZE_DP = 10;
     private static final int CLASS_TEXT_SIZE_DP = 13;
@@ -125,6 +130,13 @@ public class ScalpelFrameLayout extends FrameLayout {
     private int chromeColor;
     private int chromeShadowColor;
 
+
+    public static final int UNSPECIFIED_END_VIEW_LAYER = -1;
+    public static final int START_VIEW_LAYER = 0;
+    private int endViewLayer = UNSPECIFIED_END_VIEW_LAYER;
+    private int currentStartViewLayer = START_VIEW_LAYER;
+    private int currentEndViewLayer = endViewLayer;
+
     public ScalpelFrameLayout(Context context) {
         this(context, null);
     }
@@ -145,20 +157,39 @@ public class ScalpelFrameLayout extends FrameLayout {
 
         setChromeColor(CHROME_COLOR);
         viewBorderPaint.setStyle(STROKE);
-        //viewBorderPaint.setTextSize(idTextSize);
         idTextPaint.setStyle(STROKE);
         idTextPaint.setTextSize(idTextSize);
-        idTextPaint.setColor(ID_TEXT_COLOR);
 
         classTextPaint.setStyle(STROKE);
         classTextPaint.setTextSize(classTextSize);
-        classTextPaint.setColor(CLASS_TEXT_COLOR);
 
         setChromeShadowColor(CHROME_SHADOW_COLOR);
 
-        /*if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= JELLY_BEAN) {
             viewBorderPaint.setTypeface(Typeface.create("sans-serif-condensed", NORMAL));
-        }*/
+        }
+    }
+
+    public int getEndViewLayer() {
+        return endViewLayer;
+    }
+
+    public int getCurrentStartViewLayer() {
+        return currentStartViewLayer;
+    }
+
+    public void setCurrentStartViewLayer(int currentStartViewLayer) {
+        this.currentStartViewLayer = currentStartViewLayer;
+        invalidate();
+    }
+
+    public int getCurrentEndViewLayer() {
+        return currentEndViewLayer;
+    }
+
+    public void setCurrentEndViewLayer(int currentEndViewLayer) {
+        this.currentEndViewLayer = currentEndViewLayer;
+        invalidate();
     }
 
     /**
@@ -237,7 +268,7 @@ public class ScalpelFrameLayout extends FrameLayout {
      * Set whether the view layers draw their Class.
      */
     public void setDrawViewClasses(boolean drawClass) {
-        if (this.drawViewClasses != drawViewClasses) {
+        if (this.drawViewClasses != drawClass) {
             this.drawViewClasses = drawClass;
             invalidate();
         }
@@ -475,6 +506,18 @@ public class ScalpelFrameLayout extends FrameLayout {
 
             int viewSaveCount = canvas.save();
 
+            int rawViewClassColor = view.getClass().getCanonicalName().hashCode() % 0xffffff;
+
+            int viewColor = Color.rgb(
+                    Color.red(rawViewClassColor)/2,
+                    Color.green(rawViewClassColor)/2,
+                    Color.blue(rawViewClassColor)/2
+            );
+
+            viewBorderPaint.setColor(viewColor);
+            classTextPaint.setColor(viewColor);
+            idTextPaint.setColor(viewColor);
+
             // Scale the layer index translation by the rotation amount.
             float translateShowX = rotationY / ROTATION_MAX;
             float translateShowY = rotationX / ROTATION_MAX;
@@ -485,23 +528,27 @@ public class ScalpelFrameLayout extends FrameLayout {
             view.getLocationInWindow(location);
             canvas.translate(location[0] - x, location[1] - y);
 
+
             viewBoundsRect.set(0, 0, view.getWidth(), view.getHeight());
             canvas.drawRect(viewBoundsRect, viewBorderPaint);
 
-            if (drawViews) {
-                view.draw(canvas);
-            }
-
-            if (drawIds) {
-                int id = view.getId();
-                if (id != NO_ID) {
-                    canvas.drawText(nameForId(id), textOffset, -textOffset, idTextPaint);
+            endViewLayer = Math.max(endViewLayer, layer);
+            if(currentStartViewLayer <= layer && (currentEndViewLayer == UNSPECIFIED_END_VIEW_LAYER || currentEndViewLayer >= layer)) {
+                if (drawViews) {
+                    view.draw(canvas);
                 }
-            }
 
-            if (drawViewClasses) {
-                float yOffset = (drawIds ? idTextSize : 0) + textOffset;
-                canvas.drawText(view.getClass().getSimpleName(), textOffset, -yOffset, classTextPaint);
+                if (drawIds) {
+                    int id = view.getId();
+                    if (id != NO_ID) {
+                        canvas.drawText(nameForId(id), textOffset, -textOffset, idTextPaint);
+                    }
+                }
+
+                if (drawViewClasses) {
+                    float yOffset = (drawIds && view.getId() != NO_ID ? idTextSize : 0) + textOffset;
+                    canvas.drawText(view.getClass().getSimpleName(), textOffset, -yOffset, classTextPaint);
+                }
             }
 
             canvas.restoreToCount(viewSaveCount);

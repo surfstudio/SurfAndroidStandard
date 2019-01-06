@@ -7,6 +7,7 @@ import com.squareup.leakcanary.LeakCanary
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import okhttp3.OkHttpClient
+import ru.surfstudio.standard.f_debug.scalpel.ScalpelManager
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
@@ -91,11 +92,12 @@ class DebugInteractor @Inject constructor(
      * Инициализируются [LeakCanary], [DebugNotificationBuilder], [Stetho], [TinyDancer]
      */
     fun onCreateApp(icon: Int) {
+        DebugNotificationBuilder.showDebugNotification(application, icon)
+        ScalpelManager.init(application)
+
         if (memoryDebugStorage.isLeakCanaryEnabled) {
             LeakCanary.install(application)
         }
-        DebugNotificationBuilder.showDebugNotification(application, icon)
-
         if (toolsDebugStorage.isStethoEnabled) {
             Stetho.initializeWithDefaults(application)
         }

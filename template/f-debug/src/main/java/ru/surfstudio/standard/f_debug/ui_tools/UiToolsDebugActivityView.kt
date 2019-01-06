@@ -2,6 +2,7 @@ package ru.surfstudio.standard.f_debug.ui_tools
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_ui_tools_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
@@ -40,6 +41,10 @@ class UiToolsDebugActivityView : BaseRenderableActivityView<UiToolsDebugScreenMo
     private fun initListeners() {
         fps_enable_switch.setOnCheckedChangeListener { _, isEnabled ->
             presenter.setFpsEnable(isEnabled)
+        }
+        scalpel_tool.setOnClickListener {
+            Toast.makeText(this, "Втряхните устройство для включения Scalpel", Toast.LENGTH_SHORT)
+                    .show()
         }
     }
 }

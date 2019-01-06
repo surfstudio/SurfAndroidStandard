@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:id="@+id/scalpel_panel"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackground">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_settings"
+            android:padding="8dp"
+            android:layout_weight="0"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="Scalpel"
+            android:textSize="20sp"
+            android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/close_scalpel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:text="CLOSE"
+            android:textSize="18sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="#FF0025CC"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"/>
+    </LinearLayout>
+    <ru.surfstudio.standard.f_debug.scalpel.ScalpelFrameLayout
+        android:id="@+id/scalpel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/scalpel_panel"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:id="@+id/scalpel_settings_container"
+        android:layout_below="@+id/scalpel_panel"
+        android:background="@android:color/white"
+        android:alpha="0.8">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@id/scalpel_settings_container"/>
+        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+            android:id="@+id/draw_class_scalpel_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:switch_title="Show View classes"/>
+        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+            android:id="@+id/draw_id_scalpel_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:switch_title="Show View ids"/>
+        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+            android:id="@+id/draw_views_scalpel_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:switch_title="Draw Views content"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Visible Layers:"
+            android:layout_marginLeft="16dp"
+            android:paddingTop="8dp"/>
+
+        <com.appyvet.materialrangebar.RangeBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/views_layers_scalpel_settings"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            app:mrb_pinMinFont="12sp"
+            app:mrb_pinMaxFont="14sp"
+            app:mrb_tickEnd="1"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@id/scalpel_settings_container"/>
+
+        <TextView
+            android:id="@+id/hide_scalpel_settings_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="HIDE"
+            android:textSize="20sp"
+            android:padding="10dp"
+            android:textColor="#FF0025CC"
+            android:background="?attr/selectableItemBackground"
+            android:layout_gravity="right"
+            android:layout_marginRight="6dp"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/scalpel_settings_container"/>
+
+
+</merge>
