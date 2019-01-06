@@ -86,7 +86,7 @@ public abstract class BaseScreenDelegate {
                 : UUID.randomUUID().toString();
     }
 
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
+    public void     onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
         initPersistentScope();
         notifyScreenStateAboutOnCreate(savedInstanceState);
         runConfigurator();
