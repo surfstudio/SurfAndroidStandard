@@ -14,3 +14,8 @@ class Action<T> {
 
     fun accept(newValue: T) { relay.accept(newValue) }
 }
+
+/**
+ *
+ */
+fun Action<Unit>.accept() = accept(Unit)

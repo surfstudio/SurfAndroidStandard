@@ -4,7 +4,6 @@ import androidx.annotation.CallSuper
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
-import ru.surfstudio.android.core.mvp.model.ScreenModel
 
 abstract class BaseRxActivityView<in M : RxModel> : CoreActivityView(), BindableRxView<M> {
     private val viewDisposable = CompositeDisposable()

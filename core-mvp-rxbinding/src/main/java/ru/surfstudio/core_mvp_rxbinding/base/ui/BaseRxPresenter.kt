@@ -29,36 +29,50 @@ abstract class BaseRxPresenter<V>(
 
     protected val <T> Action<T>.observable: Observable<T> get() = relay
 
-    fun <T> Observable<T>.applyLoadState(new: LoadStateInterface) = map {
+    protected fun applyLoadState(new: LoadStateInterface) {
         val sm = getRxModel()
         if (sm is LdsRxModel) sm.loadState.accept(new)
+    }
+
+    protected fun <T> Observable<T>.applyLoadState(new: LoadStateInterface) = map {
+        this@BaseRxPresenter.applyLoadState(new)
         it
     }
 
-    fun <T> Observable<T>.applyLoadState(loadStateFromDataAction: (T) -> LoadStateInterface) = map {
-        val sm = getRxModel()
-        if (sm is LdsRxModel) sm.loadState.accept(loadStateFromDataAction(it))
+    protected fun <T> Observable<T>.applyLoadState(loadStateFromDataAction: (T) -> LoadStateInterface) = map {
+        this@BaseRxPresenter.applyLoadState(loadStateFromDataAction(it))
         it
     }
 
-    fun <T> Action<T>.subscribeIoHandleError(onNextConsumer: Consumer<T>, onError: Consumer<Throwable>? = null) {
-        subscribeIoHandleError(
-                observable.doOnError {
+    fun <T> Observable<T>.subscribeIoHandleError(onNextConsumer: Consumer<T>, onError: Consumer<Throwable>? = null) {
+        subscribeIoHandleError(this
+                .doOnError {
                     handleError(it)
                     onError?.accept(it)
-                }.retry(), onNextConsumer::accept)
+                }
+                .retry(),
+                onNextConsumer::accept
+        )
     }
 
-    fun <T> Action<T>.subscribeIoHandleError(onNextConsumer: (T) -> Unit, onError: Consumer<Throwable>? = null) {
-        subscribeIoHandleError(Consumer { onNextConsumer(it) } , onError)
+    protected fun <T> Observable<T>.subscribeIoHandleError(onNextConsumer: (T) -> Unit, onError: Consumer<Throwable>? = null) {
+        subscribeIoHandleError(Consumer { onNextConsumer(it) }, onError)
     }
 
-    fun <T> Action<T>.subscribeIoHandleError(onNextConsumer: (T) -> Unit, onError: ((Throwable) -> Unit)? = null) {
-        subscribeIoHandleError(Consumer { onNextConsumer(it) } , onError)
+    protected fun <T> Observable<T>.subscribeIoHandleError(onNextConsumer: (T) -> Unit, onError: ((Throwable) -> Unit)? = null) {
+        subscribeIoHandleError(Consumer { onNextConsumer(it) }, onError)
     }
 
-    fun <T> Action<T>.subscribeIoHandleError(onNextConsumer: Consumer<T>, onError: ((Throwable) -> Unit)? = null) {
+    protected fun <T> Observable<T>.subscribeIoHandleError(onNextConsumer: Consumer<T>, onError: ((Throwable) -> Unit)? = null) {
         val errorConsumer: ConsumerSafe<Throwable>? = if (onError != null) ConsumerSafe { onError(it) } else null
         subscribeIoHandleError(onNextConsumer, errorConsumer)
+    }
+
+    protected fun <T> Action<T>.subscribe(consumer: Consumer<T>) {
+        subscribe(this.observable, consumer as ConsumerSafe<T>)
+    }
+
+    protected fun <T> Action<T>.subscribe(consumer: (T) -> Unit) {
+        subscribe(this.observable, consumer)
     }
 }

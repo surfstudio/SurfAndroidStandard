@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicReference
  *
  * Отправлять события может как View, так и Presenter
  * Подписывается на события View
+ * TODO state для текста c игнорированием текущего value
  */
 class State<T>(initialValue: T? = null) {
 
@@ -57,5 +58,17 @@ class State<T>(initialValue: T? = null) {
      */
     fun hasValue() = cachedValue.get() != null
 
-    fun accept(newValue: T) { relay.accept(newValue) }
+    /**
+     * Принятие значения нового значения и оповещение подписчиков
+     */
+    fun accept(newValue: T) {
+        relay.accept(newValue)
+    }
+
+    /**
+     * Обновление подписки при изменени внутри переменной (например, при добавлении элементов списка)
+     */
+    fun update() {
+        accept(value)
+    }
 }
