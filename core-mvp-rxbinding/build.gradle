@@ -1,0 +1,17 @@
+apply from: '../androidModule.gradle'
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'core-app',
+        'core-ui',
+        'core-mvp',
+        'util-ktx',
+        'rx-extension'
+])
+
+dependencies {
+    api "io.reactivex.rxjava2:rxjava:$rxJava2Version"
+    api "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
+    api "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Version"
+    api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
+    api "com.jakewharton.rxrelay2:rxrelay:2.1.0"
+}
