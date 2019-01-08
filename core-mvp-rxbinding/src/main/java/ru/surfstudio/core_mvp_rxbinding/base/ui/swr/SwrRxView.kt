@@ -9,11 +9,6 @@ import ru.surfstudio.core_mvp_rxbinding.base.ui.BindableRxView
 interface SwrRxView<M : SwrRxModel> : BindableRxView<M> {
     fun getSwipeRefreshLayout(): SwipeRefreshLayout
 
-    @CallSuper
-    override fun bind(sm: M) {
-        bindSwipeRefreshState(sm)
-    }
-
     fun bindSwipeRefreshState(sm: M) {
         sm.swipeRefreshState.observable.bindTo(getSwipeRefreshLayout().refreshConsumer)
     }

@@ -11,11 +11,14 @@ import ru.surfstudio.android.rx.extension.ConsumerSafe
 import ru.surfstudio.core_mvp_rxbinding.base.domain.Action
 import ru.surfstudio.core_mvp_rxbinding.base.ui.lds.LdsRxModel
 
-abstract class BaseRxPresenter<V>(
+abstract class BaseRxPresenter<M, V>(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<V>(basePresenterDependency) where V : CoreView, V : BindableRxView<RxModel> {
+) : BasePresenter<V>(basePresenterDependency)
+        where M : RxModel,
+              V : CoreView,
+              V : BindableRxView<M> {
 
-    abstract fun getRxModel(): RxModel
+    abstract fun getRxModel(): M
 
     @CallSuper
     override fun onFirstLoad() {

@@ -9,7 +9,7 @@ import ru.surfstudio.core_mvp_rxbinding.base.domain.Action
 import ru.surfstudio.core_mvp_rxbinding.base.domain.Command
 import ru.surfstudio.core_mvp_rxbinding.base.domain.State
 
-interface BindableRxView<in M : RxModel> {
+interface BindableRxView<M : RxModel> {
 
     fun bind(sm: M)
 

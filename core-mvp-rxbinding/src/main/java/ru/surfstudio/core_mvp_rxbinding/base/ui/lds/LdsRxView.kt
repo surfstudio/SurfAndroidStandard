@@ -8,11 +8,6 @@ interface LdsRxView<M>
     : BindableRxView<M> where M : LdsRxModel {
     fun getLoadStateRenderer(): LoadStateRendererInterface
 
-    @CallSuper
-    override fun bind(sm: M) {
-        bindLoadState(sm)
-    }
-
     fun bindLoadState(sm: M) {
         sm.loadState.observable.bindTo { getLoadStateRenderer().render(it) }
     }

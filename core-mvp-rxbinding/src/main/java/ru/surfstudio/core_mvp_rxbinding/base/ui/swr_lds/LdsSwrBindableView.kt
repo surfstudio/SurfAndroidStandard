@@ -10,12 +10,6 @@ interface LdsSwrBindableView<M : LdsSwrRxModel> : LdsRxView<M> {
     fun getSwipeRefreshLayout(): SwipeRefreshLayout
 
 
-    @CallSuper
-    override fun bind(sm: M) {
-        super.bind(sm)
-        bindSwipeRefreshState(sm)
-    }
-
     fun bindSwipeRefreshState(sm: M) {
         sm.swipeRefreshState.observable.bindTo(getSwipeRefreshLayout().refreshConsumer)
     }
