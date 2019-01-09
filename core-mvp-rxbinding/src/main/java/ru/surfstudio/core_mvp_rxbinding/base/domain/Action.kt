@@ -12,10 +12,17 @@ class Action<T> {
 
     val consumer get() = relay.asConsumer()
 
+    /**
+     * Получение нового значения и оповещение подписчиков
+     *
+     * @param newValue новое значение
+     */
     fun accept(newValue: T) { relay.accept(newValue) }
 }
 
 /**
+ * Получение нового значения и оповещение подписчиков
  *
+ * Для пустого [Action] параметры не требуются
  */
 fun Action<Unit>.accept() = accept(Unit)

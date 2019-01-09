@@ -1,6 +1,5 @@
 package ru.surfstudio.core_mvp_rxbinding.base.domain
 
-import android.annotation.SuppressLint
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import java.util.concurrent.atomic.AtomicReference
@@ -13,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference
  * Подписывается на события View
  * TODO state для текста c игнорированием текущего value
  */
-class State<T>(initialValue: T? = null) {
+open class State<T>(initialValue: T? = null) {
 
     internal val relay =
             if (initialValue != null) {
@@ -63,6 +62,16 @@ class State<T>(initialValue: T? = null) {
      */
     fun accept(newValue: T) {
         relay.accept(newValue)
+    }
+
+    /**
+     * Трансформация текущего значения, и оповещение об этом слушателей
+     *
+     * @param transformer функция, трансформирующая значения
+     */
+    fun transform(transformer: (T) -> T) {
+        val newValue = transformer(value)
+        accept(newValue)
     }
 
     /**

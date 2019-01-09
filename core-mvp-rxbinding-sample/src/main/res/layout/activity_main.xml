@@ -9,8 +9,7 @@
         android:id="@+id/main_counter_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        />
+        android:gravity="center" />
 
     <Button
         android:id="@+id/main_inc_btn"
@@ -27,4 +26,17 @@
         android:layout_gravity="center"
         android:padding="16dp"
         android:text="DEC" />
+
+    <EditText
+        android:id="@+id/main_text_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/main_double_text_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="DOUBLE" />
 </LinearLayout>

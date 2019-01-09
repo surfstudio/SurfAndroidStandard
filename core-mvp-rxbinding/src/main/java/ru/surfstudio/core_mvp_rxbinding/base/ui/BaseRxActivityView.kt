@@ -2,7 +2,6 @@ package ru.surfstudio.core_mvp_rxbinding.base.ui
 
 import androidx.annotation.CallSuper
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 
 abstract class BaseRxActivityView<M : RxModel> : CoreActivityView(), BindableRxView<M> {
@@ -10,9 +9,9 @@ abstract class BaseRxActivityView<M : RxModel> : CoreActivityView(), BindableRxV
 
     @CallSuper
     override fun onDestroy() {
-        viewDisposable.dispose()
+        viewDisposable.clear()
         super.onDestroy()
     }
 
-    override fun Disposable.removeOnDestroy() { viewDisposable.add(this) }
+    override fun getDisposable() = viewDisposable
 }

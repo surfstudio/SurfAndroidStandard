@@ -1,19 +1,23 @@
 package ru.surfstudio.core_mvp_rxbinding.base.ui
 
+import android.widget.EditText
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.core_mvp_rxbinding.base.domain.Action
 import ru.surfstudio.core_mvp_rxbinding.base.domain.Command
+import ru.surfstudio.core_mvp_rxbinding.base.domain.TextStateManager
 import ru.surfstudio.core_mvp_rxbinding.base.domain.State
 
 interface BindableRxView<M : RxModel> {
 
     fun bind(sm: M)
 
-    fun Disposable.removeOnDestroy()
+    fun getDisposable(): CompositeDisposable
+
+    fun Disposable.removeOnDestroy() = getDisposable().add(this)
 
     infix fun <T> Observable<T>.bindTo(consumer: Consumer<in T>) =
             this.observeOn(AndroidSchedulers.mainThread())
@@ -40,4 +44,7 @@ interface BindableRxView<M : RxModel> {
 
     infix fun <T> Observable<T>.bindTo(action: Action<T>) =
             this.bindTo(action.consumer)
+
+    infix fun TextStateManager.bindTo(editText: EditText) =
+            bind(editText, getDisposable())
 }
