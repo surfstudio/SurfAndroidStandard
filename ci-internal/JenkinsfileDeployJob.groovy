@@ -164,7 +164,9 @@ pipeline.stages = [
                     new AndroidTestConfig(
                             "assembleAndroidTest",
                             "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental"
+                            "build/reports/androidTests/instrumental",
+                            true,
+                            0
                     )
             )
         },
@@ -219,11 +221,11 @@ def static isProjectSnapshotBranch(branchName) {
 }
 
 static boolean checkVersionAndBranch(Object script, String branch, String branchRegex, String version, String versionRegex) {
-    Pattern branchPattern = Pattern.compile(branchRegex);
-    Matcher branchMatcher =  branchPattern.matcher(branch);
+    Pattern branchPattern = Pattern.compile(branchRegex)
+    Matcher branchMatcher =  branchPattern.matcher(branch)
     if(branchMatcher.matches()) {
-        Pattern versionPattern = Pattern.compile(versionRegex);
-        Matcher versionMatcher =  versionPattern.matcher(version);
+        Pattern versionPattern = Pattern.compile(versionRegex)
+        Matcher versionMatcher =  versionPattern.matcher(version)
         if (versionMatcher.matches()) {
             return true
         } else {
@@ -235,13 +237,13 @@ static boolean checkVersionAndBranch(Object script, String branch, String branch
 
 static boolean checkVersionAndBranchForProjectSnapshot(Object script, String branch, String version) {
     def branchRegex = /^project-snapshot-[A-Z]+/
-    Pattern branchPattern = Pattern.compile(branchRegex);
-    Matcher branchMatcher =  branchPattern.matcher(branch);
+    Pattern branchPattern = Pattern.compile(branchRegex)
+    Matcher branchMatcher =  branchPattern.matcher(branch)
     if(branchMatcher.matches()) {
         def projectKey = branch.split('-')[2]
         def versionRegex = /^\d{1,4}\.\d{1,4}\.\d{1,4}-$projectKey-\d{1,4}-SNAPSHOT$/
-        Pattern versionPattern = Pattern.compile(versionRegex);
-        Matcher versionMatcher =  versionPattern.matcher(version);
+        Pattern versionPattern = Pattern.compile(versionRegex)
+        Matcher versionMatcher =  versionPattern.matcher(version)
         if (versionMatcher.matches()) {
             return true
         } else {
