@@ -1,4 +1,4 @@
-@Library('surf-lib@instrumentation-tests-fixes') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@instrumentation-tests-fixes-3') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.pr.PrPipelineAndroid
 import ru.surfstudio.ci.stage.StageStrategy
 
