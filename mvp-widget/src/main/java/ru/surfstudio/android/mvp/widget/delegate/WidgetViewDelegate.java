@@ -113,16 +113,14 @@ public class WidgetViewDelegate {
             throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
         }
 
-        if (getCurrentScopeId() == null) {
-            String widgetId = coreWidgetView.getWidgetId();
-            String invalidId = Integer.toString(View.NO_ID);
+        String widgetId = coreWidgetView.getWidgetId();
+        String invalidId = Integer.toString(View.NO_ID);
 
-            if (widgetId == null || widgetId.isEmpty() || widgetId.equals(invalidId)) {
-                throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file or override getWidgetId method.");
-            } else {
-                String parentScopeId = parentScope.getScopeId();
-                setScopeId(widgetId + parentScopeId);
-            }
+        if (widgetId == null || widgetId.isEmpty() || widgetId.equals(invalidId)) {
+            throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file or override getWidgetId method.");
+        } else {
+            String parentScopeId = parentScope.getScopeId();
+            setScopeId(widgetId + parentScopeId);
         }
 
         if (!scopeStorage.isExist(getCurrentScopeId())) {
