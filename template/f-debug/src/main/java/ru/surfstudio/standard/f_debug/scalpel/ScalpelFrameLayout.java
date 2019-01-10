@@ -1,3 +1,18 @@
+/*
+ * Copyright 2014 Jake Wharton
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package ru.surfstudio.standard.f_debug.scalpel;
 
 import android.content.Context;
@@ -12,7 +27,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +37,8 @@ import android.widget.FrameLayout;
 import java.util.ArrayDeque;
 import java.util.BitSet;
 import java.util.Deque;
+
+import ru.surfstudio.android.logger.Logger;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.graphics.Paint.Style.STROKE;
@@ -67,7 +83,7 @@ public class ScalpelFrameLayout extends FrameLayout {
     private static final boolean DEBUG = false;
 
     private static void log(String message, Object... args) {
-        Log.d("Scalpel", String.format(message, args));
+        Logger.d(String.format("Scalpel: %s", message), args);
     }
 
     private static class LayeredView {

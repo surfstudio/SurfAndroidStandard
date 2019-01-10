@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.core.app.DefaultActivityLifecycleCallbacks
-import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.TimeUnit
 
 /**
@@ -18,10 +17,10 @@ import java.util.concurrent.TimeUnit
  */
 @SuppressLint("StaticFieldLeak")
 object ScalpelManager {
-    val shakeDetectedSubject = PublishSubject.create<Long>()
-    var currentActivity : Activity? = null
+    private val shakeDetectedSubject = PublishSubject.create<Long>()
+    private var currentActivity: Activity? = null
 
-    lateinit var shakeDetector : ShakeDetector
+    private lateinit var shakeDetector: ShakeDetector
 
     fun init(app: Application) {
         initShakeDetector()
@@ -45,6 +44,21 @@ object ScalpelManager {
                         toggleScalpel()
                     }
                 }
+    }
+
+    private fun listenActivityLifecycle(app: Application) {
+        app.registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                currentActivity = activity
+                shakeDetector.start(app.getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager)
+            }
+
+            override fun onActivityPaused(activity: Activity) {
+                currentActivity = null
+                shakeDetector.stop()
+
+            }
+        })
     }
 
     private fun toggleScalpel() {
@@ -86,24 +100,9 @@ object ScalpelManager {
 
     private fun isScalpelActive(): Boolean {
         val content = currentActivity!!.findViewById<ViewGroup>(android.R.id.content)
-        return (0..content.childCount - 1)
+        return (0 until content.childCount)
                 .map { content.getChildAt(it) is ScalpelWidget }
                 .reduce { prev, new -> prev || new }
 
-    }
-
-    private fun listenActivityLifecycle(app: Application) {
-        app.registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
-            override fun onActivityResumed(activity: Activity) {
-                currentActivity = activity
-                shakeDetector.start(app.getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager)
-            }
-
-            override fun onActivityPaused(activity: Activity) {
-                currentActivity = null
-                shakeDetector.stop()
-
-            }
-        })
     }
 }

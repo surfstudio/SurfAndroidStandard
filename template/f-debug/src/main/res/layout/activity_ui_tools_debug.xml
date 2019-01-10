@@ -14,10 +14,10 @@
         app:switch_title="@string/fps_title_text" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/scalpel_tool"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:id="@+id/scalpel_tool">
+        android:background="?selectableItemBackground">
 
         <TextView
             android:id="@+id/title_tv"
@@ -26,32 +26,32 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:text="Scalpel"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:text="Scalpel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/subtitle_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="Отрисовывает иерархию вью как интерактивную 3D визуализацию. Запускается после встряхивания устройства."
             android:textColor="@android:color/darker_gray"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title_tv"
-            android:text="Отрисовывает иерархию вью как интерактивную 3D визуализацию. Запускается после встряхивания устройства."/>
+            app:layout_constraintTop_toBottomOf="@id/title_tv" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@android:color/darker_gray"
             android:layout_below="@id/scalpel_settings_container"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
