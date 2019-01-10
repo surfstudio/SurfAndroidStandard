@@ -41,15 +41,15 @@ class ScalpelWidget(context: Context) : RelativeLayout(context) {
         draw_class_scalpel_settings.setChecked(scalpelSettings.drawClasses)
         draw_views_scalpel_settings.setChecked(scalpelSettings.drawViewsContent)
 
-        draw_id_scalpel_settings.setOnCheckedChangeListener {_, enabled ->
+        draw_id_scalpel_settings.setOnCheckedChangeListener { _, enabled ->
             scalpelSettings.drawIds = enabled
             scalpel.setDrawIds(enabled)
         }
-        draw_class_scalpel_settings.setOnCheckedChangeListener {_, enabled ->
+        draw_class_scalpel_settings.setOnCheckedChangeListener { _, enabled ->
             scalpelSettings.drawClasses = enabled
             scalpel.setDrawViewClasses(enabled)
         }
-        draw_views_scalpel_settings.setOnCheckedChangeListener {_, enabled ->
+        draw_views_scalpel_settings.setOnCheckedChangeListener { _, enabled ->
             scalpelSettings.drawViewsContent = enabled
             scalpel.setDrawViews(enabled)
         }
@@ -63,7 +63,7 @@ class ScalpelWidget(context: Context) : RelativeLayout(context) {
         disposable.add(Observable.interval(2000, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    scalpel?.let {scalpel ->
+                    scalpel?.let { scalpel ->
                         with(views_layers_scalpel_settings) {
                             val lastTickEnd = tickEnd.toInt()
                             if (lastTickEnd != scalpel.endViewLayer) {
@@ -84,7 +84,7 @@ class ScalpelWidget(context: Context) : RelativeLayout(context) {
     }
 
     private fun initPanel() {
-        scalpel_panel.setOnClickListener {
+        scalpel_settings_btn.setOnClickListener {
             toggleSettingsVisibility()
         }
         close_scalpel_btn.setOnClickListener {
@@ -106,7 +106,7 @@ class ScalpelWidget(context: Context) : RelativeLayout(context) {
         childViews.forEach { scalpel.addView(it) }
     }
 
-    fun extractContentViews() : List<View> {
+    fun extractContentViews(): List<View> {
         val childViews = (0 until scalpel.childCount)
                 .map { scalpel.getChildAt(it) }
                 .toList()
