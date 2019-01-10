@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+apply from: '../sample-keystore/signingConfigs.gradle'
 apply from: '../androidTestModule.gradle'
 
 android {
@@ -26,6 +27,15 @@ android {
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
+    }
+
+    buildTypes {
+        debug {
+
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
     }
 }
 
