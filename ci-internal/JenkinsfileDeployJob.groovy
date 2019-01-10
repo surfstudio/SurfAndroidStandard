@@ -5,7 +5,6 @@ import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.RepositoryUtil
-import ru.surfstudio.ci.NodeProvider
 import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
@@ -53,7 +52,7 @@ def pipeline = new EmptyScmPipeline(script)
 pipeline.init()
 
 //configuration
-pipeline.node = NodeProvider.getAndroidNode()
+pipeline.node = "android-2"
 
 pipeline.preExecuteStageBody = { stage ->
     if(stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
