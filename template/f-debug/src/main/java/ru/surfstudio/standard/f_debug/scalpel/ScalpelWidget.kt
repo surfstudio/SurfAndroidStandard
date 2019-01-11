@@ -94,7 +94,7 @@ class ScalpelWidget(context: Context) : RelativeLayout(context) {
 
     private fun toggleSettingsVisibility() {
         with(scalpel_settings_container) {
-            visibility = if (isVisible) View.GONE else View.VISIBLE
+            isVisible = isVisible.not()
         }
     }
 
