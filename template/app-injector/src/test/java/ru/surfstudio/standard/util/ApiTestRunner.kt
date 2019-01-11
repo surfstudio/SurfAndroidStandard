@@ -14,7 +14,7 @@ class ApiTestRunner(testClass: Class<*>?) : RobolectricTestRunner(testClass) {
     }
 
     private var runCheckApiTests: Boolean = false
-    private var runWaitApiTest: Boolean = false
+    private var runWaitApiTests: Boolean = false
 
 
     override fun methodBlock(method: FrameworkMethod): Statement {
@@ -26,7 +26,7 @@ class ApiTestRunner(testClass: Class<*>?) : RobolectricTestRunner(testClass) {
                     try {
                         defaultInvoker.evaluate()
                     } catch (e: Throwable) {
-                        System.err.println("Error occurred, when test with annotation @WaitApiTest is executing. It's normal.")
+                        System.err.println("Error occurred when test with annotation @WaitApiTest is executing. It's normal.")
                         e.printStackTrace()
                         failed = true
                     }
@@ -42,15 +42,19 @@ class ApiTestRunner(testClass: Class<*>?) : RobolectricTestRunner(testClass) {
 
     override fun computeTestMethods(): MutableList<FrameworkMethod> {
         extractInputParameters()
-        checkStandardTestMethods()
         val methods = mutableListOf<FrameworkMethod>()
         if (runCheckApiTests) {
-            methods.addAll(testClass.getAnnotatedMethods(CheckApiTest::class.java))
+            methods.addAll(testClass.getAnnotatedMethods(Test::class.java)
+                    .asSequence()
+                    .filter { !isMethodWithAnnotation(it, WaitApiTest::class.java) }
+                    .toList())
         }
-        if (runWaitApiTest) {
-            methods.addAll(testClass.getAnnotatedMethods(WaitApiTest::class.java))
+        if (runWaitApiTests) {
+            val waitApiMethods = testClass.getAnnotatedMethods(WaitApiTest::class.java)
+            checkMethodsContainsStandardTestAnnotation(waitApiMethods)
+            methods.addAll(waitApiMethods)
         }
-        checkMethodsContainsStandardTestAnnotation(methods)
+
         return methods
     }
 
@@ -58,29 +62,18 @@ class ApiTestRunner(testClass: Class<*>?) : RobolectricTestRunner(testClass) {
         val badMethods = methods.asSequence().filter { !isMethodWithAnnotation(it, Test::class.java) }.toList()
         if (badMethods.isNotEmpty()) {
             val badMethodsStr = badMethods.asSequence().map { it.name }.reduce { left, right -> "$left, $right" }
-            throw RuntimeException("Api test methods must have @test annotation. Wrong methods: $badMethodsStr")
+            throw RuntimeException("Api test methods must have @Test annotation. Wrong methods: $badMethodsStr")
         }
 
     }
 
     private fun extractInputParameters() {
         runCheckApiTests = System.getProperty(CHECK_API_TESTS_CONSOLE_PARAMETER) != null
-        runWaitApiTest = System.getProperty(WAIT_API_TESTS_CONSOLE_PARAMETER) != null
-        if (!runCheckApiTests && !runWaitApiTest) {
+        runWaitApiTests = System.getProperty(WAIT_API_TESTS_CONSOLE_PARAMETER) != null
+        if (!runCheckApiTests && !runWaitApiTests) {
             //run all when not configured via parameter
             runCheckApiTests = true
-            runWaitApiTest = true
-        }
-    }
-
-    private fun checkStandardTestMethods() {
-        val methods = testClass.getAnnotatedMethods(Test::class.java)
-        methods.forEach {
-            if (!isMethodWithAnnotation(it, WaitApiTest::class.java) &&
-                    !isMethodWithAnnotation(it, CheckApiTest::class.java)) {
-                throw RuntimeException("Api Test class cannot contains test method without " +
-                        "@WaitApiTest and @CheckApiTest annotations, wrong method: " + it.name)
-            }
+            runWaitApiTests = true
         }
     }
 

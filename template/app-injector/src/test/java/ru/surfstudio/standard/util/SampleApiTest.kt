@@ -16,7 +16,6 @@ class SampleApiTest : BaseNetworkDaggerTest() {
     }
 
     @Test
-    @CheckApiTest
     fun testOne() {
         System.out.println("one")
 
