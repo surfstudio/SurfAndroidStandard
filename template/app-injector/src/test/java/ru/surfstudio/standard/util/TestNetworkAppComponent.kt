@@ -17,4 +17,5 @@ import ru.surfstudio.standard.app_injector.network.cache.CacheModule
     CacheModule::class])
 interface TestNetworkAppComponent {
     fun inject(test: BaseNetworkDaggerTest)
+    fun inject(test: SampleApiTest)
 }

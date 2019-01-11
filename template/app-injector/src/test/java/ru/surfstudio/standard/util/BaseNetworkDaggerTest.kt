@@ -19,9 +19,6 @@ import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStra
 import ru.surfstudio.standard.app_injector.App
 import ru.surfstudio.standard.app_injector.AppModule
 
-@RunWith(RobolectricTestRunner::class)
-@Config(application = App::class,
-        sdk = [Build.VERSION_CODES.O_MR1])
 abstract class BaseNetworkDaggerTest {
 
     companion object {
@@ -48,15 +45,15 @@ abstract class BaseNetworkDaggerTest {
         Logger.removeLoggingStrategy(testLoggingStrategy)
     }
 
-    protected fun<T> test(observable: Observable<T>): TestObserver<T> {
+    protected fun <T> test(observable: Observable<T>): TestObserver<T> {
         return observable.test().assertNoErrors()
     }
 
-    protected fun<T> testAndGetValues(observable: Observable<T>): List<T> {
+    protected fun <T> testAndGetValues(observable: Observable<T>): List<T> {
         return test(observable).values()
     }
 
-    protected fun<T> testAndGetFirstValue(observable: Observable<T>): T {
+    protected fun <T> testAndGetFirstValue(observable: Observable<T>): T {
         return testAndGetValues(observable).first()
     }
 
