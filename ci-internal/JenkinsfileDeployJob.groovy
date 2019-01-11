@@ -181,7 +181,9 @@ pipeline.stages = [
             actualAndroidStandardVersion = newRawVersion
         },
         pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
-            script.sh "./gradlew clean uploadArchives"
+            AndroidUtil.withGradleBuildCacheCredentials(script) {
+                script.sh "./gradlew clean uploadArchives"
+            }
         },
         pipeline.createStage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
             def version = CommonUtil.removeQuotesFromTheEnds(
