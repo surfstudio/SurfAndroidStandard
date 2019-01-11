@@ -1,83 +1,44 @@
 package ru.surfstudio.android.core.mvp.rx.domain
 
-import com.jakewharton.rxrelay2.BehaviorRelay
+import android.widget.EditText
 import io.reactivex.Observable
-import java.util.concurrent.atomic.AtomicReference
+import io.reactivex.functions.Consumer
+import java.lang.IllegalArgumentException
 
 /**
- * Rx-обертка над состояниен для View
- * Всегда хранит внутри последнее значение для сохранения актуального состояния View при восстановлении ЖЦ
+ * Менеджер состояний для [EditText] с меняющимся текстом
  *
- * Отправлять события может как View, так и Presenter
- * Подписывается на события View
- * TODO state для текста c игнорированием текущего value
+ * Содержит в себе [State] и [Action] для хранения и обработки ввода текста
  */
-open class State<T>(initialValue: T? = null) {
+class State<T> : Relation<T, StateSource, StateTarget> {
 
-    internal val relay =
-            if (initialValue != null) {
-                BehaviorRelay.createDefault<T>(initialValue).toSerialized()
-            } else {
-                BehaviorRelay.create<T>().toSerialized()
+    private val action = Action<T>()
+    private val command = Command<T>()
+
+    override fun getSourceConsumer(source: StateSource): Consumer<T> =
+            when (source) {
+                is VIEW -> action.getSourceConsumer(source)
+                is PRESENTER -> command.getSourceConsumer(source)
+                else -> throw IllegalArgumentException("Illegal relationEntity $source")
             }
 
-    private val cachedValue =
-            if (initialValue != null) {
-                AtomicReference<T?>(initialValue)
-            } else {
-                AtomicReference()
+    override fun getSourceObservable(source: StateSource): Observable<T> =
+            when (source) {
+                is VIEW -> command.getSourceObservable(PRESENTER)
+                is PRESENTER -> action.getSourceObservable(VIEW)
+                else -> throw IllegalArgumentException("Illegal relationEntity $source")
+            }
+    override fun getTargetConsumer(target: StateTarget): Consumer<T> =
+            when (target) {
+                is PRESENTER -> command.getTargetConsumer(VIEW)
+                is VIEW -> action.getTargetConsumer(PRESENTER)
+                else -> throw IllegalArgumentException("Illegal relationEntity $target")
             }
 
-    /**
-     * [Observable] для подписки на изменение состояния
-     */
-    val observable = relay.asObservable()
-
-    /**
-     * Возвращает текущее значение.
-     * @throws UninitializedPropertyAccessException если нет initialValue и [State] создано без него.
-     */
-    val value: T
-        get() {
-            return cachedValue.get()
-                    ?: throw UninitializedPropertyAccessException("The State has no value yet. Use valueOrNull() or pass initialValue to the constructor.")
-        }
-
-    /**
-     * Текущее значение, либо null.
-     */
-    val valueOrNull: T? get() = cachedValue.get()
-
-    init {
-        relay.subscribe { cachedValue.set(it) }
-    }
-
-    /**
-     * Возвращает true только когда у [State] есть значение.
-     */
-    fun hasValue() = cachedValue.get() != null
-
-    /**
-     * Принятие значения нового значения и оповещение подписчиков
-     */
-    fun accept(newValue: T) {
-        relay.accept(newValue)
-    }
-
-    /**
-     * Трансформация текущего значения, и оповещение об этом слушателей
-     *
-     * @param transformer функция, трансформирующая значения
-     */
-    fun transform(transformer: (T) -> T) {
-        val newValue = transformer(value)
-        accept(newValue)
-    }
-
-    /**
-     * Обновление подписки при изменени внутри переменной (например, при добавлении элементов списка)
-     */
-    fun update() {
-        accept(value)
-    }
+    override fun getTargetObservable(target: StateTarget): Observable<T> =
+            when (target) {
+                is PRESENTER -> action.getTargetObservable(target)
+                is VIEW -> command.getTargetObservable(target)
+                else -> throw IllegalArgumentException("Illegal relationEntity $target")
+            }
 }

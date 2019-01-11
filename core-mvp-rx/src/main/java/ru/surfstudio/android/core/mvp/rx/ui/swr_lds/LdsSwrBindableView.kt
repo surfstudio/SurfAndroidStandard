@@ -10,7 +10,7 @@ interface LdsSwrBindableView<M : LdsSwrRxModel> : LdsRxView<M> {
 
 
     fun bindSwipeRefreshState(sm: M) {
-        sm.swipeRefreshState.observable.bindTo(getSwipeRefreshLayout().refreshConsumer)
+        sm.swipeRefreshState.getObservable().bindTo(getSwipeRefreshLayout().refreshConsumer)
     }
 
     private val SwipeRefreshLayout.refreshConsumer get() = Consumer<SwipeRefreshState> {

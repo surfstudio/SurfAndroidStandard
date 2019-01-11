@@ -7,7 +7,6 @@ import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.domain.*
-import ru.surfstudio.android.core.mvp.rx.domain.Target
 import ru.surfstudio.android.core.mvp.view.CoreView
 import ru.surfstudio.android.rx.extension.ConsumerSafe
 import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxModel
@@ -19,7 +18,7 @@ abstract class BaseRxPresenter<M, V>(
               V : CoreView,
               V : BindableRxView<M> {
 
-    override fun source() = PRESENTER
+    override fun relationEntity() = PRESENTER
 
     abstract fun getRxModel(): M
 
@@ -35,7 +34,7 @@ abstract class BaseRxPresenter<M, V>(
 
     protected fun applyLoadState(new: LoadStateInterface) {
         val sm = getRxModel()
-        if (sm is LdsRxModel) sm.loadState.accept(new)
+        if (sm is LdsRxModel) sm.loadState.getConsumer().accept(new)
     }
 
     protected fun <T> Observable<T>.applyLoadState(new: LoadStateInterface) = map {

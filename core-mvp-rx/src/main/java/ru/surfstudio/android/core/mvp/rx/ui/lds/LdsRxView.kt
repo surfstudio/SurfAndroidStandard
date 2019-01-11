@@ -8,7 +8,7 @@ interface LdsRxView<M>
     fun getLoadStateRenderer(): LoadStateRendererInterface
 
     fun bindLoadState(sm: M) {
-        sm.loadState.observable.bindTo { getLoadStateRenderer().render(it) }
+        sm.loadState.getObservable().bindTo { getLoadStateRenderer().render(it) }
     }
 
 }

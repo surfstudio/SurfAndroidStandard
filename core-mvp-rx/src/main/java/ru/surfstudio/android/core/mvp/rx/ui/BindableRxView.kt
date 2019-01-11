@@ -9,7 +9,7 @@ import ru.surfstudio.android.core.mvp.rx.domain.*
 
 interface BindableRxView<M : RxModel> : Related<VIEW> {
 
-    override fun source() = VIEW
+    override fun relationEntity() = VIEW
 
     fun bind(sm: M)
 

@@ -5,5 +5,5 @@ import ru.surfstudio.android.core.mvp.rx.domain.State
 import ru.surfstudio.android.core.mvp.rx.ui.RxModel
 
 open class SwrRxModel : RxModel() {
-    val swipeRefreshState = State(SwipeRefreshState.HIDE)
+    val swipeRefreshState = State<SwipeRefreshState>()
 }
