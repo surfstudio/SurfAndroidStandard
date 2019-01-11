@@ -18,11 +18,11 @@ class MainActivityView : BaseLdsRxActivityView<MainModel>() {
         super.bind(sm)
 
         sm.counterState.bindTo{ main_counter_tv.text = it.toString() }
-        main_inc_btn.clicks().bindTo { sm.incAction }
-        main_dec_btn.clicks().bindTo { sm.decAction }
+        main_inc_btn.clicks().bindTo { sm.incAction.getConsumer().accept(Unit) }
+        main_dec_btn.clicks().bindTo { sm.decAction.getConsumer().accept(Unit) }
 
         sm.textEditState.bindTo { main_text_et.setText(it) }
-        main_double_text_btn.clicks().bindTo { sm.doubleTextAction }
+        main_double_text_btn.clicks().bindTo { sm.doubleTextAction.getConsumer().accept(Unit) }
     }
 
     override fun createConfigurator() = MainScreenConfigurator(intent)

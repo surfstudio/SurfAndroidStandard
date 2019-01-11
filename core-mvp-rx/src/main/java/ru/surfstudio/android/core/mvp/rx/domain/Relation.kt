@@ -12,16 +12,15 @@ interface Relation<V, in S : Source, in T : Target> {
     fun getTargetObservable(target: T): Observable<V>
 }
 
-interface Related<S : Source, T : Target> {
+interface Related<S> where S: Source, S: Target {
 
     fun source(): S
-    fun target(): T
 
-    fun <V> Relation<V, S, T>.getObservable() =
-        this.getSourceObservable(source())
+    fun <V> Relation<V, *, S>.getObservable() =
+        this.getTargetObservable(source())
 
-     fun <V> Relation<V, S, T>.getConsumer() =
-        this.getTargetConsumer(target())
+    fun <V> Relation<V, S, *>.getConsumer() =
+            this.getSourceConsumer(source())
 }
 
 interface RelationEntity

@@ -24,14 +24,14 @@ class StateB<T> : Relation<T, StateSource, StateTarget> {
 
     override fun getSourceObservable(source: StateSource): Observable<T> =
             when (source) {
-                is VIEW -> action.getSourceObservable(source)
-                is PRESENTER -> command.getSourceObservable(source)
+                is VIEW -> command.getSourceObservable(PRESENTER)
+                is PRESENTER -> action.getSourceObservable(VIEW)
                 else -> throw IllegalArgumentException("Illegal source $source")
             }
     override fun getTargetConsumer(target: StateTarget): Consumer<T> =
             when (target) {
-                is PRESENTER -> action.getTargetConsumer(target)
-                is VIEW -> command.getTargetConsumer(target)
+                is PRESENTER -> command.getTargetConsumer(VIEW)
+                is VIEW -> action.getTargetConsumer(PRESENTER)
                 else -> throw IllegalArgumentException("Illegal source $target")
             }
 

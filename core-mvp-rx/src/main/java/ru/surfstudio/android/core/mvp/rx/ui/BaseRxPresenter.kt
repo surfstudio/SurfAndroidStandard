@@ -14,14 +14,12 @@ import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxModel
 
 abstract class BaseRxPresenter<M, V>(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<V>(basePresenterDependency), Related<PRESENTER, VIEW>
+) : BasePresenter<V>(basePresenterDependency), Related<PRESENTER>
         where M : RxModel,
               V : CoreView,
               V : BindableRxView<M> {
 
     override fun source() = PRESENTER
-
-    override fun target() = VIEW
 
     abstract fun getRxModel(): M
 
@@ -73,15 +71,4 @@ abstract class BaseRxPresenter<M, V>(
         val errorConsumer: ConsumerSafe<Throwable>? = if (onError != null) ConsumerSafe { onError(it) } else null
         subscribeIoHandleError(onNextConsumer, errorConsumer)
     }
-
-    protected fun <T> Action<T>.subscribe(consumer: Consumer<T>) {
-        subscribe(this.getTargetObservable(PRESENTER), consumer as ConsumerSafe<T>)
-    }
-
-    protected fun <T> Action<T>.subscribe(consumer: (T) -> Unit) {
-        subscribe(this.getTargetObservable(PRESENTER), consumer)
-    }
-
-    fun <T> StateB<T>.a() =
-            this.getTargetObservable(PRESENTER)
 }

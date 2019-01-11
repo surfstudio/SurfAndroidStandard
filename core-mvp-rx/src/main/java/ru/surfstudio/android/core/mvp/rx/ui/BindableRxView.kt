@@ -7,11 +7,9 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.rx.domain.*
 
-interface BindableRxView<M : RxModel> : Related<VIEW, PRESENTER> {
+interface BindableRxView<M : RxModel> : Related<VIEW> {
 
     override fun source() = VIEW
-
-    override fun target() = PRESENTER
 
     fun bind(sm: M)
 
@@ -30,7 +28,7 @@ interface BindableRxView<M : RxModel> : Related<VIEW, PRESENTER> {
                     .subscribe(consumer)
                     .removeOnDestroy()
 
-    infix fun <V> Relation<V, VIEW, PRESENTER>.bindTo(consumer: (V) -> Unit) =
+    infix fun <V> Relation<V, *, VIEW>.bindTo(consumer: (V) -> Unit) =
             this.getObservable()
                     .bindTo(consumer)
 }

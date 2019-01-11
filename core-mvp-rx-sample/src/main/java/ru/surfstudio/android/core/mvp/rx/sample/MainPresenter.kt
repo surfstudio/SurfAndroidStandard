@@ -13,9 +13,8 @@ class MainPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        model.incAction.subscribe { _ -> model.counterState.getConsumer().accept(100) }
-        model.decAction.subscribe { _ -> model.counterState.getConsumer().accept(20)  }
-
-        model.doubleTextAction.subscribe { _ -> model.textEditState.a()}
+        subscribe(model.incAction.getObservable()) { _ -> model.counterState.getConsumer().accept(100) }
+        subscribe(model.decAction.getObservable()) { _ -> model.counterState.getConsumer().accept(20) }
+        subscribe(model.doubleTextAction.getObservable()) { _ -> model.textEditState.getConsumer().accept("123123") }
     }
 }
