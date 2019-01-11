@@ -15,6 +15,7 @@ class MainPresenter @Inject constructor(
 
         subscribe(model.incAction.getObservable()) { _ -> model.counterState.getConsumer().accept(100) }
         subscribe(model.decAction.getObservable()) { _ -> model.counterState.getConsumer().accept(20) }
-        subscribe(model.doubleTextAction.getObservable()) { _ -> model.textEditState.getConsumer().accept("123123") }
+        subscribe(model.textEditState.getObservable()){ model.sampleCommand.getConsumer().accept(it)}
+        subscribe(model.doubleTextAction.getObservable()) { _ -> model.textEditState.apply { getConsumer().accept(value + value) }}
     }
 }

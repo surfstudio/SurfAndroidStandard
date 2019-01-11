@@ -1,5 +1,6 @@
 package ru.surfstudio.android.core.mvp.rx.domain
 
+import com.jakewharton.rxrelay2.BehaviorRelay
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import io.reactivex.ObservableSource
@@ -13,7 +14,9 @@ import java.lang.IllegalArgumentException
  */
 class Action<T> : Relation<T, VIEW, PRESENTER> {
 
-    private val relay = PublishRelay.create<T>().toSerialized()
+    private val relay = BehaviorRelay.create<T>()
+
+    override val value: T get() = relay.value ?: throw NoSuchElementException()
 
     override fun getSourceConsumer(source: VIEW): Consumer<T> = relay
 

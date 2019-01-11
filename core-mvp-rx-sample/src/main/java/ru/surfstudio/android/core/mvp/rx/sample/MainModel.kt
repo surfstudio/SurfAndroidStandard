@@ -12,5 +12,5 @@ class MainModel : LdsRxModel() {
 
     val textEditState = State<String>()
     val doubleTextAction = Action<Unit>()
-    val sampleCommand = Command<Unit>()
+    val sampleCommand = Command<String>()
 }

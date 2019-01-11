@@ -5,6 +5,8 @@ import io.reactivex.functions.Consumer
 
 interface Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
+    val value: V
+
     fun getSourceConsumer(source: S): Consumer<V>
     fun getSourceObservable(source: S): Observable<V>
 

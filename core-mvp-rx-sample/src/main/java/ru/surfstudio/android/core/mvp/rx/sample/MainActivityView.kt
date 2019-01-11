@@ -21,8 +21,11 @@ class MainActivityView : BaseLdsRxActivityView<MainModel>() {
         main_inc_btn.clicks().bindTo { sm.incAction.getConsumer().accept(Unit) }
         main_dec_btn.clicks().bindTo { sm.decAction.getConsumer().accept(Unit) }
 
+        main_text_et.textChanges().map { it.toString() } bindTo {sm.textEditState.getConsumer().accept(it)}
         sm.textEditState.bindTo { main_text_et.setText(it) }
         main_double_text_btn.clicks().bindTo { sm.doubleTextAction.getConsumer().accept(Unit) }
+
+        sm.sampleCommand bindTo { text_tv.text = it }
     }
 
     override fun createConfigurator() = MainScreenConfigurator(intent)

@@ -15,6 +15,8 @@ class State<T> : Relation<T, StateSource, StateTarget> {
     private val action = Action<T>()
     private val command = Command<T>()
 
+    override val value: T get() =  action.value //todo thread unsafe
+
     override fun getSourceConsumer(source: StateSource): Consumer<T> =
             when (source) {
                 is VIEW -> action.getSourceConsumer(source)

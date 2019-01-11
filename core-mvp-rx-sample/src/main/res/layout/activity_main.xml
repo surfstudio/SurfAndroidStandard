@@ -39,4 +39,9 @@
         android:layout_gravity="center"
         android:padding="16dp"
         android:text="DOUBLE" />
+
+    <TextView
+        android:id="@+id/text_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
