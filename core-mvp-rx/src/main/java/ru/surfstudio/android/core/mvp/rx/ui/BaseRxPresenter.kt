@@ -6,17 +6,22 @@ import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.mvp.rx.domain.*
+import ru.surfstudio.android.core.mvp.rx.domain.Target
 import ru.surfstudio.android.core.mvp.view.CoreView
 import ru.surfstudio.android.rx.extension.ConsumerSafe
-import ru.surfstudio.android.core.mvp.rx.domain.Action
 import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxModel
 
 abstract class BaseRxPresenter<M, V>(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<V>(basePresenterDependency)
+) : BasePresenter<V>(basePresenterDependency), Related<PRESENTER, VIEW>
         where M : RxModel,
               V : CoreView,
               V : BindableRxView<M> {
+
+    override fun source() = PRESENTER
+
+    override fun target() = VIEW
 
     abstract fun getRxModel(): M
 
@@ -29,8 +34,6 @@ abstract class BaseRxPresenter<M, V>(
     override fun onLoad(viewRecreated: Boolean) {
         if (viewRecreated) view.bind(getRxModel())
     }
-
-    protected val <T> Action<T>.observable: Observable<T> get() = relay
 
     protected fun applyLoadState(new: LoadStateInterface) {
         val sm = getRxModel()
@@ -72,10 +75,13 @@ abstract class BaseRxPresenter<M, V>(
     }
 
     protected fun <T> Action<T>.subscribe(consumer: Consumer<T>) {
-        subscribe(this.observable, consumer as ConsumerSafe<T>)
+        subscribe(this.getTargetObservable(PRESENTER), consumer as ConsumerSafe<T>)
     }
 
     protected fun <T> Action<T>.subscribe(consumer: (T) -> Unit) {
-        subscribe(this.observable, consumer)
+        subscribe(this.getTargetObservable(PRESENTER), consumer)
     }
+
+    fun <T> StateB<T>.a() =
+            this.getTargetObservable(PRESENTER)
 }
