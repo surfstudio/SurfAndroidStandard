@@ -4,7 +4,6 @@ import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateRendererInterface
-import ru.surfstudio.android.core.mvp.rx.domain.Relation
 import ru.surfstudio.android.core.mvp.rx.ui.lds.BaseLdsRxActivityView
 import ru.surfstudio.sample.R
 import javax.inject.Inject
@@ -26,6 +25,8 @@ class MainActivityView : BaseLdsRxActivityView<MainModel>() {
         main_double_text_btn.clicks().bindTo { sm.doubleTextAction.getConsumer().accept(Unit) }
 
         sm.sampleCommand bindTo { text_tv.text = it }
+
+        checkbox_sample_btn.clicks() bindTo sm.checkboxActivityOpen
     }
 
     override fun createConfigurator() = MainScreenConfigurator(intent)

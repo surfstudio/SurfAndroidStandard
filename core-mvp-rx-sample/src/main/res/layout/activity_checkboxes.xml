@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkbox_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Checkbox 1" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkbox_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Checkbox 2" />
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/checkbox_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Checkbox 2" />
+
+    <LinearLayout
+        android:paddingTop="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Checked" />
+
+        <TextView
+            android:id="@+id/counter_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="0" />
+    </LinearLayout>
+
+</LinearLayout>

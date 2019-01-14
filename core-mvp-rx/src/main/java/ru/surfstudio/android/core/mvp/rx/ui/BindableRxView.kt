@@ -5,7 +5,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.rx.domain.*
+import ru.surfstudio.android.core.mvp.rx.domain.Related
+import ru.surfstudio.android.core.mvp.rx.domain.Relation
+import ru.surfstudio.android.core.mvp.rx.domain.VIEW
 
 interface BindableRxView<M : RxModel> : Related<VIEW> {
 
@@ -28,7 +30,10 @@ interface BindableRxView<M : RxModel> : Related<VIEW> {
                     .subscribe(consumer)
                     .removeOnDestroy()
 
-    infix fun <V> Relation<V, *, VIEW>.bindTo(consumer: (V) -> Unit) =
+    infix fun <T> Relation<T, *, VIEW>.bindTo(consumer: (T) -> Unit) =
             this.getObservable()
                     .bindTo(consumer)
+
+    infix fun <T> Observable<T>.bindTo(relation: Relation<T, VIEW, *>) =
+            this.bindTo(relation.getConsumer())
 }

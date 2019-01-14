@@ -13,4 +13,6 @@ class MainModel : LdsRxModel() {
     val textEditState = TwoWay<String>()
     val doubleTextAction = Action<Unit>()
     val sampleCommand = State<String>()
+
+    val checkboxActivityOpen = Action<Unit>()
 }

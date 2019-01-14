@@ -14,7 +14,7 @@ interface Relation<V, in S : RelationEntity, in T : RelationEntity> {
     fun getObservable(target: T): Observable<V>
 }
 
-interface Related<S> where S: RelationEntity {
+interface Related<S : RelationEntity> {
 
     fun relationEntity(): S
 
