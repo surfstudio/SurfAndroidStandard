@@ -31,19 +31,23 @@ class StageResolver(
      * @param wishingState желаемое состояние
      */
     fun pushState(wishingState: LifecycleStage) {
-        if (wishingState != LifecycleStage.DESTROYED && parentState.isCompletelyDestroyed) return
-
         val states = resolveStates(wishingState)
         for (state in states) {
-
-            if (allowedStateTransition[screenState.lifecycleStage]?.contains(state) ?: false) {
+            if (allowedStateTransition[screenState.lifecycleStage]?.contains(state) == true) {
                 stageApplier(state)
             }
         }
     }
 
     private fun resolveStates(wishingState: LifecycleStage): Array<LifecycleStage> {
+        val isParentDestroyed = wishingState != LifecycleStage.DESTROYED && parentState.isCompletelyDestroyed
+        val isParentReady = parentState.lifecycleStage != null &&
+                parentState.lifecycleStage.ordinal >= LifecycleStage.VIEW_READY.ordinal
         return when {
+
+            //возвращаем пустой список, если родитель уже уничтожен
+            isParentDestroyed -> arrayOf()
+
 
             //Первые два кейса - поведение виджета в ресайклере. Необходимо послать STARTED/RESUMED и PAUSED/STOPPED
             //на attach/detach
@@ -84,6 +88,8 @@ class StageResolver(
                     }
                 }
             }
+
+            !isParentReady -> arrayOf()
 
             else -> arrayOf(wishingState)
         }
