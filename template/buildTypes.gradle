@@ -22,7 +22,6 @@ android {
             minifyEnabled true
             debuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
-            testProguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-test-rules.pro'
             // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']
             ext.betaDistributionGroupAliases = "Surf"
@@ -33,7 +32,6 @@ android {
             multiDexEnabled false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
-            testProguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-test-rules.pro'
             matchingFallbacks = ['release', 'qa']
         }
     }
