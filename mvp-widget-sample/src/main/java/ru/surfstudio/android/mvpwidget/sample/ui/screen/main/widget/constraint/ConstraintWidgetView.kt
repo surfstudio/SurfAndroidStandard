@@ -31,8 +31,8 @@ class ConstraintWidgetView @JvmOverloads constructor(
         setBackgroundColor(Color.MAGENTA)
     }
 
-    fun render(s: String) {
-        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello Constraint widget view its render from $s"
+    fun render(from: String) {
+        this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello Constraint widget view its render from $from"
     }
 
     override fun getWidgetId(): String = widgetDataId

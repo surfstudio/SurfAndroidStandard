@@ -25,6 +25,16 @@ object TextUtils {
     }
 
     /**
+     * Функция, проверяющая, что text для вью, принадлежащей другой вью,
+     * равен заданному значению
+     */
+    fun checkViewText(@IdRes viewResId: Int, @IdRes parentViewResId: Int, text: String) {
+        onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
+                .check(matches(withText(text)))
+                .check(matches(isDisplayed()))
+    }
+
+    /**
      * Функция, проверяющая, что text для вью равен значению строкового ресурса
      */
     fun checkViewText(@IdRes viewResId: Int, @StringRes textResId: Int) {
