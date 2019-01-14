@@ -1,37 +1,24 @@
 package ru.surfstudio.android.core.mvp.rx.domain
 
-import android.widget.EditText
+import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
-import java.util.concurrent.atomic.AtomicReference
 
 /**
- * Менеджер состояний для [EditText] с меняющимся текстом
+ * Rx-обертка над командами для View
  *
- * Содержит в себе [State] и [Action] для хранения и обработки ввода текста
+ * За отправку событий отвечает Presenter
+ * Подписывается на события View
  */
-class State<T> : Relation<T, StateSource, StateTarget> {
+class State<T> : Relation<T, PRESENTER, VIEW> {
 
-    override val hasValue: Boolean get() = cachedValue.get() != null
+    private val relay = BehaviorRelay.create<T>()
 
-    private val action = Action<T>()
-    private val command = Command<T>()
+    override val hasValue: Boolean get() = relay.hasValue()
 
-    private val cachedValue = AtomicReference<T>()
-    override val value: T get() = cachedValue.get()
+    override val value: T get() = relay.value?: throw NoSuchElementException()
 
-    override fun getConsumer(source: StateSource): Consumer<T> =
-            when (source) {
-                is VIEW -> action.getConsumer(source)
-                is PRESENTER -> command.getConsumer(source)
-                else -> throw IllegalArgumentException("Illegal relationEntity $source")
-            }
+    override fun getConsumer(source: PRESENTER): Consumer<T> = relay
 
-    override fun getObservable(target: StateTarget): Observable<T> =
-            when (target) {
-                is PRESENTER -> action.getObservable(target)
-                is VIEW -> command.getObservable(target)
-                else -> throw IllegalArgumentException("Illegal relationEntity $target")
-            }
-                    .doOnNext(cachedValue::set)
+    override fun getObservable(target: VIEW): Observable<T> = relay
 }

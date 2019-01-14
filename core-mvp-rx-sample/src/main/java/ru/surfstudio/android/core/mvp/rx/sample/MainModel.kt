@@ -1,16 +1,16 @@
 package ru.surfstudio.android.core.mvp.rx.sample
 
 import ru.surfstudio.android.core.mvp.rx.domain.Action
-import ru.surfstudio.android.core.mvp.rx.domain.Command
 import ru.surfstudio.android.core.mvp.rx.domain.State
+import ru.surfstudio.android.core.mvp.rx.domain.TwoWay
 import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxModel
 
 class MainModel : LdsRxModel() {
-    val counterState = State<Int>()
+    val counterState = TwoWay<Int>()
     val incAction = Action<Unit>()
     val decAction = Action<Unit>()
 
-    val textEditState = State<String>()
+    val textEditState = TwoWay<String>()
     val doubleTextAction = Action<Unit>()
-    val sampleCommand = Command<String>()
+    val sampleCommand = State<String>()
 }

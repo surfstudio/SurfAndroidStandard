@@ -10,11 +10,8 @@ class StateTest : BaseRelationTest() {
 
     private lateinit var state: State<String>
 
-    private lateinit var testViewObservable: TestObserver<String>
-    private lateinit var testViewConsumer: Consumer<String>
-
-    private lateinit var testPresenterObservable: TestObserver<String>
-    private lateinit var testPresenterConsumer: Consumer<String>
+    private lateinit var testObservable: TestObserver<String>
+    private lateinit var testConsumer: Consumer<String>
 
     @Before
     @Throws(Exception::class)
@@ -22,57 +19,32 @@ class StateTest : BaseRelationTest() {
         super.setUp()
         state = State()
 
-        testViewConsumer =
-                with(testView) {
-                    state.getConsumer()
-                }
-
-        testViewObservable =
+        testObservable =
                 with(testView) {
                     state.getObservable().test()
                 }
 
-        testPresenterConsumer=
+        testConsumer =
                 with(testPresenter) {
                     state.getConsumer()
-                }
-
-        testPresenterObservable =
-                with(testPresenter) {
-                    state.getObservable().test()
                 }
     }
 
     @Test
     @Throws(Exception::class)
     fun test() {
-        assertNotEquals(testViewObservable, testPresenterObservable)
-        assertNotEquals(testViewConsumer, testPresenterConsumer)
-
-        testViewObservable
-                .assertNoValues()
-                .assertNoErrors()
-
-        testPresenterObservable
+        testObservable
                 .assertNoValues()
                 .assertNoErrors()
 
         assertFalse(state.hasValue)
 
-        testPresenterConsumer.accept("TEST_FROM_PRESENTER")
-        testViewObservable
+        testConsumer.accept("TEST")
+
+        testObservable
                 .assertValueCount(1)
 
         assertTrue(state.hasValue)
-
-        assertEquals("TEST_FROM_PRESENTER", state.value)
-
-        testViewConsumer.accept("TEST_FROM_VIEW")
-        testPresenterObservable
-                .assertValueCount(1)
-
-        assertTrue(state.hasValue)
-
-        assertEquals("TEST_FROM_VIEW", state.value)
+        assertEquals("TEST", state.value)
     }
 }
