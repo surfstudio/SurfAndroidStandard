@@ -146,7 +146,7 @@ pipeline.stages = [
             }
         },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease assembleDebug")
         },
         pipeline.createStage(UNIT_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
@@ -158,7 +158,7 @@ pipeline.stages = [
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
-                    "release",
+                    "debug",
                     getTestInstrumentationRunnerName,
                     new AndroidTestConfig(
                             "assembleAndroidTest",
