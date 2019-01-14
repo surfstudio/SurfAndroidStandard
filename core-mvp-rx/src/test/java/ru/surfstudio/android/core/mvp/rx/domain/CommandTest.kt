@@ -37,11 +37,14 @@ class CommandTest : BaseRelationTest() {
                 .assertNoValues()
                 .assertNoErrors()
 
+        assertFalse(command.hasValue)
+
         testConsumer.accept("TEST")
 
         testObservable
                 .assertValueCount(1)
 
+        assertTrue(command.hasValue)
         assertEquals("TEST", command.value)
     }
 }

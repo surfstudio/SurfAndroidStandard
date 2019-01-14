@@ -1,11 +1,7 @@
 package ru.surfstudio.android.core.mvp.rx.domain
 
 import androidx.annotation.CallSuper
-import io.reactivex.functions.Consumer
-import io.reactivex.observers.TestObserver
-import org.junit.Assert
 import org.junit.Before
-import org.junit.Test
 
 abstract class BaseRelationTest {
 

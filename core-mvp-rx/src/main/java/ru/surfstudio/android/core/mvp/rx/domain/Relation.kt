@@ -7,7 +7,7 @@ interface Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
     val value: V
 
-    var hasValued: Boolean
+    val hasValue: Boolean
 
     fun getConsumer(source: S): Consumer<V>
 

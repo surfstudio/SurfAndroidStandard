@@ -3,7 +3,6 @@ package ru.surfstudio.android.core.mvp.rx.domain
 import android.widget.EditText
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
-import java.lang.IllegalArgumentException
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -13,7 +12,7 @@ import java.util.concurrent.atomic.AtomicReference
  */
 class State<T> : Relation<T, StateSource, StateTarget> {
 
-    override var hasValued: Boolean = false
+    override val hasValue: Boolean get() = cachedValue.get() != null
 
     private val action = Action<T>()
     private val command = Command<T>()

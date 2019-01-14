@@ -13,7 +13,7 @@ class Action<T> : Relation<T, VIEW, PRESENTER> {
 
     private val relay = BehaviorRelay.create<T>()
 
-    override var hasValued: Boolean = relay.hasValue()
+    override val hasValue: Boolean get() = relay.hasValue()
 
     override val value: T get() = relay.value ?: throw NoSuchElementException()
 

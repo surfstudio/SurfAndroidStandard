@@ -36,6 +36,7 @@ class StateTest : BaseRelationTest() {
                 with(testPresenter) {
                     state.getConsumer()
                 }
+
         testPresenterObservable =
                 with(testPresenter) {
                     state.getObservable().test()
@@ -56,15 +57,21 @@ class StateTest : BaseRelationTest() {
                 .assertNoValues()
                 .assertNoErrors()
 
+        assertFalse(state.hasValue)
+
         testPresenterConsumer.accept("TEST_FROM_PRESENTER")
         testViewObservable
                 .assertValueCount(1)
+
+        assertTrue(state.hasValue)
 
         assertEquals("TEST_FROM_PRESENTER", state.value)
 
         testViewConsumer.accept("TEST_FROM_VIEW")
         testPresenterObservable
                 .assertValueCount(1)
+
+        assertTrue(state.hasValue)
 
         assertEquals("TEST_FROM_VIEW", state.value)
     }
