@@ -7,6 +7,8 @@ interface Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
     val value: V
 
+    var hasValued: Boolean
+
     fun getSourceConsumer(source: S): Consumer<V>
     fun getSourceObservable(source: S): Observable<V>
 

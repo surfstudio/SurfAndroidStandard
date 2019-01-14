@@ -4,6 +4,7 @@ import android.widget.EditText
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import java.lang.IllegalArgumentException
+import java.util.concurrent.atomic.AtomicReference
 
 /**
  * Менеджер состояний для [EditText] с меняющимся текстом
@@ -12,10 +13,13 @@ import java.lang.IllegalArgumentException
  */
 class State<T> : Relation<T, StateSource, StateTarget> {
 
+    override var hasValued: Boolean = false
+
     private val action = Action<T>()
     private val command = Command<T>()
 
-    override val value: T get() =  action.value //todo thread unsafe
+    private val cachedValue = AtomicReference<T>()
+    override val value: T get() = cachedValue.get()
 
     override fun getSourceConsumer(source: StateSource): Consumer<T> =
             when (source) {
@@ -26,10 +30,11 @@ class State<T> : Relation<T, StateSource, StateTarget> {
 
     override fun getSourceObservable(source: StateSource): Observable<T> =
             when (source) {
-                is VIEW -> command.getSourceObservable(PRESENTER)
-                is PRESENTER -> action.getSourceObservable(VIEW)
+                is VIEW -> command.getSourceObservable(PRESENTER).doOnNext(cachedValue::set)
+                is PRESENTER -> action.getSourceObservable(VIEW).doOnNext(cachedValue::set)
                 else -> throw IllegalArgumentException("Illegal relationEntity $source")
             }
+
     override fun getTargetConsumer(target: StateTarget): Consumer<T> =
             when (target) {
                 is PRESENTER -> command.getTargetConsumer(VIEW)
@@ -39,8 +44,7 @@ class State<T> : Relation<T, StateSource, StateTarget> {
 
     override fun getTargetObservable(target: StateTarget): Observable<T> =
             when (target) {
-                is PRESENTER -> action.getTargetObservable(target)
-                is VIEW -> command.getTargetObservable(target)
-                else -> throw IllegalArgumentException("Illegal relationEntity $target")
-            }
+                is PRESENTER -> action.getTargetObservable(target).doOnNext(cachedValue::set)
+                is VIEW -> command.getTargetObservable(target).doOnNext(cachedValue::set)
+                else -> throw IllegalArgumentException("Illegal relationEntity $target")            }
 }
