@@ -21,30 +21,18 @@ class State<T> : Relation<T, StateSource, StateTarget> {
     private val cachedValue = AtomicReference<T>()
     override val value: T get() = cachedValue.get()
 
-    override fun getSourceConsumer(source: StateSource): Consumer<T> =
+    override fun getConsumer(source: StateSource): Consumer<T> =
             when (source) {
-                is VIEW -> action.getSourceConsumer(source)
-                is PRESENTER -> command.getSourceConsumer(source)
+                is VIEW -> action.getConsumer(source)
+                is PRESENTER -> command.getConsumer(source)
                 else -> throw IllegalArgumentException("Illegal relationEntity $source")
             }
 
-    override fun getSourceObservable(source: StateSource): Observable<T> =
-            when (source) {
-                is VIEW -> command.getSourceObservable(PRESENTER).doOnNext(cachedValue::set)
-                is PRESENTER -> action.getSourceObservable(VIEW).doOnNext(cachedValue::set)
-                else -> throw IllegalArgumentException("Illegal relationEntity $source")
-            }
-
-    override fun getTargetConsumer(target: StateTarget): Consumer<T> =
+    override fun getObservable(target: StateTarget): Observable<T> =
             when (target) {
-                is PRESENTER -> command.getTargetConsumer(VIEW)
-                is VIEW -> action.getTargetConsumer(PRESENTER)
+                is PRESENTER -> action.getObservable(target)
+                is VIEW -> command.getObservable(target)
                 else -> throw IllegalArgumentException("Illegal relationEntity $target")
             }
-
-    override fun getTargetObservable(target: StateTarget): Observable<T> =
-            when (target) {
-                is PRESENTER -> action.getTargetObservable(target).doOnNext(cachedValue::set)
-                is VIEW -> command.getTargetObservable(target).doOnNext(cachedValue::set)
-                else -> throw IllegalArgumentException("Illegal relationEntity $target")            }
+                    .doOnNext(cachedValue::set)
 }

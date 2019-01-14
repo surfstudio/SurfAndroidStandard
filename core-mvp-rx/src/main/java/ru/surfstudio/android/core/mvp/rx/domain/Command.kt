@@ -1,11 +1,8 @@
 package ru.surfstudio.android.core.mvp.rx.domain
 
 import com.jakewharton.rxrelay2.BehaviorRelay
-import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
 import io.reactivex.functions.Consumer
-import java.lang.IllegalArgumentException
 
 /**
  * Rx-обертка над командами для View
@@ -22,11 +19,7 @@ class Command<T>: Relation<T, PRESENTER, VIEW> {
 
     override val value: T get() = relay.value?: throw NoSuchElementException()
 
-    override fun getSourceConsumer(source: PRESENTER): Consumer<T> = relay
+    override fun getConsumer(source: PRESENTER): Consumer<T> = relay
 
-    override fun getSourceObservable(source: PRESENTER): Observable<T> = relay
-
-    override fun getTargetConsumer(target: VIEW): Consumer<T> = relay
-
-    override fun getTargetObservable(target: VIEW): Observable<T> = relay
+    override fun getObservable(target: VIEW): Observable<T> = relay
 }

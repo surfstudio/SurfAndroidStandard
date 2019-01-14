@@ -9,11 +9,9 @@ interface Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
     var hasValued: Boolean
 
-    fun getSourceConsumer(source: S): Consumer<V>
-    fun getSourceObservable(source: S): Observable<V>
+    fun getConsumer(source: S): Consumer<V>
 
-    fun getTargetConsumer(target: T): Consumer<V>
-    fun getTargetObservable(target: T): Observable<V>
+    fun getObservable(target: T): Observable<V>
 }
 
 interface Related<S> where S: RelationEntity {
@@ -21,10 +19,10 @@ interface Related<S> where S: RelationEntity {
     fun relationEntity(): S
 
     fun <V> Relation<V, *, S>.getObservable() =
-        this.getTargetObservable(relationEntity())
+        this.getObservable(relationEntity())
 
     fun <V> Relation<V, S, *>.getConsumer() =
-            this.getSourceConsumer(relationEntity())
+            this.getConsumer(relationEntity())
 }
 
 interface RelationEntity
