@@ -49,8 +49,15 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
+ * Полноэкранный плейсхолдер с поддержкой смены состояний.
  */
+@Deprecated(
+        message = "Следует использовать PlaceHolderViewContainer",
+        replaceWith = ReplaceWith(
+                expression = "PlaceHolderViewContainer(context, attrs)",
+                imports = ["ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer"]
+        )
+)
 open class StandardPlaceHolderView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
