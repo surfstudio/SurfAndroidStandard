@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.ui
+package ru.surfstudio.android.core.mvp.rx.sample.cycled
 
-import androidx.annotation.CallSuper
-import io.reactivex.disposables.CompositeDisposable
-import ru.surfstudio.android.core.mvp.activity.CoreActivityView
-import ru.surfstudio.android.core.mvp.model.ScreenModel
+import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
+import ru.surfstudio.android.dagger.scope.PerScreen
+import javax.inject.Inject
 
-abstract class BaseRxActivityView<M : ScreenModel> : CoreActivityView(), BindableRxView<M> {
-    private val viewDisposable = CompositeDisposable()
+@PerScreen
+class CycledPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency
+) : BaseRxPresenter<CycledScreenModel, CycledActivityView>(basePresenterDependency) {
 
-    @CallSuper
-    override fun onDestroy() {
-        viewDisposable.clear()
-        super.onDestroy()
-    }
+    private val model = CycledScreenModel()
+    override fun getRxModel() = model
 
-    override fun getDisposable() = viewDisposable
 }

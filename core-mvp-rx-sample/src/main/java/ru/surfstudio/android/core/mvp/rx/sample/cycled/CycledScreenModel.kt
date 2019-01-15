@@ -14,22 +14,9 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.sample
+package ru.surfstudio.android.core.mvp.rx.sample.cycled
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
-import ru.surfstudio.android.core.mvp.rx.domain.Action
-import ru.surfstudio.android.core.mvp.rx.domain.State
-import ru.surfstudio.android.core.mvp.rx.domain.TwoWay
 
-class MainModel : ScreenModel() {
-    val counterState = TwoWay<Int>()
-    val incAction = Action<Unit>()
-    val decAction = Action<Unit>()
 
-    val textEditState = TwoWay<String>()
-    val doubleTextAction = Action<Unit>()
-    val sampleCommand = State<String>()
-
-    val checkboxSampleActivityOpen = Action<Unit>()
-    val cycledSampleActivityOpen = Action<Unit>()
-}
+class CycledScreenModel : ScreenModel()

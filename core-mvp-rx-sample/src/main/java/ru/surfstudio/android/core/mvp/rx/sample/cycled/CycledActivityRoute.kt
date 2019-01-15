@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.ui
+package ru.surfstudio.android.core.mvp.rx.sample.cycled
 
-import androidx.annotation.CallSuper
-import io.reactivex.disposables.CompositeDisposable
-import ru.surfstudio.android.core.mvp.activity.CoreActivityView
-import ru.surfstudio.android.core.mvp.model.ScreenModel
+import android.content.Context
+import android.content.Intent
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
-abstract class BaseRxActivityView<M : ScreenModel> : CoreActivityView(), BindableRxView<M> {
-    private val viewDisposable = CompositeDisposable()
+class CycledActivityRoute : ActivityRoute() {
 
-    @CallSuper
-    override fun onDestroy() {
-        viewDisposable.clear()
-        super.onDestroy()
-    }
-
-    override fun getDisposable() = viewDisposable
+    override fun prepareIntent(context: Context?): Intent =
+            Intent(context, CycledActivityView::class.java)
 }

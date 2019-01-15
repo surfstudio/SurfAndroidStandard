@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.sample.checkbox
+package ru.surfstudio.android.core.mvp.rx.sample.cycled
 
-import com.jakewharton.rxbinding2.widget.checkedChanges
-import kotlinx.android.synthetic.main.activity_checkboxes.*
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
 import ru.surfstudio.sample.R
 import javax.inject.Inject
@@ -25,24 +23,21 @@ import javax.inject.Inject
 /**
  * Экран демострирующий возможность работы со связными данными типа чекбоксов
  */
-class CheckboxActivityView : BaseRxActivityView<CheckboxModel>() {
+class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
 
     @Inject
-    lateinit var presenter: CheckboxPresenter
+    lateinit var presenter: CycledPresenter
 
-    override fun bind(sm: CheckboxModel) {
-        checkbox_1.checkedChanges() bindTo sm.checkAction1
-        checkbox_2.checkedChanges() bindTo sm.checkAction2
-        checkbox_3.checkedChanges() bindTo sm.checkAction3
+    override fun bind(sm: CycledScreenModel) {
 
-        sm.count.getObservable() bindTo { counter_et.text = it.toString() }
     }
 
-    override fun createConfigurator() = CheckboxScreenConfigurator(intent)
+    override fun createConfigurator() = CycledScreenConfigurator(intent)
 
-    override fun getScreenName(): String = "CheckboxActivityView"
+    override fun getScreenName(): String = "CycledActivityView"
 
-    override fun getContentView(): Int = R.layout.activity_checkboxes
+    override fun getContentView(): Int = R.layout.activity_cycled
 
     override fun getPresenters() = arrayOf(presenter)
+
 }

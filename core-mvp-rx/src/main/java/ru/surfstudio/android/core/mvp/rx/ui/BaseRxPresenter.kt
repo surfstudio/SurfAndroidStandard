@@ -1,20 +1,37 @@
+/*
+ * Copyright (c) 2019-present, SurfStudio LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ru.surfstudio.android.core.mvp.rx.ui
 
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
+import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.core.mvp.rx.domain.*
+import ru.surfstudio.android.core.mvp.rx.domain.PRESENTER
+import ru.surfstudio.android.core.mvp.rx.domain.Related
 import ru.surfstudio.android.core.mvp.view.CoreView
 import ru.surfstudio.android.rx.extension.ConsumerSafe
-import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxModel
 
 abstract class BaseRxPresenter<M, V>(
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<V>(basePresenterDependency), Related<PRESENTER>
-        where M : RxModel,
+        where M : ScreenModel,
               V : CoreView,
               V : BindableRxView<M> {
 
@@ -34,7 +51,6 @@ abstract class BaseRxPresenter<M, V>(
 
     protected fun applyLoadState(new: LoadStateInterface) {
         val sm = getRxModel()
-        if (sm is LdsRxModel) sm.loadState.getConsumer().accept(new)
     }
 
     protected fun <T> Observable<T>.applyLoadState(new: LoadStateInterface) = map {
