@@ -8,7 +8,7 @@
 ## Список виджетов
 
 + `TitleSubtitleView` - виджет для отображения текста с подписью;
-+ `StandardPlaceHolderView` - Полноэкранный плейсхолдер с поддержкой смены состояний. В настоящее время разработка приостоновлена. Следует использовать [PlaceHolderViewContainer](../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt)
++ `StandardPlaceHolderView` - Полноэкранный плейсхолдер с поддержкой смены состояний. `В настоящее время разработка приостоновлена. Следует использовать` [PlaceHolderViewContainer](../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt)
 
 ## Использование
 [Пример использования](../custom-view-sample)

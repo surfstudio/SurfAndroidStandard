@@ -50,14 +50,9 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * Полноэкранный плейсхолдер с поддержкой смены состояний.
+ *
+ * Поддержка приостановлена. Следует использовать [PlaceHolderViewContainer]
  */
-@Deprecated(
-        message = "Следует использовать PlaceHolderViewContainer",
-        replaceWith = ReplaceWith(
-                expression = "PlaceHolderViewContainer(context, attrs)",
-                imports = ["ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer"]
-        )
-)
 open class StandardPlaceHolderView @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,

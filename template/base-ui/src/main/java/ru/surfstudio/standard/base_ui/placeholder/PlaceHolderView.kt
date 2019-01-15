@@ -12,13 +12,6 @@ import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
  *
  * Все состояния обрабатываются стандартно.
  */
-@Deprecated(
-        message = "Следует использовать PlaceHolderViewContainer",
-        replaceWith = ReplaceWith(
-                expression = "PlaceHolderViewContainer(context, attrs)",
-                imports = ["ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer"]
-        )
-)
 class PlaceHolderView(
         context: Context,
         attributeSet: AttributeSet
