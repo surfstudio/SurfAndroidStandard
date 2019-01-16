@@ -35,4 +35,8 @@
     <string name="notification_channel_id">CHANNEL_ID</string>
     <string name="debug_screen_title">Debug screen</string>
     <string name="debug_screen_body">Show debug info</string>
+
+    <!--region ServerSettingsDebugActivityView-->
+    <string name="server_settings_request_delay_text">Задержка запросов: %1$.2f.s</string>
+    <!--endregion-->
 </resources>
