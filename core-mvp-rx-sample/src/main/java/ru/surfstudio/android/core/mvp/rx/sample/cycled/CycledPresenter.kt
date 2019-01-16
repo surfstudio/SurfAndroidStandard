@@ -16,17 +16,37 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.cycled
 
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.mvp.rx.sample.cycled.domen.Origin
+import ru.surfstudio.android.core.mvp.rx.sample.cycled.interactor.NomenInteractor
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 @PerScreen
 class CycledPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency
+        basePresenterDependency: BasePresenterDependency,
+        private val nomenInteractor: NomenInteractor
 ) : BaseRxPresenter<CycledScreenModel, CycledActivityView>(basePresenterDependency) {
 
     private val model = CycledScreenModel()
     override fun getRxModel() = model
 
+    override fun onFirstLoad() {
+        super.onFirstLoad()
+
+        with(model) {
+            Observable.combineLatest<String, Origin, Pair<String, Origin>>(
+                    baseOfNomen.getObservable(),
+                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { nomenInteractor.composeNomen(it.first, it.second) bindTo nomen }
+
+            Observable.combineLatest<String, Origin, Pair<String, Origin>>(
+                    nomen.getObservable(),
+                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { nomenInteractor.extractBaseOfNomen(it.first, it.second) bindTo baseOfNomen }
+
+            nomen bindTo { nomenInteractor.detectOrgin(it) bindTo origin }
+        }
+    }
 }

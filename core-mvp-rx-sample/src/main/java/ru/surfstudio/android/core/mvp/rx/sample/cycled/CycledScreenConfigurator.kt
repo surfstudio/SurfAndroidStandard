@@ -19,7 +19,9 @@ package ru.surfstudio.android.core.mvp.rx.sample.cycled
 import android.content.Intent
 import dagger.Component
 import dagger.Module
+import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.mvp.rx.sample.cycled.interactor.NomenInteractor
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
@@ -39,7 +41,13 @@ class CycledScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurat
 
     @Module
     internal class CycledScreenModule(route: CycledActivityRoute)
-        : DefaultCustomScreenModule<CycledActivityRoute>(route)
+        : DefaultCustomScreenModule<CycledActivityRoute>(route) {
+
+
+        @Provides
+        @PerScreen
+        fun nomenInteractor(): NomenInteractor = NomenInteractor()
+    }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,

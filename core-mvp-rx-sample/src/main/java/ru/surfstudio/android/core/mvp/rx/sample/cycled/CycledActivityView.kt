@@ -16,8 +16,15 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.cycled
 
+import android.widget.RadioButton
+import com.jakewharton.rxbinding2.widget.checkedChanges
+import com.jakewharton.rxbinding2.widget.textChanges
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.activity_cycled.*
+import ru.surfstudio.android.core.mvp.rx.sample.cycled.domen.*
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
 import ru.surfstudio.sample.R
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -29,7 +36,22 @@ class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
     lateinit var presenter: CycledPresenter
 
     override fun bind(sm: CycledScreenModel) {
+        val checkboxObserver = Observable.mergeArray(
+                origin_rome_rb.prepare(),
+                origin_sab_oksk_rb.prepare(),
+                origin_umbrian_rb.prepare(),
+                origin_etruscan_rb.prepare(),
+                origin_other_rb.prepare())
 
+        with(sm) {
+            origin bindTo ::checkRb
+            nomen bindTo nomen_et::setText
+            baseOfNomen bindTo nomen_base_et::setText
+
+            nomen_base_et.textChanges().debounce(300, TimeUnit.MILLISECONDS).map(CharSequence::toString) bindTo baseOfNomen
+            nomen_et.textChanges().debounce(300, TimeUnit.MILLISECONDS).map(CharSequence::toString) bindTo nomen
+            checkboxObserver bindTo origin
+        }
     }
 
     override fun createConfigurator() = CycledScreenConfigurator(intent)
@@ -40,4 +62,24 @@ class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
 
     override fun getPresenters() = arrayOf(presenter)
 
+    private fun RadioButton.prepare(): Observable<Origin> =
+            this.checkedChanges().filter { it }.map {
+                when (this.id) {
+                    origin_rome_rb.id -> RomeOrigin()
+                    origin_umbrian_rb.id -> UmbrianOrigin()
+                    origin_sab_oksk_rb.id -> SOskanOrigin()
+                    origin_etruscan_rb.id -> EtruscanOrigin()
+                    else -> UnknownOrigin()
+                }
+            }
+
+    private fun checkRb(origin: Origin): Unit = when (origin) {
+        is RomeOrigin -> origin_rome_rb
+        is SOskanOrigin -> origin_sab_oksk_rb
+        is UmbrianOrigin -> origin_umbrian_rb
+        is EtruscanOrigin -> origin_etruscan_rb
+        is UnknownOrigin -> origin_other_rb
+    }.run {
+        isChecked = true
+    }
 }

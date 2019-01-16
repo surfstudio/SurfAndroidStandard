@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.sample.cycled
+package ru.surfstudio.android.core.mvp.rx.sample.cycled.domen
 
-import ru.surfstudio.android.core.mvp.model.ScreenModel
-import ru.surfstudio.android.core.mvp.rx.domain.Bond
-import ru.surfstudio.android.core.mvp.rx.sample.cycled.domen.Origin
-
-
-class CycledScreenModel : ScreenModel() {
-
-    val baseOfNomen = Bond<String>()
-    val nomen = Bond<String>()
-    val origin = Bond<Origin>()
-
-}
+data class Nomen(val base: String, val full: String, val origin: Origin)

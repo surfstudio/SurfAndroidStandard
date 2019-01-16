@@ -17,6 +17,7 @@
 package ru.surfstudio.android.core.mvp.rx.domain
 
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 
@@ -46,6 +47,9 @@ interface Related<S : RelationEntity> {
     infix fun <T> Observable<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this, consumer)
 
+    infix fun <T> Single<T>.bindTo(consumer: Consumer<T>) =
+            this@Related.subscribe(this.toObservable(), consumer)
+
     fun <T, R> Observable<T>.bindTo(consumer: Consumer<R>, transformer: (T) -> R) =
             this@Related.subscribe(this.map { transformer(it) }, consumer)
 
@@ -57,6 +61,9 @@ interface Related<S : RelationEntity> {
                     .bindTo(consumer)
 
     infix fun <T> Observable<T>.bindTo(relation: Relation<T, S, *>) =
+            this.bindTo(relation.getConsumer())
+
+    infix fun <T> Single<T>.bindTo(relation: Relation<T, S, *>) =
             this.bindTo(relation.getConsumer())
 
     infix fun <T> Relation<T, *, S>.bindTo(relation: Relation<T, S, *>) =
