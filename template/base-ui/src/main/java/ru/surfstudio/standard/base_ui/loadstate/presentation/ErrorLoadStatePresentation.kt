@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.StringRes
+import kotlinx.android.synthetic.main.layout_state_error.view.*
 import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.ErrorLoadState
