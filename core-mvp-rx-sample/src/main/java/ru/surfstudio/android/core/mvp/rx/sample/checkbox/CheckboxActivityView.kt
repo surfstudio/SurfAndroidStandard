@@ -35,7 +35,7 @@ class CheckboxActivityView : BaseRxActivityView<CheckboxModel>() {
         checkbox_2.checkedChanges() bindTo sm.checkAction2
         checkbox_3.checkedChanges() bindTo sm.checkAction3
 
-        sm.count.getObservable() bindTo { counter_et.text = it.toString() }
+        sm.count bindTo { counter_et.text = it.toString() }
     }
 
     override fun createConfigurator() = CheckboxScreenConfigurator(intent)

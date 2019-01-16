@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2019-present, SurfStudio LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ru.surfstudio.android.core.mvp.rx.domain
 
 import android.widget.EditText
@@ -8,9 +24,9 @@ import java.util.concurrent.atomic.AtomicReference
 /**
  * Менеджер состояний для [EditText] с меняющимся текстом
  *
- * Содержит в себе [TwoWay] и [Action] для хранения и обработки ввода текста
+ * Содержит в себе [Bond] и [Action] для хранения и обработки ввода текста
  */
-class TwoWay<T> : Relation<T, StateSource, StateTarget> {
+class Bond<T> : Relation<T, StateSource, StateTarget> {
 
     override val hasValue: Boolean get() = cachedValue.get() != null
 

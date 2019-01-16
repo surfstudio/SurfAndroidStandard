@@ -17,7 +17,11 @@
 package ru.surfstudio.android.core.mvp.rx.ui
 
 import androidx.annotation.CallSuper
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 
@@ -30,5 +34,8 @@ abstract class BaseRxActivityView<M : ScreenModel> : CoreActivityView(), Bindabl
         super.onDestroy()
     }
 
-    override fun getDisposable() = viewDisposable
+    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
+            observable.observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(onNext)
+                    .also { viewDisposable.add(it) }
 }

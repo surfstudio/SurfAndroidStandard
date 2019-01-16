@@ -29,18 +29,19 @@ class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         val activityNavigator: ActivityNavigator
 ) : BaseRxPresenter<MainModel, MainActivityView>(basePresenterDependency) {
+
     private val model = MainModel()
     override fun getRxModel() = model
 
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        subscribe(model.incAction.getObservable()) { model.counterState.getConsumer().accept(100) }
-        subscribe(model.decAction.getObservable()) { model.counterState.getConsumer().accept(20) }
-        subscribe(model.textEditState.getObservable()){ model.sampleCommand.getConsumer().accept(it)}
-        subscribe(model.doubleTextAction.getObservable()) { model.textEditState.apply { getConsumer().accept(value + value) } }
+        model.incAction.bindTo(model.counterState) { 100 }
+        model.decAction.bindTo(model.counterState) { 20 }
+        model.textEditState bindTo model.sampleCommand
+        model.doubleTextAction.bindTo(model.textEditState) { model.textEditState.let { it.value + it.value } }
 
-        subscribe(model.checkboxSampleActivityOpen.getObservable()) { activityNavigator.start(CheckboxActivityRoute()) }
-        subscribe(model.cycledSampleActivityOpen.getObservable()) { activityNavigator.start(CycledActivityRoute()) }
+        model.checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
+        model.cycledSampleActivityOpen bindTo { activityNavigator.start(CycledActivityRoute()) }
     }
 }

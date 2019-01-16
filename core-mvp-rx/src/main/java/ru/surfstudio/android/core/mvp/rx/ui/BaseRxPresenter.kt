@@ -18,8 +18,8 @@ package ru.surfstudio.android.core.mvp.rx.ui
 
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -49,19 +49,8 @@ abstract class BaseRxPresenter<M, V>(
         if (viewRecreated) view.bind(getRxModel())
     }
 
-    protected fun applyLoadState(new: LoadStateInterface) {
-        val sm = getRxModel()
-    }
-
-    protected fun <T> Observable<T>.applyLoadState(new: LoadStateInterface) = map {
-        this@BaseRxPresenter.applyLoadState(new)
-        it
-    }
-
-    protected fun <T> Observable<T>.applyLoadState(loadStateFromDataAction: (T) -> LoadStateInterface) = map {
-        this@BaseRxPresenter.applyLoadState(loadStateFromDataAction(it))
-        it
-    }
+    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
+            super.subscribe(observable) { onNext.accept(it) }
 
     fun <T> Observable<T>.subscribeIoHandleError(onNextConsumer: Consumer<T>, onError: Consumer<Throwable>? = null) {
         subscribeIoHandleError(this

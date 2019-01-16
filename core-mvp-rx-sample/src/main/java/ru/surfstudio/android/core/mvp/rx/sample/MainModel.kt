@@ -18,15 +18,16 @@ package ru.surfstudio.android.core.mvp.rx.sample
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.rx.domain.Action
+import ru.surfstudio.android.core.mvp.rx.domain.Bond
 import ru.surfstudio.android.core.mvp.rx.domain.State
-import ru.surfstudio.android.core.mvp.rx.domain.TwoWay
 
 class MainModel : ScreenModel() {
-    val counterState = TwoWay<Int>()
+
+    val counterState = Bond<Int>()
     val incAction = Action<Unit>()
     val decAction = Action<Unit>()
 
-    val textEditState = TwoWay<String>()
+    val textEditState = Bond<String>()
     val doubleTextAction = Action<Unit>()
     val sampleCommand = State<String>()
 

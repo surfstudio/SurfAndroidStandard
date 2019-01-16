@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2019-present, SurfStudio LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ru.surfstudio.android.core.mvp.rx.domain
 
 import io.reactivex.functions.Consumer
@@ -8,7 +24,7 @@ import org.junit.Test
 
 class TwoWayTest : BaseRelationTest() {
 
-    private lateinit var twoWay: TwoWay<String>
+    private lateinit var twoWay: Bond<String>
 
     private lateinit var testViewObservable: TestObserver<String>
     private lateinit var testViewConsumer: Consumer<String>
@@ -20,7 +36,7 @@ class TwoWayTest : BaseRelationTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        twoWay = TwoWay()
+        twoWay = Bond()
 
         testViewConsumer =
                 with(testView) {
@@ -74,5 +90,27 @@ class TwoWayTest : BaseRelationTest() {
         assertTrue(twoWay.hasValue)
 
         assertEquals("TEST_FROM_VIEW", twoWay.value)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testCycled() {
+        val bound1 = Bond<String>()
+        val bound2 = Bond<String>()
+
+        val action = Action<String>()
+        val state = State<String>()
+
+        with(testView) {
+            bound1 bindTo bound2
+            state bindTo action
+        }
+
+        with(testPresenter) {
+            action bindTo bound2
+            action bindTo state
+        }
+
+
     }
 }
