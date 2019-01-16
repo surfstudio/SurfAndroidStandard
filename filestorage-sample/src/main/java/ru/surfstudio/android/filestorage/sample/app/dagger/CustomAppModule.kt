@@ -3,6 +3,7 @@ package ru.surfstudio.android.filestorage.sample.app.dagger
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
@@ -43,5 +44,11 @@ class CustomAppModule(private val coreApp: CoreApp) {
     @PerApplication
     internal fun provideSchedulerProvider(): SchedulersProvider {
         return SchedulersProviderImpl()
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
+        return ConnectionProvider(context)
     }
 }

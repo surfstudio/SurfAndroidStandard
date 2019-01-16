@@ -73,10 +73,4 @@
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.PlaceHolderViewContainer
-        android:id="@+id/placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true" />
 </RelativeLayout>

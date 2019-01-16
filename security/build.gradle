@@ -20,7 +20,7 @@ android {
 
 dependencies {
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    implementation "com.android.support:support-annotations:$appcompatVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
