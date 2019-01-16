@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ru.surfstudio.standard.f_debug.scalpel.ScalpelFrameLayout
+        android:id="@+id/scalpel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/scalpel_panel"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:alpha="0.8"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:id="@+id/scalpel_settings_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="start"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_settings" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingEnd="10dp"
+                android:text="SETTINGS"
+                android:textColor="#FF0025CC"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/close_scalpel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="CLOSE"
+            android:textColor="#FF0025CC"
+            android:textSize="18sp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/scalpel_settings_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/scalpel_panel"
+        android:alpha="0.8"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+            android:id="@+id/draw_class_scalpel_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:switch_title="Show View classes" />
+
+        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+            android:id="@+id/draw_id_scalpel_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:switch_title="Show View ids" />
+
+        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+            android:id="@+id/draw_views_scalpel_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:switch_title="Draw Views content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:paddingTop="8dp"
+            android:text="Visible Layers:" />
+
+        <com.appyvet.materialrangebar.RangeBar
+            android:id="@+id/views_layers_scalpel_settings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:mrb_pinMaxFont="14sp"
+            app:mrb_pinMinFont="12sp"
+            app:mrb_tickEnd="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/scalpel_settings_container"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/hide_scalpel_settings_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="6dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="HIDE"
+            android:textColor="#FF0025CC"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/scalpel_settings_container"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:padding="3dp"
+        android:text="Scalpel"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp" />
+
+</RelativeLayout>

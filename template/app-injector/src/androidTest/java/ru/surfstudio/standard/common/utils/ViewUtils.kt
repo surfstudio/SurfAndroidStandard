@@ -23,6 +23,17 @@ object ViewUtils {
 
     /**
      * Функция, выполняющая нажатие на каждую вью, id которых переданы в параметрах,
+     * и вызывающая другую функцию после клика на каждую вью
+     */
+    fun performClick(action: () -> Unit, @IdRes vararg viewIdResList: Int) {
+        viewIdResList.forEach {
+            onView(withId(it)).perform(click())
+            action()
+        }
+    }
+
+    /**
+     * Функция, выполняющая нажатие на каждую вью, id которых переданы в параметрах,
      * и проверяющая, что значение каждой вью после клика равно указанному тексту
      */
     fun performClick(textForCheck: String, @IdRes vararg viewIdResList: Int) {

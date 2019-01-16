@@ -16,3 +16,4 @@ include "$templatePrefix:base-ui",
         "$templatePrefix:f-debug-no-op"
 
 apply from: 'android-standard/androidStandardSettings.gradle'
+apply from: 'buildCache.gradle'

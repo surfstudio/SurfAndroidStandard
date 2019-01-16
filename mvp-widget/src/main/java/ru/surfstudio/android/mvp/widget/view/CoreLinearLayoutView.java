@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.mvp.widget.view;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -28,7 +29,7 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
- * базовый класс для кастомной вьюшки с презентером, основанном на FrameLayout
+ * базовый класс для кастомной вьюшки с презентером, основанном на [LinearLayout]
  * <p>
  * !!!ВАЖНО!!!
  * Пока нельзя использовать в ресайклере
@@ -40,11 +41,8 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
 
     public CoreLinearLayoutView(Context context, boolean isManualInitEnabled) {
         super(context, null);
-
         this.isManualInitEnabled = isManualInitEnabled;
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
+        initWidgetViewDelegate();
     }
 
     public CoreLinearLayoutView(Context context, AttributeSet attrs) {
@@ -53,11 +51,9 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
 
     public CoreLinearLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        obtainAttrs(attrs);
 
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
+        obtainAttrs(attrs);
+        initWidgetViewDelegate();
     }
 
     @TargetApi(21)
@@ -65,14 +61,13 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
         super(context, attrs, defStyleAttr, defStyleRes);
 
         obtainAttrs(attrs);
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
+        initWidgetViewDelegate();
     }
 
+    @SuppressLint("CustomViewStyleable")
     private void obtainAttrs(AttributeSet attrs) {
-        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreConstraintLayoutView, -1, -1);
-        isManualInitEnabled = ta.getBoolean(R.styleable.CoreConstraintLayoutView_enableManualInit, false);
+        TypedArray ta = getContext().obtainStyledAttributes(attrs, R.styleable.CoreWidgetViewInterface, -1, -1);
+        isManualInitEnabled = ta.getBoolean(R.styleable.CoreWidgetViewInterface_enableManualInit, false);
         ta.recycle();
     }
 
@@ -103,9 +98,16 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     public void init() {}
 
     @Override
-    public void init(String scopeId) {
+    public void init(String scopeId) {}
+
+    @Override
+    public String getWidgetId() {
+        return Integer.toString(getId());
+    }
+
+    @Override
+    public void lazyInit() {
         widgetViewDelegate = createWidgetViewDelegate();
-        widgetViewDelegate.setScopeId(scopeId);
         widgetViewDelegate.onCreate();
     }
 
@@ -130,5 +132,11 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
+    }
+
+    private void initWidgetViewDelegate() {
+        if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
+        }
     }
 }

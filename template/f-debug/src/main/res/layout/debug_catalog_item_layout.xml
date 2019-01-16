@@ -9,8 +9,9 @@
         android:id="@+id/debug_item_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:layout_centerVertical="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         tools:text="Text" />
 
     <View

@@ -2,14 +2,15 @@ package ru.surfstudio.standard.f_debug
 
 import android.app.Application
 import com.codemonkeylabs.fpslibrary.TinyDancer
-import com.readystatesoftware.chuck.ChuckInterceptor
-import com.squareup.leakcanary.LeakCanary
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import com.readystatesoftware.chuck.ChuckInterceptor
+import com.squareup.leakcanary.LeakCanary
 import okhttp3.OkHttpClient
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
+import ru.surfstudio.standard.f_debug.scalpel.ScalpelManager
 import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
 import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.f_debug.storage.DebugUiToolsStorage
@@ -88,14 +89,14 @@ class DebugInteractor @Inject constructor(
 
     /**
      * Нужно вызвать в [Application.onCreate]
-     * Инициализируются [LeakCanary], [DebugNotificationBuilder], [Stetho], [TinyDancer]
      */
     fun onCreateApp(icon: Int) {
+        DebugNotificationBuilder.showDebugNotification(application, icon)
+        ScalpelManager.init(application)
+
         if (memoryDebugStorage.isLeakCanaryEnabled) {
             LeakCanary.install(application)
         }
-        DebugNotificationBuilder.showDebugNotification(application, icon)
-
         if (toolsDebugStorage.isStethoEnabled) {
             Stetho.initializeWithDefaults(application)
         }

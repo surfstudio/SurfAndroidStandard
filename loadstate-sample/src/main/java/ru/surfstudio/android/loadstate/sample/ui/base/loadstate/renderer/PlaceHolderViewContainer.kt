@@ -22,6 +22,8 @@ class PlaceHolderViewContainer(
         attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
 
     companion object {
+        const val ALPHA_FULL = 1f
+        const val ALPHA_TRANSPARENT = 0f
         const val DEFAULT_DURATION = 300L
         const val STATE_TOGGLE_DELAY_MS = 250L
     }
@@ -52,12 +54,12 @@ class PlaceHolderViewContainer(
 
     fun changeVisibility(visibilityTo: Int) {
         if (isVisible && (visibilityTo != View.VISIBLE)) {
-            fadeOut(DEFAULT_DURATION, visibilityTo)
+            fadeOut(DEFAULT_DURATION, visibilityTo, ALPHA_TRANSPARENT)
             return
         }
 
         if ((visibility != View.VISIBLE) && (visibilityTo == View.VISIBLE)) {
-            fadeIn(DEFAULT_DURATION)
+            fadeIn(DEFAULT_DURATION, ALPHA_FULL)
         }
     }
 

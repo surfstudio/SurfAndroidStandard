@@ -11,10 +11,11 @@ apply plugin: 'kotlin-kapt'
 //todo uncoment for real app
 //apply plugin: 'io.fabric'
 
-apply from: '../commonTestModule.gradle'
 apply from: '../config.gradle'
+apply from: '../commonTestModule.gradle'
+
 apply from: '../easylauncher.gradle'
-apply from: '../keystore/signinConfigs.gradle'
+apply from: '../keystore/signingConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
 
@@ -28,8 +29,6 @@ android {
         versionCode config["versionCode"]
         versionName config["versionName"]
 
-        vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
 
         testBuildType 'debug' //todo replace to 'qa' for real app

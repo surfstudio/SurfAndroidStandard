@@ -14,4 +14,5 @@
     <string name="location_service_sample">LocationService sample</string>
     <string name="permission_rational">Для получения данных о местоположении требуется разрешение на доступ к местоположению.</string>
     <string name="settings_rational">Доступ к местоположению запрещен навсегда. Выдать разрешение можно только через настройки.</string>
+    <string name="accept_location_settings_btn_text">OK</string>
 </resources>

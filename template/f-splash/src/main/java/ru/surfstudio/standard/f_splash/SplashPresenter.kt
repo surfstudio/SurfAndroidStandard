@@ -30,6 +30,7 @@ internal class SplashPresenter @Inject constructor(
 
 
     override fun onFirstLoad() {
+        super.onFirstLoad()
 
         val delay = Completable.timer(TRANSITION_DELAY_MS, TimeUnit.MILLISECONDS)
         val worker = initializeAppInteractor.initialize()

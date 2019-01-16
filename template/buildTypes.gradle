@@ -1,6 +1,6 @@
 //Данный файл описывает типы сборок
 
-apply from: '../keystore/signinConfigs.gradle'
+apply from: '../keystore/signingConfigs.gradle'
 apply from: '../config.gradle'
 
 def config = extensions.getByName("ext")
@@ -14,14 +14,13 @@ android {
             multiDexEnabled true
             minifyEnabled false
             debuggable = true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             applicationIdSuffix config["debugVersionNameSuffix"]
         }
         qa {
             signingConfig signingConfigs.test
             multiDexEnabled true
-            debuggable = true
             minifyEnabled true
+            debuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             // сопоставлеие buildType.qa к buildType.release для корректного подключения локального android-standard
             matchingFallbacks = ['release']
