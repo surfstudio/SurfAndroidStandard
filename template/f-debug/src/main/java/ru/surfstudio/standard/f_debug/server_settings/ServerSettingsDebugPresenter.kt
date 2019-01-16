@@ -25,7 +25,7 @@ class ServerSettingsDebugPresenter @Inject constructor(
                     debugInteractor.isChuckEnabled,
                     debugInteractor.isTestServerEnabled,
                     millisecondsToSeconds(debugInteractor.requestDelay),
-                    delayMillisecondsToCoeffitsient(debugInteractor.requestDelay)
+                    delayMillisecondsToCoefficient(debugInteractor.requestDelay)
             )
 
     override fun onLoad(viewRecreated: Boolean) {
@@ -58,7 +58,7 @@ class ServerSettingsDebugPresenter @Inject constructor(
         return milliseconds / 1000.0F
     }
 
-    private fun delayMillisecondsToCoeffitsient(delay: Long): Int {
+    private fun delayMillisecondsToCoefficient(delay: Long): Int {
         return if (delay == 0L) 0 else log2(delay / 500.0).toInt() + 1
     }
 
