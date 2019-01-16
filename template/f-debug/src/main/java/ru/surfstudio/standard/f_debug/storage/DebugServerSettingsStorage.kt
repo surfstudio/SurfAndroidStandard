@@ -18,6 +18,6 @@ class DebugServerSettingsStorage @Inject constructor(
         set(value) = SettingsUtil.putBoolean(noBackupSharedPref, IS_CHUCK_ENABLED_KEY, value)
 
     var isTestServerEnabled: Boolean
-        get() = SettingsUtil.getBoolean(noBackupSharedPref, IS_TEST_SERVER_ENABLED, true)
+        get() = SettingsUtil.getBoolean(noBackupSharedPref, IS_TEST_SERVER_ENABLED, false)
         set(value) = SettingsUtil.putBoolean(noBackupSharedPref, IS_TEST_SERVER_ENABLED, value)
 }
