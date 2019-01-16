@@ -4,7 +4,7 @@
 
 # StandardPlaceholderView
 
-`Данный функционал перестал поддерживаться. Следует использовать` [PlaceHolderViewContainer](../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt)
+**Данный функционал перестал поддерживаться. Следует использовать [PlaceHolderViewContainer](../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt)**
 
 Стандартный полноэкранный плейсхолдер с поддержкой смены состояний. Ключевой особенностью виджета 
 является механизм отложенного изменения состояния, позволяющий избегать промаргиваний при слишком 
