@@ -22,7 +22,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
-class TwoWayTest : BaseRelationTest() {
+class BondTest : BaseRelationTest() {
 
     private lateinit var twoWay: Bond<String>
 
@@ -98,19 +98,19 @@ class TwoWayTest : BaseRelationTest() {
         val bound1 = Bond<String>()
         val bound2 = Bond<String>()
 
-        val action = Action<String>()
-        val state = State<String>()
-
         with(testView) {
             bound1 bindTo bound2
-            state bindTo action
+            bound2 bindTo bound1
         }
 
         with(testPresenter) {
-            action bindTo bound2
-            action bindTo state
+            bound1 bindTo bound2
+            bound2 bindTo bound1
         }
 
+        bound1.getConsumer(VIEW).accept("1")
 
+        assertEquals("1", bound1.value)
+        assertEquals("1", bound2.value)
     }
 }
