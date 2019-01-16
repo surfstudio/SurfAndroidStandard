@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.base_ui.loadstate
+package ru.surfstudio.android.custom.view.placeholder
 
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint

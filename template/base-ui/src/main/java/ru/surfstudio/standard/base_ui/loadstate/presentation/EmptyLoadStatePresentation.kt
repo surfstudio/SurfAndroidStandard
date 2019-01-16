@@ -4,12 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.StringRes
-import kotlinx.android.synthetic.main.layout_state_empty.view.*
-import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
+import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.EmptyLoadState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.setClickableAndFocusable
+import ru.surfstudio.android.custom.view.placeholder.setClickableAndFocusable
 
 /**
  * Представление состояния EmptyLoadState, с картинкой, тайтлом, сабтайтлом и кнопкой
