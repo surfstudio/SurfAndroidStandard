@@ -9,10 +9,11 @@ import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.*
 import javax.inject.Inject
 
 /**
- * Презентер экрана для демострации работы DefaultLoadStateRenderer
+ * Презентер экрана для демонстрации работы DefaultLoadStateRenderer
  */
 @PerScreen
-class DefaultRendererDemoPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency
+class DefaultRendererDemoPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<DefaultRendererDemoActivityView>(basePresenterDependency) {
 
     private val screenModel = DefaultRendererDemoScreenModel()

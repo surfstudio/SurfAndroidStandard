@@ -17,5 +17,4 @@ class NoneLoadStatePresentation(private val placeHolder: PlaceHolderViewContaine
             it.changeViewTo()
         }
     }
-
 }

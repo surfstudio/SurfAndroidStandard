@@ -1,20 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CoreConstraintLayoutView">
+    <declare-styleable name="CoreWidgetViewInterface">
         <attr name="enableManualInit" format="boolean" />
-    </declare-styleable>
-
-    <declare-styleable name="CoreFrameLayoutView">
-        <attr name="enableManualInit"/>
-    </declare-styleable>
-
-    <declare-styleable name="CoreLinearLayoutView">
-        <attr name="enableManualInit"/>
-    </declare-styleable>
-
-    <declare-styleable name="CoreRelativeLayoutView">
-        <attr name="enableManualInit"/>
     </declare-styleable>
 
 </resources>

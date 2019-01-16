@@ -7,6 +7,7 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers.allOf
 
 /**
@@ -21,6 +22,16 @@ object TextUtils {
     fun checkViewText(@IdRes viewResId: Int, @IdRes parentViewResId: Int, @StringRes textResId: Int) {
         onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
                 .check(matches(withText(textResId)))
+                .check(matches(isDisplayed()))
+    }
+
+    /**
+     * Функция, проверяющая, что text для вью, принадлежащей другой вью,
+     * равен заданному значению
+     */
+    fun checkViewText(@IdRes viewResId: Int, @IdRes parentViewResId: Int, text: String) {
+        onView(allOf(withId(viewResId), isDescendantOfA(withId(parentViewResId))))
+                .check(matches(withText(text)))
                 .check(matches(isDisplayed()))
     }
 
@@ -84,5 +95,12 @@ object TextUtils {
                         else
                             withText(oldTextResId)))
                 .perform(typeText(newText), closeSoftKeyboard())
+    }
+
+    /**
+     * Функция, возвращающая значение строкового ресурса
+     */
+    fun getString(@StringRes stringResId: Int): String {
+        return InstrumentationRegistry.getInstrumentation().targetContext.getString(stringResId)
     }
 }

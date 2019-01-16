@@ -7,6 +7,7 @@ import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.platform.app.InstrumentationRegistry
 import org.hamcrest.CoreMatchers.allOf
 
 /**
@@ -84,5 +85,12 @@ object TextUtils {
                         else
                             withText(oldTextResId)))
                 .perform(typeText(newText), closeSoftKeyboard())
+    }
+
+    /**
+     * Функция, возвращающая значение строкового ресурса
+     */
+    fun getString(@StringRes stringResId: Int): String {
+        return InstrumentationRegistry.getInstrumentation().targetContext.getString(stringResId)
     }
 }

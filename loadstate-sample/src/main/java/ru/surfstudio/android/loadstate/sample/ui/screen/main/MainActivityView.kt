@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.loadstate.sample.R
