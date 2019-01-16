@@ -16,8 +16,8 @@
 package ru.surfstudio.android.security.ssl
 
 import android.content.Context
-import android.support.annotation.RawRes
 import android.util.Base64
+import androidx.annotation.RawRes
 import okhttp3.CertificatePinner
 import java.security.MessageDigest
 import java.security.cert.CertificateFactory

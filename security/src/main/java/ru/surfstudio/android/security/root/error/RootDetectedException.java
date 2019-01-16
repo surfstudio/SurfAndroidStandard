@@ -15,7 +15,8 @@
  */
 package ru.surfstudio.android.security.root.error;
 
-import android.support.annotation.Keep;
+
+import androidx.annotation.Keep;
 
 @Keep
 public class RootDetectedException extends Exception {

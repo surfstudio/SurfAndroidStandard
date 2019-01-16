@@ -2,12 +2,12 @@ package ru.surfstudio.android.security.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.LayoutRes
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.widget.toast
+import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.security.sample.R

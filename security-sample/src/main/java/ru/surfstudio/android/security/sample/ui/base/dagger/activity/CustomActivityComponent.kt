@@ -12,8 +12,10 @@ import ru.surfstudio.android.security.sample.interactor.storage.ApiKeyStorageWra
  * Компонент для @PerActivity скоупа
  */
 @PerActivity
-@Component(dependencies = [CustomAppComponent::class],
-        modules = [DefaultActivityModule::class])
+@Component(
+        dependencies = [CustomAppComponent::class],
+        modules = [DefaultActivityModule::class]
+)
 interface CustomActivityComponent : DefaultActivityComponent {
     fun apiKeyStorageWrapper(): ApiKeyStorageWrapper
     fun profileInteractor(): ProfileInteractor
