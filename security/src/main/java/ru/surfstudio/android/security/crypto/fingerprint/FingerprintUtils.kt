@@ -27,6 +27,7 @@ import java.security.KeyStore
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
+@Deprecated("Пересмотреть необходимость в модуле, когда выйдет Biometric compat ")
 object FingerprintUtils {
 
     internal const val DEFAULT_ALIAS_FINGERPRINT = "FNGRPRNT"

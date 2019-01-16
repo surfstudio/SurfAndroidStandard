@@ -27,6 +27,7 @@ import javax.crypto.Cipher
 /**
  * Класс для шифрования данных с помощью отпечатка пальца
  */
+@Deprecated("Пересмотреть необходимость в модуле, когда выйдет Biometric compat ")
 class FingerprintEncryptor(
         cryptoObject: FingerprintManager.CryptoObject,
         private val fingerprintAlias: String = DEFAULT_ALIAS_FINGERPRINT
