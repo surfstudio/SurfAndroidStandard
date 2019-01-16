@@ -28,4 +28,12 @@
         android:layout_below="@id/check_root_btn"
         android:layout_alignParentEnd="true"
         android:text="@string/sign_in_btn_text"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+
+        android:inputType="textPassword"
+        android:layout_below="@id/api_key_et"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
