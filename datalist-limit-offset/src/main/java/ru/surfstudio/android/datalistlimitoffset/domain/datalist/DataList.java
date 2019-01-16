@@ -16,13 +16,15 @@
 package ru.surfstudio.android.datalistlimitoffset.domain.datalist;
 
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -97,6 +99,38 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
+     * Слияние двух DataList с удалением дублируемых элементов
+     * При удалении остаются актуальные (последние присланные сервером) элементы
+     *
+     * @param data              DataList для слияния с текущим
+     * @param distinctPredicate предикат, по которому происходит удаление дублируемых элементов
+     * @return текущий экземпляр
+     */
+    public <R> DataList<T> merge(DataList<T> data, MapFunc<R, T> distinctPredicate) {
+        boolean reverse = data.offset < this.offset;
+        ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
+        if (merged == null) {
+            //Отрезки данных не совпадают, слияние не возможно
+            throw new IncompatibleRangesException("incorrect data range");
+        }
+
+        ArrayList<T> filtered = distinctByLast(merged, distinctPredicate);
+        this.data.clear();
+        this.data.addAll(filtered);
+        if (this.offset < data.offset) { //загрузка вниз, как обычно
+            this.limit = data.offset + data.limit - this.offset;
+        } else if (this.offset == data.offset) { //коллизия?
+            this.limit = data.limit;
+        } else { // загрузка вверх
+            this.offset = data.offset;
+            this.limit = size();
+        }
+
+        this.totalCount = data.totalCount;
+        return this;
+    }
+
+    /**
      * Преобразует dataList одного типа в dataList другого типа
      *
      * @param mapFunc функция преобразования
@@ -137,7 +171,7 @@ public class DataList<T> implements List<T>, Serializable {
      * @return
      */
     public boolean canGetMore() {
-        return totalCount > data.size();
+        return totalCount > limit + offset;
     }
 
     @Nullable
@@ -306,5 +340,24 @@ public class DataList<T> implements List<T>, Serializable {
                 ", offset=" + offset +
                 ", data=" + data +
                 '}';
+    }
+
+    /**
+     * Удаление одинаковых элементов из исходного списка
+     * Критерий того, что элементы одинаковые, задается параметром distinctPredicate
+     *
+     * @param source            исходный список
+     * @param distinctPredicate критерий того, что элементы одинаковые
+     * @return отфильтрованный список без одинаковых элементов
+     */
+    private <R> ArrayList<T> distinctByLast(ArrayList<T> source, MapFunc<R, T> distinctPredicate) {
+        HashMap<R, T> resultSet = new LinkedHashMap<>();
+
+        for (T element : source) {
+            R key = distinctPredicate.call(element);
+            resultSet.put(key, element);
+        }
+
+        return new ArrayList<>(resultSet.values());
     }
 }

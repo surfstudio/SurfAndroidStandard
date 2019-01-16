@@ -17,8 +17,6 @@ package ru.surfstudio.android.network.cache;
 
 import java.io.IOException;
 
-import javax.inject.Inject;
-
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -26,7 +24,6 @@ import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.network.error.CacheEmptyException;
 import ru.surfstudio.android.network.error.HttpCodes;
@@ -38,7 +35,6 @@ import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FROM_
  * Интерцептор с логикой работы простого кеша
  * если в запросе есть header: queryMode: ServerConstant.QUERY_MODE_FROM_SIMPLE_CACHE
  */
-@PerApplication
 public class SimpleCacheInterceptor implements Interceptor {
     public static final String VERSION_CHAR = "v";
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
@@ -47,7 +43,6 @@ public class SimpleCacheInterceptor implements Interceptor {
     private SimpleCacheFactory simpleCacheFactory;
     private SimpleCacheUrlConnector simpleCacheUrlConnector;
 
-    @Inject
     public SimpleCacheInterceptor(SimpleCacheFactory simpleCacheFactory,
                                   SimpleCacheUrlConnector simpleCacheUrlConnector) {
         this.simpleCacheFactory = simpleCacheFactory;

@@ -20,10 +20,8 @@ import com.annimon.stream.Stream;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
-import ru.surfstudio.android.dagger.scope.PerApplication;
 import ru.surfstudio.android.filestorage.CacheConstant;
 import ru.surfstudio.android.filestorage.encryptor.EmptyEncryptor;
 import ru.surfstudio.android.filestorage.encryptor.Encryptor;
@@ -31,7 +29,6 @@ import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 /**
  * фабрика простых кешей
  */
-@PerApplication
 public class SimpleCacheFactory {
 
     private final String cacheDir;
@@ -39,10 +36,9 @@ public class SimpleCacheFactory {
     private final Encryptor encryptor;
     private Map<SimpleCacheInfo, SimpleCache> caches = new HashMap<>();
 
-    @Inject
-    public SimpleCacheFactory(@Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir,
+    public SimpleCacheFactory(@Named(CacheConstant.BACKUP_STORAGE_DIR_NAME) final String backupStorageDir,
                               SimpleCacheUrlConnector cacheUrlConnector) {
-        this.cacheDir = cacheDir;
+        this.cacheDir = backupStorageDir;
         this.cacheUrlConnector = cacheUrlConnector;
         this.encryptor = new EmptyEncryptor();
     }

@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.surfstudio.android.mvpwidget.sample">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-
     <application
         android:name="ru.surfstudio.android.sample.dagger.app.DefaultApp"
         android:allowBackup="true"
@@ -13,13 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".interactor.ui.screen.main.MainActivityView">
+        <activity android:name="ru.surfstudio.android.mvpwidget.sample.ui.screen.main.MainActivityView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".interactor.ui.screen.list.ListActivityView" />
     </application>
 
 </manifest>

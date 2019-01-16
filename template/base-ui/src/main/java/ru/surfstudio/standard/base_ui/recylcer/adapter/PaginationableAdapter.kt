@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.base_ui.recylcer.adapter
 
-import android.support.v7.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -71,6 +71,5 @@ open class PaginationableAdapter(onShowMoreListener: () -> Unit) : BasePaginatio
                 }
             }
         }
-
     }
 }

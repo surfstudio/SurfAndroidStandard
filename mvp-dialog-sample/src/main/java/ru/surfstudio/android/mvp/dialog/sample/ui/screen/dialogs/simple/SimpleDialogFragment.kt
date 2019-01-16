@@ -2,7 +2,7 @@ package ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import ru.surfstudio.android.mvp.dialog.sample.R
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class SimpleDialogFragment : CoreSimpleDialogFragment() {
         return AlertDialog.Builder(context!!)
                 .setTitle(R.string.simple_dialog_title)
                 .setMessage(R.string.simple_dialog_message)
-                .setPositiveButton(R.string.positive_btn_text) { _, _ ->  presenter.simpleDialogSuccessAction()}
+                .setPositiveButton(R.string.positive_btn_text) { _, _ ->  presenter.simpleDialogSuccessAction() }
                 .setNegativeButton(R.string.negative_btn_text, null)
                 .create()
     }

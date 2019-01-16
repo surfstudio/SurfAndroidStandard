@@ -18,9 +18,18 @@ package ru.surfstudio.android.mvp.widget.delegate;
 
 import android.view.View;
 
+import java.util.List;
+import java.util.UUID;
+
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
+import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
+import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
+import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
@@ -32,6 +41,7 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
  * - ScreenEventDelegateManager - соответствует менеджеру экрана-контейнера
  * - ScreenState - соответствует ScreenState экрана-контейнера
  * - ScreenConfigurator
+ * - WidgetLifecycleManager - управляет событиями ЖЦ виджета
  */
 public class WidgetViewDelegate {
 
@@ -39,34 +49,57 @@ public class WidgetViewDelegate {
     private CoreWidgetViewInterface coreWidgetView;
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
-    private String parentScopeId; // id родительского скоупа (необходим для получения уникального имени виджета)
+    private final List<ScreenEventResolver> eventResolvers;
 
-    public <W extends View & CoreWidgetViewInterface>WidgetViewDelegate(W coreWidgetView,
-                                                                        PersistentScopeStorage scopeStorage,
-                                                                        ParentPersistentScopeFinder parentPersistentScopeFinder) {
+    private String currentScopeId;
+
+    public <W extends View & CoreWidgetViewInterface> WidgetViewDelegate(W coreWidgetView,
+                                                                         PersistentScopeStorage scopeStorage,
+                                                                         ParentPersistentScopeFinder parentPersistentScopeFinder,
+                                                                         List<ScreenEventResolver> eventResolvers) {
         this.coreWidgetView = coreWidgetView;
         this.widget = coreWidgetView;
         this.scopeStorage = scopeStorage;
         this.parentPersistentScopeFinder = parentPersistentScopeFinder;
+        this.eventResolvers = eventResolvers;
+    }
+
+    /**
+     * Метод необходимо использовать в ресайклере для установки скоп айди на основе данных в bind
+     *
+     * @param scopeId
+     */
+    public void setScopeId(String scopeId) {
+        this.currentScopeId = scopeId;
     }
 
     public void onCreate() {
+
         initPersistentScope();
-        getScreenState().onCreate(widget, coreWidgetView);
+        getLifecycleManager().onCreate(widget, coreWidgetView, this);
+
         runConfigurator();
         coreWidgetView.bindPresenters();
         coreWidgetView.onCreate();
+
+        getLifecycleManager().onViewReady();
     }
 
     public void onDestroy() {
-        getScreenState().onDestroy();
+        if (scopeStorage.isExist(getCurrentScopeId())) {
+            getLifecycleManager().onViewDestroy();
+        }
+    }
+
+    //вызов происходит по срабатыванию родительского OnCompletelyDestroy
+    public void onCompletelyDestroy() {
         if (getScreenState().isCompletelyDestroyed()) {
-            scopeStorage.remove(getScopeId());
+            scopeStorage.remove(getCurrentScopeId());
         }
     }
 
     public WidgetViewPersistentScope getPersistentScope() {
-        return scopeStorage.get(getScopeId(), WidgetViewPersistentScope.class);
+        return scopeStorage.get(getCurrentScopeId(), WidgetViewPersistentScope.class);
     }
 
     private void runConfigurator() {
@@ -75,23 +108,45 @@ public class WidgetViewDelegate {
 
     private void initPersistentScope() {
         ScreenPersistentScope parentScope = parentPersistentScopeFinder.find();
+
         if (parentScope == null) {
             throw new IllegalStateException("WidgetView must be child of CoreActivityInterface or CoreFragmentInterface");
         }
 
-        parentScopeId = parentScope.getScopeId();
+        String widgetId = coreWidgetView.getWidgetId();
+        String invalidId = Integer.toString(View.NO_ID);
 
-        if (!scopeStorage.isExist(getScopeId())) {
+        if (widgetId == null || widgetId.isEmpty() || widgetId.equals(invalidId)) {
+            throw new IllegalStateException("Widget must have unique view id. Please, specify it in the layout file or override getWidgetId method.");
+        } else {
+            String parentScopeId = parentScope.getScopeId();
+            setScopeId(widgetId + parentScopeId);
+        }
+
+        if (!scopeStorage.isExist(getCurrentScopeId())) {
 
             WidgetScreenState screenState = new WidgetScreenState(parentScope.getScreenState());
             BaseWidgetViewConfigurator configurator = coreWidgetView.createConfigurator();
+            ScreenEventDelegateManager parentDelegateManager = parentScope.getScreenEventDelegateManager();
 
+            WidgetScreenEventDelegateManager delegateManager = new WidgetScreenEventDelegateManager(
+                    eventResolvers,
+                    parentDelegateManager
+            );
+
+            WidgetLifecycleManager lifecycleManager = new WidgetLifecycleManager(
+                    screenState,
+                    parentScope.getScreenState(),
+                    delegateManager,
+                    parentDelegateManager);
 
             WidgetViewPersistentScope persistentScope = new WidgetViewPersistentScope(
-                    parentScope.getScreenEventDelegateManager(),
+                    delegateManager,
                     screenState,
                     configurator,
-                    getScopeId());
+                    getCurrentScopeId(),
+                    lifecycleManager);
+
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }
@@ -103,7 +158,11 @@ public class WidgetViewDelegate {
         return getPersistentScope().getScreenState();
     }
 
-    private String getScopeId() {
-        return coreWidgetView.getName() + parentScopeId;
+    private String getCurrentScopeId() {
+        return currentScopeId;
+    }
+
+    private WidgetLifecycleManager getLifecycleManager() {
+        return getPersistentScope().getLifecycleManager();
     }
 }

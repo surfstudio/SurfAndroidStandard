@@ -1,7 +1,5 @@
 apply from: '../commonFeatureModule.gradle'
 
 dependencies {
-    implementation project(':template:base-ui')
+    implementation project("$templatePrefix:base-ui")
 }
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'

@@ -8,7 +8,8 @@ import ru.surfstudio.android.easyadapter.sample.R
 import ru.surfstudio.android.easyadapter.sample.domain.FirstData
 import ru.surfstudio.android.easyadapter.sample.domain.SecondData
 
-class TwoDataItemController : DoubleBindableItemController<FirstData, SecondData, TwoDataItemController.Holder>() {
+class TwoDataItemController
+    : DoubleBindableItemController<FirstData, SecondData, TwoDataItemController.Holder>() {
 
     override fun getItemId(firstData: FirstData, secondData: SecondData): String {
         return (firstData.toString() + secondData.stringValue).hashCode().toString()
@@ -16,7 +17,8 @@ class TwoDataItemController : DoubleBindableItemController<FirstData, SecondData
 
     override fun createViewHolder(parent: ViewGroup?): Holder = Holder(parent)
 
-    inner class Holder(parent: ViewGroup?
+    inner class Holder(
+            parent: ViewGroup?
     ) : DoubleBindableViewHolder<FirstData, SecondData>(parent, R.layout.two_data_item_controller) {
 
         private val firstTv: TextView = itemView.findViewById(R.id.first_tv)

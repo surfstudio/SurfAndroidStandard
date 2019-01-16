@@ -1,5 +1,6 @@
 package ru.surfstudio.android.custom_scope_sample.ui.base.dagger.activity
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
@@ -15,6 +16,8 @@ import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 /**
  * Модуль для dagger Activity Component
@@ -67,9 +70,16 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForActivity(activityProvider, eventDelegateManager)
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityNavigator: ActivityNavigator,
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                          activityProvider: ActivityProvider): PermissionManager {
+        return PermissionManagerForActivity(
+                eventDelegateManager,
+                activityNavigator,
+                sharedPreferences,
+                activityProvider
+        )
     }
 
     @Provides

@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.recycler.extension.sticky.layoutmanager
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 
 interface StickyHeaderHandler {
 

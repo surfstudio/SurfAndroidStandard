@@ -2,7 +2,7 @@ package ru.surfstudio.android.easyadapter.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -14,7 +14,7 @@ import javax.inject.Inject
  * Вью главного экрана
  */
 class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
-    override fun getScreenName(): String  = "MainActivity"
+    override fun getScreenName(): String = "MainActivity"
 
     @Inject
     internal lateinit var presenter: MainPresenter
@@ -28,9 +28,10 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
         show_multitype_list_btn.setOnClickListener { presenter.showMultitypeList() }
         show_paginationable_list.setOnClickListener { presenter.showPagintationList() }
+        show_async_inflate_list.setOnClickListener { presenter.showAsyncInflateList() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 

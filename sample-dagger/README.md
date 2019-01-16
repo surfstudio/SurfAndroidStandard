@@ -1,16 +1,16 @@
-#Sample Dagger
+# Sample Dagger
 Модуль, используемый для создания примеров к другим модулям,
 использующим конфигурацию Dagger.
 
 Содержит базовую конфигурацию Dagger.
 
-#Использование
-##Конфигурация, используемая по умолчанию
+# Использование
+## Конфигурация, используемая по умолчанию
 Если конфигурация Dagger для примера не отличается от конфигурации данного модуля
 (если не нужно добавлять кастомные зависимости), то достаточно наследовать
 конфигураторы экранов от базового конфигуратора, поставляемым данным модулем.
 
-##Пример
+## Пример
 ```
 internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
     @PerScreen
@@ -35,7 +35,7 @@ internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenCon
 }
 ```
 
-##Кастомная конфигурация модуля
+## Кастомная конфигурация модуля
 Если конфигурация Dagger для примера отличается от конфигурации данного модуля,
 необходимо добавить создать классы ```CustomAppComponent```
 и ```CustomActivityComponent```, отнаследовав их от классов
@@ -45,7 +45,7 @@ internal class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenCon
 Создав кастомные компоненты, необходимо также создать кастомные классы
 для приложения (```CustomApp```) и кастомные конфигураторы для Activity и Fragment.
 
-##Пример
+## Пример
 ```
 @PerApplication
 @Component(modules = [
@@ -83,7 +83,7 @@ public class CustomActivityConfigurator
 }
 ```
 
-#Подключение
+# Подключение
 При использовании ```sample-dagger``` модуль ```sample-common``` 
 отдельно подключать не нужно.
 

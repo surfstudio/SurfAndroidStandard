@@ -1,10 +1,11 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
-import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -12,34 +13,43 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
 
 @Module
-class AppModule(private val coreApp: CoreApp) {
+class AppModule(
+        private val app: Application,
+        private val activeActivityHolder: ActiveActivityHolder
+) {
 
-    @PerApplication
     @Provides
-    fun provideActiveActivityHolder(): ActiveActivityHolder {
-        return coreApp.activeActivityHolder
+    @PerApplication
+    internal fun provideActiveActivityHolder(): ActiveActivityHolder = activeActivityHolder
+
+    @Provides
+    @PerApplication
+    internal fun provideContext(): Context = app
+
+    @Provides
+    @PerApplication
+    internal fun provideApp(): Application = app
+
+    @Provides
+    @PerApplication
+    internal fun provideStringsProvider(context: Context): StringsProvider = StringsProvider(context)
+
+    @Provides
+    @PerApplication
+    internal fun provideGlobalNavigator(
+            context: Context,
+            activityHolder: ActiveActivityHolder
+    ): GlobalNavigator {
+        return GlobalNavigator(context, activityHolder)
     }
 
-    @PerApplication
     @Provides
-    fun provideContext(): Context {
-        return coreApp
-    }
-
     @PerApplication
-    @Provides
-    internal fun provideStringsProvider(context: Context): StringsProvider {
-        return StringsProvider(context)
-    }
-
-    @PerApplication
-    @Provides
-    fun provideGlobalNavigator(context: Context, activityHolder: ActiveActivityHolder): GlobalNavigator =
-            GlobalNavigator(context, activityHolder)
+    internal fun provideSchedulerProvider(): SchedulersProvider = SchedulersProviderImpl()
 
     @Provides
     @PerApplication
-    fun provideSchedulerProvider(): SchedulersProvider {
-        return SchedulersProviderImpl()
+    internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
+        return ConnectionProvider(context)
     }
 }

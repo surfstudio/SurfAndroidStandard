@@ -17,7 +17,7 @@ package ru.surfstudio.android.notification.ui.notification.strategies
 
 import android.app.NotificationChannel
 import android.content.Context
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import android.widget.RemoteViews
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 

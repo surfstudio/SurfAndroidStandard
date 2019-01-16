@@ -26,11 +26,11 @@ import ru.surfstudio.android.core.mvp.view.RenderableView;
 public abstract class BaseRenderableFragmentView<M extends ScreenModel> extends CoreFragmentView
         implements RenderableView<M> {
 
-    protected abstract void renderInternal(M screenModel);
+    protected abstract void renderInternal(M sm);
 
     @Override
-    public void render(M screenModel) {
-        renderInternal(screenModel);
+    public void render(M sm) {
+        renderInternal(sm);
     }
 
 }

@@ -1,21 +1,18 @@
 buildscript {
-    ext {
-        kotlin_version = '1.2.70'
-        fabricToolsVersion = '1.25.4'
-        androidGradleToolsVersion = '3.1.4'
-    }
+    apply from: 'config.gradle'
 
     repositories {
         google()
         jcenter()
         maven { url 'https://maven.fabric.io/public' }
-
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$androidGradleToolsVersion"
-        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.google.gms:google-services:$googleServicesVersion"
+        classpath "io.fabric.tools:gradle:$fabricVersion"
+        classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
     }
 }
 

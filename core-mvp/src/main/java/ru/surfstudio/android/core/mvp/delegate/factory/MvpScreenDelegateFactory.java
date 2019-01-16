@@ -15,8 +15,8 @@
  */
 package ru.surfstudio.android.core.mvp.delegate.factory;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import ru.surfstudio.android.core.mvp.activity.CoreActivityViewInterface;
 import ru.surfstudio.android.core.mvp.delegate.ActivityViewDelegate;

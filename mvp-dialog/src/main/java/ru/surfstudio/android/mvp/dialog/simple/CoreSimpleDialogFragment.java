@@ -17,8 +17,8 @@ package ru.surfstudio.android.mvp.dialog.simple;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatDialogFragment;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDialogFragment;
 
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;

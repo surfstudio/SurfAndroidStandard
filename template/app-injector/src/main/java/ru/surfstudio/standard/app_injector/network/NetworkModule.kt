@@ -18,19 +18,25 @@ import ru.surfstudio.android.network.BaseUrl
 import ru.surfstudio.android.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.base.network.CallAdapterFactory
+import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 import ru.surfstudio.standard.i_network.BASE_API_URL
-
-const val HTTP_LOG_TAG = "OkHttp"
+import ru.surfstudio.standard.i_network.TEST_API_URL
 
 @Module
 class NetworkModule {
 
+    companion object {
+        private const val HTTP_LOG_TAG = "OkHttp"
+    }
+
     @Provides
     @PerApplication
-    internal fun provideRetrofit(okHttpClient: OkHttpClient,
-                                 callAdapterFactory: BaseCallAdapterFactory,
-                                 gson: Gson,
-                                 apiUrl: BaseUrl): Retrofit {
+    internal fun provideRetrofit(
+            okHttpClient: OkHttpClient,
+            callAdapterFactory: BaseCallAdapterFactory,
+            gson: Gson,
+            apiUrl: BaseUrl
+    ): Retrofit {
         return Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(apiUrl.toString())
@@ -50,13 +56,14 @@ class NetworkModule {
     @Provides
     @PerApplication
     internal fun provideHttpLoggingInterceptor(): HttpLoggingInterceptor {
-        val logging = HttpLoggingInterceptor { message -> Logger.d("$HTTP_LOG_TAG $message") }
-        if (BuildConfig.DEBUG) {
-            logging.level = HttpLoggingInterceptor.Level.BODY
-        } else {
-            logging.level = HttpLoggingInterceptor.Level.BASIC
+        return HttpLoggingInterceptor { message ->
+            Logger.d("$HTTP_LOG_TAG $message")
+        }.apply {
+            level = if (BuildConfig.DEBUG)
+                HttpLoggingInterceptor.Level.BODY
+            else
+                HttpLoggingInterceptor.Level.BASIC
         }
-        return logging
     }
 
     @Provides
@@ -67,9 +74,12 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
+    internal fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
 
     @Provides
     @PerApplication
-    fun provideBaseUrl(): BaseUrl = BaseUrl(BASE_API_URL, null)
+    internal fun provideBaseUrl(): BaseUrl = if (DebugAppInjector.debugInteractor.isTestServerEnabled)
+                                                 BaseUrl(TEST_API_URL, null)
+                                             else
+                                                 BaseUrl(BASE_API_URL, null)
 }

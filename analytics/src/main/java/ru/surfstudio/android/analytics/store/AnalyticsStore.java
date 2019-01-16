@@ -16,14 +16,13 @@
 package ru.surfstudio.android.analytics.store;
 
 
-import android.support.annotation.NonNull;
-
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
 import ru.surfstudio.android.analytics.Analytics;
 
 /**

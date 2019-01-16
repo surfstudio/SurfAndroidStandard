@@ -16,26 +16,34 @@
 package ru.surfstudio.android.recycler.extension
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SnapHelper
+import android.graphics.Rect
 import android.util.AttributeSet
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.easyadapter.carousel.R
+import kotlin.math.absoluteValue
 
 /**
  * Вью-карусель элементов
  */
-class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: AttributeSet? = null) : RecyclerView(context, attributeSet) {
+open class CarouselView<T> @JvmOverloads constructor(
+        context: Context,
+        attributeSet: AttributeSet? = null
+) : RecyclerView(context, attributeSet) {
 
     var centerItemChangedListener: (position: Int) -> Unit = {}
 
     private var realItemsCount = 0
     private val easyAdapter: EasyAdapter = EasyAdapter()
     private val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    private val rect = Rect()
 
     var centerItemPosition: Int = 0
         set(value) {
@@ -62,7 +70,7 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
         this.adapter = easyAdapter
 
         this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 updateCenterPosition()
             }
@@ -102,9 +110,13 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
 
     private fun updateCenterPosition() {
         if (realItemsCount != 0) {
-            val lastVisiblePosition = linearLayoutManager.findLastVisibleItemPosition()
-            val firstVisiblePosition = linearLayoutManager.findFirstVisibleItemPosition()
-            this.centerItemPosition = (lastVisiblePosition + firstVisiblePosition) / 2 % realItemsCount
+            val centerChild = getCenterChild(rect)
+            this.centerItemPosition =
+                    centerChild?.let { view ->
+                        layoutManager?.getPosition(view)
+                                ?.let { it % realItemsCount }
+                    }
+                    ?: RecyclerView.NO_POSITION
         }
     }
 
@@ -112,4 +124,29 @@ class CarouselView<T> @JvmOverloads constructor(context: Context, attributeSet: 
         val startPosition = EasyAdapter.INFINITE_SCROLL_LOOPS_COUNT / 2 * realItemsCount
         this.linearLayoutManager.scrollToPosition(startPosition)
     }
+
+    private fun getCenterChild(drawRect: Rect): View? {
+        val parentCenter = drawRect.also { this.getWindowVisibleDisplayFrame(it) }.centerX()
+        return children.asSequence()
+                .minBy { view ->
+                    (parentCenter - drawRect.also { view.getGlobalVisibleRect(it) }.centerX())
+                            .absoluteValue
+                }
+    }
+
+    /* androidx util code */
+
+    /** Returns a [MutableIterator] over the views in this view group. */
+    private operator fun ViewGroup.iterator() = object : MutableIterator<View> {
+        private var index = 0
+        override fun hasNext() = index < childCount
+        override fun next() = getChildAt(index++) ?: throw IndexOutOfBoundsException()
+        override fun remove() = removeViewAt(--index)
+    }
+
+    /** Returns a [Sequence] over the child views in this view group. */
+    private val ViewGroup.children: Sequence<View>
+        get() = object : Sequence<View> {
+            override fun iterator() = this@children.iterator()
+        }
 }

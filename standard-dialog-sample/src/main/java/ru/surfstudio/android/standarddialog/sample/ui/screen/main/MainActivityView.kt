@@ -2,8 +2,9 @@ package ru.surfstudio.android.standarddialog.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.toast
 
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
@@ -31,9 +32,13 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         second_btn.setOnClickListener { presenter.showSecondDialog() }
     }
 
-    override fun renderInternal(screenModel: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
+
+    fun showMessage(message: String) {
+        toast(message)
+    }
 }

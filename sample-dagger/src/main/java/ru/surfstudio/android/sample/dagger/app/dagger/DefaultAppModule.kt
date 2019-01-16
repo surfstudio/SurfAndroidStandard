@@ -1,11 +1,12 @@
 package ru.surfstudio.android.sample.dagger.app.dagger
 
+import android.app.Application
 import android.content.Context
 
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.core.app.ActiveActivityHolder
-import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -13,36 +14,39 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
 
 @Module
-class DefaultAppModule(private val coreApp: CoreApp) {
+class DefaultAppModule(
+        private val app: Application,
+        private val activeActivityHolder: ActiveActivityHolder
+) {
 
     @PerApplication
     @Provides
-    internal fun provideActiveActivityHolder(): ActiveActivityHolder {
-        return coreApp.activeActivityHolder
-    }
+    internal fun provideActiveActivityHolder(): ActiveActivityHolder = activeActivityHolder
 
     @PerApplication
     @Provides
-    internal fun provideContext(): Context {
-        return coreApp
-    }
+    internal fun provideContext(): Context = app
 
     @PerApplication
     @Provides
-    internal fun provideStringsProvider(context: Context): StringsProvider {
-        return StringsProvider(context)
-    }
+    internal fun provideStringsProvider(context: Context): StringsProvider = StringsProvider(context)
 
     @PerApplication
     @Provides
-    internal fun provideGlobalNavigator(context: Context,
-                                        activityHolder: ActiveActivityHolder): GlobalNavigator {
+    internal fun provideGlobalNavigator(
+            context: Context,
+            activityHolder: ActiveActivityHolder
+    ): GlobalNavigator {
         return GlobalNavigator(context, activityHolder)
     }
 
     @Provides
     @PerApplication
-    internal fun provideSchedulerProvider(): SchedulersProvider {
-        return SchedulersProviderImpl()
+    internal fun provideSchedulerProvider(): SchedulersProvider = SchedulersProviderImpl()
+
+    @Provides
+    @PerApplication
+    internal fun provideConnectionQualityProvider(context: Context): ConnectionProvider {
+        return ConnectionProvider(context)
     }
 }

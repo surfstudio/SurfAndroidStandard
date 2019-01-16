@@ -1,13 +1,11 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
 allprojects {
     repositories {
         google()
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven { url 'https://maven.google.com' }
         maven { url 'https://maven.fabric.io/public' }
-        maven { url "$surf_maven_libs_url" }
+        maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 }
 
@@ -22,9 +20,9 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$androidGradleToolsVersion"
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
-        classpath "io.fabric.tools:gradle:$fabricToolsVersion"
+        classpath "io.fabric.tools:gradle:$fabricVersion"
     }
 }
