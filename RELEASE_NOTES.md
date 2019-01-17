@@ -94,6 +94,7 @@
 * Добавлена возможность открыть Developer Tools через DebugScreen
 * Добавлен LeakCanary
 * Добавлен просмотрщик файлового хранилища приложения
+* Добавлен плагин Build scans https://guides.gradle.org/creating-build-scans/
 
 #### util-ktx
 
