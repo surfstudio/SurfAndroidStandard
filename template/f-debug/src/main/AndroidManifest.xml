@@ -17,7 +17,7 @@
 
         <activity android:name="ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView" />
 
-        <activity android:name="ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView" />
+        <activity android:name="ru.surfstudio.standard.f_debug.reused_components.ReusedComponentsDebugActivityView" />
 
         <activity android:name="ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView" />
 
