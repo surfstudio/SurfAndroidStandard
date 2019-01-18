@@ -10,6 +10,7 @@ class MainModel : LdsRxModel() {
     val counterState = State<Int>(0)
     val incAction = Action<Unit>()
     val decAction = Action<Unit>()
+    val longQueryAction = Action<Unit>()
 
     val textEditState = TextStateManager(EMPTY_STRING)
     val doubleTextAction = Action<Unit>()

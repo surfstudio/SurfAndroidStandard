@@ -18,6 +18,7 @@ class MainActivityView : BaseLdsRxActivityView<MainModel>() {
         sm.counterState.observable.map { it.toString() }.bindTo { main_counter_tv.text = it }
         main_inc_btn.clicks().bindTo(sm.incAction)
         main_dec_btn.clicks().bindTo(sm.decAction)
+        main_long_query_btn.clicks().bindTo(sm.longQueryAction)
 
         sm.textEditState bindTo main_text_et
         main_double_text_btn.clicks().bindTo(sm.doubleTextAction)

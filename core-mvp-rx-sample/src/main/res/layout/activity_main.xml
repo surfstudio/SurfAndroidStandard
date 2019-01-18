@@ -39,4 +39,12 @@
         android:layout_gravity="center"
         android:padding="16dp"
         android:text="DOUBLE" />
+
+    <Button
+        android:id="@+id/main_long_query_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:text="TRY LONG QUERY" />
 </LinearLayout>
