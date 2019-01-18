@@ -20,4 +20,21 @@
         android:layout_marginTop="16dp"
         app:switch_subtitle="@string/server_url_subtitle_text"
         app:switch_title="@string/server_url_title_text" />
+
+    <TextView
+        android:id="@+id/server_settings_request_delay_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="20sp" />
+
+    <SeekBar
+        android:id="@+id/server_settings_request_delay_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="5"
+        android:padding="16dp"
+        android:progress="0" />
 </LinearLayout>

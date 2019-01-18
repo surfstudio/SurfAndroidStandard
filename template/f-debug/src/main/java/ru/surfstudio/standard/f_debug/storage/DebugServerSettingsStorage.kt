@@ -9,6 +9,7 @@ import javax.inject.Named
 
 private const val IS_CHUCK_ENABLED_KEY = "IS_CHUCK_ENABLED_KEY"
 private const val IS_TEST_SERVER_ENABLED = "IS_TEST_SERVER_ENABLED"
+private const val REQUEST_DELAY = "REQUEST_DELAY"
 
 @PerApplication
 class DebugServerSettingsStorage @Inject constructor(
@@ -20,6 +21,10 @@ class DebugServerSettingsStorage @Inject constructor(
         set(value) = putBoolean(noBackupSharedPref, IS_CHUCK_ENABLED_KEY, value)
 
     var isTestServerEnabled: Boolean
-        get() = SettingsUtil.getBoolean(noBackupSharedPref, IS_TEST_SERVER_ENABLED, false)
+        get() = SettingsUtil.getBoolean(noBackupSharedPref, IS_TEST_SERVER_ENABLED, true)
         set(value) = putBoolean(noBackupSharedPref, IS_TEST_SERVER_ENABLED, value)
+
+    var requestDelay: Long
+        get() = SettingsUtil.getLong(noBackupSharedPref, REQUEST_DELAY, 0L)
+        set(value) = SettingsUtil.putLong(noBackupSharedPref, REQUEST_DELAY, value)
 }
