@@ -1,8 +1,7 @@
-package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.list
+package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list
 
 import android.content.Context
 import android.content.Intent
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 
 /**

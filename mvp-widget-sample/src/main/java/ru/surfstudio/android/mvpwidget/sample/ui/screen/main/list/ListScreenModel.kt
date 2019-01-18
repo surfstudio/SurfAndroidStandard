@@ -1,4 +1,4 @@
-package ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.list
+package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 
