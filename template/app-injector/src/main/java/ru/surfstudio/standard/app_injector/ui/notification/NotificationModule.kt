@@ -5,7 +5,7 @@ import dagger.Provides
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.PushHandler
-import ru.surfstudio.android.notification.impl.DefaultPushHandler
+import ru.surfstudio.standard.base_ui.push.DefaultPushHandler
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 

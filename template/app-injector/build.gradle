@@ -43,6 +43,7 @@ dependencies {
     implementation project("$templatePrefix:i-token")
     implementation project("$templatePrefix:i-session")
     implementation project("$templatePrefix:i-auth")
+    implementation project("$templatePrefix:i-push-notification")
     implementation project("$templatePrefix:f-auth")
     implementation project("$templatePrefix:f-main")
     implementation project("$templatePrefix:f-splash")

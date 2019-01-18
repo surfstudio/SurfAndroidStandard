@@ -13,11 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.notification.impl
+package ru.surfstudio.standard.base_ui.push
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
@@ -62,7 +61,7 @@ class DefaultPushHandler(
             val strategy = createStrategy(IntentPushDataConverter.convert(activity.intent))
 
             if (strategy != null) {
-                activity.startActivity(strategy.coldStartRoute().prepareIntent(activity))
+                activity.startActivity(strategy.coldStartIntent(activity))
 
                 //чтобы не было повторного перехода на активити, обнуляем данные из пуша
                 activity.intent.putExtra(pushHandleStrategyFactory.key, -1)

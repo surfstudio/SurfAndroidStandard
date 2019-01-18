@@ -30,4 +30,4 @@ Gradle:
 ```
 
 [nm]: ../firebase-sample/src/main/java/ru/surfstudio/android/firebase/sample/app/dagger/NotificationModule.kt
-[handler]: src/main/java/ru/surfstudio/android/notification/impl/DefaultPushHandler.kt
+[handler]: ../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/push/DefaultPushHandler.kt

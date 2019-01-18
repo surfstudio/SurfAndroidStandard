@@ -19,10 +19,10 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.core.app.NotificationCompat
 import android.widget.RemoteViews
 import androidx.annotation.StringRes
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
@@ -142,7 +142,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     /**
      * Интент при нажатии на пуш, если приложение в бэкграунде
      */
-    abstract fun coldStartRoute(): ActivityRoute
+    abstract fun coldStartIntent(context: Context): Intent
 
     /**
      * Метод для создания билдера ноификаций

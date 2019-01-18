@@ -15,13 +15,13 @@ class NoDataPushStrategy : BaseSimplePushStrategy<NoDataNotificationTypeData>() 
 
     override val channelName: Int = R.string.no_data_push_channel_name
 
-    override fun coldStartRoute(): ActivityRoute = PushActivityRoute()
+    override fun coldStartIntent(context: Context) = PushActivityRoute().prepareIntent(context)
 
     override fun preparePendingIntent(context: Context, title: String): PendingIntent {
         return PendingIntent.getActivity(
                 context,
                 title.hashCode(),
-                coldStartRoute().prepareIntent(context),
+                coldStartIntent(context),
                 PendingIntent.FLAG_ONE_SHOT)
     }
 }
