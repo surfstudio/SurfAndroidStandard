@@ -13,36 +13,30 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.app;
+package ru.surfstudio.android.activity.holder
 
-import android.app.Activity;
-import androidx.annotation.Nullable;
+import android.app.Activity
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 
 /**
  * Содержит активную (отображаемую) активти
  */
-public class ActiveActivityHolder {
+class ActiveActivityHolder {
 
-    private Activity activity;
+    private val activitySubject = PublishSubject.create<Activity>()
+    val activityObservable: Observable<Activity> = activitySubject
 
-    public ActiveActivityHolder() {
-        //do nothing
-    }
+    var activity: Activity? = null
+        set(value) {
+            field = value
+            activitySubject.onNext(value ?: return)
+        }
 
-    public void setActivity(Activity activeActivity){
-        this.activity = activeActivity;
-    }
+    val isExist: Boolean
+        get() = activity != null
 
-    public void clearActivity(){
-        this.activity = null;
-    }
-
-    @Nullable
-    public Activity getActivity() {
-        return activity;
-    }
-
-    public boolean isExist(){
-        return activity != null;
+    fun clearActivity() {
+        this.activity = null
     }
 }

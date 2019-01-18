@@ -17,6 +17,7 @@ dependencies {
     implementation project(':push')
     implementation project(':sample-dagger')
     implementation project(':rxbus')
+    implementation project(':activity-holder')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 

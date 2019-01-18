@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
-import ru.surfstudio.android.core.app.ActiveActivityHolder
-import ru.surfstudio.android.core.app.StringsProvider
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
+import ru.surfstudio.standard.base.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.PushHandler
@@ -41,7 +41,7 @@ import javax.inject.Named
 interface AppComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
     fun context(): Context
-    fun activeActivityHolder(): ActiveActivityHolder
+    fun activeActivityHolder(): ru.surfstudio.android.activity.holder.ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
     fun sessionChangedInteractor(): SessionChangedInteractor
     fun schedulerProvider(): SchedulersProvider

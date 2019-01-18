@@ -13,48 +13,42 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.app;
+package ru.surfstudio.android.activity.holder
 
-import android.app.Activity;
-import android.app.Application;
-import android.os.Bundle;
+import android.app.Activity
+import android.app.Application
+import android.os.Bundle
 
 /**
  * Слушатель жизненного цикла активити по умолчанию
  */
-public class DefaultActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
-    @Override
-    public void onActivityCreated(Activity activity, Bundle bundle) {
+open class DefaultActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
+
+    override fun onActivityCreated(activity: Activity, bundle: Bundle) {
         //do nothing
     }
 
-    @Override
-    public void onActivityStarted(Activity activity) {
+    override fun onActivityStarted(activity: Activity) {
         //do nothing
     }
 
-    @Override
-    public void onActivityResumed(Activity activity) {
+    override fun onActivityResumed(activity: Activity) {
         //do nothing
     }
 
-    @Override
-    public void onActivityPaused(Activity activity) {
+    override fun onActivityPaused(activity: Activity) {
         //do nothing
     }
 
-    @Override
-    public void onActivityStopped(Activity activity) {
+    override fun onActivityStopped(activity: Activity) {
         //do nothing
     }
 
-    @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
         //do nothing
     }
 
-    @Override
-    public void onActivityDestroyed(Activity activity) {
+    override fun onActivityDestroyed(activity: Activity) {
         //do nothing
     }
 }

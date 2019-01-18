@@ -1,20 +1,30 @@
 package ru.surfstudio.standard.app_injector
 
+import android.app.Activity
+import androidx.multidex.MultiDexApplication
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
+import com.github.anrwatchdog.ANRWatchDog
 import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
-import ru.surfstudio.android.core.app.CoreApp
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.logger.RemoteLogger
+import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy
+import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
+import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.android.template.app_injector.R
 import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
+import ru.surfstudio.android.activity.holder.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.base_ui.provider.route.RouteClassProvider
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
-class App : CoreApp() {
+class App : MultiDexApplication() {
+
+    val activeActivityHolder = ActiveActivityHolder()
 
     override fun onCreate() {
         super.onCreate()
@@ -25,6 +35,9 @@ class App : CoreApp() {
             // работает LeakCanary, ненужно ничего инициализировать
             return
         }
+        initAnrWatchDog()
+        initLog()
+        registerActiveActivityListener()
 
         initFabric()
         initComponentProvider()
@@ -69,4 +82,34 @@ class App : CoreApp() {
                     .disabled(BuildConfig.DEBUG)
                     .build())
             .build())
+
+    /**
+     * отслеживает ANR и отправляет в крашлитикс
+     */
+    private fun initAnrWatchDog() {
+        ANRWatchDog().setReportMainThreadOnly()
+                .setANRListener{ RemoteLogger.logError(it) }
+                .start()
+    }
+
+    private fun initLog() {
+        Logger.addLoggingStrategy(TimberLoggingStrategy())
+        Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
+        RemoteLogger.addRemoteLoggingStrategy(CrashlyticsRemoteLoggingStrategy())
+    }
+
+    /**
+     * Регистрирует слушатель аткивной активити
+     */
+    private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                activeActivityHolder.activity = activity
+            }
+
+            override fun onActivityStopped(activity: Activity) {
+                activeActivityHolder.clearActivity()
+            }
+        })
+    }
 }

@@ -13,7 +13,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.Implementation
 import org.robolectric.annotation.Implements
-import ru.surfstudio.android.core.app.ActiveActivityHolder
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStrategy
 import ru.surfstudio.standard.app_injector.App
@@ -30,7 +30,7 @@ abstract class BaseNetworkDaggerTest {
 
     @Suppress("DEPRECATION")
     private val networkComponent = DaggerTestNetworkAppComponent.builder()
-            .appModule(AppModule(RuntimeEnvironment.application, ActiveActivityHolder()))
+            .appModule(AppModule(RuntimeEnvironment.application, ru.surfstudio.android.activity.holder.ActiveActivityHolder()))
             .build()
 
     abstract fun inject(networkComponent: TestNetworkAppComponent)

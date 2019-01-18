@@ -24,4 +24,4 @@ Gradle:
 
 [ca]: src/main/java/ru/surfstudio/android/core/app/CoreApp.java
 [aah]: src/main/java/ru/surfstudio/android/core/app/ActiveActivityHolder.java
-[sp]: src/main/java/ru/surfstudio/android/core/app/StringsProvider.kt
+[sp]: ../template/base/src/main/java/ru/surfstudio/standard/base/app/StringsProvider.kt

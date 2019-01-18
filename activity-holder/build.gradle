@@ -1,8 +1,5 @@
 apply from: '../androidModule.gradle'
 
-dependencies {
-    api 'androidx.multidex:multidex:2.0.0'
-}
-
 gradle.ext.configAndroidStandardDependencies(this, [
+        'rx-extension'
 ])

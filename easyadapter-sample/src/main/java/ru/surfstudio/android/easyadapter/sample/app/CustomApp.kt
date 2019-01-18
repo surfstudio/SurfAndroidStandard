@@ -1,6 +1,9 @@
 package ru.surfstudio.android.easyadapter.sample.app
 
-import ru.surfstudio.android.core.app.CoreApp
+import android.app.Activity
+import androidx.multidex.MultiDexApplication
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
+import ru.surfstudio.android.activity.holder.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.easyadapter.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.easyadapter.sample.app.dagger.DaggerCustomAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
@@ -8,18 +11,35 @@ import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 /**
  * Класс приложения
  */
-class CustomApp : CoreApp() {
+class CustomApp : MultiDexApplication() {
 
+    val activeActivityHolder = ActiveActivityHolder()
     var customAppComponent: CustomAppComponent? = null
 
     override fun onCreate() {
         super.onCreate()
         initInjector()
+        registerActiveActivityListener()
     }
 
     private fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
                 .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
                 .build()
+    }
+
+    /**
+     * Регистрирует слушатель аткивной активити
+     */
+    private fun registerActiveActivityListener() {
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+            override fun onActivityResumed(activity: Activity) {
+                activeActivityHolder.activity = activity
+            }
+
+            override fun onActivityStopped(activity: Activity) {
+                activeActivityHolder.clearActivity()
+            }
+        })
     }
 }

@@ -1,7 +1,6 @@
 package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 
 import io.reactivex.Single
-import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.permission.PermissionManager
@@ -11,6 +10,7 @@ import ru.surfstudio.android.picturechooser.CameraStoragePermissionRequest
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.pictureprovider.sample.R
+import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import javax.inject.Inject
 
 /**

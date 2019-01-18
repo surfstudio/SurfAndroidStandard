@@ -15,68 +15,17 @@
  */
 package ru.surfstudio.android.core.app;
 
-import android.app.Activity;
 import androidx.multidex.MultiDexApplication;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import com.github.anrwatchdog.ANRWatchDog;
-
-import ru.surfstudio.android.logger.Logger;
-import ru.surfstudio.android.logger.RemoteLogger;
-import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy;
-import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy;
-import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy;
 
 /**
  * Базовый класс приложения
  */
-
+@Deprecated
 public abstract class CoreApp extends MultiDexApplication {
-
-    private ActiveActivityHolder activeActivityHolder = new ActiveActivityHolder();
-
-    public ActiveActivityHolder getActiveActivityHolder() {
-        return activeActivityHolder;
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        initAnrWatchDog();
-        initLog();
-        registerActiveActivityListener();
-    }
-
-    /**
-     * отслеживает ANR и отправляет в крашлитикс
-     */
-    protected void initAnrWatchDog() {
-        new ANRWatchDog().setReportMainThreadOnly()
-                .setANRListener(RemoteLogger::logError)
-                .start();
-    }
-
-    protected void initLog() {
-        Logger.addLoggingStrategy(new TimberLoggingStrategy());
-        Logger.addLoggingStrategy(new RemoteLoggerLoggingStrategy());
-        RemoteLogger.addRemoteLoggingStrategy(new CrashlyticsRemoteLoggingStrategy());
-    }
-
-    /**
-     * Регистрирует слушатель аткивной активити
-     */
-    protected void registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(new DefaultActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityResumed(Activity activity) {
-                activeActivityHolder.setActivity(activity);
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-                activeActivityHolder.clearActivity();
-            }
-        });
     }
 }
