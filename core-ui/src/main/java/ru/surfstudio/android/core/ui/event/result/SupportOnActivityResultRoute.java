@@ -20,12 +20,14 @@ import android.content.Intent;
 
 import java.io.Serializable;
 
+import ru.surfstudio.android.core.ui.navigation.BundleIntentRoute;
+
 /**
  * интерфейс для Route, работающего через onActivityResult
  *
  * @param <T> тип данных результата, переданного в Intent
  */
-public interface SupportOnActivityResultRoute<T extends Serializable> {
+public interface SupportOnActivityResultRoute<T extends Serializable> extends BundleIntentRoute {
     String EXTRA_RESULT = "extra_result";
 
     Intent prepareResultIntent(T resultData);

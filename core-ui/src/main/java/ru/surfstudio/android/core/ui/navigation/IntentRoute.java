@@ -13,25 +13,24 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.mvp.dialog.navigation.route;
+package ru.surfstudio.android.core.ui.navigation;
 
-import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
+import android.content.Context;
+import android.content.Intent;
 
 /**
- * см {@link DialogRoute}
+ * Navigation route interface with prepared Intent.
+ * <br><br>
+ * See: {@link Route}.
+ * <br><br>
  */
-public abstract class DialogWithParamsRoute extends DialogRoute {
+public interface IntentRoute extends Route {
 
-    @Override
-    protected abstract Class<? extends DialogFragment> getFragmentClass();
-
-    public abstract Bundle prepareBundle();
-
-    @Override
-    public DialogFragment createFragment() {
-        DialogFragment fragment = super.createFragment();
-        fragment.setArguments(prepareBundle());
-        return fragment;
-    }
+    /**
+     * Prepared Intent for calling the target Activity and passing data.
+     *
+     * @param context activity context
+     * @return prepared Intent
+     */
+    Intent prepareIntent(Context context);
 }

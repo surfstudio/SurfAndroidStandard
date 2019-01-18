@@ -20,20 +20,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import android.util.Log;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
@@ -71,7 +72,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param <T>        тип возвращаемых данных
      */
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-            Class<? extends ActivityWithResultRoute<T>> routeClass) {
+            Class<? extends SupportOnActivityResultRoute<T>> routeClass) {
         try {
             return this.observeOnActivityResult(routeClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
@@ -87,7 +88,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param <T>   тип возвращаемых данных
      */
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-            ActivityWithResultRoute route) {
+            SupportOnActivityResultRoute route) {
         return super.observeOnActivityResult(route);
     }
 
@@ -124,7 +125,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param result            возвращаемый результат
      * @param <T>               тип возвращаемого значения
      */
-    public <T extends Serializable> void finishWithResult(ActivityWithResultRoute<T> activeScreenRoute,
+    public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> activeScreenRoute,
                                                           T result) {
         finishWithResult(activeScreenRoute, result, true);
     }
@@ -137,7 +138,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param success            показывает успешное ли завершение
      * @param <T>                тип возвращаемого значения
      */
-    public <T extends Serializable> void finishWithResult(ActivityWithResultRoute<T> currentScreenRoute,
+    public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> currentScreenRoute,
                                                           T result, boolean success) {
         Intent resultIntent = currentScreenRoute.prepareResultIntent(result);
         activityProvider.get().setResult(
@@ -170,7 +171,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param route роутер
      * @return {@code true} если активити успешно запущен, иначе {@code false}
      */
-    public boolean startForResult(ActivityWithResultRoute route) {
+    public boolean startForResult(SupportOnActivityResultRoute route) {
         if (!super.isObserved(route)) {
             throw new IllegalStateException("route class " + route.getClass().getSimpleName()
                     + " must be registered by method ActivityNavigator#observeResult");

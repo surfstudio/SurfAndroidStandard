@@ -13,25 +13,20 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.mvp.dialog.navigation.route;
-
-import android.os.Bundle;
-import androidx.fragment.app.DialogFragment;
+package ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature
 
 /**
- * см {@link DialogRoute}
+ * Interface for cross-feature navigation route.
+ *
+ * Should be used for routing between two activities from different independent Gradle-projects.
+ *
+ * For using it just override [targetClassPath] method and return full classpath of the target
+ * feature starting point (e.g. activity).
  */
-public abstract class DialogWithParamsRoute extends DialogRoute {
+interface CrossFeatureRoute {
 
-    @Override
-    protected abstract Class<? extends DialogFragment> getFragmentClass();
-
-    public abstract Bundle prepareBundle();
-
-    @Override
-    public DialogFragment createFragment() {
-        DialogFragment fragment = super.createFragment();
-        fragment.setArguments(prepareBundle());
-        return fragment;
-    }
+    /**
+     * @return target starting point full classpath (e.g. "com.name.app.feature.ActivityName")
+     */
+    fun targetClassPath(): String
 }

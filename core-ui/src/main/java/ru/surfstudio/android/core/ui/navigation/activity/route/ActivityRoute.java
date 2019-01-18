@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import ru.surfstudio.android.core.ui.navigation.BundleIntentRoute;
 import ru.surfstudio.android.core.ui.navigation.Route;
 
 /**
@@ -27,7 +28,7 @@ import ru.surfstudio.android.core.ui.navigation.Route;
  * см {@link Route}
  */
 @SuppressWarnings("squid:S1610")
-public abstract class ActivityRoute implements Route {
+public abstract class ActivityRoute implements BundleIntentRoute {
 
     public abstract Intent prepareIntent(Context context);
 

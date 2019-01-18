@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.ui.navigation.activity.route;
 
-
 import android.content.Intent;
 
 import java.io.Serializable;
