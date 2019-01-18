@@ -12,3 +12,13 @@ fun putBoolean(sp: SharedPreferences, key: String, value: Boolean) {
     editor.putBoolean(key, value)
     editor.commit()
 }
+
+/**
+ * Используется для синхронного сохранения данных в SharedPreferences
+ */
+@SuppressLint("ApplySharedPref")
+fun putLong(sp: SharedPreferences, key: String, value: Long) {
+    val editor = sp.edit()
+    editor.putLong(key, value)
+    editor.commit()
+}

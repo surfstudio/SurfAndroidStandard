@@ -26,5 +26,5 @@ class DebugServerSettingsStorage @Inject constructor(
 
     var requestDelay: Long
         get() = SettingsUtil.getLong(noBackupSharedPref, REQUEST_DELAY, 0L)
-        set(value) = SettingsUtil.putLong(noBackupSharedPref, REQUEST_DELAY, value)
+        set(value) = putLong(noBackupSharedPref, REQUEST_DELAY, value)
 }
