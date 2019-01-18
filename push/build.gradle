@@ -1,6 +1,7 @@
 apply from: '../androidModule.gradle'
 
 gradle.ext.configAndroidStandardDependencies(this, [
+        'logger',
         'rx-extension',
         'util-ktx'
 ])
