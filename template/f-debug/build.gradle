@@ -3,6 +3,7 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation project("$templatePrefix:base-ui")
+    implementation project("$templatePrefix:i-push-notification")
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
