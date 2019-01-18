@@ -15,7 +15,6 @@ import ru.surfstudio.android.utilktx.util.SdkUtils
 import java.util.concurrent.TimeUnit
 
 const val ALPHA_FULL = 1f
-const val ALPHA_TRANSPARENT = 0f
 const val DEFAULT_DURATION = 0L
 const val STATE_TOGGLE_DELAY_MS = 250L
 
@@ -59,7 +58,7 @@ class PlaceHolderViewContainer(
 
     fun show() = fadeIn(DEFAULT_DURATION, ALPHA_FULL)
 
-    fun hide() = fadeOut(DEFAULT_DURATION, View.GONE, ALPHA_TRANSPARENT)
+    fun hide() = fadeOut(DEFAULT_DURATION, View.GONE, ALPHA_FULL)
 
     /**
      * Этот метод нужен для того чтобы placeholder всегда отображался выше всех остальных элементов

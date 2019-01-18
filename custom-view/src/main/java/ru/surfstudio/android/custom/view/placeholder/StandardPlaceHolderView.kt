@@ -406,7 +406,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
     private fun setVisibility() {
         when (stater.loadState) {
             PlaceholderStater.StandardLoadState.NONE -> {
-                fadeOut(this, 0L, defaultAlpha = 0f)
+                fadeOut(this, 0L, defaultAlpha = 1f)
             }
             PlaceholderStater.StandardLoadState.MAIN_LOADING, PlaceholderStater.StandardLoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
