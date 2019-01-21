@@ -35,6 +35,7 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
@@ -148,44 +149,57 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     }
 
     /**
-     * Запуск активити.
+     * Launch a new activity.
      *
-     * @param route роутер
-     * @return {@code true} если активити успешно запущен, иначе {@code false}
+     * @param route navigation route
+     * @return {@code true} if activity started successfully, {@code false} otherwise
      */
     public boolean start(ActivityRoute route) {
         Context context = activityProvider.get();
         Intent intent = route.prepareIntent(context);
-        Bundle bundle = route.prepareBundle();
         if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent, bundle);
+            context.startActivity(intent, prepareBundleCompat(route));
             return true;
         }
-
         return false;
     }
 
     /**
-     * Запуск активити.
+     * Launch a new activity for result.
      *
-     * @param route роутер
-     * @return {@code true} если активити успешно запущен, иначе {@code false}
+     * @param route navigation route
+     * @return {@code true} if activity started successfully, {@code false} otherwise
      */
     public boolean startForResult(SupportOnActivityResultRoute route) {
         if (!super.isObserved(route)) {
             throw new IllegalStateException("route class " + route.getClass().getSimpleName()
                     + " must be registered by method ActivityNavigator#observeResult");
         }
-
         Context context = activityProvider.get();
         Intent intent = route.prepareIntent(context);
-        Bundle bundle = route.prepareBundle();
         if (intent.resolveActivity(context.getPackageManager()) != null) {
-            startActivityForResult(intent, route.getRequestCode(), bundle);
+            startActivityForResult(intent, route.getRequestCode(), prepareBundleCompat(route));
             return true;
         }
-
         return false;
+    }
+
+    /**
+     * Bundle preparation backward compatible implementation.
+     * Handles getting bundle from both {@link ActivityRoute#prepareActivityOptionsCompat()} and
+     * {@link ActivityRoute#prepareBundle()} methods in the specified priority order.
+     *
+     * @param route activity route
+     * @return actual bundle
+     */
+    private Bundle prepareBundleCompat(ActivityRouteInterface route) {
+        Bundle bundle = route.prepareActivityOptionsCompat().toBundle();
+        //noinspection deprecation
+        Bundle deprecatedBundle = route.prepareBundle();
+        if (bundle != null) {
+            return bundle;
+        }
+        return deprecatedBundle;
     }
 
     // =========================  NEW INTENT =================================

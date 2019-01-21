@@ -15,12 +15,23 @@
  */
 package ru.surfstudio.android.core.ui.navigation;
 
+import android.os.Bundle;
+
 /**
- * Navigation route interface with prepared Intent and Bundle.
+ * Navigation route interface with prepared Bundle.
+ * Used for navigation between fragments.
  * <br><br>
  * See: {@link Route}.
  * <br><br>
  */
-public interface BundleIntentRoute extends IntentRoute, BundleRoute {
-    //empty
+public interface FragmentRouteInterface extends Route {
+
+    /**
+     * Prepared Bundle for passing data to the target Fragment.
+     * Also used for passing shared-element view data to the following Activity in case of
+     * shared-element transition implementation.
+     *
+     * @return prepared Bundle
+     */
+    Bundle prepareBundle();
 }

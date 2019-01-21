@@ -36,7 +36,7 @@ package ru.surfstudio.android.core.ui.navigation;
  * Route is able to pass up to 10 data items marked with one of the built-in "EXTRA_NUMBERED"
  * string markers.
  * <br><br>
- * (see: {@link IntentRoute}, {@link BundleRoute}, {@link BundleIntentRoute})
+ * (see: {@link ActivityRouteInterface}, {@link FragmentRouteInterface})
  */
 public interface Route {
     String EXTRA_FIRST = "EXTRA_FIRST";

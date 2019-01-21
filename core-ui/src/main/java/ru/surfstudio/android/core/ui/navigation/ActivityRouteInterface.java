@@ -17,14 +17,19 @@ package ru.surfstudio.android.core.ui.navigation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.core.app.ActivityOptionsCompat;
 
 /**
- * Navigation route interface with prepared Intent.
+ * Navigation route interface with prepared Intent and {@link androidx.core.app.ActivityOptionsCompat}.
+ *
+ * Used for navigation between activities.
  * <br><br>
  * See: {@link Route}.
  * <br><br>
  */
-public interface IntentRoute extends Route {
+public interface ActivityRouteInterface {
 
     /**
      * Prepared Intent for calling the target Activity and passing data.
@@ -33,4 +38,22 @@ public interface IntentRoute extends Route {
      * @return prepared Intent
      */
     Intent prepareIntent(Context context);
+
+    /**
+     * Prepared {@link ActivityOptionsCompat} for setting up Activity transitions properties.
+     *
+     * @return prepared ActivityOptionsCompat
+     */
+    ActivityOptionsCompat prepareActivityOptionsCompat();
+
+    /**
+     * Prepared Bundle for passing data to the target Fragment.
+     * Also used for passing shared-element view data to the following Activity in case of
+     * shared-element transition implementation.
+     *
+     * @return prepared Bundle
+     * @deprecated use {@link ActivityRouteInterface#prepareActivityOptionsCompat()} instead
+     */
+    @Deprecated
+    Bundle prepareBundle();
 }

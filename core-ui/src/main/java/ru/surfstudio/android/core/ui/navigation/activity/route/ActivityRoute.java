@@ -15,12 +15,12 @@
  */
 package ru.surfstudio.android.core.ui.navigation.activity.route;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import ru.surfstudio.android.core.ui.navigation.BundleIntentRoute;
+import androidx.core.app.ActivityOptionsCompat;
+import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Route;
 
 /**
@@ -28,12 +28,18 @@ import ru.surfstudio.android.core.ui.navigation.Route;
  * см {@link Route}
  */
 @SuppressWarnings("squid:S1610")
-public abstract class ActivityRoute implements BundleIntentRoute {
+public abstract class ActivityRoute implements ActivityRouteInterface {
 
+    @Override
     public abstract Intent prepareIntent(Context context);
 
-    public Bundle prepareBundle() {
+    @Override
+    public ActivityOptionsCompat prepareActivityOptionsCompat() {
         return null;
     }
 
+    @Override
+    public Bundle prepareBundle() {
+        return null;
+    }
 }
