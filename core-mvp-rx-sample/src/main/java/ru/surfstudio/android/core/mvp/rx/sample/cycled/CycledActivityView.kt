@@ -45,8 +45,8 @@ class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
 
         with(sm) {
             origin bindTo ::checkRb
-            nomen bindTo nomen_et::setText
-            baseOfNomen bindTo nomen_base_et::setText
+            nomen.getObservable().filter { !nomen_et.isFocused } bindTo nomen_et::setText
+            baseOfNomen.getObservable().filter { !nomen_base_et.isFocused } bindTo nomen_base_et::setText
 
             nomen_base_et.textChanges().debounce(300, TimeUnit.MILLISECONDS).map(CharSequence::toString) bindTo baseOfNomen
             nomen_et.textChanges().debounce(300, TimeUnit.MILLISECONDS).map(CharSequence::toString) bindTo nomen
