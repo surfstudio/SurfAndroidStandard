@@ -38,15 +38,23 @@ class CycledPresenter @Inject constructor(
         super.onFirstLoad()
 
         with(model) {
-            Observable.combineLatest<String, Origin, Pair<String, Origin>>(
+            Observable.combineLatest<SourcedValue<String>, SourcedValue<Origin>, Pair<SourcedValue<String>, SourcedValue<Origin>>>(
                     baseOfNomen.getObservable(),
-                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { nomenInteractor.composeNomen(it.first, it.second) bindTo nomen }
+                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { pair ->
+                nomenInteractor.composeNomen(pair.first.value, pair.second.value).map {
+                    SourcedValue(pair.first.sources + pair.second.sources, it)
+                } bindTo nomen
+            }
 
-            Observable.combineLatest<String, Origin, Pair<String, Origin>>(
+            Observable.combineLatest<SourcedValue<String>, SourcedValue<Origin>, Pair<SourcedValue<String>, SourcedValue<Origin>>>(
                     nomen.getObservable(),
-                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { nomenInteractor.extractBaseOfNomen(it.first, it.second) bindTo baseOfNomen }
+                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { pair ->
+                nomenInteractor.extractBaseOfNomen(pair.first.value, pair.second.value).map {
+                    SourcedValue(pair.first.sources + pair.second.sources, it)
+                } bindTo baseOfNomen
+            }
 
-            nomen bindTo { nomenInteractor.detectOrgin(it) bindTo origin }
+            nomen bindTo { sv -> nomenInteractor.detectOrgin(sv.value).map { SourcedValue(sv.sources, it) } bindTo origin }
         }
     }
 }

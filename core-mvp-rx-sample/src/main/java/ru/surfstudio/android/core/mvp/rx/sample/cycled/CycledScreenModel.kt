@@ -23,8 +23,13 @@ import ru.surfstudio.android.core.mvp.rx.sample.cycled.domen.Origin
 
 class CycledScreenModel : ScreenModel() {
 
-    val baseOfNomen = Bond<String>()
-    val nomen = Bond<String>()
-    val origin = Bond<Origin>()
-
+    val baseOfNomen = Bond<SourcedValue<String>>()
+    val nomen = Bond<SourcedValue<String>>()
+    val origin = Bond<SourcedValue<Origin>>()
 }
+
+data class SourcedValue<T>(
+        val sources: Set<Source>,
+        val value: T)
+
+enum class Source { NOMEN, BASE_OF_NOMEN, ORIGIN }

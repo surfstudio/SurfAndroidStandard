@@ -44,13 +44,19 @@ class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
                 origin_other_rb.prepare())
 
         with(sm) {
-            origin bindTo ::checkRb
-            nomen.getObservable().filter { !nomen_et.isFocused } bindTo nomen_et::setText
-            baseOfNomen.getObservable().filter { !nomen_base_et.isFocused } bindTo nomen_base_et::setText
+            origin.getObservable().filter { !it.sources.contains(Source.ORIGIN) }.map { it.value } bindTo ::checkRb
+            nomen.getObservable().filter { !it.sources.contains(Source.NOMEN) }.map { it.value } bindTo nomen_et::setText
+            baseOfNomen.getObservable().filter { !it.sources.contains(Source.BASE_OF_NOMEN) }.map { it.value } bindTo nomen_base_et::setText
 
-            nomen_base_et.textChanges().debounce(300, TimeUnit.MILLISECONDS).map(CharSequence::toString) bindTo baseOfNomen
-            nomen_et.textChanges().debounce(300, TimeUnit.MILLISECONDS).map(CharSequence::toString) bindTo nomen
-            checkboxObserver bindTo origin
+            nomen_base_et.textChanges()
+                    .debounce(300, TimeUnit.MILLISECONDS)
+                    .map(CharSequence::toString)
+                    .map { SourcedValue(setOf(Source.BASE_OF_NOMEN), it) } bindTo baseOfNomen
+            nomen_et.textChanges()
+                    .debounce(300, TimeUnit.MILLISECONDS)
+                    .map(CharSequence::toString)
+                    .map { SourcedValue(setOf(Source.NOMEN), it) } bindTo nomen
+            checkboxObserver.map { SourcedValue(setOf(Source.ORIGIN), it) } bindTo origin
         }
     }
 
