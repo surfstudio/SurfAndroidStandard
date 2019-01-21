@@ -16,16 +16,17 @@
 package ru.surfstudio.android.analyticsv2
 
 import ru.surfstudio.android.analyticsv2.core.AnalyticAction
-import ru.surfstudio.android.analyticsv2.core.AnalyticActionPerformerCreator
-import ru.surfstudio.android.analyticsv2.core.AnalyticService
 
 /**
  * Реализация сервиса аналитики по умолчанию.
- * @creator фабрика соотвествия действия и выполнителя действия
+ * @creator фабрика соотвествия действия и выполнителей действия
  */
-open class DefaultAnalyticService(protected var creator: AnalyticActionPerformerCreator<AnalyticAction>) : AnalyticService<AnalyticAction> {
+open class DefaultAnalyticService(protected var creator: DefaultAnalyticActionPerformersStore)  {
 
-    override fun performAction(action: AnalyticAction) {
+    /**
+     * Выполнитль дейсвтие аналитики
+     */
+    fun performAction(action: AnalyticAction) {
         creator.getPerformersByAction(action).forEach {
             it.perform(action)
         }

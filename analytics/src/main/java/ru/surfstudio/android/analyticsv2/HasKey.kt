@@ -13,11 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.analyticsv2.core
+package ru.surfstudio.android.analyticsv2
 
 /**
- * Задает отображение действия в аналитике и сущности который должны ее выполнить
+ * Имя события
+ * В большинстве серсвисах аналитики есть имя события
  */
-interface AnalyticActionPerformerCreator<Action: AnalyticAction> {
-    fun getPerformersByAction(event: Action): List<AnalyticActionPerformer<Action>>
+interface HasKey {
+    fun key() : String
 }

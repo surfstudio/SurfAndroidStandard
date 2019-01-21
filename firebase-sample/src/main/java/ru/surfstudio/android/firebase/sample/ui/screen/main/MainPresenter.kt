@@ -24,7 +24,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 
     fun sendEvent(stringValue: String) {
-        analyticService.performAction(CustomEventV2(stringValue, "value1", 2, 3.0))
+        analyticService.performAction(CustomEventV2(stringValue, 2, 3.0))
         analyticService.performAction(SetUserProperty("userKey", 2.0))
     }
 }

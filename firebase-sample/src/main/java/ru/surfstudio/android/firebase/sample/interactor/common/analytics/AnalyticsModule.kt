@@ -6,9 +6,8 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.analytics.Analytics
 import ru.surfstudio.android.analytics.store.AnalyticsStore
-import ru.surfstudio.android.analyticsv2.DefaultAnalyticActionPerformerCreator
+import ru.surfstudio.android.analyticsv2.DefaultAnalyticActionPerformersStore
 import ru.surfstudio.android.analyticsv2.DefaultAnalyticService
-import ru.surfstudio.android.analyticsv2.core.AnalyticAction
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.firebaseanalytics.api.*
 
@@ -36,7 +35,7 @@ class AnalyticsModule {
     @Provides
     @PerApplication
     internal fun provideDefaultAnalyticsService(firebaseAnalytics: FirebaseAnalytics): DefaultAnalyticService {
-        return DefaultAnalyticService(DefaultAnalyticActionPerformerCreator()
+        return DefaultAnalyticService(DefaultAnalyticActionPerformersStore()
                 .configDefaultFireBaseActions(firebaseAnalytics))
     }
 }

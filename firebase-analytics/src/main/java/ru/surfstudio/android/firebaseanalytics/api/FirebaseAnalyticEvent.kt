@@ -16,7 +16,7 @@
 package ru.surfstudio.android.firebaseanalytics.api
 
 import android.os.Bundle
-import ru.surfstudio.android.analyticsv2.ActionKey
+import ru.surfstudio.android.analyticsv2.HasKey
 import ru.surfstudio.android.analyticsv2.core.AnalyticAction
 
 /**
@@ -24,7 +24,7 @@ import ru.surfstudio.android.analyticsv2.core.AnalyticAction
  * @param name ключ события (имя)
  * @param params параметры события (может не быть)
  */
-interface FirebaseAnalyticEvent : AnalyticAction, ActionKey {
+interface FirebaseAnalyticEvent : AnalyticAction, HasKey {
     /**
      * Параметры события
      */

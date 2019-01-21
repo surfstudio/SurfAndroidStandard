@@ -6,12 +6,11 @@ import ru.surfstudio.android.firebaseanalytics.api.FirebaseAnalyticEvent
 /**
  * Пример кастомного события
  */
-class CustomEventV2(val key: String,
-                    val value1: String,
+class CustomEventV2(val value1: String,
                     val value2: Int,
                     val value3: Double) : FirebaseAnalyticEvent {
 
-    override fun key() = key
+    override fun key() = "EventKey"
 
     override fun params() = Bundle().apply {
         putString("value_key_1", value1)

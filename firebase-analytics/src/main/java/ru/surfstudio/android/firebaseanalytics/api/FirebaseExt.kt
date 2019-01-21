@@ -16,7 +16,7 @@
 package ru.surfstudio.android.firebaseanalytics.api
 
 import com.google.firebase.analytics.FirebaseAnalytics
-import ru.surfstudio.android.analyticsv2.DefaultAnalyticActionPerformerCreator
+import ru.surfstudio.android.analyticsv2.DefaultAnalyticActionPerformersStore
 import ru.surfstudio.android.analyticsv2.core.AnalyticAction
 import ru.surfstudio.android.analyticsv2.core.AnalyticActionPerformer
 
@@ -46,7 +46,7 @@ const val MAX_SET_USER_PROPERTY_VALUE_LENGTH = 36
 /**
  * Добавляет поддержку событий logEvent и setUserProperty для FirebaseAnalytics
  */
-fun DefaultAnalyticActionPerformerCreator.configDefaultFireBaseActions(firebaseAnalytics: FirebaseAnalytics): DefaultAnalyticActionPerformerCreator {
+fun DefaultAnalyticActionPerformersStore.configDefaultFireBaseActions(firebaseAnalytics: FirebaseAnalytics): DefaultAnalyticActionPerformersStore {
     addActionPerformer(FirebaseAnalyticEventSender(firebaseAnalytics) as AnalyticActionPerformer<AnalyticAction>)
     addActionPerformer(FirebaseAnalyticSetUserPropertyActionPerformer(firebaseAnalytics) as AnalyticActionPerformer<AnalyticAction>)
     return this

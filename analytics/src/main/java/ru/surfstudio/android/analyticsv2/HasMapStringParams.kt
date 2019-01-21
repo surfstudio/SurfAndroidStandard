@@ -13,11 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.analyticsv2.core
+package ru.surfstudio.android.analyticsv2
 
 /**
- * Ответсвенен за выполнение действия аналитики.
+ * Параметры события типа "Map<String, String>"
  */
-interface AnalyticService<Action: AnalyticAction> {
-    fun performAction(action: Action)
+interface HasMapStringParams {
+    fun params() : Map<String, String>
 }
