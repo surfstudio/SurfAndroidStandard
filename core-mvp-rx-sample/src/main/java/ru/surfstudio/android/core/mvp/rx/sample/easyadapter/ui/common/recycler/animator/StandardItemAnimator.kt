@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-apply from: '../androidSample.gradle'
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.animator
 
-android{
-    defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
+import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator
+
+open class StandardItemAnimator : BaseItemAnimator() {
+    private val ADD_DURATION: Long = 200
+    private val REMOVE_DURATION: Long = 350
+    private val MOVE_DURATION: Long = 350
+    private val CHANGE_DURATION: Long = 200
+
+    init {
+        addDuration = ADD_DURATION
+        removeDuration = REMOVE_DURATION
+        moveDuration = MOVE_DURATION
+        changeDuration = CHANGE_DURATION
+        supportsChangeAnimations = false
     }
-}
-
-dependencies {
-    implementation project(':core-mvp-rx')
-    implementation project(':sample-dagger')
-    implementation project(':rxbus')
-    implementation project(':easyadapter')
-
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 }

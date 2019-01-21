@@ -14,22 +14,16 @@
  * limitations under the License.
  */
 
-apply from: '../androidSample.gradle'
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.controller
 
-android{
-    defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
-    }
-}
+import android.view.ViewGroup
+import ru.surfstudio.android.easyadapter.controller.NoDataItemController
+import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
+import ru.surfstudio.sample.R
 
-dependencies {
-    implementation project(':core-mvp-rx')
-    implementation project(':sample-dagger')
-    implementation project(':rxbus')
-    implementation project(':easyadapter')
+class EmptyStateController : NoDataItemController<EmptyStateController.Holder>() {
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
 
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    inner class Holder(parent: ViewGroup) : BaseViewHolder(parent, R.layout.empty_state_item_layout)
 }

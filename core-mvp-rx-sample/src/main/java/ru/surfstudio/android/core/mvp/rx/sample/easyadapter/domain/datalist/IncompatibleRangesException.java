@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-apply from: '../androidSample.gradle'
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist;
 
-android{
-    defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
+public class IncompatibleRangesException extends IllegalArgumentException {
+
+    public IncompatibleRangesException(String s) {
+        super(s);
     }
-}
-
-dependencies {
-    implementation project(':core-mvp-rx')
-    implementation project(':sample-dagger')
-    implementation project(':rxbus')
-    implementation project(':easyadapter')
-
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 }

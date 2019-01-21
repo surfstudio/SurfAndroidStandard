@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-apply from: '../androidSample.gradle'
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list
 
-android{
-    defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
-    }
-}
+import android.view.ViewGroup
+import ru.surfstudio.android.easyadapter.controller.NoDataItemController
+import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
+import ru.surfstudio.sample.R
 
-dependencies {
-    implementation project(':core-mvp-rx')
-    implementation project(':sample-dagger')
-    implementation project(':rxbus')
-    implementation project(':easyadapter')
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+class HeaderController : NoDataItemController<HeaderController.Holder>() {
 
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    override fun createViewHolder(parent: ViewGroup?): Holder = Holder(parent)
+
+    inner class Holder(parent: ViewGroup?) : BaseViewHolder(parent, R.layout.header_item_layout)
 }

@@ -14,22 +14,7 @@
  * limitations under the License.
  */
 
-apply from: '../androidSample.gradle'
+package ru.surfstudio.easyadapter.sample.domain
 
-android{
-    defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
-    }
-}
 
-dependencies {
-    implementation project(':core-mvp-rx')
-    implementation project(':sample-dagger')
-    implementation project(':rxbus')
-    implementation project(':easyadapter')
-
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
-}
+data class Element(val id: String, val name: String)

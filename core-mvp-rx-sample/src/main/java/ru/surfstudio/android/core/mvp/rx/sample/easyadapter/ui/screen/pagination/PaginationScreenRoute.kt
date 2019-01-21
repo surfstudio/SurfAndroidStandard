@@ -14,22 +14,15 @@
  * limitations under the License.
  */
 
-apply from: '../androidSample.gradle'
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination
 
-android{
-    defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
-    }
-}
+import android.content.Context
+import android.content.Intent
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
-dependencies {
-    implementation project(':core-mvp-rx')
-    implementation project(':sample-dagger')
-    implementation project(':rxbus')
-    implementation project(':easyadapter')
+class PaginationScreenRoute : ActivityRoute() {
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    override fun prepareIntent(context: Context?): Intent =
+            Intent(context, PaginationActivityView::class.java)
 
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
 }

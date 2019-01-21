@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-apply from: '../androidSample.gradle'
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub
 
-android{
-    defaultConfig{
-        applicationId "ru.surfstudio.android.mvpwidget.sample"
+import java.util.*
+
+data class Stub(val id: Long = Companion.rnd.nextLong()) {
+    companion object {
+        val rnd = Random()
     }
 }
 
-dependencies {
-    implementation project(':core-mvp-rx')
-    implementation project(':sample-dagger')
-    implementation project(':rxbus')
-    implementation project(':easyadapter')
-
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+fun generateStubs(count: Int): List<Stub> {
+    return (0..count - 1)
+            .map { Stub() }
+            .toList()
 }
+
