@@ -37,7 +37,9 @@ abstract class ActivityCrossFeatureRoute :
             return Intent(context, Class.forName(targetClassPath()))
         } catch (e: ClassNotFoundException) {
             Logger.e("Activity with the following classpath was not found in the current " +
-                    "project: ${targetClassPath()}")
+                    "application: ${targetClassPath()}. If this activity is the part of Dynamic Feature, " +
+                    "please check if this Dynamic Feature is downloaded and installed on the device" +
+                    "successfully.")
         }
         return null
     }
