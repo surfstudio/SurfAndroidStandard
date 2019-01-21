@@ -22,12 +22,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener;
+import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
@@ -41,7 +45,9 @@ import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.NewIntentRoute;
+import ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature.CrossFeatureRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
+import ru.surfstudio.android.logger.Logger;
 
 /**
  * позволяет осуществлять навигацияю между активити
@@ -57,6 +63,26 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
 
+    private SplitInstallStateUpdatedListener splitInstallStateUpdatedListener =
+            splitInstallSessionState -> {
+                if (splitInstallSessionState.status() == SplitInstallSessionStatus.FAILED &&
+                        splitInstallSessionState.sessionId() < 0) {
+                    Logger.e("ActivityNavigator | SplitInstallState| Service process died");
+                    return;
+                }
+                if (splitInstallSessionState.status() == SplitInstallSessionStatus.CANCELED) {
+                    Logger.w("ActivityNavigator | SplitInstallState| Installation cancelled");
+                } else if (splitInstallSessionState.status() == SplitInstallSessionStatus.FAILED) {
+                    Logger.e("ActivityNavigator | SplitInstallState| Install failed");
+                } else if (splitInstallSessionState.status() == SplitInstallSessionStatus.INSTALLED) {
+                    Logger.i("ActivityNavigator | SplitInstallState| Split successfully installed");
+                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        // Update app context with the code and resources of the installed module.
+                        SplitInstallHelper.updateAppInfo(MainActivity.this);
+                    }
+                    startActivity(new Intent(MainActivity.this, GreetActivity.class));*/
+                }
+            };
 
     public ActivityNavigator(ActivityProvider activityProvider,
                              ScreenEventDelegateManager eventDelegateManager) {
@@ -155,6 +181,9 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @return {@code true} if activity started successfully, {@code false} otherwise
      */
     public boolean start(ActivityRoute route) {
+        if (route instanceof CrossFeatureRoute) {
+            //todo feature downloading
+        }
         Context context = activityProvider.get();
         Intent intent = route.prepareIntent(context);
         if (intent.resolveActivity(context.getPackageManager()) != null) {
@@ -193,7 +222,11 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @return actual bundle
      */
     private Bundle prepareBundleCompat(ActivityRouteInterface route) {
-        Bundle bundle = route.prepareActivityOptionsCompat().toBundle();
+        Bundle bundle = null;
+        ActivityOptionsCompat activityOptionsCompat = route.prepareActivityOptionsCompat();
+        if (activityOptionsCompat != null) {
+            bundle = route.prepareActivityOptionsCompat().toBundle();
+        }
         //noinspection deprecation
         Bundle deprecatedBundle = route.prepareBundle();
         if (bundle != null) {

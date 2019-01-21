@@ -29,7 +29,7 @@ import androidx.core.app.ActivityOptionsCompat;
  * See: {@link Route}.
  * <br><br>
  */
-public interface ActivityRouteInterface {
+public interface ActivityRouteInterface extends Route {
 
     /**
      * Prepared Intent for calling the target Activity and passing data.
