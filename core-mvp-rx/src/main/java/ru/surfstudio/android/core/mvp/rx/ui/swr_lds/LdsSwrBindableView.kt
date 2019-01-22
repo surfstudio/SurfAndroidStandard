@@ -1,19 +1,12 @@
 package ru.surfstudio.android.core.mvp.rx.ui.swr_lds
 
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.model.state.SwipeRefreshState
+import ru.surfstudio.android.core.mvp.rx.ui.RxModel
+import ru.surfstudio.android.core.mvp.rx.ui.lds.HasLoadState
 import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxView
+import ru.surfstudio.android.core.mvp.rx.ui.swr.HasSwrState
+import ru.surfstudio.android.core.mvp.rx.ui.swr.SwrRxView
 
-interface LdsSwrBindableView<M : LdsSwrRxModel> : LdsRxView<M> {
-    fun getSwipeRefreshLayout(): SwipeRefreshLayout
-
-
-    fun bindSwipeRefreshState(sm: M) {
-        sm.swipeRefreshState.observable.bindTo(getSwipeRefreshLayout().refreshConsumer)
-    }
-
-    private val SwipeRefreshLayout.refreshConsumer get() = Consumer<SwipeRefreshState> {
-        isRefreshing = it == SwipeRefreshState.REFRESHING
-    }
-}
+interface LdsSwrBindableView<M> : LdsRxView<M>, SwrRxView<M>
+        where M : RxModel,
+              M : HasLoadState,
+              M : HasSwrState

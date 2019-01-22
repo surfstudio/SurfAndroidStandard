@@ -33,20 +33,6 @@ abstract class BaseRxPresenter<M, V>(
 
     protected val <T> Action<T>.observable: Observable<T> get() = relay
 
-    protected fun applyLoadState(new: LoadStateInterface) {
-        val sm = getRxModel()
-        if (sm is LdsRxModel) sm.loadState.accept(new)
-    }
-
-    protected fun <T> Observable<T>.applyLoadState(new: LoadStateInterface) = map {
-        this@BaseRxPresenter.applyLoadState(new)
-        it
-    }
-
-    protected fun <T> Observable<T>.applyLoadState(loadStateFromDataAction: (T) -> LoadStateInterface) = map {
-        this@BaseRxPresenter.applyLoadState(loadStateFromDataAction(it))
-        it
-    }
 
     fun <T> Observable<T>.subscribeIoHandleError(onNextConsumer: Consumer<T>, onError: Consumer<Throwable>? = null) {
         subscribeIoHandleError(this

@@ -3,14 +3,17 @@ package ru.surfstudio.android.core.mvp.rx.sample
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
+import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxPresenter
+import ru.surfstudio.android.core.mvp.rx.ui.swr_lds.SwrLdsRxPresenter
 import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
-) : BaseRxPresenter<MainModel, MainActivityView>(basePresenterDependency) {
+) : BaseRxPresenter<MainModel, MainActivityView>(basePresenterDependency), LdsRxPresenter<MainModel> {
     private val model = MainModel()
+
     override fun getRxModel() = model
 
     override fun onFirstLoad() {
