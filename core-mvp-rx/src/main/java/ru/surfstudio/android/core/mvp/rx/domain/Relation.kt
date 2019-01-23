@@ -44,6 +44,9 @@ interface Related<S : RelationEntity> {
     fun <T> Relation<T, S, *>.getConsumer() =
             this.getConsumer(relationEntity())
 
+    fun <T> Relation<T, S, *>.accept(newValue: T) =
+            this.getConsumer().accept(newValue)
+
     infix fun <T> Observable<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this, consumer)
 

@@ -42,6 +42,7 @@ class MainActivityView : BaseRxActivityView<MainModel>() {
 
         checkbox_sample_btn.clicks() bindTo sm.checkboxSampleActivityOpen
         cycled_dependency_sample_btn.clicks() bindTo sm.cycledSampleActivityOpen
+        easy_adapter_sample_btn.clicks() bindTo sm.easyadapterSampleActivityOpen
     }
 
     override fun createConfigurator() = MainScreenConfigurator(intent)

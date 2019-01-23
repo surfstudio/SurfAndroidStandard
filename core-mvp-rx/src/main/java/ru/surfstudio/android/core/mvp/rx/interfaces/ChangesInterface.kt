@@ -14,13 +14,22 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.easyadapter.sample.domain
+package ru.surfstudio.android.core.mvp.rx.interfaces
 
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
+import com.jakewharton.rxbinding2.InitialValueObservable
+import io.reactivex.Observable
 
+interface RxChangesModel<T> {
 
-data class Carousel(
-        val id: String,
-        val name: String,
-        val elements: List<Element> = emptyList()
-)
+    fun changesModel(): InitialValueObservable<T>
+}
+
+interface RxChangedChecked<T> {
+
+    fun changesModel(): Observable<T>
+}
+
+interface RxClickable {
+
+    fun clicks(): Observable<Unit>
+}

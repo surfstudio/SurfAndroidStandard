@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.easyadapter.sample.interactor.element
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.element
 
-import ru.surfstudio.easyadapter.sample.domain.Element
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 
 
 object Elements {

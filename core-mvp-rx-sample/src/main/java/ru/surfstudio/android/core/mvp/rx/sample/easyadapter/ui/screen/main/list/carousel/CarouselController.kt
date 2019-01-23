@@ -22,12 +22,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.animator.StandardItemAnimator
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.easyadapter.sample.domain.Carousel
-import ru.surfstudio.easyadapter.sample.domain.Element
 import ru.surfstudio.sample.R
 
 

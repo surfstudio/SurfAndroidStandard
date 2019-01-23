@@ -35,5 +35,5 @@ class Action<T> : Relation<T, VIEW, PRESENTER> {
 
     override fun getConsumer(source: VIEW): Consumer<T> = relay
 
-    override fun getObservable(target: PRESENTER): Observable<T> = relay.distinctUntilChanged()
+    override fun getObservable(target: PRESENTER): Observable<T> = relay.share()
 }

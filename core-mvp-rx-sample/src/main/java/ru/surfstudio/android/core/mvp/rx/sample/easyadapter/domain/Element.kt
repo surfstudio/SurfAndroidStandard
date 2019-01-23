@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.easyadapter.sample.domain
-
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain
 
 data class Element(val id: String, val name: String)

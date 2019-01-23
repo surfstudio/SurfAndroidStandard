@@ -19,32 +19,38 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.data.MainScreenModel
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.data.ScreenModelFactory
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.data.MainModelRepository
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination.PaginationScreenRoute
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerScreen
-class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : BaseRxPresenter<MainScreenModel, EAMainActivityView>(basePresenterDependency) {
+class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
+                                          val activityNavigator: ActivityNavigator)
+    : BaseRxPresenter<MainPresentationModel, EAMainActivityView>(basePresenterDependency) {
 
-    override fun getRxModel(): MainScreenModel = MainScreenModel()
+    override val pm = MainPresentationModel()
 
     private val INTERVAL: Long = 2500 //ms
-    private val screenModelFactory = ScreenModelFactory()
-    private var screenModel: MainScreenModel = screenModelFactory.next()
+    private val screenModelFactory = MainModelRepository()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
         if (!viewRecreated) {
-            subscribe(Observable.interval(INTERVAL, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread()),
-                    { _, _ -> true },
-                    { _ -> view.render(screenModelFactory.next()) },
-                    { _ -> /*ignore*/ })
+            val timeEmitter = Observable.interval(INTERVAL, TimeUnit.MILLISECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map { screenModelFactory.next() }
+                    .share()
+
+            timeEmitter.map { it.bottomCarousel } bindTo pm.bottomCarouselState
+            timeEmitter.map { it.carousels } bindTo pm.carouselState
+            timeEmitter.map { it.elements } bindTo pm.elementsState
+            timeEmitter.map { it.hasCommercial } bindTo pm.hasCommercialState
         }
+
+        pm.openPaginationScreen bindTo { activityNavigator.start(PaginationScreenRoute()) }
     }
 }

@@ -33,4 +33,5 @@ class MainModel : ScreenModel() {
 
     val checkboxSampleActivityOpen = Action<Unit>()
     val cycledSampleActivityOpen = Action<Unit>()
+    val easyadapterSampleActivityOpen = Action<Unit>()
 }

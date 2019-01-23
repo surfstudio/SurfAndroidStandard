@@ -19,6 +19,7 @@ package ru.surfstudio.android.core.mvp.rx.sample
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.sample.checkbox.CheckboxActivityRoute
 import ru.surfstudio.android.core.mvp.rx.sample.cycled.CycledActivityRoute
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.EAMainActivityRoute
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -27,21 +28,21 @@ import javax.inject.Inject
 @PerScreen
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        val activityNavigator: ActivityNavigator
+        private val activityNavigator: ActivityNavigator
 ) : BaseRxPresenter<MainModel, MainActivityView>(basePresenterDependency) {
 
-    private val model = MainModel()
-    override fun getRxModel() = model
+    override val pm = MainModel()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        model.incAction.bindTo(model.counterState) { 100 }
-        model.decAction.bindTo(model.counterState) { 20 }
-        model.textEditState bindTo model.sampleCommand
-        model.doubleTextAction.bindTo(model.textEditState) { model.textEditState.let { it.value + it.value } }
+        pm.incAction.bindTo(pm.counterState) { 100 }
+        pm.decAction.bindTo(pm.counterState) { 20 }
+        pm.textEditState bindTo pm.sampleCommand
+        pm.doubleTextAction.bindTo(pm.textEditState) { pm.textEditState.let { it.value + it.value } }
 
-        model.checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
-        model.cycledSampleActivityOpen bindTo { activityNavigator.start(CycledActivityRoute()) }
+        pm.checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
+        pm.cycledSampleActivityOpen bindTo { activityNavigator.start(CycledActivityRoute()) }
+        pm.easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
     }
 }

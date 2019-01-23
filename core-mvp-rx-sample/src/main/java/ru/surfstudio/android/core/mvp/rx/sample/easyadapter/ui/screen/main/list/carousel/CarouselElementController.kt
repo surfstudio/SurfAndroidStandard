@@ -17,10 +17,10 @@
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list.carousel
 
 import android.view.ViewGroup
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.widget.ElementCoverView
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
-import ru.surfstudio.easyadapter.sample.domain.Element
 import ru.surfstudio.sample.R
 
 

@@ -17,20 +17,26 @@
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list
 
 import android.view.ViewGroup
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
+import ru.surfstudio.android.core.mvp.rx.interfaces.RxClickable
 import ru.surfstudio.android.easyadapter.controller.NoDataItemController
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
 import ru.surfstudio.sample.R
 
 
-class CommercialController(
-        val onClickListener: () -> Unit
-) : NoDataItemController<CommercialController.Holder>() {
+class CommercialController
+    : NoDataItemController<CommercialController.Holder>(), RxClickable {
+
+    private var publish = PublishSubject.create<Unit>()
+
+    override fun clicks(): Observable<Unit> = publish
 
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
 
     inner class Holder(parent: ViewGroup) : BaseViewHolder(parent, R.layout.commercial_item_layout) {
         init {
-            itemView.setOnClickListener { onClickListener.invoke() }
+            itemView.setOnClickListener { publish.onNext(Unit) }
         }
     }
 }

@@ -17,11 +17,11 @@
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.Stub
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.generateStubs
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
-import ru.surfstudio.easyadapter.sample.domain.Element
 
 data class PaginationScreenModel(
         var loadState: LS = LS.NONE,

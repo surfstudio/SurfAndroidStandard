@@ -32,4 +32,5 @@ dependencies {
 
     implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    implementation 'io.reactivex.rxjava2:rxkotlin:2.3.0'
 }

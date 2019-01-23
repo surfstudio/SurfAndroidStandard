@@ -37,16 +37,16 @@ abstract class BaseRxPresenter<M, V>(
 
     override fun relationEntity() = PRESENTER
 
-    abstract fun getRxModel(): M
+    abstract val pm: M
 
     @CallSuper
     override fun onFirstLoad() {
-        view.bind(getRxModel())
+        view.bind(pm)
     }
 
     @CallSuper
     override fun onLoad(viewRecreated: Boolean) {
-        if (viewRecreated) view.bind(getRxModel())
+        if (viewRecreated) view.bind(pm)
     }
 
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =

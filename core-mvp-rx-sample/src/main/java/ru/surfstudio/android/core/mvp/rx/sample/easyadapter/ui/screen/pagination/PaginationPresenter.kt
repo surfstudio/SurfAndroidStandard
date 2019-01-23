@@ -31,7 +31,7 @@ class PaginationPresenter @Inject constructor(
         val elementRepository: ElementRepository
 ) : BaseRxPresenter<PaginationScreenModel, PaginationActivityView>(basePresenterDependency) {
 
-    override fun getRxModel(): PaginationScreenModel = PaginationScreenModel(LS.LOADING)
+    override val pm = PaginationScreenModel(LS.LOADING)
 
     private val screenModel = PaginationScreenModel(LS.LOADING)
     private var loadMainSubscription: Disposable? = null

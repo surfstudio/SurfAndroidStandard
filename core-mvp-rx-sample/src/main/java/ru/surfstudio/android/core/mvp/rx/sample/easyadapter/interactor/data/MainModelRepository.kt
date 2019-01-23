@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.data
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.data
 
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.MainModel
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.element.Elements
 import ru.surfstudio.easyadapter.sample.domain.Carousel
-import ru.surfstudio.easyadapter.sample.interactor.element.Elements
 
-
-class ScreenModelFactory {
+class MainModelRepository {
     private val CAROUSELS = arrayListOf(
             Carousel("aaa", "Sed condimentum"),
             Carousel("bbb", "Etiam mollis"),
@@ -29,20 +29,22 @@ class ScreenModelFactory {
 
     private val ELEMENTS = Elements.all
 
-    private val models: List<MainScreenModel>
+    private val models: List<MainModel>
     private var current = 0
 
     init {
-        models = arrayListOf(firstModel(), secondModel(), thirdModel(), fourthModel(), fifthModel(), sixthModel())
+        models = arrayListOf(firstModel(),
+                secondModel(), thirdModel(), fourthModel(), fifthModel(),
+                sixthModel())
     }
 
-    fun next(): MainScreenModel {
+    fun next(): MainModel {
         current++
         return models[current % models.size]
     }
 
-    private fun firstModel(): MainScreenModel {
-        return MainScreenModel(
+    private fun firstModel(): MainModel {
+        return MainModel(
                 carousels = arrayListOf(
                         CAROUSELS[0].copy(elements = arrayListOf(
                                 ELEMENTS[0],
@@ -71,11 +73,11 @@ class ScreenModelFactory {
                         ELEMENTS[19],
                         ELEMENTS[14],
                         ELEMENTS[10]),
-                bottomCarousel = null)
+                bottomCarousel = emptyList())
     }
 
-    private fun secondModel(): MainScreenModel {
-        return MainScreenModel(
+    private fun secondModel(): MainModel {
+        return MainModel(
                 carousels = arrayListOf(
                         CAROUSELS[1].copy(elements = arrayListOf(
                                 ELEMENTS[10],
@@ -94,11 +96,11 @@ class ScreenModelFactory {
                         ELEMENTS[19],
                         ELEMENTS[14],
                         ELEMENTS[10]),
-                bottomCarousel = null)
+                bottomCarousel = emptyList())
     }
 
-    private fun thirdModel(): MainScreenModel {
-        return MainScreenModel(
+    private fun thirdModel(): MainModel {
+        return MainModel(
                 carousels = arrayListOf(
                         CAROUSELS[1].copy(elements = arrayListOf(
                                 ELEMENTS[3],
@@ -117,7 +119,7 @@ class ScreenModelFactory {
                         ELEMENTS[19],
                         ELEMENTS[13],
                         ELEMENTS[10]),
-                bottomCarousel = CAROUSELS[3].copy(
+                bottomCarousel = listOf(CAROUSELS[3].copy(
                         elements = arrayListOf(
                                 ELEMENTS[12],
                                 ELEMENTS[22],
@@ -127,11 +129,11 @@ class ScreenModelFactory {
                                 ELEMENTS[12],
                                 ELEMENTS[6],
                                 ELEMENTS[1],
-                                ELEMENTS[15])))
+                                ELEMENTS[15]))))
     }
 
-    private fun fourthModel(): MainScreenModel {
-        return MainScreenModel(
+    private fun fourthModel(): MainModel {
+        return MainModel(
                 carousels = arrayListOf(
                         CAROUSELS[1].copy(elements = arrayListOf(
                                 ELEMENTS[17],
@@ -161,11 +163,11 @@ class ScreenModelFactory {
                         ELEMENTS[0],
                         ELEMENTS[23],
                         ELEMENTS[10]),
-                bottomCarousel = null)
+                bottomCarousel = emptyList())
     }
 
-    private fun fifthModel(): MainScreenModel {
-        return MainScreenModel(
+    private fun fifthModel(): MainModel {
+        return MainModel(
                 carousels = arrayListOf(
                         CAROUSELS[0].copy(elements = arrayListOf(
                                 ELEMENTS[1],
@@ -185,14 +187,14 @@ class ScreenModelFactory {
                         ELEMENTS[2],
                         ELEMENTS[0],
                         ELEMENTS[10]),
-                bottomCarousel = null)
+                bottomCarousel = emptyList())
     }
 
-    private fun sixthModel(): MainScreenModel {
-        return MainScreenModel(
+    private fun sixthModel(): MainModel {
+        return MainModel(
                 carousels = emptyList(),
                 hasCommercial = false,
                 elements = emptyList(),
-                bottomCarousel = null)
+                bottomCarousel = emptyList())
     }
 }

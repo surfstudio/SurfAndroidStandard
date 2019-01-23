@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.easyadapter.sample.domain
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main
 
+import ru.surfstudio.android.core.mvp.model.ScreenModel
+import ru.surfstudio.android.core.mvp.rx.domain.Action
+import ru.surfstudio.android.core.mvp.rx.domain.State
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
+import ru.surfstudio.easyadapter.sample.domain.Carousel
 
 
-data class Carousel(
-        val id: String,
-        val name: String,
-        val elements: List<Element> = emptyList()
-)
+class MainPresentationModel : ScreenModel() {
+
+    val carouselState = State<List<Carousel>>()
+    val hasCommercialState = State<Boolean>()
+    val elementsState = State<List<Element>>()
+    val bottomCarouselState = State<List<Carousel>>()
+    val openPaginationScreen = Action<Unit>()
+}
+

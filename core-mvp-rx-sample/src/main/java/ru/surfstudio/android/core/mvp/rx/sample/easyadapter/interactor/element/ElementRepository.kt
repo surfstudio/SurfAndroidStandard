@@ -17,10 +17,9 @@
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.element
 
 import io.reactivex.Observable
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.easyadapter.sample.domain.Element
-import ru.surfstudio.easyadapter.sample.interactor.element.Elements
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

@@ -1,6 +1,13 @@
 [Главная](../docs/main.md)
 
 # Модуль с примерами использования
+## Easyadapter
+Описывает работу с `EasyAdapter`.
+
+Основано на примере easyadapter с [githab`a][tuevSample]
+Показательная логика по измененю состояния рецайклера через адаптер
+представлена во [View][easyadapterView] и [Presenter][easyadapterPresenter]
+
 ## Cycled
 Описывает работу с циклическими зависимостями.
 
@@ -30,3 +37,7 @@ consumer`у посылается объект который был послан
 не стоит передавать дельты изменений объектов. Например, не стоит передавать
 из презентора на какое значение увеличить счетчик на виджете, нужно
 передавать уже готовое значение
+
+[tuevSample]: https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample
+[easyadapterView]: src/main/java/ru/surfstudio/android/core/mvp/rx/sample/easyadapter/ui/screen/main/EAMainActivityView.kt
+[easyadapterPresenter]: src/main/java/ru/surfstudio/android/core/mvp/rx/sample/easyadapter/ui/screen/main/EAMainPresenter.kt

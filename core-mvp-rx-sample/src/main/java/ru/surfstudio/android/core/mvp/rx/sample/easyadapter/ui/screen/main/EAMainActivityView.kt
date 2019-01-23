@@ -16,29 +16,31 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main
 
-import android.content.Intent
+import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_easy_adapter_sample.*
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.animator.SlideItemAnimator
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.controller.ElementController
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.controller.EmptyStateController
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.data.MainScreenModel
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list.CommercialController
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list.DeliveryController
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list.HeaderController
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list.carousel.CarouselController
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination.PaginationActivityView
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.easyadapter.sample.domain.Carousel
 import ru.surfstudio.sample.R
 import javax.inject.Inject
 
 /**
  * example screen with list with different types of items
  */
-class EAMainActivityView : BaseRxActivityView<MainScreenModel>() {
+class EAMainActivityView : BaseRxActivityView<MainPresentationModel>() {
 
     @Inject
     lateinit var presenter: EAMainPresenter
@@ -52,51 +54,60 @@ class EAMainActivityView : BaseRxActivityView<MainScreenModel>() {
 
     private val adapter = EasyAdapter()
 
-    override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> =
+            EaMainScreenConfigurator(intent)
 
     override fun getPresenters() = arrayOf(presenter)
 
     override fun getScreenName(): String = "Main easy adapter sample"
 
-    override fun bind(sm: MainScreenModel) {
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+
         val linearLayoutManager = LinearLayoutManager(this)
         val itemAnimator = SlideItemAnimator()
         recycler.itemAnimator = itemAnimator
         recycler.layoutManager = linearLayoutManager
         recycler.adapter = adapter
+    }
+
+    override fun bind(pm: MainPresentationModel) {
 
         headerController = HeaderController()
+
         carouselController = CarouselController(
-                onElementClickListener = { openPaginationScreen() },
-                onShowAllClickListener = { openPaginationScreen() })
-        deliveryController = DeliveryController(
-                onClickListener = { openPaginationScreen() })
-        commercialController = CommercialController(
-                onClickListener = { openPaginationScreen() })
-        elementController = ElementController(
-                onClickListener = { openPaginationScreen() })
+                onElementClickListener = { pm.openPaginationScreen.accept(Unit) },
+                onShowAllClickListener = { pm.openPaginationScreen.accept(Unit) })
+        deliveryController = DeliveryController { pm.openPaginationScreen.accept(Unit) }
+        elementController = ElementController { pm.openPaginationScreen.accept(Unit) }
+
+        //Также можно использовать реактивные интерфейсы (здесь RxClickable)
+        commercialController = CommercialController().apply {
+            clicks() bindTo pm.openPaginationScreen
+        }
+
         emptyStateController = EmptyStateController()
+
+        Observables.combineLatest(
+                pm.carouselState.getObservable(),
+                pm.elementsState.getObservable(),
+                pm.bottomCarouselState.getObservable(),
+                pm.hasCommercialState.getObservable(),
+                ::createItemList
+        ) bindTo adapter::setItems
     }
 
-    private fun openPaginationScreen() {
-        //todo handle through presenter
-        //see e.g. https://github.com/MaksTuev/real_mvp_part1/blob/master/app/src/main/java/com/agna/realmvp/realmvpsample/ui/screen/splash/SplashPresenter.java
-        startActivity(Intent(this, PaginationActivityView::class.java))
+    private fun createItemList(carousels: List<Carousel>, elements: List<Element>, bottomCarousel: List<Carousel>, hasCommercial: Boolean): ItemList {
+        val isEmpty = carousels.isEmpty() && !hasCommercial && elements.isEmpty() && bottomCarousel.isEmpty()
+        return ItemList.create()
+                .addIf(carousels.isNotEmpty(), headerController)
+                .addAll(carousels, carouselController)
+                .addIf(!isEmpty, deliveryController)
+                .addIf(hasCommercial, commercialController)
+                .addAll(elements, elementController)
+                .addAll(bottomCarousel, carouselController)
+                .addIf(isEmpty, emptyStateController)
     }
 
-    fun render(screenModel: MainScreenModel) {
-        val itemList = ItemList.create()
-                .addIf(screenModel.hasHeader(), headerController)
-                .addAll(screenModel.carousels, carouselController)
-                .addIf(!screenModel.isEmpty(), deliveryController)
-                .addIf(screenModel.hasCommercial, commercialController)
-                .addAll(screenModel.elements, elementController)
-                .addIf(screenModel.hasBottomCarousel(), screenModel.bottomCarousel, carouselController)
-                .addIf(screenModel.isEmpty(), emptyStateController)
-        adapter.setItems(itemList)
-    }
-
-    override fun getContentView(): Int = R.layout.activity_main
+    override fun getContentView(): Int = R.layout.activity_easy_adapter_sample
 }

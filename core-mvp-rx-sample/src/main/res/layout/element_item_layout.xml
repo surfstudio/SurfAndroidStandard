@@ -23,7 +23,7 @@
     android:background="@drawable/selectable_divider_background"
     android:elevation="@dimen/card_elevation">
 
-    <ru.surfstudio.easyadapter.sample.ui.common.widget.ElementCoverView
+    <ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.widget.ElementCoverView
         android:id="@+id/cover_view"
         android:layout_width="56dp"
         android:layout_height="56dp"

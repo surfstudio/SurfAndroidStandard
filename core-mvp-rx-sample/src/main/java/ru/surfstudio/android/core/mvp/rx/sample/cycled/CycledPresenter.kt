@@ -31,13 +31,12 @@ class CycledPresenter @Inject constructor(
         private val nomenInteractor: NomenInteractor
 ) : BaseRxPresenter<CycledScreenModel, CycledActivityView>(basePresenterDependency) {
 
-    private val model = CycledScreenModel()
-    override fun getRxModel() = model
+    override val pm = CycledScreenModel()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        with(model) {
+        with(pm) {
             Observable.combineLatest<SourcedValue<String>, SourcedValue<Origin>, Pair<SourcedValue<String>, SourcedValue<Origin>>>(
                     baseOfNomen.getObservable(),
                     origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { pair ->

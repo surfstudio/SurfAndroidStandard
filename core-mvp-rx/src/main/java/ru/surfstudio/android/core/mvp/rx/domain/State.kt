@@ -36,5 +36,5 @@ class State<T> : Relation<T, PRESENTER, VIEW> {
 
     override fun getConsumer(source: PRESENTER): Consumer<T> = relay
 
-    override fun getObservable(target: VIEW): Observable<T> = relay.distinctUntilChanged()
+    override fun getObservable(target: VIEW): Observable<T> = relay.share()
 }

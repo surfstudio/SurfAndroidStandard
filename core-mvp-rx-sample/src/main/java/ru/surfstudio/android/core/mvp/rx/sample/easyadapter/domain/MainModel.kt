@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.data
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain
 
-import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.easyadapter.sample.domain.Carousel
-import ru.surfstudio.easyadapter.sample.domain.Element
 
-
-data class MainScreenModel(
+data class MainModel(
         val carousels: List<Carousel> = emptyList(),
         val hasCommercial: Boolean = false,
         val elements: List<Element> = emptyList(),
-        val bottomCarousel: Carousel? = null)
-    : ScreenModel() {
-
-    fun hasHeader(): Boolean = !carousels.isEmpty()
-    fun hasBottomCarousel(): Boolean = bottomCarousel != null
-    fun isEmpty(): Boolean = carousels.isEmpty()
-            && !hasCommercial
-            && elements.isEmpty()
-            && bottomCarousel == null
-}
+        val bottomCarousel: List<Carousel> = emptyList())
