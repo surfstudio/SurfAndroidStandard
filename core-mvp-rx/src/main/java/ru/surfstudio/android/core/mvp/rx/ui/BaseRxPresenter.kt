@@ -14,21 +14,19 @@ import ru.surfstudio.android.core.mvp.rx.ui.lds.LdsRxModel
 
 abstract class BaseRxPresenter<M, V>(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<V>(basePresenterDependency)
+) : BasePresenter<V>(basePresenterDependency), CoreRxPresenter<M>
         where M : RxModel,
               V : CoreView,
               V : BindableRxView<M> {
 
-    abstract fun getRxModel(): M
-
     @CallSuper
     override fun onFirstLoad() {
-        view.bind(getRxModel())
+        view.bind(model)
     }
 
     @CallSuper
     override fun onLoad(viewRecreated: Boolean) {
-        if (viewRecreated) view.bind(getRxModel())
+        if (viewRecreated) view.bind(model)
     }
 
     protected val <T> Action<T>.observable: Observable<T> get() = relay

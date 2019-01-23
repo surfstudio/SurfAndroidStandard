@@ -12,9 +12,7 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
 ) : BaseRxPresenter<MainModel, MainActivityView>(basePresenterDependency), LdsRxPresenter<MainModel> {
-    private val model = MainModel()
-
-    override fun getRxModel() = model
+    override val model = MainModel()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
