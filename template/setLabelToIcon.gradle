@@ -1,0 +1,318 @@
+import groovy.util.slurpersupport.GPathResult
+import javax.imageio.ImageIO
+import java.awt.Color
+import java.awt.Font
+import java.awt.FontMetrics
+import java.awt.Graphics2D
+import java.awt.RenderingHints
+import java.awt.image.BufferedImage
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+
+task changeIcon
+
+tasks.whenTaskAdded { Task task ->
+    for (int i = 0; i < IconService.BUILD_VARIANTS.size(); i++) {
+        String buildVariant = IconService.BUILD_VARIANTS[i]
+        if (task.name.contains("merge${Utils.capitalize(buildVariant)}Resources")) {
+            task.dependsOn(changeIcon)
+            changeIcon.doFirst {
+                new IconService(buildVariant, versionName).change()
+                android.sourceSets.findByName(buildVariant).res.srcDir(
+                        new File("${project.buildDir}/$IconService.GENERATED_PATH/$buildVariant/res")
+                )
+            }
+        }
+    }
+}
+
+class IconService {
+    public final static String[] BUILD_VARIANTS = [DEBUG_BUILD_VARIANT, QA_BUILD_VARIANT]
+    public final static GENERATED_PATH = "generated/iconlauncher"
+
+    private final static BUILD_GENERATED_PATH = "build/$GENERATED_PATH"
+    private final static APP_INJECTOR_DIR_NAME = "app-injector"
+    private final static TEMPLATE_DIR_NAME = "template"
+    private final static RES_PATH = "src/main/res/"
+    private final static MANIFEST_PATH = "src/main/AndroidManifest.xml"
+    private final static APPLICATION_PROPERTY_NAME = "application"
+    private final static ICON_PROPERTY_NAME = "@android:icon"
+    private final static ROUND_ICON_PROPERTY_NAME = "@android:roundIcon"
+    private final static BACKGROUND_PROPERTY_NAME = "background"
+    private final static FOREGROUND_PROPERTY_NAME = "foreground"
+    private final static DRAWABLE_PROPERTY_NAME = "@android:drawable"
+    private final static XML_EXTENSION = "xml"
+    private final static OVERLAY_FILE_EXTENSION = "png"
+    private final static OVERLAY_FILE_PATH = "overlayicon.$OVERLAY_FILE_EXTENSION"
+    private final static DEBUG_BUILD_VARIANT = "debug"
+    private final static QA_BUILD_VARIANT = "qa"
+
+    private File appInjectorDir = null
+    private File overlayImage = null
+    private File variantDir = null
+
+    private final String buildVariant
+    private final String versionName
+
+    IconService(String buildVariant, String versionName) {
+        this.buildVariant = buildVariant
+        this.versionName = versionName
+    }
+
+    void change() {
+        appInjectorDir = getAppInjectorDir()
+        if (appInjectorDir == null) return
+
+        Icon icon = getIcon()
+        if (icon == null) return
+
+        overlayImage = generateOverlayImage()
+        if (overlayImage == null) return
+
+        if (icon.commonIcon != null) processIcon(icon.commonIcon)
+        if (icon.roundIcon != null) processIcon(icon.roundIcon)
+    }
+
+    private void processIcon(IconPath iconPath) {
+        File resDir = new File("${appInjectorDir.path}/${RES_PATH}")
+        if (!resDir.exists()) return
+
+        variantDir = new File("${appInjectorDir.path}/$BUILD_GENERATED_PATH/$buildVariant")
+        File variantResDir = new File("${variantDir.path}/res")
+
+        List<File> rowIcons = findIcons(resDir, iconPath)
+        if (rowIcons == null || rowIcons.empty) return
+
+        processImageIcons(findFilesByExtension(rowIcons, XML_EXTENSION, true), variantResDir)
+        processXmlIcons(findFilesByExtension(rowIcons, XML_EXTENSION, false), resDir, variantResDir)
+    }
+
+    private void processImageIcons(List<File> rowIcons, File variantResDir) {
+        rowIcons.forEach { icon ->
+            String outputPath = "${variantResDir.path}/${icon.path.split(RES_PATH).last()}"
+            File output = new File(outputPath)
+            try {
+                if (!output.parentFile.exists()) output.parentFile.mkdirs()
+                output.createNewFile()
+                Files.copy(icon.toPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                changeVariantIcon(icon, output)
+            } catch (IOException ex) {
+                ex.printStackTrace()
+            }
+        }
+    }
+
+    private void processXmlIcons(List<File> rowIcons, File resDir, File variantResDir) {
+        List<File> icons = new ArrayList()
+
+        rowIcons.forEach { icon ->
+            GPathResult adaptiveIconNode = new XmlSlurper().parse(icon)
+            if (adaptiveIconNode == null) return
+
+            icons.addAll(getAdaptiveIcon(adaptiveIconNode,resDir, BACKGROUND_PROPERTY_NAME))
+            icons.addAll(getAdaptiveIcon(adaptiveIconNode,resDir, FOREGROUND_PROPERTY_NAME))
+        }
+
+        if (icons.empty) return
+
+        processImageIcons(findFilesByExtension(icons, XML_EXTENSION, true), variantResDir)
+        // todo process vector drawable
+    }
+
+    private List<File> getAdaptiveIcon(GPathResult rootNode,File resDir, String property){
+        GPathResult icon = (GPathResult) rootNode.getProperty(property)
+        return findIcons(
+                resDir,
+                parseIcon(String.valueOf(icon.getProperty(DRAWABLE_PROPERTY_NAME)))
+        )
+    }
+
+    private List<File> findFilesByExtension(List<File> files, String extension, Boolean isNot) {
+        List<File> res = new ArrayList()
+        files.forEach { file ->
+            if (file.path.split("\\.").last() == extension) {
+                if (!isNot) res.add(file)
+            } else {
+                if (isNot) res.add(file)
+            }
+        }
+        return res
+    }
+
+    private void changeVariantIcon(File input, File output) {
+        BufferedImage image = ImageIO.read(input)
+        BufferedImage overlayImage = ImageIO.read(overlayImage)
+        Graphics2D g2d = image.createGraphics()
+        g2d.drawImage(overlayImage, 0, 0, image.width, image.height, null)
+        g2d.dispose()
+
+        try {
+            ImageIO.write(image, OVERLAY_FILE_EXTENSION, output)
+        } catch (IOException ex) {
+            ex.printStackTrace()
+        }
+    }
+
+    private File generateOverlayImage() {
+        List<String> texts = new ArrayList()
+
+        def width = 192
+        def height = 192
+
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+        Graphics2D g2d = img.createGraphics()
+        Font font = new Font("Arial", Font.PLAIN, 36)
+        FontMetrics fm = g2d.getFontMetrics()
+
+        g2d.setFont(font)
+
+        g2d.dispose()
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+        g2d = img.createGraphics()
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY)
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE)
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
+        g2d.setFont(font)
+        fm = g2d.getFontMetrics()
+
+
+        int startIndex = 0
+        for (int i = 0; i < versionName.length(); i++) {
+            if (fm.stringWidth(versionName.substring(startIndex, i)) > width) {
+                texts.add(versionName.substring(startIndex, i - 1))
+                startIndex = i - 1
+            }
+            if (i == versionName.length() - 1) {
+                texts.add(versionName.substring(startIndex, i + 1))
+            }
+        }
+
+        int labelSize = fm.getAscent() * texts.size()
+
+        if(buildVariant == QA_BUILD_VARIANT){
+            g2d.setColor(new Color(103, 86, 255, 180))
+        } else {
+            g2d.setColor(new Color(255, 66, 66, 180))
+        }
+
+        g2d.fillRect(0, height - labelSize, width, labelSize)
+
+        g2d.setColor(Color.BLACK)
+        for (def i = 0; i < texts.size(); i++) {
+            g2d.drawString(texts[i], 0, height - labelSize + fm.getAscent() * (i + 1))
+        }
+
+        g2d.dispose()
+        try {
+            File output = new File("$appInjectorDir/$BUILD_GENERATED_PATH/$OVERLAY_FILE_PATH")
+            if(!output.parentFile.exists()) output.parentFile.mkdirs()
+            if(!output.exists()) output.createNewFile()
+
+            ImageIO.write(img, OVERLAY_FILE_EXTENSION, output)
+            return new File("${appInjectorDir.path}/$BUILD_GENERATED_PATH/$OVERLAY_FILE_PATH")
+        } catch (IOException ex) {
+            ex.printStackTrace()
+        }
+        return null
+    }
+
+    static File getAppInjectorDir() {
+        File appInjector = new File("./${APP_INJECTOR_DIR_NAME}")
+        if (appInjector.exists()) return appInjector
+
+
+        appInjector = new File("./${TEMPLATE_DIR_NAME}/${APP_INJECTOR_DIR_NAME}")
+        if (appInjector.exists()) return appInjector
+
+        return null
+    }
+
+    private Icon getIcon() {
+        File manifestFile = new File("${appInjectorDir.path}/$MANIFEST_PATH")
+        if (!manifestFile.exists()) return null
+
+        GPathResult manifestXml = new XmlSlurper().parse(manifestFile)
+        GPathResult applicationNode = (GPathResult) manifestXml.getProperty(APPLICATION_PROPERTY_NAME)
+
+        return new Icon(
+                parseIcon(String.valueOf(applicationNode.getProperty(ICON_PROPERTY_NAME))),
+                parseIcon(String.valueOf(applicationNode.getProperty(ROUND_ICON_PROPERTY_NAME)))
+        )
+    }
+
+    private IconPath parseIcon(String iconStr) {
+        if (iconStr.empty) return null
+
+        List<String> iconParts = iconStr.split("/")
+        if (iconParts[0] == null || iconParts[0].empty || iconParts[1] == null || iconParts[1].empty) return null
+
+        return new IconPath(iconParts[0].substring(1), iconParts[1])
+    }
+
+    private List<File> findIcons(File folder, IconPath iconPath) {
+        List<File> iconDirs = folder.listFiles(new FileFilter() {
+            @Override
+            boolean accept(File file) {
+                return file.name.contains(iconPath.folderName)
+            }
+        })
+
+        if (iconDirs == null || iconDirs.isEmpty()) return null
+
+        List<File> icons = new ArrayList()
+        iconDirs.forEach { File iconDir ->
+            icons.addAll(
+                    iconDir.listFiles(new FileFilter() {
+                        @Override
+                        boolean accept(File file) {
+                            if (file.file) {
+                                if (file.name.empty) return false
+
+                                String[] fileNameParts = file.name.split("\\.")
+                                if (fileNameParts.size() != 2) return false
+
+                                return fileNameParts[0] == iconPath.iconName
+                            }
+                            return false
+                        }
+                    })
+            )
+        }
+
+        if (icons.empty) return
+
+        return icons
+    }
+}
+
+class Utils {
+    static String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1)
+    }
+}
+
+class Icon {
+    IconPath commonIcon
+    IconPath roundIcon
+
+    Icon(IconPath commonIcon, IconPath roundIcon) {
+        this.commonIcon = commonIcon
+        this.roundIcon = roundIcon
+    }
+}
+
+class IconPath {
+    String folderName
+    String iconName
+
+    IconPath(String folderName, String iconName) {
+        this.folderName = folderName
+        this.iconName = iconName
+    }
+}

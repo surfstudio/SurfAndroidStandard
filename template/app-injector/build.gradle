@@ -14,7 +14,7 @@ apply plugin: 'kotlin-kapt'
 apply from: '../config.gradle'
 apply from: '../commonTestModule.gradle'
 
-apply from: '../easylauncher.gradle'
+apply from: '../setLabelToIcon.gradle'
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
