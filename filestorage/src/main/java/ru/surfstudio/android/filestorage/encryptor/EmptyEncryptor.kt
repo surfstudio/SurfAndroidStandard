@@ -16,7 +16,7 @@
 package ru.surfstudio.android.filestorage.encryptor
 
 /**
- * Encryptor, используемый по умолчанию, если кэш не использует шифрование
+ * Encryptor, используемый по умолчанию, если хранилище не использует шифрование
  */
 class EmptyEncryptor : Encryptor {
 

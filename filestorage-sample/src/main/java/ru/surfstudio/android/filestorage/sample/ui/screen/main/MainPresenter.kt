@@ -22,33 +22,33 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
                                                  private val messageController: MessageController
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
-    private val screenModel: MainScreenModel = MainScreenModel()
+    private val sm: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         if (!viewRecreated) {
             tryLoadData()
         } else {
-            view.render(screenModel)
+            view.render(sm)
         }
     }
 
     private fun tryLoadData() {
-        if (screenModel.loadState == LoadState.ERROR || screenModel.loadState == LoadState.EMPTY) {
-            screenModel.loadState = LoadState.MAIN_LOADING
-            view.render(screenModel)
+        if (sm.loadState == LoadState.ERROR || sm.loadState == LoadState.EMPTY) {
+            sm.loadState = LoadState.MAIN_LOADING
+            view.render(sm)
         }
         loadData()
     }
 
     private fun loadData() {
         subscribeIoHandleError(repository.getIp(), { ip ->
-            screenModel.ip = ip
-            screenModel.loadState = LoadState.NONE
-            view.render(screenModel)
+            sm.ip = ip
+            sm.loadState = LoadState.NONE
+            view.render(sm)
         }, {
-            screenModel.loadState = LoadState.NONE
-            view.render(screenModel)
+            sm.loadState = LoadState.NONE
+            view.render(sm)
         })
     }
 
@@ -59,7 +59,7 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     fun saveIpToJsonCache() = save { repository.saveIpToJsonCache(it) }
 
     private fun save(saveIp: (Ip) -> Unit) {
-        val message = screenModel.ip?.let {
+        val message = sm.ip?.let {
             saveIp(it)
             getString(R.string.cache_created_message)
         } ?: getString(R.string.null_ip_message)
