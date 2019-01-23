@@ -2,6 +2,8 @@
 <resources>
     <declare-styleable name="DebugCatalogItemLayout">
         <attr name="catalog_item_name" format="string" />
+        <attr name="catalog_item_description" format="string" />
+        <attr name="catalog_item_icon" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="TitleSubtitleSwitch">

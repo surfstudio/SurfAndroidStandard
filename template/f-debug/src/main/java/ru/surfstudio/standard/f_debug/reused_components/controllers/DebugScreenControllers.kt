@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug.common_controllers.controllers
+package ru.surfstudio.standard.f_debug.reused_components.controllers
 
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.custom_controller_description_layout.view.*
