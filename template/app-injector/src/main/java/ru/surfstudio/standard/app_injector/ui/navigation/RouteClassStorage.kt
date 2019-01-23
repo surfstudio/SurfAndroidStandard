@@ -4,6 +4,8 @@ import android.app.Activity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import ru.surfstudio.standard.base_ui.navigation.MainActivityRoute
+import ru.surfstudio.standard.base_ui.navigation.PushHandlerActivityRoute
+import ru.surfstudio.standard.base_ui.notification.PushHandlerActivityView
 import ru.surfstudio.standard.f_main.MainActivityView
 import kotlin.reflect.KClass
 
@@ -18,6 +20,7 @@ object RouteClassStorage {
     val activityRouteMap = HashMap<KClass<*>, Class<out Activity>>()
             .apply {
                 put(MainActivityRoute::class, MainActivityView::class.java)
+                put(PushHandlerActivityRoute::class, PushHandlerActivityView::class.java)
             }
 
     val fragmentRouteMap = HashMap<KClass<*>, Class<out Fragment>>()

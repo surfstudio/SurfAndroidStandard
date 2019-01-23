@@ -17,6 +17,7 @@ package ru.surfstudio.android.notification.impl
 
 import android.app.Activity
 import android.content.Context
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
@@ -30,7 +31,7 @@ import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
  * создать нотификацию открытия экрана по пушу
  */
 class DefaultPushHandler(
-        private val activeActivityHolder: ru.surfstudio.android.activity.holder.ActiveActivityHolder,
+        private val activeActivityHolder: ActiveActivityHolder,
         private val pushHandleStrategyFactory: AbstractPushHandleStrategyFactory,
         private val pushInteractor: PushInteractor
 ) : PushHandler {

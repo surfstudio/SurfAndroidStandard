@@ -24,7 +24,7 @@ import android.os.Bundle
  */
 open class DefaultActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
-    override fun onActivityCreated(activity: Activity, bundle: Bundle) {
+    override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
         //do nothing
     }
 
@@ -44,7 +44,7 @@ open class DefaultActivityLifecycleCallbacks : Application.ActivityLifecycleCall
         //do nothing
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
+    override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle?) {
         //do nothing
     }
 

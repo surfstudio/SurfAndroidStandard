@@ -28,6 +28,11 @@ class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        initAnrWatchDog()
+        initLog()
+        registerActiveActivityListener()
+
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
         DebugAppInjector.initInjector(this, activeActivityHolder)
@@ -35,9 +40,6 @@ class App : MultiDexApplication() {
             // работает LeakCanary, ненужно ничего инициализировать
             return
         }
-        initAnrWatchDog()
-        initLog()
-        registerActiveActivityListener()
 
         initFabric()
         initComponentProvider()

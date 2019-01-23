@@ -22,6 +22,7 @@ import ru.surfstudio.standard.app_injector.network.cache.CacheModule
 import ru.surfstudio.standard.app_injector.ui.notification.FcmModule
 import ru.surfstudio.standard.app_injector.ui.notification.MessagingService
 import ru.surfstudio.standard.app_injector.ui.notification.NotificationModule
+import ru.surfstudio.standard.base_ui.notification.PushClickHandler
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
 import javax.inject.Named
@@ -49,6 +50,7 @@ interface AppComponent {
     fun globalNavigator(): GlobalNavigator
     fun fcmStorage(): FcmStorage
     fun pushHandler(): PushHandler
+    fun pushClickHandler(): PushClickHandler
 
     fun inject(to: MessagingService)
     @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences

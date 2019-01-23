@@ -16,6 +16,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.app_injector.AppComponent
+import ru.surfstudio.standard.base_ui.notification.PushClickHandler
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import javax.inject.Named
 
@@ -30,6 +31,8 @@ interface ActivityComponent {
     fun connectionProvider(): ConnectionProvider
     fun activityProvider(): ActivityProvider
     fun stringsProvider(): StringsProvider
+
+    fun pushClickHandler(): PushClickHandler
 
     fun activityPersistentScope(): ActivityPersistentScope
     fun context(): Context
