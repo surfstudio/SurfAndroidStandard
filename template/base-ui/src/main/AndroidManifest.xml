@@ -1,6 +1,7 @@
 <manifest package="ru.surfstudio.android.template.base_ui"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <application>
-        <activity android:name=".notification.PushHandlerActivityView" />
+        <activity android:name="ru.surfstudio.standard.base_ui.notification.PushHandlerActivityView"
+            android:theme="@style/Theme.Transparent"/>
     </application>
 </manifest>

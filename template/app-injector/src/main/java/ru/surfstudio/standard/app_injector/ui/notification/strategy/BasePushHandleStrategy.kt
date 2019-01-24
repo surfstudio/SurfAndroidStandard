@@ -25,7 +25,7 @@ class BasePushHandleStrategy : SimpleAbstractPushHandleStrategy<NotificationType
         get() = R.string.notification_channel_name
 
     override val icon: Int
-        get() = R.drawable.ic_launcher_foreground
+        get() = R.drawable.ic_launcher_background
 
     override val color: Int
         get() = R.color.colorAccent

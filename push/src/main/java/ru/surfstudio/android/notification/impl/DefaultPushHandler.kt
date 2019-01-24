@@ -56,6 +56,7 @@ class DefaultPushHandler(
      * Данный мметод должен быть добавлен в DefaultActivityLifecycleCallbacks
      */
     override fun onActivityStarted(activity: Activity) {
+        Logger.d("$activity")
         if (activity is PushHandlingActivity) {
             Logger.i("PUSH HANDLE ON $activity")
             val strategy = createStrategy(IntentPushDataConverter.convert(activity.intent))
