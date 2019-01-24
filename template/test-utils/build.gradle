@@ -1,0 +1,2 @@
+apply from: '../commonModule.gradle'
+apply from: '../commonTestModule.gradle'
