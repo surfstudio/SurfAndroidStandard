@@ -40,22 +40,22 @@ class BondTest : BaseRelationTest() {
 
         testViewConsumer =
                 with(testView) {
-                    twoWay.getConsumer()
+                    twoWay.consumer
                 }
 
         testViewObservable =
                 with(testView) {
-                    twoWay.getObservable().test()
+                    twoWay.observable.test()
                 }
 
         testPresenterConsumer=
                 with(testPresenter) {
-                    twoWay.getConsumer()
+                    twoWay.consumer
                 }
 
         testPresenterObservable =
                 with(testPresenter) {
-                    twoWay.getObservable().test()
+                    twoWay.observable.test()
                 }
     }
 

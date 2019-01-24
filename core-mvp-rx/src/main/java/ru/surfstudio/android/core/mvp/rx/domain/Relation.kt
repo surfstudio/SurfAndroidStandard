@@ -41,42 +41,44 @@ interface Related<S : RelationEntity> {
     fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable
 
 
-    fun <T> Relation<T, *, S>.getObservable() =
+    val <T> Relation<T, *, S>.observable: Observable<T>
+        get() =
             this.getObservable(relationEntity())
 
-    fun <T> Relation<T, S, *>.getConsumer() =
+    val <T> Relation<T, S, *>.consumer: Consumer<T>
+        get() =
             this.getConsumer(relationEntity())
 
     fun <T> Relation<T, S, *>.accept(newValue: T) =
-            this.getConsumer().accept(newValue)
+            this.consumer.accept(newValue)
 
     fun Relation<Unit, S, *>.accept() =
-            this.getConsumer().accept(Unit)
+            this.consumer.accept(Unit)
 
 
     infix fun <T> Observable<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this, consumer)
 
     infix fun <T> Observable<T>.bindTo(relation: Relation<T, S, *>) =
-            this.bindTo(relation.getConsumer())
+            this.bindTo(relation.consumer)
 
     infix fun <T> Single<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this.toObservable(), consumer)
 
     infix fun <T> Single<T>.bindTo(relation: Relation<T, S, *>) =
-            this.bindTo(relation.getConsumer())
+            this.bindTo(relation.consumer)
 
     infix fun <T> Maybe<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this.toObservable(), consumer)
 
     infix fun <T> Maybe<T>.bindTo(relation: Relation<T, S, *>) =
-            this.bindTo(relation.getConsumer())
+            this.bindTo(relation.consumer)
 
     infix fun Completable.bindTo(consumer: Consumer<Unit>) =
             this@Related.subscribe(this.toObservable(), consumer)
 
     infix fun Completable.bindTo(relation: Relation<Unit, S, *>) =
-            this.bindTo(relation.getConsumer())
+            this.bindTo(relation.consumer)
 
 
     infix fun <T> Observable<T>.bindTo(consumer: (T) -> Unit) =
@@ -87,15 +89,15 @@ interface Related<S : RelationEntity> {
 
 
     infix fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit) =
-            this.getObservable()
+            this.observable
                     .bindTo(consumer)
 
     infix fun Relation<Unit, *, S>.bindTo(consumer: () -> Unit) =
-            this.getObservable()
+            this.observable
                     .bindTo(consumer)
 
     infix fun <T> Relation<T, *, S>.bindTo(relation: Relation<T, S, *>) =
-            this.getObservable().bindTo(relation.getConsumer())
+            this.observable.bindTo(relation.consumer)
 }
 
 interface RelationEntity

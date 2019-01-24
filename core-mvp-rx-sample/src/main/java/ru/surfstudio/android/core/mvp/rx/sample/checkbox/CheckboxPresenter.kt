@@ -33,14 +33,14 @@ class CheckboxPresenter @Inject constructor(
 
         val checkboxesObs =
                 Observables.combineLatest(
-                        pm.checkAction1.getObservable(),
-                        pm.checkAction2.getObservable(),
-                        pm.checkAction3.getObservable()
+                        pm.checkAction1.observable,
+                        pm.checkAction2.observable,
+                        pm.checkAction3.observable
                 ) { b1, b2, b3 -> Triple(b1, b2, b3) }
 
         checkboxesObs.map { it.first.toInt() + it.second.toInt() + it.third.toInt() } bindTo pm.count
 
-        pm.sendAction.getObservable()
+        pm.sendAction.observable
                 .withLatestFrom(checkboxesObs)
                 { _, triple -> "cb1: ${triple.first}, cb2: ${triple.second}, cb3: ${triple.third}" }
                 .bindTo(pm.messageCommand)

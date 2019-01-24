@@ -89,10 +89,10 @@ class EAMainActivityView : BaseRxActivityView<MainPresentationModel>() {
         emptyStateController = EmptyStateController()
 
         Observables.combineLatest(
-                pm.carouselState.getObservable(),
-                pm.elementsState.getObservable(),
-                pm.bottomCarouselState.getObservable(),
-                pm.hasCommercialState.getObservable(),
+                pm.carouselState.observable,
+                pm.elementsState.observable,
+                pm.bottomCarouselState.observable,
+                pm.hasCommercialState.observable,
                 ::createItemList
         ) bindTo adapter::setItems
     }

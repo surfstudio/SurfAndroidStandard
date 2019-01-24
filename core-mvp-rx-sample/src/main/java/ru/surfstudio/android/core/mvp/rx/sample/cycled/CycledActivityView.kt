@@ -44,9 +44,9 @@ class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
                 origin_other_rb.prepare())
 
         with(pm) {
-            origin.getObservable().filter { !it.sources.contains(Source.ORIGIN) }.map { it.value } bindTo ::checkRb
-            nomen.getObservable().filter { !it.sources.contains(Source.NOMEN) }.map { it.value as CharSequence } bindTo nomen_et::setText
-            baseOfNomen.getObservable().filter { !it.sources.contains(Source.BASE_OF_NOMEN) }.map { it.value } bindTo nomen_base_et::setText
+            origin.observable.filter { !it.sources.contains(Source.ORIGIN) }.map { it.value } bindTo ::checkRb
+            nomen.observable.filter { !it.sources.contains(Source.NOMEN) }.map { it.value as CharSequence } bindTo nomen_et::setText
+            baseOfNomen.observable.filter { !it.sources.contains(Source.BASE_OF_NOMEN) }.map { it.value } bindTo nomen_base_et::setText
 
             nomen_base_et.textChanges()
                     .debounce(300, TimeUnit.MILLISECONDS)

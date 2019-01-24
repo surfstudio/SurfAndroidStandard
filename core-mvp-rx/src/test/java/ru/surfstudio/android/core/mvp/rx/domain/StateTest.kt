@@ -37,12 +37,12 @@ class StateTest : BaseRelationTest() {
 
         testObservable =
                 with(testView) {
-                    state.getObservable().test()
+                    state.observable.test()
                 }
 
         testConsumer =
                 with(testPresenter) {
-                    state.getConsumer()
+                    state.consumer
                 }
     }
 

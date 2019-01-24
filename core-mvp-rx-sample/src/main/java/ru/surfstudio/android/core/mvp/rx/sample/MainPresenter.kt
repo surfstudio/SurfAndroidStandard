@@ -36,9 +36,9 @@ class MainPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        pm.incAction.getObservable().map { 100 } bindTo pm.counterState
-        pm.decAction.getObservable().map { 20 } bindTo pm.counterState
-        pm.doubleTextAction.getObservable().map { pm.textEditState.let { it.value + it.value } } bindTo pm.textEditState
+        pm.incAction.observable.map { 100 } bindTo pm.counterState
+        pm.decAction.observable.map { 20 } bindTo pm.counterState
+        pm.doubleTextAction.observable.map { pm.textEditState.let { it.value + it.value } } bindTo pm.textEditState
         pm.textEditState bindTo pm.sampleCommand
 
         pm.checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }

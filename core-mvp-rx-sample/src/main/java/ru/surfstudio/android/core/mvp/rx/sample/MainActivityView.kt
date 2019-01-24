@@ -30,7 +30,7 @@ class MainActivityView : BaseRxActivityView<MainModel>() {
 
     override fun bind(pm: MainModel) {
 
-        pm.counterState.getObservable().map { it.toString() } bindTo main_counter_tv::setText
+        pm.counterState.observable.map { it.toString() } bindTo main_counter_tv::setText
         pm.textEditState bindTo main_text_et::setText
         pm.sampleCommand bindTo text_tv::setText
 

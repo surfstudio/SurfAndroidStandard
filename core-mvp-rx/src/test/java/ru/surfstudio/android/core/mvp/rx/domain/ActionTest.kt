@@ -37,12 +37,12 @@ class ActionTest : BaseRelationTest() {
 
         testObservable =
                 with(testPresenter) {
-                    action.getObservable().test()
+                    action.observable.test()
                 }
 
         testConsumer =
                 with(testView) {
-                    action.getConsumer()
+                    action.consumer
                 }
     }
 

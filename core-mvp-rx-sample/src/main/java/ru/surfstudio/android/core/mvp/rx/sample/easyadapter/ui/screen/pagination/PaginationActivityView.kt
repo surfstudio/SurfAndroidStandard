@@ -81,10 +81,10 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
         elementController = ElementController { showText("on element ${it.name} click ") }
         errorStateController = ErrorStateController { pm.reloadAction.accept() }
 
-        Observables.combineLatest(pm.loadState.getObservable(),
-                pm.elementsState.getObservable(),
-                pm.stubsState.getObservable(),
-                pm.paginationState.getObservable(),
+        Observables.combineLatest(pm.loadState.observable,
+                pm.elementsState.observable,
+                pm.stubsState.observable,
+                pm.paginationState.observable,
                 ::createItemList) bindTo { p -> adapter.setItems(p.first, p.second) }
     }
 

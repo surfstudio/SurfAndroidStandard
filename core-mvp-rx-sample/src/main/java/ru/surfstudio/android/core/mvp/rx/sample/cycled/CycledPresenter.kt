@@ -38,16 +38,16 @@ class CycledPresenter @Inject constructor(
 
         with(pm) {
             Observable.combineLatest<SourcedValue<String>, SourcedValue<Origin>, Pair<SourcedValue<String>, SourcedValue<Origin>>>(
-                    baseOfNomen.getObservable(),
-                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { pair ->
+                    baseOfNomen.observable,
+                    origin.observable, BiFunction { t1, t2 -> t1 to t2 }) bindTo { pair ->
                 nomenInteractor.composeNomen(pair.first.value, pair.second.value).map {
                     SourcedValue(pair.first.sources + pair.second.sources, it)
                 } bindTo nomen
             }
 
             Observable.combineLatest<SourcedValue<String>, SourcedValue<Origin>, Pair<SourcedValue<String>, SourcedValue<Origin>>>(
-                    nomen.getObservable(),
-                    origin.getObservable(), BiFunction { t1, t2 -> t1 to t2 }) bindTo { pair ->
+                    nomen.observable,
+                    origin.observable, BiFunction { t1, t2 -> t1 to t2 }) bindTo { pair ->
                 nomenInteractor.extractBaseOfNomen(pair.first.value, pair.second.value).map {
                     SourcedValue(pair.first.sources + pair.second.sources, it)
                 } bindTo baseOfNomen
