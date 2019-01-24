@@ -4,7 +4,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityRoute
+import ru.surfstudio.standard.f_debug.reused_components.ReusedComponentsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.developer_tools.DeveloperToolsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
 import ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityRoute
@@ -27,8 +27,8 @@ class DebugPresenter @Inject constructor(
         activityNavigator.start(ServerSettingsDebugActivityRoute())
     }
 
-    fun openControllersScreen() {
-        activityNavigator.start(CommonControllersDebugActivityRoute())
+    fun openReusedComponentsScreen() {
+        activityNavigator.start(ReusedComponentsDebugActivityRoute())
     }
 
     fun openFcmTokenScreen() {

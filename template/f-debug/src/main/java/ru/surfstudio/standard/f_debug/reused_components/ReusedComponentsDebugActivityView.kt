@@ -1,28 +1,27 @@
-package ru.surfstudio.standard.f_debug.common_controllers
+package ru.surfstudio.standard.f_debug.reused_components
 
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_common_controllers_debug.*
+import kotlinx.android.synthetic.main.activity_reused_components_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
-import ru.surfstudio.standard.f_debug.common_controllers.controllers.CustomControllerDescriptionItemController
-import ru.surfstudio.standard.f_debug.common_controllers.description.addDescription
-import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.CommonControllersDebugScreenConfigurator
+import ru.surfstudio.standard.f_debug.reused_components.controllers.CustomControllerDescriptionItemController
+import ru.surfstudio.standard.f_debug.reused_components.description.addDescription
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.ReusedComponentsDebugScreenConfigurator
 import javax.inject.Inject
 
 /**
- * Вью экрана для показа переиспользуемых контроллеров
+ * Вью экрана для показа переиспользуемых компонентов
  */
-class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonControllersDebugScreenModel>() {
+class ReusedComponentsDebugActivityView : BaseRenderableActivityView<ReusedComponentsDebugScreenModel>() {
 
     @Inject
-    lateinit var presenter: CommonControllersDebugPresenter
+    lateinit var presenter: ReusedComponentsDebugPresenter
 
     private val adapter = EasyAdapter()
 
@@ -30,10 +29,10 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = CommonControllersDebugScreenConfigurator(intent)
+    override fun createConfigurator() = ReusedComponentsDebugScreenConfigurator(intent)
 
     @LayoutRes
-    override fun getContentView(): Int = R.layout.activity_common_controllers_debug
+    override fun getContentView(): Int = R.layout.activity_reused_components_debug
 
     override fun onCreate(
             savedInstanceState: Bundle?,
@@ -45,7 +44,7 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
         initAdapter()
     }
 
-    override fun renderInternal(sm: CommonControllersDebugScreenModel) {}
+    override fun renderInternal(sm: ReusedComponentsDebugScreenModel) {}
 
     override fun getScreenName(): String = "debug_controllers"
 
@@ -57,6 +56,7 @@ class CommonControllersDebugActivityView : BaseRenderableActivityView<CommonCont
     private fun initAdapter() {
         adapter.setItems(ItemList.create()
                 .addDescription("Пример использования")
+                .add("Контроллеры", sampleController)
                 .add("Данные", sampleController)
         )
     }

@@ -2,9 +2,11 @@ package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.relative
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
+import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
 import ru.surfstudio.android.mvp.widget.view.CoreRelativeLayoutView
 import ru.surfstudio.android.mvpwidget.sample.R
 import javax.inject.Inject
@@ -25,6 +27,14 @@ class RelativeWidgetView @JvmOverloads constructor(
         View.inflate(context, R.layout.widget_view, this)
         @SuppressLint("SetTextI18n")
         this.findViewById<TextView>(R.id.widget_tv)?.text = "Hello $name"
+        setBackgroundColor(Color.LTGRAY)
+
+    }
+
+    override fun getWidgetId(): String {
+        val id = super.getWidgetId()
+        val invalidId = CoreFrameLayoutView.NO_ID.toString()
+        return if (id == invalidId) name.hashCode().toString() else id
     }
 
     override fun getName() = "Relative widget view"

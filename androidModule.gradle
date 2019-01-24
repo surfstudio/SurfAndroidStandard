@@ -5,8 +5,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply from: '../sample-keystore/signingConfigs.gradle'
-
 android {
     compileSdkVersion project.ext.compileSdkVersion
     buildToolsVersion project.ext.buildToolsVersion
@@ -16,7 +14,7 @@ android {
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
         versionName project.ext.moduleVersionName
-        testBuildType "release"
+        testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,7 +36,6 @@ android {
 
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
         }
     }
 }

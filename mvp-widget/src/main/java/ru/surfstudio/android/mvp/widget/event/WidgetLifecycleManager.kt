@@ -8,6 +8,7 @@ import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnComple
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseEvent
+import ru.surfstudio.android.core.ui.event.lifecycle.ready.OnViewReadyDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.ready.OnViewReadyEvent
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeEvent
@@ -45,6 +46,7 @@ class WidgetLifecycleManager(
         private val widgetScreenEventDelegateManager: WidgetScreenEventDelegateManager,
         private val parentScreenEventDelegateManager: ScreenEventDelegateManager
 ) : OnCompletelyDestroyDelegate,
+        OnViewReadyDelegate,
         OnStartDelegate,
         OnResumeDelegate,
         OnPauseDelegate,
@@ -90,13 +92,8 @@ class WidgetLifecycleManager(
         this.widgetViewDelegate = WeakReference(widgetViewDelegate)
     }
 
-    fun onViewReady() {
-        if (parentState.lifecycleStage.ordinal < LifecycleStage.VIEW_READY.ordinal) {
-            throw IllegalStateException("Parent is not ready")
-        }
-
+    override fun onViewReady() {
         stageResolver.pushState(LifecycleStage.VIEW_READY)
-
         parentScreenEventDelegateManager.sendUnhandledEvents()
     }
 

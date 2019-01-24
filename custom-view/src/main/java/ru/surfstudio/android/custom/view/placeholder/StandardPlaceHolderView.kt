@@ -49,7 +49,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
+ * Полноэкранный плейсхолдер с поддержкой смены состояний.
+ *
+ * Поддержка приостановлена. Следует использовать [PlaceHolderViewContainer]
  */
 open class StandardPlaceHolderView @JvmOverloads constructor(
         context: Context,

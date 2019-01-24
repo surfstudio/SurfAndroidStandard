@@ -22,4 +22,7 @@ dependencies {
     //stetho
     implementation "com.facebook.stetho:stetho:${stethoVersion}"
     implementation "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
+
+    //rangebar
+    implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
 }

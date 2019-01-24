@@ -1,12 +1,12 @@
 <resources>
     <string name="show_server_settings_debug_item">Настройки сервера</string>
-    <string name="show_controllers_debug_item">Показать контроллеры</string>
-    <string name="show_fcm_token_debug_item">Показать FCM-токен</string>
+    <string name="show_reused_component_debug_item">Переиспользуемые элементы</string>
+    <string name="show_fcm_token_debug_item">FCM-токен</string>
     <string name="show_memory_debug_item">Память</string>
-    <string name="show_app_info_debug_item">Показать общую информацию</string>
-    <string name="show_ui_tools_debug_item">UI-tools</string>
-    <string name="show_developer_tools_debug_item">Открыть настройки разработчика</string>
-    <string name="show_tools_debug_item">Tools</string>
+    <string name="show_app_info_debug_item">Общая информация</string>
+    <string name="show_ui_tools_debug_item">UI-инструменты</string>
+    <string name="show_developer_tools_debug_item">Настройки разработчика</string>
+    <string name="show_tools_debug_item">Остальные инструменты</string>
     <string name="copy_fcm_btn_text">Скопировать</string>
     <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
     <string name="fcm_empty_text">FCM-токен еще не создан или не реализована логика сохранения токена в хранилище</string>
@@ -35,4 +35,13 @@
     <string name="notification_channel_id">CHANNEL_ID</string>
     <string name="debug_screen_title">Debug screen</string>
     <string name="debug_screen_body">Show debug info</string>
+
+    <!--region ServerSettingsDebugActivityView-->
+    <string name="server_settings_request_delay_text">Задержка запросов: %1$.2f.s</string>
+    <!--endregion-->
+
+    <!--region UI-tools-->
+    <string name="ui_tools_scalpel_name">Scalpel</string>
+    <string name="ui_tools_scalpel_description">Отрисовывает иерархию вью как интерактивную 3D визуализацию. Запускается после встряхивания устройства.</string>
+    <!--endregion-->
 </resources>
