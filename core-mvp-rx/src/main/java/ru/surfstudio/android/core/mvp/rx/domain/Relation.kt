@@ -25,10 +25,6 @@ import io.reactivex.functions.Consumer
 
 interface Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
-    val value: V
-
-    val hasValue: Boolean
-
     fun getConsumer(source: S): Consumer<V>
 
     fun getObservable(target: T): Observable<V>
@@ -48,6 +44,12 @@ interface Related<S : RelationEntity> {
     val <T> Relation<T, S, *>.consumer: Consumer<T>
         get() =
             this.getConsumer(relationEntity())
+
+
+    val <T> ValuableRelation<T, S, *>.value: T
+        get() =
+            this.internalValue
+
 
     fun <T> Relation<T, S, *>.accept(newValue: T) =
             this.consumer.accept(newValue)

@@ -39,6 +39,7 @@ class CheckboxActivityView : BaseRxActivityView<CheckboxModel>() {
         send_btn.clicks() bindTo pm.sendAction
 
         pm.count bindTo { counter_et.text = it.toString() }
+
         pm.messageCommand bindTo { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
     }
 

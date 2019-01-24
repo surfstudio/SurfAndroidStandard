@@ -61,7 +61,9 @@ class StateTest : BaseRelationTest() {
                 .assertValueCount(1)
 
         assertTrue(state.hasValue)
-        assertEquals("TEST", state.value)
+        with(testPresenter) {
+            assertEquals("TEST", state.value)
+        }
     }
 
     @Test

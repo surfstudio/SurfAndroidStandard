@@ -18,6 +18,7 @@ package ru.surfstudio.android.core.mvp.rx.sample.checkbox
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.rx.domain.Action
+import ru.surfstudio.android.core.mvp.rx.domain.Command
 import ru.surfstudio.android.core.mvp.rx.domain.State
 
 class CheckboxModel : ScreenModel() {
@@ -28,5 +29,6 @@ class CheckboxModel : ScreenModel() {
     val sendAction = Action<Unit>()
 
     val count = State<Int>()
-    val messageCommand = State<String>() //TODO command будет
+
+    val messageCommand = Command<String>()
 }

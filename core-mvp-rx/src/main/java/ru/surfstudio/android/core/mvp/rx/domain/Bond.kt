@@ -34,13 +34,13 @@ class Bond<T>() : Relation<T, StateSource, StateTarget> {
 
     private var initialValue: T? = null
 
-    override val hasValue: Boolean get() = cachedValue.get() != null
+    val hasValue: Boolean get() = cachedValue.get() != null
 
     private val action = initialValue?.let { Action(it) } ?: Action()
     private val command = initialValue?.let { State(it) } ?: State()
 
     private val cachedValue = AtomicReference<T>()
-    override val value: T get() = cachedValue.get()
+    val value: T get() = cachedValue.get()
 
     override fun getConsumer(source: StateSource): Consumer<T> =
             when (source) {

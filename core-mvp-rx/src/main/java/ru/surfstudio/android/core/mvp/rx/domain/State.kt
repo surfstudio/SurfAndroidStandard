@@ -16,24 +16,15 @@
 
 package ru.surfstudio.android.core.mvp.rx.domain
 
-import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 
 /**
- * Rx-обертка над командами для View
- *
- * За отправку событий отвечает Presenter
- * Подписывается на события View
+ * Связь Presenter -> View
+ * Хранит в себе последнее прошедшее значение.
+ * При подписке сообщает это значение или initialValue
  */
-class State<T>(initialValue: T? = null) : Relation<T, PRESENTER, VIEW> {
-
-    private val relay = initialValue?.let { BehaviorRelay.createDefault(it) }
-            ?: BehaviorRelay.create<T>()
-
-    override val hasValue: Boolean get() = relay.hasValue()
-
-    override val value: T get() = relay.value ?: throw NoSuchElementException()
+class State<T>(initialValue: T? = null) : ValuableRelation<T, PRESENTER, VIEW>(initialValue) {
 
     override fun getConsumer(source: PRESENTER): Consumer<T> = relay
 

@@ -61,7 +61,9 @@ class ActionTest : BaseRelationTest() {
                 .assertValueCount(1)
 
         assertTrue(action.hasValue)
-        assertEquals("TEST", action.value)
+        with(testView) {
+            assertEquals("TEST", action.value)
+        }
     }
 
     @Test
