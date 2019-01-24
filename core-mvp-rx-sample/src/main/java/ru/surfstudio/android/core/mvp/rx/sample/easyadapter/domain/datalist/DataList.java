@@ -95,7 +95,7 @@ public class DataList<T> implements List<T>, Serializable {
      * @param inputDataList new block
      * @return this
      */
-    public DataList merge(DataList<T> inputDataList) {
+    public DataList<T> merge(DataList<T> inputDataList) {
         if (this.startPage != UNSPECIFIED_PAGE
                 && inputDataList.startPage != UNSPECIFIED_PAGE
                 && this.pageSize != inputDataList.pageSize) {

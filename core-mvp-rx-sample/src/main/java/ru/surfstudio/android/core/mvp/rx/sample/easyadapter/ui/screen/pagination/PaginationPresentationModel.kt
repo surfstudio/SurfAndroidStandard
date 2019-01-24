@@ -17,46 +17,23 @@
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
+import ru.surfstudio.android.core.mvp.rx.domain.Action
+import ru.surfstudio.android.core.mvp.rx.domain.State
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.Stub
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.generateStubs
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
-data class PaginationScreenModel(
-        var loadState: LS = LS.NONE,
-        var paginationState: PaginationState = PaginationState.COMPLETE,
-        var elements: DataList<Element> = DataList.empty<Element>(),
-        val stubs: List<Stub> = generateStubs(10)
-) : ScreenModel() {
-    fun setNormalPaginationState() {
-        paginationState = if (elements.canGetMore())
-            PaginationState.READY else
-            PaginationState.COMPLETE
+class PaginationPresentationModel : ScreenModel() {
 
-    }
+    val reloadAction = Action<Unit>()
+    val getMoreAction = Action<Unit>()
 
-    fun setErrorPaginationState() {
-        paginationState = if (elements.isEmpty())
-            PaginationState.COMPLETE else
-            PaginationState.ERROR
-    }
-
-    fun setNormalLoadState() {
-        loadState = if (elements.isEmpty())
-            LS.EMPTY else
-            LS.NONE
-    }
-
-    fun setErrorLoadState() {
-        loadState = if (elements.isEmpty())
-            LS.ERROR else
-            LS.NONE
-    }
-
-    fun hasData(): Boolean {
-        return elements.isNotEmpty()
-    }
+    val elementsState = State<DataList<Element>>(DataList.empty())
+    val stubsState = State(generateStubs(20))
+    val loadState = State(LS.NONE)
+    val paginationState = State(PaginationState.READY)
+    val hasDataState = State<Boolean>()
 }
 
 enum class LS {

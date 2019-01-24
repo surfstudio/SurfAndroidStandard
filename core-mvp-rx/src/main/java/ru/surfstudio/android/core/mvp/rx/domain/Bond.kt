@@ -26,12 +26,18 @@ import java.util.concurrent.atomic.AtomicReference
  *
  * Содержит в себе [Bond] и [Action] для хранения и обработки ввода текста
  */
-class Bond<T> : Relation<T, StateSource, StateTarget> {
+class Bond<T>() : Relation<T, StateSource, StateTarget> {
+
+    constructor(initialValue: T) : this() {
+        this.initialValue = initialValue
+    }
+
+    private var initialValue: T? = null
 
     override val hasValue: Boolean get() = cachedValue.get() != null
 
-    private val action = Action<T>()
-    private val command = State<T>()
+    private val action = initialValue?.let { Action(it) } ?: Action()
+    private val command = initialValue?.let { State(it) } ?: State()
 
     private val cachedValue = AtomicReference<T>()
     override val value: T get() = cachedValue.get()

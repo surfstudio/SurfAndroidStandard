@@ -26,13 +26,14 @@ import io.reactivex.functions.Consumer
  * За отправку событий отвечает Presenter
  * Подписывается на события View
  */
-class State<T> : Relation<T, PRESENTER, VIEW> {
+class State<T>(initialValue: T? = null) : Relation<T, PRESENTER, VIEW> {
 
-    private val relay = BehaviorRelay.create<T>()
+    private val relay = initialValue?.let { BehaviorRelay.createDefault(it) }
+            ?: BehaviorRelay.create<T>()
 
     override val hasValue: Boolean get() = relay.hasValue()
 
-    override val value: T get() = relay.value?: throw NoSuchElementException()
+    override val value: T get() = relay.value ?: throw NoSuchElementException()
 
     override fun getConsumer(source: PRESENTER): Consumer<T> = relay
 

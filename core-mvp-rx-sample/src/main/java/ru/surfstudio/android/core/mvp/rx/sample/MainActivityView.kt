@@ -28,21 +28,22 @@ class MainActivityView : BaseRxActivityView<MainModel>() {
     @Inject
     lateinit var presenter: MainPresenter
 
-    override fun bind(sm: MainModel) {
+    override fun bind(pm: MainModel) {
 
-        sm.counterState.bindTo{ main_counter_tv.text = it.toString() }
-        main_inc_btn.clicks().bindTo { sm.incAction.getConsumer().accept(Unit) }
-        main_dec_btn.clicks().bindTo { sm.decAction.getConsumer().accept(Unit) }
+        pm.counterState.getObservable().map { it.toString() } bindTo main_counter_tv::setText
+        pm.textEditState bindTo main_text_et::setText
+        pm.sampleCommand bindTo text_tv::setText
 
-        main_text_et.textChanges().map { it.toString() } bindTo {sm.textEditState.getConsumer().accept(it)}
-        sm.textEditState.bindTo { main_text_et.setText(it) }
-        main_double_text_btn.clicks().bindTo { sm.doubleTextAction.getConsumer().accept(Unit) }
+        main_inc_btn.clicks() bindTo pm.incAction
+        main_dec_btn.clicks() bindTo pm.decAction
 
-        sm.sampleCommand bindTo { text_tv.text = it }
+        main_text_et.textChanges().map { it.toString() } bindTo pm.textEditState
 
-        checkbox_sample_btn.clicks() bindTo sm.checkboxSampleActivityOpen
-        cycled_dependency_sample_btn.clicks() bindTo sm.cycledSampleActivityOpen
-        easy_adapter_sample_btn.clicks() bindTo sm.easyadapterSampleActivityOpen
+        main_double_text_btn.clicks() bindTo pm.doubleTextAction
+
+        checkbox_sample_btn.clicks() bindTo pm.checkboxSampleActivityOpen
+        cycled_dependency_sample_btn.clicks() bindTo pm.cycledSampleActivityOpen
+        easy_adapter_sample_btn.clicks() bindTo pm.easyadapterSampleActivityOpen
     }
 
     override fun createConfigurator() = MainScreenConfigurator(intent)

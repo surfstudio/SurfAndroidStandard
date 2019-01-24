@@ -47,6 +47,9 @@ interface Related<S : RelationEntity> {
     fun <T> Relation<T, S, *>.accept(newValue: T) =
             this.getConsumer().accept(newValue)
 
+    fun Relation<kotlin.Unit, S, *>.accept() =
+            this.getConsumer().accept(Unit)
+
     infix fun <T> Observable<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this, consumer)
 
@@ -59,7 +62,14 @@ interface Related<S : RelationEntity> {
     infix fun <T> Observable<T>.bindTo(consumer: (T) -> Unit) =
             this@Related.subscribe(this, Consumer { consumer(it) })
 
+    infix fun Observable<Unit>.bindTo(consumer: () -> Unit) =
+            this@Related.subscribe(this, Consumer { consumer() })
+
     infix fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit) =
+            this.getObservable()
+                    .bindTo(consumer)
+
+    infix fun Relation<Unit, *, S>.bindTo(consumer: () -> Unit) =
             this.getObservable()
                     .bindTo(consumer)
 

@@ -25,9 +25,10 @@ import io.reactivex.functions.Consumer
  * За отправку событий отвечает View
  * Подписка на события происходит только внутри Presenter
  */
-class Action<T> : Relation<T, VIEW, PRESENTER> {
+class Action<T>(initialValue: T? = null) : Relation<T, VIEW, PRESENTER> {
 
-    private val relay = BehaviorRelay.create<T>()
+    private val relay = initialValue?.let { BehaviorRelay.createDefault(it) }
+            ?: BehaviorRelay.create<T>()
 
     override val hasValue: Boolean get() = relay.hasValue()
 

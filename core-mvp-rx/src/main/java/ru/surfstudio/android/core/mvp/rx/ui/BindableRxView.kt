@@ -24,7 +24,6 @@ interface BindableRxView<M : ScreenModel> : Related<VIEW> {
 
     override fun relationEntity() = VIEW
 
-    fun bind(sm: M)
-
+    fun bind(pm: M)
 
 }

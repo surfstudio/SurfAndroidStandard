@@ -35,7 +35,7 @@ class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
     @Inject
     lateinit var presenter: CycledPresenter
 
-    override fun bind(sm: CycledScreenModel) {
+    override fun bind(pm: CycledScreenModel) {
         val checkboxObserver = Observable.mergeArray(
                 origin_rome_rb.prepare(),
                 origin_sab_oksk_rb.prepare(),
@@ -43,9 +43,9 @@ class CycledActivityView : BaseRxActivityView<CycledScreenModel>() {
                 origin_etruscan_rb.prepare(),
                 origin_other_rb.prepare())
 
-        with(sm) {
+        with(pm) {
             origin.getObservable().filter { !it.sources.contains(Source.ORIGIN) }.map { it.value } bindTo ::checkRb
-            nomen.getObservable().filter { !it.sources.contains(Source.NOMEN) }.map { it.value } bindTo nomen_et::setText
+            nomen.getObservable().filter { !it.sources.contains(Source.NOMEN) }.map { it.value as CharSequence } bindTo nomen_et::setText
             baseOfNomen.getObservable().filter { !it.sources.contains(Source.BASE_OF_NOMEN) }.map { it.value } bindTo nomen_base_et::setText
 
             nomen_base_et.textChanges()

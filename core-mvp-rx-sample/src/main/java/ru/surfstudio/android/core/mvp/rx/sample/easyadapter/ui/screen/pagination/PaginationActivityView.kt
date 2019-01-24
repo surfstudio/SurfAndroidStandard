@@ -16,18 +16,24 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.pagination_activity.*
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.animator.SlideItemAnimator
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.controller.ElementController
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.controller.ElementStubController
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.controller.EmptyStateController
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.controller.ErrorStateController
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list.HeaderController
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.Stub
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.sample.R
 import javax.inject.Inject
 
@@ -35,19 +41,17 @@ import javax.inject.Inject
  * example screen with pagination
  * Placeholders is list items
  */
-class PaginationActivityView : BaseRxActivityView<PaginationScreenModel>() {
+class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>() {
 
     @Inject
     lateinit var presenter: PaginationPresenter
 
-    private lateinit var headerController: HeaderController
+    private val stubController = ElementStubController()
+    private val emptyStateController = EmptyStateController()
     private lateinit var elementController: ElementController
-    private lateinit var stubController: ElementStubController
-    private lateinit var emptyStateController: EmptyStateController
     private lateinit var errorStateController: ErrorStateController
 
     private val adapter: PaginationableAdapter = PaginationableAdapter {}
-
 
     override fun getContentView(): Int = R.layout.pagination_activity
 
@@ -58,36 +62,46 @@ class PaginationActivityView : BaseRxActivityView<PaginationScreenModel>() {
 
     override fun getScreenName(): String = "Pagination sample"
 
-    override fun bind(sm: PaginationScreenModel) {
+    override fun onCreate(savedInstanceState: Bundle?,
+                          persistentState: PersistableBundle?,
+                          viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
         val linearLayoutManager = LinearLayoutManager(this)
         val itemAnimator = SlideItemAnimator()
+
         recycler.itemAnimator = itemAnimator
         recycler.layoutManager = linearLayoutManager
         recycler.adapter = adapter
-        adapter.setOnShowMoreListener { presenter.loadMore() }
-
-        headerController = HeaderController()
-        elementController = ElementController(
-                onClickListener = { showText("on element ${it.name} click ") })
-        stubController = ElementStubController()
-        emptyStateController = EmptyStateController()
-        errorStateController = ErrorStateController(
-                onReloadClickListener = { presenter.reloadData() })
     }
 
-    fun render(screenModel: PaginationScreenModel) {
-        val itemList = when (screenModel.loadState) {
-            LS.LOADING -> ItemList.create(screenModel.stubs, stubController)
+    override fun bind(pm: PaginationPresentationModel) {
+        adapter.setOnShowMoreListener { pm.getMoreAction.accept() }
+
+        elementController = ElementController { showText("on element ${it.name} click ") }
+        errorStateController = ErrorStateController { pm.reloadAction.accept() }
+
+        Observables.combineLatest(pm.loadState.getObservable(),
+                pm.elementsState.getObservable(),
+                pm.stubsState.getObservable(),
+                pm.paginationState.getObservable(),
+                ::createItemList) bindTo { p -> adapter.setItems(p.first, p.second) }
+    }
+
+    private fun createItemList(loadState: LS,
+                               elements: DataList<Element>,
+                               stubs: List<Stub>,
+                               paginationState: PaginationState): Pair<ItemList, PaginationState> {
+        val itemList = when (loadState) {
+            LS.LOADING -> ItemList.create(stubs, stubController)
             LS.ERROR -> ItemList.create(errorStateController)
             LS.EMPTY -> ItemList.create(emptyStateController)
-            LS.NONE -> ItemList.create(screenModel.elements, elementController)
+            LS.NONE -> ItemList.create(elements, elementController)
         }
-        adapter.setItems(itemList, screenModel.paginationState)
+        return itemList to paginationState
     }
 
     fun showText(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
-
 }
