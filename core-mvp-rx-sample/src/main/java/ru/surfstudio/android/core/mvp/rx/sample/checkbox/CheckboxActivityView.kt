@@ -16,6 +16,8 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.checkbox
 
+import android.widget.Toast
+import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.checkedChanges
 import kotlinx.android.synthetic.main.activity_checkboxes.*
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
@@ -34,8 +36,10 @@ class CheckboxActivityView : BaseRxActivityView<CheckboxModel>() {
         checkbox_1.checkedChanges() bindTo pm.checkAction1
         checkbox_2.checkedChanges() bindTo pm.checkAction2
         checkbox_3.checkedChanges() bindTo pm.checkAction3
+        send_btn.clicks() bindTo pm.sendAction
 
         pm.count bindTo { counter_et.text = it.toString() }
+        pm.messageCommand bindTo { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
     }
 
     override fun createConfigurator() = CheckboxScreenConfigurator(intent)

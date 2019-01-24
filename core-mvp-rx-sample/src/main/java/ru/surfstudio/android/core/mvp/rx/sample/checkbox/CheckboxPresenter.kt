@@ -16,8 +16,8 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.checkbox
 
-import io.reactivex.Observable
-import io.reactivex.functions.Function3
+import io.reactivex.rxkotlin.Observables
+import io.reactivex.rxkotlin.withLatestFrom
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import javax.inject.Inject
@@ -28,16 +28,22 @@ class CheckboxPresenter @Inject constructor(
 
     override val pm = CheckboxModel()
 
-
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        subscribe(Observable.combineLatest<Boolean, Boolean, Boolean, Int>(
-                pm.checkAction1.getObservable(),
-                pm.checkAction2.getObservable(),
-                pm.checkAction3.getObservable(),
-                Function3 { t1, t2, t3 -> t1.toInt() + t2.toInt() + t3.toInt() }))
-        { pm.count.getConsumer().accept(it) }
+        val checkboxesObs =
+                Observables.combineLatest(
+                        pm.checkAction1.getObservable(),
+                        pm.checkAction2.getObservable(),
+                        pm.checkAction3.getObservable()
+                ) { b1, b2, b3 -> Triple(b1, b2, b3) }
+
+        checkboxesObs.map { it.first.toInt() + it.second.toInt() + it.third.toInt() } bindTo pm.count
+
+        pm.sendAction.getObservable()
+                .withLatestFrom(checkboxesObs)
+                { _, triple -> "cb1: ${triple.first}, cb2: ${triple.second}, cb3: ${triple.third}" }
+                .bindTo(pm.messageCommand)
     }
 }
 

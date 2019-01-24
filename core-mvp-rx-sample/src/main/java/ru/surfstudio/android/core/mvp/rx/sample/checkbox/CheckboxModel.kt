@@ -25,6 +25,8 @@ class CheckboxModel : ScreenModel() {
     val checkAction1 = Action<Boolean>()
     val checkAction2 = Action<Boolean>()
     val checkAction3 = Action<Boolean>()
+    val sendAction = Action<Unit>()
 
     val count = State<Int>()
+    val messageCommand = State<String>() //TODO command будет
 }
