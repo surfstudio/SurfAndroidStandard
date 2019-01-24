@@ -138,7 +138,9 @@ public class SimpleCacheUrlConnector {
             for (int i = 0; i < count; i++) {
                 if (isCacheUrlSegmentParameter(firstSegments[i]) && !isCacheUrlSegmentParameter(secondSegments[i])) {
                     return 1;
-                } else if (!isCacheUrlSegmentParameter(firstSegments[i]) && isCacheUrlSegmentParameter(secondSegments[i])) {
+                }
+
+                if (!isCacheUrlSegmentParameter(firstSegments[i]) && isCacheUrlSegmentParameter(secondSegments[i])) {
                     return -1;
                 }
             }
