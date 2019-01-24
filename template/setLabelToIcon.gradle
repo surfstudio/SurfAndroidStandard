@@ -26,6 +26,14 @@ tasks.whenTaskAdded { Task task ->
     }
 }
 
+/**
+ * Service that add label to icon for "debug" and "qa" build variants
+ *
+ * It works only with png images and Surf architecture
+ *
+ * @param buildVariant - gradle build variant
+ * @param versionName - application's version
+ */
 class IconService {
     public final static String[] BUILD_VARIANTS = [DEBUG_BUILD_VARIANT, QA_BUILD_VARIANT]
     public final static GENERATED_PATH = "generated/iconlauncher"
@@ -59,6 +67,9 @@ class IconService {
         this.versionName = versionName
     }
 
+    /**
+     * Start process to change launcher icon
+     */
     void change() {
         appInjectorDir = getAppInjectorDir()
         if (appInjectorDir == null) return
@@ -73,6 +84,10 @@ class IconService {
         if (icon.roundIcon != null) processIcon(icon.roundIcon)
     }
 
+    /**
+     * Find icon and start changing
+     * @param iconPath - launcher icon path
+     */
     private void processIcon(IconPath iconPath) {
         File resDir = new File("${appInjectorDir.path}/${RES_PATH}")
         if (!resDir.exists()) return
@@ -87,6 +102,12 @@ class IconService {
         processXmlIcons(findFilesByExtension(rowIcons, XML_EXTENSION, false), resDir, variantResDir)
     }
 
+    /**
+     * Changing image icons
+     *
+     * @param rowIcons - icons
+     * @param variantResDir - res build variant directory
+     */
     private void processImageIcons(List<File> rowIcons, File variantResDir) {
         rowIcons.forEach { icon ->
             String outputPath = "${variantResDir.path}/${icon.path.split(RES_PATH).last()}"
@@ -102,6 +123,12 @@ class IconService {
         }
     }
 
+    /**
+     * Parse xml adaptive-icon to find background, foreground image icons
+     *
+     * @param rowIcons - icons
+     * @param variantResDir - res build variant directory
+     */
     private void processXmlIcons(List<File> rowIcons, File resDir, File variantResDir) {
         List<File> icons = new ArrayList()
 
@@ -116,9 +143,17 @@ class IconService {
         if (icons.empty) return
 
         processImageIcons(findFilesByExtension(icons, XML_EXTENSION, true), variantResDir)
-        // todo process vector drawable
     }
 
+    /**
+     * Parse xml to get adaptive-icon background and foreground icons
+     *
+     * @param rootNode - root xml-element
+     * @param resDir - directory to find background and foreground icons
+     * @param property - xml's property
+     *
+     * @return icons
+     */
     private List<File> getAdaptiveIcon(GPathResult rootNode,File resDir, String property){
         GPathResult icon = (GPathResult) rootNode.getProperty(property)
         return findIcons(
@@ -127,6 +162,15 @@ class IconService {
         )
     }
 
+    /**
+     * Find files by extension
+     *
+     * @param files - files
+     * @param extension - extension
+     * @param isNot - not flag
+     *
+     * @return files with extension
+     */
     private List<File> findFilesByExtension(List<File> files, String extension, Boolean isNot) {
         List<File> res = new ArrayList()
         files.forEach { file ->
@@ -139,6 +183,12 @@ class IconService {
         return res
     }
 
+    /**
+     * Combine launcher icon with overlay image
+     *
+     * @param input - input icon
+     * @param output - output icon
+     */
     private void changeVariantIcon(File input, File output) {
         BufferedImage image = ImageIO.read(input)
         BufferedImage overlayImage = ImageIO.read(overlayImage)
@@ -153,6 +203,11 @@ class IconService {
         }
     }
 
+    /**
+     * Create overlay image with version label
+     *
+     * @return overlay image
+     */
     private File generateOverlayImage() {
         List<String> texts = new ArrayList()
 
@@ -222,6 +277,11 @@ class IconService {
         return null
     }
 
+    /**
+     * Find app-injector directory
+     *
+     * @return app-injector directory
+     */
     static File getAppInjectorDir() {
         File appInjector = new File("./${APP_INJECTOR_DIR_NAME}")
         if (appInjector.exists()) return appInjector
@@ -233,6 +293,11 @@ class IconService {
         return null
     }
 
+    /**
+     * Find launcher icon for application
+     *
+     * @return icon
+     */
     private Icon getIcon() {
         File manifestFile = new File("${appInjectorDir.path}/$MANIFEST_PATH")
         if (!manifestFile.exists()) return null
@@ -246,6 +311,13 @@ class IconService {
         )
     }
 
+    /**
+     * Parse string
+     *
+     * @param iconStr - string e.x. "@drawable/ic-launcher"
+     *
+     * @return - iconPath
+     */
     private IconPath parseIcon(String iconStr) {
         if (iconStr.empty) return null
 
@@ -255,6 +327,14 @@ class IconService {
         return new IconPath(iconParts[0].substring(1), iconParts[1])
     }
 
+    /**
+     * Find icons
+     *
+     * @param folder - res directory
+     * @param iconPath - icon path
+     *
+     * @return icons
+     */
     private List<File> findIcons(File folder, IconPath iconPath) {
         List<File> iconDirs = folder.listFiles(new FileFilter() {
             @Override
@@ -297,6 +377,9 @@ class Utils {
     }
 }
 
+/**
+ * Representing launcher icon
+ */
 class Icon {
     IconPath commonIcon
     IconPath roundIcon
@@ -307,6 +390,9 @@ class Icon {
     }
 }
 
+/**
+ * Representing app-icon data
+ */
 class IconPath {
     String folderName
     String iconName
