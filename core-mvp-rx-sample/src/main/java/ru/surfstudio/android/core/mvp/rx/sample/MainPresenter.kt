@@ -36,10 +36,10 @@ class MainPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        pm.incAction.bindTo(pm.counterState) { 100 }
-        pm.decAction.bindTo(pm.counterState) { 20 }
+        pm.incAction.getObservable().map { 100 } bindTo pm.counterState
+        pm.decAction.getObservable().map { 20 } bindTo pm.counterState
+        pm.doubleTextAction.getObservable().map { pm.textEditState.let { it.value + it.value } } bindTo pm.textEditState
         pm.textEditState bindTo pm.sampleCommand
-        pm.doubleTextAction.bindTo(pm.textEditState) { pm.textEditState.let { it.value + it.value } }
 
         pm.checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
         pm.cycledSampleActivityOpen bindTo { activityNavigator.start(CycledActivityRoute()) }

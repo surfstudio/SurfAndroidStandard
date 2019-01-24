@@ -16,6 +16,8 @@
 
 package ru.surfstudio.android.core.mvp.rx.domain
 
+import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -38,6 +40,7 @@ interface Related<S : RelationEntity> {
 
     fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable
 
+
     fun <T> Relation<T, *, S>.getObservable() =
             this.getObservable(relationEntity())
 
@@ -47,23 +50,41 @@ interface Related<S : RelationEntity> {
     fun <T> Relation<T, S, *>.accept(newValue: T) =
             this.getConsumer().accept(newValue)
 
-    fun Relation<kotlin.Unit, S, *>.accept() =
+    fun Relation<Unit, S, *>.accept() =
             this.getConsumer().accept(Unit)
+
 
     infix fun <T> Observable<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this, consumer)
 
+    infix fun <T> Observable<T>.bindTo(relation: Relation<T, S, *>) =
+            this.bindTo(relation.getConsumer())
+
     infix fun <T> Single<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this.toObservable(), consumer)
 
-    fun <T, R> Observable<T>.bindTo(consumer: Consumer<R>, transformer: (T) -> R) =
-            this@Related.subscribe(this.map { transformer(it) }, consumer)
+    infix fun <T> Single<T>.bindTo(relation: Relation<T, S, *>) =
+            this.bindTo(relation.getConsumer())
+
+    infix fun <T> Maybe<T>.bindTo(consumer: Consumer<T>) =
+            this@Related.subscribe(this.toObservable(), consumer)
+
+    infix fun <T> Maybe<T>.bindTo(relation: Relation<T, S, *>) =
+            this.bindTo(relation.getConsumer())
+
+    infix fun Completable.bindTo(consumer: Consumer<Unit>) =
+            this@Related.subscribe(this.toObservable(), consumer)
+
+    infix fun Completable.bindTo(relation: Relation<Unit, S, *>) =
+            this.bindTo(relation.getConsumer())
+
 
     infix fun <T> Observable<T>.bindTo(consumer: (T) -> Unit) =
             this@Related.subscribe(this, Consumer { consumer(it) })
 
     infix fun Observable<Unit>.bindTo(consumer: () -> Unit) =
             this@Related.subscribe(this, Consumer { consumer() })
+
 
     infix fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit) =
             this.getObservable()
@@ -73,17 +94,8 @@ interface Related<S : RelationEntity> {
             this.getObservable()
                     .bindTo(consumer)
 
-    infix fun <T> Observable<T>.bindTo(relation: Relation<T, S, *>) =
-            this.bindTo(relation.getConsumer())
-
-    infix fun <T> Single<T>.bindTo(relation: Relation<T, S, *>) =
-            this.bindTo(relation.getConsumer())
-
     infix fun <T> Relation<T, *, S>.bindTo(relation: Relation<T, S, *>) =
             this.getObservable().bindTo(relation.getConsumer())
-
-    fun <T, R> Relation<T, *, S>.bindTo(relation: Relation<R, S, *>, transformer: (T) -> R) =
-            this.getObservable().bindTo(relation.getConsumer(), transformer)
 }
 
 interface RelationEntity
