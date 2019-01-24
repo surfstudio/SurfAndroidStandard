@@ -77,4 +77,16 @@ class ActionTest : BaseRelationTest() {
             assertEquals("Initial", newValue)
         }
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun update() {
+        with(testPresenter) {
+            val action = Action("Update")
+            var newValue = ""
+            action bindTo { newValue += it }
+            action.update()
+            assertEquals("UpdateUpdate", newValue)
+        }
+    }
 }

@@ -77,4 +77,16 @@ class StateTest : BaseRelationTest() {
             assertEquals("Initial", newValue)
         }
     }
+
+    @Test
+    @Throws(Exception::class)
+    fun update() {
+        with(testView) {
+            val state = State("Update")
+            var newValue = ""
+            state bindTo { newValue += it }
+            state.update()
+            assertEquals("UpdateUpdate", newValue)
+        }
+    }
 }

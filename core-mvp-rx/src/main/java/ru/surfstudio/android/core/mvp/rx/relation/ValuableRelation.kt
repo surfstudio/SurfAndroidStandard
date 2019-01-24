@@ -31,4 +31,6 @@ abstract class ValuableRelation<T, in S : RelationEntity, in D : RelationEntity>
     val hasValue: Boolean get() = relay.hasValue()
 
     internal val internalValue: T get() = relay.value ?: throw NoSuchElementException()
+
+    fun update() = relay.accept(internalValue)
 }
