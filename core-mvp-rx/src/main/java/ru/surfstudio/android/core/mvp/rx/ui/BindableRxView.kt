@@ -17,8 +17,8 @@
 package ru.surfstudio.android.core.mvp.rx.ui
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
-import ru.surfstudio.android.core.mvp.rx.domain.Related
-import ru.surfstudio.android.core.mvp.rx.domain.VIEW
+import ru.surfstudio.android.core.mvp.rx.relation.Related
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.VIEW
 
 interface BindableRxView<M : ScreenModel> : Related<VIEW> {
 

@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.domain
+package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
-import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
+import ru.surfstudio.android.core.mvp.rx.relation.ValuableRelation
 
 /**
- *  Отношение Presenter -> View
- *  Еммит единичное событие.
- *  В отличии от [State] не эммитит последне значение при подписке
+ * Связь Presenter -> View
+ * Хранит в себе последнее прошедшее значение.
+ * При подписке сообщает это значение или initialValue
  */
-class Command<T> : Relation<T, PRESENTER, VIEW> {
-
-    private val relay = PublishRelay.create<T>()
+class State<T>(initialValue: T? = null) : ValuableRelation<T, PRESENTER, VIEW>(initialValue) {
 
     override fun getConsumer(source: PRESENTER): Consumer<T> = relay
 

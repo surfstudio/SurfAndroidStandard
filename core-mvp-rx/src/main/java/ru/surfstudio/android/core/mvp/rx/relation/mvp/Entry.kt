@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.domain
+package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
-import io.reactivex.Observable
-import io.reactivex.functions.Consumer
+import ru.surfstudio.android.core.mvp.rx.relation.RelationEntity
 
-/**
- * Связь Presenter -> View
- * Хранит в себе последнее прошедшее значение.
- * При подписке сообщает это значение или initialValue
- */
-class State<T>(initialValue: T? = null) : ValuableRelation<T, PRESENTER, VIEW>(initialValue) {
+interface ActionSource : RelationEntity
+interface ActionTarget : RelationEntity
 
-    override fun getConsumer(source: PRESENTER): Consumer<T> = relay
+interface CommandSource : RelationEntity
+interface CommandTarget : RelationEntity
 
-    override fun getObservable(target: VIEW): Observable<T> = relay.share()
-}
+interface StateSource : RelationEntity
+interface StateTarget : RelationEntity
+
+object VIEW : ActionSource, CommandTarget, StateSource, StateTarget
+object PRESENTER : ActionTarget, CommandSource, StateSource, StateTarget

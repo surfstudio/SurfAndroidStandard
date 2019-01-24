@@ -23,8 +23,8 @@ import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.core.mvp.rx.domain.PRESENTER
-import ru.surfstudio.android.core.mvp.rx.domain.Related
+import ru.surfstudio.android.core.mvp.rx.relation.Related
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.view.CoreView
 import ru.surfstudio.android.rx.extension.ConsumerSafe
 

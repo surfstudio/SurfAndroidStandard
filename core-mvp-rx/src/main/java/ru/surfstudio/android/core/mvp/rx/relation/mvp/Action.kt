@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.domain
+package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
-import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Observable
+import io.reactivex.functions.Consumer
+import ru.surfstudio.android.core.mvp.rx.relation.ValuableRelation
 
 /**
- * Связь хранящая в себе последнее прошедшее значение.
+ * Связь View -> Presenter
+ * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
-abstract class ValuableRelation<T, in S : RelationEntity, in D : RelationEntity>(initialValue: T? = null)
-    : Relation<T, S, D> {
+class Action<T>(initialValue: T? = null) : ValuableRelation<T, VIEW, PRESENTER>(initialValue) {
 
-    protected val relay = initialValue?.let { BehaviorRelay.createDefault(it) }
-            ?: BehaviorRelay.create<T>()
+    override fun getConsumer(source: VIEW): Consumer<T> = relay
 
-    val hasValue: Boolean get() = relay.hasValue()
-
-    internal val internalValue: T get() = relay.value ?: throw NoSuchElementException()
+    override fun getObservable(target: PRESENTER): Observable<T> = relay.share()
 }

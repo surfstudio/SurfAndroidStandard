@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.domain
+package ru.surfstudio.android.core.mvp.rx.relation
 
 import io.reactivex.Completable
 import io.reactivex.Maybe
@@ -23,11 +23,13 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 
-interface Relation<V, in S : RelationEntity, in T : RelationEntity> {
+interface RelationEntity
 
-    fun getConsumer(source: S): Consumer<V>
+abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
-    fun getObservable(target: T): Observable<V>
+    internal abstract fun getConsumer(source: S): Consumer<V>
+
+    internal abstract fun getObservable(target: T): Observable<V>
 }
 
 interface Related<S : RelationEntity> {
@@ -101,17 +103,3 @@ interface Related<S : RelationEntity> {
     infix fun <T> Relation<T, *, S>.bindTo(relation: Relation<T, S, *>) =
             this.observable.bindTo(relation.consumer)
 }
-
-interface RelationEntity
-
-interface ActionSource : RelationEntity
-interface ActionTarget : RelationEntity
-
-interface CommandSource : RelationEntity
-interface CommandTarget : RelationEntity
-
-interface StateSource : RelationEntity
-interface StateTarget : RelationEntity
-
-object VIEW : ActionSource, CommandTarget, StateSource, StateTarget
-object PRESENTER : ActionTarget, CommandSource, StateSource, StateTarget

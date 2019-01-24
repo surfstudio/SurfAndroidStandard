@@ -17,7 +17,7 @@
 package ru.surfstudio.android.core.mvp.rx.sample.cycled
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
-import ru.surfstudio.android.core.mvp.rx.domain.Bond
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.Bond
 import ru.surfstudio.android.core.mvp.rx.sample.cycled.domen.Origin
 
 

@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.domain
+package ru.surfstudio.android.core.mvp.rx.relation
 
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import org.junit.Before
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.PRESENTER
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.VIEW
 
 abstract class BaseRelationTest {
 

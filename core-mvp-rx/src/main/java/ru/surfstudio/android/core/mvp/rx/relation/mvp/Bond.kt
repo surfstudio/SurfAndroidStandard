@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.domain
+package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
 import android.widget.EditText
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
+import ru.surfstudio.android.core.mvp.rx.relation.Relation
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -26,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference
  *
  * Содержит в себе [Bond] и [Action] для хранения и обработки ввода текста
  */
-class Bond<T>() : Relation<T, StateSource, StateTarget> {
+class Bond<T>() : Relation<T, StateSource, StateTarget>() {
 
     constructor(initialValue: T) : this() {
         this.initialValue = initialValue

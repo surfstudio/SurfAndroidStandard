@@ -17,8 +17,8 @@
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
-import ru.surfstudio.android.core.mvp.rx.domain.Action
-import ru.surfstudio.android.core.mvp.rx.domain.State
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.generateStubs
