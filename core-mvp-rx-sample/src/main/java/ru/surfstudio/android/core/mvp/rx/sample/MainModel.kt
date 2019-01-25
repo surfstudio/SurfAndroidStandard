@@ -21,6 +21,9 @@ import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Bond
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
 
+/**
+ *  Модель главного экрана с примерами
+ */
 class MainModel : ScreenModel() {
 
     val counterState = Bond<Int>()
@@ -29,7 +32,7 @@ class MainModel : ScreenModel() {
 
     val textEditState = Bond<String>()
     val doubleTextAction = Action<Unit>()
-    val sampleCommand = State<String>()
+    val sampleState = State<String>()
 
     val checkboxSampleActivityOpen = Action<Unit>()
     val cycledSampleActivityOpen = Action<Unit>()

@@ -32,7 +32,7 @@ class MainActivityView : BaseRxActivityView<MainModel>() {
 
         pm.counterState.observable.map { it.toString() } bindTo main_counter_tv::setText
         pm.textEditState bindTo main_text_et::setText
-        pm.sampleCommand bindTo text_tv::setText
+        pm.sampleState bindTo text_tv::setText
 
         main_inc_btn.clicks() bindTo pm.incAction
         main_dec_btn.clicks() bindTo pm.decAction

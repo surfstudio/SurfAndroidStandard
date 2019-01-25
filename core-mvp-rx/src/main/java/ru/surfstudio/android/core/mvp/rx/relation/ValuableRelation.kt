@@ -25,8 +25,10 @@ import com.jakewharton.rxrelay2.BehaviorRelay
 abstract class ValuableRelation<T, in S : RelationEntity, in D : RelationEntity>(initialValue: T? = null)
     : Relation<T, S, D>() {
 
-    protected val relay = initialValue?.let { BehaviorRelay.createDefault(it) }
-            ?: BehaviorRelay.create<T>()
+    protected val relay =
+            initialValue
+                    ?.let { BehaviorRelay.createDefault(it) }
+                    ?: BehaviorRelay.create<T>()
 
     val hasValue: Boolean get() = relay.hasValue()
 

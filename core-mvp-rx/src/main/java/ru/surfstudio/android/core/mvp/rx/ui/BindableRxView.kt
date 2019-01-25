@@ -20,10 +20,15 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.rx.relation.Related
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.VIEW
 
+/**
+ *  Интерфейс для биндинга [ScreenModel] и View(mvp)
+ */
 interface BindableRxView<M : ScreenModel> : Related<VIEW> {
 
     override fun relationEntity() = VIEW
 
+    /**
+     * В этом методе реализуется связываение модели экрана и view
+     */
     fun bind(pm: M)
-
 }

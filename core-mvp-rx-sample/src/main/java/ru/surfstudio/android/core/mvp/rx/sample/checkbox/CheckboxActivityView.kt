@@ -25,7 +25,7 @@ import ru.surfstudio.sample.R
 import javax.inject.Inject
 
 /**
- * Экран демострирующий возможность работы со связными данными типа чекбоксов
+ * Экран демострирующий возможность работы со связными данными напримере чекбоксов
  */
 class CheckboxActivityView : BaseRxActivityView<CheckboxModel>() {
 

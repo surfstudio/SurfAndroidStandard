@@ -23,6 +23,7 @@ import ru.surfstudio.android.core.mvp.rx.relation.Relation
 
 /**
  *  Отношение Presenter -> View
+ *
  *  Еммит единичное событие.
  *  В отличии от [State] не эммитит последне значение при подписке
  */

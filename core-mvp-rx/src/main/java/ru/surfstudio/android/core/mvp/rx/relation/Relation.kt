@@ -43,13 +43,15 @@ abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
 /**
  * Интерфейс сущности, которая участвкет в обмене данными.
- * Здесь происходит разделение возможностей [Relation] для определенного [RelationEntity]
+ * Здесь происходит разделение интерфеса [Relation] для определенного [RelationEntity]
  */
 interface Related<S : RelationEntity> {
 
     fun relationEntity(): S
 
-    fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit = {}): Disposable
+    fun <T> subscribe(observable: Observable<T>,
+                      onNext: Consumer<T>,
+                      onError: (Throwable) -> Unit = {}): Disposable
 
 
     val <T> Relation<T, *, S>.observable: Observable<T>

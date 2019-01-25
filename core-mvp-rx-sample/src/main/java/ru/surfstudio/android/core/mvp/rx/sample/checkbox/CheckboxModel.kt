@@ -21,6 +21,9 @@ import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Command
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
 
+/**
+ * Модель экрана [CheckboxActivityView]
+ */
 class CheckboxModel : ScreenModel() {
 
     val checkAction1 = Action<Boolean>()

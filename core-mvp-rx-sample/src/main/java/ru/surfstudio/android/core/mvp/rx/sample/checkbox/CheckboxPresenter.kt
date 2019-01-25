@@ -22,6 +22,9 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import javax.inject.Inject
 
+/**
+ * Презентер экрана [CheckboxActivityView]
+ */
 class CheckboxPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
 ) : BaseRxPresenter<CheckboxModel, CheckboxActivityView>(basePresenterDependency) {

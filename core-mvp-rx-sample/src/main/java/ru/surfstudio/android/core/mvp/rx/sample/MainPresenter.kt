@@ -25,6 +25,9 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
+/**
+ * Презентер главного экрана примеров
+ */
 @PerScreen
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
@@ -35,14 +38,15 @@ class MainPresenter @Inject constructor(
 
     override fun onFirstLoad() {
         super.onFirstLoad()
+        with(pm) {
+            incAction.observable.map { 100 } bindTo counterState
+            decAction.observable.map { 20 } bindTo counterState
+            doubleTextAction.observable.map { textEditState.let { it.value + it.value } } bindTo textEditState
+            textEditState bindTo sampleState
 
-        pm.incAction.observable.map { 100 } bindTo pm.counterState
-        pm.decAction.observable.map { 20 } bindTo pm.counterState
-        pm.doubleTextAction.observable.map { pm.textEditState.let { it.value + it.value } } bindTo pm.textEditState
-        pm.textEditState bindTo pm.sampleCommand
-
-        pm.checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
-        pm.cycledSampleActivityOpen bindTo { activityNavigator.start(CycledActivityRoute()) }
-        pm.easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
+            checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
+            cycledSampleActivityOpen bindTo { activityNavigator.start(CycledActivityRoute()) }
+            easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
+        }
     }
 }

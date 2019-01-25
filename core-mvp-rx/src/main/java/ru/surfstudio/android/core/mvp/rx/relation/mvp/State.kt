@@ -22,6 +22,7 @@ import ru.surfstudio.android.core.mvp.rx.relation.ValuableRelation
 
 /**
  * Связь Presenter -> View
+ *
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */

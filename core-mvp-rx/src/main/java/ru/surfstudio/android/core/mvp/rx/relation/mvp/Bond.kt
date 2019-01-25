@@ -16,16 +16,17 @@
 
 package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
-import android.widget.EditText
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.rx.relation.Relation
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * Менеджер состояний для [EditText] с меняющимся текстом
+ * Связь View -> Presenter
+ *      Presenter -> View
  *
- * Содержит в себе [Bond] и [Action] для хранения и обработки ввода текста
+ * Хранит в себе последнее прошедшее значение.
+ * При подписке сообщает это значение или initialValue
  */
 class Bond<T>() : Relation<T, StateSource, StateTarget>() {
 
