@@ -15,15 +15,13 @@
  */
 package ru.surfstudio.android.core.ui.navigation.activity.navigator;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener;
-import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -33,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
@@ -45,9 +44,12 @@ import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.NewIntentRoute;
-import ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature.CrossFeatureRoute;
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallState;
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallStatus;
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
+import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.DynamicCrossFeatureRoute;
+import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
-import ru.surfstudio.android.logger.Logger;
 
 /**
  * позволяет осуществлять навигацияю между активити
@@ -62,32 +64,39 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
+    private final SplitFeatureInstaller splitFeatureInstaller;
+    private final Boolean isSplitFeatureModeOn;
 
-    private SplitInstallStateUpdatedListener splitInstallStateUpdatedListener =
-            splitInstallSessionState -> {
-                if (splitInstallSessionState.status() == SplitInstallSessionStatus.FAILED &&
-                        splitInstallSessionState.sessionId() < 0) {
-                    Logger.e("ActivityNavigator | SplitInstallState| Service process died");
-                    return;
-                }
-                if (splitInstallSessionState.status() == SplitInstallSessionStatus.CANCELED) {
-                    Logger.w("ActivityNavigator | SplitInstallState| Installation cancelled");
-                } else if (splitInstallSessionState.status() == SplitInstallSessionStatus.FAILED) {
-                    Logger.e("ActivityNavigator | SplitInstallState| Install failed");
-                } else if (splitInstallSessionState.status() == SplitInstallSessionStatus.INSTALLED) {
-                    Logger.i("ActivityNavigator | SplitInstallState| Split successfully installed");
-                    /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        // Update app context with the code and resources of the installed module.
-                        SplitInstallHelper.updateAppInfo(MainActivity.this);
-                    }
-                    startActivity(new Intent(MainActivity.this, GreetActivity.class));*/
-                }
-            };
-
+    /**
+     * Base activity navigator constructor.
+     *
+     * @param activityProvider     actual Activity provider instance
+     * @param eventDelegateManager screen event delegate manager instance
+     */
     public ActivityNavigator(ActivityProvider activityProvider,
                              ScreenEventDelegateManager eventDelegateManager) {
+        this(activityProvider, eventDelegateManager, null, false);
+    }
+
+    /**
+     * Activity navigator with "split-features" support constructor.
+     *
+     * @param activityProvider      actual Activity provider instance
+     * @param eventDelegateManager  screen event delegate manager instance
+     * @param splitFeatureInstaller "split-feature" install manager
+     * @param isSplitFeatureModeOn  "split-feature" navigation activation flag.
+     *                              Actually, it needs to be {@code true} just for release build which
+     *                              has already been deployed to Google Play. Otherwise, cross-feature
+     *                              navigation won't work at all.
+     */
+    public ActivityNavigator(ActivityProvider activityProvider,
+                             ScreenEventDelegateManager eventDelegateManager,
+                             SplitFeatureInstaller splitFeatureInstaller,
+                             Boolean isSplitFeatureModeOn) {
         eventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
+        this.splitFeatureInstaller = splitFeatureInstaller;
+        this.isSplitFeatureModeOn = isSplitFeatureModeOn;
     }
 
     protected abstract void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle bundle);
@@ -176,14 +185,13 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
 
     /**
      * Launch a new activity.
+     * <p>
+     * Works synchronically.
      *
      * @param route navigation route
      * @return {@code true} if activity started successfully, {@code false} otherwise
      */
     public boolean start(ActivityRoute route) {
-        if (route instanceof CrossFeatureRoute) {
-            //todo feature downloading
-        }
         Context context = activityProvider.get();
         Intent intent = route.prepareIntent(context);
         if (intent.resolveActivity(context.getPackageManager()) != null) {
@@ -191,6 +199,52 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
             return true;
         }
         return false;
+    }
+
+    /**
+     * Launch a new activity from another Feature Module.
+     * <p>
+     * Performs asynchronically due to type of the target Feature Module.
+     * This method returns stream of install state change events. You can make a subscription in
+     * your Presenter and handle errors or any other type of events during Dynamic Feature
+     * installation.
+     *
+     * @param route navigation route
+     * @return stream of install state change events
+     */
+    public Observable<SplitFeatureInstallState> start(ActivityCrossFeatureRoute route) {
+        BehaviorSubject<SplitFeatureInstallState> startStatusSubject = BehaviorSubject.create();
+        if (route instanceof DynamicCrossFeatureRoute && this.isSplitFeatureModeOn) {
+            DynamicCrossFeatureRoute dynamicCrossFeatureRoute = (DynamicCrossFeatureRoute) route;
+            splitFeatureInstaller.installFeature(
+                    dynamicCrossFeatureRoute.splitName(),
+                    new SplitFeatureInstaller.SplitFeatureInstallListener() {
+                        @Override
+                        public void onInstall(@NotNull SplitFeatureInstallState state) {
+                            performStart(route, startStatusSubject);
+                        }
+
+                        @Override
+                        public void onStateChanged(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+                    }
+            );
+        } else {
+            performStart(route, startStatusSubject);
+        }
+        return startStatusSubject.hide();
+    }
+
+    private void performStart(ActivityRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
+        boolean startupStatus = start(route);
+        SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
+        startStatusSubject.onNext(new SplitFeatureInstallState(status));
     }
 
     /**

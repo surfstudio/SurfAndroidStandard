@@ -2,7 +2,6 @@ package ru.surfstudio.android.shared.pref.sample.ui.screen.main
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
 /**

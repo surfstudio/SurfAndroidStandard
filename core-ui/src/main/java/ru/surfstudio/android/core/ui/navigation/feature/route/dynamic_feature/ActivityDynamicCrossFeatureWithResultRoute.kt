@@ -13,26 +13,27 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature
+@file:Suppress("unused")
+
+package ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature
 
 import android.content.Intent
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import java.io.Serializable
 
 /**
- * Cross-feature navigation activity route with support of activity result delivering.
+ * Dynamic Feature navigation Activity route with support of Activity result delivering.
  *
- * Designed for navigation between two activities in different independent Gradle-projects.
-
+ * Designed for navigation to Activity from separate Dynamic Feature, doesn't matter installed or
+ * not at the present moment.
+ *
  * @param T result type (should be [Serializable])
  *
- * @see [ActivityRoute]
- * @see [CrossFeatureRoute]
- * @see [ActivityCrossFeatureRoute]
+ * @see [DynamicCrossFeatureRoute]
+ * @see [ActivityDynamicCrossFeatureRoute]
  */
-abstract class ActivityCrossFeatureWithResultRoute<T : Serializable> :
-        ActivityCrossFeatureRoute(),
+abstract class ActivityDynamicCrossFeatureWithResultRoute<T : Serializable> :
+        ActivityDynamicCrossFeatureRoute(),
         SupportOnActivityResultRoute<T> {
 
     override fun prepareResultIntent(resultData: T): Intent {
@@ -42,6 +43,7 @@ abstract class ActivityCrossFeatureWithResultRoute<T : Serializable> :
     }
 
     override fun parseResultIntent(resultIntent: Intent): T {
+        @Suppress("UNCHECKED_CAST")
         return resultIntent.getSerializableExtra(SupportOnActivityResultRoute.EXTRA_RESULT) as T
     }
 

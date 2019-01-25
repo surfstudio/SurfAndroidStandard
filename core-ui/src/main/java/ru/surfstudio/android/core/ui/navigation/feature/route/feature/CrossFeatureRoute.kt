@@ -13,14 +13,14 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature
+package ru.surfstudio.android.core.ui.navigation.feature.route.feature
 
 /**
  * Interface for cross-feature navigation route.
  *
  * Should be used for routing between two activities from different independent Gradle-projects.
  *
- * For using it just override [targetClassPath] method and return full classpath of the target
+ * For using it just override [targetClassPath] method and specify full classpath of the target
  * feature starting point (e.g. activity).
  */
 interface CrossFeatureRoute {

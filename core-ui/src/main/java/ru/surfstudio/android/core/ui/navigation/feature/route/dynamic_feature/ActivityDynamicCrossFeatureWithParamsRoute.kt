@@ -13,23 +13,26 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature
+@file:Suppress("unused")
+
+package ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature
 
 import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
 /**
- * Cross-feature navigation activity route with parameters.
+ * Dynamic Feature navigation Activity route with parameters.
  *
- * Designed for navigation between two activities in different independent Gradle-projects.
+ * Designed for navigation to Activity from separate Dynamic Feature, doesn't matter installed or
+ * not at the present moment.
  *
  * @see [ActivityRoute]
- * @see [CrossFeatureRoute]
- * @see [ActivityCrossFeatureRoute]
+ * @see [DynamicCrossFeatureRoute]
+ * @see [ActivityDynamicCrossFeatureRoute]
  */
-abstract class ActivityCrossFeatureWithParamsRoute : ActivityCrossFeatureRoute {
+abstract class ActivityDynamicCrossFeatureWithParamsRoute : ActivityDynamicCrossFeatureRoute {
 
-    @Suppress("unused", "ConvertSecondaryConstructorToPrimary")
+    @Suppress("ConvertSecondaryConstructorToPrimary", "UNUSED_PARAMETER")
     constructor(intent: Intent) {
         //empty
     }

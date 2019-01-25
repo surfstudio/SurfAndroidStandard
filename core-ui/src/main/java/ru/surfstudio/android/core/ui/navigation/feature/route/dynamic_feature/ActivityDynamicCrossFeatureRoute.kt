@@ -13,28 +13,20 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature
+package ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature
 
-import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
-import java.io.Serializable
+import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureRoute
 
 /**
- * Cross-feature navigation activity route with support of activity result delivering and parameters.
+ * Dynamic Feature navigation Activity route.
  *
- * Designed for navigation between two activities in different independent Gradle-projects.
-
- * @param T result type (should be [Serializable])
+ * Designed for navigation to Activity from separate Dynamic Feature, doesn't matter installed or
+ * not at the present moment.
  *
  * @see [ActivityRoute]
- * @see [CrossFeatureRoute]
- * @see [ActivityCrossFeatureRoute]
+ * @see [DynamicCrossFeatureRoute]
  */
-abstract class ActivityCrossFeatureWithParamsAndResultRoute<T : Serializable> :
-        ActivityCrossFeatureWithResultRoute<T> {
-
-    @Suppress("ConvertSecondaryConstructorToPrimary", "unused")
-    constructor(intent: Intent) {
-        //empty
-    }
-}
+abstract class ActivityDynamicCrossFeatureRoute :
+        ActivityCrossFeatureRoute(),
+        DynamicCrossFeatureRoute

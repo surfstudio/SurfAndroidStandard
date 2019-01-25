@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.navigation.activity.route.cross_feature
+package ru.surfstudio.android.core.ui.navigation.feature.route.feature
 
 import android.content.Context
 import android.content.Intent
@@ -22,7 +22,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.logger.Logger
 
 /**
- * Cross-feature navigation activity route between two activities in different independent
+ * Cross-feature navigation Activity route between two Activities in different independent
  * Gradle-projects.
  *
  * @see [ActivityRoute]
@@ -44,6 +44,7 @@ abstract class ActivityCrossFeatureRoute :
         return null
     }
 
+    @Suppress("OverridingDeprecatedMember")
     override fun prepareBundle(): Bundle? {
         return null
     }
