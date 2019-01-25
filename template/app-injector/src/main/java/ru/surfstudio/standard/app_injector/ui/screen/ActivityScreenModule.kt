@@ -21,7 +21,7 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForActivity
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import ru.surfstudio.android.template.f_debug.BuildConfig
+import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.app_injector.ui.error.ErrorHandlerModule
 import javax.inject.Named
 
