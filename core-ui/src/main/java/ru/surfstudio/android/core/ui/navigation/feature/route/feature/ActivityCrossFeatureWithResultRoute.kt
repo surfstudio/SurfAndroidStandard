@@ -16,6 +16,7 @@
 package ru.surfstudio.android.core.ui.navigation.feature.route.feature
 
 import android.content.Intent
+import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.ActivityDynamicCrossFeatureRoute
 import java.io.Serializable
@@ -32,7 +33,7 @@ import java.io.Serializable
  */
 abstract class ActivityCrossFeatureWithResultRoute<T : Serializable> :
         ActivityCrossFeatureRoute(),
-        SupportOnActivityResultRoute<T> {
+        CrossFeatureSupportOnActivityResultRoute<T> {
 
     override fun prepareResultIntent(resultData: T): Intent {
         val i = Intent()

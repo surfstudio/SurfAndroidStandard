@@ -37,6 +37,7 @@ import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
@@ -265,6 +266,52 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
             return true;
         }
         return false;
+    }
+
+    /**
+     * Launch a new Activity for result from another Feature Module.
+     * <p>
+     * Performs asynchronically due to type of the target Feature Module.
+     * This method returns stream of install state change events. You can make a subscription in
+     * your Presenter and handle errors or any other type of events during Dynamic Feature
+     * installation.
+     *
+     * @param route navigation route
+     * @return stream of install state change events
+     */
+    public Observable<SplitFeatureInstallState> startForResult(CrossFeatureSupportOnActivityResultRoute route) {
+        BehaviorSubject<SplitFeatureInstallState> startStatusSubject = BehaviorSubject.create();
+        if (route instanceof DynamicCrossFeatureRoute && this.isSplitFeatureModeOn) {
+            DynamicCrossFeatureRoute dynamicCrossFeatureRoute = (DynamicCrossFeatureRoute) route;
+            splitFeatureInstaller.installFeature(
+                    dynamicCrossFeatureRoute.splitNames(),
+                    new SplitFeatureInstaller.SplitFeatureInstallListener() {
+                        @Override
+                        public void onInstall(@NotNull SplitFeatureInstallState state) {
+                            performStartForResult(route, startStatusSubject);
+                        }
+
+                        @Override
+                        public void onStateChanged(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+                    }
+            );
+        } else {
+            performStartForResult(route, startStatusSubject);
+        }
+        return startStatusSubject.hide();
+    }
+
+    private void performStartForResult(SupportOnActivityResultRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
+        boolean startupStatus = startForResult(route);
+        SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
+        startStatusSubject.onNext(new SplitFeatureInstallState(status));
     }
 
     /**

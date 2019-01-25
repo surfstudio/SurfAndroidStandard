@@ -54,6 +54,7 @@ public interface ActivityRouteInterface extends Route {
      * @return prepared Bundle
      * @deprecated use {@link ActivityRouteInterface#prepareActivityOptionsCompat()} instead
      */
+    @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
     Bundle prepareBundle();
 }
