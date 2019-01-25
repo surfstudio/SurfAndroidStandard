@@ -23,8 +23,17 @@ import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 
+/**
+ * Описывает тип сущности, которая учавствует в обмене данными
+ * Источник или получатель данных. По этому признаку отличаается источник от получателя
+ * Например — Презентер, Вью и т.п.
+ */
 interface RelationEntity
 
+/**
+ *  Описывает механизм переадачи данных. И определяет возможности для
+ *  `S` источника данных и `T` получателя данных
+ */
 abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
     internal abstract fun getConsumer(source: S): Consumer<V>
@@ -32,6 +41,10 @@ abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
     internal abstract fun getObservable(target: T): Observable<V>
 }
 
+/**
+ * Интерфейс сущности, которая участвкет в обмене данными.
+ * Здесь происходит разделение возможностей [Relation] для определенного [RelationEntity]
+ */
 interface Related<S : RelationEntity> {
 
     fun relationEntity(): S
