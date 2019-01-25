@@ -87,6 +87,10 @@ class StateTest : BaseRelationTest() {
             state bindTo { newValue += it }
             state.update()
             assertEquals("UpdateUpdate", newValue)
+
+            disposables.dispose()
+            state.observable.test().dispose()
+            assert(state.observable.test().isDisposed.not())
         }
     }
 }

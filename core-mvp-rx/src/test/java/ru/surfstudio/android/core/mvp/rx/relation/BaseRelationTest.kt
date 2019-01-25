@@ -18,6 +18,7 @@ package ru.surfstudio.android.core.mvp.rx.relation
 
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import org.junit.Before
@@ -26,8 +27,8 @@ import ru.surfstudio.android.core.mvp.rx.relation.mvp.VIEW
 
 abstract class BaseRelationTest {
 
-    lateinit var testView: Related<VIEW>
-    lateinit var testPresenter: Related<PRESENTER>
+    lateinit var testView: TestView
+    lateinit var testPresenter: TestPresenter
 
     @Before
     @Throws(Exception::class)
@@ -40,15 +41,23 @@ abstract class BaseRelationTest {
 }
 
 class TestView : Related<VIEW> {
+
+    val disposables = CompositeDisposable()
+
     override fun relationEntity(): VIEW = VIEW
 
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
             observable.subscribe(onNext)
+                    .apply { disposables.add(this) }
 }
 
 class TestPresenter : Related<PRESENTER> {
+
+    val disposables = CompositeDisposable()
+
     override fun relationEntity(): PRESENTER = PRESENTER
 
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
             observable.subscribe(onNext)
+                    .apply { disposables.add(this) }
 }

@@ -87,6 +87,10 @@ class ActionTest : BaseRelationTest() {
             action bindTo { newValue += it }
             action.update()
             assertEquals("UpdateUpdate", newValue)
+
+            disposables.dispose()
+            action.observable.test().dispose()
+            assert(action.observable.test().isDisposed.not())
         }
     }
 }
