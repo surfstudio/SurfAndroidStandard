@@ -41,10 +41,8 @@ class PaginationPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-
         pm.reloadAction bindTo ::reloadData
-        pm.getMoreAction bindTo ::loadMore
-
+        pm.getMoreAction.observable.filter { pm.hasData } bindTo ::loadMore
 
         loadMainData()
     }
@@ -58,10 +56,12 @@ class PaginationPresenter @Inject constructor(
                 { elements ->
                     view.showText("Data loaded")
                     pm.elementsState.accept(elements)
+                    pm.hasData = elements.isNotEmpty()
                     setNormalLoadState(elements)
                     setNormalPaginationState(elements)
                 },
                 {
+                    setErrorLoadState(pm.elementsState.value)
                     setErrorPaginationState(pm.elementsState.value)
                     view.showText("Imitate load data error")
                 })
@@ -69,18 +69,19 @@ class PaginationPresenter @Inject constructor(
 
     private fun loadMore() {
         view.showText("Start pagination request")
-        loadMoreSubscription = subscribe(
+        loadMoreSubscription =
                 elementRepository.getElements(pm.elementsState.value.nextPage)
-                        .observeOn(AndroidSchedulers.mainThread()),
-                { elements ->
-                    pm.elementsState.accept(pm.elementsState.value.merge(elements))
-                    setNormalPaginationState(pm.elementsState.value)
-                    view.showText("Pagination request complete")
-                },
-                {
-                    setErrorPaginationState(pm.elementsState.value)
-                    view.showText("Imitate pagination request error")
-                })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .bindTo(
+                                { elements ->
+                                    pm.elementsState.accept(pm.elementsState.value.merge(elements))
+                                    setNormalPaginationState(pm.elementsState.value)
+                                    view.showText("Pagination request complete")
+                                },
+                                {
+                                    setErrorPaginationState(pm.elementsState.value)
+                                    view.showText("Imitate pagination request error")
+                                })
     }
 
     private fun reloadData() {

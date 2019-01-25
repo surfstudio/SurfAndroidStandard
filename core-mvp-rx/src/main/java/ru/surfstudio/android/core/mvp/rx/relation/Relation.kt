@@ -49,7 +49,7 @@ interface Related<S : RelationEntity> {
 
     fun relationEntity(): S
 
-    fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable
+    fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit = {}): Disposable
 
 
     val <T> Relation<T, *, S>.observable: Observable<T>
@@ -105,11 +105,36 @@ interface Related<S : RelationEntity> {
             this@Related.subscribe(this, Consumer { consumer() })
 
 
+    fun <T> Observable<T>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
+            this@Related.subscribe(this, Consumer { consumer(it) }, onError)
+
+    fun Observable<Unit>.bindTo(consumer: () -> Unit, onError: (Throwable) -> Unit) =
+            this@Related.subscribe(this, Consumer { consumer() }, onError)
+
+    fun <T> Single<T>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
+            this@Related.subscribe(this.toObservable(), Consumer { consumer(it) }, onError)
+
+    fun <T> Maybe<T>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
+            this@Related.subscribe(this.toObservable(), Consumer { consumer(it) }, onError)
+
+    fun <T> Completable.bindTo(consumer: Consumer<Unit>, onError: (Throwable) -> Unit) =
+            this@Related.subscribe(this.toObservable(), consumer, onError)
+
+
     infix fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit) =
             this.observable
                     .bindTo(consumer)
 
     infix fun Relation<Unit, *, S>.bindTo(consumer: () -> Unit) =
+            this.observable
+                    .bindTo(consumer)
+
+
+    fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
+            this.observable
+                    .bindTo(consumer)
+
+    fun Relation<Unit, *, S>.bindTo(consumer: () -> Unit, onError: (Throwable) -> Unit) =
             this.observable
                     .bindTo(consumer)
 

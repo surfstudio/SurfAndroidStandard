@@ -49,8 +49,10 @@ abstract class BaseRxPresenter<M, V>(
         if (viewRecreated) view.bind(pm)
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
-            super.subscribe(observable) { onNext.accept(it) }
+    override fun <T> subscribe(observable: Observable<T>,
+                               onNext: Consumer<T>,
+                               onError: (Throwable) -> Unit): Disposable =
+            super.subscribe(observable, { onNext.accept(it) }, { onError(it) })
 
     fun <T> Observable<T>.subscribeIoHandleError(onNextConsumer: Consumer<T>, onError: Consumer<Throwable>? = null) {
         subscribeIoHandleError(this

@@ -33,7 +33,8 @@ class PaginationPresentationModel : ScreenModel() {
     val stubsState = State(generateStubs(20))
     val loadState = State(LS.NONE)
     val paginationState = State(PaginationState.READY)
-    val hasDataState = State<Boolean>()
+
+    var hasData = false
 }
 
 enum class LS {

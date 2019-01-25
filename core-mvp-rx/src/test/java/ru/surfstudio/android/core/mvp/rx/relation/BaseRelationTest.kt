@@ -46,7 +46,9 @@ class TestView : Related<VIEW> {
 
     override fun relationEntity(): VIEW = VIEW
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
+    override fun <T> subscribe(observable: Observable<T>,
+                               onNext: Consumer<T>,
+                               onError: (Throwable) -> Unit): Disposable =
             observable.subscribe(onNext)
                     .apply { disposables.add(this) }
 }
@@ -57,7 +59,9 @@ class TestPresenter : Related<PRESENTER> {
 
     override fun relationEntity(): PRESENTER = PRESENTER
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
+    override fun <T> subscribe(observable: Observable<T>,
+                               onNext: Consumer<T>,
+                               onError: (Throwable) -> Unit): Disposable =
             observable.subscribe(onNext)
                     .apply { disposables.add(this) }
 }

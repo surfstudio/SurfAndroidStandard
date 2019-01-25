@@ -34,8 +34,8 @@ abstract class BaseRxActivityView<M : ScreenModel> : CoreActivityView(), Bindabl
         super.onDestroy()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>): Disposable =
+    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
             observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext)
+                    .subscribe(onNext, Consumer(onError))
                     .also { viewDisposable.add(it) }
 }
