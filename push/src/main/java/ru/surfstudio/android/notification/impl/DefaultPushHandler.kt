@@ -45,8 +45,29 @@ class DefaultPushHandler(
     }
 
     /**
-     * Создание стратегии по данным из интента
-     * @param data
+     * @see [PushHandler.handleMessage]
+     */
+    override fun handleMessage(context: Context,
+                               uniqueId: Int,
+                               title: String,
+                               body: String,
+                               data: Map<String, String>) {
+        val activity = activeActivityHolder.activity
+        val pushHandleStrategy = createStrategy(data)
+
+        pushHandleStrategy?.handle(
+                context = activity ?: context,
+                pushInteractor = pushInteractor,
+                uniqueId = uniqueId,
+                title = title,
+                body = body
+        )
+    }
+
+    /**
+     * Создание стратегии по данным из интента.
+     *
+     * @param data данные из нотификации
      */
     override fun createStrategy(data: Map<String, String>) =
             pushHandleStrategyFactory.createByData(data)
@@ -56,7 +77,6 @@ class DefaultPushHandler(
      * Данный мметод должен быть добавлен в DefaultActivityLifecycleCallbacks
      */
     override fun onActivityStarted(activity: Activity) {
-        Logger.d("$activity")
         if (activity is PushHandlingActivity) {
             Logger.i("PUSH HANDLE ON $activity")
             val strategy = createStrategy(IntentPushDataConverter.convert(activity.intent))

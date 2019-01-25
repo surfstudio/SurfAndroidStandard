@@ -1,7 +1,7 @@
 import com.google.gms.googleservices.GoogleServicesPlugin
 
 apply from: '../androidSample.gradle'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 
 android {
     ext.enableCrashlytics = false

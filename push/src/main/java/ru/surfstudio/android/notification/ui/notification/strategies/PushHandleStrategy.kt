@@ -27,6 +27,7 @@ import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelper
+import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
 
 /**
  * Стратегия обработки пуша
@@ -37,10 +38,23 @@ import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelp
  * Для Android O необходимо указать id канала
  */
 abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
+
+    /**
+     * Идентификатор пуш-нотификации. При совпадении идентификаторов пуш-нотификации заменяют друг
+     * друга. Если в стратегии не переопределить данное свойство, все нотификации будут
+     * автоматически получать уникальные идентификаторы.
+     */
+    open var pushId: Int = -1
+
     /**
      * тип данных пуша [BaseNotificationTypeData]
      */
     abstract val typeData: T
+
+    /**
+     * Группа пуш-нотификации.
+     */
+    open val group: NotificationsGroup? = null
 
     /**
      * Id канала пуш уведомлений(строковый ресурс)
@@ -74,9 +88,14 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     abstract val contentView: RemoteViews?
 
     /**
-     * Канал пуш уведомлений(Android O [https://developer.android.com/training/notify-user/channels.html?hl=ru])
+     * Кастомный builder для нотификаций.
      */
     var channel: NotificationChannel? = null
+
+    /**
+     * Кастомный builder для заголовка группы нотификаций.
+     */
+    var groupSummaryNotificationBuilder: NotificationCompat.Builder? = null
 
     /**
      * Кастомный builder для пушей(если нужно какое-то особое поведение)
@@ -91,12 +110,42 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     /**
      * Требуемое действие нотификации
      *
-     * @param context      текущий контекст
-     * @param pushInteractor пуш интерактор
-     * @param title          заголвок пуша
-     * @param body           сообщение пуша
-     * @param data           данные пуша
+     * @param context текущий контекст
+     * @param pushInteractor пуш-интерактор
+     * @param uniqueId уникальный идентификатор для уведомления, будет использован если не задан [pushId]
+     * @param title заголовок пуш-нотификации
+     * @param body текст пуш-нотификации
      */
+    open fun handle(
+            context: Context,
+            pushInteractor: PushInteractor,
+            uniqueId: Int,
+            title: String,
+            body: String
+    ) {
+
+        pendingIntent = preparePendingIntent(context, title)
+        notificationBuilder = makeNotificationBuilder(context, title, body)
+        groupSummaryNotificationBuilder = makeGroupSummaryNotificationBuilder(context, title, body)
+        channel = makeNotificationChannel(context, title)
+        pushId = makePushId(uniqueId)
+        pushInteractor.onNewNotification(typeData)
+
+        if (context is Activity && handlePushInActivity(context)) return
+
+        showNotification(context, pushId, title, body)
+    }
+
+    /**
+     * Требуемое действие нотификации
+     *
+     * @param context текущий контекст
+     * @param pushInteractor пуш-интерактор
+     * @param title заголовок пуш-нотификации
+     * @param body текст пуш-нотификации
+     */
+    @Deprecated("Используйте метод с uniqueId",
+            ReplaceWith("handle(context, pushInteractor, uniqueId, title, body"))
     open fun handle(
             context: Context,
             pushInteractor: PushInteractor,
@@ -107,16 +156,30 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
         pendingIntent = preparePendingIntent(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
-
         pushInteractor.onNewNotification(typeData)
 
-        when (context) {
-            is Activity -> if (!handlePushInActivity(context)) {
-                showNotification(context, title, body)
-            }
+        if (context is Activity && handlePushInActivity(context)) return
 
-            else -> showNotification(context, title, body)
-        }
+        showNotification(context, title, body)
+    }
+
+    /**
+     * Инициализация идентификатора пуш-нотификации.
+     *
+     * Если ID пуша не задано явно в стратегии, все пуши будут иметь уникальный ID.
+     */
+    private fun makePushId(uniqueId: Int): Int {
+        return if (pushId == -1) uniqueId else pushId
+    }
+
+    private fun showNotification(context: Context, pushId: Int, title: String, body: String) {
+        NotificationCreateHelper.showNotification(
+                context,
+                this,
+                pushId,
+                title,
+                body
+        )
     }
 
     private fun showNotification(context: Context, title: String, body: String) {
@@ -145,9 +208,22 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     abstract fun coldStartIntent(context: Context): Intent
 
     /**
-     * Метод для создания билдера ноификаций
+     * Метод для инициализации билдера нотификаций.
+     *
+     * @param context контекст
+     * @param title заголовок пуш-нотификации
+     * @param body текст пуш-нотификации
      */
     abstract fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder?
+
+    /**
+     * Метод для инициализации builder'а заголовка группы нотификаций.
+     */
+    open fun makeGroupSummaryNotificationBuilder(context: Context,
+                                                 title: String,
+                                                 body: String): NotificationCompat.Builder? {
+        return null
+    }
 
     /**
      * Метод для создания канала нотификаций

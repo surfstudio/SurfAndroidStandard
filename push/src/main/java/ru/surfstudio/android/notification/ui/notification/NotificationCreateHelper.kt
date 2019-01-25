@@ -32,6 +32,33 @@ object NotificationCreateHelper {
     fun showNotification(
             context: Context,
             pushHandleStrategy: PushHandleStrategy<*>,
+            pushId: Int,
+            title: String,
+            body: String
+    ) {
+        SdkUtils.runOnOreo {
+            getNotificationManager(context).createNotificationChannel(
+                    pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, body, context)
+            )
+        }
+
+        val notificationBuilder = pushHandleStrategy.notificationBuilder
+                ?: buildNotification(pushHandleStrategy, title, body, context)
+
+        //создание заголовка группы нотификаций происходит вручную
+        pushHandleStrategy.group?.let {
+            getNotificationManager(context)
+                    .notify(it.id, pushHandleStrategy.groupSummaryNotificationBuilder?.build())
+        }
+
+        getNotificationManager(context).notify(pushId, notificationBuilder.build())
+    }
+
+    @Deprecated("Используйте метод с pushId",
+            ReplaceWith("showNotification(context, pushHandleStrategy, pushId, title, body"))
+    fun showNotification(
+            context: Context,
+            pushHandleStrategy: PushHandleStrategy<*>,
             title: String,
             body: String
     ) {
@@ -46,6 +73,7 @@ object NotificationCreateHelper {
 
         getNotificationManager(context).notify(title.hashCode(), notificationBuilder.build())
     }
+
 
     @SuppressLint("NewApi")
     private fun buildNotification(pushHandleStrategy: PushHandleStrategy<*>,
