@@ -31,6 +31,7 @@ class SplitFeatureInstaller(
      * @param splitName Dynamic Feature name
      * @param splitFeatureInstallListener installation events listener
      */
+    @Suppress("unused")
     fun installFeature(
             splitName: String,
             splitFeatureInstallListener: SplitFeatureInstallListener
@@ -44,7 +45,6 @@ class SplitFeatureInstaller(
      * @param splitNames multiple Dynamic Feature names
      * @param splitFeatureInstallListener installation events listener
      */
-    @Suppress("MemberVisibilityCanBePrivate")
     fun installFeature(
             splitNames: List<String>,
             splitFeatureInstallListener: SplitFeatureInstallListener

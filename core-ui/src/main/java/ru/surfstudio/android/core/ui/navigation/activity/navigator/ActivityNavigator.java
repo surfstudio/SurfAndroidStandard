@@ -217,7 +217,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         if (route instanceof DynamicCrossFeatureRoute && this.isSplitFeatureModeOn) {
             DynamicCrossFeatureRoute dynamicCrossFeatureRoute = (DynamicCrossFeatureRoute) route;
             splitFeatureInstaller.installFeature(
-                    dynamicCrossFeatureRoute.splitName(),
+                    dynamicCrossFeatureRoute.splitNames(),
                     new SplitFeatureInstaller.SplitFeatureInstallListener() {
                         @Override
                         public void onInstall(@NotNull SplitFeatureInstallState state) {
