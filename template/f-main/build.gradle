@@ -1,5 +1,5 @@
 apply from: '../commonFeatureModule.gradle'
 
 dependencies {
-    implementation project("$templatePrefix:base-ui")
+    implementation project("$templatePrefix:base-feature")
 }

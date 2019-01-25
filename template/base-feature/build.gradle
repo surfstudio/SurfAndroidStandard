@@ -1,4 +1,5 @@
 apply from: '../commonModule.gradle'
+apply from: '../commonKaptModule.gradle'
 
 dependencies {
     api project("$templatePrefix:base")

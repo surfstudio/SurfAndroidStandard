@@ -1,13 +1,13 @@
 apply from: 'config.gradle'
 
-include "$templatePrefix:base-ui",
+include "$templatePrefix:app",
         "$templatePrefix:base",
+        "$templatePrefix:base-feature",
+        "$templatePrefix:domain",
         "$templatePrefix:i-initialization",
         "$templatePrefix:i-network",
         "$templatePrefix:i-session",
         "$templatePrefix:i-token",
-        "$templatePrefix:app-injector",
-        "$templatePrefix:domain",
         "$templatePrefix:i-auth",
         "$templatePrefix:f-auth",
         "$templatePrefix:f-main",

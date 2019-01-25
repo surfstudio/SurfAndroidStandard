@@ -37,7 +37,7 @@ android {
 
 dependencies {
     implementation project("$templatePrefix:base")
-    implementation project("$templatePrefix:base-ui")
+    implementation project("$templatePrefix:base-feature")
     implementation project("$templatePrefix:i-initialization")
     implementation project("$templatePrefix:i-network")
     implementation project("$templatePrefix:i-token")
