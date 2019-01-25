@@ -22,6 +22,7 @@ import androidx.core.widget.TextViewCompat
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 
@@ -64,6 +65,24 @@ class TitleSubtitleView @JvmOverloads constructor(
         set(value) {
             field = value
             updateView()
+        }
+
+    var titleVisibility: Int = View.VISIBLE
+        get() {
+            return titleView.visibility
+        }
+        set(value) {
+            field = value
+            titleView.visibility = value
+        }
+
+    var subTitleVisibility: Int = View.VISIBLE
+        get() {
+            return subTitleView.visibility
+        }
+        set(value) {
+            field = value
+            subTitleView.visibility = value
         }
 
     var onTitleClickListenerCallback: ((String) -> Unit)? = null
@@ -157,6 +176,7 @@ class TitleSubtitleView @JvmOverloads constructor(
             ))
 
             ellipsize = getEllipsizeFromResource(ta, R.styleable.TitleSubtitleView_titleEllipsize)
+            visibility = getVisibilityFromResource(ta, R.styleable.TitleSubtitleView_titleVisibility)
         }
     }
 
@@ -189,6 +209,7 @@ class TitleSubtitleView @JvmOverloads constructor(
             ))
 
             ellipsize = getEllipsizeFromResource(ta, R.styleable.TitleSubtitleView_subTitleEllipsize)
+            visibility = getVisibilityFromResource(ta, R.styleable.TitleSubtitleView_subTitleVisibility)
         }
     }
 
@@ -220,5 +241,13 @@ class TitleSubtitleView @JvmOverloads constructor(
                 3 -> TextUtils.TruncateAt.END
                 4 -> TextUtils.TruncateAt.MARQUEE
                 else -> TextUtils.TruncateAt.END
+            }
+
+    private fun getVisibilityFromResource(ta: TypedArray, index: Int): Int =
+            when (ta.getInt(index, 0)) {
+                0 -> View.VISIBLE
+                1 -> View.INVISIBLE
+                2 -> View.GONE
+                else -> View.VISIBLE
             }
 }

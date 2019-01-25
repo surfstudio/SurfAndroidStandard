@@ -33,6 +33,11 @@
             <flag name="end" value="3"/>
             <flag name="marquee" value="4"/>
         </attr>
+        <attr name="titleVisibility">
+            <flag name="visible" value="0"/>
+            <flag name="invisible" value="1"/>
+            <flag name="gone" value="2"/>
+        </attr>
 
         <attr name="subTitleText" format="string"/>
         <attr name="subTitleTextColor" format="color"/>
@@ -46,17 +51,17 @@
         <attr name="subTitleMaxLines" format="integer"/>
         <attr name="subtitleTextAppearance" format="reference" />
         <attr name="subTitleGravity" >
-                <flag name="bottom" value="50" />
-                <flag name="center" value="11" />
-                <flag name="center_horizontal" value="1" />
-                <flag name="center_vertical" value="10" />
-                <flag name="clip_horizontal" value="8" />
-                <flag name="clip_vertical" value="80" />
-                <flag name="end" value="800005" />
-                <flag name="left" value="3" />
-                <flag name="right" value="5" />
-                <flag name="start" value="800003" />
-                <flag name="top" value="30" />
+            <flag name="bottom" value="50" />
+            <flag name="center" value="11" />
+            <flag name="center_horizontal" value="1" />
+            <flag name="center_vertical" value="10" />
+            <flag name="clip_horizontal" value="8" />
+            <flag name="clip_vertical" value="80" />
+            <flag name="end" value="800005" />
+            <flag name="left" value="3" />
+            <flag name="right" value="5" />
+            <flag name="start" value="800003" />
+            <flag name="top" value="30" />
         </attr>
         <attr name="subTitleBackgroundColor" format="color"/>
         <attr name="subTitleEllipsize">
@@ -66,6 +71,11 @@
             <flag name="end" value="3"/>
             <flag name="marquee" value="4"/>
         </attr>
-        
+        <attr name="subTitleVisibility">
+            <flag name="visible" value="0"/>
+            <flag name="invisible" value="1"/>
+            <flag name="gone" value="2"/>
+        </attr>
+
     </declare-styleable>
 </resources>
