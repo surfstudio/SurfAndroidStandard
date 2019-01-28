@@ -41,8 +41,7 @@ class CertificatePinnerCreator(private val context: Context) {
     }
 
     /**
-     * Get peer certificate (Public key to sha256 to base64)
-     * @param certId certificate ID
+     * @param certId id ssl-сертификата в raw ресурсах
      */
     private fun extractPeerCertificate(@RawRes certId: Int): String {
         context.resources.openRawResource(certId).use { certificateInputStream ->
