@@ -1,4 +1,10 @@
 import groovy.util.slurpersupport.GPathResult
+
+import javax.xml.parsers.*
+import javax.xml.transform.*
+import javax.xml.transform.dom.*
+import javax.xml.transform.stream.*
+import org.w3c.dom.*
 import javax.imageio.ImageIO
 import java.awt.Color
 import java.awt.Font
@@ -52,9 +58,11 @@ class IconService {
     private final static DRAWABLE_PROPERTY_NAME = "@android:drawable"
     private final static XML_EXTENSION = "xml"
     private final static OVERLAY_FILE_EXTENSION = "png"
-    private final static OVERLAY_FILE_PATH = "overlayicon.$OVERLAY_FILE_EXTENSION"
+    private final static OVERLAY_FILE_NAME = "overlayicon"
+    private final static OVERLAY_FILE_PATH = "$OVERLAY_FILE_NAME.$OVERLAY_FILE_EXTENSION"
     private final static DEBUG_BUILD_VARIANT = "debug"
     private final static QA_BUILD_VARIANT = "qa"
+    private final static VECTOR_ICON_SUFFIX = "_ic_lnr"
 
     private File appInjectorDir = null
     private File overlayImage = null
@@ -86,12 +94,6 @@ class IconService {
             return
         }
 
-        overlayImage = generateOverlayImage()
-        if (overlayImage == null) {
-            logger.debug("overlay image can not be create")
-            return
-        }
-
         if (icon.commonIcon != null) {
             processIcon(icon.commonIcon)
         } else {
@@ -116,6 +118,12 @@ class IconService {
         variantDir = new File("${appInjectorDir.path}/$BUILD_GENERATED_PATH/$buildVariant")
         File variantResDir = new File("${variantDir.path}/res")
 
+        overlayImage = generateOverlayImage(variantResDir)
+        if (overlayImage == null) {
+            logger.debug("overlay image can not be create")
+            return
+        }
+
         List<File> rowIcons = findIcons(resDir, iconPath)
         if (rowIcons == null || rowIcons.empty) return
 
@@ -134,12 +142,10 @@ class IconService {
             String outputPath = "${variantResDir.path}/${icon.path.split(RES_PATH).last()}"
             File output = new File(outputPath)
             try {
-                if (!output.parentFile.exists()) output.parentFile.mkdirs()
-                output.createNewFile()
-                Files.copy(icon.toPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING)
+                copyFile(icon, output)
                 changeVariantIcon(icon, output)
             } catch (IOException ex) {
-                logger.debug(ex.stackTrace)
+                logger.debug(ex.toString())
             }
         }
     }
@@ -156,14 +162,70 @@ class IconService {
         rowIcons.forEach { icon ->
             GPathResult adaptiveIconNode = new XmlSlurper().parse(icon)
             if (adaptiveIconNode == null) return
-
-            icons.addAll(getAdaptiveIcon(adaptiveIconNode, resDir, BACKGROUND_PROPERTY_NAME))
             icons.addAll(getAdaptiveIcon(adaptiveIconNode, resDir, FOREGROUND_PROPERTY_NAME))
         }
 
         if (icons.empty) return
 
         processImageIcons(findFilesByExtension(icons, XML_EXTENSION, true), variantResDir)
+
+        List<File> vectorIcons = findFilesByExtension(icons, XML_EXTENSION, false)
+
+        vectorIcons.forEach { icon ->
+            File variantIcon = new File("$variantResDir/${icon.parentFile.name}/${createVectorIconName(icon)}")
+            File layerList = new File("$variantResDir/${icon.parentFile.name}/${icon.name}")
+            copyFile(icon, variantIcon)
+            createFile(layerList)
+            createVectorVariantIcon(layerList, variantIcon)
+        }
+    }
+
+    /**
+     * Create layer-list res for adaptive icon
+     * @param icon - parent icon
+     * @param varIcon - variant icon
+     */
+    private void createVectorVariantIcon(File layerList, File varIcon) {
+        Document dom
+        Element e = null
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance()
+
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder()
+            dom = db.newDocument()
+
+            Element root = dom.createElement("layer-list")
+
+            e = dom.createElement("item")
+            e.setAttributeNS("http://schemas.android.com/apk/res/android", "android:drawable", "@drawable/${varIcon.name.split("\\.")[0]}")
+            root.appendChild(e)
+
+            e = dom.createElement("item")
+            e.setAttributeNS("http://schemas.android.com/apk/res/android", "android:drawable", "@drawable/$OVERLAY_FILE_NAME")
+            root.appendChild(e)
+
+            dom.appendChild(root)
+
+            try {
+                Transformer tr = TransformerFactory.newInstance().newTransformer()
+                tr.setOutputProperty(OutputKeys.INDENT, "yes")
+                tr.setOutputProperty(OutputKeys.METHOD, "xml")
+                tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8")
+                tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4")
+
+                tr.transform(
+                        new DOMSource(dom),
+                        new StreamResult(new FileOutputStream(layerList))
+                )
+
+            } catch (TransformerException te) {
+                logger.debug(te.getMessage())
+            } catch (IOException ioe) {
+                logger.debug(ioe.getMessage())
+            }
+        } catch (ParserConfigurationException pce) {
+            logger.debug("UsersXML: Error trying to instantiate DocumentBuilder " + pce)
+        }
     }
 
     /**
@@ -220,7 +282,7 @@ class IconService {
         try {
             ImageIO.write(image, OVERLAY_FILE_EXTENSION, output)
         } catch (IOException ex) {
-            logger.debug(ex.stackTrace)
+            logger.debug(ex.toString())
         }
     }
 
@@ -229,15 +291,16 @@ class IconService {
      *
      * @return overlay image
      */
-    private File generateOverlayImage() {
+    private File generateOverlayImage(File variantResDir) {
         List<String> texts = new ArrayList()
 
         def width = 192
         def height = 192
+        def textWidth = 100
 
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
         Graphics2D g2d = img.createGraphics()
-        Font font = new Font("Arial", Font.PLAIN, 36)
+        Font font = new Font("Arial", Font.PLAIN, 28)
         FontMetrics fm = g2d.getFontMetrics()
 
         g2d.setFont(font)
@@ -259,7 +322,7 @@ class IconService {
 
         int startIndex = 0
         for (int i = 0; i < versionName.length(); i++) {
-            if (fm.stringWidth(versionName.substring(startIndex, i)) > width) {
+            if (fm.stringWidth(versionName.substring(startIndex, i)) > textWidth) {
                 texts.add(versionName.substring(startIndex, i - 1))
                 startIndex = i - 1
             }
@@ -269,30 +332,31 @@ class IconService {
         }
 
         int labelSize = fm.getAscent() * texts.size()
+        int x = ((width - textWidth) / 2).toInteger()
+        int y = ((height - labelSize) / 2).toInteger()
 
         if (buildVariant == QA_BUILD_VARIANT) {
-            g2d.setColor(new Color(103, 86, 255, 180))
+            g2d.setColor(new Color(103, 86, 255, 150))
         } else {
-            g2d.setColor(new Color(255, 66, 66, 180))
+            g2d.setColor(new Color(255, 66, 66, 150))
         }
 
-        g2d.fillRect(0, height - labelSize, width, labelSize)
+        g2d.fillRect(x, y, textWidth, labelSize)
 
         g2d.setColor(Color.BLACK)
         for (def i = 0; i < texts.size(); i++) {
-            g2d.drawString(texts[i], 0, height - labelSize + fm.getAscent() * (i + 1))
+            g2d.drawString(texts[i], x, y + fm.getAscent() * (i + 1))
         }
 
         g2d.dispose()
         try {
-            File output = new File("$appInjectorDir/$BUILD_GENERATED_PATH/$OVERLAY_FILE_PATH")
-            if (!output.parentFile.exists()) output.parentFile.mkdirs()
-            if (!output.exists()) output.createNewFile()
+            File output = new File("${variantResDir.path}/drawable/$OVERLAY_FILE_PATH")
+            createFile(output)
 
             ImageIO.write(img, OVERLAY_FILE_EXTENSION, output)
-            return new File("${appInjectorDir.path}/$BUILD_GENERATED_PATH/$OVERLAY_FILE_PATH")
+            return output
         } catch (IOException ex) {
-            logger.debug(ex.stackTrace)
+            logger.debug(ex.toString())
         }
         return null
     }
@@ -387,6 +451,21 @@ class IconService {
         if (icons.empty) return
 
         return icons
+    }
+
+    private void createFile(File file) {
+        if (!file.parentFile.exists()) file.parentFile.mkdirs()
+        if (!file.exists()) file.createNewFile()
+    }
+
+    private void copyFile(File fileFrom, File fileTo) {
+        createFile(fileTo)
+        Files.copy(fileFrom.toPath(), fileTo.toPath(), StandardCopyOption.REPLACE_EXISTING)
+    }
+
+    private String createVectorIconName(File icon) {
+        String[] iconParts = icon.name.split("\\.")
+        return "${iconParts[0]}$VECTOR_ICON_SUFFIX${iconParts[1]}.$XML_EXTENSION"
     }
 }
 
