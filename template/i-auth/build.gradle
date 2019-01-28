@@ -1,4 +1,5 @@
 apply from: '../commonInteractorModule.gradle'
+apply from: '../commonTestModule.gradle'
 
 dependencies {
     implementation project("$templatePrefix:i-network")

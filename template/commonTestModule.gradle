@@ -9,6 +9,8 @@ android {
     }
 }
 
+apply plugin: 'kotlin-kapt'
+
 dependencies {
     //unit test
     testImplementation project("$templatePrefix:base")
@@ -17,6 +19,7 @@ dependencies {
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
     testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
     testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    testImplementation "com.google.dagger:dagger:$daggerVersion"
     kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //instrumental test
@@ -28,4 +31,6 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidXEspressoContribVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$androidXEspressoIntentsVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    testImplementation project("$templatePrefix:test-utils")
 }

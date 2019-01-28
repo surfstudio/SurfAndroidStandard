@@ -1,42 +1,41 @@
-package ru.surfstudio.standard.util
+package ru.surfstudio.android.template.test_utils
 
-import android.os.Build
 import android.security.NetworkSecurityPolicy
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.observers.TestObserver
 import org.junit.After
 import org.junit.Before
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.annotation.Config
 import org.robolectric.annotation.Implementation
 import org.robolectric.annotation.Implements
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStrategy
-import ru.surfstudio.standard.app_injector.App
-import ru.surfstudio.standard.app_injector.AppModule
+import ru.surfstudio.android.template.test_utils.di.components.DaggerTestNetworkAppComponent
+import ru.surfstudio.android.template.test_utils.di.components.TestNetworkAppComponent
+import ru.surfstudio.android.template.test_utils.di.modules.TestAppModule
 
-abstract class BaseNetworkDaggerTest {
+abstract class BaseNetworkDaggerTest<T> {
 
     companion object {
         private val testLoggingStrategy = TestLoggingStrategy()
     }
 
     @Suppress("DEPRECATION")
-    private val networkComponent = DaggerTestNetworkAppComponent.builder()
-            .appModule(AppModule(RuntimeEnvironment.application, ActiveActivityHolder()))
+    val networkAppComponent: TestNetworkAppComponent = DaggerTestNetworkAppComponent.builder()
+            .testAppModule(TestAppModule(RuntimeEnvironment.application, ActiveActivityHolder()))
             .build()
 
-    abstract fun inject(networkComponent: TestNetworkAppComponent)
+    abstract val component: T
+
+    abstract fun inject(component: T)
 
     @Before
     @CallSuper
     open fun setUp() {
         Logger.addLoggingStrategy(testLoggingStrategy)
-        inject(networkComponent)
+        inject(component)
     }
 
     @After
