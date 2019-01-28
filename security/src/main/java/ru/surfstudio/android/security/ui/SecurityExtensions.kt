@@ -7,9 +7,8 @@ import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.EditText
 
-
 /**
- * @param menuIds EditText's context menu item id. Ex. android.R.id.copy, android.R.id.cut.
+ * @param menuIds id элементов контекстного меню у EditText. Прим. android.R.id.copy, android.R.id.cut.
  */
 fun EditText.deleteContextMenuItems(vararg menuIds: Int) {
     this.customSelectionActionModeCallback = object : ActionMode.Callback {
@@ -34,7 +33,7 @@ fun EditText.deleteContextMenuItems(vararg menuIds: Int) {
 }
 
 /**
- * Enable secure mode for Activity
+ * Добавляет флаг [WindowManager.LayoutParams.FLAG_SECURE] для Activity.
  */
 fun Activity.enableSecureMode() {
     window.setFlags(
@@ -44,7 +43,7 @@ fun Activity.enableSecureMode() {
 }
 
 /**
- * Disable secure mode for Activity
+ * Удаляет флаг [WindowManager.LayoutParams.FLAG_SECURE] у Activity.
  */
 fun Activity.disableSecureMode() {
     window.clearFlags(
