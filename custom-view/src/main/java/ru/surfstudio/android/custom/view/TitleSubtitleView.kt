@@ -25,6 +25,7 @@ import android.util.TypedValue
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StyleRes
 
 private const val DEFAULT_MAX_LINES: Int = 1
 
@@ -68,13 +69,13 @@ class TitleSubtitleView @JvmOverloads constructor(
         }
 
     var titleVisibility: Int = View.VISIBLE
-    get() {
-        return titleView.visibility
-    }
-    set(value) {
-        field = value
-        titleView.visibility = value
-    }
+        get() {
+            return titleView.visibility
+        }
+        set(value) {
+            field = value
+            titleView.visibility = value
+        }
 
     var subTitleVisibility: Int = View.VISIBLE
         get() {
@@ -83,6 +84,20 @@ class TitleSubtitleView @JvmOverloads constructor(
         set(value) {
             field = value
             subTitleView.visibility = value
+        }
+
+    @StyleRes
+    var titleTextAppearance: Int = -1
+        set(value) {
+            field = value
+            TextViewCompat.setTextAppearance(titleView, value)
+        }
+
+    @StyleRes
+    var subTitleTextAppearance: Int = -1
+        set(value) {
+            field = value
+            TextViewCompat.setTextAppearance(subTitleView, value)
         }
 
     var onTitleClickListenerCallback: ((String) -> Unit)? = null
@@ -152,7 +167,8 @@ class TitleSubtitleView @JvmOverloads constructor(
             defaultTitle = ta.getString(R.styleable.TitleSubtitleView_titleText) ?: defaultTitle
             titleText = defaultTitle
 
-            setupTextAppearance(ta, R.styleable.TitleSubtitleView_titleTextAppearance)
+            titleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_titleTextAppearance, -1)
+            setupTextAppearance(titleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_titleTextColor)
 
@@ -185,7 +201,8 @@ class TitleSubtitleView @JvmOverloads constructor(
             defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText) ?: defaultSubTitle
             subTitleText = defaultSubTitle
 
-            setupTextAppearance(ta, R.styleable.TitleSubtitleView_subtitleTextAppearance)
+            subTitleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_subtitleTextAppearance, -1)
+            setupTextAppearance(subTitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_subTitleTextColor)
 
@@ -213,10 +230,9 @@ class TitleSubtitleView @JvmOverloads constructor(
         }
     }
 
-    private fun TextView.setupTextAppearance(ta: TypedArray, index: Int) {
-        val ap = ta.getResourceId(index, -1)
-        if (ap != -1) {
-            TextViewCompat.setTextAppearance(this, ap)
+    private fun TextView.setupTextAppearance(textAppearance: Int) {
+        if (textAppearance != -1) {
+            TextViewCompat.setTextAppearance(this, textAppearance)
         }
     }
 
