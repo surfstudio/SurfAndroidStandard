@@ -8,6 +8,7 @@ import java.awt.RenderingHints
 import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
+import org.slf4j.Logger
 
 task changeIcon
 
@@ -17,7 +18,7 @@ tasks.whenTaskAdded { Task task ->
         if (task.name.contains("merge${Utils.capitalize(buildVariant)}Resources")) {
             task.dependsOn(changeIcon)
             changeIcon.doFirst {
-                new IconService(buildVariant, versionName).change()
+                new IconService(buildVariant, versionName, logger).change()
                 android.sourceSets.findByName(buildVariant).res.srcDir(
                         new File("${project.buildDir}/$IconService.GENERATED_PATH/$buildVariant/res")
                 )
@@ -61,10 +62,12 @@ class IconService {
 
     private final String buildVariant
     private final String versionName
+    private final Logger logger
 
-    IconService(String buildVariant, String versionName) {
+    IconService(String buildVariant, String versionName, Logger logger) {
         this.buildVariant = buildVariant
         this.versionName = versionName
+        this.logger = logger
     }
 
     /**
@@ -72,16 +75,34 @@ class IconService {
      */
     void change() {
         appInjectorDir = getAppInjectorDir()
-        if (appInjectorDir == null) return
+        if (appInjectorDir == null) {
+            logger.debug("app-injector directory not found")
+            return
+        }
 
         Icon icon = getIcon()
-        if (icon == null) return
+        if (icon == null) {
+            logger.debug("launcher icon not found")
+            return
+        }
 
         overlayImage = generateOverlayImage()
-        if (overlayImage == null) return
+        if (overlayImage == null) {
+            logger.debug("overlay image can not be create")
+            return
+        }
 
-        if (icon.commonIcon != null) processIcon(icon.commonIcon)
-        if (icon.roundIcon != null) processIcon(icon.roundIcon)
+        if (icon.commonIcon != null) {
+            processIcon(icon.commonIcon)
+        } else {
+            logger.debug("launcher icon doesn't define in manifest file")
+        }
+
+        if (icon.roundIcon != null) {
+            processIcon(icon.roundIcon)
+        } else {
+            logger.debug("round launcher icon doesn't define in manifest file")
+        }
     }
 
     /**
@@ -118,7 +139,7 @@ class IconService {
                 Files.copy(icon.toPath(), output.toPath(), StandardCopyOption.REPLACE_EXISTING)
                 changeVariantIcon(icon, output)
             } catch (IOException ex) {
-                ex.printStackTrace()
+                logger.debug(ex.stackTrace)
             }
         }
     }
@@ -136,8 +157,8 @@ class IconService {
             GPathResult adaptiveIconNode = new XmlSlurper().parse(icon)
             if (adaptiveIconNode == null) return
 
-            icons.addAll(getAdaptiveIcon(adaptiveIconNode,resDir, BACKGROUND_PROPERTY_NAME))
-            icons.addAll(getAdaptiveIcon(adaptiveIconNode,resDir, FOREGROUND_PROPERTY_NAME))
+            icons.addAll(getAdaptiveIcon(adaptiveIconNode, resDir, BACKGROUND_PROPERTY_NAME))
+            icons.addAll(getAdaptiveIcon(adaptiveIconNode, resDir, FOREGROUND_PROPERTY_NAME))
         }
 
         if (icons.empty) return
@@ -154,7 +175,7 @@ class IconService {
      *
      * @return icons
      */
-    private List<File> getAdaptiveIcon(GPathResult rootNode,File resDir, String property){
+    private List<File> getAdaptiveIcon(GPathResult rootNode, File resDir, String property) {
         GPathResult icon = (GPathResult) rootNode.getProperty(property)
         return findIcons(
                 resDir,
@@ -199,7 +220,7 @@ class IconService {
         try {
             ImageIO.write(image, OVERLAY_FILE_EXTENSION, output)
         } catch (IOException ex) {
-            ex.printStackTrace()
+            logger.debug(ex.stackTrace)
         }
     }
 
@@ -236,7 +257,6 @@ class IconService {
         g2d.setFont(font)
         fm = g2d.getFontMetrics()
 
-
         int startIndex = 0
         for (int i = 0; i < versionName.length(); i++) {
             if (fm.stringWidth(versionName.substring(startIndex, i)) > width) {
@@ -250,7 +270,7 @@ class IconService {
 
         int labelSize = fm.getAscent() * texts.size()
 
-        if(buildVariant == QA_BUILD_VARIANT){
+        if (buildVariant == QA_BUILD_VARIANT) {
             g2d.setColor(new Color(103, 86, 255, 180))
         } else {
             g2d.setColor(new Color(255, 66, 66, 180))
@@ -266,13 +286,13 @@ class IconService {
         g2d.dispose()
         try {
             File output = new File("$appInjectorDir/$BUILD_GENERATED_PATH/$OVERLAY_FILE_PATH")
-            if(!output.parentFile.exists()) output.parentFile.mkdirs()
-            if(!output.exists()) output.createNewFile()
+            if (!output.parentFile.exists()) output.parentFile.mkdirs()
+            if (!output.exists()) output.createNewFile()
 
             ImageIO.write(img, OVERLAY_FILE_EXTENSION, output)
             return new File("${appInjectorDir.path}/$BUILD_GENERATED_PATH/$OVERLAY_FILE_PATH")
         } catch (IOException ex) {
-            ex.printStackTrace()
+            logger.debug(ex.stackTrace)
         }
         return null
     }
@@ -285,7 +305,6 @@ class IconService {
     static File getAppInjectorDir() {
         File appInjector = new File("./${APP_INJECTOR_DIR_NAME}")
         if (appInjector.exists()) return appInjector
-
 
         appInjector = new File("./${TEMPLATE_DIR_NAME}/${APP_INJECTOR_DIR_NAME}")
         if (appInjector.exists()) return appInjector
