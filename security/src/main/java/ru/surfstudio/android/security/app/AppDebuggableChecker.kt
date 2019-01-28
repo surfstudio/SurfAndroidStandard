@@ -17,14 +17,16 @@ package ru.surfstudio.android.security.app
 
 import android.content.Context
 import android.content.pm.ApplicationInfo
+import android.os.Handler
 
 object AppDebuggableChecker {
     fun check(context: Context, checkDebuggable: Boolean) {
         if (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0 && checkDebuggable) {
-            throw RuntimeException().apply {
-                //throw exception without stacktrace
-                stackTrace = arrayOfNulls(0)
-            }
+            Handler().postDelayed({
+                throw RuntimeException().apply {
+                    stackTrace = arrayOfNulls(0)
+                }
+            }, 1000)
         }
     }
 }
