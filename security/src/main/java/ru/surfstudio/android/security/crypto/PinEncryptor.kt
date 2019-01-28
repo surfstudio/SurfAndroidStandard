@@ -45,7 +45,7 @@ class PinEncryptor(
         return getCipher().initDecryptMode(generateSecretKey(sign, salt), iv)
     }
 
-    private fun getCipher(): Cipher = SecurityUtils.getCipherInstance(cipherTransformation)
+    private fun getCipher(): Cipher = Cipher.getInstance(cipherTransformation)
 
     private fun generateSecretKey(sign: String, salt: ByteArray): SecretKey {
         return SecretKeyFactory

@@ -30,8 +30,4 @@ object SecurityUtils {
         SecureRandom().nextBytes(salt)
         return salt
     }
-
-    fun getCipherInstance(cipherTransformation: String = DEFAULT_CIPHER_TRANSFORMATION): Cipher {
-        return Cipher.getInstance(cipherTransformation)
-    }
 }
