@@ -16,6 +16,7 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.pagination
 
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
@@ -33,15 +34,16 @@ class PaginationPresentationModel : ScreenModel() {
 
     val elementsState = State<DataList<SelectableData<Element>>>(DataList.empty())
     val stubsState = State(generateStubs(20))
-    val loadState = State(LS.NONE)
+    val loadState = State<LoadState>(None)
     val paginationState = State(PaginationState.READY)
 
     var hasData = false
 }
 
-enum class LS {
-    LOADING,
-    ERROR,
-    EMPTY,
-    NONE
-}
+sealed class LoadState : LoadStateInterface
+
+object Loading : LoadState()
+object Error : LoadState()
+object Empty : LoadState()
+object None : LoadState()
+

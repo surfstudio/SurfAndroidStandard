@@ -118,15 +118,12 @@ class PaginationPresenter @Inject constructor(
     }
 
     private fun setNormalLoadState(elements: DataList<*>) {
-        pm.loadState.accept(if (elements.isEmpty())
-            LS.EMPTY else
-            LS.NONE)
+        pm.loadState.accept(if (elements.isEmpty()) Empty else None)
     }
 
     private fun setErrorLoadState(elements: DataList<*>) {
         pm.loadState.accept(if (elements.isEmpty())
-            LS.ERROR else
-            LS.NONE)
+            Error else None)
     }
 
     private fun setNormalPaginationState(elements: DataList<*>) {

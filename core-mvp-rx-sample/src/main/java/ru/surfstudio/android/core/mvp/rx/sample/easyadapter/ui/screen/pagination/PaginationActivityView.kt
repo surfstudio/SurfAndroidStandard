@@ -89,15 +89,15 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
                 ::createItemList) bindTo { p -> adapter.setItems(p.first, p.second) }
     }
 
-    private fun createItemList(loadState: LS,
+    private fun createItemList(loadState: LoadState,
                                elements: DataList<SelectableData<Element>>,
                                stubs: List<Stub>,
                                paginationState: PaginationState): Pair<ItemList, PaginationState> {
         val itemList = when (loadState) {
-            LS.LOADING -> ItemList.create(stubs, stubController)
-            LS.ERROR -> ItemList.create(errorStateController)
-            LS.EMPTY -> ItemList.create(emptyStateController)
-            LS.NONE -> ItemList.create(elements, elementController)
+            Loading -> ItemList.create(stubs, stubController)
+            Error -> ItemList.create(errorStateController)
+            Empty -> ItemList.create(emptyStateController)
+            None -> ItemList.create(elements, elementController)
         }
         return itemList to paginationState
     }
