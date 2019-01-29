@@ -6,6 +6,7 @@ import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.core.app.CoreApp
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.security.app.AppDebuggableChecker
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.android.template.app_injector.R
 import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
@@ -20,6 +21,7 @@ class App : CoreApp() {
         super.onCreate()
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
+        AppDebuggableChecker.check(this, BuildConfig.CHECK_DEBUGGABLE)
         DebugAppInjector.initInjector(this, activeActivityHolder)
         if (DebugAppInjector.debugInteractor.mustNotInitializeApp()) {
             // работает LeakCanary, ненужно ничего инициализировать

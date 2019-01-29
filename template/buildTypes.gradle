@@ -15,6 +15,7 @@ android {
             minifyEnabled false
             debuggable = true
             applicationIdSuffix config["debugVersionNameSuffix"]
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "false"
         }
         qa {
             signingConfig signingConfigs.test
@@ -26,6 +27,7 @@ android {
             matchingFallbacks = ['release']
             ext.betaDistributionGroupAliases = "Surf"
             ext.betaDistributionNotifications = true
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "true"
         }
         release {
             signingConfig signingConfigs.test //todo заменить на signingConfigs.release
@@ -33,6 +35,7 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), '../proguard-rules.pro'
             matchingFallbacks = ['release', 'qa']
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "true"
         }
     }
 }
