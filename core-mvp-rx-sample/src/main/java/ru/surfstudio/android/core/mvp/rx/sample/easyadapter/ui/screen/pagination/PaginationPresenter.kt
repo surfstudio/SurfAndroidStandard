@@ -19,12 +19,16 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.paginatio
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.element.DEFAULT_PAGE
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.element.ElementRepository
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
+import ru.surfstudio.android.utilktx.data.wrapper.selectable.getSelectedDataNullable
+import ru.surfstudio.android.utilktx.data.wrapper.selectable.setSelected
 import javax.inject.Inject
 
 @PerScreen
@@ -43,6 +47,12 @@ class PaginationPresenter @Inject constructor(
 
         pm.reloadAction bindTo ::reloadData
         pm.getMoreAction.observable.filter { pm.hasData } bindTo ::loadMore
+        pm.selectElementAction bindTo { element ->
+            pm.elementsState.apply {
+                value.setSelected(element)
+                update()
+            }
+        }
 
         loadMainData()
     }
@@ -55,7 +65,9 @@ class PaginationPresenter @Inject constructor(
                 elementRepository.getElements(DEFAULT_PAGE),
                 { elements ->
                     view.showText("Data loaded")
-                    pm.elementsState.accept(elements)
+                    val newElements = updateDataList(elements)
+
+                    pm.elementsState.accept(newElements)
                     pm.hasData = elements.isNotEmpty()
                     setNormalLoadState(elements)
                     setNormalPaginationState(elements)
@@ -74,7 +86,8 @@ class PaginationPresenter @Inject constructor(
                         .observeOn(AndroidSchedulers.mainThread())
                         .bindTo(
                                 { elements ->
-                                    pm.elementsState.accept(pm.elementsState.value.merge(elements))
+                                    val newElements = updateDataList(elements)
+                                    pm.elementsState.accept(pm.elementsState.value.merge(newElements))
                                     setNormalPaginationState(pm.elementsState.value)
                                     view.showText("Pagination request complete")
                                 },
@@ -82,6 +95,22 @@ class PaginationPresenter @Inject constructor(
                                     setErrorPaginationState(pm.elementsState.value)
                                     view.showText("Imitate pagination request error")
                                 })
+    }
+
+    /**
+     *  Трансформирует DataList<Element>) в DataList<SelectableData<Element>> и устанавливает выбранное значение
+     */
+    private fun updateDataList(elements: DataList<Element>): DataList<SelectableData<Element>> {
+        val selected = pm.elementsState.value.getSelectedDataNullable()
+        return elements.map { SelectableData(it) }
+                .let {
+                    it.setSelected(selected)
+                    DataList(it,
+                            elements.startPage,
+                            elements.pageSize,
+                            elements.totalItemsCount,
+                            elements.totalPagesCount)
+                }
     }
 
     private fun reloadData() {

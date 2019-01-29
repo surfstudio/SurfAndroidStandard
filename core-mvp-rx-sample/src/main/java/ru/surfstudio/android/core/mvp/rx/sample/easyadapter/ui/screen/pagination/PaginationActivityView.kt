@@ -34,6 +34,7 @@ import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.Stub
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 import ru.surfstudio.sample.R
 import javax.inject.Inject
 
@@ -78,7 +79,7 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
     override fun bind(pm: PaginationPresentationModel) {
         adapter.setOnShowMoreListener { pm.getMoreAction.accept() }
 
-        elementController = ElementController { showText("on element ${it.name} click ") }
+        elementController = ElementController { pm.selectElementAction.accept(it) }
         errorStateController = ErrorStateController { pm.reloadAction.accept() }
 
         Observables.combineLatest(pm.loadState.observable,
@@ -89,7 +90,7 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
     }
 
     private fun createItemList(loadState: LS,
-                               elements: DataList<Element>,
+                               elements: DataList<SelectableData<Element>>,
                                stubs: List<Stub>,
                                paginationState: PaginationState): Pair<ItemList, PaginationState> {
         val itemList = when (loadState) {

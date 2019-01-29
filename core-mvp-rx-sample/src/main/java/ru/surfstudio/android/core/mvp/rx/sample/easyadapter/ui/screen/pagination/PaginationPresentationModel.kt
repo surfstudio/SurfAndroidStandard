@@ -23,13 +23,15 @@ import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.generateStubs
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 
 class PaginationPresentationModel : ScreenModel() {
 
     val reloadAction = Action<Unit>()
     val getMoreAction = Action<Unit>()
+    val selectElementAction = Action<Element>()
 
-    val elementsState = State<DataList<Element>>(DataList.empty())
+    val elementsState = State<DataList<SelectableData<Element>>>(DataList.empty())
     val stubsState = State(generateStubs(20))
     val loadState = State(LS.NONE)
     val paginationState = State(PaginationState.READY)

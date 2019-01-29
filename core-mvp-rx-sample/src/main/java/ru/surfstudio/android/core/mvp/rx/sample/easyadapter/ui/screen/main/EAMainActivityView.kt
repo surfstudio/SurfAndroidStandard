@@ -33,6 +33,7 @@ import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.list.
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 import ru.surfstudio.easyadapter.sample.domain.Carousel
 import ru.surfstudio.sample.R
 import javax.inject.Inject
@@ -104,7 +105,7 @@ class EAMainActivityView : BaseRxActivityView<MainPresentationModel>() {
                 .addAll(carousels, carouselController)
                 .addIf(!isEmpty, deliveryController)
                 .addIf(hasCommercial, commercialController)
-                .addAll(elements, elementController)
+                .addAll(elements.map { SelectableData(it) }, elementController)
                 .addAll(bottomCarousel, carouselController)
                 .addIf(isEmpty, emptyStateController)
     }
