@@ -41,7 +41,7 @@ import javax.inject.Inject
 /**
  * example screen with list with different types of items
  */
-class EAMainActivityView : BaseRxActivityView<MainPresentationModel>() {
+class EAMainActivityView : BaseRxActivityView<MainViewBinding>() {
 
     @Inject
     lateinit var presenter: EAMainPresenter
@@ -72,27 +72,27 @@ class EAMainActivityView : BaseRxActivityView<MainPresentationModel>() {
         recycler.adapter = adapter
     }
 
-    override fun bind(pm: MainPresentationModel) {
+    override fun bind(vb: MainViewBinding) {
         headerController = HeaderController()
 
         carouselController = CarouselController(
-                onElementClickListener = { pm.openPaginationScreen.accept(Unit) },
-                onShowAllClickListener = { pm.openPaginationScreen.accept(Unit) })
-        deliveryController = DeliveryController { pm.openPaginationScreen.accept(Unit) }
-        elementController = ElementController { pm.openPaginationScreen.accept(Unit) }
+                onElementClickListener = { vb.openPaginationScreen.accept(Unit) },
+                onShowAllClickListener = { vb.openPaginationScreen.accept(Unit) })
+        deliveryController = DeliveryController { vb.openPaginationScreen.accept(Unit) }
+        elementController = ElementController { vb.openPaginationScreen.accept(Unit) }
 
         //Также можно использовать реактивные интерфейсы (здесь RxClickable)
         commercialController = CommercialController().apply {
-            clicks() bindTo pm.openPaginationScreen
+            clicks() bindTo vb.openPaginationScreen
         }
 
         emptyStateController = EmptyStateController()
 
         Observables.combineLatest(
-                pm.carouselState.observable,
-                pm.elementsState.observable,
-                pm.bottomCarouselState.observable,
-                pm.hasCommercialState.observable,
+                vb.carouselState.observable,
+                vb.elementsState.observable,
+                vb.bottomCarouselState.observable,
+                vb.hasCommercialState.observable,
                 ::createItemList
         ) bindTo adapter::setItems
     }

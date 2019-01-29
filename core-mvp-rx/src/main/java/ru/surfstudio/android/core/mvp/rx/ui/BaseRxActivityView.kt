@@ -24,12 +24,11 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
-import ru.surfstudio.android.core.mvp.model.ScreenModel
 
 /**
  * Базовая Activity для связывания с моделью
  */
-abstract class BaseRxActivityView<M : ScreenModel> : CoreActivityView(), BindableRxView<M> {
+abstract class BaseRxActivityView<M : ViewBinding> : CoreActivityView(), BindableRxView<M> {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -48,7 +47,7 @@ abstract class BaseRxActivityView<M : ScreenModel> : CoreActivityView(), Bindabl
 /**
  * Базовый Fragment для связывания с моделью
  */
-abstract class BaseRxFragmentView<M : ScreenModel> : CoreFragmentView(), BindableRxView<M> {
+abstract class BaseRxFragmentView<M : ViewBinding> : CoreFragmentView(), BindableRxView<M> {
 
     private val viewDisposable = CompositeDisposable()
 

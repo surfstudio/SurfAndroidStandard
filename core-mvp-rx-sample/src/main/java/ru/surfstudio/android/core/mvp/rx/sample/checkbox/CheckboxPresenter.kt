@@ -27,9 +27,9 @@ import javax.inject.Inject
  */
 class CheckboxPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
-) : BaseRxPresenter<CheckboxModel, CheckboxActivityView>(basePresenterDependency) {
+) : BaseRxPresenter<CheckboxViewBinding, CheckboxActivityView>(basePresenterDependency) {
 
-    override val pm = CheckboxModel()
+    override val vb = CheckboxViewBinding()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -37,18 +37,18 @@ class CheckboxPresenter @Inject constructor(
         // комбинирование экшенов
         val checkboxesObs =
                 Observables.combineLatest(
-                        pm.checkAction1.observable,
-                        pm.checkAction2.observable,
-                        pm.checkAction3.observable
+                        vb.checkAction1.observable,
+                        vb.checkAction2.observable,
+                        vb.checkAction3.observable
                 ) { b1, b2, b3 -> Triple(b1, b2, b3) }
 
-        checkboxesObs.map { it.first.toInt() + it.second.toInt() + it.third.toInt() } bindTo pm.count
+        checkboxesObs.map { it.first.toInt() + it.second.toInt() + it.third.toInt() } bindTo vb.count
 
         // показывает сообщени по нажатию кнопки с последним состоянием checkboxesObs
-        pm.sendAction.observable
+        vb.sendAction.observable
                 .withLatestFrom(checkboxesObs)
                 { _, triple -> "cb1: ${triple.first}, cb2: ${triple.second}, cb3: ${triple.third}" }
-                .bindTo(pm.messageCommand)
+                .bindTo(vb.messageCommand)
     }
 }
 

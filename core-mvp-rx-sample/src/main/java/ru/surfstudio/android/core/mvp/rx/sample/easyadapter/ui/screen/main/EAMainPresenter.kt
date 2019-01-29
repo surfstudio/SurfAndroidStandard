@@ -35,11 +35,11 @@ private const val INTERVAL_MS: Long = 2500
 @PerScreen
 class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                           private val activityNavigator: ActivityNavigator)
-    : BaseRxPresenter<MainPresentationModel, EAMainActivityView>(basePresenterDependency) {
+    : BaseRxPresenter<MainViewBinding, EAMainActivityView>(basePresenterDependency) {
 
     private val screenModelFactory = MainModelRepository()
 
-    override val pm = MainPresentationModel(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
+    override val vb = MainViewBinding(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -51,12 +51,12 @@ class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenter
                             .share()
 
 
-            timeEmitter.map { it.bottomCarousel } bindTo pm.bottomCarouselState
-            timeEmitter.map { it.carousels } bindTo pm.carouselState
-            timeEmitter.map { it.elements } bindTo pm.elementsState
-            timeEmitter.map { it.hasCommercial } bindTo pm.hasCommercialState
+            timeEmitter.map { it.bottomCarousel } bindTo vb.bottomCarouselState
+            timeEmitter.map { it.carousels } bindTo vb.carouselState
+            timeEmitter.map { it.elements } bindTo vb.elementsState
+            timeEmitter.map { it.hasCommercial } bindTo vb.hasCommercialState
         }
 
-        pm.openPaginationScreen bindTo { activityNavigator.start(PaginationScreenRoute()) }
+        vb.openPaginationScreen bindTo { activityNavigator.start(PaginationScreenRoute()) }
     }
 }

@@ -37,7 +37,7 @@ class PaginationPresenter @Inject constructor(
         private val elementRepository: ElementRepository
 ) : BaseRxPresenter<PaginationPresentationModel, PaginationActivityView>(basePresenterDependency) {
 
-    override val pm = PaginationPresentationModel()
+    override val vb = PaginationPresentationModel()
 
     private var loadMainSubscription: Disposable? = null
     private var loadMoreSubscription: Disposable? = null
@@ -45,10 +45,10 @@ class PaginationPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        pm.reloadAction bindTo ::reloadData
-        pm.getMoreAction.observable.filter { pm.hasData } bindTo ::loadMore
-        pm.selectElementAction bindTo { element ->
-            pm.elementsState.apply {
+        vb.reloadAction bindTo ::reloadData
+        vb.getMoreAction.observable.filter { vb.hasData } bindTo ::loadMore
+        vb.selectElementAction bindTo { element ->
+            vb.elementsState.apply {
                 value.setSelected(element)
                 update()
             }
@@ -67,14 +67,14 @@ class PaginationPresenter @Inject constructor(
                     view.showText("Data loaded")
                     val newElements = updateDataList(elements)
 
-                    pm.elementsState.accept(newElements)
-                    pm.hasData = elements.isNotEmpty()
+                    vb.elementsState.accept(newElements)
+                    vb.hasData = elements.isNotEmpty()
                     setNormalLoadState(elements)
                     setNormalPaginationState(elements)
                 },
                 {
-                    setErrorLoadState(pm.elementsState.value)
-                    setErrorPaginationState(pm.elementsState.value)
+                    setErrorLoadState(vb.elementsState.value)
+                    setErrorPaginationState(vb.elementsState.value)
                     view.showText("Imitate load data error")
                 })
     }
@@ -82,17 +82,17 @@ class PaginationPresenter @Inject constructor(
     private fun loadMore() {
         view.showText("Start pagination request")
         loadMoreSubscription =
-                elementRepository.getElements(pm.elementsState.value.nextPage)
+                elementRepository.getElements(vb.elementsState.value.nextPage)
                         .observeOn(AndroidSchedulers.mainThread())
                         .bindTo(
                                 { elements ->
                                     val newElements = updateDataList(elements)
-                                    pm.elementsState.accept(pm.elementsState.value.merge(newElements))
-                                    setNormalPaginationState(pm.elementsState.value)
+                                    vb.elementsState.accept(vb.elementsState.value.merge(newElements))
+                                    setNormalPaginationState(vb.elementsState.value)
                                     view.showText("Pagination request complete")
                                 },
                                 {
-                                    setErrorPaginationState(pm.elementsState.value)
+                                    setErrorPaginationState(vb.elementsState.value)
                                     view.showText("Imitate pagination request error")
                                 })
     }
@@ -105,7 +105,7 @@ class PaginationPresenter @Inject constructor(
      *  Трансформирует DataList<Element>) в DataList<SelectableData<Element>> и устанавливает выбранное значение
      */
     private fun updateDataList(elements: DataList<Element>): DataList<SelectableData<Element>> {
-        val selected = pm.elementsState.value.getSelectedDataNullable()
+        val selected = vb.elementsState.value.getSelectedDataNullable()
         return elements.map { SelectableData(it) }
                 .let {
                     it.setSelected(selected)
@@ -118,23 +118,23 @@ class PaginationPresenter @Inject constructor(
     }
 
     private fun setNormalLoadState(elements: DataList<*>) {
-        pm.loadState.accept(if (elements.isEmpty()) Empty else None)
+        vb.loadState.accept(if (elements.isEmpty()) Empty else None)
     }
 
     private fun setErrorLoadState(elements: DataList<*>) {
-        pm.loadState.accept(if (elements.isEmpty())
+        vb.loadState.accept(if (elements.isEmpty())
             Error else None)
     }
 
     private fun setNormalPaginationState(elements: DataList<*>) {
-        pm.paginationState.accept(if (elements.canGetMore())
+        vb.paginationState.accept(if (elements.canGetMore())
             PaginationState.READY else
             PaginationState.COMPLETE)
 
     }
 
     private fun setErrorPaginationState(elements: DataList<*>) {
-        pm.paginationState.accept(if (elements.isEmpty())
+        vb.paginationState.accept(if (elements.isEmpty())
             PaginationState.COMPLETE else
             PaginationState.ERROR)
     }

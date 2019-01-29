@@ -26,24 +26,24 @@ import javax.inject.Inject
 /**
  * Главный экран примеров
  */
-class MainActivityView : BaseRxActivityView<MainModel>() {
+class MainActivityView : BaseRxActivityView<MainViewBinding>() {
 
     @Inject
     lateinit var presenter: MainPresenter
 
-    override fun bind(pm: MainModel) {
-        pm.counterState.observable.map { it.toString() } bindTo main_counter_tv::setText
-        pm.textEditState bindTo main_text_et::setText
-        pm.sampleState bindTo text_tv::setText
+    override fun bind(vb: MainViewBinding) {
+        vb.counterState.observable.map { it.toString() } bindTo main_counter_tv::setText
+        vb.textEditState bindTo main_text_et::setText
+        vb.sampleState bindTo text_tv::setText
 
-        main_text_et.textChanges().map { it.toString() } bindTo pm.textEditState
+        main_text_et.textChanges().map { it.toString() } bindTo vb.textEditState
 
-        main_inc_btn.clicks() bindTo pm.incAction
-        main_dec_btn.clicks() bindTo pm.decAction
-        main_double_text_btn.clicks() bindTo pm.doubleTextAction
+        main_inc_btn.clicks() bindTo vb.incAction
+        main_dec_btn.clicks() bindTo vb.decAction
+        main_double_text_btn.clicks() bindTo vb.doubleTextAction
 
-        checkbox_sample_btn.clicks() bindTo pm.checkboxSampleActivityOpen
-        easy_adapter_sample_btn.clicks() bindTo pm.easyadapterSampleActivityOpen
+        checkbox_sample_btn.clicks() bindTo vb.checkboxSampleActivityOpen
+        easy_adapter_sample_btn.clicks() bindTo vb.easyadapterSampleActivityOpen
     }
 
     override fun createConfigurator() = MainScreenConfigurator(intent)

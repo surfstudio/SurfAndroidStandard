@@ -31,13 +31,13 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val activityNavigator: ActivityNavigator
-) : BaseRxPresenter<MainModel, MainActivityView>(basePresenterDependency) {
+) : BaseRxPresenter<MainViewBinding, MainActivityView>(basePresenterDependency) {
 
-    override val pm = MainModel()
+    override val vb = MainViewBinding()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
-        with(pm) {
+        with(vb) {
             incAction bindTo { counterState.accept(20) }
             decAction bindTo { counterState.accept(100) }
             doubleTextAction.observable.map { textEditState.let { it.value + it.value } } bindTo textEditState

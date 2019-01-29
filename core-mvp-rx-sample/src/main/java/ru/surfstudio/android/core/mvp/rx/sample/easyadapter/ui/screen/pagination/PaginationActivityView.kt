@@ -78,16 +78,16 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
         recycler.adapter = adapter
     }
 
-    override fun bind(pm: PaginationPresentationModel) {
-        adapter.setOnShowMoreListener { pm.getMoreAction.accept() }
+    override fun bind(vb: PaginationPresentationModel) {
+        adapter.setOnShowMoreListener { vb.getMoreAction.accept() }
 
-        elementController = ElementController { pm.selectElementAction.accept(it) }
-        errorStateController = ErrorStateController { pm.reloadAction.accept() }
+        elementController = ElementController { vb.selectElementAction.accept(it) }
+        errorStateController = ErrorStateController { vb.reloadAction.accept() }
 
-        Observables.combineLatest(pm.loadState.observable,
-                pm.elementsState.observable,
-                pm.stubsState.observable,
-                pm.paginationState.observable,
+        Observables.combineLatest(vb.loadState.observable,
+                vb.elementsState.observable,
+                vb.stubsState.observable,
+                vb.paginationState.observable,
                 ::createItemList) bindTo { p -> adapter.setItems(p.first, p.second) }
     }
 

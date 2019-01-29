@@ -20,7 +20,6 @@ import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.relation.Related
@@ -34,22 +33,22 @@ import ru.surfstudio.android.core.mvp.view.CoreView
 abstract class BaseRxPresenter<M, V>(
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<V>(basePresenterDependency), Related<PRESENTER>
-        where M : ScreenModel,
+        where M : ViewBinding,
               V : CoreView,
               V : BindableRxView<M> {
 
     override fun relationEntity() = PRESENTER
 
-    abstract val pm: M
+    abstract val vb: M
 
     @CallSuper
     override fun onFirstLoad() {
-        view.bind(pm)
+        view.bind(vb)
     }
 
     @CallSuper
     override fun onLoad(viewRecreated: Boolean) {
-        if (viewRecreated) view.bind(pm)
+        if (viewRecreated) view.bind(vb)
     }
 
     override fun <T> subscribe(observable: Observable<T>,

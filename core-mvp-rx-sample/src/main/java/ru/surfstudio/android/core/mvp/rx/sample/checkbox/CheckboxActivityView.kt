@@ -27,20 +27,20 @@ import javax.inject.Inject
 /**
  * Экран демострирующий возможность работы со связными данными напримере чекбоксов
  */
-class CheckboxActivityView : BaseRxActivityView<CheckboxModel>() {
+class CheckboxActivityView : BaseRxActivityView<CheckboxViewBinding>() {
 
     @Inject
     lateinit var presenter: CheckboxPresenter
 
-    override fun bind(pm: CheckboxModel) {
-        checkbox_1.checkedChanges() bindTo pm.checkAction1
-        checkbox_2.checkedChanges() bindTo pm.checkAction2
-        checkbox_3.checkedChanges() bindTo pm.checkAction3
-        send_btn.clicks() bindTo pm.sendAction
+    override fun bind(vb: CheckboxViewBinding) {
+        checkbox_1.checkedChanges() bindTo vb.checkAction1
+        checkbox_2.checkedChanges() bindTo vb.checkAction2
+        checkbox_3.checkedChanges() bindTo vb.checkAction3
+        send_btn.clicks() bindTo vb.sendAction
 
-        pm.count bindTo { counter_et.text = it.toString() }
+        vb.count bindTo { counter_et.text = it.toString() }
 
-        pm.messageCommand bindTo { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
+        vb.messageCommand bindTo { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
     }
 
     override fun createConfigurator() = CheckboxScreenConfigurator(intent)

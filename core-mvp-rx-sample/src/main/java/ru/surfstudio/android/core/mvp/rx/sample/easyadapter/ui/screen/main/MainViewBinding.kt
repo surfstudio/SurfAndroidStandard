@@ -14,26 +14,23 @@
  * limitations under the License.
  */
 
-package ru.surfstudio.android.core.mvp.rx.sample
+package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main
 
-import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
-import ru.surfstudio.android.core.mvp.rx.relation.mvp.Bond
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.MainModel
+import ru.surfstudio.android.core.mvp.rx.ui.ViewBinding
 
 /**
- *  Модель главного экрана с примерами
+ * Модель главного экрана с примером easyadapter
  */
-class MainModel : ScreenModel() {
+class MainViewBinding(init: MainModel) : ViewBinding {
 
-    val incAction = Action<Unit>()
-    val decAction = Action<Unit>()
-    val doubleTextAction = Action<Unit>()
-    val checkboxSampleActivityOpen = Action<Unit>()
-    val easyadapterSampleActivityOpen = Action<Unit>()
+    val openPaginationScreen = Action<Unit>()
 
-    val textEditState = Bond<String>()
-    val counterState = Bond<Int>()
-
-    val sampleState = State<String>()
+    val carouselState = State(init.carousels)
+    val hasCommercialState = State(init.hasCommercial)
+    val elementsState = State(init.elements)
+    val bottomCarouselState = State(init.bottomCarousel)
 }
+
