@@ -23,7 +23,7 @@ import ru.surfstudio.android.core.ui.permission.PermissionRequest
 /**
  * утилита для проверки и запроса пермишенов для камеры и хранилища
  */
-class PicturePermissionChecker(
+class PicturePermissionChecker @JvmOverloads constructor(
         private val permissionManager: PermissionManager,
         private val cameraPermissionRequest: PermissionRequest = CameraStoragePermissionRequest(),
         private val galleryStoragePermissionRequest: PermissionRequest = GalleryStoragePermissionRequest()
