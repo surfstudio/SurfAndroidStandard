@@ -23,12 +23,16 @@ class ApiTestRunner(testClass: Class<*>?) : RobolectricTestRunner(testClass) {
             override fun evaluate() {
                 if (isMethodWithAnnotation(method, WaitApiTest::class.java)) {
                     var failed = false
+                    val annotation = method.annotations.find { it.annotationClass == WaitApiTest::class } as WaitApiTest
                     try {
                         defaultInvoker.evaluate()
                     } catch (e: Throwable) {
-                        System.err.println("Error occurred when test with annotation @WaitApiTest is executing. It's normal.")
-                        e.printStackTrace()
-                        failed = true
+                        if (annotation.checkedException == Throwable::class
+                                || (annotation.checkedException != Throwable::class && annotation.checkedException == e::class)) {
+                            System.err.println("Error occurred when test with annotation @WaitApiTest is executing. It's normal.")
+                            e.printStackTrace()
+                            failed = true
+                        }
                     }
                     if (!failed) {
                         throw WaitApiTestPassException()

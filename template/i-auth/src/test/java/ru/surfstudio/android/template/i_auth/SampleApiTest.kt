@@ -38,8 +38,15 @@ class SampleApiTest : BaseNetworkDaggerTest<AuthApiTestComponent>() {
 
     @Test
     @WaitApiTest
-    fun waitTes3() {
+    fun waitTest3() {
         System.out.println("3")
         //throw RuntimeException("Test fail 11111")
+    }
+
+    @Test
+    @WaitApiTest(RuntimeException::class)
+    fun waitTest4() {
+        System.out.println("4")
+        throw RuntimeException("Checked Exception. Test success")
     }
 }
