@@ -10,7 +10,6 @@ import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.f_debug.common_controllers.controllers.CustomControllerDescriptionItemController
 import ru.surfstudio.standard.f_debug.common_controllers.description.addDescription
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.CommonControllersDebugScreenConfigurator

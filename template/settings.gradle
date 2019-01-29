@@ -2,7 +2,7 @@ apply from: 'config.gradle'
 
 include "$templatePrefix:app",
         "$templatePrefix:base",
-        "$templatePrefix:base-feature",
+        "$templatePrefix:base_feature",
         "$templatePrefix:domain",
         "$templatePrefix:i-initialization",
         "$templatePrefix:i-network",

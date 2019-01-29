@@ -7,7 +7,6 @@ import kotlinx.android.synthetic.main.activity_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.DebugScreenConfigurator
 import javax.inject.Inject
 
