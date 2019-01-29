@@ -36,7 +36,7 @@ import ru.surfstudio.android.logger.Logger;
 /**
  * класс для осуществления операций с файлами кэша
  */
-public final class FileProcessor {
+public class FileProcessor {
 
     private final File rootDir;
     private final int maxFilesCount;
