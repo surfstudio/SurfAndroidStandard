@@ -18,6 +18,9 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain
 
 import ru.surfstudio.easyadapter.sample.domain.Carousel
 
+/**
+ * Модель в примере подменяющая собой модель предметной области
+ */
 data class MainModel(
         val carousels: List<Carousel> = emptyList(),
         val hasCommercial: Boolean = false,

@@ -18,14 +18,17 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub
 
 import java.util.*
 
-data class Stub(val id: Long = Companion.rnd.nextLong()) {
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ */
+data class Stub(val id: Long = rnd.nextLong()) {
     companion object {
         val rnd = Random()
     }
 }
 
 fun generateStubs(count: Int): List<Stub> {
-    return (0..count - 1)
+    return (0 until count)
             .map { Stub() }
             .toList()
 }

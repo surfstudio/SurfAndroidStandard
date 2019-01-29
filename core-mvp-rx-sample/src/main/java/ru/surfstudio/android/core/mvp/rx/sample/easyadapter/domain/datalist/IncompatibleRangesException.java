@@ -16,6 +16,9 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist;
 
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ */
 public class IncompatibleRangesException extends IllegalArgumentException {
 
     public IncompatibleRangesException(String s) {

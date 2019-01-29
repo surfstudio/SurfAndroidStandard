@@ -16,19 +16,33 @@
 
 package ru.surfstudio.android.core.mvp.rx.interfaces
 
-import com.jakewharton.rxbinding2.InitialValueObservable
 import io.reactivex.Observable
 
+/**
+ *  Набор базовых интерфейсов для создаия кастомных вью и `ItemController`
+ */
+
+
+/**
+ *  Интерфес для объекта с изменяющеся моделью
+ */
 interface RxChangesModel<T> {
 
-    fun changesModel(): InitialValueObservable<T>
+    fun modelChanges(): Observable<T>
 }
 
-interface RxChangedChecked<T> {
+/**
+ *  Интерфес для объекта с изменяющимся состояниянием выбрано/невыбрано
+ */
+interface RxChangedChecked {
 
-    fun changesModel(): Observable<T>
+    fun checkedChanges(): Observable<Boolean>
 }
 
+/**
+ *  Интерфес для объекта который принимает клики.
+ *  Используется там, где невозможно использовать [com.jakewharton.rxbinding2.view.RxView.clicks]
+ */
 interface RxClickable {
 
     fun clicks(): Observable<Unit>

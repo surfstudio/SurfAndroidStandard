@@ -23,6 +23,9 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ */
 class GravitySnapHelper(gravity: Int) : LinearSnapHelper() {
 
     private var verticalHelper: OrientationHelper? = null

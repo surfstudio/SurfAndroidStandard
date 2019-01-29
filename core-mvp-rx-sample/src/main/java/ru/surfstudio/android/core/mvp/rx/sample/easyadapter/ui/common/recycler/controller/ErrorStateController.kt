@@ -22,7 +22,11 @@ import ru.surfstudio.android.easyadapter.controller.NoDataItemController
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
 import ru.surfstudio.sample.R
 
-//todo merge with EmptyStateController
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
+ * Отображает состояние ошибки в [androidx.recyclerview.widget.RecyclerView]
+ */
 class ErrorStateController(
         val onReloadClickListener: () -> Unit
 ) : NoDataItemController<ErrorStateController.Holder>() {

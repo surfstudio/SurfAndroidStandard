@@ -26,7 +26,9 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
-
+/**
+ *  Конфигуратор экрана примера с пагинацией
+ */
 class PaginationScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
 
     @PerScreen

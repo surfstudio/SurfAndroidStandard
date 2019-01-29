@@ -28,6 +28,8 @@ import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.sample.R
 
 /**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
  * Класс адаптера с поддержкой пагинации на основе EasyAdapter
  */
 open class PaginationableAdapter(onShowMoreListener: () -> Unit) : BasePaginationableAdapter() {

@@ -26,7 +26,12 @@ import javax.inject.Inject
 
 val DEFAULT_PAGE = 1
 
-@PerScreen //todo create AppComponent and move this to @PerApplication Scope
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
+ * Генерирует [Element]
+ */
+@PerScreen
 class ElementRepository @Inject constructor() {
 
     private val DEFAULT_PAGE_SIZE = 20

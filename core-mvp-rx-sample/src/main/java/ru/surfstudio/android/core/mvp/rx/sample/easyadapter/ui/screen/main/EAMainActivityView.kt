@@ -73,7 +73,6 @@ class EAMainActivityView : BaseRxActivityView<MainPresentationModel>() {
     }
 
     override fun bind(pm: MainPresentationModel) {
-
         headerController = HeaderController()
 
         carouselController = CarouselController(

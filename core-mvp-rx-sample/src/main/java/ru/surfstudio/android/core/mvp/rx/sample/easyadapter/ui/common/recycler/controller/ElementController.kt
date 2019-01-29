@@ -28,7 +28,11 @@ import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 import ru.surfstudio.sample.R
 
-
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
+ * Отображает объект [Element] в [androidx.recyclerview.widget.RecyclerView]
+ */
 class ElementController(
         val onClickListener: (element: Element) -> Unit
 ) : BindableItemController<SelectableData<Element>, ElementController.Holder>() {

@@ -23,11 +23,13 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import ru.surfstudio.sample.R
 
-
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ */
 fun View.toStub() {
     when (this) {
         is ViewGroup ->
-            (0..childCount - 1)
+            (0 until childCount)
                     .map { this.getChildAt(it) }
                     .forEach { it.toStub() }
         is TextView -> {

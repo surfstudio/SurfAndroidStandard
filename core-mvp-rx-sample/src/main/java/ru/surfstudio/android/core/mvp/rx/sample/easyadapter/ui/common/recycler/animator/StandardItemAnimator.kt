@@ -18,6 +18,9 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.recycler.
 
 import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator
 
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ */
 open class StandardItemAnimator : BaseItemAnimator() {
     private val ADD_DURATION: Long = 200
     private val REMOVE_DURATION: Long = 350

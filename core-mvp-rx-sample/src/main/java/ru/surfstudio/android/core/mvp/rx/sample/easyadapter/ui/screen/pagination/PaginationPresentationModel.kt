@@ -26,6 +26,9 @@ import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.common.stub.gener
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 
+/**
+ * Модель главного экрана с примером easyadapter и пагинацией
+ */
 class PaginationPresentationModel : ScreenModel() {
 
     val reloadAction = Action<Unit>()

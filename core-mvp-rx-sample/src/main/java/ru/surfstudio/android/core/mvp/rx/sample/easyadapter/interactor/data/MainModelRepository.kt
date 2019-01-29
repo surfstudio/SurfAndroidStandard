@@ -20,6 +20,11 @@ import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.MainModel
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.element.Elements
 import ru.surfstudio.easyadapter.sample.domain.Carousel
 
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
+ * Генерирует [MainModel]
+ */
 class MainModelRepository {
     private val CAROUSELS = arrayListOf(
             Carousel("aaa", "Sed condimentum"),

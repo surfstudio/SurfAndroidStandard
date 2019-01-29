@@ -39,6 +39,8 @@ import ru.surfstudio.sample.R
 import javax.inject.Inject
 
 /**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
  * example screen with pagination
  * Placeholders is list items
  */

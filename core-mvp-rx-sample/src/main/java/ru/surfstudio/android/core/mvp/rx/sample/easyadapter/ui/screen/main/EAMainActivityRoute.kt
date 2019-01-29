@@ -20,6 +20,9 @@ import android.content.Context
 import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
+/**
+ * Роут открытия экрана [EAMainActivityRoute]
+ */
 class EAMainActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context?): Intent = Intent(context, EAMainActivityView::class.java)
 }

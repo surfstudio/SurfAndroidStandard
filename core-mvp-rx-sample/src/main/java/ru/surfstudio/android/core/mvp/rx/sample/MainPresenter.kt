@@ -38,8 +38,8 @@ class MainPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
         with(pm) {
-            incAction.observable.map { 100 } bindTo counterState
-            decAction.observable.map { 20 } bindTo counterState
+            incAction bindTo { counterState.accept(20) }
+            decAction bindTo { counterState.accept(100) }
             doubleTextAction.observable.map { textEditState.let { it.value + it.value } } bindTo textEditState
             textEditState bindTo sampleState
 

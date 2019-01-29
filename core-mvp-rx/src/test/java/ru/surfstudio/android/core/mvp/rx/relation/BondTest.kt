@@ -22,11 +22,10 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Bond
-import ru.surfstudio.android.core.mvp.rx.relation.mvp.VIEW
 
 class BondTest : BaseRelationTest() {
 
-    private lateinit var twoWay: Bond<String>
+    private lateinit var bond: Bond<String>
 
     private lateinit var testViewObservable: TestObserver<String>
     private lateinit var testViewConsumer: Consumer<String>
@@ -38,26 +37,26 @@ class BondTest : BaseRelationTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        twoWay = Bond()
+        bond = Bond()
 
         testViewConsumer =
                 with(testView) {
-                    twoWay.consumer
+                    bond.consumer
                 }
 
         testViewObservable =
                 with(testView) {
-                    twoWay.observable.test()
+                    bond.observable.test()
                 }
 
         testPresenterConsumer=
                 with(testPresenter) {
-                    twoWay.consumer
+                    bond.consumer
                 }
 
         testPresenterObservable =
                 with(testPresenter) {
-                    twoWay.observable.test()
+                    bond.observable.test()
                 }
     }
 
@@ -75,44 +74,62 @@ class BondTest : BaseRelationTest() {
                 .assertNoValues()
                 .assertNoErrors()
 
-        assertFalse(twoWay.hasValue)
+        assertFalse(bond.hasValue)
 
         testPresenterConsumer.accept("TEST_FROM_PRESENTER")
         testViewObservable
                 .assertValueCount(1)
 
-        assertTrue(twoWay.hasValue)
+        assertTrue(bond.hasValue)
 
-        assertEquals("TEST_FROM_PRESENTER", twoWay.value)
+        assertEquals("TEST_FROM_PRESENTER", bond.value)
 
         testViewConsumer.accept("TEST_FROM_VIEW")
         testPresenterObservable
                 .assertValueCount(1)
 
-        assertTrue(twoWay.hasValue)
+        assertTrue(bond.hasValue)
 
-        assertEquals("TEST_FROM_VIEW", twoWay.value)
+        assertEquals("TEST_FROM_VIEW", bond.value)
     }
 
     @Test
     @Throws(Exception::class)
-    fun testCycled() {
-        val bound1 = Bond<String>()
-        val bound2 = Bond<String>()
-
+    fun testInitialValue() {
+        val bond = Bond("Initial")
         with(testView) {
-            bound1 bindTo bound2
-            bound2 bindTo bound1
+            var newValue = ""
+            bond bindTo { newValue = it }
+            assertEquals("Initial", newValue)
         }
-
         with(testPresenter) {
-            bound1 bindTo bound2
-            bound2 bindTo bound1
+            var newValue = ""
+            bond bindTo { newValue = it }
+            assertEquals("Initial", newValue)
         }
+    }
 
-        bound1.getConsumer(VIEW).accept("1")
-
-        assertEquals("1", bound1.value)
-        assertEquals("1", bound2.value)
+    @Test
+    @Throws(Exception::class)
+    fun testDiffValue() {
+        val bond = Bond<String>()
+        with(testView) {
+            bond.accept("view_value")
+        }
+        with(testPresenter) {
+            bond.accept("presenter_value")
+        }
+        with(testView) {
+            var newValue = ""
+            bond bindTo { newValue = it }
+            assertEquals("presenter_value", newValue)
+            assertEquals("presenter_value", bond.value)
+        }
+        with(testPresenter) {
+            var newValue = ""
+            bond bindTo { newValue = it }
+            assertEquals("view_value", newValue)
+            assertEquals("view_value", bond.value)
+        }
     }
 }

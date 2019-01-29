@@ -34,6 +34,7 @@ class CheckboxPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
 
+        // комбинирование экшенов
         val checkboxesObs =
                 Observables.combineLatest(
                         pm.checkAction1.observable,
@@ -43,6 +44,7 @@ class CheckboxPresenter @Inject constructor(
 
         checkboxesObs.map { it.first.toInt() + it.second.toInt() + it.third.toInt() } bindTo pm.count
 
+        // показывает сообщени по нажатию кнопки с последним состоянием checkboxesObs
         pm.sendAction.observable
                 .withLatestFrom(checkboxesObs)
                 { _, triple -> "cb1: ${triple.first}, cb2: ${triple.second}, cb3: ${triple.third}" }

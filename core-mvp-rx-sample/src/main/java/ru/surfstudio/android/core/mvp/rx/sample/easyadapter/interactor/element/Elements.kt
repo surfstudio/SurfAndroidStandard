@@ -18,7 +18,11 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.interactor.element
 
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 
-
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
+ * Все возможные [Element]
+ */
 object Elements {
     val all = arrayListOf(
             Element("Α", "Lorem ipsum"),

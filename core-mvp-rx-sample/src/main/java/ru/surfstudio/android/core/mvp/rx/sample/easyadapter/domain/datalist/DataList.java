@@ -32,6 +32,7 @@ import java.util.TreeMap;
 import androidx.annotation.NonNull;
 
 /**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
  * list for paginationable data
  * can merge two blok of data
  * start page is 1

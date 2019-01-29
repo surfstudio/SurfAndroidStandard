@@ -27,23 +27,29 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+private const val INTERVAL_MS: Long = 2500
+
+/**
+ * Презентер [EAMainActivityView]
+ */
 @PerScreen
 class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                          val activityNavigator: ActivityNavigator)
+                                          private val activityNavigator: ActivityNavigator)
     : BaseRxPresenter<MainPresentationModel, EAMainActivityView>(basePresenterDependency) {
 
-    override val pm = MainPresentationModel()
-
-    private val INTERVAL: Long = 2500 //ms
     private val screenModelFactory = MainModelRepository()
+
+    override val pm = MainPresentationModel(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         if (!viewRecreated) {
-            val timeEmitter = Observable.interval(INTERVAL, TimeUnit.MILLISECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map { screenModelFactory.next() }
-                    .share()
+            val timeEmitter =
+                    Observable.interval(INTERVAL_MS, TimeUnit.MILLISECONDS)
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .map { screenModelFactory.next() }
+                            .share()
+
 
             timeEmitter.map { it.bottomCarousel } bindTo pm.bottomCarouselState
             timeEmitter.map { it.carousels } bindTo pm.carouselState

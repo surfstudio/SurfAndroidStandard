@@ -28,21 +28,16 @@ import java.util.concurrent.atomic.AtomicReference
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
-class Bond<T>() : Relation<T, StateSource, StateTarget>() {
-
-    constructor(initialValue: T) : this() {
-        this.initialValue = initialValue
-    }
-
-    private var initialValue: T? = null
-
-    val hasValue: Boolean get() = cachedValue.get() != null
+class Bond<T>(initialValue: T? = null) : Relation<T, StateSource, StateTarget>() {
 
     private val action = initialValue?.let { Action(it) } ?: Action()
     private val command = initialValue?.let { State(it) } ?: State()
 
     private val cachedValue = AtomicReference<T>()
+
     val value: T get() = cachedValue.get()
+    val hasValue: Boolean get() = cachedValue.get() != null
+
 
     override fun getConsumer(source: StateSource): Consumer<T> =
             when (source) {

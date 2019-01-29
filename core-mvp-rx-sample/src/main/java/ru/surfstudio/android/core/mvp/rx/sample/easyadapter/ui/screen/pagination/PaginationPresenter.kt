@@ -97,6 +97,10 @@ class PaginationPresenter @Inject constructor(
                                 })
     }
 
+    private fun reloadData() {
+        loadMainData()
+    }
+
     /**
      *  Трансформирует DataList<Element>) в DataList<SelectableData<Element>> и устанавливает выбранное значение
      */
@@ -111,10 +115,6 @@ class PaginationPresenter @Inject constructor(
                             elements.totalItemsCount,
                             elements.totalPagesCount)
                 }
-    }
-
-    private fun reloadData() {
-        loadMainData()
     }
 
     private fun setNormalLoadState(elements: DataList<*>) {

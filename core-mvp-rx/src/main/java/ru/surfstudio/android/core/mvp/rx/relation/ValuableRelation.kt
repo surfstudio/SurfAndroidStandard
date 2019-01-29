@@ -34,5 +34,9 @@ abstract class ValuableRelation<T, in S : RelationEntity, in D : RelationEntity>
 
     internal val internalValue: T get() = relay.value ?: throw NoSuchElementException()
 
+    /**
+     * Отправляет повторно последний объект. Используется в тех случаях, когда не удается работать без
+     * mutable объектов
+     */
     fun update() = relay.accept(internalValue)
 }

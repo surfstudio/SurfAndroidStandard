@@ -30,7 +30,11 @@ import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.easyadapter.sample.domain.Carousel
 import ru.surfstudio.sample.R
 
-
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
+ * Отображает объект [Carousel] в [androidx.recyclerview.widget.RecyclerView]
+ */
 class CarouselController(
         val onElementClickListener: (element: Element) -> Unit,
         val onShowAllClickListener: (carousel: Carousel) -> Unit

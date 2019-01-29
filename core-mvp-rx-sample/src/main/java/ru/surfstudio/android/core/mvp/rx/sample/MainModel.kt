@@ -26,14 +26,14 @@ import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
  */
 class MainModel : ScreenModel() {
 
-    val counterState = Bond<Int>()
     val incAction = Action<Unit>()
     val decAction = Action<Unit>()
-
-    val textEditState = Bond<String>()
     val doubleTextAction = Action<Unit>()
-    val sampleState = State<String>()
-
     val checkboxSampleActivityOpen = Action<Unit>()
     val easyadapterSampleActivityOpen = Action<Unit>()
+
+    val textEditState = Bond<String>()
+    val counterState = Bond<Int>()
+
+    val sampleState = State<String>()
 }

@@ -24,7 +24,12 @@ import ru.surfstudio.android.easyadapter.controller.NoDataItemController
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
 import ru.surfstudio.sample.R
 
-
+/**
+ * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
+ *
+ * Отображает статический блок в [androidx.recyclerview.widget.RecyclerView]
+ * Показывает вариант реализации [RxClickable]
+ */
 class CommercialController
     : NoDataItemController<CommercialController.Holder>(), RxClickable {
 

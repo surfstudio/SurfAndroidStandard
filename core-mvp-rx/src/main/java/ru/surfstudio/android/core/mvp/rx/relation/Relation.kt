@@ -43,37 +43,62 @@ abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
 /**
  * Интерфейс сущности, которая участвкет в обмене данными.
- * Здесь происходит разделение интерфеса [Relation] для определенного [RelationEntity]
+ * Здесь происходит разделение интерфеса [Relation] для определенного [relationEntity]
+ * Использует методы [bindTo] для подписки `consumer`a на текущий `observable`
  */
 interface Related<S : RelationEntity> {
 
     fun relationEntity(): S
 
+    /**
+     * Метод который будет использоваться `bindTo` для подписки
+     */
     fun <T> subscribe(observable: Observable<T>,
                       onNext: Consumer<T>,
                       onError: (Throwable) -> Unit = {}): Disposable
 
 
+    /**
+     * [Observable] для подписки. Доступен только для стороны получателя.
+     */
     val <T> Relation<T, *, S>.observable: Observable<T>
         get() =
             this.getObservable(relationEntity())
+
+    /**
+     * [Consumer] для отправки значений. Доступен только для стороны отправителя.
+     */
 
     val <T> Relation<T, S, *>.consumer: Consumer<T>
         get() =
             this.getConsumer(relationEntity())
 
 
+    /**
+     * Последний объект прошедший через [ValuableRelation]. Доступен только для стороны отправителя.
+     * Для получателя значение доступно только через подписку.
+     */
     val <T> ValuableRelation<T, S, *>.value: T
         get() =
             this.internalValue
 
 
+    /**
+     *  Послать [newValue] подписчикам
+     */
     fun <T> Relation<T, S, *>.accept(newValue: T) =
             this.consumer.accept(newValue)
 
+    /**
+     *  Послать [Unit] подписчикам.
+     *  @see accept
+     */
     fun Relation<Unit, S, *>.accept() =
             this.consumer.accept(Unit)
 
+    /*
+     * Методы для подписки `consumer`a на текущий `observable`
+     */
 
     infix fun <T> Observable<T>.bindTo(consumer: Consumer<T>) =
             this@Related.subscribe(this, consumer)

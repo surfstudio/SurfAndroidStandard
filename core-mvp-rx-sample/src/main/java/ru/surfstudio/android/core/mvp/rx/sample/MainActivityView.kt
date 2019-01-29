@@ -23,22 +23,23 @@ import ru.surfstudio.android.core.mvp.rx.ui.BaseRxActivityView
 import ru.surfstudio.sample.R
 import javax.inject.Inject
 
+/**
+ * Главный экран примеров
+ */
 class MainActivityView : BaseRxActivityView<MainModel>() {
 
     @Inject
     lateinit var presenter: MainPresenter
 
     override fun bind(pm: MainModel) {
-
         pm.counterState.observable.map { it.toString() } bindTo main_counter_tv::setText
         pm.textEditState bindTo main_text_et::setText
         pm.sampleState bindTo text_tv::setText
 
-        main_inc_btn.clicks() bindTo pm.incAction
-        main_dec_btn.clicks() bindTo pm.decAction
-
         main_text_et.textChanges().map { it.toString() } bindTo pm.textEditState
 
+        main_inc_btn.clicks() bindTo pm.incAction
+        main_dec_btn.clicks() bindTo pm.decAction
         main_double_text_btn.clicks() bindTo pm.doubleTextAction
 
         checkbox_sample_btn.clicks() bindTo pm.checkboxSampleActivityOpen

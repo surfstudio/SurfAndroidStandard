@@ -19,16 +19,18 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
-import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
-import ru.surfstudio.easyadapter.sample.domain.Carousel
+import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.MainModel
 
+/**
+ * Модель главного экрана с примером easyadapter
+ */
+class MainPresentationModel(init: MainModel) : ScreenModel() {
 
-class MainPresentationModel : ScreenModel() {
-
-    val carouselState = State<List<Carousel>>()
-    val hasCommercialState = State<Boolean>()
-    val elementsState = State<List<Element>>()
-    val bottomCarouselState = State<List<Carousel>>()
     val openPaginationScreen = Action<Unit>()
+
+    val carouselState = State(init.carousels)
+    val hasCommercialState = State(init.hasCommercial)
+    val elementsState = State(init.elements)
+    val bottomCarouselState = State(init.bottomCarousel)
 }
 
