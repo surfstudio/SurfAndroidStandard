@@ -34,9 +34,6 @@
         </activity>
 
         <activity android:name="ru.surfstudio.android.core.mvp.rx.sample.checkbox.CheckboxActivityView" />
-        <activity
-            android:name="ru.surfstudio.android.core.mvp.rx.sample.cycled.CycledActivityView"
-            android:label="Cycled dependency" />
 
         <activity
             android:name="ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.EAMainActivityView"

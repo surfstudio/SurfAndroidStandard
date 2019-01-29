@@ -42,7 +42,6 @@ class MainActivityView : BaseRxActivityView<MainModel>() {
         main_double_text_btn.clicks() bindTo pm.doubleTextAction
 
         checkbox_sample_btn.clicks() bindTo pm.checkboxSampleActivityOpen
-        cycled_dependency_sample_btn.clicks() bindTo pm.cycledSampleActivityOpen
         easy_adapter_sample_btn.clicks() bindTo pm.easyadapterSampleActivityOpen
     }
 

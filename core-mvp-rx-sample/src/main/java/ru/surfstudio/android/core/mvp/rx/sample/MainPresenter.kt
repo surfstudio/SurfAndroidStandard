@@ -18,7 +18,6 @@ package ru.surfstudio.android.core.mvp.rx.sample
 
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.sample.checkbox.CheckboxActivityRoute
-import ru.surfstudio.android.core.mvp.rx.sample.cycled.CycledActivityRoute
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.EAMainActivityRoute
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
@@ -45,7 +44,6 @@ class MainPresenter @Inject constructor(
             textEditState bindTo sampleState
 
             checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
-            cycledSampleActivityOpen bindTo { activityNavigator.start(CycledActivityRoute()) }
             easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
         }
     }

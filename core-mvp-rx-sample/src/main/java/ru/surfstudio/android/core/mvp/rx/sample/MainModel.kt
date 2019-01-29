@@ -35,6 +35,5 @@ class MainModel : ScreenModel() {
     val sampleState = State<String>()
 
     val checkboxSampleActivityOpen = Action<Unit>()
-    val cycledSampleActivityOpen = Action<Unit>()
     val easyadapterSampleActivityOpen = Action<Unit>()
 }
