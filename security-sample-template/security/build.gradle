@@ -21,11 +21,8 @@ android {
 dependencies {
     api "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation project(':filestorage')
+    implementation project(':logger')
+    implementation project(':shared-pref')
+    implementation project(':util-ktx')
 }
-
-gradle.ext.configAndroidStandardDependencies(this, [
-        'filestorage',
-        'logger',
-        'shared-pref',
-        'util-ktx'
-])

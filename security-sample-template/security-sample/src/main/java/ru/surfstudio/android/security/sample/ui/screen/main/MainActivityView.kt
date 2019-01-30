@@ -2,9 +2,9 @@ package ru.surfstudio.android.security.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.security.sample.R
@@ -48,6 +48,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     }
 
     fun showMessage(message: String) {
-        toast(message)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

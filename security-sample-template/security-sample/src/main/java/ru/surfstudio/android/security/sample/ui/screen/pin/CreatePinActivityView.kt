@@ -2,9 +2,9 @@ package ru.surfstudio.android.security.sample.ui.screen.pin
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.widget.Toast
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_create_pin.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.sample.common.ui.base.loadstate.ErrorLoadState
@@ -70,6 +70,6 @@ class CreatePinActivityView : BaseLdsActivityView<CreatePinScreenModel>() {
     private fun getPin(): String = enter_pin_et.text.toString()
 
     fun showMessage(message: String) {
-        toast(message)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }
