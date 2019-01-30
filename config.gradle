@@ -56,6 +56,7 @@ ext {
     rxJava2Version = '2.2.3'                    //https://goo.gl/uzna2x
     rxAndroid2Version = '2.1.0'                 //https://goo.gl/3Kd3iP
     rxBinding2Version = '2.2.0'                 //https://goo.gl/KQ5Vga
+    rxRelayVersion = '2.1.0'
 
     //glide
     glideVersion = '4.8.0'                      //http://bit.ly/2Q7Fa41

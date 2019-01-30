@@ -48,9 +48,8 @@ class PaginationPresenter @Inject constructor(
         vb.reloadAction bindTo ::reloadData
         vb.getMoreAction.observable.filter { vb.hasData } bindTo ::loadMore
         vb.selectElementAction bindTo { element ->
-            vb.elementsState.apply {
-                value.setSelected(element)
-                update()
+            vb.elementsState.change {
+                it.apply { setSelected(element) }
             }
         }
 

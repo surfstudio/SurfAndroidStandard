@@ -46,7 +46,7 @@ abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
  */
 abstract class ValuableRelation<V, in S : RelationEntity, in T : RelationEntity> : Relation<V, S, T>() {
 
-    abstract val hasValue:Boolean
+    abstract val hasValue: Boolean
 
     internal abstract val internalValue: V
 }
@@ -67,7 +67,6 @@ interface Related<S : RelationEntity> {
                       onNext: Consumer<T>,
                       onError: (Throwable) -> Unit = {}): Disposable
 
-
     /**
      * [Observable] для подписки. Доступен только для стороны получателя.
      */
@@ -83,7 +82,6 @@ interface Related<S : RelationEntity> {
         get() =
             this.getConsumer(relationEntity())
 
-
     /**
      * Последний объект прошедший через [ValuableRelation]. Доступен только для стороны отправителя.
      * Для получателя значение доступно только через подписку.
@@ -91,7 +89,6 @@ interface Related<S : RelationEntity> {
     val <T> ValuableRelation<T, S, *>.value: T
         get() =
             this.internalValue
-
 
     /**
      *  Послать [newValue] подписчикам
@@ -109,9 +106,8 @@ interface Related<S : RelationEntity> {
     /**
      * Изменяет текущее значение на значение вычисленное в люмбде [block]
      */
-    fun <T> ValuableRelation<T, S, *>.change(block: (T)->(T)) =
+    fun <T> ValuableRelation<T, S, *>.change(block: (T) -> (T)) =
             this.consumer.accept(block(internalValue))
-
 
     /*
      * Методы для подписки `consumer`a на текущий `observable`
@@ -141,13 +137,11 @@ interface Related<S : RelationEntity> {
     infix fun Completable.bindTo(relation: Relation<Unit, S, *>) =
             this.bindTo(relation.consumer)
 
-
     infix fun <T> Observable<T>.bindTo(consumer: (T) -> Unit) =
             this@Related.subscribe(this, Consumer { consumer(it) })
 
     infix fun Observable<Unit>.bindTo(consumer: () -> Unit) =
             this@Related.subscribe(this, Consumer { consumer() })
-
 
     fun <T> Observable<T>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
             this@Related.subscribe(this, Consumer { consumer(it) }, onError)
@@ -164,7 +158,6 @@ interface Related<S : RelationEntity> {
     fun Completable.bindTo(consumer: Consumer<Unit>, onError: (Throwable) -> Unit) =
             this@Related.subscribe(this.toObservable(), consumer, onError)
 
-
     infix fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit) =
             this.observable
                     .bindTo(consumer)
@@ -172,7 +165,6 @@ interface Related<S : RelationEntity> {
     infix fun Relation<Unit, *, S>.bindTo(consumer: () -> Unit) =
             this.observable
                     .bindTo(consumer)
-
 
     fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
             this.observable
