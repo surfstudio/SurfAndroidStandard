@@ -16,7 +16,7 @@
 package ru.surfstudio.android.security.root
 
 import ru.surfstudio.android.security.jni.NativeRootChecker
-import ru.surfstudio.android.security.root.error.RootDetectedException
+
 
 /**
  * Объект, проверяющий наличие рут-прав на устройстве
@@ -24,12 +24,6 @@ import ru.surfstudio.android.security.root.error.RootDetectedException
 object RootChecker {
     val isRoot: Boolean = isRootInternal()
 
-    fun failIfRoot() = NativeRootChecker.init()
-
-    private fun isRootInternal(): Boolean = try {
-        NativeRootChecker.init()
-        false
-    } catch (ignored: RootDetectedException) {
-        true
-    }
+    private fun isRootInternal(): Boolean =
+            NativeRootChecker.check()
 }

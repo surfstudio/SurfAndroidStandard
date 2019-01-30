@@ -17,16 +17,9 @@
 #include <iostream>
 #include <fstream>
 
-jclass Throwable;
-
-static const char *const message = "Root has been detected!";
-
-
-void initJavaClasses(JNIEnv *env);
-
-void checkRooted(JNIEnv *env);
-
 using namespace std;
+
+bool rooted();
 
 const string folders[] = {"/system/app/Superuser.apk", "/system/app/KingUser.apk", "/sbin/su",
                           "/system/bin/su", "/system/xbin/su", "/data/local/xbin/su",
@@ -34,16 +27,16 @@ const string folders[] = {"/system/app/Superuser.apk", "/system/app/KingUser.apk
                           "/data/local/su", "/su/bin/su"};
 
 extern "C"
-JNIEXPORT void JNICALL
-Java_ru_surfstudio_android_security_jni_NativeRootChecker_init(JNIEnv *env) {
-    initJavaClasses(env);
-    checkRooted(env);
+JNIEXPORT jboolean JNICALL Java_ru_surfstudio_android_security_jni_NativeRootChecker_check(JNIEnv *env, jclass type) {
+    auto isRooted = static_cast<jboolean>(rooted());
+    return isRooted;
 }
 
 inline bool file_exists(const std::string &name) {
     ifstream f(name.c_str());
     return f.rdstate() == 0;
 }
+
 
 bool rooted() {
     for (int i = 0; i < folders->length(); ++i) {
@@ -54,18 +47,3 @@ bool rooted() {
     return false;
 }
 
-void checkRooted(JNIEnv *env) {
-    if (rooted()) {
-        env->ThrowNew(Throwable, message);
-        return;
-    }
-}
-
-void initJavaClasses(JNIEnv *env) {
-    jclass throwableLink = env->FindClass("ru/surfstudio/android/security/root/error/RootDetectedException");
-
-    if (throwableLink == NULL) {
-        return;
-    }
-    Throwable = (jclass) env->NewGlobalRef(throwableLink);
-}
