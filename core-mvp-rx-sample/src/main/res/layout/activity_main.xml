@@ -20,7 +20,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="32dp"
+    android:padding="16dp"
     tools:ignore="HardcodedText">
 
     <TextView
@@ -48,6 +48,12 @@
     <EditText
         android:id="@+id/main_text_et"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <TextView
+        android:id="@+id/text_tv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
@@ -59,28 +65,23 @@
         android:text="DOUBLE" />
 
     <TextView
-        android:id="@+id/text_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="16dp"
+        android:paddingBottom="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Other samples"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/checkbox_sample_btn"
         android:text="Checkbox sample"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/cycled_dependency_sample_btn"
-        android:text="Cycled dependency sample"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/easy_adapter_sample_btn"
         android:text="Easy adapter sample"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center" />
 

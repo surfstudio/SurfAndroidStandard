@@ -42,6 +42,16 @@ abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
 }
 
 /**
+ * [Relation] который сохраняет последнее переданное значение
+ */
+abstract class ValuableRelation<V, in S : RelationEntity, in T : RelationEntity> : Relation<V, S, T>() {
+
+    abstract val hasValue:Boolean
+
+    internal abstract val internalValue: V
+}
+
+/**
  * Интерфейс сущности, которая участвкет в обмене данными.
  * Здесь происходит разделение интерфеса [Relation] для определенного [relationEntity]
  * Использует методы [bindTo] для подписки `consumer`a на текущий `observable`
@@ -96,6 +106,13 @@ interface Related<S : RelationEntity> {
     fun Relation<Unit, S, *>.accept() =
             this.consumer.accept(Unit)
 
+    /**
+     * Изменяет текущее значение на значение вычисленное в люмбде [block]
+     */
+    fun <T> ValuableRelation<T, S, *>.change(block: (T)->(T)) =
+            this.consumer.accept(block(internalValue))
+
+
     /*
      * Методы для подписки `consumer`a на текущий `observable`
      */
@@ -144,7 +161,7 @@ interface Related<S : RelationEntity> {
     fun <T> Maybe<T>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
             this@Related.subscribe(this.toObservable(), Consumer { consumer(it) }, onError)
 
-    fun <T> Completable.bindTo(consumer: Consumer<Unit>, onError: (Throwable) -> Unit) =
+    fun Completable.bindTo(consumer: Consumer<Unit>, onError: (Throwable) -> Unit) =
             this@Related.subscribe(this.toObservable(), consumer, onError)
 
 

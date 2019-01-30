@@ -22,17 +22,17 @@ import com.jakewharton.rxrelay2.BehaviorRelay
  * Связь хранящая в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
-abstract class ValuableRelation<T, in S : RelationEntity, in D : RelationEntity>(initialValue: T? = null)
-    : Relation<T, S, D>() {
+abstract class BehaviorRelation<T, in S : RelationEntity, in D : RelationEntity>(initialValue: T? = null)
+    : ValuableRelation<T, S, D>() {
 
     protected val relay =
             initialValue
                     ?.let { BehaviorRelay.createDefault(it) }
                     ?: BehaviorRelay.create<T>()
 
-    val hasValue: Boolean get() = relay.hasValue()
+    override val hasValue: Boolean get() = relay.hasValue()
 
-    internal val internalValue: T get() = relay.value ?: throw NoSuchElementException()
+    override val internalValue: T get() = relay.value ?: throw NoSuchElementException()
 
     /**
      * Отправляет повторно последний объект. Используется в тех случаях, когда не удается работать без

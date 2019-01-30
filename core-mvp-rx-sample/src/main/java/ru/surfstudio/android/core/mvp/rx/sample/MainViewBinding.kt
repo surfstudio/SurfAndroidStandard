@@ -32,8 +32,8 @@ class MainViewBinding : ViewBinding {
     val checkboxSampleActivityOpen = Action<Unit>()
     val easyadapterSampleActivityOpen = Action<Unit>()
 
-    val textEditState = Bond<String>()
-    val counterState = Bond<Int>()
+    val textEditBond = Bond<String>()
+    val counterBond = Bond(0)
 
     val sampleState = State<String>()
 }

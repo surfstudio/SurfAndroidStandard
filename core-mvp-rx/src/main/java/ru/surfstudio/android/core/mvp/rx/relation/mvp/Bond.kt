@@ -19,6 +19,7 @@ package ru.surfstudio.android.core.mvp.rx.relation.mvp
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.rx.relation.Relation
+import ru.surfstudio.android.core.mvp.rx.relation.ValuableRelation
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -28,15 +29,15 @@ import java.util.concurrent.atomic.AtomicReference
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
-class Bond<T>(initialValue: T? = null) : Relation<T, StateSource, StateTarget>() {
+class Bond<T>(initialValue: T? = null) : ValuableRelation<T, StateSource, StateTarget>() {
 
     private val action = initialValue?.let { Action(it) } ?: Action()
     private val command = initialValue?.let { State(it) } ?: State()
 
     private val cachedValue = AtomicReference<T>()
 
-    val value: T get() = cachedValue.get()
-    val hasValue: Boolean get() = cachedValue.get() != null
+    override val internalValue: T get() = cachedValue.get()
+    override val hasValue: Boolean get() = cachedValue.get() != null
 
 
     override fun getConsumer(source: StateSource): Consumer<T> =

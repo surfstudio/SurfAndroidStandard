@@ -38,10 +38,11 @@ class MainPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
         with(vb) {
-            incAction bindTo { counterState.accept(20) }
-            decAction bindTo { counterState.accept(100) }
-            doubleTextAction.observable.map { textEditState.let { it.value + it.value } } bindTo textEditState
-            textEditState bindTo sampleState
+            incAction bindTo { counterBond.change { it.inc() } }
+            decAction bindTo { counterBond.change { it.dec() } }
+            doubleTextAction bindTo { textEditBond.change { it + it } }
+
+            textEditBond bindTo sampleState
 
             checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
             easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }

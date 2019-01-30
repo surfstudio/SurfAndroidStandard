@@ -18,7 +18,7 @@ package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.rx.relation.ValuableRelation
+import ru.surfstudio.android.core.mvp.rx.relation.BehaviorRelation
 
 /**
  * Связь View -> Presenter
@@ -26,7 +26,7 @@ import ru.surfstudio.android.core.mvp.rx.relation.ValuableRelation
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
-class Action<T>(initialValue: T? = null) : ValuableRelation<T, VIEW, PRESENTER>(initialValue) {
+class Action<T>(initialValue: T? = null) : BehaviorRelation<T, VIEW, PRESENTER>(initialValue) {
 
     override fun getConsumer(source: VIEW): Consumer<T> = relay
 

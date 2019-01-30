@@ -32,11 +32,11 @@ class MainActivityView : BaseRxActivityView<MainViewBinding>() {
     lateinit var presenter: MainPresenter
 
     override fun bind(vb: MainViewBinding) {
-        vb.counterState.observable.map { it.toString() } bindTo main_counter_tv::setText
-        vb.textEditState bindTo main_text_et::setText
+        vb.counterBond.observable.map { it.toString() } bindTo main_counter_tv::setText
+        vb.textEditBond bindTo main_text_et::setText
         vb.sampleState bindTo text_tv::setText
 
-        main_text_et.textChanges().map { it.toString() } bindTo vb.textEditState
+        main_text_et.textChanges().map { it.toString() } bindTo vb.textEditBond
 
         main_inc_btn.clicks() bindTo vb.incAction
         main_dec_btn.clicks() bindTo vb.decAction
