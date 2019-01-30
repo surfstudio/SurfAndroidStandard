@@ -64,6 +64,13 @@
         android:padding="16dp"
         android:text="DOUBLE" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dialog_sample_btn"
+        android:text="Open dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
     <TextView
         android:layout_marginTop="16dp"
         android:paddingBottom="8dp"

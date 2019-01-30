@@ -16,6 +16,7 @@
 
 package ru.surfstudio.android.core.mvp.rx.sample
 
+import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_main.*
@@ -36,12 +37,15 @@ class MainActivityView : BaseRxActivityView<MainViewBinding>() {
         vb.textEditBond bindTo main_text_et::setText
         vb.sampleState bindTo text_tv::setText
 
+        vb.messageCommand bindTo ::showMessage
+
         main_text_et.textChanges().map { it.toString() } bindTo vb.textEditBond
 
         main_inc_btn.clicks() bindTo vb.incAction
         main_dec_btn.clicks() bindTo vb.decAction
         main_double_text_btn.clicks() bindTo vb.doubleTextAction
 
+        dialog_sample_btn.clicks() bindTo vb.dialogOpenAction
         checkbox_sample_btn.clicks() bindTo vb.checkboxSampleActivityOpen
         easy_adapter_sample_btn.clicks() bindTo vb.easyadapterSampleActivityOpen
     }
@@ -54,4 +58,7 @@ class MainActivityView : BaseRxActivityView<MainViewBinding>() {
 
     override fun getPresenters() = arrayOf(presenter)
 
+    private fun showMessage(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }

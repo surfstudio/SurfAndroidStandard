@@ -18,19 +18,26 @@ package ru.surfstudio.android.core.mvp.rx.sample
 
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Bond
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.Command
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
-import ru.surfstudio.android.core.mvp.rx.ui.ViewBinding
 
 /**
  *  Модель главного экрана с примерами
  */
-class MainViewBinding : ViewBinding {
+class MainViewBinding : SampleDialogBindingModel {
+
+    override val dialogInputAction = Action<String>()
+    override val dialogPositiveAction = Action<Unit>()
+    override val dialogNegativeAction = Action<Unit>()
 
     val incAction = Action<Unit>()
     val decAction = Action<Unit>()
     val doubleTextAction = Action<Unit>()
     val checkboxSampleActivityOpen = Action<Unit>()
     val easyadapterSampleActivityOpen = Action<Unit>()
+    val dialogOpenAction = Action<Unit>()
+
+    val messageCommand = Command<String>()
 
     val textEditBond = Bond<String>()
     val counterBond = Bond(0)

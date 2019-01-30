@@ -22,6 +22,7 @@ import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.EAMai
 import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import javax.inject.Inject
 
 /**
@@ -30,7 +31,8 @@ import javax.inject.Inject
 @PerScreen
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val activityNavigator: ActivityNavigator
+        private val activityNavigator: ActivityNavigator,
+        private val dialogNavigator: DialogNavigator
 ) : BaseRxPresenter<MainViewBinding, MainActivityView>(basePresenterDependency) {
 
     override val vb = MainViewBinding()
@@ -42,8 +44,13 @@ class MainPresenter @Inject constructor(
             decAction bindTo { counterBond.change { it.dec() } }
             doubleTextAction bindTo { textEditBond.change { it + it } }
 
-            textEditBond bindTo sampleState
+            dialogPositiveAction bindTo { messageCommand.accept("Dialog close by OK") }
+            dialogNegativeAction bindTo { messageCommand.accept("Dialog close by not OK") }
 
+            textEditBond bindTo sampleState
+            dialogInputAction bindTo sampleState
+
+            dialogOpenAction bindTo { dialogNavigator.show(SampleDialogRoute()) }
             checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
             easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
         }
