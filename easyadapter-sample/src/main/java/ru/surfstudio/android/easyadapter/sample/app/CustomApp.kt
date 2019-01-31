@@ -3,7 +3,7 @@ package ru.surfstudio.android.easyadapter.sample.app
 import android.app.Activity
 import androidx.multidex.MultiDexApplication
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.android.activity.holder.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.easyadapter.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.easyadapter.sample.app.dagger.DaggerCustomAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
@@ -32,7 +32,7 @@ class CustomApp : MultiDexApplication() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+        registerActivityLifecycleCallbacks(object : ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity
             }

@@ -21,7 +21,7 @@ class MainPresenter @Inject constructor(
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         view.render(sm)
-        subscribe(pushClickHandler.pushclickObservable)
+        subscribe(pushClickHandler.pushClickObservable)
         {
             Logger.d("Push received")
         }

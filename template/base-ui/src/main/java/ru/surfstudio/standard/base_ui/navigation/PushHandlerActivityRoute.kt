@@ -12,7 +12,9 @@ import ru.surfstudio.standard.domain.notification.Notification
  *
  * @param notification пуш-уведомление, которое подлежит обработке
  **/
-class PushHandlerActivityRoute(val notification: Notification) : ActivityWithParamsRoute() {
+class PushHandlerActivityRoute(
+        val notification: Notification
+) : ActivityWithParamsRoute() {
 
     constructor(intent: Intent) : this(
             intent.getSerializableExtra(Route.EXTRA_FIRST) as Notification

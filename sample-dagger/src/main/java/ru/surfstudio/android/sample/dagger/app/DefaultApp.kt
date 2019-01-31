@@ -3,7 +3,7 @@ package ru.surfstudio.android.sample.dagger.app
 import android.app.Activity
 import android.app.Application
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.android.activity.holder.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.sample.dagger.app.dagger.DaggerDefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppComponent
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
@@ -34,7 +34,7 @@ class DefaultApp : Application() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+        registerActivityLifecycleCallbacks(object : ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity
             }

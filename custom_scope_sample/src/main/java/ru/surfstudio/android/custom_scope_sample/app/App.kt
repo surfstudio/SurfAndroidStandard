@@ -3,7 +3,7 @@ package ru.surfstudio.android.custom_scope_sample.app
 import android.app.Activity
 import androidx.multidex.MultiDexApplication
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.android.activity.holder.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks
 
 /**
  * Класс приложения
@@ -26,7 +26,7 @@ class App : MultiDexApplication() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+        registerActivityLifecycleCallbacks(object : ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity
             }

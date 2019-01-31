@@ -31,6 +31,8 @@ class BasePushHandleStrategy : SimpleAbstractPushHandleStrategy<NotificationType
     override val color: Int
         get() = R.color.colorAccent
 
+    override val group = NotificationsGroup("Messages")
+
     override fun preparePendingIntent(context: Context, title: String): PendingIntent {
         return PendingIntent.getActivity(
                 context,

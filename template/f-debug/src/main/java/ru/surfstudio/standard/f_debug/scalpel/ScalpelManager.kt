@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
-import ru.surfstudio.android.activity.holder.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.standard.base_ui.DefaultActivityLifecycleCallbacks
 import java.util.concurrent.TimeUnit
 
 /**

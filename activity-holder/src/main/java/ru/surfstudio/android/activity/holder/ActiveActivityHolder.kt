@@ -25,7 +25,7 @@ import io.reactivex.subjects.PublishSubject
 class ActiveActivityHolder {
 
     private val activitySubject = PublishSubject.create<Activity>()
-    val activityObservable: Observable<Activity> = activitySubject
+    val activityObservable = activitySubject.hide()
 
     var activity: Activity? = null
         set(value) {

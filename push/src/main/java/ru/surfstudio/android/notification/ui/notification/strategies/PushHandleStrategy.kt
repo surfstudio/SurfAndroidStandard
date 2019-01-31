@@ -26,8 +26,14 @@ import androidx.annotation.StringRes
 import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
+import ru.surfstudio.android.notification.ui.notification.NOTIFICATION_GROUP_ID
 import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelper
+import ru.surfstudio.android.notification.ui.notification.NotificationDismissedReceiver
 import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
+
+
+
+
 
 /**
  * Стратегия обработки пуша
@@ -108,6 +114,42 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     lateinit var pendingIntent: PendingIntent
 
     /**
+     * Действия при отмены пуш
+     */
+    var deleteIntent: PendingIntent? = null
+
+    /**
+     * Определяем в каких случайх пуш не надо отображать,
+     * а необходимо выполнить те или иные действия по подписке
+     */
+    abstract fun handlePushInActivity(activity: Activity): Boolean
+
+    /**
+     * Интент в соответствии с необходимыми действиями
+     */
+    abstract fun preparePendingIntent(context: Context, title: String): PendingIntent
+
+    /**
+     * Интент при нажатии на пуш, если приложение в бэкграунде
+     */
+    abstract fun coldStartIntent(context: Context): Intent
+
+    /**
+     * Метод для инициализации билдера нотификаций.
+     *
+     * @param context контекст
+     * @param title заголовок пуш-нотификации
+     * @param body текст пуш-нотификации
+     */
+    abstract fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder?
+
+
+    /**
+     * Метод для создания канала нотификаций
+     */
+    abstract fun makeNotificationChannel(context: Context, title: String): NotificationChannel?
+
+    /**
      * Требуемое действие нотификации
      *
      * @param context текущий контекст
@@ -125,10 +167,11 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     ) {
 
         pendingIntent = preparePendingIntent(context, title)
+        channel = makeNotificationChannel(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         groupSummaryNotificationBuilder = makeGroupSummaryNotificationBuilder(context, title, body)
-        channel = makeNotificationChannel(context, title)
         pushId = makePushId(uniqueId)
+        deleteIntent = makeDeleteIntent(context, group?.id)
         pushInteractor.onNewNotification(typeData)
 
         if (context is Activity && handlePushInActivity(context)) return
@@ -164,6 +207,23 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     }
 
     /**
+     * Метод для инициализации builder'а заголовка группы нотификаций.
+     */
+    open fun makeGroupSummaryNotificationBuilder(context: Context,
+                                                 title: String,
+                                                 body: String): NotificationCompat.Builder? {
+        return null
+    }
+
+    open fun makeDeleteIntent(context: Context, groupId: Int?): PendingIntent? {
+        groupId ?: return null
+        val intent = Intent(context, NotificationDismissedReceiver::class.java)
+        intent.putExtra(NOTIFICATION_GROUP_ID, groupId)
+        return PendingIntent.getBroadcast(context.applicationContext,
+                groupId, intent, PendingIntent.FLAG_ONE_SHOT)
+    }
+
+    /**
      * Инициализация идентификатора пуш-нотификации.
      *
      * Если ID пуша не задано явно в стратегии, все пуши будут иметь уникальный ID.
@@ -190,43 +250,4 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
                 body
         )
     }
-
-    /**
-     * Определяем в каких случайх пуш не надо отображать,
-     * а необходимо выполнить те или иные действия по подписке
-     */
-    abstract fun handlePushInActivity(activity: Activity): Boolean
-
-    /**
-     * Интент в соответствии с необходимыми действиями
-     */
-    abstract fun preparePendingIntent(context: Context, title: String): PendingIntent
-
-    /**
-     * Интент при нажатии на пуш, если приложение в бэкграунде
-     */
-    abstract fun coldStartIntent(context: Context): Intent
-
-    /**
-     * Метод для инициализации билдера нотификаций.
-     *
-     * @param context контекст
-     * @param title заголовок пуш-нотификации
-     * @param body текст пуш-нотификации
-     */
-    abstract fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder?
-
-    /**
-     * Метод для инициализации builder'а заголовка группы нотификаций.
-     */
-    open fun makeGroupSummaryNotificationBuilder(context: Context,
-                                                 title: String,
-                                                 body: String): NotificationCompat.Builder? {
-        return null
-    }
-
-    /**
-     * Метод для создания канала нотификаций
-     */
-    abstract fun makeNotificationChannel(context: Context, title: String): NotificationChannel?
 }

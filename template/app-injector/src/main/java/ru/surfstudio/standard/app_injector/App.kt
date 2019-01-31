@@ -2,12 +2,9 @@ package ru.surfstudio.standard.app_injector
 
 import android.app.Activity
 import androidx.multidex.MultiDexApplication
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
 //import com.crashlytics.android.Crashlytics
 //import com.crashlytics.android.core.CrashlyticsCore
 import com.github.anrwatchdog.ANRWatchDog
-import io.fabric.sdk.android.Fabric
 //import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
@@ -20,7 +17,7 @@ import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.android.template.app_injector.R
 import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
 import ru.surfstudio.standard.app_injector.ui.screen.configurator.storage.ScreenConfiguratorStorage
-import ru.surfstudio.android.activity.holder.DefaultActivityLifecycleCallbacks
+import ru.surfstudio.standard.base_ui.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
 import ru.surfstudio.standard.base_ui.provider.route.RouteClassProvider
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
@@ -44,7 +41,7 @@ class App : MultiDexApplication() {
             return
         }
 
-        initFabric()
+//        initFabric()
         initComponentProvider()
         initRouteProvider()
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
@@ -78,15 +75,15 @@ class App : MultiDexApplication() {
         }
     }
 
-    private fun initFabric() {
-        Fabric.with(this, *getFabricKits())
-    }
+//    private fun initFabric() {
+//        Fabric.with(this, *getFabricKits())
+//    }
 
-    private fun getFabricKits() = arrayOf(Crashlytics.Builder()
-            .core(CrashlyticsCore.Builder()
-                    .disabled(BuildConfig.DEBUG)
-                    .build())
-            .build())
+//    private fun getFabricKits() = arrayOf(Crashlytics.Builder()
+//            .core(CrashlyticsCore.Builder()
+//                    .disabled(BuildConfig.DEBUG)
+//                    .build())
+//            .build())
 
     /**
      * отслеживает ANR и отправляет в крашлитикс
