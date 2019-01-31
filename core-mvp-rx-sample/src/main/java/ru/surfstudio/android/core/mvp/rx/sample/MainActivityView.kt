@@ -31,6 +31,15 @@ class MainActivityView : BaseRxActivityView<MainViewBinding>() {
 
     @Inject
     lateinit var presenter: MainPresenter
+    @Inject
+    lateinit var counterPresenter: CounterPresenter
+    @Inject
+    lateinit var doubleTextPresenter: DoubleTextPresenter
+    @Inject
+    lateinit var mainNavigationPresenter: MainNavigationPresenter
+    @Inject
+    lateinit var dialogControlPresenter: DialogControlPresenter
+
 
     override fun bind(vb: MainViewBinding) {
         vb.counterBond.observable.map { it.toString() } bindTo main_counter_tv::setText
@@ -56,7 +65,11 @@ class MainActivityView : BaseRxActivityView<MainViewBinding>() {
 
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun getPresenters() = arrayOf(presenter)
+    override fun getPresenters() = arrayOf(presenter,
+            mainNavigationPresenter,
+            counterPresenter,
+            doubleTextPresenter,
+            dialogControlPresenter)
 
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

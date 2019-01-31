@@ -49,12 +49,11 @@ package ru.surfstudio.android.core.mvp.rx.sample
  */
 
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import org.junit.Test
 import ru.surfstudio.android.core.mvp.rx.sample.checkbox.CheckboxActivityView
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.main.EAMainActivityView
@@ -72,15 +71,19 @@ class MainActivityViewTest : BaseSampleTest<MainActivityView>(MainActivityView::
         performClick(R.id.main_dec_btn)
         onView(withId(R.id.main_counter_tv)).check(matches(withText("1")))
 
+        performClick(R.id.dialog_sample_btn)
+        onView(withText("Sample text")).check(matches(isDisplayed()))
+        pressBack()
+
         performClick(R.id.checkbox_sample_btn)
         checkIfActivityIsVisible(CheckboxActivityView::class.java)
-        Espresso.pressBack()
+        pressBack()
 
         performClick(R.id.easy_adapter_sample_btn)
         checkIfActivityIsVisible(EAMainActivityView::class.java)
 
         onView(withText("Commercial")).perform(click())
         checkIfActivityIsVisible(PaginationActivityView::class.java)
-        Espresso.pressBack()
+        pressBack()
     }
 }

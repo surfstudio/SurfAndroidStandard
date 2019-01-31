@@ -5,7 +5,6 @@ import dagger.Component
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
-import ru.surfstudio.android.core.mvp.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
@@ -28,8 +27,32 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
 
         @Provides
         @PerScreen
-        fun provideStandardDialogPresenter(presenter: MainPresenter): BaseRxPresenter<out SampleDialogBindingModel> {
-            return presenter
+        fun provideStandardDialogPresenter(vb: MainViewBinding): SampleDialogViewBinding {
+            return vb
+        }
+
+        @Provides
+        @PerScreen
+        fun provideCounterVB(vb: MainViewBinding): CounterViewBinding {
+            return vb
+        }
+
+        @Provides
+        @PerScreen
+        fun provideMainNavigationVB(vb: MainViewBinding): MainNavigationViewBinding {
+            return vb
+        }
+
+        @Provides
+        @PerScreen
+        fun dialogControlVB(vb: MainViewBinding): DialogControlViewBinding {
+            return vb
+        }
+
+        @Provides
+        @PerScreen
+        fun doubleTextViewBindingVB(vb: MainViewBinding): DoubleTextViewBinding {
+            return vb
         }
     }
 

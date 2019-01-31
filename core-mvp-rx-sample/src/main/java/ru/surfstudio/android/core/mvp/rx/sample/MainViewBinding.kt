@@ -20,27 +20,30 @@ import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Bond
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Command
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
+import ru.surfstudio.android.dagger.scope.PerScreen
+import javax.inject.Inject
 
 /**
  *  Модель главного экрана с примерами
  */
-class MainViewBinding : SampleDialogBindingModel {
+@PerScreen
+class MainViewBinding @Inject constructor() : DialogControlViewBinding, CounterViewBinding, MainNavigationViewBinding, DoubleTextViewBinding {
 
     override val dialogInputAction = Action<String>()
     override val dialogPositiveAction = Action<Unit>()
     override val dialogNegativeAction = Action<Unit>()
+    override val dialogOpenAction = Action<Unit>()
+    override val messageCommand = Command<String>()
 
-    val incAction = Action<Unit>()
-    val decAction = Action<Unit>()
-    val doubleTextAction = Action<Unit>()
-    val checkboxSampleActivityOpen = Action<Unit>()
-    val easyadapterSampleActivityOpen = Action<Unit>()
-    val dialogOpenAction = Action<Unit>()
+    override val incAction = Action<Unit>()
+    override val decAction = Action<Unit>()
+    override val counterBond = Bond(0)
 
-    val messageCommand = Command<String>()
+    override val checkboxSampleActivityOpen = Action<Unit>()
+    override val easyadapterSampleActivityOpen = Action<Unit>()
 
-    val textEditBond = Bond<String>()
-    val counterBond = Bond(0)
+    override val doubleTextAction = Action<Unit>()
+    override val textEditBond = Bond<String>()
 
     val sampleState = State<String>()
 }

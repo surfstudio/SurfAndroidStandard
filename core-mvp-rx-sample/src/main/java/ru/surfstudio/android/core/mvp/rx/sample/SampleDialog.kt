@@ -33,7 +33,7 @@ import javax.inject.Inject
 class SampleDialog : BaseRxSimpleDialogFragment() {
 
     @Inject
-    lateinit var presenter: MainPresenter
+    lateinit var vb: SampleDialogViewBinding
 
     override fun getName(): String = "Sample Dialog"
 
@@ -43,7 +43,7 @@ class SampleDialog : BaseRxSimpleDialogFragment() {
         inject()
 
         val editText = EditText(context).apply {
-            textChanges().map { it.toString() } bindTo presenter.vb.dialogInputAction
+            textChanges().map { it.toString() } bindTo vb.dialogInputAction
         }
 
         return builder
@@ -51,12 +51,11 @@ class SampleDialog : BaseRxSimpleDialogFragment() {
                 .setMessage("Sample text")
                 .setView(editText)
                 .setNegativeButton(android.R.string.cancel) { _, _ ->
-
-                    presenter.vb.dialogNegativeAction.accept()
+                    vb.dialogNegativeAction.accept()
                     dismiss()
                 }
                 .setPositiveButton(android.R.string.ok) { _, _ ->
-                    presenter.vb.dialogPositiveAction.accept()
+                    vb.dialogPositiveAction.accept()
                     dismiss()
                 }
                 .create()
@@ -87,7 +86,7 @@ class SampleDialogRoute : DialogRoute() {
 /**
  * Интерфейс для общения с презентором
  */
-interface SampleDialogBindingModel : ViewBinding {
+interface SampleDialogViewBinding : ViewBinding {
 
     val dialogPositiveAction: Action<Unit>
     val dialogNegativeAction: Action<Unit>
