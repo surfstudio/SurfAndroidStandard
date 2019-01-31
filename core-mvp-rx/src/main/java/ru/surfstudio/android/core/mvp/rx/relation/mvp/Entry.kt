@@ -18,14 +18,13 @@ package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
 import ru.surfstudio.android.core.mvp.rx.relation.RelationEntity
 
-interface ActionSource : RelationEntity
-interface ActionTarget : RelationEntity
+/*
+ * Интерфейсы для обозначения направлений связи
+ */
 
-interface CommandSource : RelationEntity
-interface CommandTarget : RelationEntity
+interface BondSource : RelationEntity
 
-interface StateSource : RelationEntity
-interface StateTarget : RelationEntity
+interface BondTarget : RelationEntity
 
-object VIEW : ActionSource, CommandTarget, StateSource, StateTarget
-object PRESENTER : ActionTarget, CommandSource, StateSource, StateTarget
+object VIEW : BondSource, BondTarget, RelationEntity
+object PRESENTER : BondSource, BondTarget, RelationEntity

@@ -18,7 +18,6 @@ package ru.surfstudio.android.core.mvp.rx.relation.mvp
 
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.rx.relation.Relation
 import ru.surfstudio.android.core.mvp.rx.relation.ValuableRelation
 import java.util.concurrent.atomic.AtomicReference
 
@@ -29,7 +28,7 @@ import java.util.concurrent.atomic.AtomicReference
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
-class Bond<T>(initialValue: T? = null) : ValuableRelation<T, StateSource, StateTarget>() {
+class Bond<T>(initialValue: T? = null) : ValuableRelation<T, BondSource, BondTarget>() {
 
     private val action = initialValue?.let { Action(it) } ?: Action()
     private val command = initialValue?.let { State(it) } ?: State()
@@ -39,15 +38,14 @@ class Bond<T>(initialValue: T? = null) : ValuableRelation<T, StateSource, StateT
     override val internalValue: T get() = cachedValue.get()
     override val hasValue: Boolean get() = cachedValue.get() != null
 
-
-    override fun getConsumer(source: StateSource): Consumer<T> =
+    override fun getConsumer(source: BondSource): Consumer<T> =
             when (source) {
                 is VIEW -> action.getConsumer(source)
                 is PRESENTER -> command.getConsumer(source)
                 else -> throw IllegalArgumentException("Illegal relationEntity $source")
             }
 
-    override fun getObservable(target: StateTarget): Observable<T> =
+    override fun getObservable(target: BondTarget): Observable<T> =
             when (target) {
                 is PRESENTER -> action.getObservable(target)
                 is VIEW -> command.getObservable(target)
