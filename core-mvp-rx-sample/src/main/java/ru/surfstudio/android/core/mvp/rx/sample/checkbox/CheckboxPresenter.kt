@@ -27,7 +27,7 @@ import javax.inject.Inject
  */
 class CheckboxPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
-) : BaseRxPresenter<CheckboxViewBinding, CheckboxActivityView>(basePresenterDependency) {
+) : BaseRxPresenter<CheckboxViewBinding>(basePresenterDependency) {
 
     override val vb = CheckboxViewBinding()
 

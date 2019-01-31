@@ -28,7 +28,7 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
 
         @Provides
         @PerScreen
-        fun provideStandardDialogPresenter(presenter: MainPresenter): BaseRxPresenter<out SampleDialogBindingModel, *> {
+        fun provideStandardDialogPresenter(presenter: MainPresenter): BaseRxPresenter<out SampleDialogBindingModel> {
             return presenter
         }
     }

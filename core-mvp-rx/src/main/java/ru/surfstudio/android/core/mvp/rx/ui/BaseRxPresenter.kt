@@ -24,18 +24,15 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.mvp.rx.relation.Related
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.PRESENTER
-import ru.surfstudio.android.core.mvp.view.CoreView
 
 /**
  * Презентер поддерживающий связывание модели и представления.
  * Работет в паре с [BindableRxView]
  */
-abstract class BaseRxPresenter<M, V>(
+abstract class BaseRxPresenter<M>(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<V>(basePresenterDependency), Related<PRESENTER>
-        where M : ViewBinding,
-              V : CoreView,
-              V : BindableRxView<M> {
+) : BasePresenter<BindableRxView<M>>(basePresenterDependency), Related<PRESENTER>
+        where M : ViewBinding {
 
     override fun relationEntity() = PRESENTER
 

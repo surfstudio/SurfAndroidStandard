@@ -33,7 +33,7 @@ class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val activityNavigator: ActivityNavigator,
         private val dialogNavigator: DialogNavigator
-) : BaseRxPresenter<MainViewBinding, MainActivityView>(basePresenterDependency) {
+) : BaseRxPresenter<MainViewBinding>(basePresenterDependency) {
 
     override val vb = MainViewBinding()
 

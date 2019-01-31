@@ -35,7 +35,7 @@ private const val INTERVAL_MS: Long = 2500
 @PerScreen
 class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                           private val activityNavigator: ActivityNavigator)
-    : BaseRxPresenter<MainViewBinding, EAMainActivityView>(basePresenterDependency) {
+    : BaseRxPresenter<MainViewBinding>(basePresenterDependency) {
 
     private val screenModelFactory = MainModelRepository()
 

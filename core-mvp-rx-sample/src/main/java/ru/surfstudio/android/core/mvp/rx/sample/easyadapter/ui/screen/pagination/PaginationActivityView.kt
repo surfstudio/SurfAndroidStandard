@@ -89,6 +89,8 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
                 vb.stubsState.observable,
                 vb.paginationState.observable,
                 ::createItemList) bindTo { p -> adapter.setItems(p.first, p.second) }
+
+        vb.showMessageCommand bindTo ::showText
     }
 
     private fun createItemList(loadState: LoadState,
@@ -104,7 +106,7 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
         return itemList to paginationState
     }
 
-    fun showText(text: String) {
+    private fun showText(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }
 }

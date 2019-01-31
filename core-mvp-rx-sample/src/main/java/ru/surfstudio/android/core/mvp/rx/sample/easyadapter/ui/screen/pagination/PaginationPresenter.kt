@@ -35,7 +35,7 @@ import javax.inject.Inject
 class PaginationPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val elementRepository: ElementRepository
-) : BaseRxPresenter<PaginationPresentationModel, PaginationActivityView>(basePresenterDependency) {
+) : BaseRxPresenter<PaginationPresentationModel>(basePresenterDependency) {
 
     override val vb = PaginationPresentationModel()
 
@@ -63,7 +63,7 @@ class PaginationPresenter @Inject constructor(
         loadMainSubscription = subscribeIo(
                 elementRepository.getElements(DEFAULT_PAGE),
                 { elements ->
-                    view.showText("Data loaded")
+                    vb.showMessageCommand.accept("Data loaded")
                     val newElements = updateDataList(elements)
 
                     vb.elementsState.accept(newElements)
@@ -74,12 +74,12 @@ class PaginationPresenter @Inject constructor(
                 {
                     setErrorLoadState(vb.elementsState.value)
                     setErrorPaginationState(vb.elementsState.value)
-                    view.showText("Imitate load data error")
+                    vb.showMessageCommand.accept("Imitate load data error")
                 })
     }
 
     private fun loadMore() {
-        view.showText("Start pagination request")
+        vb.showMessageCommand.accept("Start pagination request")
         loadMoreSubscription =
                 elementRepository.getElements(vb.elementsState.value.nextPage)
                         .observeOn(AndroidSchedulers.mainThread())
@@ -88,11 +88,11 @@ class PaginationPresenter @Inject constructor(
                                     val newElements = updateDataList(elements)
                                     vb.elementsState.accept(vb.elementsState.value.merge(newElements))
                                     setNormalPaginationState(vb.elementsState.value)
-                                    view.showText("Pagination request complete")
+                                    vb.showMessageCommand.accept("Pagination request complete")
                                 },
                                 {
                                     setErrorPaginationState(vb.elementsState.value)
-                                    view.showText("Imitate pagination request error")
+                                    vb.showMessageCommand.accept("Imitate pagination request error")
                                 })
     }
 

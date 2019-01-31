@@ -18,6 +18,7 @@ package ru.surfstudio.android.core.mvp.rx.sample.easyadapter.ui.screen.paginatio
 
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.rx.relation.mvp.Command
 import ru.surfstudio.android.core.mvp.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.core.mvp.rx.sample.easyadapter.domain.datalist.DataList
@@ -35,6 +36,7 @@ class PaginationPresentationModel : ViewBinding {
     val getMoreAction = Action<Unit>()
     val selectElementAction = Action<Element>()
 
+    val showMessageCommand = Command<String>()
     val elementsState = State<DataList<SelectableData<Element>>>(DataList.empty())
     val stubsState = State(generateStubs(20))
     val loadState = State<LoadState>(None)
