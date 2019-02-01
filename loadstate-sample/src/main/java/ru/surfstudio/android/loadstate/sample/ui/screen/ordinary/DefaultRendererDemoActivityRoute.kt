@@ -5,11 +5,10 @@ import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 
 /**
- * Роут экрана для демострации работы DefaultLoadStateRenderer
+ * Роут экрана для демонстрации работы DefaultLoadStateRenderer
  */
 class DefaultRendererDemoActivityRoute : ActivityRoute() {
     override fun prepareIntent(context: Context): Intent {
-        val intent = Intent(context, DefaultRendererDemoActivityView::class.java)
-        return intent
+        return Intent(context, DefaultRendererDemoActivityView::class.java)
     }
 }

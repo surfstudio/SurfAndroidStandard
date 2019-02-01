@@ -18,7 +18,7 @@ import ru.surfstudio.android.loadstate.sample.ui.screen.ordinary.controllers.Exa
 import javax.inject.Inject
 
 /**
- * Вью экрана todo
+ * Вью экрана для демонстрации работы DefaultLoadStateRenderer с использованием заглушек (шиммеров)
  */
 class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsDemoScreenModel>() {
 
@@ -31,7 +31,7 @@ class RendererWithStubsDemoActivityView : BaseLdsActivityView<RendererWithStubsD
                 .apply {
                     //пример управления видимостью View в зависимости от стейта
                     setViewVisibleFor(
-                            ErrorLoadState::class.java,
+                            ErrorLoadState::class,
                             retry_btn)
                 }
     }

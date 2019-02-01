@@ -16,7 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.screen.actions.RendererWithActionsDemoActivityView" />
         <activity android:name=".ui.screen.stubs.RendererWithStubsDemoActivityView" />
         <activity android:name=".ui.screen.ordinary.DefaultRendererDemoActivityView" />
     </application>

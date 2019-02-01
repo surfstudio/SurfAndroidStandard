@@ -38,6 +38,6 @@ class MainLoadingStatePresentation(private val placeHolder: PlaceHolderViewConta
 
     private fun colorProgressBar(view: View) {
         val progressBar: MaterialProgressBar = view.findViewById(R.id.placeholder_loading_pb)
-        progressBar.indeterminateTintList = ColorStateList.valueOf(progressBarColor)
+        progressBar.supportIndeterminateTintList = ColorStateList.valueOf(progressBarColor)
     }
 }

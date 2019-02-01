@@ -11,7 +11,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.animations.anim.fadeIn
 import ru.surfstudio.android.animations.anim.fadeOut
-import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -20,7 +19,8 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 class PlaceHolderViewContainer(
         context: Context,
-        attributeSet: AttributeSet) : FrameLayout(context, attributeSet) {
+        attributeSet: AttributeSet
+) : FrameLayout(context, attributeSet) {
 
     companion object {
         const val DEFAULT_DURATION = 300L

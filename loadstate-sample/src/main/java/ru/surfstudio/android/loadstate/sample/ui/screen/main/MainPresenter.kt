@@ -14,7 +14,8 @@ import javax.inject.Inject
 @PerScreen
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val activityNavigator: ActivityNavigator) : BasePresenter<MainActivityView>(basePresenterDependency) {
+        private val activityNavigator: ActivityNavigator
+) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     fun openDefaultStatesScreen() {
         activityNavigator.start(DefaultRendererDemoActivityRoute())

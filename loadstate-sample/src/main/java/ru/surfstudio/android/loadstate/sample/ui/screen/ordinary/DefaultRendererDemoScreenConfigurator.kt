@@ -11,7 +11,7 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivity
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
- * Конфигуратор экрана для демострации работы DefaultLoadStateRenderer
+ * Конфигуратор экрана для демонстрации работы DefaultLoadStateRenderer
  */
 class DefaultRendererDemoScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
 
@@ -25,6 +25,7 @@ class DefaultRendererDemoScreenConfigurator(intent: Intent) : DefaultActivityScr
     internal class DefaultRendererDemoScreenModule(route: DefaultRendererDemoActivityRoute)
         : DefaultCustomScreenModule<DefaultRendererDemoActivityRoute>(route)
 
+    @Suppress("DEPRECATION")
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {

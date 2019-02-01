@@ -14,19 +14,19 @@ class DefaultLoadStateRenderer(
 
     init {
         putPresentation(
-                NoneLoadState::class.java,
+                NoneLoadState::class,
                 NoneLoadStatePresentation(placeHolderView))
         putPresentation(
-                EmptyLoadState::class.java,
+                EmptyLoadState::class,
                 EmptyLoadStatePresentation(placeHolderView))
         putPresentation(
-                ErrorLoadState::class.java,
+                ErrorLoadState::class,
                 ErrorLoadStatePresentation(placeHolderView))
         putPresentation(
-                MainLoadingState::class.java,
+                MainLoadingState::class,
                 MainLoadingStatePresentation(placeHolderView))
         putPresentation(
-                TransparentLoadingState::class.java,
+                TransparentLoadingState::class,
                 TransparentLoadingStatePresentation(placeHolderView))
     }
 
@@ -35,7 +35,7 @@ class DefaultLoadStateRenderer(
                          subtitleRes: Int? = null,
                          btnRes: Int? = null,
                          onBtnClickedListener: (() -> Unit)? = null): DefaultLoadStateRenderer {
-        (getPresentation(EmptyLoadState::class.java) as EmptyLoadStatePresentation)
+        (getPresentation(EmptyLoadState::class) as EmptyLoadStatePresentation)
                 .configState(
                         imageRes,
                         titleRes,
@@ -50,7 +50,7 @@ class DefaultLoadStateRenderer(
                          subtitleRes: Int? = null,
                          btnRes: Int? = null,
                          onBtnClickedListener: (() -> Unit)? = null): DefaultLoadStateRenderer {
-        (getPresentation(ErrorLoadState::class.java) as ErrorLoadStatePresentation)
+        (getPresentation(ErrorLoadState::class) as ErrorLoadStatePresentation)
                 .configState(
                         imageRes,
                         titleRes,

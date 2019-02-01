@@ -11,7 +11,7 @@ android {
     buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion project.ext.minSdkVersion
+        minSdkVersion project.ext.sampleMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
         versionName project.ext.moduleVersionName
@@ -33,5 +33,11 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
+}
+
+task printTestInstrumentationRunnerName {
+    doLast {
+        println "$android.defaultConfig.testInstrumentationRunner"
+    }
 }
