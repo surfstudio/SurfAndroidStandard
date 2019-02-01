@@ -13,28 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.analytics;
-
-import ru.surfstudio.android.analytics.event.Event;
-import ru.surfstudio.android.analytics.event.EventSender;
+package ru.surfstudio.android.analyticsv2
 
 /**
- * Базовый сервис аналитики
+ * Имя события
+ * В большинстве серсвисах аналитики есть имя события
  */
-@Deprecated
-public class BaseAnalyticsService {
-
-    protected Analytics apiStore;
-
-    public BaseAnalyticsService(Analytics apiStore) {
-        this.apiStore = apiStore;
-    }
-
-    public void sendEvent(Event event) {
-        create(event).send();
-    }
-
-    protected EventSender create(Event event) {
-        return EventSender.create(apiStore, event);
-    }
+interface HasKey {
+    fun key() : String
 }

@@ -13,28 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.analytics;
+package ru.surfstudio.android.firebaseanalytics.api
 
-import ru.surfstudio.android.analytics.event.Event;
-import ru.surfstudio.android.analytics.event.EventSender;
+import ru.surfstudio.android.analyticsv2.core.AnalyticAction
 
 /**
- * Базовый сервис аналитики
+ * Действие установки параметров setUserProperty для FireBaseAnalytics
+ * @param key ключ userProperty
+ * @param value значение userProperty
  */
-@Deprecated
-public class BaseAnalyticsService {
-
-    protected Analytics apiStore;
-
-    public BaseAnalyticsService(Analytics apiStore) {
-        this.apiStore = apiStore;
-    }
-
-    public void sendEvent(Event event) {
-        create(event).send();
-    }
-
-    protected EventSender create(Event event) {
-        return EventSender.create(apiStore, event);
-    }
-}
+open class FirebaseAnalyticSetUserPropertyAction(val key : String, val value: String) : AnalyticAction

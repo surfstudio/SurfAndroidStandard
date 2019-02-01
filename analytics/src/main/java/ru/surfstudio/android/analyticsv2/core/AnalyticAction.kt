@@ -13,28 +13,12 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.analytics;
-
-import ru.surfstudio.android.analytics.event.Event;
-import ru.surfstudio.android.analytics.event.EventSender;
+package ru.surfstudio.android.analyticsv2.core
 
 /**
- * Базовый сервис аналитики
+ * Представление действия в аналитике.
+ * "Действие" идет без привязки к реализации конкретного сервиса аналитики,
+ * т.е реализующая сущность может выполнить любое действия на конкретном api (Firebase, Flurry, AppMetrica...),
+ * например, отправку события или установку свойств пользователя (setUserProperty)
  */
-@Deprecated
-public class BaseAnalyticsService {
-
-    protected Analytics apiStore;
-
-    public BaseAnalyticsService(Analytics apiStore) {
-        this.apiStore = apiStore;
-    }
-
-    public void sendEvent(Event event) {
-        create(event).send();
-    }
-
-    protected EventSender create(Event event) {
-        return EventSender.create(apiStore, event);
-    }
-}
+interface AnalyticAction
