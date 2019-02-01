@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC, Zhilo Oleg.
+  Copyright (c) 2018-present, SurfStudio LLC, Oleg Zhilo.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,10 +15,19 @@
  */
 package ru.surfstudio.android.security.session
 
+import ru.surfstudio.android.core.app.ActivityLifecycleListener
+
 /**
- * Интерфейс для реалзиции сущности контролирующей сессиию
+ * CallBack для отслеживания сессии Aсtivty
  */
-interface SessionController {
-    fun onSessionExpired()
-    fun getDurationMillis(): Long
-}
+class SessionActivityCallback(private val sessionManager: SessionManager) : ActivityLifecycleListener(
+        onActivityStarted = { activity ->
+                activity?.let {
+                        sessionManager.onActivityStarted(activity)
+                }
+        },
+
+        onActivityStopped = {
+                sessionManager.onActivityStopped()
+        }
+)

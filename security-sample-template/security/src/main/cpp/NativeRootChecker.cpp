@@ -37,7 +37,6 @@ inline bool file_exists(const std::string &name) {
     return f.rdstate() == 0;
 }
 
-
 bool rooted() {
     for (int i = 0; i < folders->length(); ++i) {
         if (file_exists(folders[i])) {
@@ -46,4 +45,3 @@ bool rooted() {
     }
     return false;
 }
-

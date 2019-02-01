@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivityScreenConfigurator
+import ru.surfstudio.android.security.session.SessionalActivity
 import ru.surfstudio.android.security.ui.deleteContextMenuItems
 import ru.surfstudio.android.security.ui.enableSecureMode
 import javax.inject.Inject
@@ -16,7 +17,7 @@ import javax.inject.Inject
 /**
  * Вью главного экрана
  */
-class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
+class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), SessionalActivity {
 
     @Inject
     lateinit var presenter: MainPresenter
