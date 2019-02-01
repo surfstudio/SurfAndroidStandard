@@ -6,6 +6,8 @@
 
 #### analytics
 #### animations
+* ANDDEP-391 Добавлен параметр `defaultAlpha` для функций `fadeIn(...)` и `fadeOut(...)`.
+Он сохраняет постоянную прозрачность для View при одновременном множественном вызове анимаций.
 #### app-migration
 #### broadcast-extension
 #### connection

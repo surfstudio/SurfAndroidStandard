@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
+import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.R
-import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
 import ru.surfstudio.android.loadstate.sample.ui.base.loadstate.states.ErrorLoadState
 
 /**
@@ -51,7 +51,7 @@ class ErrorLoadStatePresentation(private val placeHolder: PlaceHolderViewContain
     override fun showState(state: ErrorLoadState) {
         initViews(view)
         placeHolder.changeViewTo(view)
-        placeHolder.changeVisibility(View.VISIBLE)
+        placeHolder.show()
     }
 
     fun configState(imageRes: Int? = null,

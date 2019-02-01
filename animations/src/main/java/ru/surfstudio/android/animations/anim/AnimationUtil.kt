@@ -44,20 +44,28 @@ object AnimationUtil {
                        duration: Long = ANIM_LARGE_TRANSITION,
                        visibility: Int = View.GONE,
                        endAction: (() -> Unit)? = null) {
-        fadeIn(inView, duration, endAction)
-        fadeOut(outView, duration, visibility, endAction)
+        fadeIn(inView, duration, endAction = endAction)
+        fadeOut(outView, duration, visibility, endAction = endAction)
     }
+
 
     /**
      * Сокрытие вью с изменением прозрачности
+     * @param outView целевой view
+     * @param duration длительность анимации (в мс)
+     * @param endVisibility конечное значение видимости элемента
+     * @param defaultAlpha  дефолтная прозрачность (следует переопределять, когда анимации вызываются часто,
+     *                      и необходимо статичное значение)
+     * @param endAction конечное действие
      */
-    fun fadeOut(outView: View,
-                duration: Long = ANIM_LEAVING,
-                visibility: Int = View.GONE,
-                successfulEndAction: (() -> Unit)? = null) {
 
-        val alpha = outView.alpha
-
+    fun fadeOut(
+            outView: View,
+            duration: Long = ANIM_LEAVING,
+            endVisibility: Int = View.GONE,
+            defaultAlpha: Float = outView.alpha,
+            endAction: (() -> Unit)? = null
+    ) {
         outView.clearAnimation()
         ViewCompat.animate(outView)
                 .alpha(0f)
@@ -65,27 +73,36 @@ object AnimationUtil {
                 .setInterpolator(LinearOutSlowInInterpolator())
                 .setListener(DefaultViewPropertyAnimatorListener())
                 .withEndAction {
-                    outView.visibility = visibility
-                    outView.alpha = alpha
-                    successfulEndAction?.invoke()
+                    outView.visibility = endVisibility
+                    outView.alpha = defaultAlpha
+                    endAction?.invoke()
                 }
     }
 
     /**
      * Появление вью с изменением прозрачности
+     *
+     * @param inView целевой view
+     * @param duration длительность анимации (в мс)
+     * @param defaultAlpha  дефолтная прозрачность (следует переопределять, когда анимации вызываются часто,
+     *                      и необходимо статичное значение)
+     * @param endAction заключительное действие
      */
-    fun fadeIn(inView: View, duration: Long = ANIM_ENTERING, endAction: (() -> Unit)? = null) {
+    fun fadeIn(
+            inView: View,
+            duration: Long = ANIM_ENTERING,
+            defaultAlpha: Float = inView.alpha,
+            endAction: (() -> Unit)? = null
+    ) {
 
         val animatorListener = DefaultViewPropertyAnimatorListener(inView.alpha, inView.visibility)
-
-        val alpha = inView.alpha
 
         inView.alpha = 0f
         inView.visibility = View.VISIBLE
 
         inView.clearAnimation()
         ViewCompat.animate(inView)
-                .alpha(alpha)
+                .alpha(defaultAlpha)
                 .setDuration(duration)
                 .setInterpolator(FastOutLinearInInterpolator())
                 .setListener(animatorListener)

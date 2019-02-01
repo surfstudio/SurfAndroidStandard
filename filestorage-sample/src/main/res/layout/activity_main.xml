@@ -43,7 +43,7 @@
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.PlaceHolderViewContainer
+    <ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
