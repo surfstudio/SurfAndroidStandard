@@ -5,10 +5,8 @@ import android.os.PersistableBundle
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_create_pin.*
-import ru.surfstudio.android.core.mvp.activity.BaseLdsActivityView
+import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.sample.common.ui.base.loadstate.ErrorLoadState
-import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.DefaultLoadStateRenderer
 import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import javax.inject.Inject
@@ -16,28 +14,7 @@ import javax.inject.Inject
 /**
  * Вью экрана ввода pin-кода
  */
-class CreatePinActivityView : BaseLdsActivityView<CreatePinScreenModel>() {
-
-    private val renderer: DefaultLoadStateRenderer by lazy {
-        DefaultLoadStateRenderer(placeholder)
-                .apply {
-                    //пример добавления представления кастомного стейта
-//                    putPresentation(
-//                            CustomLoadState::class,
-//                            CustomLoadStatePresentation(placeholder))
-//
-//                    // установка листнеров на кнопки, при необходимости смена ресурсов
-//                    configEmptyState(onBtnClickedListener = { toast(R.string.empty_state_toast_msg) })
-//                    configErrorState(onBtnClickedListener = { toast(R.string.error_state_toast_msg) })
-//
-//                    //пример задания дополнительных действий при смене лоадстейта
-//                    forState(ErrorLoadState::class,
-//                            run = { colorToolbar(R.color.colorAccent) },
-//                            elseRun = { colorToolbar(R.color.colorPrimary) })
-                }
-    }
-
-    override fun getLoadStateRenderer() = renderer
+class CreatePinActivityView : BaseRenderableActivityView<CreatePinScreenModel>() {
 
     @Inject
     lateinit var presenter: CreatePinPresenter

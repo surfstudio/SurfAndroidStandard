@@ -9,4 +9,5 @@
     <string name="get_apikey_by_pin_btn">Get apiKey by PIN</string>
     <string name="pin_created_message">New pin created</string>
     <string name="security_error">Security error</string>
+    <string name="empty_string"></string>
 </resources>

@@ -42,15 +42,10 @@ class CreatePinPresenter @Inject constructor(basePresenterDependency: BasePresen
 
     private fun <T> loadData(observable: Observable<T>,
                              onNext: (T) -> Unit) {
-        screenModel.loadState = LoadState.MAIN_LOADING
-        view.render(screenModel)
-
         subscribeIoHandleError(observable, {
             onNext(it)
-            screenModel.loadState = LoadState.NONE
             view.render(screenModel)
         }, {
-            screenModel.loadState = LoadState.NONE
             view.render(screenModel)
         })
     }
