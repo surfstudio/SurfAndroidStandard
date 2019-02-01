@@ -21,6 +21,7 @@ import ru.surfstudio.android.analytics.event.EventSender;
 /**
  * Базовый сервис аналитики
  */
+@Deprecated
 public class BaseAnalyticsService {
 
     protected Analytics apiStore;

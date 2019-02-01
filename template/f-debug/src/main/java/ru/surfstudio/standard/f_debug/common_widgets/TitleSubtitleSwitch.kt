@@ -58,10 +58,10 @@ class TitleSubtitleSwitch(context: Context, attrs: AttributeSet) : ConstraintLay
         typedArray.recycle()
     }
 
-    fun setOnCheckedChangeListener(listener: ((CompoundButton, Boolean) -> Unit)) {
-        value_switch.setOnCheckedChangeListener { buttonView, isChecked ->
-            onCheckedChangeListener.onCheckedChanged(buttonView, isChecked)
-            listener(buttonView, isChecked)
+    fun setOnCheckedChangeListener(listener: (CompoundButton, Boolean) -> Unit) {
+        value_switch.setOnClickListener {
+            onCheckedChangeListener.onCheckedChanged(value_switch, value_switch.isChecked)
+            listener(value_switch, isChecked)
         }
     }
 }

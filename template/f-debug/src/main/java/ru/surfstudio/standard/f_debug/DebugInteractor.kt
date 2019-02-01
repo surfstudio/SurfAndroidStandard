@@ -16,6 +16,7 @@ import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.f_debug.storage.DebugUiToolsStorage
 import ru.surfstudio.standard.f_debug.storage.MemoryDebugStorage
 import ru.surfstudio.standard.f_debug.storage.ToolsDebugStorage
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerApplication
@@ -74,6 +75,15 @@ class DebugInteractor @Inject constructor(
         }
 
     /**
+     * Задержка между запросами на сервер в миллисекундах
+     */
+    var requestDelay: Long
+        get() = debugServerSettingsStorage.requestDelay
+        set(value) {
+            debugServerSettingsStorage.requestDelay = value
+        }
+
+    /**
      * Добавляет [ChuckInterceptor], [StethoInterceptor] в [OkHttpClient] если в настройках включено
      */
     fun configureOkHttp(okHttpBuilder: OkHttpClient.Builder) {
@@ -83,6 +93,11 @@ class DebugInteractor @Inject constructor(
 
         if (toolsDebugStorage.isStethoEnabled) {
             okHttpBuilder.addNetworkInterceptor(StethoInterceptor())
+        }
+
+        okHttpBuilder.addInterceptor {
+            TimeUnit.MILLISECONDS.sleep(requestDelay)
+            it.proceed(it.request())
         }
     }
     //endregion

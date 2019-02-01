@@ -7,9 +7,9 @@ import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
+import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.android.sample.common.R
 import ru.surfstudio.android.sample.common.ui.base.loadstate.MainLoadingState
-import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.PlaceHolderViewContainer
 
 /**
  * Представление состояния MainLoading в виде ProgressBar
@@ -31,9 +31,8 @@ class MainLoadingLoadStatePresentation(private val placeHolder: PlaceHolderViewC
     }
 
     override fun showState(state: MainLoadingState) {
-        placeHolder.changeVisibility(View.VISIBLE)
-        placeHolder.removeAllViews()
-        placeHolder.addView(view)
+        placeHolder.changeViewTo(view)
+        placeHolder.show()
     }
 
     private fun colorProgressBar(view: View) {

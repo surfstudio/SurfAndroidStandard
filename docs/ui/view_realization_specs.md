@@ -54,11 +54,10 @@
 * Вместо нативного ProgressBar используем MaterialProgressBar из этой библиотеки
 (для стилизации элемента на prelollipop-устройствах).
 
-* [`StandardPlaceHolderView`][custom-view] - кастомизируемый плейсхолдер
+* [PlaceHolderViewContainer](../../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt) - кастомизируемый плейсхолдер
 для различных лоад-стейтов.
 
 
-[custom-view]: ../../custom-view/README.md
 [broadcast]: ../../broadcast-extension/README.md
 [message]: ../../nessage-controller/README.md
 [sticky]: ../../recycler-extension/README.md

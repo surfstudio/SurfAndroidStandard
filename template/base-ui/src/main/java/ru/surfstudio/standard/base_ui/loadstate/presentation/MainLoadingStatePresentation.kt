@@ -3,10 +3,10 @@ package ru.surfstudio.standard.base_ui.loadstate.presentation
 import android.view.LayoutInflater
 import android.view.View
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
-import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
+import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.standard.base_ui.loadstate.state.MainLoadingState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.setClickableAndFocusable
+import ru.surfstudio.android.custom.view.placeholder.setClickableAndFocusable
 
 /**
  * Представление состояния MainLoading в виде ProgressBar

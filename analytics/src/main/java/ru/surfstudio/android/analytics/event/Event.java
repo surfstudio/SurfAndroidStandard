@@ -20,6 +20,7 @@ import java.util.Map;
 /**
  * Описывает событие аналитики
  */
+@Deprecated
 public interface Event {
     String key();
     Map<String, String> params();

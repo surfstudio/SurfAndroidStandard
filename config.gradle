@@ -14,6 +14,7 @@ ext {
     gradlePluginVersion = '3.2.1'               //https://bit.ly/2NXD4Pe
     buildToolsVersion = "28.0.3"                //https://bit.ly/2DNmq3Y
     googleServicesVersion = '4.2.0'             //https://bit.ly/2Q5FCge
+    buildScanPluginVersion = '1.16'             //https://goo.gl/coZHFo
 
     fabricVersion = "1.26.1"                    //https://bit.ly/2OOly00
     crashlyticsVersion = '2.9.6'                //http://bit.ly/2v5mXbp
@@ -37,8 +38,6 @@ ext {
     androidxTestVersion = '1.0.0'               //http://bit.ly/2P1yKi1
     androidxTestExtJunitVersion = '1.0.0'       //http://bit.ly/2zC6UV1
     androidxAnnotationVersion = '1.0.0'         //http://bit.ly/2P3QBVO
-    androidxMediaVersion = '1.0.0'              //http://bit.ly/2RclLfy
-    androidxLegacySupportVersion = '1.0.0'      //http://bit.ly/2Qm31gi
     androidxMultidexVersion = '2.0.0'           //http://bit.ly/2r6uX9G
 
     //gms
