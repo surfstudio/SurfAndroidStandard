@@ -49,7 +49,7 @@ class BondTest : BaseRelationTest() {
                     bond.observable.test()
                 }
 
-        testPresenterConsumer=
+        testPresenterConsumer =
                 with(testPresenter) {
                     bond.consumer
                 }
@@ -82,7 +82,9 @@ class BondTest : BaseRelationTest() {
 
         assertTrue(bond.hasValue)
 
-        assertEquals("TEST_FROM_PRESENTER", bond.value)
+        with(testView) {
+            assertEquals("TEST_FROM_PRESENTER", bond.value)
+        }
 
         testViewConsumer.accept("TEST_FROM_VIEW")
         testPresenterObservable
@@ -90,7 +92,9 @@ class BondTest : BaseRelationTest() {
 
         assertTrue(bond.hasValue)
 
-        assertEquals("TEST_FROM_VIEW", bond.value)
+        with(testPresenter) {
+            assertEquals("TEST_FROM_VIEW", bond.value)
+        }
     }
 
     @Test

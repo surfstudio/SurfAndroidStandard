@@ -27,33 +27,23 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
 
         @Provides
         @PerScreen
-        fun provideStandardDialogPresenter(vb: MainViewBinding): SampleDialogViewBinding {
-            return vb
-        }
+        fun provideStandardDialogPresenter(vb: MainViewBinding): SampleDialogViewBinding = vb
 
         @Provides
         @PerScreen
-        fun provideCounterVB(vb: MainViewBinding): CounterViewBinding {
-            return vb
-        }
+        fun provideCounterVB(vb: MainViewBinding): CounterViewBinding = vb
 
         @Provides
         @PerScreen
-        fun provideMainNavigationVB(vb: MainViewBinding): MainNavigationViewBinding {
-            return vb
-        }
+        fun provideMainNavigationVB(vb: MainViewBinding): MainNavigationViewBinding = vb
 
         @Provides
         @PerScreen
-        fun dialogControlVB(vb: MainViewBinding): DialogControlViewBinding {
-            return vb
-        }
+        fun dialogControlVB(vb: MainViewBinding): DialogControlViewBinding = vb
 
         @Provides
         @PerScreen
-        fun doubleTextViewBindingVB(vb: MainViewBinding): DoubleTextViewBinding {
-            return vb
-        }
+        fun doubleTextViewBindingVB(vb: MainViewBinding): DoubleTextViewBinding = vb
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
