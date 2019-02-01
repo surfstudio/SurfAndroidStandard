@@ -13,6 +13,7 @@ import ru.surfstudio.android.security.sample.app.dagger.DaggerCustomAppComponent
 class CustomApp : CoreApp() {
 
     var customAppComponent: CustomAppComponent? = null
+    //листенер для SessionManager
     private val sessionActivityCallback by lazy { customAppComponent?.sessionActivityCallback() }
 
     override fun onCreate() {

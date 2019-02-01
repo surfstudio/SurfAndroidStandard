@@ -46,6 +46,8 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Sessiona
 
         //Удаление пунктов "Копировать" и "Вырезать" из контекстного меню в EditText
         api_key_et.deleteContextMenuItems(android.R.id.copy, android.R.id.cut)
+        //отключает лонгтап по полю ввода, но контекстное меню по прежднему можно вызвать по "капле" по курсором.
+        api_key_et.isLongClickable = false
     }
 
     fun showMessage(message: String) {
