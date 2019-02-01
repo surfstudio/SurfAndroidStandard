@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ru.surfstudio.android.template.f_debug">
 
     <application>
@@ -17,7 +18,7 @@
 
         <activity android:name="ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView" />
 
-        <activity android:name="ru.surfstudio.standard.f_debug.common_controllers.CommonControllersDebugActivityView" />
+        <activity android:name="ru.surfstudio.standard.f_debug.reused_components.ReusedComponentsDebugActivityView" />
 
         <activity android:name="ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityView" />
 
@@ -27,6 +28,11 @@
 
         <activity android:name="ru.surfstudio.standard.f_debug.tools.ToolsDebugActivityView" />
 
+        <provider
+            android:name="com.krishna.debug_tools.utils.FileProvider"
+            android:authorities="${applicationId}.debug.provider"
+            android:exported="true"
+            tools:replace="android:authorities" />
     </application>
 
 </manifest>

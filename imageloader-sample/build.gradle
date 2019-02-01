@@ -2,7 +2,7 @@ apply from: '../androidSample.gradle'
 
 android {
     defaultConfig {
-        applicationId "ru.surfstudio.android.custom_view_sample"
+        applicationId "ru.surfstudio.android.imageloader_sample"
     }
 }
 

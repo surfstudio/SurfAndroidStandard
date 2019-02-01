@@ -84,10 +84,10 @@ public abstract class BaseScreenDelegate {
         currentScopeId = savedInstanceState != null
                 ? savedInstanceState.getString(KEY_PSS_ID)
                 : UUID.randomUUID().toString();
+        initPersistentScope();
     }
 
-    public void     onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
-        initPersistentScope();
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
         notifyScreenStateAboutOnCreate(savedInstanceState);
         runConfigurator();
         prepareView(savedInstanceState, persistableBundle);

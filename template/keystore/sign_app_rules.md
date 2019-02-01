@@ -83,5 +83,5 @@ release {
 [task]: keystoreConfig.gradle
 [gradle]: ../app-injector/build.gradle
 [release]: https://jirasurf.atlassian.net/wiki/spaces/ANDDEP/pages/413237258
-[signin]: signinConfigs.gradle
+[signin]: signingConfigs.gradle
 [bt]: ../buildTypes.gradle

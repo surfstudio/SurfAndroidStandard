@@ -15,5 +15,5 @@ class DebugUiToolsStorage @Inject constructor(
 ) {
     var isFpsEnabled: Boolean
         get() = SettingsUtil.getBoolean(noBackupSharedPref, IS_FPS_ENABLED_KEY, false)
-        set(value) = SettingsUtil.putBoolean(noBackupSharedPref, IS_FPS_ENABLED_KEY, value)
+        set(value) = putBoolean(noBackupSharedPref, IS_FPS_ENABLED_KEY, value)
 }

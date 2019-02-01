@@ -62,7 +62,7 @@ class ConstraintViewPresenter @Inject constructor(
     fun changeTextOnWidget() {
         changeTextDisposable.dispose()
         changeTextDisposable = subscribe(Observable.timer(500L, TimeUnit.MILLISECONDS), {
-            view.render("change text")
+            view.render("presenter")
             Logger.i("11111 Widget ${view.hashCode()} receive event")
         }, {
 

@@ -180,6 +180,7 @@ class LifecycleManagerTest {
 
     @Test
     fun testReadyStartedPausedResumed() {
+        parentState.onViewReady()
         stageResolver.pushState(LifecycleStage.VIEW_READY)
 
         parentState.onStart()

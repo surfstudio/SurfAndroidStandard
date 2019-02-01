@@ -1,5 +1,6 @@
 android {
     defaultConfig {
+        testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
