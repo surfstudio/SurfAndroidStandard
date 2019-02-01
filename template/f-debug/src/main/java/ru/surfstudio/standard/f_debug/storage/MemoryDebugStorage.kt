@@ -15,5 +15,5 @@ class MemoryDebugStorage @Inject constructor(
 ) {
     var isLeakCanaryEnabled: Boolean
         get() = SettingsUtil.getBoolean(noBackupSharedPref, IS_LEAK_CANARY_ENABLED_KEY, false)
-        set(value) = SettingsUtil.putBoolean(noBackupSharedPref, IS_LEAK_CANARY_ENABLED_KEY, value)
+        set(value) = putBoolean(noBackupSharedPref, IS_LEAK_CANARY_ENABLED_KEY, value)
 }

@@ -1,0 +1,53 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+	package
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:11-50
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:14:1-25:12
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:15:11-69
+uses-permission#android.permission.CAMERA
+ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:17:5-64
+	android:name
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:17:22-62
+uses-feature#android.hardware.camera
+ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:19:5-59
+	android:name
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:19:19-57
+uses-feature#android.hardware.camera.autofocus
+ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:20:5-22:35
+	android:required
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:22:9-33
+	android:name
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:21:9-57
+application
+ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml:24:5-19
+uses-sdk
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+		ADDED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml
+		INJECTED from /home/saturov/StudioProjects/android-standard/camera-view/src/main/AndroidManifest.xml

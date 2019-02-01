@@ -15,5 +15,5 @@ class ToolsDebugStorage @Inject constructor(
 ) {
     var isStethoEnabled: Boolean
         get() = SettingsUtil.getBoolean(noBackupSharedPref, IS_STETHO_ENABLED_KEY, false)
-        set(value) = SettingsUtil.putBoolean(noBackupSharedPref, IS_STETHO_ENABLED_KEY, value)
+        set(value) = putBoolean(noBackupSharedPref, IS_STETHO_ENABLED_KEY, value)
 }

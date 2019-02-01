@@ -1,0 +1,5 @@
+style Widget_CameraView
+attr aspectRatio
+attr autoFocus
+attr facing
+attr flash

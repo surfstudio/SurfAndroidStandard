@@ -29,6 +29,7 @@ import ru.surfstudio.android.analytics.Analytics;
  * Хранилище доступных аналитик
  * Отправляет событие во все зарегистрированные аналитики
  */
+@Deprecated
 public class AnalyticsStore implements Analytics {
 
     private List<Analytics> registeredList = new ArrayList<>(2);

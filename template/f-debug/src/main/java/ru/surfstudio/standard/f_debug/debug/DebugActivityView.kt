@@ -40,7 +40,7 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
 
     private fun initListeners() {
         show_server_settings_item_layout.setOnClickListener { presenter.openServerSettingsScreen() }
-        show_controllers_item_layout.setOnClickListener { presenter.openControllersScreen() }
+        show_reused_components_item_layout.setOnClickListener { presenter.openReusedComponentsScreen() }
         show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
         show_memory_item_layout.setOnClickListener { presenter.openMemoryScreen() }
         show_app_info_item_layout.setOnClickListener { presenter.openAppInfoScreen() }

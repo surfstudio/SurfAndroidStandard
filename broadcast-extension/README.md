@@ -23,4 +23,11 @@
 ## 2. [BaseSmsRxBroadcastReceiver](src/main/java/ru/surfstudio/android/broadcast/extension/BaseSmsRxBroadcastReceiver.kt)
 Дополнение для RxBroadcastReceiver, предназначенное для перехвата и обработки получаемых SMS-сообщений.
 
+**Для использования потребуются разрешения для доступа к смс.
+Google play отслеживает использование этого разрешения и может заблокировать приложение
+в случае не правомерного использования.
+Подробнее прочитать об этом, а также об альтернативных способах реализации юскейсов можно здесь:
+https://support.google.com/googleplay/android-developer/answer/9047303**
+
+
 [Пример использования](../broadcast-extension-sample)
