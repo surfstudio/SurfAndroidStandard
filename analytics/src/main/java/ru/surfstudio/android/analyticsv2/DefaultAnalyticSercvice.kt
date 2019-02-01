@@ -15,20 +15,42 @@
  */
 package ru.surfstudio.android.analyticsv2
 
+import ru.surfstudio.android.analytics.BuildConfig
 import ru.surfstudio.android.analyticsv2.core.AnalyticAction
+import ru.surfstudio.android.analyticsv2.core.AnalyticActionPerformer
+import ru.surfstudio.android.analyticsv2.core.AnalyticActionPerformerCreator
+import ru.surfstudio.android.analyticsv2.core.AnalyticService
+import java.lang.Error
 
 /**
  * Реализация сервиса аналитики по умолчанию.
- * @creator фабрика соотвествия действия и выполнителей действия
  */
-open class DefaultAnalyticService(protected var creator: DefaultAnalyticActionPerformersStore)  {
+open class DefaultAnalyticService : AnalyticActionPerformerCreator<AnalyticAction>, AnalyticService<AnalyticAction> {
+
+    private val performers: MutableSet<AnalyticActionPerformer<AnalyticAction>> = mutableSetOf()
 
     /**
-     * Выполнитль дейсвтие аналитики
+     * Выполнить действие аналитики
      */
-    fun performAction(action: AnalyticAction) {
-        creator.getPerformersByAction(action).forEach {
+    override fun performAction(action: AnalyticAction) {
+        getPerformersByAction(action).forEach {
             it.perform(action)
         }
+    }
+
+    override fun getPerformersByAction(event: AnalyticAction): List<AnalyticActionPerformer<AnalyticAction>> {
+        val performers = performers.filter { it.canHandle(event) }
+        if (performers.isEmpty() && BuildConfig.DEBUG) {
+            throw Error("No action performer for action: ${event::class.java.canonicalName} in performers ${this.performers}")
+        }
+        return performers
+    }
+
+    /**
+     * Добавить выполнитель действия
+     */
+    fun addActionPerformer(performer: AnalyticActionPerformer<AnalyticAction>): DefaultAnalyticService {
+        performers.add(performer)
+        return this
     }
 }
