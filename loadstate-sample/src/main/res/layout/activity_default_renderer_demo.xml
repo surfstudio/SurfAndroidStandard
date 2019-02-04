@@ -68,7 +68,7 @@
             android:paddingStart="@dimen/dp8"
             android:paddingEnd="@dimen/dp8" />
 
-        <ru.surfstudio.android.loadstate.sample.ui.base.loadstate.renderer.PlaceHolderViewContainer
+        <ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
             android:id="@+id/placeholder"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

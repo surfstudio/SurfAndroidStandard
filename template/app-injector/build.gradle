@@ -14,7 +14,7 @@ apply plugin: 'kotlin-kapt'
 apply from: '../config.gradle'
 apply from: '../commonTestModule.gradle'
 
-apply from: '../easylauncher.gradle'
+apply from: '../setLabelToIcon.gradle'
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
@@ -56,8 +56,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     implementation "androidx.appcompat:appcompat:$androidxVersion"
-    implementation "androidx.media:media:$androidxMediaVersion"
-    implementation "androidx.legacy:legacy-support-v4:$androidxLegacySupportVersion"
 
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

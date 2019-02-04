@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.PlaceHolderViewContainer
+    <ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
         android:id="@+id/placeholder_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

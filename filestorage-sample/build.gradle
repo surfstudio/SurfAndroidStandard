@@ -12,6 +12,4 @@ dependencies {
     implementation project(':rxbus')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
 }

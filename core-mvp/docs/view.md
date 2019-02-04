@@ -104,10 +104,6 @@ Api вью может иметь только методы вида `void someMe
 1. использовать [виджеты][widget] - кастомные вью с презентером, которые создаются
 аналогично экрану.
 
-#### Лучшие практики
-
-todo
-
 [core]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/CoreActivityView.java
 [render]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/BaseRenderableActivityView.java
 [lds]: ../src/main/java/ru/surfstudio/android/core/mvp/activity/BaseLdsActivityView.java

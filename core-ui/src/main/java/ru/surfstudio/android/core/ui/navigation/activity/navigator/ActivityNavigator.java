@@ -15,30 +15,41 @@
  */
 package ru.surfstudio.android.core.ui.navigation.activity.navigator;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
 import android.util.Log;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
 import io.reactivex.Observable;
+import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.NewIntentRoute;
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallState;
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstallStatus;
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
+import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.DynamicCrossFeatureRoute;
+import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 
 /**
@@ -54,12 +65,39 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
+    private final SplitFeatureInstaller splitFeatureInstaller;
+    private final Boolean isSplitFeatureModeOn;
 
-
+    /**
+     * Base activity navigator constructor.
+     *
+     * @param activityProvider     actual Activity provider instance
+     * @param eventDelegateManager screen event delegate manager instance
+     */
     public ActivityNavigator(ActivityProvider activityProvider,
                              ScreenEventDelegateManager eventDelegateManager) {
+        this(activityProvider, eventDelegateManager, null, false);
+    }
+
+    /**
+     * Activity navigator with "split-features" support constructor.
+     *
+     * @param activityProvider      actual Activity provider instance
+     * @param eventDelegateManager  screen event delegate manager instance
+     * @param splitFeatureInstaller "split-feature" install manager
+     * @param isSplitFeatureModeOn  "split-feature" navigation activation flag.
+     *                              Actually, it needs to be {@code true} just for release build which
+     *                              has already been deployed to Google Play. Otherwise, cross-feature
+     *                              navigation won't work at all.
+     */
+    public ActivityNavigator(ActivityProvider activityProvider,
+                             ScreenEventDelegateManager eventDelegateManager,
+                             SplitFeatureInstaller splitFeatureInstaller,
+                             Boolean isSplitFeatureModeOn) {
         eventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
+        this.splitFeatureInstaller = splitFeatureInstaller;
+        this.isSplitFeatureModeOn = isSplitFeatureModeOn;
     }
 
     protected abstract void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle bundle);
@@ -71,7 +109,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param <T>        тип возвращаемых данных
      */
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-            Class<? extends ActivityWithResultRoute<T>> routeClass) {
+            Class<? extends SupportOnActivityResultRoute<T>> routeClass) {
         try {
             return this.observeOnActivityResult(routeClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
@@ -87,7 +125,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param <T>   тип возвращаемых данных
      */
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-            ActivityWithResultRoute route) {
+            SupportOnActivityResultRoute route) {
         return super.observeOnActivityResult(route);
     }
 
@@ -124,7 +162,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param result            возвращаемый результат
      * @param <T>               тип возвращаемого значения
      */
-    public <T extends Serializable> void finishWithResult(ActivityWithResultRoute<T> activeScreenRoute,
+    public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> activeScreenRoute,
                                                           T result) {
         finishWithResult(activeScreenRoute, result, true);
     }
@@ -137,7 +175,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param success            показывает успешное ли завершение
      * @param <T>                тип возвращаемого значения
      */
-    public <T extends Serializable> void finishWithResult(ActivityWithResultRoute<T> currentScreenRoute,
+    public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> currentScreenRoute,
                                                           T result, boolean success) {
         Intent resultIntent = currentScreenRoute.prepareResultIntent(result);
         activityProvider.get().setResult(
@@ -147,44 +185,155 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     }
 
     /**
-     * Запуск активити.
+     * Launch a new activity.
+     * <p>
+     * Works synchronically.
      *
-     * @param route роутер
-     * @return {@code true} если активити успешно запущен, иначе {@code false}
+     * @param route navigation route
+     * @return {@code true} if activity started successfully, {@code false} otherwise
      */
     public boolean start(ActivityRoute route) {
         Context context = activityProvider.get();
         Intent intent = route.prepareIntent(context);
-        Bundle bundle = route.prepareBundle();
         if (intent.resolveActivity(context.getPackageManager()) != null) {
-            context.startActivity(intent, bundle);
+            context.startActivity(intent, prepareBundleCompat(route));
             return true;
         }
-
         return false;
     }
 
     /**
-     * Запуск активити.
+     * Launch a new activity from another Feature Module.
+     * <p>
+     * Performs asynchronically due to type of the target Feature Module.
+     * This method returns stream of install state change events. You can make a subscription in
+     * your Presenter and handle errors or any other type of events during Dynamic Feature
+     * installation.
      *
-     * @param route роутер
-     * @return {@code true} если активити успешно запущен, иначе {@code false}
+     * @param route navigation route
+     * @return stream of install state change events
      */
-    public boolean startForResult(ActivityWithResultRoute route) {
+    public Observable<SplitFeatureInstallState> start(ActivityCrossFeatureRoute route) {
+        BehaviorSubject<SplitFeatureInstallState> startStatusSubject = BehaviorSubject.create();
+        if (route instanceof DynamicCrossFeatureRoute && this.isSplitFeatureModeOn) {
+            DynamicCrossFeatureRoute dynamicCrossFeatureRoute = (DynamicCrossFeatureRoute) route;
+            splitFeatureInstaller.installFeature(
+                    dynamicCrossFeatureRoute.splitNames(),
+                    new SplitFeatureInstaller.SplitFeatureInstallListener() {
+                        @Override
+                        public void onInstall(@NotNull SplitFeatureInstallState state) {
+                            performStart(route, startStatusSubject);
+                        }
+
+                        @Override
+                        public void onStateChanged(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+                    }
+            );
+        } else {
+            performStart(route, startStatusSubject);
+        }
+        return startStatusSubject.hide();
+    }
+
+    private void performStart(ActivityRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
+        boolean startupStatus = start(route);
+        SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
+        startStatusSubject.onNext(new SplitFeatureInstallState(status));
+    }
+
+    /**
+     * Launch a new activity for result.
+     *
+     * @param route navigation route
+     * @return {@code true} if activity started successfully, {@code false} otherwise
+     */
+    public boolean startForResult(SupportOnActivityResultRoute route) {
         if (!super.isObserved(route)) {
             throw new IllegalStateException("route class " + route.getClass().getSimpleName()
                     + " must be registered by method ActivityNavigator#observeResult");
         }
-
         Context context = activityProvider.get();
         Intent intent = route.prepareIntent(context);
-        Bundle bundle = route.prepareBundle();
         if (intent.resolveActivity(context.getPackageManager()) != null) {
-            startActivityForResult(intent, route.getRequestCode(), bundle);
+            startActivityForResult(intent, route.getRequestCode(), prepareBundleCompat(route));
             return true;
         }
-
         return false;
+    }
+
+    /**
+     * Launch a new Activity for result from another Feature Module.
+     * <p>
+     * Performs asynchronically due to type of the target Feature Module.
+     * This method returns stream of install state change events. You can make a subscription in
+     * your Presenter and handle errors or any other type of events during Dynamic Feature
+     * installation.
+     *
+     * @param route navigation route
+     * @return stream of install state change events
+     */
+    public Observable<SplitFeatureInstallState> startForResult(CrossFeatureSupportOnActivityResultRoute route) {
+        BehaviorSubject<SplitFeatureInstallState> startStatusSubject = BehaviorSubject.create();
+        if (route instanceof DynamicCrossFeatureRoute && this.isSplitFeatureModeOn) {
+            DynamicCrossFeatureRoute dynamicCrossFeatureRoute = (DynamicCrossFeatureRoute) route;
+            splitFeatureInstaller.installFeature(
+                    dynamicCrossFeatureRoute.splitNames(),
+                    new SplitFeatureInstaller.SplitFeatureInstallListener() {
+                        @Override
+                        public void onInstall(@NotNull SplitFeatureInstallState state) {
+                            performStartForResult(route, startStatusSubject);
+                        }
+
+                        @Override
+                        public void onStateChanged(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+
+                        @Override
+                        public void onFailure(@NotNull SplitFeatureInstallState state) {
+                            startStatusSubject.onNext(state);
+                        }
+                    }
+            );
+        } else {
+            performStartForResult(route, startStatusSubject);
+        }
+        return startStatusSubject.hide();
+    }
+
+    private void performStartForResult(SupportOnActivityResultRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
+        boolean startupStatus = startForResult(route);
+        SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
+        startStatusSubject.onNext(new SplitFeatureInstallState(status));
+    }
+
+    /**
+     * Bundle preparation backward compatible implementation.
+     * Handles getting bundle from both {@link ActivityRoute#prepareActivityOptionsCompat()} and
+     * {@link ActivityRoute#prepareBundle()} methods in the specified priority order.
+     *
+     * @param route activity route
+     * @return actual bundle
+     */
+    private Bundle prepareBundleCompat(ActivityRouteInterface route) {
+        Bundle bundle = null;
+        ActivityOptionsCompat activityOptionsCompat = route.prepareActivityOptionsCompat();
+        if (activityOptionsCompat != null) {
+            bundle = route.prepareActivityOptionsCompat().toBundle();
+        }
+        //noinspection deprecation
+        Bundle deprecatedBundle = route.prepareBundle();
+        if (bundle != null) {
+            return bundle;
+        }
+        return deprecatedBundle;
     }
 
     // =========================  NEW INTENT =================================
