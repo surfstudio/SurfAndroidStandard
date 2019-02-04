@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.security.session
 
-import ru.surfstudio.android.core.app.ActivityLifecycleListener
+import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 
 /**
  * CallBack для отслеживания сессии Aсtivty

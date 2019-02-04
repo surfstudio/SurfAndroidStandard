@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.app
+package ru.surfstudio.android.utilktx.ktx.ui.activity
 
 import android.app.Activity
 import android.app.Application

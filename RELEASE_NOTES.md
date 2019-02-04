@@ -220,6 +220,7 @@
     * `copyTextToClipboard()` - копирует текст в буфер обмена
 * ANDDEP-211 добавлена возможность настраивать сдвиг часового пояса
     и получать дефолтный для устройства
+* Добавлен ActivityLifecycleListener для удобного использования Application.ActivityLifecycleCallbacks
 
 #### template
 
