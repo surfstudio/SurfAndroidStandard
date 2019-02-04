@@ -1,5 +1,4 @@
-//@Library('surf-lib@get-avd-name-for-adb') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-@Library('surf-lib@fix-logic-for-apk-choosing') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@get-avd-name-for-adb') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.pr.PrPipelineAndroid
 import ru.surfstudio.ci.stage.StageStrategy
 
