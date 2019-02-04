@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.multidex.MultiDexApplication
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.filestorage.sample.app.dagger.CustomAppComponent
+import ru.surfstudio.android.filestorage.sample.app.dagger.CustomAppModule
 import ru.surfstudio.android.filestorage.sample.app.dagger.DaggerCustomAppComponent
 import ru.surfstudio.android.sample.dagger.app.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
@@ -25,7 +26,7 @@ class CustomApp : MultiDexApplication() {
 
     private fun initInjector() {
         customAppComponent = DaggerCustomAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
+                .customAppModule(CustomAppModule(this))
                 .build()
     }
 

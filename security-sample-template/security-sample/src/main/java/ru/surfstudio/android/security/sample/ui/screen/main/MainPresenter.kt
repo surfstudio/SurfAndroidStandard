@@ -1,10 +1,10 @@
 package ru.surfstudio.android.security.sample.ui.screen.main
 
-import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import ru.surfstudio.android.security.root.RootChecker
 import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.domain.ApiKey
