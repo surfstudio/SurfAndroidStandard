@@ -16,19 +16,12 @@
 package ru.surfstudio.android.filestorage
 
 object CacheConstant {
-
     /**
-     * Имя в аннотации [javax.inject.Named] для пути к директории хранилища приложения, не подверженной бэкапу
+     * Имя в аннотации [javax.inject.Named] для пути к директории с наиболее важным кешем
      */
-    const val NO_BACKUP_STORAGE_DIR_NAME = "noBackupStorageDir"
-
+    const val INTERNAL_CACHE_DIR_DAGGER_NAME = "internalCacheDir"
     /**
-     * Имя в аннотации [javax.inject.Named] для пути к директории хранилища приложения, подверженной бэкапу
+     * Имя в аннотации [javax.inject.Named] для пути к директории с неважным кешем
      */
-    const val BACKUP_STORAGE_DIR_NAME = "backupStorageDir"
-
-    /**
-     * Имя в аннотации [javax.inject.Named] для пути к директории кэша
-     */
-    const val CACHE_DIR_NAME = "cacheDir"
+    const val EXTERNAL_CACHE_DIR_DAGGER_NAME = "externalCacheDir"
 }

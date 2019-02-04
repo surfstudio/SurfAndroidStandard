@@ -21,32 +21,56 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin" />
 
-            <Button
-                android:id="@+id/save_to_cache_btn"
-                android:layout_width="wrap_content"
+            <!-- Serializable cache -->
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin"
-                android:text="@string/save_to_cache_btn_text" />
+                android:textAlignment="center"
+                android:text="@string/serializable_cache_tv_text" />
 
             <Button
-                android:id="@+id/get_from_cache_btn"
+                android:id="@+id/save_to_serializable_cache_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/default_margin"
-                android:text="@string/get_from_cache_btn_text" />
+                android:text="@string/save_to_serializable_cache_btn_text" />
+
+            <Button
+                android:id="@+id/get_from_serializable_cache_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:text="@string/get_from_serializable_cache_btn_text" />
+
+            <!-- JSON cache -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:textAlignment="center"
+                android:text="@string/json_cache_tv_text" />
+
+            <Button
+                android:id="@+id/save_to_json_cache_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:text="@string/save_to_json_cache_btn_text" />
+
+            <Button
+                android:id="@+id/get_from_json_cache_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:text="@string/get_from_json_cache_btn_text" />
 
             <Button
                 android:id="@+id/clear_cache_btn"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/clear_cache_btn_text" />
         </LinearLayout>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
-        android:id="@+id/placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusable="true" />
 </RelativeLayout>

@@ -9,3 +9,4 @@ gradle.ext.extractModules('samples.json').each {
 }
 
 apply from: 'template/settings.gradle'
+apply from: 'security-sample-template/settings.gradle'

@@ -1,6 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
+    api "com.google.code.gson:gson:$gsonVersion"
+
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"

@@ -124,6 +124,17 @@
     * Добавление функций-расширений для опциональной работы с RequestBuilder [`ImageLoaderUtils.kt`](imageloader/src/main/java/ru/surfstudio/android/imageloader/util/ImageLoaderUtils.kt)
     * Добавление расширенного списка стратегий кеширования [`CacheStrategy`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/CacheStrategy.kt)
 
+### security
+* ANDDEP-82 Модуль для обеспечения безопасности
+    * [AppDebuggableChecker](security-sample-template/security/src/main/java/ru/surfstudio/android/security/app/AppDebuggableChecker.kt)- класс, проверяющий debuggable-флаги приложения при его запуске.
+    * [RootChecker](security-sample-template/security/src/main/java/ru/surfstudio/android/security/root/RootChecker.kt) - проверяет наличие рут-прав на устройстве.
+    * [KeyEncryptor](security-sample-template/security/src/main/java/ru/surfstudio/android/security/crypto/KeyEncryptor.kt) - абстрактный класс для реализации безопасного [Encryptor'a](filestorage/src/main/java/ru/surfstudio/android/filestorage/encryptor/Encryptor.kt).
+    * [CertificatePinnerCreator](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ssl/CertificatePinnerCreator.kt) - класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
+    * [SessionManager](security-sample-template/security/src/main/java/ru/surfstudio/android/security/session/SessionManager.kt) - Менеджер для отслеживания сессии Activity.
+    * [SecurityUiExtensions](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ui/SecurityUiExtensions.kt) -  - Утилиты для реализаци безопасного UI.
+
+    * Расписаны Security tips, которые необходимо учитывать в приложении.
+
 ## 0.3.0
 
 #### core-ui
@@ -209,6 +220,7 @@
     * `copyTextToClipboard()` - копирует текст в буфер обмена
 * ANDDEP-211 добавлена возможность настраивать сдвиг часового пояса
     и получать дефолтный для устройства
+* Добавлен ActivityLifecycleListener для удобного использования Application.ActivityLifecycleCallbacks
 
 #### template
 
