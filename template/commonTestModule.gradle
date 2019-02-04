@@ -1,5 +1,5 @@
 apply plugin: 'kotlin-kapt'
-apply from: '../commonTestTasks.gradle'
+apply from: '../commonTestTaskExtensions.gradle'
 
 android {
     defaultConfig {
