@@ -1,0 +1,502 @@
+import groovy.util.slurpersupport.GPathResult
+
+import javax.xml.parsers.*
+import javax.xml.transform.*
+import javax.xml.transform.dom.*
+import javax.xml.transform.stream.*
+import org.w3c.dom.*
+import javax.imageio.ImageIO
+import java.awt.Color
+import java.awt.Font
+import java.awt.FontMetrics
+import java.awt.Graphics2D
+import java.awt.RenderingHints
+import java.awt.image.BufferedImage
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import org.slf4j.Logger
+
+task changeIcon
+
+tasks.whenTaskAdded { Task task ->
+    for (int i = 0; i < IconService.BUILD_VARIANTS.size(); i++) {
+        String buildVariant = IconService.BUILD_VARIANTS[i]
+        if (task.name.contains("merge${Utils.capitalize(buildVariant)}Resources")) {
+            task.dependsOn(changeIcon)
+            changeIcon.doFirst {
+                new IconService(buildVariant, versionName, logger).change()
+                android.sourceSets.findByName(buildVariant).res.srcDir(
+                        new File("${project.buildDir}/$IconService.GENERATED_PATH/$buildVariant/res")
+                )
+            }
+        }
+    }
+}
+
+/**
+ * Service that add label to icon for "debug" and "qa" build variants
+ *
+ * It works only with png images and Surf architecture
+ *
+ * @param buildVariant - gradle build variant
+ * @param versionName - application's version
+ */
+class IconService {
+    public final static String[] BUILD_VARIANTS = [DEBUG_BUILD_VARIANT, QA_BUILD_VARIANT]
+    public final static GENERATED_PATH = "generated/iconlauncher"
+
+    private final static BUILD_GENERATED_PATH = "build/$GENERATED_PATH"
+    private final static APP_INJECTOR_DIR_NAME = "app-injector"
+    private final static TEMPLATE_DIR_NAME = "template"
+    private final static RES_PATH = "src/main/res/"
+    private final static MANIFEST_PATH = "src/main/AndroidManifest.xml"
+    private final static APPLICATION_PROPERTY_NAME = "application"
+    private final static ICON_PROPERTY_NAME = "@android:icon"
+    private final static ROUND_ICON_PROPERTY_NAME = "@android:roundIcon"
+    private final static BACKGROUND_PROPERTY_NAME = "background"
+    private final static FOREGROUND_PROPERTY_NAME = "foreground"
+    private final static DRAWABLE_PROPERTY_NAME = "@android:drawable"
+    private final static XML_EXTENSION = "xml"
+    private final static OVERLAY_FILE_EXTENSION = "png"
+    private final static OVERLAY_FILE_NAME = "overlayicon"
+    private final static OVERLAY_FILE_PATH = "$OVERLAY_FILE_NAME.$OVERLAY_FILE_EXTENSION"
+    private final static DEBUG_BUILD_VARIANT = "debug"
+    private final static QA_BUILD_VARIANT = "qa"
+    private final static VECTOR_ICON_SUFFIX = "_ic_lnr"
+
+    private File appInjectorDir = null
+    private File overlayImage = null
+    private File variantDir = null
+
+    private final String buildVariant
+    private final String versionName
+    private final Logger logger
+
+    IconService(String buildVariant, String versionName, Logger logger) {
+        this.buildVariant = buildVariant
+        this.versionName = versionName
+        this.logger = logger
+    }
+
+    /**
+     * Start process to change launcher icon
+     */
+    void change() {
+        appInjectorDir = getAppInjectorDir()
+        if (appInjectorDir == null) {
+            logger.debug("app-injector directory not found")
+            return
+        }
+
+        Icon icon = getIcon()
+        if (icon == null) {
+            logger.debug("launcher icon not found")
+            return
+        }
+
+        if (icon.commonIcon != null) {
+            processIcon(icon.commonIcon)
+        } else {
+            logger.debug("launcher icon doesn't define in manifest file")
+        }
+
+        if (icon.roundIcon != null) {
+            processIcon(icon.roundIcon)
+        } else {
+            logger.debug("round launcher icon doesn't define in manifest file")
+        }
+    }
+
+    /**
+     * Find icon and start changing
+     * @param iconPath - launcher icon path
+     */
+    private void processIcon(IconPath iconPath) {
+        File resDir = new File("${appInjectorDir.path}/${RES_PATH}")
+        if (!resDir.exists()) return
+
+        variantDir = new File("${appInjectorDir.path}/$BUILD_GENERATED_PATH/$buildVariant")
+        File variantResDir = new File("${variantDir.path}/res")
+
+        overlayImage = generateOverlayImage(variantResDir)
+        if (overlayImage == null) {
+            logger.debug("overlay image can not be create")
+            return
+        }
+
+        List<File> rowIcons = findIcons(resDir, iconPath)
+        if (rowIcons == null || rowIcons.empty) return
+
+        processImageIcons(findFilesByExtension(rowIcons, XML_EXTENSION, true), variantResDir)
+        processXmlIcons(findFilesByExtension(rowIcons, XML_EXTENSION, false), resDir, variantResDir)
+    }
+
+    /**
+     * Changing image icons
+     *
+     * @param rowIcons - icons
+     * @param variantResDir - res build variant directory
+     */
+    private void processImageIcons(List<File> rowIcons, File variantResDir) {
+        rowIcons.forEach { icon ->
+            String outputPath = "${variantResDir.path}/${icon.path.split(RES_PATH).last()}"
+            File output = new File(outputPath)
+            try {
+                copyFile(icon, output)
+                changeVariantIcon(icon, output)
+            } catch (IOException ex) {
+                logger.debug(ex.toString())
+            }
+        }
+    }
+
+    /**
+     * Parse xml adaptive-icon to find background, foreground image icons
+     *
+     * @param rowIcons - icons
+     * @param variantResDir - res build variant directory
+     */
+    private void processXmlIcons(List<File> rowIcons, File resDir, File variantResDir) {
+        List<File> icons = new ArrayList()
+
+        rowIcons.forEach { icon ->
+            GPathResult adaptiveIconNode = new XmlSlurper().parse(icon)
+            if (adaptiveIconNode == null) return
+            icons.addAll(getAdaptiveIcon(adaptiveIconNode, resDir, FOREGROUND_PROPERTY_NAME))
+        }
+
+        if (icons.empty) return
+
+        processImageIcons(findFilesByExtension(icons, XML_EXTENSION, true), variantResDir)
+
+        List<File> vectorIcons = findFilesByExtension(icons, XML_EXTENSION, false)
+
+        vectorIcons.forEach { icon ->
+            File variantIcon = new File("$variantResDir/${icon.parentFile.name}/${createVectorIconName(icon)}")
+            File layerList = new File("$variantResDir/${icon.parentFile.name}/${icon.name}")
+            copyFile(icon, variantIcon)
+            createFile(layerList)
+            createVectorVariantIcon(layerList, variantIcon)
+        }
+    }
+
+    /**
+     * Create layer-list res for adaptive icon
+     * @param icon - parent icon
+     * @param varIcon - variant icon
+     */
+    private void createVectorVariantIcon(File layerList, File varIcon) {
+        Document dom
+        Element e = null
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance()
+
+        try {
+            DocumentBuilder db = dbf.newDocumentBuilder()
+            dom = db.newDocument()
+
+            Element root = dom.createElement("layer-list")
+
+            e = dom.createElement("item")
+            e.setAttributeNS("http://schemas.android.com/apk/res/android", "android:drawable", "@drawable/${varIcon.name.split("\\.")[0]}")
+            root.appendChild(e)
+
+            e = dom.createElement("item")
+            e.setAttributeNS("http://schemas.android.com/apk/res/android", "android:drawable", "@drawable/$OVERLAY_FILE_NAME")
+            root.appendChild(e)
+
+            dom.appendChild(root)
+
+            try {
+                Transformer tr = TransformerFactory.newInstance().newTransformer()
+                tr.setOutputProperty(OutputKeys.INDENT, "yes")
+                tr.setOutputProperty(OutputKeys.METHOD, "xml")
+                tr.setOutputProperty(OutputKeys.ENCODING, "UTF-8")
+                tr.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4")
+
+                tr.transform(
+                        new DOMSource(dom),
+                        new StreamResult(new FileOutputStream(layerList))
+                )
+
+            } catch (TransformerException te) {
+                logger.debug(te.getMessage())
+            } catch (IOException ioe) {
+                logger.debug(ioe.getMessage())
+            }
+        } catch (ParserConfigurationException pce) {
+            logger.debug("UsersXML: Error trying to instantiate DocumentBuilder " + pce)
+        }
+    }
+
+    /**
+     * Parse xml to get adaptive-icon background and foreground icons
+     *
+     * @param rootNode - root xml-element
+     * @param resDir - directory to find background and foreground icons
+     * @param property - xml's property
+     *
+     * @return icons
+     */
+    private List<File> getAdaptiveIcon(GPathResult rootNode, File resDir, String property) {
+        GPathResult icon = (GPathResult) rootNode.getProperty(property)
+        return findIcons(
+                resDir,
+                parseIcon(String.valueOf(icon.getProperty(DRAWABLE_PROPERTY_NAME)))
+        )
+    }
+
+    /**
+     * Find files by extension
+     *
+     * @param files - files
+     * @param extension - extension
+     * @param isNot - not flag
+     *
+     * @return files with extension
+     */
+    private List<File> findFilesByExtension(List<File> files, String extension, Boolean isNot) {
+        List<File> res = new ArrayList()
+        files.forEach { file ->
+            if (file.path.split("\\.").last() == extension) {
+                if (!isNot) res.add(file)
+            } else {
+                if (isNot) res.add(file)
+            }
+        }
+        return res
+    }
+
+    /**
+     * Combine launcher icon with overlay image
+     *
+     * @param input - input icon
+     * @param output - output icon
+     */
+    private void changeVariantIcon(File input, File output) {
+        BufferedImage image = ImageIO.read(input)
+        BufferedImage overlayImage = ImageIO.read(overlayImage)
+        Graphics2D g2d = image.createGraphics()
+        g2d.drawImage(overlayImage, 0, 0, image.width, image.height, null)
+        g2d.dispose()
+
+        try {
+            ImageIO.write(image, OVERLAY_FILE_EXTENSION, output)
+        } catch (IOException ex) {
+            logger.debug(ex.toString())
+        }
+    }
+
+    /**
+     * Create overlay image with version label
+     *
+     * @return overlay image
+     */
+    private File generateOverlayImage(File variantResDir) {
+        List<String> texts = new ArrayList()
+
+        def width = 192
+        def height = 192
+        def textWidth = 100
+
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+        Graphics2D g2d = img.createGraphics()
+        Font font = new Font("Arial", Font.PLAIN, 28)
+        FontMetrics fm = g2d.getFontMetrics()
+
+        g2d.setFont(font)
+
+        g2d.dispose()
+
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+        g2d = img.createGraphics()
+        g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_QUALITY)
+        g2d.setRenderingHint(RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE)
+        g2d.setRenderingHint(RenderingHints.KEY_FRACTIONALMETRICS, RenderingHints.VALUE_FRACTIONALMETRICS_ON)
+        g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR)
+        g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY)
+        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE)
+        g2d.setFont(font)
+        fm = g2d.getFontMetrics()
+
+        int startIndex = 0
+        for (int i = 0; i < versionName.length(); i++) {
+            if (fm.stringWidth(versionName.substring(startIndex, i)) > textWidth) {
+                texts.add(versionName.substring(startIndex, i - 1))
+                startIndex = i - 1
+            }
+            if (i == versionName.length() - 1) {
+                texts.add(versionName.substring(startIndex, i + 1))
+            }
+        }
+
+        int labelSize = fm.getAscent() * texts.size()
+        int x = ((width - textWidth) / 2).toInteger()
+        int y = ((height - labelSize) / 2).toInteger()
+
+        if (buildVariant == QA_BUILD_VARIANT) {
+            g2d.setColor(new Color(103, 86, 255, 150))
+        } else {
+            g2d.setColor(new Color(255, 66, 66, 150))
+        }
+
+        g2d.fillRect(x, y, textWidth, labelSize)
+
+        g2d.setColor(Color.BLACK)
+        for (def i = 0; i < texts.size(); i++) {
+            g2d.drawString(texts[i], x, y + fm.getAscent() * (i + 1))
+        }
+
+        g2d.dispose()
+        try {
+            File output = new File("${variantResDir.path}/drawable/$OVERLAY_FILE_PATH")
+            createFile(output)
+
+            ImageIO.write(img, OVERLAY_FILE_EXTENSION, output)
+            return output
+        } catch (IOException ex) {
+            logger.debug(ex.toString())
+        }
+        return null
+    }
+
+    /**
+     * Find app-injector directory
+     *
+     * @return app-injector directory
+     */
+    static File getAppInjectorDir() {
+        File appInjector = new File("./${APP_INJECTOR_DIR_NAME}")
+        if (appInjector.exists()) return appInjector
+
+        appInjector = new File("./${TEMPLATE_DIR_NAME}/${APP_INJECTOR_DIR_NAME}")
+        if (appInjector.exists()) return appInjector
+
+        return null
+    }
+
+    /**
+     * Find launcher icon for application
+     *
+     * @return icon
+     */
+    private Icon getIcon() {
+        File manifestFile = new File("${appInjectorDir.path}/$MANIFEST_PATH")
+        if (!manifestFile.exists()) return null
+
+        GPathResult manifestXml = new XmlSlurper().parse(manifestFile)
+        GPathResult applicationNode = (GPathResult) manifestXml.getProperty(APPLICATION_PROPERTY_NAME)
+
+        return new Icon(
+                parseIcon(String.valueOf(applicationNode.getProperty(ICON_PROPERTY_NAME))),
+                parseIcon(String.valueOf(applicationNode.getProperty(ROUND_ICON_PROPERTY_NAME)))
+        )
+    }
+
+    /**
+     * Parse string
+     *
+     * @param iconStr - string e.x. "@drawable/ic-launcher"
+     *
+     * @return - iconPath
+     */
+    private IconPath parseIcon(String iconStr) {
+        if (iconStr.empty) return null
+
+        List<String> iconParts = iconStr.split("/")
+        if (iconParts[0] == null || iconParts[0].empty || iconParts[1] == null || iconParts[1].empty) return null
+
+        return new IconPath(iconParts[0].substring(1), iconParts[1])
+    }
+
+    /**
+     * Find icons
+     *
+     * @param folder - res directory
+     * @param iconPath - icon path
+     *
+     * @return icons
+     */
+    private List<File> findIcons(File folder, IconPath iconPath) {
+        List<File> iconDirs = folder.listFiles(new FileFilter() {
+            @Override
+            boolean accept(File file) {
+                return file.name.contains(iconPath.folderName)
+            }
+        })
+
+        if (iconDirs == null || iconDirs.isEmpty()) return null
+
+        List<File> icons = new ArrayList()
+        iconDirs.forEach { File iconDir ->
+            icons.addAll(
+                    iconDir.listFiles(new FileFilter() {
+                        @Override
+                        boolean accept(File file) {
+                            if (file.file) {
+                                if (file.name.empty) return false
+
+                                String[] fileNameParts = file.name.split("\\.")
+                                if (fileNameParts.size() != 2) return false
+
+                                return fileNameParts[0] == iconPath.iconName
+                            }
+                            return false
+                        }
+                    })
+            )
+        }
+
+        if (icons.empty) return
+
+        return icons
+    }
+
+    private void createFile(File file) {
+        if (!file.parentFile.exists()) file.parentFile.mkdirs()
+        if (!file.exists()) file.createNewFile()
+    }
+
+    private void copyFile(File fileFrom, File fileTo) {
+        createFile(fileTo)
+        Files.copy(fileFrom.toPath(), fileTo.toPath(), StandardCopyOption.REPLACE_EXISTING)
+    }
+
+    private String createVectorIconName(File icon) {
+        String[] iconParts = icon.name.split("\\.")
+        return "${iconParts[0]}$VECTOR_ICON_SUFFIX${iconParts[1]}.$XML_EXTENSION"
+    }
+}
+
+class Utils {
+    static String capitalize(String str) {
+        return str.substring(0, 1).toUpperCase() + str.substring(1)
+    }
+}
+
+/**
+ * Representing launcher icon
+ */
+class Icon {
+    IconPath commonIcon
+    IconPath roundIcon
+
+    Icon(IconPath commonIcon, IconPath roundIcon) {
+        this.commonIcon = commonIcon
+        this.roundIcon = roundIcon
+    }
+}
+
+/**
+ * Representing app-icon data
+ */
+class IconPath {
+    String folderName
+    String iconName
+
+    IconPath(String folderName, String iconName) {
+        this.folderName = folderName
+        this.iconName = iconName
+    }
+}
