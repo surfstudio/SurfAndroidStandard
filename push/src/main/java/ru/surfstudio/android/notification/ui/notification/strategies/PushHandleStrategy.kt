@@ -210,6 +210,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
      */
     private fun preparePendingIntent(context: Context, title: String, groupId: Int?): PendingIntent {
         val intent = Intent(context, NotificationClickEventReceiver::class.java)
+        intent.putExtra(NOTIFICATION_DATA, typeData)
         intent.putExtra(EVENT_TYPE, Event.OPEN)
         intent.putExtra(NOTIFICATION_GROUP_ID, groupId ?: 0)
         return PendingIntent.getBroadcast(context.applicationContext,
@@ -218,6 +219,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
 
     private fun makeDeleteIntent(context: Context, groupId: Int?): PendingIntent {
         val intent = Intent(context, NotificationClickEventReceiver::class.java)
+        intent.putExtra(NOTIFICATION_DATA, typeData)
         intent.putExtra(EVENT_TYPE, Event.DISMISS)
         intent.putExtra(NOTIFICATION_GROUP_ID, groupId ?: 0)
         return PendingIntent.getBroadcast(context.applicationContext,
