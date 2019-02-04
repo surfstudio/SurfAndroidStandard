@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.ui.navigation.activity.route;
 
-
 import android.content.Intent;
 
 /**
@@ -29,6 +28,5 @@ public abstract class ActivityWithParamsRoute extends ActivityRoute {
     public ActivityWithParamsRoute(Intent intent) {
 
     }
-
 
 }

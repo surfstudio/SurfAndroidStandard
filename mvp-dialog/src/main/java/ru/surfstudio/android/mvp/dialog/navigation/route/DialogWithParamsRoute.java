@@ -26,7 +26,7 @@ public abstract class DialogWithParamsRoute extends DialogRoute {
     @Override
     protected abstract Class<? extends DialogFragment> getFragmentClass();
 
-    protected abstract Bundle prepareBundle();
+    public abstract Bundle prepareBundle();
 
     @Override
     public DialogFragment createFragment() {
