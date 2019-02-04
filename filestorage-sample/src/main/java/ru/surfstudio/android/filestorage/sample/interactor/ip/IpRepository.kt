@@ -4,19 +4,21 @@ import io.reactivex.Observable
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.sample.domain.ip.Ip
-import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpStorage
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpJsonStorageWrapper
+import ru.surfstudio.android.filestorage.sample.interactor.ip.cache.IpSerializableStorageWrapper
 import ru.surfstudio.android.filestorage.sample.interactor.ip.network.IpApi
 import ru.surfstudio.android.network.BaseNetworkInteractor
 import ru.surfstudio.android.network.TransformUtil
 import javax.inject.Inject
 
 /**
- * Репозиторий для получения ip
+ * Репозиторий для получения и кэширования ip
  */
 @PerApplication
 class IpRepository @Inject constructor(connectionQualityProvider: ConnectionProvider,
                                        private val ipApi: IpApi,
-                                       private val ipStorage: IpStorage
+                                       private val ipJsonStorageWrapper: IpJsonStorageWrapper,
+                                       private val ipSerializableStorageWrapper: IpSerializableStorageWrapper
 ) : BaseNetworkInteractor(connectionQualityProvider) {
 
     fun getIp(): Observable<Ip> {
@@ -24,17 +26,19 @@ class IpRepository @Inject constructor(connectionQualityProvider: ConnectionProv
                 .map { ipResponse -> TransformUtil.transform(ipResponse) }
     }
 
-    fun getIpFromCache(): Ip? = ipStorage.ip
+    fun getIpFromJsonCache(): Ip? = ipJsonStorageWrapper.getIp()
 
-    /**
-     * Кэширование ip
-     */
-    fun saveIp(ip: Ip) {
-        ipStorage.ip = ip
-    }
+    fun saveIpToJsonCache(ip: Ip) = ipJsonStorageWrapper.saveIp(ip)
+
+    fun getIpFromSerializableCache(): Ip? = ipSerializableStorageWrapper.getIp()
+
+    fun saveIpToSerializableCache(ip: Ip) = ipSerializableStorageWrapper.saveIp(ip)
 
     /**
      * Очистка кэша
      */
-    fun clearIpStorage() = ipStorage.clear()
+    fun clearIpStorage() {
+        ipSerializableStorageWrapper.clear()
+        ipJsonStorageWrapper.clear()
+    }
 }

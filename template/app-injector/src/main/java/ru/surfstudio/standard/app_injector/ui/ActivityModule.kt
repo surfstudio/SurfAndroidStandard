@@ -1,11 +1,13 @@
 package ru.surfstudio.standard.app_injector.ui
 
+import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
 import ru.surfstudio.android.core.ui.permission.PermissionManager
@@ -19,6 +21,7 @@ import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.rxbus.RxBus
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import ru.surfstudio.android.template.app_injector.BuildConfig
 import javax.inject.Named
 
 /**
@@ -60,9 +63,28 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
     @PerActivity
     internal fun provideActivityNavigator(
             activityProvider: ActivityProvider,
-            eventDelegateManager: ScreenEventDelegateManager
+            eventDelegateManager: ScreenEventDelegateManager,
+            splitFeatureInstaller: SplitFeatureInstaller,
+            isSplitFeatureModeOn: Boolean
     ): ActivityNavigator {
-        return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
+        return ActivityNavigatorForActivity(
+                activityProvider,
+                eventDelegateManager,
+                splitFeatureInstaller,
+                isSplitFeatureModeOn
+        )
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideSplitFeatureInstaller(context: Context): SplitFeatureInstaller {
+        return SplitFeatureInstaller(context)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideIsSplitFeatureModeOn(): Boolean {
+        return !BuildConfig.DEBUG
     }
 
     @Provides
@@ -92,6 +114,7 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
                 activityProvider
         )
     }
+
     @Provides
     @PerActivity
     internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {

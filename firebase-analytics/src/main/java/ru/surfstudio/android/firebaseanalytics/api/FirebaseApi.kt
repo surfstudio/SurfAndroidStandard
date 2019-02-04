@@ -23,39 +23,21 @@ import ru.surfstudio.android.analytics.Analytics
 /**
  * Аналитика Firebase
  */
+@Deprecated("Use DefaultAnalyticsService")
 open class FirebaseApi(private val firebaseAnalytics: FirebaseAnalytics) : Analytics {
 
-    /**
-     * Максимально допустимая длинна значения параметра события.
-     * Если ключ параметра больше, то он обрезается до этого значения
-     */
-    private val MAX_VALUE_LENGTH = 36
 
     override fun sendEvent(event: String) {
-        firebaseAnalytics.logEvent(event, null)
+        firebaseAnalytics.logEvent(event.take(MAX_EVENT_KEY_LENGTH), null)
     }
 
     override fun sendEvent(event: String, params: Map<String, String>) {
         val bundle = Bundle()
-        params.forEach{ value -> bundle.putString(value.key, cut(value.value)) }
+        params.forEach { value -> bundle.putString(value.key.take(MAX_EVENT_KEY_LENGTH), value.value.take(MAX_EVENT_VALUE_LENGTH)) }
         firebaseAnalytics.logEvent(event, bundle)
     }
 
     override fun setUserProperty(key: String, value: String) {
-        firebaseAnalytics.setUserProperty(key, cut(value))
-    }
-
-    private fun cut(source: String): String {
-        return cut(source, MAX_VALUE_LENGTH)
-    }
-
-    private fun cut(source: String, maxLength: Int): String {
-        if (source.isEmpty()) {
-            return source
-        }
-        return if (source.length > maxLength)
-            source.substring(0, maxLength)
-        else
-            source
+        firebaseAnalytics.setUserProperty(key.take(MAX_SET_USER_PROPERTY_KEY_LENGTH), value.take(MAX_SET_USER_PROPERTY_VALUE_LENGTH))
     }
 }

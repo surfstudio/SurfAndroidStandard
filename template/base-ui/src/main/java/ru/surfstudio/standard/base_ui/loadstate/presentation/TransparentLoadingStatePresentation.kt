@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
-import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
+import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
 import ru.surfstudio.standard.base_ui.loadstate.state.TransparentLoadingState
 import ru.surfstudio.android.template.base_ui.R
-import ru.surfstudio.standard.base_ui.loadstate.setClickableAndFocusable
+import ru.surfstudio.android.custom.view.placeholder.setClickableAndFocusable
 
 /**
  * Представление состояния TransparentLoading в виде ProgressBar поверх затемненного фона

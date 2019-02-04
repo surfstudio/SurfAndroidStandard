@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.app_injector.ui.screen
 
+import android.content.Context
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
@@ -7,6 +8,7 @@ import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForFragment
+import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForFragment
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -20,6 +22,7 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.standard.app_injector.ui.error.ErrorHandlerModule
 import javax.inject.Named
 
@@ -91,8 +94,28 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
     internal fun provideActivityNavigator(
             activityProvider: ActivityProvider,
             fragmentProvider: FragmentProvider,
-            eventDelegateManager: ScreenEventDelegateManager
+            eventDelegateManager: ScreenEventDelegateManager,
+            splitFeatureInstaller: SplitFeatureInstaller,
+            isSplitFeatureModeOn: Boolean
     ): ActivityNavigator {
-        return ActivityNavigatorForFragment(activityProvider, fragmentProvider, eventDelegateManager)
+        return ActivityNavigatorForFragment(
+                activityProvider,
+                fragmentProvider,
+                eventDelegateManager,
+                splitFeatureInstaller,
+                isSplitFeatureModeOn
+        )
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideSplitFeatureInstaller(context: Context): SplitFeatureInstaller {
+        return SplitFeatureInstaller(context)
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideIsSplitFeatureModeOn(): Boolean {
+        return !BuildConfig.DEBUG
     }
 }

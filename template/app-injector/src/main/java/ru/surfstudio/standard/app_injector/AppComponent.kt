@@ -37,7 +37,8 @@ import javax.inject.Named
     NetworkModule::class,
     OkHttpModule::class,
     FcmModule::class,
-    NotificationModule::class])
+    NotificationModule::class
+])
 interface AppComponent {
     fun initializeAppInteractor(): InitializeAppInteractor
     fun context(): Context
@@ -49,7 +50,8 @@ interface AppComponent {
     fun globalNavigator(): GlobalNavigator
     fun fcmStorage(): FcmStorage
     fun pushHandler(): PushHandler
+    @Named(NO_BACKUP_SHARED_PREF)
+    fun sharedPreferences(): SharedPreferences
 
     fun inject(to: MessagingService)
-    @Named(NO_BACKUP_SHARED_PREF) fun sharedPreferences(): SharedPreferences
 }
