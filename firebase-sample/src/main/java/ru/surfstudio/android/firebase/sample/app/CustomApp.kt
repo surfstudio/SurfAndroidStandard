@@ -6,8 +6,8 @@ import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import io.fabric.sdk.android.Fabric
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.android.firebase.sample.BuildConfig
+import ru.surfstudio.android.sample.dagger.app.DefaultActivityLifecycleCallbacks
 
 /**
  * Класс приложения
@@ -39,7 +39,7 @@ class CustomApp : MultiDexApplication() {
     }
 
     private fun initNotificationCenter() {
-        registerActivityLifecycleCallbacks(object: ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks() {
+        registerActivityLifecycleCallbacks(object: DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 AppConfigurator.customAppComponent?.pushHandler()?.onActivityStarted(activity)
             }
@@ -50,7 +50,7 @@ class CustomApp : MultiDexApplication() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(object : ru.surfstudio.standard.app_injector.ui.DefaultActivityLifecycleCallbacks() {
+        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 activeActivityHolder.activity = activity
             }

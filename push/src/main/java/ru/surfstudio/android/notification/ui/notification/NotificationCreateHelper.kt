@@ -19,11 +19,9 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.content.SharedPreferences
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import org.json.JSONArray
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
@@ -42,71 +40,45 @@ object NotificationCreateHelper {
         val notificationBuilder = pushHandleStrategy.notificationBuilder
                 ?: buildNotification(pushHandleStrategy, title, body, context)
 
-//        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
 
-        /**
-         * Only summary notification is implemented.
-         * You can add all individual notification descriptions
-         * as a line in the summary notification.
-         * Since notification over riding won't work in this method,
-         * we are saving notification description strings in an arraylist
-         * and saving the arraylist object in sharedpref as a single string
-         * by the help of Gson class.
-         * when user clicks on appropirate notification, that sharedpref
-         * key-value is cleared. Thus we can obtain the same behaviour
-         * of stacked notification.
-         **/
+            val groupId = pushHandleStrategy.group?.id
+            if (groupId != null) {
+                val notificationDescObject = NotificationGroupHelper
+                        .getNotificationsForGroup(context, groupId, body)
 
-        /**
-         * processStringDatas() method will return all the
-         * saved strings in the SharedPreference which will
-         * added as a line in the grouped notification.
-         **/
-        val groupId = pushHandleStrategy.group?.id
-        if(groupId != null) {
-            val notificationDescObject = NotificationGroupHelper
-                    .processStringDatas(context, groupId, body)
+                if (notificationDescObject.size > 1) {
 
-            /**
-             * Setting inboxStyle to notification to add each individual notification's
-             * description.
-             **/
-            val inboxStyle = NotificationCompat.InboxStyle()
+                    val inboxStyle = NotificationCompat.InboxStyle()
 
-            notificationBuilder.setStyle(inboxStyle)
+                    notificationBuilder.setStyle(inboxStyle)
 
-            inboxStyle.setBigContentTitle(title)
+                    inboxStyle.setBigContentTitle(title)
 
-            /**
-             * Magic happens here!
-             * All the strings of our notificationDescObject is added
-             * and grouping done.
-             **/
-            notificationDescObject.forEach { inboxStyle.addLine(it) }
+                    notificationDescObject.forEach { inboxStyle.addLine(it) }
 
-            //Can set no.of messages as a summary.
-            inboxStyle.setSummaryText(notificationDescObject.size.toString() + " Messages")
+                    //Can set no.of messages as a summary.
+                    inboxStyle.setSummaryText(notificationDescObject.size.toString() + " Messages") //todo
+                }
 
-            getNotificationManager(context).notify(groupId, notificationBuilder.build())
-            return
+                getNotificationManager(context).notify(groupId, notificationBuilder.build())
+                return
+            }
+        } else {
+            SdkUtils.runOnOreo {
+                getNotificationManager(context).createNotificationChannel(
+                        pushHandleStrategy.channel
+                                ?: buildChannel(pushHandleStrategy, body, context)
+                )
+            }
+
+            //создание заголовка группы нотификаций происходит вручную
+            pushHandleStrategy.group?.let {
+                getNotificationManager(context)
+                        .notify(it.id, pushHandleStrategy.groupSummaryNotificationBuilder?.build())
+            }
         }
-//        } else {
-//            SdkUtils.runOnOreo {
-//                getNotificationManager(context).createNotificationChannel(
-//                        pushHandleStrategy.channel
-//                                ?: buildChannel(pushHandleStrategy, body, context)
-//                )
-//            }
-//
-////        val notificationBuilder = pushHandleStrategy.notificationBuilder
-////                ?: buildNotification(pushHandleStrategy, title, body, context)
-//
-//            //создание заголовка группы нотификаций происходит вручную
-//            pushHandleStrategy.group?.let {
-//                getNotificationManager(context)
-//                        .notify(it.id, pushHandleStrategy.groupSummaryNotificationBuilder?.build())
-//            }
-//        }
+
         getNotificationManager(context).notify(pushId, notificationBuilder.build())
     }
 
@@ -120,7 +92,8 @@ object NotificationCreateHelper {
     ) {
         SdkUtils.runOnOreo {
             getNotificationManager(context).createNotificationChannel(
-                    pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, body, context)
+                    pushHandleStrategy.channel
+                            ?: buildChannel(pushHandleStrategy, body, context)
             )
         }
 
@@ -136,8 +109,8 @@ object NotificationCreateHelper {
                                   title: String,
                                   body: String,
                                   context: Context): NotificationCompat.Builder {
-        val builder = NotificationCompat.Builder(context, context.getString(pushHandleStrategy.channelId))
-        return builder.setSmallIcon(pushHandleStrategy.icon)
+        return NotificationCompat.Builder(context, context.getString(pushHandleStrategy.channelId))
+                .setSmallIcon(pushHandleStrategy.icon)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setGroupSummary(true)
@@ -145,9 +118,8 @@ object NotificationCreateHelper {
                 .setContent(pushHandleStrategy.contentView)
                 .setAutoCancel(pushHandleStrategy.autoCancelable)
                 .setContentIntent(pushHandleStrategy.pendingIntent)
-                .setDeleteIntent(pushHandleStrategy.deleteIntent ?: return builder)
+                .setDeleteIntent(pushHandleStrategy.deleteIntent)
     }
-
 
     @SuppressLint("NewApi")
     private fun buildChannel(pushHandleStrategy: PushHandleStrategy<*>,

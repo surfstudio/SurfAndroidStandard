@@ -1,8 +1,8 @@
-//buildscript {
-//    repositories {
-//        maven { url 'https://maven.fabric.io/public' }
-//    }
-//}
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+}
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -64,9 +64,9 @@ dependencies {
 
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 
-//    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-//        transitive = true
-//    }
+    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
+        transitive = true
+    }
 
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     implementation 'androidx.multidex:multidex:2.0.1'
@@ -83,4 +83,4 @@ configurations.all {
 }
 
 //todo uncoment for real app
-apply plugin: 'com.google.gms.google-services'
+//apply plugin: 'com.google.gms.google-services'

@@ -1,14 +1,13 @@
 package ru.surfstudio.standard.app_injector.ui.notification.strategy
 
 import android.app.Activity
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
 import ru.surfstudio.android.notification.ui.notification.strategies.SimpleAbstractPushHandleStrategy
 import ru.surfstudio.android.template.app_injector.R
 import ru.surfstudio.standard.app_injector.ui.notification.type.NotificationTypeData
-import ru.surfstudio.standard.base_ui.navigation.PushHandlerActivityRoute
+import ru.surfstudio.standard.base_ui.navigation.MainActivityRoute
 import ru.surfstudio.standard.domain.notification.Notification
 
 /**
@@ -31,18 +30,12 @@ class BasePushHandleStrategy : SimpleAbstractPushHandleStrategy<NotificationType
     override val color: Int
         get() = R.color.colorAccent
 
+    //todo исправит из нужд приложения
     override val group = NotificationsGroup("Messages")
 
-    override fun preparePendingIntent(context: Context, title: String): PendingIntent {
-        return PendingIntent.getActivity(
-                context,
-                title.hashCode(),
-                coldStartIntent(context),
-                PendingIntent.FLAG_ONE_SHOT)
-    }
-
+    //todo исправит из нужд приложения
     override fun coldStartIntent(context: Context): Intent =
-            PushHandlerActivityRoute(typeData.data ?: Notification() ).prepareIntent(context)
+            MainActivityRoute().prepareIntent(context)
 
     override fun handlePushInActivity(activity: Activity) = false
 }

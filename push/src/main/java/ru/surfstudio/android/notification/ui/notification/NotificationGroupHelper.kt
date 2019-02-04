@@ -11,26 +11,20 @@ import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 internal object NotificationGroupHelper {
 
     /**
-     * This method will save all the notifications on shared pereference
+     * This method will save all the notifications on shared preference
      * and will return the String array list which will be processed.
      * @param context context of current service
-     * @param title   title of notification. Not used in this demo mode.
      * @param desc    String to save in SP.
-     * @return        String value of ArrayList.class object.
+     * @return [List] of [String] objects (saved notifications for given groupId)
      */
-    fun processStringDatas(context: Context, groupId: Int, desc: String): List<String> {
+    fun getNotificationsForGroup(context: Context, groupId: Int, desc: String): List<String> {
 
         val sp = getSharedPref(context)
 
         val notificationObject: MutableList<String>
 
-        val notifContent = sp.getString(getGroupKey(groupId), null)
-
-        notificationObject = if (notifContent != null) {
-            getArrayFromJson(notifContent)
-        } else {
-            ArrayList()
-        }
+        val notifContent: String = sp.getString(getGroupKey(groupId), EMPTY_STRING)
+        notificationObject = getArrayFromJson(notifContent)
         notificationObject.add(desc)
 
         sp.edit().putString(getGroupKey(groupId), listToJsonString(notificationObject)).apply()
@@ -38,13 +32,15 @@ internal object NotificationGroupHelper {
         return notificationObject
     }
 
-    fun clearStringDatas(context: Context, groupId: Int) {
+    fun clearSavedNotificationsForGroup(context: Context, groupId: Int) {
         val sp = getSharedPref(context)
         sp.edit().putString(getGroupKey(groupId), EMPTY_STRING).apply()
     }
 
     private fun getArrayFromJson(jsonString: String): MutableList<String> {
         val res = ArrayList<String>()
+        if(jsonString == EMPTY_STRING) return res
+
         val jsonArray = JSONArray(jsonString)
         for (i in (0 until jsonArray.length())) {
             res.add(jsonArray[i].toString())

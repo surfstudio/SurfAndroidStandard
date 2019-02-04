@@ -26,13 +26,9 @@ import androidx.annotation.StringRes
 import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.ui.notification.NOTIFICATION_GROUP_ID
-import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelper
-import ru.surfstudio.android.notification.ui.notification.NotificationDismissedReceiver
 import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
-
-
-
+import java.io.Serializable
+import ru.surfstudio.android.notification.ui.notification.*
 
 
 /**
@@ -43,7 +39,7 @@ import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGr
  *
  * Для Android O необходимо указать id канала
  */
-abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
+abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Serializable {
 
     /**
      * Идентификатор пуш-нотификации. При совпадении идентификаторов пуш-нотификации заменяют друг
@@ -116,18 +112,13 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     /**
      * Действия при отмены пуш
      */
-    var deleteIntent: PendingIntent? = null
+    lateinit var deleteIntent: PendingIntent
 
     /**
      * Определяем в каких случайх пуш не надо отображать,
      * а необходимо выполнить те или иные действия по подписке
      */
     abstract fun handlePushInActivity(activity: Activity): Boolean
-
-    /**
-     * Интент в соответствии с необходимыми действиями
-     */
-    abstract fun preparePendingIntent(context: Context, title: String): PendingIntent
 
     /**
      * Интент при нажатии на пуш, если приложение в бэкграунде
@@ -142,7 +133,6 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
      * @param body текст пуш-нотификации
      */
     abstract fun makeNotificationBuilder(context: Context, title: String, body: String): NotificationCompat.Builder?
-
 
     /**
      * Метод для создания канала нотификаций
@@ -166,7 +156,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
             body: String
     ) {
 
-        pendingIntent = preparePendingIntent(context, title)
+        pendingIntent = preparePendingIntent(context, title, group?.id)
         channel = makeNotificationChannel(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         groupSummaryNotificationBuilder = makeGroupSummaryNotificationBuilder(context, title, body)
@@ -196,7 +186,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
             body: String
     ) {
 
-        pendingIntent = preparePendingIntent(context, title)
+        pendingIntent = preparePendingIntent(context, title, -1)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
         pushInteractor.onNewNotification(typeData)
@@ -215,12 +205,23 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
         return null
     }
 
-    open fun makeDeleteIntent(context: Context, groupId: Int?): PendingIntent? {
-        groupId ?: return null
-        val intent = Intent(context, NotificationDismissedReceiver::class.java)
-        intent.putExtra(NOTIFICATION_GROUP_ID, groupId)
+    /**
+     * Интент в соответствии с необходимыми действиями
+     */
+    private fun preparePendingIntent(context: Context, title: String, groupId: Int?): PendingIntent {
+        val intent = Intent(context, NotificationClickEventReceiver::class.java)
+        intent.putExtra(EVENT_TYPE, Event.OPEN)
+        intent.putExtra(NOTIFICATION_GROUP_ID, groupId ?: 0)
         return PendingIntent.getBroadcast(context.applicationContext,
-                groupId, intent, PendingIntent.FLAG_ONE_SHOT)
+                title.hashCode(), intent, PendingIntent.FLAG_ONE_SHOT)
+    }
+
+    private fun makeDeleteIntent(context: Context, groupId: Int?): PendingIntent {
+        val intent = Intent(context, NotificationClickEventReceiver::class.java)
+        intent.putExtra(EVENT_TYPE, Event.DISMISS)
+        intent.putExtra(NOTIFICATION_GROUP_ID, groupId ?: 0)
+        return PendingIntent.getBroadcast(context.applicationContext,
+                0, intent, PendingIntent.FLAG_ONE_SHOT)
     }
 
     /**

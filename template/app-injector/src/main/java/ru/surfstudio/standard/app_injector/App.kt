@@ -1,6 +1,8 @@
 package ru.surfstudio.standard.app_injector
 
 import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import androidx.multidex.MultiDexApplication
 //import com.crashlytics.android.Crashlytics
 //import com.crashlytics.android.core.CrashlyticsCore
@@ -13,6 +15,8 @@ import ru.surfstudio.android.logger.RemoteLogger
 import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy
 import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
 import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy
+import ru.surfstudio.android.notification.interactor.PushClickProvider
+import ru.surfstudio.android.notification.interactor.PushEventListener
 import ru.surfstudio.android.template.app_injector.BuildConfig
 import ru.surfstudio.android.template.app_injector.R
 import ru.surfstudio.standard.app_injector.ui.navigation.RouteClassStorage
@@ -44,6 +48,7 @@ class App : MultiDexApplication() {
 //        initFabric()
         initComponentProvider()
         initRouteProvider()
+        initPushEventListener()
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
 
@@ -113,5 +118,17 @@ class App : MultiDexApplication() {
                 activeActivityHolder.clearActivity()
             }
         })
+    }
+
+    private fun initPushEventListener() {
+        PushClickProvider.pushEventListener = object: PushEventListener {
+            override fun pushDismissListener(context: Context, intent: Intent) {
+                //todo
+            }
+
+            override fun pushOpenListener(context: Context, intent: Intent) {
+                //todo
+            }
+        }
     }
 }
