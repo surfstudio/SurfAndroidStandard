@@ -1,4 +1,4 @@
-package ru.surfstudio.android.template.test_utils
+package ru.surfstudio.standard.test_utils
 
 import org.junit.Test
 import org.junit.runners.model.FrameworkMethod
@@ -66,7 +66,7 @@ class ApiTestRunner(testClass: Class<*>?) : RobolectricTestRunner(testClass) {
         val badMethods = methods.asSequence().filter { !isMethodWithAnnotation(it, Test::class.java) }.toList()
         if (badMethods.isNotEmpty()) {
             val badMethodsStr = badMethods.asSequence().map { it.name }.reduce { left, right -> "$left, $right" }
-            throw RuntimeException("Api test methods must have @Test annotation. Wrong methods: $badMethodsStr")
+            throw RuntimeException("ApiCategory test methods must have @Test annotation. Wrong methods: $badMethodsStr")
         }
     }
 

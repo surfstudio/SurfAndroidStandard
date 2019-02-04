@@ -1,3 +1,6 @@
+apply plugin: 'kotlin-kapt'
+apply from: '../commonTestTasks.gradle'
+
 android {
     defaultConfig {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -8,8 +11,6 @@ android {
         }
     }
 }
-
-apply plugin: 'kotlin-kapt'
 
 dependencies {
     //unit test

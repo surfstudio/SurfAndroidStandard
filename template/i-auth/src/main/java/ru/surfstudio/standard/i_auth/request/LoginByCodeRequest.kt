@@ -1,4 +1,4 @@
-package ru.surfstudio.standrad.i_auth.request
+package ru.surfstudio.standard.i_auth.request
 
 import com.google.gson.annotations.SerializedName
 

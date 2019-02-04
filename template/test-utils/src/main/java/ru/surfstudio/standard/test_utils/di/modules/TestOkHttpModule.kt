@@ -1,4 +1,4 @@
-package ru.surfstudio.android.template.test_utils.di.modules
+package ru.surfstudio.standard.test_utils.di.modules
 
 import ru.surfstudio.standard.i_network.service.ServiceInterceptor
 import ru.surfstudio.standard.i_token.TokenStorage

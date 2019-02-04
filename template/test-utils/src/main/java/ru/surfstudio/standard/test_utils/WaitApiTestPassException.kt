@@ -1,4 +1,4 @@
-package ru.surfstudio.android.template.test_utils
+package ru.surfstudio.standard.test_utils
 
 import java.lang.RuntimeException
 

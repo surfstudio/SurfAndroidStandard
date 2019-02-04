@@ -1,4 +1,4 @@
-package ru.surfstudio.standrad.i_auth
+package ru.surfstudio.standard.i_auth
 
 import io.reactivex.Observable
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -7,8 +7,8 @@ import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import ru.surfstudio.standard.domain.login.KeyInfo
 import ru.surfstudio.standard.domain.login.LoginInfo
 import ru.surfstudio.standard.i_network.service.BaseNetworkService
-import ru.surfstudio.standrad.i_auth.request.LoginByCodeRequest
-import ru.surfstudio.standrad.i_auth.request.LoginByPhoneRequest
+import ru.surfstudio.standard.i_auth.request.LoginByCodeRequest
+import ru.surfstudio.standard.i_auth.request.LoginByPhoneRequest
 import javax.inject.Inject
 
 private const val CODE_FORMAT = "%s:%s"

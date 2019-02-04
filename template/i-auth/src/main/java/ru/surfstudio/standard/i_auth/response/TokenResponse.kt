@@ -1,4 +1,4 @@
-package ru.surfstudio.standrad.i_auth.response
+package ru.surfstudio.standard.i_auth.response
 
 import com.google.gson.annotations.SerializedName
 import ru.surfstudio.standard.domain.login.LoginInfo
