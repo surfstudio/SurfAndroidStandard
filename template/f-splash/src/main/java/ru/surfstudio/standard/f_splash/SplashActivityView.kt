@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 import ru.surfstudio.android.template.f_splash.R
-import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_splash.di.SplashScreenConfigurator
 import javax.inject.Inject
 
 class SplashActivityView : CoreActivityView(), PushHandlingActivity {
@@ -18,7 +18,7 @@ class SplashActivityView : CoreActivityView(), PushHandlingActivity {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = SplashScreenConfigurator(intent)
 
     override fun getScreenName(): String = "splash"
 }

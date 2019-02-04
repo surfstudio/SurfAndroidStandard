@@ -39,6 +39,7 @@ ext {
     androidxTestExtJunitVersion = '1.0.0'       //http://bit.ly/2zC6UV1
     androidxAnnotationVersion = '1.0.0'         //http://bit.ly/2P3QBVO
     androidxMultidexVersion = '2.0.0'           //http://bit.ly/2r6uX9G
+    playCoreVersion = '1.3.6'                   //http://bit.ly/2Hod1T1
 
     //gms
     firebaseCoreVersion = '16.0.5'              //http://bit.ly/2Q81pGJ
