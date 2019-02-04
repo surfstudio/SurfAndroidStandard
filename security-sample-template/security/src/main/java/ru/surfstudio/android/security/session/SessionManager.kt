@@ -16,7 +16,6 @@
 package ru.surfstudio.android.security.session
 
 import android.app.Activity
-import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
@@ -40,12 +39,10 @@ class SessionManager(private val sessionController: SessionController) {
 
         if(shouldSessionConfirm(activity) && hasExpiredSession) {
             sessionController.onSessionExpired()
-            Logger.d("Session is expired for: ${activity.javaClass.simpleName}")
         }
 
         hasExpiredSession = false
         cancelScheduledTask()
-        Logger.d("Active activities count: ${activeActivityCount.get()}")
     }
 
     fun onActivityStopped() {

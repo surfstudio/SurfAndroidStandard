@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2018-present, SurfStudio LLC. Vasily Beglyanin.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ import java.util.List;
 import ru.surfstudio.android.logger.Logger;
 
 /**
- * класс для осуществления операций с файлами кэша
+ * Класс для осуществления операций с файлами кэша
  */
 public class FileProcessor {
 
