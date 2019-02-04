@@ -15,6 +15,7 @@ android {
 dependencies {
     //unit test
     testImplementation project("$templatePrefix:base")
+    testImplementation project("$templatePrefix:test-utils")
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.annimon:stream:$annimonStreamVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
@@ -32,6 +33,4 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidXEspressoContribVersion"
     androidTestImplementation "androidx.test.espresso:espresso-intents:$androidXEspressoIntentsVersion"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
-
-    testImplementation project("$templatePrefix:test-utils")
 }
