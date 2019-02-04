@@ -1,7 +1,6 @@
 package ru.surfstudio.android.security.sample.interactor.cache
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication

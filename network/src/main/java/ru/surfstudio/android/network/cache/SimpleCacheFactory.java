@@ -36,9 +36,9 @@ public class SimpleCacheFactory {
     private final Encryptor encryptor;
     private Map<SimpleCacheInfo, SimpleCache> caches = new HashMap<>();
 
-    public SimpleCacheFactory(@Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME) final String backupStorageDir,
+    public SimpleCacheFactory(@Named(CacheConstant.EXTERNAL_CACHE_DIR_DAGGER_NAME) final String cacheDir,
                               SimpleCacheUrlConnector cacheUrlConnector) {
-        this.cacheDir = backupStorageDir;
+        this.cacheDir = cacheDir;
         this.cacheUrlConnector = cacheUrlConnector;
         this.encryptor = new EmptyEncryptor();
     }
