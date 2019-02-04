@@ -29,13 +29,13 @@ abstract class BaseNetworkDaggerTest<T> {
 
     abstract val component: T
 
-    abstract fun inject(component: T)
+    abstract fun inject()
 
     @Before
     @CallSuper
     open fun setUp() {
         Logger.addLoggingStrategy(testLoggingStrategy)
-        inject(component)
+        inject()
     }
 
     @After
