@@ -8,5 +8,6 @@ import ru.surfstudio.standard.test_utils.di.components.TestNetworkAppComponent
 @PerActivity
 @Component(dependencies = [TestNetworkAppComponent::class], modules = [TestAuthApiModule::class])
 interface TestAuthApiComponent {
+
     fun inject(test: SampleApiTest)
 }

@@ -9,8 +9,8 @@ import java.lang.RuntimeException
 class ApiTestRunner(testClass: Class<*>?) : RobolectricTestRunner(testClass) {
 
     companion object {
-        private const val CHECK_API_TESTS_CONSOLE_PARAMETER = "check_api"  // -Dcheck_api
-        private const val WAIT_API_TESTS_CONSOLE_PARAMETER = "wait_api"    // -Dwait_api
+        private const val CHECK_API_TESTS_CONSOLE_PARAMETER = "check_api"
+        private const val WAIT_API_TESTS_CONSOLE_PARAMETER = "wait_api"
     }
 
     private var runCheckApiTests: Boolean = false
