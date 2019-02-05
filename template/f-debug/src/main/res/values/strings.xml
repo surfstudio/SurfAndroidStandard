@@ -59,12 +59,4 @@
     <string name="ui_tools_scalpel_description">Отрисовывает иерархию вью как интерактивную 3D визуализацию. Запускается после встряхивания устройства.</string>
     <!--endregion-->
 
-    <!--region ServerSettingsDebugActivityView-->
-    <string name="server_settings_request_delay_text">Задержка запросов: %1$.2f.s</string>
-    <!--endregion-->
-
-    <!--region UI-tools-->
-    <string name="ui_tools_scalpel_name">Scalpel</string>
-    <string name="ui_tools_scalpel_description">Отрисовывает иерархию вью как интерактивную 3D визуализацию. Запускается после встряхивания устройства.</string>
-    <!--endregion-->
 </resources>
