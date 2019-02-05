@@ -20,7 +20,7 @@ apply from: '../unitTestConfiguration.gradle'
 следует определить dagger-component c зависимостью на
 `TestNetworkAppComponent` из test-utils модуля. Например:
 ```
-@PerActivity
+@PerTest
 @Component(dependencies = [TestNetworkAppComponent::class])
 interface TestAuthApiComponent {
     fun inject(test: SampleApiTest)
