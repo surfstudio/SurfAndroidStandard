@@ -10,7 +10,7 @@ android {
 
 dependencies {
     testImplementation project("$templatePrefix:base")
-    testImplementation project("$templatePrefix:test-utils")
+    testImplementation project("$templatePrefix:small-test-utils")
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "com.annimon:stream:$annimonStreamVersion"

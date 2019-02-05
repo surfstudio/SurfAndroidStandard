@@ -1,4 +1,4 @@
-# Test-utils module
+# Small-test-utils module
 
 Модуль для реализации тестов.
 
@@ -18,7 +18,7 @@ apply from: '../unitTestConfiguration.gradle'
 
 В проекте могут быть как unit- так и api-тесты. Для создания api тестов
 следует определить dagger-component c зависимостью на
-`TestNetworkAppComponent` из test-utils модуля. Например:
+`TestNetworkAppComponent` из small-test-utils модуля. Например:
 ```
 @PerTest
 @Component(dependencies = [TestNetworkAppComponent::class])
