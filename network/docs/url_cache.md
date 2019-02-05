@@ -32,16 +32,5 @@ Observable<SomeResponse> getSomeContent(
 Этот инстанс необходимо зарегистрировать в `SimpleCacheStorage`.
 В зависимости от queryMode данные будут запрошены либо с сервера, либо из кеша.
 
-**Для корректной работы URL-кеш `SimpleCacheInfo` стоит определять в порядке от менее
-общего url к более общему, чтобы избежать коллизий. Например:**
-```
-val simpleCaches: List<SimpleCacheInfo> = hashSetOf(
-            SimpleCacheInfo(GET, "product/list/available", cacheName, 1000),
-            SimpleCacheInfo(GET, "product/list/{id}", cacheName, 1000),
-            SimpleCacheInfo(GET, "product/all", cacheName, 1000),
-            SimpleCacheInfo(GET, "product/{id}", cacheName, 1000)
-)
-```
-
 Если очистка кеша необходима при обновлении приложения на новую версию,
 то соответствующий код необходимо разместить в AppMigrationStorage
