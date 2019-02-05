@@ -3,20 +3,20 @@ package ru.surfstudio.standard.i_auth.di
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import ru.surfstudio.android.dagger.scope.PerActivity
 import ru.surfstudio.standard.i_auth.AuthApi
 import ru.surfstudio.standard.i_auth.AuthRepository
+import ru.surfstudio.standard.test_utils.di.scope.PerTest
 
 @Module
 class TestAuthApiModule {
 
     @Provides
-    @PerActivity
+    @PerTest
     fun provideAuthApi(retrofit: Retrofit): AuthApi {
         return retrofit.create(AuthApi::class.java)
     }
 
     @Provides
-    @PerActivity
+    @PerTest
     fun provideAuthRepository(authApi: AuthApi) = AuthRepository(authApi)
 }

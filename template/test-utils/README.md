@@ -9,12 +9,12 @@
 Чтобы добавить зависимости в тестируемый модуль, нужно в build.gradle
 файле модуля, прописать:
 ```
-apply from: '../commonTestModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
 ```
 
 Тесты должны находиться в `src/test/java`.
 
-### Реализация
+### Api-tests
 
 В проекте могут быть как unit- так и api-тесты. Для создания api тестов
 следует определить dagger-component c зависимостью на
@@ -46,7 +46,7 @@ override fun inject() {
         component.inject(this)
 }
 ```
-### WaitApi
+###### WaitApi
 
 Также можно определить api-тесты для нереализованного api. Они помогают
 следить за тем, какие методы были имплементированны, а какие нет. Для этого
