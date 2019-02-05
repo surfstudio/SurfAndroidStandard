@@ -18,11 +18,9 @@ class OkHttpModule {
 
     @Provides
     @PerApplication
-    fun provideOkHttpClient(
-            cacheInterceptor: SimpleCacheInterceptor,
-            etagInterceptor: EtagInterceptor,
-            httpLoggingInterceptor: HttpLoggingInterceptor
-    ): OkHttpClient {
+    fun provideOkHttpClient(cacheInterceptor: SimpleCacheInterceptor,
+                            etagInterceptor: EtagInterceptor,
+                            httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder().apply {
             connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
             readTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)

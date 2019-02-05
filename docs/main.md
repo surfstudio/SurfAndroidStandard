@@ -51,6 +51,8 @@
 
 1. [Инициализация приложения](../template/README.md)
 
+1. [Безопасность](../security-sample-template/security/README.md)
+
 1. [Лучшие практики](best_practice/best_practice.md)
     1. [Поиск утечек](best_practice/memory_leak.md)
     2. [CI](https://github.com/surfstudio/jenkins-pipeline-lib)
