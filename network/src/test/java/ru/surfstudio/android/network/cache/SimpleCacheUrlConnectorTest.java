@@ -9,8 +9,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.HttpUrl;
 import ru.surfstudio.android.network.BaseUrl;
@@ -44,12 +44,12 @@ public class SimpleCacheUrlConnectorTest {
                     CharSequence a = (CharSequence) invocation.getArguments()[0];
                     return !(a != null && a.length() > 0);
                 });
-        Set<SimpleCacheInfo> set = new HashSet<>();
-        set.add(yaSci);
-        set.add(paramPath);
-        set.add(paramVal);
+        List<SimpleCacheInfo> list = new ArrayList<>();
+        list.add(yaSci);
+        list.add(paramPath);
+        list.add(paramVal);
 
-        connector = new SimpleCacheUrlConnector(baseUrl, set);
+        connector = new SimpleCacheUrlConnector(baseUrl, list);
     }
 
     @Test
