@@ -16,12 +16,12 @@ import javax.inject.Inject
 @Config(application = TestApp::class, sdk = [Build.VERSION_CODES.O_MR1])
 class SampleApiTest : BaseNetworkDaggerTest<TestAuthApiComponent>() {
 
+    @Inject
+    lateinit var authRepository: AuthRepository
+
     override val component: TestAuthApiComponent = DaggerTestAuthApiComponent.builder()
             .testNetworkAppComponent(networkAppComponent)
             .build()
-
-    @Inject
-    lateinit var authRepository: AuthRepository
 
     override fun inject() {
         component.inject(this)
