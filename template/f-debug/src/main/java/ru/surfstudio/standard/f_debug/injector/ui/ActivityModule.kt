@@ -62,7 +62,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
             activityProvider: ActivityProvider,
             eventDelegateManager: ScreenEventDelegateManager
     ): ActivityNavigator {
-        return ActivityNavigatorForActivity(activityProvider, eventDelegateManager)
+        return ActivityNavigatorForActivity(
+                activityProvider,
+                eventDelegateManager
+        )
     }
 
     @Provides
@@ -92,6 +95,7 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
                 activityProvider
         )
     }
+
     @Provides
     @PerActivity
     internal fun provideMessageController(activityProvider: ActivityProvider): MessageController {

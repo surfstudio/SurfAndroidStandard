@@ -47,28 +47,35 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
             sm.loadState = LoadState.NONE
             view.render(sm)
         }, {
-            sm.ip = getIpFromCache()
-            sm.loadState = if (sm.ip != null) LoadState.NONE else LoadState.ERROR
+            sm.loadState = LoadState.NONE
             view.render(sm)
         })
     }
 
     fun reloadData() = tryLoadData()
 
-    fun saveIpToCache() {
-        val message: String = sm.ip?.let {
-            repository.saveIp(it)
+    fun saveIpToSerializableCache() = save { repository.saveIpToSerializableCache(it) }
+
+    fun saveIpToJsonCache() = save { repository.saveIpToJsonCache(it) }
+
+    private fun save(saveIp: (Ip) -> Unit) {
+        val message = sm.ip?.let {
+            saveIp(it)
             getString(R.string.cache_created_message)
         } ?: getString(R.string.null_ip_message)
         messageController.show(message)
     }
 
-    fun loadDataFromCache() {
-        val message = getIpFromCache()?.value
+    fun loadDataFromSerializableCache() = load { repository.getIpFromSerializableCache() }
+
+    fun loadDataFromJsonCache() = load { repository.getIpFromJsonCache() }
+
+    private fun load(loadIp: () -> Ip?) {
+        val message = loadIp()?.value
         if (message.isNullOrEmpty()) {
             messageController.show(getString(R.string.empty_cache_message))
         } else {
-            messageController.show(message)
+            messageController.show(message!!)
         }
     }
 
@@ -77,7 +84,5 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
         messageController.show(getString(R.string.cache_deleted_message))
     }
 
-    private fun getIpFromCache(): Ip? = repository.getIpFromCache()
-
-    private fun getString(@StringRes stringId: Int): String = stringsProvider.getString(stringId)
+    private fun getString(@StringRes stringRes: Int): String = stringsProvider.getString(stringRes)
 }

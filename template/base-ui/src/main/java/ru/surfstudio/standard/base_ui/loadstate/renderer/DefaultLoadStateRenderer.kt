@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.base_ui.loadstate.renderer
 
-import ru.surfstudio.standard.base_ui.loadstate.PlaceHolderViewContainer
+import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.BaseLoadStateRenderer
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.standard.base_ui.loadstate.presentation.*

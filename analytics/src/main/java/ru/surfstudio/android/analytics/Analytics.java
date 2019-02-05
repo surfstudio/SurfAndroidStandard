@@ -24,6 +24,7 @@ import java.util.Map;
  *
  * Реализующий класс должен отправить событие при необходимости преобразовав параметры в нужный вид
  */
+@Deprecated
 public interface Analytics {
 
     /**

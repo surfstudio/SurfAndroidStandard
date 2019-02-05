@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.base_ui.loadstate
+package ru.surfstudio.android.custom.view.placeholder
 
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
@@ -14,6 +14,7 @@ import ru.surfstudio.android.animations.anim.fadeOut
 import ru.surfstudio.android.utilktx.util.SdkUtils
 import java.util.concurrent.TimeUnit
 
+const val ALPHA_FULL = 1f
 const val DEFAULT_DURATION = 0L
 const val STATE_TOGGLE_DELAY_MS = 250L
 
@@ -55,9 +56,9 @@ class PlaceHolderViewContainer(
 
     fun changeViewTo(view: View) = loadStateSubject.onNext(StatePresentation(view))
 
-    fun show() = fadeIn(DEFAULT_DURATION)
+    fun show() = fadeIn(DEFAULT_DURATION, ALPHA_FULL)
 
-    fun hide() = fadeOut(DEFAULT_DURATION, View.GONE)
+    fun hide() = fadeOut(DEFAULT_DURATION, View.GONE, ALPHA_FULL)
 
     /**
      * Этот метод нужен для того чтобы placeholder всегда отображался выше всех остальных элементов
