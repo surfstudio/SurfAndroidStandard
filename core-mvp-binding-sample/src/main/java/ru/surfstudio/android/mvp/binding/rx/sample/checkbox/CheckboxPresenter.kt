@@ -18,6 +18,7 @@ package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 
 import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.withLatestFrom
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import javax.inject.Inject
 
@@ -26,9 +27,9 @@ import javax.inject.Inject
  */
 class CheckboxPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
-) : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<CheckboxViewBinding>(basePresenterDependency) {
+) : BaseRxPresenter<CheckboxBindModel>(basePresenterDependency) {
 
-    override val bm = CheckboxViewBinding()
+    override val bm = CheckboxBindModel()
 
     override fun onFirstLoad() {
         super.onFirstLoad()

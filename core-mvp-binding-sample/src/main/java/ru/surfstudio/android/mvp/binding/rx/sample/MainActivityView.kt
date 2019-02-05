@@ -20,13 +20,14 @@ import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import javax.inject.Inject
 
 /**
  * Главный экран примеров
  */
-class MainActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView<MainViewBinding>() {
+class MainActivityView : BaseRxActivityView<MainBindModel>() {
 
     @Inject
     lateinit var presenter: MainPresenter
@@ -39,7 +40,7 @@ class MainActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActi
     @Inject
     lateinit var dialogControlPresenter: DialogControlPresenter
 
-    override fun bind(bm: MainViewBinding) {
+    override fun bind(bm: MainBindModel) {
         bm.counterBond.observable.map { it.toString() } bindTo main_counter_tv::setText
         bm.textEditBond bindTo main_text_et::setText
         bm.sampleState bindTo text_tv::setText

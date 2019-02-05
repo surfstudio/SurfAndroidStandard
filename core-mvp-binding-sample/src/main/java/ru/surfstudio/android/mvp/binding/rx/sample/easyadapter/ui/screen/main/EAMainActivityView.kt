@@ -21,6 +21,7 @@ import android.os.PersistableBundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.activity_easy_adapter_sample.*
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.easyadapter.EasyAdapter
@@ -40,7 +41,7 @@ import javax.inject.Inject
 /**
  * example screen with list with different types of items
  */
-class EAMainActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView<MainViewBinding>() {
+class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
 
     @Inject
     lateinit var presenter: EAMainPresenter
@@ -71,7 +72,7 @@ class EAMainActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxAc
         recycler.adapter = adapter
     }
 
-    override fun bind(bm: MainViewBinding) {
+    override fun bind(bm: MainBindModel) {
         headerController = HeaderController()
 
         carouselController = CarouselController(

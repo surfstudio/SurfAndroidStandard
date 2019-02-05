@@ -16,18 +16,21 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main
 
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.MainModel
 
 /**
  * Модель главного экрана с примером easyadapter
  */
-class MainViewBinding(init: MainModel) : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
+class MainBindModel(init: MainModel) : BindModel {
 
-    val openPaginationScreen = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
+    val openPaginationScreen = Action<Unit>()
 
-    val carouselState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State(init.carousels)
-    val hasCommercialState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State(init.hasCommercial)
-    val elementsState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State(init.elements)
-    val bottomCarouselState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State(init.bottomCarousel)
+    val carouselState = State(init.carousels)
+    val hasCommercialState = State(init.hasCommercial)
+    val elementsState = State(init.elements)
+    val bottomCarouselState = State(init.bottomCarousel)
 }
 

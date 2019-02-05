@@ -20,18 +20,19 @@ import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.checkedChanges
 import kotlinx.android.synthetic.main.activity_checkboxes.*
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import javax.inject.Inject
 
 /**
  * Экран демострирующий возможность работы со связными данными напримере чекбоксов
  */
-class CheckboxActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView<CheckboxViewBinding>() {
+class CheckboxActivityView : BaseRxActivityView<CheckboxBindModel>() {
 
     @Inject
     lateinit var presenter: CheckboxPresenter
 
-    override fun bind(bm: CheckboxViewBinding) {
+    override fun bind(bm: CheckboxBindModel) {
         checkbox_1.checkedChanges() bindTo bm.checkAction1
         checkbox_2.checkedChanges() bindTo bm.checkAction2
         checkbox_3.checkedChanges() bindTo bm.checkAction3

@@ -16,17 +16,22 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
+
 /**
  * Модель экрана [CheckboxActivityView]
  */
-class CheckboxViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
+class CheckboxBindModel : BindModel {
 
-    val checkAction1 = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Boolean>()
-    val checkAction2 = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Boolean>()
-    val checkAction3 = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Boolean>()
-    val sendAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
+    val checkAction1 = Action<Boolean>()
+    val checkAction2 = Action<Boolean>()
+    val checkAction3 = Action<Boolean>()
+    val sendAction = Action<Unit>()
 
-    val count = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State<Int>()
+    val count = State<Int>()
 
-    val messageCommand = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command<String>()
+    val messageCommand = Command<String>()
 }

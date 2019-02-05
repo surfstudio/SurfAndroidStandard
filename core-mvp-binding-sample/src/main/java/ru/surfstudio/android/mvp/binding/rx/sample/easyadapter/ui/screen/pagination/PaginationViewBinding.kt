@@ -16,6 +16,10 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination
 
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
@@ -26,17 +30,17 @@ import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 /**
  * Модель главного экрана с примером easyadapter и пагинацией
  */
-class PaginationPresentationModel : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
+class PaginationPresentationModel : BindModel {
 
-    val reloadAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    val getMoreAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    val selectElementAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Element>()
+    val reloadAction = Action<Unit>()
+    val getMoreAction = Action<Unit>()
+    val selectElementAction = Action<Element>()
 
-    val showMessageCommand = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command<String>()
-    val elementsState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State<DataList<SelectableData<Element>>>(DataList.empty())
-    val stubsState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State(generateStubs(20))
-    val loadState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State<LoadState>(None)
-    val paginationState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State(PaginationState.READY)
+    val showMessageCommand = Command<String>()
+    val elementsState = State<DataList<SelectableData<Element>>>(DataList.empty())
+    val stubsState = State(generateStubs(20))
+    val loadState = State<LoadState>(None)
+    val paginationState = State(PaginationState.READY)
 
     var hasData = false
 }

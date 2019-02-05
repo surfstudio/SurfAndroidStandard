@@ -21,10 +21,11 @@ import io.reactivex.observers.TestObserver
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
 
 class ActionTest : BaseRelationTest() {
 
-    private lateinit var action: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<String>
+    private lateinit var action: Action<String>
 
     private lateinit var testObservable: TestObserver<String>
     private lateinit var testConsumer: Consumer<String>
@@ -33,7 +34,7 @@ class ActionTest : BaseRelationTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        action = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action()
+        action = Action()
 
         testObservable =
                 with(testPresenter) {
@@ -70,7 +71,7 @@ class ActionTest : BaseRelationTest() {
     @Throws(Exception::class)
     fun testInitialValue() {
         with(testPresenter) {
-            val action = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action("Initial")
+            val action = Action("Initial")
             var newValue = ""
             action bindTo { newValue = it }
             assertEquals("Initial", newValue)
@@ -81,7 +82,7 @@ class ActionTest : BaseRelationTest() {
     @Throws(Exception::class)
     fun update() {
         with(testPresenter) {
-            val action = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action("Update")
+            val action = Action("Update")
             var newValue = ""
             action bindTo { newValue += it }
             action.update()

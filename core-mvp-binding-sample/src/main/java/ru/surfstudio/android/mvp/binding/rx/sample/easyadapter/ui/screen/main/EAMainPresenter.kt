@@ -18,6 +18,7 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main
 
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -34,11 +35,11 @@ private const val INTERVAL_MS: Long = 2500
 @PerScreen
 class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                           private val activityNavigator: ActivityNavigator)
-    : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<MainViewBinding>(basePresenterDependency) {
+    : BaseRxPresenter<MainBindModel>(basePresenterDependency) {
 
     private val screenModelFactory = MainModelRepository()
 
-    override val bm = MainViewBinding(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
+    override val bm = MainBindModel(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)

@@ -27,7 +27,11 @@ import javax.inject.Inject
  *  Модель главного экрана с примерами
  */
 @PerScreen
-class MainViewBinding @Inject constructor() : DialogControlViewBinding, CounterViewBinding, MainNavigationViewBinding, DoubleTextViewBinding {
+class MainBindModel @Inject constructor()
+    : DialogControlBindModel,
+        CounterBindModel,
+        MainNavigationBindModel,
+        DoubleTextBindModel {
 
     override val dialogInputAction = Action<String>()
     override val dialogPositiveAction = Action<Unit>()

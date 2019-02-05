@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.reactivex.rxkotlin.Observables
 import kotlinx.android.synthetic.main.pagination_activity.*
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.easyadapter.ItemList
@@ -43,7 +44,7 @@ import javax.inject.Inject
  * example screen with pagination
  * Placeholders is list items
  */
-class PaginationActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView<PaginationPresentationModel>() {
+class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>() {
 
     @Inject
     lateinit var presenter: PaginationPresenter
