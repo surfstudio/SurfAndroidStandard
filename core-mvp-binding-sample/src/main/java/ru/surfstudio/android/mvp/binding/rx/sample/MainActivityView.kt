@@ -39,23 +39,22 @@ class MainActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActi
     @Inject
     lateinit var dialogControlPresenter: DialogControlPresenter
 
+    override fun bind(bm: MainViewBinding) {
+        bm.counterBond.observable.map { it.toString() } bindTo main_counter_tv::setText
+        bm.textEditBond bindTo main_text_et::setText
+        bm.sampleState bindTo text_tv::setText
 
-    override fun bind(vb: MainViewBinding) {
-        vb.counterBond.observable.map { it.toString() } bindTo main_counter_tv::setText
-        vb.textEditBond bindTo main_text_et::setText
-        vb.sampleState bindTo text_tv::setText
+        bm.messageCommand bindTo ::showMessage
 
-        vb.messageCommand bindTo ::showMessage
+        main_text_et.textChanges().map { it.toString() } bindTo bm.textEditBond
 
-        main_text_et.textChanges().map { it.toString() } bindTo vb.textEditBond
+        main_inc_btn.clicks() bindTo bm.incAction
+        main_dec_btn.clicks() bindTo bm.decAction
+        main_double_text_btn.clicks() bindTo bm.doubleTextAction
 
-        main_inc_btn.clicks() bindTo vb.incAction
-        main_dec_btn.clicks() bindTo vb.decAction
-        main_double_text_btn.clicks() bindTo vb.doubleTextAction
-
-        dialog_sample_btn.clicks() bindTo vb.dialogOpenAction
-        checkbox_sample_btn.clicks() bindTo vb.checkboxSampleActivityOpen
-        easy_adapter_sample_btn.clicks() bindTo vb.easyadapterSampleActivityOpen
+        dialog_sample_btn.clicks() bindTo bm.dialogOpenAction
+        checkbox_sample_btn.clicks() bindTo bm.checkboxSampleActivityOpen
+        easy_adapter_sample_btn.clicks() bindTo bm.easyadapterSampleActivityOpen
     }
 
     override fun createConfigurator() = MainScreenConfigurator(intent)

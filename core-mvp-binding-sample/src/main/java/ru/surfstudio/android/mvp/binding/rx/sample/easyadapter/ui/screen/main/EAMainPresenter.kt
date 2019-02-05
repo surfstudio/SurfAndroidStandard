@@ -38,7 +38,7 @@ class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenter
 
     private val screenModelFactory = MainModelRepository()
 
-    override val vb = MainViewBinding(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
+    override val bm = MainViewBinding(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
@@ -50,12 +50,12 @@ class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenter
                             .share()
 
 
-            timeEmitter.map { it.bottomCarousel } bindTo vb.bottomCarouselState
-            timeEmitter.map { it.carousels } bindTo vb.carouselState
-            timeEmitter.map { it.elements } bindTo vb.elementsState
-            timeEmitter.map { it.hasCommercial } bindTo vb.hasCommercialState
+            timeEmitter.map { it.bottomCarousel } bindTo bm.bottomCarouselState
+            timeEmitter.map { it.carousels } bindTo bm.carouselState
+            timeEmitter.map { it.elements } bindTo bm.elementsState
+            timeEmitter.map { it.hasCommercial } bindTo bm.hasCommercialState
         }
 
-        vb.openPaginationScreen bindTo { activityNavigator.start(PaginationScreenRoute()) }
+        bm.openPaginationScreen bindTo { activityNavigator.start(PaginationScreenRoute()) }
     }
 }

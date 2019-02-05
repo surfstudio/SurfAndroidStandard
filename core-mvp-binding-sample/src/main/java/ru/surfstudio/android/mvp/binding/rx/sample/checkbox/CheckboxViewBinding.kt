@@ -19,7 +19,7 @@ package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 /**
  * Модель экрана [CheckboxActivityView]
  */
-class CheckboxViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding {
+class CheckboxViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
 
     val checkAction1 = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Boolean>()
     val checkAction2 = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Boolean>()

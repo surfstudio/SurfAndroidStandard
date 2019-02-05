@@ -21,7 +21,7 @@ import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.MainModel
 /**
  * Модель главного экрана с примером easyadapter
  */
-class MainViewBinding(init: MainModel) : ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding {
+class MainViewBinding(init: MainModel) : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
 
     val openPaginationScreen = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
 

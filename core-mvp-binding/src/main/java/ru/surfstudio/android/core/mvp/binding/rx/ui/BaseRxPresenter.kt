@@ -32,20 +32,20 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 abstract class BaseRxPresenter<M>(
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<BindableRxView<M>>(basePresenterDependency), Related<PRESENTER>
-        where M : ViewBinding {
+        where M : BindModel {
 
     override fun relationEntity() = PRESENTER
 
-    abstract val vb: M
+    abstract val bm: M
 
     @CallSuper
     override fun onFirstLoad() {
-        view.bind(vb)
+        view.bind(bm)
     }
 
     @CallSuper
     override fun onLoad(viewRecreated: Boolean) {
-        if (viewRecreated) view.bind(vb)
+        if (viewRecreated) view.bind(bm)
     }
 
     override fun <T> subscribe(observable: Observable<T>,

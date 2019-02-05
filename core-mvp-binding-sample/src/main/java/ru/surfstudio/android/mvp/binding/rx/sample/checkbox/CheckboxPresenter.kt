@@ -28,7 +28,7 @@ class CheckboxPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
 ) : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<CheckboxViewBinding>(basePresenterDependency) {
 
-    override val vb = CheckboxViewBinding()
+    override val bm = CheckboxViewBinding()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -36,18 +36,18 @@ class CheckboxPresenter @Inject constructor(
         // комбинирование экшенов
         val checkboxesObs =
                 Observables.combineLatest(
-                        vb.checkAction1.observable,
-                        vb.checkAction2.observable,
-                        vb.checkAction3.observable
+                        bm.checkAction1.observable,
+                        bm.checkAction2.observable,
+                        bm.checkAction3.observable
                 ) { b1, b2, b3 -> Triple(b1, b2, b3) }
 
-        checkboxesObs.map { it.first.toInt() + it.second.toInt() + it.third.toInt() } bindTo vb.count
+        checkboxesObs.map { it.first.toInt() + it.second.toInt() + it.third.toInt() } bindTo bm.count
 
         // показывает сообщени по нажатию кнопки с последним состоянием checkboxesObs
-        vb.sendAction.observable
+        bm.sendAction.observable
                 .withLatestFrom(checkboxesObs)
                 { _, triple -> "cb1: ${triple.first}, cb2: ${triple.second}, cb3: ${triple.third}" }
-                .bindTo(vb.messageCommand)
+                .bindTo(bm.messageCommand)
     }
 }
 

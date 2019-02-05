@@ -31,15 +31,15 @@ class CheckboxActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRx
     @Inject
     lateinit var presenter: CheckboxPresenter
 
-    override fun bind(vb: CheckboxViewBinding) {
-        checkbox_1.checkedChanges() bindTo vb.checkAction1
-        checkbox_2.checkedChanges() bindTo vb.checkAction2
-        checkbox_3.checkedChanges() bindTo vb.checkAction3
-        send_btn.clicks() bindTo vb.sendAction
+    override fun bind(bm: CheckboxViewBinding) {
+        checkbox_1.checkedChanges() bindTo bm.checkAction1
+        checkbox_2.checkedChanges() bindTo bm.checkAction2
+        checkbox_3.checkedChanges() bindTo bm.checkAction3
+        send_btn.clicks() bindTo bm.sendAction
 
-        vb.count bindTo { counter_et.text = it.toString() }
+        bm.count bindTo { counter_et.text = it.toString() }
 
-        vb.messageCommand bindTo { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
+        bm.messageCommand bindTo { Toast.makeText(this, it, Toast.LENGTH_SHORT).show() }
     }
 
     override fun createConfigurator() = CheckboxScreenConfigurator(intent)

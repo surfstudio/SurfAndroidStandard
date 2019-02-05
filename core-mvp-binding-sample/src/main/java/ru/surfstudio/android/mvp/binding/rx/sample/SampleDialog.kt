@@ -21,12 +21,12 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import com.jakewharton.rxbinding2.widget.textChanges
-import ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute
 import javax.inject.Inject
 
 /**
- * Диалог с примером работы c [ViewBinding]
+ * Диалог с примером работы c [BindModel]
  */
 class SampleDialog : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxSimpleDialogFragment() {
 
@@ -84,7 +84,7 @@ class SampleDialogRoute : DialogRoute() {
 /**
  * Интерфейс для общения с презентором
  */
-interface SampleDialogViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding {
+interface SampleDialogViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
 
     val dialogPositiveAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
     val dialogNegativeAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>

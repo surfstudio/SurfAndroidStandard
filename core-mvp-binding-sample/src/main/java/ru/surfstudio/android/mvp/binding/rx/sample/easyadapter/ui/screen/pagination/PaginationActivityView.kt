@@ -77,19 +77,19 @@ class PaginationActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.Base
         recycler.adapter = adapter
     }
 
-    override fun bind(vb: PaginationPresentationModel) {
-        adapter.setOnShowMoreListener { vb.getMoreAction.accept() }
+    override fun bind(bm: PaginationPresentationModel) {
+        adapter.setOnShowMoreListener { bm.getMoreAction.accept() }
 
-        elementController = ElementController { vb.selectElementAction.accept(it) }
-        errorStateController = ErrorStateController { vb.reloadAction.accept() }
+        elementController = ElementController { bm.selectElementAction.accept(it) }
+        errorStateController = ErrorStateController { bm.reloadAction.accept() }
 
-        Observables.combineLatest(vb.loadState.observable,
-                vb.elementsState.observable,
-                vb.stubsState.observable,
-                vb.paginationState.observable,
+        Observables.combineLatest(bm.loadState.observable,
+                bm.elementsState.observable,
+                bm.stubsState.observable,
+                bm.paginationState.observable,
                 ::createItemList) bindTo { p -> adapter.setItems(p.first, p.second) }
 
-        vb.showMessageCommand bindTo ::showText
+        bm.showMessageCommand bindTo ::showText
     }
 
     private fun createItemList(loadState: LoadState,

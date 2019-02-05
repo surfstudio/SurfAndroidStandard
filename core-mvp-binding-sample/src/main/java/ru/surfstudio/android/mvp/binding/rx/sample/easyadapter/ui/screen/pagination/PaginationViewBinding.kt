@@ -26,7 +26,7 @@ import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
 /**
  * Модель главного экрана с примером easyadapter и пагинацией
  */
-class PaginationPresentationModel : ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding {
+class PaginationPresentationModel : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
 
     val reloadAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
     val getMoreAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()

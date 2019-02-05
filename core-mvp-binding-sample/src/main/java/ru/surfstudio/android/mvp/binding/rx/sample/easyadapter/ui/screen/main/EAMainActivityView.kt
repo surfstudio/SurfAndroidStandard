@@ -71,27 +71,27 @@ class EAMainActivityView : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxAc
         recycler.adapter = adapter
     }
 
-    override fun bind(vb: MainViewBinding) {
+    override fun bind(bm: MainViewBinding) {
         headerController = HeaderController()
 
         carouselController = CarouselController(
-                onElementClickListener = { vb.openPaginationScreen.accept(Unit) },
-                onShowAllClickListener = { vb.openPaginationScreen.accept(Unit) })
-        deliveryController = DeliveryController { vb.openPaginationScreen.accept(Unit) }
-        elementController = ElementController { vb.openPaginationScreen.accept(Unit) }
+                onElementClickListener = { bm.openPaginationScreen.accept(Unit) },
+                onShowAllClickListener = { bm.openPaginationScreen.accept(Unit) })
+        deliveryController = DeliveryController { bm.openPaginationScreen.accept(Unit) }
+        elementController = ElementController { bm.openPaginationScreen.accept(Unit) }
 
         //Также можно использовать реактивные интерфейсы (здесь RxClickable)
         commercialController = CommercialController().apply {
-            clicks() bindTo vb.openPaginationScreen
+            clicks() bindTo bm.openPaginationScreen
         }
 
         emptyStateController = EmptyStateController()
 
         Observables.combineLatest(
-                vb.carouselState.observable,
-                vb.elementsState.observable,
-                vb.bottomCarouselState.observable,
-                vb.hasCommercialState.observable,
+                bm.carouselState.observable,
+                bm.elementsState.observable,
+                bm.bottomCarouselState.observable,
+                bm.hasCommercialState.observable,
                 ::createItemList
         ) bindTo adapter::setItems
     }

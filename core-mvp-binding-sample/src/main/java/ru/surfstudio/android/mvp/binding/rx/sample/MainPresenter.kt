@@ -32,11 +32,11 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
     : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<MainViewBinding>(basePresenterDependency) {
 
     @Inject
-    override lateinit var vb: MainViewBinding
+    override lateinit var bm: MainViewBinding
 
     override fun onFirstLoad() {
         super.onFirstLoad()
-        with(vb) {
+        with(bm) {
             textEditBond bindTo sampleState
             dialogInputAction bindTo sampleState
         }
@@ -51,17 +51,17 @@ class DoubleTextPresenter @Inject constructor(basePresenterDependency: BasePrese
     : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<DoubleTextViewBinding>(basePresenterDependency) {
 
     @Inject
-    override lateinit var vb: DoubleTextViewBinding
+    override lateinit var bm: DoubleTextViewBinding
 
     override fun onFirstLoad() {
         super.onFirstLoad()
-        with(vb) {
+        with(bm) {
             doubleTextAction bindTo { textEditBond.change { it + it } }
         }
     }
 }
 
-interface DoubleTextViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding {
+interface DoubleTextViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
 
     val doubleTextAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
     val textEditBond: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond<String>
@@ -75,18 +75,18 @@ class CounterPresenter @Inject constructor(basePresenterDependency: BasePresente
     : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<CounterViewBinding>(basePresenterDependency) {
 
     @Inject
-    override lateinit var vb: CounterViewBinding
+    override lateinit var bm: CounterViewBinding
 
     override fun onFirstLoad() {
         super.onFirstLoad()
-        with(vb) {
+        with(bm) {
             incAction bindTo { counterBond.change { it.inc() } }
             decAction bindTo { counterBond.change { it.dec() } }
         }
     }
 }
 
-interface CounterViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding {
+interface CounterViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
 
     val incAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
     val decAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
@@ -102,18 +102,18 @@ class MainNavigationPresenter @Inject constructor(basePresenterDependency: BaseP
     : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<MainNavigationViewBinding>(basePresenterDependency) {
 
     @Inject
-    override lateinit var vb: MainNavigationViewBinding
+    override lateinit var bm: MainNavigationViewBinding
 
     override fun onFirstLoad() {
         super.onFirstLoad()
-        with(vb) {
+        with(bm) {
             checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
             easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
         }
     }
 }
 
-interface MainNavigationViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.ViewBinding {
+interface MainNavigationViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
 
     val checkboxSampleActivityOpen: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
     val easyadapterSampleActivityOpen: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
@@ -128,11 +128,11 @@ class DialogControlPresenter @Inject constructor(basePresenterDependency: BasePr
     : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<DialogControlViewBinding>(basePresenterDependency) {
 
     @Inject
-    override lateinit var vb: DialogControlViewBinding
+    override lateinit var bm: DialogControlViewBinding
 
     override fun onFirstLoad() {
         super.onFirstLoad()
-        with(vb) {
+        with(bm) {
             dialogOpenAction bindTo { dialogNavigator.show(SampleDialogRoute()) }
             dialogPositiveAction bindTo { messageCommand.accept("Dialog close by OK") }
             dialogNegativeAction bindTo { messageCommand.accept("Dialog close by not OK") }

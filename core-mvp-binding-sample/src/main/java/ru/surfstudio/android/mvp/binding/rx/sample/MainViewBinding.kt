@@ -16,6 +16,10 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample
 
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
@@ -25,21 +29,21 @@ import javax.inject.Inject
 @PerScreen
 class MainViewBinding @Inject constructor() : DialogControlViewBinding, CounterViewBinding, MainNavigationViewBinding, DoubleTextViewBinding {
 
-    override val dialogInputAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<String>()
-    override val dialogPositiveAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    override val dialogNegativeAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    override val dialogOpenAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    override val messageCommand = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command<String>()
+    override val dialogInputAction = Action<String>()
+    override val dialogPositiveAction = Action<Unit>()
+    override val dialogNegativeAction = Action<Unit>()
+    override val dialogOpenAction = Action<Unit>()
+    override val messageCommand = Command<String>()
 
-    override val incAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    override val decAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    override val counterBond = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond(0)
+    override val incAction = Action<Unit>()
+    override val decAction = Action<Unit>()
+    override val counterBond = Bond(0)
 
-    override val checkboxSampleActivityOpen = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    override val easyadapterSampleActivityOpen = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
+    override val checkboxSampleActivityOpen = Action<Unit>()
+    override val easyadapterSampleActivityOpen = Action<Unit>()
 
-    override val doubleTextAction = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>()
-    override val textEditBond = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond<String>()
+    override val doubleTextAction = Action<Unit>()
+    override val textEditBond = Bond<String>()
 
-    val sampleState = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State<String>()
+    val sampleState = State<String>()
 }

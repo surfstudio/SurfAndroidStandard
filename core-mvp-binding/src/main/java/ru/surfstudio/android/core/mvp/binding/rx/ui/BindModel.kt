@@ -33,4 +33,4 @@ package ru.surfstudio.android.core.mvp.binding.rx.ui
  * 4. Command
  * 5. State
  */
-interface ViewBinding
+interface BindModel

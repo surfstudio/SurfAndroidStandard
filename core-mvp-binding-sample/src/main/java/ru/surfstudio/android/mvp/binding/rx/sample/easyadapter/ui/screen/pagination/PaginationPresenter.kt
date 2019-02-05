@@ -36,7 +36,7 @@ class PaginationPresenter @Inject constructor(
         private val elementRepository: ElementRepository
 ) : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<PaginationPresentationModel>(basePresenterDependency) {
 
-    override val vb = PaginationPresentationModel()
+    override val bm = PaginationPresentationModel()
 
     private var loadMainSubscription: Disposable? = null
     private var loadMoreSubscription: Disposable? = null
@@ -44,10 +44,10 @@ class PaginationPresenter @Inject constructor(
     override fun onFirstLoad() {
         super.onFirstLoad()
 
-        vb.reloadAction bindTo ::reloadData
-        vb.getMoreAction.observable.filter { vb.hasData } bindTo ::loadMore
-        vb.selectElementAction bindTo { element ->
-            vb.elementsState.change {
+        bm.reloadAction bindTo ::reloadData
+        bm.getMoreAction.observable.filter { bm.hasData } bindTo ::loadMore
+        bm.selectElementAction bindTo { element ->
+            bm.elementsState.change {
                 it.apply { setSelected(element) }
             }
         }
@@ -62,36 +62,36 @@ class PaginationPresenter @Inject constructor(
         loadMainSubscription = subscribeIo(
                 elementRepository.getElements(DEFAULT_PAGE),
                 { elements ->
-                    vb.showMessageCommand.accept("Data loaded")
+                    bm.showMessageCommand.accept("Data loaded")
                     val newElements = updateDataList(elements)
 
-                    vb.elementsState.accept(newElements)
-                    vb.hasData = elements.isNotEmpty()
+                    bm.elementsState.accept(newElements)
+                    bm.hasData = elements.isNotEmpty()
                     setNormalLoadState(elements)
                     setNormalPaginationState(elements)
                 },
                 {
-                    setErrorLoadState(vb.elementsState.value)
-                    setErrorPaginationState(vb.elementsState.value)
-                    vb.showMessageCommand.accept("Imitate load data error")
+                    setErrorLoadState(bm.elementsState.value)
+                    setErrorPaginationState(bm.elementsState.value)
+                    bm.showMessageCommand.accept("Imitate load data error")
                 })
     }
 
     private fun loadMore() {
-        vb.showMessageCommand.accept("Start pagination request")
+        bm.showMessageCommand.accept("Start pagination request")
         loadMoreSubscription =
-                elementRepository.getElements(vb.elementsState.value.nextPage)
+                elementRepository.getElements(bm.elementsState.value.nextPage)
                         .observeOn(AndroidSchedulers.mainThread())
                         .bindTo(
                                 { elements ->
                                     val newElements = updateDataList(elements)
-                                    vb.elementsState.accept(vb.elementsState.value.merge(newElements))
-                                    setNormalPaginationState(vb.elementsState.value)
-                                    vb.showMessageCommand.accept("Pagination request complete")
+                                    bm.elementsState.accept(bm.elementsState.value.merge(newElements))
+                                    setNormalPaginationState(bm.elementsState.value)
+                                    bm.showMessageCommand.accept("Pagination request complete")
                                 },
                                 {
-                                    setErrorPaginationState(vb.elementsState.value)
-                                    vb.showMessageCommand.accept("Imitate pagination request error")
+                                    setErrorPaginationState(bm.elementsState.value)
+                                    bm.showMessageCommand.accept("Imitate pagination request error")
                                 })
     }
 
@@ -103,7 +103,7 @@ class PaginationPresenter @Inject constructor(
      *  Трансформирует DataList<Element>) в DataList<SelectableData<Element>> и устанавливает выбранное значение
      */
     private fun updateDataList(elements: DataList<Element>): DataList<SelectableData<Element>> {
-        val selected = vb.elementsState.value.getSelectedDataNullable()
+        val selected = bm.elementsState.value.getSelectedDataNullable()
         return elements.map { SelectableData(it) }
                 .let {
                     it.setSelected(selected)
@@ -116,23 +116,23 @@ class PaginationPresenter @Inject constructor(
     }
 
     private fun setNormalLoadState(elements: DataList<*>) {
-        vb.loadState.accept(if (elements.isEmpty()) Empty else None)
+        bm.loadState.accept(if (elements.isEmpty()) Empty else None)
     }
 
     private fun setErrorLoadState(elements: DataList<*>) {
-        vb.loadState.accept(if (elements.isEmpty())
+        bm.loadState.accept(if (elements.isEmpty())
             Error else None)
     }
 
     private fun setNormalPaginationState(elements: DataList<*>) {
-        vb.paginationState.accept(if (elements.canGetMore())
+        bm.paginationState.accept(if (elements.canGetMore())
             PaginationState.READY else
             PaginationState.COMPLETE)
 
     }
 
     private fun setErrorPaginationState(elements: DataList<*>) {
-        vb.paginationState.accept(if (elements.isEmpty())
+        bm.paginationState.accept(if (elements.isEmpty())
             PaginationState.COMPLETE else
             PaginationState.ERROR)
     }

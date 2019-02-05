@@ -32,7 +32,7 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 /**
  * Базовая Activity для связывания с моделью
  */
-abstract class BaseRxActivityView<M : ViewBinding> : CoreActivityView(), BindableRxView<M> {
+abstract class BaseRxActivityView<M : BindModel> : CoreActivityView(), BindableRxView<M> {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -51,7 +51,7 @@ abstract class BaseRxActivityView<M : ViewBinding> : CoreActivityView(), Bindabl
 /**
  * Базовый Fragment для связывания с моделью
  */
-abstract class BaseRxFragmentView<M : ViewBinding> : CoreFragmentView(), BindableRxView<M> {
+abstract class BaseRxFragmentView<M : BindModel> : CoreFragmentView(), BindableRxView<M> {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -67,7 +67,7 @@ abstract class BaseRxFragmentView<M : ViewBinding> : CoreFragmentView(), Bindabl
                     .also { viewDisposable.add(it) }
 }
 
-abstract class BaseRxDialogView<M : ViewBinding> : CoreDialogFragmentView(), BindableRxView<M> {
+abstract class BaseRxDialogView<M : BindModel> : CoreDialogFragmentView(), BindableRxView<M> {
 
     private val viewDisposable = CompositeDisposable()
 
