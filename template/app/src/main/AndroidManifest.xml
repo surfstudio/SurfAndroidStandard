@@ -10,7 +10,10 @@
     Если приложение не использует бэкап (android:allowBackup="false"),
     то backup_scheme не нужна -->
 
-    <application tools:ignore="GoogleAppIndexingWarning">
+    <application
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <!-- todo Insert fabric key here
         <meta-data
