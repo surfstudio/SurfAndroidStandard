@@ -12,6 +12,8 @@ dependencies {
     implementation project(':datalist-page-count')
     implementation project(':sample-dagger')
 
+    implementation "androidx.core:core-ktx:$androidxKtxVersion"
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"

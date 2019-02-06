@@ -13,6 +13,8 @@ dependencies {
     implementation project(':datalist-limit-offset')
     implementation project(':datalist-page-count')
 
+    implementation "androidx.core:core-ktx:$androidxKtxVersion"
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"

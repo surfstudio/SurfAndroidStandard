@@ -12,6 +12,8 @@ dependencies {
     implementation project(':rxbus')
     implementation project(':easyadapter')
 
+    implementation "androidx.core:core-ktx:$androidxKtxVersion"
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"

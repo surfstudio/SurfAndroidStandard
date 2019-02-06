@@ -11,5 +11,7 @@ dependencies {
     implementation project(':location')
     implementation project(':sample-dagger')
 
+    implementation "androidx.core:core-ktx:$androidxKtxVersion"
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
