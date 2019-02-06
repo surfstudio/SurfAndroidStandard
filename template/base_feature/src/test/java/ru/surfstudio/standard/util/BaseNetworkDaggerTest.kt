@@ -16,6 +16,7 @@ import org.robolectric.annotation.Implements
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStrategy
+import ru.surfstudio.standard.application.app.App
 import ru.surfstudio.standard.application.app.di.AppModule
 
 @RunWith(RobolectricTestRunner::class)
