@@ -9,6 +9,7 @@ android {
 dependencies {
     api "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
     api "com.wang.avi:library:$wangAviLibraryVersion"
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

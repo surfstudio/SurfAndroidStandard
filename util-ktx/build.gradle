@@ -4,6 +4,7 @@ dependencies {
     api "androidx.core:core-ktx:$androidxKtxVersion"
     api "com.google.android.material:material:$androidxMaterialVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
