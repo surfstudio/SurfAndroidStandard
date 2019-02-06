@@ -23,7 +23,6 @@ import java.util.List;
 import ru.surfstudio.android.core.ui.event.back.OnBackPressedEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEventResolver;
-import ru.surfstudio.android.core.ui.event.lifecycle.destroy.OnDestroyEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.ready.OnViewReadyEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeEventResolver;
@@ -54,7 +53,6 @@ public class ScreenEventResolverHelper {
                 new OnPauseEventResolver(),
                 new OnStopEventResolver(),
                 new OnViewDestroyEventResolver(),
-                new OnDestroyEventResolver(),
                 new OnCompletelyDestroyEventResolver(),
                 new OnBackPressedEventResolver()
         ));

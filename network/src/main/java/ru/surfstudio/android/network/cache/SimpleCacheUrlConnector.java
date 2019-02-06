@@ -15,13 +15,16 @@
  */
 package ru.surfstudio.android.network.cache;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import android.text.TextUtils;
 
 import com.annimon.stream.Stream;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -39,11 +42,12 @@ public class SimpleCacheUrlConnector {
     private final BaseUrl baseUrl;
 
     @NonNull
-    private final Collection<SimpleCacheInfo> simpleCacheInfo;
+    private final List<SimpleCacheInfo> simpleCacheInfo;
 
     public SimpleCacheUrlConnector(@NonNull BaseUrl baseUrl, @NonNull Collection<SimpleCacheInfo> simpleCacheInfo) {
         this.baseUrl = baseUrl;
-        this.simpleCacheInfo = simpleCacheInfo;
+        this.simpleCacheInfo = new ArrayList<>(simpleCacheInfo);
+        sortSimpleCacheInfo(this.simpleCacheInfo);
     }
 
     @SuppressWarnings("squid:S134")
@@ -68,6 +72,11 @@ public class SimpleCacheUrlConnector {
             }
         }
         return null;
+    }
+
+    @NonNull
+    public Collection<SimpleCacheInfo> getSimpleCacheInfo() {
+        return simpleCacheInfo;
     }
 
     @SuppressWarnings("squid:S135")
@@ -111,7 +120,7 @@ public class SimpleCacheUrlConnector {
                 .toList();
     }
 
-    private boolean isCacheUrlSegmentParameter(String cacheUrlPathSegment) {
+    private static boolean isCacheUrlSegmentParameter(String cacheUrlPathSegment) {
         return cacheUrlPathSegment.startsWith(BRACE);
     }
 
@@ -122,8 +131,21 @@ public class SimpleCacheUrlConnector {
         return !cacheUrlPathSegment.contains("=");
     }
 
-    @NonNull
-    public Collection<SimpleCacheInfo> getSimpleCacheInfo() {
-        return simpleCacheInfo;
+    private static void sortSimpleCacheInfo(List<SimpleCacheInfo> simpleCacheInfo) {
+        Collections.sort(simpleCacheInfo, (first, second) -> {
+            String[] firstSegments = first.getBaseApiMethod().getUrl().split(URL_SPLIT_REGEX);
+            String[] secondSegments = second.getBaseApiMethod().getUrl().split(URL_SPLIT_REGEX);
+            int count = firstSegments.length > secondSegments.length ? secondSegments.length : firstSegments.length;
+            for (int i = 0; i < count; i++) {
+                if (isCacheUrlSegmentParameter(firstSegments[i]) && !isCacheUrlSegmentParameter(secondSegments[i])) {
+                    return 1;
+                }
+
+                if (!isCacheUrlSegmentParameter(firstSegments[i]) && isCacheUrlSegmentParameter(secondSegments[i])) {
+                    return -1;
+                }
+            }
+            return 0;
+        });
     }
 }

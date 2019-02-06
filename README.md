@@ -1,11 +1,46 @@
-#Surf Android Standard
-Репозиторий с внутренними библиотеками для android проектов [surf](http://www.surfstudio.ru/).
+# Surf Android Standard
 
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat )]( https://android-arsenal.com/details/1/7290 )
 
-##Актуальная документация в [wiki](https://bitbucket.org/surfstudio/android-standard/wiki/)
+Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
+Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
+в короткие сроки.
 
+**!!! Репозиторий в стадии активной разработки !!!**
 
-##License
+**[Стандарты разработки приложений в Surf][docs]**
+
+**[Список артефактов][artifacts]**
+
+**[Release notes](RELEASE_NOTES.md)**
+
+[Telegram чат](https://t.me/surf_android)
+
+## **Использование**
+
+build.gradle(root)
+```groovy
+allprojects {
+    repositories {
+        maven { url "http://artifactory.surfstudio.ru/artifactory/libs-release-local" }
+    }
+}
+```
+
+build.gradle(app)
+```groovy
+dependencies {
+    implementation "ru.surfstudio.android:artifact-id:version"
+}
+```
+
+Аткуальная стабильная версия: **0.3.0**
+
+Актуальная нестабильная версия: **0.4.0-SNAPSHOT**
+
+Список всех артефактов [здесь][artifacts].
+
+## License
 ```
   Copyright (c) 2018-present, SurfStudio LLC.
 
@@ -21,3 +56,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 ```
+
+[docs]: docs/main.md
+[artifacts]: docs/artifacts.md

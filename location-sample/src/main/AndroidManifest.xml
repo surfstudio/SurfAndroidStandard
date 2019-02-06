@@ -1,11 +1,11 @@
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.surfstudio.android.location_sample">
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     
     <application
-        android:name="ru.surfstudio.android.sample.dagger.app.DefaultApp"
+        android:name="ru.surfstudio.android.location.sample.app.CustomApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -31,5 +31,4 @@
             android:screenOrientation="portrait"/>
         
     </application>
-    
 </manifest>

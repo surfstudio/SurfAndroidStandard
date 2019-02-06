@@ -1,6 +1,6 @@
 package ru.surfstudio.android.core.mvp.binding
 
-import android.support.annotation.CallSuper
+import androidx.annotation.CallSuper
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
 import ru.surfstudio.android.core.mvp.model.ScreenModel
@@ -23,7 +23,7 @@ abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView()
     }
 
     @CallSuper
-    override fun onUnbind(screenModel: M) {
+    override fun onUnbind(sm: M) {
         bindsHolder.unObserve()
     }
 }
@@ -42,13 +42,13 @@ abstract class BaseBindableFragmentView<in M : ScreenModel> : CoreFragmentView()
     }
 
     @CallSuper
-    override fun onUnbind(screenModel: M) {
+    override fun onUnbind(sm: M) {
         bindsHolder.unObserve()
     }
 }
 
 interface BindableView<in M : ScreenModel> {
 
-    fun onBind(screenModel: M)
-    fun onUnbind(screenModel: M)
+    fun onBind(sm: M)
+    fun onUnbind(sm: M)
 }

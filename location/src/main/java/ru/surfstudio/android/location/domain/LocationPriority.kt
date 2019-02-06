@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.location.domain
 
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 
 /**
  * Приоритет при определении местоположения.
@@ -55,6 +55,18 @@ enum class LocationPriority {
     @RequiresPermission(
             anyOf = ["android.permission.ACCESS_FINE_LOCATION", "android.permission.ACCESS_COARSE_LOCATION"]
     )
-    NO_POWER
-}
+    NO_POWER;
 
+    companion object : Comparator<LocationPriority> {
+
+        override fun compare(o1: LocationPriority?, o2: LocationPriority?): Int =
+                locationPriorityToCompareWeight(o1) - locationPriorityToCompareWeight(o2)
+
+        private fun locationPriorityToCompareWeight(locationPriority: LocationPriority?) = when(locationPriority) {
+            HIGH_ACCURACY -> 3
+            BALANCED_POWER_ACCURACY -> 2
+            LOW_POWER -> 1
+            else -> 0
+        }
+    }
+}

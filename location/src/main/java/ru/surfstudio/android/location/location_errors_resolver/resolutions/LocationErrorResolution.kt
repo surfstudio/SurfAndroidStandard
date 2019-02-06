@@ -15,25 +15,23 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions
 
-import ru.surfstudio.android.location.exceptions.ResolutionFailedException
+import io.reactivex.Completable
 
 /**
  * Решение проблемы, связанной с невозможностью получения местоположения.
  */
-interface LocationErrorResolution<E : Exception> {
+interface LocationErrorResolution<E : Throwable> {
 
-    val resolvingExceptionClass: Class<E>
+    val resolvingThrowableClass: Class<E>
 
     /**
      * Применить решение проблемы, связанной с невозможностью получения местоположения.
      *
-     * @param resolvingException исключение, возникшее во время получения местоположения, которое нужно исправить.
-     * @param onSuccessAction метод вызываемый в случае успешного решения проблемы.
-     * @param onFailureAction метод вызываемый в случае, если попытка решения проблемы не удалась.
+     * @param resolvingThrowable Исключение, возникшее во время получения местоположения, которое нужно исправить.
+     *
+     * @return [Completable]:
+     * - onComplete() вызывается в случае успешного решения проблемы;
+     * - onError вызывается в случае, если попытка решения проблемы не удалась. Передается [ResolutionFailedException].
      */
-    fun perform(
-            resolvingException: Exception,
-            onSuccessAction: () -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    )
+    fun perform(resolvingThrowable: Throwable): Completable
 }

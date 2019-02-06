@@ -17,7 +17,7 @@ package ru.surfstudio.android.core.ui.activity;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.configurator.HasConfigurator;

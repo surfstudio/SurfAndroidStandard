@@ -15,17 +15,20 @@
  */
 package ru.surfstudio.android.utilktx.ktx.ui.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.support.annotation.ColorRes
-import android.support.annotation.IntegerRes
-import android.support.annotation.StyleRes
-import android.support.v4.content.ContextCompat
+import androidx.annotation.ColorRes
+import androidx.annotation.IntegerRes
+import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
-import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.ktx.text.PHONE_NUMBER_CHARS
+import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
@@ -57,12 +60,20 @@ fun TextView.setDrawableColor(color: Int) {
  * Автоматически выбирается наиболее оптимальный способ сделать это в зависимости от версии системы.
  */
 fun TextView.setTextAppearanceStyle(@StyleRes styleResId: Int) {
-    if (SdkUtils.isAtLeastMarshmallow) {
+    if (SdkUtils.isAtLeastMarshmallow()) {
         setTextAppearance(styleResId)
     } else {
         @Suppress("DEPRECATION")
         setTextAppearance(this.context, styleResId)
     }
+}
+
+/**
+ * Функция для копирования текста из TextView в буфер обмена
+ */
+fun TextView.copyTextToClipboard() {
+    val clipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    clipboardManager.primaryClip = ClipData.newPlainText(null, text)
 }
 
 /**
@@ -185,4 +196,14 @@ fun EditText.setTextColors(@ColorRes textColorRes: Int, @ColorRes hintColorRes: 
  */
 fun EditText.showKeyboard() {
     KeyboardUtil.showKeyboard(this)
+}
+
+/**
+ * Extension-функция предоставляющая фокус на [EditText] и устанавливающая курсор в конец
+ * введённого текста.
+ */
+fun EditText.setFocusAndCursorToEnd() {
+    requestFocus()
+    KeyboardUtil.showKeyboard(this)
+    selectionToEnd()
 }

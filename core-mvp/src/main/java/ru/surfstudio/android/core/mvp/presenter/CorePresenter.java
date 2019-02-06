@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.core.mvp.presenter;
 
-import android.support.annotation.CallSuper;
+import androidx.annotation.CallSuper;
 
 import com.agna.ferro.rx.CompletableOperatorFreeze;
 import com.agna.ferro.rx.MaybeOperatorFreeze;
@@ -358,10 +358,15 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
     }
 
     protected <T> Disposable subscribe(final Single<T> single,
+                                       final ConsumerSafe<T> onNext) {
+        return subscribe(single, this.createSingleOperatorFreeze(), onNext, ObservableUtil.ON_ERROR_MISSING);
+    }
+
+    protected <T> Disposable subscribe(final Single<T> single,
                                        final ConsumerSafe<T> onSuccess,
                                        final ConsumerSafe<Throwable> onError) {
 
-        return subscribe(single, new SingleOperatorFreeze<>(freezeSelector), onSuccess, onError);
+        return subscribe(single, this.createSingleOperatorFreeze(), onSuccess, onError);
     }
 
     protected Disposable subscribe(final Completable completable,
@@ -490,6 +495,10 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
 
     protected <T> ObservableOperatorFreeze<T> createOperatorFreeze() {
         return new ObservableOperatorFreeze<>(freezeSelector);
+    }
+
+    protected <T> SingleOperatorFreeze<T> createSingleOperatorFreeze() {
+        return new SingleOperatorFreeze<>(freezeSelector);
     }
 
     protected boolean isDisposableInactive(Disposable disposable) {

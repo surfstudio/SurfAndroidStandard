@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.app;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * Содержит активную (отображаемую) активти

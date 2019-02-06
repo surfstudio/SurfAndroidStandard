@@ -17,6 +17,9 @@ package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl
 
 import android.app.Activity
 import android.content.Intent
+import io.reactivex.Completable
+import io.reactivex.CompletableEmitter
+import ru.surfstudio.android.core.ui.ScreenType
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.event.result.ActivityResultDelegate
 import ru.surfstudio.android.location.exceptions.ResolutionFailedException
@@ -25,72 +28,65 @@ import ru.surfstudio.android.location.exceptions.UserDeniedException
 /**
  * Основа для решения проблем получения местоположения с использованием [ActivityResultDelegate].
  */
-abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Exception>(
+abstract class BaseLocationErrorResolutionWithActivityResultDelegateImpl<E : Throwable>(
         screenEventDelegateManager: ScreenEventDelegateManager
-) : BaseLocationErrorResolutionImpl<E>() {
+) : BaseLocationErrorResolutionImpl<E>(), ActivityResultDelegate {
 
     protected abstract val requestCode: Int
 
-    private var resolvingException: E? = null
-    private var onSuccessAction: (() -> Unit)? = null
-    private var onFailureAction: ((ResolutionFailedException) -> Unit)? = null
+    private var resolvingThrowable: E? = null
+    private var completableEmitter: CompletableEmitter? = null
 
     init {
-        screenEventDelegateManager.registerDelegate(ResolutionActivityResultDelegate())
+        screenEventDelegateManager.registerDelegate(this, ScreenType.ACTIVITY)
     }
 
-    protected abstract fun performResolutionRequest(resolvingException: E)
+    protected abstract fun performResolutionRequest(resolvingThrowable: E)
 
-    final override fun performWithCastedException(
-            resolvingException: E,
-            onSuccessAction: () -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    ) {
-        setArgs(resolvingException, onSuccessAction, onFailureAction)
-
-        try {
-            performResolutionRequest(resolvingException)
-        } catch (e: Exception) {
-            onFailureAction(ResolutionFailedException(resolvingException, e))
-            clearArgs()
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
+        if (this.requestCode != requestCode) {
+            return false
         }
+
+        val isResolved = resultCode == Activity.RESULT_OK
+        handleResolutionResult(isResolved)
+
+        return true
     }
 
-    private fun setArgs(
-            resolvingException: E,
-            onSuccessAction: () -> Unit,
-            onFailureAction: (ResolutionFailedException) -> Unit
-    ) {
-        this.resolvingException = resolvingException
-        this.onSuccessAction = onSuccessAction
-        this.onFailureAction = onFailureAction
-    }
+    final override fun performWithCastedThrowable(resolvingThrowable: E): Completable =
+            Completable.create { completableEmitter ->
+                setArgs(resolvingThrowable, completableEmitter)
+                try {
+                    performResolutionRequest(resolvingThrowable)
+                } catch (t: Throwable) {
+                    completableEmitter.onError(ResolutionFailedException(resolvingThrowable, t))
+                    clearArgs()
+                }
+            }
 
-    private fun clearArgs() {
-        resolvingException = null
-        onSuccessAction = null
-        onFailureAction = null
-    }
+    private fun handleResolutionResult(isResolved: Boolean) {
+        val nonNullCompletableEmitter = completableEmitter ?: return
+        if (nonNullCompletableEmitter.isDisposed) return
 
-    private fun onResolutionResult(resolved: Boolean) {
-        if (resolved) {
-            onSuccessAction?.invoke()
+        if (isResolved) {
+            nonNullCompletableEmitter.onComplete()
         } else {
-            onFailureAction?.invoke(ResolutionFailedException(resolvingException, UserDeniedException()))
+            nonNullCompletableEmitter.onError(ResolutionFailedException(resolvingThrowable, UserDeniedException()))
         }
         clearArgs()
     }
 
-    private inner class ResolutionActivityResultDelegate : ActivityResultDelegate {
+    private fun setArgs(
+            resolvingException: E,
+            completableEmitter: CompletableEmitter
+    ) {
+        this.resolvingThrowable = resolvingException
+        this.completableEmitter = completableEmitter
+    }
 
-        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-            if (this@BaseLocationErrorResolutionWithActivityResultDelegateImpl.requestCode != requestCode) {
-                return false
-            }
-
-            val resolved = resultCode == Activity.RESULT_OK
-            onResolutionResult(resolved)
-            return true
-        }
+    private fun clearArgs() {
+        resolvingThrowable = null
+        completableEmitter = null
     }
 }

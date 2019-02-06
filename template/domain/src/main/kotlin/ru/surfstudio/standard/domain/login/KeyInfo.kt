@@ -2,7 +2,6 @@ package ru.surfstudio.standard.domain.login
 
 import java.io.Serializable
 
-
 /**
  * Сущность для секретного кода полученного при вводе телефона и времени его жизни
  */

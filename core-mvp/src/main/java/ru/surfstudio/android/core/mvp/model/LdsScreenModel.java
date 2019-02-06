@@ -15,24 +15,24 @@
  */
 package ru.surfstudio.android.core.mvp.model;
 
-import ru.surfstudio.android.core.mvp.model.state.LoadState;
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
 
 /**
  * модель экрана с поддержкой
- * {@link LoadState}
+ * {@link LoadStateInterface}
  * <p>
  * работает в связке c BaseLds...View
  * <p>
  * также см {@link ScreenModel}
  */
 public class LdsScreenModel extends ScreenModel {
-    private LoadState loadState = LoadState.NONE;
+    private LoadStateInterface loadState;
 
-    public void setLoadState(LoadState loadState) {
-        this.loadState = loadState;
+    public LoadStateInterface getLoadState() {
+        return loadState;
     }
 
-    public LoadState getLoadState() {
-        return loadState;
+    public void setLoadState(LoadStateInterface loadState) {
+        this.loadState = loadState;
     }
 }

@@ -17,7 +17,6 @@ package ru.surfstudio.android.imageloader.transformations
 
 import android.content.Context
 import android.graphics.*
-import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 
 /**
@@ -27,20 +26,24 @@ import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
  * * возможность скругления конкретных углов.
  */
 class RoundedCornersTransformation(
-        val context: Context,
-        private val bitmapPool: BitmapPool = Glide.get(context).bitmapPool,
         private val roundedCornersBundle: RoundedCornersBundle = RoundedCornersBundle()
 ) : BaseGlideImageTransformation() {
 
     private val diameter: Int = roundedCornersBundle.radiusPx * 2
 
-    override fun getId() = RoundedCornersTransformation::class.java.canonicalName.toString()
+    override fun getId() = "ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation"
 
-    override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap {
+    override fun transform(
+            context: Context,
+            pool: BitmapPool,
+            toTransform: Bitmap,
+            outWidth: Int,
+            outHeight: Int
+    ): Bitmap? {
         val width = toTransform.width
         val height = toTransform.height
 
-        var bitmap: Bitmap? = bitmapPool.get(width, height, Bitmap.Config.ARGB_8888)
+        var bitmap: Bitmap? = pool.get(width, height, Bitmap.Config.ARGB_8888)
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         }

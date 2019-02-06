@@ -2,11 +2,11 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     api "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-    api "com.android.support:multidex:$multidexVersion"
+    api 'androidx.multidex:multidex:2.0.0'
+    api "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 
-    implementation "com.android.support:support-annotations:$appcompatVersion"
-    implementation "com.android.support:appcompat-v7:$appcompatVersion"
-    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 

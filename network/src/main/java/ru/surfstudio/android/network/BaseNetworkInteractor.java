@@ -26,7 +26,6 @@ import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FORCE
 import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_FROM_SIMPLE_CACHE;
 import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_ONLY_IF_CHANGED;
 
-
 /**
  * Базовый класс репозитория
  * Можно переопределить DataStrategy по умолчанию в классе {@link DataStrategy}

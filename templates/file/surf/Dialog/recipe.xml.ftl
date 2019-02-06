@@ -1,25 +1,17 @@
 <?xml version="1.0"?>
-<#import "root://activities/common/kotlin_macros.ftl" as kt>
 <recipe>
-	<@kt.addAllKotlinDependencies />
 
-    <#if generateKotlin>
-        <instantiate from="src/app_package/Route.kt.ftl"
-            to="${escapeXmlAttribute(srcOut)}/${className}DialogRoute.kt" />
-        <instantiate from="src/app_package/Dialog.kt.ftl"
-            to="${escapeXmlAttribute(srcOut)}/${className}Dialog.kt" />
+    <instantiate from="res/layout/dialog.xml.ftl" to="${resOut}/layout/${layoutName}.xml"/>
+    <open file="${resOut}/layout/${layoutName}.xml"/>
 
-        <open file="${escapeXmlAttribute(srcOut)}/${className}Dialog.kt" />
+    <#if language='kotlin'>
+        <instantiate from="src/app_package/kotlin/Route.kt.ftl" to="${srcOut}/${dialogRouteClassName}.kt"/>
+        <instantiate from="src/app_package/kotlin/Dialog.kt.ftl" to="${srcOut}/${dialogClassName}.kt"/>
+        <open file="${srcOut}/${dialogClassName}.kt"/>
     <#else>
-        <instantiate from="src/app_package/Route.java.ftl"
-            to="${escapeXmlAttribute(srcOut)}/${className}DialogRoute.java" />
-        <instantiate from="src/app_package/Dialog.java.ftl"
-            to="${escapeXmlAttribute(srcOut)}/${className}Dialog.java" />
-
-        <open file="${escapeXmlAttribute(srcOut)}/${className}Dialog.java" />
+        <instantiate from="src/app_package/java/Route.java.ftl" to="${srcOut}/${dialogRouteClassName}.java"/>
+        <instantiate from="src/app_package/java/Dialog.java.ftl" to="${srcOut}/${dialogClassName}.java"/>
+        <open file="${srcOut}/${dialogClassName}.java"/>
     </#if>
-
-    <instantiate from="res/layout/layout.xml.ftl"
-        to="${escapeXmlAttribute(resOut)}/layout/${layoutName}.xml" />
 
 </recipe>

@@ -19,9 +19,11 @@ import android.app.Activity
 import android.app.NotificationChannel
 import android.app.PendingIntent
 import android.content.Context
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import android.widget.RemoteViews
+import androidx.annotation.StringRes
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
+import ru.surfstudio.android.notification.R
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.NotificationCreateHelper
@@ -44,6 +46,12 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
      * Id канала пуш уведомлений(строковый ресурс)
      */
     abstract val channelId: Int
+
+    /**
+     * Имя канала
+     */
+    @StringRes
+    open val channelName: Int = R.string.default_channel_name
 
     /**
      * Иконка
@@ -89,20 +97,21 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
      * @param body           сообщение пуша
      * @param data           данные пуша
      */
-    fun handle(context: Context,
-               pushInteractor: PushInteractor,
-               title: String,
-               body: String,
-               data: Map<String, String>) {
+    open fun handle(
+            context: Context,
+            pushInteractor: PushInteractor,
+            title: String,
+            body: String
+    ) {
 
         pendingIntent = preparePendingIntent(context, title)
         notificationBuilder = makeNotificationBuilder(context, title, body)
         channel = makeNotificationChannel(context, title)
 
+        pushInteractor.onNewNotification(typeData)
+
         when (context) {
-            is Activity -> if (handlePushInActivity(context)) {
-                pushInteractor.onNewNotification(typeData)
-            } else {
+            is Activity -> if (!handlePushInActivity(context)) {
                 showNotification(context, title, body)
             }
 
@@ -111,9 +120,12 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> {
     }
 
     private fun showNotification(context: Context, title: String, body: String) {
-        NotificationCreateHelper.showNotification(context,
+        NotificationCreateHelper.showNotification(
+                context,
                 this,
-                title, body)
+                title,
+                body
+        )
     }
 
     /**

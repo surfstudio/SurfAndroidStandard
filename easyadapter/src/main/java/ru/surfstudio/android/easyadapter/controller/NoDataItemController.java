@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.easyadapter.controller;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import ru.surfstudio.android.easyadapter.EasyAdapter;
 import ru.surfstudio.android.easyadapter.ItemList;
@@ -24,6 +24,10 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
 /**
  * Controller for item of RecyclerView without data {@link NoDataItem}
  * It used with {@link EasyAdapter} and {@link ItemList}
+ *
+ * Подразумевается, что будет существовать только один элемент в списке с конкретной реализацией NoDataItemController, если их больше одного, то может возникнуть креш с ошибкой:
+ * java.lang.IllegalStateException: Two different ViewHolders have the same stable ID. Stable IDs in your adapter MUST BE unique and SHOULD NOT change.
+ * Для того, чтобы от неё избавиться, необходимо переопределить метод getItemId(), чтобы он возвращал различные ID для разных item. Например: item.hashCode()
  *
  * @param <H> type of ViewHolder
  */

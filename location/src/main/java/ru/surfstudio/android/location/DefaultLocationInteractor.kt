@@ -1,105 +1,207 @@
 package ru.surfstudio.android.location
 
 import android.location.Location
+import androidx.annotation.RequiresPermission
 import io.reactivex.Completable
 import io.reactivex.Maybe
+import io.reactivex.Observable
 import io.reactivex.Single
+import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
+import ru.surfstudio.android.location.domain.CurrentLocationRequest
+import ru.surfstudio.android.location.domain.LastKnownLocationRequest
 import ru.surfstudio.android.location.domain.LocationPriority
-import ru.surfstudio.android.location.location_errors_resolver.resolutions.LocationErrorResolution
+import ru.surfstudio.android.location.exceptions.NoLocationPermissionException
+import ru.surfstudio.android.location.exceptions.PlayServicesAreNotAvailableException
+import ru.surfstudio.android.location.exceptions.ResolutionFailedException
+import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.LocationPermissionRequest
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.NoLocationPermissionResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
-
-private const val DEFAULT_RELEVANCE_TIME_MILLIS = 5_000L
-private val DEFAULT_LOCATION_PRIORITY = LocationPriority.BALANCED_POWER_ACCURACY
+import java.util.concurrent.TimeUnit
 
 /**
  * Интерактор, содержащий методы для наиболее частых случаев использования. Для более гибкой настройки следует
  * использовать [LocationService].
  */
 class DefaultLocationInteractor(
-        permissionManager: PermissionManager,
-        screenEventDelegateManager: ScreenEventDelegateManager,
-        activityProvider: ActivityProvider,
+        private val permissionManager: PermissionManager,
+        private val screenEventDelegateManager: ScreenEventDelegateManager,
+        private val activityProvider: ActivityProvider,
         private val locationService: LocationService
 ) {
 
     private var lastCurrentLocation: Location? = null
-
-    private val resolutions = arrayOf(
-            NoLocationPermissionResolution(permissionManager),
-            PlayServicesAreNotAvailableResolution(screenEventDelegateManager, activityProvider),
-            ResolvableApiExceptionResolution(screenEventDelegateManager, activityProvider)
-    )
-
-    /**
-     * Запросить последнее известное местоположение.
-     */
-    fun observeLastKnownLocation(): Maybe<Location> = observeLastKnownLocationWithErrorResolution(emptyArray())
-
-    /**
-     * Запросить последнее известное местоположение с решением возникающих проблем.
-     */
-    fun observeLastKnownLocationWithErrorResolution(): Maybe<Location> =
-            observeLastKnownLocationWithErrorResolution(resolutions)
-
-    /**
-     * Запросить текущее местоположение.
-     *
-     * @param relevanceTimeoutMillis таймаут, при котором последнее полученное местоположение актуально.
-     */
-    fun observeCurrentLocation(relevanceTimeoutMillis: Long = DEFAULT_RELEVANCE_TIME_MILLIS): Single<Location> =
-            observeCurrentLocationWithErrorResolution(relevanceTimeoutMillis, emptyArray())
-
-    /**
-     * Запросить текущее местоположение с решением возникающих проблем.
-     *
-     * @param relevanceTimeoutMillis таймаут, при котором последнее полученное местоположение актуально.
-     */
-    fun observeCurrentLocationWithErrorResolution(
-            relevanceTimeoutMillis: Long = DEFAULT_RELEVANCE_TIME_MILLIS
-    ): Single<Location> = observeCurrentLocationWithErrorResolution(relevanceTimeoutMillis, resolutions)
+    private var lastCurrentLocationPriority: LocationPriority? = null
 
     /**
      * Проверить возможность получения местоположения.
      *
-     * @return [Completable], вызывающий onComplete, если есть возможность получить местоположение, или onError,
-     * содержащий [List] с исключениями, связанными с невозможностью получения местоположения.
+     * @return [Completable]:
+     * - onComplete() вызывается, если есть возможность получить местоположение;
+     * - onError() вызывается, если нет возможности получить местоположение. Приходит [CompositeException], содержащий
+     * список из возможных исключений: [NoLocationPermissionException], [PlayServicesAreNotAvailableException],
+     * [ResolvableApiException].
      */
-    fun checkLocationAvailability(): Completable = locationService.checkLocationAvailability(DEFAULT_LOCATION_PRIORITY)
+    fun checkLocationAvailability(locationPriority: LocationPriority): Completable =
+            locationService.checkLocationAvailability(locationPriority)
 
-    private fun observeLastKnownLocationWithErrorResolution(
-            resolutions: Array<out LocationErrorResolution<*>>
+    /**
+     * Решить проблемы связанные с невозможностью получения местоположения.
+     *
+     * @param throwables [List], содержащий исключения связанные с невозможностью получения местоположения.
+     * @param locationPermissionRequest Запрос разрешения на доступ к местоположению, используемый в
+     * [NoLocationPermissionResolution].
+     *
+     * @return [Single]:
+     * - onSuccess() вызывается при удачном решении проблем. Содержит [List] из нерешенных исключений, для которых не
+     * передавались решения;
+     * - onError() вызывается в случае, если попытка решения проблем не удалась. Приходит [ResolutionFailedException].
+     */
+    @RequiresPermission(
+            allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
+    fun resolveLocationAvailability(
+            throwables: List<Throwable>,
+            locationPermissionRequest: LocationPermissionRequest = LocationPermissionRequest()
+    ): Single<List<Throwable>> =
+            locationService.resolveLocationAvailability(
+                    throwables,
+                    NoLocationPermissionResolution(permissionManager, locationPermissionRequest),
+                    PlayServicesAreNotAvailableResolution(screenEventDelegateManager, activityProvider),
+                    ResolvableApiExceptionResolution(screenEventDelegateManager, activityProvider)
+            )
+
+    /**
+     * Запросить последнее известное местоположение.
+     *
+     * @param lastKnownLocationRequest Запрос последнего известного местоположения.
+     *
+     * @return [Maybe]:
+     * - onSuccess() вызывается в случае удачного получения местоположения;
+     * - onComplete() вызывается в случае, если местоположение было получено, но равно null;
+     * - onError() вызывается, если нет возможности получить местоположение. Могут прийти:
+     * - [CompositeException], содержащий список из возможных исключений: [NoLocationPermissionException],
+     * [PlayServicesAreNotAvailableException], [ResolvableApiException];
+     * - [ResolutionFailedException].
+     */
+    @RequiresPermission(
+            allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
+    fun observeLastKnownLocationWithErrorsResolution(
+            lastKnownLocationRequest: LastKnownLocationRequest
     ): Maybe<Location> =
-            locationService.observeLastKnownLocation(*resolutions)
-                    .doOnSuccess { lastCurrentLocation = it }
+            locationService
+                    .checkLocationAvailability(lastKnownLocationRequest.priority)
+                    .onErrorResumeNext { t: Throwable ->
+                        resolveAllLocationErrorsIfNeededAndPossible(
+                                lastKnownLocationRequest.resolveLocationErrors,
+                                t,
+                                lastKnownLocationRequest.locationPermissionRequest
+                        )
+                    }
+                    .andThen(locationService.observeLastKnownLocation())
+                    .doOnSuccess {
+                        lastCurrentLocation = it
+                        lastCurrentLocationPriority = lastKnownLocationRequest.priority
+                    }
 
-    private fun observeCurrentLocationWithErrorResolution(
-            relevanceTimeoutMillis: Long,
-            resolutions: Array<out LocationErrorResolution<*>>
-    ): Single<Location> {
-        val relevantLastCurrentLocation = getRelevantLastCurrentLocationOrNull(relevanceTimeoutMillis)
-        return if (relevantLastCurrentLocation != null) {
-            Single.just(relevantLastCurrentLocation)
-        } else {
-            locationService.observeLocationUpdates(0, 0, DEFAULT_LOCATION_PRIORITY, *resolutions)
-                    .firstOrError()
-                    .doOnSuccess { lastCurrentLocation = it }
+    /**
+     * Запросить текущее местоположение.
+     *
+     * @param currentLocationRequest Запрос текущего местоположения.
+     *
+     * @return [Single]:
+     * - onSuccess() вызывается в случае удачного получения местоположения.
+     * - onError() вызывается, если нет возможности получить местоположение. Могут прийти:
+     *   - [CompositeException], содержащий список из возможных исключений: [NoLocationPermissionException],
+     *   [PlayServicesAreNotAvailableException], [ResolvableApiException];
+     *   - [ResolutionFailedException];
+     *   - [TimeoutException].
+     */
+    @RequiresPermission(
+            allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
+    fun observeCurrentLocationWithErrorsResolution(currentLocationRequest: CurrentLocationRequest): Single<Location> {
+        val relevantLocation = getRelevantLocationOrNull(
+                currentLocationRequest.relevanceTimeoutMillis,
+                currentLocationRequest.priority
+        )
+
+        if (relevantLocation != null) {
+            return Single.just(relevantLocation)
+        }
+
+        return locationService
+                .checkLocationAvailability(currentLocationRequest.priority)
+                .onErrorResumeNext { t: Throwable ->
+                    resolveAllLocationErrorsIfNeededAndPossible(
+                            currentLocationRequest.resolveLocationErrors,
+                            t,
+                            currentLocationRequest.locationPermissionRequest
+                    )
+                }
+                .andThen(observeLocationUpdates(currentLocationRequest))
+                .firstOrError()
+                .doOnSuccess {
+                    lastCurrentLocation = it
+                    lastCurrentLocationPriority = currentLocationRequest.priority
+                }
+    }
+
+    private fun resolveAllLocationErrorsIfNeededAndPossible(
+            resolveLocationErrors: Boolean,
+            t: Throwable,
+            locationPermissionRequest: LocationPermissionRequest
+    ): Completable =
+            if (resolveLocationErrors && (t is CompositeException)) {
+                resolveAllLocationErrors(t.exceptions, locationPermissionRequest)
+            } else {
+                Completable.error(t)
+            }
+
+    private fun resolveAllLocationErrors(
+            throwables: List<Throwable>,
+            locationPermissionRequest: LocationPermissionRequest
+    ): Completable =
+            resolveLocationAvailability(throwables, locationPermissionRequest)
+                    .flatMap {
+                        if (it.isNotEmpty()) {
+                            Single.error(CompositeException(it))
+                        } else {
+                            Single.just(it)
+                        }
+                    }
+                    .ignoreElement()
+
+    private fun getRelevantLocationOrNull(relevanceTimeoutMillis: Long, locationPriority: LocationPriority): Location? {
+        val nonNullLastCurrentLocation = lastCurrentLocation ?: return null
+        val nonNullLastCurrentLocationPriority = lastCurrentLocationPriority ?: return null
+
+        val currentTimeMillis = System.currentTimeMillis()
+        val deltaTimeMillis = currentTimeMillis - nonNullLastCurrentLocation.time
+
+        return when {
+            deltaTimeMillis > relevanceTimeoutMillis -> null
+            LocationPriority.compare(locationPriority, nonNullLastCurrentLocationPriority) < 0 -> null
+            else -> nonNullLastCurrentLocation
         }
     }
 
-    private fun getRelevantLastCurrentLocationOrNull(relevanceTimeoutMillis: Long): Location? {
-        val nonNullLastCurrentLocation = lastCurrentLocation ?: return null
-        val currentTimeMillis = System.currentTimeMillis()
-        val requestDeltaTimeMillis = currentTimeMillis - nonNullLastCurrentLocation.time
+    @RequiresPermission(
+            anyOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+    )
+    private fun observeLocationUpdates(currentLocationRequest: CurrentLocationRequest): Observable<Location> {
+        var locationUpdatesObservable = locationService.observeLocationUpdates(0, 0, currentLocationRequest.priority)
 
-        return if (requestDeltaTimeMillis > relevanceTimeoutMillis) {
-            null
-        } else {
-            nonNullLastCurrentLocation
+        if (currentLocationRequest.expirationTimeoutMillis > 0) {
+            locationUpdatesObservable =
+                    locationUpdatesObservable
+                            .timeout(currentLocationRequest.expirationTimeoutMillis, TimeUnit.MILLISECONDS)
         }
+
+        return locationUpdatesObservable
     }
 }

@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.utilktx.ktx.ui.view
 
-import android.support.design.widget.AppBarLayout
+import com.google.android.material.appbar.AppBarLayout
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 
@@ -27,7 +27,7 @@ import ru.surfstudio.android.utilktx.util.SdkUtils
  * Делает тень под тулбаром
  */
 fun AppBarLayout.showElevation(isElevation: Boolean) {
-    if (SdkUtils.isAtLeastLollipop) {
+    SdkUtils.runOnLollipop {
         elevation = if (isElevation) 8F else 0F
     }
 }

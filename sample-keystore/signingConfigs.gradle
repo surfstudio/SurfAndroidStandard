@@ -1,0 +1,12 @@
+// Информация о подписи APK для примеров
+
+android {
+    signingConfigs {
+        release {
+            storeFile file("../sample-keystore/test.keystore")
+            storePassword "qatest"
+            keyAlias "test"
+            keyPassword "qatest"
+        }
+    }
+}

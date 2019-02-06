@@ -19,7 +19,7 @@ class DefaultApp : CoreApp() {
 
     private fun initInjector() {
         defaultAppComponent = DaggerDefaultAppComponent.builder()
-                .defaultAppModule(DefaultAppModule(this))
+                .defaultAppModule(DefaultAppModule(this, activeActivityHolder))
                 .build()
     }
 }

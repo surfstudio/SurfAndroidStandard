@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.ui.state;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * базовый {@link ScreenState} для активити и фрагмента, для виджета свой ScreenState
@@ -32,22 +32,48 @@ public abstract class BaseScreenState implements ScreenState {
     private boolean viewDestroyedAtListOnce = false;
     private boolean screenDestroyedAtListOnce = false;
 
+    private LifecycleStage lifecycleStage;
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         viewRecreated = viewDestroyedAtListOnce;
         screenRecreated = screenDestroyedAtListOnce;
         restoredFromDisk = restoredFromDisk ||
                 !screenDestroyedAtListOnce && savedInstanceState != null;
+
+        lifecycleStage = LifecycleStage.CREATED;
     }
 
-    public void onDestroyView() {
-        viewDestroyedAtListOnce = true;
+    public void onViewReady() {
+        lifecycleStage = LifecycleStage.VIEW_READY;
+    }
+
+    public void onStart() {
+        lifecycleStage = LifecycleStage.STARTED;
+    }
+
+    public void onResume() {
+        lifecycleStage = LifecycleStage.RESUMED;
+    }
+
+    public void onPause() {
+        lifecycleStage = LifecycleStage.PAUSED;
+    }
+
+    public void onStop() {
+        lifecycleStage = LifecycleStage.STOPPED;
     }
 
     public void onDestroy() {
         screenDestroyedAtListOnce = true;
     }
 
+    public void onDestroyView() {
+        lifecycleStage = LifecycleStage.VIEW_DESTROYED;
+        viewDestroyedAtListOnce = true;
+    }
+
     public void onCompletelyDestroy() {
+        lifecycleStage = LifecycleStage.DESTROYED;
         completelyDestroyed = true;
     }
 
@@ -74,5 +100,10 @@ public abstract class BaseScreenState implements ScreenState {
     @Override
     public boolean isRestoredFromDiskJustNow() {
         return isRestoredFromDisk() && !isViewRecreated();
+    }
+
+    @Override
+    public LifecycleStage getLifecycleStage() {
+        return lifecycleStage;
     }
 }

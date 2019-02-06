@@ -15,8 +15,8 @@
  */
 package ru.surfstudio.android.core.mvp.presenter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.agna.ferro.rx.CompletableOperatorFreeze;
 import com.agna.ferro.rx.MaybeOperatorFreeze;
@@ -255,11 +255,11 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
 
     protected <T> Disposable subscribeIo(Maybe<T> maybe,
-                                         final ConsumerSafe<T> onNext,
-                                         final ActionSafe onSuccess,
+                                         final ConsumerSafe<T> onSuccess,
+                                         final ActionSafe onComplete,
                                          final ConsumerSafe<Throwable> onError) {
         maybe = maybe.subscribeOn(schedulersProvider.worker());
-        return subscribe(maybe, onNext, onSuccess, onError);
+        return subscribe(maybe, onSuccess, onComplete, onError);
     }
     //endregion
 
@@ -274,7 +274,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                                    final ActionSafe autoReloadAction,
                                                    final ConsumerSafe<T> onNext,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(observable, autoReloadAction), onNext, onError);
+        return subscribeIo(initializeAutoReload(observable, autoReloadAction), onNext, onError);
     }
 
     protected <T> Disposable subscribeIoAutoReload(Observable<T> observable,
@@ -282,21 +282,21 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                                    final ConsumerSafe<T> onNext,
                                                    final ActionSafe onComplete,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(observable, autoReloadAction), onNext, onComplete, onError);
+        return subscribeIo(initializeAutoReload(observable, autoReloadAction), onNext, onComplete, onError);
     }
 
     protected <T> Disposable subscribeIoAutoReload(Single<T> single,
                                                    final ActionSafe autoReloadAction,
                                                    final ConsumerSafe<T> onSuccess,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(single, autoReloadAction), onSuccess, onError);
+        return subscribeIo(initializeAutoReload(single, autoReloadAction), onSuccess, onError);
     }
 
     protected Disposable subscribeIoAutoReload(Completable completable,
                                                final ActionSafe autoReloadAction,
                                                final ActionSafe onComplete,
                                                final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(completable, autoReloadAction), onComplete, onError);
+        return subscribeIo(initializeAutoReload(completable, autoReloadAction), onComplete, onError);
     }
 
     protected <T> Disposable subscribeIoAutoReload(Maybe<T> maybe,
@@ -304,7 +304,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                                    final ConsumerSafe<T> onSuccess,
                                                    final ActionSafe onComplete,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(maybe, autoReloadAction), onSuccess, onComplete, onError);
+        return subscribeIo(initializeAutoReload(maybe, autoReloadAction), onSuccess, onComplete, onError);
     }
     //endregion
 

@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.analytics;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Map;
 
@@ -24,6 +24,7 @@ import java.util.Map;
  *
  * Реализующий класс должен отправить событие при необходимости преобразовав параметры в нужный вид
  */
+@Deprecated
 public interface Analytics {
 
     /**

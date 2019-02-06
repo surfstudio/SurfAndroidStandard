@@ -1,8 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.surfstudio.android.custom_scope_sample">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -19,6 +17,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.screen.another.AnotherActivityView" />
-        <activity android:name=".ui.screen.other.OtherActivityView" />
     </application>
+
 </manifest>

@@ -10,10 +10,10 @@ internal class DataPushPresenter @Inject constructor(basePresenterDependency: Ba
                                                      route: DataPushActivityRoute
 ): BasePresenter<DataPushActivityView>(basePresenterDependency) {
 
-    private val screenModel = DataPushScreenModel(route.notification)
+    private val sm = DataPushScreenModel(route.notification)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 }

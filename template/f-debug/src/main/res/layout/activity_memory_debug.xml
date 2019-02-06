@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+        android:id="@+id/memory_leakcanary_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:switch_subtitle="@string/leakcanary_subtitle_text"
+        app:switch_title="@string/leakcanary_text" />
+
+    <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+        android:id="@+id/show_storage_item_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:catalog_item_name="@string/show_storage_debug_item" />
+</LinearLayout>

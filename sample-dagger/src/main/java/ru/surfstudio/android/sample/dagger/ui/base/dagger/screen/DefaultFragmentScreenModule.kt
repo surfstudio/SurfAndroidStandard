@@ -1,5 +1,6 @@
 package ru.surfstudio.android.sample.dagger.ui.base.dagger.screen
 
+import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
@@ -19,6 +20,8 @@ import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForFragment
+import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
+import javax.inject.Named
 
 @Module(includes = [DefaultErrorHandlerModule::class])
 class DefaultFragmentScreenModule(private val persistentScope: FragmentViewPersistentScope) : DefaultScreenModule() {
@@ -43,10 +46,18 @@ class DefaultFragmentScreenModule(private val persistentScope: FragmentViewPersi
 
     @Provides
     @PerScreen
-    internal fun providePermissionManager(activityProvider: ActivityProvider,
-                                          fragmentProvider: FragmentProvider,
-                                          eventDelegateManager: ScreenEventDelegateManager): PermissionManager {
-        return PermissionManagerForFragment(activityProvider, fragmentProvider, eventDelegateManager)
+    internal fun providePermissionManager(eventDelegateManager: ScreenEventDelegateManager,
+                                          activityProvider: ActivityProvider,
+                                          activityNavigator: ActivityNavigator,
+                                          @Named(NO_BACKUP_SHARED_PREF) sharedPreferences: SharedPreferences,
+                                          fragmentProvider: FragmentProvider): PermissionManager {
+        return PermissionManagerForFragment(
+                eventDelegateManager,
+                activityProvider,
+                activityNavigator,
+                sharedPreferences,
+                fragmentProvider
+        )
     }
 
     @Provides
