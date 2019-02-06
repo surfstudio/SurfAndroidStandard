@@ -2,6 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"

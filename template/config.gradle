@@ -26,7 +26,7 @@ ext {
 
     //DI
     javaInjectVersion = '1'                     //https://goo.gl/cM9Kcd
-    daggerVersion = '2.19'                      //https://vk.cc/7UFvQo
+    daggerVersion = '2.21'                      //https://vk.cc/7UFvQo
 
     //androidx
     androidxVersion = '1.0.2'                   //http://bit.ly/2zjueqh
@@ -39,7 +39,7 @@ ext {
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
 
     //network
-    okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
+    okHttpVersion = '3.13.1'                    //https://vk.cc/7UFwTd
     retrofitVersion = '2.5.0'                   //https://vk.cc/7UFxk3
     gsonVersion = '2.8.5'                       //https://vk.cc/7UFvbd
 

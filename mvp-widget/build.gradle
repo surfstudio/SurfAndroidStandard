@@ -1,6 +1,11 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
+    implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+
     api "javax.inject:javax.inject:$javaInjectVersion"
     api "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
 

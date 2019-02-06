@@ -6,6 +6,7 @@ dependencies {
     implementation "com.google.android.play:core:$playCoreVersion" //for split install features support
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
