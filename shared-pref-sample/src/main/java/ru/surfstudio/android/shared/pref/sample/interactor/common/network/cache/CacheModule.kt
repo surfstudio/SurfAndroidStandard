@@ -1,7 +1,6 @@
 package ru.surfstudio.android.shared.pref.sample.interactor.common.network.cache
 
 import android.content.Context
-import androidx.core.content.ContextCompat
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -39,5 +38,5 @@ class CacheModule {
         return SimpleCacheUrlConnector(baseUrl, simpleCacheInfoList())
     }
 
-    private fun simpleCacheInfoList(): List<SimpleCacheInfo> = listOf()
+    private fun simpleCacheInfoList(): Collection<SimpleCacheInfo> = listOf()
 }
