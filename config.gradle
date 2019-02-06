@@ -3,7 +3,7 @@ ext {
     applicationId = "ru.surfstudio.android.template"
 
     moduleVersionCode = 1
-    moduleVersionName = '0.4.0-SBI-2-SNAPSHOT'
+    moduleVersionName = '0.4.0-SBI-3-SNAPSHOT'
     libMinSdkVersion = 21
     sampleMinSdkVersion = 21
     targetSdkVersion = 28
@@ -57,6 +57,7 @@ ext {
     rxJava2Version = '2.2.3'                    //https://goo.gl/uzna2x
     rxAndroid2Version = '2.1.0'                 //https://goo.gl/3Kd3iP
     rxBinding2Version = '2.2.0'                 //https://goo.gl/KQ5Vga
+    rxRelayVersion = '2.1.0'                    //https://goo.gl/E643M0
 
     //android framework
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe

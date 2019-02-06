@@ -15,6 +15,8 @@
  */
 package ru.surfstudio.android.core.ui.navigation.feature.route.feature
 
+import ru.surfstudio.android.core.ui.navigation.Route
+
 /**
  * Interface for cross-feature navigation route.
  *
@@ -23,7 +25,7 @@ package ru.surfstudio.android.core.ui.navigation.feature.route.feature
  * For using it just override [targetClassPath] method and specify full classpath of the target
  * feature starting point (e.g. activity).
  */
-interface CrossFeatureRoute {
+interface CrossFeatureRoute : Route {
 
     /**
      * @return target starting point full classpath (e.g. "com.name.app.feature.ActivityName")
