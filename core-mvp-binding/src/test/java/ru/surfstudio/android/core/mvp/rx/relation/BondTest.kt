@@ -21,10 +21,11 @@ import io.reactivex.observers.TestObserver
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond
 
 class BondTest : BaseRelationTest() {
 
-    private lateinit var bond: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond<String>
+    private lateinit var bond: Bond<String>
 
     private lateinit var testViewObservable: TestObserver<String>
     private lateinit var testViewConsumer: Consumer<String>
@@ -36,7 +37,7 @@ class BondTest : BaseRelationTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        bond = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond()
+        bond = Bond()
 
         testViewConsumer =
                 with(testView) {
@@ -99,7 +100,7 @@ class BondTest : BaseRelationTest() {
     @Test
     @Throws(Exception::class)
     fun testInitialValue() {
-        val bond = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond("Initial")
+        val bond = Bond("Initial")
         with(testView) {
             var newValue = ""
             bond bindTo { newValue = it }
@@ -115,7 +116,7 @@ class BondTest : BaseRelationTest() {
     @Test
     @Throws(Exception::class)
     fun testDiffValue() {
-        val bond = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond<String>()
+        val bond = Bond<String>()
         with(testView) {
             bond.accept("view_value")
         }

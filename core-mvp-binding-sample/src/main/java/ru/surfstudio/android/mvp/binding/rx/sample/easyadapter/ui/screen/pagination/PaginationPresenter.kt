@@ -18,6 +18,7 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagina
 
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
@@ -34,7 +35,7 @@ import javax.inject.Inject
 class PaginationPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val elementRepository: ElementRepository
-) : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<PaginationPresentationModel>(basePresenterDependency) {
+) : BaseRxPresenter<PaginationPresentationModel>(basePresenterDependency) {
 
     override val bm = PaginationPresentationModel()
 

@@ -21,10 +21,11 @@ import io.reactivex.observers.TestObserver
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 
 class StateTest : BaseRelationTest() {
 
-    private lateinit var state: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State<String>
+    private lateinit var state: State<String>
 
     private lateinit var testObservable: TestObserver<String>
     private lateinit var testConsumer: Consumer<String>
@@ -33,7 +34,7 @@ class StateTest : BaseRelationTest() {
     @Throws(Exception::class)
     override fun setUp() {
         super.setUp()
-        state = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State()
+        state = State()
 
         testObservable =
                 with(testView) {
@@ -70,7 +71,7 @@ class StateTest : BaseRelationTest() {
     @Throws(Exception::class)
     fun testInitialValue() {
         with(testView) {
-            val state = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State("Initial")
+            val state = State("Initial")
             var newValue = ""
             state bindTo { newValue = it }
             assertEquals("Initial", newValue)
@@ -81,7 +82,7 @@ class StateTest : BaseRelationTest() {
     @Throws(Exception::class)
     fun update() {
         with(testView) {
-            val state = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State("Update")
+            val state = State("Update")
             var newValue = ""
             state bindTo { newValue += it }
             state.update()

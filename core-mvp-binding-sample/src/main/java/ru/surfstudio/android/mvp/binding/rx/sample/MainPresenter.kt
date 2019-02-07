@@ -16,6 +16,11 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample
 
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -29,10 +34,10 @@ import javax.inject.Inject
  */
 @PerScreen
 class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<MainViewBinding>(basePresenterDependency) {
+    : BaseRxPresenter<MainBindModel>(basePresenterDependency) {
 
     @Inject
-    override lateinit var bm: MainViewBinding
+    override lateinit var bm: MainBindModel
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -48,10 +53,10 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
  */
 @PerScreen
 class DoubleTextPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<DoubleTextViewBinding>(basePresenterDependency) {
+    : BaseRxPresenter<DoubleTextBindModel>(basePresenterDependency) {
 
     @Inject
-    override lateinit var bm: DoubleTextViewBinding
+    override lateinit var bm: DoubleTextBindModel
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -61,10 +66,10 @@ class DoubleTextPresenter @Inject constructor(basePresenterDependency: BasePrese
     }
 }
 
-interface DoubleTextViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
+interface DoubleTextBindModel : BindModel {
 
-    val doubleTextAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
-    val textEditBond: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond<String>
+    val doubleTextAction: Action<Unit>
+    val textEditBond: Bond<String>
 }
 
 /**
@@ -72,10 +77,10 @@ interface DoubleTextViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.B
  */
 @PerScreen
 class CounterPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<CounterViewBinding>(basePresenterDependency) {
+    : BaseRxPresenter<CounterBindModel>(basePresenterDependency) {
 
     @Inject
-    override lateinit var bm: CounterViewBinding
+    override lateinit var bm: CounterBindModel
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -86,11 +91,11 @@ class CounterPresenter @Inject constructor(basePresenterDependency: BasePresente
     }
 }
 
-interface CounterViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
+interface CounterBindModel : BindModel {
 
-    val incAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
-    val decAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
-    val counterBond: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond<Int>
+    val incAction: Action<Unit>
+    val decAction: Action<Unit>
+    val counterBond: Bond<Int>
 }
 
 /**
@@ -99,10 +104,10 @@ interface CounterViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.Bind
 @PerScreen
 class MainNavigationPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                   private val activityNavigator: ActivityNavigator)
-    : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<MainNavigationViewBinding>(basePresenterDependency) {
+    : BaseRxPresenter<MainNavigationBindModel>(basePresenterDependency) {
 
     @Inject
-    override lateinit var bm: MainNavigationViewBinding
+    override lateinit var bm: MainNavigationBindModel
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -113,10 +118,10 @@ class MainNavigationPresenter @Inject constructor(basePresenterDependency: BaseP
     }
 }
 
-interface MainNavigationViewBinding : ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel {
+interface MainNavigationBindModel : BindModel {
 
-    val checkboxSampleActivityOpen: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
-    val easyadapterSampleActivityOpen: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
+    val checkboxSampleActivityOpen: Action<Unit>
+    val easyadapterSampleActivityOpen: Action<Unit>
 }
 
 /**
@@ -125,10 +130,10 @@ interface MainNavigationViewBinding : ru.surfstudio.android.core.mvp.binding.rx.
 @PerScreen
 class DialogControlPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
                                                  private val dialogNavigator: DialogNavigator)
-    : ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter<DialogControlViewBinding>(basePresenterDependency) {
+    : BaseRxPresenter<DialogControlBindModel>(basePresenterDependency) {
 
     @Inject
-    override lateinit var bm: DialogControlViewBinding
+    override lateinit var bm: DialogControlBindModel
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -140,8 +145,8 @@ class DialogControlPresenter @Inject constructor(basePresenterDependency: BasePr
     }
 }
 
-interface DialogControlViewBinding : SampleDialogViewBinding {
+interface DialogControlBindModel : SampleDialogBindModel {
 
-    val dialogOpenAction: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action<Unit>
-    val messageCommand: ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command<String>
+    val dialogOpenAction: Action<Unit>
+    val messageCommand: Command<String>
 }

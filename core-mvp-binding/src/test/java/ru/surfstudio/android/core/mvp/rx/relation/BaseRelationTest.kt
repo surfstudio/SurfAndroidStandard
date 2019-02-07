@@ -22,6 +22,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import org.junit.Before
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 
 abstract class BaseRelationTest {
 
@@ -38,11 +40,11 @@ abstract class BaseRelationTest {
     }
 }
 
-class TestView : ru.surfstudio.android.core.mvp.binding.rx.relation.Related<ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW> {
+class TestView : ru.surfstudio.android.core.mvp.binding.rx.relation.Related<VIEW> {
 
     val disposables = CompositeDisposable()
 
-    override fun relationEntity(): ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
+    override fun relationEntity(): VIEW = VIEW
 
     override fun <T> subscribe(observable: Observable<T>,
                                onNext: Consumer<T>,
@@ -51,11 +53,11 @@ class TestView : ru.surfstudio.android.core.mvp.binding.rx.relation.Related<ru.s
                     .apply { disposables.add(this) }
 }
 
-class TestPresenter : ru.surfstudio.android.core.mvp.binding.rx.relation.Related<ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER> {
+class TestPresenter : ru.surfstudio.android.core.mvp.binding.rx.relation.Related<PRESENTER> {
 
     val disposables = CompositeDisposable()
 
-    override fun relationEntity(): ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER = ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
+    override fun relationEntity(): PRESENTER = PRESENTER
 
     override fun <T> subscribe(observable: Observable<T>,
                                onNext: Consumer<T>,
