@@ -7,9 +7,11 @@ import org.junit.Test
 import ru.surfstudio.android.loadstate.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.loadstate.sample.ui.screen.ordinary.DefaultRendererDemoActivityView
 import ru.surfstudio.android.loadstate.sample.ui.screen.stubs.RendererWithStubsDemoActivityView
+import ru.surfstudio.android.sample.common.test.ElapsedTimeIdlingResource
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
 import ru.surfstudio.android.sample.common.test.utils.AnimationUtils
+import ru.surfstudio.android.sample.common.test.utils.IdlingUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
 
@@ -46,7 +48,11 @@ class LoadStateSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
             @IdRes loadStateBtnResId: Int,
             @StringRes toastResId: Int
     ) {
-        performClick(loadStateBtnResId, R.id.placeholder_first_btn)
+        performClick(loadStateBtnResId)
+        val idlingResource = ElapsedTimeIdlingResource(250L)
+        IdlingUtils.registerIdlingResource(idlingResource)
+        performClick(R.id.placeholder_first_btn)
         checkIfToastIsVisible(toastResId)
+        IdlingUtils.unregisterIdlingResource(idlingResource)
     }
 }

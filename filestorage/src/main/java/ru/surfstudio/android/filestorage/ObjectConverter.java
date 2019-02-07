@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC, , Fedor Atyakshin.
+  Copyright (c) 2018-present, SurfStudio LLC, Fedor Atyakshin.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -15,9 +15,7 @@
  */
 package ru.surfstudio.android.filestorage;
 
-public interface ObjectConverter<T> {
+@Deprecated
+public interface ObjectConverter extends ru.surfstudio.android.filestorage.converter.ObjectConverter{
 
-    byte[] encode(T value);
-
-    T decode(byte[] rawValue);
 }

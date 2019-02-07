@@ -8,8 +8,8 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
-import ru.surfstudio.standard.base_ui.navigation.MainActivityRoute
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
+import ru.surfstudio.standard.ui.navigation.MainActivityRoute
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 

@@ -50,7 +50,8 @@ Gradle:
     implementation "ru.surfstudio.android:core-ui:X.X.X"
 ```
 
-TODO: Добавить страницу с описанием нашей архитектуры и подходов
+# Ссылки
+[Архитектура приложений Surf](../docs/common/architect.md)
 
 [bac]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseActivityConfigurator.java
 [bfc]: src/main/java/ru/surfstudio/android/core/ui/configurator/BaseFragmentConfigurator.java
