@@ -56,5 +56,5 @@ class CacheModule {
         return SimpleCacheUrlConnector(baseUrl, simpleCacheInfoList())
     }
 
-    private fun simpleCacheInfoList(): Collection<SimpleCacheInfo> = listOf()
+    private fun simpleCacheInfoList(): List<SimpleCacheInfo> = listOf()
 }

@@ -41,7 +41,7 @@ class CacheModule {
         return SimpleCacheUrlConnector(baseUrl, simpleCacheInfoList())
     }
 
-    private fun simpleCacheInfoList(): Collection<SimpleCacheInfo> {
+    private fun simpleCacheInfoList(): List<SimpleCacheInfo> {
         return listOf(
                 SimpleCacheInfo(
                         HttpMethods.GET,
