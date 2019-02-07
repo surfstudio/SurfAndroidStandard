@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.standard.base.app
+package ru.surfstudio.standard.base.util
 
 import android.content.Context
 import androidx.annotation.ArrayRes

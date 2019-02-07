@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.f_debug.fcm
 
-import ru.surfstudio.standard.base.app.StringsProvider
+import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen

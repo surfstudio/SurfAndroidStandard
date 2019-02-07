@@ -5,8 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
-import ru.surfstudio.android.activity.holder.ActiveActivityHolder
-import ru.surfstudio.standard.base.app.StringsProvider
+import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
