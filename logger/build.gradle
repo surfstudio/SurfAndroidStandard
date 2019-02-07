@@ -1,9 +1,9 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.jakewharton.timber:timber:$timberVersion"
-    api "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
+    implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies this
