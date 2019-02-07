@@ -1,9 +1,9 @@
 apply from: 'config.gradle'
 
-include "$templatePrefix:app-injector",
-        "$templatePrefix:domain",
-        "$templatePrefix:base-ui",
+include "$templatePrefix:app",
         "$templatePrefix:base",
+        "$templatePrefix:base_feature",
+        "$templatePrefix:domain",
         "$templatePrefix:i-initialization",
         "$templatePrefix:i-network",
         "$templatePrefix:i-session",
@@ -14,7 +14,8 @@ include "$templatePrefix:app-injector",
         "$templatePrefix:f-main",
         "$templatePrefix:f-debug",
         "$templatePrefix:f-splash",
-        "$templatePrefix:f-debug-no-op"
+        "$templatePrefix:f-debug-no-op",
+        "$templatePrefix:small-test-utils"
 
 apply from: 'android-standard/androidStandardSettings.gradle'
 apply from: 'buildCache.gradle'
