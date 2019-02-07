@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.test_utils
+package ru.surfstudio.standard.small_test_utils
 
 import kotlin.annotation.Retention
 import kotlin.reflect.KClass

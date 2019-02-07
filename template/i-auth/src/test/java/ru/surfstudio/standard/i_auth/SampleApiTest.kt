@@ -6,10 +6,10 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import ru.surfstudio.standard.i_auth.di.DaggerTestAuthApiComponent
 import ru.surfstudio.standard.i_auth.di.TestAuthApiComponent
-import ru.surfstudio.standard.test_utils.ApiTestRunner
-import ru.surfstudio.standard.test_utils.BaseNetworkDaggerTest
-import ru.surfstudio.standard.test_utils.app.TestApp
-import ru.surfstudio.standard.test_utils.WaitApiTest
+import ru.surfstudio.standard.small_test_utils.ApiTestRunner
+import ru.surfstudio.standard.small_test_utils.BaseNetworkDaggerTest
+import ru.surfstudio.standard.small_test_utils.app.TestApp
+import ru.surfstudio.standard.small_test_utils.WaitApiTest
 import javax.inject.Inject
 
 @RunWith(ApiTestRunner::class)

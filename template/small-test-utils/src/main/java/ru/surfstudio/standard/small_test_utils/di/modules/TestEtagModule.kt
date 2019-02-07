@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.test_utils.di.modules
+package ru.surfstudio.standard.small_test_utils.di.modules
 
 import android.content.Context
 import dagger.Module

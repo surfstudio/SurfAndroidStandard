@@ -1,6 +1,5 @@
 apply from: '../commonModule.gradle'
 apply from: '../commonKaptModule.gradle'
-apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
     api project("$templatePrefix:base")

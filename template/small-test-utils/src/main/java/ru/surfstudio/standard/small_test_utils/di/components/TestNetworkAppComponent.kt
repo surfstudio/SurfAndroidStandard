@@ -1,10 +1,10 @@
-package ru.surfstudio.standard.test_utils.di.components
+package ru.surfstudio.standard.small_test_utils.di.components
 
 import dagger.Component
 import retrofit2.Retrofit
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.standard.test_utils.BaseNetworkDaggerTest
-import ru.surfstudio.standard.test_utils.di.modules.*
+import ru.surfstudio.standard.small_test_utils.BaseNetworkDaggerTest
+import ru.surfstudio.standard.small_test_utils.di.modules.*
 
 @PerApplication
 @Component(modules = [TestAppModule::class,

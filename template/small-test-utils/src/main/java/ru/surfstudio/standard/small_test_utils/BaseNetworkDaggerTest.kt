@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.test_utils
+package ru.surfstudio.standard.small_test_utils
 
 import android.security.NetworkSecurityPolicy
 import androidx.annotation.CallSuper
@@ -12,9 +12,9 @@ import org.robolectric.annotation.Implements
 import ru.surfstudio.android.core.app.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.logging_strategies.impl.test.TestLoggingStrategy
-import ru.surfstudio.standard.test_utils.di.components.DaggerTestNetworkAppComponent
-import ru.surfstudio.standard.test_utils.di.components.TestNetworkAppComponent
-import ru.surfstudio.standard.test_utils.di.modules.TestAppModule
+import ru.surfstudio.standard.small_test_utils.di.components.DaggerTestNetworkAppComponent
+import ru.surfstudio.standard.small_test_utils.di.components.TestNetworkAppComponent
+import ru.surfstudio.standard.small_test_utils.di.modules.TestAppModule
 
 abstract class BaseNetworkDaggerTest<T> {
 

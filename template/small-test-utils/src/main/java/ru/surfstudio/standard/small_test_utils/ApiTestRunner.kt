@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.test_utils
+package ru.surfstudio.standard.small_test_utils
 
 import org.junit.Test
 import org.junit.runners.model.FrameworkMethod

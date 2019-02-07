@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.test_utils.di.scope
+package ru.surfstudio.standard.small_test_utils.di.scope
 
 import javax.inject.Scope
 import kotlin.annotation.Retention
