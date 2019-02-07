@@ -11,7 +11,7 @@ class SimpleCacheInfoStorage @Inject constructor() {
     /**
      * Заполняется [SimpleCacheInfo].
      */
-    val simpleCaches: List<SimpleCacheInfo> = listOf(
+    val simpleCaches: Collection<SimpleCacheInfo> = listOf(
 
     )
 }

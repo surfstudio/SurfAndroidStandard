@@ -6,6 +6,7 @@ dependencies {
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
     implementation 'com.github.kk121:Android-Debug-Tools:1.0'
 

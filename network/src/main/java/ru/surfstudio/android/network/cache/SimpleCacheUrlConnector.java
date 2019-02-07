@@ -22,6 +22,7 @@ import android.text.TextUtils;
 
 import com.annimon.stream.Stream;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -43,9 +44,9 @@ public class SimpleCacheUrlConnector {
     @NonNull
     private final List<SimpleCacheInfo> simpleCacheInfo;
 
-    public SimpleCacheUrlConnector(@NonNull BaseUrl baseUrl, @NonNull List<SimpleCacheInfo> simpleCacheInfo) {
+    public SimpleCacheUrlConnector(@NonNull BaseUrl baseUrl, @NonNull Collection<SimpleCacheInfo> simpleCacheInfo) {
         this.baseUrl = baseUrl;
-        this.simpleCacheInfo = simpleCacheInfo;
+        this.simpleCacheInfo = new ArrayList<>(simpleCacheInfo);
         sortSimpleCacheInfo(this.simpleCacheInfo);
     }
 
