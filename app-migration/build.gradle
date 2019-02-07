@@ -2,6 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

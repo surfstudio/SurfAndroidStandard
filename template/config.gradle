@@ -45,7 +45,7 @@ ext {
 
     //rx
     ferroRxVersion = '2.0.0'                    //https://goo.gl/6ir26N
-    rxJava2Version = '2.2.3'                    //https://goo.gl/uzna2x
+    rxJava2Version = '2.2.6'                    //https://goo.gl/uzna2x
     rxAndroid2Version = '2.1.0'                 //https://goo.gl/3Kd3iP
     rxBinding2Version = '2.2.0'                 //https://goo.gl/KQ5Vga
 

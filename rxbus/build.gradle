@@ -1,5 +1,9 @@
 apply from: '../androidModule.gradle'
 
+dependencies {
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
+}
+
 gradle.ext.configAndroidStandardDependencies(this, [
         'rx-extension'
 ])

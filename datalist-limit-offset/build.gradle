@@ -2,6 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxAndroid2Version"
 
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
