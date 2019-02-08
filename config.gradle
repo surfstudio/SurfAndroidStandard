@@ -104,5 +104,5 @@ ext {
 
     // версия android-standard
     moduleVersionCode = 19
-    moduleVersionName = '0.3.0-MAGNIT-1-SNAPSHOT'
+    moduleVersionName = '0.3.0-MAGNIT-2-SNAPSHOT'
 }
