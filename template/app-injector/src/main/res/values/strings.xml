@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Template Multimodule</string>
-    <string name="notification_channel_id" translatable="false">CHANNEL_ID</string>
-    <string name="notification_channel_name">TEMPLATE</string> <!-- todo change -->
-</resources>

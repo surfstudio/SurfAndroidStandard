@@ -1,14 +1,15 @@
-apply from: '../commonFeatureModule.gradle'
+apply from: '../commonModule.gradle'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    implementation project("$templatePrefix:base-ui")
+    implementation project("$templatePrefix:base")
     implementation project("$templatePrefix:i-push-notification")
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    implementation "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
     implementation 'com.github.kk121:Android-Debug-Tools:1.0'
-
 
     // leak canary
     implementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
@@ -26,4 +27,45 @@ dependencies {
 
     //rangebar
     implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
+
+    api project("$templatePrefix:domain")
+
+    gradle.ext.androidStandard.api(
+            this,
+            "$surfCoreVersionName",
+            [
+                    "core-ui",
+                    "core-mvp",
+                    "core-mvp-binding",
+                    "core-app",
+                    "mvp-dialog",
+                    "mvp-widget",
+                    "easyadapter",
+                    "analytics",
+                    "firebase-analytics",
+                    "push",
+                    "dagger-scope",
+                    "logger",
+                    "filestorage",
+                    "network",
+                    "converter-gson",
+                    "imageloader",
+                    "animations",
+                    "picture-provider",
+                    "app-migration",
+                    "connection",
+                    "custom-view",
+                    "datalist-limit-offset",
+                    "datalist-page-count",
+                    "recycler-extension",
+                    "rx-extension",
+                    "shared-pref",
+                    "util-ktx",
+                    "standard-dialog",
+                    "message-controller",
+                    "broadcast-extension",
+                    "rxbus"],
+            null, //todo remove for real app
+            "LOCAL"  //todo remove for real app
+    )
 }

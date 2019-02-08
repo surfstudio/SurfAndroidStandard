@@ -7,7 +7,7 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.ui.FragmentContainer
 import ru.surfstudio.android.template.f_main.R
-import ru.surfstudio.standard.base_ui.provider.component.ComponentProvider
+import ru.surfstudio.standard.f_main.di.MainScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -20,7 +20,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = MainScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_main

@@ -4,5 +4,6 @@ gradle.ext.configAndroidStandardDependencies(this, [
         'activity-holder',
         'logger',
         'rx-extension',
-        'util-ktx'
+        'util-ktx',
+        'logger'
 ])
