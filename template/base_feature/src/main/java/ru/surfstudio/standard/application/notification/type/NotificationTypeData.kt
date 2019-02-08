@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.app_injector.ui.notification.type
+package ru.surfstudio.standard.application.notification.type
 
 import ru.surfstudio.android.notification.interactor.push.BaseNotificationTypeData
 import ru.surfstudio.standard.domain.notification.Notification

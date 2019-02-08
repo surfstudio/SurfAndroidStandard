@@ -12,7 +12,7 @@ object DebugAppInjector {
     lateinit var appComponent: DebugAppComponent
     lateinit var debugInteractor: DebugInteractor
 
-    fun initInjector(app: Application, activeActivityHolder: ru.surfstudio.android.activity.holder.ActiveActivityHolder) {
+    fun initInjector(app: Application, activeActivityHolder: ActiveActivityHolder) {
         appComponent = DaggerDebugAppComponent.builder()
                 .debugAppModule(DebugAppModule(app, activeActivityHolder))
                 .build()

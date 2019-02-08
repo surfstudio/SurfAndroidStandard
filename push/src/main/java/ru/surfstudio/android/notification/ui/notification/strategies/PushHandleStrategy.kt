@@ -123,7 +123,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
     /**
      * Интент при нажатии на пуш, если приложение в бэкграунде
      */
-    abstract fun coldStartIntent(context: Context): Intent
+    abstract fun coldStartIntent(context: Context): Intent?
 
     /**
      * Метод для инициализации билдера нотификаций.

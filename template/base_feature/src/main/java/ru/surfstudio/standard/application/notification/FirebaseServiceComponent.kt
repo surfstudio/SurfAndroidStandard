@@ -2,8 +2,8 @@ package ru.surfstudio.standard.application.notification
 
 
 import dagger.Component
-import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.standard.application.app.di.AppComponent
+import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import javax.inject.Scope
 
 @PerService

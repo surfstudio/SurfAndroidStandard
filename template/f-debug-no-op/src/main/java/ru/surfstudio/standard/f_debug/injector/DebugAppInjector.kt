@@ -8,7 +8,7 @@ object DebugAppInjector {
 
     lateinit var debugInteractor: DebugInteractor
 
-    fun initInjector(app: Application, activeActivityHolder: ru.surfstudio.android.activity.holder.ActiveActivityHolder) {
+    fun initInjector(app: Application, activeActivityHolder: ActiveActivityHolder) {
         debugInteractor = DebugInteractor()
     }
 }
