@@ -16,3 +16,12 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
+
+//Надстройка, которая пропускает сборку модуля при androidTest
+gradle.taskGraph.whenReady {
+    gradle.taskGraph.allTasks.each {
+        if (it.project == project && gradle.taskGraph.allTasks.find { it.name == "assembleAndroidTest" } != null) {
+            it.onlyIf { false }
+        }
+    }
+}
