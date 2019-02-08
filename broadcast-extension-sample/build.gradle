@@ -11,5 +11,7 @@ dependencies {
     implementation project(':sample-dagger')
     implementation project(':rxbus')
 
+    implementation "io.reactivex.rxjava2:rxjava:$rxJava2Version"
+
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
