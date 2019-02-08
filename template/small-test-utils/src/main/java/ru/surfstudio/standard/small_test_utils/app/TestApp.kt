@@ -1,5 +1,5 @@
 package ru.surfstudio.standard.small_test_utils.app
 
-import ru.surfstudio.android.core.app.CoreApp
+import androidx.multidex.MultiDexApplication
 
-class TestApp : CoreApp()
+class TestApp : MultiDexApplication()
