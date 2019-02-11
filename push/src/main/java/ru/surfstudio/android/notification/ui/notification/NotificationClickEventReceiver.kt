@@ -16,7 +16,7 @@ internal enum class Event {
 
 /**
  * Ресивер для обработки событий пуш нотификаций
- * тап на нотификацю и отклонение нотификации
+ * Обрабатывает тап на нотификацию и отклонение нотификации.
  */
 class NotificationClickEventReceiver : BroadcastReceiver() {
 

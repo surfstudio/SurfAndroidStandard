@@ -6,7 +6,7 @@ import org.json.JSONArray
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 
 /**
- *
+ * Helper class for Grouping notifications for API version <= M
  */
 internal object NotificationGroupHelper {
 
@@ -32,6 +32,9 @@ internal object NotificationGroupHelper {
         return notificationObject
     }
 
+    /**
+     * This method will clear cached notifications for given group
+     */
     fun clearSavedNotificationsForGroup(context: Context, groupId: Int) {
         val sp = getSharedPref(context)
         sp.edit().putString(getGroupKey(groupId), EMPTY_STRING).apply()

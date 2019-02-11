@@ -42,26 +42,8 @@ object NotificationCreateHelper {
 
         if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
 
-            val groupId = pushHandleStrategy.group?.id
-            if (groupId != null) {
-                val notificationDescObject = NotificationGroupHelper
-                        .getNotificationsForGroup(context, groupId, body)
-
-                if (notificationDescObject.size > 1) {
-
-                    val inboxStyle = NotificationCompat.InboxStyle()
-
-                    notificationBuilder.setStyle(inboxStyle)
-
-                    inboxStyle.setBigContentTitle(title)
-
-                    notificationDescObject.forEach { inboxStyle.addLine(it) }
-
-                    //Can set no.of messages as a summary.
-                    inboxStyle.setSummaryText(pushHandleStrategy.makeGroupSummary(notificationDescObject.size))
-                }
-
-                getNotificationManager(context).notify(groupId, notificationBuilder.build())
+            pushHandleStrategy.group?.id?.let {
+                makeGroupNotificationM(context, notificationBuilder, pushHandleStrategy, it, body, title)
                 return
             }
         } else {
@@ -139,5 +121,33 @@ object NotificationCreateHelper {
 
     private fun getNotificationManager(context: Context): NotificationManager {
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    private fun makeGroupNotificationM(
+            context: Context,
+            notificationBuilder: NotificationCompat.Builder,
+            pushHandleStrategy: PushHandleStrategy<*>,
+            groupId: Int,
+            body: String,
+            title: String
+    ) {
+        val notificationDescObject = NotificationGroupHelper
+                .getNotificationsForGroup(context, groupId, body)
+
+        if (notificationDescObject.size > 1) {
+
+            val inboxStyle = NotificationCompat.InboxStyle()
+
+            notificationBuilder.setStyle(inboxStyle)
+
+            inboxStyle.setBigContentTitle(title)
+
+            notificationDescObject.forEach { inboxStyle.addLine(it) }
+
+            //Can set no.of messages as a summary.
+            inboxStyle.setSummaryText(pushHandleStrategy.makeGroupSummary(notificationDescObject.size))
+        }
+
+        getNotificationManager(context).notify(groupId, notificationBuilder.build())
     }
 }

@@ -1,5 +1,6 @@
-# App migration
+# Activity holder
 Модуль содержащий активити холдер
+Нужно инициализировать в application класс
 
 # Пример использования
 ```kotlin

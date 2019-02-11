@@ -20,7 +20,7 @@ import android.app.Activity
 /**
  * Содержит активную (отображаемую) активти
  */
-@Deprecated("Исползуйте класс из модуля activity-holder")
+@Deprecated("Используйте класс из модуля activity-holder")
 class ActiveActivityHolder {
 
     var activity: Activity? = null

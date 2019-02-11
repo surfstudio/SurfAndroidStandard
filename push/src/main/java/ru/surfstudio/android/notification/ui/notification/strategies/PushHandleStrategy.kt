@@ -110,7 +110,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
     lateinit var pendingIntent: PendingIntent
 
     /**
-     * Действия при отмены пуш
+     * Действия при отмене пуш
      */
     lateinit var deleteIntent: PendingIntent
 

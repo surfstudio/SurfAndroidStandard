@@ -22,7 +22,7 @@ import android.os.Bundle
 /**
  * Слушатель жизненного цикла активити по умолчанию
  */
-@Deprecated("Создайте этот класс у себя на проекте если нужно")
+@Deprecated("Создайте этот класс у себя на проекте если нужно. Реализация также лежит в template")
 open class DefaultActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
