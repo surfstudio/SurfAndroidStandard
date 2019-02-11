@@ -48,6 +48,7 @@ dependencies {
     implementation project(':sample-dagger')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 }
 
 task printTestInstrumentationRunnerName {

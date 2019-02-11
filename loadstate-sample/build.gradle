@@ -16,4 +16,6 @@ dependencies {
     implementation 'io.supercharge:shimmerlayout:2.1.0'
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 }

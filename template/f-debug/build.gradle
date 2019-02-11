@@ -8,7 +8,7 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidxKtxVersion"
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
     implementation 'com.github.kk121:Android-Debug-Tools:1.0'
-
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 
     // leak canary
     implementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"

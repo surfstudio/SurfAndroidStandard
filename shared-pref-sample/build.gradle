@@ -14,4 +14,5 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "me.zhanghai.android.materialprogressbar:library:$materialProgressBarVersion"
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 }

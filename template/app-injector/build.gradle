@@ -53,6 +53,7 @@ dependencies {
     qaImplementation project("$templatePrefix:f-debug")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 
     implementation "androidx.appcompat:appcompat:$androidxVersion"
 

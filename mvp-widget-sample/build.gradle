@@ -18,4 +18,5 @@ dependencies {
 
     implementation "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 }

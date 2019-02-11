@@ -20,6 +20,7 @@ dependencies {
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"

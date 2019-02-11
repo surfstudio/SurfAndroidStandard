@@ -3,8 +3,7 @@ apply from: '../androidModule.gradle'
 dependencies {
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
     implementation "io.reactivex.rxjava2:rxjava:$rxJava2Version"
-
-    api "com.agna.ferro:ferro-rx:$ferroRxVersion"
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
