@@ -19,10 +19,10 @@ ext {
     applicationId = "ru.surfstudio.android.template"
 
 
-    moduleVersionCode = 20
-    moduleVersionName = '0.4.0-SNAPSHOT'
-    libMinSdkVersion = 17
-    sampleMinSdkVersion = 18
+    moduleVersionCode = 1
+    moduleVersionName = '0.4.0-UNI-1-SNAPSHOT'
+    libMinSdkVersion = 21
+    sampleMinSdkVersion = 21
     targetSdkVersion = 28
     compileSdkVersion = 28
     debugVersionNameSuffix = ".debug"
