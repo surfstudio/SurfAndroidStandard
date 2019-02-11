@@ -64,7 +64,7 @@ ext {
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
 
     //network
-    okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
+    okHttpVersion = '3.13.0'                    //https://vk.cc/7UFwTd
     retrofitVersion = '2.5.0'                   //https://vk.cc/7UFxk3
     chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
     gsonVersion = '2.8.5'                       //https://vk.cc/7UFvbd
@@ -78,7 +78,7 @@ ext {
 
     //android framework
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
-    androidxVersion = '1.0.0'
+    androidxVersion = '1.0.2'
     firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
     firebaseMessagingVersion = '17.3.4'
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
@@ -101,12 +101,12 @@ ext {
     //test
     androidxTestVersion = '1.0.0'               //http://bit.ly/2P1yKi1
     androidxTestExtJunitVersion = '1.0.0'       //http://bit.ly/2zC6UV1
-    androidXTestRunnerVersion = '1.1.0'         //http://bit.ly/2ztEfBo
+    androidXTestRunnerVersion = '1.1.1'         //http://bit.ly/2ztEfBo
     robolectricVersion = '4.0.2'                //http://bit.ly/2xLRICR
     junitVersion = '4.12'                       //https://goo.gl/hEcfw1
-    androidXEspressoCoreVersion = '3.1.0'       //http://bit.ly/2DNc0AA
-    androidXEspressoIntentsVersion = '3.1.0'    //http://bit.ly/2SikuDT
-    androidXEspressoContribVersion = '3.1.0'    //http://bit.ly/2E0DdAq
+    androidXEspressoCoreVersion = '3.1.1'       //http://bit.ly/2DNc0AA
+    androidXEspressoIntentsVersion = '3.1.1'    //http://bit.ly/2SikuDT
+    androidXEspressoContribVersion = '3.1.1'    //http://bit.ly/2E0DdAq
     uiAutomatorVersion='2.2.0'                  //http://bit.ly/2ORotVQ
     mockitoVersion = '2.23.4'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2QisKq5
