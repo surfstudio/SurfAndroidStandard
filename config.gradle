@@ -104,9 +104,11 @@ ext {
     androidXTestRunnerVersion = '1.1.1'         //http://bit.ly/2ztEfBo
     robolectricVersion = '4.0.2'                //http://bit.ly/2xLRICR
     junitVersion = '4.12'                       //https://goo.gl/hEcfw1
-    androidXEspressoCoreVersion = '3.1.1'       //http://bit.ly/2DNc0AA
-    androidXEspressoIntentsVersion = '3.1.1'    //http://bit.ly/2SikuDT
-    androidXEspressoContribVersion = '3.1.1'    //http://bit.ly/2E0DdAq
+    //на версии 3.1.1 тесты валятся на методе ActivityUtils.checkIfActivityIsVisible
+    //если экран запущен как стартовый
+    androidXEspressoCoreVersion = '3.1.0'       //http://bit.ly/2DNc0AA
+    androidXEspressoIntentsVersion = '3.1.0'    //http://bit.ly/2SikuDT
+    androidXEspressoContribVersion = '3.1.0'    //http://bit.ly/2E0DdAq
     uiAutomatorVersion='2.2.0'                  //http://bit.ly/2ORotVQ
     mockitoVersion = '2.23.4'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2QisKq5
