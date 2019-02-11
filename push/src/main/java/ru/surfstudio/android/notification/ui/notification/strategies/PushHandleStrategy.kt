@@ -206,6 +206,16 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
     }
 
     /**
+     * Метод для создания сводку для группы уведомлений
+     * Используется для API_LEVEL <= 23
+     * @param notificationCount количество уведомлений в группе. Всегда больше 1
+     * @return сводка строки
+     */
+    open fun makeGroupSummary(notificationCount: Int): String {
+        return "$notificationCount Messages"
+    }
+
+    /**
      * Интент в соответствии с необходимыми действиями
      */
     private fun preparePendingIntent(context: Context, title: String, groupId: Int?): PendingIntent {

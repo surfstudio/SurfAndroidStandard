@@ -58,7 +58,7 @@ object NotificationCreateHelper {
                     notificationDescObject.forEach { inboxStyle.addLine(it) }
 
                     //Can set no.of messages as a summary.
-                    inboxStyle.setSummaryText(notificationDescObject.size.toString() + " Messages") //todo
+                    inboxStyle.setSummaryText(pushHandleStrategy.makeGroupSummary(notificationDescObject.size))
                 }
 
                 getNotificationManager(context).notify(groupId, notificationBuilder.build())
