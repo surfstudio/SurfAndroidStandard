@@ -34,27 +34,37 @@ interface MessageController {
         private const val DEFAULT_SNACK_DURATION = Snackbar.LENGTH_LONG
     }
 
-    fun show(message: String,
-             @ColorRes backgroundColor: Int? = null,
-             @StringRes actionStringId: Int? = null,
-             @ColorRes buttonColor: Int? = null,
-             duration: Int = DEFAULT_SNACK_DURATION,
-             listener: (view: View) -> Unit = {})
+    fun show(
+            message: String,
+            @ColorRes backgroundColor: Int? = null,
+            @StringRes actionStringId: Int? = null,
+            @ColorRes buttonColor: Int? = null,
+            duration: Int = DEFAULT_SNACK_DURATION,
+            view: View? = null,
+            listener: (view: View) -> Unit = {}
+    )
 
-    fun show(@StringRes stringId: Int,
-             @ColorRes backgroundColor: Int? = null,
-             @StringRes actionStringId: Int? = null,
-             @ColorRes buttonColor: Int? = null,
-             duration: Int = DEFAULT_SNACK_DURATION,
-             listener: (view: View) -> Unit = {})
+    fun show(
+            @StringRes stringId: Int,
+            @ColorRes backgroundColor: Int? = null,
+            @StringRes actionStringId: Int? = null,
+            @ColorRes buttonColor: Int? = null,
+            duration: Int = DEFAULT_SNACK_DURATION,
+            view: View? = null,
+            listener: (view: View) -> Unit = {}
+    )
 
     fun closeSnack()
 
-    fun showToast(@StringRes stringId: Int,
-                  gravity: Int = DEFAULT_TOAST_GRAVITY,
-                  duration: Int = DEFAULT_TOAST_DURATION)
+    fun showToast(
+            @StringRes stringId: Int,
+            gravity: Int = DEFAULT_TOAST_GRAVITY,
+            duration: Int = DEFAULT_TOAST_DURATION
+    )
 
-    fun showToast(message: String,
-                  gravity: Int = DEFAULT_TOAST_GRAVITY,
-                  duration: Int = Toast.LENGTH_LONG)
+    fun showToast(
+            message: String,
+            gravity: Int = DEFAULT_TOAST_GRAVITY,
+            duration: Int = Toast.LENGTH_LONG
+    )
 }

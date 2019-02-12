@@ -30,8 +30,8 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider
  */
 class DefaultMessageController @JvmOverloads constructor(
         val activityProvider: ActivityProvider,
-        val fragmentProvider: FragmentProvider? = null)
-    : MessageController {
+        val fragmentProvider: FragmentProvider? = null
+) : MessageController {
 
     private val ILLEGAL_COLOR = Color.TRANSPARENT
 
@@ -54,34 +54,42 @@ class DefaultMessageController @JvmOverloads constructor(
         }
     }
 
-    override fun show(stringId: Int,
-                      backgroundColor: Int?,
-                      actionStringId: Int?,
-                      buttonColor: Int?,
-                      duration: Int,
-                      listener: (view: View) -> Unit) {
-        show(getView().resources.getString(stringId), backgroundColor, actionStringId, buttonColor, duration, listener)
+    override fun show(
+            stringId: Int,
+            backgroundColor: Int?,
+            actionStringId: Int?,
+            buttonColor: Int?,
+            duration: Int,
+            view: View?,
+            listener: (view: View) -> Unit
+    ) {
+        val viewToShowOn = view ?: getView()
+        show(viewToShowOn.resources.getString(stringId), backgroundColor, actionStringId, buttonColor, duration, viewToShowOn, listener)
     }
 
-    override fun show(message: String,
-                      backgroundColor: Int?,
-                      actionStringId: Int?,
-                      buttonColor: Int?,
-                      duration: Int,
-                      listener: (view: View) -> Unit) {
-        snackbar = Snackbar.make(getView(), message, duration).apply {
+    override fun show(
+            message: String,
+            backgroundColor: Int?,
+            actionStringId: Int?,
+            buttonColor: Int?,
+            duration: Int,
+            view: View?,
+            listener: (view: View) -> Unit
+    ) {
+        val viewToShowOn = view ?: getView()
+        snackbar = Snackbar.make(viewToShowOn, message, duration).apply {
             if (backgroundColor == null) {
                 snackBarBackgroundColor?.let {
-                    view.setBackgroundColor(it)
+                    this.view.setBackgroundColor(it)
                 }
             } else {
-                view.setBackgroundColor(ContextCompat.getColor(view.context, backgroundColor))
+                this.view.setBackgroundColor(ContextCompat.getColor(this.view.context, backgroundColor))
             }
             actionStringId?.let {
                 setAction(it) { view -> listener.invoke(view) }
             }
             buttonColor?.let {
-                setActionTextColor(ContextCompat.getColor(view.context, it))
+                setActionTextColor(ContextCompat.getColor(this.view.context, it))
             }
             show()
         }
