@@ -40,7 +40,6 @@ interface MessageController {
             @StringRes actionStringId: Int? = null,
             @ColorRes buttonColor: Int? = null,
             duration: Int = DEFAULT_SNACK_DURATION,
-            view: View? = null,
             listener: (view: View) -> Unit = {}
     )
 
@@ -50,7 +49,6 @@ interface MessageController {
             @StringRes actionStringId: Int? = null,
             @ColorRes buttonColor: Int? = null,
             duration: Int = DEFAULT_SNACK_DURATION,
-            view: View? = null,
             listener: (view: View) -> Unit = {}
     )
 

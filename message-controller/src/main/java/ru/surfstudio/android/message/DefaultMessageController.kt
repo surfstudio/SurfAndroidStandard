@@ -28,7 +28,7 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider
  * Базовый класс контроллера отображения сообщений
  * Для нахождения view использует fragment и затем activity провайдеры
  */
-class DefaultMessageController @JvmOverloads constructor(
+open class DefaultMessageController @JvmOverloads constructor(
         val activityProvider: ActivityProvider,
         val fragmentProvider: FragmentProvider? = null
 ) : MessageController {
@@ -60,11 +60,9 @@ class DefaultMessageController @JvmOverloads constructor(
             actionStringId: Int?,
             buttonColor: Int?,
             duration: Int,
-            view: View?,
             listener: (view: View) -> Unit
     ) {
-        val viewToShowOn = view ?: getView()
-        show(viewToShowOn.resources.getString(stringId), backgroundColor, actionStringId, buttonColor, duration, viewToShowOn, listener)
+        show(getView().resources.getString(stringId), backgroundColor, actionStringId, buttonColor, duration, listener)
     }
 
     override fun show(
@@ -73,11 +71,9 @@ class DefaultMessageController @JvmOverloads constructor(
             actionStringId: Int?,
             buttonColor: Int?,
             duration: Int,
-            view: View?,
             listener: (view: View) -> Unit
     ) {
-        val viewToShowOn = view ?: getView()
-        snackbar = Snackbar.make(viewToShowOn, message, duration).apply {
+        snackbar = Snackbar.make(getView(), message, duration).apply {
             if (backgroundColor == null) {
                 snackBarBackgroundColor?.let {
                     this.view.setBackgroundColor(it)
