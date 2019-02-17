@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.mvp.view;
 
-
 import ru.surfstudio.android.core.mvp.model.ScreenModel;
 
 /**
@@ -24,5 +23,5 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel;
  * @param <M>
  */
 public interface RenderableView<M extends ScreenModel> {
-    void render(M screenModel);
+    void render(M sm);
 }

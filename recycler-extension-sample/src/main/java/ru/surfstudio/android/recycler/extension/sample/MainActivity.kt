@@ -1,17 +1,23 @@
 package ru.surfstudio.android.recycler.extension.sample
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.recycler.extension.sticky.addStickyFooter
+import ru.surfstudio.android.recycler.extension.sticky.addStickyHeader
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyFooterItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyHeaderItemController
 import ru.surfstudio.android.recycler.extension.sticky.*
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyFooterListener
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderListener
+
+const val STICKY_HEADER_TITLE = "Sticky header title"
+const val STICKY_FOOTER_TITLE = "Sticky footer title"
+const val LAST_ITEM_TITLE = "Last item title"
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,26 +30,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler,
-                isVisibleFirstFooterAtLaunch = true)
+        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler, isVisibleFirstFooterAtLaunch = true)
         stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(object : StickyHeaderListener {
-            override fun headerAttached(headerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 headerAttached")
-            }
 
-            override fun headerDetached(headerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 headerDetached")
-            }
+            override fun headerAttached(headerView: View, adapterPosition: Int) = log("headerAttached")
+
+            override fun headerDetached(headerView: View, adapterPosition: Int) = log("headerDetached")
         })
 
         stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(object : StickyFooterListener {
-            override fun footerAttached(footerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 footerAttached")
-            }
 
-            override fun footerDetached(footerView: View, adapterPosition: Int) {
-                Log.d("LOG", "1111 footerDetached")
-            }
+            override fun footerAttached(footerView: View, adapterPosition: Int) = log("footerAttached")
+
+            override fun footerDetached(footerView: View, adapterPosition: Int) = log("footerDetached")
         })
         activity_main_recycler.adapter = stickyEasyAdapter
 
@@ -81,7 +80,7 @@ class MainActivity : AppCompatActivity() {
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
-        addStickyHeader("Блок с заголовком", stickyHeaderItemController)
+        addStickyHeader(STICKY_HEADER_TITLE, stickyHeaderItemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
         add(Data("Yabba-Doo", "Secondary characters"), itemController)
@@ -100,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         add(Data("Red Herring", "Introduced in A Pup Named Scooby-Doo"), itemController)
         add(Data("Sheriff Bronson Stone", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Hot Dog Water", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
-        addStickyFooter("Блок с кнопками", stickyFooterItemController)
+        addStickyFooter(STICKY_FOOTER_TITLE, stickyFooterItemController)
         add(Data("Mayor Fred Jones, Sr.", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Mayor Janet Nettles", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Mr. E (Ricky Owens)", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
@@ -110,5 +109,8 @@ class MainActivity : AppCompatActivity() {
         add(Data("Nova", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("Alice May", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
         add(Data("The Evil Entity", "Introduced in Scooby-Doo! Mystery Incorporated"), itemController)
+        add(Data(LAST_ITEM_TITLE, ""), itemController)
     }
+
+    private fun log(message: String) = Logger.d("RecyclerExtension $message")
 }

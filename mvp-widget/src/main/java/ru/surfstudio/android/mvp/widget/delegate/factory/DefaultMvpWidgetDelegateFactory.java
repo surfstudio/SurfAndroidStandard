@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.mvp.widget.delegate.factory;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 
 import java.util.List;
@@ -40,7 +40,8 @@ public class DefaultMvpWidgetDelegateFactory implements MvpWidgetDelegateFactory
         return new WidgetViewDelegate(
                 widget,
                 scopeStorage,
-                new ParentPersistentScopeFinder(widget, scopeStorage));
+                new ParentPersistentScopeFinder(widget),
+                getEventResolvers());
     }
 
     @NonNull

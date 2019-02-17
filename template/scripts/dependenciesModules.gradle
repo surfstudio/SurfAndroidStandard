@@ -1,0 +1,34 @@
+/**
+ * Конфигурация плагина Dependency Graph Generator.
+ *
+ * Для построения графа нужно запускать Gradle Task "generateDependencyGraphTemplate".
+ * Сгенерированные изображения графов хранятся в директории "mdk-android/build/reports/dependency-graph".
+ */
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.5.0"
+        //https://goo.gl/PysFRK
+    }
+}
+
+
+import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorExtension.Generator
+import com.vanniktech.dependency.graph.generator.DependencyGraphGeneratorPlugin
+import guru.nidi.graphviz.attribute.Color
+import guru.nidi.graphviz.attribute.Style
+
+plugins.apply(DependencyGraphGeneratorPlugin)
+
+def generator = new Generator(
+        "template", //суффикс для Gradle Task ("generateDependencyGraphTemplate")
+        { dependency -> dependency.getModuleGroup().startsWith("ru.surfstudio.android") /*|| dependency.getModuleGroup().startsWith("template")*/ },
+        { dependency -> true }, //включение транзитивных зависимостей
+        { node, dependency -> node.add(Style.FILLED, Color.rgb("#B57FFF")) },
+)
+
+dependencyGraphGenerator {
+    generators = [Generator.ALL, generator ]
+}

@@ -16,7 +16,7 @@
 package ru.surfstudio.android.utilktx.util
 
 
-import android.support.annotation.StyleRes
+import androidx.annotation.StyleRes
 import android.telephony.PhoneNumberUtils
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -93,7 +93,7 @@ object StringUtil {
      * Форматирование телефонного номера
      */
     fun formatPhone(source: String): String? {
-        return if (SdkUtils.isAtLeastLollipop) {
+        return if (SdkUtils.isAtLeastLollipop()) {
             PhoneNumberUtils.formatNumber(source, Locale.getDefault().country)
         } else {
             PhoneNumberUtils.formatNumber(source)

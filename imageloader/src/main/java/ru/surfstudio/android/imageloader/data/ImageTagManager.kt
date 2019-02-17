@@ -23,7 +23,8 @@ import ru.surfstudio.android.imageloader.R
  */
 data class ImageTagManager(
         private var imageTargetManager: ImageTargetManager,
-        private var imageResourceManager: ImageResourceManager
+        private var imageResourceManager: ImageResourceManager,
+        private val signatureManager: SignatureManager
 ) {
 
     var force: Boolean = false // Принудительная вставка изображения
@@ -32,7 +33,7 @@ data class ImageTagManager(
      * Проверка тэга на то, был ли он ранее уже использован
      */
     fun isTagUsed() =
-            getTag() != null && imageResourceManager.url == getTag() && !force
+            getTag() != null && imageResourceManager.url == getTag() && !force && !signatureManager.hasSignature
 
     /**
      * Установка тэга на целевую [View]

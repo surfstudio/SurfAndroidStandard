@@ -1,9 +1,25 @@
+/*
+ * Copyright (c) 2019-present, SurfStudio LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ru.surfstudio.android.mvp.binding.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.IdRes
-import kotlinx.android.synthetic.main.activity_main.*
+import androidx.annotation.IdRes
+import kotlinx.android.synthetic.main.activity_main_deprecated.*
 import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.binding.BaseBindableActivityView
 import ru.surfstudio.android.core.mvp.binding.BindData
@@ -20,35 +36,31 @@ import javax.inject.Inject
  */
 class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
 
-    override fun onBind(screenModel: MainScreenModel) {
+    override fun onBind(sm: MainScreenModel) {
 
-        screenModel.solved.observe(this) {
-            if (it) {
-                toast("You win")
-            } else {
-                toast("You broke it")
-            }
+        sm.solved.observe(this) {
+            toast(if (it) R.string.win_message else R.string.lose_message)
         }
 
-        observeAndApply(screenModel.panel1) { observePane(pane_1, it) }
-        observeAndApply(screenModel.panel2) { observePane(pane_2, it) }
-        observeAndApply(screenModel.panel3) { observePane(pane_3, it) }
-        observeAndApply(screenModel.panel4) { observePane(pane_4, it) }
-        observeAndApply(screenModel.panel5) { observePane(pane_5, it) }
-        observeAndApply(screenModel.panel6) { observePane(pane_6, it) }
-        observeAndApply(screenModel.panel7) { observePane(pane_7, it) }
-        observeAndApply(screenModel.panel8) { observePane(pane_8, it) }
-        observeAndApply(screenModel.panel9) { observePane(pane_9, it) }
+        observeAndApply(sm.panel1) { observePane(pane_1, it) }
+        observeAndApply(sm.panel2) { observePane(pane_2, it) }
+        observeAndApply(sm.panel3) { observePane(pane_3, it) }
+        observeAndApply(sm.panel4) { observePane(pane_4, it) }
+        observeAndApply(sm.panel5) { observePane(pane_5, it) }
+        observeAndApply(sm.panel6) { observePane(pane_6, it) }
+        observeAndApply(sm.panel7) { observePane(pane_7, it) }
+        observeAndApply(sm.panel8) { observePane(pane_8, it) }
+        observeAndApply(sm.panel9) { observePane(pane_9, it) }
 
-        pane_1.listener = { listenPane(screenModel.panel1, it.toInt()) }
-        pane_2.listener = { listenPane(screenModel.panel2, it.toInt()) }
-        pane_3.listener = { listenPane(screenModel.panel3, it.toInt()) }
-        pane_4.listener = { listenPane(screenModel.panel4, it.toInt()) }
-        pane_5.listener = { listenPane(screenModel.panel5, it.toInt()) }
-        pane_6.listener = { listenPane(screenModel.panel6, it.toInt()) }
-        pane_7.listener = { listenPane(screenModel.panel7, it.toInt()) }
-        pane_8.listener = { listenPane(screenModel.panel8, it.toInt()) }
-        pane_9.listener = { listenPane(screenModel.panel9, it.toInt()) }
+        pane_1.listener = { listenPane(sm.panel1, it.toInt()) }
+        pane_2.listener = { listenPane(sm.panel2, it.toInt()) }
+        pane_3.listener = { listenPane(sm.panel3, it.toInt()) }
+        pane_4.listener = { listenPane(sm.panel4, it.toInt()) }
+        pane_5.listener = { listenPane(sm.panel5, it.toInt()) }
+        pane_6.listener = { listenPane(sm.panel6, it.toInt()) }
+        pane_7.listener = { listenPane(sm.panel7, it.toInt()) }
+        pane_8.listener = { listenPane(sm.panel8, it.toInt()) }
+        pane_9.listener = { listenPane(sm.panel9, it.toInt()) }
     }
 
     private fun observePane(pane: PaneView, data: PaneDataModel) {
@@ -69,7 +81,7 @@ class MainActivityView : BaseBindableActivityView<MainScreenModel>() {
     internal lateinit var presenter: MainPresenter
 
     @IdRes
-    override fun getContentView(): Int = R.layout.activity_main
+    override fun getContentView(): Int = R.layout.activity_main_deprecated
 
     override fun getScreenName(): String = "main"
 

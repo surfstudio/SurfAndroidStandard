@@ -1,6 +1,7 @@
 apply from: '../commonInteractorModule.gradle'
+apply from: '../unitTestConfiguration.gradle'
 
 dependencies {
-    implementation project(':template:i-network')
-    implementation project(':template:i-session')
+    implementation project("$templatePrefix:i-network")
+    implementation project("$templatePrefix:i-session")
 }

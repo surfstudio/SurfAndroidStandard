@@ -16,7 +16,7 @@
 package ru.surfstudio.android.mvp.dialog.navigation.route;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 
 /**
  * см {@link DialogRoute}
@@ -26,7 +26,7 @@ public abstract class DialogWithParamsRoute extends DialogRoute {
     @Override
     protected abstract Class<? extends DialogFragment> getFragmentClass();
 
-    protected abstract Bundle prepareBundle();
+    public abstract Bundle prepareBundle();
 
     @Override
     public DialogFragment createFragment() {

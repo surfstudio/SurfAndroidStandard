@@ -1,7 +1,7 @@
 package ru.surfstudio.android.location.sample.ui.screen.start
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.location.sample.ui.screen.default_location_interactor_sample.DefaultLocationInteractorActivityRoute
 import ru.surfstudio.android.location.sample.ui.screen.location_service_sample.LocationServiceActivityRoute

@@ -23,14 +23,18 @@ import ru.surfstudio.android.core.ui.permission.PermissionRequest
 /**
  * утилита для проверки и запроса пермишенов для камеры и хранилища
  */
-class PicturePermissionChecker constructor(private val permissionManager: PermissionManager) {
+class PicturePermissionChecker @JvmOverloads constructor(
+        private val permissionManager: PermissionManager,
+        private val cameraPermissionRequest: PermissionRequest = CameraStoragePermissionRequest(),
+        private val galleryStoragePermissionRequest: PermissionRequest = GalleryStoragePermissionRequest()
+) {
 
     /**
      * проверка и запрос пермишена на камеру и хранилища
      */
     fun checkCameraStoragePermission(): Observable<Boolean> =
             permissionManager
-                    .request(CameraStoragePermissionRequest())
+                    .request(cameraPermissionRequest)
                     .toObservable()
 
     /**
@@ -38,14 +42,14 @@ class PicturePermissionChecker constructor(private val permissionManager: Permis
      */
     fun checkGalleryStoragePermission(): Observable<Boolean> =
             permissionManager
-                    .request(GalleryStoragePermissionRequest())
+                    .request(galleryStoragePermissionRequest)
                     .toObservable()
 }
 
 /**
  * пермишен на запрос разрешения камеры
  */
-class CameraStoragePermissionRequest : PermissionRequest() {
+open class CameraStoragePermissionRequest : PermissionRequest() {
 
     override val permissions: Array<String>
         get() = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -54,7 +58,7 @@ class CameraStoragePermissionRequest : PermissionRequest() {
 /**
  * пермишен на запрос разрешения галереи
  */
-class GalleryStoragePermissionRequest : PermissionRequest() {
+open class GalleryStoragePermissionRequest : PermissionRequest() {
 
     override val permissions: Array<String>
         get() = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)

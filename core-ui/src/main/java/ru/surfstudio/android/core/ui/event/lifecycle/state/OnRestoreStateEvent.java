@@ -17,7 +17,7 @@ package ru.surfstudio.android.core.ui.event.lifecycle.state;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 

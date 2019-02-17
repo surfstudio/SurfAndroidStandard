@@ -19,5 +19,5 @@ class AnotherActivityView : BaseRenderableActivityView<AnotherScreenModel>() {
 
     override fun getScreenName(): String = "AnotherActivityView"
 
-    override fun renderInternal(screenModel: AnotherScreenModel?) { }
+    override fun renderInternal(sm: AnotherScreenModel?) { }
 }

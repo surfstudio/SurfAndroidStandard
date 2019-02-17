@@ -17,17 +17,17 @@ package ru.surfstudio.android.imageloader.transformations
 
 import android.content.Context
 import android.graphics.*
-import android.os.Build
-import android.support.annotation.DrawableRes
+import android.graphics.drawable.Drawable
+import androidx.annotation.DrawableRes
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
+import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
  * Маскирование изображения произвольной фигурой.
  *
  * Поддерживает 9-patch маски.
  */
-class MaskTransformation(val context: Context,
-                         private val overlayBundle: OverlayBundle) : BaseGlideImageTransformation() {
+class MaskTransformation(private val overlayBundle: OverlayBundle) : BaseGlideImageTransformation() {
 
     private val paint = Paint()
 
@@ -35,9 +35,15 @@ class MaskTransformation(val context: Context,
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
     }
 
-    override fun getId() = MaskTransformation::class.java.canonicalName.toString()
+    override fun getId() = "ru.surfstudio.android.imageloader.transformations.MaskTransformation"
 
-    override fun transform(pool: BitmapPool, toTransform: Bitmap, outWidth: Int, outHeight: Int): Bitmap? {
+    override fun transform(
+            context: Context,
+            pool: BitmapPool,
+            toTransform: Bitmap,
+            outWidth: Int,
+            outHeight: Int
+    ): Bitmap? {
         val width = toTransform.width
         val height = toTransform.height
 
@@ -58,17 +64,23 @@ class MaskTransformation(val context: Context,
 
     override fun equals(other: Any?) = other is MaskTransformation
 
-    private fun getMaskDrawable(context: Context, maskId: Int) =
-            (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                context.getDrawable(maskId)
-            } else {
-                @Suppress("DEPRECATION")
-                context.resources.getDrawable(maskId)
-            }) ?: throw IllegalArgumentException("MaskTransformation error / maskId is invalid")
+    @Suppress("DEPRECATION")
+    private fun getMaskDrawable(context: Context, maskId: Int): Drawable {
+        val drawable = if (SdkUtils.isAtLeastLollipop()) {
+            context.getDrawable(maskId)
+        } else {
+            context.resources.getDrawable(maskId)
+        }
+
+        return drawable
+                ?: throw IllegalArgumentException("MaskTransformation error / maskId is invalid")
+    }
 
     /**
      * Конфигурационные данных для трансформации [MaskTransformation].
      */
-    data class OverlayBundle(val isOverlay: Boolean = false,
-                             @DrawableRes val maskResId: Int = -1)
+    data class OverlayBundle(
+            val isOverlay: Boolean = false,
+            @DrawableRes val maskResId: Int = -1
+    )
 }

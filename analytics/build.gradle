@@ -1,7 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    implementation "com.android.support:support-annotations:$appcompatVersion"
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 

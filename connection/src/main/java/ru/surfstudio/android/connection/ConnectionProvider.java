@@ -21,17 +21,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
-import ru.surfstudio.android.dagger.scope.PerApplication;
 
 import static android.net.ConnectivityManager.CONNECTIVITY_ACTION;
 
 /**
  * Provider, позволяющий подписаться на событие изменения состояния соединения
  */
-@PerApplication
 public class ConnectionProvider {
     private static final long LAST_CONNECTION_QUALITY_RESULT_CACHE_TIME = 60L * 1000; //1 мин
 
@@ -40,7 +36,6 @@ public class ConnectionProvider {
     private boolean lastConnectionResultFast = false;
     private long lastConnectionResultTime = 0;
 
-    @Inject
     public ConnectionProvider(Context context) {
         this.context = context;
         this.receiver = new ConnectionReceiver(context);
@@ -69,6 +64,16 @@ public class ConnectionProvider {
             lastConnectionResultFast = isConnectedFastInternal(context);
         }
         return lastConnectionResultFast;
+    }
+
+    /**
+     * Проверка на подключение к Wi-Fi
+     *
+     * @return подключен ли девайс к Wi-Fi, или к мобильной сети
+     */
+    public boolean isConnectedToWifi() {
+        NetworkInfo info = getNetworkInfo(context);
+        return info != null && info.isConnected() && info.getType() == ConnectivityManager.TYPE_WIFI;
     }
 
     /**

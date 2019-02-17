@@ -17,9 +17,9 @@ package ru.surfstudio.android.core.ui.navigation.fragment.tabfragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
+import androidx.annotation.IdRes
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import org.json.JSONArray
@@ -233,7 +233,9 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
             add(fragment, routeTag, fragmentTransaction, transition)
         }
 
-        fragmentTransaction.commit()
+        fragmentTransaction.commitAllowingStateLoss()
+        //commitAllowingStateLoss жёстко решает проблему редкого непонятного крэша
+        //https://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html
     }
 
     private fun add(fragment: Fragment,
@@ -264,7 +266,9 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
         fragmentManager.beginTransaction()
                 .setTransition(transition)
                 .remove(fragment)
-                .commit()
+                .commitAllowingStateLoss()
+        //commitAllowingStateLoss жёстко решает проблему редкого непонятного крэша
+        //https://www.androiddesignpatterns.com/2013/08/fragment-transaction-commit-state-loss.html
 
         val fragmentToShow = activeStack.peek()
         replace(fragmentToShow, activeStack.peek().tag)

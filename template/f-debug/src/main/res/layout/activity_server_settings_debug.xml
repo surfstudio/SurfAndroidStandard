@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+        android:id="@+id/server_settings_chuck_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:switch_subtitle="@string/switch_subtitle_text"
+        app:switch_title="@string/switch_title_text" />
+
+    <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+        android:id="@+id/server_settings_test_server_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:switch_subtitle="@string/server_url_subtitle_text"
+        app:switch_title="@string/server_url_title_text" />
+
+    <TextView
+        android:id="@+id/server_settings_request_delay_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="20sp" />
+
+    <SeekBar
+        android:id="@+id/server_settings_request_delay_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="5"
+        android:padding="16dp"
+        android:progress="0" />
+</LinearLayout>

@@ -16,7 +16,7 @@
 package ru.surfstudio.android.analytics.store;
 
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.Map;
 
@@ -26,6 +26,7 @@ import ru.surfstudio.android.analytics.Analytics;
  * Делает ничего.
  * При использовании этого класса события не отправляются ни в какой сервис аналитики
  */
+@Deprecated
 public class EmptyStore implements Analytics {
 
     @Override

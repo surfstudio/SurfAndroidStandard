@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission
 
+import androidx.annotation.RequiresPermission
 import io.reactivex.Completable
 import io.reactivex.Single
 import ru.surfstudio.android.core.ui.permission.PermissionManager
@@ -29,7 +30,9 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
  * @param permissionManager Менеджер разрешений.
  * @param locationPermissionRequest Запрос разрешения на доступ к местоположению.
  */
-class NoLocationPermissionResolution(
+class NoLocationPermissionResolution @RequiresPermission(
+        allOf = ["android.permission.ACCESS_COARSE_LOCATION", "android.permission.ACCESS_FINE_LOCATION"]
+) constructor(
         private val permissionManager: PermissionManager,
         private val locationPermissionRequest: LocationPermissionRequest = LocationPermissionRequest()
 ) : BaseLocationErrorResolutionImpl<NoLocationPermissionException>() {

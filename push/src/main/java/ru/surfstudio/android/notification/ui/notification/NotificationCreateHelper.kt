@@ -19,21 +19,25 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.support.v4.app.NotificationCompat
-import android.support.v4.content.ContextCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
 /**
- * Помошник создания нотификации в системном трее
+ * Помощник создания нотификации в системном трее
  */
 object NotificationCreateHelper {
 
-    fun showNotification(context: Context, pushHandleStrategy: PushHandleStrategy<*>,
-                         title: String, body: String) {
-        if (SdkUtils.isAtLeastOreo) {
+    fun showNotification(
+            context: Context,
+            pushHandleStrategy: PushHandleStrategy<*>,
+            title: String,
+            body: String
+    ) {
+        SdkUtils.runOnOreo {
             getNotificationManager(context).createNotificationChannel(
-                    pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, title, body, context)
+                    pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, body, context)
             )
         }
 
@@ -60,13 +64,13 @@ object NotificationCreateHelper {
 
     @SuppressLint("NewApi")
     private fun buildChannel(pushHandleStrategy: PushHandleStrategy<*>,
-                             title: String,
                              body: String,
                              context: Context): NotificationChannel {
         val channel = NotificationChannel(
                 context.getString(pushHandleStrategy.channelId),
-                title,
-                NotificationManager.IMPORTANCE_HIGH)
+                context.getString(pushHandleStrategy.channelName),
+                NotificationManager.IMPORTANCE_HIGH
+        )
 
         channel.description = body
         channel.enableLights(true)
