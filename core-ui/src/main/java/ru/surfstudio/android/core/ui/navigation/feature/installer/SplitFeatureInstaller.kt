@@ -6,6 +6,8 @@ import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
 import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.model.SplitInstallErrorCode
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
 
 /**
  * Dynamic Feature install manager.
@@ -13,12 +15,7 @@ import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 class SplitFeatureInstaller(
         applicationContext: Context
 ) {
-
-    interface SplitFeatureInstallListener {
-        fun onInstall(state: SplitFeatureInstallState)
-        fun onStateChanged(state: SplitFeatureInstallState)
-        fun onFailure(state: SplitFeatureInstallState)
-    }
+    private val splitFeatureInstallSubject = BehaviorSubject.create<SplitFeatureInstallState>()
 
     private val splitInstallManager = SplitInstallManagerFactory.create(applicationContext)
 
@@ -32,11 +29,8 @@ class SplitFeatureInstaller(
      * @param splitFeatureInstallListener installation events listener
      */
     @Suppress("unused")
-    fun installFeature(
-            splitName: String,
-            splitFeatureInstallListener: SplitFeatureInstallListener
-    ) {
-        installFeature(listOf(splitName), splitFeatureInstallListener)
+    fun installFeature(splitName: String) {
+        installFeature(listOf(splitName))
     }
 
     /**
@@ -45,10 +39,7 @@ class SplitFeatureInstaller(
      * @param splitNames multiple Dynamic Feature names
      * @param splitFeatureInstallListener installation events listener
      */
-    fun installFeature(
-            splitNames: List<String>,
-            splitFeatureInstallListener: SplitFeatureInstallListener
-    ) {
+    fun installFeature(splitNames: List<String>): Observable<SplitFeatureInstallState> {
         val requestBuilder = SplitInstallRequest.newBuilder()
         for (splitName in splitNames) {
             requestBuilder.addModule(splitName)
@@ -59,25 +50,25 @@ class SplitFeatureInstaller(
             if (state?.sessionId() == -1 &&
                     state.status() == SplitInstallSessionStatus.FAILED &&
                     state.errorCode() == SplitInstallErrorCode.SERVICE_DIED) {
-                splitFeatureInstallListener.onFailure(
+                splitFeatureInstallSubject.onNext(
                         SplitFeatureInstallState(SplitFeatureEvent.StartupFailure.ServiceDied)
                 )
             } else if (state?.sessionId() == this@SplitFeatureInstaller.sessionId) {
                 when {
                     state.status() == SplitInstallSessionStatus.PENDING ->
-                        splitFeatureInstallListener.onStateChanged(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Pending
                                 )
                         )
                     state.status() == SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION ->
-                        splitFeatureInstallListener.onStateChanged(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.RequiresUserConfirmation
                                 )
                         )
                     state.status() == SplitInstallSessionStatus.DOWNLOADING ->
-                        splitFeatureInstallListener.onStateChanged(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Downloading(
                                                 state.totalBytesToDownload(),
@@ -86,46 +77,46 @@ class SplitFeatureInstaller(
                                 )
                         )
                     state.status() == SplitInstallSessionStatus.DOWNLOADED ->
-                        splitFeatureInstallListener.onStateChanged(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Downloaded
                                 )
                         )
                     state.status() == SplitInstallSessionStatus.INSTALLING ->
-                        splitFeatureInstallListener.onStateChanged(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Installing
                                 )
                         )
                     state.status() == SplitInstallSessionStatus.INSTALLED -> {
-                        splitFeatureInstallListener.onInstall(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Installed
                                 )
                         )
                     }
                     state.status() == SplitInstallSessionStatus.FAILED -> {
-                        splitFeatureInstallListener.onFailure(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Failed
                                 )
                         )
                     }
                     state.status() == SplitInstallSessionStatus.CANCELING ->
-                        splitFeatureInstallListener.onStateChanged(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Cancelling
                                 )
                         )
                     state.status() == SplitInstallSessionStatus.CANCELED -> {
-                        splitFeatureInstallListener.onFailure(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.Canceled
                                 )
                         )
                     }
                     else -> {
-                        splitFeatureInstallListener.onFailure(
+                        splitFeatureInstallSubject.onNext(
                                 SplitFeatureInstallState(
                                         SplitFeatureEvent.InstallationStateEvent.UnknownEvent(
                                                 state.status()
@@ -135,7 +126,7 @@ class SplitFeatureInstaller(
                     }
                 }
             } else {
-                splitFeatureInstallListener.onStateChanged(
+                splitFeatureInstallSubject.onNext(
                         SplitFeatureInstallState(
                                 SplitFeatureEvent.InstallationStateEvent.AlienSessionEvent(
                                         state?.sessionId() ?: -1
@@ -148,7 +139,7 @@ class SplitFeatureInstaller(
                 .startInstall(request)
                 .addOnSuccessListener { sessionId ->
                     this@SplitFeatureInstaller.sessionId = sessionId ?: -1
-                    splitFeatureInstallListener.onStateChanged(
+                    splitFeatureInstallSubject.onNext(
                             SplitFeatureInstallState(
                                     SplitFeatureEvent.StartupSuccess
                             )
@@ -156,7 +147,7 @@ class SplitFeatureInstaller(
                 }
                 .addOnFailureListener { exception ->
                     if (exception is SplitInstallException) {
-                        splitFeatureInstallListener.onFailure(
+                        splitFeatureInstallSubject.onNext(
                                 when {
                                     exception.errorCode == SplitInstallErrorCode.ACTIVE_SESSIONS_LIMIT_EXCEEDED ->
                                         SplitFeatureInstallState(
@@ -202,5 +193,6 @@ class SplitFeatureInstaller(
                         )
                     }
                 }
+        return splitFeatureInstallSubject
     }
 }
