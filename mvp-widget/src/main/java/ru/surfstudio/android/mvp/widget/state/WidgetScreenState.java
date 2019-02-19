@@ -20,8 +20,8 @@ import android.view.View;
 
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.state.ActivityScreenState;
-import ru.surfstudio.android.core.ui.state.ScreenState;
 import ru.surfstudio.android.core.ui.state.LifecycleStage;
+import ru.surfstudio.android.core.ui.state.ScreenState;
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 
 /**
@@ -38,6 +38,8 @@ public class WidgetScreenState implements ScreenState {
     private ScreenType parentType;
     private ScreenState parentState;
     private LifecycleStage lifecycleStage;
+    private boolean viewDestroyedAtListOnce = false;
+    private boolean viewRecreated = false;
 
     public WidgetScreenState(ScreenState parentState) {
         this.parentState = parentState;
@@ -49,6 +51,8 @@ public class WidgetScreenState implements ScreenState {
     public void onCreate(View widget, CoreWidgetViewInterface coreWidget) {
         this.widget = widget;
         this.coreWidget = coreWidget;
+
+        viewRecreated = viewDestroyedAtListOnce;
 
         lifecycleStage = LifecycleStage.CREATED;
     }
@@ -75,6 +79,7 @@ public class WidgetScreenState implements ScreenState {
 
     public void onViewDestroy() {
         lifecycleStage = LifecycleStage.VIEW_DESTROYED;
+        viewDestroyedAtListOnce = true;
     }
 
     public void onDestroy() {
@@ -85,7 +90,7 @@ public class WidgetScreenState implements ScreenState {
 
     @Override
     public boolean isViewRecreated() {
-        return parentState.isViewRecreated();
+        return parentState.isViewRecreated() || viewRecreated;
     }
 
     @Override
