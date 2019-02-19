@@ -37,9 +37,9 @@ import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
-import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
 import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute;
@@ -67,7 +67,7 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider;
  * презентером и родительской активити вью
  */
 public abstract class ActivityNavigator extends BaseActivityResultDelegate
-        implements Navigator, NewIntentDelegate, OnViewDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
+        implements Navigator, NewIntentDelegate, OnCompletelyDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
@@ -115,7 +115,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     protected abstract void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle bundle);
 
     @Override
-    public void onViewDestroy() {
+    public void onCompletelyDestroy() {
         splitFeatureInstallDisposable.dispose();
     }
 
