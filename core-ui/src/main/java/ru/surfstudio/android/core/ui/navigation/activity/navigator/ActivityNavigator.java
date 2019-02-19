@@ -33,12 +33,13 @@ import androidx.core.app.ActivityOptionsCompat;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.PublishSubject;
 import io.reactivex.subjects.Subject;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
-import ru.surfstudio.android.core.ui.event.lifecycle.stop.OnStopDelegate;
+import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
+import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
+import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
 import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute;
@@ -66,13 +67,14 @@ import ru.surfstudio.android.core.ui.provider.ActivityProvider;
  * презентером и родительской активити вью
  */
 public abstract class ActivityNavigator extends BaseActivityResultDelegate
-        implements Navigator, NewIntentDelegate, OnStopDelegate {
+        implements Navigator, NewIntentDelegate, OnViewDestroyDelegate, OnResumeDelegate, OnPauseDelegate {
 
     private Map<NewIntentRoute, Subject> newIntentSubjects = new HashMap<>();
     private final ActivityProvider activityProvider;
     private final SplitFeatureInstaller splitFeatureInstaller;
     private Disposable splitFeatureInstallDisposable = Disposables.disposed();
     private final Boolean isSplitFeatureModeOn;
+    private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);
 
     private interface OnFeatureInstallListener {
         void doOnInstall(BehaviorSubject<SplitFeatureInstallState> startStatusSubject);
@@ -113,8 +115,18 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     protected abstract void startActivityForResult(Intent intent, int requestCode, @Nullable Bundle bundle);
 
     @Override
-    public void onStop() {
+    public void onViewDestroy() {
         splitFeatureInstallDisposable.dispose();
+    }
+
+    @Override
+    public void onResume() {
+        freezeSelector.onNext(false);
+    }
+
+    @Override
+    public void onPause() {
+        freezeSelector.onNext(true);
     }
 
     /**
@@ -255,62 +267,34 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
         if (route instanceof DynamicCrossFeatureRoute && this.isSplitFeatureModeOn) {
             DynamicCrossFeatureRoute dynamicCrossFeatureRoute = (DynamicCrossFeatureRoute) route;
             splitFeatureInstallDisposable.dispose();
-            splitFeatureInstallDisposable = subscribe(
-                    splitFeatureInstaller.installFeature(dynamicCrossFeatureRoute.splitNames()),
-                    createOperatorFreeze(),
-                    new DisposableObserver<SplitFeatureInstallState>() {
-
-                        @Override
-                        public void onNext(SplitFeatureInstallState splitFeatureInstallState) {
-                            if (splitFeatureInstallState.getInstallEvent() instanceof SplitFeatureEvent.InstallationStateEvent.Installed) {
-                                startStatusSubject.onNext(splitFeatureInstallState);
-                                onFeatureInstallListener.doOnInstall(startStatusSubject);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            //do nothing
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            //do nothing
-                        }
-                    });
+            splitFeatureInstallDisposable =
+                    splitFeatureInstaller.installFeature(dynamicCrossFeatureRoute.splitNames())
+                            .lift(new ObservableOperatorFreeze<>(freezeSelector))
+                            .subscribe(splitFeatureInstallState -> {
+                                if (splitFeatureInstallState.getInstallEvent() instanceof SplitFeatureEvent.InstallationStateEvent.Installed) {
+                                    startStatusSubject.onNext(splitFeatureInstallState);
+                                    onFeatureInstallListener.doOnInstall(startStatusSubject);
+                                }
+                            });
         } else {
             onFeatureInstallListener.doOnInstall(startStatusSubject);
         }
         return startStatusSubject.hide();
     }
 
-    private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);
-
-    protected <T> ObservableOperatorFreeze<T> createOperatorFreeze() {
-        return new ObservableOperatorFreeze<>(freezeSelector);
-    }
-
-    protected <T> Disposable subscribe(final Observable<T> single,
-                                       final ObservableOperatorFreeze<T> operator,
-                                       final DisposableObserver<T> observer) {
-
-        Disposable disposable = single
-                .lift(operator)
-                .subscribeWith(observer);
-        //disposables.add(disposable);
-        return disposable;
-    }
-
     private void performStart(ActivityRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
         boolean startupStatus = start(route);
-        SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
-        startStatusSubject.onNext(new SplitFeatureInstallState(status));
+        emitFeatureInstallState(startStatusSubject, startupStatus);
     }
 
     private void performStartForResult(SupportOnActivityResultRoute route, BehaviorSubject<SplitFeatureInstallState> startStatusSubject) {
         boolean startupStatus = startForResult(route);
+        emitFeatureInstallState(startStatusSubject, startupStatus);
+    }
+
+    private void emitFeatureInstallState(BehaviorSubject<SplitFeatureInstallState> splitFeatureInstallStateSubject, boolean startupStatus) {
         SplitFeatureInstallStatus status = SplitFeatureInstallStatus.Companion.getByValue(startupStatus);
-        startStatusSubject.onNext(new SplitFeatureInstallState(status));
+        splitFeatureInstallStateSubject.onNext(new SplitFeatureInstallState(status));
     }
 
     /**
