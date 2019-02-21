@@ -1,4 +1,4 @@
-package ru.surfstudio.android.imageloader.svg
+package ru.surfstudio.android.imageloader_sample.svg
 
 import android.graphics.drawable.PictureDrawable
 import android.widget.ImageView
@@ -32,7 +32,6 @@ class SvgSoftwareLayerSetter : RequestListener<PictureDrawable> {
 
 /*
 * Поддерка SVG формата локально
-* При необходимости реализовать механизм в ImageLoader'е
 *
 * @RawRes
 * val svgImageRaw = R.raw.master_card

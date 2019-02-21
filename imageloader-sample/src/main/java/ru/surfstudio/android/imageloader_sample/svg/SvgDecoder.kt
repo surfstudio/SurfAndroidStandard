@@ -1,4 +1,4 @@
-package ru.surfstudio.android.imageloader.svg
+package ru.surfstudio.android.imageloader_sample.svg
 
 import com.bumptech.glide.load.Options
 import com.bumptech.glide.load.ResourceDecoder

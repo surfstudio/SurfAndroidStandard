@@ -1,4 +1,4 @@
-package ru.surfstudio.android.imageloader.svg
+package ru.surfstudio.android.imageloader_sample.svg
 
 import android.graphics.Picture
 import android.graphics.drawable.PictureDrawable
