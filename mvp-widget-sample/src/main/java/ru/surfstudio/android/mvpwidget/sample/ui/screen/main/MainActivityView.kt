@@ -1,6 +1,5 @@
 package ru.surfstudio.android.mvpwidget.sample.ui.screen.main
 
-import android.graphics.Color
 import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.annotation.IdRes
@@ -9,10 +8,6 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.ui.FragmentContainer
 import ru.surfstudio.android.mvpwidget.sample.R
-import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint.ConstraintWidgetView
-import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.frame.FrameWidgetView
-import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.linear.LinearWidgetView
-import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.relative.RelativeWidgetView
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
