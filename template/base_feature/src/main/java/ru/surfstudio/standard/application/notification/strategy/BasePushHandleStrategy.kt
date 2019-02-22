@@ -29,10 +29,10 @@ class BasePushHandleStrategy : SimpleAbstractPushHandleStrategy<NotificationType
     override val color: Int
         get() = R.color.colorAccent
 
-    //todo исправит из нужд приложения
+    //todo исправить из нужд приложения
     override val group = NotificationsGroup("Messages")
 
-    //todo исправит из нужд приложения
+    //todo исправить из нужд приложения
     override fun coldStartIntent(context: Context): Intent? =
             MainActivityRoute().prepareIntent(context)
 

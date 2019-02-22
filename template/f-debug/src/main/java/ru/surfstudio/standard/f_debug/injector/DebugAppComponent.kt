@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import dagger.Component
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
@@ -24,7 +25,7 @@ import javax.inject.Named
 ])
 interface DebugAppComponent {
     fun context(): Context
-    fun activeActivityHolder(): ru.surfstudio.android.activity.holder.ActiveActivityHolder
+    fun activeActivityHolder(): ActiveActivityHolder
     fun connectionProvider(): ConnectionProvider
     fun schedulerProvider(): SchedulersProvider
     fun stringsProvider(): StringsProvider

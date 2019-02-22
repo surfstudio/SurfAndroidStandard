@@ -2,7 +2,7 @@ package ru.surfstudio.standard.domain.notification
 
 /**
  * Типы уведомлений
- * todo изменит исходя из нужд приложения
+ * todo изменить исходя из нужд приложения
  */
 enum class NotificationType(val id: Int) {
 

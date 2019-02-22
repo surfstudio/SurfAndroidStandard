@@ -55,7 +55,7 @@ dependencies {
     }
 
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation "androidx.multidex:multidex:$multidexVersion"
     implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
