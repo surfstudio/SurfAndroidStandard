@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Template Multimodule</string>
     <string name="server_error_message">Произошла ошибка сервера. Попробуйте позже еще раз</string>
     <string name="server_error_not_found">Произошла ошибка, данные не найдены. Попробуйте позже еще раз</string>
     <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>

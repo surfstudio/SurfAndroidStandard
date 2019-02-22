@@ -1,23 +1,27 @@
 # File storage
-Позволяет сохранять и удалять объекты в файлах на устройстве на внутренней или внешней памяти.
+Простое обьектное хранилище на основе файлов. Хранение данных происходит в формате key(String) - value(Object), где key используется как имя файла, а в качестве содержимого выступает value, сериализованный в массив байт.
 
 Может использоваться для реализации кэша.
 
 #### Использование
-Наследованием от [`BaseLocalCache`][blc] или [`BaseTextLocalCache`][btlc]
+Наследованием от [`BaseFileStorage`][bfs] или более специфичных его реализаций:
 
-Реализация кэша подразумевает хранение всех данных в сериализованных
-структурах в конкретном файле (key - filename / value - serialized data) в
-папке, название которой определяется наследником.
-**Важно**: для имени папки не используется имя класса из-за обфускации.
+* [`BaseTextLocalCache`][btfs]
+* [`BaseJsonFileStorage`][bjfs]
+* [`BaseSerializableFileStorage`][bsfs]
 
-`BaseLocalCache` - базовый класс, которых имплементирует контракт LocalCache работы
-с кэшем. Требуется реализовать наследование от данного класса,
-которое впоследствии определит требования контракта.
+Наследник определяет папку, в которой будут храниться файлы. 
+
+**Важно**: для имени папки не следует использовать имя класса из-за обфускации.
+
+Внутренние сущности:
+
+* ObjectConverter - сериализатор/десериализатор, есть готовые реализации для Serializable, Json
+* NamingProcessor - преобразует ключ в имя файла, необходим из-за того, что ключ может быть любого размера а размер имени файла ограничен системой
+* FileProcessor - инкапслулирует действия с файлами внутри некоторой директории
+* Encryptor - позволяет шифровать сохраняемые данные 
 
 [Пример использования](../filestorage-sample)
-
-todo - шифрование
 
 # Подключение
 Gradle:
@@ -25,5 +29,7 @@ Gradle:
     implementation "ru.surfstudio.android:filestorage:X.X.X"
 ```
 
-[blc]:  src/main/java/ru/surfstudio/android/filestorage/BaseLocalCache.java
-[btlc]:  src/main/java/ru/surfstudio/android/filestorage/BaseTextLocalCache.java
+[bfs]:  src/main/java/ru/surfstudio/android/filestorage/storage/BaseFileStorage.java
+[btfs]:  src/main/java/ru/surfstudio/android/filestorage/storage/BaseTextFileStorage.kt
+[bjfs]:  src/main/java/ru/surfstudio/android/filestorage/storage/BaseJsonFileStorage.kt
+[bsfs]:  src/main/java/ru/surfstudio/android/filestorage/storage/BaseSerializableFileStorage.kt

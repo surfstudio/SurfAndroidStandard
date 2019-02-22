@@ -1,0 +1,27 @@
+apply from: '../config.gradle'
+apply from: '../commonModule.gradle'
+
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    api project("$templatePrefix:i-network")
+    api project("$templatePrefix:i-token")
+
+    implementation project("$templatePrefix:base")
+    implementation "junit:junit:$junitVersion"
+    implementation "com.annimon:stream:$annimonStreamVersion"
+    implementation "org.robolectric:robolectric:$robolectricVersion"
+    implementation "org.robolectric:shadows-multidex:$robolectricVersion"
+    implementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+}
+
+//Надстройка, которая пропускает сборку модуля при androidTest
+gradle.taskGraph.whenReady {
+    gradle.taskGraph.allTasks.each {
+        if (it.project == project && gradle.taskGraph.allTasks.find { it.name == "assembleAndroidTest" } != null) {
+            it.onlyIf { false }
+        }
+    }
+}

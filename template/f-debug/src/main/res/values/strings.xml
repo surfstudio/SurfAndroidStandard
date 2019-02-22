@@ -58,4 +58,5 @@
     <string name="ui_tools_scalpel_name">Scalpel</string>
     <string name="ui_tools_scalpel_description">Отрисовывает иерархию вью как интерактивную 3D визуализацию. Запускается после встряхивания устройства.</string>
     <!--endregion-->
+
 </resources>

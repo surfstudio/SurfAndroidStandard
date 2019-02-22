@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
                 .crossFade(500)
                 .centerCrop()
                 .url(IMAGE_URL)
-                .force()
                 .preview(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 .centerCrop()
                 .blur(blurDownSampling = 4)
                 .url(IMAGE_URL)
-                .force()
+                .signature(Math.random()) // картинка будет грузиться при каждом тапе
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
     }
