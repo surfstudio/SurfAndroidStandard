@@ -1,6 +1,6 @@
 package ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics
 
-//import com.crashlytics.android.Crashlytics
+import com.crashlytics.android.Crashlytics
 
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 
@@ -11,9 +11,9 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun setUser(id: String?, username: String?, email: String?) {
         try {
-//            Crashlytics.getInstance().core.setUserName(username)
-//            Crashlytics.getInstance().core.setUserEmail(email)
-//            Crashlytics.getInstance().core.setUserIdentifier(id)
+            Crashlytics.getInstance().core.setUserName(username)
+            Crashlytics.getInstance().core.setUserEmail(email)
+            Crashlytics.getInstance().core.setUserIdentifier(id)
         } catch (e: Exception) {
             //ignored
         }
@@ -21,9 +21,9 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun clearUser() {
         try {
-//            Crashlytics.getInstance().core.setUserName("")
-//            Crashlytics.getInstance().core.setUserEmail("")
-//            Crashlytics.getInstance().core.setUserIdentifier("")
+            Crashlytics.getInstance().core.setUserName("")
+            Crashlytics.getInstance().core.setUserEmail("")
+            Crashlytics.getInstance().core.setUserIdentifier("")
         } catch (e: Exception) {
             //ignored
         }
@@ -31,7 +31,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun logKeyValue(key: String?, value: String?) {
         try {
-//            Crashlytics.getInstance().core.setString(key, value)
+            Crashlytics.getInstance().core.setString(key, value)
         } catch (e: Exception) {
             //ignored
         }
@@ -39,7 +39,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun logError(e: Throwable?) {
         try {
-//            Crashlytics.getInstance().core.logException(e)
+            Crashlytics.getInstance().core.logException(e)
         } catch (err: Exception) {
             //ignored
         }
@@ -47,7 +47,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun logMessage(message: String?) {
         try {
-//            Crashlytics.getInstance().core.log(message)
+            Crashlytics.getInstance().core.log(message)
         } catch (e: Exception) {
             //ignored
         }
