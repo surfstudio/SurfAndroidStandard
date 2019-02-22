@@ -8,15 +8,15 @@
 
 ## Использование
 
-1. Сконфигурировать [`PushHandler`][handler], используя, например `DefaultPushHandler` - [пример][nm]
 1. В DefaultActivityLifecycleCallbacks добавить обработку старта активити методом
    `pushHandler.onActivityStarted()`
-1. Добавить маркерный интерфейс [PushHandlingActivity](src/main/java/ru/surfstudio/android/notification/ui/notification/PushHandlingActivity.kt)
+2. Добавить маркерный интерфейс [PushHandlingActivity](src/main/java/ru/surfstudio/android/notification/ui/notification/PushHandlingActivity.kt)
    к активити-лаунчер (или другой, с которой будет происходить навигация)
-1. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
+3. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
    в котором переопределить map c соотвествием типа пуша стратегии его обработки
-1. Добавить firebase в проект, заинжектить туда `PushHandler`, в методе onMessageReceived обработать сообщение
+4. Добавить firebase в проект, заинжектить туда `PushHandler`, в методе onMessageReceived обработать сообщение
    с помощью `pushHandler.handleMessage()`
+5. Зарегистрировать [`PushEventListener`][pushListener] в Application, там можно произвести действия при открытии или отклонения пуша. [Пример][pushListenerimpl]
    
 [Пример использования](../firebase-sample)
 
@@ -30,4 +30,5 @@ Gradle:
 ```
 
 [nm]: ../firebase-sample/src/main/java/ru/surfstudio/android/firebase/sample/app/dagger/NotificationModule.kt
-[handler]: ../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/push/DefaultPushHandler.kt
+[pushlistener]: ../push/src/main/java/ru/surfstudio/android/notification/interactor/PushEventListener.kt
+[pushListenerimpl]: ../template/base_feature/src/main/java/ru/surfstudio/standard/application/app/App.kt
