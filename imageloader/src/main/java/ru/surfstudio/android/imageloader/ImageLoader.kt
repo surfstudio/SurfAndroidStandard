@@ -17,6 +17,7 @@ package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
@@ -40,6 +41,7 @@ import ru.surfstudio.android.imageloader.transformations.BlurTransformation.Blur
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
+import ru.surfstudio.android.imageloader.transformations.TileTransformation.TileBundle
 import ru.surfstudio.android.imageloader.util.*
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
@@ -252,6 +254,16 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
     /**
+     * Размножения изображения для соответствия его размеров размерам View
+     *
+     * @param isTiled должно ли быть изображение размножено
+     * @param tileMode тип размножения
+     */
+    override fun tile(isTiled: Boolean, tileMode: Shader.TileMode) = apply {
+        imageTransformationsManager.tileBundle = TileBundle(isTiled, tileMode)
+    }
+
+    /**
      * Принудительная вставка изображения во вью
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
@@ -274,6 +286,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
         performLoad(view)
     }
+
     /**
      * Загрузка изображения в [CustomViewTarget]
      *

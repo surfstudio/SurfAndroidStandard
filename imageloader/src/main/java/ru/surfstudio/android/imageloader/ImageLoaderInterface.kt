@@ -16,6 +16,7 @@
 package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
@@ -166,6 +167,14 @@ interface ImageLoaderInterface {
      * @param duration продолжительность перехода (в мс)
      */
     fun crossFade(duration: Int = 300): ImageLoaderInterface
+
+    /**
+     * Размножения изображения для соответствия его размеров размерам View
+     *
+     * @param isTiled должно ли быть изображение размножено
+     * @param tileMode тип размножения
+     */
+    fun tile(isTiled: Boolean = true, tileMode: Shader.TileMode = Shader.TileMode.REPEAT): ImageLoaderInterface
 
     /**
      * Принудительная вставка изображения во вью.

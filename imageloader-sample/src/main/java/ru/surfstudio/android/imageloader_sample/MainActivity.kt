@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             isLoadOriginal = !isLoadOriginal
         }
 
-        loadOriginalImage()
+        imageView.post { loadOriginalImage() }
 
     }
 
@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity() {
         ImageLoader
                 .with(this)
                 .crossFade(500)
-                .centerCrop()
+                .maxWidth(imageView.width / 2)
+                .maxHeight(imageView.height / 2)
+                .tile()
                 .url(IMAGE_URL)
                 .preview(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
