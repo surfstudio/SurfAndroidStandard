@@ -197,6 +197,22 @@ interface ImageLoaderInterface {
     fun into(view: View)
 
     /**
+     * Загрузка изображения с использованием Listener'ов и указанием целевой [View]
+     *
+     * @param view экземпляр view, используется для управления жизненным циклом
+     * @param onErrorLambda лямбда, вызываемая при ошибке загрузки изображения.
+     * @param onCompleteLambda лямбда, вызываемая при успешной загрузке изображения
+     * @param onClearMemoryLambda лямбда, вызываемая, когда view может быть очищена. В ней следует
+     * производить операции по дополнительному освобождению памяти.
+     */
+    fun into(
+            view: View,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
+            onCompleteLambda: ((resource: Drawable?) -> Unit)? = null,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
+    )
+
+    /**
      * Получение исходника изображения в формате [Bitmap].
      *
      * Запрос происходит в UI-потоке.
