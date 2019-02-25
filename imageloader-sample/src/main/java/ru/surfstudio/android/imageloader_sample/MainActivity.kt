@@ -6,7 +6,6 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import org.jetbrains.anko.find
 import ru.surfstudio.android.imageloader.ImageLoader
-import ru.surfstudio.android.imageloader.util.BlurStrategy
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             isLoadOriginal = !isLoadOriginal
         }
 
-        loadOriginalImage()
+        imageView.post { loadOriginalImage() }
 
     }
 
@@ -37,7 +36,9 @@ class MainActivity : AppCompatActivity() {
         ImageLoader
                 .with(this)
                 .crossFade(500)
-                .centerCrop()
+                .maxWidth(imageView.width / 2)
+                .maxHeight(imageView.height / 2)
+                .tile()
                 .url(IMAGE_URL)
                 .force()
                 .preview(R.drawable.ic_launcher_background)
