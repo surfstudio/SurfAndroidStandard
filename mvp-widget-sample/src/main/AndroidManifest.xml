@@ -17,7 +17,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".interactor.ui.screen.list.ListActivityView" />
+        <activity android:name="ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list.ListActivityView" />
     </application>
 
 </manifest>

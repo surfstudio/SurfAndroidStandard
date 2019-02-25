@@ -7,6 +7,7 @@ dependencies {
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [

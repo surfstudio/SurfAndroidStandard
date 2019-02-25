@@ -13,7 +13,8 @@ include "$templatePrefix:app",
         "$templatePrefix:f-main",
         "$templatePrefix:f-debug",
         "$templatePrefix:f-splash",
-        "$templatePrefix:f-debug-no-op"
+        "$templatePrefix:f-debug-no-op",
+        "$templatePrefix:small-test-utils"
 
 apply from: 'android-standard/androidStandardSettings.gradle'
 apply from: 'buildCache.gradle'

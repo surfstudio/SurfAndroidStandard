@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.ui.placeholder.loadstate.presentation
 
-import ru.surfstudio.standard.ui.placeholder.loadstate.PlaceHolderViewContainer
 import ru.surfstudio.android.core.mvp.loadstate.SimpleLoadStatePresentation
+import ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
 import ru.surfstudio.standard.ui.placeholder.loadstate.state.NoneState
 
 /**

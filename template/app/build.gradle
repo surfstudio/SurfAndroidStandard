@@ -12,12 +12,12 @@ apply plugin: 'kotlin-kapt'
 //apply plugin: 'io.fabric'
 
 apply from: '../config.gradle'
-apply from: '../commonTestModule.gradle'
 
 apply from: '../setLabelToIcon.gradle'
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
+apply from: '../androidTestConfiguration.gradle'
 
 def config = extensions.getByName("ext")
 
