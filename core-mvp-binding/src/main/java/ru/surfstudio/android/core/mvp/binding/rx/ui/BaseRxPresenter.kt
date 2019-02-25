@@ -16,7 +16,6 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
-import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
@@ -35,18 +34,6 @@ abstract class BaseRxPresenter<M>(
         where M : BindModel {
 
     override fun relationEntity() = PRESENTER
-
-    abstract val bm: M
-
-    @CallSuper
-    override fun onFirstLoad() {
-        view.bind(bm)
-    }
-
-    @CallSuper
-    override fun onLoad(viewRecreated: Boolean) {
-        if (viewRecreated) view.bind(bm)
-    }
 
     override fun <T> subscribe(observable: Observable<T>,
                                onNext: Consumer<T>,

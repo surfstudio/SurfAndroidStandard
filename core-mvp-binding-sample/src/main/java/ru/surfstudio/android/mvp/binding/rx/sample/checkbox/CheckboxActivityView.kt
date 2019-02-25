@@ -29,11 +29,13 @@ import javax.inject.Inject
  */
 class CheckboxActivityView : BaseRxActivityView<CheckboxBindModel>() {
 
-    @Inject
-    lateinit var presenter: CheckboxPresenter
+    @Inject lateinit var bm: CheckboxBindModel
 
-    override fun bind(bm: CheckboxBindModel) {
-        checkbox_1.checkedChanges() bindTo bm.checkAction1
+    override fun bind() {
+
+        bm.checkBond1 bindTo checkbox_1::setChecked
+
+        checkbox_1.checkedChanges() bindTo bm.checkBond1
         checkbox_2.checkedChanges() bindTo bm.checkAction2
         checkbox_3.checkedChanges() bindTo bm.checkAction3
         send_btn.clicks() bindTo bm.sendAction
@@ -49,5 +51,4 @@ class CheckboxActivityView : BaseRxActivityView<CheckboxBindModel>() {
 
     override fun getContentView(): Int = R.layout.activity_checkboxes
 
-    override fun getPresenters() = arrayOf(presenter)
 }

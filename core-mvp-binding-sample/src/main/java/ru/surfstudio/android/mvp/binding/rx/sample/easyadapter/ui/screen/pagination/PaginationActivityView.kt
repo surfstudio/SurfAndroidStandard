@@ -47,7 +47,7 @@ import javax.inject.Inject
 class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>() {
 
     @Inject
-    lateinit var presenter: PaginationPresenter
+    lateinit var bm: PaginationPresentationModel
 
     private val stubController = ElementStubController()
     private val emptyStateController = EmptyStateController()
@@ -60,8 +60,6 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
 
     override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> =
             PaginationScreenConfigurator(intent)
-
-    override fun getPresenters() = arrayOf(presenter)
 
     override fun getScreenName(): String = "Pagination sample"
 
@@ -78,7 +76,7 @@ class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>()
         recycler.adapter = adapter
     }
 
-    override fun bind(bm: PaginationPresentationModel) {
+    override fun bind() {
         adapter.setOnShowMoreListener { bm.getMoreAction.accept() }
 
         elementController = ElementController { bm.selectElementAction.accept(it) }

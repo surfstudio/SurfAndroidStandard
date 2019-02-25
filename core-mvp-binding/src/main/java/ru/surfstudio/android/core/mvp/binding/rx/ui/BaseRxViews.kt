@@ -16,6 +16,9 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.view.View
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -36,11 +39,18 @@ abstract class BaseRxActivityView<M : BindModel> : CoreActivityView(), BindableR
 
     private val viewDisposable = CompositeDisposable()
 
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
+    }
+
     @CallSuper
     override fun onDestroy() {
         viewDisposable.clear()
         super.onDestroy()
     }
+
+    override fun getPresenters() = emptyArray<BaseRxPresenter<out BindModel>>()
 
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
             observable.observeOn(AndroidSchedulers.mainThread())
@@ -54,6 +64,11 @@ abstract class BaseRxActivityView<M : BindModel> : CoreActivityView(), BindableR
 abstract class BaseRxFragmentView<M : BindModel> : CoreFragmentView(), BindableRxView<M> {
 
     private val viewDisposable = CompositeDisposable()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bind()
+    }
 
     @CallSuper
     override fun onDestroy() {
@@ -70,6 +85,11 @@ abstract class BaseRxFragmentView<M : BindModel> : CoreFragmentView(), BindableR
 abstract class BaseRxDialogView<M : BindModel> : CoreDialogFragmentView(), BindableRxView<M> {
 
     private val viewDisposable = CompositeDisposable()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        bind()
+    }
 
     @CallSuper
     override fun onDestroy() {

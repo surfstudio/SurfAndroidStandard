@@ -19,8 +19,12 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main
 import android.content.Intent
 import dagger.Component
 import dagger.Module
+import dagger.Provides
+import ru.surfstudio.android.core.mvp.configurator.RxScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.interactor.data.MainModelRepository
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
@@ -34,11 +38,21 @@ class EaMainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurat
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, EAMainScreenModule::class])
     internal interface EAMainScreenComponent
-        : ScreenComponent<EAMainActivityView>
+        : RxScreenComponent<EAMainActivityView>
 
     @Module
     internal class EAMainScreenModule(route: EAMainActivityRoute)
-        : DefaultCustomScreenModule<EAMainActivityRoute>(route)
+        : DefaultCustomScreenModule<EAMainActivityRoute>(route) {
+
+        @Provides
+        @PerScreen
+        fun provideMainBindModel(screenModelFactory: MainModelRepository): MainBindModel = MainBindModel(screenModelFactory.next())
+
+        @Provides
+        @PerScreen
+        fun providePresenters(mainPresenter: EAMainPresenter): Array<Presenter> =
+                arrayOf(mainPresenter)
+    }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,

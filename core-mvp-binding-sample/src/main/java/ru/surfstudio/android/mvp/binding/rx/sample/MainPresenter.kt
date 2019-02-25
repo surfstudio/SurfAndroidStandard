@@ -33,11 +33,10 @@ import javax.inject.Inject
  * Презентер главного экрана примеров
  */
 @PerScreen
-class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : BaseRxPresenter<MainBindModel>(basePresenterDependency) {
-
-    @Inject
-    override lateinit var bm: MainBindModel
+class MainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val bm: MainBindModel
+) : BaseRxPresenter<MainBindModel>(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -52,11 +51,10 @@ class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDe
  * Презентер с логикой задавивания  текста
  */
 @PerScreen
-class DoubleTextPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : BaseRxPresenter<DoubleTextBindModel>(basePresenterDependency) {
-
-    @Inject
-    override lateinit var bm: DoubleTextBindModel
+class DoubleTextPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val bm: DoubleTextBindModel
+) : BaseRxPresenter<DoubleTextBindModel>(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -76,11 +74,10 @@ interface DoubleTextBindModel : BindModel {
  * Презентер для инеркмента и декремента значений
  */
 @PerScreen
-class CounterPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
-    : BaseRxPresenter<CounterBindModel>(basePresenterDependency) {
-
-    @Inject
-    override lateinit var bm: CounterBindModel
+class CounterPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val bm: CounterBindModel
+) : BaseRxPresenter<CounterBindModel>(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -102,17 +99,17 @@ interface CounterBindModel : BindModel {
  * Презентер для навигации
  */
 @PerScreen
-class MainNavigationPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                  private val activityNavigator: ActivityNavigator)
+class MainNavigationPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val activityNavigator: ActivityNavigator,
+        private val bm: MainNavigationBindModel
+)
     : BaseRxPresenter<MainNavigationBindModel>(basePresenterDependency) {
-
-    @Inject
-    override lateinit var bm: MainNavigationBindModel
 
     override fun onFirstLoad() {
         super.onFirstLoad()
         with(bm) {
-            checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute()) }
+            checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute(true)) }
             easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
         }
     }
@@ -128,12 +125,11 @@ interface MainNavigationBindModel : BindModel {
  * Презентер управления [SampleDialog]
  */
 @PerScreen
-class DialogControlPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val dialogNavigator: DialogNavigator)
-    : BaseRxPresenter<DialogControlBindModel>(basePresenterDependency) {
-
-    @Inject
-    override lateinit var bm: DialogControlBindModel
+class DialogControlPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val dialogNavigator: DialogNavigator,
+        private val bm: DialogControlBindModel
+) : BaseRxPresenter<DialogControlBindModel>(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()

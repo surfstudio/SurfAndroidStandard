@@ -18,13 +18,19 @@ package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 
 import android.content.Context
 import android.content.Intent
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
+import ru.surfstudio.android.core.ui.navigation.Route
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithParamsRoute
 
 /**
  * Роут для [CheckboxActivityView]
  */
-class CheckboxActivityRoute : ActivityRoute() {
+class CheckboxActivityRoute(val isCheckFirst: Boolean) : ActivityWithParamsRoute() {
 
-    override fun prepareIntent(context: Context?): Intent =
-            Intent(context, CheckboxActivityView::class.java)
+    constructor(intent: Intent) : this(intent.getBooleanExtra(Route.EXTRA_FIRST, false))
+
+    override fun prepareIntent(context: Context): Intent {
+        return Intent(context, CheckboxActivityView::class.java).apply {
+            putExtra(Route.EXTRA_FIRST, isCheckFirst)
+        }
+    }
 }

@@ -20,7 +20,9 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.core.mvp.configurator.RxScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
@@ -36,7 +38,7 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, MainScreenModule::class])
     internal interface MainScreenComponent
-        : ScreenComponent<MainActivityView>, SampleDialogComponent
+        : RxScreenComponent<MainActivityView>, SampleDialogComponent
 
     @Module
     internal class MainScreenModule(route: MainActivityRoute)
@@ -44,7 +46,7 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
 
         @Provides
         @PerScreen
-        fun provideStandardDialogPresenter(vb: MainBindModel): SampleDialogBindModel = vb
+        fun provideSampleDialogBindModel(vb: MainBindModel): SampleDialogBindModel = vb
 
         @Provides
         @PerScreen
@@ -56,11 +58,27 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
 
         @Provides
         @PerScreen
-        fun dialogControlBindModel(vb: MainBindModel): DialogControlBindModel = vb
+        fun provideDialogControlBindModel(vb: MainBindModel): DialogControlBindModel = vb
 
         @Provides
         @PerScreen
-        fun doubleTextBindModel(vb: MainBindModel): DoubleTextBindModel = vb
+        fun provideDoubleTextBindModel(vb: MainBindModel): DoubleTextBindModel = vb
+
+        @Provides
+        @PerScreen
+        fun providePresenters(
+                mainPresenter: MainPresenter,
+                doubleTextPresenter: DoubleTextPresenter,
+                counterPresenter: CounterPresenter,
+                mainNavigationPresenter: MainNavigationPresenter,
+                dialogControlPresenter: DialogControlPresenter
+        ): Array<Presenter> = arrayOf(
+                mainPresenter,
+                doubleTextPresenter,
+                counterPresenter,
+                mainNavigationPresenter,
+                dialogControlPresenter
+        )
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,

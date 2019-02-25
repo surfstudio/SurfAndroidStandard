@@ -68,6 +68,10 @@ public abstract class BaseFragmentViewConfigurator<P, M>
             screenComponent = createScreenComponent();
         }
         screenComponent.inject(target);
+
+        if (screenComponent instanceof RxScreenComponent) {
+            ((RxScreenComponent) screenComponent).initPresenter();
+        }
     }
 
     private ScreenComponent createScreenComponent() {

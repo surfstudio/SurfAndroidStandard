@@ -50,7 +50,7 @@ import ru.surfstudio.android.rx.extension.ObservableUtil;
  *
  * @param <V>
  */
-public abstract class CorePresenter<V extends CoreView> { //todo детально все просмотреть
+public abstract class CorePresenter<V extends CoreView> implements Presenter { //todo детально все просмотреть
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);

@@ -44,7 +44,7 @@ import javax.inject.Inject
 class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
 
     @Inject
-    lateinit var presenter: EAMainPresenter
+    lateinit var bm: MainBindModel
 
     private lateinit var headerController: HeaderController
     private lateinit var carouselController: CarouselController
@@ -58,8 +58,6 @@ class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
     override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> =
             EaMainScreenConfigurator(intent)
 
-    override fun getPresenters() = arrayOf(presenter)
-
     override fun getScreenName(): String = "Main easy adapter sample"
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
@@ -72,7 +70,7 @@ class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
         recycler.adapter = adapter
     }
 
-    override fun bind(bm: MainBindModel) {
+    override fun bind() {
         headerController = HeaderController()
 
         carouselController = CarouselController(

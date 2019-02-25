@@ -20,16 +20,17 @@ import io.reactivex.rxkotlin.Observables
 import io.reactivex.rxkotlin.withLatestFrom
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 /**
  * Презентер экрана [CheckboxActivityView]
  */
+@PerScreen
 class CheckboxPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency
+        basePresenterDependency: BasePresenterDependency,
+        private val bm: CheckboxBindModel
 ) : BaseRxPresenter<CheckboxBindModel>(basePresenterDependency) {
-
-    override val bm = CheckboxBindModel()
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -37,7 +38,7 @@ class CheckboxPresenter @Inject constructor(
         // комбинирование экшенов
         val checkboxesObs =
                 Observables.combineLatest(
-                        bm.checkAction1.observable,
+                        bm.checkBond1.observable,
                         bm.checkAction2.observable,
                         bm.checkAction3.observable
                 ) { b1, b2, b3 -> Triple(b1, b2, b3) }
@@ -49,6 +50,10 @@ class CheckboxPresenter @Inject constructor(
                 .withLatestFrom(checkboxesObs)
                 { _, triple -> "cb1: ${triple.first}, cb2: ${triple.second}, cb3: ${triple.third}" }
                 .bindTo(bm.messageCommand)
+
+        with(bm) {
+            checkBond1.accept(route.isCheckFirst)
+        }
     }
 }
 

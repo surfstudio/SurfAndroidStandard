@@ -31,5 +31,5 @@ interface BindableRxView<M : BindModel> : Related<VIEW>, CoreView {
     /**
      * В этом методе реализуется связываение модели экрана и view
      */
-    fun bind(bm: M)
+    fun bind()
 }
