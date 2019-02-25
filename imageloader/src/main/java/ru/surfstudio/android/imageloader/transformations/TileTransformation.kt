@@ -9,7 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import com.bumptech.glide.load.engine.bitmap_recycle.BitmapPool
 
 /**
- * Трансформация, добавляющая
+ * Трансформация, добавляющая эффект размножения картинки до ширины и высоты целевых
  */
 class TileTransformation(
         val tileBundle: TileBundle
