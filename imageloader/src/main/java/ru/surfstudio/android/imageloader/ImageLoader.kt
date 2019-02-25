@@ -271,63 +271,10 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             apply { this.imageTagManager.force = true }
 
     /**
-     * Указание целевой [View]
-     *
-     * @param view экземпляр [View] для загрузки изображения
-     */
-    override fun into(view: View) {
-        this.imageTargetManager.targetView = view
-
-        if (imageTagManager.isTagUsed()) return
-
-        imageTagManager.setTag(imageResourceManager.url)
-
-        performLoad(view)
-    }
-
-    /**
-     * Загрузка изображения в [CustomViewTarget]
-     *
-     * Используется для предотвращения утечек памяти, получаемых при работе с [SimpleTarget]
-     *
-     * @param view элемент, в который будет происходить загрузка изображения
-     * @param onErrorLambda лямбда, вызываемая при ошибке загрузки изображения.
-     * @param onCompleteLambda лямбда, вызываемая при успешной загрузке изображения
-     * @param onClearMemoryLambda лямбда, вызываемая, когда view может быть очищена. В ней следует
-     * производить операции по дополнительному освобождению памяти.
-     */
-    fun <V : View> into(
-            view: V,
-            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
-            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?) -> Unit)? = null,
-            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
-    ) {
-        buildRequest().into(object : CustomViewTarget<V, Drawable>(view) {
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                view.background = errorDrawable
-                onErrorLambda?.invoke(errorDrawable)
-            }
-
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                view.background = resource
-                onCompleteLambda?.invoke(resource, transition)
-            }
-
-            override fun onResourceCleared(placeholder: Drawable?) {
-                view.background = placeholder
-                onClearMemoryLambda?.invoke(placeholder)
-            }
-        })
-    }
-
-    /**
      * Получение исходника изображения в формате [Bitmap].
      * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
      * Без отображения на UI.
      * Для отображения на UI использовать [into]
-     *
-     * Запрос происходит в UI-потоке.
      */
     @WorkerThread
     override fun get(): Bitmap? {
@@ -361,6 +308,77 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     /**
+     * Указание целевой [View]
+     *
+     * @param view экземпляр [View] для загрузки изображения
+     */
+    override fun into(view: View) {
+        this.imageTargetManager.targetView = view
+
+        if (imageTagManager.isTagUsed()) return
+
+        imageTagManager.setTag(imageResourceManager.url)
+
+        performLoad(view)
+    }
+
+    /**
+     * Загрузка изображения с использованием Listener'ов и указанием целевой [View]
+     *
+     * @param view экземпляр view, используется для управления жизненным циклом
+     * @param onErrorLambda лямбда, вызываемая при ошибке загрузки изображения.
+     * @param onCompleteLambda лямбда, вызываемая при успешной загрузке изображения
+     * @param onClearMemoryLambda лямбда, вызываемая, когда view может быть очищена. В ней следует
+     * производить операции по дополнительному освобождению памяти.
+     */
+    override fun into(
+            view: View,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?,
+            onCompleteLambda: ((resource: Drawable?) -> Unit)?,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?
+    ) {
+        into(
+                view,
+                onErrorLambda,
+                { resource: Drawable, _ -> onCompleteLambda?.invoke(resource) },
+                onClearMemoryLambda
+        )
+    }
+
+    /**
+     * Загрузка изображения в [CustomViewTarget]
+     *
+     * Используется для предотвращения утечек памяти при работе с [SimpleTarget]
+     *
+     * @param view элемент, в который будет происходить загрузка изображения
+     * @param onErrorLambda лямбда, вызываемая при ошибке загрузки изображения.
+     * @param onCompleteLambda лямбда, вызываемая при успешной загрузке изображения
+     * @param onClearMemoryLambda лямбда, вызываемая, когда view может быть очищена. В ней следует
+     * производить операции по дополнительному освобождению памяти.
+     */
+    fun <V : View> into(
+            view: V,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
+            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?) -> Unit)? = null,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
+    ) {
+        buildRequest().into(object : CustomViewTarget<V, Drawable>(view) {
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                onErrorLambda?.invoke(errorDrawable)
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                onCompleteLambda?.invoke(resource, transition)
+            }
+
+            override fun onResourceCleared(placeholder: Drawable?) {
+                onClearMemoryLambda?.invoke(placeholder)
+            }
+        })
+    }
+
+    /**
      * Формирование запроса на загрузку изображения.
      */
     private fun buildRequest(): RequestBuilder<Drawable> = Glide.with(context)
@@ -391,8 +409,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         if (view is ImageView) {
             buildRequest().into(view)
         } else {
-            this.into(view)
+            intoBackground(view)
         }
+    }
+
+    /**
+     * Загрузка изображения в бекграунд к [View]
+     */
+    private fun intoBackground(view: View) {
+        into(view, view::setBackground, view::setBackground, view::setBackground)
     }
 
     //region Deprecated
