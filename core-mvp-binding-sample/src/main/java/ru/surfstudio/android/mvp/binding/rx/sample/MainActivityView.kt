@@ -16,22 +16,18 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
-import ru.surfstudio.android.core.mvp.presenter.CorePresenter
-import ru.surfstudio.android.core.mvp.view.CoreView
 import javax.inject.Inject
 
 /**
  * Главный экран примеров
  */
-class MainActivityView : BaseRxActivityView<MainBindModel>() {
+class MainActivityView : BaseRxActivityView() {
 
     @Inject
     lateinit var bm: MainBindModel

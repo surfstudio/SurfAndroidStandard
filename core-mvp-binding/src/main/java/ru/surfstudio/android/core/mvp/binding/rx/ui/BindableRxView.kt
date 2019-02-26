@@ -24,7 +24,7 @@ import ru.surfstudio.android.core.mvp.view.CoreView
 /**
  *  Интерфейс для биндинга [ScreenModel] и View(mvp)
  */
-interface BindableRxView<M : BindModel> : Related<VIEW>, CoreView {
+interface BindableRxView : Related<VIEW>, CoreView {
 
     override fun relationEntity() = VIEW
 

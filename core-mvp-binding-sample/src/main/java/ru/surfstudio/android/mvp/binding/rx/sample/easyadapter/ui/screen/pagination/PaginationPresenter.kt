@@ -36,7 +36,7 @@ class PaginationPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val elementRepository: ElementRepository,
         private val bm: PaginationPresentationModel
-) : BaseRxPresenter<PaginationPresentationModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     private var loadMainSubscription: Disposable? = null
     private var loadMoreSubscription: Disposable? = null

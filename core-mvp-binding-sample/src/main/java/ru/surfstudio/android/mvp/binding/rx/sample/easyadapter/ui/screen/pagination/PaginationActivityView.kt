@@ -44,7 +44,7 @@ import javax.inject.Inject
  * example screen with pagination
  * Placeholders is list items
  */
-class PaginationActivityView : BaseRxActivityView<PaginationPresentationModel>() {
+class PaginationActivityView : BaseRxActivityView() {
 
     @Inject
     lateinit var bm: PaginationPresentationModel

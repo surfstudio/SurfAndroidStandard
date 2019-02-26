@@ -30,7 +30,7 @@ import javax.inject.Inject
 class CheckboxPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val bm: CheckboxBindModel
-) : BaseRxPresenter<CheckboxBindModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()

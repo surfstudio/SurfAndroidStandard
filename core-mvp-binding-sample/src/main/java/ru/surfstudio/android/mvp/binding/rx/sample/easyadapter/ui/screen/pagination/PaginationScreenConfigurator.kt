@@ -20,7 +20,7 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.mvp.configurator.RxScreenComponent
+import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -38,7 +38,7 @@ class PaginationScreenConfigurator(intent: Intent) : DefaultActivityScreenConfig
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, PaginationScreenModule::class])
     internal interface PaginationScreenComponent
-        : RxScreenComponent<PaginationActivityView>
+        : BindableScreenComponent<PaginationActivityView>
 
     @Module
     internal class PaginationScreenModule(route: PaginationScreenRoute)

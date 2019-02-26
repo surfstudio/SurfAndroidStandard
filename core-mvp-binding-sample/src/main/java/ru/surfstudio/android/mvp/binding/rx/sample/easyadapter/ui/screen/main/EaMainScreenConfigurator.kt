@@ -20,7 +20,7 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.mvp.configurator.RxScreenComponent
+import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -38,7 +38,7 @@ class EaMainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurat
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, EAMainScreenModule::class])
     internal interface EAMainScreenComponent
-        : RxScreenComponent<EAMainActivityView>
+        : BindableScreenComponent<EAMainActivityView>
 
     @Module
     internal class EAMainScreenModule(route: EAMainActivityRoute)

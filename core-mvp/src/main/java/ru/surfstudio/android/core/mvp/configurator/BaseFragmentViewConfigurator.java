@@ -69,8 +69,8 @@ public abstract class BaseFragmentViewConfigurator<P, M>
         }
         screenComponent.inject(target);
 
-        if (screenComponent instanceof RxScreenComponent) {
-            ((RxScreenComponent) screenComponent).initPresenter();
+        if (screenComponent instanceof BindableScreenComponent) {
+            ((BindableScreenComponent) screenComponent).initPresenter();
         }
     }
 

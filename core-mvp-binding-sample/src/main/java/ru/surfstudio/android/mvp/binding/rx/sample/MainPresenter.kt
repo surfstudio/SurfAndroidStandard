@@ -36,7 +36,7 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val bm: MainBindModel
-) : BaseRxPresenter<MainBindModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -54,7 +54,7 @@ class MainPresenter @Inject constructor(
 class DoubleTextPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val bm: DoubleTextBindModel
-) : BaseRxPresenter<DoubleTextBindModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -77,7 +77,7 @@ interface DoubleTextBindModel : BindModel {
 class CounterPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val bm: CounterBindModel
-) : BaseRxPresenter<CounterBindModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -103,8 +103,7 @@ class MainNavigationPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val activityNavigator: ActivityNavigator,
         private val bm: MainNavigationBindModel
-)
-    : BaseRxPresenter<MainNavigationBindModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
@@ -129,7 +128,7 @@ class DialogControlPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         private val dialogNavigator: DialogNavigator,
         private val bm: DialogControlBindModel
-) : BaseRxPresenter<DialogControlBindModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()

@@ -41,7 +41,7 @@ import javax.inject.Inject
 /**
  * example screen with list with different types of items
  */
-class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
+class EAMainActivityView : BaseRxActivityView() {
 
     @Inject
     lateinit var bm: MainBindModel

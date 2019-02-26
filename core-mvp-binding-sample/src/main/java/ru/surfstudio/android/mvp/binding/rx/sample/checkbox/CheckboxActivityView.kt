@@ -27,7 +27,7 @@ import javax.inject.Inject
 /**
  * Экран демострирующий возможность работы со связными данными напримере чекбоксов
  */
-class CheckboxActivityView : BaseRxActivityView<CheckboxBindModel>() {
+class CheckboxActivityView : BaseRxActivityView() {
 
     @Inject lateinit var bm: CheckboxBindModel
 

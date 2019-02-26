@@ -38,7 +38,7 @@ class EAMainPresenter @Inject constructor(
         private val activityNavigator: ActivityNavigator,
         private val bm: MainBindModel,
         private val screenModelFactory: MainModelRepository
-) : BaseRxPresenter<MainBindModel>(basePresenterDependency) {
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)

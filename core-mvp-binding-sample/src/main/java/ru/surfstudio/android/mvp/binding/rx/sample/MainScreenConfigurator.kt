@@ -20,7 +20,7 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.mvp.configurator.RxScreenComponent
+import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -38,7 +38,7 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, MainScreenModule::class])
     internal interface MainScreenComponent
-        : RxScreenComponent<MainActivityView>, SampleDialogComponent
+        : BindableScreenComponent<MainActivityView>, SampleDialogComponent
 
     @Module
     internal class MainScreenModule(route: MainActivityRoute)
