@@ -16,6 +16,7 @@
 package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
@@ -151,9 +152,9 @@ interface ImageLoaderInterface {
      *
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
+     * @param overlayMode тип оверлея из [PorterDuff.Mode].
      */
-    fun mask(isOverlay: Boolean = true,
-             @DrawableRes maskResId: Int): ImageLoaderInterface
+    fun mask(isOverlay: Boolean = true, @DrawableRes maskResId: Int, overlayMode: PorterDuff.Mode): ImageLoaderInterface
 
     /**
      * Применяет указанное значение к размеру
