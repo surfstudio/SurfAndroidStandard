@@ -16,6 +16,7 @@
 package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
@@ -23,6 +24,7 @@ import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
 import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
+import ru.surfstudio.android.imageloader.data.ImageSource
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.util.BlurStrategy
 
@@ -62,9 +64,9 @@ interface ImageLoaderInterface {
     /**
      * Установка лямбды для отслеживания загрузки изображения
      *
-     * @param lambda лямбда, возвращающая загруженный [Drawable]
+     * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
      */
-    fun listener(lambda: ((drawable: Drawable) -> (Unit))): ImageLoaderInterface
+    fun listener(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
@@ -150,9 +152,9 @@ interface ImageLoaderInterface {
      *
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
+     * @param overlayMode тип оверлея из [PorterDuff.Mode].
      */
-    fun mask(isOverlay: Boolean = true,
-             @DrawableRes maskResId: Int): ImageLoaderInterface
+    fun mask(isOverlay: Boolean = true, @DrawableRes maskResId: Int, overlayMode: PorterDuff.Mode): ImageLoaderInterface
 
     /**
      * Применяет указанное значение к размеру
@@ -201,7 +203,7 @@ interface ImageLoaderInterface {
     fun into(
             view: View,
             onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
-            onCompleteLambda: ((resource: Drawable?) -> Unit)? = null,
+            onCompleteLambda: ((resource: Drawable?, imageSource: ImageSource?) -> Unit)?,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
     )
 

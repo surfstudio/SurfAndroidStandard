@@ -1,5 +1,6 @@
 package ru.surfstudio.android.imageloader_sample
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -9,7 +10,7 @@ import ru.surfstudio.android.imageloader.ImageLoader
 
 class MainActivity : AppCompatActivity() {
 
-    private val IMAGE_URL = "https://cdn-images-1.medium.com/max/2000/1*dT8VX9g8ig6lxmobTRmCiA.jpeg"
+    private val IMAGE_URL = "https://www.besthealthmag.ca/wp-content/uploads/sites/16/2012/04/your-g-spot.jpg"
 
     private lateinit var imageView: ImageView
     private lateinit var transformButton: Button
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                 .maxHeight(imageView.height / 2)
                 .tile()
                 .url(IMAGE_URL)
+                .mask(true, R.drawable.ic_error_state, PorterDuff.Mode.LIGHTEN)
                 .force()
                 .preview(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)

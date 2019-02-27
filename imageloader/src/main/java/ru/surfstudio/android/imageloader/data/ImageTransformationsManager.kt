@@ -51,6 +51,8 @@ data class ImageTransformationsManager(
                         clear()
                         if (imageSizeManager.isMaxHeightSetUp() || imageSizeManager.isMaxWidthSetUp())
                             add(SizeTransformation(imageSizeManager = imageSizeManager))
+                        if (tileBundle.isTiled)
+                            add(TileTransformation(tileBundle))
                         if (isCenterCrop) add(CenterCropTransformation())
                         if (isCircle) add(CircleTransformation())
                         if (roundedCornersBundle.isRoundedCorners)
@@ -59,7 +61,5 @@ data class ImageTransformationsManager(
                             add(BlurTransformation(blurBundle))
                         if (overlayBundle.isOverlay)
                             add(MaskTransformation(overlayBundle))
-                        if (tileBundle.isTiled)
-                            add(TileTransformation(tileBundle))
                     }
 }
