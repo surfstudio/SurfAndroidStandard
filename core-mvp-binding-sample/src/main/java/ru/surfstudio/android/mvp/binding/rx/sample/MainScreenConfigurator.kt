@@ -72,13 +72,7 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
                 counterPresenter: CounterPresenter,
                 mainNavigationPresenter: MainNavigationPresenter,
                 dialogControlPresenter: DialogControlPresenter
-        ): Array<Presenter> = arrayOf(
-                mainPresenter,
-                doubleTextPresenter,
-                counterPresenter,
-                mainNavigationPresenter,
-                dialogControlPresenter
-        )
+        ) = Any()
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,

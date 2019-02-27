@@ -71,7 +71,7 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
         screenComponent.inject(target);
 
         if (screenComponent instanceof BindableScreenComponent) {
-            ((BindableScreenComponent) screenComponent).initPresenter();
+            ((BindableScreenComponent) screenComponent).requestInjection();
         }
     }
 

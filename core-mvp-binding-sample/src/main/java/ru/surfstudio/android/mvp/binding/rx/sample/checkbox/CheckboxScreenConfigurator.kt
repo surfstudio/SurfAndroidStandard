@@ -46,8 +46,7 @@ class CheckboxScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigur
 
         @Provides
         @PerScreen
-        fun providePresenters(checkboxPresenter: CheckboxPresenter): Array<Presenter> =
-                arrayOf(checkboxPresenter)
+        fun providePresenters(checkboxPresenter: CheckboxPresenter) = Any()
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,

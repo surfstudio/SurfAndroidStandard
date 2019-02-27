@@ -46,8 +46,7 @@ class PaginationScreenConfigurator(intent: Intent) : DefaultActivityScreenConfig
 
         @Provides
         @PerScreen
-        fun providePresenters(paginationPresenter: PaginationPresenter): Array<Presenter> =
-                arrayOf(paginationPresenter)
+        fun providePresenters(paginationPresenter: PaginationPresenter) = Any()
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,

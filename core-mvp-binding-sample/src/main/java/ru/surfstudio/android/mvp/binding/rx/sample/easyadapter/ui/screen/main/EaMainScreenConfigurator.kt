@@ -50,8 +50,7 @@ class EaMainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurat
 
         @Provides
         @PerScreen
-        fun providePresenters(mainPresenter: EAMainPresenter): Array<Presenter> =
-                arrayOf(mainPresenter)
+        fun providePresenters(mainPresenter: EAMainPresenter) = Any()
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
