@@ -22,7 +22,6 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
-import ru.surfstudio.android.core.mvp.presenter.Presenter
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent

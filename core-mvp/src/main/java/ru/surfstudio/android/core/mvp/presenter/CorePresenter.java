@@ -15,13 +15,12 @@
  */
 package ru.surfstudio.android.core.mvp.presenter;
 
-import androidx.annotation.CallSuper;
-
 import com.agna.ferro.rx.CompletableOperatorFreeze;
 import com.agna.ferro.rx.MaybeOperatorFreeze;
 import com.agna.ferro.rx.ObservableOperatorFreeze;
 import com.agna.ferro.rx.SingleOperatorFreeze;
 
+import androidx.annotation.CallSuper;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -50,7 +49,7 @@ import ru.surfstudio.android.rx.extension.ObservableUtil;
  *
  * @param <V>
  */
-public abstract class CorePresenter<V extends CoreView> implements Presenter { //todo детально все просмотреть
+public abstract class CorePresenter<V extends CoreView> { //todo детально все просмотреть
 
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final BehaviorSubject<Boolean> freezeSelector = BehaviorSubject.createDefault(false);

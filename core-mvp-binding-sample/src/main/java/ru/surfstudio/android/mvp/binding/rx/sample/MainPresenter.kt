@@ -48,7 +48,7 @@ class MainPresenter @Inject constructor(
 }
 
 /**
- * Презентер с логикой задавивания  текста
+ * Презентер с логикой задваивания  текста
  */
 @PerScreen
 class DoubleTextPresenter @Inject constructor(
