@@ -17,6 +17,7 @@ package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
@@ -64,7 +65,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager, imageSignatureManager)
     private var imageTransitionManager = ImageTransitionManager()
 
-1    private var onImageLoadedLambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))? = null
+    private var onImageLoadedLambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))? = null
     private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
 
     private val glideDownloadListener = object : RequestListener<Drawable> {
@@ -228,9 +229,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
      */
-    override fun mask(isOverlay: Boolean, @DrawableRes maskResId: Int) =
+    override fun mask(isOverlay: Boolean, @DrawableRes maskResId: Int, overlayMode: PorterDuff.Mode) =
             also {
-                imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId)
+                imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId, overlayMode)
             }
 
     /**
@@ -346,7 +347,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         into(
                 view,
                 onErrorLambda,
-                { resource: Drawable, imageSource: ImageSource?, _ -> onCompleteLambda?.invoke(resource, imageSource) },
+                { resource: Drawable, _, imageSource: ImageSource? -> onCompleteLambda?.invoke(resource, imageSource) },
                 onClearMemoryLambda
         )
     }

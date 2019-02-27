@@ -1,5 +1,6 @@
 package ru.surfstudio.android.imageloader_sample
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -40,6 +41,8 @@ class MainActivity : AppCompatActivity() {
                 .maxHeight(imageView.height / 2)
                 .tile()
                 .url(IMAGE_URL)
+                .mask(true, R.drawable.ic_error_state, PorterDuff.Mode.LIGHTEN)
+                .signature(Math.random()) // картинка будет грузиться при каждом тапе
                 .preview(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
