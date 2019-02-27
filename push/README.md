@@ -30,5 +30,5 @@ Gradle:
 ```
 
 [nm]: ../firebase-sample/src/main/java/ru/surfstudio/android/firebase/sample/app/dagger/NotificationModule.kt
-[pushlistener]: ../push/src/main/java/ru/surfstudio/android/notification/interactor/PushEventListener.kt
+[pushlistener]: src/main/java/ru/surfstudio/android/notification/ui/PushEventListener.kt
 [pushListenerimpl]: ../template/base_feature/src/main/java/ru/surfstudio/standard/application/app/App.kt

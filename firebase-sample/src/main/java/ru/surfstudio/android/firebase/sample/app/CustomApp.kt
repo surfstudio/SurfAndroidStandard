@@ -10,8 +10,8 @@ import io.fabric.sdk.android.Fabric
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.firebase.sample.BuildConfig
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.notification.interactor.PushClickProvider
-import ru.surfstudio.android.notification.interactor.PushEventListener
+import ru.surfstudio.android.notification.ui.PushClickProvider
+import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.sample.dagger.app.DefaultActivityLifecycleCallbacks
 
 /**

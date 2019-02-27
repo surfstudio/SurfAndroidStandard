@@ -17,6 +17,8 @@ package ru.surfstudio.android.core.app;
 
 /**
  * класс заглушка, следует использовать вместо Void
+ *
+ * @deprecated создайте у себя на проекте
  */
 @Deprecated
 public enum Unit {

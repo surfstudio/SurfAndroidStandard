@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC, Fedor Atyakshin, Artem Zaytsev.
+  Copyright (c) 2018-present, SurfStudio LLC, Akhbor Akhrorov.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.notification.interactor.PushClickProvider
+import ru.surfstudio.android.notification.ui.PushClickProvider
 
 const val NOTIFICATION_DATA = "notification_data"
 internal const val NOTIFICATION_GROUP_ID = "notification_group_id"

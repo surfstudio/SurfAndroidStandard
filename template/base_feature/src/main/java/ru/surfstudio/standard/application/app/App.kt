@@ -15,8 +15,8 @@ import ru.surfstudio.android.logger.RemoteLogger
 import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy
 import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
 import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy
-import ru.surfstudio.android.notification.interactor.PushClickProvider
-import ru.surfstudio.android.notification.interactor.PushEventListener
+import ru.surfstudio.android.notification.ui.PushClickProvider
+import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.standard.application.app.di.AppInjector

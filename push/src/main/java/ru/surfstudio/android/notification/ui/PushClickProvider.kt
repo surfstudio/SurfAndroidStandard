@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC, Fedor Atyakshin.
+  Copyright (c) 2018-present, SurfStudio LLC, Akhbor Akhrorov.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,22 +13,13 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.app
-
-import android.app.Activity
+package ru.surfstudio.android.notification.ui
 
 /**
- * Содержит активную (отображаемую) активти
+ * Singleton содержащий интерфейс обработки пуш событий
+ * нужно инициализировать нужным обработчиком
  */
-@Deprecated("Используйте класс из модуля activity-holder")
-class ActiveActivityHolder {
+object PushClickProvider {
 
-    var activity: Activity? = null
-
-    val isExist: Boolean
-        get() = activity != null
-
-    fun clearActivity() {
-        this.activity = null
-    }
+    var pushEventListener: PushEventListener? = null
 }
