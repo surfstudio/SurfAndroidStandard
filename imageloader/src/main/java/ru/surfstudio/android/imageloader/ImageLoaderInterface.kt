@@ -23,6 +23,7 @@ import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
 import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
+import ru.surfstudio.android.imageloader.data.ImageSource
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.util.BlurStrategy
 
@@ -62,9 +63,9 @@ interface ImageLoaderInterface {
     /**
      * Установка лямбды для отслеживания загрузки изображения
      *
-     * @param lambda лямбда, возвращающая загруженный [Drawable]
+     * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
      */
-    fun listener(lambda: ((drawable: Drawable) -> (Unit))): ImageLoaderInterface
+    fun listener(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
@@ -208,7 +209,7 @@ interface ImageLoaderInterface {
     fun into(
             view: View,
             onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
-            onCompleteLambda: ((resource: Drawable?) -> Unit)? = null,
+            onCompleteLambda: ((resource: Drawable?, imageSource: ImageSource?) -> Unit)?,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
     )
 
