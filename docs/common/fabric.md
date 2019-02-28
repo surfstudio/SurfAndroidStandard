@@ -70,4 +70,4 @@ private fun initFabric() {
 15. Убедиться что gradle task **crashlyticsUploadDistributionQa** выполняется успешно.
 
 Если вы сделали всё верно, то в beta должна появиться ваша сборка для тестирования. 
-Данная иструкция подходит и для других buildType.
+Данная инструкция подходит и для других buildType.
