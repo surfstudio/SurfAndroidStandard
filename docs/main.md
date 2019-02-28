@@ -50,6 +50,7 @@
     1. [Особенности реализации View](ui/view_realization_specs.md)
 
 1. [Инициализация приложения](../template/README.md)
+1. [Подготовка проекта к выгрузке в fabric](common/fabric.md)
 
 1. [Безопасность](../security-sample-template/security/README.md)
 
