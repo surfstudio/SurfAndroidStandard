@@ -16,6 +16,8 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.checkedChanges
@@ -31,7 +33,12 @@ class CheckboxActivityView : BaseRxActivityView() {
 
     @Inject lateinit var bm: CheckboxBindModel
 
-    override fun bind() {
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
+    }
+
+    fun bind() {
 
         bm.checkBond1 bindTo checkbox_1::setChecked
 

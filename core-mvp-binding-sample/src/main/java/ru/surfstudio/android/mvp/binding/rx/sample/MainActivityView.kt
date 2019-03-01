@@ -16,6 +16,8 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -32,7 +34,12 @@ class MainActivityView : BaseRxActivityView() {
     @Inject
     lateinit var bm: MainBindModel
 
-    override fun bind() {
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
+    }
+
+    fun bind() {
         bm.counterBond.observable.map { it.toString() } bindTo main_counter_tv::setText
         bm.textEditBond bindTo main_text_et::setText
         bm.sampleState bindTo text_tv::setText

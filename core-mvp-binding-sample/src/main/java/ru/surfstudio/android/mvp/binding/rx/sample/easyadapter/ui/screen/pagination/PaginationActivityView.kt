@@ -67,6 +67,7 @@ class PaginationActivityView : BaseRxActivityView() {
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
 
         val linearLayoutManager = LinearLayoutManager(this)
         val itemAnimator = SlideItemAnimator()
@@ -76,7 +77,7 @@ class PaginationActivityView : BaseRxActivityView() {
         recycler.adapter = adapter
     }
 
-    override fun bind() {
+    fun bind() {
         adapter.setOnShowMoreListener { bm.getMoreAction.accept() }
 
         elementController = ElementController { bm.selectElementAction.accept(it) }

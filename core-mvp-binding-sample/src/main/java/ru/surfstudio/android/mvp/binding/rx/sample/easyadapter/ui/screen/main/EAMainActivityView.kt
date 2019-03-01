@@ -62,6 +62,7 @@ class EAMainActivityView : BaseRxActivityView() {
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
 
         val linearLayoutManager = LinearLayoutManager(this)
         val itemAnimator = SlideItemAnimator()
@@ -70,7 +71,7 @@ class EAMainActivityView : BaseRxActivityView() {
         recycler.adapter = adapter
     }
 
-    override fun bind() {
+    fun bind() {
         headerController = HeaderController()
 
         carouselController = CarouselController(

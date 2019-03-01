@@ -28,8 +28,4 @@ interface BindableRxView : Related<VIEW>, CoreView {
 
     override fun relationEntity() = VIEW
 
-    /**
-     * В этом методе реализуется связываение модели экрана и view
-     */
-    fun bind()
 }

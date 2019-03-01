@@ -38,11 +38,6 @@ abstract class BaseRxActivityView : CoreActivityView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
-        super.onCreate(savedInstanceState, persistentState, viewRecreated)
-        bind()
-    }
-
     @CallSuper
     override fun onDestroy() {
         viewDisposable.clear()
@@ -64,11 +59,6 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bind()
-    }
-
     @CallSuper
     override fun onDestroy() {
         viewDisposable.clear()
@@ -84,11 +74,6 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
 abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        bind()
-    }
 
     @CallSuper
     override fun onDestroy() {
