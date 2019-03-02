@@ -62,11 +62,18 @@ interface ImageLoaderInterface {
     fun error(@DrawableRes drawableResId: Int): ImageLoaderInterface
 
     /**
-     * Установка лямбды для отслеживания загрузки изображения
+     * Установка лямбды для отслеживания загрузки изображения и источника загрузки
      *
      * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
      */
-    fun listener(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))): ImageLoaderInterface
+    fun listenerWithSource(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))): ImageLoaderInterface
+
+    /**
+     * Установка лямбды для отслеживания загрузки изображения
+     *
+     * @param lambda лямбда, возвращающая загруженный [Drawable]
+     */
+    fun listener(lambda: ((drawable: Drawable) -> (Unit))): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
@@ -192,12 +199,15 @@ interface ImageLoaderInterface {
     fun into(view: View)
 
     /**
-     * Загрузка изображения с использованием Listener'ов и указанием целевой [View]
+     * Загрузка изображения с использованием Listener'ов и указанием целевой [View] для поддержания жизненного цикла
      *
-     * @param view экземпляр view, используется для управления жизненным циклом
-     * @param onErrorLambda лямбда, вызываемая при ошибке загрузки изображения.
-     * @param onCompleteLambda лямбда, вызываемая при успешной загрузке изображения
-     * @param onClearMemoryLambda лямбда, вызываемая, когда view может быть очищена. В ней следует
+     * @param view                  экземпляр view, используется для управления жизненным циклом
+     * @param onErrorLambda         лямбда, вызываемая при ошибке загрузки изображения.
+     * @param onCompleteLambda      лямбда, вызываемая при успешной загрузке изображения во [View]
+     *                              Возвращает загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен.
+     *                              При проставлении preview и error, будет вызвана так же для них.
+     *                              В этом случае параметр imageSource будет равен null
+     * @param onClearMemoryLambda   лямбда, вызываемая, когда view может быть очищена. В ней следует
      * производить операции по дополнительному освобождению памяти.
      */
     fun into(

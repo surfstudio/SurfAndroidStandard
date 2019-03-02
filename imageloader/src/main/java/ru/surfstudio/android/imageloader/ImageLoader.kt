@@ -132,8 +132,16 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      *
      * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
      */
-    override fun listener(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))) =
+    override fun listenerWithSource(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))) =
             apply { this.onImageLoadedLambda = lambda }
+
+    /**
+     * Установка лямбды для отслеживания загрузки изображения
+     *
+     * @param lambda лямбда, возвращающая загруженный [Drawable]
+     */
+    override fun listener(lambda: ((drawable: Drawable) -> (Unit))) =
+            apply { this.onImageLoadedLambda = { drawable, _ -> lambda(drawable) } }
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
@@ -142,7 +150,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun errorListener(lambda: ((throwable: Throwable) -> (Unit))) =
             apply { this.onImageLoadErrorLambda = lambda }
-
 
     /**
      * Указание политики кэширования.
