@@ -60,6 +60,17 @@ View и Presenter. Можно рассматривать BindModel как инт
 
 ## Известные проблемы/тонкости
 
+### Инстанцирование презентера
+
+Для инстанцирования презентера необходимо наследовать компонент экрана от BindableScreenComponent и в модуле добавить provide метод,
+он должен возвращать тип Any. В самом презентере нужно поставить @Inject на конструкторе. Это позволит не прописывать создание презентера вручную.
+
+```kotlin
+@Provides
+@PerScreen
+fun providePresenter(presenter: YourPresenter) = Any()
+```
+
 ### Null-нетерпимость
 Реализация основанна на [RxRely][rxrelylib] потому не принимает null.
 Как и вся RxJava2
@@ -103,7 +114,7 @@ View и Presenter. Можно рассматривать BindModel как инт
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru)
 необходимо, чтобы корневой `build.gradle` файл проекта был сконфигурирован так,
 как описано [здесь](https://bitbucket.org/surfstudio/android-standard/overview).
-  
+
 Для подключения модуля через Gradle:
 ```
     implementation "ru.surfstudio.android:core-mvp-binding:X.X.X"
