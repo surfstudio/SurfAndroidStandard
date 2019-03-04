@@ -7,7 +7,7 @@
 #### analytics
 * ANDDEP-294 Доработан модуль аналитики
 * Поддержка любых параметров события аналитики. Возможность отправлять событие только в некоторые аналитики или по условиям.
-* Старые события работают без изменений. 
+* Старые события работают без изменений.
 #### animations
 * ANDDEP-391 Добавлен параметр `defaultAlpha` для функций `fadeIn(...)` и `fadeOut(...)`.
 Он сохраняет постоянную прозрачность для View при одновременном множественном вызове анимаций.
@@ -124,6 +124,13 @@
     * Ускорение работы, добавление проверок на опциональное использование переменных
     * Добавление функций-расширений для опциональной работы с RequestBuilder [`ImageLoaderUtils.kt`](imageloader/src/main/java/ru/surfstudio/android/imageloader/util/ImageLoaderUtils.kt)
     * Добавление расширенного списка стратегий кеширования [`CacheStrategy`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/CacheStrategy.kt)
+* ANDDEP-442 Расширение функционала [`ImageLoader`](imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):
+    * Добавлена поддержка устанавливать Tile изображению (мостить по горизонтали и вертикали)
+    * Изменен метод `ImageLoader.mask`, теперь он принимает параметром `PorterDuff.Mode` для установки необходимого типа заливки
+    * Добавление списка источников загрузки изображения [`ImageSource`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/ImageSource.kt)
+    * Добавление listener'a с источником загрузки изображения: `ImageLoader.listenerWithSource`
+    * Исправление неочевидного поведения функции `ImageLoader.into`, добавление перегрузки с лямбдами-слушателями
+
 
 ### security
 * ANDDEP-82 Модуль для обеспечения безопасности
