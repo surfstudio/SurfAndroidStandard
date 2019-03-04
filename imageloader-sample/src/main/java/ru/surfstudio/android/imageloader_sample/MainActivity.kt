@@ -14,6 +14,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
     private lateinit var transformButton: Button
 
+    private lateinit var svgIv: ImageView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -30,6 +32,9 @@ class MainActivity : AppCompatActivity() {
 
         imageView.post { loadOriginalImage() }
 
+        svgIv = find(R.id.imageloader_sample_svg_iv)
+        val svgImageUrl = "https://card2card.zenit.ru/assets/images/banks/yandex.svg"
+        loadSvgImage(svgImageUrl)
     }
 
     private fun loadOriginalImage() {
@@ -55,5 +60,15 @@ class MainActivity : AppCompatActivity() {
                 .signature(Math.random()) // картинка будет грузиться при каждом тапе
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
+    }
+
+    private fun loadSvgImage(svgImageUrl: String) {
+        ImageLoader
+                .with(this)
+                .skipCache(true) //для svg недоступен кэш
+                .centerCrop()
+                .url(svgImageUrl)
+                .error(R.drawable.ic_launcher_background)
+                .into(svgIv)
     }
 }

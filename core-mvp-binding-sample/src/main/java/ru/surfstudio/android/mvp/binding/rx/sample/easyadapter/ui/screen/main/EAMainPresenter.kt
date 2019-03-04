@@ -33,13 +33,12 @@ private const val INTERVAL_MS: Long = 2500
  * Презентер [EAMainActivityView]
  */
 @PerScreen
-class EAMainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                          private val activityNavigator: ActivityNavigator)
-    : BaseRxPresenter<MainBindModel>(basePresenterDependency) {
-
-    private val screenModelFactory = MainModelRepository()
-
-    override val bm = MainBindModel(screenModelFactory.next()) // передаем изначальное состояние, может приходжить из роута, интерактора etc
+class EAMainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val activityNavigator: ActivityNavigator,
+        private val bm: MainBindModel,
+        private val screenModelFactory: MainModelRepository
+) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
