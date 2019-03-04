@@ -32,10 +32,10 @@ import android.view.animation.LinearInterpolator
  */
 fun View.fadeIn(
         duration: Long = AnimationUtil.ANIM_ENTERING,
-        endAlpha: Float? = null,
+        defaultAlpha: Float = alpha,
         endAction: (() -> Unit)? = null
 ) =
-        AnimationUtil.fadeIn(this, duration, endAlpha, endAction)
+        AnimationUtil.fadeIn(this, duration, defaultAlpha, endAction)
 
 /**
  * Сокрытие вью с изменением прозрачности
@@ -44,11 +44,11 @@ fun View.fadeIn(
  */
 fun View.fadeOut(
         duration: Long = AnimationUtil.ANIM_LEAVING,
-        visibility: Int = View.GONE,
-        endAlpha: Float? = null,
+        endVisibility: Int = View.GONE,
+        defaultAlpha: Float = alpha,
         endAction: (() -> Unit)? = null
 ) =
-        AnimationUtil.fadeOut(this, duration, visibility, endAlpha, endAction)
+        AnimationUtil.fadeOut(this, duration, endVisibility, defaultAlpha, endAction)
 
 /**
  * Появление вью с эффектом "слайда" в зависимости от gravity

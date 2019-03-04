@@ -1,0 +1,17 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="ru.surfstudio.android.template.base_feature">
+
+    <!-- todo Исправить в соответствии с нуждами приложения.
+    Если приложение не использует бэкап (android:allowBackup="false"),
+    то backup_scheme не нужна -->
+
+    <application
+        android:name="ru.surfstudio.standard.application.app.App"
+        android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_scheme"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning" />
+</manifest>

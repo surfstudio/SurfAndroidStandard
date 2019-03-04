@@ -48,6 +48,7 @@ import ru.surfstudio.android.imageloader.util.BlurStrategy
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
+import com.bumptech.glide.signature.ObjectKey
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
@@ -61,7 +62,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var imageTransformationsManager = ImageTransformationsManager(context)
     private var imageResourceManager = ImageResourceManager(context, imageTransformationsManager)
     private var imageTargetManager = ImageTargetManager(context, imageResourceManager)
-    private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager)
+    private var imageSignatureManager = SignatureManager()
+    private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager, imageSignatureManager)
     private var imageTransitionManager = ImageTransitionManager()
 
     private var onImageLoadedLambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))? = null
@@ -72,7 +74,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                                   model: Any?,
                                   target: Target<Drawable>?,
                                   isFirstResource: Boolean) = false.apply {
-            imageTagManager.setTag(null)
             e?.let { onImageLoadErrorLambda?.invoke(it) }
         }
 
@@ -275,6 +276,12 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun force() =
             apply { this.imageTagManager.force = true }
 
+
+    override fun signature(signature: Any): ImageLoaderInterface =
+            apply {
+                this.imageSignatureManager.signature = signature
+            }
+
     /**
      * Получение исходника изображения в формате [Bitmap].
      * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
@@ -319,10 +326,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun into(view: View) {
         this.imageTargetManager.targetView = view
-
-        if (imageTagManager.isTagUsed()) return
-
-        imageTagManager.setTag(imageResourceManager.url)
 
         performLoad(view)
     }
@@ -402,6 +405,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                             .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
                             .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
                             .applyTransformations(imageTransformationsManager.prepareTransformations())
+                            .signature(ObjectKey(imageSignatureManager.signature ?: imageResourceManager.url))
             )
             .listener(glideDownloadListener)
 

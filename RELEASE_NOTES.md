@@ -5,7 +5,12 @@
 ## 0.4.0 - SNAPSHOT
 
 #### analytics
+* ANDDEP-294 Доработан модуль аналитики
+* Поддержка любых параметров события аналитики. Возможность отправлять событие только в некоторые аналитики или по условиям.
+* Старые события работают без изменений. 
 #### animations
+* ANDDEP-391 Добавлен параметр `defaultAlpha` для функций `fadeIn(...)` и `fadeOut(...)`.
+Он сохраняет постоянную прозрачность для View при одновременном множественном вызове анимаций.
 #### app-migration
 #### broadcast-extension
 #### connection
@@ -15,6 +20,9 @@
 * ANDDEP-320 Возможность динамически задавать LoadState, гибкий способ отображения LoadState
 #### core-mvp-binding
 #### core-ui
+
+* добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
+
 #### custom-view
 
 * Исправлено некорректное поведение MaterialProgressBar на Android версии 5 и ниже
@@ -35,6 +43,7 @@
 #### filestorage
 #### firebase-analytics
 #### imageloader
+* ANDDEP-306 Добавлена поддержка SVG для ImageLoader'а
 #### location
 
 * Исправлена потеря callback'а `LocationErrorResolution` во фрагменте
@@ -89,11 +98,14 @@
     * Добавлена библиотека TinyDancer для отображения FPS
 * ANDDEP-335 Добавлен Stetho на DebugScreen
     * Добавлена библиотека Stetho которая в связке с Google Chrome может использоваться для дебага.
-* Добавлен EasyLauncher: метки на иконках приложения в лаунчере
+* Добавлены метки версий на иконках приложения в лаунчере
 * Добавлен переключатель между основным и тестовым сервером
 * Добавлена возможность открыть Developer Tools через DebugScreen
 * Добавлен LeakCanary
 * Добавлен просмотрщик файлового хранилища приложения
+* Добавлен плагин Build scans https://guides.gradle.org/creating-build-scans/
+* Добавлена возможность добавить задержку выполнения запроса
+    * На экране DebugScreen в настройках сервера можно добавить задержку запроса 0c 0.5c 1c 2c 4c 8c
 
 #### util-ktx
 
@@ -112,6 +124,17 @@
     * Ускорение работы, добавление проверок на опциональное использование переменных
     * Добавление функций-расширений для опциональной работы с RequestBuilder [`ImageLoaderUtils.kt`](imageloader/src/main/java/ru/surfstudio/android/imageloader/util/ImageLoaderUtils.kt)
     * Добавление расширенного списка стратегий кеширования [`CacheStrategy`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/CacheStrategy.kt)
+
+### security
+* ANDDEP-82 Модуль для обеспечения безопасности
+    * [AppDebuggableChecker](security-sample-template/security/src/main/java/ru/surfstudio/android/security/app/AppDebuggableChecker.kt)- класс, проверяющий debuggable-флаги приложения при его запуске.
+    * [RootChecker](security-sample-template/security/src/main/java/ru/surfstudio/android/security/root/RootChecker.kt) - проверяет наличие рут-прав на устройстве.
+    * [KeyEncryptor](security-sample-template/security/src/main/java/ru/surfstudio/android/security/crypto/KeyEncryptor.kt) - абстрактный класс для реализации безопасного [Encryptor'a](filestorage/src/main/java/ru/surfstudio/android/filestorage/encryptor/Encryptor.kt).
+    * [CertificatePinnerCreator](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ssl/CertificatePinnerCreator.kt) - класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
+    * [SessionManager](security-sample-template/security/src/main/java/ru/surfstudio/android/security/session/SessionManager.kt) - Менеджер для отслеживания сессии Activity.
+    * [SecurityUiExtensions](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ui/SecurityUiExtensions.kt) -  - Утилиты для реализаци безопасного UI.
+
+    * Расписаны Security tips, которые необходимо учитывать в приложении.
 
 ## 0.3.0
 
@@ -198,6 +221,7 @@
     * `copyTextToClipboard()` - копирует текст в буфер обмена
 * ANDDEP-211 добавлена возможность настраивать сдвиг часового пояса
     и получать дефолтный для устройства
+* Добавлен ActivityLifecycleListener для удобного использования Application.ActivityLifecycleCallbacks
 
 #### template
 

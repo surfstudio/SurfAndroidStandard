@@ -11,9 +11,7 @@
         1. [Java Code Style](common/codestyle/java_codestyle.md)
         1. [Koltin Code Syle](common/codestyle/kotlin_codestyle.md)
     1. [Архитектура приложения](common/architect.md)
-    1. *Многомодульность*
-        1. [Многомодульность - общие принципы](common/multimodule/abstract.md)
-        1. [Многомодульность - детали](common/multimodule/detail.md)
+    1. [Многомодульность](common/multimodule/multimodules.md)
     1. [Инъекция зависимостей](common/di.md)
     1. [Логгирование](common/logging.md)
     1. [Шина сообщений](common/event_bus.md)
@@ -52,6 +50,9 @@
     1. [Особенности реализации View](ui/view_realization_specs.md)
 
 1. [Инициализация приложения](../template/README.md)
+    1. [Подготовка проекта к выгрузке в fabric](common/fabric.md)
+
+1. [Безопасность](../security-sample-template/security/README.md)
 
 1. [Лучшие практики](best_practice/best_practice.md)
     1. [Поиск утечек](best_practice/memory_leak.md)

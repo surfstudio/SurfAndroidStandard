@@ -48,12 +48,14 @@ object AnimationUtil {
         fadeOut(outView, duration, visibility, endAction = endAction)
     }
 
+
     /**
      * Сокрытие вью с изменением прозрачности
      * @param outView целевой view
      * @param duration длительность анимации (в мс)
      * @param endVisibility конечное значение видимости элемента
-     * @param endAlpha дефолтная конечная прозрачность (если нам не нужно опираться на прозрачность view)
+     * @param defaultAlpha  дефолтная прозрачность (следует переопределять, когда анимации вызываются часто,
+     *                      и необходимо статичное значение)
      * @param endAction конечное действие
      */
 
@@ -61,12 +63,9 @@ object AnimationUtil {
             outView: View,
             duration: Long = ANIM_LEAVING,
             endVisibility: Int = View.GONE,
-            endAlpha: Float? = null,
+            defaultAlpha: Float = outView.alpha,
             endAction: (() -> Unit)? = null
     ) {
-
-        val alpha = endAlpha ?: outView.alpha
-
         outView.clearAnimation()
         ViewCompat.animate(outView)
                 .alpha(0f)
@@ -75,7 +74,7 @@ object AnimationUtil {
                 .setListener(DefaultViewPropertyAnimatorListener())
                 .withEndAction {
                     outView.visibility = endVisibility
-                    outView.alpha = alpha
+                    outView.alpha = defaultAlpha
                     endAction?.invoke()
                 }
     }
@@ -85,26 +84,25 @@ object AnimationUtil {
      *
      * @param inView целевой view
      * @param duration длительность анимации (в мс)
-     * @param endAlpha дефолтная прозрачность (если нам не нужно опираться на прозрачность view)
+     * @param defaultAlpha  дефолтная прозрачность (следует переопределять, когда анимации вызываются часто,
+     *                      и необходимо статичное значение)
      * @param endAction заключительное действие
      */
     fun fadeIn(
             inView: View,
             duration: Long = ANIM_ENTERING,
-            endAlpha: Float? = null,
+            defaultAlpha: Float = inView.alpha,
             endAction: (() -> Unit)? = null
     ) {
 
         val animatorListener = DefaultViewPropertyAnimatorListener(inView.alpha, inView.visibility)
-
-        val alpha = endAlpha ?: inView.alpha
 
         inView.alpha = 0f
         inView.visibility = View.VISIBLE
 
         inView.clearAnimation()
         ViewCompat.animate(inView)
-                .alpha(alpha)
+                .alpha(defaultAlpha)
                 .setDuration(duration)
                 .setInterpolator(FastOutLinearInInterpolator())
                 .setListener(animatorListener)

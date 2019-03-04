@@ -182,7 +182,14 @@ interface ImageLoaderInterface {
      * Принудительная вставка изображения во вью.
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
+    @Deprecated("Use signature() instead")
     fun force(): ImageLoaderInterface
+
+    /**
+     * Предоставляет лоадеру признак для перезагрузки изображения.
+     * @param signature
+     */
+    fun signature(signature: Any): ImageLoaderInterface
 
     /**
      * Указание целевой [View].

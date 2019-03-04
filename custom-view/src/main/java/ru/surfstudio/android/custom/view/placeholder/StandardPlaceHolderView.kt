@@ -49,7 +49,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Стандартный полноэкранный плейсхолдер с поддержкой смены состояний.
+ * Полноэкранный плейсхолдер с поддержкой смены состояний.
+ *
+ * Поддержка приостановлена. Следует использовать [PlaceHolderViewContainer]
  */
 open class StandardPlaceHolderView @JvmOverloads constructor(
         context: Context,
@@ -406,19 +408,19 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
     private fun setVisibility() {
         when (stater.loadState) {
             PlaceholderStater.StandardLoadState.NONE -> {
-                fadeOut(this, 0L, endAlpha = 0f)
+                fadeOut(this, 0L, defaultAlpha = 1f)
             }
             PlaceholderStater.StandardLoadState.MAIN_LOADING, PlaceholderStater.StandardLoadState.TRANSPARENT_LOADING -> {
                 contentContainer.visibility = View.INVISIBLE
                 avIndicatorView?.smoothToShow()
                 progressBarContainer.visibility = View.VISIBLE
-                fadeIn(this, 0L, endAlpha = 1f)
+                fadeIn(this, 0L, defaultAlpha = 1f)
             }
             else -> {
                 contentContainer.visibility = View.VISIBLE
                 avIndicatorView?.smoothToHide()
                 progressBarContainer.visibility = View.INVISIBLE
-                fadeIn(this, 0L, endAlpha = 1f)
+                fadeIn(this, 0L, defaultAlpha = 1f)
             }
         }
     }
