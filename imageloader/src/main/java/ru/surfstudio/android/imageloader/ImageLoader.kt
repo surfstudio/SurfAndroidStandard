@@ -17,6 +17,7 @@ package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
@@ -64,7 +65,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager, imageSignatureManager)
     private var imageTransitionManager = ImageTransitionManager()
 
-    private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
+    private var onImageLoadedLambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))? = null
     private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
 
     private val glideDownloadListener = object : RequestListener<Drawable> {
@@ -79,8 +80,12 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                                      model: Any?,
                                      target: Target<Drawable>?,
                                      dataSource: DataSource?,
-                                     isFirstResource: Boolean): Boolean =
-                false.apply { onImageLoadedLambda?.invoke(resource) }
+                                     isFirstResource: Boolean): Boolean {
+            val imageSource = dataSource?.toImageSource()
+            imageCacheManager.imageSource = imageSource
+            onImageLoadedLambda?.invoke(resource, imageSource)
+            return false
+        }
     }
 
     companion object {
@@ -125,10 +130,18 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     /**
      * Установка лямбды для отслеживания загрузки изображения
      *
+     * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
+     */
+    override fun listenerWithSource(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))) =
+            apply { this.onImageLoadedLambda = lambda }
+
+    /**
+     * Установка лямбды для отслеживания загрузки изображения
+     *
      * @param lambda лямбда, возвращающая загруженный [Drawable]
      */
     override fun listener(lambda: ((drawable: Drawable) -> (Unit))) =
-            apply { this.onImageLoadedLambda = lambda }
+            apply { this.onImageLoadedLambda = { drawable, _ -> lambda(drawable) } }
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
@@ -137,7 +150,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun errorListener(lambda: ((throwable: Throwable) -> (Unit))) =
             apply { this.onImageLoadErrorLambda = lambda }
-
 
     /**
      * Указание политики кэширования.
@@ -224,9 +236,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
      */
-    override fun mask(isOverlay: Boolean, @DrawableRes maskResId: Int) =
+    override fun mask(isOverlay: Boolean, @DrawableRes maskResId: Int, overlayMode: PorterDuff.Mode) =
             also {
-                imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId)
+                imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId, overlayMode)
             }
 
     /**
@@ -336,13 +348,13 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun into(
             view: View,
             onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?,
-            onCompleteLambda: ((resource: Drawable?) -> Unit)?,
+            onCompleteLambda: ((resource: Drawable?, imageSource: ImageSource?) -> Unit)?,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?
     ) {
         into(
                 view,
                 onErrorLambda,
-                { resource: Drawable, _ -> onCompleteLambda?.invoke(resource) },
+                { resource: Drawable, _, imageSource: ImageSource? -> onCompleteLambda?.invoke(resource, imageSource) },
                 onClearMemoryLambda
         )
     }
@@ -361,7 +373,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     fun <V : View> into(
             view: V,
             onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
-            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?) -> Unit)? = null,
+            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)? = null,
             onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
     ) {
         buildRequest().into(object : CustomViewTarget<V, Drawable>(view) {
@@ -371,7 +383,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
             override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                onCompleteLambda?.invoke(resource, transition)
+                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
             }
 
             override fun onResourceCleared(placeholder: Drawable?) {
@@ -420,7 +432,12 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Загрузка изображения в бекграунд к [View]
      */
     private fun intoBackground(view: View) {
-        into(view, view::setBackground, view::setBackground, view::setBackground)
+        into(
+                view,
+                view::setBackground,
+                { resource, _ -> view.background = resource },
+                view::setBackground
+        )
     }
 
     //region Deprecated

@@ -32,7 +32,7 @@ class MaskTransformation(private val overlayBundle: OverlayBundle) : BaseGlideIm
     private val paint = Paint()
 
     init {
-        paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+        paint.xfermode = PorterDuffXfermode(overlayBundle.mode)
     }
 
     override fun getId() = "ru.surfstudio.android.imageloader.transformations.MaskTransformation"
@@ -81,6 +81,7 @@ class MaskTransformation(private val overlayBundle: OverlayBundle) : BaseGlideIm
      */
     data class OverlayBundle(
             val isOverlay: Boolean = false,
-            @DrawableRes val maskResId: Int = -1
+            @DrawableRes val maskResId: Int = -1,
+            val mode: PorterDuff.Mode = PorterDuff.Mode.SRC_IN
     )
 }
