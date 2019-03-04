@@ -43,6 +43,7 @@
 #### filestorage
 #### firebase-analytics
 #### imageloader
+* ANDDEP-306 Добавлена поддержка SVG для ImageLoader'а
 #### location
 
 * Исправлена потеря callback'а `LocationErrorResolution` во фрагменте

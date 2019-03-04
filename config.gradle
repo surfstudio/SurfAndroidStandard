@@ -94,6 +94,7 @@ ext {
 
     //glide
     glideVersion = '4.8.0'                      //http://bit.ly/2Q7Fa41
+    androidsvg = '1.3'                          //https://bit.ly/2Pcb4fi
 
     //ui
     materialProgressBarVersion = '1.6.0'        //http://bit.ly/2vrzQvE
