@@ -8,16 +8,17 @@
 
 ## Использование
 
-1. Сконфигурировать [`PushHandler`][handler], используя, например `DefaultPushHandler` - [пример][nm]
 1. В DefaultActivityLifecycleCallbacks добавить обработку старта активити методом
    `pushHandler.onActivityStarted()`
-1. Добавить маркерный интерфейс [PushHandlingActivity](src/main/java/ru/surfstudio/android/notification/ui/notification/PushHandlingActivity.kt)
+2. Добавить маркерный интерфейс [PushHandlingActivity](src/main/java/ru/surfstudio/android/notification/ui/notification/PushHandlingActivity.kt)
    к активити-лаунчер (или другой, с которой будет происходить навигация)
-1. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
+3. Добавить объект, наследующий [AbstractPushHandleStrategyFactory](src/main/java/ru/surfstudio/android/notification/ui/notification/AbstractPushHandleStrategyFactory.kt),
    в котором переопределить map c соотвествием типа пуша стратегии его обработки
-1. Добавить firebase в проект, заинжектить туда `PushHandler`, в методе onMessageReceived обработать сообщение
+4. Добавить firebase в проект, заинжектить туда `PushHandler`, в методе onMessageReceived обработать сообщение
    с помощью `pushHandler.handleMessage()`
-   
+5. Зарегистрировать [`PushEventListener`][pushListener] в Application, там можно произвести действия при открытии или отклонения пуша. [Пример][pushListenerimpl]
+6. Чтобы группировка работала, инициализируйте/переопределите переменную group в `PushHandleStrategy`.
+   Для каждой стратегии можно объявить свою группировку. Таким образом каждая уведомления из каждой стратегии будет группироваться в отдельные группы.
 [Пример использования](../firebase-sample)
 
 ## Release Notes
@@ -30,4 +31,5 @@ Gradle:
 ```
 
 [nm]: ../firebase-sample/src/main/java/ru/surfstudio/android/firebase/sample/app/dagger/NotificationModule.kt
-[handler]: src/main/java/ru/surfstudio/android/notification/impl/DefaultPushHandler.kt
+[pushlistener]: src/main/java/ru/surfstudio/android/notification/ui/PushEventListener.kt
+[pushListenerimpl]: ../template/base_feature/src/main/java/ru/surfstudio/standard/application/app/App.kt

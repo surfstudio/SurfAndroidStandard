@@ -1,10 +1,9 @@
 apply from: '../androidModule.gradle'
 
 gradle.ext.configAndroidStandardDependencies(this, [
-        'core-app',
+        'activity-holder',
         'logger',
         'rx-extension',
-        'shared-pref',
-        'core-ui',
-        'util-ktx'
+        'util-ktx',
+        'logger'
 ])

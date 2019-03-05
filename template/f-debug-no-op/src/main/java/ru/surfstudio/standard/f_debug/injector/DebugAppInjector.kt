@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.f_debug.injector
 
 import android.app.Application
-import ru.surfstudio.android.core.app.ActiveActivityHolder
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.standard.f_debug.DebugInteractor
 
 object DebugAppInjector {

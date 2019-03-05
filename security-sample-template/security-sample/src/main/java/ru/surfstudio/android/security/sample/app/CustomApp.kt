@@ -1,6 +1,7 @@
 package ru.surfstudio.android.security.sample.app
 
-import ru.surfstudio.android.core.app.CoreApp
+import androidx.multidex.MultiDexApplication
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 import ru.surfstudio.android.security.app.AppDebuggableChecker
 import ru.surfstudio.android.security.sample.BuildConfig
@@ -10,8 +11,9 @@ import ru.surfstudio.android.security.sample.app.dagger.DaggerCustomAppComponent
 /**
  * Класс приложения
  */
-class CustomApp : CoreApp() {
+class CustomApp : MultiDexApplication() {
 
+    val activeActivityHolder = ActiveActivityHolder()
     var customAppComponent: CustomAppComponent? = null
     //листенер для SessionManager
     private val sessionActivityCallback by lazy { customAppComponent?.sessionActivityCallback() }

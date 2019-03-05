@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.notification.interactor.push.storage
+package ru.surfstudio.standard.i_push_notification.storage
 
 import android.content.SharedPreferences
 import ru.surfstudio.android.shared.pref.SettingsUtil

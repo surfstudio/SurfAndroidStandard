@@ -8,7 +8,6 @@ android {
 }
 
 dependencies {
-    api project(':core-app')
     api project(':core-mvp')
     api project(':core-ui')
     api project(':dagger-scope')
@@ -27,6 +26,7 @@ dependencies {
     api project(':util-ktx')
     api project(':message-controller')
     api project(':rxbus')
+    api project(':activity-holder')
 
     api project(':sample-common')
 
