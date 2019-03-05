@@ -16,7 +16,6 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
-import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
@@ -29,24 +28,11 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
  * Презентер поддерживающий связывание модели и представления.
  * Работет в паре с [BindableRxView]
  */
-abstract class BaseRxPresenter<M>(
+abstract class BaseRxPresenter(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<BindableRxView<M>>(basePresenterDependency), Related<PRESENTER>
-        where M : BindModel {
+) : BasePresenter<BindableRxView>(basePresenterDependency), Related<PRESENTER> {
 
     override fun relationEntity() = PRESENTER
-
-    abstract val bm: M
-
-    @CallSuper
-    override fun onFirstLoad() {
-        view.bind(bm)
-    }
-
-    @CallSuper
-    override fun onLoad(viewRecreated: Boolean) {
-        if (viewRecreated) view.bind(bm)
-    }
 
     override fun <T> subscribe(observable: Observable<T>,
                                onNext: Consumer<T>,

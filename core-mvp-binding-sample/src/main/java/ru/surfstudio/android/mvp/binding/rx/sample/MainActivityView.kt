@@ -16,6 +16,8 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
@@ -27,20 +29,17 @@ import javax.inject.Inject
 /**
  * Главный экран примеров
  */
-class MainActivityView : BaseRxActivityView<MainBindModel>() {
+class MainActivityView : BaseRxActivityView() {
 
     @Inject
-    lateinit var presenter: MainPresenter
-    @Inject
-    lateinit var counterPresenter: CounterPresenter
-    @Inject
-    lateinit var doubleTextPresenter: DoubleTextPresenter
-    @Inject
-    lateinit var mainNavigationPresenter: MainNavigationPresenter
-    @Inject
-    lateinit var dialogControlPresenter: DialogControlPresenter
+    lateinit var bm: MainBindModel
 
-    override fun bind(bm: MainBindModel) {
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
+    }
+
+    fun bind() {
         bm.counterBond.observable.map { it.toString() } bindTo main_counter_tv::setText
         bm.textEditBond bindTo main_text_et::setText
         bm.sampleState bindTo text_tv::setText
@@ -63,12 +62,6 @@ class MainActivityView : BaseRxActivityView<MainBindModel>() {
     override fun getScreenName(): String = "MainActivityView"
 
     override fun getContentView(): Int = R.layout.activity_main
-
-    override fun getPresenters() = arrayOf(presenter,
-            mainNavigationPresenter,
-            counterPresenter,
-            doubleTextPresenter,
-            dialogControlPresenter)
 
     private fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

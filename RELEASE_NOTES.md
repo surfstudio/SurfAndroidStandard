@@ -56,6 +56,7 @@
 #### filestorage
 #### firebase-analytics
 #### imageloader
+* ANDDEP-306 Добавлена поддержка SVG для ImageLoader'а
 #### location
 
 * Исправлена потеря callback'а `LocationErrorResolution` во фрагменте
@@ -121,6 +122,14 @@
 * Добавлен плагин Build scans https://guides.gradle.org/creating-build-scans/
 * Добавлена возможность добавить задержку выполнения запроса
     * На экране DebugScreen в настройках сервера можно добавить задержку запроса 0c 0.5c 1c 2c 4c 8c
+* ANDDEP-444 Вынесены Dagger-зависимостей из [`AppComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppComponent.kt)
+и [`ActivityComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityComponent.kt)
+в отдельные классы:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
+и [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
+которые теперь отвечают за распределение зависимостей между компонентами.
+
+
+
 
 #### util-ktx
 

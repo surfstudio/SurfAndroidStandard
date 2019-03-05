@@ -21,16 +21,19 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
+import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.stub.generateStubs
 import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData
+import javax.inject.Inject
 
 /**
  * Модель главного экрана с примером easyadapter и пагинацией
  */
-class PaginationPresentationModel : BindModel {
+@PerScreen
+class PaginationPresentationModel @Inject constructor() : BindModel {
 
     val reloadAction = Action<Unit>()
     val getMoreAction = Action<Unit>()

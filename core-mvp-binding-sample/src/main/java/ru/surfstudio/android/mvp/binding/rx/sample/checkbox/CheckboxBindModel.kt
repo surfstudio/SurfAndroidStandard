@@ -17,16 +17,20 @@
 package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Bond
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
+import ru.surfstudio.android.dagger.scope.PerScreen
+import javax.inject.Inject
 
 /**
  * Модель экрана [CheckboxActivityView]
  */
-class CheckboxBindModel : BindModel {
+@PerScreen
+class CheckboxBindModel @Inject constructor(val route: CheckboxActivityRoute) : BindModel {
 
-    val checkAction1 = Action<Boolean>()
+    val checkBond1 = Bond<Boolean>()
     val checkAction2 = Action<Boolean>()
     val checkAction3 = Action<Boolean>()
     val sendAction = Action<Unit>()
