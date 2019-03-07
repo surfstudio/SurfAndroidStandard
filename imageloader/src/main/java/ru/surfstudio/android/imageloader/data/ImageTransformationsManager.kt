@@ -22,6 +22,7 @@ import ru.surfstudio.android.imageloader.transformations.*
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
+import ru.surfstudio.android.imageloader.transformations.TileTransformation.TileBundle
 
 /**
  * Пакет, хранящий все применяемые к изображению трансформации
@@ -35,7 +36,8 @@ data class ImageTransformationsManager(
         var blurBundle: BlurBundle = BlurBundle(),
         var overlayBundle: OverlayBundle = OverlayBundle(),
         var isDownsampled: Boolean = false,
-        var sizeMultiplier: Float = 1f
+        var sizeMultiplier: Float = 1f,
+        var tileBundle: TileBundle = TileBundle()
 ) {
 
     private var transformations = arrayListOf<Transformation<Bitmap>>()   //список всех применяемых трансформаций
@@ -46,8 +48,11 @@ data class ImageTransformationsManager(
     fun prepareTransformations() =
             transformations
                     .apply {
+                        clear()
                         if (imageSizeManager.isMaxHeightSetUp() || imageSizeManager.isMaxWidthSetUp())
                             add(SizeTransformation(imageSizeManager = imageSizeManager))
+                        if (tileBundle.isTiled)
+                            add(TileTransformation(tileBundle))
                         if (isCenterCrop) add(CenterCropTransformation())
                         if (isCircle) add(CircleTransformation())
                         if (roundedCornersBundle.isRoundedCorners)

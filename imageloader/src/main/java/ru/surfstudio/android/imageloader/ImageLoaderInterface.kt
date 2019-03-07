@@ -16,12 +16,15 @@
 package ru.surfstudio.android.imageloader
 
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
 import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
+import ru.surfstudio.android.imageloader.data.ImageSource
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.util.BlurStrategy
 
@@ -57,6 +60,13 @@ interface ImageLoaderInterface {
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
     fun error(@DrawableRes drawableResId: Int): ImageLoaderInterface
+
+    /**
+     * Установка лямбды для отслеживания загрузки изображения и источника загрузки
+     *
+     * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
+     */
+    fun listenerWithSource(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания загрузки изображения
@@ -149,9 +159,9 @@ interface ImageLoaderInterface {
      *
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
+     * @param overlayMode тип оверлея из [PorterDuff.Mode].
      */
-    fun mask(isOverlay: Boolean = true,
-             @DrawableRes maskResId: Int): ImageLoaderInterface
+    fun mask(isOverlay: Boolean = true, @DrawableRes maskResId: Int, overlayMode: PorterDuff.Mode): ImageLoaderInterface
 
     /**
      * Применяет указанное значение к размеру
@@ -166,6 +176,14 @@ interface ImageLoaderInterface {
      * @param duration продолжительность перехода (в мс)
      */
     fun crossFade(duration: Int = 300): ImageLoaderInterface
+
+    /**
+     * Размножения изображения для соответствия его размеров размерам View
+     *
+     * @param isTiled должно ли быть изображение размножено
+     * @param tileMode тип размножения
+     */
+    fun tile(isTiled: Boolean = true, tileMode: Shader.TileMode = Shader.TileMode.REPEAT): ImageLoaderInterface
 
     /**
      * Принудительная вставка изображения во вью.
@@ -186,6 +204,25 @@ interface ImageLoaderInterface {
      * @param view экземпляр [View] для загрузки изображения.
      */
     fun into(view: View)
+
+    /**
+     * Загрузка изображения с использованием Listener'ов и указанием целевой [View] для поддержания жизненного цикла
+     *
+     * @param view                  экземпляр view, используется для управления жизненным циклом
+     * @param onErrorLambda         лямбда, вызываемая при ошибке загрузки изображения.
+     * @param onCompleteLambda      лямбда, вызываемая при успешной загрузке изображения во [View]
+     *                              Возвращает загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен.
+     *                              При проставлении preview и error, будет вызвана так же для них.
+     *                              В этом случае параметр imageSource будет равен null
+     * @param onClearMemoryLambda   лямбда, вызываемая, когда view может быть очищена. В ней следует
+     * производить операции по дополнительному освобождению памяти.
+     */
+    fun into(
+            view: View,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
+            onCompleteLambda: ((resource: Drawable?, imageSource: ImageSource?) -> Unit)?,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
+    )
 
     /**
      * Получение исходника изображения в формате [Bitmap].

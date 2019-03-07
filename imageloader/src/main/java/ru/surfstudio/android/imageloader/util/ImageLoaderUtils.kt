@@ -3,11 +3,13 @@ package ru.surfstudio.android.imageloader.util
 import android.graphics.Bitmap
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.TransitionOptions
+import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import ru.surfstudio.android.imageloader.data.CacheStrategy
+import ru.surfstudio.android.imageloader.data.ImageSource
 
 /**
  * Функция-расширение для добавления трансформаций
@@ -75,4 +77,14 @@ internal fun CacheStrategy.toGlideStrategy() = when (ordinal) {
     CacheStrategy.CACHE_TRANSFORMED.ordinal -> DiskCacheStrategy.RESOURCE
     CacheStrategy.CACHE_NOTHING.ordinal -> DiskCacheStrategy.NONE
     else -> DiskCacheStrategy.AUTOMATIC
+}
+
+/**
+ * Трансформация [DataSource] из [Glide] в обертку [ImageSource]
+ */
+internal fun DataSource.toImageSource(): ImageSource = when (ordinal) {
+    DataSource.LOCAL.ordinal -> ImageSource.LOCAL
+    DataSource.DATA_DISK_CACHE.ordinal, DataSource.RESOURCE_DISK_CACHE.ordinal -> ImageSource.DISK_CACHE
+    DataSource.MEMORY_CACHE.ordinal -> ImageSource.MEMORY_CACHE
+    else -> ImageSource.REMOTE
 }
