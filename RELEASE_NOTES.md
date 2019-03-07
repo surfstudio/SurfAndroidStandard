@@ -6,7 +6,7 @@
 
 #### activity-holder
 
-* Класс `ActiveActivityHolder` перенесена на новый модуль из core-app
+* Отдельный модуль для `ActiveActivityHolder`
 
 
 #### analytics
@@ -20,14 +20,15 @@
 #### broadcast-extension
 #### connection
 #### converter-gson
+
 #### core-app
 
-* Модуль устарел. Не используйте его.
-* `CoreApp` устарел, создайте этот класс у себя на проекте если нужно.
-* `ActiveActivityHolder` перенесена на модуль activity-holder
-* `DefaultActivityLifecycleCallbacks` устарел, создайте этот класс у себя на проекте если нужно. Реализация также лежит в template
-* `StringsProvider` устарел, создайте этот класс у себя на проекте если нужно. Реализация также лежит в template
-* `Unit` устарел, создайте этот класс у себя на проекте если нужно.
+* Модуль - **deprecated**
+* `CoreApp` - deprecated, при необходимости создайте на конкретном проекте.
+* `ActiveActivityHolder` перенесен в модуль activity-holder
+* `DefaultActivityLifecycleCallbacks` deprecated, реализация по-умолчанию находится в template-модуле
+* `StringsProvider` deprecated, реализация по-умолчанию находится в template-модуле
+* `Unit` - deprecated, используйте kotlin.Unit.
 
 #### core-mvp
 * ANDDEP-320 Возможность динамически задавать LoadState, гибкий способ отображения LoadState

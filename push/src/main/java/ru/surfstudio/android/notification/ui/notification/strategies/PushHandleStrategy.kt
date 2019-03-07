@@ -115,7 +115,7 @@ abstract class PushHandleStrategy<out T : BaseNotificationTypeData<*>> : Seriali
     lateinit var deleteIntent: PendingIntent
 
     /**
-     * Определяем в каких случайх пуш не надо отображать,
+     * Определяем в каких случаях пуш не надо отображать,
      * а необходимо выполнить те или иные действия по подписке
      */
     abstract fun handlePushInActivity(activity: Activity): Boolean
