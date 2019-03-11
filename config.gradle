@@ -64,7 +64,7 @@ ext {
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
 
     //network
-    okHttpVersion = '3.13.0'                    //https://vk.cc/7UFwTd
+    okHttpVersion = '3.13.1'                    //https://vk.cc/7UFwTd
     retrofitVersion = '2.5.0'                   //https://vk.cc/7UFxk3
     chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
     gsonVersion = '2.8.5'                       //https://vk.cc/7UFvbd
@@ -110,7 +110,7 @@ ext {
     androidXEspressoCoreVersion = '3.1.0'       //http://bit.ly/2DNc0AA
     androidXEspressoIntentsVersion = '3.1.0'    //http://bit.ly/2SikuDT
     androidXEspressoContribVersion = '3.1.0'    //http://bit.ly/2E0DdAq
-    uiAutomatorVersion='2.2.0'                  //http://bit.ly/2ORotVQ
+    uiAutomatorVersion = '2.2.0'                  //http://bit.ly/2ORotVQ
     mockitoVersion = '2.23.4'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2QisKq5
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
