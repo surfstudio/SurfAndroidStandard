@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import ru.surfstudio.android.core.app.ActiveActivityHolder;
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 

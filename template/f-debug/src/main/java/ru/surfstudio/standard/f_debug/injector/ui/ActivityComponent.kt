@@ -4,14 +4,14 @@ import android.content.Context
 import android.content.SharedPreferences
 import dagger.Component
 import ru.surfstudio.android.connection.ConnectionProvider
-import ru.surfstudio.android.core.app.StringsProvider
+import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.tabfragment.TabFragmentNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope
 import ru.surfstudio.android.dagger.scope.PerActivity
-import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
+import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.f_debug.DebugInteractor

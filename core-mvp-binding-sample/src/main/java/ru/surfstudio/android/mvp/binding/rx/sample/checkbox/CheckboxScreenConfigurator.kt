@@ -19,6 +19,8 @@ package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 import android.content.Intent
 import dagger.Component
 import dagger.Module
+import dagger.Provides
+import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
@@ -35,11 +37,16 @@ class CheckboxScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigur
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, CheckboxScreenModule::class])
     internal interface CheckboxScreenComponent
-        : ScreenComponent<CheckboxActivityView>
+        : BindableScreenComponent<CheckboxActivityView>
 
     @Module
     internal class CheckboxScreenModule(route: CheckboxActivityRoute)
-        : DefaultCustomScreenModule<CheckboxActivityRoute>(route)
+        : DefaultCustomScreenModule<CheckboxActivityRoute>(route) {
+
+        @Provides
+        @PerScreen
+        fun providePresenters(checkboxPresenter: CheckboxPresenter) = Any()
+    }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
@@ -47,7 +54,7 @@ class CheckboxScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigur
         return DaggerCheckboxScreenConfigurator_CheckboxScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .checkboxScreenModule(CheckboxScreenModule(CheckboxActivityRoute()))
+                .checkboxScreenModule(CheckboxScreenModule(CheckboxActivityRoute(intent)))
                 .build()
     }
 }

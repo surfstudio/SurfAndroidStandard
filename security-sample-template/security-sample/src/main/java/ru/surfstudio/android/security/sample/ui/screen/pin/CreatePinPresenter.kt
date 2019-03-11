@@ -1,11 +1,10 @@
 package ru.surfstudio.android.security.sample.ui.screen.pin
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
+import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.interactor.profile.ProfileInteractor
 import javax.inject.Inject

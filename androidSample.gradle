@@ -34,6 +34,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
     implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
+    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
 }
 
 task printTestInstrumentationRunnerName {

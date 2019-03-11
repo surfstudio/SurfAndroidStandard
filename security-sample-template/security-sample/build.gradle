@@ -4,6 +4,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+allprojects {
+    configurations.all {
+        resolutionStrategy.force "androidx.appcompat:appcompat:$androidxVersion"
+    }
+}
+
 android {
     compileSdkVersion project.ext.compileSdkVersion
     buildToolsVersion project.ext.buildToolsVersion
@@ -46,6 +52,7 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:$androidxKtxVersion"
     implementation "androidx.core:core:$androidxKtxVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
     implementation project(':security-sample-template:security')
     implementation project(':sample-dagger')
 

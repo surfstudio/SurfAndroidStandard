@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.TextView
 import ru.surfstudio.android.mvp.widget.view.CoreConstraintLayoutView
-import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
 import ru.surfstudio.android.mvpwidget.sample.R
 import javax.inject.Inject
 

@@ -1,7 +1,6 @@
 package ru.surfstudio.android.shared.pref.sample.ui.screen.main
 
 import androidx.annotation.StringRes
-import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -10,6 +9,7 @@ import ru.surfstudio.android.shared.pref.sample.R
 import ru.surfstudio.android.shared.pref.sample.domain.ip.Ip
 import ru.surfstudio.android.shared.pref.sample.interactor.ip.IpRepository
 import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
+import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import javax.inject.Inject
 
 /**

@@ -15,15 +15,14 @@
  */
 package ru.surfstudio.android.notification.interactor.push
 
-import ru.surfstudio.android.core.app.Unit
 import java.io.Serializable
 
 /**
  * Пуш без данных
  */
-abstract class BaseNoDataNotificationTypeData : BaseNotificationTypeData<Unit>(), Serializable {
+abstract class BaseNoDataNotificationTypeData : BaseNotificationTypeData<Serializable>(), Serializable {
 
-    override fun extractData(map: Map<String, String>): Unit {
-        return Unit.INSTANCE
+    override fun extractData(map: Map<String, String>): Serializable? {
+        return null
     }
 }
