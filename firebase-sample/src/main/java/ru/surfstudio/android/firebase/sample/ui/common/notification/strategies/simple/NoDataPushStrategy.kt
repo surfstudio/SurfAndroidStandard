@@ -1,11 +1,10 @@
 package ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.simple
 
-import android.app.PendingIntent
 import android.content.Context
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.firebase.sample.R
 import ru.surfstudio.android.firebase.sample.ui.common.notification.strategies.type.NoDataNotificationTypeData
 import ru.surfstudio.android.firebase.sample.ui.screen.push.PushActivityRoute
+import ru.surfstudio.android.notification.ui.notification.groups.NotificationsGroup
 
 /**
  * Стратегия для пушей без данных
@@ -15,13 +14,11 @@ class NoDataPushStrategy : BaseSimplePushStrategy<NoDataNotificationTypeData>() 
 
     override val channelName: Int = R.string.no_data_push_channel_name
 
-    override fun coldStartRoute(): ActivityRoute = PushActivityRoute()
+    override val group: NotificationsGroup = NotificationsGroup("no_data_group")
 
-    override fun preparePendingIntent(context: Context, title: String): PendingIntent {
-        return PendingIntent.getActivity(
-                context,
-                title.hashCode(),
-                coldStartRoute().prepareIntent(context),
-                PendingIntent.FLAG_ONE_SHOT)
+    override fun makeGroupSummary(notificationCount: Int): String {
+        return "No data notifications $notificationCount"
     }
+
+    override fun coldStartIntent(context: Context) = PushActivityRoute().prepareIntent(context)
 }

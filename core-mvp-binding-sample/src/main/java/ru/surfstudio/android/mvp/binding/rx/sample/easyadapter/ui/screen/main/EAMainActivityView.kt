@@ -41,10 +41,10 @@ import javax.inject.Inject
 /**
  * example screen with list with different types of items
  */
-class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
+class EAMainActivityView : BaseRxActivityView() {
 
     @Inject
-    lateinit var presenter: EAMainPresenter
+    lateinit var bm: MainBindModel
 
     private lateinit var headerController: HeaderController
     private lateinit var carouselController: CarouselController
@@ -58,12 +58,11 @@ class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
     override fun createConfigurator(): BaseActivityViewConfigurator<*, *, *> =
             EaMainScreenConfigurator(intent)
 
-    override fun getPresenters() = arrayOf(presenter)
-
     override fun getScreenName(): String = "Main easy adapter sample"
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
 
         val linearLayoutManager = LinearLayoutManager(this)
         val itemAnimator = SlideItemAnimator()
@@ -72,7 +71,7 @@ class EAMainActivityView : BaseRxActivityView<MainBindModel>() {
         recycler.adapter = adapter
     }
 
-    override fun bind(bm: MainBindModel) {
+    fun bind() {
         headerController = HeaderController()
 
         carouselController = CarouselController(

@@ -4,6 +4,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
+allprojects {
+    configurations.all {
+        resolutionStrategy.force "androidx.appcompat:appcompat:$androidxVersion"
+    }
+}
+
 android {
     compileSdkVersion project.ext.compileSdkVersion
     buildToolsVersion project.ext.buildToolsVersion

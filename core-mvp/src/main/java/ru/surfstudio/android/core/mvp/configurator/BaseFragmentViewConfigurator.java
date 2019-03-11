@@ -68,6 +68,10 @@ public abstract class BaseFragmentViewConfigurator<P, M>
             screenComponent = createScreenComponent();
         }
         screenComponent.inject(target);
+
+        if (screenComponent instanceof BindableScreenComponent) {
+            ((BindableScreenComponent) screenComponent).requestInjection();
+        }
     }
 
     private ScreenComponent createScreenComponent() {
