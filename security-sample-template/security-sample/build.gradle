@@ -52,6 +52,7 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:$androidxKtxVersion"
     implementation "androidx.core:core:$androidxKtxVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
     implementation project(':security-sample-template:security')
     implementation project(':sample-dagger')
 
