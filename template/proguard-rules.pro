@@ -77,4 +77,5 @@
 -dontwarn kotlin.reflect.jvm.internal.**
 
 #android standard
--keep class ru.surfstudio.android.rx.extension.** { *; }
+-keep class ru.surfstudio.android.rx.extension.ConsumerSafe { *; }
+-keep class ru.surfstudio.android.rx.extension.ActionSafe { *; }
