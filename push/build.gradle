@@ -1,5 +1,9 @@
 apply from: '../androidModule.gradle'
 
+dependencies {
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+}
+
 gradle.ext.configAndroidStandardDependencies(this, [
         'activity-holder',
         'logger',

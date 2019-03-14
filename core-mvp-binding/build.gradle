@@ -16,6 +16,10 @@
 
 apply from: '../androidModule.gradle'
 
+dependencies {
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+}
+
 gradle.ext.configAndroidStandardDependencies(this, [
         'core-app',
         'core-ui',

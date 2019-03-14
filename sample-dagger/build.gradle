@@ -29,6 +29,7 @@ dependencies {
     api project(':activity-holder')
 
     api project(':sample-common')
+    api "androidx.multidex:multidex:$multidexVersion"
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     api "com.google.dagger:dagger:$daggerVersion"
