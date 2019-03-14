@@ -16,6 +16,8 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,7 +34,7 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 /**
  * Базовая Activity для связывания с моделью
  */
-abstract class BaseRxActivityView<M : BindModel> : CoreActivityView(), BindableRxView<M> {
+abstract class BaseRxActivityView : CoreActivityView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -41,6 +43,8 @@ abstract class BaseRxActivityView<M : BindModel> : CoreActivityView(), BindableR
         viewDisposable.clear()
         super.onDestroy()
     }
+
+    override fun getPresenters() = emptyArray<BaseRxPresenter>()
 
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
             observable.observeOn(AndroidSchedulers.mainThread())
@@ -51,7 +55,7 @@ abstract class BaseRxActivityView<M : BindModel> : CoreActivityView(), BindableR
 /**
  * Базовый Fragment для связывания с моделью
  */
-abstract class BaseRxFragmentView<M : BindModel> : CoreFragmentView(), BindableRxView<M> {
+abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -67,7 +71,7 @@ abstract class BaseRxFragmentView<M : BindModel> : CoreFragmentView(), BindableR
                     .also { viewDisposable.add(it) }
 }
 
-abstract class BaseRxDialogView<M : BindModel> : CoreDialogFragmentView(), BindableRxView<M> {
+abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 

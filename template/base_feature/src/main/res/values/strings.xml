@@ -1,4 +1,7 @@
 <resources>
+    <string name="notification_channel_id" translatable="false">CHANNEL_ID</string>
+    <string name="notification_channel_name">TEMPLATE</string> <!-- todo change -->
+
     <string name="app_name">Template Multimodule</string>
     <string name="server_error_message">Произошла ошибка сервера. Попробуйте позже еще раз</string>
     <string name="server_error_not_found">Произошла ошибка, данные не найдены. Попробуйте позже еще раз</string>

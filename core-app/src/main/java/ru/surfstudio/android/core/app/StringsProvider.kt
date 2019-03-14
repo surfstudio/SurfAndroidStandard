@@ -23,6 +23,7 @@ import androidx.annotation.StringRes
 /**
  * Класс, предоставляющий строки из ресурсов по id
  */
+@Deprecated("Создайте этот класс у себя на проекте если нужно. Реализация также лежит в template")
 class StringsProvider constructor(var context: Context) {
 
     fun getString(@StringRes id: Int, vararg args: Any): String {

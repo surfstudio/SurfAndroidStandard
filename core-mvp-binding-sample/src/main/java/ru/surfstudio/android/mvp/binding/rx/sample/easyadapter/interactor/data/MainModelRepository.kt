@@ -19,13 +19,14 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.interactor.data
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.MainModel
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.interactor.element.Elements
 import ru.surfstudio.easyadapter.sample.domain.Carousel
+import javax.inject.Inject
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
  *
  * Генерирует [MainModel]
  */
-class MainModelRepository {
+class MainModelRepository @Inject constructor() {
     private val CAROUSELS = arrayListOf(
             Carousel("aaa", "Sed condimentum"),
             Carousel("bbb", "Etiam mollis"),

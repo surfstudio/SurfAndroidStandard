@@ -16,6 +16,8 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.widget.Toast
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.checkedChanges
@@ -27,13 +29,20 @@ import javax.inject.Inject
 /**
  * Экран демострирующий возможность работы со связными данными напримере чекбоксов
  */
-class CheckboxActivityView : BaseRxActivityView<CheckboxBindModel>() {
+class CheckboxActivityView : BaseRxActivityView() {
 
-    @Inject
-    lateinit var presenter: CheckboxPresenter
+    @Inject lateinit var bm: CheckboxBindModel
 
-    override fun bind(bm: CheckboxBindModel) {
-        checkbox_1.checkedChanges() bindTo bm.checkAction1
+    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
+        super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        bind()
+    }
+
+    fun bind() {
+
+        bm.checkBond1 bindTo checkbox_1::setChecked
+
+        checkbox_1.checkedChanges() bindTo bm.checkBond1
         checkbox_2.checkedChanges() bindTo bm.checkAction2
         checkbox_3.checkedChanges() bindTo bm.checkAction3
         send_btn.clicks() bindTo bm.sendAction
@@ -49,5 +58,4 @@ class CheckboxActivityView : BaseRxActivityView<CheckboxBindModel>() {
 
     override fun getContentView(): Int = R.layout.activity_checkboxes
 
-    override fun getPresenters() = arrayOf(presenter)
 }

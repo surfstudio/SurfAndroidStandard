@@ -34,10 +34,9 @@ import javax.inject.Inject
 @PerScreen
 class PaginationPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val elementRepository: ElementRepository
-) : BaseRxPresenter<PaginationPresentationModel>(basePresenterDependency) {
-
-    override val bm = PaginationPresentationModel()
+        private val elementRepository: ElementRepository,
+        private val bm: PaginationPresentationModel
+) : BaseRxPresenter(basePresenterDependency) {
 
     private var loadMainSubscription: Disposable? = null
     private var loadMoreSubscription: Disposable? = null

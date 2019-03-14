@@ -4,21 +4,21 @@ import android.content.Context
 
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.connection.ConnectionProvider
-import ru.surfstudio.android.core.app.ActiveActivityHolder
-import ru.surfstudio.android.core.app.CoreApp
-import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
+import ru.surfstudio.android.custom_scope_sample.app.App
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProviderImpl
+import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 
 @Module
-class AppModule(private val coreApp: CoreApp) {
+class AppModule(private val coreApp: App) {
 
     @PerApplication
     @Provides
-    internal fun provideActiveActivityHolder(): ActiveActivityHolder {
+    fun provideActiveActivityHolder(): ActiveActivityHolder {
         return coreApp.activeActivityHolder
     }
 

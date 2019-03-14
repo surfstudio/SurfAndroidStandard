@@ -11,3 +11,9 @@ Gradle:
 ```
     implementation "ru.surfstudio.android:rx-extension:X.X.X"
 ```
+
+# Proguard rules
+```
+-keep class ru.surfstudio.android.rx.extension.ConsumerSafe { *; }
+-keep class ru.surfstudio.android.rx.extension.ActionSafe { *; }
+```

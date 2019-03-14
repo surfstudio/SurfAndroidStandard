@@ -2,7 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     api "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-    api 'androidx.multidex:multidex:2.0.0'
+    api "androidx.multidex:multidex:$multidexVersion"
     api "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
