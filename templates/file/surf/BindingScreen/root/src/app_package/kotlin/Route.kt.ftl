@@ -4,7 +4,11 @@ package ${packageName}
 
 import android.content.Context
 import android.content.Intent
+<#if crossFeature>
+import ru.surfstudio.android.core.ui.navigation.feature.route.feature.${routeParentClassName}
+<#else>
 import ru.surfstudio.android.core.ui.navigation.${screenType}.route.${routeParentClassName}
+</#if>
 <#if screenType=='fragment'>
 import android.support.v4.app.Fragment
 </#if>
@@ -62,5 +66,9 @@ class ${routeClassName}<#if needToGenerateParams>(<#if routeParamName1!='' && ro
         </#if>
     }</#if>
     </#if>
+    </#if>
+    <#if crossFeature>
+
+    override fun targetClassPath() = "${packageName}.${viewClassName}"
     </#if>
 }

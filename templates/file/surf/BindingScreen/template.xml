@@ -29,20 +29,10 @@
         constraints="layout|unique|nonempty"
         suggest="${classToResource(screenType)}_${classToResource(screenName)}"/>
 
-    <!--<parameter-->
-        <!--id="needToGenerateLds"-->
-        <!--name="Lds"-->
-        <!--type="boolean"/>-->
-
-    <!--<parameter-->
-        <!--id="needToGenerateSwr"-->
-        <!--name="Swr"-->
-        <!--type="boolean"/>-->
-
-    <!--<parameter-->
-        <!--id="needToGeneratePgn"-->
-        <!--name="Pgn"-->
-        <!--type="boolean"/>-->
+    <parameter
+        id="crossFeature"
+        name="CrossFeature"
+        type="boolean"/>
     
     <parameter
         id="needToGenerateResult"
@@ -100,15 +90,6 @@
         type="string"
         constraints="class"
         visibility="routeParamName2?has_content &amp;&amp; routeParamClassName2?has_content"/>
-
-    <!--<parameter-->
-        <!--id="language"-->
-        <!--name="Язык"-->
-        <!--type="enum"-->
-        <!--default="kotlin">-->
-        <!--<option id="kotlin">Kotlin</option>-->
-        <!--<option id="java">Java</option>-->
-    <!--</parameter>-->
 
     <globals file="globals.xml.ftl"/>
     <execute file="recipe.xml.ftl"/>
