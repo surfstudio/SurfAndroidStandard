@@ -32,8 +32,10 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
  */
 abstract class ActivityDynamicCrossFeatureWithParamsRoute : ActivityDynamicCrossFeatureRoute {
 
-    @Suppress("ConvertSecondaryConstructorToPrimary", "UNUSED_PARAMETER")
-    constructor(intent: Intent) {
+    constructor() {
         //empty
     }
+
+    @Suppress("ConvertSecondaryConstructorToPrimary", "UNUSED_PARAMETER")
+    constructor(intent: Intent) : this()
 }
