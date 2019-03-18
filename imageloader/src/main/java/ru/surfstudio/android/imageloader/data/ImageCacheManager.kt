@@ -21,4 +21,6 @@ package ru.surfstudio.android.imageloader.data
 data class ImageCacheManager(
         var skipCache: Boolean = false, //использовать ли закэшированные данные
         var cacheStrategy: CacheStrategy = CacheStrategy.CACHE_AUTO // стратегия кеширования
-)
+) {
+    var imageSource: ImageSource? = null //источник загруженного изобржаения
+}

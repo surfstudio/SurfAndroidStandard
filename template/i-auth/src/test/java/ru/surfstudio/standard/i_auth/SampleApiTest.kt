@@ -1,5 +1,6 @@
 package ru.surfstudio.standard.i_auth
 
+import android.app.Application
 import android.os.Build
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -8,12 +9,11 @@ import ru.surfstudio.standard.i_auth.di.DaggerTestAuthApiComponent
 import ru.surfstudio.standard.i_auth.di.TestAuthApiComponent
 import ru.surfstudio.standard.small_test_utils.ApiTestRunner
 import ru.surfstudio.standard.small_test_utils.BaseNetworkDaggerTest
-import ru.surfstudio.standard.small_test_utils.app.TestApp
 import ru.surfstudio.standard.small_test_utils.WaitApiTest
 import javax.inject.Inject
 
 @RunWith(ApiTestRunner::class)
-@Config(application = TestApp::class, sdk = [Build.VERSION_CODES.O_MR1])
+@Config(application = Application::class, sdk = [Build.VERSION_CODES.O_MR1])
 class SampleApiTest : BaseNetworkDaggerTest<TestAuthApiComponent>() {
 
     @Inject

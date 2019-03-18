@@ -3,6 +3,7 @@ apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation project("$templatePrefix:base")
+    implementation project("$templatePrefix:i-push-notification")
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
@@ -28,11 +29,13 @@ dependencies {
     implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
 
     api project("$templatePrefix:domain")
+    implementation project("$templatePrefix:i-push-notification")
 
     gradle.ext.androidStandard.api(
             this,
             "$surfCoreVersionName",
             [
+                    "activity-holder",
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",

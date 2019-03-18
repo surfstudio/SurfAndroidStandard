@@ -12,5 +12,5 @@ dependencies {
 gradle.ext.configAndroidStandardDependencies(this, [
         'logger',
         'rx-extension',
-        'core-app'
+        'activity-holder'
 ])

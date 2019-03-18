@@ -38,6 +38,7 @@ android {
 dependencies {
     implementation project("$templatePrefix:base")
     implementation project("$templatePrefix:base_feature")
+    implementation project("$templatePrefix:i-push-notification")
     implementation project("$templatePrefix:f-auth")
     implementation project("$templatePrefix:f-main")
     implementation project("$templatePrefix:f-splash")
@@ -52,6 +53,14 @@ dependencies {
     api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
+
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+    implementation "androidx.multidex:multidex:$multidexVersion"
+    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
+
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "com.annimon:stream:$annimonStreamVersion"
 }
 
 configurations.all {

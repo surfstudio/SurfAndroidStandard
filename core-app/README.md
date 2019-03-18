@@ -3,6 +3,8 @@
 [TOC]
 
 # Core app
+Этот модуль устарел, не исползуйте.
+
 Используется для конфигурации всего приложения и предоставляет полезные
 классы для реализации
 
@@ -24,4 +26,4 @@ Gradle:
 
 [ca]: src/main/java/ru/surfstudio/android/core/app/CoreApp.java
 [aah]: src/main/java/ru/surfstudio/android/core/app/ActiveActivityHolder.java
-[sp]: src/main/java/ru/surfstudio/android/core/app/StringsProvider.kt
+[sp]: ../template/base/src/main/java/ru/surfstudio/standard/base/app/StringsProvider.kt
