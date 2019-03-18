@@ -65,6 +65,8 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
         super.onDestroy()
     }
 
+    override fun getPresenters() = emptyArray<BaseRxPresenter>()
+
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
             observable.observeOn(AndroidSchedulers.mainThread())
                     .subscribe(onNext, Consumer(onError))
@@ -80,6 +82,8 @@ abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
         viewDisposable.clear()
         super.onDestroy()
     }
+
+    override fun getPresenters() = emptyArray<BaseRxPresenter>()
 
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
             observable.observeOn(AndroidSchedulers.mainThread())
