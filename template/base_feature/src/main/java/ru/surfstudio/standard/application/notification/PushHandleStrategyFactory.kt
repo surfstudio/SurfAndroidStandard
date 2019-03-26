@@ -1,7 +1,7 @@
 package ru.surfstudio.standard.application.notification
 
-import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
+import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
 import ru.surfstudio.standard.application.notification.strategy.BasePushHandleStrategy
 import ru.surfstudio.standard.domain.notification.NotificationType
 import java.util.*

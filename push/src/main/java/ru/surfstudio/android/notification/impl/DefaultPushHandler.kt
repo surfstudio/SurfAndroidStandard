@@ -22,8 +22,8 @@ import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
+import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
 
 /**
  * Выполняем необходимые действия при пуше на ui
