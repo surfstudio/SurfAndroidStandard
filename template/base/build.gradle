@@ -7,10 +7,10 @@ dependencies {
             this,
             "$surfCoreVersionName",
             [
+                    "activity-holder",
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
-                    "core-app",
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",

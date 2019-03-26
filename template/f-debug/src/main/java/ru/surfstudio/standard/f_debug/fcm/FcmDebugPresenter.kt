@@ -1,11 +1,11 @@
 package ru.surfstudio.standard.f_debug.fcm
 
-import ru.surfstudio.android.core.app.StringsProvider
+import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
+import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import ru.surfstudio.android.template.f_debug.R
 import javax.inject.Inject
 

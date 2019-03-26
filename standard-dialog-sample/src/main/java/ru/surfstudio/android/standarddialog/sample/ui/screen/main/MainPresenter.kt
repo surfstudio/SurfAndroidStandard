@@ -2,11 +2,11 @@ package ru.surfstudio.android.standarddialog.sample.ui.screen.main
 
 import com.example.standarddialog.StandardDialogPresenter
 import com.example.standarddialog.StandardDialogRoute
-import ru.surfstudio.android.core.app.StringsProvider
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
+import ru.surfstudio.android.sample.dagger.ui.base.StringsProvider
 import ru.surfstudio.android.standarddialog.sample.R
 import javax.inject.Inject
 

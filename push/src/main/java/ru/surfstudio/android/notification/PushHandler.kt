@@ -41,6 +41,21 @@ interface PushHandler {
                       data: Map<String, String>
     )
 
+    /**Обработка пуш-нотификации.
+     *
+     * @param context контекст
+     * @param uniqueId уникальный идентификатор пуша
+     * @param title заголовок нотификации
+     * @param body текст нотификации
+     * @param data данные из нотификации
+     */
+    fun handleMessage(context: Context,
+                      uniqueId: Int,
+                      title: String,
+                      body: String,
+                      data: Map<String, String>
+    )
+
     /**
      * Создание стратегии по данным из интента
      * @param data

@@ -17,12 +17,12 @@ package ru.surfstudio.android.notification.impl
 
 import android.app.Activity
 import android.content.Context
-import ru.surfstudio.android.core.app.ActiveActivityHolder
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.interactor.push.IntentPushDataConverter
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
-import ru.surfstudio.android.notification.ui.notification.strategies.storage.AbstractPushHandleStrategyFactory
+import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
 import ru.surfstudio.android.notification.ui.notification.PushHandlingActivity
 
 /**
@@ -36,6 +36,14 @@ class DefaultPushHandler(
         private val pushInteractor: PushInteractor
 ) : PushHandler {
 
+    override fun handleMessage(context: Context, title: String, body: String, data: Map<String, String>) {
+        val activity = activeActivityHolder.activity
+        val pushHandleStrategy = createStrategy(data)
+
+        Logger.i("DefaultPushHandler пуш $activity \n $title \n pushStrategy = $pushHandleStrategy")
+        pushHandleStrategy?.handle(activity ?: context, pushInteractor, body.hashCode(), title, body)
+    }
+
     /**
      * @see [PushHandler.handleMessage]
      */
@@ -46,10 +54,6 @@ class DefaultPushHandler(
                                data: Map<String, String>) {
         val activity = activeActivityHolder.activity
         val pushHandleStrategy = createStrategy(data)
-
-        Logger.i("DefaultPushHandler пуш $activity " +
-                "\n $title " +
-                "\n pushStrategy = $pushHandleStrategy")
 
         pushHandleStrategy?.handle(
                 context = activity ?: context,
@@ -78,7 +82,7 @@ class DefaultPushHandler(
             val strategy = createStrategy(IntentPushDataConverter.convert(activity.intent))
 
             if (strategy != null) {
-                activity.startActivity(strategy.coldStartRoute().prepareIntent(activity))
+                activity.startActivity(strategy.coldStartIntent(activity))
 
                 //чтобы не было повторного перехода на активити, обнуляем данные из пуша
                 activity.intent.putExtra(pushHandleStrategyFactory.key, -1)

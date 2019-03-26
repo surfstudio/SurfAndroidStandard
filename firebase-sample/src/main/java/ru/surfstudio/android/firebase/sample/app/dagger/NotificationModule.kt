@@ -2,7 +2,7 @@ package ru.surfstudio.android.firebase.sample.app.dagger
 
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.app.ActiveActivityHolder
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.firebase.sample.ui.common.notification.PushHandleStrategyFactory
 import ru.surfstudio.android.notification.PushHandler

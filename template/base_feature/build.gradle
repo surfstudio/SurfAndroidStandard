@@ -9,6 +9,7 @@ dependencies {
     debugImplementation project("$templatePrefix:f-debug")
     qaImplementation project("$templatePrefix:f-debug")
 
+    implementation project("$templatePrefix:i-push-notification")
     implementation project("$templatePrefix:i-auth")
     implementation project("$templatePrefix:i-network")
     implementation project("$templatePrefix:i-token")
@@ -22,4 +23,6 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging:$firebaseMessagingVersion") {
         exclude group: "com.google.firebase", module: "firebase-iid"
     }
+
+    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 }

@@ -29,7 +29,9 @@ import java.util.*
  */
 abstract class AbstractPushGroupFactory {
 
-    //стратегии ассоциированные с группами пуш-нотификаций
+    /**
+     * Стратегии ассоциированные с группами пуш-нотификаций
+     */
     abstract val groupStrategyMap: HashMap<Class<*>, NotificationsGroup>
 
     /**
