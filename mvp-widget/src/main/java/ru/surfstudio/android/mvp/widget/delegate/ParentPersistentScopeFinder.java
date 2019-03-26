@@ -15,8 +15,11 @@
  */
 package ru.surfstudio.android.mvp.widget.delegate;
 
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+
+import android.content.Context;
 import android.view.View;
 import android.view.ViewParent;
 
@@ -42,7 +45,8 @@ public class ParentPersistentScopeFinder {
 
     public ScreenPersistentScope find() {
         ScreenPersistentScope parentScope = null;
-        FragmentActivity activity = (FragmentActivity) child.getContext();
+        FragmentActivity activity = unwrapContext(child.getContext());
+
         List<Fragment> fragments = activity.getSupportFragmentManager().getFragments();
         ViewParent parent = child.getParent();
         while (parent != null && parentScope == null) {
@@ -56,8 +60,21 @@ public class ParentPersistentScopeFinder {
             parent = parent.getParent();
         }
         if (parentScope == null) {
-            parentScope = ((CoreActivityInterface)activity).getPersistentScope();
+            parentScope = ((CoreActivityInterface) activity).getPersistentScope();
         }
         return parentScope;
+    }
+
+    /**
+     * Gets FragmentActivity context from view's context
+     * Helps to avoid problems with ContextThemeWrapper
+     * @see <a href="https://clck.ru/FRZrW">ContextThemeWrapper problem</a>
+     */
+    private FragmentActivity unwrapContext(Context context) {
+        while (!(context instanceof FragmentActivity) && context instanceof ContextThemeWrapper) {
+            context = ((ContextThemeWrapper) context).getBaseContext();
+        }
+
+        return (FragmentActivity) context;
     }
 }
