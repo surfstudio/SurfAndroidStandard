@@ -49,6 +49,10 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.vectordrawable:vectordrawable:$androidxKtxVersion"
+    implementation "androidx.core:core:$androidxKtxVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
     implementation project(':security-sample-template:security')
     implementation project(':sample-dagger')
 
