@@ -44,7 +44,9 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         initWidgetViewDelegate();
     }
 
-    public CoreConstraintLayoutView(Context context, AttributeSet attrs) { this(context, attrs, -1); }
+    public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
+        this(context, attrs, -1);
+    }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -91,10 +93,14 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
 
     @Override
     @Deprecated
-    public void init() {}
+    public void init() {
+        // без реализации
+    }
 
     @Override
-    public void init(String scopeId) {}
+    public void init(String scopeId) {
+        // без реализации
+    }
 
     @Override
     public String getWidgetId() {
@@ -115,7 +121,9 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        widgetViewDelegate.onDestroy();
+        if (widgetViewDelegate != null) {
+            widgetViewDelegate.onDestroy();
+        }
     }
 
     @Override
