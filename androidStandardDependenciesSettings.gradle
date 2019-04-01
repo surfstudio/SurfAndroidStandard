@@ -16,11 +16,14 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
     // определние функции для деплоя текущего модуля в artifactory
     context.afterEvaluate {
         uploadArchives {
+            def moduleName = project.name
+            def projectVersion = defaultVersionName
+            def moduleVersion = moduleVersionName
 
             //функция для деплоя артефакта с определенной версией
-            gradle.ext.uploadArtifact = { repositoryName, artifactVersion ->
+            gradle.ext.uploadArtifact = { artifactVersion ->
                 repositories.mavenDeployer {
-                    repository(url: "https://artifactory.surfstudio.ru/artifactory/$repositoryName") {
+                    repository(url: "https://artifactory.surfstudio.ru/artifactory/libs-release-local") {
                         authentication(
                                 userName: System.getenv('surf_maven_username'),
                                 password: System.getenv('surf_maven_password'))
@@ -35,7 +38,6 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
                     pom.project {
                         dependencies {
                             modules.each {
-                                def moduleName = "$it"
                                 dependency {
                                     groupId artifactGroupId
                                     artifactId moduleName
@@ -48,15 +50,15 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
                 } // repositories.mavenDeployer
             } //gradle.ext.uploadArtifact
 
-            //деплой артефакта с версией модуля
-            gradle.ext.uploadArtifact("libs-release-local", "$moduleVersionName")
+            // деплой артефакта с версией проекта
+             gradle.ext.uploadArtifact("$projectVersion")
 
-            // деплой артефакта с remote-версией. Нужно для выкладки артефакта с кастомной версией в Artefactory
-            // и дальнейшего релиза в JCenter
-            // TODO подумать над тем, когда нужно сделать этот флаг активным, например только для веток без подписи snapshot
-            def shouldUploadArtifact = "$moduleVersionNameRemote" != ""
+            // деплой артефакта с remote-версией
+            // Нужно для выкладки артефакта с кастомной версией в Artifactory и дальнейшего релиза в JCenter
+            def shouldUploadArtifact = "$moduleVersion" != "$projectVersion" && !"$projectVersion".contains("SNAPSHOT")
             if (shouldUploadArtifact) {
-                gradle.ext.uploadArtifact("artifacts-release-local", "$moduleVersionNameRemote")
+                gradle.ext.uploadArtifact("$moduleVersion")
+                println("Artifact uploaded")
             }
         } // uploadArchives
     }

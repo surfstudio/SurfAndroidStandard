@@ -5,5 +5,4 @@ dependencies {
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
 }
 
-project.ext.moduleVersionNameRemote = '1.0.0'
 gradle.ext.configAndroidStandardDependencies this

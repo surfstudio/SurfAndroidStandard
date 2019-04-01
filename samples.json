@@ -1,106 +1,132 @@
 [
   {
     "name": "template",
+    "version": "",
     "path": ""
   },
   {
     "name": "security-sample-template",
+    "version": "",
     "path": ""
   },
   {
     "name": "sample-common",
+    "version": "",
     "path": ""
   },
   {
     "name": "sample-dagger",
+    "version": "",
     "path": ""
   },
   {
     "name": "animations-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "app-migration-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "broadcast-extension-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "core-mvp-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "core-ui-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "core-mvp-binding-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "custom-view-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "easyadapter-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "filestorage-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "firebase-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "imageloader-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "message-controller-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "mvp-dialog-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "mvp-widget-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "network-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "picture-provider-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "recycler-extension-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "shared-pref-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "standard-dialog-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "location-sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "custom_scope_sample",
+    "version": "",
     "path": ""
   },
   {
     "name": "loadstate-sample",
+    "version": "",
     "path": ""
   }
 ]

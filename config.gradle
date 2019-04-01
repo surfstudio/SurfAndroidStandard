@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
+
 ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
 
+    defaultVersionName = '0.4.0-SNAPSHOT'
     moduleVersionCode = 20
-    moduleVersionName = '0.4.0-SNAPSHOT'
-    moduleVersionNameRemote = ''
+    moduleVersionName = gradle.ext.getModuleVersion(name, defaultVersionName)
+
     libMinSdkVersion = 17
     sampleMinSdkVersion = 18
     targetSdkVersion = 28
