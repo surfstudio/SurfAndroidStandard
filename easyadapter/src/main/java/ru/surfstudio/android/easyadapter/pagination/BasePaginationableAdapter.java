@@ -30,29 +30,43 @@ import ru.surfstudio.android.easyadapter.ItemList;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
 import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder;
+import ru.surfstudio.android.easyadapter.item.BaseItem;
 import ru.surfstudio.android.easyadapter.item.NoDataItem;
 
 
 /**
- * Adapter with pagination Footer, based on {@link EasyAdapter}
- * Adapter emit event "onShowMore" when user scroll to bottom or click on footer with state {@link PaginationState#ERROR}.
- * Adapter can emit this event if user scroll only if state is {@link PaginationState#READY}
+ * Adapter with pagination Footer based on {@link EasyAdapter}
+ * <br>
+ * It will emit the {@link OnShowMoreListener#onShowMore()}-event when user scrolls to bottom or clicks on footer with state {@link PaginationState#ERROR}.
+ * <br>
+ * It can emit this event on user's scroll only if the state is {@link PaginationState#READY}
+ * <br>
+ * To use this adapter in your project you must implement {@link #getPaginationFooterController()} method with your own
+ * {@link BasePaginationFooterController} and {@link BasePaginationFooterHolder} implementation.
+ * These were made abstract to support custom look and logic.
  */
 public abstract class BasePaginationableAdapter extends EasyAdapter {
 
     private OnShowMoreListener onShowMoreListener;
     private boolean blockShowMoreEvent = true;
 
-    public interface OnShowMoreListener {
-        void onShowMore();
-    }
-
     public BasePaginationableAdapter() {
         getPaginationFooterController().setListener(this::onShowMoreClick);
     }
 
+    /**
+     * Get the pagination footer controller responsible for displaying loader and error messages.
+     *
+     * @return pagination footer controller
+     */
     protected abstract BasePaginationFooterController<? extends RecyclerView.ViewHolder> getPaginationFooterController();
 
+    /**
+     * Set the items to adapter.
+     *
+     * @param items data that will be displayed
+     * @param state current pagination state of the data
+     */
     public void setItems(@NonNull ItemList items, @NonNull PaginationState state) {
         blockShowMoreEvent = state != PaginationState.READY;
         getPaginationFooterController().setState(state);
@@ -63,12 +77,12 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
     }
 
     /**
-     * use {@link #setItems(ItemList, PaginationState)} instead
+     * Use {@link #setItems(ItemList, PaginationState)} instead.
      */
     @Override
     @Deprecated
     public void setItems(@NonNull ItemList items) {
-        throw new UnsupportedOperationException("use setItems(ItemList, PaginationState) instead");
+        throw new UnsupportedOperationException("Use setItems(ItemList, PaginationState) instead");
     }
 
     public <T> void setData(@NonNull Collection<T> data,
@@ -78,15 +92,20 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
     }
 
     /**
-     * use {@link #setData(Collection, BindableItemController, PaginationState)} instead
+     * Use {@link #setData(Collection, BindableItemController, PaginationState)} instead.
      */
     @Override
     @Deprecated
     public <T> void setData(@NonNull Collection<T> data,
                             @NonNull BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
-        throw new UnsupportedOperationException("use setData(Collection, BindableItemController, PaginationState) instead");
+        throw new UnsupportedOperationException("Use setData(Collection, BindableItemController, PaginationState) instead");
     }
 
+    /**
+     * Set the listener which will be triggered the load of next page.
+     *
+     * @param onShowMoreListener listener
+     */
     public void setOnShowMoreListener(OnShowMoreListener onShowMoreListener) {
         this.onShowMoreListener = onShowMoreListener;
     }
@@ -94,7 +113,7 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        RecyclerView.LayoutManager  layoutManager = recyclerView.getLayoutManager();
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         initLayoutManager(layoutManager);
         initPaginationListener(recyclerView, layoutManager);
     }
@@ -119,7 +138,15 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
         });
     }
 
-    protected int findFirstVisibleItem(RecyclerView.LayoutManager  layoutManager) {
+    /**
+     * Find the first visible item position.
+     * <p>
+     * You should override this method if you're using custom LayoutManager or you want to start loading sooner or later.
+     *
+     * @param layoutManager layoutManager of adapter's RecyclerView
+     * @return position
+     */
+    protected int findFirstVisibleItem(RecyclerView.LayoutManager layoutManager) {
         int pos = 0;
 
         if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -128,7 +155,7 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
             int[] items = lm.findFirstVisibleItemPositions(new int[lm.getSpanCount()]);
             int position = 0;
 
-            for (int i = 0; i < items.length-1; i++) {
+            for (int i = 0; i < items.length - 1; i++) {
                 position = Math.min(items[i], items[i + 1]);
             }
             pos = position;
@@ -141,7 +168,15 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
         return pos;
     }
 
-    protected int findLastVisibleItem(RecyclerView.LayoutManager  layoutManager) {
+    /**
+     * Find the last visible item position.
+     * <p>
+     * You should override this method if you're using custom LayoutManager or you want to start loading sooner or later.
+     *
+     * @param layoutManager layoutManager of adapter's RecyclerView
+     * @return position
+     */
+    protected int findLastVisibleItem(RecyclerView.LayoutManager layoutManager) {
         int pos = 0;
 
         if (layoutManager instanceof StaggeredGridLayoutManager) {
@@ -151,7 +186,7 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
             int[] items = lm.findLastVisibleItemPositions(new int[spanCount]);
             int position = 0;
 
-            for (int i = 0; i < items.length-1; i++) {
+            for (int i = 0; i < items.length - 1; i++) {
                 position = Math.max(items[i], items[i + 1]);
             }
             pos = position;
@@ -164,7 +199,15 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
         return pos;
     }
 
-    protected void initLayoutManager(RecyclerView.LayoutManager  layoutManager) {
+    /**
+     * Initialization of layoutManager.
+     * <p>
+     * You should override if you're using custom layout manager and you want to display the footer loader
+     * as desired, for example for a full width in {@link GridLayoutManager}.
+     *
+     * @param layoutManager layoutManager of adapter's RecyclerView
+     */
+    protected void initLayoutManager(RecyclerView.LayoutManager layoutManager) {
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager castedLayoutManager = (GridLayoutManager) layoutManager;
             final GridLayoutManager.SpanSizeLookup existingLookup = castedLayoutManager.getSpanSizeLookup();
@@ -198,6 +241,11 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
         }
     }
 
+    /**
+     * Set the PaginationState to adapter
+     *
+     * @param state pagination state to be changed
+     */
     public void setState(final PaginationState state) {
         blockShowMoreEvent = state != PaginationState.READY;
         ItemList items = getItems();
@@ -212,40 +260,88 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
         setItems(items, true);
     }
 
+    /**
+     * Listener that is invoked when adapter is ready to load more pages
+     */
+    public interface OnShowMoreListener {
+        void onShowMore();
+    }
+
+    /**
+     * Controller for a ViewHolder which is responsible for
+     * displaying loading indicator when the next page isn't ready yet,
+     * or display error message and "Retry" button when there's an error happened while loading the page.
+     *
+     * @param <H> ViewHolder type
+     */
     protected abstract static class BasePaginationFooterController<H extends BasePaginationFooterHolder> extends NoDataItemController<H> {
         private PaginationState state = PaginationState.COMPLETE;
         private OnShowMoreListener listener;
 
+        /**
+         * Set the listener which will be triggered the load of next page.
+         *
+         * @param listener listener
+         */
         public void setListener(OnShowMoreListener listener) {
             this.listener = listener;
         }
 
+        /**
+         * Set the new pagination state
+         *
+         * @param state new state
+         */
         public void setState(PaginationState state) {
             this.state = state;
         }
 
+        /**
+         * Get the pagination state
+         *
+         * @return current pagination state
+         */
         public PaginationState getState() {
             return state;
         }
 
+        /**
+         * @see ru.surfstudio.android.easyadapter.controller.BaseItemController#bind(RecyclerView.ViewHolder, BaseItem)
+         */
         @Override
         public void bind(H holder, NoDataItem<H> item) {
             holder.bind(state);
         }
 
+        /**
+         * @see ru.surfstudio.android.easyadapter.controller.BaseItemController#createViewHolder(ViewGroup)
+         */
         @Override
         public H createViewHolder(ViewGroup parent) {
             return createViewHolder(parent, listener);
         }
 
+        /**
+         * @see ru.surfstudio.android.easyadapter.controller.BaseItemController#getItemHash(BaseItem)
+         */
         @Override
         public String getItemHash(NoDataItem<H> item) {
             return String.valueOf(state.hashCode());
         }
 
+        /**
+         * Create {@link BasePaginationFooterHolder}.
+         *
+         * @param parent   parent view for ViewHolder
+         * @param listener which will be triggered the load of next page
+         * @return {@link BasePaginationFooterHolder}
+         */
         protected abstract H createViewHolder(ViewGroup parent, OnShowMoreListener listener);
     }
 
+    /**
+     * {@link BindableViewHolder} that displays current {@link PaginationState}
+     */
     protected static abstract class BasePaginationFooterHolder extends BindableViewHolder<PaginationState> {
         public BasePaginationFooterHolder(ViewGroup parent, @LayoutRes int layoutRes) {
             super(parent, layoutRes);
