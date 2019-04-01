@@ -131,7 +131,7 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
      * Вручную вызывает onCompletelyDestroy у виджета
      */
     public void manualCompletelyDestroy() {
-        widgetViewDelegate.onCompletelyDestroy();
+        widgetViewDelegate.onManualCompletelyDestroy();
     }
 
     private void initWidgetViewDelegate() {
