@@ -58,7 +58,7 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
             def shouldUploadArtifact = "$moduleVersion" != "$projectVersion" && !"$projectVersion".contains("SNAPSHOT")
             if (shouldUploadArtifact) {
                 gradle.ext.uploadArtifact("$moduleVersion")
-                println("Artifact uploaded")
+                println("Artifact uploaded $moduleName:$moduleVersion")
             }
         } // uploadArchives
     }

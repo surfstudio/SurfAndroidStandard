@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
