@@ -54,9 +54,9 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
 
     @Override
     protected final void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         activityDelegate = createActivityDelegate();
         activityDelegate.initialize(savedInstanceState);
+        super.onCreate(savedInstanceState);
 
         onPreCreate(savedInstanceState);
         setContentView(getContentView());
