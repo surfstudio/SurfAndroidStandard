@@ -11,7 +11,9 @@ import javax.inject.Inject
  * инкапсулирует действия, которые необходимо выполнить при смене сессии/пользователя
  */
 @PerApplication
-class SessionChangedInteractor @Inject constructor(private val tokenStorage: TokenStorage) {
+class SessionChangedInteractor @Inject constructor(
+        private val tokenStorage: TokenStorage
+) {
 
     private val sessionChangedPublishSubject = PublishSubject.create<LoginState>()
 
@@ -30,6 +32,7 @@ class SessionChangedInteractor @Inject constructor(private val tokenStorage: Tok
     }
 
     private fun clearStorage() {
+        //todo очистить кэш и все хранилища при смене сессии
         tokenStorage.clearTokens()
     }
 }

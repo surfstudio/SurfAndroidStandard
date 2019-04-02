@@ -44,25 +44,34 @@ class App : MultiDexApplication() {
 
         initFabric()
         initPushEventListener()
-        DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
+
+        with(DebugAppInjector.debugInteractor) {
+            onCreateApp(R.mipmap.ic_launcher)
+
+            observeServerChanged().subscribe {
+                AppInjector.appComponent.sessionChangedInteractor().onForceLogout()
+            }
+        }
     }
 
     private fun initFabric() {
         Fabric.with(this, *getFabricKits())
     }
 
-    private fun getFabricKits() = arrayOf(Crashlytics.Builder()
-            .core(CrashlyticsCore.Builder()
-                    .disabled(BuildConfig.DEBUG)
-                    .build())
-            .build())
+    private fun getFabricKits() = arrayOf(
+            Crashlytics.Builder()
+                    .core(CrashlyticsCore.Builder()
+                            .disabled(BuildConfig.DEBUG)
+                            .build())
+                    .build()
+    )
 
     /**
      * отслеживает ANR и отправляет в крашлитикс
      */
     private fun initAnrWatchDog() {
         ANRWatchDog().setReportMainThreadOnly()
-                .setANRListener{ RemoteLogger.logError(it) }
+                .setANRListener { RemoteLogger.logError(it) }
                 .start()
     }
 
@@ -76,19 +85,21 @@ class App : MultiDexApplication() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
-            override fun onActivityResumed(activity: Activity) {
-                activeActivityHolder.activity = activity
-            }
+        registerActivityLifecycleCallbacks(
+                object : DefaultActivityLifecycleCallbacks() {
+                    override fun onActivityResumed(activity: Activity) {
+                        activeActivityHolder.activity = activity
+                    }
 
-            override fun onActivityStopped(activity: Activity) {
-                activeActivityHolder.clearActivity()
-            }
-        })
+                    override fun onActivityStopped(activity: Activity) {
+                        activeActivityHolder.clearActivity()
+                    }
+                }
+        )
     }
 
     private fun initPushEventListener() {
-        PushClickProvider.pushEventListener = object: PushEventListener {
+        PushClickProvider.pushEventListener = object : PushEventListener {
             override fun pushDismissListener(context: Context, intent: Intent) {
                 //todo
             }

@@ -16,8 +16,6 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
-import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
