@@ -9,7 +9,7 @@ gradle.ext {
     getModuleVersion = { name, defaultVersion ->
         def modules = extractModules('modules.json')
         def module = modules.find { "$it.name" == "$name" }
-        if (module != null && !module.version.isEmpty()) {
+        if (module != null && module.version != null && !module.version.isEmpty()) {
             module.version
         } else {
             "$defaultVersion"
