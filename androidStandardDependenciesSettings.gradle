@@ -15,11 +15,22 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
     }
     // определние функции для деплоя текущего модуля в artifactory
     context.afterEvaluate {
-        uploadArchives {
-            def moduleName = project.name
-            def projectVersion = defaultVersionName
-            def moduleVersion = moduleVersionName
+        def moduleName = project.name
+        def moduleVersion = moduleVersionName
+        def projectVersion = defaultVersionName
 
+        // сборка java-исходников из директории модуля, необходима для релиза в JCenter
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from android.sourceSets.main.java.srcDirs
+        }
+
+        // добавление java-исходников в артефакты
+        artifacts {
+            archives sourcesJar
+        }
+
+        uploadArchives {
             //функция для деплоя артефакта с определенной версией
             gradle.ext.uploadArtifact = { artifactVersion ->
                 repositories.mavenDeployer {
@@ -32,7 +43,7 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
                     def artifactGroupId = 'ru.surfstudio.android'
 
                     pom.groupId = artifactGroupId
-                    pom.artifactId = project.name
+                    pom.artifactId = moduleName
                     pom.version = artifactVersion
 
                     pom.project {
@@ -51,14 +62,14 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
             } //gradle.ext.uploadArtifact
 
             // деплой артефакта с версией проекта
-             gradle.ext.uploadArtifact("$projectVersion")
+            gradle.ext.uploadArtifact("$projectVersion")
 
             // деплой артефакта с remote-версией
             // Нужно для выкладки артефакта с кастомной версией в Artifactory и дальнейшего релиза в JCenter
             def shouldUploadArtifact = "$moduleVersion" != "$projectVersion" && !"$projectVersion".contains("SNAPSHOT")
             if (shouldUploadArtifact) {
                 gradle.ext.uploadArtifact("$moduleVersion")
-                println("Artifact uploaded $moduleName:$moduleVersion")
+                println("Single artifact uploaded $moduleName:$moduleVersion")
             }
         } // uploadArchives
     }
