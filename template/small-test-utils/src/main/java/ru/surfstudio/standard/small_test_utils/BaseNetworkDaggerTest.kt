@@ -2,7 +2,9 @@ package ru.surfstudio.standard.small_test_utils
 
 import android.security.NetworkSecurityPolicy
 import androidx.annotation.CallSuper
+import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import org.junit.After
 import org.junit.Before
@@ -46,6 +48,14 @@ abstract class BaseNetworkDaggerTest<T> {
 
     protected fun <T> test(observable: Observable<T>): TestObserver<T> {
         return observable.test().assertNoErrors()
+    }
+
+    protected fun <T> test(single: Single<T>): TestObserver<T> {
+        return single.test().assertNoErrors()
+    }
+
+    protected fun test(completable: Completable): TestObserver<T> {
+        return test(completable.toObservable())
     }
 
     protected fun <T> testAndGetValues(observable: Observable<T>): List<T> {

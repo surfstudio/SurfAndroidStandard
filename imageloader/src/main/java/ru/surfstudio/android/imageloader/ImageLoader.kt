@@ -48,6 +48,7 @@ import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
 import com.bumptech.glide.signature.ObjectKey
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
@@ -258,11 +259,16 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Добавление перехода с растворением между изображениями.
      *
      * @param duration продолжительность перехода (в мс)
+     * @param hidePreviousImage заставляет Glide скрыть предыдущее изображение,
+     * а не просто нарисовать следующее поверх см. документацию https://clck.ru/FVpbQ
      */
-    override fun crossFade(duration: Int): ImageLoaderInterface =
+    override fun crossFade(duration: Int, hidePreviousImage: Boolean): ImageLoaderInterface =
             also {
+                val factory = DrawableCrossFadeFactory.Builder(duration)
+                        .setCrossFadeEnabled(hidePreviousImage)
+                        .build();
                 imageTransitionManager.imageTransitionOptions =
-                        DrawableTransitionOptions().crossFade(duration)
+                        DrawableTransitionOptions().crossFade(factory)
             }
 
     /**
@@ -411,7 +417,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                             .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
                             .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
                             .applyTransformations(imageTransformationsManager.prepareTransformations())
-                            .signature(ObjectKey(imageSignatureManager.signature ?: imageResourceManager.url))
+                            .signature(ObjectKey(imageSignatureManager.signature
+                                    ?: imageResourceManager.url))
             )
             .listener(glideDownloadListener)
 

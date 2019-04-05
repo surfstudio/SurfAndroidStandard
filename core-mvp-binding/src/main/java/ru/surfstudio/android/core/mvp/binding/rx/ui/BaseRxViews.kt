@@ -59,6 +59,8 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
+    override fun getPresenters() = emptyArray<BaseRxPresenter>()
+
     @CallSuper
     override fun onDestroy() {
         viewDisposable.clear()
@@ -74,6 +76,8 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
 abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
+
+    override fun getPresenters() = emptyArray<BaseRxPresenter>()
 
     @CallSuper
     override fun onDestroy() {

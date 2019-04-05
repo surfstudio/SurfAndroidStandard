@@ -32,6 +32,9 @@
 
 #### core-mvp
 * ANDDEP-320 Возможность динамически задавать LoadState, гибкий способ отображения LoadState
+* `BasePresenter` - добавлена возможность получать только последнее значение из `ObservableOperatorFreeze` с помощью метода 
+`subscribeTakeLastFrozen`.
+
 #### core-mvp-binding
 #### core-ui
 

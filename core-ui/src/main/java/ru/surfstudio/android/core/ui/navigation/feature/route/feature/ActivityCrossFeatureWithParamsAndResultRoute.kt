@@ -35,8 +35,10 @@ import java.io.Serializable
 abstract class ActivityCrossFeatureWithParamsAndResultRoute<T : Serializable> :
         ActivityCrossFeatureWithResultRoute<T> {
 
-    @Suppress("ConvertSecondaryConstructorToPrimary", "UNUSED_PARAMETER")
-    constructor(intent: Intent) {
+    constructor() {
         //empty
     }
+
+    @Suppress("ConvertSecondaryConstructorToPrimary", "UNUSED_PARAMETER")
+    constructor(intent: Intent) : this()
 }
