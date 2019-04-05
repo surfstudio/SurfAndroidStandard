@@ -17,7 +17,8 @@
         <ru.surfstudio.android.custom.view.TitleSubtitleView
             android:id="@+id/second_tsv"
             style="@style/SampleTitleSubtitleViewStyle"
-            app:titleDrawableStart="@drawable/ic_brightness_7_red_24dp" />
+            app:titleDrawableStart="@drawable/ic_brightness_7_red_24dp"
+            app:titleGravity="center_vertical" />
 
         <ru.surfstudio.android.custom.view.TitleSubtitleView
             android:id="@+id/third_tsv"

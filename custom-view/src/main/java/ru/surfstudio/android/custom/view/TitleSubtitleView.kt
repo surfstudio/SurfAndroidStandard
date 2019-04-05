@@ -198,10 +198,10 @@ class TitleSubtitleView @JvmOverloads constructor(
 
             compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titleDrawablePadding, 0)
             setCompoundDrawablesWithIntrinsicBounds(
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableStart, -1),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableTop, -1),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableEnd, -1),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableBottom, -1)
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableStart, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableTop, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableEnd, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableBottom, 0)
             )
         }
     }
@@ -212,7 +212,7 @@ class TitleSubtitleView @JvmOverloads constructor(
                     ?: defaultSubTitle
             subTitleText = defaultSubTitle
 
-            subTitleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_subtitleTextAppearance, -1)
+            subTitleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_subTitleTextAppearance, -1)
             setupTextAppearance(subTitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_subTitleTextColor)
@@ -241,10 +241,10 @@ class TitleSubtitleView @JvmOverloads constructor(
 
             compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitleDrawablePadding, 0)
             setCompoundDrawablesWithIntrinsicBounds(
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableStart, -1),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableTop, -1),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, -1),
-                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, -1)
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableStart, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableTop, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, 0)
             )
         }
     }

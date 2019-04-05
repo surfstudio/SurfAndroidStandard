@@ -1,5 +1,6 @@
 package ru.surfstudio.android.custom_view_sample
 
+import androidx.test.espresso.Espresso
 import org.junit.Test
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
@@ -22,6 +23,11 @@ class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.ja
     @Test
     fun testCustomViewSample() {
         checkIfActivityIsVisible(MainActivity::class.java)
+
+        performClick(R.id.open_tv_screen_btn)
+        checkIfActivityIsVisible(TitleSubtitleViewDemoActivity::class.java)
+        Espresso.pressBack()
+
         performClick(R.id.change_state_btn)
     }
 }
