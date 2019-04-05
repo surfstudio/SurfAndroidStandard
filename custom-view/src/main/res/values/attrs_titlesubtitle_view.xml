@@ -38,6 +38,11 @@
             <flag name="invisible" value="1"/>
             <flag name="gone" value="2"/>
         </attr>
+        <attr name="titleDrawablePadding" format="dimension" />
+        <attr name="titleDrawableStart" format="reference" />
+        <attr name="titleDrawableEnd" format="reference" />
+        <attr name="titleDrawableTop" format="reference" />
+        <attr name="titleDrawableBottom" format="reference" />
 
         <attr name="subTitleText" format="string"/>
         <attr name="subTitleTextColor" format="color"/>
@@ -76,6 +81,11 @@
             <flag name="invisible" value="1"/>
             <flag name="gone" value="2"/>
         </attr>
-        
+        <attr name="subTitleDrawablePadding" format="dimension" />
+        <attr name="subTitleDrawableStart" format="reference" />
+        <attr name="subTitleDrawableEnd" format="reference" />
+        <attr name="subTitleDrawableTop" format="reference" />
+        <attr name="subTitleDrawableBottom" format="reference" />
+
     </declare-styleable>
 </resources>

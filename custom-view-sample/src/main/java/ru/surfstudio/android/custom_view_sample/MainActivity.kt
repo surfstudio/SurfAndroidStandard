@@ -1,5 +1,6 @@
 package ru.surfstudio.android.custom_view_sample
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -8,7 +9,7 @@ import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.DefaultLoa
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var loadStateRenderer : DefaultLoadStateRenderer
+    private lateinit var loadStateRenderer: DefaultLoadStateRenderer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +26,9 @@ class MainActivity : AppCompatActivity() {
                 loadStateRenderer.render(LoadState.MAIN_LOADING)
                 x--
             }
+        }
+        open_tv_screen_btn.setOnClickListener {
+            startActivity(Intent(this, TitleSubtitleViewDemoActivity::class.java))
         }
     }
 }
