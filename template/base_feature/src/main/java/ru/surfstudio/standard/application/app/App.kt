@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.application.app
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
@@ -19,8 +18,8 @@ import ru.surfstudio.android.notification.ui.PushClickProvider
 import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 import ru.surfstudio.standard.application.app.di.AppInjector
-import ru.surfstudio.standard.ui.activity.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
 class App : MultiDexApplication() {
@@ -86,15 +85,14 @@ class App : MultiDexApplication() {
      */
     private fun registerActiveActivityListener() {
         registerActivityLifecycleCallbacks(
-                object : DefaultActivityLifecycleCallbacks() {
-                    override fun onActivityResumed(activity: Activity) {
-                        activeActivityHolder.activity = activity
-                    }
-
-                    override fun onActivityStopped(activity: Activity) {
-                        activeActivityHolder.clearActivity()
-                    }
-                }
+                ActivityLifecycleListener(
+                        onActivityResumed = { activity ->
+                            activeActivityHolder.activity = activity
+                        },
+                        onActivityPaused = {
+                            activeActivityHolder.clearActivity()
+                        }
+                )
         )
     }
 
