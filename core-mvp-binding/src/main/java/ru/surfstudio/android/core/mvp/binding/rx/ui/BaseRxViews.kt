@@ -115,6 +115,8 @@ abstract class BaseRxBottomSheetDialogFragment : CoreBottomSheetDialogFragmentVi
 
     private val viewDisposable = CompositeDisposable()
 
+    override fun getPresenters() = emptyArray<BaseRxPresenter>()
+
     @CallSuper
     override fun onDestroy() {
         viewDisposable.clear()
