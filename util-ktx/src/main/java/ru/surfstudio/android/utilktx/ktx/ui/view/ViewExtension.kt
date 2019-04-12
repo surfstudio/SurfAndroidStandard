@@ -112,6 +112,23 @@ fun View.hideSoftKeyboard() {
     KeyboardUtil.hideSoftKeyboard(this)
 }
 
+/**
+ * Функция, снимающая [View.OnClickListener] на указанное время, а затем вновь устанавливающая его на [View].
+ * Необходимо для того, чтобы не перегружать сервер лишними запросами,
+ * а так же для корректного отображения на клиенте.
+ *
+ * @param delay задержка (в миллисекундах). По умолчанию 500 мс.
+ * @param onClickAction лямбда, выполняющаяся по клику на [View].
+ */
+fun View.setClickListenerWithDebounce(delay: Long = 500L, onClickAction: () -> Unit = { }) {
+    setOnClickListener {
+        setOnClickListener(null)
+        onClickAction()
+        postDelayed({
+            setClickListenerWithDebounce(delay, onClickAction)
+        }, delay)
+    }
+}
 
 //==================== ACTION IF CHANGED =================================
 
