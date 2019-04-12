@@ -22,6 +22,7 @@ import androidx.annotation.ColorInt
 import android.view.View
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import android.view.ViewGroup.MarginLayoutParams
+import ru.surfstudio.android.utilktx.R
 
 /**
  * Extension-методы для View.
@@ -144,4 +145,26 @@ fun <T : View, R1, R2, R3, R4> T.actionIfChanged(
         action(data1, data2, data3, data4)
         this.tag = hash
     }
+}
+
+/**
+ * Выполнение действия, если данные изменились.
+ *
+ * Есть возможность пропускать первое значение.
+ * Для этого необходимо указать тег у [View] (см. [View.setTag()]) в xml или программно.
+ * Значение тега должно быть равно [R.string.skip_first_value_tag].
+ *
+ * @param data данные.
+ * @param action действие, которое будет выполнено в случае изменения данных.
+ */
+fun <V : View, D> V.actionIfChangedSkipFirst(data: D?, action: V.(data: D?) -> Unit) {
+    val skipFirstTag = context.resources.getString(R.string.skip_first_value_tag)
+    val shouldSkipFirst = tag == skipFirstTag
+
+    val hash = data?.hashCode()
+    val shouldPerformAction = !shouldSkipFirst && tag != hash
+    if (shouldPerformAction) {
+        action(data)
+    }
+    tag = hash
 }
