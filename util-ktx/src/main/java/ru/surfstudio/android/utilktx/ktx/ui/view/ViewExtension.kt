@@ -18,6 +18,7 @@ package ru.surfstudio.android.utilktx.ktx.ui.view
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.ShapeDrawable
+import android.os.SystemClock
 import androidx.annotation.ColorInt
 import android.view.View
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
@@ -113,7 +114,8 @@ fun View.hideSoftKeyboard() {
 }
 
 /**
- * Функция, снимающая [View.OnClickListener] на указанное время, а затем вновь устанавливающая его на [View].
+ * [View.OnClickListener], который после первого нажатия на [View]
+ * пропускает все последующие в течение [delay] мс.
  * Необходимо для того, чтобы не перегружать сервер лишними запросами,
  * а так же для корректного отображения на клиенте.
  *
@@ -121,13 +123,17 @@ fun View.hideSoftKeyboard() {
  * @param onClickAction лямбда, выполняющаяся по клику на [View].
  */
 fun View.setClickListenerWithDebounce(delay: Long = 500L, onClickAction: () -> Unit = { }) {
-    setOnClickListener {
-        setOnClickListener(null)
-        onClickAction()
-        postDelayed({
-            setClickListenerWithDebounce(delay, onClickAction)
-        }, delay)
-    }
+    setOnClickListener(object : View.OnClickListener {
+        var lastClickTime: Long = 0
+
+        override fun onClick(v: View?) {
+            val isDelayElapsed = SystemClock.elapsedRealtime() - lastClickTime >= delay
+            if (isDelayElapsed) {
+                onClickAction()
+                lastClickTime = SystemClock.elapsedRealtime()
+            }
+        }
+    })
 }
 
 //==================== ACTION IF CHANGED =================================
