@@ -105,6 +105,70 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
     //endregion
 
+    //region subscribeTakeLastFrozen
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param onError    action to call when the error is occurred
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext,
+            ConsumerSafe<Throwable> onError
+    ) {
+        return super.subscribeTakeLastFrozen(observable, onNext, onError);
+    }
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext
+    ) {
+        return super.subscribeTakeLastFrozen(observable, onNext);
+    }
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param observer   observer that receives data
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeTakeLastFrozen(
+            Observable<T> observable,
+            LambdaObserver<T> observer
+    ) {
+        return super.subscribeTakeLastFrozen(observable, observer);
+    }
+    //endregion
+
     //region subscribeWithoutFreezing
     @Override
     protected <T> Disposable subscribeWithoutFreezing(final Observable<T> observable,
@@ -149,8 +213,9 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
 
     /**
      * Стандартная обработка ошибки в презентере
-     *
+     * <p>
      * Переопределяем в случае если нужно специфичная обработка
+     *
      * @param e ошибка
      */
     protected void handleError(Throwable e) {
@@ -224,6 +289,55 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
 
     //endregion
 
+    //region subscribeIoTakeLastFrozen
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     * <p>
+     * Subscription is processed in worker thread and all errors are handled by {@link #handleError(Throwable, ConsumerSafe)}}.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param onError    action to call when the error is occurred
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeIoHandleErrorTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext,
+            ConsumerSafe<Throwable> onError
+    ) {
+        observable = observable.subscribeOn(schedulersProvider.worker());
+        return subscribeTakeLastFrozen(observable, onNext, e -> handleError(e, onError));
+    }
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     * <p>
+     * Subscription is processed in worker thread and all errors are handled by {@link #handleError(Throwable)}.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeIoHandleErrorTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext
+    ) {
+        return subscribeIoHandleErrorTakeLastFrozen(observable, onNext, null);
+    }
+    //endregion
+
     //region subscribeIo
     protected <T> Disposable subscribeIo(Observable<T> observable,
                                          final ConsumerSafe<T> onNext,
@@ -263,6 +377,75 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     }
     //endregion
 
+    //region subscribeIoTakeLastFrozen
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param onError    action to call when the error is occurred
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeIoTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext,
+            ConsumerSafe<Throwable> onError
+    ) {
+        observable = observable.subscribeOn(schedulersProvider.worker());
+        return subscribeTakeLastFrozen(observable, onNext, onError);
+    }
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeIoTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext
+    ) {
+        observable = observable.subscribeOn(schedulersProvider.worker());
+        return subscribeTakeLastFrozen(observable, onNext);
+    }
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     * <p>
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     * <p>
+     * Subscription is handled in worker thread.
+     *
+     * @param observable observable to subscribe
+     * @param observer   observer that receives data
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeIoTakeLastFrozen(
+            Observable<T> observable,
+            LambdaObserver<T> observer
+    ) {
+        observable = observable.subscribeOn(schedulersProvider.worker());
+        return subscribeTakeLastFrozen(observable, observer);
+    }
+    //endregion
+
     //region subscribeIoAutoReload
 
     /**
@@ -274,7 +457,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                                    final ActionSafe autoReloadAction,
                                                    final ConsumerSafe<T> onNext,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(observable, autoReloadAction), onNext, onError);
+        return subscribeIo(initializeAutoReload(observable, autoReloadAction), onNext, onError);
     }
 
     protected <T> Disposable subscribeIoAutoReload(Observable<T> observable,
@@ -282,21 +465,21 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                                    final ConsumerSafe<T> onNext,
                                                    final ActionSafe onComplete,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(observable, autoReloadAction), onNext, onComplete, onError);
+        return subscribeIo(initializeAutoReload(observable, autoReloadAction), onNext, onComplete, onError);
     }
 
     protected <T> Disposable subscribeIoAutoReload(Single<T> single,
                                                    final ActionSafe autoReloadAction,
                                                    final ConsumerSafe<T> onSuccess,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(single, autoReloadAction), onSuccess, onError);
+        return subscribeIo(initializeAutoReload(single, autoReloadAction), onSuccess, onError);
     }
 
     protected Disposable subscribeIoAutoReload(Completable completable,
                                                final ActionSafe autoReloadAction,
                                                final ActionSafe onComplete,
                                                final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(completable, autoReloadAction), onComplete, onError);
+        return subscribeIo(initializeAutoReload(completable, autoReloadAction), onComplete, onError);
     }
 
     protected <T> Disposable subscribeIoAutoReload(Maybe<T> maybe,
@@ -304,7 +487,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
                                                    final ConsumerSafe<T> onSuccess,
                                                    final ActionSafe onComplete,
                                                    final ConsumerSafe<Throwable> onError) {
-        return subscribe(initializeAutoReload(maybe, autoReloadAction), onSuccess, onComplete, onError);
+        return subscribeIo(initializeAutoReload(maybe, autoReloadAction), onSuccess, onComplete, onError);
     }
     //endregion
 

@@ -21,7 +21,10 @@ import android.os.Bundle;
 
 /**
  * Слушатель жизненного цикла активити по умолчанию
+ *
+ * @deprecated Создайте этот класс у себя на проекте если нужно. Реализация также лежит в template
  */
+@Deprecated
 public class DefaultActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     @Override
     public void onActivityCreated(Activity activity, Bundle bundle) {

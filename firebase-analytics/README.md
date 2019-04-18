@@ -1,8 +1,11 @@
 # Firebase analytics
-Реализует логику работы с [аналитикой](../analytics) с использованием firebase
+Реализует логику работы с [аналитикой](../analyticsv2) с использованием firebase
 
 # Использование
-Передаем `FirebaseApi` в [AnalyticsStore](../analytics/src/main/java/ru/surfstudio/android/analytics/store/AnalyticsStore.java)
+
+Описываем пример использования
+
+Вызываем `FirebaseApi` в [AnalyticsStore](../analytics/src/main/java/ru/surfstudio/android/analytics/store/AnalyticsStore.java)
 
 [Пример использования](../firebase-sample)
 
@@ -11,3 +14,4 @@ Gradle:
 ```
     implementation "ru.surfstudio.android:firebase-analytics:X.X.X"
 ```
+

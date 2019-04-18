@@ -36,9 +36,11 @@ import ru.surfstudio.android.core.ui.event.base.ScreenEventDelegate;
  */
 public interface ScreenEventResolver<E extends ScreenEvent, D extends ScreenEventDelegate, R> {
 
+    List<ScreenType> ALL_TYPES = Arrays.asList(ScreenType.ACTIVITY, ScreenType.FRAGMENT, ScreenType.WIDGET);
     List<ScreenType> ACTIVITY_AND_FRAGMENT_TYPES = Arrays.asList(ScreenType.ACTIVITY, ScreenType.FRAGMENT);
     List<ScreenType> ACTIVITY_TYPES = Collections.singletonList(ScreenType.ACTIVITY);
     List<ScreenType> FRAGMENT_TYPES = Collections.singletonList(ScreenType.FRAGMENT);
+    List<ScreenType> WIDGET_TYPES = Collections.singletonList(ScreenType.WIDGET);
 
     R resolve(List<D> delegates, E event);
 

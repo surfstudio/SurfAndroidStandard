@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         params.behavior = BottomButtonBehavior()
 
         bottom_btn.setOnClickListener {
-            Snackbar.make(container, "Message", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(container, R.string.snackbar_message, Snackbar.LENGTH_SHORT).show()
         }
 
         //Cross-fade animation

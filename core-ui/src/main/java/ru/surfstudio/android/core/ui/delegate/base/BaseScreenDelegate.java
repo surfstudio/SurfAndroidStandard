@@ -27,7 +27,6 @@ import java.util.UUID;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent;
-import ru.surfstudio.android.core.ui.event.lifecycle.destroy.OnDestroyEvent;
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseEvent;
 import ru.surfstudio.android.core.ui.event.lifecycle.ready.OnViewReadyEvent;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeEvent;
@@ -85,14 +84,16 @@ public abstract class BaseScreenDelegate {
         currentScopeId = savedInstanceState != null
                 ? savedInstanceState.getString(KEY_PSS_ID)
                 : UUID.randomUUID().toString();
+        initPersistentScope();
     }
 
     public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistableBundle) {
-        initPersistentScope();
         notifyScreenStateAboutOnCreate(savedInstanceState);
         runConfigurator();
         prepareView(savedInstanceState, persistableBundle);
         getEventDelegateManager().sendEvent(new OnRestoreStateEvent(savedInstanceState));
+
+        getScreenState().onViewReady();
         getEventDelegateManager().sendEvent(new OnViewReadyEvent());
     }
 
@@ -102,17 +103,13 @@ public abstract class BaseScreenDelegate {
     }
 
     public void onDestroy() {
-        if (isPersistentScopeExist()) {
+        if (isPersistentScopeExist() && completelyDestroyChecker.check()) {
             //onDestroy can be called without onActivityCreated for fragment,
             //so screen scope hasn't created and initialized yet
-            getScreenState().onDestroy();
-            getEventDelegateManager().sendEvent(new OnDestroyEvent());
-            if (completelyDestroyChecker.check()) {
-                getScreenState().onCompletelyDestroy();
-                getEventDelegateManager().sendEvent(new OnCompletelyDestroyEvent());
-                getEventDelegateManager().destroy();
-                scopeStorage.remove(getScopeId());
-            }
+            getScreenState().onCompletelyDestroy();
+            getEventDelegateManager().sendEvent(new OnCompletelyDestroyEvent());
+            getEventDelegateManager().destroy();
+            scopeStorage.remove(getScopeId());
         }
     }
 
@@ -140,18 +137,22 @@ public abstract class BaseScreenDelegate {
     //other events
 
     public void onStart() {
+        getScreenState().onStart();
         getEventDelegateManager().sendEvent(new OnStartEvent());
     }
 
     public void onResume() {
+        getScreenState().onResume();
         getEventDelegateManager().sendEvent(new OnResumeEvent());
     }
 
     public void onPause() {
+        getScreenState().onPause();
         getEventDelegateManager().sendEvent(new OnPauseEvent());
     }
 
     public void onStop() {
+        getScreenState().onStop();
         getEventDelegateManager().sendEvent(new OnStopEvent());
     }
 

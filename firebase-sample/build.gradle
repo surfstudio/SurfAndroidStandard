@@ -1,14 +1,13 @@
 import com.google.gms.googleservices.GoogleServicesPlugin
 
 apply from: '../androidSample.gradle'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 
 android {
     ext.enableCrashlytics = false
 
     defaultConfig {
         applicationId "ru.surfstudio.android.firebase.sample"
-        multiDexEnabled true
     }
 }
 
@@ -18,6 +17,7 @@ dependencies {
     implementation project(':push')
     implementation project(':sample-dagger')
     implementation project(':rxbus')
+    implementation project(':activity-holder')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 

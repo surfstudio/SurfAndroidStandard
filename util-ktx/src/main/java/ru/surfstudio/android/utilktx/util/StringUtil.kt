@@ -86,7 +86,11 @@ object StringUtil {
     }
 
     fun getSplitedNumber(value: Int): String {
-        return if (value > 0) getDecimalFormat(wholeFormat).format(value.toLong()) else 0.toString()
+        return getSplitedNumber(value.toLong())
+    }
+
+    fun getSplitedNumber(value: Long): String {
+        return if (value > 0) getDecimalFormat(wholeFormat).format(value) else 0.toString()
     }
 
     /**

@@ -1,5 +1,6 @@
 apply from:'../commonFeatureModule.gradle'
+apply from: '../commonKaptModule.gradle'
 
 dependencies {
-    implementation project(':template:i-initialization')
+    implementation project("$templatePrefix:i-initialization")
 }

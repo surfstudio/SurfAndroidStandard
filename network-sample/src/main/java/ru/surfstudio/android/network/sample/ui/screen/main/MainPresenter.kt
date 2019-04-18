@@ -1,11 +1,10 @@
 package ru.surfstudio.android.network.sample.ui.screen.main
 
-import io.reactivex.Observable
-import ru.surfstudio.android.core.mvp.model.state.LoadState
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.network.sample.interactor.product.ProductRepository
+import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -13,8 +12,9 @@ import javax.inject.Inject
  * Презентер главного экрана
  */
 @PerScreen
-internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val repository: ProductRepository
+internal class MainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val repository: ProductRepository
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     companion object {

@@ -40,6 +40,7 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
         remoteMessage?.let {
             pushHandler.handleMessage(this,
+                    it.messageId?.hashCode() ?: -1,
                     it.notification?.title ?: "",
                     it.notification?.body ?: "",
                     it.data)

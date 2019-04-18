@@ -69,6 +69,10 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
             screenComponent = createScreenComponent();
         }
         screenComponent.inject(target);
+
+        if (screenComponent instanceof BindableScreenComponent) {
+            ((BindableScreenComponent) screenComponent).requestInjection();
+        }
     }
 
     protected Intent getIntent() {
@@ -79,7 +83,8 @@ public abstract class BaseActivityViewConfigurator<P, A, M>
         return createScreenComponent(
                 getActivityComponent(),
                 getActivityScreenModule(),
-                getIntent());
+                getIntent()
+        );
     }
 
     @Override

@@ -20,6 +20,7 @@ import ru.surfstudio.android.analytics.Analytics;
 /**
  * Позволяет отправить событие аналитики
  */
+@Deprecated
 public class EventSender {
 
     private final Analytics analytics;

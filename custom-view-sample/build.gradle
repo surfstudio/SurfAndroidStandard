@@ -11,6 +11,4 @@ dependencies {
     implementation project(':sample-common')
 
     implementation "org.jetbrains.anko:anko-common:$ankoVersion"
-
-    testImplementation "junit:junit:$junitVersion"
 }

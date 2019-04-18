@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:gravity="center"
-    tools:context=".interactor.ui.screen.main.MainActivityView">
+    android:orientation="vertical"
+    tools:context=".ui.screen.main.MainActivityView">
 
-    <ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.constraint.ConstraintWidgetView
-        android:id="@+id/constraint_widget"
+    <Button
+        android:id="@+id/list_btn"
         android:layout_width="match_parent"
-        android:background="#2196F3"
-        android:layout_height="56dp" />
+        android:layout_height="wrap_content"
+        android:text="GO TO LIST"/>
 
-    <ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.frame.FrameWidgetView
-        android:id="@+id/frame_widget"
+    <Button
+        android:id="@+id/fragment_btn"
         android:layout_width="match_parent"
-        android:background="#1E88E5"
-        android:layout_height="56dp" />
-
-    <ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.linear.LinearWidgetView
-        android:id="@+id/linear_widget"
-        android:layout_width="match_parent"
-        android:background="#1976D2"
-        android:layout_height="56dp" />
-
-    <ru.surfstudio.android.mvpwidget.sample.interactor.ui.screen.main.widget.relative.RelativeWidgetView
-        android:id="@+id/relative_widget"
-        android:layout_width="match_parent"
-        android:background="#1565C0"
-        android:layout_height="56dp" />
+        android:layout_height="wrap_content"
+        android:text="GO TO FRAGMENT"/>
 
 </LinearLayout>

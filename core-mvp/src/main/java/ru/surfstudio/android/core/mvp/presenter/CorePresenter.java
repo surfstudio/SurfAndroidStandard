@@ -15,13 +15,12 @@
  */
 package ru.surfstudio.android.core.mvp.presenter;
 
-import androidx.annotation.CallSuper;
-
 import com.agna.ferro.rx.CompletableOperatorFreeze;
 import com.agna.ferro.rx.MaybeOperatorFreeze;
 import com.agna.ferro.rx.ObservableOperatorFreeze;
 import com.agna.ferro.rx.SingleOperatorFreeze;
 
+import androidx.annotation.CallSuper;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -358,10 +357,15 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
     }
 
     protected <T> Disposable subscribe(final Single<T> single,
+                                       final ConsumerSafe<T> onNext) {
+        return subscribe(single, this.createSingleOperatorFreeze(), onNext, ObservableUtil.ON_ERROR_MISSING);
+    }
+
+    protected <T> Disposable subscribe(final Single<T> single,
                                        final ConsumerSafe<T> onSuccess,
                                        final ConsumerSafe<Throwable> onError) {
 
-        return subscribe(single, new SingleOperatorFreeze<>(freezeSelector), onSuccess, onError);
+        return subscribe(single, this.createSingleOperatorFreeze(), onSuccess, onError);
     }
 
     protected Disposable subscribe(final Completable completable,
@@ -380,6 +384,71 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
         return subscribe(maybe, new MaybeOperatorFreeze<>(freezeSelector), onSuccess, onComplete, onError);
     }
 
+    //region subscribeTakeLastFrozen
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     *
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param onError    action to call when the error is occurred
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext,
+            ConsumerSafe<Throwable> onError
+    ) {
+        return subscribe(observable, createTakeLastFrozenPredicate(), onNext, onError);
+    }
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     *
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param onNext     action to call when new portion of data is emitted
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeTakeLastFrozen(
+            Observable<T> observable,
+            ConsumerSafe<T> onNext
+    ) {
+        return subscribe(observable, createTakeLastFrozenPredicate(), onNext, ObservableUtil.ON_ERROR_MISSING);
+    }
+
+    /**
+     * Subscribe and take only last emitted value from frozen predicate.
+     * This is very useful in situations when your screen is long time inactive and it should react
+     * only to last emitted value.
+     *
+     * For example, to prevent saving all the copies of data in storage when screen becomes visible,
+     * and save only last emitted copy instead.
+     *
+     * @param observable observable to subscribe
+     * @param observer observer that receives data
+     * @param <T>        type of observable element
+     * @return Disposable
+     */
+    protected <T> Disposable subscribeTakeLastFrozen(
+            Observable<T> observable,
+            LambdaObserver<T> observer
+    ) {
+        return subscribe(observable, createTakeLastFrozenPredicate(), observer);
+    }
+
+    //endregion
 
     /**
      * Subscribe subscriber to the observable without applying {@link ObservableOperatorFreeze}
@@ -490,6 +559,26 @@ public abstract class CorePresenter<V extends CoreView> { //todo детальн�
 
     protected <T> ObservableOperatorFreeze<T> createOperatorFreeze() {
         return new ObservableOperatorFreeze<>(freezeSelector);
+    }
+
+    protected <T> SingleOperatorFreeze<T> createSingleOperatorFreeze() {
+        return new SingleOperatorFreeze<>(freezeSelector);
+    }
+
+    /**
+     * Predicate that takes only the last emitted value from the frozen buffer
+     *
+     * @param <T> observable element type
+     * @return predicate
+     * @see com.agna.ferro.rx.ObservableOperatorFreeze
+     */
+    protected <T> BiFunctionSafe<T, T, Boolean> createTakeLastFrozenPredicate() {
+        return new BiFunctionSafe<T, T, Boolean>() {
+            @Override
+            public Boolean apply(T t, T t2) {
+                return true;
+            }
+        };
     }
 
     protected boolean isDisposableInactive(Disposable disposable) {

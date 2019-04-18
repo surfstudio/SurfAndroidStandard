@@ -35,11 +35,9 @@ import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface;
 public class ParentPersistentScopeFinder {
 
     private View child;
-    private PersistentScopeStorage scopeStorage;
 
-    public <V extends View & CoreWidgetViewInterface> ParentPersistentScopeFinder(V child, PersistentScopeStorage scopeStorage) {
+    public <V extends View & CoreWidgetViewInterface> ParentPersistentScopeFinder(V child) {
         this.child = child;
-        this.scopeStorage = scopeStorage;
     }
 
     public ScreenPersistentScope find() {

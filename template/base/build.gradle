@@ -1,16 +1,16 @@
 apply from: '../commonModule.gradle'
 
 dependencies {
-    api project(':template:domain')
+    api project("$templatePrefix:domain")
 
     gradle.ext.androidStandard.api(
             this,
             "$surfCoreVersionName",
             [
+                    "activity-holder",
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
-                    "core-app",
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
@@ -18,13 +18,13 @@ dependencies {
                     "firebase-analytics",
                     "push",
                     "dagger-scope",
-                    "logger", "filestorage",
+                    "logger",
+                    "filestorage",
                     "network",
                     "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",
-
                     "app-migration",
                     "connection",
                     "custom-view",
@@ -37,7 +37,8 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"
-            ]
+                    "rxbus"],
+            null, //todo remove for real app
+            "LOCAL"  //todo remove for real app
     )
 }

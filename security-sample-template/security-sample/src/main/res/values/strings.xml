@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Security Sample</string>
+    <string name="check_root_btn_text">Check Root</string>
+    <string name="root_message">Root detected!</string>
+    <string name="no_root_message">No Root</string>
+    <string name="sign_in_btn_text">Sign in</string>
+    <string name="session_screen_tv_text">Session screen</string>
+    <string name="submit_pin_btn_text">Submit pin</string>
+    <string name="get_apikey_by_pin_btn">Get apiKey by PIN</string>
+    <string name="pin_created_message">New pin created</string>
+    <string name="security_error">Security error</string>
+    <string name="empty_string"></string>
+</resources>

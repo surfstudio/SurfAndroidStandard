@@ -1,19 +1,21 @@
 package ru.surfstudio.android.imageloader_sample
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import org.jetbrains.anko.find
 import ru.surfstudio.android.imageloader.ImageLoader
-import ru.surfstudio.android.imageloader.util.BlurStrategy
 
 class MainActivity : AppCompatActivity() {
 
-    private val IMAGE_URL = "https://cdn-images-1.medium.com/max/2000/1*dT8VX9g8ig6lxmobTRmCiA.jpeg"
+    private val IMAGE_URL = "https://www.besthealthmag.ca/wp-content/uploads/sites/16/2012/04/your-g-spot.jpg"
 
     private lateinit var imageView: ImageView
     private lateinit var transformButton: Button
+
+    private lateinit var svgIv: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +31,11 @@ class MainActivity : AppCompatActivity() {
             isLoadOriginal = !isLoadOriginal
         }
 
-        loadOriginalImage()
+        imageView.post { loadOriginalImage() }
 
+        svgIv = find(R.id.imageloader_sample_svg_iv)
+        val svgImageUrl = "https://card2card.zenit.ru/assets/images/banks/yandex.svg"
+        loadSvgImage(svgImageUrl)
     }
 
     private fun loadOriginalImage() {
@@ -38,12 +43,15 @@ class MainActivity : AppCompatActivity() {
                 .with(this)
                 .skipCache(true)
                 .crossFade(500)
-                .centerCrop()
+                .maxWidth(imageView.width / 2)
+                .maxHeight(imageView.height / 2)
+                .tile()
                 .maxWidth(570)
                 .maxHeight(9300)
                 .crossFade(1000)
                 .url(IMAGE_URL)
-                .force()
+                .mask(true, R.drawable.ic_error_state, PorterDuff.Mode.LIGHTEN)
+                .signature(Math.random()) // картинка будет грузиться при каждом тапе
                 .preview(R.drawable.ic_launcher_background)
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
@@ -56,8 +64,19 @@ class MainActivity : AppCompatActivity() {
                 .centerCrop()
                 .blur(blurDownSampling = 4)
                 .url(IMAGE_URL)
+                .signature(Math.random()) // картинка будет грузиться при каждом тапе
                 .force()
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
+    }
+
+    private fun loadSvgImage(svgImageUrl: String) {
+        ImageLoader
+                .with(this)
+                .skipCache(true) //для svg недоступен кэш
+                .centerCrop()
+                .url(svgImageUrl)
+                .error(R.drawable.ic_launcher_background)
+                .into(svgIv)
     }
 }

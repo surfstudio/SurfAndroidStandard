@@ -27,13 +27,9 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * Интерфейс для всех кастомных вьюшек с презентером
  * <p>
  * !!!ВАЖНО!!!
- * 1) Необходимо вызвать метод init во время onCreate() Activity или onActivityCreated() Fragment
- * 2) кастомная вьюшка с презентером может быть только в статической иерархии вью,
- * то есть должна создаваться при старте экрана, и не может быть использована при
- * динамическом создании вью, в том числе внутри элементов RecyclerView
+ * <b/>При использовании в RecyclerView необходимо проставить атрибут enableManualInit == true в макете,
+ * вызвать метод init(scopeId) во время bind()
  * <p>
- * Эти ограничения связаны с большими сложностями реализации делегирования событий экрана
- * для динамических вью
  */
 
 public interface CoreWidgetViewInterface extends
@@ -51,10 +47,35 @@ public interface CoreWidgetViewInterface extends
     WidgetViewDelegate createWidgetViewDelegate();
 
     /**
-     * Необходимо вызвать метод init во время Activity.onCreate() или Fragment.onActivityCreated()
-     * или CoreWidgetView.onCreate()
+     * Метод, используемый для получения уникального идентификатора виджета на экране.
+     * Стандартная реализация извлекает id из layout, если он был там задан.
+     * Следует переопределять, если задание уникального id из layout невозможно.
+     *
+     * @return уникальный идентификатор виджета на экране
      */
-    void init();
+    String getWidgetId();
+
+    /**
+     * Для отложенной инициализации виджета с установкой идентификатора scope на основе данных
+     * Используется, если у виджета проставлен атрибут - enableManualInit == true
+     *
+     * Для динамически создаваемых виджетов, необходимо переопределить метод getWidgetId,
+     * чтобы виджет получал уникальные данные (например, data из viewHolder в RecyclerView),
+     * и возвращал идентификатор на основе этих данных в getWidgetId.
+     */
+    void lazyInit();
 
     void onCreate();
+
+    /**
+     * Устрарел, для отложенной инициализации используется lazyInit
+     */
+    @Deprecated
+    void init();
+
+    /**
+     * Устрарел, для отложенной инициализации используется lazyInit
+     */
+    @Deprecated
+    void init(String scopeId);
 }

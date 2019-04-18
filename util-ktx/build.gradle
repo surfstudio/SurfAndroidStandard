@@ -1,8 +1,8 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "androidx.core:core-ktx:$androidxVersion"
-    api "com.google.android.material:material:$androidxVersion"
+    api "androidx.core:core-ktx:$androidxKtxVersion"
+    api "com.google.android.material:material:$androidxMaterialVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
 }
 

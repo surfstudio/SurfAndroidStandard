@@ -1,6 +1,5 @@
 package ru.surfstudio.android.location.sample.ui.screen.location_service_sample
 
-import android.content.Context
 import android.content.Intent
 import dagger.Component
 import dagger.Module
@@ -12,18 +11,18 @@ import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.location.LocationService
+import ru.surfstudio.android.location.sample.ui.base.configurator.CustomActivityScreenConfigurator
+import ru.surfstudio.android.location.sample.ui.base.dagger.activity.CustomActivityComponent
 import ru.surfstudio.android.location.sample.ui.screen.common.CommonLocationPermissionRequest
-import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
-import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
 
 /**
  * Конфигуратор экрана [LocationServiceActivityView]
  */
-class LocationServiceScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
+class LocationServiceScreenConfigurator(intent: Intent) : CustomActivityScreenConfigurator(intent) {
 
     @PerScreen
-    @Component(dependencies = [DefaultActivityComponent::class],
+    @Component(dependencies = [CustomActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, LocationServiceScreenModule::class])
     internal interface LocationServiceScreenComponent : ScreenComponent<LocationServiceActivityView>
 
@@ -31,13 +30,7 @@ class LocationServiceScreenConfigurator(intent: Intent) : DefaultActivityScreenC
     internal class LocationServiceScreenModule {
 
         @Provides
-        fun provideLocationService(context: Context) = LocationService(context)
-
-        @Provides
-        fun provideCommonLocationPermissionRequest(context: Context) = CommonLocationPermissionRequest(context)
-
-        @Provides
-        fun provideLocationServicePresenter(
+        internal fun provideLocationServicePresenter(
                 basePresenterDependency: BasePresenterDependency,
                 screenEventDelegateManager: ScreenEventDelegateManager,
                 permissionManager: PermissionManager,
@@ -55,11 +48,11 @@ class LocationServiceScreenConfigurator(intent: Intent) : DefaultActivityScreenC
     }
 
     override fun createScreenComponent(
-            defaultActivityComponent: DefaultActivityComponent,
+            customActivityComponent: CustomActivityComponent,
             defaultActivityScreenModule: DefaultActivityScreenModule,
             intent: Intent): ScreenComponent<*> {
         return DaggerLocationServiceScreenConfigurator_LocationServiceScreenComponent.builder()
-                .defaultActivityComponent(defaultActivityComponent)
+                .customActivityComponent(customActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
                 .locationServiceScreenModule(LocationServiceScreenModule())
                 .build()

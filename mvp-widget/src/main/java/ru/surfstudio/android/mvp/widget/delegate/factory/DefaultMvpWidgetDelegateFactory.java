@@ -40,7 +40,8 @@ public class DefaultMvpWidgetDelegateFactory implements MvpWidgetDelegateFactory
         return new WidgetViewDelegate(
                 widget,
                 scopeStorage,
-                new ParentPersistentScopeFinder(widget, scopeStorage));
+                new ParentPersistentScopeFinder(widget),
+                getEventResolvers());
     }
 
     @NonNull

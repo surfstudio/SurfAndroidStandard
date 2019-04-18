@@ -18,28 +18,24 @@ package ru.surfstudio.android.analytics.event;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
- * Вспомагательный класс для создания события аналитики
+ * Вспомогательный класс для создания события аналитики
  */
 public class EventData implements Event {
 
     public static final Predicate TRUE = () -> true;
     static final String CURRENCY_RUB = "RUB";
-    /**
-     * Ключ события
-     */
+
+    // Ключ события
     private final String event;
-    /**
-     * Параметры события
-     */
+
+    // Параметры события
     private final Map<String, String> params;
 
     public EventData(String event, int numberOfParams) {
         this.event = event;
         this.params = new HashMap<>(numberOfParams);
     }
-
 
     public EventData(Event event) {
         this.event = event.key();
@@ -66,6 +62,10 @@ public class EventData implements Event {
     }
 
     public EventData add(String key, int value) {
+        return add(key, String.valueOf(value));
+    }
+
+    public EventData add(String key, long value) {
         return add(key, String.valueOf(value));
     }
 

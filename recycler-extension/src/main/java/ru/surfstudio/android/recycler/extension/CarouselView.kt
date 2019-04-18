@@ -18,8 +18,6 @@ package ru.surfstudio.android.recycler.extension
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
@@ -128,7 +126,10 @@ open class CarouselView<T> @JvmOverloads constructor(
     private fun getCenterChild(drawRect: Rect): View? {
         val parentCenter = drawRect.also { this.getWindowVisibleDisplayFrame(it) }.centerX()
         return children.asSequence()
-                .minBy { view -> (parentCenter - drawRect.also { view.getGlobalVisibleRect(it) }.centerX()).absoluteValue }
+                .minBy { view ->
+                    (parentCenter - drawRect.also { view.getGlobalVisibleRect(it) }.centerX())
+                            .absoluteValue
+                }
     }
 
     /* androidx util code */

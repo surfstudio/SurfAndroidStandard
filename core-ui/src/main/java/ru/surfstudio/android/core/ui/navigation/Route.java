@@ -16,19 +16,29 @@
 package ru.surfstudio.android.core.ui.navigation;
 
 /**
- * базовый интерфейс маршрута для навигатора
- * <p>
- * маршрут ответственен за:
- * определение, какой конкретно экран (диалог) открыть
- * <p>
- * маршрут может быть ответственен за:
- * - упаковку данных в Intent (Bundle) для передачи аргументов в экран, диалог
- * - распаковку данных из Intent (Bundle) переданных в экран, диалог
- * - упаковку данных в Intent для передачи результата на предыдущий экран
- * - распаковку данных результата выполнения экрана из Intent
+ * Base navigation route interface.
+ * <br><br>
+ * {@link Route} is responsible for the following tasks:
+ * <br><br>
+ * <b>Mandatory.</b>
+ * <ul>
+ *   <li>resolving the target screen or dialog;</li>
+ * </ul>
+ * <br>
+ * <b>Optional.</b>
+ * <ul>
+ *   <li>passing data between screens (dialogs) using Intent (Bundle);</li>
+ *   <li>retrieving passed data from Intent (Bundle);</li>
+ *   <li>sending data back to the previous activity;</li>
+ *   <li>retrieving delivered data on the previous activity.</li>
+ * </ul>
+ *
+ * Route is able to pass up to 10 data items marked with one of the built-in "EXTRA_NUMBERED"
+ * string markers.
+ * <br><br>
+ * (see: {@link ActivityRouteInterface}, {@link FragmentRouteInterface})
  */
 public interface Route {
-
     String EXTRA_FIRST = "EXTRA_FIRST";
     String EXTRA_SECOND = "EXTRA_SECOND";
     String EXTRA_THIRD = "EXTRA_THIRD";
