@@ -9,7 +9,7 @@ import android.os.Bundle
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
 
 
@@ -22,7 +22,7 @@ class ${configuratorClassName}(<#if screenType=='activity'>intent: Intent<#else>
             parentComponent: ActivityComponent,
             ${dependingScreenModuleVariableName}: ${dependingScreenModuleClassName},
             <#if screenType=='activity'>intent: Intent<#else>args: Bundle</#if>
-    ) = Dagger${configuratorClassName}_${screenComponentClassName}
+    ): ${screenComponentClassName} = Dagger${configuratorClassName}_${screenComponentClassName}
             .builder()
             .activityComponent(parentComponent)
             .${dependingScreenModuleVariableName}(${dependingScreenModuleVariableName})
@@ -34,14 +34,10 @@ class ${configuratorClassName}(<#if screenType=='activity'>intent: Intent<#else>
             dependencies = [ActivityComponent::class],
             modules = [${dependingScreenModuleClassName}::class, ${screenModuleClassName}::class]
     )
-    interface ${screenComponentClassName} : ScreenComponent<${viewClassName}>
+    interface ${screenComponentClassName} : BindableScreenComponent<${viewClassName}>
 
     @Module
     internal class ${screenModuleClassName} <#if needToGenerateParams>(route: ${routeClassName}): CustomScreenModule<${routeClassName}>(route)</#if>{
-
-        @Provides
-        @PerScreen
-        fun provideBindModel(<#if needToGenerateParams>route: ${routeClassName}</#if>): ${bindModelClassName} = ${bindModelClassName}()
 
         @Provides
         @PerScreen
