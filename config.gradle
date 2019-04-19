@@ -18,8 +18,10 @@ ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
 
+    defaultVersionName = '0.4.0-SNAPSHOT'
     moduleVersionCode = 20
-    moduleVersionName = '0.4.0-SNAPSHOT'
+    moduleVersionName = gradle.ext.getModuleVersion(name, defaultVersionName)
+
     libMinSdkVersion = 17
     sampleMinSdkVersion = 18
     targetSdkVersion = 28
@@ -103,7 +105,7 @@ ext {
     //test
     robolectricVersion = '4.0.2'                //http://bit.ly/2xLRICR
     junitVersion = '4.12'                       //https://goo.gl/hEcfw1
-    uiAutomatorVersion='2.2.0'                  //http://bit.ly/2ORotVQ
+    uiAutomatorVersion = '2.2.0'                  //http://bit.ly/2ORotVQ
     mockitoVersion = '2.23.4'                   //http://bit.ly/2OuQ9AA
     powerMockVersion = '1.7.4'                  //http://bit.ly/2QisKq5
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
