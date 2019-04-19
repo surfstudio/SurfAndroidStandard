@@ -33,6 +33,7 @@ ext {
     androidxMaterialVersion = '1.0.0'           //http://bit.ly/2KAAq1y
     androidxRecyclerViewVersion = '1.0.0'       //http://bit.ly/2RcUQjD
     androidxExitInterfaceVersion = '1.0.0'      //http://bit.ly/2DPqlw6
+    androidxLegacySupportVersion = '1.0.0'
     androidxKtxVersion = '1.0.1'                //http://bit.ly/2qY7ffW
     androidxTestVersion = '1.0.0'               //http://bit.ly/2P1yKi1
     androidxTestExtJunitVersion = '1.0.0'       //http://bit.ly/2zC6UV1
