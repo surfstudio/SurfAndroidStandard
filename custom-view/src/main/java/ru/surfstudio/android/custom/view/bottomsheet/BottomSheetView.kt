@@ -10,13 +10,13 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat.getDrawable
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
-import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.android.custom.view.R
 import kotlin.properties.Delegates
 
 /**
- * Базовый BottomSheet Persistent. Для реализации необходимо:
- * * чтобы родительский контейнер на экране был [CoordinatorLayout]
- * * наследнику добавить [BottomSheetBehavior] (пр.: app:layout_behavior="...")
+ * BottomSheet Persistent. Для реализации необходимо:
+ * чтобы родительский контейнер на экране был [CoordinatorLayout]
+ * указать [BottomSheetBehavior] (пр.: app:layout_behavior="...")
  *
  * @param defaultBehaviorState - состояние [BottomSheetBehavior] по умолчанию
  */

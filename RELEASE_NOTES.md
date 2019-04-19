@@ -43,6 +43,7 @@
 #### custom-view
 
 * Исправлено некорректное поведение MaterialProgressBar на Android версии 5 и ниже
+* Добавлено BottomSheetView
 
 #### dagger-scope
 #### datalist-limit-offset
