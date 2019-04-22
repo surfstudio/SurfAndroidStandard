@@ -24,10 +24,10 @@ import android.view.ContextThemeWrapper
  * Helps to avoid problems with ContextThemeWrapper
  * @see <a href="https://clck.ru/FRZrW">ContextThemeWrapper problem</a>
  */
-inline fun <reified T> unwrapContext(context: Context): T {
+fun <T> unwrapContext(context: Context, clazz: Class<T>): T {
     var unwrappedContext = context
-    while (unwrappedContext !is T && unwrappedContext is ContextThemeWrapper) {
+    while (!clazz.isInstance(unwrappedContext) && unwrappedContext is ContextThemeWrapper) {
         unwrappedContext = unwrappedContext.baseContext
     }
-    return unwrappedContext as T
+    return clazz.cast(unwrappedContext)!!
 }
