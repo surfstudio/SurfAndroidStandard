@@ -14,11 +14,11 @@ import ru.surfstudio.android.custom.view.R
 import kotlin.properties.Delegates
 
 /**
- * BottomSheet Persistent. Для реализации необходимо:
- * чтобы родительский контейнер на экране был [CoordinatorLayout]
- * указать [BottomSheetBehavior] (пр.: app:layout_behavior="...")
+ * BottomSheet Persistent. To implement:
+ * parent container must be the [CoordinatorLayout]
+ * specify [BottomSheetBehavior] (i.e.: app:layout_behavior="...")
  *
- * @param defaultBehaviorState - состояние [BottomSheetBehavior] по умолчанию
+ * @param defaultBehaviorState - default [BottomSheetBehavior] state
  */
 open class BottomSheetView @JvmOverloads constructor(
         context: Context,
@@ -26,16 +26,47 @@ open class BottomSheetView @JvmOverloads constructor(
         defaultBehaviorState: Int = STATE_COLLAPSED
 ) : LinearLayout(context, attributeSet) {
 
+    /**
+     * Returns true if the view is expanded, else returns false
+     */
     val isExpanded: Boolean get() = behavior?.state == STATE_EXPANDED
+
+    /**
+     * Returns true if the view is collapsed, else returns false
+     */
     val isCollapsed: Boolean get() = behavior?.state == STATE_COLLAPSED
+
+    /**
+     * Returns true if the view is hidden, else returns false
+     */
     val isHidden: Boolean get() = behavior?.state == STATE_HIDDEN
 
-    var onExpandListener: (() -> Unit)? = null //вью на максимальной высоте
-    var onCollapseListener: (() -> Unit)? = null //вью на стандартной высоте
-    var onHideListener: (() -> Unit)? = null //вью скрыто
+    /**
+     * Callback for state expanded
+     * will be called on maximum height of the view
+     */
+    var onExpandListener: (() -> Unit)? = null
 
-    var behaviorInitCallback: (() -> Unit)? = null //callback на инициализацию behavior'а
+    /**
+     * Callback for state collapsed
+     * will be called on default height of the view
+     */
+    var onCollapseListener: (() -> Unit)? = null
 
+    /**
+     * Callback for state hidden
+     * will be called on view hidden
+     */
+    var onHideListener: (() -> Unit)? = null
+
+    /**
+     * Callback for initializing behavior of the view
+     */
+    var behaviorInitCallback: (() -> Unit)? = null
+
+    /**
+     * The behavior of the view
+     */
     var behavior: BottomSheetBehavior<View>? = null
         private set
 
@@ -58,7 +89,7 @@ open class BottomSheetView @JvmOverloads constructor(
     }
 
     /**
-     * разворачивает вью до стандартной высоты
+     * Makes the view default height
      */
     @CallSuper
     open fun collapse() {
@@ -66,7 +97,7 @@ open class BottomSheetView @JvmOverloads constructor(
     }
 
     /**
-     * полностью разворачивает вью до максимальной высоты
+     * Makes the view maximum height
      */
     @CallSuper
     open fun expand() {
@@ -89,7 +120,7 @@ open class BottomSheetView @JvmOverloads constructor(
     }
 
     /**
-     * скрывает вью
+     * Hides the view
      */
     @CallSuper
     open fun hide() {
@@ -97,9 +128,8 @@ open class BottomSheetView @JvmOverloads constructor(
     }
 
     /**
-     * Устанавливает стандартную высоту для view
-     * * необходимо для сост. [STATE_COLLAPSED]
-     * @param peekHeight - высота в dp
+     * Specify default height of the view for state [STATE_COLLAPSED]
+     * @param peekHeight - height in px
      */
     fun setPeekHeight(peekHeight: Int) {
         behavior?.peekHeight = peekHeight
