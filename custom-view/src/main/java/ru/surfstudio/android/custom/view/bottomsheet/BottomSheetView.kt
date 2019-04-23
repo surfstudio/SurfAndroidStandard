@@ -1,12 +1,29 @@
+/*
+  Copyright (c) 2019-present, SurfStudio LLC.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.custom.view.bottomsheet
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import androidx.annotation.CallSuper
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getDrawable
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.*
@@ -76,8 +93,10 @@ open class BottomSheetView @JvmOverloads constructor(
             }
 
     init {
-        background = getDrawable(context, R.drawable.bg_light_rounded_top_w_shadow)
+        background = ColorDrawable(ContextCompat.getColor(context, android.R.color.white))
         orientation = VERTICAL
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
+            elevation = dip(16)
         isFocusable = true
         isFocusableInTouchMode = true
         isClickable = true
@@ -165,5 +184,9 @@ open class BottomSheetView @JvmOverloads constructor(
             })
             behaviorInitCallback?.invoke()
         }
+    }
+
+    private fun dip(dp: Int): Float {
+        return dp * context.resources.displayMetrics.density
     }
 }

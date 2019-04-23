@@ -15,6 +15,7 @@ import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
 import ru.surfstudio.android.sample.common.test.utils.AnimationUtils
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
+import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils
 
 class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
@@ -52,6 +53,6 @@ class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.ja
                 bsView.expand()
             }
         })
-        Espresso.onView(ViewMatchers.withId(R.id.top_title_tsv)).check(matches(isDisplayed()))
+        VisibilityUtils.checkIfViewIsVisible(R.id.top_title_tsv)
     }
 }
