@@ -129,6 +129,7 @@ pipeline.stages = [
             if(branch.contains(originPrefix)){
                 branch = branch.substring(originPrefix.length())
             }
+            /*
             script.echo "Checking branch: '$branch' and version: '$version'..."
 
             def masterChecked = checkVersionAndBranch(script,
@@ -144,6 +145,7 @@ pipeline.stages = [
             if(!(masterChecked || snapshotChecked || projectSnapshotChecked)) {
                 error("Deploy from branch: '$branch' forbidden")
             }
+            */ //todo fix checks
         },
         pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease assembleDebug")
