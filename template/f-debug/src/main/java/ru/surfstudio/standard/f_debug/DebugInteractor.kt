@@ -33,7 +33,7 @@ class DebugInteractor @Inject constructor(
 
     private val serverChangedPublishSubject = PublishSubject.create<Unit>()
 
-    fun observeServerChanged(): Observable<Unit> {
+    fun observeNeedClearSession(): Observable<Unit> {
         return serverChangedPublishSubject
     }
 

@@ -44,13 +44,7 @@ class App : MultiDexApplication() {
         initFabric()
         initPushEventListener()
 
-        with(DebugAppInjector.debugInteractor) {
-            onCreateApp(R.mipmap.ic_launcher)
-
-            observeServerChanged().subscribe {
-                AppInjector.appComponent.sessionChangedInteractor().onForceLogout()
-            }
-        }
+        DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
 
     private fun initFabric() {

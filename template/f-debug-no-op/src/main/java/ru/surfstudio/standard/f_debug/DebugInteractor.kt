@@ -8,7 +8,7 @@ class DebugInteractor @Inject constructor() {
 
     var isTestServerEnabled = false
 
-    fun observeServerChanged(): Observable<Unit> = Observable.empty()
+    fun observeNeedClearSession(): Observable<Unit> = Observable.empty()
 
     fun onCreateApp(icon: Int) {/* no action */}
 
