@@ -15,35 +15,62 @@ gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
     }
     // определние функции для деплоя текущего модуля в artifactory
     context.afterEvaluate {
+        def moduleName = project.name
+        def moduleVersion = moduleVersionName
+        def projectVersion = defaultVersionName
+
+        // сборка java-исходников из директории модуля, необходима для релиза в JCenter
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from android.sourceSets.main.java.srcDirs
+        }
+
+        // добавление java-исходников в артефакты
+        artifacts {
+            archives sourcesJar
+        }
+
         uploadArchives {
-            repositories.mavenDeployer {
-                repository(url: 'https://artifactory.surfstudio.ru/artifactory/libs-release-local') {
-                    authentication(
-                            userName: System.getenv('surf_maven_username'),
-                            password: System.getenv('surf_maven_password'))
-                }
+            //функция для деплоя артефакта с определенной версией
+            gradle.ext.uploadArtifact = { artifactVersion ->
+                repositories.mavenDeployer {
+                    repository(url: "https://artifactory.surfstudio.ru/artifactory/libs-release-local") {
+                        authentication(
+                                userName: System.getenv('surf_maven_username'),
+                                password: System.getenv('surf_maven_password'))
+                    }
 
-                def artifactGroupId = 'ru.surfstudio.android'
-                def artifactVersion = "$moduleVersionName"
+                    def artifactGroupId = 'ru.surfstudio.android'
 
-                pom.groupId = artifactGroupId
-                pom.artifactId = project.name
-                pom.version = artifactVersion
+                    pom.groupId = artifactGroupId
+                    pom.artifactId = moduleName
+                    pom.version = artifactVersion
 
-                pom.project {
-                    dependencies {
-                        modules.each {
-                            def moduleName = "$it"
-                            dependency {
-                                groupId artifactGroupId
-                                artifactId moduleName
-                                version artifactVersion
-                                scope "compile"
+                    pom.project {
+                        dependencies {
+                            modules.each {
+                                dependency {
+                                    groupId artifactGroupId
+                                    artifactId moduleName
+                                    version artifactVersion
+                                    scope "compile"
+                                }
                             }
                         }
-                    }
-                } // pom
-            } // repositories.mavenDeployer
+                    } // pom
+                } // repositories.mavenDeployer
+            } //gradle.ext.uploadArtifact
+
+            // деплой артефакта с версией проекта
+            gradle.ext.uploadArtifact("$projectVersion")
+
+            // деплой артефакта с remote-версией
+            // Нужно для выкладки артефакта с кастомной версией в Artifactory и дальнейшего релиза в JCenter
+            def shouldUploadArtifact = "$moduleVersion" != "$projectVersion" && !"$projectVersion".contains("SNAPSHOT")
+            if (shouldUploadArtifact) {
+                gradle.ext.uploadArtifact("$moduleVersion")
+                println("Single artifact uploaded $moduleName:$moduleVersion")
+            }
         } // uploadArchives
     }
 }

@@ -102,6 +102,7 @@ class TitleSubtitleView @JvmOverloads constructor(
 
     var onTitleClickListenerCallback: ((String) -> Unit)? = null
         set(value) {
+            field = value
             if (value != null) {
                 titleView.setOnClickListener { value(titleText) }
             } else {
@@ -112,6 +113,7 @@ class TitleSubtitleView @JvmOverloads constructor(
 
     var onSubTitleClickListenerCallback: ((String) -> Unit)? = null
         set(value) {
+            field = value
             if (value != null) {
                 subTitleView.setOnClickListener { value(subTitleText) }
             } else {
@@ -193,15 +195,24 @@ class TitleSubtitleView @JvmOverloads constructor(
 
             ellipsize = getEllipsizeFromResource(ta, R.styleable.TitleSubtitleView_titleEllipsize)
             visibility = getVisibilityFromResource(ta, R.styleable.TitleSubtitleView_titleVisibility)
+
+            compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titleDrawablePadding, 0)
+            setCompoundDrawablesWithIntrinsicBounds(
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableStart, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableTop, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableEnd, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_titleDrawableBottom, 0)
+            )
         }
     }
 
     private fun setupSubTitle(ta: TypedArray) {
         with(subTitleView) {
-            defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText) ?: defaultSubTitle
+            defaultSubTitle = ta.getString(R.styleable.TitleSubtitleView_subTitleText)
+                    ?: defaultSubTitle
             subTitleText = defaultSubTitle
 
-            subTitleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_subtitleTextAppearance, -1)
+            subTitleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_subTitleTextAppearance, -1)
             setupTextAppearance(subTitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_subTitleTextColor)
@@ -227,6 +238,14 @@ class TitleSubtitleView @JvmOverloads constructor(
 
             ellipsize = getEllipsizeFromResource(ta, R.styleable.TitleSubtitleView_subTitleEllipsize)
             visibility = getVisibilityFromResource(ta, R.styleable.TitleSubtitleView_subTitleVisibility)
+
+            compoundDrawablePadding = ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitleDrawablePadding, 0)
+            setCompoundDrawablesWithIntrinsicBounds(
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableStart, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableTop, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, 0),
+                    ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, 0)
+            )
         }
     }
 

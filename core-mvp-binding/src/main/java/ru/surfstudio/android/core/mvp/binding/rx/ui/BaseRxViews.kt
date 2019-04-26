@@ -26,6 +26,7 @@ import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
+import ru.surfstudio.android.mvp.dialog.complex.CoreBottomSheetDialogFragmentView
 import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 
@@ -92,6 +93,25 @@ abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
 abstract class BaseRxSimpleDialogFragment : CoreSimpleDialogFragment(), Related<VIEW> {
 
     override fun relationEntity() = VIEW
+
+    private val viewDisposable = CompositeDisposable()
+
+    @CallSuper
+    override fun onDestroy() {
+        viewDisposable.clear()
+        super.onDestroy()
+    }
+
+    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
+            observable.observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(onNext, Consumer(onError))
+                    .also { viewDisposable.add(it) }
+}
+
+/**
+ * Bottom Sheet Dialog Fragment with RxBindings support.
+ */
+abstract class BaseRxBottomSheetDialogFragment : CoreBottomSheetDialogFragmentView(), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 

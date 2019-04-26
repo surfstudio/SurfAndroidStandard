@@ -20,9 +20,6 @@ import android.view.ViewGroup
 class ${viewClassName} : ${viewParentClassName}() {
 
     @Inject
-    lateinit var presenter: ${presenterClassName}
-
-    @Inject
     lateinit var bm: ${bindModelClassName}
 
     override fun getScreenName() = "${viewClassName}"
