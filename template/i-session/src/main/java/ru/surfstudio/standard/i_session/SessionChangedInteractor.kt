@@ -5,6 +5,8 @@ import ru.surfstudio.standard.i_token.TokenStorage
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.dagger.scope.PerApplication
+import ru.surfstudio.android.logger.RemoteLogger
+import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import javax.inject.Inject
 
 /**
@@ -21,13 +23,20 @@ class SessionChangedInteractor @Inject constructor(
         return sessionChangedPublishSubject
     }
 
-    fun onLogin(loginInfo: LoginInfo) {
-        tokenStorage.token = loginInfo.accessToken
+    fun onLogin(loginInfo: LoginInfo, clearStorages: Boolean = true) {
+        if (clearStorages) {
+            clearStorage()
+        }
+        with(loginInfo) {
+            tokenStorage.token = accessToken
+            RemoteLogger.setUser(userId.toString(), EMPTY_STRING, EMPTY_STRING) //todo настроить в приложении
+        }
         sessionChangedPublishSubject.onNext(LoginState.LOGGED_IN)
     }
 
     fun onForceLogout() {
         clearStorage()
+        RemoteLogger.clearUser()
         sessionChangedPublishSubject.onNext(LoginState.NOT_AUTHORIZED)
     }
 
