@@ -18,6 +18,7 @@ package ru.surfstudio.android.mvp.dialog.simple;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
@@ -58,9 +59,12 @@ public class SimpleDialogDelegate {
     }
 
     public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
-        show(parentFragmentViewPersistentScope.getScreenState().getFragment().getFragmentManager(),
-                ScreenType.FRAGMENT,
-                parentFragmentViewPersistentScope.getScopeId());
+        Fragment fragment = parentFragmentViewPersistentScope.getScreenState().getFragment();
+        FragmentManager fm = fragment.getParentFragment() == null
+                ? fragment.getFragmentManager()
+                : fragment.getParentFragment().getFragmentManager();
+
+        show(fm, ScreenType.FRAGMENT, parentFragmentViewPersistentScope.getScopeId());
     }
 
     public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
