@@ -10,6 +10,7 @@ import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import ru.surfstudio.standard.base.util.StringsProvider
+import ru.surfstudio.standard.i_auth.AuthInteractor
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
 import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import ru.surfstudio.standard.i_session.SessionChangedInteractor
@@ -35,4 +36,6 @@ interface AppProxyDependencies {
 
     @Named(NO_BACKUP_SHARED_PREF)
     fun sharedPreferences(): SharedPreferences
+
+    fun authInteractor(): AuthInteractor
 }

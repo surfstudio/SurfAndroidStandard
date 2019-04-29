@@ -31,7 +31,7 @@ class App : MultiDexApplication() {
                 activeActivityHolder.activity = activity
             }
 
-            override fun onActivityStopped(activity: Activity) {
+            override fun onActivityPaused(activity: Activity) {
                 activeActivityHolder.clearActivity()
             }
         })

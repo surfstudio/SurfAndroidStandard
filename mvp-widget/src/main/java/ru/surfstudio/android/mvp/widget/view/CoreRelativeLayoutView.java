@@ -95,10 +95,14 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
 
     @Override
     @Deprecated
-    public void init() {}
+    public void init() {
+        // do nothing
+    }
 
     @Override
-    public void init(String scopeId) {}
+    public void init(String scopeId) {
+        // do nothing
+    }
 
     @Override
     public String getWidgetId() {
@@ -119,7 +123,9 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        widgetViewDelegate.onDestroy();
+        if (widgetViewDelegate != null) {
+            widgetViewDelegate.onDestroy();
+        }
     }
 
     @Override

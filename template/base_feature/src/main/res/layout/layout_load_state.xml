@@ -3,4 +3,6 @@
     android:layout_width="42dp"
     android:layout_height="42dp"
     android:layout_gravity="center"
+    android:indeterminate="true"
+    android:indeterminateTint="@color/colorAccent"
     android:visibility="visible" />
