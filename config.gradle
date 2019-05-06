@@ -18,7 +18,7 @@ ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
 
-    defaultVersionName = '0.4.0-SNAPSHOT'
+    defaultVersionName = '0.4.0-P-Food-0-SNAPSHOT'
     moduleVersionCode = 20
     moduleVersionName = gradle.ext.getModuleVersion(name, defaultVersionName)
 
