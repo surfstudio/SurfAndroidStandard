@@ -51,72 +51,72 @@ abstract class BaseRxPresenter(
      *
      * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
      */
-    infix fun <T> Single<T>.bindTo(loadableState: LoadableState<T>) {
-        subscribe(
-                this
-                        .doOnSubscribe {
-                            loadableState.isLoading.accept(true)
-                        }
-                        .doFinally {
-                            loadableState.isLoading.accept(false)
-                        },
-                {
-                    loadableState.error.accept(EmptyErrorException())
-                    loadableState.accept(it)
-                },
-                {
-                    loadableState.error.accept(it)
-                }
-        )
-    }
+    infix fun <T> Single<T>.bindTo(loadableState: LoadableState<T>) =
+            subscribe(
+                    this
+                            .doOnSubscribe {
+                                loadableState.isLoading.accept(true)
+                            }
+                            .doFinally {
+                                loadableState.isLoading.accept(false)
+                            },
+                    {
+                        loadableState.error.accept(EmptyErrorException())
+                        loadableState.accept(it)
+                    },
+                    {
+                        loadableState.error.accept(it)
+                    }
+            )
+
 
     /**
      * Функция подписки на [Observable] для [LoadableState].
      *
      * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
      */
-    infix fun <T> Observable<T>.bindTo(loadableState: LoadableState<T>) {
-        subscribe(
-                this
-                        .doOnSubscribe {
-                            loadableState.isLoading.accept(true)
-                        }
-                        .doFinally {
-                            loadableState.isLoading.accept(false)
-                        },
-                {
-                    loadableState.error.accept(EmptyErrorException())
-                    loadableState.accept(it)
-                },
-                {
-                    loadableState.error.accept(it)
-                }
-        )
-    }
+    infix fun <T> Observable<T>.bindTo(loadableState: LoadableState<T>) =
+            subscribe(
+                    this
+                            .doOnSubscribe {
+                                loadableState.isLoading.accept(true)
+                            }
+                            .doFinally {
+                                loadableState.isLoading.accept(false)
+                            },
+                    {
+                        loadableState.error.accept(EmptyErrorException())
+                        loadableState.accept(it)
+                    },
+                    {
+                        loadableState.error.accept(it)
+                    }
+            )
+
 
     /**
      * Функция подписки на [Completable] для [LoadableState].
      *
      * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
      */
-    infix fun Completable.bindTo(loadableState: LoadableState<Unit>) {
-        subscribe(
-                this
-                        .doOnSubscribe {
-                            loadableState.isLoading.accept(true)
-                        }
-                        .doFinally {
-                            loadableState.isLoading.accept(false)
-                        },
-                {
-                    loadableState.error.accept(EmptyErrorException())
-                    loadableState.accept()
-                },
-                {
-                    loadableState.error.accept(it)
-                }
-        )
-    }
+    infix fun Completable.bindTo(loadableState: LoadableState<Unit>) =
+            subscribe(
+                    this
+                            .doOnSubscribe {
+                                loadableState.isLoading.accept(true)
+                            }
+                            .doFinally {
+                                loadableState.isLoading.accept(false)
+                            },
+                    {
+                        loadableState.error.accept(EmptyErrorException())
+                        loadableState.accept()
+                    },
+                    {
+                        loadableState.error.accept(it)
+                    }
+            )
+
 
     /**
      * Build-функция, переводящая [Single] в поток из Schedulers.io()
