@@ -16,7 +16,11 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.EmptyErrorException
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.LoadableState
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.view.CoreView
@@ -27,5 +31,31 @@ import ru.surfstudio.android.core.mvp.view.CoreView
 interface BindableRxView : Related<VIEW>, CoreView {
 
     override fun relationEntity() = VIEW
+
+    /**
+     * [Observable] с ошибкой для отображения на View
+     *
+     * В случае, когда ошибки не возникает, эмитится [EmptyErrorException]
+     */
+    val <T> LoadableState<T>.appearedError: Observable<Throwable>
+        get() = Observable
+                .combineLatest(
+                        isLoading.observable,
+                        error.observable,
+                        BiFunction { p1: Boolean, p2: Throwable -> Pair(p1, p2) }
+                )
+                .filter { !it.first }
+                .map { it.second }
+                .distinctUntilChanged()
+
+    /**
+     * [Observable] с флагом, показывающим, следует ли показывать лоадер в зависимости от нахождения данных в LoadableState
+     */
+    val <T> LoadableState<T>.isShowingLoader: Observable<Boolean>
+        get() =
+            isLoading.observable
+                    .map { isLoading -> !hasValue && isLoading }
+                    .distinctUntilChanged()
+
 
 }
