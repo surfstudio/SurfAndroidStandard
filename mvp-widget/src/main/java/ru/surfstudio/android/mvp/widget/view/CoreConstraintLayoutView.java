@@ -94,12 +94,12 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     @Deprecated
     public void init() {
-        // без реализации
+        // do nothing
     }
 
     @Override
     public void init(String scopeId) {
-        // без реализации
+        // do nothing
     }
 
     @Override
