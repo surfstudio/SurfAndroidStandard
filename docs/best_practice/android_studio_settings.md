@@ -47,6 +47,7 @@
 7. [ADB idea](https://github.com/pbreault/adb-idea). Упрощение работы с ADB
 9. Git Branch Cleaner - Очистка старых веток гита. Использование: VCS → Git → Delete Old Branches
 10. [Bitbucket Linky](https://plugins.jetbrains.com/plugin/8015-bitbucket-linky) - создание PR по Ctrl+Shift+X,P из студии. (Предварительно нужно настроить в Other Settings.)
+11. [CPU Usage Indicator](https://plugins.jetbrains.com/plugin/8580-cpu-usage-indicator) - Позволяет включить индикатор использования процессора. Также позволяет смотреть дамп тредов и фейлов.
 
 #### Полезные ссылки
 
