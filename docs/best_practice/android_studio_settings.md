@@ -48,6 +48,8 @@
 9. Git Branch Cleaner - Очистка старых веток гита. Использование: VCS → Git → Delete Old Branches
 10. [Bitbucket Linky](https://plugins.jetbrains.com/plugin/8015-bitbucket-linky) - создание PR по Ctrl+Shift+X,P из студии. (Предварительно нужно настроить в Other Settings.)
 11. [CPU Usage Indicator](https://plugins.jetbrains.com/plugin/8580-cpu-usage-indicator) - Позволяет включить индикатор использования процессора. Также позволяет смотреть дамп тредов и фейлов.
+12. [Vector Drawable Thumbnails](https://plugins.jetbrains.com/plugin/10741-vector-drawable-thumbnails) - Просмотр drawable в виде сетки, в отдельном окошке.
+13. [Rainbow Brackets](https://plugins.jetbrains.com/plugin/10080-rainbow-brackets) - Раскращивает открывающую и закрывающую скобку в один цвет, чтобы удобно было читать вложенные конструкции
 
 #### Полезные ссылки
 
