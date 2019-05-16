@@ -51,7 +51,7 @@ abstract class BaseRxPresenter(
      *
      * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
      */
-    infix fun <T> Single<T>.bindTo(loadableState: LoadableState<T>) =
+    infix fun <T> Single<T>.bindTo(loadableState: LoadableState<T>): Disposable =
             subscribe(
                     this
                             .doOnSubscribe {
@@ -63,6 +63,30 @@ abstract class BaseRxPresenter(
                     {
                         loadableState.error.accept(EmptyErrorException())
                         loadableState.accept(it)
+                    },
+                    {
+                        loadableState.error.accept(it)
+                    }
+            )
+
+    /**
+     * Функция подписки на [Single] для [LoadableState].
+     *
+     * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
+     */
+    fun <T> Single<T>.bindTo(loadableState: LoadableState<T>, onNext: (T) -> Unit): Disposable =
+            subscribe(
+                    this
+                            .doOnSubscribe {
+                                loadableState.isLoading.accept(true)
+                            }
+                            .doFinally {
+                                loadableState.isLoading.accept(false)
+                            },
+                    {
+                        loadableState.error.accept(EmptyErrorException())
+                        loadableState.accept(it)
+                        onNext(it)
                     },
                     {
                         loadableState.error.accept(it)
@@ -75,7 +99,7 @@ abstract class BaseRxPresenter(
      *
      * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
      */
-    infix fun <T> Observable<T>.bindTo(loadableState: LoadableState<T>) =
+    infix fun <T> Observable<T>.bindTo(loadableState: LoadableState<T>): Disposable =
             subscribe(
                     this
                             .doOnSubscribe {
@@ -93,13 +117,37 @@ abstract class BaseRxPresenter(
                     }
             )
 
+    /**
+     * Функция подписки на [Observable] для [LoadableState].
+     *
+     * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
+     */
+    fun <T> Observable<T>.bindTo(loadableState: LoadableState<T>, onNext: (T) -> Unit): Disposable =
+            subscribe(
+                    this
+                            .doOnSubscribe {
+                                loadableState.isLoading.accept(true)
+                            }
+                            .doFinally {
+                                loadableState.isLoading.accept(false)
+                            },
+                    {
+                        loadableState.error.accept(EmptyErrorException())
+                        loadableState.accept(it)
+                        onNext(it)
+                    },
+                    {
+                        loadableState.error.accept(it)
+                    }
+            )
+
 
     /**
      * Функция подписки на [Completable] для [LoadableState].
      *
      * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
      */
-    infix fun Completable.bindTo(loadableState: LoadableState<Unit>) =
+    infix fun Completable.bindTo(loadableState: LoadableState<Unit>): Disposable =
             subscribe(
                     this
                             .doOnSubscribe {
@@ -111,6 +159,30 @@ abstract class BaseRxPresenter(
                     {
                         loadableState.error.accept(EmptyErrorException())
                         loadableState.accept()
+                    },
+                    {
+                        loadableState.error.accept(it)
+                    }
+            )
+
+    /**
+     * Функция подписки на [Completable] для [LoadableState].
+     *
+     * Автоматически поставляет значение, возможную ошибку и состояние загрузки на основе потока данных.
+     */
+    fun Completable.bindTo(loadableState: LoadableState<Unit>, onComplete: () -> Unit): Disposable =
+            subscribe(
+                    this
+                            .doOnSubscribe {
+                                loadableState.isLoading.accept(true)
+                            }
+                            .doFinally {
+                                loadableState.isLoading.accept(false)
+                            },
+                    {
+                        loadableState.error.accept(EmptyErrorException())
+                        loadableState.accept()
+                        onComplete()
                     },
                     {
                         loadableState.error.accept(it)
