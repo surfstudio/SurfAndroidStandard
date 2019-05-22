@@ -1,6 +1,7 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
+    implementation "io.reactivex.rxjava2:rxjava:$rxJava2Version"
     api "com.google.android.material:material:$androidxMaterialVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
     implementation "com.google.android.play:core:$playCoreVersion" //for split install features support
