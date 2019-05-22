@@ -4,9 +4,9 @@ gradle.ext.extractModules('modules.json').each {
     include it.name
 }
 
-gradle.ext.extractModules('samples.json').each {
+/*gradle.ext.extractModules('samples.json').each {
     include it.name
-}
+}*/
 
-apply from: 'template/settings.gradle'
-apply from: 'security-sample-template/settings.gradle'
+//apply from: 'template/settings.gradle'
+//apply from: 'security-sample-template/settings.gradle'

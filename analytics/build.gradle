@@ -5,4 +5,6 @@ dependencies {
     implementation "com.annimon:stream:$annimonStreamVersion"
 }
 
-gradle.ext.configAndroidStandardDependencies this
+gradle.ext.configAndroidStandardDependencies (this, [
+        'logger', //todo temp
+])

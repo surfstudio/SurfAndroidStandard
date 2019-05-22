@@ -1,0 +1,83 @@
+[
+  {
+    "_comment": "Пример компонента из 2-х библиотек и одного семпла. Библиотеки и семпл должны находтиться в папке dir. Библиотеки будут иметь единую версию",
+    "id": "analytics",
+    "version": "0.8.0",
+    "stable": false,
+    "dir": "analytics",
+    "libs": [
+      {
+        "dir": "lib-analytics",
+        "artifact_name": "analytics",
+        "third_party_dependencies": [
+          { "name":  "androidx.annotation:annotation", "type": "implementation" },
+          { "name":  "com.annimon:stream", "type": "implementation" }
+        ],
+        "android_standard_dependencies": [
+          { "name":  "logger", "type": "implementation" }
+        ]
+      },
+      {
+        "dir": "lib-firebase-analytics",
+        "artifact_name": "firebase-analytics",
+        "third_party_dependencies": [
+          { "name":  "com.google.firebase:firebase-core", "type": "api" }
+        ],
+        "android_standard_dependencies": [
+          { "name":  "analytics", "type": "api" },
+          { "name":  "rx-extension", "type": "implementation" }
+        ]
+      }
+    ],
+    "samples": ["sample"],
+    "has_mirror": true,
+    "mirror_repo": "http://github.com/.../"
+  },
+  {
+    "id": "logger",
+    "version": "0.8.0",
+    "stable": false,
+    "dir": "logger",
+    "libs": [
+      {
+        "dir": "lib-logger",
+        "artifact_name": "logger",
+        "third_party_dependencies": [
+          { "name":  "com.jakewharton.timber:timber", "type": "implementation" },
+          { "name":  "com.crashlytics.sdk.android:crashlytics", "type": "implementation" },
+          { "name":  "androidx.annotation:annotation", "type": "implementation" }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": ["sample"],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "rx-extension",
+    "version": "0.4.0",
+    "stable": true,
+    "dir": "rx-extension",
+    "libs": [
+      {
+        "dir": "lib",
+        "artifact_name": "rx-extension",
+        "third_party_dependencies": [
+          { "name":  "io.reactivex.rxjava2:rxjava", "type": "api" },
+          { "name":  "io.reactivex.rxjava2:rxandroid", "type": "api" },
+          { "name":  "com.annimon:stream", "type": "implementation" }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": ["sample"],
+    "has_mirror": true,
+    "mirror_repo": "http://github.com/.../"
+  },
+  {
+    "name": "rx-extension",
+    "version": "",
+    "path": ""
+  }
+]
