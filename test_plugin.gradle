@@ -55,8 +55,6 @@ tasks.register("hello") {
         println "${greeting2.greeter}"
     }
 }
-import ru.surfstudio.android.build.UtilsKt
-import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.ConfiguratorKt
 
-List<Component> components = UtilsKt.parseComponentJson()
-println components
+ConfiguratorKt.configurateComponents()
