@@ -74,10 +74,5 @@
     "samples": ["sample"],
     "has_mirror": true,
     "mirror_repo": "http://github.com/.../"
-  },
-  {
-    "name": "rx-extension",
-    "version": "",
-    "path": ""
   }
 ]
