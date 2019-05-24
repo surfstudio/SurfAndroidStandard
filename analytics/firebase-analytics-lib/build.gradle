@@ -1,0 +1,2 @@
+apply from: '../../buildSrc/androidModule.gradle'
+apply plugin: ru.surfstudio.android.build.ConfigPlugin

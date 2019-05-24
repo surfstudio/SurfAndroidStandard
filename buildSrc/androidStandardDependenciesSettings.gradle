@@ -1,4 +1,4 @@
-apply from: '../config.gradle'
+apply from: '../../buildSrc/config.gradle'
 apply plugin: 'maven'
 
 // Функция, конфигурирующая зависимости android-standard для текущего модуля,
