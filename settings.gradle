@@ -1,12 +1,7 @@
-apply from: 'modules.gradle'
+import ru.surfstudio.android.build.Initializator
 
-gradle.ext.extractModules('modules.json').each {
-    include it.name
+def initializator = new Initializator()
+initializator.getModulesInfo().forEach { module ->
+    include module.first
+    project(module.first).projectDir = new File(module.second)
 }
-
-/*gradle.ext.extractModules('samples.json').each {
-    include it.name
-}*/
-
-//apply from: 'template/settings.gradle'
-//apply from: 'security-sample-template/settings.gradle'

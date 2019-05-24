@@ -10,7 +10,7 @@ allprojects {
 }
 
 buildscript {
-    apply from: 'config.gradle'
+    apply from: 'buildSrc/config.gradle'
 
     repositories {
         google()

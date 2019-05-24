@@ -1,4 +1,4 @@
-apply from: '../androidModule.gradle'
+apply from: '../../buildSrc/androidModule.gradle'
 
 dependencies {
     api "com.google.firebase:firebase-core:$firebaseCoreVersion"
