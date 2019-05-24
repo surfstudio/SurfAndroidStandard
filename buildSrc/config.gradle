@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
+project.ext.set("androidx.annotation:annotation", "1.0.1") //http://bit.ly/2P3QBVO
+project.ext.set("com.annimon:stream", "1.2.1") //https://bit.ly/2Ke0nlQ
+project.ext.set("com.google.firebase:firebase-core", "16.0.5") //http://bit.ly/2Q81pGJ
+project.ext.set("com.jakewharton.timber:timber", "4.7.1") //http://bit.ly/2LWbLaY
+project.ext.set("com.crashlytics.sdk.android:crashlytics", "2.9.6") //http://bit.ly/2v5mXbp
+project.ext.set("io.reactivex.rxjava2:rxjava", "2.2.3") //https://goo.gl/uzna2x
+project.ext.set("io.reactivex.rxjava2:rxandroid", "2.1.0") //https://goo.gl/3Kd3iP
+
 ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
 
     defaultVersionName = '0.4.0-SNAPSHOT'
     moduleVersionCode = 20
-    moduleVersionName = defaultVersionName
+    moduleVersionName = defaultVersionName //TODO проставлять нужную версию
 
     libMinSdkVersion = 17
     sampleMinSdkVersion = 18

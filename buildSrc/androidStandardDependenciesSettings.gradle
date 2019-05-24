@@ -4,15 +4,7 @@ apply plugin: 'maven'
 // Функция, конфигурирующая зависимости android-standard для текущего модуля,
 // контекст которого передается параметром.
 
-gradle.ext.configAndroidStandardDependencies = { context, modules = [] ->
-    // добавление зависимостей android-standard
-    context.dependencies {
-        modules.each {
-            compileOnly context.project(":$it")
-            testImplementation context.project(":$it")
-            androidTestImplementation context.project(":$it")
-        }
-    }
+gradle.ext.configUploadArchives = { context, modules = [] ->
     // определние функции для деплоя текущего модуля в artifactory
     context.afterEvaluate {
         uploadArchives {

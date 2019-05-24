@@ -1,9 +1,4 @@
 apply from: '../../buildSrc/androidModule.gradle'
+apply plugin: ru.surfstudio.android.build.plugins.Config
 
-dependencies {
-    api "com.jakewharton.timber:timber:$timberVersion"
-    api "com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion"
-    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
-}
-
-gradle.ext.configAndroidStandardDependencies this
+gradle.ext.configUploadArchives this
