@@ -4,7 +4,9 @@ import com.sun.xml.internal.ws.resources.UtilMessages
 
 // todo test buildSrc Files
 
-import ru.surfstudio.android.build.Util //Not Resolved class fixed in Studio 3.5 canary 12.
+import ru.surfstudio.android.build.Util
+
+//Not Resolved class fixed in Studio 3.5 canary 12.
 Util.init("AAAAAAAAAAAAA")
 println Util.util()
 
@@ -53,6 +55,8 @@ tasks.register("hello") {
         println "${greeting2.greeter}"
     }
 }
+import ru.surfstudio.android.build.UtilsKt
+import ru.surfstudio.android.build.model.Component
 
-
-
+List<Component> components = UtilsKt.parseComponentJson()
+println components
