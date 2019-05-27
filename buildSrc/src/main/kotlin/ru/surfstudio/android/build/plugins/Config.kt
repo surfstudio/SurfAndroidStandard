@@ -2,11 +2,11 @@ package ru.surfstudio.android.build.plugins
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import ru.surfstudio.android.build.Initializator
+import ru.surfstudio.android.build.components
 import ru.surfstudio.android.build.model.Dependency
 
 class Config : Plugin<Project> {
-    private val components = Initializator.components
+
     private lateinit var project: Project
 
     override fun apply(project: Project) {

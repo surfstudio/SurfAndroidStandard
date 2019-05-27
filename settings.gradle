@@ -1,7 +1,4 @@
-import ru.surfstudio.android.build.Initializator
-
-def initializator = new Initializator()
-initializator.getModulesInfo().forEach { module ->
+ru.surfstudio.android.build.InitializatorKt.getModulesInfo().forEach { module ->
     include module.first
     project(module.first).projectDir = new File(module.second)
 }

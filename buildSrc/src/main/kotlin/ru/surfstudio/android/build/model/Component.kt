@@ -9,6 +9,7 @@ data class Component(
         val id: String = "",
         val version: String = "",
         val stable: Boolean = false,
+        @Json(name = "unstable_version") val unstableVersion: Int = -1,
         val dir: String = "",
         val libs: List<Lib> = listOf(),
         val samples: List<Sample> = listOf(),
