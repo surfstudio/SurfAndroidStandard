@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply from: '../androidTestModule.gradle'
+apply from: '../../buildSrc/androidTestModule.gradle'
 
 android {
     compileSdkVersion project.ext.compileSdkVersion

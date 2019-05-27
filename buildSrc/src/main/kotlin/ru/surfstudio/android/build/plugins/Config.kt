@@ -3,14 +3,18 @@ package ru.surfstudio.android.build.plugins
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import ru.surfstudio.android.build.components
+import ru.surfstudio.android.build.LIBRARY_VERSIONS_KEY
+import ru.surfstudio.android.build.addDependency
 import ru.surfstudio.android.build.model.Dependency
 
 class Config : Plugin<Project> {
 
     private lateinit var project: Project
+    private var libraryVersions: Map<String, String> = emptyMap()
 
     override fun apply(project: Project) {
         this.project = project
+        libraryVersions = project.property(LIBRARY_VERSIONS_KEY) as Map<String, String>
 
         configurateDependancies()
     }
@@ -30,10 +34,7 @@ class Config : Plugin<Project> {
     }
 
     private fun configurateThirdPartyDependancies(deps: List<Dependency>) {
-        deps.forEach {
-            val depName = "${it.name}:${project.property(it.name)}"
-            project.dependencies.add(it.type, depName)
-        }
+        deps.forEach { addDependency(project, it.name, it.type) }
     }
 
     private fun configurateAndroidStandardDependencies(deps: List<Dependency>) {

@@ -87,12 +87,7 @@
         "android_standard_dependencies": []
       }
     ],
-    "samples": [
-      {
-        "name": "sample-logger",
-        "dir": "sample"
-      }
-    ],
+    "samples": [],
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -124,12 +119,7 @@
         "android_standard_dependencies": []
       }
     ],
-    "samples": [
-      {
-        "name": "sample-rx-extension",
-        "dir": "sample"
-      }
-    ],
+    "samples": [],
     "has_mirror": true,
     "mirror_repo": "http://github.com/.../"
   }
