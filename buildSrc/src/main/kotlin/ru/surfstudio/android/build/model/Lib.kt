@@ -1,15 +1,16 @@
 package ru.surfstudio.android.build.model
 
 import com.beust.klaxon.Json
+import ru.surfstudio.android.build.EMPTY_STRING
 
 /**
- * Представляет информацию о библиотеках, которые мужны компоненту
+ * Represent information about libs
  */
 data class Lib(
-        val name: String = "",
-        val dir: String = "",
+        val name: String = EMPTY_STRING,
+        val dir: String = EMPTY_STRING,
         @Json(name = "artifact_name")
-        val artifactName: String = "",
+        val artifactName: String = EMPTY_STRING,
         @Json(name = "third_party_dependencies")
         val thirdPartyDependencies: List<Dependency> = listOf(),
         @Json(name = "android_standard_dependencies")

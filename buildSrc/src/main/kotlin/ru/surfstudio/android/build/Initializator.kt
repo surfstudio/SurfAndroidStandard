@@ -1,17 +1,26 @@
 package ru.surfstudio.android.build
 
 import com.beust.klaxon.Klaxon
-import groovy.lang.MissingPropertyException
 import org.gradle.api.Project
-import org.gradle.api.UnknownProjectException
 import ru.surfstudio.android.build.model.Component
 import java.io.File
 import java.lang.RuntimeException
 
 private const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
+private const val DEFAULT_VERSION_NAME_KEY = "defaultVersionName"
 
+/**
+ * Components define all information for android-standard structure
+ *
+ * This value exist for all build time
+ */
 var components: List<Component> = emptyList()
 
+/**
+ * Represent information about module and module's directory
+ *
+ * @return list of pair module's name to module's directory
+ */
 fun getModulesInfo(): List<Pair<String, String>> {
     if (components.isEmpty()) {
         components = parseComponentJson()
@@ -32,37 +41,42 @@ fun getModulesInfo(): List<Pair<String, String>> {
 /**
  * Get moduleVersionName
  *
- * For project snapshot define projectPostfix and projectVersion in config.gradle
+ * There are 4 types of version:
+ * 1. X.Y.Z - component is stable, projectPostfix is empty
+ * 2. X.Y.Z-alpha.unstable_version - component is unstable, projectPostfix is empty
+ * 3. X.Y.Z-projectPostfix.projectVersion - component is stable, projectPostfix isn't empty
+ * 4. X.Y.Z-alpha.unstable_version-projectPostfix.projectVersion - component is unstable, projectPostfix isn't empty
  */
-fun getModuleVersionName(project: Project): String {
-    val defaultVersionName = project.property("defaultVersionName") as? String ?: ""
+fun getModuleVersionName(gradleProject: Project): String {
+    val defaultVersionName = gradleProject.property(DEFAULT_VERSION_NAME_KEY) as? String
+            ?: EMPTY_STRING
 
     components.find {
-        it.libs.map { lib -> lib.name }.contains(project.name)
+        it.libs.map { lib -> lib.name }.contains(gradleProject.name)
     }?.let { component ->
         var versionName = component.version
+        val projectInformation = gradleProject.getProjectInformation()
 
         if (!component.stable) versionName += "-alpha.${component.unstableVersion}"
+        if (!projectInformation.isEmpty) versionName += "-${projectInformation.name}.${projectInformation.version}"
 
-        val projectPostfix = project.readProperty("projectPostfix", "")
-        val projectVersion = project.readProperty("projectVersion", -1)
-
-        if (projectPostfix.isNotEmpty() && projectVersion != -1) {
-            versionName += "-$projectPostfix.$projectVersion"
-        }
         return versionName
     }
 
     return defaultVersionName
 }
 
+/**
+ * Parsing components.json file
+ * @return list of components
+ */
 private fun parseComponentJson(): List<Component> {
     return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
             ?: throw RuntimeException("Can't parse components.json")
 }
 
 /**
- * Check components directories
+ * Check components directories for exist
  */
 private fun checkComponentsFolders() {
     components.forEach { component ->
@@ -95,18 +109,4 @@ private fun checkComponentsFolders() {
             }
         }
     }
-}
-
-/**
- * Read property from Project without Exception
- */
-private fun <T> Project.readProperty(name: String, defValue: T): T {
-    try {
-        return property(name) as? T ?: defValue
-    } catch (e: MissingPropertyException) {
-        //Missing property
-    } catch (e: UnknownProjectException) {
-        //Missing property
-    }
-    return defValue
 }
