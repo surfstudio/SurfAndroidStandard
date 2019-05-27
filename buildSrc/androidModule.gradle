@@ -1,5 +1,5 @@
-apply from: '../androidStandardDependenciesSettings.gradle'
-apply from: '../config.gradle'
+apply from: '../../buildSrc/androidStandardDependenciesSettings.gradle'
+apply from: '../../buildSrc/config.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'

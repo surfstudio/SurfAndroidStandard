@@ -11,7 +11,7 @@ data class Component(
         val stable: Boolean = false,
         val dir: String = "",
         val libs: List<Lib> = listOf(),
-        val samples: List<String> = listOf(),
+        val samples: List<Sample> = listOf(),
         @Json(name = "has_mirror") val hasMirror: Boolean = false,
         @Json(name = "mirror_repo") val mirrorRepo: String = ""
 )

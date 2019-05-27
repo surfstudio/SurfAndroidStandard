@@ -1,0 +1,12 @@
+import ru.surfstudio.android.build.UtilsKt
+
+apply from: '../../buildSrc/androidSample.gradle'
+apply plugin: ru.surfstudio.android.build.plugins.Config
+
+dependencies {
+    implementation rootProject.project(":analytics")
+    implementation rootProject.project("rx-extension")
+    UtilsKt.implementation(project, "com.jakewharton.timber:timber")
+}
+
+gradle.ext.configUploadArchives(this)

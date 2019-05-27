@@ -7,29 +7,54 @@
     "dir": "analytics",
     "libs": [
       {
+        "name": "analytics",
         "dir": "lib-analytics",
         "artifact_name": "analytics",
         "third_party_dependencies": [
-          { "name":  "androidx.annotation:annotation", "type": "implementation" },
-          { "name":  "com.annimon:stream", "type": "implementation" }
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          }
         ],
         "android_standard_dependencies": [
-          { "name":  "logger", "type": "implementation" }
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
         ]
       },
       {
+        "name": "firebase-analytics",
         "dir": "lib-firebase-analytics",
         "artifact_name": "firebase-analytics",
         "third_party_dependencies": [
-          { "name":  "com.google.firebase:firebase-core", "type": "api" }
+          {
+            "name": "com.google.firebase:firebase-core",
+            "type": "api"
+          }
         ],
         "android_standard_dependencies": [
-          { "name":  "analytics", "type": "api" },
-          { "name":  "rx-extension", "type": "implementation" }
+          {
+            "name": "analytics",
+            "type": "api"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
         ]
       }
     ],
-    "samples": ["sample"],
+    "samples": [
+      {
+        "name": "sample-analytics",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": true,
     "mirror_repo": "http://github.com/.../"
   },
@@ -40,17 +65,27 @@
     "dir": "logger",
     "libs": [
       {
+        "name": "logger",
         "dir": "lib-logger",
         "artifact_name": "logger",
         "third_party_dependencies": [
-          { "name":  "com.jakewharton.timber:timber", "type": "implementation" },
-          { "name":  "com.crashlytics.sdk.android:crashlytics", "type": "implementation" },
-          { "name":  "androidx.annotation:annotation", "type": "implementation" }
+          {
+            "name": "com.jakewharton.timber:timber",
+            "type": "implementation"
+          },
+          {
+            "name": "com.crashlytics.sdk.android:crashlytics",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
         ],
         "android_standard_dependencies": []
       }
     ],
-    "samples": ["sample"],
+    "samples": [],
     "has_mirror": false,
     "mirror_repo": ""
   },
@@ -61,17 +96,27 @@
     "dir": "rx-extension",
     "libs": [
       {
-        "dir": "lib",
+        "name": "rx-extension",
+        "dir": "lib-rx-extension",
         "artifact_name": "rx-extension",
         "third_party_dependencies": [
-          { "name":  "io.reactivex.rxjava2:rxjava", "type": "api" },
-          { "name":  "io.reactivex.rxjava2:rxandroid", "type": "api" },
-          { "name":  "com.annimon:stream", "type": "implementation" }
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          },
+          {
+            "name": "io.reactivex.rxjava2:rxandroid",
+            "type": "api"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          }
         ],
         "android_standard_dependencies": []
       }
     ],
-    "samples": ["sample"],
+    "samples": [],
     "has_mirror": true,
     "mirror_repo": "http://github.com/.../"
   }

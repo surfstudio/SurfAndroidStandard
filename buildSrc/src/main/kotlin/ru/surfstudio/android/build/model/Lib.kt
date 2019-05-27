@@ -6,6 +6,7 @@ import com.beust.klaxon.Json
  * Представляет информацию о библиотеках, которые мужны компоненту
  */
 data class Lib(
+        val name: String = "",
         val dir: String = "",
         @Json(name = "artifact_name")
         val artifactName: String = "",
