@@ -8,7 +8,6 @@ apply plugin: 'maven'
 
 ext.configDeploy = { context ->
     // определние функции для деплоя текущего модуля в artifactory
-    println "Start uploading!"
     context.afterEvaluate {
         uploadArchives {
             repositories.mavenDeployer {
@@ -19,16 +18,9 @@ ext.configDeploy = { context ->
                     )
                 }
 
-                println "System.getenv('surf_maven_username') = " + System.getenv('surf_maven_username')
-                println "System.getenv('surf_maven_password') = " + System.getenv('surf_maven_password')
-//                def artifactGroupId = 'ru.surfstudio.android'
-                def artifactGroupId = "com.example.surfstudio"
+                def artifactGroupId = 'ru.surfstudio.android'
                 def artifactName = InitializatorKt.getArtifactNameByLibName(project.name)
                 def artifactVersion = "$moduleVersionName"
-
-                println "artifactGroupId = " + artifactGroupId
-                println "artifactName = " + artifactName
-                println "artifactVersion = " + artifactVersion
 
                 pom.groupId = artifactGroupId
                 pom.artifactId = artifactName
@@ -37,18 +29,25 @@ ext.configDeploy = { context ->
                 pom.project {
                     dependencies {
                         InitializatorKt.getDependsArtifactNamesByLibName(project.name).each {
-                            println "artifactId = " + it
+                            def depArtifactName = it
+                            def depArtifactVersion = InitializatorKt.getModuleVersionName(project.rootProject.project(it))
                             dependency {
                                 groupId artifactGroupId
-                                artifactId it
-                                version artifactVersion
+                                artifactId depArtifactName
+                                version depArtifactVersion
                                 scope "compile"
                             }
                         }
                     }
-                } // pom
+                }
+                //This code delete "implementation project("...") dependencies from pom file"
+                pom.whenConfigured {
+                    p ->
+                        p.dependencies = p.dependencies.findAll {
+                            dep -> dep.groupId != "android-standard"
+                        }
+                }
             } // repositories.mavenDeployer
         } // uploadArchives
     }
-    println "Finish uploading!"
 }

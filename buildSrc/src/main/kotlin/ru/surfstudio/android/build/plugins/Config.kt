@@ -39,8 +39,8 @@ class Config : Plugin<Project> {
 
     private fun configurateAndroidStandardDependencies(deps: List<Dependency>) {
         deps.forEach {
-            val depName = project.rootProject.project(":${it.name}")
-            project.dependencies.add(it.type, depName)
+            val depend = project.rootProject.project(":${it.name}")
+            project.dependencies.add(it.type, depend)
             /*
             Возможно нужно еще добавить эим зависимости
 
