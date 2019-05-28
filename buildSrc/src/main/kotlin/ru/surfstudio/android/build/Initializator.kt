@@ -67,6 +67,25 @@ fun getModuleVersionName(gradleProject: Project): String {
 }
 
 /**
+ * Return artifactName from component.json by libName
+ */
+fun getArtifactNameByLibName(libName: String): String = components.flatMap { it.libs }
+        .find { it.name == libName }
+        ?.artifactName ?: EMPTY_STRING
+
+/**
+ * Return artifactNames from component.json by libName for all standard dependencies
+ */
+fun getDependsArtifactNamesByLibName(libName: String): List<String> {
+    val libs = components.flatMap { it.libs }
+    val depNames = libs.find { it.name == libName }
+            ?.androidStandardDependencies
+            ?.map { it.name } ?: return emptyList()
+
+    return libs.filter { depNames.contains(it.name) }.map { it.artifactName }
+}
+
+/**
  * Parsing components.json file
  * @return list of components
  */

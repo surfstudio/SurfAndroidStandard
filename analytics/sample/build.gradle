@@ -8,5 +8,3 @@ dependencies {
     implementation rootProject.project("rx-extension")
     UtilsKt.implementation(project, "com.jakewharton.timber:timber")
 }
-
-gradle.ext.configUploadArchives(this)

@@ -1,8 +1,4 @@
 apply from: '../../buildSrc/androidModule.gradle'
 apply plugin: ru.surfstudio.android.build.plugins.Config
 
-
-gradle.ext.configUploadArchives(this, [
-        'analytics',
-        'rx-extension' //todo temp
-])
+configDeploy(this)
