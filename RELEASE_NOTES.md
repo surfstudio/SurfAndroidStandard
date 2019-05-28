@@ -43,6 +43,7 @@
 #### custom-view
 
 * Исправлено некорректное поведение MaterialProgressBar на Android версии 5 и ниже
+* Добавлено BottomSheetView
 
 #### dagger-scope
 #### datalist-limit-offset
@@ -81,6 +82,8 @@
     использовать `lazyInit`, и переопределить `getWidgetId` на основе данных из `onBindViewHolder`.
     Для расположения виджетов в статической верстке
     необходимо указывать уникальный `android:id`.
+* Добавлена поддержка биндинга в виджетах
+* Решена проблема с получением контекста у виджетов, лежащих внутри контейнера с атрибутом theme
     
 #### network
 #### picture-provider

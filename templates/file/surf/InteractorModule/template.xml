@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<template
+    format="4"
+    revision="1"
+    name="InteractorModule"
+    description="InteractorModule">
+
+    <category value="Surf"/>
+
+    <parameter
+        id="interactorModuleNameWithoutPrefix"
+        name="Имя модуля без префикса &quot;i_&quot;"
+        type="string"
+        constraints="module|nonempty"/>
+
+    <parameter
+        id="packageName"
+        name="Package name"
+        type="string"
+        constraints="app_package|nonempty"
+        default="com.mycompany.myapp" />
+
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
+
+</template>
