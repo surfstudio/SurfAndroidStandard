@@ -20,7 +20,6 @@ ext {
 
     moduleVersionName = '0.4.0-BZN-8-SNAPSHOT'
     moduleVersionCode = 20
-    moduleVersionName = gradle.ext.getModuleVersion(name, defaultVersionName)
 
     libMinSdkVersion = 17
     sampleMinSdkVersion = 18
