@@ -19,10 +19,16 @@ ext.configDeploy = { context ->
                     )
                 }
 
+                println "System.getenv('surf_maven_username') = " + System.getenv('surf_maven_username')
+                println "System.getenv('surf_maven_password') = " + System.getenv('surf_maven_password')
 //                def artifactGroupId = 'ru.surfstudio.android'
                 def artifactGroupId = "com.example.surfstudio"
                 def artifactName = InitializatorKt.getArtifactNameByLibName(project.name)
                 def artifactVersion = "$moduleVersionName"
+
+                println "artifactGroupId = " + artifactGroupId
+                println "artifactName = " + artifactName
+                println "artifactVersion = " + artifactVersion
 
                 pom.groupId = artifactGroupId
                 pom.artifactId = artifactName
@@ -31,6 +37,7 @@ ext.configDeploy = { context ->
                 pom.project {
                     dependencies {
                         InitializatorKt.getDependsArtifactNamesByLibName(project.name).each {
+                            println "artifactId = " + it
                             dependency {
                                 groupId artifactGroupId
                                 artifactId it
