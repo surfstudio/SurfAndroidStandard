@@ -19,7 +19,7 @@ ext.configDeploy = { context ->
                 }
 
 //                def artifactGroupId = 'ru.surfstudio.android'
-                def artifactGroupId = "com.example"
+                def artifactGroupId = "com.example.surfstudio"
                 def artifactName = InitializatorKt.getArtifactNameByLibName(project.name)
                 def artifactVersion = "$moduleVersionName"
 
