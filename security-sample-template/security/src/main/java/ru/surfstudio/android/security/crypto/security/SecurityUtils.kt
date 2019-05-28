@@ -16,7 +16,6 @@
 package ru.surfstudio.android.security.crypto.security
 
 import java.security.SecureRandom
-import javax.crypto.Cipher
 
 object SecurityUtils {
 

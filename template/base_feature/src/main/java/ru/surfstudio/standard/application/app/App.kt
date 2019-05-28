@@ -1,6 +1,5 @@
 package ru.surfstudio.standard.application.app
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
@@ -19,8 +18,8 @@ import ru.surfstudio.android.notification.ui.PushClickProvider
 import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 import ru.surfstudio.standard.application.app.di.AppInjector
-import ru.surfstudio.standard.ui.activity.DefaultActivityLifecycleCallbacks
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
 class App : MultiDexApplication() {
@@ -44,6 +43,7 @@ class App : MultiDexApplication() {
 
         initFabric()
         initPushEventListener()
+
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
 
@@ -51,18 +51,20 @@ class App : MultiDexApplication() {
         Fabric.with(this, *getFabricKits())
     }
 
-    private fun getFabricKits() = arrayOf(Crashlytics.Builder()
-            .core(CrashlyticsCore.Builder()
-                    .disabled(BuildConfig.DEBUG)
-                    .build())
-            .build())
+    private fun getFabricKits() = arrayOf(
+            Crashlytics.Builder()
+                    .core(CrashlyticsCore.Builder()
+                            .disabled(BuildConfig.DEBUG)
+                            .build())
+                    .build()
+    )
 
     /**
      * отслеживает ANR и отправляет в крашлитикс
      */
     private fun initAnrWatchDog() {
         ANRWatchDog().setReportMainThreadOnly()
-                .setANRListener{ RemoteLogger.logError(it) }
+                .setANRListener { RemoteLogger.logError(it) }
                 .start()
     }
 
@@ -76,19 +78,20 @@ class App : MultiDexApplication() {
      * Регистрирует слушатель аткивной активити
      */
     private fun registerActiveActivityListener() {
-        registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
-            override fun onActivityResumed(activity: Activity) {
-                activeActivityHolder.activity = activity
-            }
-
-            override fun onActivityPaused(activity: Activity) {
-                activeActivityHolder.clearActivity()
-            }
-        })
+        registerActivityLifecycleCallbacks(
+                ActivityLifecycleListener(
+                        onActivityResumed = { activity ->
+                            activeActivityHolder.activity = activity
+                        },
+                        onActivityPaused = {
+                            activeActivityHolder.clearActivity()
+                        }
+                )
+        )
     }
 
     private fun initPushEventListener() {
-        PushClickProvider.pushEventListener = object: PushEventListener {
+        PushClickProvider.pushEventListener = object : PushEventListener {
             override fun pushDismissListener(context: Context, intent: Intent) {
                 //todo
             }

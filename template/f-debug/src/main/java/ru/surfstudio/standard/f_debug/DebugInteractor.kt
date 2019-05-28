@@ -6,6 +6,8 @@ import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.leakcanary.LeakCanary
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
@@ -28,6 +30,12 @@ class DebugInteractor @Inject constructor(
         private val application: Application,
         private val rebootInteractor: RebootInteractor
 ) {
+
+    private val serverChangedPublishSubject = PublishSubject.create<Unit>()
+
+    fun observeNeedClearSession(): Observable<Unit> {
+        return serverChangedPublishSubject
+    }
 
     //region Настройки LeakCanary
     var isLeakCanaryEnabled: Boolean
@@ -72,6 +80,7 @@ class DebugInteractor @Inject constructor(
         get() = debugServerSettingsStorage.isTestServerEnabled
         set(value) {
             debugServerSettingsStorage.isTestServerEnabled = value
+            serverChangedPublishSubject.onNext(Unit)
         }
 
     /**
