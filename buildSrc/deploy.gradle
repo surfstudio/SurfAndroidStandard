@@ -8,6 +8,7 @@ apply plugin: 'maven'
 
 ext.configDeploy = { context ->
     // определние функции для деплоя текущего модуля в artifactory
+    println "Start uploading!"
     context.afterEvaluate {
         uploadArchives {
             repositories.mavenDeployer {
@@ -42,4 +43,5 @@ ext.configDeploy = { context ->
             } // repositories.mavenDeployer
         } // uploadArchives
     }
+    println "Finish uploading!"
 }
