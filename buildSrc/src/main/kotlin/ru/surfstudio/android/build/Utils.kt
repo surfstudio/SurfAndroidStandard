@@ -3,7 +3,7 @@ package ru.surfstudio.android.build
 import groovy.lang.MissingPropertyException
 import org.gradle.api.Project
 import org.gradle.api.UnknownProjectException
-import ru.surfstudio.android.build.model.ProjectSnapshot
+import ru.surfstudio.android.build.model.json.ProjectSnapshotJson
 
 const val EMPTY_STRING = ""
 const val EMPTY_INT = -1
@@ -47,7 +47,7 @@ fun api(project: Project, dep: String) = addDependency(project, dep, API_DEP_TYP
 /**
  * Get project snapshot information
  */
-fun Project.getProjectSnapshot() = ProjectSnapshot(
+fun Project.getProjectSnapshot() = ProjectSnapshotJson(
         readProperty(PROJECT_POSTFIX_KEY, EMPTY_STRING),
         readProperty(PROJECT_VERSION_KEY, EMPTY_INT)
 )

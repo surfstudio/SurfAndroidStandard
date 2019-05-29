@@ -2,7 +2,7 @@ package ru.surfstudio.android.build
 
 import com.beust.klaxon.Klaxon
 import org.gradle.api.Project
-import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
 import java.lang.RuntimeException
 
@@ -14,7 +14,7 @@ private const val DEFAULT_VERSION_NAME_KEY = "defaultVersionName"
  *
  * This value exist for all build time
  */
-var components: List<Component> = emptyList()
+var components: List<ComponentJson> = emptyList()
 
 /**
  * Represent information about module and module's directory
@@ -89,7 +89,7 @@ fun getDependsArtifactNamesByLibName(libName: String): List<String> {
  * Parsing components.json file
  * @return list of components
  */
-private fun parseComponentJson(): List<Component> {
+private fun parseComponentJson(): List<ComponentJson> {
     return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
             ?: throw RuntimeException("Can't parse components.json")
 }
