@@ -15,7 +15,7 @@
  */
 package ru.surfstudio.android.utilktx.util
 
-import android.annotation.TargetApi
+import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
@@ -30,7 +30,7 @@ import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 
 /**
- * утилита получения пути к изображению по content uri
+ * Файловая утилита
  */
 object FileUtil {
 
@@ -43,14 +43,8 @@ object FileUtil {
      * @param uri     The Uri to query.
      * @author paulburke
      */
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     fun getRealPath(context: Context, uri: Uri): String? {
-
-        val isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-
-        // DocumentProvider
-        if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            // ExternalStorageProvider
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
             if (isExternalStorageDocument(uri)) {
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
@@ -85,54 +79,15 @@ object FileUtil {
                 val selectionArgs = arrayOf(split[1])
 
                 return getDataColumn(context, contentUri, selection, selectionArgs)
-            }// MediaProvider
-            // DownloadsProvider
-        } else if ("content".equals(uri.scheme, ignoreCase = true)) {
-
+            }
+        } else if (ContentResolver.SCHEME_CONTENT.equals(uri.scheme, ignoreCase = true)) {
             // Return the remote address
             return if (isGooglePhotosDocument(uri)) uri.lastPathSegment else getDataColumn(context, uri, null, null)
-
-        } else if ("file".equals(uri.scheme, ignoreCase = true)) {
+        } else if (ContentResolver.SCHEME_FILE.equals(uri.scheme, ignoreCase = true)) {
             return uri.path
-        }// File
-        // MediaStore (and general)
+        }
 
         return null
-    }
-
-    fun getRealPathFromImage(context: Context, uri: String) = getRealPathFromImage(context, Uri.parse(uri))
-
-    /**
-     * получение реального пути к изображению используя Uri
-     */
-    fun getRealPathFromImage(context: Context, uri: Uri): String? {
-        var realPath: String? = null
-        if (isGooglePhotos(uri)) {
-            try {
-                val `is` = context.contentResolver.openInputStream(uri)
-                if (`is` != null) {
-                    val pictureBitmap = BitmapFactory.decodeStream(`is`)
-                    realPath = getDataColumn(context, getImageUri(context, pictureBitmap))
-                }
-            } catch (e: FileNotFoundException) {
-                Logger.e(e)
-            }
-
-        } else {
-            realPath = getDataColumn(context, uri)
-        }
-        return realPath
-    }
-
-    private fun isGooglePhotos(uri: Uri): Boolean {
-        return uri.toString().startsWith("content://com.google.android.apps.photos.content") && uri.toString().contains("mediakey")
-    }
-
-    private fun getImageUri(context: Context, bitmap: Bitmap): Uri {
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "img", null)
-        return Uri.parse(path)
     }
 
     private fun getDataColumn(context: Context, uri: Uri?, selection: String? = null, selectionArgs: Array<String>? = null): String? {
@@ -160,17 +115,55 @@ object FileUtil {
      * @param uri The Uri to check.
      * @return Whether the Uri authority is DownloadsProvider.
      */
-    private fun isDownloadsDocument(uri: Uri): Boolean = "com.android.providers.downloads.documents" == uri.authority
+    private fun isDownloadsDocument(uri: Uri) = "com.android.providers.downloads.documents" == uri.authority
 
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is MediaProvider.
      */
-    private fun isMediaDocument(uri: Uri): Boolean = "com.android.providers.media.documents" == uri.authority
+    private fun isMediaDocument(uri: Uri) = "com.android.providers.media.documents" == uri.authority
 
     /**
      * @param uri The Uri to check.
      * @return Whether the Uri authority is Google Photos.
      */
-    private fun isGooglePhotosDocument(uri: Uri): Boolean = "com.google.android.apps.photos.content" == uri.authority
+    private fun isGooglePhotosDocument(uri: Uri) = "com.google.android.apps.photos.content" == uri.authority
+
+    @Deprecated("use getRealPath")
+    fun getRealPathFromImage(context: Context, uri: String) = getRealPathFromImage(context, Uri.parse(uri))
+
+    /**
+     * получение реального пути к изображению используя Uri
+     */
+    @Deprecated("use getRealPath")
+    fun getRealPathFromImage(context: Context, uri: Uri): String? {
+        var realPath: String? = null
+        if (isGooglePhotos(uri)) {
+            try {
+                val `is` = context.contentResolver.openInputStream(uri)
+                if (`is` != null) {
+                    // возможный OutOfMemory при decodeStream без InJustDecodeBounds
+                    val pictureBitmap = BitmapFactory.decodeStream(`is`)
+                    realPath = getDataColumn(context, getImageUri(context, pictureBitmap))
+                }
+            } catch (e: FileNotFoundException) {
+                Logger.e(e)
+            }
+
+        } else {
+            realPath = getDataColumn(context, uri)
+        }
+        return realPath
+    }
+
+    @Deprecated("use getRealPath")
+    private fun getImageUri(context: Context, bitmap: Bitmap): Uri {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val path = MediaStore.Images.Media.insertImage(context.contentResolver, bitmap, "img", null)
+        return Uri.parse(path)
+    }
+
+    @Deprecated("use isGooglePhotosDocument")
+    private fun isGooglePhotos(uri: Uri) = uri.toString().startsWith("content://com.google.android.apps.photos.content") && uri.toString().contains("mediakey")
 }
