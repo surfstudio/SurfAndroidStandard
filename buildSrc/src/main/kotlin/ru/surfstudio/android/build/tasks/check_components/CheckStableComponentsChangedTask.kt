@@ -6,7 +6,6 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Initializator.Companion.components
 import ru.surfstudio.android.build.model.Component
 
-const val TASK_NAME = "CheckStableComponentsChanged: "
 const val ARG_FIRST_REV = "firstRevision"
 const val ARG_SECOND_REV = "secondRevision"
 private val CURRENT_DIR_PROPERTY = "user.dir"
@@ -14,6 +13,8 @@ val currentDirectory: String = System.getProperty(CURRENT_DIR_PROPERTY)
 
 
 open class CheckStableComponentsChanged : DefaultTask() {
+    val TASK_NAME = "CheckStableComponentsChanged: "
+
     private lateinit var firstRevision: String
     private lateinit var secondRevision: String
 
@@ -23,7 +24,6 @@ open class CheckStableComponentsChanged : DefaultTask() {
 
         getInputArguments()
 
-        println("$TASK_NAME ComponentsDirsChecker")
         val components = ComponentsConfigChecker(firstRevision, secondRevision).getChangedComponents()
 
         components.forEach { checkComponentIsStable(it) }
