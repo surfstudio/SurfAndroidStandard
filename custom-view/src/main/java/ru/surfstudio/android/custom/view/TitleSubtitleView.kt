@@ -100,6 +100,30 @@ class TitleSubtitleView @JvmOverloads constructor(
             TextViewCompat.setTextAppearance(subTitleView, value)
         }
 
+    var titleLines: Int = -1
+        set(value) {
+            field = value
+            titleView.setLines(value)
+        }
+
+    var subTitleLines: Int = -1
+        set(value) {
+            field = value
+            subTitleView.setLines(value)
+        }
+
+    var titleMaxLines: Int = -1
+        set(value) {
+            field = value
+            titleView.maxLines = value
+        }
+
+    var subTitleMaxLines: Int = -1
+        set(value) {
+            field = value
+            subTitleView.maxLines = value
+        }
+
     var onTitleClickListenerCallback: ((String) -> Unit)? = null
         set(value) {
             field = value
@@ -183,8 +207,8 @@ class TitleSubtitleView @JvmOverloads constructor(
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titlePaddingBottom, 0)
             )
 
-            setLines(ta.getInt(R.styleable.TitleSubtitleView_titleLines, lineCount))
-            maxLines = ta.getInt(R.styleable.TitleSubtitleView_titleMaxLines, DEFAULT_MAX_LINES)
+            titleLines = ta.getInt(R.styleable.TitleSubtitleView_titleLines, lineCount)
+            titleMaxLines = ta.getInt(R.styleable.TitleSubtitleView_titleMaxLines, DEFAULT_MAX_LINES)
 
             gravity = ta.getInt(R.styleable.TitleSubtitleView_titleGravity, gravity)
 
@@ -226,8 +250,8 @@ class TitleSubtitleView @JvmOverloads constructor(
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitlePaddingBottom, 0)
             )
 
-            setLines(ta.getInt(R.styleable.TitleSubtitleView_subTitleLines, lineCount))
-            maxLines = ta.getInt(R.styleable.TitleSubtitleView_subTitleMaxLines, DEFAULT_MAX_LINES)
+            subTitleLines = ta.getInt(R.styleable.TitleSubtitleView_subTitleLines, lineCount)
+            subTitleMaxLines = ta.getInt(R.styleable.TitleSubtitleView_subTitleMaxLines, DEFAULT_MAX_LINES)
 
             gravity = ta.getInt(R.styleable.TitleSubtitleView_subTitleGravity, gravity)
 
