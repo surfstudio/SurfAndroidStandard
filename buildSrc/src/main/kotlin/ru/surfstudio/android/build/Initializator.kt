@@ -55,10 +55,10 @@ fun getModuleVersionName(gradleProject: Project): String {
         it.libs.map { lib -> lib.name }.contains(gradleProject.name)
     }?.let { component ->
         var versionName = component.version
-        val projectInformation = gradleProject.getProjectInformation()
+        val projectSnapshot = gradleProject.getProjectSnapshot()
 
         if (!component.stable) versionName += "-alpha.${component.unstableVersion}"
-        if (!projectInformation.isEmpty) versionName += "-${projectInformation.name}.${projectInformation.version}"
+        if (!projectSnapshot.isEmpty) versionName += "-${projectSnapshot.name}.${projectSnapshot.version}"
 
         return versionName
     }

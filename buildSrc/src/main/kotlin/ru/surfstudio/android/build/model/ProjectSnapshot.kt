@@ -4,9 +4,9 @@ import ru.surfstudio.android.build.EMPTY_INT
 import ru.surfstudio.android.build.EMPTY_STRING
 
 /**
- * Represent information about project
+ * Represent information about project snapshot
  */
-data class ProjectInformation(
+data class ProjectSnapshot(
         val name: String = EMPTY_STRING,
         val version: Int = EMPTY_INT
 ) {

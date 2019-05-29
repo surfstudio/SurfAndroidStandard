@@ -19,7 +19,6 @@ android {
         minSdkVersion project.ext.sampleMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
-        versionName project.ext.moduleVersionName
         multiDexEnabled true
         testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
