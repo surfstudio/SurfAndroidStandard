@@ -4,7 +4,7 @@ import java.io.File
 
 
 class GitExecutor(
-
+    val directory: String = currentDirectory
 ) {
 
     private val GIT_DIFF_COMMAND = "git diff --no-commit-id --name-only"
@@ -14,13 +14,13 @@ class GitExecutor(
 
     fun diff(firstRevision: String, secondRevision: String): List<String>? {
         val command = "$GIT_DIFF_COMMAND $firstRevision $secondRevision"
-        val res = CommandLineRunner().runCommandWithResult(command, File(currentDirectory))
+        val res = CommandLineRunner().runCommandWithResult(command, File(directory))
         return res?.split(SPLIT_STRING.toRegex())
     }
 
     fun checkoutRevision(revision: String) {
         val command = "$GIT_CHECKOUT_COMMAND $revision"
-        val res =CommandLineRunner().runCommandWithResult(command, File(currentDirectory))
+        val res =CommandLineRunner().runCommandWithResult(command, File(directory))
         println(res)
     }
 }

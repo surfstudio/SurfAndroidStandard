@@ -16,11 +16,11 @@ class ComponentsConfigChecker(val firstRevision: String,
     val changesFile = "changes.txt"
 
     override fun getChangedComponents(): List<Component> {
-        checkoutGitRevision(firstRevision)
+        checkoutGitRevision(firstRevision, currentDirectory)
         createChangeInfoFile(currentDirectory)
         createTempFolder()
-        checkoutGitRevision(secondRevision)
-        copyProjectFolder("$currentDirectory/$buildSrc", tempDirectory)
+        copyProjectFolder(currentDirectory, tempDirectory)
+        checkoutGitRevision(secondRevision, tempDirectory)
         createChangeInfoFile(tempDirectory)
         return emptyList()
     }
@@ -48,12 +48,14 @@ class ComponentsConfigChecker(val firstRevision: String,
         }
     }
 
-    private fun checkoutGitRevision(revision: String){
-        GitExecutor().checkoutRevision(revision)
+    private fun checkoutGitRevision(revision: String, currentDirectory: String){
+        GitExecutor(currentDirectory).checkoutRevision(revision)
     }
 
     private fun createChangeInfoFile(dir: String){
-
+        if (!File("$dir/changesFile.txt").exists()){
+            File("$dir/changesFile.txt").createNewFile()
+        }
     }
 
     private fun createChangeInfo(dir: String){
