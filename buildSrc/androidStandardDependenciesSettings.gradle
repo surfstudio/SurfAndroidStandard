@@ -1,3 +1,5 @@
+import ru.surfstudio.android.build.InitializatorKt
+
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'maven'
 
@@ -16,7 +18,7 @@ gradle.ext.configUploadArchives = { context, modules = [] ->
                 }
 
                 def artifactGroupId = 'ru.surfstudio.android'
-                def artifactVersion = "$moduleVersionName"
+                def artifactVersion = InitializatorKt.getModuleVersionName(project)
 
                 pom.groupId = artifactGroupId
                 pom.artifactId = project.name

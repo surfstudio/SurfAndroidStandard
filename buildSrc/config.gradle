@@ -22,7 +22,6 @@ ext {
     moduleVersionCode = 20
     projectPostfix = ""
     projectVersion = -1
-    moduleVersionName = ru.surfstudio.android.build.InitializatorKt.getModuleVersionName(project)
 
     libMinSdkVersion = 17
     sampleMinSdkVersion = 18

@@ -1,3 +1,5 @@
+import ru.surfstudio.android.build.InitializatorKt
+
 apply from: '../../buildSrc/androidStandardDependenciesSettings.gradle'
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'com.android.library'
@@ -13,7 +15,7 @@ android {
         minSdkVersion project.ext.libMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
-        versionName project.ext.moduleVersionName
+        versionName InitializatorKt.getModuleVersionName(project)
         testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
