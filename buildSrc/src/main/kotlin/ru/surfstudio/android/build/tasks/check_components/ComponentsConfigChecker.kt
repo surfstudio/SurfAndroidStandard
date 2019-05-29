@@ -28,9 +28,14 @@ class ComponentsConfigChecker(val firstRevision: String,
     private fun copyProjectFolder(from: String, to : String){
         val fileFrom = File(from)
         val fileTo = File(to)
-        fileFrom.copyRecursively(fileTo, true, onError = {file, ioException ->
-            throw GradleException()
-        })
+        fileFrom.walk().forEach {
+            println("copy ${it.name}")
+            if (it.name != to) {
+                it.copyRecursively(fileTo, false) { file, ioException ->
+                    throw GradleException("")
+                }
+            }
+        }
     }
 
     private fun createTempFolder(){
