@@ -1,4 +1,9 @@
-ru.surfstudio.android.build.InitializatorKt.getModulesInfo().forEach { module ->
-    include module.first
-    project(module.first).projectDir = new File(module.second)
+import ru.surfstudio.android.build.Initializator
+import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.model.Module
+
+Initializator.init()
+Components.getModules().forEach { Module module ->
+    include module.getGradleModuleName()
+    project(module.getGradleModuleName()).projectDir = new File(module.directory)
 }

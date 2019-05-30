@@ -1,12 +1,12 @@
-package ru.surfstudio.android.build.model.json
+package ru.surfstudio.android.build.model
 
 import ru.surfstudio.android.build.EMPTY_INT
 import ru.surfstudio.android.build.EMPTY_STRING
 
 /**
- * Represent information about project snapshot json object
+ * Represent information about project snapshot
  */
-data class JsonProjectSnapshot(
+data class ProjectSnapshot(
         val name: String = EMPTY_STRING,
         val version: Int = EMPTY_INT
 ) {

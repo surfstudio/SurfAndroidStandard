@@ -1,4 +1,4 @@
-import ru.surfstudio.android.build.InitializatorKt
+import ru.surfstudio.android.build.Components
 
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'maven'
@@ -6,9 +6,20 @@ apply plugin: 'maven'
 // Функция, конфигурирующая зависимости android-standard для текущего модуля,
 // контекст которого передается параметром.
 
-ext.configDeploy = { context ->
+ext.configureDeploy = { context ->
     // определние функции для деплоя текущего модуля в artifactory
     context.afterEvaluate {
+
+        // add java source to artifacts for release in JCenter !!! REQUIRED
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from android.sourceSets.main.java.srcDirs
+        }
+
+        artifacts {
+            archives sourcesJar
+        }
+
         uploadArchives {
             repositories.mavenDeployer {
                 repository(url: 'https://artifactory.surfstudio.ru/artifactory/libs-release-local') {
@@ -19,8 +30,8 @@ ext.configDeploy = { context ->
                 }
 
                 def artifactGroupId = 'ru.surfstudio.android'
-                def artifactName = InitializatorKt.getArtifactNameByLibName(project.name)
-                def artifactVersion = InitializatorKt.getModuleVersionName(project)
+                def artifactName = Components.getArtifactName(project.name)
+                def artifactVersion = Components.getModuleVersion(project)
 
                 pom.groupId = artifactGroupId
                 pom.artifactId = artifactName
@@ -28,9 +39,9 @@ ext.configDeploy = { context ->
 
                 pom.project {
                     dependencies {
-                        InitializatorKt.getDependsArtifactNamesByLibName(project.name).each {
+                        Components.getAndroidStandardArtifactNames(project.name).each {
                             def depArtifactName = it
-                            def depArtifactVersion = InitializatorKt.getModuleVersionName(project.rootProject.project(it))
+                            def depArtifactVersion = Components.getModuleVersion(project.rootProject.project(it))
                             dependency {
                                 groupId artifactGroupId
                                 artifactId depArtifactName

@@ -1,4 +1,4 @@
-import ru.surfstudio.android.build.InitializatorKt
+import ru.surfstudio.android.build.Components
 
 apply from: '../../buildSrc/deploy.gradle'
 apply from: '../../buildSrc/config.gradle'
@@ -15,7 +15,7 @@ android {
         minSdkVersion project.ext.libMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
-        versionName InitializatorKt.getModuleVersionName(project)
+        versionName Components.getModuleVersion(project)
         testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
