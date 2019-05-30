@@ -61,7 +61,7 @@
   {
     "id": "logger",
     "version": "0.8.0",
-    "stable": false,
+    "stable": true,
     "dir": "logger",
     "libs": [
       {

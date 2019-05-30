@@ -3,48 +3,45 @@ package ru.surfstudio.android.build.tasks.check_components
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import ru.surfstudio.android.build.Initializator.Companion.components
-import ru.surfstudio.android.build.model.Component
 
-const val ARG_FIRST_REV = "firstRevision"
-const val ARG_SECOND_REV = "secondRevision"
-private val CURRENT_DIR_PROPERTY = "user.dir"
+const val REVISION_TO_COMPARE = "revisionToCompare"
+const val CURRENT_DIR_PROPERTY = "user.dir"
+
 val currentDirectory: String = System.getProperty(CURRENT_DIR_PROPERTY)
 
-
+/**
+ * Task checking if stable components in current revision compared to [revisionToCompare] are changed
+ */
 open class CheckStableComponentsChanged : DefaultTask() {
-    val TASK_NAME = "CheckStableComponentsChanged: "
+    private val TASK_NAME = "CheckStableComponentsChanged: "
 
-    private lateinit var firstRevision: String
-    private lateinit var secondRevision: String
+    private lateinit var revisionToCompare: String
 
     @TaskAction
     fun check() {
         println("$TASK_NAME started")
 
         getInputArguments()
+        val currentRevision = GitCommandRunner(currentDirectory).getCurrentRevisionShort()
 
-        val components = ComponentsConfigChecker(firstRevision, secondRevision).getChangedComponents()
-
-        components.forEach { checkComponentIsStable(it) }
+        val filesCheckResult = ComponentsFilesChecker(currentRevision, revisionToCompare).checkComponentsFilesChanged()
+        if (!filesCheckResult.isOk){
+            fail(filesCheckResult.reasonFail)
+        }
+        val configCheckResult = ComponentsConfigChecker(currentRevision, revisionToCompare).checkComponentsConfigChanged()
+        if (!configCheckResult.isOk){
+            fail(configCheckResult.reasonFail)
+        }
 
         println("$TASK_NAME ended")
     }
 
     private fun getInputArguments(){
-        if (!project.hasProperty(ARG_FIRST_REV)) throw GradleException("please specify $ARG_FIRST_REV param")
-        if (!project.hasProperty(ARG_SECOND_REV)) throw GradleException("please specify $ARG_SECOND_REV param")
-        firstRevision = project.findProperty(ARG_FIRST_REV) as String
-        secondRevision = project.findProperty(ARG_SECOND_REV) as String
+        if (!project.hasProperty(REVISION_TO_COMPARE)) throw GradleException("please specify $REVISION_TO_COMPARE param")
+        revisionToCompare = project.findProperty(REVISION_TO_COMPARE) as String
     }
 
-    private fun checkComponentIsStable(currentComponent: Component) {
-        if (currentComponent.stable) {
-            failStable(currentComponent)
-        }
-    }
-
-    private fun failStable(currentComponent: Component) {
-        throw GradleException(currentComponent.id + " is stable but was changed")
+    private fun fail(reason: String) {
+        throw GradleException(reason)
     }
 }
