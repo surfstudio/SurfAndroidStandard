@@ -274,6 +274,9 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
                         errorFoundSecondButtonText,
                         errorFoundImage))
 
+        val stateChangeDelay = ta.getInt(R.styleable.StandardPlaceHolderView_pvStateChangeDelay, STATE_TOGGLE_DELAY_MS.toInt())
+        this.stater.stateChangeDelay = stateChangeDelay.toLong()
+
         ta.recycle()
 
         updateView()
@@ -629,7 +632,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
             NO_INTERNET //нет интернет-соединения
         }
 
-        private val STATE_TOGGLE_DELAY_MS: Long = 250
+        var stateChangeDelay: Long = STATE_TOGGLE_DELAY_MS
 
         var loadState = StandardLoadState.NONE          //текущее состояние плейсхолдера
             set(value) {
@@ -647,7 +650,7 @@ open class StandardPlaceHolderView @JvmOverloads constructor(
                 if (isFirstEmission.getAndSet(false)) {
                     return@debounce Observable.just(t)
                 } else {
-                    return@debounce Observable.just(t).delay(STATE_TOGGLE_DELAY_MS, TimeUnit.MILLISECONDS)
+                    return@debounce Observable.just(t).delay(stateChangeDelay, TimeUnit.MILLISECONDS)
                 }
             }
                     .observeOn(AndroidSchedulers.mainThread())

@@ -93,5 +93,7 @@
         <attr name="pvButtonTextAppearance" format="reference" />
         <attr name="pvSecondButtonTextAppearance" format="reference" />
 
+        <attr name="pvStateChangeDelay" format="integer" />
+
     </declare-styleable>
 </resources>
