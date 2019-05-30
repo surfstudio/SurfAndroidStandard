@@ -6,7 +6,7 @@ import ru.surfstudio.android.build.EMPTY_STRING
 /**
  * Represent information about project snapshot json object
  */
-data class ProjectSnapshotJson(
+data class JsonProjectSnapshot(
         val name: String = EMPTY_STRING,
         val version: Int = EMPTY_INT
 ) {

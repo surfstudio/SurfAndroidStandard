@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import ru.surfstudio.android.build.components
 import ru.surfstudio.android.build.LIBRARY_VERSIONS_KEY
 import ru.surfstudio.android.build.addDependency
-import ru.surfstudio.android.build.model.json.DependencyJson
+import ru.surfstudio.android.build.model.json.JsonDependency
 
 class Config : Plugin<Project> {
 
@@ -33,11 +33,11 @@ class Config : Plugin<Project> {
         }
     }
 
-    private fun configurateThirdPartyDependancies(deps: List<DependencyJson>) {
+    private fun configurateThirdPartyDependancies(deps: List<JsonDependency>) {
         deps.forEach { addDependency(project, it.name, it.type) }
     }
 
-    private fun configurateAndroidStandardDependencies(deps: List<DependencyJson>) {
+    private fun configurateAndroidStandardDependencies(deps: List<JsonDependency>) {
         deps.forEach {
             val depend = project.rootProject.project(":${it.name}")
             project.dependencies.add(it.type, depend)
