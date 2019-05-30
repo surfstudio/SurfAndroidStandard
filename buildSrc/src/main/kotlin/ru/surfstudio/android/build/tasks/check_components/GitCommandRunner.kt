@@ -12,7 +12,8 @@ class GitCommandRunner(
         val directory: String = currentDirectory
 ) {
     private val GIT_DIFF_COMMAND = "git diff --no-commit-id --name-only"
-    private val GIT_CHECKOUT_COMMAND = "git checkout "
+    private val GIT_CHECKOUT_COMMAND = "git checkout"
+    private val GIT_STASH_COMMAND = "git stash"
     private val GIT_GET_CURRENT_REVISION_COMMAND = "git rev-parse --short HEAD"
     private val SPLIT_STRING = "\\s"
 
@@ -24,6 +25,7 @@ class GitCommandRunner(
     }
 
     fun checkoutRevision(revision: String) {
+        runCommandWithResult(GIT_STASH_COMMAND, File(directory))
         val command = "$GIT_CHECKOUT_COMMAND $revision"
         runCommandWithResult(command, File(directory))
     }
@@ -37,6 +39,7 @@ class GitCommandRunner(
     private fun runCommandWithResult(command: String, workingDir: File): String? {
         return try {
             val parts = command.split(SPLIT_STRING.toRegex())
+            print(parts)
             val proc = ProcessBuilder(*parts.toTypedArray())
                     .directory(workingDir)
                     .redirectOutput(ProcessBuilder.Redirect.PIPE)
