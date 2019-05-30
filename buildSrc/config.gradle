@@ -20,7 +20,8 @@ ext {
 
     defaultVersionName = '0.4.0-SNAPSHOT'
     moduleVersionCode = 20
-    moduleVersionName = defaultVersionName //TODO проставлять нужную версию
+    projectPostfix = ""
+    projectVersion = -1
 
     libMinSdkVersion = 17
     sampleMinSdkVersion = 18

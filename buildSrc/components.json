@@ -3,6 +3,7 @@
     "_comment": "Пример компонента из 2-х библиотек и одного семпла. Библиотеки и семпл должны находтиться в папке dir. Библиотеки будут иметь единую версию",
     "id": "analytics",
     "version": "0.8.0",
+    "unstable_version": 3,
     "stable": false,
     "dir": "analytics",
     "libs": [
@@ -61,6 +62,7 @@
   {
     "id": "logger",
     "version": "0.8.0",
+    "unstable_version": 5,
     "stable": false,
     "dir": "logger",
     "libs": [
@@ -92,6 +94,7 @@
   {
     "id": "rx-extension",
     "version": "0.4.0",
+    "unstable_version": 2,
     "stable": true,
     "dir": "rx-extension",
     "libs": [

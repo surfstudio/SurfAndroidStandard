@@ -1,9 +1,11 @@
 package ru.surfstudio.android.build.model
 
+import ru.surfstudio.android.build.EMPTY_STRING
+
 /**
- * Представляет информацию о примерах использования компонента
+ * Represent information about component's samples
  */
 data class Sample(
-        val name: String = "",
-        val dir: String = ""
+        val name: String = EMPTY_STRING,
+        val dir: String = EMPTY_STRING
 )

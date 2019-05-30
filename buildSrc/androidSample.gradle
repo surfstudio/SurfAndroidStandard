@@ -1,3 +1,5 @@
+import ru.surfstudio.android.build.InitializatorKt
+
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -14,7 +16,7 @@ android {
         minSdkVersion project.ext.sampleMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
-        versionName project.ext.moduleVersionName
+        versionName InitializatorKt.getModuleVersionName(project)
         multiDexEnabled true
     }
 

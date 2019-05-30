@@ -1,9 +1,11 @@
 package ru.surfstudio.android.build.model
 
+import ru.surfstudio.android.build.EMPTY_STRING
+
 /**
- * Представляет информацию о зависимости
+ * Represent information about dependencies
  */
 data class Dependency(
-        val name: String = "",
-        val type: String = ""
+        val name: String = EMPTY_STRING,
+        val type: String = EMPTY_STRING
 )
