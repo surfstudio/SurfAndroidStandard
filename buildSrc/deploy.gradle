@@ -1,0 +1,64 @@
+import ru.surfstudio.android.build.Components
+
+apply from: '../../buildSrc/config.gradle'
+apply plugin: 'maven'
+
+// Функция, конфигурирующая зависимости android-standard для текущего модуля,
+// контекст которого передается параметром.
+
+ext.configureDeploy = { context ->
+    // определние функции для деплоя текущего модуля в artifactory
+    context.afterEvaluate {
+
+        // add java source to artifacts for release in JCenter !!! REQUIRED
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from android.sourceSets.main.java.srcDirs
+        }
+
+        artifacts {
+            archives sourcesJar
+        }
+
+        uploadArchives {
+            repositories.mavenDeployer {
+                repository(url: 'https://artifactory.surfstudio.ru/artifactory/libs-release-local') {
+                    authentication(
+                            userName: System.getenv('surf_maven_username'),
+                            password: System.getenv('surf_maven_password')
+                    )
+                }
+
+                def artifactGroupId = 'ru.surfstudio.android'
+                def artifactName = Components.getArtifactName(project.name)
+                def artifactVersion = Components.getModuleVersion(project)
+
+                pom.groupId = artifactGroupId
+                pom.artifactId = artifactName
+                pom.version = artifactVersion
+
+                pom.project {
+                    dependencies {
+                        Components.getAndroidStandardArtifactNames(project.name).each {
+                            def depArtifactName = it
+                            def depArtifactVersion = Components.getModuleVersion(project.rootProject.project(it))
+                            dependency {
+                                groupId artifactGroupId
+                                artifactId depArtifactName
+                                version depArtifactVersion
+                                scope "compile"
+                            }
+                        }
+                    }
+                }
+                //This code delete "implementation project("...") dependencies from pom file"
+                pom.whenConfigured {
+                    p ->
+                        p.dependencies = p.dependencies.findAll {
+                            dep -> dep.groupId != "android-standard"
+                        }
+                }
+            } // repositories.mavenDeployer
+        } // uploadArchives
+    }
+}

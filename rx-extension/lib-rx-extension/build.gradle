@@ -1,4 +1,6 @@
-apply from: '../../buildSrc/androidModule.gradle'
-apply plugin: ru.surfstudio.android.build.plugins.Config
+import ru.surfstudio.android.build.DependencyConfigurator
 
-gradle.ext.configUploadArchives this
+apply from: '../../buildSrc/androidModule.gradle'
+
+DependencyConfigurator.configure(project)
+configureDeploy(this)

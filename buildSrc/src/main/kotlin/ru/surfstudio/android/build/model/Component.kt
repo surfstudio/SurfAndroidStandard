@@ -1,20 +1,52 @@
 package ru.surfstudio.android.build.model
 
-import com.beust.klaxon.Json
 import ru.surfstudio.android.build.EMPTY_INT
 import ru.surfstudio.android.build.EMPTY_STRING
+import ru.surfstudio.android.build.model.json.ComponentJson
 
 /**
  * Represent information about component
  */
 data class Component(
-        val id: String = EMPTY_STRING,
-        val version: String = EMPTY_STRING,
+        val name: String = EMPTY_STRING,
+        val directory: String = EMPTY_STRING,
+        val baseVersion: String = EMPTY_STRING, // Version from components.json
+        var projectVersion: String = EMPTY_STRING, // Project version
         val stable: Boolean = false,
-        @Json(name = "unstable_version") val unstableVersion: Int = EMPTY_INT,
-        val dir: String = EMPTY_STRING,
-        val libs: List<Lib> = listOf(),
+        val unstableVersion: Int = EMPTY_INT,
+        val libraries: List<Library> = listOf(),
         val samples: List<Sample> = listOf(),
-        @Json(name = "has_mirror") val hasMirror: Boolean = false,
-        @Json(name = "mirror_repo") val mirrorRepo: String = EMPTY_STRING
-)
+        val hasMirror: Boolean = false,
+        val mirrorRepo: String = EMPTY_STRING
+) {
+
+    companion object {
+
+        fun create(componentJson: ComponentJson) = Component(
+                name = componentJson.id,
+                directory = componentJson.dir,
+                baseVersion = componentJson.version,
+                stable = componentJson.stable,
+                unstableVersion = componentJson.unstableVersion,
+                hasMirror = componentJson.hasMirror,
+                mirrorRepo = componentJson.mirrorRepo,
+                libraries = componentJson.libs.map { jsonLib ->
+                    Library(
+                            name = jsonLib.name,
+                            directory = "${componentJson.dir}/${jsonLib.dir}",
+                            artifactName = jsonLib.artifactName,
+                            thirdPartyDependencies = jsonLib.thirdPartyDependencies
+                                    .map(Dependency.Companion::create),
+                            androidStandardDependencies = jsonLib.androidStandardDependencies
+                                    .map(Dependency.Companion::create)
+                    )
+                },
+                samples = componentJson.samples.map(Sample.Companion::create)
+        )
+    }
+
+    /**
+     * Get components module
+     */
+    fun getModules(): List<Module> = libraries + samples
+}
