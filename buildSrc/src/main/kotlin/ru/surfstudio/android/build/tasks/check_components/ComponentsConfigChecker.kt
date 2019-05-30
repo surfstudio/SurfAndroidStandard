@@ -111,7 +111,7 @@ class ComponentsConfigChecker(val currentRevision: String,
     private fun createComponentsWithVersions(sourceDir: String, versions: LinkedHashMap<String, String>): List<ComponentWithVersion> {
         val components = parseComponentJson(sourceDir + componentsJsonFilePath)
         val compsWithVersions = components.map { component ->
-            val libs = component.libs.map { lib ->
+            val libs = component.libraries.map { lib ->
                 val standartDeps = lib.androidStandardDependencies.map { dep ->
                     DepWithVersion(dep.name, versions[dep.name] ?: "")
                 }
@@ -121,7 +121,7 @@ class ComponentsConfigChecker(val currentRevision: String,
                 LibWithVersion(lib.name, thirdPartDeps, standartDeps)
             }
 
-            ComponentWithVersion(component.id, component.version, component.stable, libs)
+            ComponentWithVersion(component.name, component.baseVersion, component.stable, libs)
         }
         return compsWithVersions
     }

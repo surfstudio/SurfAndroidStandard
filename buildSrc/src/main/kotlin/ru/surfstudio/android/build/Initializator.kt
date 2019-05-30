@@ -1,51 +1,45 @@
 package ru.surfstudio.android.build
 
 import com.beust.klaxon.Klaxon
-import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
 import java.lang.RuntimeException
 
-private const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
+object Initializator {
 
-class Initializator {
-    companion object {
-        var components: List<Component> = emptyList()
-    }
+    private const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
+    private const val DEFAULT_VERSION_NAME_KEY = "defaultVersionName"
 
-    init {
-        components = parseComponentJson()
-        checkComponentsFolders()
-    }
-
-    fun getModulesInfo(): List<Pair<String, String>> {
-        val names = ArrayList<Pair<String, String>>()
-        components.forEach { component ->
-            component.libs.forEach { lib ->
-                names.add(":${lib.name}" to "${component.dir}/${lib.dir}")
-            }
-            component.samples.forEach { sample ->
-                names.add(":${sample.name}" to "${component.dir}/${sample.dir}")
-            }
-        }
-        return names
-    }
-
-    private fun parseComponentJson(): List<Component> {
-        return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
-                ?: throw RuntimeException("Can't parse components.json")
+    /**
+     * Parse value.json and create value
+     */
+    @JvmStatic
+    fun init() {
+        val jsonComponents = parseComponentJson()
+        checkComponentsFolders(jsonComponents)
+        Components.init(jsonComponents)
     }
 
     /**
-     * Check components directories
+     * Parsing value.json file
+     * @return list of json value
      */
-    private fun checkComponentsFolders() {
-        components.forEach { component ->
+    private fun parseComponentJson(): List<ComponentJson> {
+        return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
+                ?: throw RuntimeException("Can't parse value.json")
+    }
+
+    /**
+     * Check value directories for exist
+     */
+    private fun checkComponentsFolders(componentJsons: List<ComponentJson>) {
+        componentJsons.forEach { component ->
 
             //check component "dir"
             if (!File(component.dir).exists()) {
                 throw RuntimeException(
                         "Component ${component.id} doesn't have existing directory. " +
-                                "Please, check components.json and create folder with 'dir' name."
+                                "Please, check value.json and create folder with 'dir' name."
                 )
             }
 
@@ -54,7 +48,7 @@ class Initializator {
                 if (!File("${component.dir}/${lib.dir}").exists()) {
                     throw RuntimeException(
                             "Component ${component.id} with library ${lib.name} doesn't " +
-                                    "have existing directory ${lib.dir}. Please, check components.json" +
+                                    "have existing directory ${lib.dir}. Please, check value.json" +
                                     " and create folder with 'dir' name."
                     )
                 }

@@ -1,4 +1,6 @@
-apply from: '../../buildSrc/androidStandardDependenciesSettings.gradle'
+import ru.surfstudio.android.build.Components
+
+apply from: '../../buildSrc/deploy.gradle'
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
@@ -13,7 +15,7 @@ android {
         minSdkVersion project.ext.libMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
-        versionName project.ext.moduleVersionName
+        versionName Components.getModuleVersion(project)
         testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

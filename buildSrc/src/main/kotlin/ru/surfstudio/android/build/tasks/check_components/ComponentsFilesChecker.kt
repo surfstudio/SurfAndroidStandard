@@ -1,8 +1,9 @@
 package ru.surfstudio.android.build.tasks.check_components
 
-import ru.surfstudio.android.build.Initializator.Companion.components
+import com.beust.klaxon.Klaxon
 import ru.surfstudio.android.build.model.CheckComponentsConfigurationResult
 import ru.surfstudio.android.build.model.Component
+import java.io.File
 
 /**
  * Class for checking if files in components are changed beyween revisions
@@ -13,26 +14,35 @@ import ru.surfstudio.android.build.model.Component
 class ComponentsFilesChecker(val currentRevision: String,
                              val revisionToCompare: String
 ) {
+    private val componentsJsonFilePath = "$currentDirectory/buildSrc/components.json"
 
     fun checkComponentsFilesChanged(): CheckComponentsConfigurationResult {
         val changedComponents = getChangedComponents()
         return if (changedComponents.isEmpty()) CheckComponentsConfigurationResult(true)
         else CheckComponentsConfigurationResult(false, "Components files changed \n" +
-                " ${changedComponents.map { it.id }}")
+                " ${changedComponents.map { it.name }}")
     }
 
     private fun getChangedComponents(): List<Component> {
         val diffResults = GitCommandRunner().diff(currentRevision, revisionToCompare)
         return if (diffResults.isNullOrEmpty()) emptyList()
-        else components.filter { it.stable }.filter { currentComponent ->
-            isComponentChanged(currentComponent, diffResults)
+        else {
+            val components = parseComponentJson(componentsJsonFilePath)
+            components.filter { it.stable }.filter { currentComponent ->
+                isComponentChanged(currentComponent, diffResults)
+            }
         }
     }
 
     private fun isComponentChanged(currentComponent: Component, diffResults: List<String>): Boolean {
-        return currentComponent.libs.filter { library ->
-            val libraryDir = "${currentComponent.dir}/${library.dir}"
+        return currentComponent.libraries.filter { library ->
+            val libraryDir = "${currentComponent.directory}/${library.directory}"
             return diffResults.find { s -> s.contains(libraryDir, ignoreCase = true) } != null
         }.isNotEmpty()
+    }
+
+    private fun parseComponentJson(path: String): List<Component> {
+        return Klaxon().parseArray(File(path))
+                ?: throw RuntimeException("Can't parse components.json")
     }
 }

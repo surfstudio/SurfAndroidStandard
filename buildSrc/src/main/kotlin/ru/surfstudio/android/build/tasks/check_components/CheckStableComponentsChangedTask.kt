@@ -1,13 +1,17 @@
 package ru.surfstudio.android.build.tasks.check_components
 
+import com.beust.klaxon.Klaxon
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
+import ru.surfstudio.android.build.model.Component
+import java.io.File
 
 const val REVISION_TO_COMPARE = "revisionToCompare"
 const val CURRENT_DIR_PROPERTY = "user.dir"
 
 val currentDirectory: String = System.getProperty(CURRENT_DIR_PROPERTY)
+
 
 /**
  * Task checking if stable components in current revision compared to [revisionToCompare] are changed
@@ -43,5 +47,10 @@ open class CheckStableComponentsChanged : DefaultTask() {
 
     private fun fail(reason: String) {
         throw GradleException(reason)
+    }
+
+    private fun parseComponentJson(path: String): List<Component> {
+        return Klaxon().parseArray(File(path))
+                ?: throw RuntimeException("Can't parse components.json")
     }
 }
