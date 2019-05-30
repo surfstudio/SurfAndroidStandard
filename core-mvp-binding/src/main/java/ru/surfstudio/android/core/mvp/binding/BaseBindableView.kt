@@ -24,7 +24,6 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
 /**
  * Вспомогательные view для работы с [IBindData]. Работают в паре с [BaseBindingPresenter]
  */
-@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView(), BindableView<M>, BindSource {
 
     @Suppress("LeakingThis") //для BindData не имеет значения какой именно объект передается в качестве source

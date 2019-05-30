@@ -16,6 +16,7 @@
 
 package ru.surfstudio.android.core.mvp.binding
 
+import androidx.annotation.CallSuper
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
@@ -33,9 +34,14 @@ abstract class BaseBindingPresenter<M : ScreenModel, V>(basePresenterDependency:
 
     abstract val sm: M
 
+    @CallSuper
+    override fun onFirstLoad() {
+        super.onFirstLoad()
+        view.onBind(sm)
+    }
+
     override fun attachView(view: V) {
         super.attachView(view)
-        view.onBind(sm)
     }
 
     override fun onViewDetach() {

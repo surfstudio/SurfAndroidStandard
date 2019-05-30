@@ -19,7 +19,6 @@ package ru.surfstudio.android.core.mvp.binding
 /**
  * Вспомогательный класс для управления подписками/слушателями
  */
-@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 class BindsHolder(private val source: Any) {
 
     val binds: MutableSet<IBindData<*>> = mutableSetOf()
