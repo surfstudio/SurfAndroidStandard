@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model
 
 import ru.surfstudio.android.build.EMPTY_STRING
-import ru.surfstudio.android.build.model.json.JsonDependency
+import ru.surfstudio.android.build.model.json.DependencyJson
 
 /**
  * Represent information about dependency
@@ -13,9 +13,9 @@ data class Dependency(
 
     companion object {
 
-        fun create(jsonDependency: JsonDependency) = Dependency(
-                name = jsonDependency.name,
-                type = jsonDependency.type
+        fun create(dependencyJson: DependencyJson) = Dependency(
+                name = dependencyJson.name,
+                type = dependencyJson.type
         )
     }
 }

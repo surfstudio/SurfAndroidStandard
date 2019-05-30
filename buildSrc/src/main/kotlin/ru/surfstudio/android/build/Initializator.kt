@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build
 
 import com.beust.klaxon.Klaxon
-import ru.surfstudio.android.build.model.json.JsonComponent
+import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
 import java.lang.RuntimeException
 
@@ -24,7 +24,7 @@ object Initializator {
      * Parsing value.json file
      * @return list of json value
      */
-    private fun parseComponentJson(): List<JsonComponent> {
+    private fun parseComponentJson(): List<ComponentJson> {
         return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
                 ?: throw RuntimeException("Can't parse value.json")
     }
@@ -32,8 +32,8 @@ object Initializator {
     /**
      * Check value directories for exist
      */
-    private fun checkComponentsFolders(jsonComponents: List<JsonComponent>) {
-        jsonComponents.forEach { component ->
+    private fun checkComponentsFolders(componentJsons: List<ComponentJson>) {
+        componentJsons.forEach { component ->
 
             //check component "dir"
             if (!File(component.dir).exists()) {

@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model
 
 import ru.surfstudio.android.build.EMPTY_STRING
-import ru.surfstudio.android.build.model.json.JsonSample
+import ru.surfstudio.android.build.model.json.SampleJson
 
 /**
  * Represent information about component's samples
@@ -13,9 +13,9 @@ class Sample(
 
     companion object {
 
-        fun create(jsonSample: JsonSample) = Sample(
-                name = jsonSample.name,
-                directory = jsonSample.dir
+        fun create(sampleJson: SampleJson) = Sample(
+                name = sampleJson.name,
+                directory = sampleJson.dir
         )
     }
 }

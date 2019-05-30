@@ -5,7 +5,7 @@ import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.Dependency
 import ru.surfstudio.android.build.model.Library
 import ru.surfstudio.android.build.model.Module
-import ru.surfstudio.android.build.model.json.JsonComponent
+import ru.surfstudio.android.build.model.json.ComponentJson
 
 /**
  * Project value
@@ -17,8 +17,8 @@ object Components {
     /**
      * Create value from json value
      */
-    fun init(jsonComponents: List<JsonComponent>) {
-        value = jsonComponents.map(Component.Companion::create)
+    fun init(componentJsons: List<ComponentJson>) {
+        value = componentJsons.map(Component.Companion::create)
     }
 
     /**

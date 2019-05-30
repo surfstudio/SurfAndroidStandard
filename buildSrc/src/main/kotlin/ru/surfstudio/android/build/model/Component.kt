@@ -2,7 +2,7 @@ package ru.surfstudio.android.build.model
 
 import ru.surfstudio.android.build.EMPTY_INT
 import ru.surfstudio.android.build.EMPTY_STRING
-import ru.surfstudio.android.build.model.json.JsonComponent
+import ru.surfstudio.android.build.model.json.ComponentJson
 
 /**
  * Represent information about component
@@ -22,18 +22,18 @@ data class Component(
 
     companion object {
 
-        fun create(jsonComponent: JsonComponent) = Component(
-                name = jsonComponent.id,
-                directory = jsonComponent.dir,
-                baseVersion = jsonComponent.version,
-                stable = jsonComponent.stable,
-                unstableVersion = jsonComponent.unstableVersion,
-                hasMirror = jsonComponent.hasMirror,
-                mirrorRepo = jsonComponent.mirrorRepo,
-                libraries = jsonComponent.libs.map { jsonLib ->
+        fun create(componentJson: ComponentJson) = Component(
+                name = componentJson.id,
+                directory = componentJson.dir,
+                baseVersion = componentJson.version,
+                stable = componentJson.stable,
+                unstableVersion = componentJson.unstableVersion,
+                hasMirror = componentJson.hasMirror,
+                mirrorRepo = componentJson.mirrorRepo,
+                libraries = componentJson.libs.map { jsonLib ->
                     Library(
                             name = jsonLib.name,
-                            directory = "${jsonComponent.dir}/${jsonLib.dir}",
+                            directory = "${componentJson.dir}/${jsonLib.dir}",
                             artifactName = jsonLib.artifactName,
                             thirdPartyDependencies = jsonLib.thirdPartyDependencies
                                     .map(Dependency.Companion::create),
@@ -41,7 +41,7 @@ data class Component(
                                     .map(Dependency.Companion::create)
                     )
                 },
-                samples = jsonComponent.samples.map(Sample.Companion::create)
+                samples = componentJson.samples.map(Sample.Companion::create)
         )
     }
 
