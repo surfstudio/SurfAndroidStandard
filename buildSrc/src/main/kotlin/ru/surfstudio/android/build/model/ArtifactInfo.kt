@@ -17,11 +17,12 @@ data class ArtifactInfo(val libraryName: String = EMPTY_STRING) {
     private val pomFilePath: String
 
     init {
-        Components.value.forEach { comp ->
+        Components.value.forEach top@{ comp ->
             comp.libraries.forEach { lib ->
                 if (lib.name == libraryName) {
                     library = lib
                     component = comp
+                    return@top
                 }
             }
         }

@@ -6,6 +6,9 @@ import com.github.kittinunf.fuel.core.isSuccessful
 import org.gradle.api.GradleException
 import ru.surfstudio.android.build.model.ArtifactInfo
 
+/**
+ * Provide Artifactory functions
+ */
 object Artifactory {
 
     private const val ARTIFACTORY_URL = "https://artifactory.surfstudio.ru/artifactory"
