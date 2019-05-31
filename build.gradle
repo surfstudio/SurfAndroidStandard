@@ -29,7 +29,7 @@ buildscript {
     }
 }
 
-import ru.surfstudio.android.build.tasks.check_components.CheckStableComponentsChanged
+import ru.surfstudio.android.build.tasks.CheckStableComponentsChanged
 task CheckStableComponentsChanged (type: CheckStableComponentsChanged){
 }
 /**

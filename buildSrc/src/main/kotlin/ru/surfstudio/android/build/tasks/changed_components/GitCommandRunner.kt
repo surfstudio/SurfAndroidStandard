@@ -1,22 +1,22 @@
-package ru.surfstudio.android.build.tasks.check_components
+package ru.surfstudio.android.build.tasks.changed_components
 
-import org.gradle.api.GradleException
+import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+
+const val GIT_DIFF_COMMAND = "git diff --no-commit-id --name-only"
+const val GIT_CHECKOUT_COMMAND = "git checkout"
+const val GIT_STASH_COMMAND = "git stash"
+const val GIT_GET_CURRENT_REVISION_COMMAND = "git rev-parse --short HEAD"
+const val SPLIT_STRING = "\\s"
 
 /**
  * Class for running git command
  */
 class GitCommandRunner(
-        val directory: String = currentDirectory
+        private val directory: String = currentDirectory
 ) {
-    private val GIT_DIFF_COMMAND = "git diff --no-commit-id --name-only"
-    private val GIT_CHECKOUT_COMMAND = "git checkout"
-    private val GIT_STASH_COMMAND = "git stash"
-    private val GIT_GET_CURRENT_REVISION_COMMAND = "git rev-parse --short HEAD"
-    private val SPLIT_STRING = "\\s"
-
 
     fun diff(firstRevision: String, secondRevision: String): List<String>? {
         val command = "$GIT_DIFF_COMMAND $firstRevision $secondRevision"
@@ -39,7 +39,6 @@ class GitCommandRunner(
     private fun runCommandWithResult(command: String, workingDir: File): String? {
         return try {
             val parts = command.split(SPLIT_STRING.toRegex())
-            print(parts)
             val proc = ProcessBuilder(*parts.toTypedArray())
                     .directory(workingDir)
                     .redirectOutput(ProcessBuilder.Redirect.PIPE)
@@ -49,7 +48,7 @@ class GitCommandRunner(
             proc.waitFor(60, TimeUnit.MINUTES)
             proc.inputStream.bufferedReader().readText()
         } catch (e: IOException) {
-            throw GradleException("Error running console command $command")
+            throw e
             null
         }
     }
