@@ -1,4 +1,5 @@
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.Artifactory
 
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'maven'
@@ -22,10 +23,10 @@ ext.configureDeploy = { context ->
 
         uploadArchives {
             repositories.mavenDeployer {
-                repository(url: 'https://artifactory.surfstudio.ru/artifactory/libs-release-local') {
+                repository(url: Artifactory.DEPLOY_URL) {
                     authentication(
-                            userName: System.getenv('surf_maven_username'),
-                            password: System.getenv('surf_maven_password')
+                            userName: Artifactory.userName,
+                            password: Artifactory.password
                     )
                 }
 
@@ -62,3 +63,5 @@ ext.configureDeploy = { context ->
         } // uploadArchives
     }
 }
+
+Artifactory.distributeArtifactsToBitray()
