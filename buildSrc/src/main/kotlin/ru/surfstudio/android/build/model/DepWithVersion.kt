@@ -1,14 +1,14 @@
 package ru.surfstudio.android.build.model
 
 /**
- * Представляет информацию о зависимости с ее версией
+ * Represent information about dependency with version
  */
 data class DepWithVersion(
-        val name: String = "",
-        var version: String = ""
+        val name: String,
+        var version: String
 ) {
     override fun equals(other: Any?): Boolean {
-        val dep = other as DepWithVersion
-        return dep.version == this.version
+        if (other == null || other !is DepWithVersion) return false
+        return other.version == this.version
     }
 }

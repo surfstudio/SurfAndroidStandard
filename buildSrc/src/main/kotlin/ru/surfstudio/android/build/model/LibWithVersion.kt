@@ -1,12 +1,10 @@
 package ru.surfstudio.android.build.model
 
-import com.beust.klaxon.Json
-
 /**
-* Представляет информацию о библиотеках, которые мужны компоненту с версиями
-*/
+ * Represent information about library with version
+ */
 data class LibWithVersion(
-        val name: String = "",
-        var thirdPartyDependencies: List<DepWithVersion> = listOf(),
-        var androidStandardDependencies: List<DepWithVersion> = listOf()
+        val name: String,
+        var thirdPartyDependencies: List<DepWithVersion>,
+        var androidStandardDependencies: List<DepWithVersion>
 ) {}

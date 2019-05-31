@@ -1,8 +1,8 @@
 package ru.surfstudio.android.build.model
 
 /**
-* Представляет информацию о конфигурации проекта
-*/
+ * Represent information about project configuration
+ */
 data class ProjectConfigurationInfo(
         val revision: String,
         val components: List<ComponentWithVersion>,
@@ -12,11 +12,11 @@ data class ProjectConfigurationInfo(
         val compileSdkVersion: Int
 ) {
     override fun equals(other: Any?): Boolean {
-        val projectInfo = other as ProjectConfigurationInfo
-        return this.libMinSdkVersion.equals(projectInfo.libMinSdkVersion) &&
-                this.targetSdkVersion.equals(projectInfo.targetSdkVersion) &&
-                this.moduleVersionCode.equals(projectInfo.moduleVersionCode) &&
-                this.compileSdkVersion.equals(projectInfo.compileSdkVersion)
+        if (other == null || other !is ProjectConfigurationInfo) return false
+        return this.libMinSdkVersion.equals(other.libMinSdkVersion) &&
+                this.targetSdkVersion.equals(other.targetSdkVersion) &&
+                this.moduleVersionCode.equals(other.moduleVersionCode) &&
+                this.compileSdkVersion.equals(other.compileSdkVersion)
 
     }
 }

@@ -1,7 +1,9 @@
 package ru.surfstudio.android.build.model
 
+import ru.surfstudio.android.build.EMPTY_STRING
+
 /**
- * Проедставляет информацию о результате проверки конфигурации проекта
+ * Represent information about components check result
  */
-data class CheckComponentsConfigurationResult(val isOk: Boolean, val reasonFail: String="") {
+data class CheckComponentsConfigurationResult(val isOk: Boolean, val reasonFail: String = EMPTY_STRING) {
 }

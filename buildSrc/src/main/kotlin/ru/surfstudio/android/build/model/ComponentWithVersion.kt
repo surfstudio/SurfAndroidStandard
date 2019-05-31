@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model
 
 /**
- * Проедставляет информацию о компоненте c версиями библиотек
+ * Represent information about component with library versions
  */
 class ComponentWithVersion(
         val id: String,
