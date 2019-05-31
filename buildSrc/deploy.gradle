@@ -30,7 +30,7 @@ ext.configureDeploy = { context ->
                     )
                 }
 
-                def artifactGroupId = 'ru.surfstudio.android'
+                def artifactGroupId = Artifactory.ANDROID_STANDARD_GROUP_ID
                 def artifactName = Components.getArtifactName(project.name)
                 def artifactVersion = Components.getModuleVersion(project)
 
@@ -40,9 +40,9 @@ ext.configureDeploy = { context ->
 
                 pom.project {
                     dependencies {
-                        Components.getAndroidStandardArtifactNames(project.name).each {
-                            def depArtifactName = it
-                            def depArtifactVersion = Components.getModuleVersion(project.rootProject.project(it))
+                        Components.getAndroidStandardDependencies(project.name).each {
+                            def depArtifactName = it.getArtifactName()
+                            def depArtifactVersion = Components.getModuleVersion(project.rootProject.project(it.getName()))
                             dependency {
                                 groupId artifactGroupId
                                 artifactId depArtifactName
@@ -63,5 +63,3 @@ ext.configureDeploy = { context ->
         } // uploadArchives
     }
 }
-
-Artifactory.distributeArtifactsToBitray()

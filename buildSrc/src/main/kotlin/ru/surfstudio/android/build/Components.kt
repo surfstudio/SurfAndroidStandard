@@ -62,13 +62,12 @@ object Components {
      * Get standard artifact names by library name
      */
     @JvmStatic
-    fun getAndroidStandardArtifactNames(libraryName: String): List<String> {
+    fun getAndroidStandardDependencies(libraryName: String): List<Library> {
         val libs = value.flatMap { it.libraries }
         val standardDepNames = libs.find { it.name == libraryName }
                 ?.androidStandardDependencies
                 ?.map(Dependency::name) ?: return emptyList()
-        val standardDeps = libs.filter { standardDepNames.contains(it.name) }
-        return standardDeps.map(Library::artifactName)
+        return libs.filter { standardDepNames.contains(it.name) }
     }
 
     /**

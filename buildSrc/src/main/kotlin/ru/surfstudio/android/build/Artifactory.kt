@@ -2,46 +2,48 @@ package ru.surfstudio.android.build
 
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.authentication
+import com.github.kittinunf.fuel.core.isSuccessful
+import org.gradle.api.GradleException
+import ru.surfstudio.android.build.model.ArtifactInfo
 
 object Artifactory {
 
     private const val ARTIFACTORY_URL = "https://artifactory.surfstudio.ru/artifactory"
-    private const val LIB_URL = "/libs-release-local"
     private const val DISTRIBUTE_URL = "$ARTIFACTORY_URL/api/distribute"
-    private const val BITRAY_URL = "https://dl.bintray.com/surf/maven"
-    //    private const val BITRAY_URL = "https://bintray.com/surf/maven"
-    const val DEPLOY_URL = ARTIFACTORY_URL + LIB_URL
+    private const val TARGET_REPO = "libs-release-remote"
+    const val SOURCE_REPO = "libs-release-local"
 
-    //    val userName = System.getenv("surf_maven_username")
-    val userName = "trushchinskii"
-    //    val password = System.getenv("surf_maven_password")
-    val password = "traktorvpoletru"
+    const val DEPLOY_URL = "$ARTIFACTORY_URL/$SOURCE_REPO"
+    const val ANDROID_STANDARD_GROUP_ID = "ru.surfstudio.android"
+
+    val userName = System.getenv("surf_maven_username")
+    val password = System.getenv("surf_maven_password")
 
     /**
-     * Deploy artifacts to bitray
+     * Deploy artifact to bintray
      */
     @JvmStatic
-    fun distributeArtifactsToBitray() {
+    fun distributeArtifactToBintray(vararg libraryNames: String) {
+        val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
+
+        var packagesRepoPaths = ""
+        artifacts.forEachIndexed { index, artifactInfo ->
+            packagesRepoPaths += artifactInfo.getPath()
+            if (index != artifacts.size - 1) packagesRepoPaths += ", "
+        }
 
         val bodyJson = """
-        {
-          "publish" : true,
-          "overrideExistingFiles" : false,
-          "async" : false,
-          "targetRepo" : "$BITRAY_URL",
-          "packagesRepoPaths" : ["${LIB_URL}/com/example/analytics/"],
-          "dryRun" : false
-        }
+            {
+              "targetRepo" : "$TARGET_REPO",
+              "packagesRepoPaths" : [$packagesRepoPaths]
+            }
         """
-        Fuel.post(DISTRIBUTE_URL)
+        val response = Fuel.post(DISTRIBUTE_URL)
                 .header("Content-Type" to "application/json")
                 .body(bodyJson)
                 .authentication()
                 .basic(userName, password)
-                .response { request, response, result ->
-                    println("123123 request : $request")
-                    println("123123 response : $response")
-                    println("123123 result : $result")
-                }
+                .response().second
+        if (!response.isSuccessful) throw GradleException(response.toString())
     }
 }
