@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.model
+package ru.surfstudio.android.build.model.module
 
 import ru.surfstudio.android.build.EMPTY_STRING
 

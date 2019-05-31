@@ -2,9 +2,9 @@ package ru.surfstudio.android.build
 
 import org.gradle.api.Project
 import ru.surfstudio.android.build.model.Component
-import ru.surfstudio.android.build.model.Dependency
-import ru.surfstudio.android.build.model.Library
-import ru.surfstudio.android.build.model.Module
+import ru.surfstudio.android.build.model.dependency.Dependency
+import ru.surfstudio.android.build.model.module.Library
+import ru.surfstudio.android.build.model.module.Module
 import ru.surfstudio.android.build.model.json.ComponentJson
 
 /**
@@ -19,6 +19,7 @@ object Components {
      */
     fun init(componentJsons: List<ComponentJson>) {
         value = componentJsons.map(Component.Companion::create)
+        setComponentsForAndroidStandardDependencies()
     }
 
     /**
@@ -69,6 +70,24 @@ object Components {
                 ?.map(Dependency::name) ?: return emptyList()
         val standardDeps = libs.filter { standardDepNames.contains(it.name) }
         return standardDeps.map(Library::artifactName)
+    }
+
+    /**
+     * Set components for android standard dependencies
+     */
+    private fun setComponentsForAndroidStandardDependencies() {
+        val libs = value.flatMap { it.libraries }
+        val libNameCompMap: Map<String, Component?> = libs.map { lib ->
+            lib.name to value.find { it.libraries.contains(lib) }
+        }.toMap()
+
+        value.forEach { component ->
+            component.libraries.forEach { library ->
+                library.androidStandardDependencies.forEach { dependency ->
+                    dependency.component = libNameCompMap[dependency.name] ?: Component()
+                }
+            }
+        }
     }
 
     /**

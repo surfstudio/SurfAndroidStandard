@@ -1,6 +1,6 @@
 import ru.surfstudio.android.build.Initializator
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.model.Module
+import ru.surfstudio.android.build.model.module.Module
 
 Initializator.init()
 Components.getModules().forEach { Module module ->

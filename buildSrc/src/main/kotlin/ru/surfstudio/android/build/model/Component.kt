@@ -2,7 +2,12 @@ package ru.surfstudio.android.build.model
 
 import ru.surfstudio.android.build.EMPTY_INT
 import ru.surfstudio.android.build.EMPTY_STRING
+import ru.surfstudio.android.build.model.dependency.AndroidStandardDependency
+import ru.surfstudio.android.build.model.dependency.ThirdPartyDependency
 import ru.surfstudio.android.build.model.json.ComponentJson
+import ru.surfstudio.android.build.model.module.Library
+import ru.surfstudio.android.build.model.module.Module
+import ru.surfstudio.android.build.model.module.Sample
 
 /**
  * Represent information about component
@@ -36,9 +41,9 @@ data class Component(
                             directory = "${componentJson.dir}/${jsonLib.dir}",
                             artifactName = jsonLib.artifactName,
                             thirdPartyDependencies = jsonLib.thirdPartyDependencies
-                                    .map(Dependency.Companion::create),
+                                    .map { ThirdPartyDependency.create(it) },
                             androidStandardDependencies = jsonLib.androidStandardDependencies
-                                    .map(Dependency.Companion::create)
+                                    .map { AndroidStandardDependency.create(it) }
                     )
                 },
                 samples = componentJson.samples.map(Sample.Companion::create)
