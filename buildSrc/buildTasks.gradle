@@ -1,0 +1,3 @@
+import ru.surfstudio.android.build.tasks.CheckStandardDependenciesStabilityTask
+
+task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
