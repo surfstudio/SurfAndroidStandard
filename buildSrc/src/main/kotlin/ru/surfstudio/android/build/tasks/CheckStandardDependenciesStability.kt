@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks.check_components
+package ru.surfstudio.android.build.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException

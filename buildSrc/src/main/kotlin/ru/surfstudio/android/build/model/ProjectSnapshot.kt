@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model
 
-import ru.surfstudio.android.build.EMPTY_INT
-import ru.surfstudio.android.build.EMPTY_STRING
+import ru.surfstudio.android.build.utils.EMPTY_INT
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
  * Represent information about project snapshot

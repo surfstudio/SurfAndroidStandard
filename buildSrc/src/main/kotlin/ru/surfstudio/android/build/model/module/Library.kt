@@ -1,8 +1,7 @@
 package ru.surfstudio.android.build.model.module
 
-import ru.surfstudio.android.build.EMPTY_STRING
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.model.dependency.AndroidStandardDependency
-import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.dependency.ThirdPartyDependency
 
 /**

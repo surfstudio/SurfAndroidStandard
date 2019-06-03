@@ -1,11 +1,14 @@
 package ru.surfstudio.android.build
 
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Module
 import ru.surfstudio.android.build.model.json.ComponentJson
+import ru.surfstudio.android.build.utils.EMPTY_STRING
+import ru.surfstudio.android.build.utils.getProjectSnapshot
 
 /**
  * Project value
@@ -18,7 +21,7 @@ object Components {
      * Create value from json value
      */
     fun init(componentJsons: List<ComponentJson>) {
-        value = componentJsons.map(Component.Companion::create)
+        value = componentJsons.map(ComponentJson::transform)
         setComponentsForAndroidStandardDependencies()
     }
 
@@ -84,7 +87,9 @@ object Components {
         value.forEach { component ->
             component.libraries.forEach { library ->
                 library.androidStandardDependencies.forEach { dependency ->
-                    dependency.component = libNameCompMap[dependency.name] ?: Component()
+                    dependency.component = libNameCompMap[dependency.name]
+                            ?: throw GradleException("There isn't component for android standard dependency ${dependency.name}. " +
+                                    "Please check components.json")
                 }
             }
         }

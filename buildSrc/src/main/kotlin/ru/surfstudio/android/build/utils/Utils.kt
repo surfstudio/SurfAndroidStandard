@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build
+package ru.surfstudio.android.build.utils
 
 import groovy.lang.MissingPropertyException
 import org.gradle.api.Project
