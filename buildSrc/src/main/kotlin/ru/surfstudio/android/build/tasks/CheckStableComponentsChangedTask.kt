@@ -3,7 +3,7 @@ package ru.surfstudio.android.build.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import ru.surfstudio.android.build.model.CheckComponentChangedResult
+import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
@@ -15,7 +15,7 @@ val currentDirectory: String = System.getProperty("user.dir")
 /**
  * Task checking if stable components in current revision compared to [revisionToCompare] are changed
  */
-open class CheckStableComponentsChanged : DefaultTask() {
+open class CheckStableComponentsChangedTask : DefaultTask() {
 
     private val TASK_NAME = "CheckStableComponentsChanged: "
     private lateinit var revisionToCompare: String
@@ -24,7 +24,7 @@ open class CheckStableComponentsChanged : DefaultTask() {
     fun check() {
         println("$TASK_NAME started")
 
-        getInputArguments()
+        extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
         checkForFileChanges(currentRevision)
@@ -50,12 +50,12 @@ open class CheckStableComponentsChanged : DefaultTask() {
         }
     }
 
-    private fun getInputArguments() {
+    private fun extractInputArguments() {
         if (!project.hasProperty(REVISION_TO_COMPARE)) throw GradleException("please specify $REVISION_TO_COMPARE param")
         revisionToCompare = project.findProperty(REVISION_TO_COMPARE) as String
     }
 
-    private fun checkStableComponentsChanged(changeResultComponents: List<CheckComponentChangedResult>) {
+    private fun checkStableComponentsChanged(changeResultComponents: List<ComponentCheckResult>) {
         val components = changeResultComponents.filter {
             it.isComponentChanged && it.isComponentStable
         }
@@ -64,7 +64,7 @@ open class CheckStableComponentsChanged : DefaultTask() {
         }
     }
 
-    private fun createOutputForChangedComponents(results: List<CheckComponentChangedResult>): String {
+    private fun createOutputForChangedComponents(results: List<ComponentCheckResult>): String {
         return results.map {
             "${it.componentName}  ${it.reasonOfComponentChange.reason}"
         }.joinToString(separator = "/n")

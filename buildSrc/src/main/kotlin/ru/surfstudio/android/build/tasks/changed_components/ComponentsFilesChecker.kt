@@ -1,8 +1,9 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
-import ru.surfstudio.android.build.model.CheckComponentChangedResult
-import ru.surfstudio.android.build.model.ComponentChangeReason
-import ru.surfstudio.android.build.model.ComponentForCheck
+import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.tasks.changed_components.models.ComponentChangeReason
+import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
+import ru.surfstudio.android.build.tasks.changed_components.models.ComponentWithVersion
 import ru.surfstudio.android.build.tasks.currentDirectory
 
 /**
@@ -15,16 +16,15 @@ class ComponentsFilesChecker(
         private val currentRevision: String,
         private val revisionToCompare: String
 ) {
-    private val currentComponentsJsonPath = "$currentDirectory/buildSrc/components.json"
-
     /**
      * Get info for every component, whether its files have changed between [currentRevision] and [revisionToCompare]
      *
      * @return information about changes for every component
      */
-    fun getChangeInformationForComponents(): List<CheckComponentChangedResult> {
+    fun getChangeInformationForComponents(): List<ComponentCheckResult> {
         val diffResults = getDiffBetweenRevisions()
-        val currentComponents = JsonHelper.parseComponentJson(currentComponentsJsonPath).map { ComponentForCheck.create(it) }
+        val currentComponents = Components.value
+                .map { ComponentWithVersion.create(it) }
 
         return if (diffResults.isNullOrEmpty()) generateAllComponentsNotChangedResults(currentComponents)
         else {
@@ -39,8 +39,8 @@ class ComponentsFilesChecker(
      *
      * @return information every component has not changed
      */
-    private fun generateAllComponentsNotChangedResults(currentComponents: List<ComponentForCheck>): List<CheckComponentChangedResult> {
-        return currentComponents.map { CheckComponentChangedResult.create(it, false) }
+    private fun generateAllComponentsNotChangedResults(currentComponents: List<ComponentWithVersion>): List<ComponentCheckResult> {
+        return currentComponents.map { ComponentCheckResult.create(it, false) }
     }
 
     /**
@@ -51,13 +51,13 @@ class ComponentsFilesChecker(
      *
      * @return information about changes for every component
      */
-    private fun getCheckComponentsResultsWithDiff(diffResults: List<String>, currentComponents: List<ComponentForCheck>)
-            : List<CheckComponentChangedResult> {
+    private fun getCheckComponentsResultsWithDiff(diffResults: List<String>, currentComponents: List<ComponentWithVersion>)
+            : List<ComponentCheckResult> {
         return currentComponents.map { component ->
             if (isComponentChanged(component, diffResults))
-                CheckComponentChangedResult.create(component, true, ComponentChangeReason.FILE_CHANGED)
+                ComponentCheckResult.create(component, true, ComponentChangeReason.FILE_CHANGED)
             else
-                CheckComponentChangedResult.create(component, false)
+                ComponentCheckResult.create(component, false)
 
         }
     }
@@ -80,7 +80,7 @@ class ComponentsFilesChecker(
      *
      * @return true if changed
      */
-    private fun isComponentChanged(currentComponent: ComponentForCheck, diffResults: List<String>): Boolean {
+    private fun isComponentChanged(currentComponent: ComponentWithVersion, diffResults: List<String>): Boolean {
         return currentComponent.libs
                 .filter { library ->
                     val libraryDir = "${currentComponent.directory}/${library.directory}"

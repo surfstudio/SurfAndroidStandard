@@ -45,7 +45,7 @@ class GitCommandRunner(
                     .redirectError(ProcessBuilder.Redirect.PIPE)
                     .start()
 
-            proc.waitFor(60, TimeUnit.MINUTES)
+            proc.waitFor(300, TimeUnit.SECONDS)
             proc.inputStream.bufferedReader().readText()
         } catch (e: IOException) {
             throw e

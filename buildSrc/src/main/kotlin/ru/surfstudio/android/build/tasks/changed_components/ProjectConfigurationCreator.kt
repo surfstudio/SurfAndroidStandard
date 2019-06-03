@@ -1,25 +1,43 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
 import groovy.util.ConfigObject
-import ru.surfstudio.android.build.model.*
+import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.tasks.changed_components.models.ComponentWithVersion
+import ru.surfstudio.android.build.tasks.changed_components.models.DependencyWithVersion
+import ru.surfstudio.android.build.tasks.changed_components.models.LibraryWithVersion
+import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
+import ru.surfstudio.android.build.tasks.currentDirectory
+import java.io.File
+
+private const val OUTPUT_FOLDER_NAME = "outputs"
+private const val BUILD_FOLDER_NAME = "build"
+private const val CURRENT_TASK_FOLDER_NAME = "check-stable-components-changed-task"
 
 /**
- * Class for creating  Project Configuration Info files and getting [ProjectConfiguration] from files
+ * Class for creating information about project configuration. Writes information to [outputJsonFile]
+ *
+ * @param revision reviosion of the project the configuration file is created for
+ * @param directory path to the project the configuration file is created for
  */
 class ProjectConfigurationCreator(
         private val revision: String,
         directory: String
 ) {
-
-    private val componentsJsonFilePath = "$directory/buildSrc/components.json"
     private val configFilePath = "$directory/buildSrc/config.gradle"
+    private val outputJsonDir = "$currentDirectory/$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME/$CURRENT_TASK_FOLDER_NAME/"
+    private val outputJsonFile = "$outputJsonDir$revision.json"
 
-    fun getProjectConfiguration(): ProjectConfiguration {
-        return createProjectInfo()
+    fun createProjectConfigurationFile() {
+        saveProjectConfigurationToFile(createProjectConfiguration())
     }
 
-    private fun createProjectInfo(): ProjectConfiguration {
-        val config = ConfigParser.parseConfigFile(configFilePath)
+    /**
+     * Creates configuration info file for project
+     *
+     * @return project configuration
+     */
+    private fun createProjectConfiguration(): ProjectConfiguration {
+        val config = ConfigHelper.parseConfigFile(configFilePath)
         val configList = config.getValue("ext") as ConfigObject
         val versions = configList["libraryVersions"] as LinkedHashMap<String, String>
         val libMinSdkVersion = configList["libMinSdkVersion"] as Int
@@ -28,11 +46,11 @@ class ProjectConfigurationCreator(
         val compileSdkVersion = configList["compileSdkVersion"] as Int
 
 
-        val compsWithVersions = createComponentsWithVersions(versions)
+        val componentsWithVersions = createComponentsWithVersions(versions)
 
         return ProjectConfiguration(
                 revision,
-                compsWithVersions,
+                componentsWithVersions,
                 libMinSdkVersion,
                 targetSdkVersion,
                 moduleVersionCode,
@@ -40,21 +58,62 @@ class ProjectConfigurationCreator(
         )
     }
 
-    private fun createComponentsWithVersions(versions: LinkedHashMap<String, String>): List<ComponentForCheck> {
-        val components = JsonHelper.parseComponentJson(componentsJsonFilePath).map(Component.Companion::create)
-        val compsWithVersions = components.map { component ->
+    /**
+     * Maps every component from [Components.value] to ComponentWithVersion finding version for every library in [versions]
+     *
+     * @param versions LinkedHashMap with pairs. Every pair contains name of library as first parameter
+     * and its version as second parameter
+     */
+    private fun createComponentsWithVersions(versions: LinkedHashMap<String, String>): List<ComponentWithVersion> {
+        val components = Components.value
+        return components.map { component ->
             val libs = component.libraries.map { lib ->
-                val standartDeps = lib.androidStandardDependencies.map { dep ->
-                    DependencyForCheck(dep.name, versions[dep.name] ?: "")
+                val standartDependencies = lib.androidStandardDependencies.map { dep ->
+                    DependencyWithVersion(dep.name, versions[dep.name]
+                            ?: "")
                 }
-                val thirdPartDeps = lib.thirdPartyDependencies.map { dep ->
-                    DependencyForCheck(dep.name, versions[dep.name] ?: "")
+                val thirdPartyDependencies = lib.thirdPartyDependencies.map { dep ->
+                    DependencyWithVersion(dep.name, versions[dep.name]
+                            ?: "")
                 }
-                LibraryForCheck(lib.name, lib.directory, thirdPartDeps, standartDeps)
+                LibraryWithVersion(lib.name, lib.directory, thirdPartyDependencies, standartDependencies)
             }
 
-            ComponentForCheck(component.name, component.directory, component.baseVersion, component.stable, libs)
+            ComponentWithVersion(component.name, component.directory, component.baseVersion, component.stable, libs)
         }
-        return compsWithVersions
+    }
+
+    /**
+     * saves project configuration to file [outputJsonFile]
+     *
+     *@param projectConfiguration configuration of project
+     */
+    private fun saveProjectConfigurationToFile(projectConfiguration: ProjectConfiguration) {
+        createIntermediateFoldersForJsonFile()
+        JsonHelper.writeProjectConfigurationFile(projectConfiguration, createJsonOutputFile())
+    }
+
+    /**
+     * if [outputJsonFile] exists removes it and creates a new one
+     *
+     * @return created file
+     */
+    private fun createJsonOutputFile(): File{
+        val fileOutputJson = File(outputJsonFile)
+        if (fileOutputJson.exists()) {
+            fileOutputJson.delete()
+        }
+        fileOutputJson.createNewFile()
+        return fileOutputJson
+    }
+
+    /**
+     * checks whether intermediate folders [OUTPUT_FOLDER_NAME] and [outputJsonDir] exists and if no creates them
+     */
+    private fun createIntermediateFoldersForJsonFile() {
+        val folderOutputs = File("$currentDirectory/$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME")
+        if (!folderOutputs.exists()) folderOutputs.mkdir()
+        val folderCurrentTask = File("$currentDirectory/$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME/$outputJsonDir")
+        if (!folderCurrentTask.exists()) folderCurrentTask.mkdir()
     }
 }
