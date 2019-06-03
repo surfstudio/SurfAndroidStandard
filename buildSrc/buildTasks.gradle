@@ -1,7 +1,5 @@
-import ru.surfstudio.android.build.DependencyChecker
+import ru.surfstudio.android.build.tasks.check_components.CheckStandardDependenciesStability
 
-task checkDependencyStability {
-    doFirst {
-        DependencyChecker.checkDependencyStability()
-    }
+task checkStandardDependenciesStability(type: CheckStandardDependenciesStability) {
+
 }

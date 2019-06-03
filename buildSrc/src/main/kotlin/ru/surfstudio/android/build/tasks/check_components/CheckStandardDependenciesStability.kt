@@ -1,22 +1,25 @@
-package ru.surfstudio.android.build
+package ru.surfstudio.android.build.tasks.check_components
 
+import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
+import org.gradle.api.tasks.TaskAction
+import ru.surfstudio.android.build.Components
 import java.lang.StringBuilder
 
 /**
- * Helper class to check build restrictions
+ * Task to check standard library's dependencies
  */
-object DependencyChecker {
+open class CheckStandardDependenciesStability : DefaultTask() {
 
     /**
      * Check library's standard dependencies for stability
      *
      * @throws GradleException if some dependencies unstable
      */
-    @JvmStatic
-    fun checkDependencyStability() {
+    @TaskAction
+    fun check() {
         var hasUnstableDeps = false
-        var messageBuilder = StringBuilder()
+        val messageBuilder = StringBuilder()
         Components.value.forEach { component ->
             component.libraries.forEach { library ->
                 library.androidStandardDependencies.forEach { dependency ->
