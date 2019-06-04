@@ -8,6 +8,7 @@ import ru.surfstudio.android.build.EMPTY_STRING
 class Library(
         override val name: String = EMPTY_STRING,
         override val directory: String = EMPTY_STRING,
+        val folder: String = EMPTY_STRING,
         val artifactName: String = EMPTY_STRING,
         val thirdPartyDependencies: List<Dependency> = listOf(),
         val androidStandardDependencies: List<Dependency> = listOf()

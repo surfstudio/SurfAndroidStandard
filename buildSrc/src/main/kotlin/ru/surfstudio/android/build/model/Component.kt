@@ -34,6 +34,7 @@ data class Component(
                     Library(
                             name = jsonLib.name,
                             directory = "${componentJson.dir}/${jsonLib.dir}",
+                            folder = "${jsonLib.dir}",
                             artifactName = jsonLib.artifactName,
                             thirdPartyDependencies = jsonLib.thirdPartyDependencies
                                     .map(Dependency.Companion::create),

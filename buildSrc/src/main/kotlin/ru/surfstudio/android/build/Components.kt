@@ -18,7 +18,6 @@ object Components {
      * Create value from json value
      */
     fun init(componentJsons: List<ComponentJson>) {
-        println(componentJsons)
         value = componentJsons.map(Component.Companion::create)
     }
 
