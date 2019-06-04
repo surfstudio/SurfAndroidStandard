@@ -45,7 +45,7 @@ object Artifactory {
     /**
      * Check library's android standard dependencies exist in artifactory
      */
-    fun checkLibraryStandardDependenciesExisting(library: Library) {
+    private fun checkLibraryStandardDependenciesExisting(library: Library) {
         library.androidStandardDependencies.forEach { androidStandardDependency ->
             if (!isStandardDependenciesExist(androidStandardDependency)) {
                 throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
