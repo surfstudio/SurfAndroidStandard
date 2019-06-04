@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build
 
-import org.gradle.api.GradleException
 import org.gradle.api.Project
+import ru.surfstudio.android.build.exceptions.ComponentNotFoundForStandardDependencyException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.module.Library
@@ -87,8 +87,7 @@ object Components {
             component.libraries.forEach { library ->
                 library.androidStandardDependencies.forEach { dependency ->
                     dependency.component = libNameCompMap[dependency.name]
-                            ?: throw GradleException("There isn't component for android standard dependency ${dependency.name}. " +
-                                    "Please check components.json")
+                            ?: throw ComponentNotFoundForStandardDependencyException(dependency.name)
                 }
             }
         }

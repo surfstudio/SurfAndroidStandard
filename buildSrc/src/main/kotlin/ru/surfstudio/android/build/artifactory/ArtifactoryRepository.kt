@@ -5,13 +5,13 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.isSuccessful
-import org.gradle.api.GradleException
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.DISTRIBUTE_URL
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.GET_FOLDER_INFO
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.PASSWORD
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.TARGET_REPO
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.USER_NAME
+import ru.surfstudio.android.build.exceptions.FolderInfoParsingException
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
 import ru.surfstudio.android.build.model.FolderInfo
 import ru.surfstudio.android.build.model.json.response.folder_info.FolderInfoJson
@@ -35,12 +35,11 @@ internal class ArtifactoryRepository {
 
         if (response.isSuccessful) {
             val data = String(response.data)
+
             return klaxon.parse<FolderInfoJson>(data)?.transform()
-                    ?: throw GradleException("Exception when getFolderInfo folderPath. Can't parse $data")
+                    ?: throw FolderInfoParsingException(data)
         } else {
-            throw FolderNotFoundException(
-                    "Can't find folder with folderPath : $folderPath in artifactory."
-            )
+            throw FolderNotFoundException(folderPath)
         }
     }
 

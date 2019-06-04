@@ -5,4 +5,6 @@ import org.gradle.api.GradleException
 /**
  * Throw when folder doesn't exist somewhere
  */
-class FolderNotFoundException(message: String) : GradleException(message)
+class FolderNotFoundException(folderPath: String) : GradleException(
+        "Can't find folder with folderPath : $folderPath in artifactory."
+)

@@ -3,6 +3,7 @@ package ru.surfstudio.android.build.artifactory
 import com.github.kittinunf.fuel.core.isSuccessful
 import org.gradle.api.GradleException
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.exceptions.ArtifactNotExistInArtifactoryException
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
 import ru.surfstudio.android.build.model.ArtifactInfo
 import ru.surfstudio.android.build.model.Component
@@ -47,10 +48,7 @@ object Artifactory {
     fun checkLibraryStandardDependenciesExisting(library: Library) {
         library.androidStandardDependencies.forEach { androidStandardDependency ->
             if (!isStandardDependenciesExist(androidStandardDependency)) {
-                throw GradleException("Library : ${library.name}. Dependency " +
-                        "${androidStandardDependency.name} with version " +
-                        "${androidStandardDependency.component.projectVersion} doesn't " +
-                        "exist in artifactory.")
+                throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
             }
         }
 

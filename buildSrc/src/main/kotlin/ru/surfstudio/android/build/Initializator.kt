@@ -1,9 +1,12 @@
 package ru.surfstudio.android.build
 
 import com.beust.klaxon.Klaxon
+import ru.surfstudio.android.build.exceptions.ComponentDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.ComponentsJsonParsingException
+import ru.surfstudio.android.build.exceptions.LibraryDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
-import java.lang.RuntimeException
 
 object Initializator {
 
@@ -26,7 +29,7 @@ object Initializator {
      */
     private fun parseComponentJson(): List<ComponentJson> {
         return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
-                ?: throw RuntimeException("Can't parse value.json")
+                ?: throw ComponentsJsonParsingException()
     }
 
     /**
@@ -37,29 +40,20 @@ object Initializator {
 
             //check component "dir"
             if (!File(component.dir).exists()) {
-                throw RuntimeException(
-                        "Component ${component.id} doesn't have existing directory. " +
-                                "Please, check value.json and create folder with 'dir' name."
-                )
+                throw ComponentDirectoryNotExistException(component.id)
             }
 
             //check libs
             component.libs.forEach { lib ->
                 if (!File("${component.dir}/${lib.dir}").exists()) {
-                    throw RuntimeException(
-                            "Component ${component.id} with library ${lib.name} doesn't " +
-                                    "have existing directory ${lib.dir}. Please, check value.json" +
-                                    " and create folder with 'dir' name."
-                    )
+                    throw LibraryDirectoryNotExistException(component.id, lib.name, lib.dir)
                 }
             }
 
             //check samples
             component.samples.forEach { sample ->
                 if (!File("${component.dir}/${sample.dir}").exists()) {
-                    throw RuntimeException(
-                            "Component ${component.id} has sample $${sample.name}, but folder doesn't exist."
-                    )
+                    throw SampleDirectoryNotExistException(component.id, sample.name)
                 }
             }
         }
