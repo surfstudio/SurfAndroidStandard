@@ -3,7 +3,7 @@ package ru.surfstudio.android.build.artifactory
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
- * Class containes credentials, URLs, repository names, ...
+ * Class containes artifactory's credentials, URLs, repository names, ...
  */
 object ArtifactoryConfig {
     const val ARTIFACTORY_URL = "https://artifactory.surfstudio.ru/artifactory"
