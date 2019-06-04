@@ -15,7 +15,7 @@ open class CreateProjectConfigurationTask : DefaultTask() {
     @TaskAction
     fun create() {
         extractInputArguments()
-        ProjectConfigurationCreator(revision, currentDirectory).createProjectConfigurationFile()
+        ProjectConfigurationCreator(revision, pathToFile).createProjectConfigurationFile()
     }
 
     private fun extractInputArguments() {

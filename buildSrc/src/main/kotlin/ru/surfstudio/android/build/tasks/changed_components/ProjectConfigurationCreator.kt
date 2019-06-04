@@ -74,7 +74,6 @@ class ProjectConfigurationCreator(
                 }
                 LibraryWithVersion(lib.name, lib.directory, thirdPartyDependencies, standartDependencies)
             }
-
             ComponentWithVersion(component.name, component.directory, component.baseVersion, component.stable, libs)
         }
     }

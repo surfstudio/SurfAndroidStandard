@@ -11,7 +11,8 @@ const val CONFIG_GRADLE_PATH = "/buildSrc/config.gradle"
 object ConfigHelper {
 
     fun parseConfigFile(path: String): ConfigObject {
-        val configFilePath = "$path/$CONFIG_GRADLE_PATH"
+        val configFilePath = "$path$CONFIG_GRADLE_PATH"
+        println(configFilePath)
         return ConfigSlurper().parse(File(configFilePath).readText())
     }
 }
