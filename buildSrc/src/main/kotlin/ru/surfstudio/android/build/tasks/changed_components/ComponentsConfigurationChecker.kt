@@ -1,9 +1,7 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
-import ru.surfstudio.android.build.tasks.currentDirectory
-
-private const val TEMP_FOLDER_NAME = "temp"
+import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 
 /**
  * Class for checking if components configuration has changed
@@ -17,24 +15,16 @@ class ComponentsConfigChecker(
         private val currentRevision: String,
         private val revisionToCompare: String
 ) {
-    private val tempDirectory = "$currentDirectory/$TEMP_FOLDER_NAME"
     /**
-     * Creates second project for compare with [revisionToCompare]
-     * Creates project configurations for both revisions
-     * and compares them finding which components configurations changed
+     *
      *
      * @return result of comparision for each component
      */
     fun getChangeInformationForComponents(): List<ComponentCheckResult> {
-        createProjectWithRevisionToCompare()
-        return compareProjects()
-    }
-
-    /**
-     * create second project with copy current project an checkout [revisionToCompare] on it
-     */
-    private fun createProjectWithRevisionToCompare() {
-        SecondProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
+        val projectConfigurationProvider = ProjectConfigurationProvider(currentRevision, revisionToCompare)
+        val currentRevisionConfiguration = projectConfigurationProvider.provideCurrentRevisionConfiguration()
+        val revisionToCompareConfiguration = projectConfigurationProvider.provideRevisionToCompareConfiguration()
+        return compareProjects(currentRevisionConfiguration, revisionToCompareConfiguration)
     }
 
     /**
@@ -42,9 +32,10 @@ class ComponentsConfigChecker(
      *
      * @return result of changed components
      */
-    private fun compareProjects(): List<ComponentCheckResult> {
-        val currentInfo = ProjectConfigurationProvider(currentRevision, currentDirectory).provideProjectConfiguration()
-        val infoToCompare = ProjectConfigurationProvider(revisionToCompare, tempDirectory).provideProjectConfiguration()
-        return ProjectConfigurationComparator(currentInfo, infoToCompare).compareProjectInfos()
+    private fun compareProjects(
+            currentRevisionConfiguration: ProjectConfiguration,
+            revisionToCompareConfiguration: ProjectConfiguration
+    ): List<ComponentCheckResult> {
+        return ProjectConfigurationComparator(currentRevisionConfiguration, revisionToCompareConfiguration).compareProjectInfos()
     }
 }

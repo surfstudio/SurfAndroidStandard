@@ -4,16 +4,16 @@ import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 
 /**
- * Creates second project with revision[revisionToCompare] in temp folder [tempFolderName]
+ * Creates temp project with revision[revisionToCompare] in temp folder [tempFolderName]
  */
-class SecondProjectCreator(
+class TempProjectCreator(
         private val revisionToCompare: String,
         private val tempFolderName: String
 ) {
-    private val tempDir = "$currentDirectory/$tempFolderName"
+    private val tempDirectory = "$currentDirectory/$tempFolderName"
 
     /**
-     * creates copy of current project in  [tempDir] and checks out for that project [revisionToCompare]
+     * creates copy of current project in  [tempDirectory] and checks out for that project [revisionToCompare]
      */
     fun createProjectWithRevToCompare() {
         createTempFolder()
@@ -22,22 +22,22 @@ class SecondProjectCreator(
     }
 
     /**
-     * copies recursively current project to [tempDir] excepting [tempFolderName] in current directory
+     * copies recursively current project to [tempDirectory] excepting [tempFolderName] in current directory
      */
     private fun copyProjectToTempFolder() {
         val fileFrom = File(currentDirectory)
         fileFrom.listFiles().forEach { file ->
             if (file.name != tempFolderName) {
-                file.copyRecursively(File("$tempDir/${file.name}"), true)
+                file.copyRecursively(File("$tempDirectory/${file.name}"), true)
             }
         }
     }
 
     /**
-     * creates [tempDir]
+     * creates [tempDirectory]
      */
     private fun createTempFolder() {
-        val tempDirFile = File(tempDir)
+        val tempDirFile = File(tempDirectory)
         if (tempDirFile.exists()) {
             tempDirFile.deleteRecursively()
         }
@@ -48,6 +48,6 @@ class SecondProjectCreator(
      * checks out with git revision with hash [revisionToCompare]
      */
     private fun checkoutGitRevision() {
-        GitCommandRunner(tempDir).checkoutRevision(revisionToCompare)
+        GitCommandRunner(tempDirectory).checkoutRevision(revisionToCompare)
     }
 }

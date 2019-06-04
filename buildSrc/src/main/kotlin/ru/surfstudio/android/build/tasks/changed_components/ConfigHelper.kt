@@ -4,12 +4,14 @@ import groovy.util.ConfigObject
 import groovy.util.ConfigSlurper
 import java.io.File
 
+const val CONFIG_GRADLE_PATH = "/buildSrc/config.gradle"
 /**
  * Helper for parsing config.gradle file
  */
 object ConfigHelper {
 
     fun parseConfigFile(path: String): ConfigObject {
-        return ConfigSlurper().parse(File(path).readText())
+        val configFilePath = "$path/$CONFIG_GRADLE_PATH"
+        return ConfigSlurper().parse(File(configFilePath).readText())
     }
 }

@@ -5,37 +5,62 @@ import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-private const val OUTPUT_FOLDER_NAME = "outputs"
-private const val BUILD_FOLDER_NAME = "build"
-private const val CURRENT_TASK_FOLDER_NAME = "check-stable-components-changed-task"
-private const val GRADLE_TASK_CREATE_PROJECT_CONFIGURATION = "CreateProjectConfiguration"
-
 /**
  * Provides project configuration
  *
- * @param revision revision of project to provide configuration for
- * @param directory directory of the project to provide configuration for
+ * @param [currentRevision] revision of project to provide configuration for
+ * @param [revisionToCompare] directory of the project to provide configuration for
  */
 class ProjectConfigurationProvider(
-        revision: String,
-        directory: String
+        private val currentRevision: String,
+        private val revisionToCompare: String
 ) {
-    private val outputJsonDir = "$currentDirectory/$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME/$CURRENT_TASK_FOLDER_NAME/"
-    private val outputJsonFile = "$outputJsonDir$revision.json"
-    private val commandRunTaskCreate = "$directory/gradlew $GRADLE_TASK_CREATE_PROJECT_CONFIGURATION" +
-            " -PpathToFile=$directory -Prevision=$revision"
+    private val outputJsonDirectory = "$currentDirectory/$OUTPUT_JSON_FOLDER_PATH"
+    private val tempDirectory = "$currentDirectory/$TEMP_FOLDER_NAME"
 
     /**
-     * provides project configuration. If project configuration file doesn`t exists creates it
+     * provides project configuration for current revision. If project configuration file doesn`t exists creates it
      * else parses information from existing
      *
      * @return project configuration
      */
-    fun provideProjectConfiguration(): ProjectConfiguration {
-        if (!checkProjectConfigurationJsonExists()) {
-            runCreateProjectConfigurationTask()
+    fun provideCurrentRevisionConfiguration(): ProjectConfiguration {
+        val outputJsonFile = createJsonFileNameByRevision(currentRevision)
+        if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
+            runCreateProjectConfigurationTask(createRunForCurrentCommand(currentRevision))
         }
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
+    }
+
+    /**
+     * provides project configuration for revision to compare. If project configuration file doesn`t exists creates it
+     * else parses information from existing
+     *
+     * @return project configuration
+     */
+    fun provideRevisionToCompareConfiguration(): ProjectConfiguration {
+        val outputJsonFile = createJsonFileNameByRevision(revisionToCompare)
+        if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
+            TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
+            runCreateProjectConfigurationTask(createRunForTempCommand(revisionToCompare))
+
+        }
+        return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
+    }
+
+
+    private fun createRunForTempCommand(revisionToCompare: String): String {
+        return "./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
+                " -P$PATH_TO_FILE=$tempDirectory -P$REVISION=$revisionToCompare"
+    }
+
+    private fun createRunForCurrentCommand(currentRevision: String): String {
+        return "./gradlew $GRADLE_TASK_CREATE_PROJECT_CONFIGURATION " +
+                " -P$PATH_TO_FILE=$currentDirectory -P$REVISION=$currentRevision"
+    }
+
+    private fun createJsonFileNameByRevision(revisionToCompare: String): String {
+        return "$outputJsonDirectory$revisionToCompare.json"
     }
 
     /**
@@ -43,14 +68,16 @@ class ProjectConfigurationProvider(
      *
      * @return true if file exists
      */
-    private fun checkProjectConfigurationJsonExists(): Boolean {
-        return File(outputJsonFile).exists()
+    private fun isProjectConfigurationJsonExists(outputJsonFile: File): Boolean {
+        return outputJsonFile.exists()
     }
 
     /**
      * runs project configuration creating task with gradlew from command line
      */
-    private fun runCreateProjectConfigurationTask() {
-        Runtime.getRuntime().exec(commandRunTaskCreate).waitFor(300, TimeUnit.SECONDS)
+    private fun runCreateProjectConfigurationTask(commandRunTask: String) {
+        Runtime.getRuntime().exec(commandRunTask).waitFor(300, TimeUnit.SECONDS)
     }
+
+
 }

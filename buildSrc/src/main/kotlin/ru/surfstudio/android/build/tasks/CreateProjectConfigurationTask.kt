@@ -3,19 +3,19 @@ package ru.surfstudio.android.build.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
+import ru.surfstudio.android.build.tasks.changed_components.PATH_TO_FILE
 import ru.surfstudio.android.build.tasks.changed_components.ProjectConfigurationCreator
+import ru.surfstudio.android.build.tasks.changed_components.REVISION
 
-const val PATH_TO_FILE = "pathToFile"
-const val REVISION = "revision"
 
 open class CreateProjectConfigurationTask : DefaultTask() {
     private lateinit var pathToFile: String
     private lateinit var revision: String
 
     @TaskAction
-    fun check() {
+    fun create() {
         extractInputArguments()
-        ProjectConfigurationCreator(revision, pathToFile).createProjectConfigurationFile()
+        ProjectConfigurationCreator(revision, currentDirectory).createProjectConfigurationFile()
     }
 
     private fun extractInputArguments() {

@@ -3,13 +3,9 @@ package ru.surfstudio.android.build.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
+import ru.surfstudio.android.build.tasks.changed_components.*
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
-import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigChecker
-import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
-import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 
-
-const val REVISION_TO_COMPARE = "revisionToCompare"
 val currentDirectory: String = System.getProperty("user.dir")
 
 /**
@@ -17,12 +13,11 @@ val currentDirectory: String = System.getProperty("user.dir")
  */
 open class CheckStableComponentsChangedTask : DefaultTask() {
 
-    private val TASK_NAME = "CheckStableComponentsChanged: "
     private lateinit var revisionToCompare: String
 
     @TaskAction
     fun check() {
-        println("$TASK_NAME started")
+        println("$CHECK_STABLE_COMPONENTS_TASK_NAME started")
 
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
@@ -31,7 +26,7 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
 
         checkForConfigurationChanges(currentRevision)
 
-        println("$TASK_NAME ended")
+        println("$CHECK_STABLE_COMPONENTS_TASK_NAME ended")
     }
 
     private fun checkForConfigurationChanges(currentRevision: String) {

@@ -9,23 +9,19 @@ import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfig
 import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 
-private const val OUTPUT_FOLDER_NAME = "outputs"
-private const val BUILD_FOLDER_NAME = "build"
-private const val CURRENT_TASK_FOLDER_NAME = "check-stable-components-changed-task"
-
 /**
- * Class for creating information about project configuration. Writes information to [outputJsonFile]
+ * Class for creating information about project configuration. Writes information to [outputJsonFileName]
  *
  * @param revision reviosion of the project the configuration file is created for
- * @param directory path to the project the configuration file is created for
+ * @param pathToProject path to the project the configuration file is created for
  */
 class ProjectConfigurationCreator(
         private val revision: String,
-        directory: String
+        private val pathToProject: String
 ) {
-    private val configFilePath = "$directory/buildSrc/config.gradle"
-    private val outputJsonDir = "$currentDirectory/$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME/$CURRENT_TASK_FOLDER_NAME/"
-    private val outputJsonFile = "$outputJsonDir$revision.json"
+    private val outputJsonFolderPath = "$currentDirectory/$OUTPUT_JSON_FOLDER_PATH"
+    private val buildOutputFolderPath = "$currentDirectory/$BUILD_OUTPUT_FOLDER_PATH"
+    private val outputJsonFileName = "$outputJsonFolderPath$revision.json"
 
     fun createProjectConfigurationFile() {
         saveProjectConfigurationToFile(createProjectConfiguration())
@@ -37,7 +33,7 @@ class ProjectConfigurationCreator(
      * @return project configuration
      */
     private fun createProjectConfiguration(): ProjectConfiguration {
-        val config = ConfigHelper.parseConfigFile(configFilePath)
+        val config = ConfigHelper.parseConfigFile(pathToProject)
         val configList = config.getValue("ext") as ConfigObject
         val versions = configList["libraryVersions"] as LinkedHashMap<String, String>
         val libMinSdkVersion = configList["libMinSdkVersion"] as Int
@@ -84,7 +80,7 @@ class ProjectConfigurationCreator(
     }
 
     /**
-     * saves project configuration to file [outputJsonFile]
+     * saves project configuration to file [outputJsonFileName]
      *
      *@param projectConfiguration configuration of project
      */
@@ -94,12 +90,12 @@ class ProjectConfigurationCreator(
     }
 
     /**
-     * if [outputJsonFile] exists removes it and creates a new one
+     * if [outputJsonFileName] exists removes it and creates a new one
      *
      * @return created file
      */
     private fun createJsonOutputFile(): File{
-        val fileOutputJson = File(outputJsonFile)
+        val fileOutputJson = File(outputJsonFileName)
         if (fileOutputJson.exists()) {
             fileOutputJson.delete()
         }
@@ -108,12 +104,12 @@ class ProjectConfigurationCreator(
     }
 
     /**
-     * checks whether intermediate folders [OUTPUT_FOLDER_NAME] and [outputJsonDir] exists and if no creates them
+     * checks whether intermediate folders [OUTPUT_FOLDER_NAME] and [outputJsonFolderPath] exists and if no creates them
      */
     private fun createIntermediateFoldersForJsonFile() {
-        val folderOutputs = File("$currentDirectory/$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME")
+        val folderOutputs = File(buildOutputFolderPath)
         if (!folderOutputs.exists()) folderOutputs.mkdir()
-        val folderCurrentTask = File("$currentDirectory/$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME/$outputJsonDir")
+        val folderCurrentTask = File("$outputJsonFolderPath")
         if (!folderCurrentTask.exists()) folderCurrentTask.mkdir()
     }
 }
