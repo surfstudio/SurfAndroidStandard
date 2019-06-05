@@ -17,7 +17,7 @@ object Artifactory {
     /**
      * Deploy artifact to bintray
      */
-    fun distributeArtifactToBintray(vararg libraryNames: String) {
+    fun distributeArtifactToBintray(vararg libraryNames: String, overrideExisting: Boolean) {
         val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
 
         var packagesRepoPaths = ""
@@ -26,7 +26,7 @@ object Artifactory {
             if (index != artifacts.size - 1) packagesRepoPaths += ", "
         }
 
-        val response = repository.distribute(packagesRepoPaths)
+        val response = repository.distribute(packagesRepoPaths, overrideExisting)
         if (!response.isSuccessful) throw GradleException(response.toString())
     }
 
