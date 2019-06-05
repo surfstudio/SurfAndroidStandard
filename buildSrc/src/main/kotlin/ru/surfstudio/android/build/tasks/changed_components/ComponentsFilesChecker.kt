@@ -80,10 +80,8 @@ class ComponentsFilesChecker(
      * @return true if changed
      */
     private fun isComponentChanged(currentComponent: ComponentWithVersion, diffResults: List<String>): Boolean {
-        return currentComponent.libs
-                .filter { library ->
-                    val libraryDir = "${library.directory}"
-                    return diffResults.find { s -> s.contains(libraryDir, ignoreCase = true) } != null
-                }.isNotEmpty()
+        return currentComponent.libs.any { library ->
+            diffResults.find { s -> s.contains(library.directory, ignoreCase = true) } != null
+        }
     }
 }
