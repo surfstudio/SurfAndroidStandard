@@ -84,7 +84,7 @@ class IconService {
     void change() {
         appInjectorDir = getAppInjectorDir()
         if (appInjectorDir == null) {
-            logger.debug("app-injector directoryPath not found")
+            logger.debug("app-injector directory not found")
             return
         }
 
@@ -135,7 +135,7 @@ class IconService {
      * Changing image icons
      *
      * @param rowIcons - icons
-     * @param variantResDir - res build variant directoryPath
+     * @param variantResDir - res build variant directory
      */
     private void processImageIcons(List<File> rowIcons, File variantResDir) {
         rowIcons.forEach { icon ->
@@ -154,7 +154,7 @@ class IconService {
      * Parse xml adaptive-icon to find background, foreground image icons
      *
      * @param rowIcons - icons
-     * @param variantResDir - res build variant directoryPath
+     * @param variantResDir - res build variant directory
      */
     private void processXmlIcons(List<File> rowIcons, File resDir, File variantResDir) {
         List<File> icons = new ArrayList()
@@ -232,7 +232,7 @@ class IconService {
      * Parse xml to get adaptive-icon background and foreground icons
      *
      * @param rootNode - root xml-element
-     * @param resDir - directoryPath to find background and foreground icons
+     * @param resDir - directory to find background and foreground icons
      * @param property - xml's property
      *
      * @return icons
@@ -362,9 +362,9 @@ class IconService {
     }
 
     /**
-     * Find app-injector directoryPath
+     * Find app-injector directory
      *
-     * @return app-injector directoryPath
+     * @return app-injector directory
      */
     static File getAppInjectorDir() {
         File appInjector = new File("./${APP_INJECTOR_DIR_NAME}")
@@ -413,7 +413,7 @@ class IconService {
     /**
      * Find icons
      *
-     * @param folder - res directoryPath
+     * @param folder - res directory
      * @param iconPath - icon path
      *
      * @return icons
