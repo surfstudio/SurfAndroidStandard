@@ -56,6 +56,7 @@ object Artifactory {
 
     private fun isStandardDependenciesExist(androidStandardDependency: AndroidStandardDependency): Boolean {
         val folderPath = "${androidStandardDependency.name}/${androidStandardDependency.component.projectVersion}"
+
         return try {
             !repository.getFolderInfo(folderPath).isEmpty
         } catch (e: FolderNotFoundException) {

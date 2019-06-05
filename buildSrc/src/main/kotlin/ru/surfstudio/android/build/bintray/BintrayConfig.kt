@@ -7,6 +7,7 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
  * Class containes bintray's credentials, URLs, repository names, ...
  */
 object BintrayConfig {
+
     private const val BINTRAY_URL = "https://api.bintray.com"
     private const val PACKAGES_URL = "$BINTRAY_URL/packages"
     const val GET_VERSION_URL = "$PACKAGES_URL/surf/maven"
