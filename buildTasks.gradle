@@ -2,6 +2,6 @@ import ru.surfstudio.android.build.tasks.*
 
 task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
 
-task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactory)
+task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask)
 
-task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintray)
+task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask)

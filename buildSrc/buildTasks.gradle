@@ -1,5 +1,5 @@
 import ru.surfstudio.android.build.tasks.*
 
-task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifactsInArtifactory)
+task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifactsInArtifactoryTask)
 
-task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintray)
+task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)

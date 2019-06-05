@@ -7,7 +7,7 @@ import ru.surfstudio.android.build.artifactory.Artifactory
 /**
  * Check artifact for android standard dependencies exist in artifactory
  */
-open class CheckExistingDependencyArtifactsInArtifactory: DefaultTask() {
+open class CheckExistingDependencyArtifactsInArtifactoryTask: DefaultTask() {
 
     @TaskAction
     fun check(){

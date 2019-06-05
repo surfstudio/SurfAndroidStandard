@@ -11,7 +11,7 @@ import ru.surfstudio.android.build.exceptions.SameArtifactVersionInBintrayExcept
 /**
  * Check same artifact version in bintray.
  */
-open class CheckSameDependencyArtifactsInBintray : DefaultTask() {
+open class CheckSameDependencyArtifactsInBintrayTask : DefaultTask() {
 
     /**
      * Check artifact with same version in bintray

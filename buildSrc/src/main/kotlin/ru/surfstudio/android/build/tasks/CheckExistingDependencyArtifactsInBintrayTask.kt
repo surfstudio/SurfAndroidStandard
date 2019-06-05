@@ -8,7 +8,7 @@ import ru.surfstudio.android.build.bintray.Bintray
 /**
  * Check artifact for android standard dependencies exist in bintray
  */
-open class CheckExistingDependencyArtifactsInBintray : DefaultTask() {
+open class CheckExistingDependencyArtifactsInBintrayTask : DefaultTask() {
 
     @TaskAction
     fun check() {
