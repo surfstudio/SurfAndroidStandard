@@ -6,4 +6,6 @@ task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependency
 
 task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask)
 
-task checkDependencyForComponentUnstableTask(type: CheckDependencyForComponentUnstableTask)
+task checkDependentComponentUnstableTask(type: CheckDependentComponentUnstableTask)
+
+task checkDependentComponentStableTask(type: CheckDependentComponentStableTask)
