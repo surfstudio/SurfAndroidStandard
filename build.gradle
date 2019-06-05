@@ -1,3 +1,4 @@
+apply from: 'buildSrc/buildTasks.gradle'
 allprojects {
     repositories {
         google()
@@ -21,7 +22,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:${gradlePluginVersion}"
+        classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "io.fabric.tools:gradle:$fabricVersion"
@@ -29,37 +30,6 @@ buildscript {
     }
 }
 
-import ru.surfstudio.android.build.tasks.CheckStableComponentsChangedTask
-task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask){
-}
-
-import ru.surfstudio.android.build.tasks.CreateProjectConfigurationTask
-task CreateProjectConfiguration (type: CreateProjectConfigurationTask){
-}
-
-task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
-    dir = file('./temp')
-    tasks = ['CreateProjectConfiguration']
-    doFirst{
-        def pathToFile = null
-        def revision = null
-        if (project.hasProperty('pathToFile')) {
-            pathToFile = project.findProperty('pathToFile')
-        } else {
-            throw new GradleException("No arguments found")
-        }
-        if (project.hasProperty('revision')) {
-            revision = project.findProperty('revision')
-        } else {
-            throw new GradleException("No arguments found")
-        }
-        startParameter.projectProperties = [pathToFile: pathToFile, revision: revision]
-    }
-}
-
-import ru.surfstudio.android.build.tasks.IncrementUnstableChangedComponentsTask
-task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask){
-}
 /**
  * "Build scan" - является общей и централизованной записью сборки которая дает представление о том, что произошло и почему.
  * С этим плагином вы можете опубликовать свои записи сборки на https://scans.gradle.com бесплатно.

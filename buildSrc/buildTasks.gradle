@@ -1,0 +1,31 @@
+import ru.surfstudio.android.build.tasks.CheckStableComponentsChangedTask
+task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask){
+}
+
+import ru.surfstudio.android.build.tasks.CreateProjectConfigurationTask
+task CreateProjectConfiguration (type: CreateProjectConfigurationTask){
+}
+
+task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
+    dir = file('./temp')
+    tasks = ['CreateProjectConfiguration']
+    doFirst{
+        def pathToFile = null
+        def revision = null
+        if (project.hasProperty('pathToFile')) {
+            pathToFile = project.findProperty('pathToFile')
+        } else {
+            throw new GradleException("No arguments found")
+        }
+        if (project.hasProperty('revision')) {
+            revision = project.findProperty('revision')
+        } else {
+            throw new GradleException("No arguments found")
+        }
+        startParameter.projectProperties = [pathToFile: pathToFile, revision: revision]
+    }
+}
+
+import ru.surfstudio.android.build.tasks.IncrementUnstableChangedComponentsTask
+task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask){
+}
