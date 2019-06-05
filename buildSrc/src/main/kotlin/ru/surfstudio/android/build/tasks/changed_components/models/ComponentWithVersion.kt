@@ -12,6 +12,7 @@ class ComponentWithVersion(
         val isStable: Boolean,
         val libs: List<LibraryWithVersion> = listOf()
 ) {
+
     companion object {
 
         fun create(component: Component)

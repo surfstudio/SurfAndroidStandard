@@ -6,7 +6,7 @@ import ru.surfstudio.android.build.tasks.CreateProjectConfigurationTask
 task CreateProjectConfiguration (type: CreateProjectConfigurationTask){
 }
 
-task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
+task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')
     tasks = ['CreateProjectConfiguration']
     doFirst{
@@ -29,3 +29,6 @@ task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
 import ru.surfstudio.android.build.tasks.IncrementUnstableChangedComponentsTask
 task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask){
 }
+
+import ru.surfstudio.android.build.tasks.CheckStandardDependenciesStabilityTask
+task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)

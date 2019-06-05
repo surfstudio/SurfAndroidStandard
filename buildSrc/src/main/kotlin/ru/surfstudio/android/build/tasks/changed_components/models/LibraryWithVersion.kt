@@ -1,6 +1,6 @@
 package ru.surfstudio.android.build.tasks.changed_components.models
 
-import ru.surfstudio.android.build.model.Library
+import ru.surfstudio.android.build.model.module.Library
 
 /**
  * Represent information about library with version
@@ -11,6 +11,7 @@ data class LibraryWithVersion(
         var thirdPartyDependencies: List<DependencyWithVersion> = listOf(),
         var androidStandardDependencies: List<DependencyWithVersion> = listOf()
 ) {
+
     companion object {
 
         fun create(lib: Library)

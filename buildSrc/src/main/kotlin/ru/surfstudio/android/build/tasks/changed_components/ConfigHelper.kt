@@ -2,9 +2,8 @@ package ru.surfstudio.android.build.tasks.changed_components
 
 import groovy.util.ConfigObject
 import groovy.util.ConfigSlurper
+import ru.surfstudio.android.build.Folders.CONFIG_GRADLE_PATH
 import java.io.File
-
-const val CONFIG_GRADLE_PATH = "/buildSrc/config.gradle"
 
 /**
  * Helper for parsing config.gradle file
