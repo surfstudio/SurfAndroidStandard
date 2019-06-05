@@ -6,7 +6,6 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.Folders.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE
-import ru.surfstudio.android.build.GradleTasksNames.INCREMENT_UNSTABLE_CHANGED_TASK_NAME
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
@@ -26,8 +25,6 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
 
     @TaskAction
     fun increment() {
-        println("$INCREMENT_UNSTABLE_CHANGED_TASK_NAME started")
-
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
@@ -38,13 +35,12 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
                 .getChangeInformationForComponents()
 
         incrementUnstableChanged(resultByFiles, resultsByConfiguration)
-
-        println("$INCREMENT_UNSTABLE_CHANGED_TASK_NAME ended")
     }
 
     private fun extractInputArguments() {
-        if (!project.hasProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE))
+        if (!project.hasProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE)) {
             throw GradleException("please specify $COMPONENTS_CHANGED_REVISION_TO_COMPARE param")
+        }
         revisionToCompare = project.findProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE) as String
     }
 
@@ -56,10 +52,11 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
                     val resultByFile = resultByFiles.find { it.componentName == component.name }
                     val resultByConfig = resultByConfigurations.find { it.componentName == component.name }
 
-                    if (resultByConfig == null || resultByFile == null)
+                    if (resultByConfig == null || resultByFile == null) {
                         throw GradleException("one of the results doesn`t contain information about component ${component.name}")
+                    }
 
-                    if (isComponentUstableAndChanged(component, resultByFile, resultByConfig)) {
+                    if (isComponentUnstableAndChanged(component, resultByFile, resultByConfig)) {
                         component.copy(unstableVersion = component.unstableVersion + 1)
                     } else {
                         component.copy()
@@ -75,7 +72,11 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         )
     }
 
-    private fun isComponentUstableAndChanged(component: Component, resultByFile: ComponentCheckResult, resultByConfig: ComponentCheckResult): Boolean {
+    private fun isComponentUnstableAndChanged(
+            component: Component,
+            resultByFile: ComponentCheckResult,
+            resultByConfig: ComponentCheckResult
+    ): Boolean {
         return !component.stable && (resultByFile.isComponentChanged || resultByConfig.isComponentChanged)
     }
 }

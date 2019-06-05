@@ -1,6 +1,7 @@
 package ru.surfstudio.android.build
 
 object Folders {
+
     const val BUILD_FOLDER_NAME = "build"
     private const val OUTPUT_FOLDER_NAME = "outputs"
     private const val CHECK_STABLE_COMPONENTS_CHANGED_FOLDER_NAME = "check-stable-components-changed-task"

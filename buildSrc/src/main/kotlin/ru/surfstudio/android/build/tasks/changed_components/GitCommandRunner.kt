@@ -20,6 +20,7 @@ class GitCommandRunner(
     fun diff(firstRevision: String, secondRevision: String): List<String>? {
         val command = "$GIT_DIFF_COMMAND $firstRevision $secondRevision"
         val res = runCommandWithResult(command, File(directory))
+
         return res?.split(SPLIT_STRING.toRegex())
     }
 
@@ -32,6 +33,7 @@ class GitCommandRunner(
     fun getCurrentRevisionShort(): String {
         val command = "$GIT_GET_CURRENT_REVISION_COMMAND"
         val res = runCommandWithResult(command, File(directory))
+
         return res?.trim().toString()
     }
 }

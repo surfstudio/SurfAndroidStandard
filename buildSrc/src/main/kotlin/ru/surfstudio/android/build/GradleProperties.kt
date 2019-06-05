@@ -14,7 +14,7 @@ object GradleProperties {
     /**
      * Path to project to create configuration file information for
      */
-    const val CREATE_PROJECT_CONFIGURATION_PATH_TO_FILE = "pathToFile"
+    const val CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT = "pathToProject"
 
     /**
      * Revision of project to create configuration file information for

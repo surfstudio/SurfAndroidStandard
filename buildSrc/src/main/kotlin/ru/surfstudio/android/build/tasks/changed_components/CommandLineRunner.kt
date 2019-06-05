@@ -13,7 +13,7 @@ object CommandLineRunner {
      * run command and get result
      *
      * @param command running command
-     * @param workingDir current working directory
+     * @param workingDir current working directoryPath
      *
      * @return result of command
      */
@@ -29,6 +29,7 @@ object CommandLineRunner {
         if (process.exitValue() != 0) {
             throw GradleException(process.errorStream.bufferedReader().readText())
         }
+
         return process.inputStream.bufferedReader().readText()
     }
 }

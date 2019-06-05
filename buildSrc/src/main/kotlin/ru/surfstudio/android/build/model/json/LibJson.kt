@@ -1,6 +1,7 @@
 package ru.surfstudio.android.build.model.json
 
 import com.google.gson.annotations.SerializedName
+import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
@@ -15,4 +16,14 @@ data class LibJson(
         val thirdPartyDependencies: List<DependencyJson> = listOf(),
         @SerializedName("android_standard_dependencies")
         val androidStandardDependencies: List<DependencyJson> = listOf()
-)
+) {
+    constructor (library: Library) : this(
+            name = library.name,
+            dir = library.directory,
+            artifactName = library.artifactName,
+            thirdPartyDependencies = library.thirdPartyDependencies
+                    .map { DependencyJson(it) },
+            androidStandardDependencies = library.androidStandardDependencies
+                    .map { DependencyJson(it) }
+    )
+}

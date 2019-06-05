@@ -14,9 +14,6 @@ data class LibraryWithVersion(
 
     companion object {
 
-        fun create(lib: Library)
-                : LibraryWithVersion {
-            return LibraryWithVersion(lib.name, lib.directory)
-        }
+        fun create(lib: Library) = LibraryWithVersion(lib.name, lib.directoryPath)
     }
 }

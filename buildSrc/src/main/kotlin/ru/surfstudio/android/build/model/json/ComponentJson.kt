@@ -33,9 +33,9 @@ data class ComponentJson(
             libraries = libs.map { jsonLib ->
                 Library(
                         name = jsonLib.name,
-                        directory = "$dir/${jsonLib.dir}",
+                        directoryPath = "$dir/${jsonLib.dir}",
                         artifactName = jsonLib.artifactName,
-                        folder = jsonLib.dir,
+                        directory = jsonLib.dir,
                         thirdPartyDependencies = jsonLib.thirdPartyDependencies
                                 .map(DependencyJson::transformToThirdPartyDependency),
                         androidStandardDependencies = jsonLib.androidStandardDependencies
@@ -53,17 +53,7 @@ data class ComponentJson(
             unstableVersion = component.unstableVersion,
             hasMirror = component.hasMirror,
             mirrorRepo = component.mirrorRepo,
-            libs = component.libraries.map { lib ->
-                LibJson(
-                        name = lib.name,
-                        dir = lib.folder,
-                        artifactName = lib.artifactName,
-                        thirdPartyDependencies = lib.thirdPartyDependencies
-                                .map { DependencyJson(it) },
-                        androidStandardDependencies = lib.androidStandardDependencies
-                                .map { DependencyJson(it) }
-                )
-            },
+            libs = component.libraries.map { LibJson(it) },
             samples = component.samples.map { SampleJson(it) }
     )
 }

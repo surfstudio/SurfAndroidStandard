@@ -4,7 +4,7 @@ import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 
 /**
- * Creates temp project with revision[revisionToCompare] in temp folder [tempFolderName]
+ * Creates temp project with revision[revisionToCompare] in temp directory [tempFolderName]
  */
 class TempProjectCreator(
         private val revisionToCompare: String,
@@ -23,7 +23,7 @@ class TempProjectCreator(
     }
 
     /**
-     * copies recursively current project to [tempDirectory] excepting [tempFolderName] in current directory
+     * copies recursively current project to [tempDirectory] excepting [tempFolderName] in current directoryPath
      */
     private fun copyProjectToTempFolder() {
         val fileFrom = File(currentDirectory)

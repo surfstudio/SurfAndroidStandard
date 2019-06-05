@@ -1,19 +1,16 @@
-import ru.surfstudio.android.build.tasks.CheckStableComponentsChangedTask
-task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask){
-}
+import ru.surfstudio.android.build.tasks.*
+task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask)
 
-import ru.surfstudio.android.build.tasks.CreateProjectConfigurationTask
-task CreateProjectConfiguration (type: CreateProjectConfigurationTask){
-}
+task CreateProjectConfiguration (type: CreateProjectConfigurationTask)
 
 task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')
     tasks = ['CreateProjectConfiguration']
     doFirst{
-        def pathToFile = null
+        def pathToProject = null
         def revision = null
-        if (project.hasProperty('pathToFile')) {
-            pathToFile = project.findProperty('pathToFile')
+        if (project.hasProperty('pathToProject')) {
+            pathToProject = project.findProperty('pathToProject')
         } else {
             throw new GradleException("No arguments found")
         }
@@ -22,13 +19,10 @@ task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
         } else {
             throw new GradleException("No arguments found")
         }
-        startParameter.projectProperties = [pathToFile: pathToFile, revision: revision]
+        startParameter.projectProperties = [pathToProject: pathToProject, revision: revision]
     }
 }
 
-import ru.surfstudio.android.build.tasks.IncrementUnstableChangedComponentsTask
-task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask){
-}
+task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask)
 
-import ru.surfstudio.android.build.tasks.CheckStandardDependenciesStabilityTask
 task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)

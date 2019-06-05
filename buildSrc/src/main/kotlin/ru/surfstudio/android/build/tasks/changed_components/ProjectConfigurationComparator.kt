@@ -68,11 +68,13 @@ class ProjectConfigurationComparator(
         val pairs = first.map { componentWithVersion ->
             componentWithVersion to second.find { it.id == componentWithVersion.id }
         }
+
         return pairs.map { pair ->
-            if (pair.second == null)
+            if (pair.second == null) {
                 ComponentCheckResult.create(pair.first, true, ComponentChangeReason.COMPONENT_REMOVED)
-            else
+            } else {
                 compareComponents(pair.first, pair.second!!)
+            }
         }
     }
 
@@ -85,10 +87,11 @@ class ProjectConfigurationComparator(
      * @return corresponding component check result depending on result of check
      */
     private fun compareComponents(first: ComponentWithVersion, second: ComponentWithVersion): ComponentCheckResult {
-        return if (!first.libs.isEqualToList(second.libs))
+        return if (!first.libs.isEqualToList(second.libs)) {
             ComponentCheckResult.create(first, true, ComponentChangeReason.LIBRARIES_DIFFER)
-        else
+        } else {
             ComponentCheckResult.create(first, false)
+        }
     }
 
     /**

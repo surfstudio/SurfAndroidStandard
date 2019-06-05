@@ -15,15 +15,12 @@ class ComponentWithVersion(
 
     companion object {
 
-        fun create(component: Component)
-                : ComponentWithVersion {
-            return ComponentWithVersion(
-                    component.name,
-                    component.directory,
-                    component.baseVersion,
-                    component.stable,
-                    component.libraries.map { LibraryWithVersion.create(it) }
-            )
-        }
+        fun create(component: Component) = ComponentWithVersion(
+                component.name,
+                component.directory,
+                component.baseVersion,
+                component.stable,
+                component.libraries.map { LibraryWithVersion.create(it) }
+        )
     }
 }

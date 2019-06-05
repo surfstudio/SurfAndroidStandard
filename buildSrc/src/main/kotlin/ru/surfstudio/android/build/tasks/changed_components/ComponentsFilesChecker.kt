@@ -26,8 +26,9 @@ class ComponentsFilesChecker(
         val currentComponents = Components.value
                 .map { ComponentWithVersion.create(it) }
 
-        return if (diffResults.isNullOrEmpty()) generateAllComponentsNotChangedResults(currentComponents)
-        else {
+        return if (diffResults.isNullOrEmpty()) {
+            generateAllComponentsNotChangedResults(currentComponents)
+        } else {
             getCheckComponentsResultsWithDiff(diffResults, currentComponents)
         }
     }
@@ -54,10 +55,11 @@ class ComponentsFilesChecker(
     private fun getCheckComponentsResultsWithDiff(diffResults: List<String>, currentComponents: List<ComponentWithVersion>)
             : List<ComponentCheckResult> {
         return currentComponents.map { component ->
-            if (isComponentChanged(component, diffResults))
+            if (isComponentChanged(component, diffResults)) {
                 ComponentCheckResult.create(component, true, ComponentChangeReason.FILE_CHANGED)
-            else
+            } else {
                 ComponentCheckResult.create(component, false)
+            }
 
         }
     }

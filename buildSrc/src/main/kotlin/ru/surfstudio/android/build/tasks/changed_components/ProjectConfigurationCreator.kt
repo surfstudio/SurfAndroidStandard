@@ -22,6 +22,7 @@ class ProjectConfigurationCreator(
         private val revision: String,
         private val pathToProject: String
 ) {
+
     private val outputJsonFolderPath = "$currentDirectory/$OUTPUT_JSON_FOLDER_PATH"
     private val buildOutputFolderPath = "$currentDirectory/$BUILD_OUTPUT_FOLDER_PATH"
     private val outputJsonFileName = "$outputJsonFolderPath$revision.json"
@@ -65,17 +66,16 @@ class ProjectConfigurationCreator(
      */
     private fun createComponentsWithVersions(versions: LinkedHashMap<String, String>): List<ComponentWithVersion> {
         val components = Components.value
+
         return components.map { component ->
             val libs = component.libraries.map { lib ->
                 val standartDependencies = lib.androidStandardDependencies.map { dep ->
-                    DependencyWithVersion(dep.name, versions[dep.name]
-                            ?: "")
+                    DependencyWithVersion(dep.name, versions[dep.name] ?: "")
                 }
                 val thirdPartyDependencies = lib.thirdPartyDependencies.map { dep ->
-                    DependencyWithVersion(dep.name, versions[dep.name]
-                            ?: "")
+                    DependencyWithVersion(dep.name, versions[dep.name] ?: "")
                 }
-                LibraryWithVersion(lib.name, lib.directory, thirdPartyDependencies, standartDependencies)
+                LibraryWithVersion(lib.name, lib.directoryPath, thirdPartyDependencies, standartDependencies)
             }
             ComponentWithVersion(component.name, component.directory, component.baseVersion, component.stable, libs)
         }
@@ -102,6 +102,7 @@ class ProjectConfigurationCreator(
             fileOutputJson.delete()
         }
         fileOutputJson.createNewFile()
+
         return fileOutputJson
     }
 

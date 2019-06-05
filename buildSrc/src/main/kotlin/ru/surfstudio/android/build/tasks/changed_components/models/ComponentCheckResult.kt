@@ -10,7 +10,7 @@ import ru.surfstudio.android.build.model.Component
  * [isComponentStable] if component is stable
  * [reasonOfComponentChange] if component changed reason of changes
  */
-data class ComponentCheckResult private constructor(
+class ComponentCheckResult private constructor(
         val componentName: String,
         val isComponentStable: Boolean,
         val isComponentChanged: Boolean,
@@ -18,14 +18,17 @@ data class ComponentCheckResult private constructor(
 
     companion object {
 
-        fun create(component: Component, isChanged: Boolean, reasonOfComponentChange: ComponentChangeReason = ComponentChangeReason.NO_REASON)
-                : ComponentCheckResult {
-            return ComponentCheckResult(component.name, component.stable, isChanged, reasonOfComponentChange)
-        }
+        fun create(
+                component: Component,
+                isChanged: Boolean,
+                reasonOfComponentChange: ComponentChangeReason = ComponentChangeReason.NO_REASON
+        ) = ComponentCheckResult(component.name, component.stable, isChanged, reasonOfComponentChange)
 
-        fun create(componentWithVersion: ComponentWithVersion, isChanged: Boolean, reasonOfComponentChange: ComponentChangeReason = ComponentChangeReason.NO_REASON)
-                : ComponentCheckResult {
-            return ComponentCheckResult(componentWithVersion.id, componentWithVersion.isStable, isChanged, reasonOfComponentChange)
-        }
+
+        fun create(
+                componentWithVersion: ComponentWithVersion,
+                isChanged: Boolean,
+                reasonOfComponentChange: ComponentChangeReason = ComponentChangeReason.NO_REASON
+        ) = ComponentCheckResult(componentWithVersion.id, componentWithVersion.isStable, isChanged, reasonOfComponentChange)
     }
 }

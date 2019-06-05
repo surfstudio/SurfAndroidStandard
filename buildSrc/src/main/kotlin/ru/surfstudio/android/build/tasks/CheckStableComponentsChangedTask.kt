@@ -3,7 +3,6 @@ package ru.surfstudio.android.build.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
-import ru.surfstudio.android.build.GradleTasksNames.CHECK_STABLE_COMPONENTS_TASK_NAME
 import ru.surfstudio.android.build.GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
@@ -21,16 +20,12 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
 
     @TaskAction
     fun check() {
-        println("$CHECK_STABLE_COMPONENTS_TASK_NAME started")
-
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
         checkForFileChanges(currentRevision)
 
         checkForConfigurationChanges(currentRevision)
-
-        println("$CHECK_STABLE_COMPONENTS_TASK_NAME ended")
     }
 
     private fun checkForConfigurationChanges(currentRevision: String) {
@@ -50,8 +45,9 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
     }
 
     private fun extractInputArguments() {
-        if (!project.hasProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE))
+        if (!project.hasProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE)) {
             throw GradleException("please specify $COMPONENTS_CHANGED_REVISION_TO_COMPARE param")
+        }
         revisionToCompare = project.findProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE) as String
     }
 
