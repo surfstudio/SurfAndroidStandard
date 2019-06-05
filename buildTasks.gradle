@@ -5,3 +5,5 @@ task checkStandardDependenciesStability(type: CheckStandardDependenciesStability
 task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask)
 
 task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask)
+
+task checkDependencyForComponentUnstableTask(type: CheckDependencyForComponentUnstableTask)
