@@ -5,6 +5,7 @@ import groovy.util.ConfigSlurper
 import java.io.File
 
 const val CONFIG_GRADLE_PATH = "/buildSrc/config.gradle"
+
 /**
  * Helper for parsing config.gradle file
  */

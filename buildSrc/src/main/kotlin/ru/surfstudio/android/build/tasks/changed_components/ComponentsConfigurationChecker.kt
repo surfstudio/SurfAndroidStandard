@@ -11,12 +11,13 @@ import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfig
  * @param currentRevision current revision of project to check
  * @param revisionToCompare revision of this project to compare with current
  */
-class ComponentsConfigChecker(
+class ComponentsConfigurationChecker(
         private val currentRevision: String,
         private val revisionToCompare: String
 ) {
+
     /**
-     *
+     * gets information about
      *
      * @return result of comparision for each component
      */

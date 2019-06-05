@@ -1,9 +1,9 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
+import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 /**
  * Provides project configuration
@@ -15,6 +15,7 @@ class ProjectConfigurationProvider(
         private val currentRevision: String,
         private val revisionToCompare: String
 ) {
+
     private val outputJsonDirectory = "$currentDirectory/$OUTPUT_JSON_FOLDER_PATH"
     private val tempDirectory = "$currentDirectory/$TEMP_FOLDER_NAME"
 
@@ -27,7 +28,7 @@ class ProjectConfigurationProvider(
     fun provideCurrentRevisionConfiguration(): ProjectConfiguration {
         val outputJsonFile = createJsonFileNameByRevision(currentRevision)
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
-            runCreateProjectConfigurationTask(createRunForCurrentCommand(currentRevision))
+            runCommandWithResult(createCommandForCurrentRevision(currentRevision), File(currentDirectory))
         }
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
     }
@@ -42,25 +43,43 @@ class ProjectConfigurationProvider(
         val outputJsonFile = createJsonFileNameByRevision(revisionToCompare)
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
             TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
-            runCreateProjectConfigurationTask(createRunForTempCommand(revisionToCompare))
+            runCommandWithResult(createCommandForRevisionToCompare(revisionToCompare), File(currentDirectory))
 
         }
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
     }
 
-
-    private fun createRunForTempCommand(revisionToCompare: String): String {
+    /**
+     * provides command running task creating project configuration file for revision to compare
+     *
+     * @return command to run [GRADLE_TASK_CREATE_FROM_TEMP] task with parameters
+     */
+    private fun createCommandForRevisionToCompare(revisionToCompare: String): String {
         return "./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
-                " -P$PATH_TO_FILE=$tempDirectory -P$REVISION=$revisionToCompare"
+                "-P$PATH_TO_FILE=$tempDirectory -P$REVISION=$revisionToCompare"
     }
 
-    private fun createRunForCurrentCommand(currentRevision: String): String {
+    /**
+     * provides command running task creating project configuration file for current revision
+     *
+     * @param currentRevision git current project revision
+     *
+     * @return command to run [GRADLE_TASK_CREATE_PROJECT_CONFIGURATION] task with parameters
+     */
+    private fun createCommandForCurrentRevision(currentRevision: String): String {
         return "./gradlew $GRADLE_TASK_CREATE_PROJECT_CONFIGURATION " +
-                " -P$PATH_TO_FILE=$currentDirectory -P$REVISION=$currentRevision"
+                "-P$PATH_TO_FILE=$currentDirectory -P$REVISION=$currentRevision"
     }
 
-    private fun createJsonFileNameByRevision(revisionToCompare: String): String {
-        return "$outputJsonDirectory$revisionToCompare.json"
+    /**
+     * provides name for project configuration json file
+     *
+     * @param revision git revision name
+     *
+     * @return json project configuration file name
+     */
+    private fun createJsonFileNameByRevision(revision: String): String {
+        return "$outputJsonDirectory$revision.json"
     }
 
     /**
@@ -71,13 +90,4 @@ class ProjectConfigurationProvider(
     private fun isProjectConfigurationJsonExists(outputJsonFile: File): Boolean {
         return outputJsonFile.exists()
     }
-
-    /**
-     * runs project configuration creating task with gradlew from command line
-     */
-    private fun runCreateProjectConfigurationTask(commandRunTask: String) {
-        Runtime.getRuntime().exec(commandRunTask).waitFor(300, TimeUnit.SECONDS)
-    }
-
-
 }

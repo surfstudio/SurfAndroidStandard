@@ -30,7 +30,7 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
     }
 
     private fun checkForConfigurationChanges(currentRevision: String) {
-        val componentsChangeResults = ComponentsConfigChecker(currentRevision, revisionToCompare)
+        val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
         if (componentsChangeResults.isNotEmpty()) {
             checkStableComponentsChanged(componentsChangeResults)

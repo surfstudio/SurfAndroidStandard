@@ -10,6 +10,7 @@ class TempProjectCreator(
         private val revisionToCompare: String,
         private val tempFolderName: String
 ) {
+
     private val tempDirectory = "$currentDirectory/$tempFolderName"
 
     /**

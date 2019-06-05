@@ -7,7 +7,12 @@ import ru.surfstudio.android.build.tasks.changed_components.PATH_TO_FILE
 import ru.surfstudio.android.build.tasks.changed_components.ProjectConfigurationCreator
 import ru.surfstudio.android.build.tasks.changed_components.REVISION
 
-
+/**
+ * Task for creating project configuration information json file
+ *
+ * [pathToFile] path to project
+ * [revision] git revision of project
+ */
 open class CreateProjectConfigurationTask : DefaultTask() {
     private lateinit var pathToFile: String
     private lateinit var revision: String

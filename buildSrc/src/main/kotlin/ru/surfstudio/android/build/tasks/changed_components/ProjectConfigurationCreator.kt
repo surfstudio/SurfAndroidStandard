@@ -93,7 +93,7 @@ class ProjectConfigurationCreator(
      *
      * @return created file
      */
-    private fun createJsonOutputFile(): File{
+    private fun createJsonOutputFile(): File {
         val fileOutputJson = File(outputJsonFileName)
         if (fileOutputJson.exists()) {
             fileOutputJson.delete()
@@ -106,9 +106,13 @@ class ProjectConfigurationCreator(
      * checks whether intermediate folders [OUTPUT_FOLDER_NAME] and [outputJsonFolderPath] exists and if no creates them
      */
     private fun createIntermediateFoldersForJsonFile() {
+        val folderBuild = File(BUILD_FOLDER_NAME)
+        if (!folderBuild.exists()) folderBuild.mkdir()
+
         val folderOutputs = File(buildOutputFolderPath)
         if (!folderOutputs.exists()) folderOutputs.mkdir()
-        val folderCurrentTask = File("$outputJsonFolderPath")
+
+        val folderCurrentTask = File(outputJsonFolderPath)
         if (!folderCurrentTask.exists()) folderCurrentTask.mkdir()
     }
 }

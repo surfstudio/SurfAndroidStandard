@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
-import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentChangeReason
+import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentWithVersion
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 

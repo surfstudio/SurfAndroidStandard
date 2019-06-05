@@ -10,12 +10,16 @@ import ru.surfstudio.android.build.tasks.changed_components.*
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import java.io.File
 
+/**
+ * Task for incrementing unstable version parameter in components.json for the component that is unstable was changed
+ * between current revision and [revisionToCompare]
+ */
 open class IncrementUnstableChangedComponentsTask : DefaultTask() {
 
     private lateinit var revisionToCompare: String
 
     @TaskAction
-    fun check() {
+    fun increment() {
         println("$INCREMENT_UNSTABLE_CHANGED_TASK_NAME started")
 
         extractInputArguments()
@@ -24,7 +28,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         val resultByFiles = ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
-        val resultsByConfiguration = ComponentsConfigChecker(currentRevision, revisionToCompare)
+        val resultsByConfiguration = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
         incrementUnstableChanged(resultByFiles, resultsByConfiguration)
@@ -55,6 +59,10 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
                         component.copy()
                     }
                 }
+        writeNewComponentsToFile(newComponents)
+    }
+
+    private fun writeNewComponentsToFile(newComponents: List<Component>) {
         JsonHelper.writeComponentsFile(
                 newComponents.map(ComponentJson.Companion::create),
                 File("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")

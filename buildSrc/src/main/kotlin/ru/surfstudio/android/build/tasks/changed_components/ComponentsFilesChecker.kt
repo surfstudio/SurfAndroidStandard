@@ -4,7 +4,6 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentChangeReason
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentWithVersion
-import ru.surfstudio.android.build.tasks.currentDirectory
 
 /**
  * Class for checking if files in components are changed between revisions
@@ -16,6 +15,7 @@ class ComponentsFilesChecker(
         private val currentRevision: String,
         private val revisionToCompare: String
 ) {
+
     /**
      * Get info for every component, whether its files have changed between [currentRevision] and [revisionToCompare]
      *
@@ -61,7 +61,6 @@ class ComponentsFilesChecker(
 
         }
     }
-
 
     /**
      * return results for git diff command for [currentRevision] and [revisionToCompare]

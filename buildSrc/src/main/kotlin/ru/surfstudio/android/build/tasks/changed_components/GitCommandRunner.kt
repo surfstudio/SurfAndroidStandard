@@ -1,9 +1,8 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
+import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
 import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 
 const val GIT_DIFF_COMMAND = "git diff --no-commit-id --name-only"
 const val GIT_CHECKOUT_COMMAND = "git checkout"
@@ -34,22 +33,5 @@ class GitCommandRunner(
         val command = "$GIT_GET_CURRENT_REVISION_COMMAND"
         val res = runCommandWithResult(command, File(directory))
         return res?.trim().toString()
-    }
-
-    private fun runCommandWithResult(command: String, workingDir: File): String? {
-        return try {
-            val parts = command.split(SPLIT_STRING.toRegex())
-            val proc = ProcessBuilder(*parts.toTypedArray())
-                    .directory(workingDir)
-                    .redirectOutput(ProcessBuilder.Redirect.PIPE)
-                    .redirectError(ProcessBuilder.Redirect.PIPE)
-                    .start()
-
-            proc.waitFor(300, TimeUnit.SECONDS)
-            proc.inputStream.bufferedReader().readText()
-        } catch (e: IOException) {
-            throw e
-            null
-        }
     }
 }
