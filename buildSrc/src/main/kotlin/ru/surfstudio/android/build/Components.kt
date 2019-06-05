@@ -16,6 +16,12 @@ import ru.surfstudio.android.build.utils.getProjectSnapshot
 object Components {
 
     var value: List<Component> = emptyList()
+        set(value) {
+            field = value
+            libraries = value.flatMap(Component::libraries)
+        }
+
+    var libraries: List<Library> = emptyList()
 
     /**
      * Create value from json value
@@ -105,6 +111,7 @@ object Components {
             if (!projectSnapshot.isEmpty) versionName += "-${projectSnapshot.name}.${projectSnapshot.version}"
 
             component.projectVersion = versionName
+            component.libraries.forEach { it.projectVersion = versionName }
         }
     }
 }
