@@ -1,8 +1,10 @@
 package ru.surfstudio.android.build.model
 
-import ru.surfstudio.android.build.EMPTY_INT
-import ru.surfstudio.android.build.EMPTY_STRING
-import ru.surfstudio.android.build.model.json.ComponentJson
+import ru.surfstudio.android.build.model.module.Library
+import ru.surfstudio.android.build.model.module.Module
+import ru.surfstudio.android.build.model.module.Sample
+import ru.surfstudio.android.build.utils.EMPTY_INT
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
  * Represent information about component
@@ -19,32 +21,6 @@ data class Component(
         val hasMirror: Boolean = false,
         val mirrorRepo: String = EMPTY_STRING
 ) {
-
-    companion object {
-
-        fun create(componentJson: ComponentJson) = Component(
-                name = componentJson.id,
-                directory = componentJson.dir,
-                baseVersion = componentJson.version,
-                stable = componentJson.stable,
-                unstableVersion = componentJson.unstableVersion,
-                hasMirror = componentJson.hasMirror,
-                mirrorRepo = componentJson.mirrorRepo,
-                libraries = componentJson.libs.map { jsonLib ->
-                    Library(
-                            name = jsonLib.name,
-                            directory = "${componentJson.dir}/${jsonLib.dir}",
-                            folder = "${jsonLib.dir}",
-                            artifactName = jsonLib.artifactName,
-                            thirdPartyDependencies = jsonLib.thirdPartyDependencies
-                                    .map(Dependency.Companion::create),
-                            androidStandardDependencies = jsonLib.androidStandardDependencies
-                                    .map(Dependency.Companion::create)
-                    )
-                },
-                samples = componentJson.samples.map(Sample.Companion::create)
-        )
-    }
 
     /**
      * Get components module

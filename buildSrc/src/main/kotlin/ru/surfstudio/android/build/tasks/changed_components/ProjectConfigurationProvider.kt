@@ -1,5 +1,11 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
+import ru.surfstudio.android.build.Folders.OUTPUT_JSON_FOLDER_PATH
+import ru.surfstudio.android.build.Folders.TEMP_FOLDER_NAME
+import ru.surfstudio.android.build.GradleProperties.CREATE_PROJECT_CONFIGURATION_PATH_TO_FILE
+import ru.surfstudio.android.build.GradleProperties.CREATE_PROJECT_CONFIGURATION_REVISION
+import ru.surfstudio.android.build.GradleTasksNames.GRADLE_TASK_CREATE_FROM_TEMP
+import ru.surfstudio.android.build.GradleTasksNames.GRADLE_TASK_CREATE_PROJECT_CONFIGURATION
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 import ru.surfstudio.android.build.tasks.currentDirectory
@@ -56,7 +62,8 @@ class ProjectConfigurationProvider(
      */
     private fun createCommandForRevisionToCompare(revisionToCompare: String): String {
         return "./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
-                "-P$PATH_TO_FILE=$tempDirectory -P$REVISION=$revisionToCompare"
+                "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_FILE=$tempDirectory " +
+                "-P$CREATE_PROJECT_CONFIGURATION_REVISION=$revisionToCompare"
     }
 
     /**
@@ -68,7 +75,8 @@ class ProjectConfigurationProvider(
      */
     private fun createCommandForCurrentRevision(currentRevision: String): String {
         return "./gradlew $GRADLE_TASK_CREATE_PROJECT_CONFIGURATION " +
-                "-P$PATH_TO_FILE=$currentDirectory -P$REVISION=$currentRevision"
+                "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_FILE=$currentDirectory " +
+                "-P$CREATE_PROJECT_CONFIGURATION_REVISION=$currentRevision"
     }
 
     /**

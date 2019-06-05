@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build
+package ru.surfstudio.android.build.utils
 
 import groovy.lang.MissingPropertyException
 import org.gradle.api.Project
@@ -22,7 +22,7 @@ fun Project.getProjectSnapshot() = ProjectSnapshot(
 /**
  * Read property from Project without Exception
  */
-private fun <T> Project.readProperty(name: String, defValue: T): T {
+fun <T> Project.readProperty(name: String, defValue: T): T {
     try {
         return property(name) as? T ?: defValue
     } catch (e: MissingPropertyException) {

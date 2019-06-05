@@ -1,4 +1,5 @@
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.Artifactory
 
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'maven'
@@ -22,14 +23,14 @@ ext.configureDeploy = { context ->
 
         uploadArchives {
             repositories.mavenDeployer {
-                repository(url: 'https://artifactory.surfstudio.ru/artifactory/libs-release-local') {
+                repository(url: Artifactory.DEPLOY_URL) {
                     authentication(
-                            userName: System.getenv('surf_maven_username'),
-                            password: System.getenv('surf_maven_password')
+                            userName: Artifactory.userName,
+                            password: Artifactory.password
                     )
                 }
 
-                def artifactGroupId = 'ru.surfstudio.android'
+                def artifactGroupId = Artifactory.ANDROID_STANDARD_GROUP_ID
                 def artifactName = Components.getArtifactName(project.name)
                 def artifactVersion = Components.getModuleVersion(project)
 
@@ -39,9 +40,9 @@ ext.configureDeploy = { context ->
 
                 pom.project {
                     dependencies {
-                        Components.getAndroidStandardArtifactNames(project.name).each {
-                            def depArtifactName = it
-                            def depArtifactVersion = Components.getModuleVersion(project.rootProject.project(it))
+                        Components.getAndroidStandardDependencies(project.name).each {
+                            def depArtifactName = it.getArtifactName()
+                            def depArtifactVersion = Components.getModuleVersion(project.rootProject.project(it.getName()))
                             dependency {
                                 groupId artifactGroupId
                                 artifactId depArtifactName

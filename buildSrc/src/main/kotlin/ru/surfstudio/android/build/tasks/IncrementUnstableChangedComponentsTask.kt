@@ -4,9 +4,15 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.Folders.COMPONENTS_JSON_FILE_PATH
+import ru.surfstudio.android.build.GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE
+import ru.surfstudio.android.build.GradleTasksNames.INCREMENT_UNSTABLE_CHANGED_TASK_NAME
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.json.ComponentJson
-import ru.surfstudio.android.build.tasks.changed_components.*
+import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
+import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
+import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
+import ru.surfstudio.android.build.tasks.changed_components.JsonHelper
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import java.io.File
 
@@ -37,8 +43,9 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
     }
 
     private fun extractInputArguments() {
-        if (!project.hasProperty(REVISION_TO_COMPARE)) throw GradleException("please specify $REVISION_TO_COMPARE param")
-        revisionToCompare = project.findProperty(REVISION_TO_COMPARE) as String
+        if (!project.hasProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE))
+            throw GradleException("please specify $COMPONENTS_CHANGED_REVISION_TO_COMPARE param")
+        revisionToCompare = project.findProperty(COMPONENTS_CHANGED_REVISION_TO_COMPARE) as String
     }
 
     private fun incrementUnstableChanged(resultByFiles: List<ComponentCheckResult>, resultByConfigurations: List<ComponentCheckResult>) {
@@ -53,7 +60,6 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
                         throw GradleException("one of the results doesn`t contain information about component ${component.name}")
 
                     if (isComponentUstableAndChanged(component, resultByFile, resultByConfig)) {
-                        println("$INCREMENT_UNSTABLE_CHANGED_TASK_NAME  ${component.name} unstable version inc ")
                         component.copy(unstableVersion = component.unstableVersion + 1)
                     } else {
                         component.copy()
@@ -64,7 +70,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
 
     private fun writeNewComponentsToFile(newComponents: List<Component>) {
         JsonHelper.writeComponentsFile(
-                newComponents.map(ComponentJson.Companion::create),
+                newComponents.map { ComponentJson(it) },
                 File("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
         )
     }

@@ -1,6 +1,6 @@
-package ru.surfstudio.android.build.model
+package ru.surfstudio.android.build.model.module
 
-import ru.surfstudio.android.build.EMPTY_STRING
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
  * Parent class for project's module

@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build
 
 import org.gradle.api.Project
-import ru.surfstudio.android.build.model.Dependency
+import ru.surfstudio.android.build.model.dependency.Dependency
 
 private const val LIBRARY_VERSIONS_KEY = "libraryVersions"
 private const val IMPLEMENTATION_DEP_TYPE = "implementation"

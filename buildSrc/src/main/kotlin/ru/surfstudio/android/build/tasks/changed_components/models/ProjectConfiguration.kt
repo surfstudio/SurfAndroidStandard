@@ -11,6 +11,7 @@ data class ProjectConfiguration(
         val moduleVersionCode: Int,
         val compileSdkVersion: Int
 ) {
+
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is ProjectConfiguration) return false
         return this.libMinSdkVersion.equals(other.libMinSdkVersion) &&

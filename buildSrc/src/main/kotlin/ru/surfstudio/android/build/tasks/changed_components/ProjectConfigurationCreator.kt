@@ -2,6 +2,9 @@ package ru.surfstudio.android.build.tasks.changed_components
 
 import groovy.util.ConfigObject
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.Folders.BUILD_FOLDER_NAME
+import ru.surfstudio.android.build.Folders.BUILD_OUTPUT_FOLDER_PATH
+import ru.surfstudio.android.build.Folders.OUTPUT_JSON_FOLDER_PATH
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentWithVersion
 import ru.surfstudio.android.build.tasks.changed_components.models.DependencyWithVersion
 import ru.surfstudio.android.build.tasks.changed_components.models.LibraryWithVersion

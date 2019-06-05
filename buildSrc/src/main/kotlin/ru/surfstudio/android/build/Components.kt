@@ -1,11 +1,14 @@
 package ru.surfstudio.android.build
 
+import org.gradle.api.GradleException
 import org.gradle.api.Project
 import ru.surfstudio.android.build.model.Component
-import ru.surfstudio.android.build.model.Dependency
-import ru.surfstudio.android.build.model.Library
-import ru.surfstudio.android.build.model.Module
+import ru.surfstudio.android.build.model.dependency.Dependency
+import ru.surfstudio.android.build.model.module.Library
+import ru.surfstudio.android.build.model.module.Module
 import ru.surfstudio.android.build.model.json.ComponentJson
+import ru.surfstudio.android.build.utils.EMPTY_STRING
+import ru.surfstudio.android.build.utils.getProjectSnapshot
 
 /**
  * Project value
@@ -18,7 +21,8 @@ object Components {
      * Create value from json value
      */
     fun init(componentJsons: List<ComponentJson>) {
-        value = componentJsons.map(Component.Companion::create)
+        value = componentJsons.map(ComponentJson::transform)
+        setComponentsForAndroidStandardDependencies()
     }
 
     /**
@@ -62,13 +66,32 @@ object Components {
      * Get standard artifact names by library name
      */
     @JvmStatic
-    fun getAndroidStandardArtifactNames(libraryName: String): List<String> {
+    fun getAndroidStandardDependencies(libraryName: String): List<Library> {
         val libs = value.flatMap { it.libraries }
         val standardDepNames = libs.find { it.name == libraryName }
                 ?.androidStandardDependencies
                 ?.map(Dependency::name) ?: return emptyList()
-        val standardDeps = libs.filter { standardDepNames.contains(it.name) }
-        return standardDeps.map(Library::artifactName)
+        return libs.filter { standardDepNames.contains(it.name) }
+    }
+
+    /**
+     * Set components for android standard dependencies
+     */
+    private fun setComponentsForAndroidStandardDependencies() {
+        val libs = value.flatMap { it.libraries }
+        val libNameCompMap: Map<String, Component?> = libs.map { lib ->
+            lib.name to value.find { it.libraries.contains(lib) }
+        }.toMap()
+
+        value.forEach { component ->
+            component.libraries.forEach { library ->
+                library.androidStandardDependencies.forEach { dependency ->
+                    dependency.component = libNameCompMap[dependency.name]
+                            ?: throw GradleException("There isn't component for android standard dependency ${dependency.name}. " +
+                                    "Please check components.json")
+                }
+            }
+        }
     }
 
     /**
