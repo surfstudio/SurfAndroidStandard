@@ -39,8 +39,8 @@ object Initializator {
             //check component "dir"
             if (!File(component.dir).exists()) {
                 throw RuntimeException(
-                        "Component ${component.id} doesn't have existing directoryPath. " +
-                                "Please, check value.json and create directory with 'dir' name."
+                        "Component ${component.id} doesn't have existing directory. " +
+                                "Please, check value.json and create folder with 'dir' name."
                 )
             }
 
@@ -49,8 +49,8 @@ object Initializator {
                 if (!File("${component.dir}/${lib.dir}").exists()) {
                     throw RuntimeException(
                             "Component ${component.id} with library ${lib.name} doesn't " +
-                                    "have existing directoryPath ${lib.dir}. Please, check value.json" +
-                                    " and create directory with 'dir' name."
+                                    "have existing directory ${lib.dir}. Please, check value.json" +
+                                    " and create folder with 'dir' name."
                     )
                 }
             }
