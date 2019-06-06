@@ -22,17 +22,29 @@ open class BaseCheckDependentComponentTask : DefaultTask() {
                 ?: throw PropertyNotDefineException(GradleProperties.COMPONENT)
         val component = Components.value.find { it.name == componentName }
                 ?: throw ComponentNotFoundException(componentName)
-        val libraryNames = component.libraries.map(Library::name)
-        val stableLibraries = ArrayList<String>()
+        val stableLibraries = ArrayList<Library>()
 
+        component.libraries.forEach {
+            checkDependentLibrariesStable(stableLibraries, it.name)
+        }
+
+        if (stableLibraries.isNotEmpty()) {
+            throw DependentComponentsStableException(stableLibraries.map(Library::name))
+        }
+    }
+
+    private fun checkDependentLibrariesStable(stableLibraries: ArrayList<Library>, libName: String) {
         Components.value.forEach { comp ->
             comp.libraries.forEach { lib ->
                 lib.androidStandardDependencies.forEach { dep ->
-                    if (libraryNames.contains(dep.name) && comp.stable == stability) stableLibraries.add(lib.name)
+                    if (libName == dep.name) {
+                        if (comp.stable == stability) {
+                            stableLibraries.add(lib)
+                        }
+                        checkDependentLibrariesStable(stableLibraries, lib.name)
+                    }
                 }
             }
         }
-
-        return stableLibraries
     }
 }

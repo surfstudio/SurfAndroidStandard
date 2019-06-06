@@ -18,7 +18,7 @@ object Components {
     var value: List<Component> = emptyList()
         set(value) {
             field = value
-            libraries = value.flatMap(Component::libraries)
+            libraries = value.flatMap { it.libraries }
         }
 
     var libraries: List<Library> = emptyList()
@@ -111,7 +111,6 @@ object Components {
             if (!projectSnapshot.isEmpty) versionName += "-${projectSnapshot.name}.${projectSnapshot.version}"
 
             component.projectVersion = versionName
-            component.libraries.forEach { it.projectVersion = versionName }
         }
     }
 }

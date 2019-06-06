@@ -6,6 +6,7 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
  * Class containes artifactory's credentials, URLs, repository names, ...
  */
 object ArtifactoryConfig {
+
     const val ARTIFACTORY_URL = "https://artifactory.surfstudio.ru/artifactory"
 
     const val TARGET_REPO = "libs-release-remote"
