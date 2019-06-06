@@ -5,7 +5,6 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
 import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
-import ru.surfstudio.android.build.model.module.Library
 
 /**
  * Base class for CheckDependentComponentTask tasks
@@ -22,26 +21,28 @@ open class BaseCheckDependentComponentTask : DefaultTask() {
                 ?: throw PropertyNotDefineException(GradleProperties.COMPONENT)
         val component = Components.value.find { it.name == componentName }
                 ?: throw ComponentNotFoundException(componentName)
-        val stableLibraries = ArrayList<Library>()
+        val stableLibraries = ArrayList<String>()
 
         component.libraries.forEach {
-            checkDependentLibrariesStable(stableLibraries, it.name)
+            checkDependentLibrariesStable(stability, stableLibraries, it.name)
         }
 
-        if (stableLibraries.isNotEmpty()) {
-            throw DependentComponentsStableException(stableLibraries.map(Library::name))
-        }
+        return stableLibraries
     }
 
-    private fun checkDependentLibrariesStable(stableLibraries: ArrayList<Library>, libName: String) {
+    private fun checkDependentLibrariesStable(
+            stability: Boolean,
+            stableLibraries: ArrayList<String>,
+            libName: String
+    ) {
         Components.value.forEach { comp ->
             comp.libraries.forEach { lib ->
                 lib.androidStandardDependencies.forEach { dep ->
                     if (libName == dep.name) {
                         if (comp.stable == stability) {
-                            stableLibraries.add(lib)
+                            stableLibraries.add(lib.name)
                         }
-                        checkDependentLibrariesStable(stableLibraries, lib.name)
+                        checkDependentLibrariesStable(stability, stableLibraries, lib.name)
                     }
                 }
             }
