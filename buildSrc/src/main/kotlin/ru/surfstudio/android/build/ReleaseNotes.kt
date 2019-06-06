@@ -17,11 +17,6 @@ object ReleaseNotes {
     private lateinit var releaseNotes: List<ReleaseNotesInfo>
     private val parser = ReleaseNotesParser()
 
-    @JvmStatic
-    fun test() {
-        parseReleaseNotesFiles()
-    }
-
     /**
      * Parse releaseNotes.md files
      */
