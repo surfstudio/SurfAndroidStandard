@@ -1,9 +1,8 @@
 package ru.surfstudio.android.build
 
-import com.beust.klaxon.Klaxon
+import com.google.gson.GsonBuilder
 import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
-import java.lang.RuntimeException
 
 object Initializator {
 
@@ -25,8 +24,10 @@ object Initializator {
      * @return list of json value
      */
     private fun parseComponentJson(): List<ComponentJson> {
-        return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
-                ?: throw RuntimeException("Can't parse value.json")
+        return GsonBuilder()
+                .create()
+                .fromJson(File(COMPONENTS_JSON_FILE_PATH).reader(), Array<ComponentJson>::class.java)
+                .toList()
     }
 
     /**
@@ -58,7 +59,7 @@ object Initializator {
             component.samples.forEach { sample ->
                 if (!File("${component.dir}/${sample.dir}").exists()) {
                     throw RuntimeException(
-                            "Component ${component.id} has sample $${sample.name}, but folder doesn't exist."
+                            "Component ${component.id} has sample $${sample.name}, but directory doesn't exist."
                     )
                 }
             }
