@@ -3,6 +3,7 @@ package ru.surfstudio.android.build.bintray
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.ArtifactNotExistInBintrayException
 import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.model.module.Library
 
 /**
  * Provide Bintray functions
@@ -23,7 +24,7 @@ object Bintray {
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library) {
         library.androidStandardDependencies.forEach { androidStandardDependency ->
-            if (!isStandardDependenciesExist(
+            if (!isArtifactExists(
                             androidStandardDependency.name,
                             androidStandardDependency.component.projectVersion
                     )
@@ -32,7 +33,7 @@ object Bintray {
             }
 
             Components.libraries.find { it.name == androidStandardDependency.name }?.let {
-                isArtifactExists(it)
+                checkLibraryStandardDependenciesExisting(it)
             }
         }
     }
@@ -43,3 +44,4 @@ object Bintray {
     fun isArtifactExists(dependencyName: String, version: String): Boolean {
         return repository.isArtifactVersionExist(dependencyName, version)
     }
+}

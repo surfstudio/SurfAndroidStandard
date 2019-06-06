@@ -46,7 +46,7 @@ data class ComponentJson(
             samples = samples.map {
                 Sample(
                         name = it.name,
-                        directory = "$dir/${it.dir}"
+                        directoryPath = "$dir/${it.dir}"
                 )
             }
     )

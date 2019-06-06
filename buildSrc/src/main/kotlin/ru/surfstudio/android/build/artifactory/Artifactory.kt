@@ -7,6 +7,7 @@ import ru.surfstudio.android.build.exceptions.ArtifactNotExistInArtifactoryExcep
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
 import ru.surfstudio.android.build.model.ArtifactInfo
 import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.model.module.Library
 
 /**
  * Provide Artifactory functions
@@ -35,13 +36,17 @@ object Artifactory {
      * Check libraries's android standard dependencies exist in artifactory
      */
     fun checkLibrariesStandardDependenciesExisting(component: Component) {
-        component.libraries.forEach { library ->
-            library.androidStandardDependencies.forEach { androidStandardDependency ->
-                if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
-                    throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
-                }
-            }
+        component.libraries.forEach(this::checkLibraryStandardDependenciesExisting)
+    }
 
+    /**
+     * Check library android standard dependencies exist in artifactory
+     */
+    private fun checkLibraryStandardDependenciesExisting(library: Library) {
+        library.androidStandardDependencies.forEach { androidStandardDependency ->
+            if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
+                throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
+            }
             Components.libraries.find { it.name == androidStandardDependency.name }?.let {
                 checkLibraryStandardDependenciesExisting(it)
             }
