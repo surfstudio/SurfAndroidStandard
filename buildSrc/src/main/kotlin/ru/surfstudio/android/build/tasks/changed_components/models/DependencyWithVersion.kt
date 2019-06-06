@@ -1,7 +1,5 @@
 package ru.surfstudio.android.build.tasks.changed_components.models
 
-import java.util.*
-
 /**
  * Represent information about dependency with version
  */

@@ -7,7 +7,11 @@ import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.tasks.changed_components.ProjectConfigurationProvider
 
+/**
+ * Task check if any unstable component was changed to stable and fails if so
+ */
 open class CheckUnstableToStableChangedTask : DefaultTask() {
+
     private lateinit var revisionToCompare: String
 
     @TaskAction
