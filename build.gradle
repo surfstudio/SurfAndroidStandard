@@ -44,3 +44,5 @@ buildScan {
     termsOfServiceAgree = 'yes'
     allowUntrustedServer = true
 }
+
+ru.surfstudio.android.build.ReleaseNotes.test()
