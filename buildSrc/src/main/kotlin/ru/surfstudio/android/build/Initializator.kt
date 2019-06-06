@@ -1,13 +1,15 @@
 package ru.surfstudio.android.build
 
-import com.google.gson.GsonBuilder
+import ru.surfstudio.android.build.exceptions.ComponentDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.LibraryDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
+import com.google.gson.GsonBuilder
 
 object Initializator {
 
     private const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
-    private const val DEFAULT_VERSION_NAME_KEY = "defaultVersionName"
 
     /**
      * Parse value.json and create value
