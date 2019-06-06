@@ -7,7 +7,6 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.readProperty
-import java.lang.StringBuilder
 
 /**
  * Task to check standard library's dependencies

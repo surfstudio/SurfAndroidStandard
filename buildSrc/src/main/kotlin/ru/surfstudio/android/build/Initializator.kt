@@ -1,10 +1,6 @@
 package ru.surfstudio.android.build
 
-import com.beust.klaxon.Klaxon
-import ru.surfstudio.android.build.exceptions.ComponentDirectoryNotExistException
-import ru.surfstudio.android.build.exceptions.ComponentsJsonParsingException
-import ru.surfstudio.android.build.exceptions.LibraryDirectoryNotExistException
-import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
+import com.google.gson.GsonBuilder
 import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
 
@@ -28,8 +24,10 @@ object Initializator {
      * @return list of json value
      */
     private fun parseComponentJson(): List<ComponentJson> {
-        return Klaxon().parseArray(File(COMPONENTS_JSON_FILE_PATH))
-                ?: throw ComponentsJsonParsingException()
+        return GsonBuilder()
+                .create()
+                .fromJson(File(COMPONENTS_JSON_FILE_PATH).reader(), Array<ComponentJson>::class.java)
+                .toList()
     }
 
     /**

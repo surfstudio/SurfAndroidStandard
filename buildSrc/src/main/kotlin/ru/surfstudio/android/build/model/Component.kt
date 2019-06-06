@@ -1,10 +1,10 @@
 package ru.surfstudio.android.build.model
 
-import ru.surfstudio.android.build.utils.EMPTY_INT
-import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Module
 import ru.surfstudio.android.build.model.module.Sample
+import ru.surfstudio.android.build.utils.EMPTY_INT
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
  * Represent information about component

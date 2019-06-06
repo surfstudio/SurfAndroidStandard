@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model.json
 
-import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.model.module.Sample
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.Transformable
 
 /**
@@ -12,5 +12,10 @@ data class SampleJson(
         val dir: String = EMPTY_STRING
 ) : Transformable<Sample> {
 
-    override fun transform() = Sample(name = name, directory = dir)
+    constructor(sample: Sample) : this(
+            name = sample.name,
+            dir = sample.directoryPath
+    )
+
+    override fun transform() = Sample(name = name, directoryPath = dir)
 }
