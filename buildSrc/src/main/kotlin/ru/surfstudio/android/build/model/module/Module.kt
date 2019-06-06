@@ -7,7 +7,7 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
  */
 open class Module(
         open val name: String = EMPTY_STRING,
-        open val directory: String = EMPTY_STRING
+        open val directoryPath: String = EMPTY_STRING
 ) {
 
     /**

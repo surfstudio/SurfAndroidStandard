@@ -13,5 +13,4 @@ data class FolderInfoChildJson(
 ) : Transformable<FolderInfoChild> {
 
     override fun transform() = FolderInfoChild(uri, folder)
-
 }

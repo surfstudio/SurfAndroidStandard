@@ -1,17 +1,16 @@
 package ru.surfstudio.android.build.artifactory
 
-import com.beust.klaxon.Klaxon
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.isSuccessful
+import com.google.gson.GsonBuilder
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.DISTRIBUTE_URL
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.GET_FOLDER_INFO
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.PASSWORD
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.TARGET_REPO
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.USER_NAME
-import ru.surfstudio.android.build.exceptions.FolderInfoParsingException
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
 import ru.surfstudio.android.build.model.FolderInfo
 import ru.surfstudio.android.build.model.json.response.folder_info.FolderInfoJson
@@ -21,7 +20,7 @@ import ru.surfstudio.android.build.model.json.response.folder_info.FolderInfoJso
  */
 internal class ArtifactoryRepository {
 
-    private val klaxon = Klaxon()
+    private val gson = GsonBuilder().create()
 
     /**
      * Get folder info
@@ -36,8 +35,7 @@ internal class ArtifactoryRepository {
         if (response.isSuccessful) {
             val data = String(response.data)
 
-            return klaxon.parse<FolderInfoJson>(data)?.transform()
-                    ?: throw FolderInfoParsingException(data)
+            return gson.fromJson(data, FolderInfoJson::class.java).transform()
         } else {
             throw FolderNotFoundException(folderPath)
         }
@@ -54,6 +52,7 @@ internal class ArtifactoryRepository {
               "packagesRepoPaths" : [$packagesRepoPaths]
             }
         """
+
         return Fuel.post(DISTRIBUTE_URL)
                 .header("Content-Type" to "application/json")
                 .body(bodyJson)

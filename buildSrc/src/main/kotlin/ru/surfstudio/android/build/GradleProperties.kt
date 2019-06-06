@@ -17,6 +17,21 @@ object GradleProperties {
             "componentsToCheckStandardDependenciesStability"
 
     /**
+     * Path to project to create configuration file information for
+     */
+    const val CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT = "pathToProject"
+
+    /**
+     * Revision of project to create configuration file information for
+     */
+    const val CREATE_PROJECT_CONFIGURATION_REVISION = "revision"
+
+    /**
+     * Revision to compare with current revision
+     */
+    const val COMPONENTS_CHANGED_REVISION_TO_COMPARE = "revisionToCompare"
+
+    /**
      * If artifact exist in artifactory replace it
      */
     const val DEPLOY_SAME_VERSION_ARTIFACTORY = "deploySameVersionArtifactory"
