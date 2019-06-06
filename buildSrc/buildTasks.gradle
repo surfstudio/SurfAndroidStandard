@@ -1,12 +1,13 @@
 import ru.surfstudio.android.build.tasks.*
+
 task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask)
 
-task CreateProjectConfiguration (type: CreateProjectConfigurationTask)
+task CreateProjectConfiguration(type: CreateProjectConfigurationTask)
 
 task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')
     tasks = ['CreateProjectConfiguration']
-    doFirst{
+    doFirst {
         def pathToProject = null
         def revision = null
         if (project.hasProperty('pathToProject')) {
@@ -23,6 +24,8 @@ task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
     }
 }
 
-task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask)
+task IncrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask)
 
 task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
+
+task generateDataForPlugin(type: GenerateDataForPluginTask)

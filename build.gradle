@@ -19,6 +19,9 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://maven.google.com' }
         maven { url 'https://plugins.gradle.org/m2/' }
+        maven {
+            url uri('../repo')
+        }
     }
 
     dependencies {
@@ -27,6 +30,9 @@ buildscript {
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "io.fabric.tools:gradle:$fabricVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
+//        classpath group: 'ru.surfstudio.android',
+//                name: 'version-plugin',
+//                version: '0.4.1'
     }
 }
 
