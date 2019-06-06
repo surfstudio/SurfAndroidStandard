@@ -5,5 +5,5 @@ import ru.surfstudio.android.build.model.module.Module
 Initializator.init()
 Components.getModules().forEach { Module module ->
     include module.getGradleModuleName()
-    project(module.getGradleModuleName()).projectDir = new File(module.directory)
+    project(module.getGradleModuleName()).projectDir = new File(module.directoryPath)
 }

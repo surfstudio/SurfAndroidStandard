@@ -2,6 +2,7 @@ package ru.surfstudio.android.build.artifactory
 
 import com.github.kittinunf.fuel.core.isSuccessful
 import org.gradle.api.GradleException
+import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.ArtifactNotExistInArtifactoryException
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
 import ru.surfstudio.android.build.model.ArtifactInfo
@@ -40,8 +41,11 @@ object Artifactory {
                     throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
                 }
             }
-        }
 
+            Components.libraries.find { it.name == androidStandardDependency.name }?.let {
+                checkLibraryStandardDependenciesExisting(it)
+            }
+        }
     }
 
     /**
@@ -54,6 +58,5 @@ object Artifactory {
         } catch (e: FolderNotFoundException) {
             false
         }
-
     }
 }

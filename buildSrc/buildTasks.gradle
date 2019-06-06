@@ -1,5 +1,37 @@
 import ru.surfstudio.android.build.tasks.*
 
+task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
+
+task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactory)
+
+task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintray)
+
+task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask)
+
+task CreateProjectConfiguration (type: CreateProjectConfigurationTask)
+
+task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
+    dir = file('./temp')
+    tasks = ['CreateProjectConfiguration']
+    doFirst{
+        def pathToProject = null
+        def revision = null
+        if (project.hasProperty('pathToProject')) {
+            pathToProject = project.findProperty('pathToProject')
+        } else {
+            throw new GradleException("No arguments found")
+        }
+        if (project.hasProperty('revision')) {
+            revision = project.findProperty('revision')
+        } else {
+            throw new GradleException("No arguments found")
+        }
+        startParameter.projectProperties = [pathToProject: pathToProject, revision: revision]
+    }
+}
+
+task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask)
+
 task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifactsInArtifactoryTask)
 
 task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)
