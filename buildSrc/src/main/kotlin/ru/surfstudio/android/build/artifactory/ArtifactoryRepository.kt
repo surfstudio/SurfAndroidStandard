@@ -54,6 +54,7 @@ internal class ArtifactoryRepository {
               "packagesRepoPaths" : [$packagesRepoPaths]
             }
         """
+
         return Fuel.post(DISTRIBUTE_URL)
                 .header("Content-Type" to "application/json")
                 .body(bodyJson)
