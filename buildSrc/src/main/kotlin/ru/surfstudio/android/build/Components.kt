@@ -16,6 +16,12 @@ import ru.surfstudio.android.build.utils.getProjectSnapshot
 object Components {
 
     var value: List<Component> = emptyList()
+        set(value) {
+            field = value
+            libraries = value.flatMap { it.libraries }
+        }
+
+    var libraries: List<Library> = emptyList()
 
     /**
      * Create value from json value

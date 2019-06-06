@@ -4,7 +4,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.isSuccessful
-import org.gradle.internal.impldep.com.google.gson.GsonBuilder
+import com.google.gson.GsonBuilder
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.DISTRIBUTE_URL
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig.GET_FOLDER_INFO
