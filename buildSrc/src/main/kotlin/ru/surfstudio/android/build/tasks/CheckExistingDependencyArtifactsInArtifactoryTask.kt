@@ -17,7 +17,7 @@ open class CheckExistingDependencyArtifactsInArtifactoryTask : DefaultTask() {
         val componentName = project.property(GradleProperties.COMPONENT) as? String
                 ?: throw ComponentPropertyNotFoundException()
         val component = Components.value.find { it.name == componentName }
-                ?: throw ComponentNotFoundException()
+                ?: throw ComponentNotFoundException(componentName)
 
         Artifactory.checkLibrariesStandardDependenciesExisting(component)
     }

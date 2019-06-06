@@ -17,7 +17,7 @@ open class CheckExistingDependencyArtifactsInBintrayTask : DefaultTask() {
         val componentName = project.property(GradleProperties.COMPONENT) as? String
                 ?: throw ComponentPropertyNotFoundException()
         val component = Components.value.find { it.name == componentName }
-                ?: throw ComponentNotFoundException()
+                ?: throw ComponentNotFoundException(componentName)
 
         Bintray.checkLibrariesStandardDependenciesExisting(component)
     }
