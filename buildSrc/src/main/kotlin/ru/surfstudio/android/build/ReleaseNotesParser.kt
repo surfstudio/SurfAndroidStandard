@@ -74,7 +74,6 @@ class ReleaseNotesParser {
     /**
      * Get string between sign and next line
      */
-    private fun getLine(content: String, sign: String): String {
-        return content.substringAfter(sign).substringBefore(NEXT_LINE)
-    }
+    private fun getLine(content: String, sign: String) = content.substringAfter(sign).substringBefore(NEXT_LINE)
+
 }
