@@ -3,6 +3,7 @@ package ru.surfstudio.android.build.model.json
 import com.google.gson.annotations.SerializedName
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
+import ru.surfstudio.android.build.model.module.Sample
 import ru.surfstudio.android.build.utils.EMPTY_INT
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.Transformable
@@ -42,7 +43,12 @@ data class ComponentJson(
                                 .map(DependencyJson::transformToAndroidStandardDependency)
                 )
             },
-            samples = samples.map(SampleJson::transform)
+            samples = samples.map {
+                Sample(
+                        name = it.name,
+                        directoryPath = "$dir/${it.dir}"
+                )
+            }
     )
 
     constructor(component: Component) : this(

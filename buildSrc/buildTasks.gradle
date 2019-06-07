@@ -1,12 +1,19 @@
 import ru.surfstudio.android.build.tasks.*
-task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask)
 
-task CreateProjectConfiguration (type: CreateProjectConfigurationTask)
+task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
 
-task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
+task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask)
+
+task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask)
+
+task checkStableComponentsChanged(type: CheckStableComponentsChangedTask)
+
+task createProjectConfiguration(type: CreateProjectConfigurationTask)
+
+task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')
     tasks = ['CreateProjectConfiguration']
-    doFirst{
+    doFirst {
         def pathToProject = null
         def revision = null
         if (project.hasProperty('pathToProject')) {
@@ -23,8 +30,10 @@ task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
     }
 }
 
-task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask)
+task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask)
 
-task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
+task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifactsInArtifactoryTask)
+
+task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)
 
 task checkReleaseNotesContainVersion(type: CheckReleaseNotesContainVersion)
