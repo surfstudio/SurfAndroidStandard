@@ -26,3 +26,5 @@ task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
 task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask)
 
 task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
+
+task checkReleaseNotesContainVersion(type: CheckReleaseNotesContainVersion)
