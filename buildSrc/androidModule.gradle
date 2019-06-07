@@ -2,7 +2,6 @@ import ru.surfstudio.android.build.Components
 
 apply from: '../../buildSrc/deploy.gradle'
 apply from: '../../buildSrc/config.gradle'
-apply from: '../../buildSrc/buildTasks.gradle'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'

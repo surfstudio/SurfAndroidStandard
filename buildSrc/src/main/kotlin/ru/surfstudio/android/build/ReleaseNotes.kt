@@ -32,6 +32,7 @@ object ReleaseNotes {
             try {
                 parser.createReleaseNotes(component, content)
             } catch (e: ReleaseNotesFormatException) {
+                e.printStackTrace()
                 throw ReleaseNotesParsingException(file.path, e)
             }
         }
