@@ -1,4 +1,11 @@
 import ru.surfstudio.android.build.tasks.*
+
+task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
+
+task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactory)
+
+task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintray)
+
 task CheckStableComponentsChanged (type: CheckStableComponentsChangedTask)
 
 task CreateProjectConfiguration (type: CreateProjectConfigurationTask)
@@ -24,5 +31,3 @@ task RunCreateProjectConfigurationFromTemp(type: GradleBuild) {
 }
 
 task IncrementUnstableChangedComponents (type: IncrementUnstableChangedComponentsTask)
-
-task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
