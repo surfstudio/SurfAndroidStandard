@@ -39,3 +39,5 @@ task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifact
 task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)
 
 task CheckUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
+
+task checkComponentStableTask(type: CheckComponentStableTask)
