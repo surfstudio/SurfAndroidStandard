@@ -1,4 +1,5 @@
 import ru.surfstudio.android.build.tasks.*
+import ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_repositories.*
 
 task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
 
@@ -41,3 +42,7 @@ task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInB
 task CheckUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
 task checkComponentStableTask(type: CheckComponentStableTask)
+
+task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask)
+
+task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask)

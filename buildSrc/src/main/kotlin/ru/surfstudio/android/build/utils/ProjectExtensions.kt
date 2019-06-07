@@ -5,7 +5,7 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
 import ru.surfstudio.android.build.model.Component
-import ru.surfstudio.android.build.tasks.ComponentPropertyNotFoundException
+import ru.surfstudio.android.build.exceptions.ComponentPropertyNotFoundException
 
 /**
  * Component that provided by gradle property
