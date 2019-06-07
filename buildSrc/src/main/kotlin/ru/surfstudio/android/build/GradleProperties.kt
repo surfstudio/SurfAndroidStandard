@@ -6,7 +6,7 @@ package ru.surfstudio.android.build
 object GradleProperties {
 
     /**
-     * Component
+     * Uses when task needs component
      */
     const val COMPONENT = "component"
 

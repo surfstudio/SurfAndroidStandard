@@ -14,5 +14,5 @@ fun Project.getComponent(): Component {
     val componentName = project.property(GradleProperties.COMPONENT) as? String
             ?: throw ComponentPropertyNotFoundException()
     return Components.value.find { it.name == componentName }
-            ?: throw ComponentNotFoundException()
+            ?: throw ComponentNotFoundException(componentName)
 }
