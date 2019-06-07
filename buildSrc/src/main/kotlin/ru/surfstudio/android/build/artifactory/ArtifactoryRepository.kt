@@ -44,9 +44,10 @@ internal class ArtifactoryRepository {
     /**
      * Deploy artifact to bintray
      */
-    fun distribute(packagesRepoPaths: String): Response {
+    fun distribute(packagesRepoPaths: String, overrideExisting: Boolean): Response {
         val bodyJson = """
             {
+              "overrideExistingFiles" : "${overrideExisting.toString().toLowerCase()}",
               "targetRepo" : "$TARGET_REPO",
               "packagesRepoPaths" : [$packagesRepoPaths]
             }

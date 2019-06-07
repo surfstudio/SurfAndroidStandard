@@ -6,7 +6,7 @@ package ru.surfstudio.android.build
 object GradleProperties {
 
     /**
-     * Component
+     * Uses when task needs component
      */
     const val COMPONENT = "component"
 
@@ -30,4 +30,14 @@ object GradleProperties {
      * Revision to compare with current revision
      */
     const val COMPONENTS_CHANGED_REVISION_TO_COMPARE = "revisionToCompare"
+
+    /**
+     * If artifact exist in artifactory replace it
+     */
+    const val DEPLOY_SAME_VERSION_ARTIFACTORY = "deploySameVersionArtifactory"
+
+    /**
+     * If artifact exist in bintray replace it
+     */
+    const val DEPLOY_SAME_VERSION_BINTRAY = "deploySameVersionBintray"
 }

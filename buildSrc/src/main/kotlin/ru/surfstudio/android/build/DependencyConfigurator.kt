@@ -41,6 +41,7 @@ object DependencyConfigurator {
      * @param project - project
      * @param dep - dependency name
      */
+    @JvmStatic
     fun projectImplementation(project: Project, gradleProjectName: String) {
         addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(gradleProjectName))
     }
@@ -51,6 +52,7 @@ object DependencyConfigurator {
      * @param project - project
      * @param dep - dependency name
      */
+    @JvmStatic
     fun implementation(project: Project, dep: String) {
         addDependency(project, IMPLEMENTATION_DEP_TYPE, getDependencyNameWithVersion(dep))
     }
@@ -61,6 +63,7 @@ object DependencyConfigurator {
      * @param project - project
      * @param dep - dependency name
      */
+    @JvmStatic
     fun api(project: Project, dep: String) {
         addDependency(project, API_DEP_TYPE, getDependencyNameWithVersion(dep))
     }

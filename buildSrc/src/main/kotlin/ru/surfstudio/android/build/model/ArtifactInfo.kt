@@ -10,7 +10,6 @@ import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
  */
 data class ArtifactInfo(val libraryName: String = EMPTY_STRING) {
 
-    private var component = Component()
     private var library = Library()
 
     private val jarFilePath: String
@@ -18,18 +17,15 @@ data class ArtifactInfo(val libraryName: String = EMPTY_STRING) {
     private val pomFilePath: String
 
     init {
-        Components.value.forEach top@{ comp ->
-            comp.libraries.forEach { lib ->
-                if (lib.name == libraryName) {
-                    library = lib
-                    component = comp
-                    return@top
-                }
+        Components.libraries.forEach { lib ->
+            if (lib.name == libraryName) {
+                library = lib
+                return@forEach
             }
         }
 
         val prefix = "${ArtifactoryConfig.SOURCE_REPO}/${ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID.replace(".", "/")}" +
-                "/${library.artifactName}/${component.projectVersion}/${library.artifactName}-${component.projectVersion}"
+                "/${library.artifactName}/${library.projectVersion}/${library.artifactName}-${library.projectVersion}"
         jarFilePath = "$prefix-sources.jar"
         aarFilePath = "$prefix.aar"
         pomFilePath = "$prefix.pom"

@@ -7,7 +7,6 @@ import ru.surfstudio.android.build.exceptions.ArtifactNotExistInArtifactoryExcep
 import ru.surfstudio.android.build.exceptions.FolderNotFoundException
 import ru.surfstudio.android.build.model.ArtifactInfo
 import ru.surfstudio.android.build.model.Component
-import ru.surfstudio.android.build.model.dependency.AndroidStandardDependency
 import ru.surfstudio.android.build.model.module.Library
 
 /**
@@ -20,7 +19,7 @@ object Artifactory {
     /**
      * Deploy artifact to bintray
      */
-    fun distributeArtifactToBintray(vararg libraryNames: String) {
+    fun distributeArtifactToBintray(vararg libraryNames: String, overrideExisting: Boolean) {
         val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
 
         var packagesRepoPaths = ""
@@ -29,7 +28,7 @@ object Artifactory {
             if (index != artifacts.size - 1) packagesRepoPaths += ", "
         }
 
-        val response = repository.distribute(packagesRepoPaths)
+        val response = repository.distribute(packagesRepoPaths, overrideExisting)
         if (!response.isSuccessful) throw GradleException(response.toString())
     }
 
@@ -41,23 +40,24 @@ object Artifactory {
     }
 
     /**
-     * Check library's android standard dependencies exist in artifactory
+     * Check library android standard dependencies exist in artifactory
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library) {
         library.androidStandardDependencies.forEach { androidStandardDependency ->
-            if (!isStandardDependenciesExist(androidStandardDependency)) {
+            if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
                 throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
             }
-
             Components.libraries.find { it.name == androidStandardDependency.name }?.let {
                 checkLibraryStandardDependenciesExisting(it)
             }
         }
     }
 
-    private fun isStandardDependenciesExist(androidStandardDependency: AndroidStandardDependency): Boolean {
-        val folderPath = "${androidStandardDependency.name}/${androidStandardDependency.component.projectVersion}"
-
+    /**
+     * Check artifact exist in artifactory
+     */
+    fun isArtifactExists(dependencyName: String, version: String): Boolean {
+        val folderPath = "$dependencyName/$version"
         return try {
             !repository.getFolderInfo(folderPath).isEmpty
         } catch (e: FolderNotFoundException) {

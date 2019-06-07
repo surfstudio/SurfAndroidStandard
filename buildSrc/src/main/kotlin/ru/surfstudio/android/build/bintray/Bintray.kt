@@ -24,7 +24,7 @@ object Bintray {
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library) {
         library.androidStandardDependencies.forEach { androidStandardDependency ->
-            if (!isStandardDependenciesExist(
+            if (!isArtifactExists(
                             androidStandardDependency.name,
                             androidStandardDependency.component.projectVersion
                     )
@@ -38,7 +38,10 @@ object Bintray {
         }
     }
 
-    private fun isStandardDependenciesExist(dependencyName: String, version: String): Boolean {
+    /**
+     * Check artifact exist in bintray
+     */
+    fun isArtifactExists(dependencyName: String, version: String): Boolean {
         return repository.isArtifactVersionExist(dependencyName, version)
     }
 }
