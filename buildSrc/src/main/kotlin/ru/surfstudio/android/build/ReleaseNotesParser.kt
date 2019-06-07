@@ -1,6 +1,7 @@
 package ru.surfstudio.android.build
 
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesFormatException
+import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesItem
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesLibrary
@@ -18,7 +19,8 @@ private const val ITEM_SIGN = "* "
  */
 class ReleaseNotesParser {
 
-    fun createReleaseNotes(plainText: String) = ReleaseNotesInfo(
+    fun createReleaseNotes(component: Component, plainText: String) = ReleaseNotesInfo(
+            component = component,
             toc = plainText.contains(TOC),
             title = getLine(plainText, TITLE_SIGN),
             versions = parseContent(

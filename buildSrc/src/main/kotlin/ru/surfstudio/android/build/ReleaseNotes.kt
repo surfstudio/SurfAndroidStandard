@@ -14,27 +14,27 @@ import java.io.FileReader
 object ReleaseNotes {
 
     private const val RELEASE_NOTES_FILE_NAME = "RELEASE_NOTES.md"
-    private lateinit var releaseNotes: List<ReleaseNotesInfo>
     private val parser = ReleaseNotesParser()
+
+    val value: List<ReleaseNotesInfo> by lazy { parseReleaseNotesFiles() }
 
     /**
      * Parse releaseNotes.md files
      */
-    private fun parseReleaseNotesFiles() {
-        val releaseNotesFiles = Components.value.map { File("${it.directory}/$RELEASE_NOTES_FILE_NAME") }
+    private fun parseReleaseNotesFiles(): List<ReleaseNotesInfo> {
+        return Components.value.map { component ->
+            val file = File("${component.directory}/$RELEASE_NOTES_FILE_NAME")
 
-        releaseNotesFiles.forEach(this::checkReleaseNotesFilesExist)
+            checkReleaseNotesFilesExist(file)
 
-        releaseNotes = releaseNotesFiles
-                .map { it to BufferedReader(FileReader(it)).readText() }
-                .map {
-                    val (file, content) = it
-                    try {
-                        parser.createReleaseNotes(content)
-                    } catch (e: ReleaseNotesFormatException) {
-                        throw ReleaseNotesParsingException(file.path, e)
-                    }
-                }
+            val content = BufferedReader(FileReader(file)).readText()
+
+            try {
+                parser.createReleaseNotes(component, content)
+            } catch (e: ReleaseNotesFormatException) {
+                throw ReleaseNotesParsingException(file.path, e)
+            }
+        }
     }
 
     /**
