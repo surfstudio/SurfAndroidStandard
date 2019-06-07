@@ -11,10 +11,9 @@ open class AndroidStandardVersionExtension {
     }
 
     private val androidStandardMap: Map<String, String> by lazy {
-        //mapOf("rx-extension" to "0.3.0")
         GsonBuilder()
             .create()
-            .fromJson(File(FILE_NAME).reader(), Array<LibVersion>::class.java)
+            .fromJson(javaClass.classLoader.getResourceAsStream(FILE_NAME).reader(), Array<LibVersion>::class.java)
             .associate { it.name to it.version }
     }
 
