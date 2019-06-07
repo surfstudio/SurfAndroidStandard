@@ -1,9 +1,9 @@
 package ru.surfstudio.android.build.model
 
-import ru.surfstudio.android.build.Artifactory
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.utils.EMPTY_STRING
+import ru.surfstudio.android.build.model.module.Library
+import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 
 /**
  * Represent artifact info
@@ -28,7 +28,7 @@ data class ArtifactInfo(val libraryName: String = EMPTY_STRING) {
             }
         }
 
-        val prefix = "${Artifactory.SOURCE_REPO}/${Artifactory.ANDROID_STANDARD_GROUP_ID.replace(".", "/")}" +
+        val prefix = "${ArtifactoryConfig.SOURCE_REPO}/${ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID.replace(".", "/")}" +
                 "/${library.artifactName}/${component.projectVersion}/${library.artifactName}-${component.projectVersion}"
         jarFilePath = "$prefix-sources.jar"
         aarFilePath = "$prefix.aar"
