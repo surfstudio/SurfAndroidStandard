@@ -38,6 +38,10 @@ task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifact
 
 task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)
 
+task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
+
+task checkComponentStableTask(type: CheckComponentStableTask)
+
 //region ReleaseNotes tasks
 task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion)
 //endregion ReleaseNotes

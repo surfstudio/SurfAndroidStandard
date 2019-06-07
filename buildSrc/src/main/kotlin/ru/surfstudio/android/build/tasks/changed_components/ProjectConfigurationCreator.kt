@@ -5,6 +5,7 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.Folders.BUILD_FOLDER_NAME
 import ru.surfstudio.android.build.Folders.BUILD_OUTPUT_FOLDER_PATH
 import ru.surfstudio.android.build.Folders.OUTPUT_JSON_FOLDER_PATH
+import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentWithVersion
 import ru.surfstudio.android.build.tasks.changed_components.models.DependencyWithVersion
 import ru.surfstudio.android.build.tasks.changed_components.models.LibraryWithVersion
@@ -65,7 +66,7 @@ class ProjectConfigurationCreator(
      * and its version as second parameter
      */
     private fun createComponentsWithVersions(versions: LinkedHashMap<String, String>): List<ComponentWithVersion> {
-        val components = Components.value
+        val components = JsonHelper.parseComponentsJson(pathToProject).map(ComponentJson::transform)
 
         return components.map { component ->
             val libs = component.libraries.map { lib ->
