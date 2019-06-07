@@ -1,4 +1,4 @@
-apply from: 'buildSrc/buildTasks.gradle'
+apply from: 'buildTasks.gradle'
 allprojects {
     repositories {
         google()
