@@ -1,6 +1,7 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
 import com.google.gson.GsonBuilder
+import ru.surfstudio.android.build.Folders.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 import java.io.File
@@ -22,5 +23,12 @@ object JsonHelper {
 
     fun writeComponentsFile(components: List<ComponentJson>, file: File) {
         file.writeText(gson.toJson(components))
+    }
+
+    fun parseComponentsJson(pathToProject: String): List<ComponentJson> {
+        return GsonBuilder()
+                .create()
+                .fromJson(File("$pathToProject$COMPONENTS_JSON_FILE_PATH").reader(), Array<ComponentJson>::class.java)
+                .toList()
     }
 }

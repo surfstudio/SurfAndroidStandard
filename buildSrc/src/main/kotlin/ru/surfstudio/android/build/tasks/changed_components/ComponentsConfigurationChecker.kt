@@ -37,6 +37,6 @@ class ComponentsConfigurationChecker(
             currentRevisionConfiguration: ProjectConfiguration,
             revisionToCompareConfiguration: ProjectConfiguration
     ): List<ComponentCheckResult> {
-        return ProjectConfigurationComparator(currentRevisionConfiguration, revisionToCompareConfiguration).compareProjectInfos()
+        return ProjectConfigurationComparator(currentRevisionConfiguration, revisionToCompareConfiguration).compareProjectConfigurations()
     }
 }
