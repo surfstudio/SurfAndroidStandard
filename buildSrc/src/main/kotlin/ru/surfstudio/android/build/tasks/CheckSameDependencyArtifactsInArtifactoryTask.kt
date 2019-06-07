@@ -2,11 +2,10 @@ package ru.surfstudio.android.build.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.artifactory.Artifactory
-import ru.surfstudio.android.build.exceptions.ModuleNotFoundInComponentsJsonException
 import ru.surfstudio.android.build.exceptions.SameArtifactVersionInArtifactoryException
+import ru.surfstudio.android.build.utils.getComponent
 
 /**
  * Check same artifact version in artifactory.
@@ -26,11 +25,13 @@ open class CheckSameDependencyArtifactsInArtifactoryTask : DefaultTask() {
 
         if (allowSameVersion) return
 
-        val library = Components.libraries.find { it.name == project.name }
-                ?: throw ModuleNotFoundInComponentsJsonException(project.name)
+        val component = project.getComponent()
 
-        if (Artifactory.isArtifactExists(library.name, library.projectVersion)) {
-            throw SameArtifactVersionInArtifactoryException(library.name, library.projectVersion)
+        component.libraries.forEach { library ->
+            if (Artifactory.isArtifactExists(library.name, library.projectVersion)) {
+                throw SameArtifactVersionInArtifactoryException(library.name, library.projectVersion)
+            }
         }
+
     }
 }
