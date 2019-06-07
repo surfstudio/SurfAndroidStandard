@@ -1,9 +1,5 @@
 apply from: '../buildSrc/androidModule.gradle'
-apply plugin: 'ru.surfstudio.android'
 
-dependencies {
-    implementation "ru.surfstudio.android:rx-extension:${androidStandard.version("rx-extension")}"
-}
-//gradle.ext.configAndroidStandardDependencies(this, [
-//        'rx-extension'
-//])
+gradle.ext.configAndroidStandardDependencies(this, [
+        'rx-extension'
+])

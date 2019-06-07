@@ -3,6 +3,10 @@ package ru.surfstudio.android.plugin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
+/**
+ * Version plugin
+ * Provider version for android-standard modules based on generated versions.json
+ */
 class AndroidStandardVersionPlugin : Plugin<Project> {
 
     companion object {

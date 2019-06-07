@@ -5,7 +5,10 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import java.io.File
-
+/**
+ * Task for generating data about versions to JSON file for version plugin
+ * Do this task before deploy Android-Standard version plugin
+ */
 open class GenerateDataForPluginTask : DefaultTask() {
 
     companion object {

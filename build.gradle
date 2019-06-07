@@ -19,7 +19,7 @@ buildscript {
         maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://maven.google.com' }
         maven { url 'https://plugins.gradle.org/m2/' }
-        maven { url uri('android-standard-version-plugin/repo') }
+        maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 
     dependencies {
@@ -28,7 +28,7 @@ buildscript {
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "io.fabric.tools:gradle:$fabricVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
-        classpath 'ru.surfstudio.android:version-plugin:0.4.1'
+        classpath 'ru.surfstudio.android:version-plugin:0.4.0-alpha.1'
     }
 }
 
