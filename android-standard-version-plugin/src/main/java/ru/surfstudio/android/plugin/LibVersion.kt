@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.plugin
+package ru.surfstudio.android.plugin
 
 data class LibVersion(
     val name: String,

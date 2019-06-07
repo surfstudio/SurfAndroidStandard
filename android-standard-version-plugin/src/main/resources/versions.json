@@ -1,0 +1,14 @@
+[
+  {
+    "first": "analytics",
+    "second": "0.8.0-alpha.3"
+  },
+  {
+    "first": "logger",
+    "second": "0.8.0-alpha.5"
+  },
+  {
+    "first": "rx-extension",
+    "second": "0.4.0"
+  }
+]
