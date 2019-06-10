@@ -11,7 +11,7 @@ import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
-import ru.surfstudio.android.build.tasks.changed_components.JsonHelper
+import ru.surfstudio.android.build.utils.JsonHelper
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import java.io.File
 
@@ -66,7 +66,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
     }
 
     private fun writeNewComponentsToFile(newComponents: List<Component>) {
-        JsonHelper.writeComponentsFile(
+        JsonHelper.write(
                 newComponents.map { ComponentJson(it) },
                 File("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
         )

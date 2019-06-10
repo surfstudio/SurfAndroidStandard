@@ -2,6 +2,7 @@ package ru.surfstudio.android.build.tasks.changed_components
 
 import groovy.util.ConfigObject
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.Folders
 import ru.surfstudio.android.build.Folders.BUILD_FOLDER_NAME
 import ru.surfstudio.android.build.Folders.BUILD_OUTPUT_FOLDER_PATH
 import ru.surfstudio.android.build.Folders.OUTPUT_JSON_FOLDER_PATH
@@ -11,6 +12,7 @@ import ru.surfstudio.android.build.tasks.changed_components.models.DependencyWit
 import ru.surfstudio.android.build.tasks.changed_components.models.LibraryWithVersion
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 import ru.surfstudio.android.build.tasks.currentDirectory
+import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
 
 /**
@@ -66,17 +68,17 @@ class ProjectConfigurationCreator(
      * and its version as second parameter
      */
     private fun createComponentsWithVersions(versions: LinkedHashMap<String, String>): List<ComponentWithVersion> {
-        val components = JsonHelper.parseComponentsJson(pathToProject).map(ComponentJson::transform)
+        val components = JsonHelper.parseComponentsJson("$pathToProject${Folders.COMPONENTS_JSON_FILE_PATH}").map(ComponentJson::transform)
 
         return components.map { component ->
             val libs = component.libraries.map { lib ->
-                val standartDependencies = lib.androidStandardDependencies.map { dep ->
+                val standardDependencies = lib.androidStandardDependencies.map { dep ->
                     DependencyWithVersion(dep.name, versions[dep.name] ?: "")
                 }
                 val thirdPartyDependencies = lib.thirdPartyDependencies.map { dep ->
                     DependencyWithVersion(dep.name, versions[dep.name] ?: "")
                 }
-                LibraryWithVersion(lib.name, lib.directoryPath, thirdPartyDependencies, standartDependencies)
+                LibraryWithVersion(lib.name, lib.directoryPath, thirdPartyDependencies, standardDependencies)
             }
             ComponentWithVersion(component.name, component.directory, component.baseVersion, component.stable, libs)
         }
@@ -89,7 +91,7 @@ class ProjectConfigurationCreator(
      */
     private fun saveProjectConfigurationToFile(projectConfiguration: ProjectConfiguration) {
         createIntermediateFoldersForJsonFile()
-        JsonHelper.writeProjectConfigurationFile(projectConfiguration, createJsonOutputFile())
+        JsonHelper.write(projectConfiguration, createJsonOutputFile())
     }
 
     /**

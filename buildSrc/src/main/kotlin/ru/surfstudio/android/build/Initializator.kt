@@ -5,7 +5,7 @@ import ru.surfstudio.android.build.exceptions.LibraryDirectoryNotExistException
 import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
 import java.io.File
-import com.google.gson.GsonBuilder
+import ru.surfstudio.android.build.utils.JsonHelper
 
 object Initializator {
 
@@ -16,20 +16,9 @@ object Initializator {
      */
     @JvmStatic
     fun init() {
-        val jsonComponents = parseComponentJson()
+        val jsonComponents = JsonHelper.parseComponentsJson(COMPONENTS_JSON_FILE_PATH)
         checkComponentsFolders(jsonComponents)
         Components.init(jsonComponents)
-    }
-
-    /**
-     * Parsing value.json file
-     * @return list of json value
-     */
-    private fun parseComponentJson(): List<ComponentJson> {
-        return GsonBuilder()
-                .create()
-                .fromJson(File(COMPONENTS_JSON_FILE_PATH).reader(), Array<ComponentJson>::class.java)
-                .toList()
     }
 
     /**
