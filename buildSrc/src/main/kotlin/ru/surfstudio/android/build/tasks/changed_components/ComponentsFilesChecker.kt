@@ -1,9 +1,9 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentChangeReason
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
-import ru.surfstudio.android.build.tasks.changed_components.models.ComponentWithVersion
 
 /**
  * Class for checking if files in components are changed between revisions
@@ -22,14 +22,12 @@ class ComponentsFilesChecker(
      * @return information about changes for every component
      */
     fun getChangeInformationForComponents(): List<ComponentCheckResult> {
-        val diffResults = getDiffBetweenRevisions()
         val currentComponents = Components.value
-                .map { ComponentWithVersion.create(it) }
-
-        return if (diffResults.isNullOrEmpty()) {
+        val componentsWithDiff = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents).provideComponentsWithDiff()
+        return if (componentsWithDiff.isNullOrEmpty()) {
             generateAllComponentsNotChangedResults(currentComponents)
         } else {
-            getCheckComponentsResultsWithDiff(diffResults, currentComponents)
+            getCheckComponentsResultsWithDiff(componentsWithDiff, currentComponents)
         }
     }
 
@@ -40,50 +38,27 @@ class ComponentsFilesChecker(
      *
      * @return information every component has not changed
      */
-    private fun generateAllComponentsNotChangedResults(currentComponents: List<ComponentWithVersion>): List<ComponentCheckResult> {
+    private fun generateAllComponentsNotChangedResults(currentComponents: List<Component>): List<ComponentCheckResult> {
         return currentComponents.map { ComponentCheckResult.create(it, false) }
     }
 
     /**
-     * for every component checks information for it from git diff command and returns result
+     * for every component checks information exists from git diff command (including sources and build.gradle files)
+     * and returns result
      *
-     * @param diffResults results for git diff command
-     * @param currentComponents current components to check and get results
+     * @param componentsWithDiff results for git diff command
      *
      * @return information about changes for every component
      */
-    private fun getCheckComponentsResultsWithDiff(diffResults: List<String>, currentComponents: List<ComponentWithVersion>)
+    private fun getCheckComponentsResultsWithDiff(componentsWithDiff: Map<Component, List<String>>, currentComponents: List<Component>)
             : List<ComponentCheckResult> {
         return currentComponents.map { component ->
-            if (isComponentChanged(component, diffResults)) {
+            if (componentsWithDiff.containsKey(component)) {
                 ComponentCheckResult.create(component, true, ComponentChangeReason.FILE_CHANGED)
             } else {
                 ComponentCheckResult.create(component, false)
             }
 
-        }
-    }
-
-    /**
-     * return results for git diff command for [currentRevision] and [revisionToCompare]
-     *
-     * @return output from git diff command
-     */
-    private fun getDiffBetweenRevisions(): List<String>? {
-        return GitCommandRunner().diff(currentRevision, revisionToCompare)
-    }
-
-    /**
-     * defines if component files (including sources and buil.gradle files) have changed
-     *
-     * @param currentComponent component for check
-     * @param diffResults results for git diff command
-     *
-     * @return true if changed
-     */
-    private fun isComponentChanged(currentComponent: ComponentWithVersion, diffResults: List<String>): Boolean {
-        return currentComponent.libs.any { library ->
-            diffResults.find { s -> s.contains(library.directory, ignoreCase = true) } != null
         }
     }
 }

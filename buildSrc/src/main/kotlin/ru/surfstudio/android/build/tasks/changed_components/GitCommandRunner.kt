@@ -21,7 +21,7 @@ class GitCommandRunner(
         val command = "$GIT_DIFF_COMMAND $firstRevision $secondRevision"
         val res = runCommandWithResult(command, File(directory))
 
-        return res?.split(SPLIT_STRING.toRegex())
+        return res?.trim()?.split(SPLIT_STRING.toRegex())
     }
 
     fun checkoutRevision(revision: String) {
