@@ -19,8 +19,12 @@ class ComponentsDiffProvider(
      */
     fun provideComponentsWithDiff(): Map<Component, List<String>> {
         val diffResults = getDiffBetweenRevisions()
-        return if (diffResults.isNullOrEmpty()) emptyMap()
-        else createComponentsWithDiff(diffResults, components)
+        return if (diffResults.isNullOrEmpty()) {
+            emptyMap()
+        }
+        else {
+            createComponentsWithDiff(diffResults, components)
+        }
     }
 
     /**
@@ -53,6 +57,6 @@ class ComponentsDiffProvider(
             }
             .toMap()
 
-    private fun isDiffHasComponent(it: String, component: Component) =
-            it.startsWith(component.directory)
+    private fun isDiffHasComponent(diffResult: String, component: Component) =
+            diffResult.startsWith(component.directory)
 }

@@ -5,20 +5,27 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
+import ru.surfstudio.android.build.RELEASE_NOTES_FILE_NAME
+import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
+import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
+import ru.surfstudio.android.build.exceptions.ReleaseNotesForConfigurationException
+import ru.surfstudio.android.build.exceptions.ReleaseNotesForFilesException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsDiffProvider
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 
-const val RELEASE_NOTES_FILE_NAME = "RELEASE_NOTES.md"
 
 open class CheckReleaseNotesChangedTask : DefaultTask() {
 
     private lateinit var revisionToCompare: String
 
     /**
-     * checks and fails if component was changed (files or configuration) but its release notes file was not changed
+     * checks release notes file was not changed if component was changed
+     *
+     * @throws ReleaseNotesForConfigurationException  if component was changed in configuration but release notes was not changed
+     * @throws ReleaseNotesForFilesException  if component was changed in files but release notes was not changed
      */
     @TaskAction
     fun check() {
@@ -34,16 +41,16 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
         val componentsWithDiffs = ComponentsDiffProvider(currentRevision, revisionToCompare, currentComponents).provideComponentsWithDiff()
 
         currentComponents.forEach { component ->
-            val resultByConfig = componentsChangeResults.find { it.componentName == component.name }?.isComponentChanged!!
-            val resultByFile = componentsChangeFilesResults.find { it.componentName == component.name }?.isComponentChanged!!
+            val resultByConfig = componentsChangeResults.find { it.componentName == component.name } ?: throw ComponentNotFoundException(component.name)
+            val resultByFile = componentsChangeFilesResults.find { it.componentName == component.name } ?: throw ComponentNotFoundException(component.name)
 
-            if (isComponentChanged(resultByConfig, resultByFile)) {
+            if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)) {
                 if (isComponentHasDiffs(componentsWithDiffs, component)) {
                     val diffs = componentsWithDiffs.getValue(component)
                     if (!isReleaseFileIncluded(diffs, component.name))
-                        fail("Component ${component.name} was changed but its file release notes file was not changed")
+                        throw ReleaseNotesForFilesException(component.name)
                 } else {
-                    fail("Component ${component.name} changed its configuration, but its file release notes file was not changed")
+                    throw ReleaseNotesForConfigurationException(component.name)
                 }
             }
         }
@@ -60,7 +67,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
 
     private fun extractInputArguments() {
         if (!project.hasProperty(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE)) {
-            throw GradleException("please specify ${GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE} param")
+            throw PropertyNotDefineException(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE)
         }
         revisionToCompare = project.findProperty(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE) as String
     }
