@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2019-present, SurfStudio LLC.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -47,6 +46,10 @@
         <activity
             android:name="ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationActivityView"
             android:label="Pagination" />
+
+        <activity
+            android:name="ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveActivityView"
+            android:label="Reactive" />
     </application>
 
 </manifest>
