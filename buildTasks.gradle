@@ -6,7 +6,7 @@ task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependency
 
 task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask)
 
-task checkDependencyForComponentUnstableTask(type: CheckDependencyForComponentUnstableTask)
+task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstableTask)
 
 task checkStableComponentsChanged(type: CheckStableComponentsChangedTask)
 
@@ -40,6 +40,10 @@ task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInB
 
 task CheckUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
-task checkComponentStableTask(type: CheckComponentStableTask)
+task checkComponentStable(type: CheckComponentStableTask)
 
 task generateDataForPlugin(type: GenerateDataForPluginTask)
+
+task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask)
+
+task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask)

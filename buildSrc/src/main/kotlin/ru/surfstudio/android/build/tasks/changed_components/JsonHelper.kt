@@ -25,6 +25,10 @@ object JsonHelper {
         file.writeText(gson.toJson(components))
     }
 
+    fun write(obj: Any, file: File) {
+        file.writeText(gson.toJson(obj))
+    }
+
     fun parseComponentsJson(pathToProject: String): List<ComponentJson> {
         return GsonBuilder()
                 .create()
