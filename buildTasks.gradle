@@ -40,4 +40,6 @@ task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInB
 
 task CheckUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
-task checkComponentStableTask(type: CheckComponentStableTask)
+task checkComponentStable(type: CheckComponentStableTask)
+
+task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask)
