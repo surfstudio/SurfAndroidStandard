@@ -4,12 +4,11 @@ import ru.surfstudio.android.build.exceptions.ComponentDirectoryNotExistExceptio
 import ru.surfstudio.android.build.exceptions.LibraryDirectoryNotExistException
 import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
+import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import java.io.File
 import ru.surfstudio.android.build.utils.JsonHelper
 
 object Initializator {
-
-    private const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
 
     /**
      * Parse value.json and create value

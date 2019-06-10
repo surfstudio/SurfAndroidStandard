@@ -7,6 +7,7 @@ import ru.surfstudio.android.build.model.ProjectSnapshot
 
 const val EMPTY_STRING = ""
 const val EMPTY_INT = -1
+const val COMPONENTS_JSON_FILE_PATH = "buildSrc/components.json"
 
 private const val PROJECT_POSTFIX_KEY = "projectPostfix"
 private const val PROJECT_VERSION_KEY = "projectVersion"

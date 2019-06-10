@@ -41,3 +41,5 @@ task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInB
 task CheckUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
 task checkComponentStableTask(type: CheckComponentStableTask)
+
+task setAlphaToZero(type: SetAlphaToZeroTask)

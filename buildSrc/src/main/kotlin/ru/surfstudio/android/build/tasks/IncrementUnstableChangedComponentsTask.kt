@@ -4,7 +4,6 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.Folders.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.json.ComponentJson
@@ -13,6 +12,7 @@ import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesCheck
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.JsonHelper
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
+import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import java.io.File
 
 /**

@@ -1,7 +1,6 @@
 package ru.surfstudio.android.build.utils
 
 import com.google.gson.GsonBuilder
-import ru.surfstudio.android.build.Folders.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 import java.io.File

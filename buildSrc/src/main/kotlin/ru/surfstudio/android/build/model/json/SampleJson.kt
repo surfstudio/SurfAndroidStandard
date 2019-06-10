@@ -14,7 +14,7 @@ data class SampleJson(
 
     constructor(sample: Sample) : this(
             name = sample.name,
-            dir = sample.directoryPath
+            dir = sample.directory
     )
 
     override fun transform() = Sample(name = name, directoryPath = dir)
