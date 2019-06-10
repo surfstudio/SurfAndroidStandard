@@ -15,7 +15,6 @@ object ConfigInfoProvider {
 
     private val configInfoJsonFile = File(CONFIG_INFO_JSON_FILE_PATH)
 
-    @JvmStatic
     var configInfo: ConfigInfo = parseProjectConfigInfoJson()
 
     fun incrementUnstableVersion() {
@@ -31,4 +30,7 @@ object ConfigInfoProvider {
     private fun parseProjectConfigInfoJson(): ConfigInfo = GsonBuilder().create()
             .fromJson(configInfoJsonFile.reader(), ConfigInfoJson::class.java)
             .transform()
+
+    @JvmStatic
+    private fun getVersion(): String = configInfo.version
 }

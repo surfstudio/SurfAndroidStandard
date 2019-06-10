@@ -1,10 +1,8 @@
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.ConfigInfoProvider
 
-def configInfo = ConfigInfoProvider.configInfo
-
 group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
-version = configInfo.version
+version = ConfigInfoProvider.getVersion()
 
 apply plugin: 'maven'
 
