@@ -39,9 +39,13 @@ task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifact
 
 task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)
 
-task CheckUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
+task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
 task checkComponentStableTask(type: CheckComponentStableTask)
+
+task generateDataForPlugin(type: GenerateDataForPluginTask)
+
+task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion)
 
 task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask)
 

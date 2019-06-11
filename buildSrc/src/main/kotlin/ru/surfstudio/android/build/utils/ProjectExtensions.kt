@@ -10,7 +10,7 @@ import ru.surfstudio.android.build.exceptions.ComponentPropertyNotFoundException
 /**
  * Component that provided by gradle property
  */
-fun Project.getComponent(): Component {
+fun Project.getPropertyComponent(): Component {
     val componentName = project.property(GradleProperties.COMPONENT) as? String
             ?: throw ComponentPropertyNotFoundException()
     return Components.value.find { it.name == componentName }

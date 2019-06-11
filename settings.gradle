@@ -1,3 +1,4 @@
+include ':android-standard-version-plugin'
 import ru.surfstudio.android.build.Initializator
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.model.module.Module
