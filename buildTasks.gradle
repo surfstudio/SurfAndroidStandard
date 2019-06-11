@@ -62,4 +62,4 @@ task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBin
 
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask)
 
-task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask)
+task deployToBintray(type: DeployToBintrayTask)

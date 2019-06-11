@@ -1,5 +1,6 @@
 package ru.surfstudio.android.build.artifactory
 
+import com.github.kittinunf.fuel.core.isSuccessful
 import org.gradle.api.GradleException
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.ArtifactNotExistInArtifactoryException
@@ -30,7 +31,9 @@ object Artifactory {
 
         val response = repository.distribute(packagesRepoPaths, overrideExisting)
 
-        if (!response.body().isEmpty()) throw GradleException(response.toString())
+        if (!(response.body().isEmpty() || response.isSuccessful)) {
+            throw GradleException(response.toString())
+        }
     }
 
     /**

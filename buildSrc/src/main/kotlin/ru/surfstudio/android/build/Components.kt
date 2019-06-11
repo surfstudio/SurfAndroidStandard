@@ -128,6 +128,9 @@ object Components {
                     configInfo.projectSnapshotName,
                     configInfo.projectSnapshotVersion
             )
+            component.libraries.forEach {
+                it.projectVersion = component.projectVersion
+            }
         }
     }
 }
