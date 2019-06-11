@@ -1,7 +1,14 @@
-include ':android-standard-version-plugin'
 import ru.surfstudio.android.build.Initializator
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.model.module.Module
+
+//region Plugins
+include ':android-standard-version-plugin'
+project(":android-standard-version-plugin").projectDir = new File('plugins/android-standard-version-plugin')
+
+include ':android-standard-plugin'
+project(":android-standard-plugin").projectDir = new File('plugins/android-standard-plugin')
+//endregion
 
 Initializator.init()
 Components.getModules().forEach { Module module ->
