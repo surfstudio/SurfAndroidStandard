@@ -1,4 +1,6 @@
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.GradleProperties
+import ru.surfstudio.android.build.artifactory.Artifactory
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 
 apply from: '../../buildSrc/config.gradle'
@@ -22,6 +24,19 @@ ext.configureDeploy = { context ->
         }
 
         uploadArchives {
+            // If -PonlyUnstable=true deploy only unstable artifacts
+            if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
+                if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == "true"
+                        && Components.getComponentStability(project.name)
+                ) return
+            }
+
+            // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
+            if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
+                if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == "true"
+                        && Artifactory.isLibraryAlreadyDeployed(project.name)
+                ) return
+            }
             repositories.mavenDeployer {
                 repository(url: ArtifactoryConfig.DEPLOY_URL) {
                     authentication(

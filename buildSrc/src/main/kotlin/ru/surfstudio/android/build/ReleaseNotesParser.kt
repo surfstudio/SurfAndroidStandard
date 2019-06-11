@@ -1,6 +1,7 @@
 package ru.surfstudio.android.build
 
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesFormatException
+import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesItem
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesLibrary
@@ -18,7 +19,8 @@ private const val ITEM_SIGN = "* "
  */
 class ReleaseNotesParser {
 
-    fun createReleaseNotes(plainText: String) = ReleaseNotesInfo(
+    fun createReleaseNotes(component: Component, plainText: String) = ReleaseNotesInfo(
+            component = component,
             toc = plainText.contains(TOC),
             title = getLine(plainText, TITLE_SIGN),
             versions = parseContent(
@@ -30,7 +32,7 @@ class ReleaseNotesParser {
     )
 
     private fun createReleaseNotesVersion(plainText: String) = ReleaseNotesVersion(
-            version = getLine(plainText, VERSION_SIGN),
+            version = plainText.substringBefore(NEXT_LINE),
             libraries = parseContent(
                     plainText,
                     LIBRARY_SIGN,
@@ -41,7 +43,7 @@ class ReleaseNotesParser {
 
 
     private fun createReleaseNotesLibrary(plainText: String) = ReleaseNotesLibrary(
-            name = getLine(plainText, LIBRARY_SIGN),
+            name = plainText.substringBefore(NEXT_LINE),
             items = parseContent(
                     plainText,
                     ITEM_SIGN,
@@ -54,7 +56,6 @@ class ReleaseNotesParser {
     private fun createReleaseNotesItem(plainText: String) = ReleaseNotesItem(
             content = plainText.substringAfter(ITEM_SIGN)
     )
-
 
     /**
      * Parse plainText and create model
@@ -74,4 +75,5 @@ class ReleaseNotesParser {
      * Get string between sign and next line
      */
     private fun getLine(content: String, sign: String) = content.substringAfter(sign).substringBefore(NEXT_LINE)
+
 }
