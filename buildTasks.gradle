@@ -1,6 +1,10 @@
 import ru.surfstudio.android.build.tasks.*
+import ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_repositories.*
+import ru.surfstudio.android.build.tasks.check_dependencies_stable.*
 
-task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
+task checkStandardDependenciesStableTask(type: CheckStandardDependenciesStableTask)
+
+task checkStableComponentStandardDependenciesStableTask(type: CheckStableComponentStandardDependenciesStableTask)
 
 task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask)
 
@@ -38,12 +42,22 @@ task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifact
 
 task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)
 
-task CheckUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
+task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
 task checkComponentStable(type: CheckComponentStableTask)
+
+task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask)
 
 task generateDataForPlugin(type: GenerateDataForPluginTask)
 
 task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask)
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask)
+
+task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion)
+
+task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask)
+
+task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask)
+
+task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask)

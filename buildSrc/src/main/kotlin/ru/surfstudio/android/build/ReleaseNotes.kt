@@ -2,6 +2,7 @@ package ru.surfstudio.android.build
 
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesFileNotExistException
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesFormatException
+import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesNotFoundException
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesParsingException
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 import java.io.BufferedReader
@@ -14,27 +15,33 @@ import java.io.FileReader
 object ReleaseNotes {
 
     private const val RELEASE_NOTES_FILE_NAME = "RELEASE_NOTES.md"
-    private lateinit var releaseNotes: List<ReleaseNotesInfo>
     private val parser = ReleaseNotesParser()
+
+    val values: List<ReleaseNotesInfo> by lazy { parseReleaseNotesFiles() }
+
+    fun findByComponentName(componentName: String): ReleaseNotesInfo {
+        return values.find { it.component.name == componentName }
+                ?: throw ReleaseNotesNotFoundException(componentName)
+    }
 
     /**
      * Parse releaseNotes.md files
      */
-    private fun parseReleaseNotesFiles() {
-        val releaseNotesFiles = Components.value.map { File("${it.directory}/$RELEASE_NOTES_FILE_NAME") }
+    private fun parseReleaseNotesFiles(): List<ReleaseNotesInfo> {
+        return Components.value.map { component ->
+            val file = File("${component.directory}/$RELEASE_NOTES_FILE_NAME")
 
-        releaseNotesFiles.forEach(this::checkReleaseNotesFilesExist)
+            checkReleaseNotesFilesExist(file)
 
-        releaseNotes = releaseNotesFiles
-                .map { it to BufferedReader(FileReader(it)).readText() }
-                .map {
-                    val (file, content) = it
-                    try {
-                        parser.createReleaseNotes(content)
-                    } catch (e: ReleaseNotesFormatException) {
-                        throw ReleaseNotesParsingException(file.path, e)
-                    }
-                }
+            val content = BufferedReader(FileReader(file)).readText()
+
+            try {
+                parser.createReleaseNotes(component, content)
+            } catch (e: ReleaseNotesFormatException) {
+                e.printStackTrace()
+                throw ReleaseNotesParsingException(file.path, e)
+            }
+        }
     }
 
     /**

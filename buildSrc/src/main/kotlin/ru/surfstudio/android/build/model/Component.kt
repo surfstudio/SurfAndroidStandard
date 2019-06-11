@@ -15,7 +15,7 @@ data class Component(
         val baseVersion: String = EMPTY_STRING, // Version from components.json
         var projectVersion: String = EMPTY_STRING, // Project version
         val stable: Boolean = false,
-        val unstableVersion: Int = EMPTY_INT,
+        var unstableVersion: Int = EMPTY_INT,
         val libraries: List<Library> = listOf(),
         val samples: List<Sample> = listOf(),
         val hasMirror: Boolean = false,

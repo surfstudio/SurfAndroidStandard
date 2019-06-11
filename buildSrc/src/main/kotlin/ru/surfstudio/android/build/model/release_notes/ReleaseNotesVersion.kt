@@ -6,4 +6,7 @@ package ru.surfstudio.android.build.model.release_notes
 data class ReleaseNotesVersion(
         val version: String,
         val libraries: List<ReleaseNotesLibrary>
-)
+) {
+
+    val isEmpty: Boolean get() = libraries.isEmpty() && libraries.all { it.items.isEmpty() }
+}
