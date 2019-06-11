@@ -126,6 +126,9 @@ object Components {
             if (!projectSnapshot.isEmpty) versionName += "-${projectSnapshot.name}.${projectSnapshot.version}"
 
             component.projectVersion = versionName
+            component.libraries.forEach {
+                it.projectVersion = versionName
+            }
         }
     }
 }

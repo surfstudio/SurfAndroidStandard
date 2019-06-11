@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks
+package ru.surfstudio.android.build.exceptions
 
 import org.gradle.api.GradleException
 

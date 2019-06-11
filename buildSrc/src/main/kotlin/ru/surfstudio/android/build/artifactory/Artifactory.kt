@@ -1,6 +1,5 @@
 package ru.surfstudio.android.build.artifactory
 
-import com.github.kittinunf.fuel.core.isSuccessful
 import org.gradle.api.GradleException
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.ArtifactNotExistInArtifactoryException
@@ -20,7 +19,7 @@ object Artifactory {
     /**
      * Deploy artifact to bintray
      */
-    fun distributeArtifactToBintray(vararg libraryNames: String, overrideExisting: Boolean) {
+    fun distributeArtifactToBintray(overrideExisting: Boolean, vararg libraryNames: String) {
         val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
 
         var packagesRepoPaths = ""
@@ -30,7 +29,8 @@ object Artifactory {
         }
 
         val response = repository.distribute(packagesRepoPaths, overrideExisting)
-        if (!response.isSuccessful) throw GradleException(response.toString())
+
+        if (!response.body().isEmpty()) throw GradleException(response.toString())
     }
 
     /**
