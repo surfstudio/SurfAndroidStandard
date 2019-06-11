@@ -3,7 +3,7 @@ package ru.surfstudio.android.build
 import com.google.gson.GsonBuilder
 import ru.surfstudio.android.build.model.GlobalConfigInfo
 import ru.surfstudio.android.build.model.json.ConfigInfoJson
-import ru.surfstudio.android.build.tasks.changed_components.JsonHelper
+import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
 
 private const val CONFIG_INFO_JSON_FILE_PATH = "configInfo.json"
