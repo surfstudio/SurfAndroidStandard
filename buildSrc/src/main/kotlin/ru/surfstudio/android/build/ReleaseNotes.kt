@@ -9,12 +9,13 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
 
+const val RELEASE_NOTES_FILE_NAME = "RELEASE_NOTES.md"
+
 /**
  * Class encapsulate work with ReleaseNotesInfo
  */
 object ReleaseNotes {
 
-    private const val RELEASE_NOTES_FILE_NAME = "RELEASE_NOTES.md"
     private val parser = ReleaseNotesParser()
 
     val values: List<ReleaseNotesInfo> by lazy { parseReleaseNotesFiles() }
