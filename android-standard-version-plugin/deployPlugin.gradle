@@ -1,7 +1,8 @@
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
+import ru.surfstudio.android.build.ConfigInfoProvider
 
 group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
-version = '0.4.0-alpha.1'
+version = ConfigInfoProvider.getVersion()
 
 apply plugin: 'maven'
 
