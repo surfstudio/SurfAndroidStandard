@@ -2,11 +2,11 @@ import ru.surfstudio.android.build.tasks.*
 
 task checkStandardDependenciesStability(type: CheckStandardDependenciesStabilityTask)
 
-task checkDependencyForComponentUnstableTask(type: CheckDependencyForComponentUnstableTask)
-
 task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask)
 
 task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask)
+
+task checkDependencyForComponentUnstableTask(type: CheckDependencyForComponentUnstableTask)
 
 task checkStableComponentsChanged(type: CheckStableComponentsChangedTask)
 
@@ -42,6 +42,6 @@ task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
 task checkComponentStableTask(type: CheckComponentStableTask)
 
-//region ReleaseNotes tasks
+task generateDataForPlugin(type: GenerateDataForPluginTask)
+
 task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion)
-//endregion ReleaseNotes
