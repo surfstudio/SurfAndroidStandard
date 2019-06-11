@@ -2,35 +2,61 @@ package ru.surfstudio.android.mvp.binding.rx.sample.react
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
-import io.reactivex.Observable
 import kotlinx.android.synthetic.main.activity_reactive_list.*
-import ru.surfstudio.android.core.mvp.binding.react.Event
-import ru.surfstudio.android.core.mvp.binding.react.EventHub
-import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
+import ru.surfstudio.android.core.mvp.binding.react.event.LoadData
+import ru.surfstudio.android.core.mvp.binding.react.reactor.Feature
+import ru.surfstudio.android.core.mvp.binding.react.ui.BaseReactActivity
+import ru.surfstudio.android.core.mvp.binding.sample.R
+import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationableAdapter
+import ru.surfstudio.android.mvp.binding.rx.sample.react.controller.BaseController
+import ru.surfstudio.android.mvp.binding.rx.sample.react.di.ReactiveScreenConfigurator
+import ru.surfstudio.android.mvp.binding.rx.sample.react.event.EventManager
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.QueryChangedEvent
+import ru.surfstudio.android.mvp.binding.rx.sample.react.reducer.ListFeature
 import javax.inject.Inject
 
-class ReactiveActivityView : BaseRxActivityView() {
+class ReactiveActivityView : BaseReactActivity() {
 
-    override fun createConfigurator() = TODO()
+    private val adapter = PaginationableAdapter { sendEvent(LoadData.Next()) }
+    private val controller = BaseController()
+
+    override fun createConfigurator() = ReactiveScreenConfigurator(intent)
 
     override fun getScreenName() = "ReactiveActivityView"
 
-    override fun getContentView(): Int = TODO()
+    override fun getContentView(): Int = R.layout.activity_reactive_list
 
     @Inject
-    lateinit var bm: ReactiveBindModel
+    lateinit var listFeature: ListFeature
 
     @Inject
-    lateinit var hub: EventHub
+    override lateinit var hub: EventManager
+
+    override fun getFeatures() = arrayOf(listFeature)
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
-        reactive_query_tv.textChanges().map { QueryChangedEvent(it.toString()) }.sendTo(hub)
 
+        reactive_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        reactive_rv.adapter = adapter
+
+        reactive_reload_btn.clicks().sendEvent(LoadData.First())
+        reactive_query_tv.textChanges()
+                .skipInitialValue()
+                .sendEvent(eventTransformer = { QueryChangedEvent(it.toString()) })
+
+        listFeature.isLoading.observable.distinctUntilChanged() bindTo { reactive_pb.isVisible = it }
+        listFeature.list bindTo ::createList
     }
 
-    fun <T : Event> Observable<T>.sendTo(hub: EventHub) =
-            hub.acceptEvent(this)
+    fun createList(list: List<String>) {
+        adapter.setItems(ItemList.create().addAll(list, controller), PaginationState.READY)
+    }
 }
