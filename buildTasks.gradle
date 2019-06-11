@@ -44,7 +44,9 @@ task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInB
 
 task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
 
-task checkComponentStableTask(type: CheckComponentStableTask)
+task checkComponentStable(type: CheckComponentStableTask)
+
+task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask)
 
 task generateDataForPlugin(type: GenerateDataForPluginTask)
 
