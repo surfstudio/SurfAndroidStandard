@@ -9,6 +9,7 @@ import ru.surfstudio.android.build.GradleTasksNames.GRADLE_TASK_CREATE_PROJECT_C
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
 import ru.surfstudio.android.build.tasks.currentDirectory
+import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
 
 /**

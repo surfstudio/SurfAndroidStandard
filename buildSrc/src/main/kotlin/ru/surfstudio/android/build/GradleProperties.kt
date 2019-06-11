@@ -11,6 +11,11 @@ object GradleProperties {
     const val COMPONENT = "component"
 
     /**
+     * Uses when task needs component version
+     */
+    const val COMPONENT_VERSION = "componentVersion"
+
+    /**
      * Components list for check standard dependency stability
      */
     const val COMPONENTS_TO_CHECK_STANDARD_DEPENDENCIES_STABILITY =
@@ -40,4 +45,14 @@ object GradleProperties {
      * If artifact exist in bintray replace it
      */
     const val DEPLOY_SAME_VERSION_BINTRAY = "deploySameVersionBintray"
+
+    /**
+     * Deploy only unstable components
+     */
+    const val DEPLOY_ONLY_UNSTABLE_COMPONENTS = "onlyUnstable"
+
+    /**
+     * Deploy only is not exist
+     */
+    const val DEPLOY_ONLY_IF_NOT_EXIST = "deployOnlyIfNotExist"
 }

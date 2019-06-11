@@ -2,13 +2,14 @@ package ru.surfstudio.android.build
 
 import org.gradle.api.Project
 import ru.surfstudio.android.build.exceptions.ComponentNotFoundForStandardDependencyException
+import ru.surfstudio.android.build.exceptions.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Module
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.utils.EMPTY_STRING
-import ru.surfstudio.android.build.utils.getProjectSnapshot
+import ru.surfstudio.android.build.utils.createCompositeVersion
 
 /**
  * Project value
@@ -49,7 +50,7 @@ object Components {
     @JvmStatic
     fun getModuleVersion(gradleProject: Project): String {
         if (value.isEmpty()) return EMPTY_STRING
-        if (value.any { it.projectVersion.isEmpty() }) configModuleVersions(gradleProject)
+        if (value.any { it.projectVersion.isEmpty() }) configModuleVersions()
 
         val moduleName = gradleProject.name
         val component = value.find { it.getModules().map(Module::name).contains(moduleName) }
@@ -81,6 +82,20 @@ object Components {
     }
 
     /**
+     * Get component stability by module name
+     */
+    @JvmStatic
+    fun getComponentStability(libraryName: String): Boolean {
+        value.forEach { component ->
+            component.libraries
+                    .find { it.name == libraryName }
+                    ?.let { return component.stable }
+        }
+
+        throw LibraryNotFoundException(libraryName)
+    }
+
+    /**
      * Set components for android standard dependencies
      */
     private fun setComponentsForAndroidStandardDependencies() {
@@ -102,15 +117,17 @@ object Components {
     /**
      * Create project versions for components
      */
-    private fun configModuleVersions(gradleProject: Project) {
-        val projectSnapshot = gradleProject.getProjectSnapshot()
+    private fun configModuleVersions() {
+        val configInfo = ConfigInfoProvider.globalConfigInfo
+
         value.forEach { component ->
-            var versionName = component.baseVersion
-
-            if (!component.stable) versionName += "-alpha.${component.unstableVersion}"
-            if (!projectSnapshot.isEmpty) versionName += "-${projectSnapshot.name}.${projectSnapshot.version}"
-
-            component.projectVersion = versionName
+            component.projectVersion = createCompositeVersion(
+                    component.baseVersion,
+                    component.stable,
+                    component.unstableVersion,
+                    configInfo.projectSnapshotName,
+                    configInfo.projectSnapshotVersion
+            )
         }
     }
 }
