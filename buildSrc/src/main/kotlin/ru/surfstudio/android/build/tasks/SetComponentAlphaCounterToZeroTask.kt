@@ -6,17 +6,17 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.utils.JsonHelper
-import ru.surfstudio.android.build.utils.getComponent
+import ru.surfstudio.android.build.utils.getPropertyComponent
 import java.io.File
 
 /**
  * Set alpha to zero
  */
-open class SetAlphaToZeroTask : DefaultTask() {
+open class SetComponentAlphaCounterToZeroTask : DefaultTask() {
 
     @TaskAction
     fun setZero() {
-        project.getComponent().unstableVersion = 0
+        project.getPropertyComponent().unstableVersion = 0
 
         JsonHelper.write(Components.value.map { ComponentJson(it) }, File(COMPONENTS_JSON_FILE_PATH))
     }

@@ -51,4 +51,4 @@ task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistI
 
 task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask)
 
-task setAlphaToZero(type: SetAlphaToZeroTask)
+task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask)
