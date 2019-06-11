@@ -5,7 +5,7 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.bintray.Bintray
 import ru.surfstudio.android.build.exceptions.SameArtifactVersionInBintrayException
-import ru.surfstudio.android.build.utils.getComponent
+import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
  * Check same artifact version in bintray.
@@ -25,7 +25,7 @@ open class CheckSameDependencyArtifactsInBintrayTask : DefaultTask() {
 
         if (allowSameVersion) return
 
-        val component = project.getComponent()
+        val component = project.getPropertyComponent()
 
         component.libraries.forEach { library ->
             if (Bintray.isArtifactExists(library.name, library.projectVersion)) {
