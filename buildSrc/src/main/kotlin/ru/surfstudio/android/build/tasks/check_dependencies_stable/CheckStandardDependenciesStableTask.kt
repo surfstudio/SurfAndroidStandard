@@ -3,7 +3,7 @@ package ru.surfstudio.android.build.tasks.check_dependencies_stable
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.exceptions.UnstableLibraryDependenciesException
-import ru.surfstudio.android.build.utils.getComponent
+import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
  * Task to check standard library's dependencies
@@ -17,7 +17,7 @@ open class CheckStandardDependenciesStableTask : BaseCheckDependenciesStableTask
      */
     @TaskAction
     fun check() {
-        val component = project.getComponent()
+        val component = project.getPropertyComponent()
 
         val unstableLibs = checkComponent(component)
 
