@@ -45,40 +45,35 @@ object FileUtil {
      */
     fun getRealPath(context: Context, uri: Uri): String? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && DocumentsContract.isDocumentUri(context, uri)) {
-            if (isExternalStorageDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val type = split[0]
-
-                if ("primary".equals(type, ignoreCase = true)) {
-                    return Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+            val docId = DocumentsContract.getDocumentId(uri)
+            when {
+                isExternalStorageDocument(uri) -> {
+                    val typeAndId = splitToTypeAndId(docId)
+                    typeAndId.second?.let {
+                        if ("primary".equals(typeAndId.first, ignoreCase = true)) {
+                            return Environment.getExternalStorageDirectory().toString() + "/" + it
+                        }
+                    }
                 }
-
-            } else if (isDownloadsDocument(uri)) {
-
-                val id = DocumentsContract.getDocumentId(uri)
-                val contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), java.lang.Long.valueOf(id))
-
-                return getDataColumn(context, contentUri, null, null)
-            } else if (isMediaDocument(uri)) {
-                val docId = DocumentsContract.getDocumentId(uri)
-                val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                val type = split[0]
-
-                var contentUri: Uri? = null
-                if ("image" == type) {
-                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                } else if ("video" == type) {
-                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                } else if ("audio" == type) {
-                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                isDownloadsDocument(uri) -> {
+                    val contentUri = ContentUris.withAppendedId(
+                            Uri.parse("content://downloads/public_downloads"), docId.toLong())
+                    return getDataColumn(context, contentUri, null, null)
                 }
-
-                val selection = "_id=?"
-                val selectionArgs = arrayOf(split[1])
-
-                return getDataColumn(context, contentUri, selection, selectionArgs)
+                isMediaDocument(uri) -> {
+                    val typeAndId = splitToTypeAndId(docId)
+                    typeAndId.second?.let {
+                        val contentUri = when (typeAndId.first) {
+                            "image" -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                            "video" -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+                            "audio" -> MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+                            else -> null
+                        }
+                        val selection = "_id=?"
+                        val selectionArgs = arrayOf(it)
+                        return getDataColumn(context, contentUri, selection, selectionArgs)
+                    }
+                }
             }
         } else if (ContentResolver.SCHEME_CONTENT.equals(uri.scheme, ignoreCase = true)) {
             // Return the remote address
@@ -86,15 +81,19 @@ object FileUtil {
         } else if (ContentResolver.SCHEME_FILE.equals(uri.scheme, ignoreCase = true)) {
             return uri.path
         }
-
         return null
     }
 
     private fun getDataColumn(context: Context, uri: Uri?, selection: String? = null, selectionArgs: Array<String>? = null): String? {
         var result: String? = null
         uri?.let {
-            val cursor = context.contentResolver.query(it, arrayOf(MediaStore.Images.ImageColumns.DATA),
-                    selection, selectionArgs, null)
+            val cursor = context.contentResolver.query(
+                    it,
+                    arrayOf(MediaStore.Images.ImageColumns.DATA),
+                    selection,
+                    selectionArgs,
+                    null
+            )
             if (cursor != null) {
                 cursor.moveToFirst()
                 val idx = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA)
@@ -103,6 +102,16 @@ object FileUtil {
             }
         }
         return result
+    }
+
+    private fun splitToTypeAndId(docId: String): Pair<String, String?> {
+        val split = docId.split(":".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val type = split[0]
+        var path: String? = null
+        if (split.size > 1) {
+            path = split[1]
+        }
+        return Pair(type, path)
     }
 
     /**
