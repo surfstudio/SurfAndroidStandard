@@ -5,7 +5,7 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.DependentComponentsStableException
 import ru.surfstudio.android.build.model.module.Library
-import ru.surfstudio.android.build.utils.getComponent
+import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
  * Check components libraries depend on parameter component libraries unstable
@@ -14,7 +14,7 @@ open class CheckDependencyForComponentUnstableTask : DefaultTask() {
 
     @TaskAction
     fun check() {
-        val component = project.getComponent()
+        val component = project.getPropertyComponent()
         val stableLibraries = ArrayList<Library>()
 
         component.libraries.forEach {

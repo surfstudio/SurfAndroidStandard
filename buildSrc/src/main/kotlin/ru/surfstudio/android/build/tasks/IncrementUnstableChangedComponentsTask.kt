@@ -4,15 +4,15 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.Folders.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
-import ru.surfstudio.android.build.tasks.changed_components.JsonHelper
+import ru.surfstudio.android.build.utils.JsonHelper
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
+import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import java.io.File
 
 /**
@@ -66,7 +66,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
     }
 
     private fun writeNewComponentsToFile(newComponents: List<Component>) {
-        JsonHelper.writeComponentsFile(
+        JsonHelper.write(
                 newComponents.map { ComponentJson(it) },
                 File("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
         )

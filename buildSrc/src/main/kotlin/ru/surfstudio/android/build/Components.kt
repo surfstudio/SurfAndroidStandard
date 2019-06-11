@@ -2,6 +2,7 @@ package ru.surfstudio.android.build
 
 import org.gradle.api.Project
 import ru.surfstudio.android.build.exceptions.ComponentNotFoundForStandardDependencyException
+import ru.surfstudio.android.build.exceptions.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.module.Library
@@ -81,6 +82,20 @@ object Components {
     }
 
     /**
+     * Get component stability by module name
+     */
+    @JvmStatic
+    fun getComponentStability(libraryName: String): Boolean {
+        value.forEach { component ->
+            component.libraries
+                    .find { it.name == libraryName }
+                    ?.let { return component.stable }
+        }
+
+        throw LibraryNotFoundException(libraryName)
+    }
+
+    /**
      * Set components for android standard dependencies
      */
     private fun setComponentsForAndroidStandardDependencies() {
@@ -111,6 +126,9 @@ object Components {
             if (!projectSnapshot.isEmpty) versionName += "-${projectSnapshot.name}.${projectSnapshot.version}"
 
             component.projectVersion = versionName
+            component.libraries.forEach {
+                it.projectVersion = versionName
+            }
         }
     }
 }
