@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model.json
 
 import com.google.gson.annotations.SerializedName
-import ru.surfstudio.android.build.model.ConfigInfo
+import ru.surfstudio.android.build.model.GlobalConfigInfo
 import ru.surfstudio.android.build.utils.Transformable
 
 /**
@@ -13,17 +13,17 @@ data class ConfigInfoJson(
         @SerializedName("unstable_version") val unstableVersion: Int,
         @SerializedName("project_snapshot_name") val projectSnapshotName: String,
         @SerializedName("project_snapshot_version") val projectSnapshotVersion: Int
-) : Transformable<ConfigInfo> {
+) : Transformable<GlobalConfigInfo> {
 
-    constructor(configInfo: ConfigInfo) : this(
-            configInfo.commonVersion,
-            configInfo.isStable,
-            configInfo.unstableVersion,
-            configInfo.projectSnapshotName,
-            configInfo.projectSnapshotVersion
+    constructor(globalConfigInfo: GlobalConfigInfo) : this(
+            globalConfigInfo.commonVersion,
+            globalConfigInfo.isStable,
+            globalConfigInfo.unstableVersion,
+            globalConfigInfo.projectSnapshotName,
+            globalConfigInfo.projectSnapshotVersion
     )
 
-    override fun transform() = ConfigInfo(
+    override fun transform() = GlobalConfigInfo(
             version,
             stable,
             unstableVersion,

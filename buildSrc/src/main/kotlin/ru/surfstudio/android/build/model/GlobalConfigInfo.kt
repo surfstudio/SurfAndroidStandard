@@ -11,7 +11,7 @@ import ru.surfstudio.android.build.utils.createCompositeVersion
  * @param projectSnapshotName - project snapshot name. For project's android standard
  * @param projectSnapshotVersion - project snapshot version
  */
-data class ConfigInfo(
+data class GlobalConfigInfo(
         val commonVersion: String,
         val isStable: Boolean,
         val unstableVersion: Int,

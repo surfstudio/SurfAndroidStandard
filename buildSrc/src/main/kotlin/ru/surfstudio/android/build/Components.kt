@@ -103,7 +103,7 @@ object Components {
      * Create project versions for components
      */
     private fun configModuleVersions() {
-        val configInfo = ConfigInfoProvider.configInfo
+        val configInfo = ConfigInfoProvider.globalConfigInfo
 
         value.forEach { component ->
             component.projectVersion = createCompositeVersion(
