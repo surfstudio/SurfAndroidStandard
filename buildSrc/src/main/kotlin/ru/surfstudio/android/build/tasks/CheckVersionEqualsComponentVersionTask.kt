@@ -5,7 +5,7 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
 import ru.surfstudio.android.build.exceptions.PropertyVersionsNotEqualsComponentVersionException
-import ru.surfstudio.android.build.utils.getComponent
+import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
  * Check version from property equals version from component
@@ -19,7 +19,7 @@ open class CheckVersionEqualsComponentVersionTask : DefaultTask() {
      */
     @TaskAction
     fun check() {
-        val component = project.getComponent()
+        val component = project.getPropertyComponent()
 
         val propertyVersion = project.property(GradleProperties.COMPONENT_VERSION) as? String
                 ?: throw PropertyNotDefineException(GradleProperties.COMPONENT_VERSION)
