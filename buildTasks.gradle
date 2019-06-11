@@ -50,3 +50,5 @@ task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurren
 task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask)
 
 task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask)
+
+task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask)

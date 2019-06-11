@@ -7,5 +7,6 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
  */
 class Sample(
         override val name: String = EMPTY_STRING,
-        override val directoryPath: String = EMPTY_STRING
+        override val directoryPath: String = EMPTY_STRING,
+        val directory: String = EMPTY_STRING
 ) : Module(name, directoryPath)

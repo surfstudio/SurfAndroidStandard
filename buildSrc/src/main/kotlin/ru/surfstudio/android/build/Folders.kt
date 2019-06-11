@@ -8,6 +8,5 @@ object Folders {
     const val TEMP_FOLDER_NAME = "temp"
     const val BUILD_OUTPUT_FOLDER_PATH = "$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME"
     const val OUTPUT_JSON_FOLDER_PATH = "$BUILD_FOLDER_NAME/$OUTPUT_FOLDER_NAME/$CHECK_STABLE_COMPONENTS_CHANGED_FOLDER_NAME/"
-    const val COMPONENTS_JSON_FILE_PATH = "/buildSrc/components.json"
     const val CONFIG_GRADLE_PATH = "/buildSrc/config.gradle"
 }
