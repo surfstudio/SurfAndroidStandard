@@ -1,19 +1,19 @@
 package ru.surfstudio.android.mvp.binding.rx.sample.react.reducer
 
+import android.util.Log
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
+import ru.surfstudio.android.core.mvp.binding.react.event.SwipeRefresh
+import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableEvent
 import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableState
 import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableType
+import ru.surfstudio.android.core.mvp.binding.react.loadable.data.*
 import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
 import ru.surfstudio.android.core.mvp.binding.react.optional.asOptional
 import ru.surfstudio.android.core.mvp.binding.react.reactor.Feature
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.LoadListEvent
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.OpenProfileScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.QueryChangedEvent
-import java.io.IOException
-import java.lang.Exception
 import javax.inject.Inject
 
 @PerScreen
@@ -37,24 +37,35 @@ class ListFeature @Inject constructor() : Feature {
                             } else {
                                 event.data
                             },
-                            isLoading = false
+                            load = event.mapLoading(data.hasValue)
                     )
                 }
 
                 LoadableType.Error -> {
                     copy(
-                            error = if (!data.hasValue) event.error else Optional.Empty,
-                            isLoading = false
+                            error = if (!data.hasValue) CommonError(event.error) else EmptyError(),
+                            load = event.mapLoading(data.hasValue)
                     )
                 }
 
                 LoadableType.Loading -> {
-                    copy(isLoading = !data.hasValue)
+                    copy(load = event.mapLoading(data.hasValue))
                 }
 
             }
         }
     }
+
+    private fun <T> LoadableEvent<T>.mapLoading(hasData: Boolean, isSwr: Boolean = false) =
+            if (hasData) {
+                if (isSwr) {
+                    SwipeRefreshLoading(isLoading)
+                } else {
+                    TransparentLoading(isLoading)
+                }
+            } else {
+                MainLoading(isLoading)
+            }
 
     private fun reactOnQueryChangedEvent(event: QueryChangedEvent) {
         state.modify {

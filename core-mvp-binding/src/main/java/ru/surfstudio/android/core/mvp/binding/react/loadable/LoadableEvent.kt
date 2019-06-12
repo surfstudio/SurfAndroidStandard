@@ -1,38 +1,34 @@
 package ru.surfstudio.android.core.mvp.binding.react.loadable
 
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
+import ru.surfstudio.android.core.mvp.binding.react.loadable.data.EmptyErrorException
+import ru.surfstudio.android.core.mvp.binding.react.loadable.data.LoadableData
 import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
 
 abstract class LoadableEvent<T> : Event {
 
-    var value = LoadableData<T>()
-    var type = LoadableType.Loading
+    var data: Optional<T> = Optional.Empty
+    var isLoading: Boolean = false
+    var error: Throwable = EmptyErrorException()
 
-    val data get() = value.data
-    val isLoading get() = value.isLoading
-    val error get() = value.error
+    var type = LoadableType.Loading
 
     fun acceptLoading() = apply {
         type = LoadableType.Loading
-        value = value.copy(
-                isLoading = true
-        )
+        isLoading = true
     }
 
-    fun acceptData(data: T) = apply {
+    fun acceptData(value: T) = apply {
         type = LoadableType.Data
-        value = value.copy(
-                isLoading = false,
-                data = Optional.Some(data)
-        )
+        isLoading = false
+        data = Optional.Some(value)
+        error = EmptyErrorException()
     }
 
     fun acceptError(throwable: Throwable) = apply {
         type = LoadableType.Error
-        value = value.copy(
-                isLoading = false,
-                error = Optional.Some(throwable)
-        )
+        isLoading = false
+        error = throwable
     }
 
     override fun toString() = "${super.toString()}, stage:$type"

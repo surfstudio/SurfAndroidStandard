@@ -35,5 +35,6 @@
         android:id="@+id/reactive_pb"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 </FrameLayout>
