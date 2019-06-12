@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxbinding2.view.clicks
 import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_reactive_list.*
-import ru.surfstudio.android.core.mvp.binding.react.event.LoadData
-import ru.surfstudio.android.core.mvp.binding.react.reactor.Feature
+import ru.surfstudio.android.core.mvp.binding.react.event.LoadNextData
+import ru.surfstudio.android.core.mvp.binding.react.event.ReloadData
 import ru.surfstudio.android.core.mvp.binding.react.ui.BaseReactActivity
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.easyadapter.ItemList
@@ -17,14 +17,14 @@ import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationableAdapter
 import ru.surfstudio.android.mvp.binding.rx.sample.react.controller.BaseController
 import ru.surfstudio.android.mvp.binding.rx.sample.react.di.ReactiveScreenConfigurator
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.EventManager
+import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHubImpl
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.QueryChangedEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reducer.ListFeature
 import javax.inject.Inject
 
 class ReactiveActivityView : BaseReactActivity() {
 
-    private val adapter = PaginationableAdapter { sendEvent(LoadData.Next()) }
+    private val adapter = PaginationableAdapter { sendEvent(LoadNextData()) }
     private val controller = BaseController()
 
     override fun createConfigurator() = ReactiveScreenConfigurator(intent)
@@ -37,7 +37,7 @@ class ReactiveActivityView : BaseReactActivity() {
     lateinit var listFeature: ListFeature
 
     @Inject
-    override lateinit var hub: EventManager
+    override lateinit var hub: EventHubImpl
 
     override fun getFeatures() = arrayOf(listFeature)
 
@@ -47,16 +47,16 @@ class ReactiveActivityView : BaseReactActivity() {
         reactive_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         reactive_rv.adapter = adapter
 
-        reactive_reload_btn.clicks().sendEvent(LoadData.First())
+        reactive_reload_btn.clicks().sendEvent(ReloadData())
         reactive_query_tv.textChanges()
                 .skipInitialValue()
-                .sendEvent(eventTransformer = { QueryChangedEvent(it.toString()) })
+                .mapAndSend { QueryChangedEvent(it.toString()) }
 
-        listFeature.isLoading.observable.distinctUntilChanged() bindTo { reactive_pb.isVisible = it }
-        listFeature.list bindTo ::createList
+        listFeature.state.observeLoading bindTo { reactive_pb.isVisible = it }
+        listFeature.state.observeData bindTo ::createList
     }
 
-    fun createList(list: List<String>) {
+    private fun createList(list: List<String>) {
         adapter.setItems(ItemList.create().addAll(list, controller), PaginationState.READY)
     }
 }

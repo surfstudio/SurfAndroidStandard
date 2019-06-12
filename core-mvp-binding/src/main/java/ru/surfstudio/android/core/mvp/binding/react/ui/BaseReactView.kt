@@ -13,7 +13,7 @@ interface BaseReactView : BindableRxView, EventHubHolder {
 
     fun getFeatures(): Array<out Feature>
 
-    fun <T> Observable<T>.sendEvent(eventTransformer: (T) -> Event) =
+    fun <T> Observable<T>.mapAndSend(eventTransformer: (T) -> Event) =
             this.map(eventTransformer) bindTo hub
 
     fun <T> Observable<T>.sendEvent(event: Event) =

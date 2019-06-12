@@ -1,45 +1,23 @@
 package ru.surfstudio.android.core.mvp.binding.react.event
 
-import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
+/**
+ * Классы базовых эвентов.
+ *
+ * Метод [toString] переопределен для удобства логгирования
+ */
 
-
-open class RefreshData : Event
-
-open class LoadData : Event {
-    open class First : LoadData()
-    open class Next : LoadData()
-    open class All : LoadData()
+open class OpenScreen(val name: String) : Event {
+    override fun toString() = "Open screen: $name"
 }
 
-abstract class RxEvent<T> : Event {
-
-    var data: Optional<T> = Optional.Empty
-        protected set
-    var isLoading: Boolean = false
-        protected set
-    var error: Optional<Throwable> = Optional.Empty
-        protected set
-    var type: RequestType = RequestType.Loading
-        protected set
-
-    fun acceptLoading() = apply {
-        type = RequestType.Loading
-        isLoading = true
-    }
-
-    fun acceptData(value: T) = apply {
-        type = RequestType.Data
-        isLoading = false
-        data = Optional.Some(value)
-    }
-
-    fun acceptError(throwable: Throwable) = apply {
-        type = RequestType.Error
-        isLoading = false
-        error = Optional.Some(throwable)
-    }
+open class SwipeRefresh : Event {
+    override fun toString() = "SwipeRefresh"
 }
 
-enum class RequestType {
-    Loading, Data, Error
+open class ReloadData : Event {
+    override fun toString() = "ReloadData"
+}
+
+open class LoadNextData : Event {
+    override fun toString() = "LoadNextData"
 }

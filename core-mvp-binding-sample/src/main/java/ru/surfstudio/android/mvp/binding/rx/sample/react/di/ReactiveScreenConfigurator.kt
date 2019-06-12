@@ -4,8 +4,14 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHubImpl
+import ru.surfstudio.android.core.mvp.binding.react.event.hub.RxEventHub
+import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveActivityView
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveMiddleWare
@@ -19,7 +25,7 @@ class ReactiveScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigur
 
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
-            modules = [DefaultActivityScreenModule::class, ReactiveScreenModule::class])
+            modules = [DefaultActivityScreenModule::class, ReactiveScreenModule::class, BaseReactScreenModule::class])
     internal interface ReactiveScreenComponent
         : BindableScreenComponent<ReactiveActivityView>
 

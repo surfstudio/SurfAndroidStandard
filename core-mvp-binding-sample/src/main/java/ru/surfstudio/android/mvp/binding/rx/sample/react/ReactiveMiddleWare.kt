@@ -2,40 +2,37 @@ package ru.surfstudio.android.mvp.binding.rx.sample.react
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
-import ru.surfstudio.android.core.mvp.binding.react.event.LoadData
-import ru.surfstudio.android.core.mvp.binding.react.ui.BaseMiddleWare
-import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.mvp.binding.react.event.LoadNextData
+import ru.surfstudio.android.core.mvp.binding.react.event.ReloadData
+import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.EventManager
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ListRxEvent
+import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.BaseMiddlewareDependency
+import ru.surfstudio.android.mvp.binding.rx.sample.react.event.LoadListEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reducer.ListFeature
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerScreen
 class ReactiveMiddleWare @Inject constructor(
-        basePresenterDependency: BasePresenterDependency,
-        hub: EventManager,
+        baseMiddlewareDependency: BaseMiddlewareDependency,
         private val listFeature: ListFeature
-) : BaseMiddleWare(basePresenterDependency, hub) {
+) : BaseMiddleware(baseMiddlewareDependency) {
 
     override fun onFirstLoad() {
+        super.onFirstLoad()
         loadData()
     }
 
-    override fun <T : Event> accept(event: T) {
+    override fun accept(event: Event) {
         when (event) {
-            is LoadData.First -> loadData()
-            is LoadData.Next -> loadData(listFeature.list.value.nextPage)
-            is LoadData.All -> {
-                //PaginationUtil.requestPortions
-            }
+            is ReloadData -> loadData()
+            is LoadNextData -> loadData(listFeature.state.value.data.get().nextPage)
         }
     }
 
     private fun loadData(offset: Int = 0) = createListObservable(offset)
-            .sendEvent(ListRxEvent())
+            .sendEvent(LoadListEvent())
 
     private fun createListObservable(page: Int) = Observable.timer(2, TimeUnit.SECONDS).map {
         DataList<String>(
