@@ -5,8 +5,9 @@ import android.os.PersistableBundle
 import androidx.annotation.CallSuper
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxFragmentView
 
-abstract class BaseReactActivity : BaseRxActivityView(), BaseReactView {
+abstract class BaseReactActivityView : BaseRxActivityView(), BaseReactView {
 
     abstract override val hub: RxEventHub
 
@@ -15,4 +16,14 @@ abstract class BaseReactActivity : BaseRxActivityView(), BaseReactView {
         getFeatures().forEach { hub.observeEvents() bindTo it::react }
     }
 
+}
+
+abstract class BaseReactFragmentView : BaseRxFragmentView(), BaseReactView {
+
+    abstract override val hub: RxEventHub
+
+    @CallSuper
+    override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
+        getFeatures().forEach { hub.observeEvents() bindTo it::react }
+    }
 }

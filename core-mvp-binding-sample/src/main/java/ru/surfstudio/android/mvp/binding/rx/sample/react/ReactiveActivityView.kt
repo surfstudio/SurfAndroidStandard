@@ -10,7 +10,7 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_reactive_list.*
 import ru.surfstudio.android.core.mvp.binding.react.event.LoadNextData
 import ru.surfstudio.android.core.mvp.binding.react.event.ReloadData
-import ru.surfstudio.android.core.mvp.binding.react.ui.BaseReactActivity
+import ru.surfstudio.android.core.mvp.binding.react.ui.BaseReactActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
@@ -18,12 +18,11 @@ import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.paginat
 import ru.surfstudio.android.mvp.binding.rx.sample.react.controller.BaseController
 import ru.surfstudio.android.mvp.binding.rx.sample.react.di.ReactiveScreenConfigurator
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHubImpl
-import ru.surfstudio.android.core.mvp.binding.react.loadable.data.MainLoading
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.QueryChangedEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reducer.ListFeature
 import javax.inject.Inject
 
-class ReactiveActivityView : BaseReactActivity() {
+class ReactiveActivityView : BaseReactActivityView() {
 
     private val adapter = PaginationableAdapter { sendEvent(LoadNextData()) }
     private val controller = BaseController()
