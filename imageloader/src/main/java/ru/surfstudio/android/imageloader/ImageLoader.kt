@@ -54,6 +54,10 @@ import com.bumptech.glide.signature.ObjectKey
  * Загрузчик изображений.
  *
  * Является надстройкой над библиотекой Glide.
+ *
+ * При загрузке изображений не следует использовать [View] с длиной и шириной wrap_content.
+ * Это может повлечь за собой загрузку изображения с размерами экрана смартфона,
+ * а так же возникновение багов (например, перестанут применяться трансформации).
  */
 class ImageLoader(private val context: Context) : ImageLoaderInterface {
 
@@ -116,16 +120,22 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
-    override fun preview(@DrawableRes drawableResId: Int) =
-            apply { this.imageResourceManager.previewResId = drawableResId }
+    override fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean) =
+            apply {
+                this.imageResourceManager.previewResId = drawableResId
+                this.imageResourceManager.shouldTransformPreview = shouldTransformPreview
+            }
 
     /**
      * Указание графического ресурса, отображаемого в случае ошибки загрузки
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
      */
-    override fun error(@DrawableRes drawableResId: Int) =
-            apply { this.imageResourceManager.errorResId = drawableResId }
+    override fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean) =
+            apply {
+                this.imageResourceManager.errorResId = drawableResId
+                this.imageResourceManager.shouldTransformError = shouldTransformError
+            }
 
     /**
      * Установка лямбды для отслеживания загрузки изображения
@@ -411,7 +421,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                             .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
                             .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
                             .applyTransformations(imageTransformationsManager.prepareTransformations())
-                            .signature(ObjectKey(imageSignatureManager.signature ?: imageResourceManager.url))
+                            .signature(ObjectKey(imageSignatureManager.signature
+                                    ?: imageResourceManager.url))
             )
             .listener(glideDownloadListener)
 
