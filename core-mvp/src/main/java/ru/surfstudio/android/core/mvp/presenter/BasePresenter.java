@@ -562,7 +562,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         return maybe.doOnError(reloadErrorAction(reloadAction));
     }
 
-    private ConsumerSafe<Throwable> reloadErrorAction(ActionSafe reloadAction) {
+    protected ConsumerSafe<Throwable> reloadErrorAction(ActionSafe reloadAction) {
         return e -> {
             cancelAutoReload();
             if (connectionProvider.isDisconnected()) {

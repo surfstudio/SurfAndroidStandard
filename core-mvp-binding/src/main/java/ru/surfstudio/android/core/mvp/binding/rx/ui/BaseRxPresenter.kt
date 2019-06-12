@@ -16,21 +16,28 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
+import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.rx.extension.ActionSafe
 
 /**
  * Презентер поддерживающий связывание модели и представления.
  * Работет в паре с [BindableRxView]
  */
-abstract class BaseRxPresenter(
+abstract class BaseRxPresenter( //TODO разнести build-функции по интерфейсам
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<BindableRxView>(basePresenterDependency), Related<PRESENTER> {
+
+    val schedulersProvider = basePresenterDependency.schedulersProvider
+    val errorHandler = basePresenterDependency.errorHandler
 
     override fun relationEntity() = PRESENTER
 
@@ -38,4 +45,114 @@ abstract class BaseRxPresenter(
                                onNext: Consumer<T>,
                                onError: (Throwable) -> Unit): Disposable =
             super.subscribe(observable, { onNext.accept(it) }, { onError(it) })
+
+    /**
+     * Build-функция, переводящая [Single] в поток из Schedulers.io()
+     */
+    protected fun <T> Single<T>.io(): Single<T> =
+            subscribeOn(schedulersProvider.worker())
+
+    /**
+     * Build-функция, переводящая [Observable] в поток из Schedulers.io()
+     */
+    protected fun <T> Observable<T>.io(): Observable<T> =
+            subscribeOn(schedulersProvider.worker())
+
+    /**
+     * Build-функция, переводящая [Observable] в поток из Schedulers.io()
+     */
+    protected fun <T> Maybe<T>.io(): Maybe<T> =
+            subscribeOn(schedulersProvider.worker())
+
+    /**
+     * Build-функция, [Completable] в поток из Schedulers.io()
+     */
+    protected fun Completable.io(): Completable =
+            subscribeOn(schedulersProvider.worker())
+
+    /**
+     * Build-функция, переводящая [Single] в поток из Schedulers.io()
+     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     */
+    protected fun <T> Single<T>.ioHandleError(): Single<T> = this
+            .io() // переводим цепочку в worker-thread
+            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
+            .doOnError {
+                errorHandler.handleError(it)
+            }
+            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+
+    /**
+     * Build-функция, переводящая [Observable] в поток из Schedulers.io()
+     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     */
+    protected fun <T> Observable<T>.ioHandleError(): Observable<T> = this
+            .io() // переводим цепочку в worker-thread
+            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
+            .doOnError {
+                errorHandler.handleError(it)
+            }
+            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+
+    /**
+     * Build-функция, переводящая [Maybe] в поток из Schedulers.io()
+     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     */
+    protected fun <T> Maybe<T>.ioHandleError(): Maybe<T> = this
+            .io() // переводим цепочку в worker-thread
+            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
+            .doOnError {
+                errorHandler.handleError(it)
+            }
+            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+
+    /**
+     * Build-функция, переводящая [Completable] в поток из Schedulers.io()
+     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     */
+    protected fun Completable.ioHandleError(): Completable = this
+            .io() // переводим цепочку в worker-thread
+            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
+            .doOnError {
+                errorHandler.handleError(it)
+            }
+            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+
+    /**
+     * Build-функция для [Single], которая при потере соединения с интернетом,
+     * дожидается восстановления состояния, и выполняет действие.
+     *
+     * @param autoReloadAction - действие, выполняемое при восстановлении состояния
+     */
+    protected fun <T> Single<T>.autoReload(autoReloadAction: () -> Unit): Single<T> =
+            doOnError(reloadErrorAction(autoReloadAction))
+
+    /**
+     * Build-функция для [Observable], которая при потере соединения с интернетом,
+     * дожидается восстановления состояния, и выполняет действие.
+     *
+     * @param autoReloadAction - действие, выполняемое при восстановлении состояния
+     */
+    protected fun <T> Observable<T>.autoReload(autoReloadAction: () -> Unit): Observable<T> =
+            doOnError(reloadErrorAction(autoReloadAction))
+
+    /**
+     * Build-функция для [Maybe], которая при потере соединения с интернетом,
+     * дожидается восстановления состояния, и выполняет действие.
+     *
+     * @param autoReloadAction - действие, выполняемое при восстановлении состояния
+     */
+    protected fun <T> Maybe<T>.autoReload(autoReloadAction: () -> Unit): Maybe<T> =
+            doOnError(reloadErrorAction(autoReloadAction))
+
+    /**
+     * Build-функция для [Completable], которая при потере соединения с интернетом,
+     * дожидается восстановления состояния, и выполняет действие.
+     *
+     * @param autoReloadAction - действие, выполняемое при восстановлении состояния
+     */
+    protected fun Completable.autoReload(autoReloadAction: () -> Unit): Completable =
+            doOnError(reloadErrorAction(autoReloadAction))
+
+    //TODO добавить subscribeTakeLastFrozen(если возможно)
 }
