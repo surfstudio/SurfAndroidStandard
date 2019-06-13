@@ -16,17 +16,13 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
-import io.reactivex.Completable
-import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
+import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.rx.extension.ActionSafe
 
 /**
  * Презентер поддерживающий связывание модели и представления.
@@ -71,52 +67,28 @@ abstract class BaseRxPresenter( //TODO разнести build-функции п�
             subscribeOn(schedulersProvider.worker())
 
     /**
-     * Build-функция, переводящая [Single] в поток из Schedulers.io()
-     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     * Build-функция, обрабатывающая ошибки [Single] с помощью [ErrorHandler] в главном потоке.
      */
-    protected fun <T> Single<T>.ioHandleError(): Single<T> = this
-            .io() // переводим цепочку в worker-thread
-            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
-            .doOnError {
-                errorHandler.handleError(it)
-            }
-            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+    protected fun <T> Single<T>.handleError(): Single<T> = this
+            .doOnError(::handleErrorOnMainThread)
 
     /**
-     * Build-функция, переводящая [Observable] в поток из Schedulers.io()
-     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     * Build-функция, обрабатывающая ошибки [Observable] с помощью [ErrorHandler] в главном потоке.
      */
-    protected fun <T> Observable<T>.ioHandleError(): Observable<T> = this
-            .io() // переводим цепочку в worker-thread
-            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
-            .doOnError {
-                errorHandler.handleError(it)
-            }
-            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+    protected fun <T> Observable<T>.handleError(): Observable<T> = this
+            .doOnError(::handleErrorOnMainThread)
 
     /**
-     * Build-функция, переводящая [Maybe] в поток из Schedulers.io()
-     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     * Build-функция, обрабатывающая ошибки [Maybe] с помощью [ErrorHandler] в главном потоке.
      */
-    protected fun <T> Maybe<T>.ioHandleError(): Maybe<T> = this
-            .io() // переводим цепочку в worker-thread
-            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
-            .doOnError {
-                errorHandler.handleError(it)
-            }
-            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+    protected fun <T> Maybe<T>.handleError(): Maybe<T> = this
+            .doOnError(::handleErrorOnMainThread)
 
     /**
-     * Build-функция, переводящая [Completable] в поток из Schedulers.io()
-     * и обрабатывающая возникающие ошибки с помощью [ErrorHandler] в главном потоке.
+     * Build-функция, обрабатывающая ошибки [Completable] с помощью [ErrorHandler] в главном потоке.
      */
-    protected fun Completable.ioHandleError(): Completable = this
-            .io() // переводим цепочку в worker-thread
-            .observeOn(schedulersProvider.main())   //ошибку обрабатываем в main
-            .doOnError {
-                errorHandler.handleError(it)
-            }
-            .observeOn(schedulersProvider.worker()) //дальнейшая работа происходит в worker
+    protected fun Completable.handleError(): Completable = this
+            .doOnError(::handleErrorOnMainThread)
 
     /**
      * Build-функция для [Single], которая при потере соединения с интернетом,
@@ -155,4 +127,8 @@ abstract class BaseRxPresenter( //TODO разнести build-функции п�
             doOnError(reloadErrorAction(autoReloadAction))
 
     //TODO добавить subscribeTakeLastFrozen(если возможно)
+
+    private fun handleErrorOnMainThread(throwable: Throwable) {
+        schedulersProvider.main().scheduleDirect { errorHandler.handleError(throwable) }
+    }
 }
