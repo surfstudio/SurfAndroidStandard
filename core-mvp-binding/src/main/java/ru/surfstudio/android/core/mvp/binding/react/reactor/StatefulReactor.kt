@@ -1,3 +1,3 @@
 package ru.surfstudio.android.core.mvp.binding.react.reactor
 
-interface Feature : Reactor, StateHolder
+interface StatefulReactor : Reactor, StateHolder

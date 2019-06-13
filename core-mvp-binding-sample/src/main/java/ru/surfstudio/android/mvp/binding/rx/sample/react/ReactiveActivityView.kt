@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class ReactiveActivityView : BaseReactActivityView() {
 
-    private val adapter = PaginationableAdapter { sendEvent(LoadNextData()) }
+    private val adapter = PaginationableAdapter { send(LoadNextData()) }
     private val controller = BaseController()
 
     override fun createConfigurator() = ReactiveScreenConfigurator(intent)
@@ -39,7 +39,7 @@ class ReactiveActivityView : BaseReactActivityView() {
     @Inject
     override lateinit var hub: EventHubImpl
 
-    override fun getFeatures() = arrayOf(listFeature)
+    override fun getReactors() = arrayOf(listFeature)
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
@@ -47,7 +47,7 @@ class ReactiveActivityView : BaseReactActivityView() {
         reactive_rv.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         reactive_rv.adapter = adapter
 
-        reactive_reload_btn.clicks().sendEvent(ReloadData())
+        reactive_reload_btn.clicks().send(ReloadData())
         reactive_query_tv.textChanges()
                 .skipInitialValue()
                 .mapAndSend { QueryChangedEvent(it.toString()) }

@@ -32,7 +32,7 @@ class ReactiveMiddleWare @Inject constructor(
     }
 
     private fun loadData(offset: Int = 0) = createListObservable(offset)
-            .sendEvent(LoadListEvent())
+            .send(LoadListEvent())
 
     private fun createListObservable(page: Int) = Observable.timer(2, TimeUnit.SECONDS).map {
         DataList<String>(

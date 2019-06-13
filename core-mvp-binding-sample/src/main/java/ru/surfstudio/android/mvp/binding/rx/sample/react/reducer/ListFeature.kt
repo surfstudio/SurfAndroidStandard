@@ -1,15 +1,12 @@
 package ru.surfstudio.android.mvp.binding.rx.sample.react.reducer
 
-import android.util.Log
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
-import ru.surfstudio.android.core.mvp.binding.react.event.SwipeRefresh
 import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableEvent
 import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableState
 import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableType
 import ru.surfstudio.android.core.mvp.binding.react.loadable.data.*
-import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
 import ru.surfstudio.android.core.mvp.binding.react.optional.asOptional
-import ru.surfstudio.android.core.mvp.binding.react.reactor.Feature
+import ru.surfstudio.android.core.mvp.binding.react.reactor.StatefulReactor
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.LoadListEvent
@@ -17,9 +14,10 @@ import ru.surfstudio.android.mvp.binding.rx.sample.react.event.QueryChangedEvent
 import javax.inject.Inject
 
 @PerScreen
-class ListFeature @Inject constructor() : Feature {
+class ListFeature @Inject constructor() : StatefulReactor {
 
     val state = LoadableState<DataList<String>>()
+
     override fun <T : Event> react(event: T) {
         when (event) {
             is LoadListEvent -> reactOnListLoadEvent(event)
@@ -51,7 +49,6 @@ class ListFeature @Inject constructor() : Feature {
                 LoadableType.Loading -> {
                     copy(load = event.mapLoading(data.hasValue))
                 }
-
             }
         }
     }

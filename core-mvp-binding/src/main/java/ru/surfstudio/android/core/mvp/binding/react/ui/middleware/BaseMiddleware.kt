@@ -27,16 +27,12 @@ abstract class BaseMiddleware(
         //TODO сделать логгирование ошибок, пока в модуле не подключен Logger
     }
 
-    fun <T, E : LoadableEvent<T>> Observable<T>.sendEvent(event: E): Disposable {
-        hub.accept(event.acceptLoading())
+    fun <T, E : LoadableEvent<T>> Observable<T>.send(event: E): Disposable {
+        hub.emitEvent(event.acceptLoading())
         return subscribe(this,
-                { hub.accept(event.acceptData(it)) },
-                { hub.accept(event.acceptError(it)) }
+                { hub.emitEvent(event.acceptData(it)) },
+                { hub.emitEvent(event.acceptError(it)) }
         )
-    }
-
-    fun sendEvent(event: Event) {
-        hub.accept(event)
     }
 
     private fun subscribeToHub() {

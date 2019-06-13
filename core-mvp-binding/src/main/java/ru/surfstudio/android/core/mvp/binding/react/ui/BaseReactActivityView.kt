@@ -13,7 +13,7 @@ abstract class BaseReactActivityView : BaseRxActivityView(), BaseReactView {
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
-        getFeatures().forEach { hub.observeEvents() bindTo it::react }
+        getReactors().forEach { hub.observeEvents() bindTo it::react }
     }
 
 }
@@ -24,6 +24,6 @@ abstract class BaseReactFragmentView : BaseRxFragmentView(), BaseReactView {
 
     @CallSuper
     override fun onActivityCreated(savedInstanceState: Bundle?, viewRecreated: Boolean) {
-        getFeatures().forEach { hub.observeEvents() bindTo it::react }
+        getReactors().forEach { hub.observeEvents() bindTo it::react }
     }
 }
