@@ -1,8 +1,7 @@
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
-import ru.surfstudio.android.build.ConfigInfoProvider
 
 group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
-version = ConfigInfoProvider.getVersion()
+version = "1.0.0"
 
 apply plugin: 'maven'
 
@@ -18,7 +17,7 @@ artifacts {
 uploadArchives.repositories.mavenDeployer {
     pom {
         groupId = group
-        artifactId = rootProject.name
+        artifactId = "configuration-plugin"
         version = version
 
         withXml {

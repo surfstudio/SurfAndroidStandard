@@ -1,11 +1,7 @@
-# Android-Standard version plugin
+# Android-Standard configuration plugin
 
-There are two types of versions:
-- main version of all repository
-- version of specific library/module
-
-This plugin provide specific library version from Android-Standard 
-based on main Android-Standard version by library name
+Plugin adds new configuration.
+It provides ability to connect local android standard in project. 
 
 ### Usage
 
@@ -13,29 +9,31 @@ build.gradle(root)
 ```groovy
 buildscript {
     repositories {
-        
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 
     dependencies {
-        classpath 'ru.surfstudio.android:version-plugin:version'
+        classpath 'ru.surfstudio.android:configuration-plugin:version'
+    }
+}
+
+allprojects {
+    apply plugin: 'ru.surfstudio.android.cofiguration'
+
+    androidStandard.useLocal = true
+    androidStandard.localPath = "absolute path to android-standard"
+
+    repositories {
+        maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 }
 ```
 
 build.gradle(app)
 ```groovy
-apply plugin: 'ru.surfstudio.android'
 
 dependencies {
-    implementation "ru.surfstudio.android:artifact-id:${androidStandard.version("artifact-id")}"
+    implementationStandard "your dependencies"
+    apiStandard "your dependencies"
 }
 ```
-
-### How to deploy/update this plugin? (for internal usage)
-
-1. run task **generateDataForPlugin** that will generate json with versions 
-inside plugin module
-
-2. update/deploy ***android-standard-version-plugin*** by running task 
-**updateArchives** from plugin module
