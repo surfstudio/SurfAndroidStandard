@@ -8,6 +8,7 @@ import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.exceptions.ComponentPropertyNotFoundException
+import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
 
 /**
  * Component that provided by gradle property
@@ -31,4 +32,13 @@ fun <T> Project.readProperty(name: String, defValue: T): T {
         //Missing property
     }
     return defValue
+}
+
+/**
+ * Extract property from project
+ *
+ * @throws PropertyNotDefineException if property doesn't define
+ */
+fun Project.extractProperty(propertyName: String): String {
+    return property(propertyName) as? String ?: throw PropertyNotDefineException(propertyName)
 }

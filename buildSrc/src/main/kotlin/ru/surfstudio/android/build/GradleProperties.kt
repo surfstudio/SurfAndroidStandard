@@ -55,4 +55,24 @@ object GradleProperties {
      * Deploy only is not exist
      */
     const val DEPLOY_ONLY_IF_NOT_EXIST = "deployOnlyIfNotExist"
+
+    /**
+     * Number or commit
+     */
+    const val COMMIT = "commit"
+
+    /**
+     * Mirror url
+     */
+    const val MIRROR_URL = "mirror"
+
+    /**
+     * Depth limit for deploy to mirror
+     */
+    const val DEPLOY_TO_MIRROR_DEPTH_LIMIT = "depthLimit"
+
+    /**
+     * Search limit for deploy to mirror
+     */
+    const val DEPLOY_TO_MIRROR_SEARCH_LIMIT = "searchLimit"
 }

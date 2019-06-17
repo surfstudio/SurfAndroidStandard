@@ -1,6 +1,7 @@
 import ru.surfstudio.android.build.tasks.*
 import ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_repositories.*
 import ru.surfstudio.android.build.tasks.check_dependencies_stable.*
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.*
 
 task checkStandardDependenciesStableTask(type: CheckStandardDependenciesStableTask)
 
@@ -63,3 +64,5 @@ task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBin
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask)
 
 task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask)
+
+task deployToMirror(type: DeployToMirrorTask)
