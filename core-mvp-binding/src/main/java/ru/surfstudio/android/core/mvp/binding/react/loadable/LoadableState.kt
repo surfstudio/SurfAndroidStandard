@@ -25,7 +25,7 @@ open class LoadableState<T>(
     val observeLoading: Observable<Boolean>
         get() = observeLoad.map { it.isLoading }
 
-    val observeError: Observable<Error>
+    val observeError: Observable<Throwable>
         get() = relay.share()
                 .map { it.error }
 
@@ -34,7 +34,7 @@ open class LoadableState<T>(
     override fun getObservable(target: VIEW): Observable<LoadableData<T>> = relay.share()
 
     fun acceptEvent(event: LoadableEvent<T>) {
-        relay.accept(LoadableData(event.data, MainLoading(event.isLoading), CommonError(event.error)))
+        relay.accept(LoadableData(event.data, MainLoading(event.isLoading), event.error))
     }
 
     fun modify(modifier: LoadableData<T>.() -> LoadableData<T>) {

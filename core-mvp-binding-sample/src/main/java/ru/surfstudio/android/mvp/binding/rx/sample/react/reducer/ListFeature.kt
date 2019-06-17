@@ -41,7 +41,7 @@ class ListFeature @Inject constructor() : StatefulReactor {
 
                 LoadableType.Error -> {
                     copy(
-                            error = if (!data.hasValue) CommonError(event.error) else EmptyError(),
+                            error = if (!data.hasValue) event.error else EmptyErrorException(),
                             load = event.mapLoading(data.hasValue)
                     )
                 }
