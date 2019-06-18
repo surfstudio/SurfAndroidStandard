@@ -90,14 +90,42 @@ class TitleSubtitleView @JvmOverloads constructor(
     var titleTextAppearance: Int = -1
         set(value) {
             field = value
-            TextViewCompat.setTextAppearance(titleView, value)
+            if (value != -1) {
+                TextViewCompat.setTextAppearance(titleView, value)
+            }
         }
 
     @StyleRes
     var subTitleTextAppearance: Int = -1
         set(value) {
             field = value
-            TextViewCompat.setTextAppearance(subTitleView, value)
+            if (value != -1) {
+                TextViewCompat.setTextAppearance(subTitleView, value)
+            }
+        }
+
+    var titleLines: Int = -1
+        set(value) {
+            field = value
+            titleView.setLines(value)
+        }
+
+    var subTitleLines: Int = -1
+        set(value) {
+            field = value
+            subTitleView.setLines(value)
+        }
+
+    var titleMaxLines: Int = -1
+        set(value) {
+            field = value
+            titleView.maxLines = value
+        }
+
+    var subTitleMaxLines: Int = -1
+        set(value) {
+            field = value
+            subTitleView.maxLines = value
         }
 
     var onTitleClickListenerCallback: ((String) -> Unit)? = null
@@ -170,7 +198,6 @@ class TitleSubtitleView @JvmOverloads constructor(
             titleText = defaultTitle
 
             titleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_titleTextAppearance, -1)
-            setupTextAppearance(titleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_titleTextColor)
 
@@ -183,8 +210,8 @@ class TitleSubtitleView @JvmOverloads constructor(
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_titlePaddingBottom, 0)
             )
 
-            setLines(ta.getInt(R.styleable.TitleSubtitleView_titleLines, lineCount))
-            maxLines = ta.getInt(R.styleable.TitleSubtitleView_titleMaxLines, DEFAULT_MAX_LINES)
+            titleLines = ta.getInt(R.styleable.TitleSubtitleView_titleLines, lineCount)
+            titleMaxLines = ta.getInt(R.styleable.TitleSubtitleView_titleMaxLines, DEFAULT_MAX_LINES)
 
             gravity = ta.getInt(R.styleable.TitleSubtitleView_titleGravity, gravity)
 
@@ -213,7 +240,6 @@ class TitleSubtitleView @JvmOverloads constructor(
             subTitleText = defaultSubTitle
 
             subTitleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_subTitleTextAppearance, -1)
-            setupTextAppearance(subTitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_subTitleTextColor)
 
@@ -226,8 +252,8 @@ class TitleSubtitleView @JvmOverloads constructor(
                     ta.getDimensionPixelOffset(R.styleable.TitleSubtitleView_subTitlePaddingBottom, 0)
             )
 
-            setLines(ta.getInt(R.styleable.TitleSubtitleView_subTitleLines, lineCount))
-            maxLines = ta.getInt(R.styleable.TitleSubtitleView_subTitleMaxLines, DEFAULT_MAX_LINES)
+            subTitleLines = ta.getInt(R.styleable.TitleSubtitleView_subTitleLines, lineCount)
+            subTitleMaxLines = ta.getInt(R.styleable.TitleSubtitleView_subTitleMaxLines, DEFAULT_MAX_LINES)
 
             gravity = ta.getInt(R.styleable.TitleSubtitleView_subTitleGravity, gravity)
 
@@ -246,12 +272,6 @@ class TitleSubtitleView @JvmOverloads constructor(
                     ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, 0),
                     ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, 0)
             )
-        }
-    }
-
-    private fun TextView.setupTextAppearance(textAppearance: Int) {
-        if (textAppearance != -1) {
-            TextViewCompat.setTextAppearance(this, textAppearance)
         }
     }
 
