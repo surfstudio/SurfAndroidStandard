@@ -69,6 +69,10 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
             component = createScreenComponent();
         }
         component.inject(target);
+
+        if (component instanceof BindableScreenComponent) {
+            ((BindableScreenComponent) component).requestInjection();
+        }
     }
 
     private ScreenComponent createScreenComponent() {
