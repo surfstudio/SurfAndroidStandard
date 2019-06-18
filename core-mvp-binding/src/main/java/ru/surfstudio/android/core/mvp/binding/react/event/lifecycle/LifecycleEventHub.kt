@@ -1,42 +1,57 @@
 package ru.surfstudio.android.core.mvp.binding.react.event.lifecycle
 
 import android.os.Bundle
+import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHub
 import ru.surfstudio.android.core.ui.state.ScreenState
 
-interface LifecycleEventHub : EventHub, LifecycleViewDelegate {
+typealias LifecycleEventCreator<T> = (LifecycleStage) -> T
+
+/**
+ * [EventHub], рассылюащий события жизненного цикла экрана, к которому прикреплен
+ */
+interface LifecycleEventHub<T : Event> : EventHub<T>, LifecycleViewDelegate {
+
+    val lifecycleEventCreator: LifecycleEventCreator<T>?
 
     val screenState: ScreenState
 
     override fun onViewReady() {
         if (!screenState.isViewRecreated) {
-            emitEvent(LifecycleEvent.CREATE)
+            emitEventByType(LifecycleStage.CREATE)
         }
-        emitEvent(LifecycleEvent.VIEW_CREATE)
+        emitEventByType(LifecycleStage.VIEW_CREATE)
     }
 
     override fun onStart() {
-        emitEvent(LifecycleEvent.START)
+        emitEventByType(LifecycleStage.START)
     }
 
     override fun onResume() {
-        emitEvent(LifecycleEvent.RESUME)
+        emitEventByType(LifecycleStage.RESUME)
     }
 
     override fun onPause() {
-        emitEvent(LifecycleEvent.PAUSE)
+        emitEventByType(LifecycleStage.PAUSE)
     }
 
     override fun onStop() {
-        emitEvent(LifecycleEvent.STOP)
+        emitEventByType(LifecycleStage.STOP)
     }
 
     override fun onViewDestroy() {
-        emitEvent(LifecycleEvent.VIEW_DESTROY)
+        emitEventByType(LifecycleStage.VIEW_DESTROY)
     }
 
     override fun onCompletelyDestroy() {
-        emitEvent(LifecycleEvent.DESTROY)
+        emitEventByType(LifecycleStage.DESTROY)
+    }
+
+    fun emitEventByType(lifecycleStage: LifecycleStage) {
+        when (val event = lifecycleEventCreator?.invoke(lifecycleStage)) {
+            null -> return
+            else -> emitEvent(event)
+        }
     }
 
     override fun onSaveState(outState: Bundle?) {

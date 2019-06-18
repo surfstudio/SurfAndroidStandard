@@ -7,10 +7,9 @@ import ru.surfstudio.android.core.mvp.binding.react.optional.filterValue
 import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
+import java.lang.NullPointerException
 
-open class LoadableState<T>(
-        initialValue: LoadableData<T> = LoadableData()
-) : BehaviorRelation<LoadableData<T>, PRESENTER, VIEW>(initialValue) {
+open class LoadableState<T> : BehaviorRelation<LoadableData<T>, PRESENTER, VIEW>(LoadableData()) {
 
     val observeData: Observable<T>
         get() = relay.share()
@@ -29,12 +28,24 @@ open class LoadableState<T>(
         get() = relay.share()
                 .map { it.error }
 
+    val data: T
+        get() = relay.value!!.data.get() ?: throw NullPointerException()
+
+    val dataOrNull: T?
+        get() = relay.value!!.data.getOrNull()
+
+    val isLoading: Boolean
+        get() = relay.value!!.load.isLoading
+
+    val error: Throwable
+        get() = relay.value!!.error
+
     override fun getConsumer(source: PRESENTER): Consumer<LoadableData<T>> = relay
 
     override fun getObservable(target: VIEW): Observable<LoadableData<T>> = relay.share()
 
     fun acceptEvent(event: LoadableEvent<T>) {
-        relay.accept(LoadableData(event.data, MainLoading(event.isLoading), event.error))
+        relay.accept(event.toLoadableData())
     }
 
     fun modify(modifier: LoadableData<T>.() -> LoadableData<T>) {

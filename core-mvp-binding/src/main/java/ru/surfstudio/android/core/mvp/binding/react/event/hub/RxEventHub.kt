@@ -4,7 +4,10 @@ import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
 
-interface RxEventHub : EventHub, Consumer<Event> {
+/**
+ * [EventHub] с поддержкой Rx.
+ */
+interface RxEventHub<T : Event> : EventHub<T>, Consumer<T> {
 
-    fun observeEvents(): Observable<Event>
+    fun observeEvents(): Observable<T>
 }

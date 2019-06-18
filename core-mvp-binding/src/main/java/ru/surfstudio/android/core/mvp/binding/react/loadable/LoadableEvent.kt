@@ -1,35 +1,34 @@
 package ru.surfstudio.android.core.mvp.binding.react.loadable
 
-import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.loadable.data.EmptyErrorException
 import ru.surfstudio.android.core.mvp.binding.react.loadable.data.LoadableData
+import ru.surfstudio.android.core.mvp.binding.react.loadable.data.MainLoading
 import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
+import ru.surfstudio.android.core.mvp.binding.react.optional.asOptional
 
-abstract class LoadableEvent<T> : Event {
+sealed class LoadType<T> {
+    data class Data<T>(val data: T) : LoadType<T>()
+    data class Loading<T>(val isLoading: Boolean = true) : LoadType<T>()
+    data class Error<T>(val error: Throwable = EmptyErrorException()) : LoadType<T>()
+}
 
-    var data: Optional<T> = Optional.Empty
-    var isLoading: Boolean = false
-    var error: Throwable = EmptyErrorException()
+interface LoadableEvent<T> {
+    var type: LoadType<T>
 
-    var type = LoadableType.Loading
+    fun toLoadableData(): LoadableData<T> {
+        return when (type) {
+            is LoadType.Data -> {
+                val data = (type as LoadType.Data<T>).data
+                LoadableData(data.asOptional(), MainLoading(false), EmptyErrorException())
+            }
 
-    fun acceptLoading() = apply {
-        type = LoadableType.Loading
-        isLoading = true
+            is LoadType.Loading -> {
+                LoadableData(Optional.Empty, MainLoading(true), EmptyErrorException())
+            }
+
+            is LoadType.Error -> {
+                LoadableData(Optional.Empty, MainLoading(false), (type as LoadType.Error<T>).error)
+            }
+        }
     }
-
-    fun acceptData(value: T) = apply {
-        type = LoadableType.Data
-        isLoading = false
-        data = Optional.Some(value)
-        error = EmptyErrorException()
-    }
-
-    fun acceptError(throwable: Throwable) = apply {
-        type = LoadableType.Error
-        isLoading = false
-        error = throwable
-    }
-
-    override fun toString() = "${super.toString()}, stage:$type"
 }

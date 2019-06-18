@@ -2,24 +2,14 @@ package ru.surfstudio.android.core.mvp.binding.react.ui
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
-import ru.surfstudio.android.core.mvp.binding.react.event.hub.holder.EventHubHolder
+import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHub
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.RxEventHub
-import ru.surfstudio.android.core.mvp.binding.react.reactor.StatefulReactor
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindableRxView
 
-interface BaseReactView : BindableRxView, EventHubHolder {
+interface BaseReactView : BindableRxView {
 
-    override val hub: RxEventHub
+    fun <T : Event> Observable<out T>.sendTo(hub: RxEventHub<T>) =
+            this as Observable<T> bindTo hub
 
-    fun getReactors(): Array<out StatefulReactor>
-
-    fun <T> Observable<T>.mapAndSend(eventTransformer: (T) -> Event) =
-            this.map(eventTransformer) bindTo hub
-
-    fun <T> Observable<T>.send(event: Event) =
-            this.map { event } bindTo hub
-
-    fun send(event: Event) =
-            hub.emitEvent(event)
-
+    fun <T : Event> T.sendTo(hub: EventHub<T>) = hub.emitEvent(this)
 }

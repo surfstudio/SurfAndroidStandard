@@ -10,6 +10,9 @@ import ru.surfstudio.android.core.ui.event.lifecycle.state.OnSaveStateDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.stop.OnStopDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyDelegate
 
+/**
+ * Делегат всех событий жизненного цикла для View.
+ */
 interface LifecycleViewDelegate :
         OnViewReadyDelegate,
         OnStartDelegate,

@@ -2,7 +2,10 @@ package ru.surfstudio.android.core.mvp.binding.react.event.hub
 
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
 
-interface EventHub {
+/**
+ * Базовый типизированный EventHub.
+ */
+interface EventHub<T: Event> {
 
-    fun <T : Event> emitEvent(event: T)
+    fun emitEvent(event: T)
 }
