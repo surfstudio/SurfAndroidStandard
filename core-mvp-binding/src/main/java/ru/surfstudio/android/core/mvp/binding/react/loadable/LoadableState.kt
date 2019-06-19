@@ -3,12 +3,17 @@ package ru.surfstudio.android.core.mvp.binding.react.loadable
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.binding.react.loadable.data.*
+import ru.surfstudio.android.core.mvp.binding.react.loadable.event.LoadableEvent
 import ru.surfstudio.android.core.mvp.binding.react.optional.filterValue
 import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 import java.lang.NullPointerException
 
+/**
+ * UI-State запроса на загрузку данных.
+ * Содержит в себе неизменяемый экземпляр [LoadableData], который отражает текущее значение загрузки данных.
+ */
 open class LoadableState<T> : BehaviorRelation<LoadableData<T>, PRESENTER, VIEW>(LoadableData()) {
 
     val observeData: Observable<T>

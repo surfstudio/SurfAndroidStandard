@@ -2,6 +2,10 @@ package ru.surfstudio.android.core.mvp.binding.react.optional
 
 import io.reactivex.Observable
 
+/**
+ * Опционал, содержащий либо данные, либо ничего.
+ * Используется для избежания проблем с nullable-переменными в Rx.
+ */
 sealed class Optional<out T> {
 
     val hasValue: Boolean

@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvp.binding.react.rx_builders
 
 import io.reactivex.*
-import io.reactivex.schedulers.Schedulers
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 

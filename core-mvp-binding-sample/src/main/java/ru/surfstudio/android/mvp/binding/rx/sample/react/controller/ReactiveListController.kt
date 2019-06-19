@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 
-class BaseController : BindableItemController<String, BaseController.Holder>() {
+class ReactiveListController : BindableItemController<String, ReactiveListController.Holder>() {
     override fun getItemId(data: String): String = data
 
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)

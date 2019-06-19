@@ -5,14 +5,16 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
-import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadType
-import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableEvent
-import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
+import ru.surfstudio.android.core.mvp.binding.react.loadable.event.LoadType
+import ru.surfstudio.android.core.mvp.binding.react.loadable.event.LoadableEvent
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import java.lang.IllegalStateException
 
 interface Middleware<T : Event> : Related<PRESENTER> {
+
+    fun transform(eventStream: Observable<T>): Observable<out T> =
+            eventStream.flatMap(this::flatMap)
 
     fun flatMap(event: T): Observable<out T>
 
@@ -29,6 +31,11 @@ interface Middleware<T : Event> : Related<PRESENTER> {
                     .startWith(event.apply { type = LoadType.Loading() })
                     .onErrorReturn { event.apply { type = LoadType.Error(it) } }
 
-    fun <T> skipEvent() = Observable.empty<T>()
+    fun <T> skip() = Observable.empty<T>()
+
+    fun <T> doAndSkip(action: () -> Unit): Observable<T> {
+        action()
+        return Observable.empty<T>()
+    }
 
 }

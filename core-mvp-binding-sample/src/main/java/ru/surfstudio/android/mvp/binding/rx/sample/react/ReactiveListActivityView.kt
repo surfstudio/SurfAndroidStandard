@@ -13,30 +13,31 @@ import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationableAdapter
-import ru.surfstudio.android.mvp.binding.rx.sample.react.controller.BaseController
-import ru.surfstudio.android.mvp.binding.rx.sample.react.di.ReactiveScreenConfigurator
+import ru.surfstudio.android.mvp.binding.rx.sample.react.controller.ReactiveListController
+import ru.surfstudio.android.mvp.binding.rx.sample.react.di.ReactiveListScreenConfigurator
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHubImpl
-import ru.surfstudio.android.core.mvp.binding.react.loadable.data.MainLoading
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ListEvent
-import ru.surfstudio.android.mvp.binding.rx.sample.react.reducer.ListStateHolder
+import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveList
+import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.observeMainLoading
+import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.observeSwrLoading
+import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListStateHolder
 import javax.inject.Inject
 
-class ReactiveActivityView : BaseReactActivityView() {
+class ReactiveListActivityView : BaseReactActivityView() {
 
-    private val adapter = PaginationableAdapter { ListEvent.LoadNextPage().sendTo(hub) }
-    private val controller = BaseController()
+    private val adapter = PaginationableAdapter { ReactiveList.LoadNextPage().sendTo(hub) }
+    private val controller = ReactiveListController()
 
-    override fun createConfigurator() = ReactiveScreenConfigurator(intent)
+    override fun createConfigurator() = ReactiveListScreenConfigurator(intent)
 
-    override fun getScreenName() = "ReactiveActivityView"
+    override fun getScreenName() = "ReactiveListActivityView"
 
     override fun getContentView(): Int = R.layout.activity_reactive_list
 
     @Inject
-    lateinit var bm: ListStateHolder
+    lateinit var bm: ReactiveListStateHolder
 
     @Inject
-    lateinit var hub: EventHubImpl<ListEvent>
+    lateinit var hub: EventHubImpl<ReactiveList>
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
@@ -45,15 +46,18 @@ class ReactiveActivityView : BaseReactActivityView() {
         reactive_rv.adapter = adapter
 
         reactive_reload_btn.clicks()
-                .map { ListEvent.Reload() }
+                .map { ReactiveList.Reload() }
                 .sendTo(hub)
 
         reactive_query_tv.textChanges()
                 .skipInitialValue()
-                .map { ListEvent.QueryChanged(it.toString()) }
+                .map { ReactiveList.QueryChanged(it.toString()) }
                 .sendTo(hub)
 
-        bm.state.observeLoad.filter { it is MainLoading } bindTo { reactive_pb.isVisible = it.isLoading }
+        reactive_swr.setOnRefreshListener { ReactiveList.SwipeRefresh().sendTo(hub) }
+
+        bm.state.observeMainLoading() bindTo { reactive_pb.isVisible = it }
+        bm.state.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }
         bm.state.observeData bindTo ::createList
     }
 

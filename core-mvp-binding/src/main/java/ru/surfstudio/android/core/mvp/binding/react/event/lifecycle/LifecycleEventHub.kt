@@ -5,6 +5,10 @@ import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHub
 import ru.surfstudio.android.core.ui.state.ScreenState
 
+/**
+ * Создатель [LifecycleEvent] на основе [LifecycleStage].
+ * Является лямбдой, принимающей [LifecycleStage] и создающей на его основе событие.
+ */
 typealias LifecycleEventCreator<T> = (LifecycleStage) -> T
 
 /**

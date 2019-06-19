@@ -24,8 +24,8 @@ abstract class Binder(basePresenterDependency: BasePresenterDependency) : BaseRx
             stateHolder: SH,
             reducer: Reducer<T, SH>
     ) {
+        middleware.transform(eventHub.observeEvents()) as Observable<T> bindTo eventHub
         eventHub.observeEvents().bindTo(stateHolder, reducer)
-        eventHub.observeEvents().flatMap(middleware::flatMap).bindTo(stateHolder, reducer)
     }
 
     private fun <T : Event, SH : StateHolder> reduce(

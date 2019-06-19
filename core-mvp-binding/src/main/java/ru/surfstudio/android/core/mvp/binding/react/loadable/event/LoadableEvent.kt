@@ -1,18 +1,18 @@
-package ru.surfstudio.android.core.mvp.binding.react.loadable
+package ru.surfstudio.android.core.mvp.binding.react.loadable.event
 
+import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.loadable.data.EmptyErrorException
 import ru.surfstudio.android.core.mvp.binding.react.loadable.data.LoadableData
 import ru.surfstudio.android.core.mvp.binding.react.loadable.data.MainLoading
 import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
 import ru.surfstudio.android.core.mvp.binding.react.optional.asOptional
 
-sealed class LoadType<T> {
-    data class Data<T>(val data: T) : LoadType<T>()
-    data class Loading<T>(val isLoading: Boolean = true) : LoadType<T>()
-    data class Error<T>(val error: Throwable = EmptyErrorException()) : LoadType<T>()
-}
-
-interface LoadableEvent<T> {
+/**
+ * Событие загрузки данных
+ *
+ * @property type тип загрузки данных (Loading, Data, Error)
+ */
+interface LoadableEvent<T> : Event {
     var type: LoadType<T>
 
     fun toLoadableData(): LoadableData<T> {
