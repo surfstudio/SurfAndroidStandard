@@ -20,7 +20,7 @@ ext {
 
     defaultVersionName = '0.4.0-SNAPSHOT'
     moduleVersionCode = 20
-    moduleVersionName = '0.4.0-LAD-9-SNAPSHOT'
+    moduleVersionName = '0.4.0-LAD-10-SNAPSHOT'
 
     libMinSdkVersion = 17
     sampleMinSdkVersion = 18
