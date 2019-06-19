@@ -2,23 +2,20 @@ package ru.surfstudio.android.core.mvp.binding.react.ui.binder
 
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.RxEventHub
-import ru.surfstudio.android.core.mvp.binding.react.reactor.Reactor
 import ru.surfstudio.android.core.mvp.binding.react.reactor.StateHolder
 import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.Middleware
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 
 /**
- * [Binder] со связью всех сущностей экрана "один к одному".
+ * Простейший биндер, в котором отображение логики на UI не нужно.
  */
-class SingleBinder<T : Event, SH : StateHolder>(
+class LogicBinder<T : Event>(
         hub: RxEventHub<T>,
         middleware: Middleware<T>,
-        holder: SH,
-        reactor: Reactor<T, SH>,
         basePresenterDependency: BasePresenterDependency
 ) : Binder(basePresenterDependency) {
 
     init {
-        bind(hub, middleware, holder, reactor)
+        bind(hub, middleware)
     }
 }

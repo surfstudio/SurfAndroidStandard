@@ -26,7 +26,7 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveList, Reactive
     override fun react(holder: ReactiveListStateHolder, event: ReactiveList) {
         when (event) {
             is ReactiveList.Numbers -> reactOnListLoadEvent(holder.state, event)
-            is ReactiveList.QueryChanged -> reactOnQueryChangedEvent(holder.state, event)
+            is ReactiveList.QueryChangedDebounced -> reactOnQueryChangedEvent(holder.state, event)
         }
     }
 
@@ -41,7 +41,7 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveList, Reactive
         }
     }
 
-    private fun reactOnQueryChangedEvent(state: ReactiveListState, event: ReactiveList.QueryChanged) {
+    private fun reactOnQueryChangedEvent(state: ReactiveListState, event: ReactiveList.QueryChangedDebounced) {
         state.modify {
             copy(data = DataList(
                     data.get().filter { elem -> elem.contains(event.query, true) },

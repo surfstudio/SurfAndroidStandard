@@ -3,6 +3,9 @@ package ru.surfstudio.android.core.mvp.binding.react.rx_builders
 import io.reactivex.*
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
+/**
+ * Интерфейс builder'а для Rx-запросов с поддержкой перевода запросов в worker-thread.
+ */
 interface RxBuilderIO {
 
     val schedulersProvider: SchedulersProvider

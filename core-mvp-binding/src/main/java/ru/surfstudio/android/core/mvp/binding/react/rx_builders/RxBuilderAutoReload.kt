@@ -4,6 +4,9 @@ import io.reactivex.*
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * Интерфейс builder'а для Rx-запросов с поддержкой восстановления соединения при отсутствии интернета.
+ */
 interface RxBuilderAutoReload {
 
     fun reloadErrorAction(autoReloadAction: () -> Unit): Consumer<Throwable>

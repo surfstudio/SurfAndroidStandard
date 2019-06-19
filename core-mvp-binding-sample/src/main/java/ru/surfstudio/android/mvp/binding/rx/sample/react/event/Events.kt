@@ -18,6 +18,7 @@ sealed class ReactiveList : Event {
     ) : LoadableEvent<DataList<String>>, ReactiveList()
 
     class QueryChanged(val query: String) : ReactiveList()
+    class QueryChangedDebounced(val query: String) : ReactiveList()
 
     data class Lifecycle(override var stage: LifecycleStage) : ReactiveList(), LifecycleEvent
 }

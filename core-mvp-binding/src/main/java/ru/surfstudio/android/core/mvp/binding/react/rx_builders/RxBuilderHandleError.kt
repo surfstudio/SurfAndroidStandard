@@ -4,6 +4,9 @@ import io.reactivex.*
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
+/**
+ * Интерфейс builder'а для Rx-запросов с поддержкой обработки ошибок в главном потоке.
+ */
 interface RxBuilderHandleError {
 
     val schedulersProvider: SchedulersProvider

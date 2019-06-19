@@ -1,5 +1,6 @@
 package ru.surfstudio.android.mvp.binding.rx.sample.react
 
+import android.util.Log
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.binding.react.event.lifecycle.LifecycleStage
 import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.BaseMiddleware
@@ -9,7 +10,6 @@ import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.D
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveList
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListStateHolder
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -20,16 +20,33 @@ class ReactiveListMiddleware @Inject constructor(
         private val sh: ReactiveListStateHolder
 ) : BaseMiddleware<ReactiveList>(schedulersProvider, errorHandler) {
 
+    override fun transform(eventStream: Observable<ReactiveList>): Observable<out ReactiveList> {
+        val queryChangedObservable = transformQueryEvent(eventStream)
+        val flatMap = eventStream.flatMap(::flatMap)
+
+        return Observable.merge(queryChangedObservable, flatMap)
+    }
+
     override fun flatMap(event: ReactiveList): Observable<out ReactiveList> {
         return when (event) {
             is ReactiveList.Lifecycle -> reactOnLifecycle(event.stage)
             is ReactiveList.Reload -> loadData()
             is ReactiveList.SwipeRefresh -> loadData(isSwr = true)
             is ReactiveList.LoadNextPage -> loadData(sh.state.data.nextPage)
-            is ReactiveList.QueryChanged -> doAndSkip { }
             else -> skip()
         }
     }
+
+    fun transformQueryEvent(
+            eventStream: Observable<ReactiveList>
+    ): Observable<ReactiveList.QueryChangedDebounced> =
+            eventStream
+                    .filter { it is ReactiveList.QueryChanged }
+                    .map { (it as ReactiveList.QueryChanged).query }
+                    .distinctUntilChanged()
+                    .debounce(1000, TimeUnit.MILLISECONDS)
+                    .map { ReactiveList.QueryChangedDebounced(it) }
+
 
     private fun reactOnLifecycle(stage: LifecycleStage): Observable<out ReactiveList> =
             when (stage) {
