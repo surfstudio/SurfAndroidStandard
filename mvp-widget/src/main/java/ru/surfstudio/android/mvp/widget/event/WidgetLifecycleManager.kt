@@ -53,7 +53,7 @@ class WidgetLifecycleManager(
         OnStopDelegate,
         OnViewDestroyDelegate {
 
-    private lateinit var widgetViewDelegate: WeakReference<WidgetViewDelegate>
+    private var widgetViewDelegate: WeakReference<WidgetViewDelegate>? = null
 
     /**
      * Резолвер следующего этапа ЖЦ виджета, в колбеке метод применяющий состояние
@@ -89,6 +89,15 @@ class WidgetLifecycleManager(
     fun onCreate(widgetView: View, coreWidgetView: CoreWidgetViewInterface, widgetViewDelegate: WidgetViewDelegate) {
         screenState.onCreate(widgetView, coreWidgetView)
 
+        // при использовании виджета в recyclerView делегат не успевает вызвать onDestroy
+        // при этом новый делегат уже успевает вызвать onCreate а потом уже на старом делегате вызывается onDestroy
+        // это поведение приводит к обнулению переменной view у презентера. Что бы избежать от этой проблемы
+        // деактивируем старый делегат
+        this.widgetViewDelegate?.get()?.let {
+            if (it != widgetViewDelegate) {
+                it.deactivate()
+            }
+        }
         this.widgetViewDelegate = WeakReference(widgetViewDelegate)
     }
 
@@ -121,17 +130,17 @@ class WidgetLifecycleManager(
         stageResolver.pushState(LifecycleStage.DESTROYED)
         destroy()
 
-        widgetViewDelegate.get()?.onCompletelyDestroy()
+        widgetViewDelegate?.get()?.onCompletelyDestroy()
     }
 
     /**
      * Применяет события к виджету, если они разрешены текущим состоянием
      * Также посылает эвент с текущим событием.
-     * @param states
+     * @param state
      */
     fun applyStage(state: LifecycleStage) {
         if (state == LifecycleStage.CREATED) return
-        widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state]!!)
+        widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state])
         screenStateEvents[state]?.invoke()
     }
 

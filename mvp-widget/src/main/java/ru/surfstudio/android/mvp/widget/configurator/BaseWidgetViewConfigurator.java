@@ -42,9 +42,8 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
 
     protected abstract ScreenComponent createScreenComponent(P parentComponent,
                                                              M widgetScreenModule);
-
     protected <T extends View & CoreWidgetViewInterface> T getTargetWidgetView() {
-        return (T) getPersistentScope().getScreenState().getCoreWidget();
+        return  (T) getPersistentScope().getScreenState().getCoreWidget();
     }
 
     protected WidgetViewPersistentScope getPersistentScope() {

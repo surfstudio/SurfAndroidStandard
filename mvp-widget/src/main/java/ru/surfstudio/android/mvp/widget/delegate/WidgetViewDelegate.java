@@ -50,6 +50,7 @@ public class WidgetViewDelegate {
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
     private final List<ScreenEventResolver> eventResolvers;
+    private boolean isDeactivated = false;
 
     private String currentScopeId;
 
@@ -86,14 +87,14 @@ public class WidgetViewDelegate {
     }
 
     public void onDestroy() {
-        if (scopeStorage.isExist(getCurrentScopeId())) {
+        if (scopeStorage.isExist(getCurrentScopeId()) && !isDeactivated) {
             getLifecycleManager().onViewDestroy();
         }
     }
 
     //вызов происходит по срабатыванию родительского OnCompletelyDestroy
     public void onCompletelyDestroy() {
-        if (getScreenState().isCompletelyDestroyed()) {
+        if (getScreenState().isCompletelyDestroyed() && !isDeactivated) {
             scopeStorage.remove(getCurrentScopeId());
         }
     }
@@ -105,6 +106,10 @@ public class WidgetViewDelegate {
 
     public WidgetViewPersistentScope getPersistentScope() {
         return scopeStorage.get(getCurrentScopeId(), WidgetViewPersistentScope.class);
+    }
+
+    public void deactivate() {
+        this.isDeactivated = true;
     }
 
     private void runConfigurator() {
