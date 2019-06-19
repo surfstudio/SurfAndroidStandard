@@ -52,6 +52,7 @@ public abstract class DialogNavigator implements Navigator {
         FragmentManager fragmentManager = activityProvider.get().getSupportFragmentManager();
         DialogFragment dialogFragment = (DialogFragment) fragmentManager
                 .findFragmentByTag(dialogRoute.getTag());
+
         if (dialogFragment != null) {
             dialogFragment.dismiss();
         }
