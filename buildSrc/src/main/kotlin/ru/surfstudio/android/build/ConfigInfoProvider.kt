@@ -6,7 +6,7 @@ import ru.surfstudio.android.build.model.json.ConfigInfoJson
 import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
 
-private const val CONFIG_INFO_JSON_FILE_PATH = "configInfo.json"
+private const val CONFIG_INFO_JSON_FILE_PATH = "buildSrc/projectConfiguration.json"
 
 /**
  * Class to work with project configInfo

@@ -1,13 +1,13 @@
 package ru.surfstudio.android.build
 
-import org.gradle.api.Project
+import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.ComponentNotFoundForStandardDependencyException
 import ru.surfstudio.android.build.exceptions.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
+import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.model.module.Module
-import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.createCompositeVersion
 
@@ -36,7 +36,15 @@ object Components {
      * Get project's module
      */
     @JvmStatic
-    fun getModules(): List<Module> = value.flatMap(Component::getModules)
+    fun getModules(): List<Module> {
+        val mirrorComponentName = GradlePropertiesManager.getMirrorComponentName()
+        return if (!GradlePropertiesManager.isCurrentComponentAMirror()) {
+            value.flatMap(Component::getModules)
+        } else {
+            val mirrorComponent = getMirrorComponentByName(mirrorComponentName)
+            mirrorComponent.libraries + mirrorComponent.samples
+        }
+    }
 
     /**
      * Get moduleVersionName
@@ -48,11 +56,10 @@ object Components {
      * 4. X.Y.Z-alpha.unstable_version-projectPostfix.projectVersion - component is unstable, projectPostfix isn't empty
      */
     @JvmStatic
-    fun getModuleVersion(gradleProject: Project): String {
+    fun getModuleVersion(moduleName: String): String {
         if (value.isEmpty()) return EMPTY_STRING
         if (value.any { it.projectVersion.isEmpty() }) configModuleVersions()
 
-        val moduleName = gradleProject.name
         val component = value.find { it.getModules().map(Module::name).contains(moduleName) }
 
         return component?.projectVersion ?: EMPTY_STRING
@@ -129,5 +136,11 @@ object Components {
                     configInfo.projectSnapshotVersion
             )
         }
+    }
+
+    private fun getMirrorComponentByName(mirrorComponentName: String): Component {
+        val mirrorComponent = value.firstOrNull { it.name == mirrorComponentName }
+
+        return mirrorComponent ?: throw GradleException()
     }
 }
