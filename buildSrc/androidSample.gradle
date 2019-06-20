@@ -16,7 +16,7 @@ android {
         minSdkVersion project.ext.sampleMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
-        versionName Components.getModuleVersion(project)
+        versionName Components.getModuleVersion(project.name)
         multiDexEnabled true
     }
 

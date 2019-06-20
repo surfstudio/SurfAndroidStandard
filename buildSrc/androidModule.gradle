@@ -15,7 +15,7 @@ android {
         minSdkVersion project.ext.libMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
-        versionName Components.getModuleVersion(project)
+        versionName Components.getModuleVersion(project.name)
         testBuildType "debug"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
