@@ -1,6 +1,7 @@
 package ru.surfstudio.android.build
 
 import org.gradle.api.Project
+import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.model.dependency.Dependency
 
 private const val LIBRARY_VERSIONS_KEY = "libraryVersions"
@@ -24,7 +25,6 @@ object DependencyConfigurator {
         if (libraryVersions.isEmpty()) {
             libraryVersions = project.property(LIBRARY_VERSIONS_KEY) as Map<String, String>
         }
-
         Components.value.forEach { component ->
             component.libraries
                     .find { it.name == project.name }
@@ -37,13 +37,20 @@ object DependencyConfigurator {
 
     /**
      * Add dependency to project with "implementation"
+     * If current project is not mirror and dependency is not contained in current project then
+     * add in with artifactory name else add locally
      *
      * @param project - project
-     * @param dep - dependency name
+     * @param dependencyName - dependency name
      */
     @JvmStatic
-    fun projectImplementation(project: Project, gradleProjectName: String) {
-        addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(gradleProjectName))
+    fun projectImplementation(project: Project, dependencyName: String) {
+        project.properties.get("")
+        if (GradlePropertiesManager.isCurrentComponentAMirror() && !isProjectIncluded(project, dependencyName)) {
+            addDependency(project, IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(dependencyName))
+        } else {
+            addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(dependencyName))
+        }
     }
 
     /**
@@ -76,7 +83,11 @@ object DependencyConfigurator {
 
     private fun addAndroidStandardDependencies(project: Project, dependencies: List<Dependency>) {
         dependencies.forEach {
-            addDependency(project, it.type, project.rootProject.project(":${it.name}"))
+            if (GradlePropertiesManager.isCurrentComponentAMirror() && !isProjectIncluded(project, it.name)) {
+                addDependency(project, IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(it.name))
+            } else {
+                addDependency(project, IMPLEMENTATION_DEP_TYPE, project.rootProject.project(":${it.name}"))
+            }
         }
     }
 
@@ -96,5 +107,27 @@ object DependencyConfigurator {
      */
     private fun getDependencyNameWithVersion(shortDependencyName: String): String {
         return "$shortDependencyName:${libraryVersions[shortDependencyName]}"
+    }
+
+    /**
+     * @param dependencyName dependency name for creating artifactory name
+     *
+     * @return artifactory name for dependency
+     */
+    private fun getDependencyArtifactoryName(dependencyName: String): String {
+        val group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
+        val name = Components.getArtifactName(dependencyName)
+        val version = Components.getModuleVersion(dependencyName)
+        return "$group:$name:$version"
+    }
+
+    /**
+     * checks if project with [gradleProjectName] included in current project [project]
+     *
+     * @return true if included
+     */
+    private fun isProjectIncluded(project: Project, gradleProjectName: String): Boolean {
+        val allProjects = project.rootProject.allprojects
+        return allProjects.map { it.name }.contains(gradleProjectName)
     }
 }

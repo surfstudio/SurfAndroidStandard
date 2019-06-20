@@ -47,7 +47,7 @@ ext.configureDeploy = { context ->
 
                 def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
                 def artifactName = Components.getArtifactName(project.name)
-                def artifactVersion = Components.getModuleVersion(project)
+                def artifactVersion = Components.getModuleVersion(project.name)
 
                 pom.groupId = artifactGroupId
                 pom.artifactId = artifactName
@@ -57,7 +57,7 @@ ext.configureDeploy = { context ->
                     dependencies {
                         Components.getAndroidStandardDependencies(project.name).each {
                             def depArtifactName = it.getArtifactName()
-                            def depArtifactVersion = Components.getModuleVersion(project.rootProject.project(it.getName()))
+                            def depArtifactVersion = Components.getModuleVersion(it.getName())
                             dependency {
                                 groupId artifactGroupId
                                 artifactId depArtifactName

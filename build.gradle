@@ -1,6 +1,6 @@
 import ru.surfstudio.android.build.ConfigInfoProvider
 
-apply from: 'buildTasks.gradle'
+apply from: 'buildSrc/buildTasks.gradle'
 
 allprojects {
     repositories {
