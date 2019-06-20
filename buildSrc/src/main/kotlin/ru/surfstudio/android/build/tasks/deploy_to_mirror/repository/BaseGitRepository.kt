@@ -5,6 +5,7 @@ import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevCommit
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.Commit
 
 /**
  * Parent class for git repository
@@ -24,13 +25,18 @@ abstract class BaseGitRepository {
     }
 
     /**
-     * Get commit by hash
+     * Get [RevCommit] by hash
      */
-    fun getCommit(commitHash: String): RevCommit = git.log()
+    protected fun getRevCommit(commitHash: String): RevCommit = git.log()
             .add(ObjectId.fromString(commitHash))
             .setMaxCount(1)
             .call()
             .first()
+
+    /**
+     * Get [Commit]
+     */
+    abstract fun getCommit(commitHash: String): Commit
 
     /**
      * Get all branches

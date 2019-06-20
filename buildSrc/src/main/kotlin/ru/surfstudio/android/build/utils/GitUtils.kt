@@ -1,16 +1,16 @@
 package ru.surfstudio.android.build.utils
 
-import org.eclipse.jgit.revwalk.RevCommit
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.Commit
 
 /**
  * Return parents set
  *
  * @param maxDistance - max depth for parenting
  */
-fun RevCommit.getParents(maxDistance: Int): Set<RevCommit> {
-    val result = mutableSetOf<RevCommit>()
-    val iCommits = mutableSetOf<RevCommit>()
-    val iParents = mutableSetOf<RevCommit>()
+fun <T : Commit> T.getParents(maxDistance: Int): Set<T> {
+    val result = mutableSetOf<T>()
+    val iCommits = mutableSetOf<T>()
+    val iParents = mutableSetOf<T>()
 
     iCommits.add(this)
 
@@ -18,7 +18,7 @@ fun RevCommit.getParents(maxDistance: Int): Set<RevCommit> {
         if (iCommits.isEmpty()) break
 
         iCommits.forEach {
-            iParents.addAll(it.parents)
+            iParents.addAll(it.parents as List<T>)
         }
 
         result.addAll(iParents)

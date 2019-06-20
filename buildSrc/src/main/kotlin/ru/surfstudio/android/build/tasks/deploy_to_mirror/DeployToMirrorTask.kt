@@ -4,6 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.StandardCommit
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
 import ru.surfstudio.android.build.utils.extractProperty
@@ -34,8 +35,8 @@ open class DeployToMirrorTask : DefaultTask() {
         )
 
         try {
-            val commit = standardRepository.getCommit(commitHash)
-            mirrorManager.mirror(commit)
+            val rootCommit: StandardCommit = standardRepository.getCommit(commitHash)
+            mirrorManager.mirror(rootCommit)
         } finally {
             mirrorRepository.delete()
             standardRepository.delete()

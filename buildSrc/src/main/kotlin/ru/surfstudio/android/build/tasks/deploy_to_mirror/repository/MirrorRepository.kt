@@ -5,6 +5,7 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.MirrorCommit
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import java.io.File
 
@@ -31,6 +32,8 @@ class MirrorRepository(url: String) : BaseGitRepository() {
 
         repository = FileRepositoryBuilder().setGitDir(localMirrorGitDir).build()
     }
+
+    override fun getCommit(commitHash: String) = MirrorCommit(getRevCommit(commitHash))
 
     override fun delete() {
         super.delete()
