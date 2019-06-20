@@ -43,7 +43,6 @@ class MirrorManager(
         if (mirrorDepthLimit > 1) {
             val branchParentCommits = topBranchCommits
                     .flatMap { it.getParents(mirrorDepthLimit - 1) }
-                    .toSet()
                     .filter(MirrorCommit::isStandardCommit)
 
             result.addAll(branchParentCommits)
