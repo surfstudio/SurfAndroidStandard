@@ -1,53 +1,39 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
 
 import org.eclipse.jgit.api.Git
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchWithCommitNotFoundException
-import ru.surfstudio.android.build.utils.EMPTY_STRING
+import org.eclipse.jgit.lib.ObjectId
+import org.eclipse.jgit.lib.Ref
+import org.eclipse.jgit.lib.Repository
+import org.eclipse.jgit.revwalk.RevCommit
 
 /**
  * Parent class for git repository
  */
 abstract class BaseGitRepository {
 
-    protected abstract val git: Git
+    protected abstract val repository: Repository
     protected abstract val repositoryName: String
+
+    private val git by lazy { Git(repository) }
 
     /**
      * Delete repository
      */
-    abstract fun delete()
-
-    /**
-     * Get last commit in branch
-     * If branch not found return empty string
-     *
-     * @param branchName - commit's branch name
-     */
-    fun getLastCommit(branchName: String): String {
-        val branch = git.branchList().call().find { it.name.contains(branchName) }
-                ?: return EMPTY_STRING
-        return EMPTY_STRING
+    open fun delete() {
+        repository.close()
     }
 
     /**
-     * Return branch name by commit
-     * Branch name can't contain "/" symbol
-     *
-     * @param commit - any branch commit
+     * Get commit by hash
      */
-    fun getBranchByCommit(commit: String): String {
-        val branches = git.branchList()
-                .setContains(commit)
-                .call()
-        if (branches.isEmpty()) throw BranchWithCommitNotFoundException(repositoryName, commit)
+    fun getCommit(commitHash: String): RevCommit = git.log()
+            .add(ObjectId.fromString(commitHash))
+            .setMaxCount(1)
+            .call()
+            .first()
 
-        return branches.first()
-                .name
-                .substringAfterLast("/")
-    }
-
-//    /**
-//     * Create branch
-//     */
-//    fun createBranch(branchName: String): Ref = git.branchCreate().setName(branchName).call()
+    /**
+     * Get all branches
+     */
+    fun getAllBranches(): List<Ref> = git.branchList().call()
 }
