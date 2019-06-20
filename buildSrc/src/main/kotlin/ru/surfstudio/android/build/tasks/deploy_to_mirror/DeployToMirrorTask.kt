@@ -36,6 +36,7 @@ open class DeployToMirrorTask : DefaultTask() {
 
         try {
             val rootCommit: StandardCommit = standardRepository.getCommit(commitHash)
+
             mirrorManager.mirror(rootCommit)
         } finally {
             mirrorRepository.delete()
