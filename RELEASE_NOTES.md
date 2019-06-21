@@ -36,6 +36,8 @@
 `subscribeTakeLastFrozen`.
 
 #### core-mvp-binding
+* ANDDEP-575 В BaseRxPresenter добавлены экстеншны для rx-запросов
+
 #### core-ui
 
 * добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
