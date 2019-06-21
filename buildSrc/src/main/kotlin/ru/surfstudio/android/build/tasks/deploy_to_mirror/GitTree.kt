@@ -30,8 +30,8 @@ class GitTree {
     /**
      * Add ends for tree
      */
-    fun setEnds(collection: Collection<RevCommit>) {
-        val endNodes = collection.map { Node(it).apply { state = NodeState.END } }
+    fun setEnds(endList: Iterable<RevCommit>) {
+        val endNodes = endList.map { Node(it).apply { state = NodeState.END } }
 
         list.removeAll(ends)
         ends.clear()

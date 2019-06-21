@@ -34,4 +34,19 @@ abstract class BaseGitRepository {
      * Get all branches
      */
     fun getAllBranches(): List<Ref> = git.branchList().call()
+
+    /**
+     * Get all commits
+     *
+     * @param startHash - commit to start build tree
+     * @param maxSize - max size of commits
+     */
+    fun getAllCommits(startHash: String, maxSize: Int): Iterable<RevCommit> {
+        return git.log()
+                .all()
+                .add(ObjectId.fromString(startHash))
+                .setMaxCount(maxSize)
+                .call()
+                .toList()
+    }
 }

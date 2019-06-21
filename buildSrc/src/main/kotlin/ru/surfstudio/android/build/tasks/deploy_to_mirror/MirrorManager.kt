@@ -1,9 +1,9 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
 import org.eclipse.jgit.revwalk.RevCommit
+import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
-import ru.surfstudio.android.build.utils.getAllParents
 import ru.surfstudio.android.build.utils.standardHash
 
 /**
@@ -19,36 +19,22 @@ class MirrorManager(
     /**
      * Mirror standard repository and mirror repository
      *
-     * @param rootCommit - top commit for mirroring
+     * @param rootCommitHash - top commit for mirroring
      */
-    fun mirror(rootCommit: RevCommit) {
-        val ends: Set<RevCommit> = getEnds()
-        val gitTree = buildGitTree(rootCommit, ends)
+    fun mirror(rootCommitHash: String) {
+        val standardCommits = standardRepository.getAllCommits(rootCommitHash, standardDepthLimit)
 
-        gitTree.print()
-    }
-
-    /**
-     * Get mirror end commits
-     */
-    private fun getEnds(): Set<RevCommit> {
-        val result = mutableSetOf<RevCommit>()
-
-        val topBranchCommits = mirrorRepository.getAllBranches()
-                .map { mirrorRepository.getRevCommit(it.objectId.name) }
+        val rootCommit = standardCommits.find { it.name == rootCommitHash }
+                ?: throw RevCommitNotFoundException(rootCommitHash)
+        val mirrorCommits: Set<RevCommit> = mirrorRepository.getAllBranches()
+                .flatMap { mirrorRepository.getAllCommits(it.objectId.name, mirrorDepthLimit) }
                 .filter { it.standardHash.isNotEmpty() }
+                .toSet()
 
-        result.addAll(topBranchCommits)
+        val gitTree = buildGitTree(rootCommit, standardCommits, mirrorCommits)
 
-        if (mirrorDepthLimit > 1) {
-            val branchParentCommits: List<RevCommit> = topBranchCommits
-                    .flatMap { it.getAllParents(mirrorDepthLimit - 1) }
-                    .filter { it.standardHash.isNotEmpty() }
-
-            result.addAll(branchParentCommits)
-        }
-
-        return result
+        gitTree.cut()
+        gitTree.print()
     }
 
     /**
@@ -57,24 +43,31 @@ class MirrorManager(
      * @param rootCommit - top commit
      * @param endCommits - end commits
      */
-    private fun buildGitTree(rootCommit: RevCommit, endCommits: Set<RevCommit>): GitTree {
+    private fun buildGitTree(
+            rootCommit: RevCommit,
+            standardCommits: Iterable<RevCommit>,
+            mirrorCommits: Iterable<RevCommit>
+    ): GitTree {
         val gitTree = GitTree()
         gitTree.setRoot(rootCommit)
-        gitTree.setEnds(endCommits)
+        gitTree.setEnds(mirrorCommits)
 
         val iCommits = mutableSetOf(rootCommit)
         val iParents = mutableSetOf<RevCommit>()
 
-        for (i in 1..standardDepthLimit) {
+        for (standardCommit in standardCommits) {
             iCommits.forEach { commit ->
-                val parents = commit.parents.toList()
+                val parentHashes = commit.parents.map { it.name }
+                val parents = standardCommits.filter { parentHashes.contains(it.name) }
+
                 gitTree.add(commit, parents)
 
-                iParents.addAll(parents.filter { !endCommits.map { it.standardHash }.contains(it.name) })
+                iParents.addAll(parents.filter { !mirrorCommits.map { it.standardHash }.contains(it.name) })
             }
 
             iCommits.clear()
             iCommits.addAll(iParents)
+            iParents.clear()
 
             if (iCommits.isEmpty()) break
         }
