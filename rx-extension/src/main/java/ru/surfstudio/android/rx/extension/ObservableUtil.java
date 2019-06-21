@@ -23,13 +23,13 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.Scheduler;
+import io.reactivex.Single;
 import io.reactivex.exceptions.OnErrorNotImplementedException;
 import io.reactivex.internal.functions.ObjectHelper;
 import io.reactivex.plugins.RxJavaPlugins;
 
-
 /**
- * содержит недостающие методы для Observable
+ * This class contains missing functions for [Observable]
  */
 public class ObservableUtil {
 
@@ -44,98 +44,248 @@ public class ObservableUtil {
     }
 
     /**
-     * работает также как {@see Observable#combineLatestDelayError}, но еще распараллеливает запросы с помощью {@param scheduler}
+     * This function works like {@see Observable#combineLatestDelayError},
+     * but also makes requests parallel using {@param scheduler}
      */
-    public static <T, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                               List<Observable<? extends T>> sources,
-                                                               FunctionSafe<? super Object[], ? extends R> combineFunction) {
+    public static <T, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            List<Observable<? extends T>> sources,
+            FunctionSafe<? super Object[], ? extends R> combineFunction
+    ) {
         sources = toParallel(sources, scheduler);
         return Observable.combineLatestDelayError(sources, combineFunction);
     }
 
-    public static <T1, T2, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                    Observable<? extends T1> o1,
-                                                                    Observable<? extends T2> o2,
-                                                                    BiFunctionSafe<? super T1, ? super T2, ? extends R> combineFunction) {
+    public static <T1, T2, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            BiFunctionSafe<? super T1, ? super T2, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2), toFunction(combineFunction));
     }
 
-    public static <T1, T2, T3, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                        Observable<? extends T1> o1,
-                                                                        Observable<? extends T2> o2,
-                                                                        Observable<? extends T3> o3,
-                                                                        Function3Safe<? super T1, ? super T2, ? super T3, ? extends R> combineFunction) {
+    public static <T1, T2, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            BiFunctionSafe<? super T1, ? super T2, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable()),
+                toFunction(combineFunction)
+        );
+    }
+
+    public static <T1, T2, T3, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            Observable<? extends T3> o3,
+            Function3Safe<? super T1, ? super T2, ? super T3, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2, o3), toFunction(combineFunction));
     }
 
-    public static <T1, T2, T3, T4, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                            Observable<? extends T1> o1,
-                                                                            Observable<? extends T2> o2,
-                                                                            Observable<? extends T3> o3,
-                                                                            Observable<? extends T4> o4,
-                                                                            Function4Safe<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> combineFunction) {
+    public static <T1, T2, T3, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            Single<? extends T3> o3,
+            Function3Safe<? super T1, ? super T2, ? super T3, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable(), o3.toObservable()),
+                toFunction(combineFunction)
+        );
+    }
+
+    public static <T1, T2, T3, T4, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            Observable<? extends T3> o3,
+            Observable<? extends T4> o4,
+            Function4Safe<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2, o3, o4), toFunction(combineFunction));
     }
 
-    public static <T1, T2, T3, T4, T5, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                                Observable<? extends T1> o1,
-                                                                                Observable<? extends T2> o2,
-                                                                                Observable<? extends T3> o3,
-                                                                                Observable<? extends T4> o4,
-                                                                                Observable<? extends T5> o5,
-                                                                                Function5Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> combineFunction) {
+    public static <T1, T2, T3, T4, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            Single<? extends T3> o3,
+            Single<? extends T4> o4,
+            Function4Safe<? super T1, ? super T2, ? super T3, ? super T4, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable(), o3.toObservable(), o4.toObservable()),
+                toFunction(combineFunction)
+        );
+    }
+
+    public static <T1, T2, T3, T4, T5, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            Observable<? extends T3> o3,
+            Observable<? extends T4> o4,
+            Observable<? extends T5> o5,
+            Function5Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2, o3, o4, o5), toFunction(combineFunction));
     }
 
-    public static <T1, T2, T3, T4, T5, T6, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                                    Observable<? extends T1> o1,
-                                                                                    Observable<? extends T2> o2,
-                                                                                    Observable<? extends T3> o3,
-                                                                                    Observable<? extends T4> o4,
-                                                                                    Observable<? extends T5> o5,
-                                                                                    Observable<? extends T6> o6,
-                                                                                    Function6Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> combineFunction) {
+    public static <T1, T2, T3, T4, T5, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            Single<? extends T3> o3,
+            Single<? extends T4> o4,
+            Single<? extends T5> o5,
+            Function5Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable(), o3.toObservable(), o4.toObservable(), o5.toObservable()),
+                toFunction(combineFunction)
+        );
+    }
+
+    public static <T1, T2, T3, T4, T5, T6, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            Observable<? extends T3> o3,
+            Observable<? extends T4> o4,
+            Observable<? extends T5> o5,
+            Observable<? extends T6> o6,
+            Function6Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2, o3, o4, o5, o6), toFunction(combineFunction));
     }
 
+    public static <T1, T2, T3, T4, T5, T6, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            Single<? extends T3> o3,
+            Single<? extends T4> o4,
+            Single<? extends T5> o5,
+            Single<? extends T6> o6,
+            Function6Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable(), o3.toObservable(), o4.toObservable(), o5.toObservable(), o6.toObservable()),
+                toFunction(combineFunction)
+        );
+    }
 
-    public static <T1, T2, T3, T4, T5, T6, T7, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                                        Observable<? extends T1> o1,
-                                                                                        Observable<? extends T2> o2,
-                                                                                        Observable<? extends T3> o3,
-                                                                                        Observable<? extends T4> o4,
-                                                                                        Observable<? extends T5> o5,
-                                                                                        Observable<? extends T6> o6,
-                                                                                        Observable<? extends T7> o7,
-                                                                                        Function7Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> combineFunction) {
+    public static <T1, T2, T3, T4, T5, T6, T7, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            Observable<? extends T3> o3,
+            Observable<? extends T4> o4,
+            Observable<? extends T5> o5,
+            Observable<? extends T6> o6,
+            Observable<? extends T7> o7,
+            Function7Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2, o3, o4, o5, o6, o7), toFunction(combineFunction));
     }
 
-    public static <T1, T2, T3, T4, T5, T6, T7, T8, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                                            Observable<? extends T1> o1,
-                                                                                            Observable<? extends T2> o2,
-                                                                                            Observable<? extends T3> o3,
-                                                                                            Observable<? extends T4> o4,
-                                                                                            Observable<? extends T5> o5,
-                                                                                            Observable<? extends T6> o6,
-                                                                                            Observable<? extends T7> o7,
-                                                                                            Observable<? extends T8> o8,
-                                                                                            Function8Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> combineFunction) {
+    public static <T1, T2, T3, T4, T5, T6, T7, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            Single<? extends T3> o3,
+            Single<? extends T4> o4,
+            Single<? extends T5> o5,
+            Single<? extends T6> o6,
+            Single<? extends T7> o7,
+            Function7Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable(), o3.toObservable(), o4.toObservable(), o5.toObservable(), o6.toObservable(), o7.toObservable()),
+                toFunction(combineFunction)
+        );
+    }
+
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            Observable<? extends T3> o3,
+            Observable<? extends T4> o4,
+            Observable<? extends T5> o5,
+            Observable<? extends T6> o6,
+            Observable<? extends T7> o7,
+            Observable<? extends T8> o8,
+            Function8Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2, o3, o4, o5, o6, o7, o8), toFunction(combineFunction));
     }
 
-    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Observable<R> combineLatestDelayError(Scheduler scheduler,
-                                                                                                Observable<? extends T1> o1,
-                                                                                                Observable<? extends T2> o2,
-                                                                                                Observable<? extends T3> o3,
-                                                                                                Observable<? extends T4> o4,
-                                                                                                Observable<? extends T5> o5,
-                                                                                                Observable<? extends T6> o6,
-                                                                                                Observable<? extends T7> o7,
-                                                                                                Observable<? extends T8> o8,
-                                                                                                Observable<? extends T9> o9,
-                                                                                                Function9Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> combineFunction) {
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            Single<? extends T3> o3,
+            Single<? extends T4> o4,
+            Single<? extends T5> o5,
+            Single<? extends T6> o6,
+            Single<? extends T7> o7,
+            Single<? extends T8> o8,
+            Function8Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable(), o3.toObservable(), o4.toObservable(), o5.toObservable(), o6.toObservable(), o7.toObservable(), o8.toObservable()),
+                toFunction(combineFunction)
+        );
+    }
+
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Observable<? extends T1> o1,
+            Observable<? extends T2> o2,
+            Observable<? extends T3> o3,
+            Observable<? extends T4> o4,
+            Observable<? extends T5> o5,
+            Observable<? extends T6> o6,
+            Observable<? extends T7> o7,
+            Observable<? extends T8> o8,
+            Observable<? extends T9> o9,
+            Function9Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> combineFunction
+    ) {
         return combineLatestDelayError(scheduler, Arrays.asList(o1, o2, o3, o4, o5, o6, o7, o8, o9), toFunction(combineFunction));
+    }
+
+    public static <T1, T2, T3, T4, T5, T6, T7, T8, T9, R> Observable<R> combineLatestDelayError(
+            Scheduler scheduler,
+            Single<? extends T1> o1,
+            Single<? extends T2> o2,
+            Single<? extends T3> o3,
+            Single<? extends T4> o4,
+            Single<? extends T5> o5,
+            Single<? extends T6> o6,
+            Single<? extends T7> o7,
+            Single<? extends T8> o8,
+            Single<? extends T9> o9,
+            Function9Safe<? super T1, ? super T2, ? super T3, ? super T4, ? super T5, ? super T6, ? super T7, ? super T8, ? super T9, ? extends R> combineFunction
+    ) {
+        return combineLatestDelayError(
+                scheduler,
+                Arrays.asList(o1.toObservable(), o2.toObservable(), o3.toObservable(), o4.toObservable(), o5.toObservable(), o6.toObservable(), o7.toObservable(), o8.toObservable(), o9.toObservable()),
+                toFunction(combineFunction)
+        );
     }
 
     private static <T> List<Observable<? extends T>> toParallel(List<Observable<? extends T>> sources, Scheduler scheduler) {
