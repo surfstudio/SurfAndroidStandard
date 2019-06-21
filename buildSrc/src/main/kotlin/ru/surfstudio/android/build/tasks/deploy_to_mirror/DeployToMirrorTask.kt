@@ -1,10 +1,10 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
+import org.eclipse.jgit.revwalk.RevCommit
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.model.Component
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.StandardCommit
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
 import ru.surfstudio.android.build.utils.extractProperty
@@ -35,7 +35,7 @@ open class DeployToMirrorTask : DefaultTask() {
         )
 
         try {
-            val rootCommit: StandardCommit = standardRepository.getCommit(commitHash)
+            val rootCommit: RevCommit = standardRepository.getRevCommit(commitHash)
 
             mirrorManager.mirror(rootCommit)
         } finally {

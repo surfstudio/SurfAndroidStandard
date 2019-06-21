@@ -1,16 +1,20 @@
 package ru.surfstudio.android.build.utils
 
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.Commit
+import org.eclipse.jgit.revwalk.RevCommit
+import java.lang.Exception
+
+private const val STANDARD_COMMIT_HASH_PREFIX = "ANDROID-STANDARD-COMMIT=\""
+private const val STANDARD_COMMIT_HASH_POSTFIX = "\""
 
 /**
  * Return parents set
  *
  * @param maxDistance - max depth for parenting
  */
-fun <T : Commit> T.getParents(maxDistance: Int): Set<T> {
-    val result = mutableSetOf<T>()
-    val iCommits = mutableSetOf<T>()
-    val iParents = mutableSetOf<T>()
+fun RevCommit.getAllParents(maxDistance: Int): Set<RevCommit> {
+    val result = mutableSetOf<RevCommit>()
+    val iCommits = mutableSetOf<RevCommit>()
+    val iParents = mutableSetOf<RevCommit>()
 
     iCommits.add(this)
 
@@ -18,7 +22,7 @@ fun <T : Commit> T.getParents(maxDistance: Int): Set<T> {
         if (iCommits.isEmpty()) break
 
         iCommits.forEach {
-            iParents.addAll(it.parents as List<T>)
+            iParents.addAll(it.parents)
         }
 
         result.addAll(iParents)
@@ -29,3 +33,16 @@ fun <T : Commit> T.getParents(maxDistance: Int): Set<T> {
 
     return result
 }
+
+/**
+ * Get standard commit hash from [RevCommit]'s message
+ */
+val RevCommit.standardHash: String
+    get() {
+        return try {
+            shortMessage.substringAfter(STANDARD_COMMIT_HASH_PREFIX, EMPTY_STRING)
+                    .substringBefore(STANDARD_COMMIT_HASH_POSTFIX)
+        } catch (e: Exception) {
+            EMPTY_STRING
+        }
+    }

@@ -1,10 +1,8 @@
-package ru.surfstudio.android.build.tasks.deploy_to_mirror.model.data_structure
+package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
+import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.NoEndsDefineException
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.Commit
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.MirrorCommit
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.StandardCommit
 import kotlin.collections.ArrayList
 
 /**
@@ -21,7 +19,7 @@ class GitTree {
      * Set root element
      * It can be only one for tree
      */
-    fun setRoot(value: StandardCommit) {
+    fun setRoot(value: RevCommit) {
         val node = Node(value).apply {
             state = NodeState.ROOT
         }
@@ -32,7 +30,7 @@ class GitTree {
     /**
      * Add ends for tree
      */
-    fun setEnds(collection: Collection<MirrorCommit>) {
+    fun setEnds(collection: Collection<RevCommit>) {
         val endNodes = collection.map { Node(it).apply { state = NodeState.END } }
 
         list.removeAll(ends)
@@ -44,7 +42,7 @@ class GitTree {
     /**
      * Add element to tree with parents
      */
-    fun add(commit: Commit, parentCommits: List<Commit>) {
+    fun add(commit: RevCommit, parentCommits: List<RevCommit>) {
         val node = findNode(commit)
         val parents = parentCommits.map { findOrCreateNode(it) }
 
@@ -107,19 +105,28 @@ class GitTree {
                 }
     }
 
-    private fun findNode(value: Commit) = list.find { it.value == value }
+    private fun findNode(value: RevCommit) = list.find { it.value == value }
             ?: throw GitNodeNotFoundException(value)
 
-    private fun findOrCreateNode(value: Commit) = list.find { it.value == value } ?: Node(value)
+    private fun findOrCreateNode(value: RevCommit) = list.find { it.value == value } ?: Node(value)
 
     private data class Node(
-            val value: Commit,
+            val value: RevCommit,
             var state: NodeState = NodeState.NONE,
             val parents: ArrayList<Node> = arrayListOf(),
             val children: ArrayList<Node> = arrayListOf()
     ) {
-        override fun toString(): String =
-                "{value:\"$value\", state:\"$state\", parents: \"${parents.map(Node::value)}\", x:\"${children.map(Node::value)}\"}"
+
+        override fun hashCode(): Int = value.hashCode()
+
+        override fun equals(other: Any?): Boolean {
+            if (other == null) return false
+            if (other !is Node) return false
+            return value.name == other.value.name
+        }
+
+        override fun toString(): String = value.name
+//                "{value:\"$value\", state:\"$state\", parents: \"${parents.map(Node::value)}\", x:\"${children.map(Node::value)}\"}"
     }
 
     private enum class NodeState {
