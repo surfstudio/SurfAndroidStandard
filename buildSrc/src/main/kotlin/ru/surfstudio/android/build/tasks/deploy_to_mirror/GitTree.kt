@@ -108,7 +108,16 @@ class GitTree {
     private fun findNode(value: RevCommit) = list.find { it.value == value }
             ?: throw GitNodeNotFoundException(value)
 
-    private fun findOrCreateNode(value: RevCommit) = list.find { it.value == value } ?: Node(value)
+    private fun findOrCreateNode(value: RevCommit): Node {
+        var result = list.find { it.value == value }
+
+        if (result == null) {
+            result = Node(value)
+            list.add(result)
+        }
+
+        return result
+    }
 
     private data class Node(
             val value: RevCommit,
