@@ -3,6 +3,7 @@ package ru.surfstudio.android.build.tasks.deploy_to_mirror
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.NoEndsDefineException
+import ru.surfstudio.android.build.utils.standardHash
 import kotlin.collections.ArrayList
 
 /**
@@ -12,7 +13,7 @@ import kotlin.collections.ArrayList
 class GitTree {
 
     private var root: Node? = null
-    private val ends: MutableSet<Node> = mutableSetOf()
+    private val mirrorCommits: MutableSet<Node> = mutableSetOf()
     private val list: MutableSet<Node> = mutableSetOf()
 
     /**
@@ -33,10 +34,10 @@ class GitTree {
     fun setEnds(endList: Iterable<RevCommit>) {
         val endNodes = endList.map { Node(it).apply { state = NodeState.END } }
 
-        list.removeAll(ends)
-        ends.clear()
-        ends.addAll(endNodes)
-        list.addAll(ends)
+        list.removeAll(mirrorCommits)
+        mirrorCommits.clear()
+        mirrorCommits.addAll(endNodes)
+        list.addAll(mirrorCommits)
     }
 
     /**
@@ -58,7 +59,17 @@ class GitTree {
      * Cut elements that don't belong to root-end lines
      */
     fun cut() {
-        if (ends.isEmpty()) throw NoEndsDefineException()
+        if (mirrorCommits.isEmpty()) throw NoEndsDefineException()
+
+        mirrorCommits.forEach { end ->
+            list.find {
+                it.value.name == end.value.standardHash
+            }?.state = NodeState.END
+        }
+
+        list.removeAll(mirrorCommits)
+
+        val ends = list.filter { it.state == NodeState.END }
 
         val lines: List<List<Node>> = ends.flatMap { end -> buildChain(mutableListOf(end)) }
         val needLines = lines.filter { ends.contains(it.first()) && it.last() == root }
@@ -75,9 +86,9 @@ class GitTree {
         var node = chain.last()
 
         while (true) {
-            when (node.parents.size) {
+            when (node.children.size) {
                 1 -> {
-                    val parent = node.parents.first()
+                    val parent = node.children.first()
                     chain.add(parent)
                     node = parent
                 }
@@ -86,7 +97,7 @@ class GitTree {
                     return result
                 }
                 else -> {
-                    node.parents.forEach {
+                    node.children.forEach {
                         val newChain = chain.toMutableList()
                         newChain.add(it)
                         result.addAll(buildChain(newChain))
@@ -101,7 +112,7 @@ class GitTree {
         lines.flatten()
                 .toSet()
                 .forEach {
-                    if (it.state == NodeState.NONE) it.state == NodeState.MARKED
+                    if (it.state == NodeState.NONE) it.state = NodeState.MARKED
                 }
     }
 
@@ -134,7 +145,7 @@ class GitTree {
             return value.name == other.value.name
         }
 
-        override fun toString(): String = value.name
+        override fun toString(): String = "${value.name} - $state"
 //                "{value:\"$value\", state:\"$state\", parents: \"${parents.map(Node::value)}\", x:\"${children.map(Node::value)}\"}"
     }
 
