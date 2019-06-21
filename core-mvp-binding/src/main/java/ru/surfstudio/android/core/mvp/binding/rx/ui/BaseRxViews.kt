@@ -126,3 +126,22 @@ abstract class BaseRxBottomSheetDialogFragment : CoreBottomSheetDialogFragmentVi
                     .subscribe(onNext, Consumer(onError))
                     .also { viewDisposable.add(it) }
 }
+
+/**
+ * Simple Bottom Sheet Dialog Fragment with RxBindings support.
+ */
+abstract class BaseRxSimpleBottomSheetDialogFragment : CoreSimpleBottomSheetDialogFragment(), BindableRxView {
+
+    private val viewDisposable = CompositeDisposable()
+
+    @CallSuper
+    override fun onDestroy() {
+        viewDisposable.clear()
+        super.onDestroy()
+    }
+
+    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
+            observable.observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(onNext, Consumer(onError))
+                    .also { viewDisposable.add(it) }
+}
