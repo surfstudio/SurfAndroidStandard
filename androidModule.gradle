@@ -50,6 +50,14 @@ configurations.all {
                 && details.requested.name.contains('core')) {
             details.useVersion "$androidxCore"
         }
+        if (details.requested.group == 'androidx.appcompat'
+                && details.requested.name.contains('appcompat')) {
+            details.useVersion "$androidxVersion"
+        }
+        if (details.requested.group == 'org.jetbrains'
+                && details.requested.name.contains('annotations')) {
+            details.useVersion "$jetbrainsAnnotationsVersion"
+        }
     }
 }
 
