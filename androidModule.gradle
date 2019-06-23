@@ -40,6 +40,19 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'androidx.annotation'
+                && details.requested.name.contains('annotation')) {
+            details.useVersion "$androidxAnnotationVersion"
+        }
+        if (details.requested.group == 'androidx.core'
+                && details.requested.name.contains('core')) {
+            details.useVersion "$androidxCore"
+        }
+    }
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
