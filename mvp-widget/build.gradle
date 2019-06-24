@@ -2,7 +2,7 @@ apply from: '../androidModule.gradle'
 
 dependencies {
     api "javax.inject:javax.inject:$javaInjectVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
+    api "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
 
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
