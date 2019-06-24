@@ -2,6 +2,7 @@ package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.BaseGitRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
 import ru.surfstudio.android.build.utils.standardHash
@@ -34,7 +35,8 @@ class MirrorManager(
         val gitTree = buildGitTree(rootCommit, standardCommits, mirrorCommits)
 
         gitTree.cut()
-        gitTree.print()
+
+        commitChanges(gitTree)
     }
 
     /**
@@ -73,5 +75,38 @@ class MirrorManager(
         }
 
         return gitTree
+    }
+
+    private fun commitChanges(gitTree: GitTree) {
+        val startedCommit = gitTree.getStarterCommit()
+        val commits = gitTree.getCommitsWithChanges()
+
+        if (commits.isEmpty()) return
+
+        println()
+        println("All branches: ")
+        println()
+        standardRepository.getAllBranches().forEach {
+            println("${it.name} ${it.objectId.name}")
+        }
+
+        println()
+        println("One branch:")
+        println()
+        println(standardRepository.getBranch("ed926213789b11cb93c5826de8786c2db7b369e7"))
+        println()
+
+//        resetRepository(standardRepository, startedCommit)
+//        resetRepository(mirrorRepository, startedCommit)
+
+//        commits.forEach(this::commit)
+    }
+
+    private fun commit(commit: RevCommit) {
+
+    }
+
+    private fun resetRepository(repository: BaseGitRepository, commit: RevCommit) {
+
     }
 }
