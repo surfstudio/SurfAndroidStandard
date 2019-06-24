@@ -1,12 +1,13 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
 
 import org.eclipse.jgit.api.Git
-import org.eclipse.jgit.api.ListBranchCommand
 import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import java.io.File
+
 
 /**
  * Parent class for git repository
@@ -35,11 +36,14 @@ abstract class BaseGitRepository {
     /**
      * Return branch by commit hash
      */
-    fun getBranch(commit: String): Ref = git.branchList()
-            .setContains(commit)
-            .setListMode(ListBranchCommand.ListMode.ALL)
-            .call()
-            .first()
+    fun getBranchName(commit: String): String {
+        val branches = git.branchList()
+                .setContains(commit)
+                .call()
+
+        return EMPTY_STRING
+    }
+
 
     /**
      * Get all branches
@@ -61,13 +65,10 @@ abstract class BaseGitRepository {
                 .toList()
     }
 
-    fun resetBranch(commit: RevCommit) {
-        git.checkout()
-
-        val ref = getBranch(commit.name)
+    fun reset(commit: String) {
         git.reset()
                 .setMode(ResetCommand.ResetType.HARD)
-                .setRef(ref.name)
+                .setRef(commit)
                 .call()
     }
 }

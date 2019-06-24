@@ -89,12 +89,19 @@ class GitTree {
     /**
      * Return commit to start apply changes, but this commit already exist in mirror
      */
-    fun getStarterCommit(): RevCommit = if (list.isEmpty()) {
+    fun getStandardStartCommit(): RevCommit = if (list.isEmpty()) {
         throw CanNotFindStartCommitException()
     } else {
-        list.first().value
+        list.minBy { it.value.commitTime }!!.value
     }
 
+    fun getMirrorCommitByStandard(standardCommitHash: String): RevCommit = if (mirrorCommits.isEmpty()) {
+        throw CanNotFindStartCommitException()
+    } else {
+        mirrorCommits.find {
+            it.value.standardHash == standardCommitHash
+        }?.value ?: throw CanNotFindStartCommitException()
+    }
 
     private fun buildChain(chain: MutableList<Node>): List<List<Node>> {
         val result: MutableList<List<Node>> = mutableListOf()
