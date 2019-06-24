@@ -1,7 +1,5 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
 
-import org.eclipse.jgit.lib.Repository
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder
 import java.io.File
 
 /**
@@ -9,8 +7,6 @@ import java.io.File
  */
 class StandardRepository : BaseGitRepository() {
 
-    private val localStandardRepositoryDir = File(".git")
-
-    override val repository: Repository = FileRepositoryBuilder().setGitDir(localStandardRepositoryDir).build()
+    override val repositoryPath: File = File("")
     override val repositoryName = "Standard"
 }

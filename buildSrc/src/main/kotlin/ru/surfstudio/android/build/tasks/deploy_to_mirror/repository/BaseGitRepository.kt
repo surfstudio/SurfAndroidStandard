@@ -5,23 +5,23 @@ import org.eclipse.jgit.api.ListBranchCommand
 import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
-import org.eclipse.jgit.lib.Repository
 import org.eclipse.jgit.revwalk.RevCommit
+import java.io.File
 
 /**
  * Parent class for git repository
  */
 abstract class BaseGitRepository {
 
-    protected abstract val repository: Repository
+    protected abstract val repositoryPath: File
     protected abstract val repositoryName: String
 
-    protected val git by lazy { Git(repository) }
+    protected val git: Git by lazy { Git.open(repositoryPath) }
 
     /**
      * Delete repository
      */
-    open fun delete() = repository.close()
+    open fun delete() = git.close()
 
     /**
      * Get [RevCommit] by hash
