@@ -3,6 +3,7 @@ package ru.surfstudio.standard.cf_pagination
 import androidx.annotation.CallSuper
 import io.reactivex.disposables.Disposables
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
@@ -31,6 +32,10 @@ abstract class PaginationablePresenter<T>(
                 loadData(value.nextOffset)
             }
         }
+    }
+
+    protected fun setLoadState(loadState: LoadStateInterface) {
+        bm.loadState.accept(loadState)
     }
 
     protected fun setNormalPaginationState(elements: DataList<T>) {
