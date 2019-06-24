@@ -29,6 +29,7 @@ import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
 import ru.surfstudio.android.mvp.dialog.complex.CoreBottomSheetDialogFragmentView
 import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
+import ru.surfstudio.android.mvp.dialog.simple.bottomsheet.CoreSimpleBottomSheetDialogFragment
 
 /**
  * Базовая Activity для связывания с моделью
