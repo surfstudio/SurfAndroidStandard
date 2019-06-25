@@ -24,7 +24,7 @@ class ProjectConfigurationProvider(
 ) {
 
     private val outputJsonDirectory = "$currentDirectory/$OUTPUT_JSON_FOLDER_PATH"
-    private val tempDirectory = "$currentDirectory/$TEMP_FOLDER_NAME"
+    private val tempDirectory = "$currentDirectory/$TEMP_FOLDER_NAME/"
 
     /**
      * provides project configuration for current revision. If project configuration file doesn`t exists creates it
@@ -78,7 +78,7 @@ class ProjectConfigurationProvider(
      */
     private fun createCommandForCurrentRevision(currentRevision: String): String {
         return "./gradlew $GRADLE_TASK_CREATE_PROJECT_CONFIGURATION " +
-                "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT=$currentDirectory " +
+                "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT=$currentDirectory/ " +
                 "-P$CREATE_PROJECT_CONFIGURATION_REVISION=$currentRevision"
     }
 
