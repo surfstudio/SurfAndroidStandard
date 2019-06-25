@@ -114,5 +114,6 @@ abstract class BaseGitRepository {
 
     fun test() {
         val newCommit = getCommit("27a6fbd17e0a2180a3ab83740da19291f2a9970e")
+        println("Test Message 1")
     }
 }
