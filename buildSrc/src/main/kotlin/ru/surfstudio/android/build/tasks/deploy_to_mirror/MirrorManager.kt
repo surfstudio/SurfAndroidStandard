@@ -82,42 +82,27 @@ class MirrorManager(
         val mirrorStartCommit = gitTree.getMirrorCommitByStandard(standardStartCommit.name)
         val commits = gitTree.getCommitsWithChanges()
 
-
-
         if (commits.isEmpty()) return
 
-        val commit = standardRepository.getCommit("ed926213789b11cb93c5826de8786c2db7b369e7")
-        standardRepository.checkout(
-                standardRepository.getBranchName(commit.name)
-        )
-//        standardRepository.checkout(commit)
-//        standardRepository.reset(standardStartCommit.name)
-//        mirrorRepository.reset(mirrorStartCommit.name)
+        test()
+
+//        standardRepository.reset(standardStartCommit)
+//        standardRepository.checkout(standardStartCommit)
+//
+//        mirrorRepository.reset(mirrorStartCommit)
+//        mirrorRepository.checkout(mirrorStartCommit)
+//
 //        commits.forEach { commit(it, gitTree) }
     }
 
-//    private fun commit(commit: RevCommit, gitTree: GitTree) {
-//        //checkoutнуться
-////        standardRepository.reset(commit.name)
-//        if (checkCreateNewBranch(commit)) {
-//
-//        }
-//    }
+    private fun commit(commit: RevCommit, gitTree: GitTree) {
+        //checkoutнуться or create
+        standardRepository.reset(commit)
+        standardRepository.checkout(commit)
 
-//    private fun checkCreateNewBranch(commit: RevCommit): Boolean {
-//        if (commit.parentCount != 1) return false
-//
-//        val commitBranch = standardRepository.getBranchName(commit.name)
-//        val parentBranch = standardRepository.getBranchName(commit.parents.first().name)
-//
-//        println("commit = ${commit.name}")
-//        println("    commitBranch = $commitBranch ${commit.name}")
-//        println("    parentBranch = $parentBranch ${commit.parents.first().name}")
-//
-//        return commitBranch != parentBranch
-//    }
+    }
 
-//    private fun resetRepository(repository: BaseGitRepository, commit: RevCommit) {
-//
-//    }
+    fun test(){
+        standardRepository.test()
+    }
 }

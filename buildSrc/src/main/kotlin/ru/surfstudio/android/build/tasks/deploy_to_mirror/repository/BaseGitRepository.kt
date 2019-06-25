@@ -2,9 +2,11 @@ package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
 
 import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ResetCommand
+import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
+import org.eclipse.jgit.treewalk.TreeWalk
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchCanNotBeDefinedException
 import java.io.File
 
@@ -54,21 +56,21 @@ abstract class BaseGitRepository {
                 .toList()
     }
 
-    fun reset(commit: String) {
+    fun reset(revCommit: RevCommit) {
         git.reset()
                 .setMode(ResetCommand.ResetType.HARD)
-                .setRef(commit)
+                .setRef(revCommit.name)
                 .call()
     }
 
-    fun checkout(branchName: String) {
+    fun checkout(revCommit: RevCommit) {
         git.checkout()
                 .setCreateBranch(false)
-                .setName(branchName)
+                .setName(getBranchName(revCommit.name))
                 .call()
     }
 
-    fun getBranchName(commit: String): String {
+    private fun getBranchName(commit: String): String {
         val branches = git.branchList()
                 .setContains(commit)
                 .call()
@@ -108,5 +110,9 @@ abstract class BaseGitRepository {
         }
 
         return branches[0]
+    }
+
+    fun test() {
+        val newCommit = getCommit("27a6fbd17e0a2180a3ab83740da19291f2a9970e")
     }
 }
