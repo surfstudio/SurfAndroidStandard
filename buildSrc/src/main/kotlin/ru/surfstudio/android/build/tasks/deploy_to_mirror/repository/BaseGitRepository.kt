@@ -61,9 +61,10 @@ abstract class BaseGitRepository {
                 .call()
     }
 
-    fun checkout(commit: RevCommit) {
+    fun checkout(branchName: String) {
         git.checkout()
-                .setName(commit.name)
+                .setCreateBranch(false)
+                .setName(branchName)
                 .call()
     }
 
