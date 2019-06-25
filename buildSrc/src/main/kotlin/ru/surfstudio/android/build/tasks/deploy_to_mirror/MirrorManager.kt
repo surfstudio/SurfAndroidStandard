@@ -87,7 +87,7 @@ class MirrorManager(
         if (commits.isEmpty()) return
 
         val commit = standardRepository.getCommit("ed926213789b11cb93c5826de8786c2db7b369e7")
-        standardRepository.checkout(commit)
+//        standardRepository.checkout(commit)
 //        standardRepository.reset(standardStartCommit.name)
 //        mirrorRepository.reset(mirrorStartCommit.name)
 //        commits.forEach { commit(it, gitTree) }

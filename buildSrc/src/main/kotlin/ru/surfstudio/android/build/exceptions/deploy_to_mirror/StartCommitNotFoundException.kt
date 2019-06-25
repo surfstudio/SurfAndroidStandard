@@ -5,6 +5,6 @@ import org.gradle.api.GradleException
 /**
  * Throw when git tree can't find start commit in standard repository
  */
-class CanNotFindStartCommitException : GradleException(
+class StartCommitNotFoundException : GradleException(
         "Can't find start commit for mirroring"
 )

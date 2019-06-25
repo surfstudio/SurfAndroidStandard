@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
 import org.eclipse.jgit.revwalk.RevCommit
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.CanNotFindStartCommitException
+import ru.surfstudio.android.build.exceptions.deploy_to_mirror.StartCommitNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.NoEndsDefineException
 import ru.surfstudio.android.build.utils.standardHash
@@ -90,17 +90,17 @@ class GitTree {
      * Return commit to start apply changes, but this commit already exist in mirror
      */
     fun getStandardStartCommit(): RevCommit = if (list.isEmpty()) {
-        throw CanNotFindStartCommitException()
+        throw StartCommitNotFoundException()
     } else {
         list.minBy { it.value.commitTime }!!.value
     }
 
     fun getMirrorCommitByStandard(standardCommitHash: String): RevCommit = if (mirrorCommits.isEmpty()) {
-        throw CanNotFindStartCommitException()
+        throw StartCommitNotFoundException()
     } else {
         mirrorCommits.find {
             it.value.standardHash == standardCommitHash
-        }?.value ?: throw CanNotFindStartCommitException()
+        }?.value ?: throw StartCommitNotFoundException()
     }
 
     private fun buildChain(chain: MutableList<Node>): List<List<Node>> {
