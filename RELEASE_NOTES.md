@@ -41,6 +41,7 @@
 
 #### core-mvp-binding
 * ANDDEP-575 В BaseRxPresenter добавлены экстеншны для rx-запросов
+* ANDDEP-580 Поддержка биндинга в простых Bottom Sheet диалогах
 
 #### core-ui
 
