@@ -1,5 +1,6 @@
 package ru.surfstudio.android.build.utils
 
+import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.revwalk.RevCommit
 import java.lang.Exception
 
@@ -46,3 +47,10 @@ val RevCommit.standardHash: String
             EMPTY_STRING
         }
     }
+
+/**
+ * Check commit is merge
+ */
+val RevCommit.isMergeCommit: Boolean get() = shortMessage.startsWith("Merge branch")
+
+val DiffEntry.type: DiffEntry.ChangeType get() = changeType ?: DiffEntry.ChangeType.ADD

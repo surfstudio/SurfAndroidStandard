@@ -1,10 +1,8 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
-import org.eclipse.jgit.revwalk.RevCommit
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
@@ -29,6 +27,7 @@ open class DeployToMirrorTask : DefaultTask() {
         val standardRepository = StandardRepository()
         val mirrorRepository = MirrorRepository(mirrorUrl)
         val mirrorManager = MirrorManager(
+                component.directory,
                 standardRepository,
                 mirrorRepository,
                 standardDepthLimit,

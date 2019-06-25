@@ -6,7 +6,7 @@ import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
-import org.eclipse.jgit.treewalk.TreeWalk
+import org.eclipse.jgit.treewalk.CanonicalTreeParser
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchCanNotBeDefinedException
 import java.io.File
 
@@ -65,8 +65,25 @@ abstract class BaseGitRepository {
 
     fun checkout(revCommit: RevCommit) {
         git.checkout()
-                .setCreateBranch(false)
+                .setCreateBranch(true)
                 .setName(getBranchName(revCommit.name))
+                .call()
+    }
+
+    fun getChanges(commit: RevCommit): MutableList<DiffEntry> {
+        val reader = git.repository.newObjectReader()
+
+        val newTreeParser = CanonicalTreeParser().apply {
+            reset(reader, commit.tree)
+        }
+
+        val oldTreeParser = CanonicalTreeParser().apply {
+            reset(reader, commit.parents[0].tree)
+        }
+
+        return git.diff()
+                .setNewTree(newTreeParser)
+                .setOldTree(oldTreeParser)
                 .call()
     }
 
@@ -110,15 +127,5 @@ abstract class BaseGitRepository {
         }
 
         return branches[0]
-    }
-
-    fun test() {
-        val newCommit = getCommit("5e2f28fb5e5ac212e61fd3bfcfcb8e3a61bd2c28")
-        println("123")
-        println("123")
-        println("123")
-        println("123")
-        println("123")
-        println("Test Message 1")
     }
 }

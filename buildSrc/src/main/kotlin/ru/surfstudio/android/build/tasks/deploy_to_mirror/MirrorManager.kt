@@ -1,21 +1,36 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
+import org.eclipse.jgit.diff.DiffEntry
+import org.eclipse.jgit.diff.DiffEntry.ChangeType.*
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
-import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.BaseGitRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
+import ru.surfstudio.android.build.utils.isMergeCommit
 import ru.surfstudio.android.build.utils.standardHash
+import ru.surfstudio.android.build.utils.type
 
 /**
  * Git manager
  */
 class MirrorManager(
+        private val componentDirectory: String,
         private val standardRepository: StandardRepository,
         private val mirrorRepository: MirrorRepository,
         private val standardDepthLimit: Int,
         private val mirrorDepthLimit: Int
 ) {
+
+    private val filesToMirror = listOf(
+            "build.gradle",
+            "gradle.properties",
+            "settings.gradle"
+    )
+    private val folderToMirror = listOf(
+            "$componentDirectory/",
+            "buildSrc/",
+            "common/"
+    )
 
     /**
      * Mirror standard repository and mirror repository
@@ -95,14 +110,49 @@ class MirrorManager(
 //        commits.forEach { commit(it, gitTree) }
     }
 
-    private fun commit(commit: RevCommit, gitTree: GitTree) {
-        //checkoutнуться or create
+    private fun handleCommit(commit: RevCommit, gitTree: GitTree) {
         standardRepository.reset(commit)
         standardRepository.checkout(commit)
 
+        if (commit.isMergeCommit) {
+            merge(commit)
+        } else {
+            val diff = standardRepository.getChanges(commit)
+                    .filter(::shouldMirror)
+            diff.forEach {
+                when (it.type) {
+                    ADD -> GitDiffManager.add(it)
+                    COPY -> GitDiffManager.copy(it)
+                    DELETE -> GitDiffManager.delete(it)
+                    MODIFY -> GitDiffManager.modify(it)
+                    RENAME -> GitDiffManager.rename(it)
+                }
+            }
+        }
     }
 
-    fun test(){
-        standardRepository.test()
+    private fun merge(commit: RevCommit) {
+        //TODO
+    }
+
+    fun test() {
+
+    }
+
+    private fun shouldMirror(diffEntry: DiffEntry): Boolean {
+        val newPath = diffEntry.newPath.substringBeforeLast("/")
+        val oldPath = diffEntry.oldPath.substringBeforeLast("/")
+
+        return when (diffEntry.type) {
+            ADD -> checkPathMirroring(newPath)
+            COPY -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
+            DELETE -> checkPathMirroring(oldPath)
+            MODIFY -> checkPathMirroring(oldPath)
+            RENAME -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
+        }
+    }
+
+    private fun checkPathMirroring(path: String): Boolean {
+        return filesToMirror.contains(path) || folderToMirror.any { path.startsWith(it) }
     }
 }

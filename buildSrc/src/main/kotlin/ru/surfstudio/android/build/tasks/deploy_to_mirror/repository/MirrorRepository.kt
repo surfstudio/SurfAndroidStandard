@@ -6,12 +6,14 @@ import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import java.io.File
 
+const val MIRROR_REPOSITORY_PATH = ".mirror"
+
 /**
  * Work with local mirror git repository
  */
 class MirrorRepository(url: String) : BaseGitRepository() {
 
-    override val repositoryPath = File(".mirror")
+    override val repositoryPath = File(MIRROR_REPOSITORY_PATH)
     override val repositoryName = "Mirror"
 
     private val userName: String = System.getenv("surf_maven_username") ?: EMPTY_STRING
