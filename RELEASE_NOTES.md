@@ -113,6 +113,9 @@
     * Добавлена возможность задавать firstItemsCountWithoutDividers
 
 #### rx-extension
+
+* ANDDEP-579 Добавлена поддержка Single в ObservableUtil
+
 #### rxbus
 #### shared-pref
 #### standard-dialog
