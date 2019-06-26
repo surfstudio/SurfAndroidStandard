@@ -50,6 +50,7 @@ public class AnalyticsStore implements Analytics {
 
     @Override
     public void setUserProperty(String key, String value) {
+
         Stream.of(registeredList).forEach(val -> val.setUserProperty(key, value));
     }
 }
