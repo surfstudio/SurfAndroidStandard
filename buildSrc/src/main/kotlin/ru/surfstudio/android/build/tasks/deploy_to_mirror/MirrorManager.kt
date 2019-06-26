@@ -56,7 +56,7 @@ class MirrorManager(
 
         gitTree.cut()
 //
-//
+//sadasd
 //        commitChanges(gitTree)
     }
 
