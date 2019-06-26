@@ -10,6 +10,8 @@ import ru.surfstudio.android.build.utils.isMergeCommit
 import ru.surfstudio.android.build.utils.standardHash
 import ru.surfstudio.android.build.utils.type
 
+private const val HEAD ="HEAD"
+
 /**
  * Git manager
  */
@@ -21,7 +23,7 @@ class MirrorManager(
         private val mirrorDepthLimit: Int
 ) {
 
-    private val gitTree = GitTree()
+    private val gitTree = GitTree(standardRepository)
 
     private val diffManager = GitDiffManager(
             standardRepository.repositoryPath.path,

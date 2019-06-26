@@ -1,20 +1,25 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
 import org.eclipse.jgit.revwalk.RevCommit
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.StartCommitNotFoundException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.NoEndsDefineException
+import ru.surfstudio.android.build.exceptions.deploy_to_mirror.*
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.standardHash
+
+private const val HEAD = "HEAD"
 
 /**
  * Data structure based on tree
  * Use it to build tree, set root and ends elements and delete other
  */
-class GitTree {
+class GitTree(private val standardRepository: StandardRepository) {
 
     private lateinit var rootNode: Node
+    private lateinit var rootCommitWithBranch: CommitWithBranch
     private val mirrorCommitNodes: MutableSet<Node> = mutableSetOf()
     private val nodes: MutableSet<Node> = mutableSetOf()
+    private val commitsWithBranch: MutableSet<CommitWithBranch> = mutableSetOf()
 
     /**
      * Build GitTree with correct structure
@@ -48,6 +53,13 @@ class GitTree {
         }
 
         cut()
+        configureBranches()
+
+        commitsWithBranch
+                .sortedBy { it.commit.commitTime }
+                .forEach {
+                    println("Commit ${it.commit.name} - ${it.branch}")
+                }
     }
 
     /**
@@ -207,5 +219,127 @@ class GitTree {
     private enum class NodeState {
 
         NONE, END, ROOT, MARKED
+    }
+
+    //WORK WITH BRANCHES
+    private fun configureBranches() {
+        rootCommitWithBranch = CommitWithBranch(rootNode.value, getRootBranchName())
+        var commitWithBranch = rootCommitWithBranch
+        while (commitWithBranch.commit.parents.isNotEmpty()) {
+            commitWithBranch = handelCommitWithBranch(commitWithBranch) ?: return
+        }
+    }
+
+    private fun handelCommitWithBranch(commitWithBranch: CommitWithBranch): CommitWithBranch? {
+        commitsWithBranch.add(commitWithBranch)
+
+        val parents = findNode(commitWithBranch.commit).parents
+        return when (parents.size) {
+            0 -> null
+            1 -> CommitWithBranch(parents.first().value, commitWithBranch.branch)
+            2 -> merge(commitWithBranch)
+            else -> throw GitNodeParentException(commitWithBranch.toString())
+        }
+    }
+
+    private fun merge(mergeCommit: CommitWithBranch): CommitWithBranch {
+        val parents = findNode(mergeCommit.commit).parents.toList()
+
+        val firstParent = parents[0]
+        val secondParent = parents[1]
+        val startMergeCommit = CommitWithBranch(
+                findStartMergeCommit(firstParent, secondParent).value,
+                mergeCommit.branch
+        )
+
+        val firstBranches = findBranch(firstParent.value.name)
+        val secondBranches = findBranch(secondParent.value.name)
+
+        var firstCommitWithBranch: CommitWithBranch
+        var secondCommitWithBranch: CommitWithBranch
+
+        if (firstBranches.size < secondBranches.size) {
+            firstCommitWithBranch = CommitWithBranch(
+                    firstParent.value,
+                    mergeCommit.branch
+            )
+            secondCommitWithBranch = CommitWithBranch(
+                    secondParent.value,
+                    getUnicBranch(mergeCommit, firstBranches, secondBranches)
+            )
+        } else {
+            firstCommitWithBranch = CommitWithBranch(
+                    firstParent.value,
+                    getUnicBranch(mergeCommit, secondBranches, firstBranches)
+            )
+            secondCommitWithBranch = CommitWithBranch(
+                    secondParent.value,
+
+                    mergeCommit.branch
+            )
+        }
+
+        while (firstCommitWithBranch.commit != startMergeCommit.commit) {
+            firstCommitWithBranch = handelCommitWithBranch(firstCommitWithBranch)
+                    ?: return startMergeCommit
+        }
+
+        while (secondCommitWithBranch.commit != startMergeCommit.commit) {
+            secondCommitWithBranch = handelCommitWithBranch(secondCommitWithBranch)
+                    ?: return startMergeCommit
+        }
+
+        return startMergeCommit
+    }
+
+    private fun getUnicBranch(
+            mergeCommit: CommitWithBranch,
+            smallList: List<String>,
+            bigList: List<String>
+    ): String {
+        val list = bigList.filter { !smallList.contains(it) }
+        if (list.size != 1) {
+            throw MergesCommitBranchNotDefinedException(mergeCommit, smallList, bigList)
+        }
+        return list.first()
+    }
+
+    private fun getRootBranchName(): String {
+        val id = rootNode.value.name
+
+        var rootBranchName = standardRepository.getBranchById(id)?.name?.substringAfterLast("/")
+                ?: EMPTY_STRING
+
+        if (rootBranchName.isEmpty()) rootBranchName = findBranch(id).first()
+        if (rootBranchName.isEmpty()) throw BranchNotFoundException(id)
+
+        return rootBranchName
+    }
+
+    private fun findBranch(id: String) = standardRepository.getBranchesByContainsId(id)
+            .map { it.name.substringAfterLast("/") }
+            .distinct()
+            .filter { it != HEAD }
+
+    private fun findStartMergeCommit(firstNode: Node, secondNode: Node): Node {
+        val firstParents = getAllParentNode(firstNode)
+                .filter { it.children.size > 1 }
+        val secondParents = getAllParentNode(secondNode)
+                .filter { it.children.size > 1 }
+
+        return firstParents.filter { secondParents.contains(it) }.maxBy { it.value.commitTime }!!
+    }
+
+    private fun getAllParentNode(node: Node): Set<Node> {
+        var parents = node.parents.toList()
+        val result = mutableSetOf<Node>().apply {
+            addAll(parents)
+        }
+        while (parents.isNotEmpty()) {
+            val praParents = parents.flatMap { it.parents }
+            result.addAll(praParents)
+            parents = praParents
+        }
+        return result
     }
 }

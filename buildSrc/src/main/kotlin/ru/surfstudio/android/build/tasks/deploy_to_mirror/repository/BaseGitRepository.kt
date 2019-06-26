@@ -1,6 +1,7 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
 
 import org.eclipse.jgit.api.Git
+import org.eclipse.jgit.api.ListBranchCommand
 import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.lib.ObjectId
@@ -39,7 +40,9 @@ abstract class BaseGitRepository {
     /**
      * Get all branches
      */
-    fun getAllBranches(): List<Ref> = git.branchList().call()
+    fun getAllBranches(): List<Ref> = git.branchList()
+            .setListMode(ListBranchCommand.ListMode.ALL)
+            .call()
 
     /**
      * Get all commits
@@ -128,4 +131,15 @@ abstract class BaseGitRepository {
 
         return branches[0]
     }
+
+    fun getBranchById(id: String): Ref? = git.branchList()
+            .setListMode(ListBranchCommand.ListMode.ALL)
+            .call()
+            .filter { it.name != "HEAD" }
+            .find { it.objectId.name == id }
+
+    fun getBranchesByContainsId(id: String): List<Ref> = git.branchList()
+            .setListMode(ListBranchCommand.ListMode.ALL)
+            .setContains(id)
+            .call()
 }
