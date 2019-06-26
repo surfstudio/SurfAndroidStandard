@@ -12,38 +12,72 @@ import ru.surfstudio.android.build.utils.standardHash
  */
 class GitTree {
 
-    private var root: Node? = null
-    private val mirrorCommits: MutableSet<Node> = mutableSetOf()
-    private val list: MutableSet<Node> = mutableSetOf()
+    private lateinit var rootNode: Node
+    private val mirrorCommitNodes: MutableSet<Node> = mutableSetOf()
+    private val nodes: MutableSet<Node> = mutableSetOf()
+
+    /**
+     * Build GitTree with correct structure
+     */
+    fun buildGitTree(
+            rootRevCommit: RevCommit,
+            standardRevCommits: Iterable<RevCommit>,
+            mirrorRevCommits: Iterable<RevCommit>
+    ) {
+        setRoot(rootRevCommit)
+        setMirrorCommits(mirrorRevCommits)
+
+        val iCommits = mutableSetOf(rootRevCommit)
+        val iParents = mutableSetOf<RevCommit>()
+
+        for (standardCommit in standardRevCommits) {
+            iCommits.forEach { commit ->
+                val parentHashes = commit.parents.map { it.name }
+                val parents = standardRevCommits.filter { parentHashes.contains(it.name) }
+
+                add(commit, parents)
+
+                iParents.addAll(parents.filter { !mirrorRevCommits.map { it.standardHash }.contains(it.name) })
+            }
+
+            iCommits.clear()
+            iCommits.addAll(iParents)
+            iParents.clear()
+
+            if (iCommits.isEmpty()) break
+        }
+
+        cut()
+    }
 
     /**
      * Set root element
      * It can be only one for tree
      */
-    fun setRoot(value: RevCommit) {
+    private fun setRoot(value: RevCommit) {
         val node = Node(value).apply {
             state = NodeState.ROOT
         }
-        root = node
-        list.add(node)
+        rootNode = node
+        nodes.add(node)
     }
 
     /**
      * Add ends for tree
      */
-    fun setEnds(endList: Iterable<RevCommit>) {
+    private fun setMirrorCommits(endList: Iterable<RevCommit>) {
         val endNodes = endList.map { Node(it).apply { state = NodeState.END } }
 
-        list.removeAll(mirrorCommits)
-        mirrorCommits.clear()
-        mirrorCommits.addAll(endNodes)
-        list.addAll(mirrorCommits)
+        nodes.removeAll(mirrorCommitNodes)
+        mirrorCommitNodes.clear()
+        mirrorCommitNodes.addAll(endNodes)
+        nodes.addAll(mirrorCommitNodes)
     }
 
     /**
      * Add element to tree with parents
      */
-    fun add(commit: RevCommit, parentCommits: List<RevCommit>) {
+    private fun add(commit: RevCommit, parentCommits: List<RevCommit>) {
         val node = findNode(commit)
         val parents = parentCommits.map { findOrCreateNode(it) }
 
@@ -52,27 +86,27 @@ class GitTree {
             node.parents.add(parent)
         }
 
-        list.add(node)
+        nodes.add(node)
     }
 
     /**
      * Cut elements that don't belong to root-end lines
      */
-    fun cut() {
-        if (mirrorCommits.isEmpty()) throw NoEndsDefineException()
+    private fun cut() {
+        if (mirrorCommitNodes.isEmpty()) throw NoEndsDefineException()
 
-        mirrorCommits.forEach { end ->
-            list.find {
+        mirrorCommitNodes.forEach { end ->
+            nodes.find {
                 it.value.name == end.value.standardHash
             }?.state = NodeState.END
         }
 
-        list.removeAll(mirrorCommits)
+        nodes.removeAll(mirrorCommitNodes)
 
-        val ends = list.filter { it.state == NodeState.END }
+        val ends = nodes.filter { it.state == NodeState.END }
 
         val lines: List<List<Node>> = ends.flatMap { end -> buildChain(mutableListOf(end)) }
-        val needLines = lines.filter { ends.contains(it.first()) && it.last() == root }
+        val needLines = lines.filter { ends.contains(it.first()) && it.last() == rootNode }
 
         markNodes(needLines)
     }
@@ -80,7 +114,7 @@ class GitTree {
     /**
      * Return commits with changes that must be commit
      */
-    fun getCommitsWithChanges(): List<RevCommit> = list
+    fun getCommitsWithChanges(): List<RevCommit> = nodes
             .sortedBy { it.value.commitTime }
             .drop(1)
             .map(Node::value)
@@ -88,16 +122,16 @@ class GitTree {
     /**
      * Return commit to start apply changes, but this commit already exist in mirror
      */
-    fun getStandardStartCommit(): RevCommit = if (list.isEmpty()) {
+    fun getStandardStartCommit(): RevCommit = if (nodes.isEmpty()) {
         throw StartCommitNotFoundException()
     } else {
-        list.minBy { it.value.commitTime }!!.value
+        nodes.minBy { it.value.commitTime }!!.value
     }
 
-    fun getMirrorCommitByStandard(standardCommitHash: String): RevCommit = if (mirrorCommits.isEmpty()) {
+    fun getMirrorCommitByStandard(standardCommitHash: String): RevCommit = if (mirrorCommitNodes.isEmpty()) {
         throw StartCommitNotFoundException()
     } else {
-        mirrorCommits.find {
+        mirrorCommitNodes.find {
             it.value.standardHash == standardCommitHash
         }?.value ?: throw StartCommitNotFoundException()
     }
@@ -137,15 +171,15 @@ class GitTree {
                 }
     }
 
-    private fun findNode(value: RevCommit) = list.find { it.value == value }
+    private fun findNode(value: RevCommit) = nodes.find { it.value == value }
             ?: throw GitNodeNotFoundException(value)
 
     private fun findOrCreateNode(value: RevCommit): Node {
-        var result = list.find { it.value == value }
+        var result = nodes.find { it.value == value }
 
         if (result == null) {
             result = Node(value)
-            list.add(result)
+            nodes.add(result)
         }
 
         return result

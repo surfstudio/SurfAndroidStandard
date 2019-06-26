@@ -21,6 +21,8 @@ class MirrorManager(
         private val mirrorDepthLimit: Int
 ) {
 
+    private val gitTree = GitTree()
+
     private val diffManager = GitDiffManager(
             standardRepository.repositoryPath.path,
             mirrorRepository.repositoryPath.path
@@ -52,52 +54,12 @@ class MirrorManager(
                 .filter { it.standardHash.isNotEmpty() }
                 .toSet()
 
-        val gitTree = buildGitTree(rootCommit, standardCommits, mirrorCommits)
+        gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
 
-        gitTree.cut()
-
-//        commitChanges(gitTree)
+//        commitChanges()
     }
 
-    /**
-     * Build GitTree with correct structure
-     *
-     * @param rootCommit - top commit
-     * @param endCommits - end commits
-     */
-    private fun buildGitTree(
-            rootCommit: RevCommit,
-            standardCommits: Iterable<RevCommit>,
-            mirrorCommits: Iterable<RevCommit>
-    ): GitTree {
-        val gitTree = GitTree()
-        gitTree.setRoot(rootCommit)
-        gitTree.setEnds(mirrorCommits)
-
-        val iCommits = mutableSetOf(rootCommit)
-        val iParents = mutableSetOf<RevCommit>()
-
-        for (standardCommit in standardCommits) {
-            iCommits.forEach { commit ->
-                val parentHashes = commit.parents.map { it.name }
-                val parents = standardCommits.filter { parentHashes.contains(it.name) }
-
-                gitTree.add(commit, parents)
-
-                iParents.addAll(parents.filter { !mirrorCommits.map { it.standardHash }.contains(it.name) })
-            }
-
-            iCommits.clear()
-            iCommits.addAll(iParents)
-            iParents.clear()
-
-            if (iCommits.isEmpty()) break
-        }
-
-        return gitTree
-    }
-
-    private fun commitChanges(gitTree: GitTree) {
+    private fun commitChanges() {
         val standardStartCommit = gitTree.getStandardStartCommit()
         val mirrorStartCommit = gitTree.getMirrorCommitByStandard(standardStartCommit.name)
         val commits = gitTree.getCommitsWithChanges()
@@ -110,10 +72,10 @@ class MirrorManager(
         mirrorRepository.reset(mirrorStartCommit)
         mirrorRepository.checkout(mirrorStartCommit)
 
-        commits.forEach { handleCommit(it, gitTree) }
+        commits.forEach { handleCommit(it) }
     }
 
-    private fun handleCommit(commit: RevCommit, gitTree: GitTree) {
+    private fun handleCommit(commit: RevCommit) {
         standardRepository.reset(commit)
         standardRepository.checkout(commit)
 
