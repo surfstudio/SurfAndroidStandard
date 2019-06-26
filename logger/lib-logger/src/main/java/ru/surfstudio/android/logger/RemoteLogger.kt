@@ -26,6 +26,7 @@ object RemoteLogger {
     private val REMOTE_LOGGING_STRATEGIES = hashMapOf<KClass<*>, RemoteLoggingStrategy>()
 
     @JvmStatic
+
     fun getRemoteLoggingStrategies() = REMOTE_LOGGING_STRATEGIES
 
     @JvmStatic
