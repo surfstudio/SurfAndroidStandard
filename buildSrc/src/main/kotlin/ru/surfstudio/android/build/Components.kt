@@ -38,6 +38,8 @@ object Components {
     @JvmStatic
     fun getModules(): List<Module> {
         val mirrorComponentName = GradlePropertiesManager.getMirrorComponentName()
+
+
         return if (!GradlePropertiesManager.isCurrentComponentAMirror()) {
             value.flatMap(Component::getModules)
         } else {
