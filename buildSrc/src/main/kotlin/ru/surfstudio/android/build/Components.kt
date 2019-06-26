@@ -59,6 +59,7 @@ object Components {
 
     fun getModuleVersion(moduleName: String): String {
         if (value.isEmpty()) return EMPTY_STRING
+
         if (value.any { it.projectVersion.isEmpty() }) configModuleVersions()
 
         val component = value.find { it.getModules().map(Module::name).contains(moduleName) }
