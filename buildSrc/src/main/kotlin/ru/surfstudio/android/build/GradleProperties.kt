@@ -64,7 +64,7 @@ object GradleProperties {
     /**
      * Mirror url
      */
-    const val MIRROR_URL = "mirror"
+    const val MIRROR_DIR = "mirrorDir"
 
     /**
      * Depth limit for deploy to mirror

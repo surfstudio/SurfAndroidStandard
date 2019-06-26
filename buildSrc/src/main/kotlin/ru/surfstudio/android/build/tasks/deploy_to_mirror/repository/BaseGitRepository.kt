@@ -17,8 +17,8 @@ private const val BRANCH_REF_PATTERN = ".*~\\d+$"
  */
 abstract class BaseGitRepository {
 
-    protected abstract val repositoryPath: File
-    protected abstract val repositoryName: String
+    abstract val repositoryPath: File
+    abstract val repositoryName: String
 
     protected val git: Git by lazy { Git.open(repositoryPath) }
 

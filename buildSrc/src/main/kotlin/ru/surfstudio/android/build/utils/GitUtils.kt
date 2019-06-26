@@ -4,8 +4,8 @@ import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.revwalk.RevCommit
 import java.lang.Exception
 
-private const val STANDARD_COMMIT_HASH_PREFIX = "ANDROID-STANDARD-COMMIT=\""
-private const val STANDARD_COMMIT_HASH_POSTFIX = "\""
+const val STANDARD_COMMIT_HASH_PREFIX = "ANDROID-STANDARD-COMMIT=\""
+const val STANDARD_COMMIT_HASH_POSTFIX = "\""
 
 /**
  * Return parents set
@@ -54,3 +54,5 @@ val RevCommit.standardHash: String
 val RevCommit.isMergeCommit: Boolean get() = shortMessage.startsWith("Merge branch")
 
 val DiffEntry.type: DiffEntry.ChangeType get() = changeType ?: DiffEntry.ChangeType.ADD
+
+val RevCommit.shortHash: String get() = name.substring(0, 8)

@@ -21,15 +21,20 @@ class MirrorManager(
         private val mirrorDepthLimit: Int
 ) {
 
+    private val diffManager = GitDiffManager(
+            standardRepository.repositoryPath.path,
+            mirrorRepository.repositoryPath.path
+    )
+
     private val filesToMirror = listOf(
-            "build.gradle",
-            "gradle.properties",
-            "settings.gradle"
+            "${StandardRepository.TEMP_DIR_PATH}/build.gradle",
+            "${StandardRepository.TEMP_DIR_PATH}/gradle.properties",
+            "${StandardRepository.TEMP_DIR_PATH}/settings.gradle"
     )
     private val folderToMirror = listOf(
-            "$componentDirectory/",
-            "buildSrc/",
-            "common/"
+            "${StandardRepository.TEMP_DIR_PATH}/$componentDirectory/",
+            "${StandardRepository.TEMP_DIR_PATH}/buildSrc/",
+            "${StandardRepository.TEMP_DIR_PATH}/common/"
     )
 
     /**
@@ -51,7 +56,7 @@ class MirrorManager(
 
         gitTree.cut()
 
-        commitChanges(gitTree)
+//        commitChanges(gitTree)
     }
 
     /**
@@ -99,15 +104,13 @@ class MirrorManager(
 
         if (commits.isEmpty()) return
 
-        test()
+        standardRepository.reset(standardStartCommit)
+        standardRepository.checkout(standardStartCommit)
 
-//        standardRepository.reset(standardStartCommit)
-//        standardRepository.checkout(standardStartCommit)
-//
-//        mirrorRepository.reset(mirrorStartCommit)
-//        mirrorRepository.checkout(mirrorStartCommit)
-//
-//        commits.forEach { commit(it, gitTree) }
+        mirrorRepository.reset(mirrorStartCommit)
+        mirrorRepository.checkout(mirrorStartCommit)
+
+        commits.forEach { handleCommit(it, gitTree) }
     }
 
     private fun handleCommit(commit: RevCommit, gitTree: GitTree) {
@@ -121,13 +124,14 @@ class MirrorManager(
                     .filter(::shouldMirror)
             diff.forEach {
                 when (it.type) {
-                    ADD -> GitDiffManager.add(it)
-                    COPY -> GitDiffManager.copy(it)
-                    DELETE -> GitDiffManager.delete(it)
-                    MODIFY -> GitDiffManager.modify(it)
-                    RENAME -> GitDiffManager.rename(it)
+                    ADD -> diffManager.add(it)
+                    COPY -> diffManager.copy(it)
+                    DELETE -> diffManager.delete(it)
+                    MODIFY -> diffManager.modify(it)
+                    RENAME -> diffManager.rename(it)
                 }
             }
+            commit(commit)
         }
     }
 
@@ -135,8 +139,8 @@ class MirrorManager(
         //TODO
     }
 
-    fun test() {
-
+    private fun commit(commit: RevCommit) {
+        mirrorRepository.commit(commit)
     }
 
     private fun shouldMirror(diffEntry: DiffEntry): Boolean {

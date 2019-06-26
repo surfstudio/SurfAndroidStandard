@@ -16,7 +16,7 @@ open class DeployToMirrorTask : DefaultTask() {
 
     private lateinit var component: Component
     private lateinit var commitHash: String
-    private lateinit var mirrorUrl: String
+    private lateinit var mirrorDir: String
     private var standardDepthLimit: Int = 0
     private var mirrorDepthLimit: Int = 0
 
@@ -25,7 +25,7 @@ open class DeployToMirrorTask : DefaultTask() {
         extractParams()
 
         val standardRepository = StandardRepository()
-        val mirrorRepository = MirrorRepository(mirrorUrl)
+        val mirrorRepository = MirrorRepository(mirrorDir)
         val mirrorManager = MirrorManager(
                 component.directory,
                 standardRepository,
@@ -45,7 +45,7 @@ open class DeployToMirrorTask : DefaultTask() {
     private fun extractParams() {
         component = project.getPropertyComponent()
         commitHash = project.extractProperty(GradleProperties.COMMIT)
-        mirrorUrl = project.extractProperty(GradleProperties.MIRROR_URL)
+        mirrorDir = project.extractProperty(GradleProperties.MIRROR_DIR)
         standardDepthLimit = project.extractProperty(GradleProperties.DEPLOY_TO_MIRROR_DEPTH_LIMIT).toInt()
         mirrorDepthLimit = project.extractProperty(GradleProperties.DEPLOY_TO_MIRROR_SEARCH_LIMIT).toInt()
     }
