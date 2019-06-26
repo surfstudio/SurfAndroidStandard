@@ -5,7 +5,6 @@ import ru.surfstudio.android.build.exceptions.deploy_to_mirror.StartCommitNotFou
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.NoEndsDefineException
 import ru.surfstudio.android.build.utils.standardHash
-import kotlin.collections.ArrayList
 
 /**
  * Data structure based on tree
@@ -110,9 +109,9 @@ class GitTree {
         while (true) {
             when (node.children.size) {
                 1 -> {
-                    val parent = node.children.first()
-                    chain.add(parent)
-                    node = parent
+                    val next = node.children.first()
+                    chain.add(next)
+                    node = next
                 }
                 0 -> {
                     result.add(chain)
@@ -155,8 +154,8 @@ class GitTree {
     private data class Node(
             val value: RevCommit,
             var state: NodeState = NodeState.NONE,
-            val parents: ArrayList<Node> = arrayListOf(),
-            val children: ArrayList<Node> = arrayListOf()
+            val parents: MutableSet<Node> = mutableSetOf(),
+            val children: MutableSet<Node> = mutableSetOf()
     ) {
 
         override fun hashCode(): Int = value.hashCode()
