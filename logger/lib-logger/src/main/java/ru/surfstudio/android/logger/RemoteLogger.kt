@@ -30,6 +30,7 @@ object RemoteLogger {
     fun getRemoteLoggingStrategies() = REMOTE_LOGGING_STRATEGIES
 
     @JvmStatic
+
     fun addRemoteLoggingStrategy(strategy: RemoteLoggingStrategy) =
             REMOTE_LOGGING_STRATEGIES.put(strategy::class, strategy)
 
