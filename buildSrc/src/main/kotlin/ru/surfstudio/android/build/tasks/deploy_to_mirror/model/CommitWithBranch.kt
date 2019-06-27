@@ -13,5 +13,5 @@ data class CommitWithBranch(
 }
 
 enum class CommitType {
-    SIMPLE, MERGE
+    SIMPLE, MERGE, MIRROR_START_POINT
 }

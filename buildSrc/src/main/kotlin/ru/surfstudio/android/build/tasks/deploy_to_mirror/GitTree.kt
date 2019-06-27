@@ -40,9 +40,6 @@ class GitTree(
         setMirrorNodes(mirrorRevCommits)
         addCommitsToTree(standardRevCommits)
         cut()
-        commitsToCommit.forEach {
-            println("!@#@!# $it")
-        }
 //        configureBranches()
 
 //        commitsWithBranch
@@ -154,13 +151,19 @@ class GitTree(
         val mirrorStartCommitsStandardHashes = mirrorStartCommits.map { it.commit.mirrorStandardHash }
 
         commitsToCommit = nodes
-                .filter { !mirrorStartCommitsStandardHashes.contains(it.value.standardHash) }
                 .map {
-                    CommitWithBranch(
-                            commit = it.value,
-                            type = if (it.parents.size == 2) CommitType.MERGE else CommitType.SIMPLE
-                    )
+                    val type = when {
+                        mirrorStartCommitsStandardHashes.contains(it.value.standardHash) -> {
+                            CommitType.MIRROR_START_POINT
+                        }
+                        it.parents.size == 2 -> CommitType.MERGE
+                        else -> CommitType.SIMPLE
+                    }
+
+                    CommitWithBranch(commit = it.value, type = type)
                 }
+                .sortedBy { it.commit.commitTime }
+
         lines.forEach { line ->
             val branchName = BranchCreator.generateBranchName(existedBranchNames)
             line.forEach { node ->
@@ -388,5 +391,10 @@ class GitTree(
             parents = praParents
         }
         return result
+    }
+
+    fun getStartMirrorCommitByStandardHash(standardHash: String): CommitWithBranch {
+        return mirrorStartCommits.find { it.commit.mirrorStandardHash == standardHash }
+                ?: throw MirrorCommitNotFoundByStandardHashException(standardHash)
     }
 }

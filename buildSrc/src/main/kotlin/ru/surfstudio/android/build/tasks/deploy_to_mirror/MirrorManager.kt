@@ -2,9 +2,12 @@ package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
 import ru.surfstudio.android.build.utils.mirrorStandardHash
+import ru.surfstudio.android.build.utils.standardHash
 
 private const val HEAD = "HEAD"
 
@@ -54,6 +57,30 @@ class MirrorManager(
                 .toSet()
 
         gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
+        start()
+    }
+
+    private fun start() {
+        gitTree.commitsToCommit.forEach {
+            when (it.type) {
+                CommitType.SIMPLE -> commit(it)
+                CommitType.MERGE -> merge(it)
+                CommitType.MIRROR_START_POINT -> mirrorStartPoint(it)
+            }
+        }
+    }
+
+    private fun commit(commit: CommitWithBranch) {
+        println("Commit => ${commit.commit}")
+    }
+
+    private fun merge(commit: CommitWithBranch) {
+        println("Merge => ${commit.commit}")
+    }
+
+    private fun mirrorStartPoint(commit: CommitWithBranch) {
+        println("Mirror start point => ${commit.commit}")
+        println(gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash))
     }
 
 
