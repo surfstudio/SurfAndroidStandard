@@ -17,6 +17,7 @@ package ru.surfstudio.android.mvp.widget.configurator;
 
 import android.view.View;
 
+import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent;
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent;
 import ru.surfstudio.android.core.mvp.configurator.ViewConfigurator;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -42,9 +43,8 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
 
     protected abstract ScreenComponent createScreenComponent(P parentComponent,
                                                              M widgetScreenModule);
-
-    protected  View getTargetWidgetView() {
-        return (View) getPersistentScope().getScreenState().getCoreWidget();
+    protected <T extends View & CoreWidgetViewInterface> T getTargetWidgetView() {
+        return  (T) getPersistentScope().getScreenState().getCoreWidget();
     }
 
     protected WidgetViewPersistentScope getPersistentScope() {
@@ -70,6 +70,10 @@ public abstract class BaseWidgetViewConfigurator<P, M> implements ViewConfigurat
             component = createScreenComponent();
         }
         component.inject(target);
+
+        if (component instanceof BindableScreenComponent) {
+            ((BindableScreenComponent) component).requestInjection();
+        }
     }
 
     private ScreenComponent createScreenComponent() {

@@ -30,7 +30,7 @@ class ParentPersistentScopeFinder(private val child: View) {
 
     fun find(): ScreenPersistentScope? {
         var parentScope: ScreenPersistentScope? = null
-        val activity = unwrapContext<FragmentActivity>(child.context)
+        val activity = unwrapContext(child.context, FragmentActivity::class.java)
 
         val fragments = activity.supportFragmentManager.fragments
         var parent: ViewParent? = child.parent

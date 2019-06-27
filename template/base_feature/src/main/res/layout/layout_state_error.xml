@@ -14,7 +14,7 @@
         tools:text="@string/state_error_message" />
 
     <Button
-        android:id="@+id/error_load_state_b"
+        android:id="@+id/error_load_state_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
