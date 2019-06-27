@@ -48,18 +48,28 @@ interface ImageLoaderInterface {
     fun url(@DrawableRes drawableResId: Int): ImageLoaderInterface
 
     /**
-     * Указание графического ресурса, отображаемого в качестве плейсхолдера
+     * Указание графического ресурса, отображаемого в качестве плейсхолдера.
      *
-     * @param drawableResId ссылка на ресурс из папки res/drawable
+     * Во всех случаях, когда это возможно, следует использовать уже трансформированный
+     * до этапа выполнения программы ресурс. Это поможет значительно увеличить производительность.
+     * В этом случае следует явно задать значение флага [shouldTransformPreview]=false.
+     *
+     * @param drawableResId ссылка на ресурс из папки res/drawable,
+     * @param shouldTransformPreview необходимо ли применять трансформации исходника к превью
      */
-    fun preview(@DrawableRes drawableResId: Int): ImageLoaderInterface
+    fun preview(@DrawableRes drawableResId: Int, shouldTransformPreview: Boolean = true): ImageLoaderInterface
 
     /**
-     * Указание графического ресурса, отображаемого в случае ошибки загрузки
+     * Указание графического ресурса, отображаемого в случае ошибки загрузки.
+     *
+     * Во всех случаях, когда это возможно, следует использовать уже трансформированный
+     * до этапа выполнения программы ресурс. Это поможет значительно увеличить производительность.
+     * В этом случае следует явно задать значение флага [shouldTransformError]=false.
      *
      * @param drawableResId ссылка на ресурс из папки res/drawable
+     * @param shouldTransformError необходимо ли применять трансформации исходника к превью
      */
-    fun error(@DrawableRes drawableResId: Int): ImageLoaderInterface
+    fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean = true): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания загрузки изображения и источника загрузки

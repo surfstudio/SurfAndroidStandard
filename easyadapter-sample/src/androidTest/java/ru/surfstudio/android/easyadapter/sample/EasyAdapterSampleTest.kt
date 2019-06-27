@@ -18,7 +18,7 @@ class EasyAdapterSampleTest : BaseSampleTest<MainActivityView>(MainActivityView:
         performClick(R.id.show_multitype_list_btn)
         checkIfActivityIsVisible(MultitypeListActivityView::class.java)
 
-        performItemClick(R.id.rvMultitypeList, 1)
+        performItemClick(R.id.rvMultitypeList, 0)
         checkIfToastIsVisible("Value = 0")
         Espresso.pressBack()
 
