@@ -24,5 +24,4 @@ class MirrorRepository(dirPath: String) : BaseGitRepository() {
 
     private val userName: String = System.getenv("surf_maven_username") ?: EMPTY_STRING
     private val password: String = System.getenv("surf_maven_password") ?: EMPTY_STRING
-
 }

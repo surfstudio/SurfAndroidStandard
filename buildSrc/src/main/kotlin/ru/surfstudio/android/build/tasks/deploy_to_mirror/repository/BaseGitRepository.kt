@@ -48,15 +48,27 @@ abstract class BaseGitRepository {
      * Get all commits
      *
      * @param startHash - commit to start build tree
-     * @param maxSize - max size of commits
+     * @param maxDepth - max size of commits
      */
-    fun getAllCommits(startHash: String, maxSize: Int): Iterable<RevCommit> {
-        return git.log()
-                .all()
-                .add(ObjectId.fromString(startHash))
-                .setMaxCount(maxSize)
-                .call()
-                .toList()
+    fun getAllCommits(startHash: String, maxDepth: Int): Iterable<RevCommit> {
+        val result = mutableSetOf<RevCommit>()
+
+        val list = mutableSetOf<RevCommit>().apply {
+            add(getCommit(startHash))
+        }
+
+        result.addAll(list)
+
+        for (i in 2..maxDepth) {
+            val parents = list.flatMap { it.parents.map { getCommit(it.name) } }
+
+            if (parents.isEmpty()) return result
+
+            list.clear()
+            list.addAll(parents)
+            result.addAll(list)
+        }
+        return result
     }
 
     fun reset(revCommit: RevCommit) {

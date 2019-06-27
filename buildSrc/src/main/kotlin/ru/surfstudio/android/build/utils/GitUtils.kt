@@ -2,10 +2,11 @@ package ru.surfstudio.android.build.utils
 
 import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.revwalk.RevCommit
+import org.gradle.api.GradleException
 import java.lang.Exception
 
-const val STANDARD_COMMIT_HASH_PREFIX = "ANDROID-STANDARD-COMMIT=\""
-const val STANDARD_COMMIT_HASH_POSTFIX = "\""
+const val STANDARD_COMMIT_HASH_PREFIX = "("
+const val STANDARD_COMMIT_HASH_POSTFIX = ")"
 
 /**
  * Return parents set
@@ -38,20 +39,23 @@ fun RevCommit.getAllParents(maxDistance: Int): Set<RevCommit> {
 /**
  * Get standard commit hash from [RevCommit]'s message
  */
-val RevCommit.standardHash: String
+val RevCommit.mirrorStandardHash: String
     get() {
         return try {
-            shortMessage.substringAfter(STANDARD_COMMIT_HASH_PREFIX, EMPTY_STRING)
+            shortMessage.substringAfterLast(STANDARD_COMMIT_HASH_PREFIX, EMPTY_STRING)
                     .substringBefore(STANDARD_COMMIT_HASH_POSTFIX)
         } catch (e: Exception) {
             EMPTY_STRING
         }
     }
 
+val RevCommit.standardHash: String get() = name.substring(0, 8)
+
 /**
  * Check commit is merge
  */
-val RevCommit.isMergeCommit: Boolean get() = shortMessage.startsWith("Merge branch")
+val RevCommit.isMergeCommit: Boolean get() = throw GradleException()
+//val RevCommit.isMergeCommit: Boolean get() = shortMessage.startsWith("Merge branch")
 
 val DiffEntry.type: DiffEntry.ChangeType get() = changeType ?: DiffEntry.ChangeType.ADD
 

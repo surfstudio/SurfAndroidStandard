@@ -1,11 +1,13 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
+import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.*
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
-import ru.surfstudio.android.build.utils.EMPTY_STRING
-import ru.surfstudio.android.build.utils.standardHash
+import ru.surfstudio.android.build.utils.*
 
 private const val HEAD = "HEAD"
 
@@ -13,13 +15,18 @@ private const val HEAD = "HEAD"
  * Data structure based on tree
  * Use it to build tree, set root and ends elements and delete other
  */
-class GitTree(private val standardRepository: StandardRepository) {
+class GitTree(
+        private val standardRepository: StandardRepository,
+        private val mirrorRepository: MirrorRepository
+) {
 
     private lateinit var rootNode: Node
     private lateinit var rootCommitWithBranch: CommitWithBranch
-    private val mirrorCommitNodes: MutableSet<Node> = mutableSetOf()
+    private lateinit var mirrorNodes: Set<Node>
     private val nodes: MutableSet<Node> = mutableSetOf()
     private val commitsWithBranch: MutableSet<CommitWithBranch> = mutableSetOf()
+    lateinit var mirrorStartCommits: Set<CommitWithBranch>
+    lateinit var commitsToCommit: List<CommitWithBranch>
 
     /**
      * Build GitTree with correct structure
@@ -29,44 +36,23 @@ class GitTree(private val standardRepository: StandardRepository) {
             standardRevCommits: Iterable<RevCommit>,
             mirrorRevCommits: Iterable<RevCommit>
     ) {
-        setRoot(rootRevCommit)
-        setMirrorCommits(mirrorRevCommits)
-
-        val iCommits = mutableSetOf(rootRevCommit)
-        val iParents = mutableSetOf<RevCommit>()
-
-        for (standardCommit in standardRevCommits) {
-            iCommits.forEach { commit ->
-                val parentHashes = commit.parents.map { it.name }
-                val parents = standardRevCommits.filter { parentHashes.contains(it.name) }
-
-                add(commit, parents)
-
-                iParents.addAll(parents.filter { !mirrorRevCommits.map { it.standardHash }.contains(it.name) })
-            }
-
-            iCommits.clear()
-            iCommits.addAll(iParents)
-            iParents.clear()
-
-            if (iCommits.isEmpty()) break
-        }
-
+        setRootNode(rootRevCommit)
+        setMirrorNodes(mirrorRevCommits)
+        addCommitsToTree(standardRevCommits)
         cut()
-        configureBranches()
+        commitsToCommit.forEach {
+            println("!@#@!# $it")
+        }
+//        configureBranches()
 
-        commitsWithBranch
-                .sortedBy { it.commit.commitTime }
-                .forEach {
-                    println("Commit ${it.commit.name} - ${it.branch}")
-                }
+//        commitsWithBranch
+//                .sortedBy { it.commit.commitTime }
+//                .forEach {
+//                    println("Commit ${it.commit.name} - ${it.branch}")
+//                }
     }
 
-    /**
-     * Set root element
-     * It can be only one for tree
-     */
-    private fun setRoot(value: RevCommit) {
+    private fun setRootNode(value: RevCommit) {
         val node = Node(value).apply {
             state = NodeState.ROOT
         }
@@ -74,22 +60,40 @@ class GitTree(private val standardRepository: StandardRepository) {
         nodes.add(node)
     }
 
-    /**
-     * Add ends for tree
-     */
-    private fun setMirrorCommits(endList: Iterable<RevCommit>) {
-        val endNodes = endList.map { Node(it).apply { state = NodeState.END } }
-
-        nodes.removeAll(mirrorCommitNodes)
-        mirrorCommitNodes.clear()
-        mirrorCommitNodes.addAll(endNodes)
-        nodes.addAll(mirrorCommitNodes)
+    private fun setMirrorNodes(mirrorRevCommits: Iterable<RevCommit>) {
+        mirrorNodes = mirrorRevCommits.map { Node(it).apply { state = NodeState.END } }.toSet()
+        nodes.addAll(mirrorNodes)
     }
 
-    /**
-     * Add element to tree with parents
-     */
-    private fun add(commit: RevCommit, parentCommits: List<RevCommit>) {
+    private fun addCommitsToTree(standardRevCommits: Iterable<RevCommit>) {
+        val c = mutableSetOf(rootNode.value)
+        val p = mutableSetOf<RevCommit>()
+
+        val mirrorStandardHashes = mirrorNodes.map { it.value.mirrorStandardHash }
+
+        for (standardCommit in standardRevCommits) {
+            c.forEach { commit ->
+                val parentHashes = commit.parents.map { it.name }
+                val parents = standardRevCommits.filter { parentHashes.contains(it.name) }
+
+                addRevCommitToNodes(commit, parents)
+
+                p.addAll(
+                        parents.filter {
+                            !mirrorStandardHashes.contains(it.standardHash)
+                        }
+                )
+            }
+
+            c.clear()
+            c.addAll(p)
+            p.clear()
+
+            if (c.isEmpty()) break
+        }
+    }
+
+    private fun addRevCommitToNodes(commit: RevCommit, parentCommits: List<RevCommit>) {
         val node = findNode(commit)
         val parents = parentCommits.map { findOrCreateNode(it) }
 
@@ -101,52 +105,95 @@ class GitTree(private val standardRepository: StandardRepository) {
         nodes.add(node)
     }
 
-    /**
-     * Cut elements that don't belong to root-end lines
-     */
     private fun cut() {
-        if (mirrorCommitNodes.isEmpty()) throw NoEndsDefineException()
+        if (mirrorNodes.isEmpty()) throw NoEndsDefineException()
 
-        mirrorCommitNodes.forEach { end ->
+        mirrorNodes.forEach { end ->
             nodes.find {
-                it.value.name == end.value.standardHash
+                it.value.standardHash == end.value.mirrorStandardHash
             }?.state = NodeState.END
         }
 
-        nodes.removeAll(mirrorCommitNodes)
+        nodes.removeAll(mirrorNodes)
 
         val ends = nodes.filter { it.state == NodeState.END }
 
         val lines: List<List<Node>> = ends.flatMap { end -> buildChain(mutableListOf(end)) }
-        val needLines = lines.filter { ends.contains(it.first()) && it.last() == rootNode }
+                .filter { ends.contains(it.first()) && it.last() == rootNode }
 
-        markNodes(needLines)
+        markNodes(lines)
+        buildMirrorStartCommits(lines)
+        defineCommitsToCommit(lines)
     }
 
-    /**
-     * Return commits with changes that must be commit
-     */
-    fun getCommitsWithChanges(): List<RevCommit> = nodes
-            .sortedBy { it.value.commitTime }
-            .drop(1)
-            .map(Node::value)
+    private fun buildMirrorStartCommits(lines: List<List<Node>>) {
+        val mirrorStandardHashes = lines.map { it.first().value.standardHash }
 
-    /**
-     * Return commit to start apply changes, but this commit already exist in mirror
-     */
-    fun getStandardStartCommit(): RevCommit = if (nodes.isEmpty()) {
-        throw StartCommitNotFoundException()
-    } else {
-        nodes.minBy { it.value.commitTime }!!.value
+        mirrorStartCommits = mirrorNodes
+                .filter {
+                    mirrorStandardHashes.contains(it.value.mirrorStandardHash)
+                }
+                .map {
+                    val branchNameNames = mirrorRepository.getBranchesByContainsId(it.value.name)
+                            .map(Ref::getName)
+                            .extractBranchNames()
+
+                    if (branchNameNames.size != 1) {
+                        throw ManyBranchesFoundException(it.value.name, branchNameNames)
+                    }
+
+                    CommitWithBranch(it.value, branchNameNames[0])
+                }.toSet()
     }
 
-    fun getMirrorCommitByStandard(standardCommitHash: String): RevCommit = if (mirrorCommitNodes.isEmpty()) {
-        throw StartCommitNotFoundException()
-    } else {
-        mirrorCommitNodes.find {
-            it.value.standardHash == standardCommitHash
-        }?.value ?: throw StartCommitNotFoundException()
+    private fun defineCommitsToCommit(lines: List<List<Node>>) {
+        val existedBranchNames = mirrorRepository.getAllBranches()
+                .map { it.name }
+                .extractBranchNames()
+
+        val mirrorStartCommitsStandardHashes = mirrorStartCommits.map { it.commit.mirrorStandardHash }
+
+        commitsToCommit = nodes
+                .filter { !mirrorStartCommitsStandardHashes.contains(it.value.standardHash) }
+                .map {
+                    CommitWithBranch(
+                            commit = it.value,
+                            type = if (it.parents.size == 2) CommitType.MERGE else CommitType.SIMPLE
+                    )
+                }
+        lines.forEach { line ->
+            val branchName = BranchCreator.generateBranchName(existedBranchNames)
+            line.forEach { node ->
+                val commit = commitsToCommit.find { it.commit == node.value }
+                if (commit?.branch?.isEmpty() == true) commit.branch = branchName
+            }
+        }
     }
+
+//    /**
+//     * Return commits with changes that must be commit
+//     */
+//    fun getCommitsWithChanges(): List<RevCommit> = nodes
+//            .sortedBy { it.value.commitTime }
+//            .drop(1)
+//            .map(Node::value)
+//
+//    /**
+//     * Return commit to start apply changes, but this commit already exist in mirror
+//     */
+//    fun getStandardStartCommit(): RevCommit = if (nodes.isEmpty()) {
+//        throw StartCommitNotFoundException()
+//    } else {
+//        nodes.minBy { it.value.commitTime }!!.value
+//    }
+//
+//    fun getMirrorCommitByStandard(standardCommitHash: String): RevCommit = if (mirrorNodes.isEmpty()) {
+//        throw StartCommitNotFoundException()
+//    } else {
+//        mirrorNodes.find {
+//            it.value.mirrorStandardHash == standardCommitHash
+//        }?.value ?: throw StartCommitNotFoundException()
+//    }
 
     private fun buildChain(chain: MutableList<Node>): List<List<Node>> {
         val result: MutableList<List<Node>> = mutableListOf()
@@ -212,7 +259,7 @@ class GitTree(private val standardRepository: StandardRepository) {
             return value.name == other.value.name
         }
 
-        override fun toString(): String = "${value.name} - $state"
+        override fun toString(): String = "${value.shortMessage} - $state"
 //                "{value:\"$value\", state:\"$state\", parents: \"${parents.map(Node::value)}\", x:\"${children.map(Node::value)}\"}"
     }
 
@@ -221,14 +268,14 @@ class GitTree(private val standardRepository: StandardRepository) {
         NONE, END, ROOT, MARKED
     }
 
-    //WORK WITH BRANCHES
-    private fun configureBranches() {
-        rootCommitWithBranch = CommitWithBranch(rootNode.value, getRootBranchName())
-        var commitWithBranch = rootCommitWithBranch
-        while (commitWithBranch.commit.parents.isNotEmpty()) {
-            commitWithBranch = handelCommitWithBranch(commitWithBranch) ?: return
-        }
-    }
+//    //WORK WITH BRANCHES
+//    private fun configureBranches() {
+//        rootCommitWithBranch = CommitWithBranch(rootNode.value, getRootBranchName())
+//        var commitWithBranch = rootCommitWithBranch
+//        while (commitWithBranch.commit.parents.isNotEmpty()) {
+//            commitWithBranch = handelCommitWithBranch(commitWithBranch) ?: return
+//        }
+//    }
 
     private fun handelCommitWithBranch(commitWithBranch: CommitWithBranch): CommitWithBranch? {
         commitsWithBranch.add(commitWithBranch)
@@ -304,17 +351,17 @@ class GitTree(private val standardRepository: StandardRepository) {
         return list.first()
     }
 
-    private fun getRootBranchName(): String {
-        val id = rootNode.value.name
-
-        var rootBranchName = standardRepository.getBranchById(id)?.name?.substringAfterLast("/")
-                ?: EMPTY_STRING
-
-        if (rootBranchName.isEmpty()) rootBranchName = findBranch(id).first()
-        if (rootBranchName.isEmpty()) throw BranchNotFoundException(id)
-
-        return rootBranchName
-    }
+//    private fun getRootBranchName(): String {
+//        val id = rootNode.value.name
+//
+//        var rootBranchName = standardRepository.getBranchById(id)?.name?.substringAfterLast("/")
+//                ?: EMPTY_STRING
+//
+//        if (rootBranchName.isEmpty()) rootBranchName = findBranch(id).first()
+//        if (rootBranchName.isEmpty()) throw BranchNotFoundException(id)
+//
+//        return rootBranchName
+//    }
 
     private fun findBranch(id: String) = standardRepository.getBranchesByContainsId(id)
             .map { it.name.substringAfterLast("/") }

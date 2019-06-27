@@ -1,16 +1,12 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
-import org.eclipse.jgit.diff.DiffEntry
-import org.eclipse.jgit.diff.DiffEntry.ChangeType.*
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
-import ru.surfstudio.android.build.utils.isMergeCommit
-import ru.surfstudio.android.build.utils.standardHash
-import ru.surfstudio.android.build.utils.type
+import ru.surfstudio.android.build.utils.mirrorStandardHash
 
-private const val HEAD ="HEAD"
+private const val HEAD = "HEAD"
 
 /**
  * Git manager
@@ -23,7 +19,7 @@ class MirrorManager(
         private val mirrorDepthLimit: Int
 ) {
 
-    private val gitTree = GitTree(standardRepository)
+    private val gitTree = GitTree(standardRepository, mirrorRepository)
 
     private val diffManager = GitDiffManager(
             standardRepository.repositoryPath.path,
@@ -51,76 +47,76 @@ class MirrorManager(
 
         val rootCommit = standardCommits.find { it.name == rootCommitHash }
                 ?: throw RevCommitNotFoundException(rootCommitHash)
+
         val mirrorCommits: Set<RevCommit> = mirrorRepository.getAllBranches()
                 .flatMap { mirrorRepository.getAllCommits(it.objectId.name, mirrorDepthLimit) }
-                .filter { it.standardHash.isNotEmpty() }
+                .filter { it.mirrorStandardHash.isNotEmpty() }
                 .toSet()
 
         gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
-
-//        commitChanges()
     }
 
-    private fun commitChanges() {
-        val standardStartCommit = gitTree.getStandardStartCommit()
-        val mirrorStartCommit = gitTree.getMirrorCommitByStandard(standardStartCommit.name)
-        val commits = gitTree.getCommitsWithChanges()
 
-        if (commits.isEmpty()) return
-
-        standardRepository.reset(standardStartCommit)
-        standardRepository.checkout(standardStartCommit)
-
-        mirrorRepository.reset(mirrorStartCommit)
-        mirrorRepository.checkout(mirrorStartCommit)
-
-        commits.forEach { handleCommit(it) }
-    }
-
-    private fun handleCommit(commit: RevCommit) {
-        standardRepository.reset(commit)
-        standardRepository.checkout(commit)
-
-        if (commit.isMergeCommit) {
-            merge(commit)
-        } else {
-            val diff = standardRepository.getChanges(commit)
-                    .filter(::shouldMirror)
-            diff.forEach {
-                when (it.type) {
-                    ADD -> diffManager.add(it)
-                    COPY -> diffManager.copy(it)
-                    DELETE -> diffManager.delete(it)
-                    MODIFY -> diffManager.modify(it)
-                    RENAME -> diffManager.rename(it)
-                }
-            }
-            commit(commit)
-        }
-    }
-
-    private fun merge(commit: RevCommit) {
-        //TODO
-    }
-
-    private fun commit(commit: RevCommit) {
-        mirrorRepository.commit(commit)
-    }
-
-    private fun shouldMirror(diffEntry: DiffEntry): Boolean {
-        val newPath = diffEntry.newPath.substringBeforeLast("/")
-        val oldPath = diffEntry.oldPath.substringBeforeLast("/")
-
-        return when (diffEntry.type) {
-            ADD -> checkPathMirroring(newPath)
-            COPY -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
-            DELETE -> checkPathMirroring(oldPath)
-            MODIFY -> checkPathMirroring(oldPath)
-            RENAME -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
-        }
-    }
-
-    private fun checkPathMirroring(path: String): Boolean {
-        return filesToMirror.contains(path) || folderToMirror.any { path.startsWith(it) }
-    }
+//    private fun commitChanges() {
+//        val standardStartCommit = gitTree.getStandardStartCommit()
+//        val mirrorStartCommit = gitTree.getMirrorCommitByStandard(standardStartCommit.standardHash)
+//        val commits = gitTree.getCommitsWithChanges()
+//
+//        if (commits.isEmpty()) return
+//
+//        standardRepository.reset(standardStartCommit)
+//        standardRepository.checkout(standardStartCommit)
+//
+//        mirrorRepository.reset(mirrorStartCommit)
+//        mirrorRepository.checkout(mirrorStartCommit)
+//
+//        commits.forEach { handleCommit(it) }
+//    }
+//
+//    private fun handleCommit(commit: RevCommit) {
+//        standardRepository.reset(commit)
+//        standardRepository.checkout(commit)
+//
+//        if (commit.isMergeCommit) {
+//            merge(commit)
+//        } else {
+//            val diff = standardRepository.getChanges(commit)
+//                    .filter(::shouldMirror)
+//            diff.forEach {
+//                when (it.type) {
+//                    ADD -> diffManager.add(it)
+//                    COPY -> diffManager.copy(it)
+//                    DELETE -> diffManager.delete(it)
+//                    MODIFY -> diffManager.modify(it)
+//                    RENAME -> diffManager.rename(it)
+//                }
+//            }
+//            commit(commit)
+//        }
+//    }
+//
+//    private fun merge(commit: RevCommit) {
+//        //TODO
+//    }
+//
+//    private fun commit(commit: RevCommit) {
+//        mirrorRepository.commit(commit)
+//    }
+//
+//    private fun shouldMirror(diffEntry: DiffEntry): Boolean {
+//        val newPath = diffEntry.newPath.substringBeforeLast("/")
+//        val oldPath = diffEntry.oldPath.substringBeforeLast("/")
+//
+//        return when (diffEntry.type) {
+//            ADD -> checkPathMirroring(newPath)
+//            COPY -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
+//            DELETE -> checkPathMirroring(oldPath)
+//            MODIFY -> checkPathMirroring(oldPath)
+//            RENAME -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
+//        }
+//    }
+//
+//    private fun checkPathMirroring(path: String): Boolean {
+//        return filesToMirror.contains(path) || folderToMirror.any { path.startsWith(it) }
+//    }
 }
