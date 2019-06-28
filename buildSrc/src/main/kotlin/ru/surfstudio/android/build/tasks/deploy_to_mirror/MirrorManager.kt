@@ -1,13 +1,19 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
+import org.apache.commons.io.FileUtils
+import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.mirrorStandardHash
 import ru.surfstudio.android.build.utils.standardHash
+import ru.surfstudio.android.build.utils.type
+import java.io.File
+import java.nio.charset.Charset
 
 private const val HEAD = "HEAD"
 
@@ -26,18 +32,18 @@ class MirrorManager(
 
     private val diffManager = GitDiffManager(
             standardRepository.repositoryPath.path,
-            mirrorRepository.repositoryPath.path
+            mirrorRepository
     )
 
     private val filesToMirror = listOf(
-            "${StandardRepository.TEMP_DIR_PATH}/build.gradle",
-            "${StandardRepository.TEMP_DIR_PATH}/gradle.properties",
-            "${StandardRepository.TEMP_DIR_PATH}/settings.gradle"
+            "build.gradle",
+            "gradle.properties",
+            "settings.gradle"
     )
     private val folderToMirror = listOf(
-            "${StandardRepository.TEMP_DIR_PATH}/$componentDirectory/",
-            "${StandardRepository.TEMP_DIR_PATH}/buildSrc/",
-            "${StandardRepository.TEMP_DIR_PATH}/common/"
+            componentDirectory,
+            "buildSrc",
+            "common"
     )
 
     /**
@@ -71,20 +77,62 @@ class MirrorManager(
     }
 
     private fun commit(commit: CommitWithBranch) {
-        println("Commit => ${commit.commit}")
+        val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
+        val parent = gitTree.getParent(commit)
+
+        standardRepository.reset(commit.commit)
+
+        with(mirrorRepository) {
+            reset(getCommitByStandardHash(parent.commit.standardHash))
+            checkout(parent.branch)
+            checkout(commit.branch)
+        }
+        applyChanges(changes)
+        mirrorRepository.commit(commit.commit)
+
+        mirrorRepository.getCommitByStandardHash("b51eddbc").parents.forEach {
+            println("123123 $it")
+        }
+    }
+
+    private fun applyChanges(changes: List<DiffEntry>) {
+        changes.forEach {
+            when (it.type) {
+                DiffEntry.ChangeType.ADD -> diffManager.add(it)
+                DiffEntry.ChangeType.COPY -> diffManager.copy(it)
+                DiffEntry.ChangeType.DELETE -> diffManager.delete(it)
+                DiffEntry.ChangeType.MODIFY -> diffManager.modify(it)
+                DiffEntry.ChangeType.RENAME -> diffManager.rename(it)
+            }
+        }
     }
 
     private fun merge(commit: CommitWithBranch) {
-        println("Merge => ${commit.commit}")
+        standardRepository.reset(commit.commit)
+
+        val mainBranch = commit.branch
+        val secondBranch = gitTree.getMergeParents(commit)
+                .map(CommitWithBranch::branch)
+                .first { it != mainBranch }
+
+        mirrorRepository.checkout(mainBranch)
+
+        val conflicts = mirrorRepository.merge(secondBranch)
+        conflicts.forEach {
+            val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
+            diffManager.modify(filePath)
+        }
+        mirrorRepository.commit(commit.commit)
     }
 
     private fun mirrorStartPoint(commit: CommitWithBranch) {
-        println("Mirror start point => ${commit.commit}")
-        println(gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash))
+        val mirrorCommit = gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash)
+        mirrorRepository.reset(mirrorCommit.commit)
+        mirrorRepository.checkout(mirrorCommit.branch)
     }
 
 
-//    private fun commitChanges() {
+    //    private fun commitChanges() {
 //        val standardStartCommit = gitTree.getStandardStartCommit()
 //        val mirrorStartCommit = gitTree.getMirrorCommitByStandard(standardStartCommit.standardHash)
 //        val commits = gitTree.getCommitsWithChanges()
@@ -130,20 +178,20 @@ class MirrorManager(
 //        mirrorRepository.commit(commit)
 //    }
 //
-//    private fun shouldMirror(diffEntry: DiffEntry): Boolean {
-//        val newPath = diffEntry.newPath.substringBeforeLast("/")
-//        val oldPath = diffEntry.oldPath.substringBeforeLast("/")
-//
-//        return when (diffEntry.type) {
-//            ADD -> checkPathMirroring(newPath)
-//            COPY -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
-//            DELETE -> checkPathMirroring(oldPath)
-//            MODIFY -> checkPathMirroring(oldPath)
-//            RENAME -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
-//        }
-//    }
-//
-//    private fun checkPathMirroring(path: String): Boolean {
-//        return filesToMirror.contains(path) || folderToMirror.any { path.startsWith(it) }
-//    }
+    private fun shouldMirror(diffEntry: DiffEntry): Boolean {
+        val newPath = diffEntry.newPath.substringBeforeLast("/")
+        val oldPath = diffEntry.oldPath.substringBeforeLast("/")
+
+        return when (diffEntry.type) {
+            DiffEntry.ChangeType.ADD -> checkPathMirroring(newPath)
+            DiffEntry.ChangeType.COPY -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
+            DiffEntry.ChangeType.DELETE -> checkPathMirroring(oldPath)
+            DiffEntry.ChangeType.MODIFY -> checkPathMirroring(oldPath)
+            DiffEntry.ChangeType.RENAME -> checkPathMirroring(newPath) || checkPathMirroring(oldPath)
+        }
+    }
+
+    private fun checkPathMirroring(path: String): Boolean {
+        return filesToMirror.contains(path) || folderToMirror.any { path.startsWith(it) }
+    }
 }

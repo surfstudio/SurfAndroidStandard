@@ -397,4 +397,20 @@ class GitTree(
         return mirrorStartCommits.find { it.commit.mirrorStandardHash == standardHash }
                 ?: throw MirrorCommitNotFoundByStandardHashException(standardHash)
     }
+
+    fun getParent(commit: CommitWithBranch): CommitWithBranch {
+        val node = nodes.find { it.value == commit.commit }
+                ?: throw GitNodeNotFoundException(commit.commit)
+        return commitsToCommit.find { it.commit == node.parents.first().value }
+                ?: throw GitNodeNotFoundException(node.value)
+    }
+
+    fun getMergeParents(commit: CommitWithBranch): List<CommitWithBranch> {
+        val node = nodes.find { it.value == commit.commit }
+                ?: throw GitNodeNotFoundException(commit.commit)
+
+        val parentRevCommits = node.parents.map { it.value }
+
+        return commitsToCommit.filter { parentRevCommits.contains(it.commit) }
+    }
 }

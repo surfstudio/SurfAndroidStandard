@@ -9,6 +9,8 @@ import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.treewalk.CanonicalTreeParser
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchCanNotBeDefinedException
+import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchNotFoundException
+import ru.surfstudio.android.build.utils.extractBranchNames
 import java.io.File
 
 private const val BRANCH_REF_PATTERN = ".*~\\d+$"
@@ -78,10 +80,15 @@ abstract class BaseGitRepository {
                 .call()
     }
 
-    fun checkout(revCommit: RevCommit) {
+    fun checkout(branchName: String) {
+        val isBranchCreated = git.branchList().call()
+                .map { it.name }
+                .extractBranchNames()
+                .contains(branchName)
+
         git.checkout()
-                .setCreateBranch(true)
-                .setName(getBranchName(revCommit.name))
+                .setCreateBranch(!isBranchCreated)
+                .setName(branchName)
                 .call()
     }
 
@@ -154,4 +161,23 @@ abstract class BaseGitRepository {
             .setListMode(ListBranchCommand.ListMode.ALL)
             .setContains(id)
             .call()
+
+    fun merge(secondBranch: String) = git.merge()
+            .setCommit(false)
+            .include(getBranch(secondBranch))
+            .call()
+            ?.conflicts
+            ?.map { it.key } ?: emptyList()
+
+
+    fun getBranch(refName: String): Ref {
+        return git.branchList().call()
+                .find { it.name.substringAfterLast("/") == refName }
+                ?: throw BranchNotFoundException(refName)
+    }
+
+    fun addToIndex(filePath: String) = git.add()
+            .addFilepattern(filePath)
+            .call()
+
 }

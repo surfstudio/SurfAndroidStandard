@@ -1,10 +1,8 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
 
 import org.eclipse.jgit.revwalk.RevCommit
-import ru.surfstudio.android.build.utils.EMPTY_STRING
-import ru.surfstudio.android.build.utils.STANDARD_COMMIT_HASH_POSTFIX
-import ru.surfstudio.android.build.utils.STANDARD_COMMIT_HASH_PREFIX
-import ru.surfstudio.android.build.utils.shortHash
+import ru.surfstudio.android.build.exceptions.deploy_to_mirror.MirrorCommitNotFoundByStandardHashException
+import ru.surfstudio.android.build.utils.*
 import java.io.File
 
 /**
@@ -24,4 +22,11 @@ class MirrorRepository(dirPath: String) : BaseGitRepository() {
 
     private val userName: String = System.getenv("surf_maven_username") ?: EMPTY_STRING
     private val password: String = System.getenv("surf_maven_password") ?: EMPTY_STRING
+
+    fun getCommitByStandardHash(standardHash: String): RevCommit = git.log()
+            .all()
+            .call()
+            .find { it.mirrorStandardHash == standardHash }
+            ?: throw MirrorCommitNotFoundByStandardHashException(standardHash)
+
 }
