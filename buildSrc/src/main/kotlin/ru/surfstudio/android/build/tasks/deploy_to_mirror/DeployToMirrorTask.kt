@@ -10,7 +10,7 @@ import ru.surfstudio.android.build.utils.extractProperty
 import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**
- * Deploy to mirror
+ * Task for deploying [component] to mirror
  */
 open class DeployToMirrorTask : DefaultTask() {
 

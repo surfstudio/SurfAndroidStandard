@@ -57,7 +57,7 @@ object GradleProperties {
     const val DEPLOY_ONLY_IF_NOT_EXIST = "deployOnlyIfNotExist"
 
     /**
-     * Number or commit
+     * Commit in android standard to start mirroring from
      */
     const val COMMIT = "commit"
 
@@ -67,12 +67,12 @@ object GradleProperties {
     const val MIRROR_DIR = "mirrorDir"
 
     /**
-     * Depth limit for deploy to mirror
+     * Depth of standard repository git tree to get commits
      */
     const val DEPLOY_TO_MIRROR_DEPTH_LIMIT = "depthLimit"
 
     /**
-     * Search limit for deploy to mirror
+     * Depth of mirror repository tree to search standard commit hash in
      */
     const val DEPLOY_TO_MIRROR_SEARCH_LIMIT = "searchLimit"
 }

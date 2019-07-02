@@ -73,31 +73,11 @@ abstract class BaseGitRepository {
         return result
     }
 
-    fun reset(revCommit: RevCommit) {
-        git.reset()
-                .setMode(ResetCommand.ResetType.HARD)
-                .setRef(revCommit.name)
-                .call()
-    }
-
-    fun checkoutBranch(branchName: String) {
-        val isBranchCreated = git.branchList().call()
-                .map { it.name }
-                .extractBranchNames()
-                .contains(branchName)
-
-        git.checkout()
-                .setCreateBranch(!isBranchCreated)
-                .setName(branchName)
-                .call()
-    }
-
-    fun checkoutCommit(commitHash: String) {
-        git.checkout()
-                .setName(commitHash)
-                .call()
-    }
-
+    /**
+     * get all changes of commit
+     *
+     * @param commit commit to get changes for
+     */
     fun getChanges(commit: RevCommit): MutableList<DiffEntry> {
         val reader = git.repository.newObjectReader()
 
@@ -115,7 +95,24 @@ abstract class BaseGitRepository {
                 .call()
     }
 
-    private fun getBranchName(commit: String): String {
+    /**
+     * Get branches by id
+     *
+     * @param id  of object branch should contain
+     * @return list of branches
+     */
+    fun getBranchesByContainsId(id: String): List<Ref> = git.branchList()
+            .setListMode(ListBranchCommand.ListMode.ALL)
+            .setContains(id)
+            .call()
+
+    /**
+     * get branch by commit
+     *
+     * @param commit hash of commit
+     * @return branch name
+     */
+    fun getBranchNameByCommit(commit: String): String {
         val branches = git.branchList()
                 .setContains(commit)
                 .call()
@@ -157,17 +154,54 @@ abstract class BaseGitRepository {
         return branches[0]
     }
 
-    fun getBranchById(id: String): Ref? = git.branchList()
-            .setListMode(ListBranchCommand.ListMode.ALL)
-            .call()
-            .filter { it.name != "HEAD" }
-            .find { it.objectId.name == id }
+    /**
+     * reset repository to commit
+     *
+     * @param revCommit commit to reset to
+     */
+    fun reset(revCommit: RevCommit) {
+        git.reset()
+                .setMode(ResetCommand.ResetType.HARD)
+                .setRef(revCommit.name)
+                .call()
+    }
 
-    fun getBranchesByContainsId(id: String): List<Ref> = git.branchList()
-            .setListMode(ListBranchCommand.ListMode.ALL)
-            .setContains(id)
-            .call()
+    /**
+     * checkout branch by name. If not exist create
+     *
+     * @param branchName branch name for checkout
+     */
+    fun checkoutBranch(branchName: String) {
+        val isBranchCreated = git.branchList().call()
+                .map { it.name }
+                .extractBranchNames()
+                .contains(branchName)
 
+        git.checkout()
+                .setCreateBranch(!isBranchCreated)
+                .setName(branchName)
+                .call()
+    }
+
+    /**
+     * checkout commit
+     *
+     * @param commitHash commit hash to checkout
+     */
+
+    fun checkoutCommit(commitHash: String) {
+        git.checkout()
+                .setName(commitHash)
+                .call()
+    }
+
+    /**
+     * merge to current branch another one
+     *
+     * @param secondBranch branch to merge
+     *
+     * @return conflicts if there are any
+     */
     fun merge(secondBranch: String) = git.merge()
             .setCommit(false)
             .include(getBranch(secondBranch))
@@ -175,15 +209,23 @@ abstract class BaseGitRepository {
             ?.conflicts
             ?.map { it.key } ?: emptyList()
 
-
-    fun getBranch(refName: String): Ref {
-        return git.branchList().call()
-                .find { it.name.substringAfterLast("/") == refName }
-                ?: throw BranchNotFoundException(refName)
-    }
-
+    /**
+     * add to git index
+     *
+     * @param filePath path to file to add
+     */
     fun addToIndex(filePath: String) = git.add()
             .addFilepattern(filePath)
             .call()
 
+    /**
+     * get branch by name
+     *
+     * @param refName name of branch
+     */
+    private fun getBranch(refName: String): Ref {
+        return git.branchList().call()
+                .find { it.name.substringAfterLast("/") == refName }
+                ?: throw BranchNotFoundException(refName)
+    }
 }

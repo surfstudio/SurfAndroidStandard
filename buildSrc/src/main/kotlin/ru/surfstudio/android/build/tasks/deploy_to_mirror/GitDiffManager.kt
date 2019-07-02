@@ -5,11 +5,19 @@ import org.eclipse.jgit.diff.DiffEntry
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import java.io.File
 
+/**
+ * Work with git changes
+ */
 class GitDiffManager(
         private val standardDir: String,
         private val mirrorRepository: MirrorRepository
 ) {
 
+    /**
+     * work when file was added. Copy new standard file and add to index
+     *
+     * @param diffEntry information about diff
+     */
     fun add(diffEntry: DiffEntry) {
         val standardFile = standardPath(diffEntry.newPath)
         val mirrorFile = mirrorPath(diffEntry.newPath)
@@ -19,6 +27,11 @@ class GitDiffManager(
         mirrorRepository.addToIndex(mirrorFile.path)
     }
 
+    /**
+     * work when file was moved from one place to another. Copy file and add to index
+     *
+     * @param diffEntry information about diff
+     */
     fun copy(diffEntry: DiffEntry) {
         val copyFrom = mirrorPath(diffEntry.oldPath)
         val copyTo = mirrorPath(diffEntry.newPath)
@@ -28,6 +41,11 @@ class GitDiffManager(
         mirrorRepository.addToIndex(copyTo.path)
     }
 
+    /**
+     * work when file was deleted. Delete file and add to index
+     *
+     * @param diffEntry information about diff
+     */
     fun delete(diffEntry: DiffEntry) {
         val file = mirrorPath(diffEntry.oldPath)
 
@@ -36,9 +54,19 @@ class GitDiffManager(
         mirrorRepository.addToIndex(file.path)
     }
 
+    /**
+     * work when file was modified
+     *
+     * @param diffEntry information about diff
+     */
     fun modify(diffEntry: DiffEntry) = modify(diffEntry.oldPath)
 
 
+    /**
+     * work when file was modified. Copies file from standard to mirror one
+     *
+     * @param filePath information about diff
+     */
     fun modify(filePath: String) {
         val standardFile = standardPath(filePath)
         val mirrorFile = mirrorPath(filePath)
@@ -48,6 +76,11 @@ class GitDiffManager(
         mirrorRepository.addToIndex(mirrorFile.path)
     }
 
+    /**
+     * work when file was renamed. Copy old file to new file name and remove old filename
+     *
+     * @param diffEntry information about diff
+     */
     fun rename(diffEntry: DiffEntry) {
         val oldFile = mirrorPath(diffEntry.oldPath)
         val newFile = mirrorPath(diffEntry.newPath)
