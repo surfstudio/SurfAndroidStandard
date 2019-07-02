@@ -17,6 +17,7 @@ package ru.surfstudio.android.core.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -80,14 +81,14 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onResume() {
         super.onResume();
-        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
+        Logger.d(String.format(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName()));
         fragmentDelegate.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
+        Logger.d(String.format(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName()));
         fragmentDelegate.onPause();
     }
 
