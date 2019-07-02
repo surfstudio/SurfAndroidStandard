@@ -1,6 +1,5 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror
 
-import org.apache.commons.io.FileUtils
 import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.revwalk.RevCommit
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
@@ -12,8 +11,6 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.mirrorStandardHash
 import ru.surfstudio.android.build.utils.standardHash
 import ru.surfstudio.android.build.utils.type
-import java.io.File
-import java.nio.charset.Charset
 
 private const val HEAD = "HEAD"
 
@@ -83,16 +80,15 @@ class MirrorManager(
         standardRepository.reset(commit.commit)
 
         with(mirrorRepository) {
-            reset(getCommitByStandardHash(parent.commit.standardHash))
-            checkout(parent.branch)
-            checkout(commit.branch)
+            checkoutBranch(parent.branch)
+            if (parent.mirrorCommitHash.isNotEmpty()) {
+                checkoutCommit(parent.mirrorCommitHash)
+            }
+            checkoutBranch(commit.branch)
         }
         applyChanges(changes)
-        mirrorRepository.commit(commit.commit)
-
-        mirrorRepository.getCommitByStandardHash("b51eddbc").parents.forEach {
-            println("123123 $it")
-        }
+        val commitHash = mirrorRepository.commit(commit.commit) ?: EMPTY_STRING
+        commit.mirrorCommitHash = commitHash
     }
 
     private fun applyChanges(changes: List<DiffEntry>) {
@@ -115,20 +111,22 @@ class MirrorManager(
                 .map(CommitWithBranch::branch)
                 .first { it != mainBranch }
 
-        mirrorRepository.checkout(mainBranch)
+        mirrorRepository.checkoutBranch(mainBranch)
 
         val conflicts = mirrorRepository.merge(secondBranch)
         conflicts.forEach {
             val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
             diffManager.modify(filePath)
         }
-        mirrorRepository.commit(commit.commit)
+
+        val commitHash = mirrorRepository.commit(commit.commit)
+        commit.mirrorCommitHash = commitHash ?: EMPTY_STRING
     }
 
     private fun mirrorStartPoint(commit: CommitWithBranch) {
         val mirrorCommit = gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash)
         mirrorRepository.reset(mirrorCommit.commit)
-        mirrorRepository.checkout(mirrorCommit.branch)
+        mirrorRepository.checkoutBranch(mirrorCommit.branch)
     }
 
 

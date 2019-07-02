@@ -80,7 +80,7 @@ abstract class BaseGitRepository {
                 .call()
     }
 
-    fun checkout(branchName: String) {
+    fun checkoutBranch(branchName: String) {
         val isBranchCreated = git.branchList().call()
                 .map { it.name }
                 .extractBranchNames()
@@ -89,6 +89,12 @@ abstract class BaseGitRepository {
         git.checkout()
                 .setCreateBranch(!isBranchCreated)
                 .setName(branchName)
+                .call()
+    }
+
+    fun checkoutCommit(commitHash: String) {
+        git.checkout()
+                .setName(commitHash)
                 .call()
     }
 

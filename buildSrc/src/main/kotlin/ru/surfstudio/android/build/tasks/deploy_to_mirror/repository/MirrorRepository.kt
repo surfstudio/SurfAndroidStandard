@@ -10,11 +10,12 @@ import java.io.File
  */
 class MirrorRepository(dirPath: String) : BaseGitRepository() {
 
-    fun commit(commit: RevCommit) {
-        git.commit()
+    fun commit(commit: RevCommit): String? {
+        val resultCommit = git.commit()
                 .setAuthor(commit.authorIdent)
                 .setMessage("${commit.shortMessage} $STANDARD_COMMIT_HASH_PREFIX${commit.shortHash}$STANDARD_COMMIT_HASH_POSTFIX")
                 .call()
+        return resultCommit.name
     }
 
     override val repositoryPath = File(dirPath)
