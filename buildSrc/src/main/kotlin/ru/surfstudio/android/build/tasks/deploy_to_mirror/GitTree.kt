@@ -28,8 +28,8 @@ class GitTree(
     private val mirrorNodes: MutableSet<Node> = mutableSetOf()
     private val standardNodes: MutableSet<Node> = mutableSetOf()
 
-    lateinit var mirrorStartCommits: Set<CommitWithBranch>
-    lateinit var standardCommitsForMirror: List<CommitWithBranch>
+    lateinit var startMirrorRepositoryCommits: Set<CommitWithBranch>
+    lateinit var standardRepositoryCommitsForMirror: List<CommitWithBranch>
 
     /**
      * Build GitTree representation of standard repository with correct structure
@@ -46,25 +46,46 @@ class GitTree(
         defineCommits()
     }
 
+    /**
+     * get start commit from mirror repository
+     *
+     * @param standardHash hash to find commit by
+     *
+     * @return commit with corresponded branch from start mirror repository commits
+     */
     fun getStartMirrorCommitByStandardHash(standardHash: String): CommitWithBranch {
-        return mirrorStartCommits.find { it.commit.mirrorStandardHash == standardHash }
+        return startMirrorRepositoryCommits.find { it.commit.mirrorStandardHash == standardHash }
                 ?: throw MirrorCommitNotFoundByStandardHashException(standardHash)
     }
 
+    /**
+     * get parent commit for specified commit
+     *
+     * @param commit commit to get parent for
+     *
+     * @return parent for commit
+     */
     fun getParent(commit: CommitWithBranch): CommitWithBranch {
         val node = standardNodes.find { it.value == commit.commit }
                 ?: throw GitNodeNotFoundException(commit.commit)
-        return standardCommitsForMirror.find { it.commit == node.parents.first().value }
+        return standardRepositoryCommitsForMirror.find { it.commit == node.parents.first().value }
                 ?: throw GitNodeNotFoundException(node.value)
     }
 
+    /**
+     * get parents commits for specified commit for merge
+     *
+     * @param commit commit to get parents for merge
+     *
+     * @return parents of specified commit
+     */
     fun getMergeParents(commit: CommitWithBranch): List<CommitWithBranch> {
         val node = standardNodes.find { it.value == commit.commit }
                 ?: throw GitNodeNotFoundException(commit.commit)
 
         val parentRevCommits = node.parents.map { it.value }
 
-        return standardCommitsForMirror.filter { parentRevCommits.contains(it.commit) }
+        return standardRepositoryCommitsForMirror.filter { parentRevCommits.contains(it.commit) }
     }
 
     /**
@@ -183,7 +204,7 @@ class GitTree(
     }
 
     /**
-     * create commits models
+     * create mirror repository started commits and standard repository commits
      */
     private fun defineCommits(){
         val lines = createLines()
@@ -204,10 +225,16 @@ class GitTree(
                 .filter { ends.contains(it.first()) && it.last() == rootNode }
     }
 
+    /**
+     * creates  mirror repository commits which branches models,
+     * which are started for applying standard commits afterwards
+     *
+     * @param lines created lines in standard repository tree
+     */
     private fun buildMirrorStartCommits(lines: List<List<Node>>) {
         val mirrorStandardHashes = lines.map { it.first().value.standardHash }
 
-        mirrorStartCommits = mirrorNodes
+        startMirrorRepositoryCommits = mirrorNodes
                 .filter {
                     mirrorStandardHashes.contains(it.value.mirrorStandardHash)
                 }
@@ -223,14 +250,23 @@ class GitTree(
                 }.toSet()
     }
 
+    /**
+     * creates from lines standard repository commit for applying to mirror. For every line branch name is created
+     * Marks every commit either as:
+     * MIRROR_START_POINT - commits that are already in mirror repository and applying commits started from
+     * SIMPLE - usual commit
+     * MERGE - merge commit
+     *
+     * @param lines created lines in standard repository tree
+     */
     private fun buildStandardCommitsForMirror(lines: List<List<Node>>) {
         val existedBranchNames = mirrorRepository.getAllBranches()
                 .map { it.name }
                 .extractBranchNames()
 
-        val mirrorStartCommitsStandardHashes = mirrorStartCommits.map { it.commit.mirrorStandardHash }
+        val mirrorStartCommitsStandardHashes = startMirrorRepositoryCommits.map { it.commit.mirrorStandardHash }
 
-        standardCommitsForMirror = standardNodes
+        standardRepositoryCommitsForMirror = standardNodes
                 .map {
                     val type = when {
                         mirrorStartCommitsStandardHashes.contains(it.value.standardHash) -> {
@@ -246,7 +282,7 @@ class GitTree(
         lines.forEach { line ->
             val branchName = BranchCreator.generateBranchName(existedBranchNames)
             line.forEach { node ->
-                val commit = standardCommitsForMirror.find { it.commit == node.value }
+                val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
                 if (commit?.branch?.isEmpty() == true) commit.branch = branchName
             }
         }

@@ -65,7 +65,7 @@ class MirrorManager(
     }
 
     private fun setBranches() {
-        val commitToSetBranches = gitTree.standardCommitsForMirror.last { it.type == CommitType.COMMITED }
+        val commitToSetBranches = gitTree.standardRepositoryCommitsForMirror.last { it.type == CommitType.COMMITED }
         val branchesToCreate = standardRepository.getBranchesByContainsId(commitToSetBranches.commit.name)
                 .map(Ref::getName)
                 .extractBranchNames()
@@ -73,7 +73,7 @@ class MirrorManager(
             mirrorRepository.createBranch(branch, commitToSetBranches.mirrorCommitHash)
         }
         mirrorRepository.checkoutBranch(branchesToCreate.first())
-        gitTree.standardCommitsForMirror.map { it.branch }.toSet().forEach {
+        gitTree.standardRepositoryCommitsForMirror.map { it.branch }.toSet().forEach {
             mirrorRepository.deleteBranch(it)
         }
     }
@@ -82,7 +82,7 @@ class MirrorManager(
      * For all git tree commits apply them to mirror repository
      */
     private fun applyGitTreeToMirror() {
-        gitTree.standardCommitsForMirror.forEach {
+        gitTree.standardRepositoryCommitsForMirror.forEach {
             when (it.type) {
                 CommitType.SIMPLE -> commit(it)
                 CommitType.MERGE -> merge(it)
