@@ -16,9 +16,13 @@
 package ru.surfstudio.android.mvp.dialog.simple;
 
 
+import android.app.Dialog;
 import android.os.Bundle;
+import androidx.annotation.CallSuper;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
+
+import org.jetbrains.annotations.NotNull;
 
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
@@ -62,6 +66,14 @@ public abstract class CoreSimpleDialogFragment extends AppCompatDialogFragment i
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         delegate.onCreate(savedInstanceState);
+    }
+
+    @CallSuper
+    @NotNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        inject();
+        return super.onCreateDialog(savedInstanceState);
     }
 
     @Override

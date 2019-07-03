@@ -38,9 +38,10 @@ class SampleDialog : BaseRxSimpleDialogFragment() {
     override fun getName(): String = "Sample Dialog"
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
+
         val context = requireContext()
         val builder = AlertDialog.Builder(context, theme)
-        inject()
 
         val editText = EditText(context).apply {
             textChanges().map { it.toString() } bindTo vb.dialogInputAction
@@ -61,7 +62,7 @@ class SampleDialog : BaseRxSimpleDialogFragment() {
                 .create()
     }
 
-    private fun inject() {
+    override fun inject() {
         getScreenComponent(SampleDialogComponent::class.java).inject(this)
     }
 
