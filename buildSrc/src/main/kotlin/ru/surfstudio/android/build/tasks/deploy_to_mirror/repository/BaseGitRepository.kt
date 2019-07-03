@@ -219,6 +219,20 @@ abstract class BaseGitRepository {
             .call()
 
     /**
+     * create branch
+     */
+    fun createBranch(branchName: String, startCommit: String){
+        git.branchCreate().setForce(true).setName(branchName).setStartPoint(startCommit).call()
+    }
+
+    /**
+     * delete branch
+     */
+    fun deleteBranch(branchName: String){
+        git.branchDelete().setBranchNames(branchName).setForce(true).call()
+    }
+
+    /**
      * get branch by name
      *
      * @param refName name of branch
