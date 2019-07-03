@@ -61,16 +61,16 @@ class MirrorManager(
 
         gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
         applyGitTreeToMirror()
-        setBranches(rootCommit)
+        setBranches()
     }
 
-    private fun setBranches(rootCommit: RevCommit) {
-        val branchesToCreate = standardRepository.getBranchesByContainsId(rootCommit.name)
+    private fun setBranches() {
+        val commitToSetBranches = gitTree.standardCommitsForMirror.last { it.type == CommitType.COMMITED }
+        val branchesToCreate = standardRepository.getBranchesByContainsId(commitToSetBranches.commit.name)
                 .map(Ref::getName)
                 .extractBranchNames()
-        val rootCommitHashMirror = gitTree.standardCommitsForMirror.filter {rootCommit.name == it.commit.name}.first().mirrorCommitHash
         branchesToCreate.forEach {branch ->
-            mirrorRepository.createBranch(branch, rootCommitHashMirror)
+            mirrorRepository.createBranch(branch, commitToSetBranches.mirrorCommitHash)
         }
         mirrorRepository.checkoutBranch(branchesToCreate.first())
         gitTree.standardCommitsForMirror.map { it.branch }.toSet().forEach {
@@ -120,6 +120,7 @@ class MirrorManager(
         applyChanges(changes)
         val commitHash = mirrorRepository.commit(commit.commit) ?: EMPTY_STRING
         commit.mirrorCommitHash = commitHash
+        commit.type = CommitType.COMMITED
     }
 
     /**
@@ -164,6 +165,7 @@ class MirrorManager(
 
         val commitHash = mirrorRepository.commit(commit.commit)
         commit.mirrorCommitHash = commitHash ?: EMPTY_STRING
+        commit.type = CommitType.COMMITED
     }
 
     /**

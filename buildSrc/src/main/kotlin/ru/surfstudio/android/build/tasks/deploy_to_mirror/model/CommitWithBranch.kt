@@ -20,5 +20,5 @@ data class CommitWithBranch(
  * State for commit: simple, merge commit and beginning of mirroring
  */
 enum class CommitType {
-    SIMPLE, MERGE, MIRROR_START_POINT
+    SIMPLE, MERGE, MIRROR_START_POINT, COMMITED
 }
