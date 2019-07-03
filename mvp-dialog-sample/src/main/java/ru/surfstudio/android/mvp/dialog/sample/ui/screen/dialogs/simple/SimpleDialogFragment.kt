@@ -11,12 +11,13 @@ class SimpleDialogFragment : CoreSimpleDialogFragment() {
 
     @Inject lateinit var presenter: SimpleDialogPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun inject() {
         getScreenComponent(SimpleDialogComponent::class.java).inject(this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
+
         return AlertDialog.Builder(context!!)
                 .setTitle(R.string.simple_dialog_title)
                 .setMessage(R.string.simple_dialog_message)

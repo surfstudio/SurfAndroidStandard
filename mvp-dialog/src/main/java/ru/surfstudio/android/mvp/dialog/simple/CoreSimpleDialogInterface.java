@@ -33,7 +33,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  * к слою Interactor
  */
 
-public interface CoreSimpleDialogInterface extends HasName {
+public interface CoreSimpleDialogInterface extends HasName, DialogInjector {
 
     <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope);
 

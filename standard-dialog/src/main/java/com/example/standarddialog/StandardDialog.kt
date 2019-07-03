@@ -40,18 +40,18 @@ class StandardDialog : CoreSimpleDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
+
         val context = requireContext()
         val builder = AlertDialog.Builder(context, theme)
         return builder
                 .setTitle(route.getTitle(context))
                 .setMessage(route.getMessage(context))
                 .setNegativeButton(route.getNegativeBtnTxt(context)) { _, _ ->
-                    inject()
                     presenter.simpleDialogNegativeBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 }
                 .setPositiveButton(route.getPositiveBtnTxt(context)) { _, _ ->
-                    inject()
                     presenter.simpleDialogPositiveBtnAction(dialogTag = route.dialogTag)
                     dismiss()
                 }
@@ -61,7 +61,7 @@ class StandardDialog : CoreSimpleDialogFragment() {
 
     override fun getName(): String = "StandardDialog"
 
-    private fun inject() {
+    override fun inject() {
         getScreenComponent(StandardDialogComponent::class.java).inject(this)
     }
 }

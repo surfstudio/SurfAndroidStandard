@@ -13,11 +13,6 @@ class SimpleBottomSheetDialogFragment : CoreSimpleBottomSheetDialogFragment() {
 
     @Inject lateinit var presenter: SimpleBottomSheetDialogPresenter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getScreenComponent(SimpleBottomSheetDialogComponent::class.java).inject(this)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.simple_bottom_sheet_dialog_layout, container)
         view.findViewById<LinearLayout>(R.id.simple_bottom_sheet_dialog_action_container).apply {
@@ -30,4 +25,8 @@ class SimpleBottomSheetDialogFragment : CoreSimpleBottomSheetDialogFragment() {
     }
 
     override fun getName(): String = "Simple Bottom Sheet Dialog Fragment"
+
+    override fun inject() {
+        getScreenComponent(SimpleBottomSheetDialogComponent::class.java).inject(this)
+    }
 }

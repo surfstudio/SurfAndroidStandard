@@ -1,6 +1,8 @@
 package ru.surfstudio.android.mvp.dialog.simple.bottomsheet
 
+import android.app.Dialog
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.surfstudio.android.core.mvp.scope.ActivityViewPersistentScope
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope
@@ -35,6 +37,12 @@ abstract class CoreSimpleBottomSheetDialogFragment : BottomSheetDialogFragment()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         delegate.onCreate(savedInstanceState)
+    }
+
+    @CallSuper
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        inject()
+        return super.onCreateDialog(savedInstanceState)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
