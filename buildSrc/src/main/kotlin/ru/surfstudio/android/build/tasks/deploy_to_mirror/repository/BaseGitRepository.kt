@@ -172,15 +172,20 @@ abstract class BaseGitRepository {
      * @param branchName branch name for checkout
      */
     fun checkoutBranch(branchName: String) {
-        val isBranchCreated = git.branchList().call()
+        git.checkout()
+                .setCreateBranch(!isBranchExists(branchName))
+                .setName(branchName)
+                .call()
+    }
+
+    /**
+     *
+     */
+    fun isBranchExists(branchName: String):Boolean{
+        return  git.branchList().call()
                 .map { it.name }
                 .extractBranchNames()
                 .contains(branchName)
-
-        git.checkout()
-                .setCreateBranch(!isBranchCreated)
-                .setName(branchName)
-                .call()
     }
 
     /**

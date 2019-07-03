@@ -38,7 +38,6 @@ class MirrorManager(
     )
     private val foldersToMirror = listOf(
             componentDirectory,
-            "buildSrc",
             "common"
     )
 
@@ -68,12 +67,12 @@ class MirrorManager(
         val branchesToCreate = standardRepository.getBranchesByContainsId(rootCommit.name)
                 .map(Ref::getName)
                 .extractBranchNames()
-        val rootCommitHashMirror = gitTree.commitsToCommit.filter {rootCommit.name == it.commit.name}.first().mirrorCommitHash
+        val rootCommitHashMirror = gitTree.standardCommitsForMirror.filter {rootCommit.name == it.commit.name}.first().mirrorCommitHash
         branchesToCreate.forEach {branch ->
             mirrorRepository.createBranch(branch, rootCommitHashMirror)
         }
         mirrorRepository.checkoutBranch(branchesToCreate.first())
-        gitTree.commitsToCommit.map { it.branch }.toSet().forEach {
+        gitTree.standardCommitsForMirror.map { it.branch }.toSet().forEach {
             mirrorRepository.deleteBranch(it)
         }
     }
@@ -82,7 +81,7 @@ class MirrorManager(
      * For all git tree commits apply them to mirror repository
      */
     private fun applyGitTreeToMirror() {
-        gitTree.commitsToCommit.forEach {
+        gitTree.standardCommitsForMirror.forEach {
             when (it.type) {
                 CommitType.SIMPLE -> commit(it)
                 CommitType.MERGE -> merge(it)
@@ -112,11 +111,11 @@ class MirrorManager(
      */
     private fun commit(commit: CommitWithBranch) {
         standardRepository.reset(commit.commit)
-        checkoutMirrorBranchForCommit(commit)
-
 
         val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
         if (changes.isEmpty()) return
+
+        checkoutMirrorBranchForCommit(commit)
         applyChanges(changes)
         val commitHash = mirrorRepository.commit(commit.commit) ?: EMPTY_STRING
         commit.mirrorCommitHash = commitHash
@@ -151,6 +150,8 @@ class MirrorManager(
         val secondBranch = gitTree.getMergeParents(commit)
                 .map(CommitWithBranch::branch)
                 .first { it != mainBranch }
+
+        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return
 
         mirrorRepository.checkoutBranch(mainBranch)
 
