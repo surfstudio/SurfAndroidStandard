@@ -38,6 +38,7 @@ class MirrorManager(
     )
     private val foldersToMirror = listOf(
             componentDirectory,
+            "buildSrc",
             "common"
     )
 
