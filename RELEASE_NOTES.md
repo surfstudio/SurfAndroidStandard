@@ -4,6 +4,10 @@
 
 ## 0.4.0 - SNAPSHOT
 
+#### custom-view
+
+* ANDDEP-571 Убран двойной сеттинг setTextAppearance у TitleSubtitleView
+
 #### activity-holder
 
 * Отдельный модуль для `ActiveActivityHolder`
@@ -36,9 +40,14 @@
 `subscribeTakeLastFrozen`.
 
 #### core-mvp-binding
+* ANDDEP-575 В BaseRxPresenter добавлены экстеншны для rx-запросов
+* ANDDEP-580 Поддержка биндинга в простых Bottom Sheet диалогах
+
 #### core-ui
 
 * добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
+* Исправлено локальное подключение модулей стандарта 
+* Исправлен баг с использованием виджетов в recyclerView когда WidgetViewDelegate не успевал обнулять view у презентера
 
 #### custom-view
 
@@ -84,7 +93,8 @@
     необходимо указывать уникальный `android:id`.
 * Добавлена поддержка биндинга в виджетах
 * Решена проблема с получением контекста у виджетов, лежащих внутри контейнера с атрибутом theme
-    
+* ANDDEP-573 - Добавлен биндинг для виджетов
+
 #### network
 #### picture-provider
 
@@ -103,6 +113,9 @@
     * Добавлена возможность задавать firstItemsCountWithoutDividers
 
 #### rx-extension
+
+* ANDDEP-579 Добавлена поддержка Single в ObservableUtil
+
 #### rxbus
 #### shared-pref
 #### standard-dialog
@@ -161,7 +174,7 @@
     * Добавление списка источников загрузки изображения [`ImageSource`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/ImageSource.kt)
     * Добавление listener'a с источником загрузки изображения: `ImageLoader.listenerWithSource`
     * Исправление неочевидного поведения функции `ImageLoader.into`, добавление перегрузки с лямбдами-слушателями
-    
+    * Добавление возможности не применять трансформации к превью и ошибке. 
 
 ### security
 * ANDDEP-82 Модуль для обеспечения безопасности
