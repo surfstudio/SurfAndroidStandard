@@ -153,6 +153,8 @@
 
 #### util-ktx
 
+* ANDDEP-592 Добавлено в readme описания к BlockableData, CheckableData, DeletableData, ExpandableDataInterface, LoadableData, ScrollableData, SelectableData, VisibleData
+
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
 
