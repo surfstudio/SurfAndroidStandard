@@ -38,6 +38,8 @@ object Components {
     @JvmStatic
     fun getModules(): List<Module> {
         val mirrorComponentName = GradlePropertiesManager.getMirrorComponentName()
+
+
         return if (!GradlePropertiesManager.isCurrentComponentAMirror()) {
             value.flatMap(Component::getModules)
         } else {
@@ -56,8 +58,10 @@ object Components {
      * 4. X.Y.Z-alpha.unstable_version-projectPostfix.projectVersion - component is unstable, projectPostfix isn't empty
      */
     @JvmStatic
+
     fun getModuleVersion(moduleName: String): String {
         if (value.isEmpty()) return EMPTY_STRING
+
         if (value.any { it.projectVersion.isEmpty() }) configModuleVersions()
 
         val component = value.find { it.getModules().map(Module::name).contains(moduleName) }
