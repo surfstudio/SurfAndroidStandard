@@ -147,9 +147,7 @@
 в отдельные классы:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
 и [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
 которые теперь отвечают за распределение зависимостей между компонентами.
-
-
-
+* SBB-1862 Добавлен модуль cf-pagination
 
 #### util-ktx
 
