@@ -4,6 +4,10 @@
 
 ## 0.4.0 - SNAPSHOT
 
+#### custom-view
+
+* ANDDEP-571 Убран двойной сеттинг setTextAppearance у TitleSubtitleView
+
 #### activity-holder
 
 * Отдельный модуль для `ActiveActivityHolder`
@@ -36,6 +40,9 @@
 `subscribeTakeLastFrozen`.
 
 #### core-mvp-binding
+* ANDDEP-575 В BaseRxPresenter добавлены экстеншны для rx-запросов
+* ANDDEP-580 Поддержка биндинга в простых Bottom Sheet диалогах
+
 #### core-ui
 
 * добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
@@ -86,7 +93,8 @@
     необходимо указывать уникальный `android:id`.
 * Добавлена поддержка биндинга в виджетах
 * Решена проблема с получением контекста у виджетов, лежащих внутри контейнера с атрибутом theme
-    
+* ANDDEP-573 - Добавлен биндинг для виджетов
+
 #### network
 #### picture-provider
 
@@ -105,6 +113,9 @@
     * Добавлена возможность задавать firstItemsCountWithoutDividers
 
 #### rx-extension
+
+* ANDDEP-579 Добавлена поддержка Single в ObservableUtil
+
 #### rxbus
 #### shared-pref
 #### standard-dialog
@@ -136,11 +147,11 @@
 в отдельные классы:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
 и [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
 которые теперь отвечают за распределение зависимостей между компонентами.
-
-
-
+* SBB-1862 Добавлен модуль cf-pagination
 
 #### util-ktx
+
+* ANDDEP-592 Добавлено в readme описания к BlockableData, CheckableData, DeletableData, ExpandableDataInterface, LoadableData, ScrollableData, SelectableData, VisibleData
 
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
