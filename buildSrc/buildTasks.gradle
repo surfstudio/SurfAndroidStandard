@@ -66,3 +66,5 @@ task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask)
 task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask)
 
 task deployToMirror(type: DeployToMirrorTask)
+
+task generateModulesNamesFile(type: GenerateModuleNameFileTask)
