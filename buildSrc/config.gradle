@@ -40,7 +40,7 @@ ext {
             "io.reactivex.rxjava2:rxandroid"         : "2.1.0" //https://goo.gl/3Kd3iP
     ]
 
-    gradlePluginVersion = '3.4.1'               //https://bit.ly/2NXD4Pe
+    gradlePluginVersion = '3.2.1'               //https://bit.ly/2NXD4Pe
     buildToolsVersion = "28.0.3"                //https://bit.ly/2DNmq3Y
     googleServicesVersion = '4.2.0'             //https://bit.ly/2Q5FCge
     buildScanPluginVersion = '1.16'             //https://goo.gl/coZHFo
