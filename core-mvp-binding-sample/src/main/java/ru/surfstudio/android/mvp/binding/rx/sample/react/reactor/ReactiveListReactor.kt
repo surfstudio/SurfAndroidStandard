@@ -2,8 +2,8 @@ package ru.surfstudio.android.mvp.binding.rx.sample.react.reactor
 
 import ru.surfstudio.android.core.mvp.binding.react.loadable.LoadableState
 import ru.surfstudio.android.core.mvp.binding.react.optional.asOptional
-import ru.surfstudio.android.core.mvp.binding.react.reactor.Reactor
-import ru.surfstudio.android.core.mvp.binding.react.reactor.StateHolder
+import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.Reactor
+import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.StateHolder
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveList
