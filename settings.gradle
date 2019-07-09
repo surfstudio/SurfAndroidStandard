@@ -3,7 +3,9 @@ import ru.surfstudio.android.build.Initializator
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.model.module.Module
 
-Initializator.init()
+def currentBuildDirectory = gradle.startParameter.currentDir.path
+
+Initializator.init(currentBuildDirectory)
 Components.getModules().forEach { Module module ->
     include module.getGradleModuleName()
     project(module.getGradleModuleName()).projectDir = new File(module.directoryPath)
