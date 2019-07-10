@@ -12,7 +12,6 @@ import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.mapError
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.mapLoading
 import javax.inject.Inject
 
-
 typealias ReactiveListState = LoadableState<DataList<String>>
 
 @PerScreen

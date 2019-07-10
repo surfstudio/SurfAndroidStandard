@@ -25,6 +25,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.checkbox.CheckboxActivityRoute
+import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main.EAMainActivityRoute
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveListRoute
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import javax.inject.Inject
@@ -109,7 +110,8 @@ class MainNavigationPresenter @Inject constructor(
         super.onFirstLoad()
         with(bm) {
             checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute(true)) }
-            easyadapterSampleActivityOpen bindTo { activityNavigator.start(ReactiveListRoute()) }
+            easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
+            reactiveListSampleActivityOpen bindTo { activityNavigator.start(ReactiveListRoute()) }
         }
     }
 }
@@ -118,6 +120,7 @@ interface MainNavigationBindModel : BindModel {
 
     val checkboxSampleActivityOpen: Action<Unit>
     val easyadapterSampleActivityOpen: Action<Unit>
+    val reactiveListSampleActivityOpen: Action<Unit>
 }
 
 /**

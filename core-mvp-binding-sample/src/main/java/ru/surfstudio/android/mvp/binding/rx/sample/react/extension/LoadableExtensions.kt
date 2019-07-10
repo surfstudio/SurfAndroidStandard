@@ -9,7 +9,8 @@ import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.D
 
 /**
  * Маппинг функции для работы с данными
- * TODO Перенести их к Template.
+ *
+ * TODO Перенести их в Template.
  * TODO Можно переопределить в проекте, чтобы задействовать свои стратегии работы с данными
  */
 
