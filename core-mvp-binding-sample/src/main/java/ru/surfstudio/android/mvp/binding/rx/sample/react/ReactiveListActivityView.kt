@@ -15,8 +15,8 @@ import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationableAdapter
 import ru.surfstudio.android.mvp.binding.rx.sample.react.controller.ReactiveListController
 import ru.surfstudio.android.mvp.binding.rx.sample.react.di.ReactiveListScreenConfigurator
-import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHubImpl
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveList
+import ru.surfstudio.android.core.mvp.binding.react.event.hub.BaseEventHub
+import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveListEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.observeMainLoading
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.observeSwrLoading
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListStateHolder
@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class ReactiveListActivityView : BaseReactActivityView() {
 
-    private val adapter = PaginationableAdapter { ReactiveList.LoadNextPage().sendTo(hub) }
+    private val adapter = PaginationableAdapter { ReactiveListEvent.LoadNextPage().sendTo(hub) }
     private val controller = ReactiveListController()
 
     override fun createConfigurator() = ReactiveListScreenConfigurator(intent)
@@ -37,7 +37,7 @@ class ReactiveListActivityView : BaseReactActivityView() {
     lateinit var bm: ReactiveListStateHolder
 
     @Inject
-    lateinit var hub: EventHubImpl<ReactiveList>
+    lateinit var hub: BaseEventHub<ReactiveListEvent>
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
@@ -46,15 +46,15 @@ class ReactiveListActivityView : BaseReactActivityView() {
         reactive_rv.adapter = adapter
 
         reactive_reload_btn.clicks()
-                .map { ReactiveList.Reload() }
+                .map { ReactiveListEvent.Reload() }
                 .sendTo(hub)
 
         reactive_query_tv.textChanges()
                 .skipInitialValue()
-                .map { ReactiveList.QueryChanged(it.toString()) }
+                .map { ReactiveListEvent.QueryChanged(it.toString()) }
                 .sendTo(hub)
 
-        reactive_swr.setOnRefreshListener { ReactiveList.SwipeRefresh().sendTo(hub) }
+        reactive_swr.setOnRefreshListener { ReactiveListEvent.SwipeRefresh().sendTo(hub) }
 
         bm.state.observeMainLoading() bindTo { reactive_pb.isVisible = it }
         bm.state.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }

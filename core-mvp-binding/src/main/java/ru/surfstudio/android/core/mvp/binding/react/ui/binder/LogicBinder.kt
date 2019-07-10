@@ -2,7 +2,7 @@ package ru.surfstudio.android.core.mvp.binding.react.ui.binder
 
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.RxEventHub
-import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.Middleware
+import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 
 /**
@@ -10,9 +10,9 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
  */
 class LogicBinder<T : Event>(
         hub: RxEventHub<T>,
-        middleware: Middleware<T>,
+        middleware: RxMiddleware<T>,
         basePresenterDependency: BasePresenterDependency
-) : Binder(basePresenterDependency) {
+) : BaseRxBinder(basePresenterDependency) {
 
     init {
         bind(hub, middleware)

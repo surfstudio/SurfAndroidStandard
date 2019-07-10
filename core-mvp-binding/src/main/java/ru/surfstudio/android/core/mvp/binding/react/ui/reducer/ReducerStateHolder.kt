@@ -5,6 +5,6 @@ import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.StateHolder
 /**
  * Класс, содержащий состояние экрана для [Reducer]
  */
-interface ReducerStateHolder<S : ReducerState>: StateHolder {
+interface ReducerStateHolder<S : StateModel>: StateHolder {
     var state: S
 }

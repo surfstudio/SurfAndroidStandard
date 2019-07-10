@@ -1,14 +1,12 @@
 package ru.surfstudio.android.core.mvp.binding.react.ui.reducer
 
-import com.jakewharton.rxrelay2.BehaviorRelay
-import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import java.lang.NullPointerException
 
 /**
  * Наследник [ReducerStateHolder], работающий через Rx.
  */
-open class RxStateHolder<S : ReducerState>(initialValue: S) :
+open class RxStateHolder<S : StateModel>(initialValue: S) :
         ReducerStateHolder<S>,
         State<S>(initialValue) {
 

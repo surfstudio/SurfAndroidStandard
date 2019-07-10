@@ -19,9 +19,9 @@ package ru.surfstudio.android.core.mvp.binding.rx.ui
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.binding.react.rx_builders.RxBuilderAutoReload
-import ru.surfstudio.android.core.mvp.binding.react.rx_builders.RxBuilderHandleError
-import ru.surfstudio.android.core.mvp.binding.react.rx_builders.RxBuilderIO
+import ru.surfstudio.android.core.mvp.binding.react.builders.RxBuilderAutoReload
+import ru.surfstudio.android.core.mvp.binding.react.builders.RxBuilderHandleError
+import ru.surfstudio.android.core.mvp.binding.react.builders.RxBuilderIO
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter

@@ -7,18 +7,18 @@ import ru.surfstudio.android.core.mvp.binding.react.loadable.event.LoadableEvent
 import ru.surfstudio.android.core.mvp.binding.react.loadable.event.LoadType
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 
-sealed class ReactiveList : Event {
-    class Reload : ReactiveList()
-    class LoadNextPage : ReactiveList()
-    class SwipeRefresh : ReactiveList()
+sealed class ReactiveListEvent : Event {
+    class Reload : ReactiveListEvent()
+    class LoadNextPage : ReactiveListEvent()
+    class SwipeRefresh : ReactiveListEvent()
 
-    data class Numbers(
+    data class LoadNumbers(
             override var type: LoadType<DataList<String>> = LoadType.Loading(),
             var isSwr: Boolean
-    ) : LoadableEvent<DataList<String>>, ReactiveList()
+    ) : LoadableEvent<DataList<String>>, ReactiveListEvent()
 
-    class QueryChanged(val query: String) : ReactiveList()
-    class QueryChangedDebounced(val query: String) : ReactiveList()
+    class QueryChanged(val query: String) : ReactiveListEvent()
+    class QueryChangedDebounced(val query: String) : ReactiveListEvent()
 
-    data class Lifecycle(override var stage: LifecycleStage) : ReactiveList(), LifecycleEvent
+    data class LifecycleChanged(override var stage: LifecycleStage) : ReactiveListEvent(), LifecycleEvent
 }

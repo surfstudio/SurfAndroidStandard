@@ -2,19 +2,18 @@ package ru.surfstudio.android.core.mvp.binding.react.ui.reducer
 
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.Reactor
-import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.StateHolder
 
 /**
  * [Reducer] из терминологии Redux:
  *
- * Этот класс служит для изменения текущего состояние экрана [ReducerState],
+ * Этот класс служит для изменения текущего состояние экрана [StateModel],
  * при реакции на событие [Event].
  *
  * @see <a href="Reducers documentation">https://redux.js.org/basics/reducers</a>
  */
 interface Reducer<
         E : Event,
-        S : ReducerState,
+        S : StateModel,
         H : ReducerStateHolder<S>> : Reactor<E, H> {
 
     override fun react(holder: H, event: E) {

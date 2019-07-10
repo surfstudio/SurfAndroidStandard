@@ -4,7 +4,7 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.mvp.binding.react.event.hub.EventHubImpl
+import ru.surfstudio.android.core.mvp.binding.react.event.hub.BaseEventHub
 import ru.surfstudio.android.core.mvp.binding.react.ui.binder.SingleBinder
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
@@ -15,7 +15,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveListActivityView
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveListMiddleware
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveListRoute
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveList
+import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveListEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListReactor
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListStateHolder
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
@@ -39,16 +39,16 @@ class ReactiveListScreenConfigurator(intent: Intent) : DefaultActivityScreenConf
         fun provideEventHub(
                 screenState: ScreenState,
                 screenEventDelegateManager: ScreenEventDelegateManager
-        ): EventHubImpl<ReactiveList> = EventHubImpl(
+        ): BaseEventHub<ReactiveListEvent> = BaseEventHub(
                 screenState,
                 screenEventDelegateManager
-        ) { ReactiveList.Lifecycle(it) }
+        ) { ReactiveListEvent.LifecycleChanged(it) }
 
         @PerScreen
         @Provides
         fun provideBinder(
                 basePresenterDependency: BasePresenterDependency,
-                eventHub: EventHubImpl<ReactiveList>,
+                eventHub: BaseEventHub<ReactiveListEvent>,
                 middleware: ReactiveListMiddleware,
                 reactor: ReactiveListReactor,
                 stateHolder: ReactiveListStateHolder

@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.mvp.binding.react.event.Event
 import ru.surfstudio.android.core.mvp.binding.react.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.StateHolder
-import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.Middleware
+import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 
@@ -14,11 +14,11 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
  *
  * TODO убрать зависимость от presenter
  */
-abstract class Binder(basePresenterDependency: BasePresenterDependency) : BaseRxPresenter(basePresenterDependency) {
+abstract class BaseRxBinder(basePresenterDependency: BasePresenterDependency) : BaseRxPresenter(basePresenterDependency) {
 
     fun <T : Event, SH : StateHolder> bind(
             eventHub: RxEventHub<T>,
-            middleware: Middleware<T>,
+            middleware: RxMiddleware<T>,
             stateHolder: SH,
             reactor: Reactor<T, SH>
     ) {
@@ -28,7 +28,7 @@ abstract class Binder(basePresenterDependency: BasePresenterDependency) : BaseRx
 
     fun <T : Event> bind(
             eventHub: RxEventHub<T>,
-            middleware: Middleware<T>
+            middleware: RxMiddleware<T>
     ) {
         (middleware.transform(eventHub.observeEvents()) as Observable<T>).bindIgnore()
     }

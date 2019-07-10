@@ -10,12 +10,12 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.state.ScreenState
 
 /**
- * Возможная имплементация EventHub.
+ * Возможная имплементация [EventHub].
  * Следует переопределить на проекте, если необходимо иное поведение.
  *
  * @param lifecycleEventCreator создатель [LifecycleEvent]
  */
-open class EventHubImpl<T : Event>(
+open class BaseEventHub<T : Event>(
         override val screenState: ScreenState,
         screenEventDelegate: ScreenEventDelegateManager,
         override val lifecycleEventCreator: LifecycleEventCreator<T>? = null

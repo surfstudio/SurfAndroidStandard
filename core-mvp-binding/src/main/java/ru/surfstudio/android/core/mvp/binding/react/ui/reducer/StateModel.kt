@@ -6,4 +6,4 @@ package ru.surfstudio.android.core.mvp.binding.react.ui.reducer
  * По факту, является неизменяемым хранилищем данных с final-переменными,
  * и не содержит в себе логики.
  */
-interface ReducerState
+interface StateModel

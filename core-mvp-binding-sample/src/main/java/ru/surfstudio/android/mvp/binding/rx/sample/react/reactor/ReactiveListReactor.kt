@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvp.binding.react.ui.reactor.StateHolder
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
-import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveList
+import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveListEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.mapDataList
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.mapError
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.mapLoading
@@ -21,16 +21,16 @@ class ReactiveListStateHolder @Inject constructor() : StateHolder {
 }
 
 @PerScreen
-class ReactiveListReactor @Inject constructor() : Reactor<ReactiveList, ReactiveListStateHolder> {
+class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, ReactiveListStateHolder> {
 
-    override fun react(holder: ReactiveListStateHolder, event: ReactiveList) {
+    override fun react(holder: ReactiveListStateHolder, event: ReactiveListEvent) {
         when (event) {
-            is ReactiveList.Numbers -> reactOnListLoadEvent(holder.state, event)
-            is ReactiveList.QueryChangedDebounced -> reactOnQueryChangedEvent(holder.state, event)
+            is ReactiveListEvent.LoadNumbers -> reactOnListLoadEvent(holder.state, event)
+            is ReactiveListEvent.QueryChangedDebounced -> reactOnQueryChangedEvent(holder.state, event)
         }
     }
 
-    private fun reactOnListLoadEvent(state: ReactiveListState, event: ReactiveList.Numbers) {
+    private fun reactOnListLoadEvent(state: ReactiveListState, event: ReactiveListEvent.LoadNumbers) {
         state.modify {
             val hasData = data.hasValue && !data.get().isEmpty()
             copy(
@@ -41,7 +41,7 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveList, Reactive
         }
     }
 
-    private fun reactOnQueryChangedEvent(state: ReactiveListState, event: ReactiveList.QueryChangedDebounced) {
+    private fun reactOnQueryChangedEvent(state: ReactiveListState, event: ReactiveListEvent.QueryChangedDebounced) {
         state.modify {
             copy(data = DataList(
                     data.get().filter { elem -> elem.contains(event.query, true) },
