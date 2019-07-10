@@ -40,6 +40,36 @@ android {
     }
 }
 
+//временное решение для разрешения конфликтов версий сторонних зависимостей
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        if (details.requested.group == 'androidx.annotation'
+                && details.requested.name.contains('annotation')) {
+            details.useVersion "$androidxAnnotationVersion"
+        }
+        if (details.requested.group == 'androidx.core'
+                && details.requested.name.contains('core')) {
+            details.useVersion "$androidxCore"
+        }
+        if (details.requested.group == 'androidx.appcompat'
+                && details.requested.name.contains('appcompat')) {
+            details.useVersion "$androidxVersion"
+        }
+        if (details.requested.group == 'org.jetbrains'
+                && details.requested.name.contains('annotations')) {
+            details.useVersion "$jetbrainsAnnotationsVersion"
+        }
+        if (details.requested.group == 'io.reactivex.rxjava2'
+                && details.requested.name.contains('rxjava')) {
+            details.useVersion "$rxJava2Version"
+        }
+        if (details.requested.group == 'com.google.code.gson'
+                && details.requested.name.contains('gson')) {
+            details.useVersion "$gsonVersion"
+        }
+    }
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 }
