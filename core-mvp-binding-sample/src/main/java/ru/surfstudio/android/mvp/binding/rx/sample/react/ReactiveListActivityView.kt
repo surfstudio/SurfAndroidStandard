@@ -15,7 +15,7 @@ import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationableAdapter
 import ru.surfstudio.android.mvp.binding.rx.sample.react.controller.ReactiveListController
 import ru.surfstudio.android.mvp.binding.rx.sample.react.di.ReactiveListScreenConfigurator
-import ru.surfstudio.android.core.mvp.binding.react.event.hub.BaseEventHub
+import ru.surfstudio.android.mvp.binding.rx.sample.react.base.hub.BaseEventHub
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveListEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.observeMainLoading
 import ru.surfstudio.android.mvp.binding.rx.sample.react.extension.observeSwrLoading

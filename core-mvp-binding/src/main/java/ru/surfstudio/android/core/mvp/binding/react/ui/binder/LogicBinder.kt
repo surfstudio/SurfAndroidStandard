@@ -12,7 +12,7 @@ class LogicBinder<T : Event>(
         hub: RxEventHub<T>,
         middleware: RxMiddleware<T>,
         basePresenterDependency: BasePresenterDependency
-) : BaseRxBinder(basePresenterDependency) {
+) : RxBinder(basePresenterDependency) {
 
     init {
         bind(hub, middleware)

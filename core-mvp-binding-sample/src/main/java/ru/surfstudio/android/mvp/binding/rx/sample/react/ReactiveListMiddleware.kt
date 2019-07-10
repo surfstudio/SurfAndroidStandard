@@ -2,22 +2,20 @@ package ru.surfstudio.android.mvp.binding.rx.sample.react
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.binding.react.event.lifecycle.LifecycleStage
-import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.BaseMiddleware
-import ru.surfstudio.android.core.mvp.error.ErrorHandler
+import ru.surfstudio.android.mvp.binding.rx.sample.react.base.middleware.BaseMiddleware
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
+import ru.surfstudio.android.mvp.binding.rx.sample.react.base.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveListEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListStateHolder
-import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @PerScreen
 class ReactiveListMiddleware @Inject constructor(
-        errorHandler: ErrorHandler,
-        schedulersProvider: SchedulersProvider,
+        baseMiddlewareDependency: BaseMiddlewareDependency,
         private val sh: ReactiveListStateHolder
-) : BaseMiddleware<ReactiveListEvent>(schedulersProvider, errorHandler) {
+) : BaseMiddleware<ReactiveListEvent>(baseMiddlewareDependency) {
 
     override fun transform(eventStream: Observable<ReactiveListEvent>): Observable<out ReactiveListEvent> {
         val queryChangedObservable = transformQueryEvent(eventStream)

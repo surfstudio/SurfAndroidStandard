@@ -1,9 +1,10 @@
-package ru.surfstudio.android.core.mvp.binding.react.event.hub
+package ru.surfstudio.android.mvp.binding.rx.sample.react.base.hub
 
 import android.util.Log
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.binding.react.event.Event
+import ru.surfstudio.android.core.mvp.binding.react.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvp.binding.react.event.lifecycle.LifecycleEventCreator
 import ru.surfstudio.android.core.mvp.binding.react.event.lifecycle.LifecycleEventHub
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager

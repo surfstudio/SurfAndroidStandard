@@ -1,8 +1,7 @@
-package ru.surfstudio.android.core.mvp.binding.react.rx_builders
+package ru.surfstudio.android.core.mvp.binding.react.builders
 
 import io.reactivex.*
 import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 
 /**
  * Интерфейс builder'а для Rx-запросов с поддержкой восстановления соединения при отсутствии интернета.

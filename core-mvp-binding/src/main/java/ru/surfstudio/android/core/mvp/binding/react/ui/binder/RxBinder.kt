@@ -14,7 +14,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
  *
  * TODO убрать зависимость от presenter
  */
-abstract class BaseRxBinder(basePresenterDependency: BasePresenterDependency) : BaseRxPresenter(basePresenterDependency) {
+abstract class RxBinder(basePresenterDependency: BasePresenterDependency) : BaseRxPresenter(basePresenterDependency) {
 
     fun <T : Event, SH : StateHolder> bind(
             eventHub: RxEventHub<T>,

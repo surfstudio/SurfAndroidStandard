@@ -8,7 +8,7 @@ import ru.surfstudio.android.core.mvp.binding.react.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 
 /**
- * [BaseRxBinder] со связью всех сущностей экрана "один к одному".
+ * [RxBinder] со связью всех сущностей экрана "один к одному".
  */
 class SingleBinder<T : Event, SH : StateHolder>(
         hub: RxEventHub<T>,
@@ -16,7 +16,7 @@ class SingleBinder<T : Event, SH : StateHolder>(
         holder: SH,
         reactor: Reactor<T, SH>,
         basePresenterDependency: BasePresenterDependency
-) : BaseRxBinder(basePresenterDependency) {
+) : RxBinder(basePresenterDependency) {
 
     init {
         bind(hub, middleware, holder, reactor)

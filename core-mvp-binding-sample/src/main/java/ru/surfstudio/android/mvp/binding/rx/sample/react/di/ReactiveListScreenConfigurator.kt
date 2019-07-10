@@ -4,20 +4,24 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.mvp.binding.react.event.hub.BaseEventHub
+import ru.surfstudio.android.mvp.binding.rx.sample.react.base.hub.BaseEventHub
 import ru.surfstudio.android.core.mvp.binding.react.ui.binder.SingleBinder
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
+import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveListActivityView
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveListMiddleware
 import ru.surfstudio.android.mvp.binding.rx.sample.react.ReactiveListRoute
+import ru.surfstudio.android.mvp.binding.rx.sample.react.base.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.mvp.binding.rx.sample.react.event.ReactiveListEvent
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListReactor
 import ru.surfstudio.android.mvp.binding.rx.sample.react.reactor.ReactiveListStateHolder
+import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
@@ -33,6 +37,14 @@ class ReactiveListScreenConfigurator(intent: Intent) : DefaultActivityScreenConf
 
     @Module
     internal class ReactiveListScreenModule(route: ReactiveListRoute) : DefaultCustomScreenModule<ReactiveListRoute>(route) {
+
+        @Provides
+        @PerScreen
+        fun provideBaseMiddlewareDependency(
+                activityNavigator: ActivityNavigator,
+                schedulersProvider: SchedulersProvider,
+                errorHandler: ErrorHandler
+        ) = BaseMiddlewareDependency(activityNavigator, schedulersProvider, errorHandler)
 
         @Provides
         @PerScreen
