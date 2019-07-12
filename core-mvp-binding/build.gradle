@@ -26,7 +26,8 @@ gradle.ext.configAndroidStandardDependencies(this, [
         'core-mvp',
         'util-ktx',
         'rx-extension',
-        'mvp-dialog'
+        'mvp-dialog',
+        'mvp-widget'
 ])
 
 dependencies {

@@ -40,6 +40,7 @@ android {
     }
 }
 
+//временное решение для разрешения конфликтов версий сторонних зависимостей
 configurations.all {
     resolutionStrategy.eachDependency { details ->
         if (details.requested.group == 'androidx.annotation'
@@ -57,6 +58,14 @@ configurations.all {
         if (details.requested.group == 'org.jetbrains'
                 && details.requested.name.contains('annotations')) {
             details.useVersion "$jetbrainsAnnotationsVersion"
+        }
+        if (details.requested.group == 'io.reactivex.rxjava2'
+                && details.requested.name.contains('rxjava')) {
+            details.useVersion "$rxJava2Version"
+        }
+        if (details.requested.group == 'com.google.code.gson'
+                && details.requested.name.contains('gson')) {
+            details.useVersion "$gsonVersion"
         }
     }
 }

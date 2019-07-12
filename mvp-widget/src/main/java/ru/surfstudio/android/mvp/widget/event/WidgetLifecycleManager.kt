@@ -89,6 +89,10 @@ class WidgetLifecycleManager(
     fun onCreate(widgetView: View, coreWidgetView: CoreWidgetViewInterface, widgetViewDelegate: WidgetViewDelegate) {
         screenState.onCreate(widgetView, coreWidgetView)
 
+        // при использовании виджета в recyclerView делегат не успевает вызвать onDestroy
+        // при этом новый делегат уже успевает вызвать onCreate а потом уже на старом делегате вызывается onDestroy
+        // это поведение приводит к обнулению переменной view у презентера. Что бы избежать от этой проблемы
+        // деактивируем старый делегат
         this.widgetViewDelegate?.get()?.let {
             if (it != widgetViewDelegate) {
                 it.deactivate()

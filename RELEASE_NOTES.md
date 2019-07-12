@@ -4,6 +4,10 @@
 
 ## 0.4.0 - SNAPSHOT
 
+#### custom-view
+
+* ANDDEP-571 Убран двойной сеттинг setTextAppearance у TitleSubtitleView
+
 #### activity-holder
 
 * Отдельный модуль для `ActiveActivityHolder`
@@ -36,15 +40,22 @@
 `subscribeTakeLastFrozen`.
 
 #### core-mvp-binding
+* ANDDEP-575 В BaseRxPresenter добавлены экстеншны для rx-запросов
+* ANDDEP-580 Поддержка биндинга в простых Bottom Sheet диалогах
+* Исправлена ошибка, при которой игнорировались необработанные исключения. 
 * Добавлены расширения для работы с биндингами
 
 #### core-ui
 
 * добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
+* Исправлено локальное подключение модулей стандарта 
+* Исправлен баг с использованием виджетов в recyclerView когда WidgetViewDelegate не успевал обнулять view у презентера
+* Добавлена защита от модификации извне для списка делегатов в методе `resolve` класса `MultipleScreenEventResolver`
 
 #### custom-view
 
 * Исправлено некорректное поведение MaterialProgressBar на Android версии 5 и ниже
+* Добавлено BottomSheetView
 
 #### dagger-scope
 #### datalist-limit-offset
@@ -83,7 +94,10 @@
     использовать `lazyInit`, и переопределить `getWidgetId` на основе данных из `onBindViewHolder`.
     Для расположения виджетов в статической верстке
     необходимо указывать уникальный `android:id`.
-    
+* Добавлена поддержка биндинга в виджетах
+* Решена проблема с получением контекста у виджетов, лежащих внутри контейнера с атрибутом theme
+* ANDDEP-573 - Добавлен биндинг для виджетов
+
 #### network
 #### picture-provider
 
@@ -102,6 +116,9 @@
     * Добавлена возможность задавать firstItemsCountWithoutDividers
 
 #### rx-extension
+
+* ANDDEP-579 Добавлена поддержка Single в ObservableUtil
+
 #### rxbus
 #### shared-pref
 #### standard-dialog
@@ -133,12 +150,11 @@
 в отдельные классы:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
 и [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
 которые теперь отвечают за распределение зависимостей между компонентами.
-
-
-
+* SBB-1862 Добавлен модуль cf-pagination
 
 #### util-ktx
 
+* ANDDEP-592 Добавлено в readme описания к BlockableData, CheckableData, DeletableData, ExpandableDataInterface, LoadableData, ScrollableData, SelectableData, VisibleData
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
 
@@ -160,7 +176,7 @@
     * Добавление списка источников загрузки изображения [`ImageSource`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/ImageSource.kt)
     * Добавление listener'a с источником загрузки изображения: `ImageLoader.listenerWithSource`
     * Исправление неочевидного поведения функции `ImageLoader.into`, добавление перегрузки с лямбдами-слушателями
-    
+    * Добавление возможности не применять трансформации к превью и ошибке. 
 
 ### security
 * ANDDEP-82 Модуль для обеспечения безопасности
