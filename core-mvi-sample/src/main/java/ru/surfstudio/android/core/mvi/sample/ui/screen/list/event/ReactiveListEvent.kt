@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleStage
 import ru.surfstudio.android.core.mvi.loadable.event.LoadType
 import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
+import ru.surfstudio.android.core.mvi.optional.Optional
 
 sealed class ReactiveListEvent : Event {
     class Reload : ReactiveListEvent()
@@ -19,6 +20,13 @@ sealed class ReactiveListEvent : Event {
 
     class QueryChanged(val query: String) : ReactiveListEvent()
     class QueryChangedDebounced(val query: String) : ReactiveListEvent()
+
+    class FilterNumbers : ReactiveListEvent()
+
+    sealed class Ui : ReactiveListEvent() {
+        class ShowQuery(val query: String) : Ui()
+        class ShowNumbers(val numbers: Optional<DataList<String>>) : Ui()
+    }
 
     data class LifecycleChanged(override var stage: LifecycleStage) : ReactiveListEvent(), LifecycleEvent
 }

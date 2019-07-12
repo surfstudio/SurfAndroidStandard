@@ -14,7 +14,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
  * Чтобы не возвращаться к хранению всего состояния экрана в одном классе, мы не создаем каждый раз новое состояние,
  * а изменяем его, и даем View отреагировать на это с помощью Rx.
  */
-interface Reactor<E : Event, H : StateHolder> : Related<PRESENTER> {
+interface Reactor<E : Event, H> : Related<PRESENTER> {
 
     fun react(holder: H, event: E)
 

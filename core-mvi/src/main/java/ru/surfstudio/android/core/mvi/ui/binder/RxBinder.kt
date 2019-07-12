@@ -7,20 +7,26 @@ import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
-import ru.surfstudio.android.core.mvi.ui.reactor.StateHolder
+import ru.surfstudio.android.core.mvi.ui.reactor.RxStateHolder
+import ru.surfstudio.android.core.mvi.ui.reactor.StateEventProvider
+import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 
 /**
  * Класс, который связывает все сущности скопа экрана в одну и производит подписку
  */
-interface RxBinder {
+interface RxBinder : Related<PRESENTER> {
 
-    fun <T : Event, SH : StateHolder> bind(
+    fun <T : Event, SH : RxStateHolder<T>> bind(
             eventHub: RxEventHub<T>,
             middleware: RxMiddleware<T>,
             stateHolder: SH,
             reactor: Reactor<T, SH>
     ) {
         middleware.transform(eventHub.observe()) as Observable<T> bindEvents eventHub
+        stateHolder.eventProviders.forEach {
+            observe(it) as Observable<T> bindEvents eventHub
+        }
         eventHub.observe().bindEvents(stateHolder, reactor)
     }
 
@@ -34,7 +40,7 @@ interface RxBinder {
     infix fun <T> Observable<T>.bindEvents(consumer: Consumer<T>) =
             subscribe(this, consumer::accept, ::onError)
 
-    fun <T : Event, SH : StateHolder> Observable<T>.bindEvents(stateHolder: SH, reactor: Reactor<T, SH>) =
+    fun <T : Event, SH : RxStateHolder<T>> Observable<T>.bindEvents(stateHolder: SH, reactor: Reactor<T, SH>) =
             subscribe(
                     this,
                     {
@@ -50,6 +56,9 @@ interface RxBinder {
                     },
                     ::onError
             )
+
+    fun <E : Event, T> observe(provider: StateEventProvider<E, T>): Observable<E> =
+            provider.state.observable.map { provider.eventTransformer(it) }
 
     fun <T> subscribe(
             observable: Observable<T>,
@@ -67,5 +76,4 @@ interface RxBinder {
     fun onError(throwable: Throwable) {
         throw throwable
     }
-
 }

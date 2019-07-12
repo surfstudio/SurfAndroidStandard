@@ -33,7 +33,7 @@ class ReactiveListActivityView : BaseReactActivityView() {
     override fun getContentView(): Int = R.layout.activity_reactive_list
 
     @Inject
-    lateinit var bm: ReactiveListStateHolder
+    lateinit var sh: ReactiveListStateHolder
 
     @Inject
     lateinit var hub: BaseEventHub<ReactiveListEvent>
@@ -54,9 +54,9 @@ class ReactiveListActivityView : BaseReactActivityView() {
 
         reactive_swr.setOnRefreshListener { ReactiveListEvent.SwipeRefresh().sendTo(hub) }
 
-        bm.state.observeMainLoading() bindTo { reactive_pb.isVisible = it }
-        bm.state.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }
-        bm.state.observeData bindTo ::createList
+        sh.list.observeMainLoading() bindTo { reactive_pb.isVisible = it }
+        sh.list.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }
+        sh.filteredList bindTo ::createList
     }
 
     private fun createList(list: List<String>) {

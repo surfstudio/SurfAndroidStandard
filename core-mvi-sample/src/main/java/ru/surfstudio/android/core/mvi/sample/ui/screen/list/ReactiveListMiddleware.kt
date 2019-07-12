@@ -27,7 +27,8 @@ class ReactiveListMiddleware @Inject constructor(
         is ReactiveListEvent.LifecycleChanged -> reactOnLifecycle(event.stage)
         is ReactiveListEvent.Reload -> loadData()
         is ReactiveListEvent.SwipeRefresh -> loadData(isSwr = true)
-        is ReactiveListEvent.LoadNextPage -> loadData(sh.state.data.nextPage)
+        is ReactiveListEvent.LoadNextPage -> loadData(sh.list.data.nextPage)
+        is ReactiveListEvent.Ui -> Observable.just(ReactiveListEvent.FilterNumbers())
         else -> skip()
     }
 
