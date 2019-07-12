@@ -19,9 +19,9 @@ package ru.surfstudio.android.core.mvp.binding.rx.ui
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.binding.react.builders.RxBuilderAutoReload
-import ru.surfstudio.android.core.mvp.binding.react.builders.RxBuilderHandleError
-import ru.surfstudio.android.core.mvp.binding.react.builders.RxBuilderIO
+import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderAutoReload
+import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderHandleError
+import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderIo
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
@@ -33,9 +33,8 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
  */
 abstract class BaseRxPresenter(
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<BindableRxView>(basePresenterDependency),
-        Related<PRESENTER>,
-        RxBuilderIO,
+) : BasePresenter<BindableRxView>(basePresenterDependency), Related<PRESENTER>,
+        RxBuilderIo,
         RxBuilderHandleError,
         RxBuilderAutoReload {
 
@@ -49,7 +48,6 @@ abstract class BaseRxPresenter(
                                onError: (Throwable) -> Unit): Disposable =
             super.subscribe(observable, { onNext.accept(it) }, { onError(it) })
 
-    //TODO добавить subscribeTakeLastFrozen(если возможно)
 
     override fun reloadErrorAction(autoReloadAction: () -> Unit): Consumer<Throwable> {
         return super<BasePresenter>.reloadErrorAction(autoReloadAction)
