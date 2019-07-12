@@ -1,0 +1,12 @@
+apply from: '../androidModule.gradle'
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'core-app',
+        'core-ui',
+        'core-mvp',
+        'util-ktx',
+        'rx-extension',
+        'mvp-dialog',
+        'mvp-widget',
+        'core-mvp-binding'
+])

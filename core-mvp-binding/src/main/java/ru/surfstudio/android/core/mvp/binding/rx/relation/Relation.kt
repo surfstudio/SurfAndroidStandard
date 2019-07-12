@@ -22,7 +22,6 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.core.mvp.binding.react.optional.Optional
 
 /**
  * Описывает тип сущности, которая учавствует в обмене данными
@@ -103,13 +102,6 @@ interface Related<S : RelationEntity> {
      */
     fun Relation<Unit, S, *>.accept() =
             this.consumer.accept(Unit)
-
-    /**
-     *  Послать [newValue] подписчикам
-     */
-    fun <T> Relation<Optional<T>, S, *>.acceptValue(newValue: T) =
-            this.consumer.accept(Optional.Some(newValue))
-
 
     /**
      * Изменяет текущее значение на значение вычисленное в люмбде [block]
