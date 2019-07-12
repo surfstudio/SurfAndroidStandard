@@ -4,6 +4,7 @@ import android.content.Intent
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import ru.surfstudio.android.core.mvi.sample.ui.base.binder.BaseBinder
 import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
@@ -13,7 +14,6 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.state.ScreenState
-import ru.surfstudio.android.core.mvi.ui.binder.SingleBinder
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListActivityView
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListMiddleware
@@ -64,7 +64,8 @@ class ReactiveListScreenConfigurator(intent: Intent) : DefaultActivityScreenConf
                 middleware: ReactiveListMiddleware,
                 reactor: ReactiveListReactor,
                 stateHolder: ReactiveListStateHolder
-        ): Any = SingleBinder(eventHub, middleware, stateHolder, reactor, basePresenterDependency)
+        ): Any = BaseBinder(basePresenterDependency)
+                .apply { bind(eventHub, middleware, stateHolder, reactor) }
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
