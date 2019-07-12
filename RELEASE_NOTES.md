@@ -106,6 +106,7 @@
 * добавлена группировка пуш уведомлений
 * теперь можно подписаться на такие события как открытия и отклонения пуш уведомления
 * по умолчанию при клике на пуш уведомления вызывается колбек `PushEventListener`, чтобы поменять поведение можно переопределить preparePendingIntent у `PushHandlerStrategy`
+* пофикшен NPE при конвертации `Intent.extras` в `HashMap` методом `convert` объекта `IntentPushDataConverter`
 
 #### recycler-extension
 
