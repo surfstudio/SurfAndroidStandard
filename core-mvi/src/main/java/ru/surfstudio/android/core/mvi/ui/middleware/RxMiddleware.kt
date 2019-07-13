@@ -22,7 +22,7 @@ interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out 
 
     @CallSuper
     override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable {
-        throw IllegalStateException()
+        throw IllegalStateException("Middleware cant manage subscription lifecycle")
     }
 
     fun <T, E : LoadableEvent<T>> Observable<T>.mapToLoadable(event: E): Observable<out E> =
@@ -40,6 +40,6 @@ interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out 
 
     fun Observable<T>.ignoreError() = onErrorResumeNext { _: Throwable -> Observable.empty() }
 
-    fun merge(vararg observables: Observable<out T>) = Observable.merge(observables.toList())
+    fun merge(vararg observables: Observable<out T>): Observable<out T> = Observable.merge(observables.toList())
 
 }

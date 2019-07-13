@@ -5,6 +5,8 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 
 /**
  * Класс, содержащий состояние экрана
+ *
+ * @property eventProviders список пар <State, EventTransformer>, на которые необходимо подписаться
  */
 interface RxStateHolder<E : Event> {
     val eventProviders: List<StateEventProvider<out E, *>>
