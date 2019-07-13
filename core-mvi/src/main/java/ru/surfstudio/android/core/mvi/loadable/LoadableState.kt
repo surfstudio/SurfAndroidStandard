@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvi.loadable.data.LoadableData
 import ru.surfstudio.android.core.mvi.loadable.data.Loading
-import ru.surfstudio.android.core.mvi.optional.filterValue
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.filterValue
 import java.lang.NullPointerException
 
 /**

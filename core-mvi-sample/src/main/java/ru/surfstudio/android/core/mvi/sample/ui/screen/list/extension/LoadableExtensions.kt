@@ -4,8 +4,8 @@ import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
 import ru.surfstudio.android.core.mvi.loadable.LoadableState
 import ru.surfstudio.android.core.mvi.loadable.data.*
 import ru.surfstudio.android.core.mvi.loadable.event.LoadType
-import ru.surfstudio.android.core.mvi.optional.Optional
-import ru.surfstudio.android.core.mvi.optional.asOptional
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.asOptional
 
 /**
  * Маппинг функции для работы с данными
@@ -41,11 +41,11 @@ fun <T> mapData(type: LoadType<T>, data: Optional<T>): Optional<T> =
             data
         }
 
-fun <T, L : DataList<T>> mapDataList(
-        type: LoadType<L>,
-        data: Optional<L>,
+fun <T> mapDataList(
+        type: LoadType<DataList<T>>,
+        data: Optional<DataList<T>>,
         hasData: Boolean = data.hasValue
-) = if (type is LoadType.Data) {
+): Optional<DataList<T>> = if (type is LoadType.Data) {
     if (hasData && type.data.startPage > 0) { //мержим, если уже есть dataList + это не перезагрузка списка
         data.get().merge(type.data).asOptional()
     } else {

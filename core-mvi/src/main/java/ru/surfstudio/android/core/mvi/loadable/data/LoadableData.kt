@@ -1,6 +1,6 @@
 package ru.surfstudio.android.core.mvi.loadable.data
 
-import ru.surfstudio.android.core.mvi.optional.Optional
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 
 /**
  * Данные для отображения на Ui асинхронного запроса на получение данных
@@ -11,7 +11,7 @@ import ru.surfstudio.android.core.mvi.optional.Optional
  * @param error состояние ошибки
  */
 data class LoadableData<T>(
-        val data: Optional<T> = Optional.Empty,
+        val data: Optional<T> = Optional.empty(),
         val load: Loading = MainLoading(false),
         val error: Throwable = EmptyErrorException()
 )

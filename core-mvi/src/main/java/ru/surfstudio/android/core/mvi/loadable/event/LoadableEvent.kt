@@ -4,8 +4,8 @@ import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.loadable.data.EmptyErrorException
 import ru.surfstudio.android.core.mvi.loadable.data.LoadableData
 import ru.surfstudio.android.core.mvi.loadable.data.MainLoading
-import ru.surfstudio.android.core.mvi.optional.Optional
-import ru.surfstudio.android.core.mvi.optional.asOptional
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.asOptional
 
 /**
  * Событие загрузки данных
@@ -23,11 +23,11 @@ interface LoadableEvent<T> : Event {
             }
 
             is LoadType.Loading -> {
-                LoadableData(Optional.Empty, MainLoading(true), EmptyErrorException())
+                LoadableData(Optional.empty(), MainLoading(true), EmptyErrorException())
             }
 
             is LoadType.Error -> {
-                LoadableData(Optional.Empty, MainLoading(false), (type as LoadType.Error<T>).error)
+                LoadableData(Optional.empty(), MainLoading(false), (type as LoadType.Error<T>).error)
             }
         }
     }

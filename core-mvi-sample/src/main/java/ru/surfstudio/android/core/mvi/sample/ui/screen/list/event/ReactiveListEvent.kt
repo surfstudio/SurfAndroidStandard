@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleStage
 import ru.surfstudio.android.core.mvi.loadable.event.LoadType
 import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
-import ru.surfstudio.android.core.mvi.optional.Optional
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 
 sealed class ReactiveListEvent : Event {
     class Reload : ReactiveListEvent()
