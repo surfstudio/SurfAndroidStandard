@@ -1,5 +1,6 @@
 package ru.surfstudio.android.core.mvi.sample.ui.base.hub
 
+import android.util.Log
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
@@ -33,6 +34,7 @@ open class BaseEventHub<T : Event>(
 
     override fun emit(event: T) {
         //Log events
+        Log.d("111111", "event: $event")
         bus.accept(event)
     }
 

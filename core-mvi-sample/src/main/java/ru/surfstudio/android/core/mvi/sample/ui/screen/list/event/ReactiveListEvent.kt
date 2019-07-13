@@ -6,7 +6,6 @@ import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleStage
 import ru.surfstudio.android.core.mvi.loadable.event.LoadType
 import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
-import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 
 sealed class ReactiveListEvent : Event {
     class Reload : ReactiveListEvent()
@@ -25,7 +24,7 @@ sealed class ReactiveListEvent : Event {
 
     sealed class Ui : ReactiveListEvent() {
         class ShowQuery(val query: String) : Ui()
-        class ShowNumbers(val numbers: Optional<DataList<String>>) : Ui()
+        class ShowNumbers(val numbers: DataList<String>) : Ui()
     }
 
     data class LifecycleChanged(override var stage: LifecycleStage) : ReactiveListEvent(), LifecycleEvent

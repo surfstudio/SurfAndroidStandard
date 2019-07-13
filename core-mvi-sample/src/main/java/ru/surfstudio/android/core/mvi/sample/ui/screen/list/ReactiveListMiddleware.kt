@@ -7,6 +7,7 @@ import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor.ReactiveListStateHolder
+import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -36,8 +37,8 @@ class ReactiveListMiddleware @Inject constructor(
             eventStream: Observable<out ReactiveListEvent>
     ): Observable<ReactiveListEvent.QueryChangedDebounced> =
             eventStream
-                    .filter { it is ReactiveListEvent.QueryChanged }
-                    .map { (it as ReactiveListEvent.QueryChanged).query }
+                    .filterIsInstance<ReactiveListEvent.QueryChanged>()
+                    .map { it.query }
                     .distinctUntilChanged()
                     .debounce(1000, TimeUnit.MILLISECONDS)
                     .map { ReactiveListEvent.QueryChangedDebounced(it) }

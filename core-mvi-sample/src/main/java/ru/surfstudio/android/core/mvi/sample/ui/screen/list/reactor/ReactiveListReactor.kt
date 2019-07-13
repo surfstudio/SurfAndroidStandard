@@ -19,7 +19,7 @@ class ReactiveListStateHolder @Inject constructor() : BaseStateHolder<ReactiveLi
     val filteredList = State<List<String>>()
 
     override val eventProviders = listOf(
-            list with { ReactiveListEvent.Ui.ShowNumbers(it.data) },
+            list.observeData with { ReactiveListEvent.Ui.ShowNumbers(it) },
             query with { ReactiveListEvent.Ui.ShowQuery(it) }
     )
 }

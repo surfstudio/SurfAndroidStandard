@@ -1,29 +1,17 @@
 package ru.surfstudio.android.core.mvi.ui.middleware
 
-import androidx.annotation.CallSuper
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
-import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.loadable.event.LoadType
 import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
-import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
-import java.lang.IllegalStateException
+import ru.surfstudio.android.core.mvi.ui.relation.StateObserver
 
 /**
  * [Middleware] с реализацией в Rx.
  *
  * Кроме типизации по [Observable], содержит некоторые вспомогательные функции для работы с потоком.
  */
-interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, Related<PRESENTER> {
-
-    override fun relationEntity(): PRESENTER = PRESENTER
-
-    @CallSuper
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable {
-        throw IllegalStateException("Middleware cant manage subscription lifecycle")
-    }
+interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, StateObserver {
 
     fun <T, E : LoadableEvent<T>> Observable<T>.mapToLoadable(event: E): Observable<out E> =
             this
@@ -41,5 +29,4 @@ interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out 
     fun Observable<T>.ignoreError() = onErrorResumeNext { _: Throwable -> Observable.empty() }
 
     fun merge(vararg observables: Observable<out T>): Observable<out T> = Observable.merge(observables.toList())
-
 }

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvp.binding.react.builders
+package ru.surfstudio.android.core.mvp.binding.rx.builders
 
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 

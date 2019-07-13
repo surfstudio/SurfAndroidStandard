@@ -8,7 +8,6 @@ import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvi.ui.reactor.RxStateHolder
-import ru.surfstudio.android.core.mvi.ui.reactor.StateEventProvider
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 
@@ -25,7 +24,7 @@ interface RxBinder : Related<PRESENTER> {
     ) {
         middleware.transform(eventHub.observe()) as Observable<T> bindEvents eventHub
         stateHolder.eventProviders.forEach {
-            observe(it) as Observable<T> bindEvents eventHub
+            it.observeEvents() as Observable<T> bindEvents eventHub
         }
         eventHub.observe().bindEvents(stateHolder, reactor)
     }
@@ -56,9 +55,6 @@ interface RxBinder : Related<PRESENTER> {
                     },
                     ::onError
             )
-
-    fun <E : Event, T> observe(provider: StateEventProvider<E, T>): Observable<E> =
-            provider.state.observable.map { provider.eventTransformer(it) }
 
     fun <T> subscribe(
             observable: Observable<T>,
