@@ -23,7 +23,7 @@ interface RxBinder : Related<PRESENTER> {
             reactor: Reactor<T, SH>
     ) {
         middleware.transform(eventHub.observe()) as Observable<T> bindEvents eventHub
-        stateHolder.eventProviders.forEach {
+        stateHolder.sideEffects.forEach {
             it.observeEvents() as Observable<T> bindEvents eventHub
         }
         eventHub.observe().bindEvents(stateHolder, reactor)

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.ui.provider
+package ru.surfstudio.android.core.mvi.ui.effect
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
@@ -12,7 +12,7 @@ import ru.surfstudio.android.core.mvi.event.Event
  * Следует использовать в случае, когда один стейт привязан к изменению значений нескольких других,
  * либо когда данные после преобразования в Reactor'е не должны отображаться на UI.
  */
-interface EventProvider<E : Event, T> {
+interface SideEffect<E : Event, T> {
     val observable: Observable<T>
     val eventTransformer: (T) -> E
 
