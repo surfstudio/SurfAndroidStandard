@@ -13,7 +13,7 @@ import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.binder.RxBinder
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
-import ru.surfstudio.android.core.mvi.ui.reactor.RxStateHolder
+import ru.surfstudio.android.core.mvi.ui.holder.RxStateHolder
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW

@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor
 
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
-import ru.surfstudio.android.core.mvi.loadable.LoadableState
+import ru.surfstudio.android.core.mvi.loadable.state.LoadableState
 import ru.surfstudio.android.core.mvi.sample.ui.base.holder.BaseStateHolder
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapDataList

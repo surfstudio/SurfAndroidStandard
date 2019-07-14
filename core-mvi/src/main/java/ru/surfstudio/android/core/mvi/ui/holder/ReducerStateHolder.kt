@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.ui.reducer
+package ru.surfstudio.android.core.mvi.ui.holder
 
 /**
  * Класс, содержащий состояние экрана для [Reducer]

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.ui.reactor
+package ru.surfstudio.android.core.mvi.ui.holder
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event

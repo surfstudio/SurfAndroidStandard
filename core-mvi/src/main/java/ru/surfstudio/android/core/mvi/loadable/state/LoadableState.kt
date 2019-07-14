@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.loadable
+package ru.surfstudio.android.core.mvi.loadable.state
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent

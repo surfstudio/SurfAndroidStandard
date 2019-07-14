@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.mvi.ui.reducer
 
 import ru.surfstudio.android.core.mvi.event.Event
+import ru.surfstudio.android.core.mvi.ui.holder.ReducerStateHolder
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 
 /**

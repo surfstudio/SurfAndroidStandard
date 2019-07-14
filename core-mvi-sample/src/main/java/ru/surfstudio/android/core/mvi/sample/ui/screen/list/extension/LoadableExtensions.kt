@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension
 
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
-import ru.surfstudio.android.core.mvi.loadable.LoadableState
+import ru.surfstudio.android.core.mvi.loadable.state.LoadableState
 import ru.surfstudio.android.core.mvi.loadable.data.*
 import ru.surfstudio.android.core.mvi.loadable.event.LoadType
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional

@@ -1,9 +1,8 @@
-package ru.surfstudio.android.core.mvi.ui.reducer
+package ru.surfstudio.android.core.mvi.ui.holder
 
 import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.ui.reactor.RxStateHolder
 import ru.surfstudio.android.core.mvi.ui.effect.SideEffect
 import ru.surfstudio.android.core.mvi.ui.effect.ObservableSideEffect
 import java.lang.NullPointerException
