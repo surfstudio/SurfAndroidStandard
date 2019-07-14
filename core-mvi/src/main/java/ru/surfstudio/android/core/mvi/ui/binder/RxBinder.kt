@@ -8,13 +8,11 @@ import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvi.ui.holder.RxStateHolder
-import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 
 /**
  * Класс, который связывает все сущности скопа экрана в одну и производит подписку
  */
-interface RxBinder : Related<PRESENTER> {
+interface RxBinder {
 
     fun <T : Event, SH : RxStateHolder<T>> bind(
             eventHub: RxEventHub<T>,

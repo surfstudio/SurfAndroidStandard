@@ -11,10 +11,12 @@ import org.junit.Before
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.binder.RxBinder
+import ru.surfstudio.android.core.mvi.ui.effect.SideEffect
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvi.ui.holder.RxStateHolder
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 
@@ -80,7 +82,8 @@ class TestView : Related<VIEW> {
 
 }
 
-class TestStateHolder : RxStateHolder {
+class TestStateHolder : RxStateHolder<TestEvent> {
+    override val sideEffects = listOf<SideEffect<TestEvent, *>>()
 
     val state = State<String>()
 }
