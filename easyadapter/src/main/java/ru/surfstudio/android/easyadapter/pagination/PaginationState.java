@@ -16,15 +16,26 @@
 package ru.surfstudio.android.easyadapter.pagination;
 
 /**
- * states of {@link BasePaginationableAdapter}
+ * States for {@link BasePaginationableAdapter}.
  */
 public enum PaginationState {
-    COMPLETE(false), // none
-    READY(true),     //footer loader
+
+    /**
+     * The pagination is over, nothing to load, nothing to show
+     */
+    COMPLETE(false),
+
+    /**
+     * Pagination is not over yet, should show loader.
+     */
+    READY(true),
+    /**
+     * Error in pagination, should show error message and "Retry" button.
+     */
     ERROR(true);     //footer button "showSimpleDialog more"
 
     /**
-     * means that list has pagination footer
+     * Means that list has pagination footer.
      */
     boolean visible;
 
@@ -32,6 +43,11 @@ public enum PaginationState {
         this.visible = visible;
     }
 
+    /**
+     * Get the current pagination footer visibility
+     *
+     * @return is pagination footer visible
+     */
     public boolean isVisible() {
         return visible;
     }

@@ -37,7 +37,7 @@ public abstract class MultipleScreenEventResolver<E extends ScreenEvent, D exten
     @Override
     public List<R> resolve(List<D> delegates, E event) {
         List<R> result = new ArrayList<>();
-        for (D delegate : delegates) {
+        for (D delegate : new ArrayList<>(delegates)) {
             result.add(resolve(delegate, event));
         }
         return result;
