@@ -2,9 +2,9 @@ package ru.surfstudio.android.core.mvi.ui.middleware
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.loadable.event.LoadType
-import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
+import ru.surfstudio.android.core.mvi.event.LoadableEvent
 import ru.surfstudio.android.core.mvi.ui.relation.StateObserver
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.mapToLoadType
 
 /**
  * [Middleware] с реализацией в Rx.
@@ -13,11 +13,9 @@ import ru.surfstudio.android.core.mvi.ui.relation.StateObserver
  */
 interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, StateObserver {
 
-    fun <T, E : LoadableEvent<T>> Observable<T>.mapToLoadable(event: E): Observable<out E> =
-            this
-                    .map { event.apply { type = LoadType.Data(it) } }
-                    .startWith(event.apply { type = LoadType.Loading() })
-                    .onErrorReturn { event.apply { type = LoadType.Error(it) } }
+    fun <T, E : LoadableEvent<T>> Observable<T>.mapToLoadable(event: E): Observable<out E> = this
+            .mapToLoadType()
+            .map { event.apply { type = it } }
 
     fun <T> skip() = Observable.empty<T>()
 

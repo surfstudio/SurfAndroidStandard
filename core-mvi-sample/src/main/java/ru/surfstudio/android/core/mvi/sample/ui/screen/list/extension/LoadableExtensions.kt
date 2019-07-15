@@ -1,11 +1,11 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension
 
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
-import ru.surfstudio.android.core.mvi.loadable.state.LoadableState
-import ru.surfstudio.android.core.mvi.loadable.data.*
-import ru.surfstudio.android.core.mvi.loadable.event.LoadType
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.state.LoadableState
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.LoadType
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.asOptional
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.*
 
 /**
  * Маппинг функции для работы с данными

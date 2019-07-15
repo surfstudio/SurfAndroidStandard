@@ -1,18 +1,19 @@
-package ru.surfstudio.android.core.mvi.loadable.state
+package ru.surfstudio.android.core.mvp.binding.rx.loadable.state
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
-import ru.surfstudio.android.core.mvi.loadable.data.LoadableData
-import ru.surfstudio.android.core.mvi.loadable.data.Loading
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.LoadableData
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.filterValue
 import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
-import java.lang.NullPointerException
 
 /**
  * UI-State запроса на загрузку данных.
  * Содержит в себе неизменяемый экземпляр [LoadableData], который отражает текущее значение загрузки данных.
+ *
+ * Перед тем, как помещать LoadType в LoadableState, необходимо трансформировать его в LoadableData,
+ * то есть, произвести трансформацию i-слой -> ui-слой.
  */
 open class LoadableState<T> : BehaviorRelation<LoadableData<T>, VIEW, StateTarget>(LoadableData()) {
 
@@ -38,7 +39,7 @@ open class LoadableState<T> : BehaviorRelation<LoadableData<T>, VIEW, StateTarge
                 .map { it.error }
 
     val data: T
-        get() = relay.value!!.data.get() ?: throw NullPointerException()
+        get() = relay.value!!.data.get()
 
     val dataOrNull: T?
         get() = relay.value!!.data.getOrNull()
@@ -48,10 +49,6 @@ open class LoadableState<T> : BehaviorRelation<LoadableData<T>, VIEW, StateTarge
 
     val error: Throwable
         get() = relay.value!!.error
-
-    fun acceptEvent(event: LoadableEvent<T>) {
-        relay.accept(event.toLoadableData())
-    }
 
     fun modify(modifier: LoadableData<T>.() -> LoadableData<T>) {
         val value = relay.value ?: return

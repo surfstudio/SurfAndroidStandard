@@ -154,11 +154,11 @@ TODO изображения с потоком данных в подходе: к
 [redrxholder]: src/main/java/ru/surfstudio/android/core/mvi/ui/holder/ReducerRxStateHolder.kt
 [rxbnd]: src/main/java/ru/surfstudio/android/core/mvi/ui/binder/RxBinder.kt 
 
-[loading]: src/main/java/ru/surfstudio/android/core/mvi/loadable/data/Loading.kt
-[lddata]: src/main/java/ru/surfstudio/android/core/mvi/loadable/data/LoadableData.kt
-[ldev]: src/main/java/ru/surfstudio/android/core/mvi/loadable/event/LoadableEvent.kt
-[ldtype]: src/main/java/ru/surfstudio/android/core/mvi/loadable/event/LoadType.kt 
-[ldst]: src/main/java/ru/surfstudio/android/core/mvi/loadable/state/LoadableState.kt
+[loading]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/data/Loading.kt
+[lddata]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/data/LoadableData.kt
+[ldev]: src/main/java/ru/surfstudio/android/core/mvi/event/LoadableEvent.kt
+[ldtype]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/event/LoadType.kt 
+[ldst]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/state/LoadableState.kt
 
 [state]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/domain/mvp/State.kt
 [cmd]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/domain/mvp/Command.kt

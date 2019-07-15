@@ -1,9 +1,9 @@
-package ru.surfstudio.android.core.mvi.loadable.event
+package ru.surfstudio.android.core.mvi.event
 
-import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.loadable.data.EmptyErrorException
-import ru.surfstudio.android.core.mvi.loadable.data.LoadableData
-import ru.surfstudio.android.core.mvi.loadable.data.MainLoading
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.EmptyErrorException
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.LoadableData
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.MainLoading
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.LoadType
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.asOptional
 

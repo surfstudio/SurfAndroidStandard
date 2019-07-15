@@ -1,6 +1,7 @@
-package ru.surfstudio.android.core.mvi.loadable.event
+package ru.surfstudio.android.core.mvp.binding.rx.loadable.type
 
-import ru.surfstudio.android.core.mvi.loadable.data.EmptyErrorException
+import io.reactivex.Observable
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.EmptyErrorException
 
 /**
  * Тип загрузки данных уровня Interactor.
@@ -15,3 +16,11 @@ sealed class LoadType<T> {
     data class Data<T>(val data: T) : LoadType<T>()
     data class Error<T>(val error: Throwable = EmptyErrorException()) : LoadType<T>()
 }
+
+/**
+ * Расширение для Observable, переводящее асинхронный запрос загрузки данных к Observable<[LoadType]>.
+ */
+fun <T> Observable<T>.mapToLoadType(): Observable<LoadType<T>> = this
+        .map { LoadType.Data(it) as LoadType<T> }
+        .startWith(LoadType.Loading())
+        .onErrorReturn { t: Throwable -> LoadType.Error(t) }

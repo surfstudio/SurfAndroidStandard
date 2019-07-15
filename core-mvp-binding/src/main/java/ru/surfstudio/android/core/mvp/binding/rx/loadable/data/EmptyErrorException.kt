@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.loadable.data
+package ru.surfstudio.android.core.mvp.binding.rx.loadable.data
 
 import java.lang.Exception
 

@@ -36,9 +36,9 @@ interface RelationEntity
  */
 abstract class Relation<V, in S : RelationEntity, in T : RelationEntity> {
 
-    abstract fun getConsumer(source: S): Consumer<V>
+    internal abstract fun getConsumer(source: S): Consumer<V>
 
-    abstract fun getObservable(target: T): Observable<V>
+    internal abstract fun getObservable(target: T): Observable<V>
 }
 
 /**
