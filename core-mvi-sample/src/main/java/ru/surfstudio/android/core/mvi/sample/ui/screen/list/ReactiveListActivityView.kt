@@ -57,6 +57,7 @@ class ReactiveListActivityView : BaseReactActivityView() {
         sh.list.observeMainLoading() bindTo { reactive_pb.isVisible = it }
         sh.list.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }
         sh.filteredList bindTo ::createList
+        sh.list bindTo { }
     }
 
     private fun createList(list: List<String>) {

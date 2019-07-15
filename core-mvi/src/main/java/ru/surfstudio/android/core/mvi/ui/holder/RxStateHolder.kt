@@ -6,8 +6,12 @@ import ru.surfstudio.android.core.mvi.ui.effect.CommandSideEffect
 import ru.surfstudio.android.core.mvi.ui.effect.SideEffect
 import ru.surfstudio.android.core.mvi.ui.effect.ObservableSideEffect
 import ru.surfstudio.android.core.mvi.ui.effect.StateSideEffect
+import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
+import ru.surfstudio.android.core.mvp.binding.rx.relation.Relation
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Command
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
 
 /**
  * Класс, содержащий состояние экрана
@@ -21,9 +25,6 @@ interface RxStateHolder<E : Event> {
     infix fun <T> Observable<T>.with(transformer: (T) -> E): SideEffect<E, T> =
             ObservableSideEffect(this, transformer)
 
-    infix fun <T> State<T>.with(transformer: (T) -> E): SideEffect<E, T> =
+    infix fun <T> Relation<T, PRESENTER, StateTarget>.with(transformer: (T) -> E): SideEffect<E, T> =
             StateSideEffect(this, transformer)
-
-    infix fun <T> Command<T>.with(transformer: (T) -> E): SideEffect<E, T> =
-            CommandSideEffect(this, transformer)
 }

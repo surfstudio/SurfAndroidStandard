@@ -2,17 +2,23 @@ package ru.surfstudio.android.core.mvi.loadable.state
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.loadable.event.LoadableEvent
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvi.loadable.data.LoadableData
 import ru.surfstudio.android.core.mvi.loadable.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.filterValue
+import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 import java.lang.NullPointerException
 
 /**
  * UI-State запроса на загрузку данных.
  * Содержит в себе неизменяемый экземпляр [LoadableData], который отражает текущее значение загрузки данных.
  */
-open class LoadableState<T> : State<LoadableData<T>>(LoadableData()) {
+open class LoadableState<T> : BehaviorRelation<LoadableData<T>, VIEW, StateTarget>(LoadableData()) {
+
+    override fun getConsumer(source: VIEW) = relay
+
+    override fun getObservable(target: StateTarget) = relay.share()
 
     val observeData: Observable<T>
         get() = relay.share()
