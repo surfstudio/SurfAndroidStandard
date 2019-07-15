@@ -11,9 +11,9 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 
 /**
- * [SideEffect] для [State]
+ * [SideEffect] для [Relation]
  */
-class StateSideEffect<E : Event, T>(
+class RelationSideEffect<E : Event, T>(
         private val relation: Relation<T, PRESENTER, StateTarget>,
         override val eventTransformer: (T) -> E
 ) : SideEffect<E, T>, StateObserver {
