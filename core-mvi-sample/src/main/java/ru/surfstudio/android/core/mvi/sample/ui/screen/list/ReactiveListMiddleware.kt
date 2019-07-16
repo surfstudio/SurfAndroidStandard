@@ -29,9 +29,12 @@ class ReactiveListMiddleware @Inject constructor(
         is ReactiveListEvent.Reload -> loadData()
         is ReactiveListEvent.SwipeRefresh -> loadData(isSwr = true)
         is ReactiveListEvent.LoadNextPage -> loadData(sh.list.data.nextPage)
-        is ReactiveListEvent.Ui -> Observable.just(ReactiveListEvent.FilterNumbers())
+        is ReactiveListEvent.LoadNumbers -> if (event.hasData) filterData() else skip()
+        is ReactiveListEvent.QueryChangedDebounced -> filterData()
         else -> skip()
     }
+
+    fun filterData() = Observable.just(ReactiveListEvent.FilterNumbers())
 
     private fun transformQueryEvent(
             eventStream: Observable<out ReactiveListEvent>

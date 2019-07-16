@@ -30,9 +30,11 @@ class UiTest : BaseReactTest() {
         assertEquals(0, testReactor.eventsCount)
 
         testView.hub.emit(TestEvent.Logic())
+        Thread.sleep(100)
         assertEquals(1, testReactor.eventsCount)
 
         testView.hub.emit(TestEvent.Ui())
+        Thread.sleep(100)
         assertEquals(3, testReactor.eventsCount) //reactor gets both Ui and Data event
     }
 
@@ -41,11 +43,13 @@ class UiTest : BaseReactTest() {
         testViewStateObservable.assertNoValues()
 
         testView.hub.emit(TestEvent.Ui())
+        Thread.sleep(100)
         testViewStateObservable
                 .assertValueCount(1)
                 .assertValue("data")
 
         testView.hub.emit(TestEvent.Data("newData"))
+        Thread.sleep(100)
         testViewStateObservable
                 .assertValueCount(2)
                 .assertValueAt(1, "newData")

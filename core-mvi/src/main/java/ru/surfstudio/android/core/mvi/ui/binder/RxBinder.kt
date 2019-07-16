@@ -1,30 +1,38 @@
 package ru.surfstudio.android.core.mvi.ui.binder
 
 import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
-import ru.surfstudio.android.core.mvi.ui.holder.RxStateHolder
+import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
  * Класс, который связывает все сущности скопа экрана в одну и производит подписку
  */
 interface RxBinder {
 
-    fun <T : Event, SH : RxStateHolder<T>> bind(
+    val schedulersProvider: SchedulersProvider
+
+    fun <T : Event, SH> bind(
             eventHub: RxEventHub<T>,
             middleware: RxMiddleware<T>,
             stateHolder: SH,
             reactor: Reactor<T, SH>
     ) {
-        middleware.transform(eventHub.observe()) as Observable<T> bindEvents eventHub
-        stateHolder.sideEffects.forEach {
-            it.observeEvents() as Observable<T> bindEvents eventHub
-        }
-        eventHub.observe().bindEvents(stateHolder, reactor)
+        val eventHubObservable = eventHub
+                .observe()
+                .observeOn(schedulersProvider.main())   //переводим в главный поток, работа reactor только в нем
+                .doOnNext { reactor.react(stateHolder, it) }
+                .observeOn(schedulersProvider.worker()) //переводим в worker thread
+                .share()    //Создаем новый observable, чтобы избежать двойного подхватывания значений
+
+        middleware.transform(eventHubObservable) as Observable<T> bindEvents eventHub
     }
 
     fun <T : Event> bind(
@@ -36,14 +44,6 @@ interface RxBinder {
 
     infix fun <T> Observable<T>.bindEvents(consumer: Consumer<T>) =
             subscribe(this, consumer::accept, ::onError)
-
-    fun <T : Event, SH : RxStateHolder<T>> Observable<T>.bindEvents(stateHolder: SH, reactor: Reactor<T, SH>) =
-            subscribe(
-                    this,
-                    {
-                        reactor.react(stateHolder, it)
-                    },
-                    ::onError)
 
     fun <T> Observable<T>.bindIgnore() =
             subscribe(

@@ -3,22 +3,22 @@ package ru.surfstudio.android.core.mvi
 import androidx.annotation.CallSuper
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
+import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
+import io.reactivex.schedulers.Schedulers
 import org.junit.After
 import org.junit.Before
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.binder.RxBinder
-import ru.surfstudio.android.core.mvi.ui.effect.SideEffect
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
-import ru.surfstudio.android.core.mvi.ui.holder.RxStateHolder
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
+import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 abstract class BaseReactTest {
 
@@ -82,9 +82,7 @@ class TestView : Related<VIEW> {
 
 }
 
-class TestStateHolder : RxStateHolder<TestEvent> {
-    override val sideEffects = listOf<SideEffect<TestEvent, *>>()
-
+class TestStateHolder {
     val state = State<String>()
 }
 
@@ -130,6 +128,13 @@ class UiMiddleware : TestMiddleware() {
 }
 
 class TestBinder : RxBinder {
+
+    override val schedulersProvider = object : SchedulersProvider {
+        override fun main(): Scheduler = Schedulers.io() //в тестах нельзя использовать AndroidScheduler.mainThread()
+
+        override fun worker(): Scheduler = Schedulers.io()
+    }
+
     private val disposables = CompositeDisposable()
 
     fun onDestroy() {

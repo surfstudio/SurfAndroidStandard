@@ -17,15 +17,10 @@ sealed class ReactiveListEvent : Event {
             var isSwr: Boolean
     ) : LoadableEvent<DataList<String>>, ReactiveListEvent()
 
-    class QueryChanged(val query: String) : ReactiveListEvent()
-    class QueryChangedDebounced(val query: String) : ReactiveListEvent()
+    data class QueryChanged(val query: String) : ReactiveListEvent()
+    data class QueryChangedDebounced(val query: String) : ReactiveListEvent()
 
     class FilterNumbers : ReactiveListEvent()
-
-    sealed class Ui : ReactiveListEvent() {
-        class ShowQuery(val query: String) : Ui()
-        class ShowNumbers(val numbers: DataList<String>) : Ui()
-    }
 
     data class LifecycleChanged(override var stage: LifecycleStage) : ReactiveListEvent(), LifecycleEvent
 }

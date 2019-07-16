@@ -2,7 +2,6 @@ package ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor
 
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
 import ru.surfstudio.android.core.mvp.binding.rx.loadable.state.LoadableState
-import ru.surfstudio.android.core.mvi.sample.ui.base.holder.BaseStateHolder
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapDataList
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapError
@@ -13,15 +12,10 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 @PerScreen
-class ReactiveListStateHolder @Inject constructor() : BaseStateHolder<ReactiveListEvent>() {
+class ReactiveListStateHolder @Inject constructor() {
     val list = LoadableState<DataList<String>>()
     val query = State<String>()
     val filteredList = State<List<String>>()
-
-    override val sideEffects = listOf(
-            list.observeData with { ReactiveListEvent.Ui.ShowNumbers(it) },
-            query with { ReactiveListEvent.Ui.ShowQuery(it) }
-    )
 }
 
 @PerScreen

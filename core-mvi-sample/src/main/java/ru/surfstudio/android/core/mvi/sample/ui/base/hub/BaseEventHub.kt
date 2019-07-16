@@ -1,5 +1,6 @@
 package ru.surfstudio.android.core.mvi.sample.ui.base.hub
 
+import android.util.Log
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
@@ -8,7 +9,6 @@ import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEventCreator
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEventHub
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.state.ScreenState
-import ru.surfstudio.android.logger.Logger
 
 /**
  * Возможная имплементация [EventHub].
@@ -34,7 +34,7 @@ open class BaseEventHub<T : Event>(
 
     override fun emit(event: T) {
         //Log events
-        Logger.d("BaseEventHub emit: $event")
+        Log.d("BaseEventHub", "emit: $event")
         bus.accept(event)
     }
 

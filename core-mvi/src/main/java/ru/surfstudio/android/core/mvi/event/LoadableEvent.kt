@@ -15,6 +15,8 @@ import ru.surfstudio.android.core.mvp.binding.rx.extensions.asOptional
 interface LoadableEvent<T> : Event {
     var type: LoadType<T>
 
+    val hasData get() = type is LoadType.Data
+
     fun toLoadableData(): LoadableData<T> {
         return when (type) {
             is LoadType.Data -> {
