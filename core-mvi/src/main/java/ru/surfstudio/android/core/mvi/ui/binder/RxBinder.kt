@@ -1,23 +1,17 @@
 package ru.surfstudio.android.core.mvi.ui.binder
 
 import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import io.reactivex.schedulers.Schedulers
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
-import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
  * Класс, который связывает все сущности скопа экрана в одну и производит подписку
  */
 interface RxBinder {
-
-    val schedulersProvider: SchedulersProvider
 
     fun <T : Event, SH> bind(
             eventHub: RxEventHub<T>,
@@ -27,9 +21,7 @@ interface RxBinder {
     ) {
         val eventHubObservable = eventHub
                 .observe()
-                .observeOn(schedulersProvider.main())   //переводим в главный поток, работа reactor только в нем
-                .doOnNext { reactor.react(stateHolder, it) }
-                .observeOn(schedulersProvider.worker()) //переводим в worker thread
+                .doOnNext { event -> reactor.react(stateHolder, event) }
                 .share()    //Создаем новый observable, чтобы избежать двойного подхватывания значений
 
         middleware.transform(eventHubObservable) as Observable<T> bindEvents eventHub
