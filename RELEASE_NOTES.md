@@ -42,12 +42,17 @@
 #### core-mvp-binding
 * ANDDEP-575 В BaseRxPresenter добавлены экстеншны для rx-запросов
 * ANDDEP-580 Поддержка биндинга в простых Bottom Sheet диалогах
+* Исправлена ошибка, при которой игнорировались необработанные исключения. 
+* Добавлены расширения для работы с биндингами
+* Добавлена возможность подписки на State презентору
 
+#### core-mvi
 #### core-ui
 
 * добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
 * Исправлено локальное подключение модулей стандарта 
 * Исправлен баг с использованием виджетов в recyclerView когда WidgetViewDelegate не успевал обнулять view у презентера
+* Добавлена защита от модификации извне для списка делегатов в методе `resolve` класса `MultipleScreenEventResolver`
 
 #### custom-view
 
@@ -104,6 +109,7 @@
 * добавлена группировка пуш уведомлений
 * теперь можно подписаться на такие события как открытия и отклонения пуш уведомления
 * по умолчанию при клике на пуш уведомления вызывается колбек `PushEventListener`, чтобы поменять поведение можно переопределить preparePendingIntent у `PushHandlerStrategy`
+* пофикшен NPE при конвертации `Intent.extras` в `HashMap` методом `convert` объекта `IntentPushDataConverter`
 
 #### recycler-extension
 
@@ -147,11 +153,11 @@
 в отдельные классы:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
 и [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
 которые теперь отвечают за распределение зависимостей между компонентами.
-
-
-
+* SBB-1862 Добавлен модуль cf-pagination
 
 #### util-ktx
+
+* ANDDEP-592 Добавлено в readme описания к BlockableData, CheckableData, DeletableData, ExpandableDataInterface, LoadableData, ScrollableData, SelectableData, VisibleData
 
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.

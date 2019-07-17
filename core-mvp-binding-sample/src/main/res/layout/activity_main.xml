@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2019-present, SurfStudio LLC.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -66,30 +65,37 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/dialog_sample_btn"
-        android:text="Open dialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:text="Open dialog" />
 
     <TextView
-        android:layout_marginTop="16dp"
-        android:paddingBottom="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Other samples"/>
+        android:layout_marginTop="16dp"
+        android:paddingBottom="8dp"
+        android:text="Other samples" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/checkbox_sample_btn"
-        android:text="Checkbox sample"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:text="Checkbox sample" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/easy_adapter_sample_btn"
-        android:text="Easy adapter sample"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:text="Easy adapter sample" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/reactive_list_sample_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Reactive list sample" />
 
 </LinearLayout>
