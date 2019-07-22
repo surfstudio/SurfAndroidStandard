@@ -16,10 +16,12 @@
 package ru.surfstudio.android.easyadapter;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.LayoutManager;
+
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private BaseItem<BaseViewHolder> firstInvisibleItem = new NoDataItem<>(new FirstInvisibleItemController());
 
     private boolean infiniteScroll;
+
+    private boolean isAsyncDiffCalculationEnabled = false;
 
     public EasyAdapter() {
         setHasStableIds(true);
@@ -160,15 +164,35 @@ public class EasyAdapter extends RecyclerView.Adapter {
         this.infiniteScroll = infiniteScroll;
     }
 
+    public void setAsyncDiffCalculationEnabled(boolean isAsyncDiffCalculationEnabled) {
+        this.isAsyncDiffCalculationEnabled = isAsyncDiffCalculationEnabled;
+    }
+
     /**
      * Automatically call necessary notify... methods.
      */
     public void autoNotify() {
         final List<ItemInfo> newItemInfo = extractRealItemInfo();
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
-                new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
-        diffResult.dispatchUpdatesTo(this);
+        if (isAsyncDiffCalculationEnabled) {
+            new AsyncListDiffer<>(this, new DiffUtil.ItemCallback<ItemInfo>() {
+                @Override
+                public boolean areItemsTheSame(@NonNull ItemInfo oldItem, @NonNull ItemInfo newItem) {
+                    return oldItem.getId().equals(newItem.getId());
+                }
+
+                @Override
+                public boolean areContentsTheSame(@NonNull ItemInfo oldItem, @NonNull ItemInfo newItem) {
+                    return oldItem.getHash().equals(newItem.getHash());
+                }
+            }).submitList(newItemInfo);
+        } else {
+            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
+                    new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
+            diffResult.dispatchUpdatesTo(this);
+        }
         lastItemsInfo = newItemInfo;
+
+
     }
 
     /**
