@@ -29,10 +29,10 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
- * базовый класс для кастомной вьюшки с презентером, основанном на [RelativeLayout]
+ * Базовый класс для Widget на основе {@link RelativeLayout} .
  * <p>
- * !!!ВАЖНО!!!
- * Пока нельзя использовать в ресайклере
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 public abstract class CoreRelativeLayoutView extends RelativeLayout implements CoreWidgetViewInterface {
 
@@ -89,17 +89,6 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
             widgetViewDelegate = createWidgetViewDelegate();
             widgetViewDelegate.onCreate();
         }
-    }
-
-    @Override
-    @Deprecated
-    public void init() {
-        // do nothing
-    }
-
-    @Override
-    public void init(String scopeId) {
-        // do nothing
     }
 
     @Override

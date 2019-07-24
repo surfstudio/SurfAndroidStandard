@@ -101,6 +101,7 @@
 * ANDDEP-573 - Добавлен биндинг для виджетов
 * Решена проблема с повторным вызовом onFirstLoad при использовании виджетов внутри RecyclerView
 * Удалена необходимость явного вызова lazyInit у виджетов в RecyclerView.
+* Удалены `@Deprecated`-методы `init()`, `init(String scopeId)`. Вместо них следует использовать метод `lazyInit()`.
 
 #### network
 #### picture-provider
