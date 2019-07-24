@@ -60,6 +60,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private boolean infiniteScroll;
 
     private boolean isAsyncDiffCalculationEnabled = false;
+    private AsyncListDiffer<ItemInfo> asyncListDiffer = null;
 
     public EasyAdapter() {
         setHasStableIds(true);
@@ -166,15 +167,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     public void setAsyncDiffCalculationEnabled(boolean isAsyncDiffCalculationEnabled) {
         this.isAsyncDiffCalculationEnabled = isAsyncDiffCalculationEnabled;
-    }
-
-    /**
-     * Automatically call necessary notify... methods.
-     */
-    public void autoNotify() {
-        final List<ItemInfo> newItemInfo = extractRealItemInfo();
-        if (isAsyncDiffCalculationEnabled) {
-            new AsyncListDiffer<>(this, new DiffUtil.ItemCallback<ItemInfo>() {
+        if (asyncListDiffer == null) {
+            asyncListDiffer = new AsyncListDiffer<>(this, new DiffUtil.ItemCallback<ItemInfo>() {
                 @Override
                 public boolean areItemsTheSame(@NonNull ItemInfo oldItem, @NonNull ItemInfo newItem) {
                     return oldItem.getId().equals(newItem.getId());
@@ -184,15 +178,23 @@ public class EasyAdapter extends RecyclerView.Adapter {
                 public boolean areContentsTheSame(@NonNull ItemInfo oldItem, @NonNull ItemInfo newItem) {
                     return oldItem.getHash().equals(newItem.getHash());
                 }
-            }).submitList(newItemInfo);
+            });
+        }
+    }
+
+    /**
+     * Automatically call necessary notify... methods.
+     */
+    public void autoNotify() {
+        final List<ItemInfo> newItemInfo = extractRealItemInfo();
+        if (isAsyncDiffCalculationEnabled) {
+            asyncListDiffer.submitList(newItemInfo);
         } else {
             DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
                     new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
             diffResult.dispatchUpdatesTo(this);
         }
         lastItemsInfo = newItemInfo;
-
-
     }
 
     /**

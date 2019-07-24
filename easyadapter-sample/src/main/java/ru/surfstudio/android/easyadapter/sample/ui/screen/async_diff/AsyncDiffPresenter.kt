@@ -12,12 +12,17 @@ internal class AsyncDiffPresenter @Inject constructor(
 
     private val screenModel: AsyncDiffScreenModel = AsyncDiffScreenModel()
 
+    override fun onFirstLoad() {
+        screenModel.generateNewDataList()
+    }
+
     override fun onLoad(viewRecreated: Boolean) {
         render()
     }
 
     fun generateNewDataList() {
         screenModel.generateNewDataList()
+        render()
     }
 
     private fun render() = view?.render(screenModel)

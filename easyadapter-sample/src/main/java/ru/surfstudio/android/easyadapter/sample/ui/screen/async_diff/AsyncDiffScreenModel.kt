@@ -6,6 +6,6 @@ import kotlin.random.Random
 class AsyncDiffScreenModel(var data: List<Int> = emptyList()) : ScreenModel() {
 
     fun generateNewDataList() {
-        data = (0..99).map { Random.nextInt(0, 1000) }
+        data = (0..99).map { Random.nextInt(0, 100) }
     }
 }

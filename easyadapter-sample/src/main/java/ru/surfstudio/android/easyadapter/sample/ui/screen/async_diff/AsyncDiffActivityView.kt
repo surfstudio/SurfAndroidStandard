@@ -28,7 +28,7 @@ class AsyncDiffActivityView : BaseRenderableActivityView<AsyncDiffScreenModel>()
 
     override fun getScreenName() = "AsyncDiffActivityView"
 
-    override fun getContentView() = R.layout.async_inflate_list_layout
+    override fun getContentView() = R.layout.layout_async_diff_list
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
@@ -53,5 +53,7 @@ class AsyncDiffActivityView : BaseRenderableActivityView<AsyncDiffScreenModel>()
     private fun initRecycler() {
         async_diff_rv.layoutManager = LinearLayoutManager(this)
         async_diff_rv.adapter = adapter
+        adapter.setFirstInvisibleItemEnabled(true)
+        adapter.setAsyncDiffCalculationEnabled(true)
     }
 }

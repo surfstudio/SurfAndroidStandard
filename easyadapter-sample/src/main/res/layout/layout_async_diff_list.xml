@@ -14,11 +14,10 @@
 
     <Button
         android:id="@+id/async_diff_generate_btn"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        android:background="?selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@android:color/white"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
         android:text="@string/generate_new_data_list_text" />
