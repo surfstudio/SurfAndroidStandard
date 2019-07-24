@@ -42,7 +42,6 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     public CoreLinearLayoutView(Context context, boolean isManualInitEnabled) {
         super(context, null);
         this.isManualInitEnabled = isManualInitEnabled;
-        initWidgetViewDelegate();
     }
 
     public CoreLinearLayoutView(Context context, AttributeSet attrs) {
@@ -53,7 +52,6 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
         super(context, attrs, defStyleAttr);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     @TargetApi(21)
@@ -61,7 +59,6 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
         super(context, attrs, defStyleAttr, defStyleRes);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     @SuppressLint("CustomViewStyleable")
@@ -89,6 +86,7 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
             widgetViewDelegate.onCreate();
         }
     }
@@ -138,11 +136,5 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
-    }
-
-    private void initWidgetViewDelegate() {
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
     }
 }

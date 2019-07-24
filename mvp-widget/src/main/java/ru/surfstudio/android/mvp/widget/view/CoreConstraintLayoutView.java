@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.mvp.widget.R;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
@@ -41,7 +42,6 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled) {
         super(context, null);
         this.isManualInitEnabled = isManualInitEnabled;
-        initWidgetViewDelegate();
     }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
@@ -52,14 +52,12 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         super(context, attrs, defStyleAttr);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     @SuppressLint("CustomViewStyleable")
@@ -87,6 +85,7 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
             widgetViewDelegate.onCreate();
         }
     }
@@ -136,11 +135,5 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
-    }
-
-    private void initWidgetViewDelegate() {
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
     }
 }

@@ -2,6 +2,7 @@
 <resources>
 
     <declare-styleable name="CoreWidgetViewInterface">
+        <!-- Ручная инициализация виджета. При установке этого флага как true, для инициализации виджета в коде необходимо будет явно вызвать метод lazyInit(). Следует использовать этот флаг только при крайней необходимости, когда невозможно задать id виджету из верстки. Не следует использовать в RecyclerView. Для идентификации элементов в Recycler, необходимо переопределять метод getWidgetId.-->
         <attr name="enableManualInit" format="boolean" />
     </declare-styleable>
 

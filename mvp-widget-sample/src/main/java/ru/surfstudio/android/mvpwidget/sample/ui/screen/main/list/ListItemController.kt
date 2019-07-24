@@ -20,7 +20,6 @@ class ListItemController(
 
         override fun bind(int: Int) {
             constraintWidgetView.widgetDataId = int.toString()
-            constraintWidgetView.lazyInit()
             constraintWidgetView.render(int.toString())
         }
     }

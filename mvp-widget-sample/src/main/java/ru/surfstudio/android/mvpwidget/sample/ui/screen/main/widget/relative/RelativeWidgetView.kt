@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
@@ -42,4 +43,14 @@ class RelativeWidgetView @JvmOverloads constructor(
     override fun createConfigurator() = RelativeViewConfigurator()
 
     override fun getPresenters() = arrayOf(presenter)
+
+    override fun onAttachedToWindow() {
+        Log.d("Widget", "onAttached")
+        super.onAttachedToWindow()
+    }
+
+    override fun onDetachedFromWindow() {
+        Log.d("Widget", "onDetachedFromWindow")
+        super.onDetachedFromWindow()
+    }
 }
