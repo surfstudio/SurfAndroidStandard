@@ -44,6 +44,9 @@ open class LoadableState<T> : BehaviorRelation<LoadableData<T>, VIEW, StateTarge
     val dataOrNull: T?
         get() = relay.value!!.data.getOrNull()
 
+    val load: Loading
+        get() = relay.value!!.load
+
     val isLoading: Boolean
         get() = relay.value!!.load.isLoading
 
