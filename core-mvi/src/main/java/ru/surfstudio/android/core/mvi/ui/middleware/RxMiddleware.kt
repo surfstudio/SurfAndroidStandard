@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.mvi.ui.middleware
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.LoadableEvent
-import ru.surfstudio.android.core.mvi.ui.relation.StateObserver
+import ru.surfstudio.android.core.mvi.ui.relation.StateEmitter
 import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.mapToLoadType
 
 /**
@@ -11,7 +11,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.mapToLoadType
  *
  * Кроме типизации по [Observable], содержит некоторые вспомогательные функции для работы с потоком.
  */
-interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, StateObserver {
+interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, StateEmitter {
 
     fun <T, E : LoadableEvent<T>> Observable<T>.mapToLoadable(event: E): Observable<out E> = this
             .mapToLoadType()
