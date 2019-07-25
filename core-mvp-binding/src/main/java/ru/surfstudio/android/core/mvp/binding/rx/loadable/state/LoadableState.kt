@@ -5,8 +5,8 @@ import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.LoadableData
 import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.filterValue
 import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
-import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 
 /**
  * UI-State запроса на загрузку данных.
@@ -15,9 +15,9 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
  * Перед тем, как помещать LoadType в LoadableState, необходимо трансформировать его в LoadableData,
  * то есть, произвести трансформацию i-слой -> ui-слой.
  */
-open class LoadableState<T> : BehaviorRelation<LoadableData<T>, VIEW, StateTarget>(LoadableData()) {
+open class LoadableState<T> : BehaviorRelation<LoadableData<T>, PRESENTER, StateTarget>(LoadableData()) {
 
-    override fun getConsumer(source: VIEW) = relay
+    override fun getConsumer(source: PRESENTER) = relay
 
     override fun getObservable(target: StateTarget) = relay.share()
 
