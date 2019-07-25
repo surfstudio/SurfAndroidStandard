@@ -111,7 +111,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
-            widgetViewDelegate.onDestroy();
+            widgetViewDelegate.onViewDestroy();
         }
     }
 

@@ -36,7 +36,7 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
  */
 public abstract class CoreConstraintLayoutView extends ConstraintLayout implements CoreWidgetViewInterface {
 
-    private WidgetViewDelegate widgetViewDelegate;
+    public WidgetViewDelegate widgetViewDelegate;
     private boolean isManualInitEnabled;
 
     public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled) {
@@ -110,7 +110,7 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
-            widgetViewDelegate.onDestroy();
+            widgetViewDelegate.onViewDestroy();
         }
     }
 

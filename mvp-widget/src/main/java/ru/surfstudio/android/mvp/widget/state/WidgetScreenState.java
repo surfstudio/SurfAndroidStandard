@@ -38,9 +38,7 @@ public class WidgetScreenState implements ScreenState {
     private ScreenType parentType;
     private ScreenState parentState;
     private LifecycleStage lifecycleStage;
-    private boolean viewDestroyedAtListOnce = false;
-    private boolean viewRecreated = false;
-    private boolean destroyed = false;
+    private boolean isViewDestroyedAtLeastOnce = false;
 
     public WidgetScreenState(ScreenState parentState) {
         this.parentState = parentState;
@@ -52,9 +50,6 @@ public class WidgetScreenState implements ScreenState {
     public void onCreate(View widget, CoreWidgetViewInterface coreWidget) {
         this.widget = widget;
         this.coreWidget = coreWidget;
-
-        viewRecreated = viewDestroyedAtListOnce;
-        destroyed = false;
 
         lifecycleStage = LifecycleStage.CREATED;
     }
@@ -81,19 +76,18 @@ public class WidgetScreenState implements ScreenState {
 
     public void onViewDestroy() {
         lifecycleStage = LifecycleStage.VIEW_DESTROYED;
-        viewDestroyedAtListOnce = true;
-        destroyed = true;
+        isViewDestroyedAtLeastOnce = true;
     }
 
-    public void onDestroy() {
-        lifecycleStage = LifecycleStage.DESTROYED;
+    public void onCompletelyDestroy() {
+        lifecycleStage = LifecycleStage.COMPLETELY_DESTROYED;
         this.widget = null;
         this.coreWidget = null;
     }
 
     @Override
     public boolean isViewRecreated() {
-        return parentState.isViewRecreated() || viewRecreated;
+        return parentState.isViewRecreated() || isViewDestroyedAtLeastOnce;
     }
 
     @Override
@@ -103,7 +97,7 @@ public class WidgetScreenState implements ScreenState {
 
     @Override
     public boolean isCompletelyDestroyed() {
-        return parentState.isCompletelyDestroyed() || destroyed;
+        return parentState.isCompletelyDestroyed();
     }
 
     @Override

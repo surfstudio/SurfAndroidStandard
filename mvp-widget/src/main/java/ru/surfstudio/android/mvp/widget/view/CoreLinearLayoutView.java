@@ -111,7 +111,7 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
-            widgetViewDelegate.onDestroy();
+            widgetViewDelegate.onViewDestroy();
         }
     }
 

@@ -21,41 +21,41 @@ class ConstraintViewPresenter @Inject constructor(
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        Log.d("1111 Widget", "onLoad w=${view.widgetDataId}vh=${view.hashCode()}")
+        Log.d("1111 Widget", "onLoad w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onFirstLoad() {
-        Log.d("1111 Widget", " onFirstLoad w=${view.widgetDataId}vh=${view.hashCode()}")
+        Log.d("1111 Widget", " onFirstLoad w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
         super.onFirstLoad()
     }
 
     override fun onStart() {
         super.onStart()
-        Log.d("1111 Widget", " onStart w=${view.widgetDataId}vh=${view.hashCode()}")
+        Log.d("1111 Widget", " onStart w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("1111 Widget", " onResume w=${view.widgetDataId}vh=${view.hashCode()}")
+        Log.d("1111 Widget", " onResume w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("1111 Widget", " onPause w=${view.widgetDataId}vh=${view.hashCode()}")
+        Log.d("1111 Widget", " onPause w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onStop() {
         super.onStop()
-        Log.d("1111 Widget", " onStop w=${view.widgetDataId}vh=${view.hashCode()}")
+        Log.d("1111 Widget", " onStop w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onViewDetach() {
         super.onViewDetach()
-        Log.d("1111 Widget", " onViewDetach w=${view.widgetDataId}vh=${view.hashCode()}")
+        Log.d("1111 Widget", " onViewDetach w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onDestroy() {
-        Log.d("1111 Widget", " onDestroy w=${null}vh=${null}")
+        Log.d("1111 Widget", " onDestroy w=${null}vh=${null} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
         super.onDestroy()
     }
 
@@ -63,7 +63,7 @@ class ConstraintViewPresenter @Inject constructor(
         changeTextDisposable.dispose()
         changeTextDisposable = subscribe(Observable.timer(500L, TimeUnit.MILLISECONDS), {
             view.render("presenter")
-            Log.d("11111 Widget", "w=${view.widgetDataId}vh=${view.hashCode()} receive event")
+            Log.d("11111 Widget", "w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()} receive event")
         }, {
 
         })

@@ -111,7 +111,7 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
-            widgetViewDelegate.onDestroy();
+            widgetViewDelegate.onViewDestroy();
         }
     }
 
