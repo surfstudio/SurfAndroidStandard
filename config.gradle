@@ -18,7 +18,7 @@ ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
 
-    moduleVersionName = '0.4.0-BZN-14-SNAPSHOT'
+    moduleVersionName = '0.4.0-BZN-15-SNAPSHOT'
     moduleVersionCode = 20
 
     libMinSdkVersion = 17
