@@ -8,7 +8,6 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

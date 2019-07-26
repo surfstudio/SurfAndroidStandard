@@ -18,12 +18,12 @@ package ru.surfstudio.android.core.ui.delegate.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.core.ui.delegate.base.BaseScreenDelegate;

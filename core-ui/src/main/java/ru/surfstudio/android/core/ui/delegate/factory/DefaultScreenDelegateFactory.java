@@ -15,12 +15,11 @@
  */
 package ru.surfstudio.android.core.ui.delegate.factory;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-
-import java.util.List;
-
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityCompletelyDestroyChecker;
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;

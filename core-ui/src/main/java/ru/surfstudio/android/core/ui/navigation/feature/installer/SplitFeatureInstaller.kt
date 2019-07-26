@@ -1,11 +1,6 @@
 package ru.surfstudio.android.core.ui.navigation.feature.installer
 
 import android.content.Context
-import com.google.android.play.core.splitinstall.SplitInstallException
-import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
-import com.google.android.play.core.splitinstall.SplitInstallRequest
-import com.google.android.play.core.splitinstall.model.SplitInstallErrorCode
-import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 

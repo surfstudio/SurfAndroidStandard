@@ -17,7 +17,6 @@ package ru.surfstudio.android.core.ui.delegate.fragment;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-
 import ru.surfstudio.android.core.ui.activity.CoreActivityInterface;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;

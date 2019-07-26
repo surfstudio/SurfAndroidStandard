@@ -18,8 +18,6 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main.l
 
 import android.view.ViewGroup
 import ru.surfstudio.android.core.mvp.binding.sample.R
-import ru.surfstudio.android.easyadapter.controller.BindableItemController
-import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.widget.ElementCoverView
 

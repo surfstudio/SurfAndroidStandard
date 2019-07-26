@@ -18,12 +18,12 @@ package ru.surfstudio.android.core.ui.delegate.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyEvent;

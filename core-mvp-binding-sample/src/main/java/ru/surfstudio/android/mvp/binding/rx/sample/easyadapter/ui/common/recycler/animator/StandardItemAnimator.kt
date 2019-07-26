@@ -16,8 +16,6 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.animator
 
-import ru.surfstudio.android.easyadapter.animator.BaseItemAnimator
-
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
  */

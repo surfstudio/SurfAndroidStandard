@@ -18,14 +18,9 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.rxkotlin.Observables
-import kotlinx.android.synthetic.main.activity_easy_adapter_sample.*
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
-import ru.surfstudio.android.easyadapter.EasyAdapter
-import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.animator.SlideItemAnimator
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.controller.ElementController

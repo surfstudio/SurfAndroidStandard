@@ -19,7 +19,6 @@ package ru.surfstudio.android.core.ui.navigation.fragment;
 import androidx.annotation.IdRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import ru.surfstudio.android.core.ui.FragmentContainer;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.provider.FragmentProvider;

@@ -2,14 +2,12 @@ package ru.surfstudio.android.core.ui.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.annotation.IdRes
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.ui.sample.R
 import ru.surfstudio.android.core.ui.sample.ui.core.CustomOnRestoreStateDelegate
 import ru.surfstudio.android.core.ui.sample.ui.core.CustomOnSaveStateDelegate
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
 /**

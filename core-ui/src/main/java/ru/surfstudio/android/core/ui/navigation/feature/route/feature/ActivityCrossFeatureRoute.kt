@@ -19,7 +19,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
-import ru.surfstudio.android.logger.Logger
 
 /**
  * Cross-feature navigation Activity route between two Activities in different independent

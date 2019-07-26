@@ -17,9 +17,9 @@ package ru.surfstudio.android.core.ui.state;
 
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 
 /**

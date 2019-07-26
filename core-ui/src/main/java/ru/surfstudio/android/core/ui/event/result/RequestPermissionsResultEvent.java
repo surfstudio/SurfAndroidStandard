@@ -17,7 +17,6 @@ package ru.surfstudio.android.core.ui.event.result;
 
 
 import androidx.annotation.NonNull;
-
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
 
 /**

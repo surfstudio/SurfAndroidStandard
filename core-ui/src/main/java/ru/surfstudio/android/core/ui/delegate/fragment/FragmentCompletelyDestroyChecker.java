@@ -20,7 +20,6 @@ import android.os.Build;
 import androidx.fragment.app.BackstackAccessor;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-
 import ru.surfstudio.android.core.ui.delegate.base.CompletelyDestroyChecker;
 
 /**

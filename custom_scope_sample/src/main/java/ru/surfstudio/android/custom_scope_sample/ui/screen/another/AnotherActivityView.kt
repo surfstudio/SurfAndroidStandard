@@ -3,7 +3,6 @@ package ru.surfstudio.android.custom_scope_sample.ui.screen.another
 import android.os.Bundle
 import android.os.PersistableBundle
 import com.jakewharton.rxbinding2.widget.RxTextView
-import kotlinx.android.synthetic.main.activity_another.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.custom_scope_sample.R

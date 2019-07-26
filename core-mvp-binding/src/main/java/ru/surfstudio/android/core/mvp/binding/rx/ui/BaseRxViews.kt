@@ -16,9 +16,7 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.ui
 
-import androidx.annotation.CallSuper
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
@@ -26,9 +24,6 @@ import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.VIEW
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentView
-import ru.surfstudio.android.mvp.dialog.complex.CoreBottomSheetDialogFragmentView
-import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
-import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 
 /**
  * Базовая Activity для связывания с моделью

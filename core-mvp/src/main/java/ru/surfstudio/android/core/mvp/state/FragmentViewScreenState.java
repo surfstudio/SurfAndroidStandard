@@ -16,9 +16,9 @@
 package ru.surfstudio.android.core.mvp.state;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.state.FragmentScreenState;

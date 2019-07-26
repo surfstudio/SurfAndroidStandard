@@ -16,11 +16,10 @@
 package ru.surfstudio.android.core.ui.scope;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.annotation.NonNull;
 
 /**
  * Хранилище всех PersistentScope в контексте одной активити

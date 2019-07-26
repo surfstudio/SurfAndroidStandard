@@ -17,7 +17,6 @@
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main
 
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator

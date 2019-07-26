@@ -15,9 +15,7 @@
  */
 package ru.surfstudio.android.core.ui.navigation.feature.route.feature
 
-import androidx.fragment.app.Fragment
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
-import ru.surfstudio.android.logger.Logger
 
 /**
  * Cross-feature navigation Fragment route for different independent Gradle-projects.

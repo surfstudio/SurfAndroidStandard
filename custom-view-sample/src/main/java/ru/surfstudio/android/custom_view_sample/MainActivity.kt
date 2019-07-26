@@ -2,12 +2,6 @@ package ru.surfstudio.android.custom_view_sample
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
-import ru.surfstudio.android.animations.anim.fadeIn
-import ru.surfstudio.android.animations.anim.fadeOut
-import ru.surfstudio.android.sample.common.ui.base.loadstate.LoadState
-import ru.surfstudio.android.sample.common.ui.base.loadstate.renderer.DefaultLoadStateRenderer
 
 class MainActivity : AppCompatActivity() {
 
