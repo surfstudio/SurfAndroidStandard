@@ -16,25 +16,25 @@ internal class ComplexDialogPresenter @Inject constructor(basePresenterDependenc
                                                           private val rxBus: RxBus
 ) : BasePresenter<ComplexDialogFragment>(basePresenterDependency) {
 
-    private var screenModel: ComplexDialogScreenModel = ComplexDialogScreenModel(route.sampleData)
+    private var sm: ComplexDialogScreenModel = ComplexDialogScreenModel(route.sampleData)
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        view.render(screenModel)
+        view.render(sm)
     }
 
     fun increment() {
-        screenModel.sampleData.increment()
-        view.render(screenModel)
+        sm.sampleData.increment()
+        view.render(sm)
     }
 
     fun decrement() {
-        screenModel.sampleData.decrement()
-        view.render(screenModel)
+        sm.sampleData.decrement()
+        view.render(sm)
     }
 
     fun applyChanges() {
-        rxBus.emitEvent(DataChangedEvent(screenModel.sampleData, DataChangedEventType.COMPLEX_DIALOG))
+        rxBus.emitEvent(DataChangedEvent(sm.sampleData, DataChangedEventType.COMPLEX_DIALOG))
         dialogNavigator.dismiss(route)
     }
 }

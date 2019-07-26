@@ -17,10 +17,12 @@ package ru.surfstudio.android.imageloader
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
-import android.support.annotation.DrawableRes
-import android.support.annotation.FloatRange
-import android.support.annotation.WorkerThread
+import androidx.annotation.DrawableRes
+import androidx.annotation.FloatRange
+import androidx.annotation.WorkerThread
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
@@ -32,18 +34,20 @@ import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.target.*
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.target.ViewTarget
 import com.bumptech.glide.request.transition.Transition
 import ru.surfstudio.android.imageloader.data.*
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.RoundedCornersBundle
+import ru.surfstudio.android.imageloader.transformations.TileTransformation.TileBundle
+import ru.surfstudio.android.imageloader.util.*
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
+import com.bumptech.glide.signature.ObjectKey
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
@@ -57,10 +61,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     private var imageTransformationsManager = ImageTransformationsManager(context)
     private var imageResourceManager = ImageResourceManager(context, imageTransformationsManager)
     private var imageTargetManager = ImageTargetManager(context, imageResourceManager)
-    private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager)
+    private var imageSignatureManager = SignatureManager()
+    private var imageTagManager = ImageTagManager(imageTargetManager, imageResourceManager, imageSignatureManager)
     private var imageTransitionManager = ImageTransitionManager()
 
-    private var onImageLoadedLambda: ((drawable: Drawable) -> (Unit))? = null
+    private var onImageLoadedLambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))? = null
     private var onImageLoadErrorLambda: ((throwable: Throwable) -> (Unit))? = null
 
     private val glideDownloadListener = object : RequestListener<Drawable> {
@@ -68,7 +73,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                                   model: Any?,
                                   target: Target<Drawable>?,
                                   isFirstResource: Boolean) = false.apply {
-            imageTagManager.setTag(null)
             e?.let { onImageLoadErrorLambda?.invoke(it) }
         }
 
@@ -76,8 +80,12 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                                      model: Any?,
                                      target: Target<Drawable>?,
                                      dataSource: DataSource?,
-                                     isFirstResource: Boolean): Boolean =
-                false.apply { onImageLoadedLambda?.invoke(resource) }
+                                     isFirstResource: Boolean): Boolean {
+            val imageSource = dataSource?.toImageSource()
+            imageCacheManager.imageSource = imageSource
+            onImageLoadedLambda?.invoke(resource, imageSource)
+            return false
+        }
     }
 
     companion object {
@@ -122,10 +130,18 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     /**
      * Установка лямбды для отслеживания загрузки изображения
      *
+     * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
+     */
+    override fun listenerWithSource(lambda: ((drawable: Drawable, imageSource: ImageSource?) -> (Unit))) =
+            apply { this.onImageLoadedLambda = lambda }
+
+    /**
+     * Установка лямбды для отслеживания загрузки изображения
+     *
      * @param lambda лямбда, возвращающая загруженный [Drawable]
      */
     override fun listener(lambda: ((drawable: Drawable) -> (Unit))) =
-            apply { this.onImageLoadedLambda = lambda }
+            apply { this.onImageLoadedLambda = { drawable, _ -> lambda(drawable) } }
 
     /**
      * Установка лямбды для отслеживания ошибки при загрузке изображения
@@ -134,6 +150,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     override fun errorListener(lambda: ((throwable: Throwable) -> (Unit))) =
             apply { this.onImageLoadErrorLambda = lambda }
+
+    /**
+     * Указание политики кэширования.
+     * Метод предоставляет возможность настроить кеширование загруженных изображений на диске.
+     *
+     * @param cacheStrategy необходимая стратегия кеширования
+     */
+    override fun cacheStrategy(cacheStrategy: CacheStrategy): ImageLoaderInterface =
+            apply { this.imageCacheManager.cacheStrategy = cacheStrategy }
 
     /**
      * Указание политики кэширования.
@@ -197,11 +222,12 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param isBlur флаг активации трансформации
      * @param blurRadiusPx радиус размытия
      * @param blurDownSampling уровень принудительного понижения качества разрешения изображения
+     * @param blurStrategy стратегия размытия
      */
-    override fun blur(isBlur: Boolean, blurRadiusPx: Int, blurDownSampling: Int) =
+    override fun blur(isBlur: Boolean, blurRadiusPx: Int, blurDownSampling: Int, blurStrategy: BlurStrategy) =
             also {
                 imageTransformationsManager.blurBundle =
-                        BlurBundle(isBlur, blurRadiusPx, blurDownSampling)
+                        BlurBundle(isBlur, blurRadiusPx, blurDownSampling, blurStrategy)
             }
 
     /**
@@ -210,9 +236,9 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * @param isOverlay флаг активации трансформации
      * @param maskResId ссылка на ресурс изображения маски из папки res/drawable
      */
-    override fun mask(isOverlay: Boolean, @DrawableRes maskResId: Int) =
+    override fun mask(isOverlay: Boolean, @DrawableRes maskResId: Int, overlayMode: PorterDuff.Mode) =
             also {
-                imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId)
+                imageTransformationsManager.overlayBundle = OverlayBundle(isOverlay, maskResId, overlayMode)
             }
 
     /**
@@ -240,72 +266,33 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
     /**
+     * Размножения изображения для соответствия его размеров размерам View
+     *
+     * @param isTiled должно ли быть изображение размножено
+     * @param tileMode тип размножения
+     */
+    override fun tile(isTiled: Boolean, tileMode: Shader.TileMode) = apply {
+        imageTransformationsManager.tileBundle = TileBundle(isTiled, tileMode)
+    }
+
+    /**
      * Принудительная вставка изображения во вью
      * Необходимо в случае, если ссылка на изображение остаётся неизменной, а сама картинка меняется
      */
     override fun force() =
             apply { this.imageTagManager.force = true }
 
-    /**
-     * Указание целевой [View]
-     *
-     * @param view экземпляр [View] для загрузки изображения
-     */
-    override fun into(view: View) {
-        this.imageTargetManager.targetView = view
 
-        if (imageTagManager.isTagUsed()) return
-
-        imageTagManager.setTag(imageResourceManager.url)
-
-        performLoad(view)
-    }
-
-    /**
-     * Загрузка изображения в [SimpleTarget].
-     *
-     * @param simpleTarget обработчик загрузки изображения.
-     */
-    fun into(simpleTarget: SimpleTarget<Drawable>) {
-        into(
-                { resource, transition -> simpleTarget.onResourceReady(resource, transition) },
-                {
-                    it?.let {
-                        simpleTarget.onResourceReady(it, null)
-                    }
-                }
-        )
-    }
-
-    /**
-     * Загрузка изображения в [SimpleTarget]
-     *
-     * @param resourceReadyLambda колбек в случае успеха
-     * @param loadFailedLambda колбек при ошибке
-     */
-    fun into(
-            resourceReadyLambda: (resource: Drawable, transition: Transition<in Drawable>?) -> Unit,
-            loadFailedLambda: (errorDrawable: Drawable?) -> Unit
-    ) {
-        buildRequest().into(object : SimpleTarget<Drawable>() {
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                resourceReadyLambda(resource, transition)
+    override fun signature(signature: Any): ImageLoaderInterface =
+            apply {
+                this.imageSignatureManager.signature = signature
             }
-
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                super.onLoadFailed(errorDrawable)
-                loadFailedLambda(errorDrawable)
-            }
-        })
-    }
 
     /**
      * Получение исходника изображения в формате [Bitmap].
      * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
      * Без отображения на UI.
      * Для отображения на UI использовать [into]
-     *
-     * Запрос происходит в UI-потоке.
      */
     @WorkerThread
     override fun get(): Bitmap? {
@@ -318,7 +305,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                             RequestOptions()
                                     .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.ALL)
                                     .skipMemoryCache(imageCacheManager.skipCache)
-                                    .transforms(*imageTransformationsManager.prepareTransformations())
+                                    .applyTransformations(imageTransformationsManager.prepareTransformations())
                     )
                     .submit()
                     .get()
@@ -338,22 +325,93 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         return result
     }
 
+    /**
+     * Указание целевой [View]
+     *
+     * @param view экземпляр [View] для загрузки изображения
+     */
+    override fun into(view: View) {
+        this.imageTargetManager.targetView = view
+
+        performLoad(view)
+    }
+
+    /**
+     * Загрузка изображения с использованием Listener'ов и указанием целевой [View]
+     *
+     * @param view экземпляр view, используется для управления жизненным циклом
+     * @param onErrorLambda лямбда, вызываемая при ошибке загрузки изображения.
+     * @param onCompleteLambda лямбда, вызываемая при успешной загрузке изображения
+     * @param onClearMemoryLambda лямбда, вызываемая, когда view может быть очищена. В ней следует
+     * производить операции по дополнительному освобождению памяти.
+     */
+    override fun into(
+            view: View,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?,
+            onCompleteLambda: ((resource: Drawable?, imageSource: ImageSource?) -> Unit)?,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?
+    ) {
+        into(
+                view,
+                onErrorLambda,
+                { resource: Drawable, _, imageSource: ImageSource? -> onCompleteLambda?.invoke(resource, imageSource) },
+                onClearMemoryLambda
+        )
+    }
+
+    /**
+     * Загрузка изображения в [CustomViewTarget]
+     *
+     * Используется для предотвращения утечек памяти при работе с [SimpleTarget]
+     *
+     * @param view элемент, в который будет происходить загрузка изображения
+     * @param onErrorLambda лямбда, вызываемая при ошибке загрузки изображения.
+     * @param onCompleteLambda лямбда, вызываемая при успешной загрузке изображения
+     * @param onClearMemoryLambda лямбда, вызываемая, когда view может быть очищена. В ней следует
+     * производить операции по дополнительному освобождению памяти.
+     */
+    fun <V : View> into(
+            view: V,
+            onErrorLambda: ((errorDrawable: Drawable?) -> Unit)? = null,
+            onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)? = null,
+            onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)? = null
+    ) {
+        buildRequest().into(object : CustomViewTarget<V, Drawable>(view) {
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                onErrorLambda?.invoke(errorDrawable)
+            }
+
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                onCompleteLambda?.invoke(resource, transition, imageCacheManager.imageSource)
+            }
+
+            override fun onResourceCleared(placeholder: Drawable?) {
+                onClearMemoryLambda?.invoke(placeholder)
+            }
+        })
+    }
 
     /**
      * Формирование запроса на загрузку изображения.
      */
     private fun buildRequest(): RequestBuilder<Drawable> = Glide.with(context)
             .load(imageResourceManager.toLoad())
-            .error(imageResourceManager.prepareErrorDrawable())
-            .thumbnail(imageResourceManager.preparePreviewDrawable())
-            .transition(imageTransitionManager.imageTransitionOptions)
+            .addErrorIf(imageResourceManager.isErrorSet) { imageResourceManager.prepareErrorDrawable() }
+            .addThumbnailIf(imageResourceManager.isPreviewSet) { imageResourceManager.preparePreviewDrawable() }
+            .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
-                            .diskCacheStrategy(if (imageCacheManager.skipCache) DiskCacheStrategy.NONE else DiskCacheStrategy.RESOURCE)
+                            .diskCacheStrategy(if (imageCacheManager.skipCache) {
+                                DiskCacheStrategy.NONE
+                            } else {
+                                imageCacheManager.cacheStrategy.toGlideStrategy()
+                            })
                             .skipMemoryCache(imageCacheManager.skipCache)
                             .downsample(if (imageTransformationsManager.isDownsampled) DownsampleStrategy.AT_MOST else DownsampleStrategy.NONE)
                             .sizeMultiplier(imageTransformationsManager.sizeMultiplier)
-                            .applyTransformations(imageTransformationsManager)
+                            .applyTransformations(imageTransformationsManager.prepareTransformations())
+                            .signature(ObjectKey(imageSignatureManager.signature ?: imageResourceManager.url))
             )
             .listener(glideDownloadListener)
 
@@ -366,39 +424,65 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         if (view is ImageView) {
             buildRequest().into(view)
         } else {
-            buildRequest().into(object : ViewTarget<View, Drawable>(view) {
-
-                override fun onLoadStarted(placeholder: Drawable?) {
-                    super.onLoadStarted(placeholder)
-                    view.background = placeholder
-                }
-
-                override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                    view.background = resource
-                }
-
-                override fun onLoadFailed(errorDrawable: Drawable?) {
-                    super.onLoadFailed(errorDrawable)
-                    view.background = errorDrawable
-                }
-            })
+            intoBackground(view)
         }
     }
 
-}
+    /**
+     * Загрузка изображения в бекграунд к [View]
+     */
+    private fun intoBackground(view: View) {
+        into(
+                view,
+                view::setBackground,
+                { resource, _ -> view.background = resource },
+                view::setBackground
+        )
+    }
 
-/**
- * Функция расширение для добавления трансформаций из [ImageTransformationsManager]
- * Если трансформаций нет, возвращается первоначальный объект
- *
- * @param imageTransformationsManager менеджер трансформаций
- *
- * @return [RequestOptions] со списком трансформаций
- */
-fun RequestOptions.applyTransformations(imageTransformationsManager: ImageTransformationsManager): RequestOptions {
-    val transformations = imageTransformationsManager.prepareTransformations()
-    return if (transformations.isNotEmpty())
-        transforms(*transformations)
-    else
-        this
+    //region Deprecated
+    /**
+     * Загрузка изображения в [SimpleTarget].
+     *
+     * @Deprecated строжайше запрещается использование этого метода из-за утечек памяти, связанных с [SimpleTarget]
+     *
+     * @param simpleTarget обработчик загрузки изображения.
+     */
+    @Deprecated("SimpleTarget из Glide помечен как @Deprecated, следует использовать версию into() с очисткой ресурсов")
+    fun into(simpleTarget: SimpleTarget<Drawable>) {
+        into(
+                { resource, transition -> simpleTarget.onResourceReady(resource, transition) },
+                {
+                    it?.let {
+                        simpleTarget.onResourceReady(it, null)
+                    }
+                }
+        )
+    }
+
+    /**
+     * Загрузка изображения в [SimpleTarget]
+     *
+     * @Deprecated строжайше запрещается использование этого метода из-за утечек памяти, связанных с [SimpleTarget]
+     *
+     * @param resourceReadyLambda колбек в случае успеха
+     * @param loadFailedLambda колбек при ошибке
+     */
+    @Deprecated("SimpleTarget из Glide помечен как @Deprecated, следует использовать версию into() с очисткой ресурсов")
+    fun into(
+            resourceReadyLambda: (resource: Drawable, transition: Transition<in Drawable>?) -> Unit,
+            loadFailedLambda: (errorDrawable: Drawable?) -> Unit
+    ) {
+        buildRequest().into(object : SimpleTarget<Drawable>() {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+                resourceReadyLambda(resource, transition)
+            }
+
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                super.onLoadFailed(errorDrawable)
+                loadFailedLambda(errorDrawable)
+            }
+        })
+    }
+    //endregion
 }

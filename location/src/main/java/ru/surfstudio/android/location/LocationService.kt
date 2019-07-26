@@ -17,7 +17,8 @@ package ru.surfstudio.android.location
 
 import android.content.Context
 import android.location.Location
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
+import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
@@ -37,9 +38,11 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.
 /**
  * Сервис для работы с местоположением.
  */
-class LocationService(context: Context) {
+class LocationService(
+        context: Context,
+        private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+) {
 
-    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
     private val locationAvailability = LocationAvailability(context)
 
     /**

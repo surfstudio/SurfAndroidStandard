@@ -1,7 +1,7 @@
 package ru.surfstudio.android.location
 
 import android.location.Location
-import android.support.annotation.RequiresPermission
+import androidx.annotation.RequiresPermission
 import io.reactivex.Completable
 import io.reactivex.Maybe
 import io.reactivex.Observable

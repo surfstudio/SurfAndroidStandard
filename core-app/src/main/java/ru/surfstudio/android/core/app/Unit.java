@@ -12,12 +12,15 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
- */
+*/
 package ru.surfstudio.android.core.app;
 
 /**
  * класс заглушка, следует использовать вместо Void
+ *
+ * @deprecated создайте у себя на проекте
  */
-public enum  Unit {
+@Deprecated
+public enum Unit {
     INSTANCE
 }

@@ -1,0 +1,5 @@
+apply from: '../androidModule.gradle'
+
+gradle.ext.configAndroidStandardDependencies(this, [
+        'rx-extension'
+])

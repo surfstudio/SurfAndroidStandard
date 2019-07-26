@@ -16,9 +16,10 @@
 package ru.surfstudio.android.core.ui.delegate.fragment;
 
 import android.os.Build;
-import android.support.v4.app.BackstackAccessor;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.BackstackAccessor;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import ru.surfstudio.android.core.ui.delegate.base.CompletelyDestroyChecker;
 

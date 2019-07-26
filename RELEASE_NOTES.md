@@ -2,6 +2,178 @@
 
 # Release Notes
 
+## 0.4.0 - SNAPSHOT
+
+#### activity-holder
+
+* Отдельный модуль для `ActiveActivityHolder`
+
+
+#### analytics
+* ANDDEP-294 Доработан модуль аналитики
+* Поддержка любых параметров события аналитики. Возможность отправлять событие только в некоторые аналитики или по условиям.
+* Старые события работают без изменений. 
+#### animations
+* ANDDEP-391 Добавлен параметр `defaultAlpha` для функций `fadeIn(...)` и `fadeOut(...)`.
+Он сохраняет постоянную прозрачность для View при одновременном множественном вызове анимаций.
+#### app-migration
+#### broadcast-extension
+#### connection
+#### converter-gson
+
+#### core-app
+
+* Модуль - **deprecated**
+* `CoreApp` - deprecated, при необходимости создайте на конкретном проекте.
+* `ActiveActivityHolder` перенесен в модуль activity-holder
+* `DefaultActivityLifecycleCallbacks` deprecated, реализация по-умолчанию находится в template-модуле
+* `StringsProvider` deprecated, реализация по-умолчанию находится в template-модуле
+* `Unit` - deprecated, используйте kotlin.Unit.
+
+#### core-mvp
+* ANDDEP-320 Возможность динамически задавать LoadState, гибкий способ отображения LoadState
+* `BasePresenter` - добавлена возможность получать только последнее значение из `ObservableOperatorFreeze` с помощью метода 
+`subscribeTakeLastFrozen`.
+
+#### core-mvp-binding
+#### core-ui
+
+* добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
+
+#### custom-view
+
+* Исправлено некорректное поведение MaterialProgressBar на Android версии 5 и ниже
+* Добавлено BottomSheetView
+
+#### dagger-scope
+#### datalist-limit-offset
+
+* ANDDEP-242 Добавлена возможность принудительной фильтрации в методе DataList.merge по настраиваемому критерию для устранения одинаковых элементов 
+* ANDDEP-242 Добавлены extension-функции для работы с DataList как с коллекцией: emptyDataListOf, DataList.filter, DataList.map
+
+#### datalist-page-count
+
+* ANDDEP-242 Добавлены extension-функции для работы с DataList как с коллекцией: emptyDataListOf, DataList.map
+
+#### easyadapter
+* ANDDEP-270 Добавлена поддержка асинхронного инфлейта view в ViewHolder
+
+#### filestorage
+#### firebase-analytics
+#### imageloader
+* ANDDEP-306 Добавлена поддержка SVG для ImageLoader'а
+#### location
+
+* Исправлена потеря callback'а `LocationErrorResolution` во фрагменте
+
+#### logger
+#### message-controller
+#### mvp-dialog
+#### mvp-widget
+
+* Добавлена возможность использовать виджеты в динамической верстке.
+    Ликвидирована необходимость вызывать `init()` для инициализации виджета.
+* Для использования в ресайклере необходимо в использовать ручной режим инициализации.
+    Для этого создан атрибут `enableManualEdit`. Также в `onBindViewHoler` необходимо вызывать `init(scopeId)`, 
+    где scopeId должен быть основан на тех данных, которые отображает айтем.
+* ANDDEP-380 Обновление работы виджетов: теперь за получение
+    уникального идентификатора виджета отвечает метод `getWidgetId`.
+    Вместо `init(scopeId)` в `RecyclerView` следует
+    использовать `lazyInit`, и переопределить `getWidgetId` на основе данных из `onBindViewHolder`.
+    Для расположения виджетов в статической верстке
+    необходимо указывать уникальный `android:id`.
+* Добавлена поддержка биндинга в виджетах
+* Решена проблема с получением контекста у виджетов, лежащих внутри контейнера с атрибутом theme
+    
+#### network
+#### picture-provider
+
+#### push
+
+* удален NotificationCenter - используйте `PushHandler`
+* добавлена группировка пуш уведомлений
+* теперь можно подписаться на такие события как открытия и отклонения пуш уведомления
+* по умолчанию при клике на пуш уведомления вызывается колбек `PushEventListener`, чтобы поменять поведение можно переопределить preparePendingIntent у `PushHandlerStrategy`
+
+#### recycler-extension
+
+* ANDDEP-266 Обновление DividerItemDecorator
+    * Добавлена возможность задавать padding для разделителей
+    * Параметр footerCount переименован в lastItemsCountWithoutDividers
+    * Добавлена возможность задавать firstItemsCountWithoutDividers
+
+#### rx-extension
+#### rxbus
+#### shared-pref
+#### standard-dialog
+
+#### templates
+
+* обновлены file-шаблоны
+
+#### template
+
+* обновлены механизмы навигации в template
+* ANDDEP-323 Добавлен Chuck
+    * Интеграция Chuck в template
+    * Добавлена возможность его включения/выключения на DebugScreen
+* ANDDEP-336 Добавить TinyDancer на debug screen
+    * Добавлена библиотека TinyDancer для отображения FPS
+* ANDDEP-335 Добавлен Stetho на DebugScreen
+    * Добавлена библиотека Stetho которая в связке с Google Chrome может использоваться для дебага.
+* Добавлены метки версий на иконках приложения в лаунчере
+* Добавлен переключатель между основным и тестовым сервером
+* Добавлена возможность открыть Developer Tools через DebugScreen
+* Добавлен LeakCanary
+* Добавлен просмотрщик файлового хранилища приложения
+* Добавлен плагин Build scans https://guides.gradle.org/creating-build-scans/
+* Добавлена возможность добавить задержку выполнения запроса
+    * На экране DebugScreen в настройках сервера можно добавить задержку запроса 0c 0.5c 1c 2c 4c 8c
+* ANDDEP-444 Вынесены Dagger-зависимостей из [`AppComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppComponent.kt)
+и [`ActivityComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityComponent.kt)
+в отдельные классы:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
+и [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
+которые теперь отвечают за распределение зависимостей между компонентами.
+
+
+
+
+#### util-ktx
+
+* ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
+помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
+
+#### connection
+* Добавлен метод для проверки подключения через Wi-Fi в [`ConnectionProvider`](connection/src/main/java/ru/surfstudio/android/connection/ConnectionProvider.java)
+
+#### mvp-widget
+
+#### imageloader
+* ANDDEP-317 Оптимизация [`ImageLoader`](imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):
+    * Рефакторинг трансформаций, удаление обращений к рефлексии
+    * Уход от работы на основе `SimpleTarget`, устранение утечек памяти, добавление возможности очищения памяти
+    * Ускорение работы, добавление проверок на опциональное использование переменных
+    * Добавление функций-расширений для опциональной работы с RequestBuilder [`ImageLoaderUtils.kt`](imageloader/src/main/java/ru/surfstudio/android/imageloader/util/ImageLoaderUtils.kt)
+    * Добавление расширенного списка стратегий кеширования [`CacheStrategy`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/CacheStrategy.kt)
+* ANDDEP-442 Расширение функционала [`ImageLoader`](imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt): 
+    * Добавлена поддержка устанавливать Tile изображению (мостить по горизонтали и вертикали)
+    * Изменен метод `ImageLoader.mask`, теперь он принимает параметром `PorterDuff.Mode` для установки необходимого типа заливки
+    * Добавление списка источников загрузки изображения [`ImageSource`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/ImageSource.kt)
+    * Добавление listener'a с источником загрузки изображения: `ImageLoader.listenerWithSource`
+    * Исправление неочевидного поведения функции `ImageLoader.into`, добавление перегрузки с лямбдами-слушателями
+    
+
+### security
+* ANDDEP-82 Модуль для обеспечения безопасности
+    * [AppDebuggableChecker](security-sample-template/security/src/main/java/ru/surfstudio/android/security/app/AppDebuggableChecker.kt)- класс, проверяющий debuggable-флаги приложения при его запуске.
+    * [RootChecker](security-sample-template/security/src/main/java/ru/surfstudio/android/security/root/RootChecker.kt) - проверяет наличие рут-прав на устройстве.
+    * [KeyEncryptor](security-sample-template/security/src/main/java/ru/surfstudio/android/security/crypto/KeyEncryptor.kt) - абстрактный класс для реализации безопасного [Encryptor'a](filestorage/src/main/java/ru/surfstudio/android/filestorage/encryptor/Encryptor.kt).
+    * [CertificatePinnerCreator](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ssl/CertificatePinnerCreator.kt) - класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning.
+    * [SessionManager](security-sample-template/security/src/main/java/ru/surfstudio/android/security/session/SessionManager.kt) - Менеджер для отслеживания сессии Activity.
+    * [SecurityUiExtensions](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ui/SecurityUiExtensions.kt) -  - Утилиты для реализаци безопасного UI.
+
+    * Расписаны Security tips, которые необходимо учитывать в приложении.
+
 ## 0.3.0
 
 #### core-ui
@@ -87,6 +259,7 @@
     * `copyTextToClipboard()` - копирует текст в буфер обмена
 * ANDDEP-211 добавлена возможность настраивать сдвиг часового пояса
     и получать дефолтный для устройства
+* Добавлен ActivityLifecycleListener для удобного использования Application.ActivityLifecycleCallbacks
 
 #### template
 

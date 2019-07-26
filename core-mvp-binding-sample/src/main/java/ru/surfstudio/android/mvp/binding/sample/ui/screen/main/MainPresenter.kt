@@ -13,42 +13,42 @@ import javax.inject.Inject
 internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency)
     : BaseBindingPresenter<MainScreenModel, MainActivityView>(basePresenterDependency) {
 
-    override val screenModel: MainScreenModel = MainScreenModel()
+    override val sm: MainScreenModel = MainScreenModel()
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
 
-        observePanel(screenModel.panel1)
-        observePanel(screenModel.panel2)
-        observePanel(screenModel.panel3)
-        observePanel(screenModel.panel4)
-        observePanel(screenModel.panel5)
-        observePanel(screenModel.panel6)
-        observePanel(screenModel.panel7)
-        observePanel(screenModel.panel8)
-        observePanel(screenModel.panel9)
+        observePanel(sm.panel1)
+        observePanel(sm.panel2)
+        observePanel(sm.panel3)
+        observePanel(sm.panel4)
+        observePanel(sm.panel5)
+        observePanel(sm.panel6)
+        observePanel(sm.panel7)
+        observePanel(sm.panel8)
+        observePanel(sm.panel9)
     }
 
     private fun observePanel(data: BindData<PaneDataModel>) {
         observe(data) {
-            screenModel.relation[data]
+            sm.relation[data]
                     ?.forEach { it.setValue(this, it.value.copy(state = it.value.state.next())) }
             checkToWin()
         }
     }
 
     private fun checkToWin() {
-        if (screenModel.relation.keys
+        if (sm.relation.keys
                 .filter { it.value.state == State.PRESSED }
-                .count() == screenModel.relation.keys.count()) {
-            screenModel.solved.setValue(this, true)
+                .count() == sm.relation.keys.count()) {
+            sm.solved.setValue(this, true)
         } else {
-            screenModel.solved.setValue(this, false)
+            sm.solved.setValue(this, false)
         }
     }
 
     fun onEasyWinClick() {
-        screenModel.relation.keys
+        sm.relation.keys
                 .forEach { it.setValue(this, it.value.copy(state = State.PRESSED)) }
         checkToWin()
     }

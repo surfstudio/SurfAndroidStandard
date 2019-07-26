@@ -1,5 +1,5 @@
 apply from: '../commonInteractorModule.gradle'
 
 dependencies {
-    implementation project(':template:i-token')
+    implementation project("$templatePrefix:i-token")
 }

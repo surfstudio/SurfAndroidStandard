@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -41,14 +40,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/clear_storage_btn_text" />
         </LinearLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ru.surfstudio.android.sample.common.ui.base.placeholder.PlaceHolderView
+    <ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
         android:id="@+id/placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
-        android:focusable="true"
-        app:pvErrorTitle="@string/placeholder_error_text"
-        app:pvErrorButtonText="@string/placeholder_error_btn_text" />
+        android:focusable="true" />
 </RelativeLayout>

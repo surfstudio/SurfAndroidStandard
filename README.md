@@ -1,5 +1,7 @@
 # Surf Android Standard
 
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat )]( https://android-arsenal.com/details/1/7290 )
+
 Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
 в короткие сроки.

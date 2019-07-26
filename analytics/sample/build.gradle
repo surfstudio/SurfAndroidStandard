@@ -1,0 +1,9 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: '../../buildSrc/androidSample.gradle'
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "analytics")
+    DependencyConfigurator.projectImplementation(project, "rx-extension")
+    DependencyConfigurator.implementation(project, "com.jakewharton.timber:timber")
+}

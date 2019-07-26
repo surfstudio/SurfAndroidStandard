@@ -6,16 +6,20 @@
 ##Переключение источника android-standard
 
 1. Изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
-2. Выполнить ```Build - Clean Project```.
+2. Выполнить ```File - Sync Project with Gradle Files```.
 
 ##Первичная настройка на конкретной машине
 
-Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
+1. В локальном андроид стандарт запустить градл таск ```generateModulesNamesFile``` (из терминала ```./gradlew generateModulesNamesFile```)
+Это необходимо для генерации вспомогательного файла с именами всех имеющихся в андроид стандарте на данный момент модулей
+
+2. Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
 # флаг для активации режима локальной загрузки репозитория android-standard
 androidStandardDebugMode=false
 ```
+3. Выполнить ```File - Sync Project with Gradle Files```.
 
 ##Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект
@@ -73,5 +77,5 @@ buildTypes {
 }
 ```
 
-Это необходимо сделать для успешной сборки проекта. Так как android-standard содержит 3 buildTypes,
+Это необходимо сделать для успешной сборки проекта. Так как android-standard содержит 2 buildTypes,
 при его подключении необходимо сопоставить кастомные buildTypes к тем, какие определены в android-standard.

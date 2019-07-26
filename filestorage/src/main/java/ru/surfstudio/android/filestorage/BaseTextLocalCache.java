@@ -12,34 +12,27 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
- */
+*/
 package ru.surfstudio.android.filestorage;
 
+import org.jetbrains.annotations.NotNull;
 
+import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
-import ru.surfstudio.android.filestorage.processor.CacheFileProcessor;
+import ru.surfstudio.android.filestorage.processor.FileProcessor;
+import ru.surfstudio.android.filestorage.storage.BaseTextFileStorage;
 
 /**
- * базовый класс текстового кеша
+ * Базовый класс текстового кэша
  */
-public abstract class BaseTextLocalCache extends BaseLocalCache<String> {
+@Deprecated
+public class BaseTextLocalCache extends BaseTextFileStorage {
 
-    public BaseTextLocalCache(CacheFileProcessor fileProcessor, NamingProcessor namingProcessor) {
+    public BaseTextLocalCache(@NotNull FileProcessor fileProcessor, @NotNull NamingProcessor namingProcessor) {
         super(fileProcessor, namingProcessor);
     }
 
-    @Override
-    public ObjectConverter<String> getConverter() {
-        return new ObjectConverter<String>() {
-            @Override
-            public byte[] encode(String value) {
-                return value.getBytes();
-            }
-
-            @Override
-            public String decode(byte[] rawValue) {
-                return new String(rawValue);
-            }
-        };
+    public BaseTextLocalCache(@NotNull FileProcessor fileProcessor, @NotNull NamingProcessor namingProcessor, @NotNull Encryptor encryptor) {
+        super(fileProcessor, namingProcessor, encryptor);
     }
 }

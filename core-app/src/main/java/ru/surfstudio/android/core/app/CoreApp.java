@@ -16,8 +16,8 @@
 package ru.surfstudio.android.core.app;
 
 import android.app.Activity;
-import android.support.multidex.MultiDexApplication;
-import android.support.v7.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.github.anrwatchdog.ANRWatchDog;
 
@@ -29,8 +29,10 @@ import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.C
 
 /**
  * Базовый класс приложения
+ *
+ * @deprecated реализуйте свою
  */
-
+@Deprecated
 public abstract class CoreApp extends MultiDexApplication {
 
     private ActiveActivityHolder activeActivityHolder = new ActiveActivityHolder();

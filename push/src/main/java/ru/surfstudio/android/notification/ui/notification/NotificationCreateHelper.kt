@@ -19,8 +19,9 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.support.v4.app.NotificationCompat
-import android.support.v4.content.ContextCompat
+import android.os.Build
+import androidx.core.app.NotificationCompat
+import androidx.core.content.ContextCompat
 import ru.surfstudio.android.notification.ui.notification.strategies.PushHandleStrategy
 import ru.surfstudio.android.utilktx.util.SdkUtils
 
@@ -32,12 +33,49 @@ object NotificationCreateHelper {
     fun showNotification(
             context: Context,
             pushHandleStrategy: PushHandleStrategy<*>,
+            pushId: Int,
             title: String,
             body: String
     ) {
-        if (SdkUtils.isAtLeastOreo) {
+        val notificationBuilder = pushHandleStrategy.notificationBuilder
+                ?: buildNotification(pushHandleStrategy, title, body, context)
+
+        if (android.os.Build.VERSION.SDK_INT <= Build.VERSION_CODES.M) {
+
+            pushHandleStrategy.group?.id?.let {
+                makeGroupNotificationM(context, notificationBuilder, pushHandleStrategy, it, body, title)
+                return
+            }
+        } else {
+            SdkUtils.runOnOreo {
+                getNotificationManager(context).createNotificationChannel(
+                        pushHandleStrategy.channel
+                                ?: buildChannel(pushHandleStrategy, body, context)
+                )
+            }
+
+            //создание заголовка группы нотификаций происходит вручную
+            pushHandleStrategy.group?.let {
+                getNotificationManager(context)
+                        .notify(it.id, pushHandleStrategy.groupSummaryNotificationBuilder?.build())
+            }
+        }
+
+        getNotificationManager(context).notify(pushId, notificationBuilder.build())
+    }
+
+    @Deprecated("Используйте метод с pushId",
+            ReplaceWith("showNotification(context, pushHandleStrategy, pushId, title, body"))
+    fun showNotification(
+            context: Context,
+            pushHandleStrategy: PushHandleStrategy<*>,
+            title: String,
+            body: String
+    ) {
+        SdkUtils.runOnOreo {
             getNotificationManager(context).createNotificationChannel(
-                    pushHandleStrategy.channel ?: buildChannel(pushHandleStrategy, body, context)
+                    pushHandleStrategy.channel
+                            ?: buildChannel(pushHandleStrategy, body, context)
             )
         }
 
@@ -47,20 +85,23 @@ object NotificationCreateHelper {
         getNotificationManager(context).notify(title.hashCode(), notificationBuilder.build())
     }
 
+
     @SuppressLint("NewApi")
     private fun buildNotification(pushHandleStrategy: PushHandleStrategy<*>,
                                   title: String,
                                   body: String,
-                                  context: Context): NotificationCompat.Builder =
-            NotificationCompat.Builder(context, context.getString(pushHandleStrategy.channelId))
-                    .setSmallIcon(pushHandleStrategy.icon)
-                    .setContentTitle(title)
-                    .setContentText(body)
-                    .setColor(ContextCompat.getColor(context, pushHandleStrategy.color))
-                    .setContent(pushHandleStrategy.contentView)
-                    .setAutoCancel(pushHandleStrategy.autoCancelable)
-                    .setContentIntent(pushHandleStrategy.pendingIntent)
-
+                                  context: Context): NotificationCompat.Builder {
+        return NotificationCompat.Builder(context, context.getString(pushHandleStrategy.channelId))
+                .setSmallIcon(pushHandleStrategy.icon)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setGroupSummary(true)
+                .setColor(ContextCompat.getColor(context, pushHandleStrategy.color))
+                .setContent(pushHandleStrategy.contentView)
+                .setAutoCancel(pushHandleStrategy.autoCancelable)
+                .setContentIntent(pushHandleStrategy.pendingIntent)
+                .setDeleteIntent(pushHandleStrategy.deleteIntent)
+    }
 
     @SuppressLint("NewApi")
     private fun buildChannel(pushHandleStrategy: PushHandleStrategy<*>,
@@ -80,5 +121,33 @@ object NotificationCreateHelper {
 
     private fun getNotificationManager(context: Context): NotificationManager {
         return context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+    }
+
+    private fun makeGroupNotificationM(
+            context: Context,
+            notificationBuilder: NotificationCompat.Builder,
+            pushHandleStrategy: PushHandleStrategy<*>,
+            groupId: Int,
+            body: String,
+            title: String
+    ) {
+        val notificationDescObject = NotificationGroupHelper
+                .getNotificationsForGroup(context, groupId, body)
+
+        if (notificationDescObject.size > 1) {
+
+            val inboxStyle = NotificationCompat.InboxStyle()
+
+            notificationBuilder.setStyle(inboxStyle)
+
+            inboxStyle.setBigContentTitle(title)
+
+            notificationDescObject.forEach { inboxStyle.addLine(it) }
+
+            //Can set no.of messages as a summary.
+            inboxStyle.setSummaryText(pushHandleStrategy.makeGroupSummary(notificationDescObject.size))
+        }
+
+        getNotificationManager(context).notify(groupId, notificationBuilder.build())
     }
 }

@@ -24,9 +24,11 @@ import java.util.*
  */
 abstract class AbstractPushHandleStrategyFactory {
 
-    //ключ события в data firebase'вского пуша
-    //
-    //Можно настроить свой формат в релизации фабрики
+    /**
+     * ключ события в data firebase'вского пуша
+     *
+     * Можно настроить свой формат в релизации фабрики
+     */
     var key = "event"
 
     /**

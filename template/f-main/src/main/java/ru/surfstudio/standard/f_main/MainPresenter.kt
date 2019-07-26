@@ -13,7 +13,10 @@ class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
+    private val sm = MainScreenModel()
+
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
+        view.render(sm)
     }
 }

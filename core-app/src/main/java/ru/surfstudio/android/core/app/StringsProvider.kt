@@ -16,13 +16,14 @@
 package ru.surfstudio.android.core.app
 
 import android.content.Context
-import android.support.annotation.ArrayRes
-import android.support.annotation.PluralsRes
-import android.support.annotation.StringRes
+import androidx.annotation.ArrayRes
+import androidx.annotation.PluralsRes
+import androidx.annotation.StringRes
 
 /**
  * Класс, предоставляющий строки из ресурсов по id
  */
+@Deprecated("Создайте этот класс у себя на проекте если нужно. Реализация также лежит в template")
 class StringsProvider constructor(var context: Context) {
 
     fun getString(@StringRes id: Int, vararg args: Any): String {

@@ -1,0 +1,45 @@
+import ru.surfstudio.android.build.Components
+
+apply from: '../../buildSrc/config.gradle'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: '../../buildSrc/androidTestModule.gradle'
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.sampleMinSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.moduleVersionCode
+        versionName Components.getModuleVersion(project.name)
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
+}
+
+task printTestInstrumentationRunnerName {
+    doLast {
+        println "$android.defaultConfig.testInstrumentationRunner"
+    }
+}

@@ -1,25 +1,25 @@
 /*
- * Copyright 2016 Maxim Tuev.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
  */
 package ru.surfstudio.android.easyadapter;
 
-import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.LayoutManager;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +36,13 @@ import ru.surfstudio.android.easyadapter.item.BaseItem;
 import ru.surfstudio.android.easyadapter.item.NoDataItem;
 
 /**
- * Adapter for RecyclerView with two features:
- * 1) adapter automatically calls necessary methods notify... after call {@link #setItems(ItemList)} or {@link #setData(Collection, BindableItemController)}
- * 2) adapter provides mechanism for simple configuring complex list with different types of items, see {@link ItemList}
- * <p>
- * You do need subclassing this class in most cases
+ * Adapter for RecyclerView with two main features:
+ * <br>
+ * 1) invokes necessary notify... methods automatically after {@link #setItems(ItemList)} is called, or {@link #setData(Collection, BindableItemController)};
+ * <br>
+ * 2) provides simple mechanism for configuring complex list with different types of items within one {@link ItemList}.
+ * <br>
+ * You do not need subclassing this class in most cases.
  */
 public class EasyAdapter extends RecyclerView.Adapter {
 
@@ -50,7 +52,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private List<ItemInfo> lastItemsInfo = new ArrayList<>();
     private SparseArray<BaseItemController> supportedItemControllers = new SparseArray<>();
     private boolean autoNotifyOnSetItemsEnabled = true;
-    private boolean firstInvisibleItemEnabled = true;
+    private boolean firstInvisibleItemEnabled = false;
     private BaseItem<BaseViewHolder> firstInvisibleItem = new NoDataItem<>(new FirstInvisibleItemController());
 
     private boolean infiniteScroll;
@@ -59,57 +61,80 @@ public class EasyAdapter extends RecyclerView.Adapter {
         setHasStableIds(true);
     }
 
+    /**
+     * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
+     */
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         initLayoutManager(recyclerView.getLayoutManager());
     }
 
+    /**
+     * @see RecyclerView.Adapter#getItemViewType(int)
+     */
     @Override
     public final int getItemViewType(int position) {
         return items.get(getListPosition(position)).getItemController().viewType();
     }
 
+    /**
+     * @see RecyclerView.Adapter#onCreateViewHolder(ViewGroup, int)
+     */
     @Override
     public final RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return supportedItemControllers.get(viewType).createViewHolder(parent);
     }
 
+    /**
+     * @see RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)
+     */
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         BaseItem item = items.get(getListPosition(position));
         item.getItemController().bind(holder, item);
     }
 
+    /**
+     * @see RecyclerView.Adapter#getItemCount()
+     */
     @Override
     public final int getItemCount() {
         return infiniteScroll ? INFINITE_SCROLL_LOOPS_COUNT * items.size() : items.size();
     }
 
+    /**
+     * @see RecyclerView.Adapter#getItemId(int)
+     */
     @Override
     public final long getItemId(int position) {
         return getItemStringId(position).hashCode();
     }
 
+    /**
+     * Get the unique id from item at certain position
+     *
+     * @param position position of item
+     * @return unique item id
+     */
     public final String getItemStringId(int position) {
         BaseItem item = items.get(getListPosition(position));
         return item.getItemController().getItemId(item);
     }
 
     /**
-     * set data with controller for rendering
-     * adapter automatically calls necessary methods notify... if {@link #autoNotifyOnSetItemsEnabled} sets
+     * Get the item's hashcode at certain position
      *
-     * @param data
-     * @param itemController controller for data
-     * @param <T>            type of data
+     * @param position position of item
+     * @return item's hashcode
      */
-    public <T> void setData(@NonNull Collection<T> data, @NonNull BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
-        setItems(ItemList.create(data, itemController));
+    public final String getItemHash(int position) {
+        BaseItem item = items.get(getListPosition(position));
+        return item.getItemController().getItemHash(item);
     }
 
     /**
-     * Sets if auto notify is enabled.
+     * Set if we should invoke {@link #autoNotify()} on each call to {@link #setItems(ItemList)}.
      *
      * @see #autoNotify()
      */
@@ -118,7 +143,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * Toggle whether {@link FirstInvisibleItemController} is enabled
+     * Set the {@link FirstInvisibleItemController} enabled.
      *
      * @see FirstInvisibleItemController
      */
@@ -127,14 +152,16 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * @param infiniteScroll make list infinite scrolling
+     * Set if the infinite scroll enabled.
+     *
+     * @param infiniteScroll make list infinite scrollable
      */
     public void setInfiniteScroll(boolean infiniteScroll) {
         this.infiniteScroll = infiniteScroll;
     }
 
     /**
-     * automatically calls necessary methods notify...
+     * Automatically call necessary notify... methods.
      */
     public void autoNotify() {
         final List<ItemInfo> newItemInfo = extractRealItemInfo();
@@ -144,17 +171,23 @@ public class EasyAdapter extends RecyclerView.Adapter {
         lastItemsInfo = newItemInfo;
     }
 
-
-    public final String getItemHash(int position) {
-        BaseItem item = items.get(getListPosition(position));
-        return item.getItemController().getItemHash(item);
+    /**
+     * Set the collection of data with itemController and display it in {@link RecyclerView}.
+     * Adapter automatically calls necessary notify... methods if {@link #autoNotifyOnSetItemsEnabled} is set.
+     *
+     * @param data           data to be displayed in View
+     * @param itemController controller to handle data and process it to {@link RecyclerView}
+     * @param <T>            data type
+     */
+    public <T> void setData(@NonNull Collection<T> data, @NonNull BindableItemController<T, ? extends RecyclerView.ViewHolder> itemController) {
+        setItems(ItemList.create(data, itemController));
     }
 
     /**
-     * set Items for rendering
+     * Set the collection of data with itemController and display it in {@link RecyclerView}.
      *
-     * @param items
-     * @param autoNotify need call {@link #autoNotify()}
+     * @param items      items to display
+     * @param autoNotify should we need to call {@link #autoNotify()}
      */
     protected void setItems(@NonNull ItemList items, boolean autoNotify) {
         this.items.clear();
@@ -169,18 +202,23 @@ public class EasyAdapter extends RecyclerView.Adapter {
         updateSupportedItemControllers(this.items);
     }
 
-    protected ItemList getItems() {
-        return new ItemList(items);
-    }
-
     /**
-     * set Items for rendering
-     * adapter automatically calls necessary methods notify... if {@link #autoNotifyOnSetItemsEnabled} sets
+     * Set the collection of data with itemController and display it in {@link RecyclerView}.
+     * Adapter automatically calls necessary notify... methods if {@link #autoNotifyOnSetItemsEnabled} is set.
      *
-     * @param items
+     * @param items items to display
      */
     public void setItems(@NonNull ItemList items) {
         setItems(items, autoNotifyOnSetItemsEnabled);
+    }
+
+    /**
+     * Get the items of adapter.
+     *
+     * @return new instance of ItemList
+     */
+    protected ItemList getItems() {
+        return new ItemList(items);
     }
 
     private void updateSupportedItemControllers(List<BaseItem> items) {
@@ -192,7 +230,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * extract real items info, despite of infinite or ordinary scroll
+     * Extract real items info, despite of infinite or ordinary scroll.
      */
     private List<ItemInfo> extractRealItemInfo() {
         int itemCount = items.size();
@@ -230,6 +268,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
                 : adapterPosition;
     }
 
+    /**
+     * Implementation of {@link DiffUtil.Callback}.
+     * It is used to calculate difference between two lists of data depending on their {@link ItemInfo}.
+     */
     private class AutoNotifyDiffCallback extends DiffUtil.Callback {
         private final String MAGIC_NUMBER = String.valueOf(3578121127L); // used for making ids unique
 
@@ -292,6 +334,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * Content used in unique data checking.
+     */
     private class ItemInfo {
         private String id;
         private String hash;
@@ -311,7 +356,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * Empty first element for saving scroll position after notify... calls
+     * Empty first element for saving scroll position after notify... calls.
      */
     private class FirstInvisibleItemController extends NoDataItemController<BaseViewHolder> {
         @Override

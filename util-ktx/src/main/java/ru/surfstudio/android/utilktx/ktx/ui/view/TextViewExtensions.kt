@@ -1,17 +1,17 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+ * Copyright (c) 2019-present, SurfStudio LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package ru.surfstudio.android.utilktx.ktx.ui.view
 
@@ -20,13 +20,13 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.support.annotation.ColorRes
-import android.support.annotation.IntegerRes
-import android.support.annotation.StyleRes
-import android.support.v4.content.ContextCompat
 import android.text.InputFilter
 import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.IntegerRes
+import androidx.annotation.StyleRes
+import androidx.core.content.ContextCompat
 import ru.surfstudio.android.utilktx.ktx.text.PHONE_NUMBER_CHARS
 import ru.surfstudio.android.utilktx.util.KeyboardUtil
 import ru.surfstudio.android.utilktx.util.SdkUtils
@@ -60,7 +60,7 @@ fun TextView.setDrawableColor(color: Int) {
  * Автоматически выбирается наиболее оптимальный способ сделать это в зависимости от версии системы.
  */
 fun TextView.setTextAppearanceStyle(@StyleRes styleResId: Int) {
-    if (SdkUtils.isAtLeastMarshmallow) {
+    if (SdkUtils.isAtLeastMarshmallow()) {
         setTextAppearance(styleResId)
     } else {
         @Suppress("DEPRECATION")
@@ -84,7 +84,11 @@ fun TextView.copyTextToClipboard() {
  */
 fun EditText.setMaxLength(@IntegerRes length: Int) {
     val inputTextFilter = InputFilter.LengthFilter(context.resources.getInteger(length))
-    this.filters = arrayOf<InputFilter>(inputTextFilter) + filters
+
+    filters = filters
+            .filterNot { it is InputFilter.LengthFilter }
+            .toTypedArray()
+            .plus(inputTextFilter)
 }
 
 /**
@@ -196,4 +200,14 @@ fun EditText.setTextColors(@ColorRes textColorRes: Int, @ColorRes hintColorRes: 
  */
 fun EditText.showKeyboard() {
     KeyboardUtil.showKeyboard(this)
+}
+
+/**
+ * Extension-функция предоставляющая фокус на [EditText] и устанавливающая курсор в конец
+ * введённого текста.
+ */
+fun EditText.setFocusAndCursorToEnd() {
+    requestFocus()
+    KeyboardUtil.showKeyboard(this)
+    selectionToEnd()
 }

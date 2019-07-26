@@ -7,9 +7,9 @@ def pipeline = new PrPipelineAndroid(this)
 pipeline.init()
 
 //customization
-pipeline.node = "android-2"
+pipeline.getStage(pipeline.INSTRUMENTATION_TEST).strategy = StageStrategy.SKIP_STAGE
 pipeline.getStage(pipeline.STATIC_CODE_ANALYSIS).strategy = StageStrategy.SKIP_STAGE
-pipeline.buildGradleTask = "clean assembleRelease assembleDebug"
+pipeline.buildGradleTask = "clean assemble"
 pipeline.androidTestBuildType = "debug"
 
 //run

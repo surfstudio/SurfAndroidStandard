@@ -75,3 +75,7 @@
 #kotlin-reflect
 #https://stackoverflow.com/questions/45871970/kotlin-reflect-proguard-smallsortedmap
 -dontwarn kotlin.reflect.jvm.internal.**
+
+#android standard
+-keep class ru.surfstudio.android.rx.extension.ConsumerSafe { *; }
+-keep class ru.surfstudio.android.rx.extension.ActionSafe { *; }

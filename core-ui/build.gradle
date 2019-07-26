@@ -1,14 +1,16 @@
 apply from: '../androidModule.gradle'
 
 dependencies {
-    api "com.android.support:design:$appcompatVersion"
-    implementation "com.android.support:appcompat-v7:$appcompatVersion"
-    implementation "com.android.support:support-annotations:$appcompatVersion"
+    api "com.google.android.material:material:$androidxMaterialVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "com.google.android.play:core:$playCoreVersion" //for split install features support
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
+    implementation "com.agna.ferro:ferro-rx:$ferroRxVersion"
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
         'logger',
         'rx-extension',
-        'core-app'
+        'activity-holder'
 ])

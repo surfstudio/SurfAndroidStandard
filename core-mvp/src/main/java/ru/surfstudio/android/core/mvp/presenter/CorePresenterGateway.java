@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.mvp.presenter;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;

@@ -1,14 +1,21 @@
-include ':template:app-injector',
-        ':template:base',
-        ':template:base-ui',
-        ':template:domain',
-        ':template:i-initialization',
-        ':template:i-network',
-        ':template:i-token',
-        ':template:i-session',
-        ':template:i-auth',
-        ':template:f-auth',
-        ':template:f-main',
-        ':template:f-debug'
+apply from: 'config.gradle'
+
+include "$templatePrefix:app",
+        "$templatePrefix:base",
+        "$templatePrefix:base_feature",
+        "$templatePrefix:domain",
+        "$templatePrefix:i-initialization",
+        "$templatePrefix:i-network",
+        "$templatePrefix:i-session",
+        "$templatePrefix:i-token",
+        "$templatePrefix:i-auth",
+        "$templatePrefix:i-push-notification",
+        "$templatePrefix:f-auth",
+        "$templatePrefix:f-main",
+        "$templatePrefix:f-debug",
+        "$templatePrefix:f-splash",
+        "$templatePrefix:f-debug-no-op",
+        "$templatePrefix:small-test-utils"
 
 apply from: 'android-standard/androidStandardSettings.gradle'
+apply from: 'buildCache.gradle'

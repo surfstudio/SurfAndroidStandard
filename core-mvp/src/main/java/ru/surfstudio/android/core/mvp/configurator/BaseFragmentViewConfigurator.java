@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.mvp.configurator;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
 import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
@@ -68,6 +68,10 @@ public abstract class BaseFragmentViewConfigurator<P, M>
             screenComponent = createScreenComponent();
         }
         screenComponent.inject(target);
+
+        if (screenComponent instanceof BindableScreenComponent) {
+            ((BindableScreenComponent) screenComponent).requestInjection();
+        }
     }
 
     private ScreenComponent createScreenComponent() {

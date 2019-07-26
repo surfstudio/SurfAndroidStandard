@@ -16,14 +16,15 @@
 package ru.surfstudio.android.core.ui.navigation.fragment.route;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
+import ru.surfstudio.android.core.ui.navigation.FragmentRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Route;
 
 /**
  * см {@link Route}
  */
-public abstract class FragmentWithParamsRoute extends FragmentRoute {
+public abstract class FragmentWithParamsRoute extends FragmentRoute implements FragmentRouteInterface {
 
     public FragmentWithParamsRoute() {
     }
@@ -32,7 +33,7 @@ public abstract class FragmentWithParamsRoute extends FragmentRoute {
 
     }
 
-    protected abstract Bundle prepareBundle();
+    public abstract Bundle prepareBundle();
 
     @Override
     public Fragment createFragment() {

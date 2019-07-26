@@ -2,15 +2,15 @@ package ru.surfstudio.standard.f_debug.fcm
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.annotation.LayoutRes
-import androidx.core.widget.toast
+import android.widget.Toast
+import androidx.annotation.LayoutRes
 import kotlinx.android.synthetic.main.activity_fcm_debug.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.android.utilktx.ktx.ui.view.copyTextToClipboard
 import ru.surfstudio.android.utilktx.ktx.ui.view.goneIf
-import ru.surfstudio.standard.base_ui.component.provider.ComponentProvider
+import ru.surfstudio.standard.f_debug.injector.ui.screen.configurator.activity.FcmDebugScreenConfigurator
 import javax.inject.Inject
 
 /**
@@ -23,7 +23,7 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
-    override fun createConfigurator() = ComponentProvider.createActivityScreenConfigurator(intent, this::class)
+    override fun createConfigurator() = FcmDebugScreenConfigurator(intent)
 
     @LayoutRes
     override fun getContentView(): Int = R.layout.activity_fcm_debug
@@ -37,9 +37,9 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
         initListeners()
     }
 
-    override fun renderInternal(screenModel: FcmDebugScreenModel) {
-        val hasFcmToken = screenModel.hasFcmToken()
-        fcm_tv.text = screenModel.fcmToken
+    override fun renderInternal(sm: FcmDebugScreenModel) {
+        val hasFcmToken = sm.hasFcmToken()
+        fcm_tv.text = sm.fcmToken
         fcm_tv.goneIf(!hasFcmToken)
         container.goneIf(hasFcmToken)
     }
@@ -54,6 +54,6 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
     fun copyFcmToken() = fcm_tv.copyTextToClipboard()
 
     fun showMessage(message: String) {
-        toast(message)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 }

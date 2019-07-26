@@ -4,8 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.core.ui.R
 import ru.surfstudio.android.core.ui.navigation.Route
 
@@ -19,18 +19,26 @@ class DefaultSettingsRationalActivity : AppCompatActivity() {
     private val settingsRationalStr: String
         get() = intent.getStringExtra(Route.EXTRA_FIRST)
 
+    private val settingsPositiveButtonStr: String
+        get() = intent.getStringExtra(Route.EXTRA_SECOND)
+                ?: getString(R.string.settings_rational_go_to_settings)
+
+    private val settingsNegativeButtonStr: String
+        get() = intent.getStringExtra(Route.EXTRA_FIRST)
+                ?: getString(R.string.settings_rational_cancel)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         AlertDialog
                 .Builder(this)
                 .setMessage(settingsRationalStr)
-                .setPositiveButton(R.string.settings_rational_go_to_settings) { _, _ ->
+                .setPositiveButton(settingsPositiveButtonStr) { _, _ ->
                     val settingsUri = Uri.fromParts("package", packageName, null)
                     val settingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, settingsUri)
                     startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE)
                 }
-                .setNegativeButton(R.string.settings_rational_cancel, null)
+                .setNegativeButton(settingsNegativeButtonStr, null)
                 .setOnDismissListener { finish() }
                 .create()
                 .show()

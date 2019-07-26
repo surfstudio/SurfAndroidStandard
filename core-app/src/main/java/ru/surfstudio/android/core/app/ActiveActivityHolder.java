@@ -16,11 +16,15 @@
 package ru.surfstudio.android.core.app;
 
 import android.app.Activity;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 /**
  * Содержит активную (отображаемую) активти
+ *
+ * @deprecated перенесен на модуль activity-holder
  */
+@Deprecated
 public class ActiveActivityHolder {
 
     private Activity activity;
@@ -29,11 +33,11 @@ public class ActiveActivityHolder {
         //do nothing
     }
 
-    public void setActivity(Activity activeActivity){
+    public void setActivity(Activity activeActivity) {
         this.activity = activeActivity;
     }
 
-    public void clearActivity(){
+    public void clearActivity() {
         this.activity = null;
     }
 
@@ -42,7 +46,7 @@ public class ActiveActivityHolder {
         return activity;
     }
 
-    public boolean isExist(){
+    public boolean isExist() {
         return activity != null;
     }
 }

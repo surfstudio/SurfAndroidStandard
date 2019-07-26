@@ -103,6 +103,10 @@ object SettingsUtil {
         return sp.getLong(key, EMPTY_LONG_SETTING)
     }
 
+    fun getLong(sp: SharedPreferences, key: String, defaultValue: Long): Long {
+        return sp.getLong(key, defaultValue)
+    }
+
     fun putBoolean(sp: SharedPreferences, key: String, value: Boolean) {
         val editor = sp.edit()
         editor.putBoolean(key, value)

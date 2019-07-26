@@ -4,9 +4,9 @@ import android.location.Location
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.core.view.isGone
 import io.reactivex.exceptions.CompositeException
+import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.activity.CoreActivityView
 import ru.surfstudio.android.location_sample.R
 
@@ -23,19 +23,19 @@ abstract class BaseSampleActivity : CoreActivityView() {
     }
 
     fun showLocation(location: Location) {
-        showToast("Location: lat = ${location.latitude}, lon = ${location.longitude})")
+        toast("Location: lat = ${location.latitude}, lon = ${location.longitude})")
     }
 
     fun showNoLocation() {
-        showToast("No location")
+        toast("No location")
     }
 
     fun showLocationIsAvailable() {
-        showToast("Location is available")
+        toast("Location is available")
     }
 
     fun showLocationIsNotAvailable(t: Throwable) {
-        showToast(buildLocationIsNotAvailableStr(t))
+        toast(buildLocationIsNotAvailableStr(t))
     }
 
     fun showLoading() {
@@ -60,9 +60,5 @@ abstract class BaseSampleActivity : CoreActivityView() {
                 append(exception::class.java.simpleName)
             }
         }
-    }
-
-    private fun showToast(msg: String) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }
