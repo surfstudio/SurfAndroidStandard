@@ -24,7 +24,7 @@ def PRE_MERGE = 'PreMerge'
 //def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version' //todo ??? все пр одинаково запускать?
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
-def CHECK_MODULES_DO_NOT_BECAME_STABLE = 'Check Modules Do Not Bacame Stable'
+def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Bacame Stable'
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Relese Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Relese Notes Changed'
@@ -48,6 +48,7 @@ def sourceBranch = ""
 def destinationBranch = ""
 def authorUsername = ""
 def targetBranchChanged = false
+def lastDestinationBranchCommitHash = ""
 
 //other config
 def stagesForTargetBranchChangedMode = [PRE_MERGE, BUILD, UNIT_TEST, INSTRUMENTATION_TEST]
@@ -118,7 +119,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.createStage(PRE_MERGE, StageStrategy.FAIL_WHEN_STAGE_ERROR){
+        pipeline.stage(PRE_MERGE){
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
@@ -126,27 +127,49 @@ pipeline.stages = [
             script.git(
                     url: pipeline.url,
                     credentialsId: pipeline.credentialsId,
-                    branch: sourceBranch
+                    branch: destinationBranch
             )
+
+            lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
+
+            script.sh "git checkout origin/$sourceBranch"
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
-        pipeline.createStage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            script.sh("./gradlew ")
+        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY){
+            script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
+            script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
         },
-        pipeline.createStage(BUILD, StageStrategy.FAIL_WHEN_STAGE_ERROR){
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleRelease assembleDebug")
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED){
+            script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.createStage(UNIT_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR){
+        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE){
+            script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+        },
+        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE){
+            script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
+        },
+        pipeline.stage(CHECK_RELEASE_NOTES_VALID){
+            script.sh("./gradlew checkReleaseNotesContainCurrentVersion") //todo check for all components
+        },
+
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED){
+            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+        },
+
+        pipeline.stage(BUILD){
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+        },
+        pipeline.stage(UNIT_TEST){
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.createStage(INSTRUMENTATION_TEST, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
+        pipeline.stage(INSTRUMENTATION_TEST) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -161,89 +184,19 @@ pipeline.stages = [
                     )
             )
         },
-        pipeline.createStage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.createStage(VERSION_INCREMENT, StageStrategy.SKIP_STAGE) {
-            def rawVersion = AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName)
-            String[] versionParts = rawVersion.split("-")
-            String newSnapshotVersion = String.valueOf(Integer.parseInt(versionParts[2]) + 1)
-            newRawVersion = versionParts[0] + "-" + versionParts[1] + "-" + newSnapshotVersion + "-" + versionParts[3]
-            AndroidUtil.changeGradleVariable(script, gradleConfigFile, androidStandardVersionVarName, newRawVersion)
-            actualAndroidStandardVersion = newRawVersion
-        },
-        pipeline.createStage(DEPLOY, StageStrategy.FAIL_WHEN_STAGE_ERROR) {
-            AndroidUtil.withGradleBuildCacheCredentials(script) {
-                script.sh "./gradlew clean uploadArchives"
-            }
-        },
-        pipeline.createStage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
-            def version = CommonUtil.removeQuotesFromTheEnds(
-                    AndroidUtil.getGradleVariable(script, gradleConfigFile, androidStandardVersionVarName))
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            script.sh "git commit -a -m \"Increase version to $version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         }
 ]
 
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
-    def message
-    def success = Result.SUCCESS.equals(pipeline.jobResult)
-    if (!success) {
-        if (pipeline.getStage(CHECKOUT).result != Result.ABORTED) { //change notification for bilds, wich aborted via [skip ci] label
-            def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-            message = "Deploy версии: $actualAndroidStandardVersion из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
-        } else {
-            message = "Deploy из ветки '${branchName}' остановлен из-за метки [skip ci] в последнем коммите"
-        }
-    } else {
-        message = "Deploy версии: $actualAndroidStandardVersion из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+    if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
+        def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
+        def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlMarkdownLink(script)}"
+        JarvisUtil.sendMessageToUser(script, message, authorUsername, "bitbucket")
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 }
 
 pipeline.run()
-
-
-
-// UTILS
-
-def static isProjectSnapshotBranch(branchName) {
-    branchName.contains("project-snapshot")
-}
-
-static boolean checkVersionAndBranch(Object script, String branch, String branchRegex, String version, String versionRegex) {
-    Pattern branchPattern = Pattern.compile(branchRegex)
-    Matcher branchMatcher =  branchPattern.matcher(branch)
-    if(branchMatcher.matches()) {
-        Pattern versionPattern = Pattern.compile(versionRegex)
-        Matcher versionMatcher =  versionPattern.matcher(version)
-        if (versionMatcher.matches()) {
-            return true
-        } else {
-            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to regexp: '$versionRegex'")
-        }
-    }
-    return false
-}
-
-static boolean checkVersionAndBranchForProjectSnapshot(Object script, String branch, String version) {
-    def branchRegex = /^project-snapshot-[A-Z]+/
-    Pattern branchPattern = Pattern.compile(branchRegex)
-    Matcher branchMatcher =  branchPattern.matcher(branch)
-    if(branchMatcher.matches()) {
-        def projectKey = branch.split('-')[2]
-        def versionRegex = /^\d{1,4}\.\d{1,4}\.\d{1,4}-$projectKey-\d{1,4}-SNAPSHOT$/
-        Pattern versionPattern = Pattern.compile(versionRegex)
-        Matcher versionMatcher =  versionPattern.matcher(version)
-        if (versionMatcher.matches()) {
-            return true
-        } else {
-            script.error("Deploy version: '$version' from branch: '$branch' forbidden, it must corresponds to regexp: '$versionRegex'")
-        }
-    }
-    return false
-}
 
 
