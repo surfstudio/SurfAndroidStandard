@@ -67,9 +67,9 @@ class LifecycleManagerTest {
             parentState.onDestroyView()
             pushState(LifecycleStage.VIEW_DESTROYED)
             parentState.onCompletelyDestroy()
-            pushState(LifecycleStage.DESTROYED)
+            pushState(LifecycleStage.COMPLETELY_DESTROYED)
 
-            assert(actualStage == LifecycleStage.DESTROYED, { "actualStage = $actualStage | expected = ${LifecycleStage.DESTROYED} | screenStage = ${screenState.lifecycleStage} " })
+            assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED, { "actualStage = $actualStage | expected = ${LifecycleStage.COMPLETELY_DESTROYED} | screenStage = ${screenState.lifecycleStage} " })
         }
     }
 
@@ -103,8 +103,8 @@ class LifecycleManagerTest {
             assert(actualStage == LifecycleStage.CREATED)
         }
 
-        stageResolver.pushState(LifecycleStage.DESTROYED)
-        assert(actualStage == LifecycleStage.DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
     @Test
@@ -119,8 +119,8 @@ class LifecycleManagerTest {
         //резко убиваем экран
         println("destroy screen")
         parentState.onCompletelyDestroy()
-        stageResolver.pushState(LifecycleStage.DESTROYED)
-        assert(actualStage == LifecycleStage.DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
     @Test
@@ -134,8 +134,8 @@ class LifecycleManagerTest {
 
         //резко убиваем экран
         println("destroy screen")
-        stageResolver.pushState(LifecycleStage.DESTROYED)
-        assert(actualStage == LifecycleStage.DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
     @Test
@@ -158,8 +158,8 @@ class LifecycleManagerTest {
 
         println("destroy screen")
         parentState.onDestroy()
-        stageResolver.pushState(LifecycleStage.DESTROYED)
-        assert(actualStage == LifecycleStage.DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
     @Test
@@ -201,9 +201,9 @@ class LifecycleManagerTest {
     fun testDestroyedAfterReady() {
         stageResolver.pushState(LifecycleStage.VIEW_READY)
         parentState.onCompletelyDestroy()
-        stageResolver.pushState(LifecycleStage.DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
 
-        assert(actualStage == LifecycleStage.DESTROYED)
+        assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
     @Test(expected = AssertionError::class)
@@ -246,7 +246,7 @@ class LifecycleManagerTest {
         //CREATED - уже выставленное состояние
 
         with(stageResolver) {
-            pushState(LifecycleStage.DESTROYED)
+            pushState(LifecycleStage.COMPLETELY_DESTROYED)
             pushState(LifecycleStage.VIEW_READY)
             assert(actualStage == LifecycleStage.RESUMED)
         }
