@@ -5,7 +5,7 @@ import ru.surfstudio.android.build.tasks.deploy_to_mirror.*
 
 task checkStandardDependenciesStableTask(type: CheckStandardDependenciesStableTask)
 
-task checkStableComponentStandardDependenciesStableTask(type: CheckStableComponentStandardDependenciesStableTask)
+task checkStableComponentStandardDependenciesStableTask(type: CheckStableComponentStandardDependenciesStableTask) //pr
 
 task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask)
 
@@ -13,7 +13,7 @@ task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArti
 
 task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstableTask)
 
-task checkStableComponentsChanged(type: CheckStableComponentsChangedTask)
+task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
 
 task createProjectConfiguration(type: CreateProjectConfigurationTask)
 
@@ -43,7 +43,7 @@ task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifact
 
 task checkSameDependencyArtifactsInBintray(type: CheckSameDependencyArtifactsInBintrayTask)
 
-task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask)
+task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask) // pr
 
 task checkComponentStable(type: CheckComponentStableTask)
 
@@ -55,15 +55,15 @@ task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask)
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask)
 
-task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion)
+task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion) //pr
 
-task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask)
+task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
 
-task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask)
+task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask) //pr
 
 task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask)
 
-task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask)
+task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask) //pr
 
 task deployToMirror(type: DeployToMirrorTask)
 

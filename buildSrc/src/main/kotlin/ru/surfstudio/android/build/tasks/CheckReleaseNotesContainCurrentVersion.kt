@@ -6,6 +6,8 @@ import ru.surfstudio.android.build.ReleaseNotes
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesNotContainVersionException
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 import ru.surfstudio.android.build.utils.getPropertyComponent
+import ru.surfstudio.android.build.Components
+
 
 /**
  * Check ReleaseNotes contain current project version
@@ -14,14 +16,16 @@ open class CheckReleaseNotesContainCurrentVersion : DefaultTask() {
 
     @TaskAction
     fun check() {
-        val component = project.getPropertyComponent()
 
-        val releaseNotes: ReleaseNotesInfo = ReleaseNotes.findByComponentName(component.name)
+        Components.value.forEach { component ->
 
-        val version = releaseNotes.versions
-                .find { it.version == component.projectVersion }
-                ?: throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
+            val releaseNotes: ReleaseNotesInfo = ReleaseNotes.findByComponentName(component.name)
 
-        if (version.isEmpty) throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
+            val version = releaseNotes.versions
+                    .find { it.version == component.projectVersion }
+                    ?: throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
+
+            if (version.isEmpty) throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
+        }
     }
 }
