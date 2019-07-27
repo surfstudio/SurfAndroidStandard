@@ -65,7 +65,7 @@ interface Related<S : RelationEntity> {
      */
     fun <T> subscribe(observable: Observable<T>,
                       onNext: Consumer<T>,
-                      onError: (Throwable) -> Unit = {}): Disposable
+                      onError: (Throwable) -> Unit = { throw it }): Disposable
 
     /**
      * [Observable] для подписки. Доступен только для стороны получателя.
@@ -168,11 +168,11 @@ interface Related<S : RelationEntity> {
 
     fun <T> Relation<T, *, S>.bindTo(consumer: (T) -> Unit, onError: (Throwable) -> Unit) =
             this.observable
-                    .bindTo(consumer)
+                    .bindTo(consumer, onError)
 
     fun Relation<Unit, *, S>.bindTo(consumer: () -> Unit, onError: (Throwable) -> Unit) =
             this.observable
-                    .bindTo(consumer)
+                    .bindTo(consumer, onError)
 
     infix fun <T> Relation<T, *, S>.bindTo(relation: Relation<T, S, *>) =
             this.observable.bindTo(relation.consumer)

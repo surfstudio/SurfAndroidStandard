@@ -28,6 +28,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
+@Deprecated("После возможности подписки на State презентором, потерял свою актуальность")
 class Complice<T>(initialValue: T? = null) : BehaviorRelation<T, PRESENTER, PRESENTER>(initialValue) {
 
     override fun getConsumer(source: PRESENTER): Consumer<T> = relay
