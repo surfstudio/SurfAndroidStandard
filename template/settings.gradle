@@ -3,6 +3,7 @@ apply from: 'config.gradle'
 include "$templatePrefix:app",
         "$templatePrefix:base",
         "$templatePrefix:base_feature",
+        "$templatePrefix:cf-pagination",
         "$templatePrefix:domain",
         "$templatePrefix:i-initialization",
         "$templatePrefix:i-network",

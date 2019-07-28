@@ -16,14 +16,14 @@ class StageResolver(
 
     //разрешенные переходы по состояниям
     private val allowedStateTransition = mapOf(
-            LifecycleStage.CREATED to listOf(LifecycleStage.VIEW_READY, LifecycleStage.DESTROYED),
+            LifecycleStage.CREATED to listOf(LifecycleStage.VIEW_READY, LifecycleStage.COMPLETELY_DESTROYED),
             LifecycleStage.VIEW_READY to listOf(LifecycleStage.STARTED, LifecycleStage.VIEW_DESTROYED),
             LifecycleStage.STARTED to listOf(LifecycleStage.RESUMED, LifecycleStage.STOPPED),
             LifecycleStage.RESUMED to listOf(LifecycleStage.PAUSED),
             LifecycleStage.PAUSED to listOf(LifecycleStage.RESUMED, LifecycleStage.STOPPED),
             LifecycleStage.STOPPED to listOf(LifecycleStage.STARTED, LifecycleStage.VIEW_DESTROYED),
-            LifecycleStage.VIEW_DESTROYED to listOf(LifecycleStage.VIEW_READY, LifecycleStage.DESTROYED),
-            LifecycleStage.DESTROYED to listOf()
+            LifecycleStage.VIEW_DESTROYED to listOf(LifecycleStage.VIEW_READY, LifecycleStage.COMPLETELY_DESTROYED),
+            LifecycleStage.COMPLETELY_DESTROYED to listOf()
     )
 
     /**
@@ -40,7 +40,7 @@ class StageResolver(
     }
 
     private fun resolveStates(wishingState: LifecycleStage): Array<LifecycleStage> {
-        val isParentDestroyed = wishingState != LifecycleStage.DESTROYED && parentState.isCompletelyDestroyed
+        val isParentDestroyed = wishingState != LifecycleStage.COMPLETELY_DESTROYED && parentState.isCompletelyDestroyed
         val isParentReady = parentState.lifecycleStage != null &&
                 parentState.lifecycleStage.ordinal >= LifecycleStage.VIEW_READY.ordinal
         return when {
@@ -64,26 +64,26 @@ class StageResolver(
             }
 
             // Когда уничтожаем виджет, необходимо в ручную послать предыдущие события
-            wishingState == LifecycleStage.DESTROYED -> {
+            wishingState == LifecycleStage.COMPLETELY_DESTROYED -> {
                 when (screenState.lifecycleStage!!) {
 
                     LifecycleStage.CREATED, LifecycleStage.VIEW_READY, LifecycleStage.STOPPED -> {
-                        arrayOf(LifecycleStage.VIEW_DESTROYED, LifecycleStage.DESTROYED)
+                        arrayOf(LifecycleStage.VIEW_DESTROYED, LifecycleStage.COMPLETELY_DESTROYED)
                     }
 
                     LifecycleStage.STARTED, LifecycleStage.PAUSED -> {
-                        arrayOf(LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED, LifecycleStage.DESTROYED)
+                        arrayOf(LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED, LifecycleStage.COMPLETELY_DESTROYED)
                     }
 
                     LifecycleStage.RESUMED -> {
-                        arrayOf(LifecycleStage.PAUSED, LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED, LifecycleStage.DESTROYED)
+                        arrayOf(LifecycleStage.PAUSED, LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED, LifecycleStage.COMPLETELY_DESTROYED)
                     }
 
                     LifecycleStage.VIEW_DESTROYED -> {
-                        arrayOf(LifecycleStage.DESTROYED)
+                        arrayOf(LifecycleStage.COMPLETELY_DESTROYED)
                     }
 
-                    LifecycleStage.DESTROYED -> {
+                    LifecycleStage.COMPLETELY_DESTROYED -> {
                         arrayOf(wishingState)
                     }
                 }

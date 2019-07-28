@@ -73,7 +73,7 @@ public abstract class BaseScreenState implements ScreenState {
     }
 
     public void onCompletelyDestroy() {
-        lifecycleStage = LifecycleStage.DESTROYED;
+        lifecycleStage = LifecycleStage.COMPLETELY_DESTROYED;
         completelyDestroyed = true;
     }
 
