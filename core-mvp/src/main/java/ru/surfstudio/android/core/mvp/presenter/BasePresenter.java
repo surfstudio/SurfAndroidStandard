@@ -106,6 +106,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     //endregion
 
     //region subscribeTakeLastFrozen
+
     /**
      * Subscribe and take only last emitted value from frozen predicate.
      * This is very useful in situations when your screen is long time inactive and it should react
@@ -290,6 +291,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     //endregion
 
     //region subscribeIoTakeLastFrozen
+
     /**
      * Subscribe and take only last emitted value from frozen predicate.
      * This is very useful in situations when your screen is long time inactive and it should react
@@ -378,6 +380,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     //endregion
 
     //region subscribeIoTakeLastFrozen
+
     /**
      * Subscribe and take only last emitted value from frozen predicate.
      * This is very useful in situations when your screen is long time inactive and it should react
@@ -562,7 +565,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         return maybe.doOnError(reloadErrorAction(reloadAction));
     }
 
-    private ConsumerSafe<Throwable> reloadErrorAction(ActionSafe reloadAction) {
+    protected ConsumerSafe<Throwable> reloadErrorAction(ActionSafe reloadAction) {
         return e -> {
             cancelAutoReload();
             if (connectionProvider.isDisconnected()) {

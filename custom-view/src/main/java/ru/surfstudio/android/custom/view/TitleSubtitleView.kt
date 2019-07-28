@@ -90,14 +90,18 @@ class TitleSubtitleView @JvmOverloads constructor(
     var titleTextAppearance: Int = -1
         set(value) {
             field = value
-            TextViewCompat.setTextAppearance(titleView, value)
+            if (value != -1) {
+                TextViewCompat.setTextAppearance(titleView, value)
+            }
         }
 
     @StyleRes
     var subTitleTextAppearance: Int = -1
         set(value) {
             field = value
-            TextViewCompat.setTextAppearance(subTitleView, value)
+            if (value != -1) {
+                TextViewCompat.setTextAppearance(subTitleView, value)
+            }
         }
 
     var titleLines: Int = -1
@@ -194,7 +198,6 @@ class TitleSubtitleView @JvmOverloads constructor(
             titleText = defaultTitle
 
             titleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_titleTextAppearance, -1)
-            setupTextAppearance(titleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_titleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_titleTextColor)
 
@@ -237,7 +240,6 @@ class TitleSubtitleView @JvmOverloads constructor(
             subTitleText = defaultSubTitle
 
             subTitleTextAppearance = ta.getResourceId(R.styleable.TitleSubtitleView_subTitleTextAppearance, -1)
-            setupTextAppearance(subTitleTextAppearance)
             setupTextSize(ta, R.styleable.TitleSubtitleView_subTitleTextSize)
             setupTextColor(ta, R.styleable.TitleSubtitleView_subTitleTextColor)
 
@@ -270,12 +272,6 @@ class TitleSubtitleView @JvmOverloads constructor(
                     ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableEnd, 0),
                     ta.getResourceId(R.styleable.TitleSubtitleView_subTitleDrawableBottom, 0)
             )
-        }
-    }
-
-    private fun TextView.setupTextAppearance(textAppearance: Int) {
-        if (textAppearance != -1) {
-            TextViewCompat.setTextAppearance(this, textAppearance)
         }
     }
 

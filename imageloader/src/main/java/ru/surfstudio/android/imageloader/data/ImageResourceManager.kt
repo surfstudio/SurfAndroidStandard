@@ -16,10 +16,12 @@
 package ru.surfstudio.android.imageloader.data
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
+import com.bumptech.glide.load.Transformation
 import com.bumptech.glide.request.RequestOptions
 import ru.surfstudio.android.imageloader.DEFAULT_DRAWABLE_URI
 import ru.surfstudio.android.imageloader.util.applyTransformations
@@ -38,6 +40,10 @@ data class ImageResourceManager(
         @DrawableRes
         var previewResId: Int = DEFAULT_DRAWABLE_URI    //ссылка на drawable-ресурс плейсхолдера
 ) {
+
+    var shouldTransformError = true
+
+    var shouldTransformPreview = true
 
     val isErrorSet: Boolean get() = errorResId != DEFAULT_DRAWABLE_URI
 
@@ -65,26 +71,32 @@ data class ImageResourceManager(
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun prepareErrorDrawable() = prepareDrawable(errorResId)
+    fun prepareErrorDrawable() = prepareDrawable(errorResId, shouldTransformError)
 
     /**
      * Подготовка заглушки для плейсхолдера.
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun preparePreviewDrawable() = prepareDrawable(previewResId)
-
+    fun preparePreviewDrawable() = prepareDrawable(previewResId, shouldTransformPreview)
 
     /**
      * Подготовка [Drawable] с применением всех трансформаций, применяемых и к исходному изображению.
      *
      * @param imageResId ссылка на drawable ресурс
+     * @param shouldTransform необходимо ли применять к drawable трансформации для исходного изображения
      */
-    private fun prepareDrawable(@DrawableRes imageResId: Int): RequestBuilder<Drawable> {
+    private fun prepareDrawable(@DrawableRes imageResId: Int, shouldTransform: Boolean): RequestBuilder<Drawable> {
+        val transformations = if (shouldTransform) {
+            imageTransformationsManager.prepareTransformations()
+        } else {
+            emptyList<Transformation<Bitmap>>()
+        }
+
         return Glide.with(context)
                 .load(imageResId)
                 .apply(RequestOptions()
-                        .applyTransformations(imageTransformationsManager.prepareTransformations())
+                        .applyTransformations(transformations)
                 )
     }
 

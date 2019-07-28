@@ -19,14 +19,11 @@ package ru.surfstudio.android.mvp.widget.delegate;
 import android.view.View;
 
 import java.util.List;
-import java.util.UUID;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
-import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
 import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager;
@@ -50,7 +47,6 @@ public class WidgetViewDelegate {
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
     private final List<ScreenEventResolver> eventResolvers;
-    private boolean isDeactivated = false;
 
     private String currentScopeId;
 
@@ -86,25 +82,22 @@ public class WidgetViewDelegate {
         getLifecycleManager().onViewReady();
     }
 
-    public void onDestroy() {
-        if (scopeStorage.isExist(getCurrentScopeId()) && !isDeactivated) {
+    public void onViewDestroy() {
+        if (scopeStorage.isExist(getCurrentScopeId())) {
             getLifecycleManager().onViewDestroy();
         }
     }
 
     //вызов происходит по срабатыванию родительского OnCompletelyDestroy
     public void onCompletelyDestroy() {
-        if (getScreenState().isCompletelyDestroyed() && !isDeactivated) {
-            scopeStorage.remove(getCurrentScopeId());
+        String scopeId = getCurrentScopeId();
+        if (scopeStorage.isExist(scopeId)) {
+            scopeStorage.remove(scopeId);
         }
     }
 
     public WidgetViewPersistentScope getPersistentScope() {
         return scopeStorage.get(getCurrentScopeId(), WidgetViewPersistentScope.class);
-    }
-
-    public void deactivate() {
-        this.isDeactivated = true;
     }
 
     private void runConfigurator() {
@@ -169,5 +162,15 @@ public class WidgetViewDelegate {
 
     private WidgetLifecycleManager getLifecycleManager() {
         return getPersistentScope().getLifecycleManager();
+    }
+
+    /**
+     * Коллбек, вызываемый при уничтожении View.
+     * <p>
+     * Следует заменить на {@link WidgetViewDelegate#onViewDestroy()}
+     */
+    @Deprecated
+    public void onDestroy() {
+        onViewDestroy();
     }
 }
