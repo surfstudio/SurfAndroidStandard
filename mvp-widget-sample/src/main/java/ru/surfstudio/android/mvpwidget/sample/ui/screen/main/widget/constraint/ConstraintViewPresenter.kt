@@ -1,11 +1,11 @@
 package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint
 
+import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.logger.Logger
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -21,41 +21,41 @@ class ConstraintViewPresenter @Inject constructor(
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        Logger.i("1111 Widget onLoad ${hashCode()}")
+        Log.d("1111 Widget", "onLoad w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onFirstLoad() {
-        Logger.d("1111 Widget onFirstLoad ${hashCode()}")
+        Log.d("1111 Widget", " onFirstLoad w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
         super.onFirstLoad()
     }
 
     override fun onStart() {
         super.onStart()
-        Logger.i("1111 Widget onStart ${hashCode()}")
+        Log.d("1111 Widget", " onStart w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onResume() {
         super.onResume()
-        Logger.i("1111 Widget onResume ${hashCode()}")
+        Log.d("1111 Widget", " onResume w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onPause() {
         super.onPause()
-        Logger.i("1111 Widget onPause ${hashCode()}")
+        Log.d("1111 Widget", " onPause w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onStop() {
         super.onStop()
-        Logger.i("1111 Widget onStop ${hashCode()}")
+        Log.d("1111 Widget", " onStop w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onViewDetach() {
         super.onViewDetach()
-        Logger.i("1111 Widget onViewDetach ${hashCode()}")
+        Log.d("1111 Widget", " onViewDetach w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
     }
 
     override fun onDestroy() {
-        Logger.i("1111 Widget onDestroy ${hashCode()}")
+        Log.d("1111 Widget", " onDestroy w=${null}vh=${null} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()}")
         super.onDestroy()
     }
 
@@ -63,7 +63,7 @@ class ConstraintViewPresenter @Inject constructor(
         changeTextDisposable.dispose()
         changeTextDisposable = subscribe(Observable.timer(500L, TimeUnit.MILLISECONDS), {
             view.render("presenter")
-            Logger.i("11111 Widget ${view.hashCode()} receive event")
+            Log.d("11111 Widget", "w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()} receive event")
         }, {
 
         })

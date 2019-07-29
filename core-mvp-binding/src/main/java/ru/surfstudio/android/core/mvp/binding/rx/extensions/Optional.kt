@@ -1,5 +1,6 @@
 package ru.surfstudio.android.core.mvp.binding.rx.extensions
 
+import io.reactivex.Observable
 import java.io.Serializable
 
 /**
@@ -26,9 +27,7 @@ internal constructor(
     /**
      * @see [java.util.Optional.isPresent]
      */
-    fun isPresent(): Boolean {
-        return value != null
-    }
+    val hasValue: Boolean get() = value != null
 
     /**
      * @see [java.util.Optional.ifPresent]
@@ -60,3 +59,9 @@ internal constructor(
         }
     }
 }
+
+fun <T> Observable<Optional<T>>.filterValue(): Observable<T> = this
+        .filter { it.hasValue }
+        .map { it.get() }
+
+fun <T> T.asOptional() = Optional.of(this)
