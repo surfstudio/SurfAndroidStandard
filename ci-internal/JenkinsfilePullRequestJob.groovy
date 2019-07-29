@@ -11,17 +11,17 @@ import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
+import ru.surfstudio.ci.pipeline.pr.PrPipeline
 import java.util.regex.Pattern
 import java.util.regex.Matcher
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
-//Кастомный пайплайн для деплоя артефактов
+//Pipeline for check prs
 
-// Имена Шагов
+// Stage names
 
 def PRE_MERGE = 'PreMerge'
-//def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version' //todo ??? все пр одинаково запускать?
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
 def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Bacame Stable'
@@ -33,24 +33,14 @@ def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 
-
-
-//constants
-/*def gradleConfigFile = "config.gradle"
-def androidStandardVersionVarName = "moduleVersionName"
-
-//vars
-def branchName = ""
-def actualAndroidStandardVersion = "<unknown>"
-//def removeSkippedBuilds = true - not work properly*/
-
+// git variables
 def sourceBranch = ""
 def destinationBranch = ""
 def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
-//other config
+// Other config
 def stagesForTargetBranchChangedMode = [PRE_MERGE, BUILD, UNIT_TEST, INSTRUMENTATION_TEST]
 
 def getTestInstrumentationRunnerName = { script, prefix ->
@@ -69,6 +59,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
+pipeline.propertiesProvider = { PrPipeline.properties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if(stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -153,7 +144,7 @@ pipeline.stages = [
             script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID){
-            script.sh("./gradlew checkReleaseNotesContainCurrentVersion") //todo check for all components
+            script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
         },
 
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED){
