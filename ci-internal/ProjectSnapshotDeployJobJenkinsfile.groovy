@@ -16,14 +16,13 @@ import java.util.regex.Matcher
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
-//Pipeline for deploy snapshot artifacts
+//Pipeline for deploy project snapshot artifacts
 
 // Stage names
 
 def CHECKOUT = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
-def INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION = 'Increment Changed Unstable Modules Alpha Version'
+def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
@@ -31,14 +30,12 @@ def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
-def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 
 //vars
 def branchName = ""
-def globalVersion = "<unknown>"
 
 //other config
 
@@ -106,20 +103,15 @@ pipeline.stages = [
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
-            globalVersion = globalConfiguration.version
+            project = globalConfiguration.project_snapshot_name
 
-            if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: $globalVersion from branch: '$branchName' forbidden")
+            if (("project-snapshot/" + project) != branchName) {
+                script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
-            script.sh("./gradlew incrementGlobalUnstableVersion")
+        pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
+            script.sh("./gradlew incrementProjectSnapshotVersion")
         },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
-            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
-        },
-
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
@@ -129,7 +121,7 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -164,17 +156,9 @@ pipeline.stages = [
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
 
-            script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
+                    "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-        },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
-                    string(name: 'branch', value: branchName)
-            ]
         }
 ]
 
@@ -239,7 +223,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$',
+                    regexpFilterExpression: '^(origin\\/)?project-snapshot\\/(.*)$',
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
@@ -249,48 +233,6 @@ def static triggers(script) {
 // ============================================= ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-
-def static getCommitHash(script, commit) {
-    def parts = commit.split(" ")
-    for (part in parts) {
-        if (part.trim().matches("^[a-zA-Z0-9]*\$")) {
-            return part.trim()
-        }
-    }
-    script.error("Commit hash not found in commit str: $commit")
-}
-
-def static getPreviousRevisionWithVersionIncrement(script) {
-    def commits = script.sh(
-            returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph")
-            .trim()
-            .split("\n")
-
-    def filteredCommits = []
-    for (commit in commits) {
-        if (commit.startWith("*")) {
-            //filter only commit in
-            filteredCommits.add(commit)
-        }
-    }
-    def revisionToCompare = null
-
-    for (commit in filteredCommits) {
-        if (commit.contains(RepositoryUtil.VERSION_LABEL1)) {
-            script.echo("revision to compare: ${commit}")
-            revisionToCompare = getCommitHash(script, commit)
-        }
-    }
-    if (revisionToCompare == null) {
-        //gets previous commit
-        def previousCommit = commits[1]
-        script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
-        revisionToCompare = getCommitHash(script, previousCommit)
-    }
-    return revisionToCompare
-}
-
 def static withArtifactoryCredentials(script, body) {
     script.withCredentials([
             script.usernamePassword(

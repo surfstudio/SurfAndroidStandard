@@ -131,8 +131,10 @@ pipeline.stages = [
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY){
-            script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
-            script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
+            withArtifactoryCredentials(script) {
+                script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
+                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
+            }
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED){
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
@@ -190,4 +192,15 @@ pipeline.finalizeBody = {
 
 pipeline.run()
 
+
+def static withArtifactoryCredentials(script, body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "Artifactory_Deploy_Credentials",
+                    usernameVariable: 'surf_maven_username',
+                    passwordVariable: 'surf_maven_password')
+    ]) {
+        body()
+    }
+}
 
