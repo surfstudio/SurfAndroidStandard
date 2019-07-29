@@ -20,6 +20,7 @@ object Components {
         set(value) {
             field = value
             libraries = value.flatMap { it.libraries }
+            setComponentsForAndroidStandardDependencies()
         }
 
     var libraries: List<Library> = emptyList()
@@ -29,7 +30,6 @@ object Components {
      */
     fun init(componentJsons: List<ComponentJson>) {
         value = componentJsons.map(ComponentJson::transform)
-        setComponentsForAndroidStandardDependencies()
     }
 
     /**

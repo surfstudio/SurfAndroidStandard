@@ -19,18 +19,27 @@ object ConfigInfoProvider {
      * otherwise will be empty
      */
     var currentDirectory = EMPTY_STRING
-
     private val configInfoJsonFile: File by lazy { openConfigInfoFile() }
-    val globalConfigInfo: GlobalConfigInfo by lazy { parseProjectConfigInfoJson() }
+    var globalConfigInfo: GlobalConfigInfo
+
+    init {
+        globalConfigInfo = parseProjectConfigInfoJson()
+    }
 
     fun incrementUnstableVersion() {
-        val configInfo = globalConfigInfo.copy(unstableVersion = globalConfigInfo.unstableVersion + 1)
-        JsonHelper.write(ConfigInfoJson(configInfo), configInfoJsonFile)
+        val newCounter = globalConfigInfo.unstableVersion + 1
+        System.out.println("New global version unstable counter: $newCounter")
+        val newConfigInfo = globalConfigInfo.copy(unstableVersion = newCounter)
+        JsonHelper.write(ConfigInfoJson(newConfigInfo), configInfoJsonFile)
+        this.globalConfigInfo = newConfigInfo //fix reuse process with old config info for next tasks
     }
 
     fun incrementProjectSnapshotVersion() {
-        val configInfo = globalConfigInfo.copy(projectSnapshotVersion = globalConfigInfo.projectSnapshotVersion + 1)
-        JsonHelper.write(ConfigInfoJson(configInfo), configInfoJsonFile)
+        val newCounter = globalConfigInfo.projectSnapshotVersion + 1
+        System.out.println("New project snapshot version counter: $newCounter")
+        val newConfigInfo = globalConfigInfo.copy(projectSnapshotVersion = newCounter)
+        JsonHelper.write(ConfigInfoJson(newConfigInfo), configInfoJsonFile)
+        this.globalConfigInfo = newConfigInfo //fix reuse process with old config info for next tasks
     }
 
     private fun parseProjectConfigInfoJson(): GlobalConfigInfo {
