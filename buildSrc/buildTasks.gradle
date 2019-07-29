@@ -37,7 +37,7 @@ task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
     }
 }
 
-task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask)
+task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask) // dev
 
 task checkSameDependencyArtifactsInArtifactory(type: CheckSameDependencyArtifactsInArtifactoryTask)
 
@@ -51,7 +51,7 @@ task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersion
 
 task generateDataForPlugin(type: GenerateDataForPluginTask)
 
-task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask)
+task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
 
 task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask)
 

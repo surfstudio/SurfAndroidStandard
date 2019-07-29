@@ -70,6 +70,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
                 newComponents.map { ComponentJson(it) },
                 File("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
         )
+        Components.value = newComponents //fix reuse process with old parsed components for next tasks
     }
 
     private fun isComponentUnstableAndChanged(

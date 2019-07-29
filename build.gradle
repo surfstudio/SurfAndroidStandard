@@ -32,7 +32,8 @@ buildscript {
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "io.fabric.tools:gradle:$fabricVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
-        classpath "ru.surfstudio.android:version-plugin:${ConfigInfoProvider.getVersion()}"
+        //classpath "ru.surfstudio.android:version-plugin:${ConfigInfoProvider.getVersion()}"
+        //todo use this for get as dependencies for mirror
     }
 }
 
