@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
 import ru.surfstudio.android.mvp.widget.R;
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate;
@@ -28,20 +29,19 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
- * базовый класс для кастомной вьюшки с презентером, основанном на [ConstraintLayout]
+ * Базовый класс для Widget на основе {@link ConstraintLayout}.
  * <p>
- * !!!ВАЖНО!!!
- * Пока нельзя использовать в ресайклере
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 public abstract class CoreConstraintLayoutView extends ConstraintLayout implements CoreWidgetViewInterface {
 
-    private WidgetViewDelegate widgetViewDelegate;
+    public WidgetViewDelegate widgetViewDelegate;
     private boolean isManualInitEnabled;
 
     public CoreConstraintLayoutView(Context context, boolean isManualInitEnabled) {
         super(context, null);
         this.isManualInitEnabled = isManualInitEnabled;
-        initWidgetViewDelegate();
     }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs) {
@@ -52,14 +52,12 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
         super(context, attrs, defStyleAttr);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     public CoreConstraintLayoutView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     @SuppressLint("CustomViewStyleable")
@@ -87,19 +85,9 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
             widgetViewDelegate.onCreate();
         }
-    }
-
-    @Override
-    @Deprecated
-    public void init() {
-        // do nothing
-    }
-
-    @Override
-    public void init(String scopeId) {
-        // do nothing
     }
 
     @Override
@@ -122,7 +110,7 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
-            widgetViewDelegate.onDestroy();
+            widgetViewDelegate.onViewDestroy();
         }
     }
 
@@ -136,11 +124,5 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
-    }
-
-    private void initWidgetViewDelegate() {
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
     }
 }
