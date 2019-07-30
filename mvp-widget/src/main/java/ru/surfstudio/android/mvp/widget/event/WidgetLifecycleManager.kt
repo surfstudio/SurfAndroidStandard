@@ -68,7 +68,7 @@ class WidgetLifecycleManager(
             LifecycleStage.PAUSED to { screenState.onPause() },
             LifecycleStage.STOPPED to { screenState.onStop() },
             LifecycleStage.VIEW_DESTROYED to { screenState.onViewDestroy() },
-            LifecycleStage.DESTROYED to { screenState.onDestroy() }
+            LifecycleStage.COMPLETELY_DESTROYED to { screenState.onCompletelyDestroy() }
     )
 
     //эвенты для состояний
@@ -79,7 +79,7 @@ class WidgetLifecycleManager(
             LifecycleStage.PAUSED to OnPauseEvent(),
             LifecycleStage.STOPPED to OnStopEvent(),
             LifecycleStage.VIEW_DESTROYED to OnViewDestroyEvent(),
-            LifecycleStage.DESTROYED to OnCompletelyDestroyEvent()
+            LifecycleStage.COMPLETELY_DESTROYED to OnCompletelyDestroyEvent()
     )
 
     init {
@@ -93,11 +93,6 @@ class WidgetLifecycleManager(
         // при этом новый делегат уже успевает вызвать onCreate а потом уже на старом делегате вызывается onDestroy
         // это поведение приводит к обнулению переменной view у презентера. Что бы избежать от этой проблемы
         // деактивируем старый делегат
-        this.widgetViewDelegate?.get()?.let {
-            if (it != widgetViewDelegate) {
-                it.deactivate()
-            }
-        }
         this.widgetViewDelegate = WeakReference(widgetViewDelegate)
     }
 
@@ -127,7 +122,7 @@ class WidgetLifecycleManager(
     }
 
     override fun onCompletelyDestroy() {
-        stageResolver.pushState(LifecycleStage.DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
         destroy()
 
         widgetViewDelegate?.get()?.onCompletelyDestroy()

@@ -20,6 +20,11 @@
     "path": ""
   },
   {
+    "name": "core-mvi",
+    "version": "",
+    "path": ""
+  },
+  {
     "name": "analytics",
     "version": "",
     "path": ""

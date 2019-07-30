@@ -19,8 +19,7 @@ class ListItemController(
         val constraintWidgetView = itemView.constraint_w
 
         override fun bind(int: Int) {
-            constraintWidgetView.widgetDataId = int.toString()
-            constraintWidgetView.lazyInit()
+            constraintWidgetView.widgetDataId = "id:${int}_"
             constraintWidgetView.render(int.toString())
         }
     }

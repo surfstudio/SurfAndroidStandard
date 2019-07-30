@@ -26,12 +26,9 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 /**
  * Интерфейс для всех кастомных вьюшек с презентером
  * <p>
- * !!!ВАЖНО!!!
- * <b/>При использовании в RecyclerView необходимо проставить атрибут enableManualInit == true в макете,
- * вызвать метод init(scopeId) во время bind()
- * <p>
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
-
 public interface CoreWidgetViewInterface extends
         PresenterHolderCoreView,
         HasConfigurator,
@@ -58,24 +55,14 @@ public interface CoreWidgetViewInterface extends
     /**
      * Для отложенной инициализации виджета с установкой идентификатора scope на основе данных
      * Используется, если у виджета проставлен атрибут - enableManualInit == true
-     *
-     * Для динамически создаваемых виджетов, необходимо переопределить метод getWidgetId,
-     * чтобы виджет получал уникальные данные (например, data из viewHolder в RecyclerView),
-     * и возвращал идентификатор на основе этих данных в getWidgetId.
+     * <p>
+     * Необходимо использовать только в крайних случаях, когда не устраивает автоматическая инициализация на onAttachedToWindow.
+     * Это может потребоваться в случае когда onAttachedToWindow вызывается до того, как становится известен widgetId.
+     * <p>
+     * Не рекомендуется использовать атрибут enableManualInit в связке с lazyInit
+     * для виджетов внутри RecyclerView. Для идентификации элементов в RecyclerView, необходимо переопределять метод {@link CoreWidgetViewInterface#getWidgetId}.
      */
     void lazyInit();
 
     void onCreate();
-
-    /**
-     * Устрарел, для отложенной инициализации используется lazyInit
-     */
-    @Deprecated
-    void init();
-
-    /**
-     * Устрарел, для отложенной инициализации используется lazyInit
-     */
-    @Deprecated
-    void init(String scopeId);
 }

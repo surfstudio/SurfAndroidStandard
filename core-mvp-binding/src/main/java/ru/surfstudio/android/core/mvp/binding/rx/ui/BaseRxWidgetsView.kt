@@ -18,7 +18,11 @@ package ru.surfstudio.android.core.mvp.binding.rx.ui
 
 import android.content.Context
 import android.util.AttributeSet
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import androidx.annotation.CallSuper
+import androidx.constraintlayout.widget.ConstraintLayout
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -30,7 +34,10 @@ import ru.surfstudio.android.mvp.widget.view.CoreLinearLayoutView
 import ru.surfstudio.android.mvp.widget.view.CoreRelativeLayoutView
 
 /**
- * Классы для работы с виджетами через биндинг
+ * Базовый класс для Widget с поддержкой rx-биндингов на основе [FrameLayout] .
+ * <p>
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 abstract class CoreRxFrameLayoutView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
@@ -58,6 +65,12 @@ abstract class CoreRxFrameLayoutView @JvmOverloads constructor(
                     .also { viewDisposable.add(it) }
 }
 
+/**
+ * Базовый класс для Widget с поддержкой rx-биндингов на основе [LinearLayout] .
+ * <p>
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
+ */
 abstract class CoreRxLinearLayoutView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         CoreLinearLayoutView(context, attrs, defStyleAttr), BindableRxView {
@@ -84,6 +97,12 @@ abstract class CoreRxLinearLayoutView @JvmOverloads constructor(
                     .also { viewDisposable.add(it) }
 }
 
+/**
+ * Базовый класс для Widget с поддержкой rx-биндингов на основе [RelativeLayout] .
+ * <p>
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
+ */
 abstract class CoreRxRelativeLayoutView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         CoreRelativeLayoutView(context, attrs, defStyleAttr), BindableRxView {
@@ -110,6 +129,12 @@ abstract class CoreRxRelativeLayoutView @JvmOverloads constructor(
                     .also { viewDisposable.add(it) }
 }
 
+/**
+ * Базовый класс для Widget с поддержкой rx-биндингов на основе [ConstraintLayout] .
+ * <p>
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
+ */
 abstract class CoreRxConstraintLayoutView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         CoreConstraintLayoutView(context, attrs, defStyleAttr), BindableRxView {
