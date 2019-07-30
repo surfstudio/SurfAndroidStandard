@@ -1,5 +1,6 @@
 package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list
 
+import android.os.Handler
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.back.OnBackPressedDelegate
@@ -29,9 +30,17 @@ class ListPresenter @Inject constructor(
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         view.render(screenModel)
+        Handler().postDelayed(::fillWithNewElements, 2500L) // заполняем список новыми элементами через 2.5с
     }
+
+    private fun fillWithNewElements() {
+        screenModel.itemList = screenModel.createNewItemList()
+        view.render(screenModel)
+    }
+
 
     fun finishWithHash() {
         activityNavigator.finishWithResult(route, view.hashCode().toString())
     }
+
 }

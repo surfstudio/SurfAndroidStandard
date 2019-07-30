@@ -87,13 +87,25 @@ class WidgetLifecycleManager(
     }
 
     fun onCreate(widgetView: View, coreWidgetView: CoreWidgetViewInterface, widgetViewDelegate: WidgetViewDelegate) {
-        screenState.onCreate(widgetView, coreWidgetView)
+        // Необходимо для соблюдения правильного потока событий в RecyclerView со включенными анимациями:
+        // Для анимирования изменения элементов, RecyclerView создает 2 ViewHolder с двумя разными виджетами,
+        // у которых, при этом, одинаковый id.
+        // Из-за этого, вместо жизненного цикла
+        //          1.onCreate, 1.onDestroy 2.onCreate
+        // вызывается:
+        //          1.onCreate, 2.onCreate, 2.onDestroy
+        //
+        // Чтобы предотвратить подобное поведение, если у нас есть предыдущий делегат,
+        // явно посылаем эвенты onPause, onStop, onViewDestroyed перед созданием нового,
+        // и помечаем делегат как уничтоженный.
+        this.widgetViewDelegate?.get()?.let {
+            stageResolver.pushState(LifecycleStage.VIEW_DESTROYED)
+            it.setViewDestroyedForcibly()
+        }
 
-        // при использовании виджета в recyclerView делегат не успевает вызвать onDestroy
-        // при этом новый делегат уже успевает вызвать onCreate а потом уже на старом делегате вызывается onDestroy
-        // это поведение приводит к обнулению переменной view у презентера. Что бы избежать от этой проблемы
-        // деактивируем старый делегат
         this.widgetViewDelegate = WeakReference(widgetViewDelegate)
+
+        screenState.onCreate(widgetView, coreWidgetView)
     }
 
     override fun onViewReady() {

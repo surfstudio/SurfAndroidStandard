@@ -47,6 +47,7 @@ public class WidgetViewDelegate {
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
     private final List<ScreenEventResolver> eventResolvers;
+    private boolean isViewDestroyedForcibly = false; //флаг, указывающий, что view уничтожена принудительно
 
     private String currentScopeId;
 
@@ -59,15 +60,6 @@ public class WidgetViewDelegate {
         this.scopeStorage = scopeStorage;
         this.parentPersistentScopeFinder = parentPersistentScopeFinder;
         this.eventResolvers = eventResolvers;
-    }
-
-    /**
-     * Метод необходимо использовать в ресайклере для установки скоп айди на основе данных в bind
-     *
-     * @param scopeId
-     */
-    public void setScopeId(String scopeId) {
-        this.currentScopeId = scopeId;
     }
 
     public void onCreate() {
@@ -83,7 +75,7 @@ public class WidgetViewDelegate {
     }
 
     public void onViewDestroy() {
-        if (scopeStorage.isExist(getCurrentScopeId())) {
+        if (scopeStorage.isExist(getCurrentScopeId()) && !isViewDestroyedForcibly) {
             getLifecycleManager().onViewDestroy();
         }
     }
@@ -98,6 +90,16 @@ public class WidgetViewDelegate {
 
     public WidgetViewPersistentScope getPersistentScope() {
         return scopeStorage.get(getCurrentScopeId(), WidgetViewPersistentScope.class);
+    }
+
+    /**
+     * Пометка View как принудительно уничтоженной.
+     * <p>
+     * Необходимо для того, чтобы избежать повторного вызова onDestroy на onDetachFromWindow,
+     * если onDestroy уже был вызван извне (возможно при помещении виджета в RecyclerView).
+     */
+    public void setViewDestroyedForcibly() {
+        isViewDestroyedForcibly = true;
     }
 
     private void runConfigurator() {
@@ -148,6 +150,10 @@ public class WidgetViewDelegate {
             configurator.setPersistentScope(persistentScope);
             scopeStorage.put(persistentScope);
         }
+    }
+
+    private void setScopeId(String scopeId) {
+        this.currentScopeId = scopeId;
     }
 
     //getters
