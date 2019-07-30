@@ -88,7 +88,7 @@ ext {
     fabricToolsVersion = '1.25.4'
     crashlyticsVersion = '2.9.6'                //http://bit.ly/2v5mXbp
     multidexVersion = '2.0.1'                   //http://bit.ly/2KenzA7
-    constraintLayoutXVersion = '2.0.0-beta2'    //http://bit.ly/2S1WoNg
+    constraintLayoutXVersion = '2.0.0-alpha2'    //http://bit.ly/2S1WoNg
 
     //glide
     glideVersion = '4.8.0'                      //http://bit.ly/2Q7Fa41
