@@ -1,11 +1,12 @@
 package ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list
 
-import android.os.Handler
+import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.event.back.OnBackPressedDelegate
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -30,10 +31,10 @@ class ListPresenter @Inject constructor(
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         view.render(screenModel)
-        Handler().postDelayed(::fillWithNewElements, 2500L) // заполняем список новыми элементами через 2.5с
+        subscribe(Observable.timer(2500, TimeUnit.MILLISECONDS), ::fillWithNewElements) // заполняем список новыми элементами через 2.5с
     }
 
-    private fun fillWithNewElements() {
+    private fun fillWithNewElements(ignore: Long) {
         screenModel.itemList = screenModel.createNewItemList()
         view.render(screenModel)
     }
