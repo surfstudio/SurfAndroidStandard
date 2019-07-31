@@ -67,6 +67,10 @@ configurations.all {
                 && details.requested.name.contains('gson')) {
             details.useVersion "$gsonVersion"
         }
+        if (details.requested.group == 'androidx.recyclerview'
+                && details.requested.name.contains('recyclerview')) {
+            details.useVersion "$androidxRecyclerViewVersion"
+        }
     }
 }
 
