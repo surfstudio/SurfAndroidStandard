@@ -26,6 +26,7 @@ interface BondSource : RelationEntity
 interface BondTarget : RelationEntity
 
 interface StateTarget : RelationEntity
+interface CommandTarget : RelationEntity
 
-object VIEW : BondSource, BondTarget, StateTarget, RelationEntity
-object PRESENTER : BondSource, BondTarget, StateTarget, RelationEntity
+object VIEW : BondSource, BondTarget, StateTarget, CommandTarget, RelationEntity
+object PRESENTER : BondSource, BondTarget, StateTarget, CommandTarget, RelationEntity
