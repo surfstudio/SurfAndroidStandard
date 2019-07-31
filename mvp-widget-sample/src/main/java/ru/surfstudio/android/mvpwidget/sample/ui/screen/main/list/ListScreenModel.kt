@@ -6,5 +6,7 @@ import ru.surfstudio.android.core.mvp.model.ScreenModel
  * Модель экрана [ListActivityView]
  */
 class ListScreenModel : ScreenModel() {
-    val itemList: List<Int> = (0..100).toList()
+    var itemList: List<ListItem> = createNewItemList()
+
+    fun createNewItemList() = (0..100).map { ListItem(it) }
 }
