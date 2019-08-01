@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout/notification_template_part_chronometer.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout/notification_template_icon_group.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout/notification_template_part_time.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout/notification_action_tombstone.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout/default_async_stub_layout.xml",
+        "source": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/res/layout/default_async_stub_layout.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout/notification_action.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout/notification_action.xml"
+    }
+]

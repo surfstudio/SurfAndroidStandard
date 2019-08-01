@@ -1,0 +1,37 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+	package
+		ADDED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:11-54
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+		ADDED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+	android:versionCode
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+		ADDED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml:1:1-57
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+uses-sdk
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+		ADDED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+		ADDED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml
+		INJECTED from /home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/src/main/AndroidManifest.xml

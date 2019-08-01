@@ -121,5 +121,33 @@
     "samples": [],
     "has_mirror": true,
     "mirror_repo": "http://github.com/.../"
+  },
+  {
+    "id": "easy-adapter",
+    "version": "0.4.0",
+    "unstable_version": 1,
+    "stable": true,
+    "dir": "easy-adapter",
+    "libs": [
+      {
+        "name": "easy-adapter",
+        "dir": "lib-easy-adapter",
+        "artifact_name": "easy-adapter",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [],
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
   }
 ]

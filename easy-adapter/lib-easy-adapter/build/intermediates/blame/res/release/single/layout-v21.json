@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout-v21/notification_template_icon_group.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout-v21/notification_action.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout-v21/notification_template_custom_big.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/home/trushchinskii/dev/android/android-standard/easy-adapter/lib-easy-adapter/build/intermediates/res/merged/release/layout-v21/notification_action_tombstone.xml",
+        "source": "/home/trushchinskii/.gradle/caches/transforms-2/files-2.1/2be58680b84a40ca12f6b5995dd600e7/res/layout-v21/notification_action_tombstone.xml"
+    }
+]
