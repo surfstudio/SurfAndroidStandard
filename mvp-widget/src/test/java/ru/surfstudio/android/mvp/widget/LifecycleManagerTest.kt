@@ -15,6 +15,7 @@ import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate
 import ru.surfstudio.android.mvp.widget.event.StageResolver
+import ru.surfstudio.android.mvp.widget.event.StageSource
 import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
@@ -33,6 +34,8 @@ class LifecycleManagerTest {
     lateinit var stageResolver: StageResolver
 
     private var actualStage: LifecycleStage? = null
+
+    val source = StageSource.PARENT
 
     @Before
     @Throws(Exception::class)
@@ -60,14 +63,14 @@ class LifecycleManagerTest {
         parentState.onResume()
         //CREATED - уже выставленное состояние
         with(stageResolver) {
-            pushState(LifecycleStage.VIEW_CREATED)
+            pushState(LifecycleStage.VIEW_CREATED, source)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = ${LifecycleStage.RESUMED} | screenStage = ${screenState.lifecycleStage} " })
-            pushState(LifecycleStage.PAUSED)
-            pushState(LifecycleStage.STOPPED)
+            pushState(LifecycleStage.PAUSED, source)
+            pushState(LifecycleStage.STOPPED, source)
             parentState.onDestroyView()
-            pushState(LifecycleStage.VIEW_DESTROYED)
+            pushState(LifecycleStage.VIEW_DESTROYED, source)
             parentState.onCompletelyDestroy()
-            pushState(LifecycleStage.COMPLETELY_DESTROYED)
+            pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
 
             assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED, { "actualStage = $actualStage | expected = ${LifecycleStage.COMPLETELY_DESTROYED} | screenStage = ${screenState.lifecycleStage} " })
         }
@@ -79,16 +82,16 @@ class LifecycleManagerTest {
         //CREATED - уже выставленное состояние
 
         with(stageResolver) {
-            pushState(LifecycleStage.VIEW_CREATED) //запустит STARTED/RESUMED
-            pushState(LifecycleStage.PAUSED)
-            pushState(LifecycleStage.RESUMED)
-            pushState(LifecycleStage.STOPPED) //не пройдет, так как запрещен переход
-            pushState(LifecycleStage.PAUSED)
-            pushState(LifecycleStage.STOPPED)
-            pushState(LifecycleStage.STARTED)
-            pushState(LifecycleStage.RESUMED)
-            pushState(LifecycleStage.VIEW_DESTROYED) //сделали детач
-            pushState(LifecycleStage.VIEW_CREATED)
+            pushState(LifecycleStage.VIEW_CREATED, source) //запустит STARTED/RESUMED
+            pushState(LifecycleStage.PAUSED, source)
+            pushState(LifecycleStage.RESUMED, source)
+            pushState(LifecycleStage.STOPPED, source) //не пройдет, так как запрещен переход
+            pushState(LifecycleStage.PAUSED, source)
+            pushState(LifecycleStage.STOPPED, source)
+            pushState(LifecycleStage.STARTED, source)
+            pushState(LifecycleStage.RESUMED, source)
+            pushState(LifecycleStage.VIEW_DESTROYED, source) //сделали детач
+            pushState(LifecycleStage.VIEW_CREATED, StageSource.DELEGATE)
             assert(actualStage == LifecycleStage.RESUMED)
         }
 
@@ -99,11 +102,11 @@ class LifecycleManagerTest {
         actualStage = LifecycleStage.CREATED
         val stages = listOf(LifecycleStage.STARTED, LifecycleStage.RESUMED, LifecycleStage.PAUSED, LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED)
         stages.forEach {
-            stageResolver.pushState(it)
+            stageResolver.pushState(it, source)
             assert(actualStage == LifecycleStage.CREATED)
         }
 
-        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
         assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
@@ -112,14 +115,14 @@ class LifecycleManagerTest {
         parentState.onResume()
         val stages = listOf(LifecycleStage.VIEW_CREATED)
         stages.forEach {
-            stageResolver.pushState(it)
+            stageResolver.pushState(it, source)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = ${LifecycleStage.RESUMED} | screenStage = ${screenState.lifecycleStage} " })
         }
 
         //резко убиваем экран
         println("destroy screen")
         parentState.onCompletelyDestroy()
-        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
         assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
@@ -128,13 +131,13 @@ class LifecycleManagerTest {
         parentState.onResume()
         val stages = listOf(LifecycleStage.VIEW_CREATED)
         stages.forEach {
-            stageResolver.pushState(it)
+            stageResolver.pushState(it, source)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = ${LifecycleStage.RESUMED} | screenStage = ${screenState.lifecycleStage} " })
         }
 
         //резко убиваем экран
         println("destroy screen")
-        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
         assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
@@ -143,74 +146,74 @@ class LifecycleManagerTest {
         parentState.onResume()
         val stages = listOf(LifecycleStage.VIEW_CREATED)
         stages.forEach {
-            stageResolver.pushState(it)
+            stageResolver.pushState(it, source)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = $it | screenStage = ${screenState.lifecycleStage} " })
         }
 
 
         println("detach view")
-        stageResolver.pushState(LifecycleStage.VIEW_DESTROYED)
+        stageResolver.pushState(LifecycleStage.VIEW_DESTROYED, source)
         assert(actualStage == LifecycleStage.VIEW_DESTROYED)
 
         println("attach")
-        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED, StageSource.DELEGATE)
         assert(actualStage == LifecycleStage.RESUMED)
 
         println("destroy screen")
         parentState.onDestroy()
-        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
         assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
     @Test
     fun testPausedResumed() {
         parentState.onResume()
-        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED, source)
 
         parentState.onPause()
-        stageResolver.pushState(LifecycleStage.PAUSED)
+        stageResolver.pushState(LifecycleStage.PAUSED, source)
 
         parentState.onResume()
-        stageResolver.pushState(LifecycleStage.RESUMED)
+        stageResolver.pushState(LifecycleStage.RESUMED, source)
 
         //не применяется
-        stageResolver.pushState(LifecycleStage.STARTED)
+        stageResolver.pushState(LifecycleStage.STARTED, source)
         assert(actualStage == LifecycleStage.RESUMED)
     }
 
     @Test
     fun testReadyStartedPausedResumed() {
         parentState.onViewReady()
-        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED, source)
 
         parentState.onStart()
-        stageResolver.pushState(LifecycleStage.STARTED)
+        stageResolver.pushState(LifecycleStage.STARTED, source)
 
 
         parentState.onPause()
-        stageResolver.pushState(LifecycleStage.PAUSED)
+        stageResolver.pushState(LifecycleStage.PAUSED, source)
 
         parentState.onResume()
-        stageResolver.pushState(LifecycleStage.RESUMED)
+        stageResolver.pushState(LifecycleStage.RESUMED, source)
 
-        stageResolver.pushState(LifecycleStage.STARTED)
+        stageResolver.pushState(LifecycleStage.STARTED, source)
         assert(actualStage == LifecycleStage.RESUMED)
     }
 
     @Test
     fun testDestroyedAfterReady() {
-        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED, source)
         parentState.onCompletelyDestroy()
-        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
 
         assert(actualStage == LifecycleStage.COMPLETELY_DESTROYED)
     }
 
     @Test(expected = AssertionError::class)
     fun testExceptionResumedWithoutStarted() {
-        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED, source)
         parentState.onResume()
-        stageResolver.pushState(LifecycleStage.RESUMED)
+        stageResolver.pushState(LifecycleStage.RESUMED, source)
         assert(actualStage == LifecycleStage.RESUMED)
     }
 
@@ -222,20 +225,20 @@ class LifecycleManagerTest {
         parentState.onResume()
 
         with(stageResolver) {
-            pushState(LifecycleStage.RESUMED) //не примениться, запрещенный переход
+            pushState(LifecycleStage.RESUMED, source) //не примениться, запрещенный переход
             assert(actualStage == LifecycleStage.CREATED)
 
-            pushState(LifecycleStage.VIEW_CREATED)
+            pushState(LifecycleStage.VIEW_CREATED, source)
             assert(actualStage == LifecycleStage.RESUMED)
 
             parentState.onPause()
-            pushState(LifecycleStage.PAUSED)
+            pushState(LifecycleStage.PAUSED, source)
             //подумать над кейсом ниже
-            pushState(LifecycleStage.VIEW_DESTROYED) //сделали детач
+            pushState(LifecycleStage.VIEW_DESTROYED, source) //сделали детач
             assert(actualStage == LifecycleStage.VIEW_DESTROYED)
 
             parentState.onResume()
-            pushState(LifecycleStage.VIEW_CREATED)
+            pushState(LifecycleStage.VIEW_CREATED, StageSource.DELEGATE)
             assert(actualStage == LifecycleStage.RESUMED)
         }
     }
@@ -246,8 +249,8 @@ class LifecycleManagerTest {
         //CREATED - уже выставленное состояние
 
         with(stageResolver) {
-            pushState(LifecycleStage.COMPLETELY_DESTROYED)
-            pushState(LifecycleStage.VIEW_CREATED)
+            pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
+            pushState(LifecycleStage.VIEW_CREATED, source)
             assert(actualStage == LifecycleStage.RESUMED)
         }
     }

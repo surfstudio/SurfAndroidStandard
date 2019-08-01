@@ -22,7 +22,6 @@ import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager
-import ru.surfstudio.android.mvp.widget.state.WidgetRecoveryState
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface
 import java.lang.ref.WeakReference
@@ -100,7 +99,7 @@ class WidgetLifecycleManager(
         // явно посылаем эвенты onPause, onStop, onViewDestroyed перед созданием нового,
         // и помечаем делегат как уничтоженный.
         this.widgetViewDelegate?.get()?.let {
-            stageResolver.pushState(LifecycleStage.VIEW_DESTROYED)
+            stageResolver.pushState(LifecycleStage.VIEW_DESTROYED, StageSource.LIFECYCLE_MANAGER)
             it.setViewDestroyedForcibly()
         }
 
@@ -109,47 +108,66 @@ class WidgetLifecycleManager(
         screenState.onCreate(widgetView, coreWidgetView)
     }
 
-    override fun onViewReady() {
-        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
+    fun onViewReady(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED, source)
         parentScreenEventDelegateManager.sendUnhandledEvents()
     }
 
-    override fun onStart() {
-        stageResolver.pushState(LifecycleStage.STARTED)
+    fun onStart(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.STARTED, source)
     }
 
-    override fun onResume() {
-        stageResolver.pushState(LifecycleStage.RESUMED)
+    fun onResume(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.RESUMED, source)
     }
 
-    override fun onPause() {
-        stageResolver.pushState(LifecycleStage.PAUSED)
+    fun onPause(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.PAUSED, source)
     }
 
-    override fun onStop() {
-        stageResolver.pushState(LifecycleStage.STOPPED)
+    fun onStop(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.STOPPED, source)
     }
 
-    override fun onViewDestroy() {
-        stageResolver.pushState(LifecycleStage.VIEW_DESTROYED)
+    fun onViewDestroy(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.VIEW_DESTROYED, source)
     }
 
-    override fun onCompletelyDestroy() {
-        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
+    fun onCompletelyDestroy(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
         destroy()
 
         widgetViewDelegate?.get()?.onCompletelyDestroy()
     }
 
-    /**
-     * Выставляет [WidgetRecoveryState] у [ScreenState] как "ожидающий восстановления", если
-     * родитель виджета был уничтожен.
-     */
-    fun recoverIfParentDestroyed() {
-        if (screenState.widgetRecoveryState == WidgetRecoveryState.WIDGET_DESTROYED) {
-            screenState.widgetRecoveryState = WidgetRecoveryState.WIDGET_RECOVERING
-        }
+    override fun onViewReady() {
+        onViewReady(StageSource.PARENT)
     }
+
+    override fun onStart() {
+        onStart(StageSource.PARENT)
+    }
+
+    override fun onResume() {
+        onResume(StageSource.PARENT)
+    }
+
+    override fun onPause() {
+        onPause(StageSource.PARENT)
+    }
+
+    override fun onStop() {
+        onStop(StageSource.PARENT)
+    }
+
+    override fun onViewDestroy() {
+        onViewDestroy(StageSource.PARENT)
+    }
+
+    override fun onCompletelyDestroy() {
+        onCompletelyDestroy(StageSource.PARENT)
+    }
+
 
     /**
      * Применяет события к виджету, если они разрешены текущим состоянием

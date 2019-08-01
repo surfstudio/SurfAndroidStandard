@@ -38,7 +38,6 @@ public class WidgetScreenState implements ScreenState {
     private ScreenType parentType;
     private ScreenState parentState;
     private LifecycleStage lifecycleStage;
-    private WidgetRecoveryState widgetRecoveryState = WidgetRecoveryState.NONE;
     private boolean isViewDestroyedAtLeastOnce = false;
 
     public WidgetScreenState(ScreenState parentState) {
@@ -130,13 +129,5 @@ public class WidgetScreenState implements ScreenState {
     @Override
     public LifecycleStage getLifecycleStage() {
         return lifecycleStage;
-    }
-
-    public WidgetRecoveryState getWidgetRecoveryState() {
-        return widgetRecoveryState;
-    }
-
-    public void setWidgetRecoveryState(WidgetRecoveryState recoveryState) {
-        widgetRecoveryState = recoveryState;
     }
 }

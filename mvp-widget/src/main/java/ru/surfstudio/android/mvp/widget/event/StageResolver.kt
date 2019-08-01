@@ -2,8 +2,8 @@ package ru.surfstudio.android.mvp.widget.event
 
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.core.ui.state.ScreenState
-import ru.surfstudio.android.mvp.widget.state.WidgetRecoveryState
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
+import java.lang.IllegalStateException
 
 /**
  * Класс, отвечающий за расчет следующего этапа ЖЦ виджета.
@@ -31,8 +31,8 @@ class StageResolver(
      * Приводит виджет в состояние в зависимости от текущих родительского, виджета и желаемого
      * @param wishingState желаемое состояние
      */
-    fun pushState(wishingState: LifecycleStage) {
-        val states = resolveStates(wishingState)
+    fun pushState(wishingState: LifecycleStage, stageSource: StageSource) {
+        val states = resolveStates(wishingState, stageSource)
         for (state in states) {
             if (allowedStateTransition[screenState.lifecycleStage]?.contains(state) == true) {
                 stageApplier(state)
@@ -40,7 +40,7 @@ class StageResolver(
         }
     }
 
-    private fun resolveStates(wishingState: LifecycleStage): Array<LifecycleStage> {
+    private fun resolveStates(wishingState: LifecycleStage, stageSource: StageSource): Array<LifecycleStage> {
         val isParentDestroyed = wishingState != LifecycleStage.COMPLETELY_DESTROYED && parentState.isCompletelyDestroyed
         val isParentReady = parentState.lifecycleStage != null &&
                 parentState.lifecycleStage.ordinal >= LifecycleStage.VIEW_CREATED.ordinal
@@ -50,11 +50,16 @@ class StageResolver(
             //возвращаем пустой список, если родитель уже уничтожен
             isParentDestroyed -> arrayOf()
 
-            isWidgetRecovering -> {
-                //Восстановление виджета после смены конфигурации, пушим сразу 3 состояния
-                screenState.widgetRecoveryState = WidgetRecoveryState.NONE
-                arrayOf(LifecycleStage.VIEW_CREATED, LifecycleStage.STARTED, LifecycleStage.RESUMED)
+
+            // Когда уничтожаем виджет, необходимо вручную послать предыдущие события
+            wishingState == LifecycleStage.COMPLETELY_DESTROYED -> resolveStatesForCompletelyDestroy()
+
+            shouldRecoverWidget(stageSource) -> {
+                //Восстановление виджета после смены конфигурации, пушим все состояния парента
+                getStagesBetween(LifecycleStage.VIEW_CREATED, parentState.lifecycleStage)
             }
+
+            isWidgetDestroyed -> arrayOf()
 
             isRecyclerViewCreate(wishingState) -> {
                 //Создание элемента в recyclerView, пушим сразу 3 состояния
@@ -70,30 +75,16 @@ class StageResolver(
                 arrayOf(LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED)
             }
 
-            // Когда уничтожаем виджет, необходимо вручную послать предыдущие события
-            wishingState == LifecycleStage.COMPLETELY_DESTROYED -> resolveStatesForCompletelyDestroy()
-
             !isParentReady -> arrayOf()
-
-            isWidgetDestroyed -> arrayOf()
-
-            isParentViewDestroyed -> {
-                screenState.widgetRecoveryState = WidgetRecoveryState.WIDGET_DESTROYED
-                arrayOf(wishingState)
-            }
 
             else -> arrayOf(wishingState)
         }
     }
 
-    private val isWidgetRecovering: Boolean
-        get() = screenState.widgetRecoveryState == WidgetRecoveryState.WIDGET_RECOVERING
+    private fun shouldRecoverWidget(source: StageSource): Boolean = isWidgetDestroyed && source == StageSource.DELEGATE
 
     private val isWidgetDestroyed: Boolean
-        get() = screenState.widgetRecoveryState == WidgetRecoveryState.WIDGET_DESTROYED
-
-    private val isParentViewDestroyed: Boolean
-        get() = parentState.lifecycleStage == LifecycleStage.VIEW_DESTROYED
+        get() = screenState.lifecycleStage == LifecycleStage.VIEW_DESTROYED
 
     private fun isRecyclerViewDestroy(wishingState: LifecycleStage) =
             wishingState == LifecycleStage.VIEW_DESTROYED && parentState.lifecycleStage == LifecycleStage.RESUMED
@@ -115,12 +106,13 @@ class StageResolver(
             arrayOf(LifecycleStage.PAUSED, LifecycleStage.STOPPED, LifecycleStage.VIEW_DESTROYED, LifecycleStage.COMPLETELY_DESTROYED)
         }
 
-        LifecycleStage.VIEW_DESTROYED -> {
+        LifecycleStage.VIEW_DESTROYED, LifecycleStage.COMPLETELY_DESTROYED -> {
             arrayOf(LifecycleStage.COMPLETELY_DESTROYED)
         }
+    }
 
-        LifecycleStage.COMPLETELY_DESTROYED -> {
-            arrayOf(LifecycleStage.COMPLETELY_DESTROYED)
-        }
+    private fun getStagesBetween(first: LifecycleStage, second: LifecycleStage): Array<LifecycleStage> {
+        if (first.ordinal > second.ordinal) throw IllegalStateException()
+        return LifecycleStage.values().filter { it.ordinal >= first.ordinal && it.ordinal <= second.ordinal }.toTypedArray()
     }
 }
