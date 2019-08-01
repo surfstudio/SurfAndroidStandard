@@ -5,7 +5,7 @@ package ru.surfstudio.android.core.ui.state;
  */
 public enum LifecycleStage {
     CREATED,
-    VIEW_READY,
+    VIEW_CREATED,
     STARTED,
     RESUMED,
     PAUSED,
