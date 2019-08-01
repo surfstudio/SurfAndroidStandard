@@ -60,7 +60,7 @@ class LifecycleManagerTest {
         parentState.onResume()
         //CREATED - уже выставленное состояние
         with(stageResolver) {
-            pushState(LifecycleStage.VIEW_READY)
+            pushState(LifecycleStage.VIEW_CREATED)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = ${LifecycleStage.RESUMED} | screenStage = ${screenState.lifecycleStage} " })
             pushState(LifecycleStage.PAUSED)
             pushState(LifecycleStage.STOPPED)
@@ -79,7 +79,7 @@ class LifecycleManagerTest {
         //CREATED - уже выставленное состояние
 
         with(stageResolver) {
-            pushState(LifecycleStage.VIEW_READY) //запустит STARTED/RESUMED
+            pushState(LifecycleStage.VIEW_CREATED) //запустит STARTED/RESUMED
             pushState(LifecycleStage.PAUSED)
             pushState(LifecycleStage.RESUMED)
             pushState(LifecycleStage.STOPPED) //не пройдет, так как запрещен переход
@@ -88,7 +88,7 @@ class LifecycleManagerTest {
             pushState(LifecycleStage.STARTED)
             pushState(LifecycleStage.RESUMED)
             pushState(LifecycleStage.VIEW_DESTROYED) //сделали детач
-            pushState(LifecycleStage.VIEW_READY)
+            pushState(LifecycleStage.VIEW_CREATED)
             assert(actualStage == LifecycleStage.RESUMED)
         }
 
@@ -110,7 +110,7 @@ class LifecycleManagerTest {
     @Test
     fun testDestroyAfterResume() {
         parentState.onResume()
-        val stages = listOf(LifecycleStage.VIEW_READY)
+        val stages = listOf(LifecycleStage.VIEW_CREATED)
         stages.forEach {
             stageResolver.pushState(it)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = ${LifecycleStage.RESUMED} | screenStage = ${screenState.lifecycleStage} " })
@@ -126,7 +126,7 @@ class LifecycleManagerTest {
     @Test
     fun testDestroyAfterResumeManual() {
         parentState.onResume()
-        val stages = listOf(LifecycleStage.VIEW_READY)
+        val stages = listOf(LifecycleStage.VIEW_CREATED)
         stages.forEach {
             stageResolver.pushState(it)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = ${LifecycleStage.RESUMED} | screenStage = ${screenState.lifecycleStage} " })
@@ -141,7 +141,7 @@ class LifecycleManagerTest {
     @Test
     fun testLikeRv() {
         parentState.onResume()
-        val stages = listOf(LifecycleStage.VIEW_READY)
+        val stages = listOf(LifecycleStage.VIEW_CREATED)
         stages.forEach {
             stageResolver.pushState(it)
             assert(actualStage == LifecycleStage.RESUMED, { "actualStage = $actualStage | expected = $it | screenStage = ${screenState.lifecycleStage} " })
@@ -153,7 +153,7 @@ class LifecycleManagerTest {
         assert(actualStage == LifecycleStage.VIEW_DESTROYED)
 
         println("attach")
-        stageResolver.pushState(LifecycleStage.VIEW_READY)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
         assert(actualStage == LifecycleStage.RESUMED)
 
         println("destroy screen")
@@ -165,7 +165,7 @@ class LifecycleManagerTest {
     @Test
     fun testPausedResumed() {
         parentState.onResume()
-        stageResolver.pushState(LifecycleStage.VIEW_READY)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
 
         parentState.onPause()
         stageResolver.pushState(LifecycleStage.PAUSED)
@@ -181,7 +181,7 @@ class LifecycleManagerTest {
     @Test
     fun testReadyStartedPausedResumed() {
         parentState.onViewReady()
-        stageResolver.pushState(LifecycleStage.VIEW_READY)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
 
         parentState.onStart()
         stageResolver.pushState(LifecycleStage.STARTED)
@@ -199,7 +199,7 @@ class LifecycleManagerTest {
 
     @Test
     fun testDestroyedAfterReady() {
-        stageResolver.pushState(LifecycleStage.VIEW_READY)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
         parentState.onCompletelyDestroy()
         stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED)
 
@@ -208,7 +208,7 @@ class LifecycleManagerTest {
 
     @Test(expected = AssertionError::class)
     fun testExceptionResumedWithoutStarted() {
-        stageResolver.pushState(LifecycleStage.VIEW_READY)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
         parentState.onResume()
         stageResolver.pushState(LifecycleStage.RESUMED)
         assert(actualStage == LifecycleStage.RESUMED)
@@ -225,7 +225,7 @@ class LifecycleManagerTest {
             pushState(LifecycleStage.RESUMED) //не примениться, запрещенный переход
             assert(actualStage == LifecycleStage.CREATED)
 
-            pushState(LifecycleStage.VIEW_READY)
+            pushState(LifecycleStage.VIEW_CREATED)
             assert(actualStage == LifecycleStage.RESUMED)
 
             parentState.onPause()
@@ -235,7 +235,7 @@ class LifecycleManagerTest {
             assert(actualStage == LifecycleStage.VIEW_DESTROYED)
 
             parentState.onResume()
-            pushState(LifecycleStage.VIEW_READY)
+            pushState(LifecycleStage.VIEW_CREATED)
             assert(actualStage == LifecycleStage.RESUMED)
         }
     }
@@ -247,7 +247,7 @@ class LifecycleManagerTest {
 
         with(stageResolver) {
             pushState(LifecycleStage.COMPLETELY_DESTROYED)
-            pushState(LifecycleStage.VIEW_READY)
+            pushState(LifecycleStage.VIEW_CREATED)
             assert(actualStage == LifecycleStage.RESUMED)
         }
     }

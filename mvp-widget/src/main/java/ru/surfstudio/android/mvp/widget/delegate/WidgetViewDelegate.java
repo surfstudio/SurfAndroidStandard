@@ -70,6 +70,7 @@ public class WidgetViewDelegate {
         runConfigurator();
         coreWidgetView.bindPresenters();
         coreWidgetView.onCreate();
+        getLifecycleManager().recoverIfParentDestroyed();
 
         getLifecycleManager().onViewReady();
     }

@@ -22,6 +22,7 @@ import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.mvp.widget.delegate.WidgetViewDelegate
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager
+import ru.surfstudio.android.mvp.widget.state.WidgetRecoveryState
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.mvp.widget.view.CoreWidgetViewInterface
 import java.lang.ref.WeakReference
@@ -62,7 +63,7 @@ class WidgetLifecycleManager(
 
     //действия с скринстейт по состоянию виджета
     private val screenStateEvents = mapOf(
-            LifecycleStage.VIEW_READY to { screenState.onViewReady() },
+            LifecycleStage.VIEW_CREATED to { screenState.onViewReady() },
             LifecycleStage.STARTED to { screenState.onStart() },
             LifecycleStage.RESUMED to { screenState.onResume() },
             LifecycleStage.PAUSED to { screenState.onPause() },
@@ -73,7 +74,7 @@ class WidgetLifecycleManager(
 
     //эвенты для состояний
     private val eventsMap = mapOf(
-            LifecycleStage.VIEW_READY to OnViewReadyEvent(),
+            LifecycleStage.VIEW_CREATED to OnViewReadyEvent(),
             LifecycleStage.STARTED to OnStartEvent(),
             LifecycleStage.RESUMED to OnResumeEvent(),
             LifecycleStage.PAUSED to OnPauseEvent(),
@@ -109,7 +110,7 @@ class WidgetLifecycleManager(
     }
 
     override fun onViewReady() {
-        stageResolver.pushState(LifecycleStage.VIEW_READY)
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED)
         parentScreenEventDelegateManager.sendUnhandledEvents()
     }
 
@@ -138,6 +139,16 @@ class WidgetLifecycleManager(
         destroy()
 
         widgetViewDelegate?.get()?.onCompletelyDestroy()
+    }
+
+    /**
+     * Выставляет [WidgetRecoveryState] у [ScreenState] как "ожидающий восстановления", если
+     * родитель виджета был уничтожен.
+     */
+    fun recoverIfParentDestroyed() {
+        if (screenState.widgetRecoveryState == WidgetRecoveryState.WIDGET_DESTROYED) {
+            screenState.widgetRecoveryState = WidgetRecoveryState.WIDGET_RECOVERING
+        }
     }
 
     /**
