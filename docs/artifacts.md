@@ -68,6 +68,8 @@
 модуль, расширяющий `BroadcastReceiver`.
 1. [location](../location/README.md) -
 модуль для работы с местоположением.
+1. [toolbar_config](../toolbar-config/README.md) -
+модуль для гибкой и удобной настройки Toolbar'а
 
 Дополнительно:
 
@@ -116,4 +118,5 @@ implementation "ru.surfstudio.android:standard-dialog:${version}"
 implementation "ru.surfstudio.android:util-ktx:${version}"
 implementation "ru.surfstudio.android:broadcast-extension:${version}"
 implementation "ru.surfstudio.android:location:${version}"
+implementation "ru.surfstudio.android:toolbar-config:${version}"
 ```

@@ -167,5 +167,9 @@
   {
     "name": "activity-holder",
     "path": ""
+  },
+  {
+    "name": "toolbar-config",
+    "path": ""
   }
 ]

@@ -4,4 +4,5 @@
     <string name="open_another_screen_btn_text">Open another screen</string>
     <string name="another_screen_tv_text">Another screen</string>
     <string name="main_screen_tv_text">Main screen</string>
+    <string name="main_screen_toolbar_text">Main screen</string>
 </resources>

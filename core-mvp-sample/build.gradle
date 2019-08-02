@@ -10,6 +10,7 @@ dependencies {
     implementation project(':core-mvp')
     implementation project(':sample-dagger')
     implementation project(':rxbus')
+    implementation project(':toolbar-config')
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
