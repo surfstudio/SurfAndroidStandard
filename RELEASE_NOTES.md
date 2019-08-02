@@ -197,6 +197,7 @@
     * [SecurityUiExtensions](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ui/SecurityUiExtensions.kt) -  - Утилиты для реализаци безопасного UI.
 
     * Расписаны Security tips, которые необходимо учитывать в приложении.
+* SBB-2530 Добавлен extension-метод для полной блокировки контекстного меню в поле ввода EditText.disableContextMenu()
 
 ## 0.3.0
 
