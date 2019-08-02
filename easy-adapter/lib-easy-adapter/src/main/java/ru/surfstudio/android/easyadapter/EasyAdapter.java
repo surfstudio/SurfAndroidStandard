@@ -93,6 +93,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
     @Override
     public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         BaseItem item = items.get(getListPosition(position));
+
+        item.adapterPosition = position;
+
         item.getItemController().bind(holder, item);
     }
 
@@ -206,10 +209,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
             item.previousItem = previousItem;
             item.nextItem = nextItem;
-            item.adapterPosition = i;
-
-            this.items.add(item);
+            item.position = i;
         }
+
+        this.items.addAll(items);
 
         if (autoNotify) {
             autoNotify();

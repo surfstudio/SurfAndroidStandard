@@ -34,17 +34,22 @@ public class BaseItem<H extends RecyclerView.ViewHolder> {
     }
 
     /**
-     * Next item in easyAdapter
+     * Next item in ItemList
      */
     public BaseItem<H> nextItem;
 
     /**
-     * Previous item in easyAdapter
+     * Previous item in ItemList
      */
     public BaseItem<H> previousItem;
 
     /**
-     * Position in easyAdapter
+     * Position in ItemList
+     */
+    public int position;
+
+    /**
+     * Position in adapter
      */
     public int adapterPosition;
 
