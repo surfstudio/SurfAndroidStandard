@@ -382,8 +382,4 @@ public class EasyAdapter extends RecyclerView.Adapter {
             return new BaseViewHolder(itemView);
         }
     }
-
-    public BaseItem<BaseViewHolder> getItem(int position) {
-        return items.get(position);
-    }
 }
