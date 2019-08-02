@@ -29,7 +29,11 @@ class StageResolver(
 
     /**
      * Приводит виджет в состояние в зависимости от текущих родительского, виджета и желаемого
+     *
+     * TODO Пересмотреть логику выбора получения состояния виджета, и механизм отправки состояний
+     *
      * @param wishingState желаемое состояние
+     * @param stageSource источник отсылки изменения
      */
     fun pushState(wishingState: LifecycleStage, stageSource: StageSource) {
         val states = resolveStates(wishingState, stageSource)

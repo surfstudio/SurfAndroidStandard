@@ -34,7 +34,8 @@ import java.lang.ref.WeakReference
  *
  * STARTED/STOPPED, RESUMED/PAUSED  - управляются родителем, либо посылаются искуственно(см. pushState)
  *
- * TODO: тесты метода pushState
+ * TODO Пересмотреть логику реакции на эвенты, приодящие со стороны родителя и виджета,
+ * TODO выработать более унифицированный, декларативный и понятный подход.
  *
  * @param parentState состояние родителя
  * @param widgetScreenEventDelegateManager делегат менеджер виджета
