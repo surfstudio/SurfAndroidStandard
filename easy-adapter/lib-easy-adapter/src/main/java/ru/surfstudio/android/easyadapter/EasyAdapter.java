@@ -15,14 +15,15 @@
  */
 package ru.surfstudio.android.easyadapter;
 
+import android.util.SparseArray;
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.LayoutManager;
-import android.util.SparseArray;
-import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -194,7 +195,21 @@ public class EasyAdapter extends RecyclerView.Adapter {
         if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
             this.items.add(firstInvisibleItem);
         }
-        this.items.addAll(items);
+
+        for (int i = 0; i < items.size(); i++) {
+            BaseItem item = items.get(i);
+            BaseItem previousItem = null;
+            BaseItem nextItem = null;
+
+            if (i != 0) previousItem = items.get(i - 1);
+            if (i != items.size() - 1) nextItem = items.get(i + 1);
+
+            item.previousItem = previousItem;
+            item.nextItem = nextItem;
+            item.adapterPosition = i;
+
+            this.items.add(item);
+        }
 
         if (autoNotify) {
             autoNotify();
@@ -366,5 +381,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
             itemView.setLayoutParams(lp);
             return new BaseViewHolder(itemView);
         }
+    }
+
+    public BaseItem<BaseViewHolder> getItem(int position) {
+        return items.get(position);
     }
 }
