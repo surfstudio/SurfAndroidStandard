@@ -124,9 +124,9 @@
   },
   {
     "id": "easy-adapter",
-    "version": "0.4.0",
+    "version": "1.1.0",
     "unstable_version": 1,
-    "stable": true,
+    "stable": false,
     "dir": "easy-adapter",
     "libs": [
       {
