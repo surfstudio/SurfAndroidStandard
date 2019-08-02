@@ -40,7 +40,7 @@ public abstract class BindableItemController<T, H extends BindableViewHolder<T>>
      * @param item   item to bind
      */
     @Override
-    public void bind(H holder, BindableItem<T, H> item) {
+    public final void bind(H holder, BindableItem<T, H> item) {
         bind(holder, item.getData());
     }
 
