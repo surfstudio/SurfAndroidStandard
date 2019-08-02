@@ -25,6 +25,7 @@ import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
+import ru.surfstudio.android.mvp.widget.event.StageSource;
 import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -71,7 +72,7 @@ public class WidgetViewDelegate {
         coreWidgetView.bindPresenters();
         coreWidgetView.onCreate();
 
-        getLifecycleManager().onViewReady();
+        getLifecycleManager().onViewReady(StageSource.DELEGATE);
     }
 
     public void onViewDestroy() {
