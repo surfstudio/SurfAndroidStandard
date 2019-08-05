@@ -1,22 +1,16 @@
+import groovy.json.JsonSlurper
+import ru.surfstudio.ci.*
+import ru.surfstudio.ci.pipeline.ScmPipeline
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.pipeline.ScmPipeline
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-import ru.surfstudio.ci.JarvisUtil
-import ru.surfstudio.ci.CommonUtil
-import ru.surfstudio.ci.RepositoryUtil
+import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.Result
-import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
-import groovy.json.JsonSlurper
-import java.util.regex.Pattern
-import java.util.regex.Matcher
-
-import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
 //Pipeline for deploy snapshot artifacts
 
@@ -214,7 +208,12 @@ def static List<Object> properties(ScmPipeline ctx) {
 
 def static buildDiscarder(script) {
     return script.buildDiscarder(
-            script.logRotator('3', '10', '60', '200')
+            script.logRotator(
+                    daysToKeepStr: '60',
+                    numToKeepStr: '200',
+                    artifactDaysToKeepStr: '3',
+                    artifactNumToKeepStr: '10'
+            )
     )
 }
 
