@@ -32,6 +32,7 @@ ext.configureDeploy = { context ->
                     //todo релиз только указанного артефакта, причем инкапсулировать логику принадлежности в Components
                 //}
             }
+            //todo как происходит деплой релизных артефактов в бинтрей, здесь я логики не вижу
 
 
             // If -PonlyUnstable=true deploy only unstable artifacts
