@@ -15,10 +15,12 @@ buildscript {
         classpath "io.fabric.tools:gradle:$fabricVersion"
         classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
+        classpath "org.jmailen.gradle:kotlinter-gradle:$ktlintPluginVersion"
     }
 }
-
 allprojects {
+    apply plugin: "org.jmailen.kotlinter"
+
     repositories {
         google()
         jcenter()
@@ -48,3 +50,4 @@ buildScan {
 }
 
 apply from: "scripts/dependenciesModules.gradle"
+apply from: "scripts/ktFormatter.gradle"
