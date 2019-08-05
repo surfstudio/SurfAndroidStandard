@@ -206,7 +206,7 @@ pipeline.run()
 def static List<Object> properties(ScmPipeline ctx) {
     def script = ctx.script
     return [
-            buildDiscarder(script),
+            //buildDiscarder(script), // TODO падает. Пока закоменчен
             parameters(script),
             triggers(script)
     ]
@@ -242,7 +242,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/T-(.*)$',
+                    regexpFilterExpression: '^(origin\\/)?dev\\/T-(.*)$', //TODO Вернуть на T -> G
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
