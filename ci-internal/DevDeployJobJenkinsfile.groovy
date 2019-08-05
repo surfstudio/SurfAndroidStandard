@@ -108,7 +108,7 @@ pipeline.stages = [
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
 
-            if (("dev/G-" + globalVersion) != branchName) {
+            if (("dev/T-" + globalVersion) != branchName) {
                 script.error("Deploy AndroidStandard with global version: $globalVersion from branch: '$branchName' forbidden")
             }
         },
@@ -240,7 +240,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$',
+                    regexpFilterExpression: '^(origin\\/)?dev\\/T-(.*)$',
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
