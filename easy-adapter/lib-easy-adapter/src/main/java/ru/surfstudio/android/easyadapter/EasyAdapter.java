@@ -199,7 +199,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
         if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
             this.items.add(firstInvisibleItem);
         }
-
         this.items.addAll(items);
 
         if (autoNotify) {
@@ -274,6 +273,13 @@ public class EasyAdapter extends RecyclerView.Adapter {
                 : adapterPosition;
     }
 
+    /**
+     * Compute additional params for Item
+     *
+     * @param item - BaseItem to add params
+     * @param position - position in ItemList
+     * @param adapterPosition - position in EasyAdapter
+     */
     private void computeAdditionalItemListParams(BaseItem item, int position, int adapterPosition) {
         item.position = position;
         item.adapterPosition = adapterPosition;
