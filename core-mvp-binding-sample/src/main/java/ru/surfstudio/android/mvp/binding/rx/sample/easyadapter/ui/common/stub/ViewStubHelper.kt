@@ -20,7 +20,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import ru.surfstudio.android.core.mvp.binding.sample.R
 
 /**

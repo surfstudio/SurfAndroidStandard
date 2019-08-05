@@ -17,7 +17,6 @@
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.animator
 
 import android.view.animation.*
-import androidx.recyclerview.widget.RecyclerView
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>

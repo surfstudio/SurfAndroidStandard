@@ -21,8 +21,6 @@ import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.core.mvp.binding.rx.interfaces.RxClickable
 import ru.surfstudio.android.core.mvp.binding.sample.R
-import ru.surfstudio.android.easyadapter.controller.NoDataItemController
-import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>

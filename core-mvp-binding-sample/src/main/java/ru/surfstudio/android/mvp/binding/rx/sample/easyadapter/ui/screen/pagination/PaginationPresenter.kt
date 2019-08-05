@@ -16,12 +16,10 @@
 
 package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination
 
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.interactor.element.DEFAULT_PAGE

@@ -16,7 +16,6 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.relation.mvp
 
-import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvp.binding.rx.relation.Relation

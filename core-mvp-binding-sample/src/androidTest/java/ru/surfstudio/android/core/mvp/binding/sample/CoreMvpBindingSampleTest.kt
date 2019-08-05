@@ -16,11 +16,7 @@
 
 package ru.surfstudio.android.core.mvp.binding.sample
 
-import org.junit.Test
 import ru.surfstudio.android.mvp.binding.sample.ui.screen.main.MainActivityView
-import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
-import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
-import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfToastIsVisible
 
 class CoreMvpBindingSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 

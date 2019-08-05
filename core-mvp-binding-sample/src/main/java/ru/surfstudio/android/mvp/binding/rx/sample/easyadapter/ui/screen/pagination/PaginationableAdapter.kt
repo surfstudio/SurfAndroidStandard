@@ -21,11 +21,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.updateLayoutParams
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ru.surfstudio.android.core.mvp.binding.sample.R
-import ru.surfstudio.android.easyadapter.pagination.BasePaginationableAdapter
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>

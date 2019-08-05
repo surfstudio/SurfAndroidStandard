@@ -18,15 +18,11 @@ package ru.surfstudio.android.mvp.binding.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.annotation.IdRes
-import kotlinx.android.synthetic.main.activity_main_deprecated.*
-import org.jetbrains.anko.toast
 import ru.surfstudio.android.core.mvp.binding.BaseBindableActivityView
 import ru.surfstudio.android.core.mvp.binding.BindData
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
-import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
 /**

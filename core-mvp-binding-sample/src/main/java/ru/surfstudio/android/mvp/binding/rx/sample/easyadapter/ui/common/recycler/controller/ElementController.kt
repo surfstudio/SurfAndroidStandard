@@ -19,11 +19,7 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycl
 import android.content.res.ColorStateList
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
 import ru.surfstudio.android.core.mvp.binding.sample.R
-import ru.surfstudio.android.easyadapter.controller.BindableItemController
-import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.widget.ElementCoverView
 import ru.surfstudio.android.utilktx.data.wrapper.selectable.SelectableData

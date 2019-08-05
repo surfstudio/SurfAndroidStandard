@@ -17,7 +17,6 @@ package ru.surfstudio.android.core.ui.provider;
 
 
 import androidx.fragment.app.Fragment;
-
 import ru.surfstudio.android.core.ui.state.FragmentScreenState;
 
 /**

@@ -18,16 +18,10 @@ package ru.surfstudio.android.core.mvp.binding.rx.ui
 
 import android.content.Context
 import android.util.AttributeSet
-import androidx.annotation.CallSuper
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
-import ru.surfstudio.android.mvp.widget.view.CoreConstraintLayoutView
-import ru.surfstudio.android.mvp.widget.view.CoreFrameLayoutView
-import ru.surfstudio.android.mvp.widget.view.CoreLinearLayoutView
-import ru.surfstudio.android.mvp.widget.view.CoreRelativeLayoutView
 
 /**
  * Классы для работы с виджетами через биндинг

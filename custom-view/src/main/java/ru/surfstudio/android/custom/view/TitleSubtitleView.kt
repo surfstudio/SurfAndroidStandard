@@ -17,15 +17,12 @@ package ru.surfstudio.android.custom.view
 
 import android.content.Context
 import android.content.res.TypedArray
-import androidx.core.content.ContextCompat
-import androidx.core.widget.TextViewCompat
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.StyleRes
 
 private const val DEFAULT_MAX_LINES: Int = 1
 

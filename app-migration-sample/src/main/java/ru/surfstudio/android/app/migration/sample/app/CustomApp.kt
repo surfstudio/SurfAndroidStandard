@@ -1,11 +1,8 @@
 package ru.surfstudio.android.app.migration.sample.app
 
 import android.app.Activity
-import androidx.multidex.MultiDexApplication
-import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.app.migration.sample.app.dagger.CustomAppComponent
 import ru.surfstudio.android.app.migration.sample.app.dagger.DaggerCustomAppComponent
-import ru.surfstudio.android.sample.dagger.app.dagger.DefaultAppModule
 
 /**
  * Класс приложения

@@ -18,10 +18,7 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycl
 
 import android.view.ViewGroup
 import ru.surfstudio.android.core.mvp.binding.sample.R
-import ru.surfstudio.android.easyadapter.controller.BindableItemController
-import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.stub.Stub
-import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.stub.toStub
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>

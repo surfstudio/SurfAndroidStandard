@@ -1,17 +1,5 @@
 package ru.surfstudio.android.animations.sample
 
-import androidx.annotation.IdRes
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withParent
-import org.hamcrest.CoreMatchers.allOf
-import org.junit.Test
-import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
-import ru.surfstudio.android.sample.common.test.nestedScrollTo
-import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
-import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils.checkIfSnackbarIsVisible
-
 class AnimationsSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
     // Массив id кнопок виджета для показа и скрытия анимации

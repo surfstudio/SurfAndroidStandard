@@ -16,9 +16,6 @@
 package ru.surfstudio.android.animations.behaviors
 
 import android.content.Context
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.view.ViewCompat
-import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button

@@ -18,9 +18,6 @@ package ru.surfstudio.android.core.mvp.rx.relation
 
 import io.reactivex.functions.Consumer
 import io.reactivex.observers.TestObserver
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Test
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
 
 class ActionTest : BaseRelationTest() {

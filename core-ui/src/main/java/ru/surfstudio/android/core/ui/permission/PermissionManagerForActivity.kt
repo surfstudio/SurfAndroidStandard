@@ -16,8 +16,6 @@
 package ru.surfstudio.android.core.ui.permission
 
 import android.content.SharedPreferences
-import androidx.core.app.ActivityCompat
-
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider

@@ -16,8 +16,6 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.relation
 
-import com.jakewharton.rxrelay2.BehaviorRelay
-
 /**
  * Связь хранящая в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue

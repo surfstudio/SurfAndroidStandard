@@ -19,14 +19,9 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagina
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.rxkotlin.Observables
-import kotlinx.android.synthetic.main.pagination_activity.*
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
-import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.Element
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist.DataList
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.common.recycler.animator.SlideItemAnimator

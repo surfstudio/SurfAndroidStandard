@@ -17,9 +17,6 @@ package ru.surfstudio.android.core.ui.navigation.fragment.tabfragment
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.annotation.IdRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import org.json.JSONArray
@@ -34,7 +31,6 @@ import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.route.RootFragmentRoute
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
-import ru.surfstudio.android.logger.Logger
 import java.util.*
 
 /**

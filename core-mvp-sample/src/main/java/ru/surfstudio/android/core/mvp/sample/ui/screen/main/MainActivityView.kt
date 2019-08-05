@@ -2,12 +2,9 @@ package ru.surfstudio.android.core.mvp.sample.ui.screen.main
 
 import android.os.Bundle
 import android.os.PersistableBundle
-import androidx.annotation.IdRes
-import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.mvp.sample.R
-import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import javax.inject.Inject
 
 /**

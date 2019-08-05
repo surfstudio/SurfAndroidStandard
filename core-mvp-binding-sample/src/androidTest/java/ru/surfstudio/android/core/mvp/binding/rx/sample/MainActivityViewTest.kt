@@ -16,20 +16,11 @@
 
 package ru.surfstudio.android.core.mvp.binding.rx.sample
 
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
-import org.junit.Test
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import ru.surfstudio.android.mvp.binding.rx.sample.MainActivityView
 import ru.surfstudio.android.mvp.binding.rx.sample.checkbox.CheckboxActivityView
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main.EAMainActivityView
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationActivityView
-import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
-import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
-import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 class MainActivityViewTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 

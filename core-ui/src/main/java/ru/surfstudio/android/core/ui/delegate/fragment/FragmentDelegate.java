@@ -17,12 +17,12 @@ package ru.surfstudio.android.core.ui.delegate.fragment;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.delegate.base.BaseScreenDelegate;
 import ru.surfstudio.android.core.ui.event.FragmentScreenEventDelegateManager;

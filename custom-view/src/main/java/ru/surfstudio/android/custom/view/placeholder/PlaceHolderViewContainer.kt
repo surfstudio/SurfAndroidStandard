@@ -6,7 +6,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposables
 import io.reactivex.subjects.PublishSubject
 import ru.surfstudio.android.animations.anim.fadeIn

@@ -19,8 +19,6 @@ package ru.surfstudio.android.mvp.binding.rx.sample
 import android.app.Dialog
 import android.os.Bundle
 import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
-import com.jakewharton.rxbinding2.widget.textChanges
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.Action
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxSimpleDialogFragment
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel

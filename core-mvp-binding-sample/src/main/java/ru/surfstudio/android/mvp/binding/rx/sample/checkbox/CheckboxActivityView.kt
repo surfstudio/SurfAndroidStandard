@@ -19,9 +19,6 @@ package ru.surfstudio.android.mvp.binding.rx.sample.checkbox
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.widget.Toast
-import com.jakewharton.rxbinding2.view.clicks
-import com.jakewharton.rxbinding2.widget.checkedChanges
-import kotlinx.android.synthetic.main.activity_checkboxes.*
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.core.mvp.binding.sample.R
 import javax.inject.Inject

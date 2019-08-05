@@ -16,11 +16,11 @@
 package ru.surfstudio.android.core.app;
 
 import android.app.Activity;
-import androidx.multidex.MultiDexApplication;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.github.anrwatchdog.ANRWatchDog;
 
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.multidex.MultiDexApplication;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.logger.RemoteLogger;
 import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy;
