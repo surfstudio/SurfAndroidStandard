@@ -10,7 +10,7 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 /**
  * Check same artifact version in artifactory.
  */
-open class CheckSameDependencyArtifactsInArtifactoryTask : DefaultTask() {
+open class CheckSameArtifactsInArtifactoryTask : DefaultTask() {
 
     /**
      * Check artifact with same version in artifactory
