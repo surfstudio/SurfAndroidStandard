@@ -176,7 +176,7 @@ pipeline.stages = [
                 script.error("Cannot mirror without change version")
             }
             script.build job: 'Android_Standard_Component_Mirroring', parameters: [
-                    string(name: 'branch', value: branchName)
+                    script.string(name: 'branch', value: branchName)
             ]
         }
 ]
