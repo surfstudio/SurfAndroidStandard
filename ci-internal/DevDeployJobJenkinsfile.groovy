@@ -208,7 +208,12 @@ def static List<Object> properties(ScmPipeline ctx) {
 
 def static buildDiscarder(script) {
     return script.buildDiscarder(
-            script.logRotator(60, 200, 3, 10)
+            script.logRotator(
+                    'daysToKeepStr': '60',
+                    'numToKeepStr': '200',
+                    'artifactDaysToKeepStr': '3',
+                    'artifactNumToKeepStr': '10'
+            )
     )
 }
 
