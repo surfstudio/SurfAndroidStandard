@@ -200,19 +200,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
             this.items.add(firstInvisibleItem);
         }
 
-        for (int i = 0; i < items.size(); i++) {
-            BaseItem item = items.get(i);
-            BaseItem previousItem = null;
-            BaseItem nextItem = null;
-
-            if (i != 0) previousItem = items.get(i - 1);
-            if (i != items.size() - 1) nextItem = items.get(i + 1);
-
-            item.previousItem = previousItem;
-            item.nextItem = nextItem;
-            item.position = i;
-        }
-
         this.items.addAll(items);
 
         if (autoNotify) {
