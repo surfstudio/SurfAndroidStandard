@@ -44,7 +44,7 @@ public abstract class BaseScreenState implements ScreenState {
     }
 
     public void onViewReady() {
-        lifecycleStage = LifecycleStage.VIEW_READY;
+        lifecycleStage = LifecycleStage.VIEW_CREATED;
     }
 
     public void onStart() {
