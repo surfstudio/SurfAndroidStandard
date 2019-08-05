@@ -30,6 +30,7 @@ def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
+//todo добавить шаг checkConfigurationIsProjectSnapshotTask
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
