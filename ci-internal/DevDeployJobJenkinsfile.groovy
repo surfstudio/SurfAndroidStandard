@@ -200,7 +200,7 @@ pipeline.run()
 def static List<Object> properties(ScmPipeline ctx) {
     def script = ctx.script
     return [
-            //buildDiscarder(script), // TODO падает. Пока закоменчен
+            buildDiscarder(script),
             parameters(script),
             triggers(script)
     ]
@@ -208,11 +208,7 @@ def static List<Object> properties(ScmPipeline ctx) {
 
 def static buildDiscarder(script) {
     return script.buildDiscarder(
-            script.logRotator(
-                    artifactDaysToKeepStr: '3',
-                    artifactNumToKeepStr: '10',
-                    daysToKeepStr: '60',
-                    numToKeepStr: '200')
+            script.logRotator('3', '10', '60', '200')
     )
 }
 
