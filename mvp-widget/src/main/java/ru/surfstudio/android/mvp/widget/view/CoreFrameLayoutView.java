@@ -29,10 +29,10 @@ import ru.surfstudio.android.mvp.widget.delegate.factory.MvpWidgetDelegateFactor
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 /**
- * базовый класс для кастомной вьюшки с презентером, основанном на [FrameLayout]
+ * Базовый класс для Widget на основе {@link FrameLayout}.
  * <p>
- * !!!ВАЖНО!!!
- * Пока нельзя использовать в ресайклере
+ * Для использования виджетов в RecyclerView, необходимо переопределить метод getWidgetId так,
+ * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWidgetViewInterface {
 
@@ -42,7 +42,6 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     public CoreFrameLayoutView(Context context, boolean isManualInitEnabled) {
         super(context, null);
         this.isManualInitEnabled = isManualInitEnabled;
-        initWidgetViewDelegate();
     }
 
     public CoreFrameLayoutView(Context context, AttributeSet attrs) {
@@ -53,7 +52,6 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
         super(context, attrs, defStyleAttr);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     @TargetApi(21)
@@ -61,7 +59,6 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
         super(context, attrs, defStyleAttr, defStyleRes);
 
         obtainAttrs(attrs);
-        initWidgetViewDelegate();
     }
 
     @SuppressLint("CustomViewStyleable")
@@ -89,19 +86,9 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         if (!isManualInitEnabled) {
+            widgetViewDelegate = createWidgetViewDelegate();
             widgetViewDelegate.onCreate();
         }
-    }
-
-    @Override
-    @Deprecated
-    public void init() {
-        // do nothing
-    }
-
-    @Override
-    public void init(String scopeId) {
-        // do nothing
     }
 
     @Override
@@ -124,7 +111,7 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
-            widgetViewDelegate.onDestroy();
+            widgetViewDelegate.onViewDestroy();
         }
     }
 
@@ -138,11 +125,5 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
      */
     public void manualCompletelyDestroy() {
         widgetViewDelegate.onCompletelyDestroy();
-    }
-
-    private void initWidgetViewDelegate() {
-        if (!isManualInitEnabled) {
-            widgetViewDelegate = createWidgetViewDelegate();
-        }
     }
 }

@@ -4,6 +4,10 @@
 
 ## 0.4.0 - SNAPSHOT
 
+#### custom-view
+
+* ANDDEP-571 Убран двойной сеттинг setTextAppearance у TitleSubtitleView
+
 #### activity-holder
 
 * Отдельный модуль для `ActiveActivityHolder`
@@ -36,9 +40,20 @@
 `subscribeTakeLastFrozen`.
 
 #### core-mvp-binding
+* ANDDEP-575 В BaseRxPresenter добавлены экстеншны для rx-запросов
+* ANDDEP-580 Поддержка биндинга в простых Bottom Sheet диалогах
+* Исправлена ошибка, при которой игнорировались необработанные исключения. 
+* Добавлены расширения для работы с биндингами
+* Добавлена возможность подписки на State презентору
+* Добавлена возможность подписки на Command презентору
+
+#### core-mvi
 #### core-ui
 
 * добавлена возможность задать текст у кнопок стандартного диалога перехода в настройки.
+* Исправлено локальное подключение модулей стандарта 
+* Исправлен баг с использованием виджетов в recyclerView когда WidgetViewDelegate не успевал обнулять view у презентера
+* Добавлена защита от модификации извне для списка делегатов в методе `resolve` класса `MultipleScreenEventResolver`
 
 #### custom-view
 
@@ -84,7 +99,13 @@
     необходимо указывать уникальный `android:id`.
 * Добавлена поддержка биндинга в виджетах
 * Решена проблема с получением контекста у виджетов, лежащих внутри контейнера с атрибутом theme
-    
+* ANDDEP-573 - Добавлен биндинг для виджетов
+* Решена проблема с повторным вызовом onFirstLoad при использовании виджетов внутри RecyclerView
+* Удалена необходимость явного вызова lazyInit у виджетов в RecyclerView.
+* Удалены `@Deprecated`-методы `init()`, `init(String scopeId)`. Вместо них следует использовать метод `lazyInit()`.
+* Исправлено обнуление view у динамических виджетов в RecyclerView: фикс жизненного цикла, связанного с созданием двух ViewHolder для анимации одного элемента.
+* Исправлено поведение, при котором при пересоздании экрана в методах презентера onLoad, onStart и onResume view была равна null.
+
 #### network
 #### picture-provider
 
@@ -94,6 +115,7 @@
 * добавлена группировка пуш уведомлений
 * теперь можно подписаться на такие события как открытия и отклонения пуш уведомления
 * по умолчанию при клике на пуш уведомления вызывается колбек `PushEventListener`, чтобы поменять поведение можно переопределить preparePendingIntent у `PushHandlerStrategy`
+* пофикшен NPE при конвертации `Intent.extras` в `HashMap` методом `convert` объекта `IntentPushDataConverter`
 
 #### recycler-extension
 
@@ -103,6 +125,9 @@
     * Добавлена возможность задавать firstItemsCountWithoutDividers
 
 #### rx-extension
+
+* ANDDEP-579 Добавлена поддержка Single в ObservableUtil
+
 #### rxbus
 #### shared-pref
 #### standard-dialog
@@ -134,11 +159,11 @@
 в отдельные классы:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
 и [`ActivityProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityProxyDependencies.kt),
 которые теперь отвечают за распределение зависимостей между компонентами.
-
-
-
+* SBB-1862 Добавлен модуль cf-pagination
 
 #### util-ktx
+
+* ANDDEP-592 Добавлено в readme описания к BlockableData, CheckableData, DeletableData, ExpandableDataInterface, LoadableData, ScrollableData, SelectableData, VisibleData
 
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
@@ -161,7 +186,7 @@
     * Добавление списка источников загрузки изображения [`ImageSource`](imageloader/src/main/java/ru/surfstudio/android/imageloader/data/ImageSource.kt)
     * Добавление listener'a с источником загрузки изображения: `ImageLoader.listenerWithSource`
     * Исправление неочевидного поведения функции `ImageLoader.into`, добавление перегрузки с лямбдами-слушателями
-    
+    * Добавление возможности не применять трансформации к превью и ошибке. 
 
 ### security
 * ANDDEP-82 Модуль для обеспечения безопасности

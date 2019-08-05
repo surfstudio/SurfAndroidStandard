@@ -19,15 +19,13 @@ package ru.surfstudio.android.mvp.widget.delegate;
 import android.view.View;
 
 import java.util.List;
-import java.util.UUID;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate;
 import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
 import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
-import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.android.mvp.widget.configurator.BaseWidgetViewConfigurator;
+import ru.surfstudio.android.mvp.widget.event.StageSource;
 import ru.surfstudio.android.mvp.widget.event.WidgetLifecycleManager;
 import ru.surfstudio.android.mvp.widget.event.delegate.WidgetScreenEventDelegateManager;
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
@@ -50,6 +48,7 @@ public class WidgetViewDelegate {
     private PersistentScopeStorage scopeStorage;
     private ParentPersistentScopeFinder parentPersistentScopeFinder;
     private final List<ScreenEventResolver> eventResolvers;
+    private boolean isViewDestroyedForcibly = false; //флаг, указывающий, что view уничтожена принудительно
 
     private String currentScopeId;
 
@@ -64,15 +63,6 @@ public class WidgetViewDelegate {
         this.eventResolvers = eventResolvers;
     }
 
-    /**
-     * Метод необходимо использовать в ресайклере для установки скоп айди на основе данных в bind
-     *
-     * @param scopeId
-     */
-    public void setScopeId(String scopeId) {
-        this.currentScopeId = scopeId;
-    }
-
     public void onCreate() {
 
         initPersistentScope();
@@ -82,24 +72,35 @@ public class WidgetViewDelegate {
         coreWidgetView.bindPresenters();
         coreWidgetView.onCreate();
 
-        getLifecycleManager().onViewReady();
+        getLifecycleManager().onViewReady(StageSource.DELEGATE);
     }
 
-    public void onDestroy() {
-        if (scopeStorage.isExist(getCurrentScopeId())) {
+    public void onViewDestroy() {
+        if (scopeStorage.isExist(getCurrentScopeId()) && !isViewDestroyedForcibly) {
             getLifecycleManager().onViewDestroy();
         }
     }
 
     //вызов происходит по срабатыванию родительского OnCompletelyDestroy
     public void onCompletelyDestroy() {
-        if (getScreenState().isCompletelyDestroyed()) {
-            scopeStorage.remove(getCurrentScopeId());
+        String scopeId = getCurrentScopeId();
+        if (scopeStorage.isExist(scopeId)) {
+            scopeStorage.remove(scopeId);
         }
     }
 
     public WidgetViewPersistentScope getPersistentScope() {
         return scopeStorage.get(getCurrentScopeId(), WidgetViewPersistentScope.class);
+    }
+
+    /**
+     * Пометка View как принудительно уничтоженной.
+     * <p>
+     * Необходимо для того, чтобы избежать повторного вызова onDestroy на onDetachFromWindow,
+     * если onDestroy уже был вызван извне (возможно при помещении виджета в RecyclerView).
+     */
+    public void setViewDestroyedForcibly() {
+        isViewDestroyedForcibly = true;
     }
 
     private void runConfigurator() {
@@ -152,6 +153,10 @@ public class WidgetViewDelegate {
         }
     }
 
+    private void setScopeId(String scopeId) {
+        this.currentScopeId = scopeId;
+    }
+
     //getters
 
     private WidgetScreenState getScreenState() {
@@ -164,5 +169,15 @@ public class WidgetViewDelegate {
 
     private WidgetLifecycleManager getLifecycleManager() {
         return getPersistentScope().getLifecycleManager();
+    }
+
+    /**
+     * Коллбек, вызываемый при уничтожении View.
+     * <p>
+     * Следует заменить на {@link WidgetViewDelegate#onViewDestroy()}
+     */
+    @Deprecated
+    public void onDestroy() {
+        onViewDestroy();
     }
 }

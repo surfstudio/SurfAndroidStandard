@@ -8,20 +8,19 @@ import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 
 class ListItemController(
         val onItemClick: (String) -> Unit
-) : BindableItemController<Int, ListItemController.Holder>() {
+) : BindableItemController<ListItem, ListItemController.Holder>() {
 
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
 
-    override fun getItemId(int: Int): String = int.toString()
+    override fun getItemId(item: ListItem): String = item.id.toString()
 
-    inner class Holder(parent: ViewGroup) : BindableViewHolder<Int>(parent, R.layout.item_list_list) {
+    inner class Holder(parent: ViewGroup) : BindableViewHolder<ListItem>(parent, R.layout.item_list_list) {
 
         val constraintWidgetView = itemView.constraint_w
 
-        override fun bind(int: Int) {
-            constraintWidgetView.widgetDataId = int.toString()
-            constraintWidgetView.lazyInit()
-            constraintWidgetView.render(int.toString())
+        override fun bind(item: ListItem) {
+            constraintWidgetView.widgetDataId = "id:${item.id}_"
+            constraintWidgetView.render(item.id.toString())
         }
     }
 }
