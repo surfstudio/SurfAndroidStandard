@@ -22,23 +22,36 @@ import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
 def CHECKOUT = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
-def INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION = 'Increment Changed Unstable Modules Alpha Version'
+def CHECK_COMPONENT_DEPENDENCY_STABLE = 'Check Component Dependency Stable'
+def CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY = 'Check Component Dependency In Artifactory'
+def CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY = 'Check Component Already In Artifactory'
+def CHECK_COMPONENT_STABLE = 'Check Component Stable'
+def CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE = 'Check Components Dependent From Current Unstable'
+def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
+def CHECKS_RESULT = 'Checks Result'
+def SET_COMPONENT_ALPHA_COUNTER_TO_ZERO = "Set Component Alpha Counter To Zero"
+
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
-def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
-def VERSION_PUSH = 'Version Push'
-def MIRROR_COMPONENTS = 'Mirror Components'
+def COMPONENT_ALPHA_COUNTER_PUSH = 'Component Alpha Counter Push'
+def MIRROR_COMPONENT = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
+def componentsFile = "buildSrc/components.json"
 
 //vars
 def branchName = ""
-def globalVersion = "<unknown>"
+def componentVersion = "<unknown>"
+def componentName = "<unknown>"
+
+
+def p1 = "deploySameVersionArtifactory"
+
+def p2 = "deploySameVersionBintray" //todo
 
 //other config
 
@@ -104,20 +117,56 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
-            globalVersion = globalConfiguration.version
-
-            if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: $globalVersion from branch: '$branchName' forbidden")
+            //release_<component>_<version>
+            def parts = branchName.split("_")
+            componentVersion = parts[2]
+            componentName = parts[1]
+            script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
+        },
+        pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew checkStandardDependenciesStableTask -Pcomponent=${componentName}")
+        },
+        pipeline.stage(CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            withArtifactoryCredentials(script) {
+                script.sh("./gradlew checkExistingDependencyArtifactsInArtifactory -Pcomponent=${componentName}")
+                script.sh("./gradlew checkExistingDependencyArtifactsInBintray -Pcomponent=${componentName}")
             }
         },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
-            script.sh("./gradlew incrementGlobalUnstableVersion")
+        pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            withArtifactoryCredentials(script) {
+                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName}")
+                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName}")
+            }
         },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
-            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
+        pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew checkComponentStable -Pcomponent=${componentName}")
+        },
+        pipeline.stage(CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew checkDependencyForComponentUnstable -Pcomponent=${componentName}")
+        },
+        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
+        },
+        pipeline.stage(CHECKS_RESULT) {
+            def checksPassed = true
+            [
+                    CHECK_COMPONENT_DEPENDENCY_STABLE,
+                    CHECK_COMPONENT_DEPENDENCY_IN_ARTIFACTORY,
+                    CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY,
+                    CHECK_COMPONENT_STABLE,
+                    CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE,
+                    CHECK_RELEASE_NOTES_VALID
+            ].forEach {stageName ->
+                def stageResult = pipeline.getStage(stageName).result
+                checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+            }
+
+            if(!checksPassed) {
+                script.error("Checks Failed")
+            }
+        },
+        pipeline.stage(SET_COMPONENT_ALPHA_COUNTER_TO_ZERO) {
+            script.sh("./gradlew setComponentAlphaCounterToZero -PrevisionToCompare=${revisionToCompare}")
         },
 
         pipeline.stage(BUILD) {
@@ -150,17 +199,12 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    script.sh "./gradlew clean uploadArchives" //todo указать нужный артефакт
                 }
             }
         },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
-                script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
-            }
-        },
-        pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            //todo переписать логику на пуш обнуления каунтера
             RepositoryUtil.setDefaultJenkinsGitUser(script)
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
@@ -169,7 +213,7 @@ pipeline.stages = [
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
@@ -240,7 +284,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$',
+                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$', //todo изменить фильтр веток
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')

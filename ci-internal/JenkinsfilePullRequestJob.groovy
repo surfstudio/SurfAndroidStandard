@@ -26,8 +26,10 @@ def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
 def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Bacame Stable'
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
-def CHECK_RELEASE_NOTES_VALID = 'Check Relese Notes Valid'
-def CHECK_RELEASE_NOTES_CHANGED = 'Check Relese Notes Changed'
+def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
+def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
+def CHECKS_RESULT = 'Checks Result'
+
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
@@ -130,27 +132,45 @@ pipeline.stages = [
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
-        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY){
+        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             withArtifactoryCredentials(script) {
                 script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
                 script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
             }
         },
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED){
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE){
+        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE){
+        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_VALID){
+        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
         },
 
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED){
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+        },
+        pipeline.stage(CHECKS_RESULT) {
+            def checksPassed = true
+            [
+                    CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+                    CHECK_STABLE_MODULES_NOT_CHANGED,
+                    CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
+                    CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+                    CHECK_RELEASE_NOTES_VALID,
+                    CHECK_RELEASE_NOTES_CHANGED
+            ].forEach {stageName ->
+                def stageResult = pipeline.getStage(stageName).result
+                checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+            }
+
+            if(!checksPassed) {
+                script.error("Checks Failed")
+            }
         },
 
         pipeline.stage(BUILD){
