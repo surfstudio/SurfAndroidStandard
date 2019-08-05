@@ -207,6 +207,7 @@ def static List<Object> properties(ScmPipeline ctx) {
 }
 
 def static buildDiscarder(script) {
+    script.echo("class is " + script.getClass())
     return script.buildDiscarder(
             script.logRotator(
                     'daysToKeepStr': '60',
