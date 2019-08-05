@@ -11,6 +11,7 @@ import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
+import groovy.json.JsonSlurper
 import java.util.regex.Pattern
 import java.util.regex.Matcher
 
