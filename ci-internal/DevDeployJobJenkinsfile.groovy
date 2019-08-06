@@ -8,7 +8,6 @@ import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.AndroidUtil
 
 //Pipeline for deploy snapshot artifacts
 
@@ -144,19 +143,22 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            script.echo "dev_info 1"
-            String componentsJsonStr = script.readFile(componentsJsonFile)
-            script.echo "dev_info 2"
-            def components = new JsonSlurper().parseText(componentsJsonStr)
-            script.echo "dev_info 3"
-            components.each { component ->
-                component.libs.each { lib ->
+//            script.echo "dev_info 1"
+//            String componentsJsonStr = script.readFile(componentsJsonFile)
+//            script.echo "dev_info 2"
+//            def components = new JsonSlurper().parseText(componentsJsonStr)
+//            script.echo "dev_info 3"
+//            components.each { component ->
+//                component.libs.each { lib ->
+//                }
+//            }
                     withArtifactoryCredentials(script) {
 //                        AndroidUtil.withGradleBuildCacheCredentials(script) {
-                            script.sh "./gradlew clean build :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+//                            script.sh "./gradlew clean build :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                            script.sh "./gradlew clean build :logger:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
 //                        }
-                    }
-                }
+//                    }
+//                }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
