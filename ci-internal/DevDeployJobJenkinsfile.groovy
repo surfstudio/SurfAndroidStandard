@@ -218,6 +218,7 @@ def static buildDiscarder(script) {
 }
 
 def static parameters(script) {
+    script.echo("test!")
     return script.parameters([
             script.string(
                     name: 'branchName_0',
