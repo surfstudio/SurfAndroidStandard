@@ -1,11 +1,14 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
 import groovy.json.JsonSlurper
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+import groovy.json.JsonSlurper
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+
 //@Library('surf-lib@version-2.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
@@ -54,15 +57,18 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { properties(pipeline) }
+pipeline.propertiesProvider = {/*properties(pipeline)*/ }
+
+script.echo("DEV_TEST_INFO 1")
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
+script.echo("DEV_TEST_INFO 2")
 pipeline.postExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
-
+script.echo("DEV_TEST_INFO 3")
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
@@ -83,7 +89,7 @@ pipeline.initializeBody = {
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
-
+script.echo("DEV_TEST_INFO 4")
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
             script.git(
@@ -200,19 +206,19 @@ pipeline.run()
 def static List<Object> properties(ScmPipeline ctx) {
     def script = ctx.script
     return [
-//            buildDiscarder(script), //TODO
-//            parameters(script),
-//            triggers(script)
+            buildDiscarder(script),
+            parameters(script),
+            triggers(script)
     ]
 }
 
 def static buildDiscarder(script) {
     return script.buildDiscarder(
             script.logRotator(
-                    'daysToKeepStr': '60',
-                    'numToKeepStr': '200',
-                    'artifactDaysToKeepStr': '3',
-                    'artifactNumToKeepStr': '10'
+                    daysToKeepStr: '60',
+                    numToKeepStr: '200',
+                    artifactDaysToKeepStr: '3',
+                    artifactNumToKeepStr: '10'
             )
     )
 }
