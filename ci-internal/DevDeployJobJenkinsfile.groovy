@@ -143,20 +143,19 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-//            script.echo "dev_info 1"
 //            String componentsJsonStr = script.readFile(componentsJsonFile)
-//            script.echo "dev_info 2"
 //            def components = new JsonSlurper().parseText(componentsJsonStr)
-//            script.echo "dev_info 3"
+//            def libNames = new ArrayList<String>()
 //            components.each { component ->
 //                component.libs.each { lib ->
+//                    libNames.add(lib.name)
 //                }
 //            }
                     withArtifactoryCredentials(script) {
-//                        AndroidUtil.withGradleBuildCacheCredentials(script) {
+                        AndroidUtil.withGradleBuildCacheCredentials(script) {
 //                            script.sh "./gradlew clean build :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                             script.sh "./gradlew clean build :logger:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-//                        }
+                        }
 //                    }
 //                }
             }
