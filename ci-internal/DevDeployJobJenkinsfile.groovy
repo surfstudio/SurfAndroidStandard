@@ -200,14 +200,13 @@ pipeline.run()
 def static List<Object> properties(ScmPipeline ctx) {
     def script = ctx.script
     return [
-            buildDiscarder(script),
+//            buildDiscarder(script), //TODO
             parameters(script),
             triggers(script)
     ]
 }
 
 def static buildDiscarder(script) {
-    script.echo("class is " + script.getClass())
     return script.buildDiscarder(
             script.logRotator(
                     'daysToKeepStr': '60',
