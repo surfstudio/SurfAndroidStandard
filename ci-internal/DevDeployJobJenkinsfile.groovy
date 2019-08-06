@@ -1,14 +1,11 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-import groovy.json.JsonSlurper
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
 import groovy.json.JsonSlurper
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-
-//@Library('surf-lib@version-2.0.0-SNAPSHOT')
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
@@ -57,7 +54,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-//pipeline.propertiesProvider = {properties(pipeline) }
+pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -194,51 +191,40 @@ pipeline.finalizeBody = {
     JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 
 }
-properties([
-        buildDiscarder(
-                logRotator(
-                        daysToKeepStr: '60',
-                        numToKeepStr: '200',
-                        artifactDaysToKeepStr: '3',
-                        artifactNumToKeepStr: '10'
-                )
-        )])
 
 pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> properties1(ScmPipeline ctx) {
+def static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
-    script.echo "DEV_INFO 1"
     return [
-            //buildDiscarder(script),
-            parameters(script),
-            triggers(script)
+            initDiscarder(script),
+            initParameters(script),
+            initTriggers(script)
     ]
 }
 
-/*def static buildDiscarder(script) {
+def static initDiscarder(script) {
     return script.buildDiscarder(
-            logRotator(
-                    daysToKeepStr: '60',
-                    numToKeepStr: '200',
+            script.logRotator(
                     artifactDaysToKeepStr: '3',
-                    artifactNumToKeepStr: '10'
-            )
+                    artifactNumToKeepStr: '10',
+                    daysToKeepStr: '60',
+                    numToKeepStr: '200')
     )
-}*/
+}
 
-def static parameters(script) {
+def static initParameters(script) {
     return script.parameters([
             script.string(
-                    name: 'branchName_0',
+                    name: "branchName_0",
                     description: 'Ветка с исходным кодом')
     ])
 }
 
-def static triggers(script) {
+def static initTriggers(script) {
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
@@ -250,7 +236,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/T-(.*)$', //TODO Вернуть на T -> G
+                    regexpFilterExpression: '^(origin\\/)?dev\\/T-(.*)$',
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
