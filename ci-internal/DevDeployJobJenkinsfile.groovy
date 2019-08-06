@@ -152,7 +152,7 @@ pipeline.stages = [
                 globalConfiguration.each {
                     it.libs.each{
                         AndroidUtil.withGradleBuildCacheCredentials(script) {
-                            script.sh "./gradlew clean :${it}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                            script.sh "./gradlew clean :${it.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                         }
                     }
                 }
