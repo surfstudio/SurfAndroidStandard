@@ -143,22 +143,22 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            String componentsJsonStr = script.readFile(componentsJsonFile)
-            def components = new JsonSlurper().parseText(componentsJsonStr)
-            def libNames = new ArrayList<String>()
-            components.each { component ->
-                component.libs.each { lib ->
-                    libNames.add(lib.name)
-                }
-            }
-
             withArtifactoryCredentials(script) {
 //                        AndroidUtil.withGradleBuildCacheCredentials(script) {
 //                            script.sh "./gradlew clean build :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                            libNames.each { libName ->
-                                script.sh "./gradlew clean build :${libName}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-//                            }
+//                            libNames.each { libName ->
+                String componentsJsonStr = script.readFile("buildSrc/components.json")
+                def components = new JsonSlurper().parseText(componentsJsonStr)
+                components.each { component ->
+                    component.libs.each { lib ->
+                        if (lib.name == "logger") {
+                            script.sh "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                         }
+                    }
+                }
+
+//                            }
+//                        }
 //                    }
 //                }
             }
