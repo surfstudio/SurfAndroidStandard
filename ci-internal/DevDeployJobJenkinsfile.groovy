@@ -8,6 +8,7 @@ import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
+import java.util.ArrayList
 
 //Pipeline for deploy snapshot artifacts
 
