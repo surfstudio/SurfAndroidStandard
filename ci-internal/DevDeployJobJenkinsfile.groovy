@@ -57,7 +57,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = {properties(pipeline) }
+//pipeline.propertiesProvider = {properties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -194,6 +194,15 @@ pipeline.finalizeBody = {
     JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 
 }
+properties([
+        buildDiscarder(
+                logRotator(
+                        daysToKeepStr: '60',
+                        numToKeepStr: '200',
+                        artifactDaysToKeepStr: '3',
+                        artifactNumToKeepStr: '10'
+                )
+        )])
 
 pipeline.run()
 
@@ -204,7 +213,7 @@ def static List<Object> properties(ScmPipeline ctx) {
     def script = ctx.script
     script.echo "DEV_INFO 1"
     return [
-            buildDiscarder(script),
+            //buildDiscarder(script),
             parameters(script),
             triggers(script)
     ]
