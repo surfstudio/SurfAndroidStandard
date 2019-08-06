@@ -209,7 +209,7 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> properties(ScmPipeline ctx) {
+def static List<Object> properties1(ScmPipeline ctx) {
     def script = ctx.script
     script.echo "DEV_INFO 1"
     return [
