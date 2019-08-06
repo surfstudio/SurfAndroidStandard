@@ -144,10 +144,14 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
+            script.echo "dev_info 1"
             String componentsJsonStr = script.readFile(componentsJsonFile)
+            script.echo "dev_info 2"
             def components = new JsonSlurper().parseText(componentsJsonStr)
+            script.echo "dev_info 3"
             components.each { component ->
                 component.libs.each { lib ->
+                    script.echo "dev_info $lib"
                 }
             }
                     withArtifactoryCredentials(script) {
