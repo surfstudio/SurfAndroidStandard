@@ -148,13 +148,16 @@ pipeline.stages = [
             def components = new JsonSlurper().parseText(componentsJsonStr)
             components.each { component ->
                 component.libs.each { lib ->
+                }
+            }
                     withArtifactoryCredentials(script) {
                         AndroidUtil.withGradleBuildCacheCredentials(script) {
-                            script.echo "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                            script.sh "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+//                            script.echo "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+//                            script.sh "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                            script.sh "./gradlew clean :logger:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                         }
-                    }
-                }
+//                    }
+//                }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
