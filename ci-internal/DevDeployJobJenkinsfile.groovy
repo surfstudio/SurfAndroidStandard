@@ -220,7 +220,7 @@ def static buildDiscarder(script) {
 def static parameters(script) {
     return script.parameters([
             script.string(
-                    name: "branchName_0",
+                    name: 'branchName_0',
                     description: 'Ветка с исходным кодом')
     ])
 }
