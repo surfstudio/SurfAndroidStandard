@@ -151,17 +151,12 @@ pipeline.stages = [
             script.echo "dev_info 3"
             components.each { component ->
                 component.libs.each { lib ->
-                    script.echo "dev_info $lib"
-                }
-            }
                     withArtifactoryCredentials(script) {
                         AndroidUtil.withGradleBuildCacheCredentials(script) {
-//                            script.echo "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-//                            script.sh "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                            script.sh "./gradlew clean :logger:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                            script.sh "./gradlew clean assemble :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                         }
-//                    }
-//                }
+                    }
+                }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
