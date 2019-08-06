@@ -33,6 +33,7 @@ def componentsJsonFile = "buildSrc/components.json"
 //vars
 def branchName = ""
 def globalVersion = "<unknown>"
+def libNames = new ArrayList<String>()
 
 //other config
 
@@ -99,8 +100,16 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurper().parseText(componentsJsonStr)
             globalVersion = globalConfiguration.version
+
+            String componentsJsonStr = script.readFile(componentsJsonFile)
+            def components = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            components.each { c ->
+                c.libs.each { lib ->
+                    libNames.add(lib.name)
+                }
+            }
 
             if (("dev/T-" + globalVersion) != branchName) { // TODO ПОМЕНЯТЬ НА dev/G-0.0.0
                 script.error("Deploy AndroidStandard with global version: $globalVersion from branch: '$branchName' forbidden")
@@ -147,14 +156,14 @@ pipeline.stages = [
 //                        AndroidUtil.withGradleBuildCacheCredentials(script) {
 //                            script.sh "./gradlew clean build :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
 //                            libNames.each { libName ->
-                String componentsJsonStr = script.readFile("buildSrc/components.json")
-                def components = new JsonSlurper().parseText(componentsJsonStr)
-                components.each { component ->
-                    component.libs.each { lib ->
-                        if (lib.name == "logger") {
-                            script.sh "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+//                String componentsJsonStr = script.readFile("buildSrc/components.json")
+//                def components = new JsonSlurper().parseText(componentsJsonStr)
+//                components.each { component ->
+                libNames.each { libName ->
+                    if (libName == "logger") {
+                        script.sh "./gradlew clean :${libName}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                         }
-                    }
+//                    }
                 }
 
 //                            }
