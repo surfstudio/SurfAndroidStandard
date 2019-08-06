@@ -197,8 +197,8 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> properties(script) {
-//    def script = ctx.script
+def static List<Object> properties(Object script) {
+    //def script = ctx.script
     return [
 //            buildDiscarder(script), //TODO
             parameters(script),
@@ -218,6 +218,7 @@ def static buildDiscarder(script) {
 }
 
 def static parameters(script) {
+
     return script.parameters([
             script.string(
                     name: 'branchName_0',
