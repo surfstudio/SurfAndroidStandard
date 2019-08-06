@@ -1,9 +1,9 @@
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
 import groovy.json.JsonSlurper
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
+//@Library('surf-lib@version-2.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
