@@ -8,7 +8,6 @@ import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
-import java.util.ArrayList
 
 //Pipeline for deploy snapshot artifacts
 
@@ -108,6 +107,23 @@ pipeline.stages = [
 
             String componentsJsonStr = script.readFile(componentsJsonFile)
             def components = new JsonSlurper().parseText(componentsJsonStr)
+            script.echo "dev_info 0"
+            for (i = 0; i < conponens.size; i++) {
+                script.echo "dev_info 1"
+                def component = components[i]
+                script.echo "dev_info 2"
+                def libs = component.libs
+                script.echo "dev_info 3"
+                for (j = 0; j < libs.size; i++) {
+                    script.echo "dev_info 4"
+                    def lib = libs[j]
+                    script.echo "dev_info 5"
+                    libNames.add(lib.name)
+                    script.echo "dev_info 6"
+                }
+                script.echo "dev_info 7"
+            }
+            script.echo "dev_info 8"
             components.each { c ->
                 script.echo "dev_info 1"
                 c.libs.each { lib ->
