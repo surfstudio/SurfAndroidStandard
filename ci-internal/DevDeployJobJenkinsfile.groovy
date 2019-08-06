@@ -31,6 +31,7 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
+def componentsJsonFile = "buildSrc/components.json"
 
 //vars
 def branchName = ""
@@ -146,10 +147,14 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
-                script.echo "dev_info artifactory user: ${script.env.surf_maven_username}"
-                script.echo "dev_info artifactory password: ${script.env.surf_maven_password}"
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                String componentsJsonStr = script.readFile(componentsJsonFile)
+                def globalConfiguration = new JsonSlurper().parseText(componentsJsonStr)
+                globalConfiguration.each {
+                    it.libs.each{
+                        AndroidUtil.withGradleBuildCacheCredentials(script) {
+                            script.sh "./gradlew clean :${it}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                        }
+                    }
                 }
             }
         },
