@@ -146,6 +146,8 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
+                script.echo "dev_info artifactory user: ${script.env.surf_maven_username}"
+                script.echo "dev_info artifactory password: ${script.env.surf_maven_password}"
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
