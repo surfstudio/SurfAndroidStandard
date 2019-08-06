@@ -152,9 +152,9 @@ pipeline.stages = [
             components.each { component ->
                 component.libs.each { lib ->
                     withArtifactoryCredentials(script) {
-                        AndroidUtil.withGradleBuildCacheCredentials(script) {
-                            script.sh "./gradlew clean assemble :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                        }
+//                        AndroidUtil.withGradleBuildCacheCredentials(script) {
+                            script.sh "./gradlew clean build :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+//                        }
                     }
                 }
             }
