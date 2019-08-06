@@ -109,7 +109,9 @@ pipeline.stages = [
             String componentsJsonStr = script.readFile(componentsJsonFile)
             def components = new JsonSlurper().parseText(componentsJsonStr)
             components.each { c ->
+                script.echo "dev_info 1"
                 c.libs.each { lib ->
+                    script.echo "dev_info 2"
                     libNames.add(lib.name)
                 }
             }
