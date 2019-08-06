@@ -197,7 +197,7 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> properties(Object script) {
+def List<Object> properties(Object script) {
     //def script = ctx.script
     return [
 //            buildDiscarder(script), //TODO
@@ -206,7 +206,7 @@ def static List<Object> properties(Object script) {
     ]
 }
 
-def static buildDiscarder(script) {
+def buildDiscarder(script) {
     return script.buildDiscarder(
             script.logRotator(
                     'daysToKeepStr': '60',
@@ -217,7 +217,7 @@ def static buildDiscarder(script) {
     )
 }
 
-def static parameters(script) {
+def parameters(script) {
 
     return script.parameters([
             script.string(
@@ -226,7 +226,7 @@ def static parameters(script) {
     ])
 }
 
-def static triggers(script) {
+def triggers(script) {
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
