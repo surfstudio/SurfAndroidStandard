@@ -86,8 +86,6 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
-            script.echo "dev_info 1"
-
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
@@ -268,7 +266,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
 
     def filteredCommits = []
     for (commit in commits) {
-        if (commit.startWith("*")) {
+        if (commit.startsWith("*")) {
             //filter only commit in
             filteredCommits.add(commit)
         }
