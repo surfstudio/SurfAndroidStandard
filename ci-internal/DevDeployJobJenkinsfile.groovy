@@ -144,11 +144,11 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
-                String componentsJsonStr = script.readFile(componentsJsonFile)
-                def components = new JsonSlurper().parseText(componentsJsonStr)
-                components.each { component ->
-                    component.libs.each { lib ->
+            String componentsJsonStr = script.readFile(componentsJsonFile)
+            def components = new JsonSlurper().parseText(componentsJsonStr)
+            components.each { component ->
+                component.libs.each { lib ->
+                    withArtifactoryCredentials(script) {
                         AndroidUtil.withGradleBuildCacheCredentials(script) {
                             script.echo "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                             script.sh "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
