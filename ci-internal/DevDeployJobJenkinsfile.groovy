@@ -54,7 +54,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { properties(script) }
+pipeline.propertiesProvider = { properties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -197,16 +197,16 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def List<Object> properties(Object script) {
-    //def script = ctx.script
+def static List<Object> properties(ScmPipeline ctx) {
+    def script = ctx.script
     return [
 //            buildDiscarder(script), //TODO
-            parameters(script),
-            triggers(script)
+//            parameters(script),
+//            triggers(script)
     ]
 }
 
-def buildDiscarder(script) {
+def static buildDiscarder(script) {
     return script.buildDiscarder(
             script.logRotator(
                     'daysToKeepStr': '60',
@@ -217,8 +217,7 @@ def buildDiscarder(script) {
     )
 }
 
-def parameters(script) {
-
+def static parameters(script) {
     return script.parameters([
             script.string(
                     name: 'branchName_0',
@@ -226,7 +225,7 @@ def parameters(script) {
     ])
 }
 
-def triggers(script) {
+def static triggers(script) {
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
