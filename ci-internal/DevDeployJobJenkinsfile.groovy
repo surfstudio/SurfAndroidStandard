@@ -34,7 +34,7 @@ def componentsJsonFile = "buildSrc/components.json"
 //vars
 def branchName = ""
 def globalVersion = "<unknown>"
-def libNames
+def libNames = []
 
 //other config
 
@@ -83,7 +83,7 @@ pipeline.initializeBody = {
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
-    libNames = new ArrayList<String>()
+//    libNames = new ArrayList<String>()
 }
 
 pipeline.stages = [
@@ -107,7 +107,7 @@ pipeline.stages = [
             globalVersion = globalConfiguration.version
 
             String componentsJsonStr = script.readFile(componentsJsonFile)
-            def components = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def components = new JsonSlurper().parseText(componentsJsonStr)
             components.each { c ->
                 c.libs.each { lib ->
                     libNames.add(lib.name)
