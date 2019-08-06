@@ -57,18 +57,15 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = {/*properties(pipeline)*/ }
-
-this.echo("DEV_TEST_INFO 1")
+pipeline.propertiesProvider = {properties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
-this.echo("DEV_TEST_INFO 2")
 pipeline.postExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
-script.echo("DEV_TEST_INFO 3")
+
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
@@ -89,7 +86,7 @@ pipeline.initializeBody = {
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
-script.echo("DEV_TEST_INFO 4")
+
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
             script.git(
@@ -205,6 +202,7 @@ pipeline.run()
 
 def static List<Object> properties(ScmPipeline ctx) {
     def script = ctx.script
+    script.echo "DEV_INFO 1"
     return [
             buildDiscarder(script),
             parameters(script),
