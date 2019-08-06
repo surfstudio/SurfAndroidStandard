@@ -105,7 +105,9 @@ pipeline.stages = [
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
 
+            script.echo "dev_info -2"
             String componentsJsonStr = script.readFile(componentsJsonFile)
+            script.echo "dev_info -1"
             def components = new JsonSlurper().parseText(componentsJsonStr)
             script.echo "dev_info 0"
             for (i = 0; i < conponens.size; i++) {
