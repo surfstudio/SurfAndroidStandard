@@ -1,4 +1,5 @@
 import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
@@ -102,13 +103,13 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
 
             script.echo "dev_info -2"
             def componentsJsonStr = script.readFile(projectConfigurationFile)
             script.echo "dev_info -1"
-            def components = new JsonSlurper().parseText(componentsJsonStr)
+            def components = new JsonSlurperClassic().parseText(componentsJsonStr)
             script.echo "dev_info 0"
             for (i = 0; i < conponens.size; i++) {
                 script.echo "dev_info 1"
@@ -204,7 +205,7 @@ pipeline.stages = [
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
