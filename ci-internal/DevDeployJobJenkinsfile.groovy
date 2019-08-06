@@ -34,7 +34,7 @@ def componentsJsonFile = "buildSrc/components.json"
 //vars
 def branchName = ""
 def globalVersion = "<unknown>"
-def libNames = new ArrayList<String>()
+def libNames
 
 //other config
 
@@ -82,6 +82,8 @@ pipeline.initializeBody = {
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
+
+    libNames = new ArrayList<String>()
 }
 
 pipeline.stages = [
