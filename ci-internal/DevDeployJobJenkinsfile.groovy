@@ -59,12 +59,12 @@ pipeline.init()
 pipeline.node = "android"
 pipeline.propertiesProvider = {/*properties(pipeline)*/ }
 
-script.echo("DEV_TEST_INFO 1")
+this.echo("DEV_TEST_INFO 1")
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
-script.echo("DEV_TEST_INFO 2")
+this.echo("DEV_TEST_INFO 2")
 pipeline.postExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
