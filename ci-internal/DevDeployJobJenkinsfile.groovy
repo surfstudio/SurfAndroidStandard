@@ -9,8 +9,6 @@ import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 //Pipeline for deploy snapshot artifacts
 
@@ -148,11 +146,12 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 String componentsJsonStr = script.readFile(componentsJsonFile)
-                def globalConfiguration = new JsonSlurper().parseText(componentsJsonStr)
-                globalConfiguration.each {
-                    it.libs.each{
+                def components = new JsonSlurper().parseText(componentsJsonStr)
+                components.each { component ->
+                    component.libs.each { lib ->
                         AndroidUtil.withGradleBuildCacheCredentials(script) {
-                            script.sh "./gradlew clean :${it.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                            script.echo "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                            script.sh "./gradlew clean :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                         }
                     }
                 }
