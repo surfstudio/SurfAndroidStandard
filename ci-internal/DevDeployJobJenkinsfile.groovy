@@ -1,5 +1,4 @@
 import groovy.json.JsonSlurper
-import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
@@ -29,12 +28,10 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def componentsJsonFile = "buildSrc/components.json"
 
 //vars
 def branchName = ""
 def globalVersion = "<unknown>"
-def libNames = []
 
 //other config
 
@@ -103,37 +100,8 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
-
-            script.echo "dev_info -2"
-            def componentsJsonStr = script.readFile(projectConfigurationFile)
-            script.echo "dev_info -1"
-            def components = new JsonSlurperClassic().parseText(componentsJsonStr)
-            script.echo "dev_info 0"
-            for (i = 0; i < conponens.size; i++) {
-                script.echo "dev_info 1"
-                def component = components[i]
-                script.echo "dev_info 2"
-                def libs = component.libs
-                script.echo "dev_info 3"
-                for (j = 0; j < libs.size; i++) {
-                    script.echo "dev_info 4"
-                    def lib = libs[j]
-                    script.echo "dev_info 5"
-                    libNames.add(lib.name)
-                    script.echo "dev_info 6"
-                }
-                script.echo "dev_info 7"
-            }
-            script.echo "dev_info 8"
-            components.each { c ->
-                script.echo "dev_info 1"
-                c.libs.each { lib ->
-                    script.echo "dev_info 2"
-                    libNames.add(lib.name)
-                }
-            }
 
             if (("dev/T-" + globalVersion) != branchName) { // TODO ПОМЕНЯТЬ НА dev/G-0.0.0
                 script.error("Deploy AndroidStandard with global version: $globalVersion from branch: '$branchName' forbidden")
@@ -177,23 +145,9 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
-//                        AndroidUtil.withGradleBuildCacheCredentials(script) {
-//                            script.sh "./gradlew clean build :${lib.name}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-//                            libNames.each { libName ->
-//                String componentsJsonStr = script.readFile("buildSrc/components.json")
-//                def components = new JsonSlurper().parseText(componentsJsonStr)
-//                components.each { component ->
-                libNames.each { libName ->
-                    if (libName == "logger") {
-                        script.sh "./gradlew clean :${libName}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                        }
-//                    }
+                AndroidUtil.withGradleBuildCacheCredentials(script) {
+                    script.sh "./gradlew clean :${libName}:uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
-
-//                            }
-//                        }
-//                    }
-//                }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
@@ -205,7 +159,7 @@ pipeline.stages = [
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
