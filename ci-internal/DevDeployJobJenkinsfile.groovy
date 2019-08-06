@@ -1,5 +1,4 @@
 import groovy.json.JsonSlurper
-import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
@@ -106,10 +105,13 @@ pipeline.stages = [
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
 
+
+            script.echo "dev_info -3"
+            script.echo new File(componentsJsonFile).text
             script.echo "dev_info -2"
             String componentsJsonStr = script.readFile(componentsJsonFile)
             script.echo "dev_info -1"
-            def components = new JsonSlurperClassic().parseText(componentsJsonStr)
+            def components = new JsonSlurper().parseText(componentsJsonStr)
             script.echo "dev_info 0"
             for (i = 0; i < conponens.size; i++) {
                 script.echo "dev_info 1"
