@@ -16,12 +16,15 @@
 
 package ru.surfstudio.android.core.mvp.rx.relation
 
+import io.reactivex.Maybe
 import io.reactivex.functions.Consumer
 import io.reactivex.observers.TestObserver
+import io.reactivex.subjects.PublishSubject
 import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
+import ru.surfstudio.android.core.mvp.binding.rx.ui.BindModel
 
 class StateTest : BaseRelationTest() {
 
@@ -37,29 +40,29 @@ class StateTest : BaseRelationTest() {
         state = State()
 
         testObservable =
-                with(testView) {
-                    state.observable.test()
-                }
+            with(testView) {
+                state.observable.test()
+            }
 
         testConsumer =
-                with(testPresenter) {
-                    state.consumer
-                }
+            with(testPresenter) {
+                state.consumer
+            }
     }
 
     @Test
     @Throws(Exception::class)
     fun test() {
         testObservable
-                .assertNoValues()
-                .assertNoErrors()
+            .assertNoValues()
+            .assertNoErrors()
 
         assertFalse(state.hasValue)
 
         testConsumer.accept("TEST")
 
         testObservable
-                .assertValueCount(1)
+            .assertValueCount(1)
 
         assertTrue(state.hasValue)
         with(testPresenter) {
@@ -91,6 +94,31 @@ class StateTest : BaseRelationTest() {
             disposables.dispose()
             state.observable.test().dispose()
             assert(state.observable.test().isDisposed.not())
+        }
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun variance() {
+        open class A
+        class B : A()
+
+        val myInteractor = object {
+            val foo = PublishSubject.create<B>()
+        }
+        val myBindModel = object : BindModel {
+            val state = State<A>()
+        }
+
+        with(testPresenter) {
+            myInteractor.foo bindTo myBindModel.state
+
+            myInteractor.foo.onNext(B())
+
+            val state = myBindModel.state
+            var newValue = A()
+            state bindTo { newValue = it }
+            assertTrue(newValue is B)
         }
     }
 }

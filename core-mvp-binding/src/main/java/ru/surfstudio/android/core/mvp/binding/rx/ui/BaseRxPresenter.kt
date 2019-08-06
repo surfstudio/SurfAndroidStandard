@@ -43,7 +43,7 @@ abstract class BaseRxPresenter(
 
     override fun relationEntity() = PRESENTER
 
-    override fun <T> subscribe(observable: Observable<T>,
+    override fun <T> subscribe(observable: Observable<out T>,
                                onNext: Consumer<T>,
                                onError: (Throwable) -> Unit): Disposable =
             super.subscribe(observable, { onNext.accept(it) }, { onError(it) })
