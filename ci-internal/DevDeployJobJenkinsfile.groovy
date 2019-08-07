@@ -289,7 +289,8 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     if (revisionToCompare == null) {
         //gets previous commit
         def previousCommit
-        if (commits[1] !="|\\") {
+        script.echo "123123 commits[1] = I${commits[1]}I"
+        if (commits[1] !="|\\  ") {
             previousCommit = commits[1]
         } else {
             previousCommit = commits[2]
