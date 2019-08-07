@@ -112,6 +112,7 @@ pipeline.stages = [
         },
         pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
+            println "123123 1 $revisionToCompare"
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
 
@@ -265,8 +266,11 @@ def static getPreviousRevisionWithVersionIncrement(script) {
             .trim()
             .split("\n")
 
+    println "123123 2 $commits"
+
     def filteredCommits = []
     for (commit in commits) {
+        println "123123 3 $commit"
         if (commit.startsWith("*")) {
             //filter only commit in
             filteredCommits.add(commit)
