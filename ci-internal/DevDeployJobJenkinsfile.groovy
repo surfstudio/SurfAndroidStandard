@@ -1,6 +1,7 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
 
 import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 //@Library('surf-lib@version-2.0.0-SNAPSHOT')
@@ -163,7 +164,7 @@ pipeline.stages = [
             script.echo "dev-info 2"
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             script.echo "dev-info 3"
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
             script.echo "dev-info 4"
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
