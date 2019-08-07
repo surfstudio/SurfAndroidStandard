@@ -153,7 +153,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
             withArtifactoryCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
+                script.sh "./gradlew clean assemble :android-standard-version-plugin:uploadArchives"
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
