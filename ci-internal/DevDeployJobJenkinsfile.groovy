@@ -111,6 +111,7 @@ pipeline.stages = [
             script.sh("./gradlew incrementGlobalUnstableVersion")
         },
         pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
+            println "123123 0"
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
             println "123123 1 $revisionToCompare"
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
