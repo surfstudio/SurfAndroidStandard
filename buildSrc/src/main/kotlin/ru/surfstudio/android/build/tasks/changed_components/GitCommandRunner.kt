@@ -4,7 +4,7 @@ import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.ru
 import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 
-const val GIT_DIFF_COMMAND = "git diff --no-commit-id --name-only"
+const val GIT_DIFF_COMMAND = "git diff-tree --no-commit-id --name-only -r"
 const val GIT_CHECKOUT_COMMAND = "git checkout"
 const val GIT_STASH_COMMAND = "git stash"
 const val GIT_GET_CURRENT_REVISION_COMMAND = "git rev-parse --short HEAD"
@@ -17,8 +17,8 @@ class GitCommandRunner(
         private val directory: String = currentDirectory
 ) {
 
-    fun diff(firstRevision: String, secondRevision: String): List<String>? {
-        val command = "$GIT_DIFF_COMMAND $firstRevision $secondRevision"
+    fun diff(rev: String): List<String>? {
+        val command = "$GIT_DIFF_COMMAND $rev"
         val res = runCommandWithResult(command, File(directory))
 
         return res?.trim()?.split(SPLIT_STRING.toRegex())
