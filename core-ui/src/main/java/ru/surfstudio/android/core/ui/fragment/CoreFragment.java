@@ -29,7 +29,7 @@ import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
 
 /**
- * базовая активити для всего приложения
+ * базовый фрагмент для всего приложения
  * см {@link FragmentDelegate}
  */
 public abstract class CoreFragment extends Fragment implements CoreFragmentInterface {

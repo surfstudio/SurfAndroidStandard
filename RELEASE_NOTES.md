@@ -199,6 +199,7 @@
     * [SecurityUiExtensions](security-sample-template/security/src/main/java/ru/surfstudio/android/security/ui/SecurityUiExtensions.kt) -  - Утилиты для реализаци безопасного UI.
 
     * Расписаны Security tips, которые необходимо учитывать в приложении.
+* SBB-2530 Добавлен extension-метод для полной блокировки контекстного меню в поле ввода EditText.disableContextMenu()
 
 ## 0.3.0
 
@@ -215,7 +216,8 @@
 
     * Расширен функционал: новые поля в [`PermissionRequest`](core-ui/src/main/java/ru/surfstudio/android/core/ui/permission/PermissionRequest.kt),
     возможность настроить диалог об объяснении причин запроса разрешения,
-    возможность показать необходимость перехода в настройки телефона;
+    возможность показать необходимость перехода в настройки телефона.
+* SBB-2523 добавлен интерфейс CrossFeatureFragment для навигации между фрагментами из разных feature-модулей.
 
 #### camera-view
 
