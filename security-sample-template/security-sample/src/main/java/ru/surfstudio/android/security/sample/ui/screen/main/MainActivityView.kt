@@ -11,6 +11,7 @@ import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.ui.base.configurator.CustomActivityScreenConfigurator
 import ru.surfstudio.android.security.session.SessionalActivity
 import ru.surfstudio.android.security.ui.deleteContextMenuItems
+import ru.surfstudio.android.security.ui.disableContextMenu
 import ru.surfstudio.android.security.ui.enableSecureMode
 import javax.inject.Inject
 
@@ -45,10 +46,10 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Sessiona
         check_root_btn.setOnClickListener { presenter.checkRoot() }
         sign_in_btn.setOnClickListener { presenter.createPin(api_key_et.text.toString()) }
 
-        //Удаление пунктов "Копировать" и "Вырезать" из контекстного меню в EditText
+        //удаление пунктов "Копировать" и "Вырезать" из контекстного меню в EditText
         api_key_et.deleteContextMenuItems(android.R.id.copy, android.R.id.cut)
-        //отключает лонгтап по полю ввода, но контекстное меню по-прежнему можно вызвать по "капле" под курсором.
-        api_key_et.isLongClickable = false
+        //отключение контекстного меню у EditText
+        api_key_et.disableContextMenu()
     }
 
     fun showMessage(message: String) {
