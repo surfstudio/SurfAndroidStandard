@@ -50,7 +50,7 @@ open class DefaultAnalyticService : AnalyticActionPerformerCreator<AnalyticActio
      * Добавить выполнитель действия
      */
     fun addActionPerformer(performer: AnalyticActionPerformer<AnalyticAction>): DefaultAnalyticService {
-        println("2")
+        println("4")
         performers.add(performer)
         return this
     }
