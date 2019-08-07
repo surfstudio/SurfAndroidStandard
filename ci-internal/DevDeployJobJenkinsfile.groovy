@@ -251,7 +251,7 @@ def static initTriggers(script) {
 def static getCommitHash(script, commit) {
     def parts = commit.split(" ")
     for (part in parts) {
-        if (part.trim().matches("^[a-zA-Z0-9]*\$")) {
+        if (part.trim().matches("^[a-zA-Z0-9]+\$")) {
             return part.trim()
         }
     }
