@@ -145,9 +145,9 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
-//                AndroidUtil.withGradleBuildCacheCredentials(script) {
+                AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean assemble uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-//                }
+                }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
