@@ -24,9 +24,6 @@ ext.configureDeploy = { context ->
         }
 
         uploadArchives {
-
-            println "123123 ${System.getenv("surf_maven_username")} ${System.getenv("surf_maven_password")}"
-
             // If -Pcomponent set, deploy only its artifacts
             if (project.hasProperty(GradleProperties.COMPONENT)) {
                 def componentName = project.property(GradleProperties.COMPONENT)
