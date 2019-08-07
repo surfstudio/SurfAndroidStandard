@@ -283,7 +283,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     if (revisionToCompare == null) {
         //gets previous commit
         def previousCommit
-        if (commits[1] !="|\\") {
+        if (commits[1] !="|\\  ") {
             previousCommit = commits[1]
         } else {
             previousCommit = commits[2]
