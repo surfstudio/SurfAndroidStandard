@@ -19,7 +19,7 @@ uploadArchives.repositories.mavenDeployer {
     pom {
         groupId = group
         artifactId = rootProject.name
-        version = version
+        version = ConfigInfoProvider.getVersion()
 
         withXml {
             def dependenciesNode = asNode().appendNode('dependencies')
