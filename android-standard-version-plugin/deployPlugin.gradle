@@ -18,7 +18,7 @@ artifacts {
 uploadArchives.repositories.mavenDeployer {
     pom {
         groupId = group
-        artifactId = rootProject.name
+        artifactId = "android-standard"
         version = ConfigInfoProvider.getVersion()
 
         withXml {
