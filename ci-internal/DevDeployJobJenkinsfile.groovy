@@ -158,22 +158,28 @@ pipeline.stages = [
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.echo "dev-info 1"
             RepositoryUtil.setDefaultJenkinsGitUser(script)
+            script.echo "dev-info 2"
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+            script.echo "dev-info 3"
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
 
+            script.echo "dev-info 4"
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            script.echo "dev-info 5"
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+            script.echo "dev-info 6"
         },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
-                    script.string(name: 'branch', value: branchName)
-            ]
-        }
+//        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+//            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
+//                script.error("Cannot mirror without change version")
+//            }
+//            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
+//                    script.string(name: 'branch', value: branchName)
+//            ]
+//        }
 ]
 
 
