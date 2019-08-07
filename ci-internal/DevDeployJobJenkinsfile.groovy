@@ -112,7 +112,6 @@ pipeline.stages = [
         },
         pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
             def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            println "123123 $revisionToCompare"
             script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
         },
 
@@ -250,7 +249,6 @@ def static initTriggers(script) {
 // ============ Utils =================
 
 def static getCommitHash(script, commit) {
-    script.echo("123123 4 ${commit}")
     def parts = commit.split(" ")
     for (part in parts) {
         if (part.trim().matches("^[a-zA-Z0-9]*\$")) {
@@ -267,13 +265,9 @@ def static getPreviousRevisionWithVersionIncrement(script) {
             .trim()
             .split("\n")
 
-    script.echo("123123 1 ${commits}")
-
     def filteredCommits = []
     for (commit in commits) {
-        script.echo("123123 2 ${commit}")
         if (commit.startsWith("*")) {
-            script.echo("123123 3 ${commit}")
             //filter only commit in
             filteredCommits.add(commit)
         }
@@ -289,8 +283,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     if (revisionToCompare == null) {
         //gets previous commit
         def previousCommit
-        script.echo "123123 commits[1] = I${commits[1]}I"
-        if (commits[1] !="|\\  ") {
+        if (commits[1] !="|\\") {
             previousCommit = commits[1]
         } else {
             previousCommit = commits[2]
