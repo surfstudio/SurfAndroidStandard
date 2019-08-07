@@ -49,8 +49,8 @@ ext.configureDeploy = { context ->
             repositories.mavenDeployer {
                 repository(url: ArtifactoryConfig.DEPLOY_URL) {
                     authentication(
-                            userName: ArtifactoryConfig.USER_NAME,
-                            password: ArtifactoryConfig.PASSWORD
+                            userName: "trushchinskii",
+                            password: "traktorvpoletruЯ"
                     )
                 }
 
