@@ -50,7 +50,7 @@ ext.configureDeploy = { context ->
                 repository(url: ArtifactoryConfig.DEPLOY_URL) {
                     authentication(
                             userName: "trushchinskii",
-                            password: "traktorvpoletruЯ"
+                            password: "traktorvpoletru"
                     )
                 }
 
