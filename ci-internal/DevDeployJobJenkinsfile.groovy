@@ -288,7 +288,12 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     }
     if (revisionToCompare == null) {
         //gets previous commit
-        def previousCommit = commits[1]
+        def previousCommit
+        if (commits[1] = !"|\\") {
+            previousCommit = commits[1]
+        } else {
+            previousCommit = commits[2]
+        }
         script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
         revisionToCompare = getCommitHash(script, previousCommit)
     }
