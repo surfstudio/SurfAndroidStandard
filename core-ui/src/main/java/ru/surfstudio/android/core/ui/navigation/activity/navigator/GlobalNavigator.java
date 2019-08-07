@@ -47,6 +47,9 @@ public class GlobalNavigator implements Navigator {
         Activity activity = activityHolder.getActivity();
         Context localContext = activity != null ? activity : context;
         Intent intent = route.prepareIntent(localContext);
+        if (activity == null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         Bundle bundle = route.prepareBundle();
         if (intent.resolveActivity(localContext.getPackageManager()) != null) {
             localContext.startActivity(intent, bundle);

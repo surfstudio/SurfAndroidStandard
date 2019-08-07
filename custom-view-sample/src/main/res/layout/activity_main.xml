@@ -62,7 +62,7 @@
             app:subTitleText="Example text"
             app:subtitleTextAppearance="@style/Text.Light.12"
             app:titleText="@string/app_name"
-            app:titleTextAppearance="@style/Text.Light" />
+            app:titleTextAppearance="@style/Text.Dark.24" />
     </androidx.appcompat.widget.Toolbar>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -34,7 +34,8 @@ import java.lang.ref.WeakReference
  *
  * STARTED/STOPPED, RESUMED/PAUSED  - управляются родителем, либо посылаются искуственно(см. pushState)
  *
- * TODO: тесты метода pushState
+ * TODO Пересмотреть логику реакции на эвенты, приодящие со стороны родителя и виджета,
+ * TODO выработать более унифицированный, декларативный и понятный подход.
  *
  * @param parentState состояние родителя
  * @param widgetScreenEventDelegateManager делегат менеджер виджета
@@ -53,7 +54,7 @@ class WidgetLifecycleManager(
         OnStopDelegate,
         OnViewDestroyDelegate {
 
-    private lateinit var widgetViewDelegate: WeakReference<WidgetViewDelegate>
+    private var widgetViewDelegate: WeakReference<WidgetViewDelegate>? = null
 
     /**
      * Резолвер следующего этапа ЖЦ виджета, в колбеке метод применяющий состояние
@@ -62,24 +63,24 @@ class WidgetLifecycleManager(
 
     //действия с скринстейт по состоянию виджета
     private val screenStateEvents = mapOf(
-            LifecycleStage.VIEW_READY to { screenState.onViewReady() },
+            LifecycleStage.VIEW_CREATED to { screenState.onViewReady() },
             LifecycleStage.STARTED to { screenState.onStart() },
             LifecycleStage.RESUMED to { screenState.onResume() },
             LifecycleStage.PAUSED to { screenState.onPause() },
             LifecycleStage.STOPPED to { screenState.onStop() },
             LifecycleStage.VIEW_DESTROYED to { screenState.onViewDestroy() },
-            LifecycleStage.DESTROYED to { screenState.onDestroy() }
+            LifecycleStage.COMPLETELY_DESTROYED to { screenState.onCompletelyDestroy() }
     )
 
     //эвенты для состояний
     private val eventsMap = mapOf(
-            LifecycleStage.VIEW_READY to OnViewReadyEvent(),
+            LifecycleStage.VIEW_CREATED to OnViewReadyEvent(),
             LifecycleStage.STARTED to OnStartEvent(),
             LifecycleStage.RESUMED to OnResumeEvent(),
             LifecycleStage.PAUSED to OnPauseEvent(),
             LifecycleStage.STOPPED to OnStopEvent(),
             LifecycleStage.VIEW_DESTROYED to OnViewDestroyEvent(),
-            LifecycleStage.DESTROYED to OnCompletelyDestroyEvent()
+            LifecycleStage.COMPLETELY_DESTROYED to OnCompletelyDestroyEvent()
     )
 
     init {
@@ -87,51 +88,96 @@ class WidgetLifecycleManager(
     }
 
     fun onCreate(widgetView: View, coreWidgetView: CoreWidgetViewInterface, widgetViewDelegate: WidgetViewDelegate) {
-        screenState.onCreate(widgetView, coreWidgetView)
+        // Необходимо для соблюдения правильного потока событий в RecyclerView со включенными анимациями:
+        // Для анимирования изменения элементов, RecyclerView создает 2 ViewHolder с двумя разными виджетами,
+        // у которых, при этом, одинаковый id.
+        // Из-за этого, вместо жизненного цикла
+        //          1.onCreate, 1.onDestroy 2.onCreate
+        // вызывается:
+        //          1.onCreate, 2.onCreate, 2.onDestroy
+        //
+        // Чтобы предотвратить подобное поведение, если у нас есть предыдущий делегат,
+        // явно посылаем эвенты onPause, onStop, onViewDestroyed перед созданием нового,
+        // и помечаем делегат как уничтоженный.
+        this.widgetViewDelegate?.get()?.let {
+            stageResolver.pushState(LifecycleStage.VIEW_DESTROYED, StageSource.LIFECYCLE_MANAGER)
+            it.setViewDestroyedForcibly()
+        }
 
         this.widgetViewDelegate = WeakReference(widgetViewDelegate)
+
+        screenState.onCreate(widgetView, coreWidgetView)
     }
 
-    override fun onViewReady() {
-        stageResolver.pushState(LifecycleStage.VIEW_READY)
+    fun onViewReady(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.VIEW_CREATED, source)
         parentScreenEventDelegateManager.sendUnhandledEvents()
     }
 
+    fun onStart(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.STARTED, source)
+    }
+
+    fun onResume(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.RESUMED, source)
+    }
+
+    fun onPause(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.PAUSED, source)
+    }
+
+    fun onStop(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.STOPPED, source)
+    }
+
+    fun onViewDestroy(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.VIEW_DESTROYED, source)
+    }
+
+    fun onCompletelyDestroy(source: StageSource) {
+        stageResolver.pushState(LifecycleStage.COMPLETELY_DESTROYED, source)
+        destroy()
+
+        widgetViewDelegate?.get()?.onCompletelyDestroy()
+    }
+
+    override fun onViewReady() {
+        onViewReady(StageSource.PARENT)
+    }
+
     override fun onStart() {
-        stageResolver.pushState(LifecycleStage.STARTED)
+        onStart(StageSource.PARENT)
     }
 
     override fun onResume() {
-        stageResolver.pushState(LifecycleStage.RESUMED)
+        onResume(StageSource.PARENT)
     }
 
     override fun onPause() {
-        stageResolver.pushState(LifecycleStage.PAUSED)
+        onPause(StageSource.PARENT)
     }
 
     override fun onStop() {
-        stageResolver.pushState(LifecycleStage.STOPPED)
+        onStop(StageSource.PARENT)
     }
 
     override fun onViewDestroy() {
-        stageResolver.pushState(LifecycleStage.VIEW_DESTROYED)
+        onViewDestroy(StageSource.PARENT)
     }
 
     override fun onCompletelyDestroy() {
-        stageResolver.pushState(LifecycleStage.DESTROYED)
-        destroy()
-
-        widgetViewDelegate.get()?.onCompletelyDestroy()
+        onCompletelyDestroy(StageSource.PARENT)
     }
+
 
     /**
      * Применяет события к виджету, если они разрешены текущим состоянием
      * Также посылает эвент с текущим событием.
-     * @param states
+     * @param state
      */
     fun applyStage(state: LifecycleStage) {
         if (state == LifecycleStage.CREATED) return
-        widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state]!!)
+        widgetScreenEventDelegateManager.sendEvent<ScreenEvent, ScreenEventDelegate, Unit>(eventsMap[state])
         screenStateEvents[state]?.invoke()
     }
 
