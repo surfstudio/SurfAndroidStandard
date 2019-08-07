@@ -304,9 +304,27 @@ nullableInt?.let {
 
 * [**Delegates**][delegates]
 
-* Созд
+## Настройка форматирования для проекта
+
+1. Установить [ktlint](ktlint-install)  
+  `$curl -sSLO https://github.com/pinterest/ktlint/releases/download/0.34.2/ktlint &&
+  chmod a+x ktlint &&
+  sudo mv ktlint /usr/local/bin/`  
+  Версию 0.34.2 возможно нужно поднять
+2. Перейти в корневую директорию проекта
+3. `$ktlint --apply-to-idea-project --android` 
+4. Добавить в корневой .gitignore  
+`!.idea/codeStyles`  
+`!.idea/inspectionProfiles`  
+И заменить в нем  
+`.idea` на `.idea/*`
+5. `$git add .idea/`  
+   `$git commit -a -m "Code formatting”`
+6. Убрать из `gradle.properies` `kotlin.code.style={official}`
+7. Запушить изменения
 
 
+[ktlint-install]: https://github.com/pinterest/ktlint#installation
 [conv]: https://kotlinlang.org/docs/reference/coding-conventions.html
 [style]: https://android.github.io/kotlin-guides/style.html
 [robot]: https://habrahabr.ru/company/redmadrobot/blog/343458/
