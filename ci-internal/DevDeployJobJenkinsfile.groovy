@@ -1,17 +1,13 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
-import groovy.json.JsonSlurper
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
 
 import groovy.json.JsonSlurper
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
+//@Library('surf-lib@version-2.0.0-SNAPSHOT')
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-
-//@Library('surf-lib@version-2.0.0-SNAPSHOT')
-
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-
 import ru.surfstudio.ci.stage.StageStrategy
 
 //Pipeline for deploy snapshot artifacts
@@ -292,12 +288,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     }
     if (revisionToCompare == null) {
         //gets previous commit
-        def previousCommit
-        if (commits[1] = !"|\\") {
-            previousCommit = commits[1]
-        } else {
-            previousCommit = commits[2]
-        }
+        def previousCommit = commits[1]
         script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
         revisionToCompare = getCommitHash(script, previousCommit)
     }
