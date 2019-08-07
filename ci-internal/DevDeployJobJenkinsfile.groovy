@@ -1,9 +1,10 @@
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+
 import groovy.json.JsonSlurper
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
+//@Library('surf-lib@version-2.0.0-SNAPSHOT')
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
@@ -12,7 +13,6 @@ import ru.surfstudio.ci.stage.StageStrategy
 //Pipeline for deploy snapshot artifacts
 
 // Stage names
-
 def CHECKOUT = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
@@ -145,15 +145,16 @@ pipeline.stages = [
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean assemble uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+//                AndroidUtil.withGradleBuildCacheCredentials(script) {
+                withGradleBuildCacheCredentials(script) {
+                    script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
         },
         pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
             withArtifactoryCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew clean assemble :android-standard-version-plugin:uploadArchives"
+                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -294,6 +295,17 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
+    ]) {
+        body()
+    }
+}
+
+def static withGradleBuildCacheCredentials(Object script, Closure body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "gradle_build_cache",
+                    usernameVariable: 'GRADLE_BUILD_CACHE_USER',
+                    passwordVariable: 'GRADLE_BUILD_CACHE_PASS')
     ]) {
         body()
     }
