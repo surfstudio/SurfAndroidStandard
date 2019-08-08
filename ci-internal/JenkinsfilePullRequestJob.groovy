@@ -138,13 +138,15 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             withArtifactoryCredentials(script) {
-                withBintrayCredentials(script) {
-                    script.echo "artifactory user: ${script.env.surf_maven_username}"
-                    script.echo "bintray user: ${script.env.surf_bintray_username}"
-                    script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
-                    script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
-                }
+                script.echo "artifactory user: ${script.env.surf_maven_username}"
+                script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
             }
+
+            withBintrayCredentials(script) {
+                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
+                script.echo "bintray user: ${script.env.surf_bintray_username}"
+            }
+
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
