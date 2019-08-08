@@ -1,22 +1,15 @@
-
+import ru.surfstudio.ci.*
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 @Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-import ru.surfstudio.ci.JarvisUtil
-import ru.surfstudio.ci.CommonUtil
-import ru.surfstudio.ci.RepositoryUtil
-import ru.surfstudio.ci.utils.android.AndroidUtil
-import ru.surfstudio.ci.Result
-import ru.surfstudio.ci.AbortDuplicateStrategy
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
 import ru.surfstudio.ci.stage.SimpleStage
-import java.util.regex.Pattern
-import java.util.regex.Matcher
+import ru.surfstudio.ci.stage.StageStrategy
+import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
+import ru.surfstudio.ci.utils.android.config.AvdConfig
 
-import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 //Pipeline for check prs
@@ -142,8 +135,10 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
-                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
+                withBintrayCredentials(script) {
+                    script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
+                    script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
+                }
             }
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
@@ -235,3 +230,13 @@ def static withArtifactoryCredentials(script, body) {
     }
 }
 
+def static withBintrayCredentials(script, body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "Artifactory_Deploy_Credentials",
+                    usernameVariable: 'surf_bintray_username',
+                    passwordVariable: 'surf_bintray_api_key')
+    ]) {
+        body()
+    }
+}
