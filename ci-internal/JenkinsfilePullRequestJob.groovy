@@ -143,8 +143,8 @@ pipeline.stages = [
             }
 
             withBintrayCredentials(script) {
-                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
                 script.echo "bintray user: ${script.env.surf_bintray_username}"
+                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
             }
 
         },
