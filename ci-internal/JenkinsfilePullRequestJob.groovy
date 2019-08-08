@@ -127,7 +127,7 @@ pipeline.stages = [
 
             script.git(
                     url: pipeline.repoUrl,
-                    credentialsId: pipeline.credentialsId,
+                    credentialsId: pipeline.repoCredentialsId,
                     branch: destinationBranch
             )
 
