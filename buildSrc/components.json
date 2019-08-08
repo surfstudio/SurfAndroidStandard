@@ -2,7 +2,7 @@
   {
     "id": "analytics",
     "version": "0.8.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "analytics",
     "libs": [
