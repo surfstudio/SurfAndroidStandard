@@ -174,6 +174,9 @@ pipeline.stages = [
             ].each {stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+                if(!checksPassed) {
+                    script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
+                }
             }
 
             if(!checksPassed) {
