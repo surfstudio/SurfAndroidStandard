@@ -17,6 +17,7 @@ import java.util.regex.Pattern
 import java.util.regex.Matcher
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
+import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 //Pipeline for check prs
 
