@@ -43,6 +43,12 @@ def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
+//parameters
+def final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
+def final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
+def final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
+def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
+
 // Other config
 def stagesForTargetBranchChangedMode = [PRE_MERGE, BUILD, UNIT_TEST, INSTRUMENTATION_TEST]
 
