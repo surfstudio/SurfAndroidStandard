@@ -111,7 +111,7 @@ pipeline.initializeBody = {
         }
     }
 
-    def buildDescription = pipeline.targetBranchChanged ?
+    def buildDescription = targetBranchChanged ?
             "$sourceBranch to $destinationBranch: target branch changed" :
             "$sourceBranch to $destinationBranch"
 
