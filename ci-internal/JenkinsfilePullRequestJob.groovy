@@ -74,6 +74,9 @@ pipeline.postExecuteStageBody = { stage ->
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
+    script.echo "artifactory user: ${script.env.surf_maven_username}"
+    script.echo "bintray user: ${script.env.surf_bintray_username}"
+
     //если триггером был webhook параметры устанавливаются как env, если запустили вручную, то устанавливается как params
     extractValueFromEnvOrParamsAndRun(script, SOURCE_BRANCH_PARAMETER) {
         value -> sourceBranch = value
