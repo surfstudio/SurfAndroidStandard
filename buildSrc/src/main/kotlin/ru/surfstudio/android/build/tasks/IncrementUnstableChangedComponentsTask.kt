@@ -28,11 +28,22 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
+        println("DEV-INFO revisionToCompare ${revisionToCompare}")
+        println("DEV-INFO currentRevision ${currentRevision}")
+
         val resultByFiles = ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
+        resultByFiles.forEach {
+            println("DEV-INFO resultByFiles ${it.componentName}=${it.isComponentChanged}")
+        }
+
         val resultsByConfiguration = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
+
+        resultsByConfiguration.forEach {
+            println("DEV-INFO resultsByConfiguration ${it.componentName}=${it.isComponentChanged}")
+        }
 
         println("DEV-INFO Components Before ${Components.value}")
         incrementUnstableChanged(resultByFiles, resultsByConfiguration)
