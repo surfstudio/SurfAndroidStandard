@@ -34,7 +34,9 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         val resultsByConfiguration = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
+        println("DEV-INFO Components Before ${Components.value}")
         incrementUnstableChanged(resultByFiles, resultsByConfiguration)
+        println("DEV-INFO Components After ${Components.value}")
     }
 
     private fun extractInputArguments() {

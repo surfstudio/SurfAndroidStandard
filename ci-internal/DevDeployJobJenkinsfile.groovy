@@ -163,7 +163,6 @@ pipeline.stages = [
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
-            script.sh "git add buildSrc/components.json"
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
