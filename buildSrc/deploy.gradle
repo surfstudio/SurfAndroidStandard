@@ -1,5 +1,4 @@
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.artifactory.Artifactory
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
@@ -33,7 +32,6 @@ ext.configureDeploy = { context ->
                 //}
             }
             //todo как происходит деплой релизных артефактов в бинтрей, здесь я логики не вижу
-
 
             // If -PonlyUnstable=true deploy only unstable artifacts
             if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {

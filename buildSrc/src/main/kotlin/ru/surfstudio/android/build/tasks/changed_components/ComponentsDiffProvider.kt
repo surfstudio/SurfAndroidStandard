@@ -33,7 +33,7 @@ class ComponentsDiffProvider(
      * @return output from git diff command
      */
     private fun getDiffBetweenRevisions(): List<String>? {
-        return GitCommandRunner().diff(currentRevision, revisionToCompare)
+        return GitCommandRunner().diff(revisionToCompare)
     }
 
     /**

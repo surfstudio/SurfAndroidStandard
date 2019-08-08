@@ -132,13 +132,15 @@ object Components {
         val configInfo = ConfigInfoProvider.globalConfigInfo
 
         value.forEach { component ->
-            component.projectVersion = createCompositeVersion(
+            val componentVersion = createCompositeVersion(
                     component.baseVersion,
                     component.stable,
                     component.unstableVersion,
                     configInfo.projectSnapshotName,
                     configInfo.projectSnapshotVersion
             )
+            component.projectVersion = componentVersion
+            component.libraries.forEach { it.projectVersion = componentVersion }
         }
     }
 
