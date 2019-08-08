@@ -171,7 +171,7 @@ pipeline.stages = [
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
                     CHECK_RELEASE_NOTES_CHANGED
-            ].forEach {stageName ->
+            ].each {stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
             }
