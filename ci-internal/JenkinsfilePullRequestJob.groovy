@@ -126,7 +126,7 @@ pipeline.stages = [
             }
 
             script.git(
-                    url: pipeline.url,
+                    url: pipeline.repoUrl,
                     credentialsId: pipeline.credentialsId,
                     branch: destinationBranch
             )
