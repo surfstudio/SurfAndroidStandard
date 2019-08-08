@@ -12,6 +12,7 @@ import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
+import ru.surfstudio.ci.stage.SimpleStage
 import java.util.regex.Pattern
 import java.util.regex.Matcher
 
