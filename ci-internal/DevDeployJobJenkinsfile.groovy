@@ -279,6 +279,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
         if (commit.contains(RepositoryUtil.VERSION_LABEL1)) {
             script.echo("revision to compare: ${commit}")
             revisionToCompare = getCommitHash(script, commit)
+            break
         }
     }
     if (revisionToCompare == null) {
