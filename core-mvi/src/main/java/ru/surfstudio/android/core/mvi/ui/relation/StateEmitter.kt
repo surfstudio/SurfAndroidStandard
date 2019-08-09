@@ -15,7 +15,7 @@ interface StateEmitter : Related<PRESENTER> {
     override fun relationEntity() = PRESENTER
 
     @CallSuper
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable {
+    override fun <T> subscribe(observable: Observable<out T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable {
         throw NotImplementedError("StateEmitter cant manage subscription lifecycle")
     }
 }

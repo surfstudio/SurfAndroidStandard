@@ -46,10 +46,14 @@ abstract class BaseRxActivityView : CoreActivityView(), BindableRxView {
 
     override fun getPresenters() = emptyArray<BaseRxPresenter>()
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 /**
@@ -67,10 +71,14 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
         super.onDestroy()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
@@ -85,10 +93,14 @@ abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
         super.onDestroy()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 abstract class BaseRxSimpleDialogFragment : CoreSimpleDialogFragment(), Related<VIEW> {
@@ -103,10 +115,14 @@ abstract class BaseRxSimpleDialogFragment : CoreSimpleDialogFragment(), Related<
         super.onDestroy()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 /**
@@ -122,10 +138,14 @@ abstract class BaseRxBottomSheetDialogFragment : CoreBottomSheetDialogFragmentVi
         super.onDestroy()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 /**
@@ -141,8 +161,12 @@ abstract class BaseRxSimpleBottomSheetDialogFragment : CoreSimpleBottomSheetDial
         super.onDestroy()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }

@@ -46,7 +46,7 @@ class TestView : ru.surfstudio.android.core.mvp.binding.rx.relation.Related<VIEW
 
     override fun relationEntity(): VIEW = VIEW
 
-    override fun <T> subscribe(observable: Observable<T>,
+    override fun <T> subscribe(observable: Observable<out T>,
                                onNext: Consumer<T>,
                                onError: (Throwable) -> Unit): Disposable =
             observable.subscribe(onNext)
@@ -59,7 +59,7 @@ class TestPresenter : ru.surfstudio.android.core.mvp.binding.rx.relation.Related
 
     override fun relationEntity(): PRESENTER = PRESENTER
 
-    override fun <T> subscribe(observable: Observable<T>,
+    override fun <T> subscribe(observable: Observable<out T>,
                                onNext: Consumer<T>,
                                onError: (Throwable) -> Unit): Disposable =
             observable.subscribe(onNext)

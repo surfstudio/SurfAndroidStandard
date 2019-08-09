@@ -40,8 +40,9 @@ import ru.surfstudio.android.mvp.widget.view.CoreRelativeLayoutView
  * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 abstract class CoreRxFrameLayoutView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        CoreFrameLayoutView(context, attrs, defStyleAttr), BindableRxView {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) :
+    CoreFrameLayoutView(context, attrs, defStyleAttr), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -59,10 +60,14 @@ abstract class CoreRxFrameLayoutView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 /**
@@ -72,8 +77,9 @@ abstract class CoreRxFrameLayoutView @JvmOverloads constructor(
  * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 abstract class CoreRxLinearLayoutView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        CoreLinearLayoutView(context, attrs, defStyleAttr), BindableRxView {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) :
+    CoreLinearLayoutView(context, attrs, defStyleAttr), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -91,10 +97,14 @@ abstract class CoreRxLinearLayoutView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 /**
@@ -104,8 +114,9 @@ abstract class CoreRxLinearLayoutView @JvmOverloads constructor(
  * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 abstract class CoreRxRelativeLayoutView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        CoreRelativeLayoutView(context, attrs, defStyleAttr), BindableRxView {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) :
+    CoreRelativeLayoutView(context, attrs, defStyleAttr), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -123,10 +134,14 @@ abstract class CoreRxRelativeLayoutView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
 
 /**
@@ -136,8 +151,9 @@ abstract class CoreRxRelativeLayoutView @JvmOverloads constructor(
  * чтобы он получал значение из данных, получаемых в методе bind() у ViewHolder.
  */
 abstract class CoreRxConstraintLayoutView @JvmOverloads constructor(
-        context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        CoreConstraintLayoutView(context, attrs, defStyleAttr), BindableRxView {
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+) :
+    CoreConstraintLayoutView(context, attrs, defStyleAttr), BindableRxView {
 
     private val viewDisposable = CompositeDisposable()
 
@@ -155,8 +171,12 @@ abstract class CoreRxConstraintLayoutView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-    override fun <T> subscribe(observable: Observable<T>, onNext: Consumer<T>, onError: (Throwable) -> Unit): Disposable =
-            observable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(onNext, Consumer(onError))
-                    .also { viewDisposable.add(it) }
+    override fun <T> subscribe(
+        observable: Observable<out T>,
+        onNext: Consumer<T>,
+        onError: (Throwable) -> Unit
+    ): Disposable =
+        observable.observeOn(AndroidSchedulers.mainThread())
+            .subscribe(onNext, Consumer(onError))
+            .also { viewDisposable.add(it) }
 }
