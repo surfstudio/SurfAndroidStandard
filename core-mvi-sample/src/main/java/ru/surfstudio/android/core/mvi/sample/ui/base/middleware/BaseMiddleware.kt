@@ -2,6 +2,7 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.middleware
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.EventTransformerList
 import ru.surfstudio.android.core.mvp.binding.rx.builders.UiBuilderFinish
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
@@ -21,8 +22,13 @@ abstract class BaseMiddleware<T : Event>(
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
     override val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
 
-    override fun transform(eventStream: Observable<T>): Observable<out T> =
-            eventStream.flatMap(this::flatMap)
+    protected fun merge(
+            eventStream: Observable<T>,
+            eventStreamBuilder: EventTransformerList<T>.() -> Unit
+    ): Observable<out T> {
+        val streamTransformers = EventTransformerList(eventStream)
+        eventStreamBuilder.invoke(streamTransformers)
+        return merge(*streamTransformers.toTypedArray())
+    }
 
-    abstract fun flatMap(event: T): Observable<out T>
 }

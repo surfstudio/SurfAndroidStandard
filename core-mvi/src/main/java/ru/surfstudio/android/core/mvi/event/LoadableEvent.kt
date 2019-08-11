@@ -34,3 +34,5 @@ interface LoadableEvent<T> : Event {
         }
     }
 }
+
+class LoadableEventImpl<T>(override var type: LoadType<T> = LoadType.Loading()) : LoadableEvent<T>

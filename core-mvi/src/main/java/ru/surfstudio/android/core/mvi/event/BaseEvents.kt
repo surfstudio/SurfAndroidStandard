@@ -8,3 +8,7 @@ import ru.surfstudio.android.core.ui.navigation.Route
 interface OpenScreenEvent : Event {
     val route: Route
 }
+
+interface BaseSwipeRefreshEvent
+
+interface BaseLoadNextPageEvent

@@ -2,60 +2,53 @@ package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
-import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleStage
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddleware
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddlewareDependency
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.*
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor.ReactiveListStateHolder
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent.*
 
 @PerScreen
 class ReactiveListMiddleware @Inject constructor(
         baseMiddlewareDependency: BaseMiddlewareDependency,
         private val sh: ReactiveListStateHolder
-) : BaseMiddleware<ReactiveListEvent>(baseMiddlewareDependency) {
+) : BaseMiddleware<ReactiveListEvent>(baseMiddlewareDependency),
+        SwrMiddleware<ReactiveListEvent>,
+        LoadNextMiddleware<ReactiveListEvent>,
+        LifecycleMiddleware<ReactiveListEvent> {
 
     override fun transform(eventStream: Observable<ReactiveListEvent>): Observable<out ReactiveListEvent> {
-        val queryChangedObservable = transformQueryEvent(eventStream)
-        val flatMap = eventStream.flatMap(::flatMap)
-        return merge(queryChangedObservable, flatMap)
+        return merge(eventStream) {
+            +onCreate.eventMap { loadData() }
+            +mapLoadNext { sh.list.data.nextPage }
+            +mapSwr()
+            +eventMap<Reload> { loadData() }
+            +eventMap<LoadReactiveList> { if (it.hasData) filterData() else skip() }
+            +streamMap(::debounceQuery)
+            +switch<QueryChangedDebounced> { FilterNumbers() }
+            //TODO pagination event
+        }
     }
 
-    override fun flatMap(event: ReactiveListEvent): Observable<out ReactiveListEvent> = when (event) {
-        is ReactiveListEvent.LifecycleChanged -> reactOnLifecycle(event.stage)
-        is ReactiveListEvent.Reload -> loadData()
-        is ReactiveListEvent.SwipeRefresh -> loadData(isSwr = true)
-        is ReactiveListEvent.LoadNextPage -> loadData(sh.list.data.nextPage)
-        is ReactiveListEvent.LoadNumbers -> if (event.hasData) filterData() else skip()
-        is ReactiveListEvent.QueryChangedDebounced -> filterData()
-        else -> skip()
-    }
+    private fun filterData() = Observable.just(FilterNumbers())
 
-    fun filterData() = Observable.just(ReactiveListEvent.FilterNumbers())
-
-    private fun transformQueryEvent(
-            eventStream: Observable<out ReactiveListEvent>
-    ): Observable<ReactiveListEvent.QueryChangedDebounced> =
+    private fun debounceQuery(
+            eventStream: Observable<ReactiveListEvent>
+    ): Observable<out ReactiveListEvent> =
             eventStream
-                    .filterIsInstance<ReactiveListEvent.QueryChanged>()
+                    .filterIsInstance<QueryChanged>()
                     .map { it.query }
                     .distinctUntilChanged()
                     .debounce(1000, TimeUnit.MILLISECONDS)
-                    .map { ReactiveListEvent.QueryChangedDebounced(it) }
+                    .map { QueryChangedDebounced(it) }
 
-    private fun reactOnLifecycle(stage: LifecycleStage): Observable<out ReactiveListEvent> =
-            when (stage) {
-                LifecycleStage.CREATE -> loadData()
-                else -> skip()
-            }
-
-    private fun loadData(page: Int = 0, isSwr: Boolean = false) = createObservable(page)
+    override fun loadData(page: Int, isSwr: Boolean) = createObservable(page)
             .io()
             .handleError()
-            .mapToLoadable(ReactiveListEvent.LoadNumbers(isSwr = isSwr))
+            .mapToLoadable(LoadReactiveList(isSwr = isSwr))
 
     private fun createObservable(page: Int = 0) = Observable.timer(2, TimeUnit.SECONDS).map {
         DataList<String>(

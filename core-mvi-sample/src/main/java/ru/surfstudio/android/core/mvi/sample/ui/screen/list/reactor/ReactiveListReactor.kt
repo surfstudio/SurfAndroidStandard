@@ -23,7 +23,7 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, Rea
 
     override fun react(holder: ReactiveListStateHolder, event: ReactiveListEvent) {
         when (event) {
-            is ReactiveListEvent.LoadNumbers -> reactOnListLoadEvent(holder, event)
+            is ReactiveListEvent.LoadReactiveList -> reactOnListLoadEvent(holder, event)
             is ReactiveListEvent.FilterNumbers -> reactOnFilterEvent(holder)
             is ReactiveListEvent.QueryChangedDebounced -> holder.query.accept(event.query)
         }
@@ -31,7 +31,7 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, Rea
 
     private fun reactOnListLoadEvent(
             holder: ReactiveListStateHolder,
-            event: ReactiveListEvent.LoadNumbers
+            event: ReactiveListEvent.LoadReactiveList
     ) {
         holder.list.modify {
             val hasData = data.hasValue && !data.get().isEmpty()
