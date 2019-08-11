@@ -1,7 +1,9 @@
-import ru.surfstudio.ci.*
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
+
+import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
@@ -65,10 +67,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { PrPipeline.properties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if(stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if(stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -91,17 +93,17 @@ pipeline.initializeBody = {
         value -> targetBranchChanged = Boolean.valueOf(value)
     }
 
-    if(targetBranchChanged) {
+    if (targetBranchChanged) {
         script.echo "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
         pipeline.forStages { stage ->
-            if(!stage instanceof SimpleStage){
+            if (!stage instanceof SimpleStage) {
                 return
             }
             def executeStage = false
-            for(stageNameForTargetBranchChangedMode in stagesForTargetBranchChangedMode){
+            for (stageNameForTargetBranchChangedMode in stagesForTargetBranchChangedMode) {
                 executeStage = executeStage || (stageNameForTargetBranchChangedMode == stage.getName())
             }
-            if(!executeStage) {
+            if (!executeStage) {
                 stage.strategy = StageStrategy.SKIP_STAGE
             }
         }
@@ -116,7 +118,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(PRE_MERGE){
+        pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
@@ -136,7 +138,7 @@ pipeline.stages = [
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
-        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
+        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
                 script.echo "artifactory user: ${script.env.surf_maven_username}"
                 script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
@@ -148,22 +150,22 @@ pipeline.stages = [
             }
 
         },
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
+        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
+        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
+        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
+        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
         },
-
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR){
-            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-        },
+        // TODO определиться как работать
+//        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+//            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+//        },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
             [
@@ -171,25 +173,26 @@ pipeline.stages = [
                     CHECK_STABLE_MODULES_NOT_CHANGED,
                     CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
-                    CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED
-            ].each {stageName ->
+                    CHECK_RELEASE_NOTES_VALID
+//                    ,
+//                    CHECK_RELEASE_NOTES_CHANGED
+            ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
-                if(!checksPassed) {
+                if (!checksPassed) {
                     script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
                 }
             }
 
-            if(!checksPassed) {
+            if (!checksPassed) {
                 script.error("Checks Failed")
             }
         },
 
-        pipeline.stage(BUILD){
+        pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST){
+        pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
