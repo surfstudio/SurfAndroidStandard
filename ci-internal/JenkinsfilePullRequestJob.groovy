@@ -240,7 +240,7 @@ def static withArtifactoryCredentials(script, body) {
 def static withBintrayCredentials(script, body) {
     script.withCredentials([
             script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
+                    credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_bintray_username',
                     passwordVariable: 'surf_bintray_api_key')
     ]) {
