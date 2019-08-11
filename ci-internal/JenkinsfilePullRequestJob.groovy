@@ -119,9 +119,11 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(PRE_MERGE) {
+            script.echo "dev_info 1"
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
+            script.echo "dev_info 2"
 
             script.git(
                     url: pipeline.repoUrl,
@@ -129,14 +131,19 @@ pipeline.stages = [
                     branch: destinationBranch
             )
 
+            script.echo "dev_info 3"
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
+            script.echo "dev_info 4"
             script.sh "git checkout origin/$sourceBranch"
 
+            script.echo "dev_info 5"
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
             //local merge with destination
+            script.echo "dev_info 6"
             script.sh "git merge origin/$destinationBranch --no-ff"
+            script.echo "dev_info 7"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
