@@ -124,6 +124,7 @@ pipeline.stages = [
                 script.sh "git reset --merge" //revert previous failed merge
             }
             script.echo "dev_info 2 $destinationBranch"
+            script.echo "destinationBranch=$destinationBranch"
 
             script.git(
                     url: pipeline.repoUrl,
