@@ -163,9 +163,10 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
         },
 
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-        },
+        //TODO обсудить как делать
+//        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+//            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+//        },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
             [
@@ -173,8 +174,9 @@ pipeline.stages = [
                     CHECK_STABLE_MODULES_NOT_CHANGED,
                     CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
-                    CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED
+                    CHECK_RELEASE_NOTES_VALID
+//                    ,
+//                    CHECK_RELEASE_NOTES_CHANGED
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
