@@ -30,6 +30,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
     @TaskAction
     fun check() {
         extractInputArguments()
+        println("revisionToCompare=$revisionToCompare")
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
         val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
