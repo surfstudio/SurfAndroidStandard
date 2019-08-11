@@ -1,6 +1,6 @@
 [TOC]
 # Analytics Release Notes
-## 0.0.0
+## 0.8.0
 ##### Analytics
 * TODO
 * TODO
