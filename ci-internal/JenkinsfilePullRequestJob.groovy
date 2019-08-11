@@ -123,7 +123,7 @@ pipeline.stages = [
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
-            script.echo "dev_info 2"
+            script.echo "dev_info 2 $destinationBranch"
 
             script.git(
                     url: pipeline.repoUrl,
