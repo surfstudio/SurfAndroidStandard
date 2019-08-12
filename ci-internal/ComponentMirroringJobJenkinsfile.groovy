@@ -71,26 +71,7 @@ pipeline.initializeBody = {
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
-
-//    libNames = new ArrayList<String>()
 }
-
-pipeline.stages.add(
-        pipeline.stage(CHECKOUT) {
-            script.git(
-                    url: pipeline.repoUrl,
-                    credentialsId: pipeline.repoCredentialsId
-            )
-            script.sh "git checkout -B $branchName origin/$branchName"
-
-            script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
-            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
-            }
-
-            RepositoryUtil.saveCurrentGitCommitHash(script)
-        }
-)
 
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
