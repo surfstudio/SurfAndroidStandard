@@ -218,6 +218,7 @@ pipeline.stages = [
                     string(name: 'branch', value: branchName)
             ]
         }
+        //TODO делать аплоад еще в бинтрей
 ]
 
 
