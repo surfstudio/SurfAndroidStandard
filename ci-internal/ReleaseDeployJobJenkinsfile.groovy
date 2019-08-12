@@ -120,9 +120,9 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             //release_<component>_<version>
-            def parts = branchName.split("_")
-            componentVersion = parts[2]
+            def parts = branchName.split("-")
             componentName = parts[1]
+            componentVersion = parts[2]
             script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
