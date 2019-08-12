@@ -3,6 +3,7 @@
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
+import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.pipeline.ScmPipeline
@@ -208,7 +209,7 @@ pipeline.stages = [
             //todo переписать логику на пуш обнуления каунтера
             RepositoryUtil.setDefaultJenkinsGitUser(script)
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
