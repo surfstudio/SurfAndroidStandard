@@ -12,7 +12,7 @@ import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 interface LoadableMiddleware<T : Event> : RxMiddleware<T> {
 
     fun loadData(
-            page: Int = 0,
+            page: Int = 1,
             isSwr: Boolean = false
     ): Observable<out T>
 }

@@ -21,22 +21,18 @@ open class LoadableState<T> : BehaviorRelation<LoadableData<T>, PRESENTER, State
 
     override fun getObservable(target: StateTarget) = relay.share()
 
-    val observeData: Observable<T>
-        get() = relay.share()
-                .map { it.data }
-                .filterValue()
+    fun observeData(): Observable<T> = relay.share()
+            .map { it.data }
+            .filterValue()
 
-    val observeLoad: Observable<Loading>
-        get() = relay.share()
-                .map { it.load }
-                .distinctUntilChanged()
+    fun observeLoading(): Observable<Loading> = relay.share()
+            .map { it.load }
+            .distinctUntilChanged()
 
-    val observeLoading: Observable<Boolean>
-        get() = observeLoad.map { it.isLoading }
+    fun observeIsLoading(): Observable<Boolean> = observeLoading().map { it.isLoading }
 
-    val observeError: Observable<Throwable>
-        get() = relay.share()
-                .map { it.error }
+    fun observeError(): Observable<Throwable> = relay.share()
+            .map { it.error }
 
     val data: T
         get() = relay.value!!.data.get()

@@ -10,12 +10,14 @@ import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent.*
+import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
 @PerScreen
 class ReactiveListStateHolder @Inject constructor() {
     val list = LoadableState<DataList<String>>()
     val query = State<String>()
-    val filteredList = State<List<String>>()
+    val filteredList = State<Pair<List<String>, PaginationState>>()
 }
 
 @PerScreen
@@ -23,15 +25,15 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, Rea
 
     override fun react(holder: ReactiveListStateHolder, event: ReactiveListEvent) {
         when (event) {
-            is ReactiveListEvent.LoadReactiveList -> reactOnListLoadEvent(holder, event)
-            is ReactiveListEvent.FilterNumbers -> reactOnFilterEvent(holder)
-            is ReactiveListEvent.QueryChangedDebounced -> holder.query.accept(event.query)
+            is LoadList -> reactOnListLoadEvent(holder, event)
+            is FilterNumbers -> reactOnFilterEvent(holder, event)
+            is QueryChangedDebounced -> holder.query.accept(event.query)
         }
     }
 
     private fun reactOnListLoadEvent(
             holder: ReactiveListStateHolder,
-            event: ReactiveListEvent.LoadReactiveList
+            event: LoadList
     ) {
         holder.list.modify {
             val hasData = data.hasValue && !data.get().isEmpty()
@@ -43,7 +45,7 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, Rea
         }
     }
 
-    private fun reactOnFilterEvent(holder: ReactiveListStateHolder) {
+    private fun reactOnFilterEvent(holder: ReactiveListStateHolder, event: FilterNumbers) {
         val data = holder.list.dataOrNull ?: return
         val query = if (holder.query.hasValue) holder.query.value else null
         val list = if (data.isNotEmpty() && !query.isNullOrEmpty()) {
@@ -51,6 +53,6 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, Rea
         } else {
             data
         }
-        holder.filteredList.accept(list)
+        holder.filteredList.accept(list to event.state)
     }
 }

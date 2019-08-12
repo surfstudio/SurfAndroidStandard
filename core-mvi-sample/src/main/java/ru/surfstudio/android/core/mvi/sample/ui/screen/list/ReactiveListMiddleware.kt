@@ -10,6 +10,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent.*
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.canGetMore
 
 @PerScreen
 class ReactiveListMiddleware @Inject constructor(
@@ -18,22 +19,20 @@ class ReactiveListMiddleware @Inject constructor(
 ) : BaseMiddleware<ReactiveListEvent>(baseMiddlewareDependency),
         SwrMiddleware<ReactiveListEvent>,
         LoadNextMiddleware<ReactiveListEvent>,
-        LifecycleMiddleware<ReactiveListEvent> {
+        LifecycleMiddleware<ReactiveListEvent>,
+        PaginationMiddleware<ReactiveListEvent> {
 
     override fun transform(eventStream: Observable<ReactiveListEvent>): Observable<out ReactiveListEvent> {
         return merge(eventStream) {
-            +onCreate.eventMap { loadData() }
+            +onCreate().eventMap { loadData() }
             +mapLoadNext { sh.list.data.nextPage }
+            +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
             +mapSwr()
+            +map<QueryChangedDebounced> { FilterNumbers() }
             +eventMap<Reload> { loadData() }
-            +eventMap<LoadReactiveList> { if (it.hasData) filterData() else skip() }
             +streamMap(::debounceQuery)
-            +switch<QueryChangedDebounced> { FilterNumbers() }
-            //TODO pagination event
         }
     }
-
-    private fun filterData() = Observable.just(FilterNumbers())
 
     private fun debounceQuery(
             eventStream: Observable<ReactiveListEvent>
@@ -48,13 +47,15 @@ class ReactiveListMiddleware @Inject constructor(
     override fun loadData(page: Int, isSwr: Boolean) = createObservable(page)
             .io()
             .handleError()
-            .mapToLoadable(LoadReactiveList(isSwr = isSwr))
+            .mapToLoadable(LoadList(isSwr = isSwr))
 
     private fun createObservable(page: Int = 0) = Observable.timer(2, TimeUnit.SECONDS).map {
-        DataList<String>(
-                (1..20).map { (it + page * 20).toString() },
+        DataList(
+                (1..20).map { (it + (page - 1) * 20).toString() },
                 page,
-                20
+                20,
+                100,
+                5
         )
     }
 }

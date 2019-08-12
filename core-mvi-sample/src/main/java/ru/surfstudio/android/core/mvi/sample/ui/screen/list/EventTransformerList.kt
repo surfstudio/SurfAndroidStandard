@@ -25,10 +25,10 @@ class EventTransformerList<E : Event>(
         return eventStream.filterIsInstance<R>().eventMap(mapper)
     }
 
-    inline fun <reified R : Event> switch(
+    inline fun <reified R : Event> map(
             crossinline mapper: (R) -> E
     ): Observable<out E> {
-        return eventStream.filterIsInstance<R>().switch(mapper)
+        return eventStream.filterIsInstance<R>().map { mapper(it) }
     }
 
     inline fun <reified R : Event> react(
@@ -45,12 +45,6 @@ class EventTransformerList<E : Event>(
             crossinline mapper: (R) -> Observable<out E>
     ): Observable<out E> {
         return flatMap { mapper(it) }
-    }
-
-    inline fun <reified R : Event> Observable<R>.switch(
-            crossinline mapper: (R) -> E
-    ): Observable<out E> {
-        return flatMap { Observable.just(mapper(it)) }
     }
 
     inline infix fun <reified R : Event> Observable<R>.react(

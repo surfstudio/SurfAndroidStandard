@@ -57,10 +57,10 @@ class ReactiveListActivityView : BaseReactActivityView() {
         sh.list.observeMainLoading() bindTo { reactive_pb.isVisible = it }
         sh.list.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }
         sh.filteredList bindTo ::createList
-        sh.list bindTo { }
     }
 
-    private fun createList(list: List<String>) {
-        adapter.setItems(ItemList.create().addAll(list, controller), PaginationState.READY)
+    private fun createList(bundle: Pair<List<String>, PaginationState>) {
+        val (list, state) = bundle
+        adapter.setItems(ItemList.create().addAll(list, controller), state)
     }
 }
