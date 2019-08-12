@@ -105,7 +105,7 @@ pipeline.stages = [
             globalVersion = globalConfiguration.version
 
             if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: $globalVersion from branch: '$branchName' forbidden")
+                script.error("Deploy AndroidStandard with global version: ${"dev/G-" + globalVersion} from branch: '$branchName' forbidden")
             }
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
