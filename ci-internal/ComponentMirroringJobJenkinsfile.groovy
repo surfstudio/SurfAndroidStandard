@@ -1,40 +1,26 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
-
-import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
-//@Library('surf-lib@version-2.0.0-SNAPSHOT')
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-import ru.surfstudio.ci.utils.android.config.AvdConfig
-import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-import ru.surfstudio.ci.stage.StageStrategy
 
 //Pipeline for deploy snapshot artifacts
 
 // Stage names
 def CHECKOUT = 'Checkout'
-def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
-def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
-def INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION = 'Increment Changed Unstable Modules Alpha Version'
-def BUILD = 'Build'
-def UNIT_TEST = 'Unit Test'
-def INSTRUMENTATION_TEST = 'Instrumentation Test'
-def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
-def DEPLOY_MODULES = 'Deploy Modules'
-def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
-def VERSION_PUSH = 'Version Push'
-def MIRROR_COMPONENTS = 'Mirror Components'
+def MIRROR_COMPONENT = 'Mirror Component'
 
 //constants
-def projectConfigurationFile = "buildSrc/projectConfiguration.json"
+def componentsJsonFile = "buildSrc/components.json"
+def MIRROR_FOLDER = ".mirror"
+def DEPTH_LIMIT = 100
+def SEARCH_LIMIT = 100
 
 //vars
 def branchName = ""
-def globalVersion = "<unknown>"
+def lastCommit = ""
 
 //other config
 
@@ -71,8 +57,11 @@ pipeline.initializeBody = {
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branch') {
         value -> branchName = value
+    }
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'lastCommit') {
+        value -> lastCommit = value
     }
 
     if (branchName.contains("origin/")) {
@@ -82,7 +71,26 @@ pipeline.initializeBody = {
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
+
+//    libNames = new ArrayList<String>()
 }
+
+pipeline.stages.add(
+        pipeline.stage(CHECKOUT) {
+            script.git(
+                    url: pipeline.repoUrl,
+                    credentialsId: pipeline.repoCredentialsId
+            )
+            script.sh "git checkout -B $branchName origin/$branchName"
+
+            script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
+            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+                throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
+            }
+
+            RepositoryUtil.saveCurrentGitCommitHash(script)
+        }
+)
 
 pipeline.stages = [
         pipeline.stage(CHECKOUT) {
@@ -98,86 +106,21 @@ pipeline.stages = [
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
-        },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
-            globalVersion = globalConfiguration.version
-
-            if (("dev/G-" + globalVersion) != branchName) {
-                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
-            }
-        },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
-            script.sh("./gradlew incrementGlobalUnstableVersion")
-        },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
-            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
-        },
-
-        pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
-        },
-        pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
-                    "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
-        },
-        pipeline.stage(INSTRUMENTATION_TEST) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
-//                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                }
-            }
-        },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
-                script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
-            }
-        },
-        pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
-
-            script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-        },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
-                    script.string(name: 'branch', value: branchName),
-                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
-            ]
         }
 ]
 
-
+String componentsJsonStr = script.readFile(componentsJsonFile)
+def components = new JsonSlurperClassic().parseText(componentsJsonStr)
+components.each { component ->
+    pipeline.stages.add(
+            pipeline.stage("$MIRROR_COMPONENT : ${component.id}") {
+                script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
+//                script.sh "git deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
+//                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
+                script.sh "rm -rf $MIRROR_FOLDER"
+            }
+    )
+}
 
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
@@ -203,8 +146,7 @@ def static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initDiscarder(script),
-            initParameters(script),
-            initTriggers(script)
+            initParameters(script)
     ]
 }
 
@@ -221,27 +163,13 @@ def static initDiscarder(script) {
 def static initParameters(script) {
     return script.parameters([
             script.string(
-                    name: "branchName_0",
-                    description: 'Ветка с исходным кодом')
-    ])
-}
-
-def static initTriggers(script) {
-    return script.pipelineTriggers([
-            script.GenericTrigger(
-                    genericVariables: [
-                            [
-                                    key  : "branchName",
-                                    value: '$.push.changes[?(@.new.type == "branch")].new.name'
-                            ]
-                    ],
-                    printContributedVariables: true,
-                    printPostContent: true,
-                    causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$',
-                    regexpFilterText: '$branchName_0'
+                    name: "branch",
+                    description: 'Ветка с исходным кодом'
             ),
-            script.pollSCM('')
+            script.string(
+                    name: "lastCommit",
+                    description: 'Коммит для зеркалирования'
+            )
     ])
 }
 
@@ -285,7 +213,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     if (revisionToCompare == null) {
         //gets previous commit
         def previousCommit
-        if (commits[1] !="|\\  ") {
+        if (commits[1] != "|\\  ") {
             previousCommit = commits[1]
         } else {
             previousCommit = commits[2]
