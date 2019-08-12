@@ -120,7 +120,7 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             //release_<component>_<version>
-            def parts = branchName.split("-")
+            def parts = branchName.split("/")
             componentName = parts[1]
             componentVersion = parts[2]
             script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
@@ -201,18 +201,14 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives" //todo указать нужный артефакт
+                    script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
                 }
             }
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            //todo переписать логику на пуш обнуления каунтера
             RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
-
-            script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            script.sh "./gradlew setComponentAlphaCounterToZero -Pcomponent=${componentName}"
+            script.sh "git commit -a -m \"Set component $componentName alpha counter to zero\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
         pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -286,7 +282,7 @@ def static initTriggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?release-(.*)$', //todo изменить фильтр веток
+                    regexpFilterExpression: '^(origin\\/)?release/(.*)$', //todo изменить фильтр веток
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
