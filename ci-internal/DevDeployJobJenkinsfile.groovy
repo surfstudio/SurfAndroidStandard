@@ -168,14 +168,14 @@ pipeline.stages = [
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-//        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-//            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-//                script.error("Cannot mirror without change version")
-//            }
-//            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
-//                    script.string(name: 'branch', value: branchName)
-//            ]
-//        }
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
+                script.error("Cannot mirror without change version")
+            }
+            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
+                    script.string(name: 'branch', value: branchName)
+            ]
+        }
 ]
 
 
