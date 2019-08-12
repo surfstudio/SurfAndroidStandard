@@ -27,9 +27,7 @@ ext.configureDeploy = { context ->
             // If -Pcomponent set, deploy only its artifacts
             if (project.hasProperty(GradleProperties.COMPONENT)) {
                 def componentName = project.property(GradleProperties.COMPONENT)
-                //for (Component component in Components.value){
-                    //todo релиз только указанного артефакта, причем инкапсулировать логику принадлежности в Components
-                //}
+                if (!Components.isLibraryFromComponent(project.name, componentName)) return
             }
             //todo как происходит деплой релизных артефактов в бинтрей, здесь я логики не вижу
 
