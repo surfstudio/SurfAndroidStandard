@@ -5,6 +5,7 @@ import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
+import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.Result
@@ -284,7 +285,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$', //todo изменить фильтр веток
+                    regexpFilterExpression: '^(origin\\/)?release-(.*)$', //todo изменить фильтр веток
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
