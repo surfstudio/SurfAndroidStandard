@@ -168,7 +168,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(SET_COMPONENT_ALPHA_COUNTER_TO_ZERO) {
-            script.sh("./gradlew setComponentAlphaCounterToZero -PrevisionToCompare=${revisionToCompare}")
+            script.sh("./gradlew setComponentAlphaCounterToZero -Pcomponent=${componentName}")
         },
 
         pipeline.stage(BUILD) {
@@ -207,7 +207,6 @@ pipeline.stages = [
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
-            script.sh "./gradlew setComponentAlphaCounterToZero -Pcomponent=${componentName}"
             script.sh "git commit -a -m \"Set component $componentName alpha counter to zero\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
