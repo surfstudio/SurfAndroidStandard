@@ -51,9 +51,9 @@ def componentVersion = "<unknown>"
 def componentName = "<unknown>"
 
 
-def p1 = "deploySameVersionArtifactory"
+def isDeploySameVersionArtifactory = "deploySameVersionArtifactory"
 
-def p2 = "deploySameVersionBintray" //todo
+def isDeploySameVersionBintray = "deploySameVersionBintray"
 
 //other config
 
@@ -136,8 +136,8 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${p1}=false")
-                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName}")
+                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
+                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
