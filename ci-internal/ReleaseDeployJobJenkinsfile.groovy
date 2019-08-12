@@ -136,7 +136,7 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName}")
+                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${p1}=false")
                 script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName}")
             }
         },
