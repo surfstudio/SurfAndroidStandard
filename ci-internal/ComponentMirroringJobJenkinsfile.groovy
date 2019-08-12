@@ -94,7 +94,7 @@ String componentsJsonStr = script.readFile(componentsJsonFile)
 def components = new JsonSlurperClassic().parseText(componentsJsonStr)
 components.each { component ->
     pipeline.stages.add(
-            pipeline.stage("$MIRROR_COMPONENT : ${component.id}") {
+            pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
 //                script.sh "git deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
 //                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
