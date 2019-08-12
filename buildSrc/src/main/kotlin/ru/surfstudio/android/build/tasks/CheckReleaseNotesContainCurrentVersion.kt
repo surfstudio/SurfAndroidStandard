@@ -22,8 +22,8 @@ open class CheckReleaseNotesContainCurrentVersion : DefaultTask() {
             val releaseNotes: ReleaseNotesInfo = ReleaseNotes.findByComponentName(component.name)
 
             val version = releaseNotes.versions
-                    .find { it.version == component.projectVersion }
-                    ?: throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
+                    .find { it.version == component.baseVersion }
+                    ?: throw ReleaseNotesNotContainVersionException(releaseNotes, component.baseVersion)
 
             if (version.isEmpty) throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
         }

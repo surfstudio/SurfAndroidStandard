@@ -3,8 +3,10 @@
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
+import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
+import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.Result
@@ -49,9 +51,9 @@ def componentVersion = "<unknown>"
 def componentName = "<unknown>"
 
 
-def p1 = "deploySameVersionArtifactory"
+def isDeploySameVersionArtifactory = "deploySameVersionArtifactory"
 
-def p2 = "deploySameVersionBintray" //todo
+def isDeploySameVersionBintray = "deploySameVersionBintray"
 
 //other config
 
@@ -71,7 +73,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { properties(pipeline) }
+pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -118,9 +120,9 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             //release_<component>_<version>
-            def parts = branchName.split("_")
-            componentVersion = parts[2]
+            def parts = branchName.split("/")
             componentName = parts[1]
+            componentVersion = parts[2]
             script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -134,8 +136,8 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName}")
-                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName}")
+                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
+                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -156,7 +158,7 @@ pipeline.stages = [
                     CHECK_COMPONENT_STABLE,
                     CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE,
                     CHECK_RELEASE_NOTES_VALID
-            ].forEach {stageName ->
+            ].each {stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
             }
@@ -166,7 +168,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(SET_COMPONENT_ALPHA_COUNTER_TO_ZERO) {
-            script.sh("./gradlew setComponentAlphaCounterToZero -PrevisionToCompare=${revisionToCompare}")
+            script.sh("./gradlew setComponentAlphaCounterToZero -Pcomponent=${componentName}")
         },
 
         pipeline.stage(BUILD) {
@@ -178,39 +180,34 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
+//        pipeline.stage(INSTRUMENTATION_TEST) {
+//            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+//                    script,
+//                    new AvdConfig(),
+//                    "debug",
+//                    getTestInstrumentationRunnerName,
+//                    new AndroidTestConfig(
+//                            "assembleAndroidTest",
+//                            "build/outputs/androidTest-results/instrumental",
+//                            "build/reports/androidTests/instrumental",
+//                            true,
+//                            0
+//                    )
+//            )
+//        },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives" //todo указать нужный артефакт
+                    script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
                 }
             }
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            //todo переписать логику на пуш обнуления каунтера
             RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
-
-            script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            script.sh "git commit -a -m \"Set component $componentName alpha counter to zero\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
         pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -245,16 +242,16 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> properties(ScmPipeline ctx) {
+def static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
-            buildDiscarder(script),
-            parameters(script),
-            triggers(script)
+            initBuildDiscarder(script),
+            initParameters(script),
+            initTriggers(script)
     ]
 }
 
-def static buildDiscarder(script) {
+def static initBuildDiscarder(script) {
     return script.buildDiscarder(
             script.logRotator(
                     artifactDaysToKeepStr: '3',
@@ -264,7 +261,7 @@ def static buildDiscarder(script) {
     )
 }
 
-def static parameters(script) {
+def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName_0",
@@ -272,7 +269,7 @@ def static parameters(script) {
     ])
 }
 
-def static triggers(script) {
+def static initTriggers(script) {
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
@@ -284,7 +281,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$', //todo изменить фильтр веток
+                    regexpFilterExpression: '^(origin\\/)?release/(.*)$', //todo изменить фильтр веток
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')

@@ -1,5 +1,8 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
+import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
@@ -56,7 +59,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { properties(pipeline) }
+pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -103,7 +106,7 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
             project = globalConfiguration.project_snapshot_name
 
             if (("project-snapshot/" + project) != branchName) {
@@ -156,7 +159,7 @@ pipeline.stages = [
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
             script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
                     "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
@@ -186,16 +189,16 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> properties(ScmPipeline ctx) {
+def static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
-            buildDiscarder(script),
-            parameters(script),
-            triggers(script)
+            initBuildDiscarder(script),
+            initParameters(script),
+            initTriggers(script)
     ]
 }
 
-def static buildDiscarder(script) {
+def static initBuildDiscarder(script) {
     return script.buildDiscarder(
             script.logRotator(
                     artifactDaysToKeepStr: '3',
@@ -205,7 +208,7 @@ def static buildDiscarder(script) {
     )
 }
 
-def static parameters(script) {
+def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName_0",
@@ -213,7 +216,7 @@ def static parameters(script) {
     ])
 }
 
-def static triggers(script) {
+def static initTriggers(script) {
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
