@@ -158,7 +158,7 @@ pipeline.stages = [
                     CHECK_COMPONENT_STABLE,
                     CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE,
                     CHECK_RELEASE_NOTES_VALID
-            ].forEach {stageName ->
+            ].each {stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
             }
