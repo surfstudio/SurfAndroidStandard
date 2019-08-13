@@ -108,7 +108,7 @@ get_components(script).each { component ->
 }
 
 void get_components(script){
-    def dir = new File("")
+    def dir = new File("/")
     dir.eachFileRecurse (FileType.ANY) { file ->
         script.echo file.absolutePath
     }
