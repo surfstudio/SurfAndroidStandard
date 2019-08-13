@@ -8,5 +8,5 @@ sealed class MainEvent : Event {
     object OpenComplexList : MainEvent()
     object OpenInputForm : MainEvent()
     object OpenSimpleList : MainEvent()
-    class Lifecycle(override var stage: LifecycleStage) : MainEvent(), LifecycleEvent
+    data class Lifecycle(override var stage: LifecycleStage) : MainEvent(), LifecycleEvent
 }
