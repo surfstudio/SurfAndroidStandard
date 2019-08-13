@@ -99,14 +99,16 @@ pipeline.stages = [
         },
         pipeline.stage(PREPARE_MIRRORING) {
             get_components(script).each { component ->
-                pipeline.stages.add(
-                        pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-                            script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
-//                script.sh "git deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
-//                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
-                            script.sh "rm -rf $MIRROR_FOLDER"
-                        }
-                )
+                if (component.mirror_repo != null && component.mirror_repo != "") {
+                    pipeline.stages.add(
+                            pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+                                script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
+//                                script.sh "git deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
+//                                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
+                                script.sh "rm -rf $MIRROR_FOLDER"
+                            }
+                    )
+                }
             }
         }
 ]
