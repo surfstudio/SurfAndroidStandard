@@ -202,10 +202,6 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
-                }
-            }
-            withBintrayCredentials(script){
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew distributeArtifactsToBintrayTask -Pcomponent=${componentName} -PoverrideExisted=false"
                 }
             }
@@ -344,16 +340,6 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
-def static withBintrayCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Bintray_Deploy_Credentials",
-                    usernameVariable: 'surf_bintray_username',
-                    passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
     }
