@@ -1,5 +1,7 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
 import groovy.json.JsonSlurperClassic
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -10,6 +12,7 @@ import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 
 // Stage names
 def CHECKOUT = 'Checkout'
+def PREPARE_MIRRORING = 'Prepare Mirroring'
 def MIRROR_COMPONENT = 'Mirror Component'
 
 //constants
@@ -92,19 +95,20 @@ pipeline.stages = [
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
-        }
-]
-
-get_components(script).each { component ->
-    pipeline.stages.add(
-            pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-                script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
+        },
+        pipeline.stage(PREPARE_MIRRORING) {
+            get_components(script).each { component ->
+                pipeline.stages.add(
+                        pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+                            script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
 //                script.sh "git deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
 //                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
-                script.sh "rm -rf $MIRROR_FOLDER"
+                            script.sh "rm -rf $MIRROR_FOLDER"
+                        }
+                )
             }
-    )
-}
+        }
+]
 
 void get_components(script){
     def content = script.readFile("buildSrc/components.json")
