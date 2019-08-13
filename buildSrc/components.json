@@ -3,7 +3,7 @@
     "id": "analytics",
     "version": "0.8.0",
     "unstable_version": 5,
-    "stable": false,
+    "stable": true,
     "dir": "analytics",
     "libs": [
       {
@@ -62,7 +62,7 @@
     "id": "logger",
     "version": "0.8.0",
     "unstable_version": 5,
-    "stable": false,
+    "stable": true,
     "dir": "logger",
     "libs": [
       {
