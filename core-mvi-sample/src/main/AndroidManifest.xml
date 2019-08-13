@@ -29,13 +29,17 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".ui.screen.list.ReactiveListActivityView"
-            android:label="Reactive">
+            android:name=".ui.screen.main.MainActivityView"
+            android:label="Surf MVI Sample">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.screen.list.ReactiveListActivityView"
+            android:label="Complex list screen" />
     </application>
 
 </manifest>

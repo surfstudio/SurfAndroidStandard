@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvi.event.PaginationEvent
 import ru.surfstudio.android.core.mvi.event.ResponseEvent
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
 import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.toPaginationEvent
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.toPaginationEvent
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 

@@ -3,14 +3,12 @@ package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.*
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor.ReactiveListStateHolder
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent.*
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.canGetMore
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListEvent.*
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
 import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
 import ru.surfstudio.android.core.mvi.ui.middleware.builders.LoadNextPageMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.PaginationMiddleware

@@ -35,8 +35,19 @@ interface RxBinder {
         (middleware.transform(eventHub.observe()) as Observable<T>).bindIgnore()
     }
 
+    fun <T : Event, SH> bind(
+            eventHub: RxEventHub<T>,
+            stateHolder: SH,
+            reactor: Reactor<T, SH>
+    ) {
+        eventHub.observe().bindUi(stateHolder, reactor)
+    }
+
     infix fun <T> Observable<T>.bindEvents(consumer: Consumer<T>) =
             subscribe(this, consumer::accept, ::onError)
+
+    fun <T : Event, SH> Observable<T>.bindUi(stateHolder: SH, reactor: Reactor<T, SH>) =
+            subscribe(this, { reactor.react(stateHolder, it) }, ::onError)
 
     fun <T> Observable<T>.bindIgnore() =
             subscribe(

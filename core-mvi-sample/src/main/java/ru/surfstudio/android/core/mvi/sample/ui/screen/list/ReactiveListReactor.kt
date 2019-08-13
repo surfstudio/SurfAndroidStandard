@@ -1,16 +1,15 @@
-package ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor
+package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
 import ru.surfstudio.android.core.mvp.binding.rx.loadable.state.ResponseState
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapDataList
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapError
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapLoading
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.mapDataList
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.mapError
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.mapLoading
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent.*
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListEvent.*
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
 @PerScreen

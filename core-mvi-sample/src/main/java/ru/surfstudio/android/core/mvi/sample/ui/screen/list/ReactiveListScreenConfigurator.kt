@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.sample.ui.screen.list.di
+package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import android.content.Intent
 import dagger.Component
@@ -15,12 +15,6 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListActivityView
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListMiddleware
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListRoute
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor.ReactiveListReactor
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor.ReactiveListStateHolder
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent

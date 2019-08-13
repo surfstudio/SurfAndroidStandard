@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension
+package ru.surfstudio.android.core.mvi.sample.ui.base.extension
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.PaginationEvent
@@ -61,7 +61,7 @@ fun <T> mapDataList(
         data: Optional<DataList<T>>,
         hasData: Boolean = data.hasValue
 ): Optional<DataList<T>> = if (type is Response.Data) {
-    if (hasData && type.data.startPage > 0) { //мержим, если уже есть dataList + это не перезагрузка списка
+    if (hasData && type.data.startPage > 1) { //мержим, если уже есть dataList + это не перезагрузка списка
         data.get().merge(type.data).toOptional()
     } else {
         type.data.toOptional()

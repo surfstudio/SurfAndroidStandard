@@ -13,12 +13,10 @@ import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.controller.ReactiveListController
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.di.ReactiveListScreenConfigurator
 import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.observeMainLoading
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.observeSwrLoading
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor.ReactiveListStateHolder
+import ru.surfstudio.android.core.mvi.sample.ui.base.adapter.PaginationableAdapter
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeMainLoading
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeSwrLoading
 import javax.inject.Inject
 
 class ReactiveListActivityView : BaseReactActivityView() {

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.sample.ui.screen.list.event
+package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import ru.surfstudio.android.core.mvi.event.*
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
