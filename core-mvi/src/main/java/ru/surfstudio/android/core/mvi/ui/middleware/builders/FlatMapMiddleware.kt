@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.sample.ui.base.middleware
+package ru.surfstudio.android.core.mvi.ui.middleware.builders
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event

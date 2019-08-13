@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.sample.ui.screen.list
+package ru.surfstudio.android.core.mvi.ui.dsl
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event

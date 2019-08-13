@@ -64,4 +64,4 @@ fun <T> Observable<Optional<T>>.filterValue(): Observable<T> = this
         .filter { it.hasValue }
         .map { it.get() }
 
-fun <T> T.asOptional() = Optional.of(this)
+fun <T> T.toOptional() = Optional.of(this)

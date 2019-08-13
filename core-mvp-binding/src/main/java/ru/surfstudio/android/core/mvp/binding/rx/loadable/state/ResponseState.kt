@@ -1,7 +1,8 @@
 package ru.surfstudio.android.core.mvp.binding.rx.loadable.state
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.LoadableData
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.toOptional
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.ResponseUi
 import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.filterValue
 import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
@@ -10,12 +11,20 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
 
 /**
  * UI-State запроса на загрузку данных.
- * Содержит в себе неизменяемый экземпляр [LoadableData], который отражает текущее значение загрузки данных.
+ * Содержит в себе неизменяемый экземпляр [ResponseUi], который отражает текущее значение загрузки данных.
  *
- * Перед тем, как помещать LoadType в LoadableState, необходимо трансформировать его в LoadableData,
+ * Перед тем, как помещать Response в ResponseState, необходимо трансформировать его в ResponseUi,
  * то есть, произвести трансформацию i-слой -> ui-слой.
  */
-open class LoadableState<T> : BehaviorRelation<LoadableData<T>, PRESENTER, StateTarget>(LoadableData()) {
+open class ResponseState<T>(
+        initialResponse: ResponseUi<T>
+) : BehaviorRelation<ResponseUi<T>, PRESENTER, StateTarget>(initialResponse) {
+
+    constructor(initialData: T) : this(ResponseUi(data = initialData.toOptional()))
+
+    constructor(initialLoading: Loading) : this(ResponseUi(load = initialLoading))
+
+    constructor() : this(ResponseUi())
 
     override fun getConsumer(source: PRESENTER) = relay
 
@@ -49,7 +58,7 @@ open class LoadableState<T> : BehaviorRelation<LoadableData<T>, PRESENTER, State
     val error: Throwable
         get() = relay.value!!.error
 
-    fun modify(modifier: LoadableData<T>.() -> LoadableData<T>) {
+    fun modify(modifier: ResponseUi<T>.() -> ResponseUi<T>) {
         val value = relay.value ?: return
         relay.accept(modifier(value))
     }

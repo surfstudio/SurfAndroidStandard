@@ -1,9 +1,9 @@
-package ru.surfstudio.android.core.mvi.sample.ui.base.middleware
+package ru.surfstudio.android.core.mvi.ui.middleware.builders
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.EventTransformerList
+import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 

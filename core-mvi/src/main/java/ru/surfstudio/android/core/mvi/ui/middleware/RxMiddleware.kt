@@ -2,9 +2,9 @@ package ru.surfstudio.android.core.mvi.ui.middleware
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.event.LoadableEvent
+import ru.surfstudio.android.core.mvi.event.ResponseEvent
 import ru.surfstudio.android.core.mvi.ui.relation.StateEmitter
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.mapToLoadType
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.mapResponse
 
 /**
  * [Middleware] с реализацией в Rx.
@@ -13,9 +13,14 @@ import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.mapToLoadType
  */
 interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, StateEmitter {
 
-    fun <T, E : LoadableEvent<T>> Observable<T>.mapToLoadable(event: E): Observable<out E> = this
-            .mapToLoadType()
-            .map { event.apply { type = it } }
+    fun <T, E : ResponseEvent<T>> Observable<T>.mapResponseEvent(
+            event: E
+    ): Observable<out E> = this
+            .mapResponse()
+            .map { loadType ->
+                event.type = loadType
+                return@map event
+            }
 
     fun <T> skip() = Observable.empty<T>()
 
@@ -24,7 +29,10 @@ interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out 
         return Observable.empty<T>()
     }
 
-    fun Observable<T>.ignoreError() = onErrorResumeNext { _: Throwable -> Observable.empty() }
+    /**
+     * Выполнение действия и пропуск дальнейшего проброса события.
+     */
+    fun <T> Any?.skip() = doAndSkip<T> { }
 
     fun merge(vararg observables: Observable<out T>): Observable<out T> = Observable.merge(observables.toList())
 }

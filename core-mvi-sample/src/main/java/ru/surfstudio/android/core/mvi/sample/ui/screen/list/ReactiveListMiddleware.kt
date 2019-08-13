@@ -11,6 +11,10 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent.*
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.canGetMore
+import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
+import ru.surfstudio.android.core.mvi.ui.middleware.builders.LoadNextPageMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.PaginationMiddleware
+import ru.surfstudio.android.core.mvi.ui.middleware.builders.SwrMiddleware
 
 @PerScreen
 class ReactiveListMiddleware @Inject constructor(
@@ -18,21 +22,24 @@ class ReactiveListMiddleware @Inject constructor(
         private val sh: ReactiveListStateHolder
 ) : BaseMiddleware<ReactiveListEvent>(baseMiddlewareDependency),
         SwrMiddleware<ReactiveListEvent>,
-        LoadNextMiddleware<ReactiveListEvent>,
+        LoadNextPageMiddleware<ReactiveListEvent>,
         LifecycleMiddleware<ReactiveListEvent>,
         PaginationMiddleware<ReactiveListEvent> {
 
     override fun transform(eventStream: Observable<ReactiveListEvent>): Observable<out ReactiveListEvent> {
         return merge(eventStream) {
             +onCreate().eventMap { loadData() }
-            +mapLoadNext { sh.list.data.nextPage }
-            +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
             +mapSwr()
+            +mapLoadNext()
+            +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
             +map<QueryChangedDebounced> { FilterNumbers() }
             +eventMap<Reload> { loadData() }
             +streamMap(::debounceQuery)
         }
     }
+
+    override fun flatMap(event: ReactiveListEvent): Observable<out ReactiveListEvent> =
+            skip()
 
     private fun debounceQuery(
             eventStream: Observable<ReactiveListEvent>
@@ -44,12 +51,16 @@ class ReactiveListMiddleware @Inject constructor(
                     .debounce(1000, TimeUnit.MILLISECONDS)
                     .map { QueryChangedDebounced(it) }
 
-    override fun loadData(page: Int, isSwr: Boolean) = createObservable(page)
+    override fun loadDataSwr(): Observable<out ReactiveListEvent> = loadData(isSwr = true)
+
+    override fun loadNextData() = loadData(sh.list.data.nextPage)
+
+    private fun loadData(page: Int = 1, isSwr: Boolean = false) = createObservable(page)
             .io()
             .handleError()
-            .mapToLoadable(LoadList(isSwr = isSwr))
+            .mapResponseEvent(LoadList(isSwr = isSwr))
 
-    private fun createObservable(page: Int = 0) = Observable.timer(2, TimeUnit.SECONDS).map {
+    private fun createObservable(page: Int) = Observable.timer(2, TimeUnit.SECONDS).map {
         DataList(
                 (1..20).map { (it + (page - 1) * 20).toString() },
                 page,

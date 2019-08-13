@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list.reactor
 
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.state.LoadableState
+import ru.surfstudio.android.core.mvp.binding.rx.loadable.state.ResponseState
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.event.ReactiveListEvent
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapDataList
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.extension.mapError
@@ -15,7 +15,7 @@ import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
 @PerScreen
 class ReactiveListStateHolder @Inject constructor() {
-    val list = LoadableState<DataList<String>>()
+    val list = ResponseState<DataList<String>>()
     val query = State<String>()
     val filteredList = State<Pair<List<String>, PaginationState>>()
 }
