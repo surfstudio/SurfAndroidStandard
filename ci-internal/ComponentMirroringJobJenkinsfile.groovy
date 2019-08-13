@@ -19,6 +19,7 @@ def MIRROR_COMPONENT = 'Mirror Component'
 //constants
 def componentsJsonFile = "buildSrc/components.json"
 def MIRROR_FOLDER = ".mirror"
+def STANDARD_REPO_FOLDER = "temp"
 def DEPTH_LIMIT = 100
 def SEARCH_LIMIT = 100
 
@@ -94,16 +95,19 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(PREPARE_MIRRORING) {
-            script.sh "rm -rf $MIRROR_FOLDER"
+
             script.echo "123123 " + pipeline.repoUrl
             getСomponents(script).each { component ->
                 if (component.mirror_repo != null && component.mirror_repo != "") {
                     pipeline.stages.add(
                             pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+                                script.sh "rm -rf $MIRROR_FOLDER"
+                                script.sh "rm -rf $STANDARD_REPO_FOLDER"
+                                script.sh "git clone --single-branch --branch $branchName ${pipeline.repoUrl} $STANDARD_REPO_FOLDER"
+
                                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
                                 script.sh "./gradlew deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
                                         "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
-                                script.sh "rm -rf $MIRROR_FOLDER"
                             }
                     )
                 }
