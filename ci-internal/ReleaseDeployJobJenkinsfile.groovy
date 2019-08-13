@@ -143,9 +143,9 @@ pipeline.stages = [
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkComponentStable -Pcomponent=${componentName}")
         },
-//        pipeline.stage(CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-//            script.sh("./gradlew checkDependencyForComponentUnstable -Pcomponent=${componentName}")
-//        },
+        pipeline.stage(CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew checkDependencyForComponentUnstable -Pcomponent=${componentName}")
+        },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
         },
@@ -180,21 +180,21 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-//        pipeline.stage(INSTRUMENTATION_TEST) {
-//            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-//                    script,
-//                    new AvdConfig(),
-//                    "debug",
-//                    getTestInstrumentationRunnerName,
-//                    new AndroidTestConfig(
-//                            "assembleAndroidTest",
-//                            "build/outputs/androidTest-results/instrumental",
-//                            "build/reports/androidTests/instrumental",
-//                            true,
-//                            0
-//                    )
-//            )
-//        },
+        pipeline.stage(INSTRUMENTATION_TEST) {
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                    script,
+                    new AvdConfig(),
+                    "debug",
+                    getTestInstrumentationRunnerName,
+                    new AndroidTestConfig(
+                            "assembleAndroidTest",
+                            "build/outputs/androidTest-results/instrumental",
+                            "build/reports/androidTests/instrumental",
+                            true,
+                            0
+                    )
+            )
+        },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
@@ -216,14 +216,13 @@ pipeline.stages = [
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
         pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
+            if (pipeline.getStage(COMPONENT_ALPHA_COUNTER_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
             script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
                     string(name: 'branch', value: branchName)
             ]
         }
-        //TODO делать аплоад еще в бинтрей
 ]
 
 
