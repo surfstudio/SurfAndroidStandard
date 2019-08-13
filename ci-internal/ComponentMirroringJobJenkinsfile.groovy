@@ -95,16 +95,16 @@ pipeline.stages = [
         }
 ]
 
-//get_components().each { component ->
-//    pipeline.stages.add(
-//            pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-//                script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
-////                script.sh "git deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
-////                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
-//                script.sh "rm -rf $MIRROR_FOLDER"
-//            }
-//    )
-//}
+get_components().each { component ->
+    pipeline.stages.add(
+            pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+                script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
+//                script.sh "git deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
+//                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
+                script.sh "rm -rf $MIRROR_FOLDER"
+            }
+    )
+}
 
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
@@ -232,6 +232,6 @@ def static withGradleBuildCacheCredentials(Object script, Closure body) {
 
 @NonCPS
 def get_components(){
-    def content = readFile("buildSrc/components.json")
+    def content = readFileFromWorkspace("buildSrc/components.json")
     return content
 }
