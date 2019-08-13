@@ -106,6 +106,13 @@ get_components().each { component ->
     )
 }
 
+def get_components(){
+    def file = new File("")
+    script.echo file.absolutePath
+    def content = new File("buildSrc/components.json").text
+    return new JsonSlurperClassic().parseText(content)
+}
+
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
     def message
@@ -228,12 +235,4 @@ def static withGradleBuildCacheCredentials(Object script, Closure body) {
     ]) {
         body()
     }
-}
-
-@NonCPS
-def get_components(){
-    def file = new File("")
-    script.echo file.absolutePath
-    def content = new File("buildSrc/components.json").text
-    return new JsonSlurperClassic().parseText(content)
 }
