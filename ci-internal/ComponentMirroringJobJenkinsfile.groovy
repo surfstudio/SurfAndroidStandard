@@ -232,6 +232,6 @@ def static withGradleBuildCacheCredentials(Object script, Closure body) {
 
 @NonCPS
 def get_components(){
-    def content = readFile(componentsJsonFile)
+    def content = readFile("buildSrc/components.json")
     return content
 }
