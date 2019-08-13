@@ -76,10 +76,6 @@ pipeline.initializeBody = {
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
-
-
-//    String componentsJsonStr = script.readFile(componentsJsonFile)
-//    components = new JsonSlurperClassic().parseText(componentsJsonStr)
 }
 
 pipeline.stages = [
@@ -99,7 +95,8 @@ pipeline.stages = [
         },
         pipeline.stage(PREPARE_MIRRORING) {
             script.sh "rm -rf $MIRROR_FOLDER"
-            get_components(script).each { component ->
+            script.echo "123123 " + pipeline.repoUrl
+            getСomponents(script).each { component ->
                 if (component.mirror_repo != null && component.mirror_repo != "") {
                     pipeline.stages.add(
                             pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -114,7 +111,7 @@ pipeline.stages = [
         }
 ]
 
-void get_components(script){
+static void getСomponents(script){
     def content = script.readFile("buildSrc/components.json")
     return new JsonSlurperClassic().parseText(content)
 }
