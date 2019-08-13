@@ -232,6 +232,7 @@ def static withGradleBuildCacheCredentials(Object script, Closure body) {
 
 @NonCPS
 def get_components(){
+    new File("buildSrc/components.json").text
     def content = readFileFromWorkspace("buildSrc/components.json")
-    return content
+    return new JsonSlurperClassic().parseText(content)
 }
