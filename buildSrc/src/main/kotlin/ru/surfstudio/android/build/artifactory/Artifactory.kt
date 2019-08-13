@@ -37,7 +37,7 @@ object Artifactory {
      * Check libraries's android standard dependencies exist in artifactory
      */
     fun checkLibrariesStandardDependenciesExisting(component: Component) {
-        component.libraries.forEach(this::checkLibraryStandardDependenciesExisting)
+        component.libraries.forEach { checkLibraryStandardDependenciesExisting(it, component) }
     }
 
     /**
@@ -53,13 +53,15 @@ object Artifactory {
     /**
      * Check library android standard dependencies exist in artifactory
      */
-    private fun checkLibraryStandardDependenciesExisting(library: Library) {
-        library.androidStandardDependencies.forEach { androidStandardDependency ->
+    private fun checkLibraryStandardDependenciesExisting(library: Library, component: Component) {
+        library.androidStandardDependencies
+                .filter { it.component != component }
+                .forEach { androidStandardDependency ->
             if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
                 throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
             }
             Components.libraries.find { it.name == androidStandardDependency.name }?.let {
-                checkLibraryStandardDependenciesExisting(it)
+                checkLibraryStandardDependenciesExisting(it, component)
             }
         }
     }
