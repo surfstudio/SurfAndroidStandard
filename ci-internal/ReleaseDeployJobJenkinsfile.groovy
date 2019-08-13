@@ -137,6 +137,8 @@ pipeline.stages = [
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
+            }
+            withBintrayCredentials(script){
                 script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
@@ -340,6 +342,17 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
+    ]) {
+        body()
+    }
+}
+
+def static withBintrayCredentials(script, body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "Bintray_Deploy_Credentials",
+                    usernameVariable: 'surf_bintray_username',
+                    passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
     }
