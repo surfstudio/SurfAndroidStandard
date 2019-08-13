@@ -1,6 +1,7 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
+import groovy.io.FileType
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 
@@ -107,8 +108,10 @@ get_components(script).each { component ->
 }
 
 void get_components(script){
-    def file = new File("")
-    script.echo file.absolutePath
+    def dir = new File("")
+    dir.eachFileRecurse (FileType.ANY) { file ->
+        script.echo file.absolutePath
+    }
     def content = new File("buildSrc/components.json").text
     return new JsonSlurperClassic().parseText(content)
 }
