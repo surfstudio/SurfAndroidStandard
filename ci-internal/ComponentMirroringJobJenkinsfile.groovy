@@ -21,6 +21,7 @@ def SEARCH_LIMIT = 100
 //vars
 def branchName = ""
 def lastCommit = ""
+def components
 
 //other config
 
@@ -71,6 +72,10 @@ pipeline.initializeBody = {
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
+
+
+    String componentsJsonStr = script.readFile(componentsJsonFile)
+    components = new JsonSlurperClassic().parseText(componentsJsonStr)
 }
 
 pipeline.stages = [
@@ -90,8 +95,6 @@ pipeline.stages = [
         }
 ]
 
-String componentsJsonStr = script.readFile(componentsJsonFile)
-def components = new JsonSlurperClassic().parseText(componentsJsonStr)
 components.each { component ->
     pipeline.stages.add(
             pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
