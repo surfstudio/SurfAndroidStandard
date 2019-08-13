@@ -75,4 +75,9 @@ object GradleProperties {
      * Depth of mirror repository tree to search standard commit hash in
      */
     const val DEPLOY_TO_MIRROR_SEARCH_LIMIT = "searchLimit"
+
+    /**
+     * Override existed artifacts
+     */
+    const val OVERRIDE_EXISTED = "overrideExisted"
 }

@@ -204,6 +204,11 @@ pipeline.stages = [
                     script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
                 }
             }
+            withBintrayCredentials(script){
+                AndroidUtil.withGradleBuildCacheCredentials(script) {
+                    script.sh "./gradlew distributeArtifactsToBintrayTask -Pcomponent=${componentName} -PoverrideExisted=false"
+                }
+            }
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
@@ -214,7 +219,7 @@ pipeline.stages = [
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
-            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
+            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
                     string(name: 'branch', value: branchName)
             ]
         }
@@ -340,6 +345,16 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
+    ]) {
+        body()
+    }
+}
+def static withBintrayCredentials(script, body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "Bintray_Deploy_Credentials",
+                    usernameVariable: 'surf_bintray_username',
+                    passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
     }

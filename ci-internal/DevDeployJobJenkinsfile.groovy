@@ -170,7 +170,7 @@ pipeline.stages = [
             if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
-            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
+            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
                     script.string(name: 'branch', value: branchName),
                     script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
             ]
