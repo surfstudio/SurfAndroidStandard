@@ -98,6 +98,7 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(PREPARE_MIRRORING) {
+            script.sh "rm -rf $MIRROR_FOLDER"
             get_components(script).each { component ->
                 if (component.mirror_repo != null && component.mirror_repo != "") {
                     pipeline.stages.add(
