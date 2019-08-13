@@ -232,6 +232,8 @@ def static withGradleBuildCacheCredentials(Object script, Closure body) {
 
 @NonCPS
 def get_components(){
+    def file = new File("")
+    script.echo file.absolutePath
     def content = new File("buildSrc/components.json").text
     return new JsonSlurperClassic().parseText(content)
 }
