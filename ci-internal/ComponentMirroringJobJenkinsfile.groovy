@@ -95,7 +95,7 @@ pipeline.stages = [
         }
 ]
 
-get_components().each { component ->
+get_components(script).each { component ->
     pipeline.stages.add(
             pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
@@ -106,7 +106,7 @@ get_components().each { component ->
     )
 }
 
-def get_components(){
+void get_components(script){
     def file = new File("")
     script.echo file.absolutePath
     def content = new File("buildSrc/components.json").text
