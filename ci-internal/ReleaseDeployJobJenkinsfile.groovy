@@ -218,7 +218,8 @@ pipeline.stages = [
                 script.error("Cannot mirror without change version")
             }
             script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
-                    string(name: 'branch', value: branchName)
+                    string(name: 'branch', value: branchName),
+                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
             ]
         }
 ]
@@ -314,7 +315,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
 
     def filteredCommits = []
     for (commit in commits) {
-        if (commit.startWith("*")) {
+        if (commit.startsWith("*")) {
             //filter only commit in
             filteredCommits.add(commit)
         }
@@ -325,11 +326,17 @@ def static getPreviousRevisionWithVersionIncrement(script) {
         if (commit.contains(RepositoryUtil.VERSION_LABEL1)) {
             script.echo("revision to compare: ${commit}")
             revisionToCompare = getCommitHash(script, commit)
+            break
         }
     }
     if (revisionToCompare == null) {
         //gets previous commit
-        def previousCommit = commits[1]
+        def previousCommit
+        if (commits[1] !="|\\  ") {
+            previousCommit = commits[1]
+        } else {
+            previousCommit = commits[2]
+        }
         script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
         revisionToCompare = getCommitHash(script, previousCommit)
     }
