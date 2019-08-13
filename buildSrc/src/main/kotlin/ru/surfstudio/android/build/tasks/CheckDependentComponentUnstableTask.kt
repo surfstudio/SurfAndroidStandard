@@ -4,6 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.DependentComponentsStableException
+import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.utils.getPropertyComponent
 
@@ -18,7 +19,7 @@ open class CheckDependencyForComponentUnstableTask : DefaultTask() {
         val stableLibraries = ArrayList<Library>()
 
         component.libraries.forEach {
-            checkDependentLibrariesStable(stableLibraries, it.name)
+            checkDependentLibrariesStable(stableLibraries, it.name, component)
         }
 
         if (stableLibraries.isNotEmpty()) {
@@ -26,15 +27,19 @@ open class CheckDependencyForComponentUnstableTask : DefaultTask() {
         }
     }
 
-    private fun checkDependentLibrariesStable(stableLibraries: ArrayList<Library>, libName: String) {
+    private fun checkDependentLibrariesStable(
+            stableLibraries: ArrayList<Library>,
+            libName: String,
+            checkedComponent: Component
+    ) {
         Components.value.forEach { comp ->
             comp.libraries.forEach { lib ->
                 lib.androidStandardDependencies.forEach { dep ->
                     if (libName == dep.name) {
-                        if (comp.stable) {
+                        if (comp.stable && comp.name != checkedComponent.name) {
                             stableLibraries.add(lib)
                         }
-                        checkDependentLibrariesStable(stableLibraries, lib.name)
+                        checkDependentLibrariesStable(stableLibraries, lib.name, checkedComponent)
                     }
                 }
             }
