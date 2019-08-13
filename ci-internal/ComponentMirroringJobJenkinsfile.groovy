@@ -74,8 +74,8 @@ pipeline.initializeBody = {
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
 
-    String componentsJsonStr = script.readFile(componentsJsonFile)
-    components = new JsonSlurperClassic().parseText(componentsJsonStr)
+//    String componentsJsonStr = script.readFile(componentsJsonFile)
+//    components = new JsonSlurperClassic().parseText(componentsJsonStr)
 }
 
 pipeline.stages = [
@@ -95,7 +95,7 @@ pipeline.stages = [
         }
 ]
 
-components.each { component ->
+get_components().each { component ->
     pipeline.stages.add(
             pipeline.stage("$MIRROR_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
@@ -228,4 +228,10 @@ def static withGradleBuildCacheCredentials(Object script, Closure body) {
     ]) {
         body()
     }
+}
+
+@NonCPS
+def get_components(){
+    def content = readFile(componentsJsonFile)
+    return content
 }
