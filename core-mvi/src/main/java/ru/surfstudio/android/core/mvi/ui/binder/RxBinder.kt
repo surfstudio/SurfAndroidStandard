@@ -5,6 +5,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
+import ru.surfstudio.android.core.mvi.ui.binder.error.EventHubChainException
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 
@@ -60,6 +61,6 @@ interface RxBinder {
      * @param throwable ошибка, возникшая в цепочке событий.
      */
     fun onError(throwable: Throwable) {
-        throw throwable
+        throw EventHubChainException(throwable)
     }
 }
