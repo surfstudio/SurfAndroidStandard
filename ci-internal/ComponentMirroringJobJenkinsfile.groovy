@@ -5,6 +5,7 @@ import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+import ru.surfstudio.ci.stage.StageStrategy
 
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
