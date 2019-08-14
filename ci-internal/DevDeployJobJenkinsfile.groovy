@@ -7,10 +7,10 @@ import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
+import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 
 //@Library('surf-lib@version-2.0.0-SNAPSHOT')
 
-import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
@@ -150,9 +150,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    withGradleBuildCacheCredentials(script) {
-                        script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                    }
+                    script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
         },
@@ -307,17 +305,6 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
-
-def static withGradleBuildCacheCredentials(Object script, Closure body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "gradle_build_cache",
-                    usernameVariable: 'GRADLE_BUILD_CACHE_USER',
-                    passwordVariable: 'GRADLE_BUILD_CACHE_PASS')
     ]) {
         body()
     }

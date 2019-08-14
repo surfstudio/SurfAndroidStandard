@@ -236,18 +236,6 @@ def static withArtifactoryCredentials(script, body) {
     }
 }
 
-def static withGradleBuildCacheCredentials(Object script, Closure body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "gradle_build_cache",
-                    usernameVariable: 'GRADLE_BUILD_CACHE_USER',
-                    passwordVariable: 'GRADLE_BUILD_CACHE_PASS'
-            )
-    ]) {
-        body()
-    }
-}
-
 def static withGithubCredentials(script, body) {
     script.withCredentials([
             script.usernamePassword(
