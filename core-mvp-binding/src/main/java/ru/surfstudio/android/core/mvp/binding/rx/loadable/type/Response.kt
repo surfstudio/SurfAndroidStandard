@@ -15,7 +15,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.EmptyErrorExcepti
 sealed class Response<T> {
     class Loading<T> : Response<T>()
     data class Data<T>(val data: T) : Response<T>()
-    data class Error<T>(val error: Throwable = EmptyErrorException()) : Response<T>()
+    data class Error<T>(val error: Throwable) : Response<T>()
 }
 
 /**

@@ -10,25 +10,21 @@ import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListEvent.*
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
 import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
-import ru.surfstudio.android.core.mvi.ui.middleware.builders.LoadNextPageMiddleware
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.PaginationMiddleware
-import ru.surfstudio.android.core.mvi.ui.middleware.builders.SwrMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.PaginationMiddleware
 
 @PerScreen
 class ReactiveListMiddleware @Inject constructor(
         baseMiddlewareDependency: BaseMiddlewareDependency,
         private val sh: ReactiveListStateHolder
 ) : BaseMiddleware<ReactiveListEvent>(baseMiddlewareDependency),
-        SwrMiddleware<ReactiveListEvent>,
-        LoadNextPageMiddleware<ReactiveListEvent>,
         LifecycleMiddleware<ReactiveListEvent>,
         PaginationMiddleware<ReactiveListEvent> {
 
     override fun transform(eventStream: Observable<ReactiveListEvent>): Observable<out ReactiveListEvent> {
-        return merge(eventStream) {
+        return transformations(eventStream) {
             +onCreate().eventMap { loadData() }
-            +mapSwr()
-            +mapLoadNext()
+            +eventMap<SwipeRefresh> { loadData(isSwr = true) }
+            +eventMap<LoadNextPage> { loadData(sh.list.data.nextPage) }
             +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
             +map<QueryChangedDebounced> { FilterNumbers() }
             +eventMap<Reload> { loadData() }
@@ -48,10 +44,6 @@ class ReactiveListMiddleware @Inject constructor(
                     .distinctUntilChanged()
                     .debounce(1000, TimeUnit.MILLISECONDS)
                     .map { QueryChangedDebounced(it) }
-
-    override fun loadDataSwr(): Observable<out ReactiveListEvent> = loadData(isSwr = true)
-
-    override fun loadNextData() = loadData(sh.list.data.nextPage)
 
     private fun loadData(page: Int = 1, isSwr: Boolean = false) = createObservable(page)
             .io()

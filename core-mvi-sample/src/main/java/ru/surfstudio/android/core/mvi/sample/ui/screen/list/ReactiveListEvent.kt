@@ -21,6 +21,5 @@ sealed class ReactiveListEvent : Event {
     data class QueryChangedDebounced(val query: String) : ReactiveListEvent()
 
     data class FilterNumbers(override var state: PaginationState = PaginationState.READY) : ReactiveListEvent(), PaginationEvent
-
-    data class LifecycleChanged(override var stage: LifecycleStage) : ReactiveListEvent(), LifecycleEvent
+    data class ReactiveListLifecycle(override var stage: LifecycleStage) : ReactiveListEvent(), LifecycleEvent
 }

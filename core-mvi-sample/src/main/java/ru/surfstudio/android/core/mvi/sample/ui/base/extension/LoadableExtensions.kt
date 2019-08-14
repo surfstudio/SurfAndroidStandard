@@ -87,6 +87,22 @@ fun <T, PE : PaginationEvent> ResponseEvent<DataList<T>>.toPaginationEvent(
     }
 }
 
+inline fun <T, reified PE : PaginationEvent> ResponseEvent<DataList<T>>.toPaginationEvent(
+        canGetMore: Boolean = type.canGetMore()
+): Observable<PE> {
+    val paginationEvent = PE::class.java.newInstance()
+    return when (this.type) {
+        is Response.Loading ->
+            Observable.empty()
+        is Response.Data -> paginationEvent
+                .apply {
+                    state = if (canGetMore) PaginationState.READY else PaginationState.COMPLETE
+                }.toObservable()
+        is Response.Error -> paginationEvent
+                .apply { state = PaginationState.ERROR }.toObservable()
+    }
+}
+
 fun <T> Response<DataList<T>>.canGetMore() = (this as? Response.Data)?.data?.canGetMore() == true
 
 fun <T> ResponseState<DataList<T>>.canGetMore() = this.dataOrNull?.canGetMore() == true

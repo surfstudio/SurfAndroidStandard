@@ -33,7 +33,7 @@ class MainActivityView : BaseReactActivityView(), SingleHubOwner<MainEvent> {
         main_open_simple_list_btn.clicks() bindTo { MainEvent.OpenSimpleList.emit() }
 
         //еще более простая запись при помощи экстеншна в SingleHubOwner
-        main_open_complex_list_btn.clicks().emit(MainEvent.OpenComplexList)
+        main_open_complex_list_btn.clicks().emit(MainEvent.OpenComplexList())
     }
 
     private fun initLog() {
