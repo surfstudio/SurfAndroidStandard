@@ -106,8 +106,10 @@ pipeline.stages = [
                                 script.sh "git clone --single-branch --branch $branchName ${pipeline.repoUrl} $STANDARD_REPO_FOLDER"
 
                                 script.sh "git clone ${component.mirror_repo} $MIRROR_FOLDER"
-                                script.sh "./gradlew deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
-                                        "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
+                                withGithubCredentials(script) {
+                                    script.sh "./gradlew deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
+                                            "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
+                                }
                             }
                     )
                 }
@@ -227,7 +229,8 @@ def static withArtifactoryCredentials(script, body) {
             script.usernamePassword(
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password')
+                    passwordVariable: 'surf_maven_password'
+            )
     ]) {
         body()
     }
@@ -238,7 +241,20 @@ def static withGradleBuildCacheCredentials(Object script, Closure body) {
             script.usernamePassword(
                     credentialsId: "gradle_build_cache",
                     usernameVariable: 'GRADLE_BUILD_CACHE_USER',
-                    passwordVariable: 'GRADLE_BUILD_CACHE_PASS')
+                    passwordVariable: 'GRADLE_BUILD_CACHE_PASS'
+            )
+    ]) {
+        body()
+    }
+}
+
+def static withGithubCredentials(script, body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "Github_Deploy_Credentials",
+                    usernameVariable: 'surf_github_username',
+                    passwordVariable: 'surf_github_password'
+            )
     ]) {
         body()
     }
