@@ -8,6 +8,7 @@ import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
+import ru.surfstudio.ci.utils.android.AndroidUtil
 
 //@Library('surf-lib@version-2.0.0-SNAPSHOT')
 
