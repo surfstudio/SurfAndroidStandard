@@ -88,7 +88,7 @@
     ],
     "samples": [],
     "has_mirror": false,
-    "mirror_repo": ""
+    "mirror_repo": "https://github.com/surfstudio/Logger"
   },
   {
     "id": "rx-extension",
@@ -120,6 +120,6 @@
     ],
     "samples": [],
     "has_mirror": true,
-    "mirror_repo": ""
+    "mirror_repo": "https://github.com/surfstudio/Rx-extension"
   }
 ]
