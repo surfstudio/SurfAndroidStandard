@@ -160,4 +160,6 @@ object Components {
 
         return mirrorComponent ?: throw GradleException()
     }
+
+    private fun test(){}
 }
