@@ -2,7 +2,6 @@
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
 import ru.surfstudio.ci.pipeline.ScmPipeline
@@ -12,8 +11,6 @@ import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
-import java.util.regex.Pattern
-import java.util.regex.Matcher
 
 import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
