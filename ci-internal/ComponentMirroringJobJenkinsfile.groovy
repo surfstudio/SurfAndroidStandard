@@ -1,7 +1,5 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT')
 import groovy.json.JsonSlurperClassic
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -18,7 +16,6 @@ def PREPARE_MIRRORING = 'Prepare Mirroring'
 def MIRROR_COMPONENT = 'Mirror Component'
 
 //constants
-def componentsJsonFile = "buildSrc/components.json"
 def MIRROR_FOLDER = ".mirror"
 def STANDARD_REPO_FOLDER = "temp"
 def DEPTH_LIMIT = 100
@@ -27,7 +24,6 @@ def SEARCH_LIMIT = 100
 //vars
 def branchName = ""
 def lastCommit = ""
-def components
 
 //other config
 
