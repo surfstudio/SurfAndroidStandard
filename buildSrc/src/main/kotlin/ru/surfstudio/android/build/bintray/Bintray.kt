@@ -16,14 +16,16 @@ object Bintray {
      * Check libraries's android standard dependencies exist in bintray
      */
     fun checkLibrariesStandardDependenciesExisting(component: Component) {
-        component.libraries.forEach(this::checkLibraryStandardDependenciesExisting)
+        component.libraries.forEach { this.checkLibraryStandardDependenciesExisting(it, component) }
     }
 
     /**
      * Check library's android standard dependencies exist in bintray
      */
-    private fun checkLibraryStandardDependenciesExisting(library: Library) {
-        library.androidStandardDependencies.forEach { androidStandardDependency ->
+    private fun checkLibraryStandardDependenciesExisting(library: Library, component: Component) {
+        library.androidStandardDependencies
+                .filter { it.component != component }
+                .forEach { androidStandardDependency ->
             if (!isArtifactExists(
                             androidStandardDependency.name,
                             androidStandardDependency.component.projectVersion
@@ -33,7 +35,7 @@ object Bintray {
             }
 
             Components.libraries.find { it.name == androidStandardDependency.name }?.let {
-                checkLibraryStandardDependenciesExisting(it)
+                checkLibraryStandardDependenciesExisting(it, component)
             }
         }
     }

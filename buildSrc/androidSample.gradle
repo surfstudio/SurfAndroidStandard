@@ -43,3 +43,14 @@ task printTestInstrumentationRunnerName {
         println "$android.defaultConfig.testInstrumentationRunner"
     }
 }
+
+//временное решение для разрешения конфликтов версий сторонних зависимостей
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        libraryVersions.each { libName, version ->
+            if ("${details.requested.group}:${details.requested.name}" == libName) {
+                details.useVersion version
+            }
+        }
+    }
+}

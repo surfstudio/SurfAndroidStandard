@@ -107,6 +107,17 @@ object Components {
     }
 
     /**
+     * Is library from component
+     */
+    @JvmStatic
+    fun isLibraryFromComponent(libraryName: String, componentName: String): Boolean {
+        return value.find { it.name == componentName }
+                ?.libraries
+                ?.any { it.name == libraryName }
+                ?: false
+    }
+
+    /**
      * Set components for android standard dependencies
      */
     private fun setComponentsForAndroidStandardDependencies() {

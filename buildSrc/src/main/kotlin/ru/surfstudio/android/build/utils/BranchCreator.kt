@@ -1,7 +1,5 @@
 package ru.surfstudio.android.build.utils
 
-import kotlin.random.Random
-
 object BranchCreator {
     private val data = listOf(
             "Achelois",
@@ -77,11 +75,18 @@ object BranchCreator {
 
     private var i = 0
 
-    fun generateBranchName(not: List<String>): String {
-        var name = data[i++]
-        while (not.contains(name)) {
-            name = data[i++]
+    fun generateBranchName(existedBranches: List<String>): String {
+        var name = getName()
+        while (existedBranches.contains(name)) {
+            name = getName()
         }
+        return name
+    }
+
+    private fun getName(): String {
+        val j = i % data.size
+        val name = if (i >= data.size) data[j] + "-$j" else data[j]
+        i++
         return name
     }
 }

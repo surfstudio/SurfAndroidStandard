@@ -10,9 +10,9 @@ import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
-import ru.surfstudio.android.build.utils.JsonHelper
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
+import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
 
 /**
@@ -28,26 +28,13 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
-        println("DEV-INFO revisionToCompare ${revisionToCompare}")
-        println("DEV-INFO currentRevision ${currentRevision}")
-
         val resultByFiles = ComponentsFilesChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
-
-        resultByFiles.forEach {
-            println("DEV-INFO resultByFiles ${it.componentName}=${it.isComponentChanged}")
-        }
 
         val resultsByConfiguration = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
 
-        resultsByConfiguration.forEach {
-            println("DEV-INFO resultsByConfiguration ${it.componentName}=${it.isComponentChanged}")
-        }
-
-        println("DEV-INFO Components Before ${Components.value}")
         incrementUnstableChanged(resultByFiles, resultsByConfiguration)
-        println("DEV-INFO Components After ${Components.value}")
     }
 
     private fun extractInputArguments() {

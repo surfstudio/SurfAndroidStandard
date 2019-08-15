@@ -1,7 +1,7 @@
 [TOC]
 # Logger Release Notes
-## 0.0.0
-##### Analytics
+## 0.4.0
+##### Logger
 * TODO
 * TODO
 * TODO

@@ -1,20 +1,17 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.JarvisUtil
 import ru.surfstudio.ci.CommonUtil
+import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.RepositoryUtil
 import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
-import java.util.regex.Pattern
-import java.util.regex.Matcher
-
-import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
 //Pipeline for deploy snapshot artifacts
 
@@ -39,19 +36,15 @@ def DEPLOY_MODULES = 'Deploy Modules'
 def COMPONENT_ALPHA_COUNTER_PUSH = 'Component Alpha Counter Push'
 def MIRROR_COMPONENT = 'Mirror Components'
 
-//constants
-def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def componentsFile = "buildSrc/components.json"
-
 //vars
 def branchName = ""
 def componentVersion = "<unknown>"
 def componentName = "<unknown>"
 
 
-def p1 = "deploySameVersionArtifactory"
+def isDeploySameVersionArtifactory = "deploySameVersionArtifactory"
 
-def p2 = "deploySameVersionBintray" //todo
+def isDeploySameVersionBintray = "deploySameVersionBintray"
 
 //other config
 
@@ -71,7 +64,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { properties(pipeline) }
+pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -98,7 +91,6 @@ pipeline.initializeBody = {
 
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
-    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
 pipeline.stages = [
@@ -111,16 +103,17 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+                CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            //release_<component>_<version>
-            def parts = branchName.split("_")
-            componentVersion = parts[2]
+            //release/<component>/<version>
+            def parts = branchName.split("/")
             componentName = parts[1]
+            componentVersion = parts[2]
             script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -134,8 +127,10 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_COMPONENT_ALREADY_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
-                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName}")
-                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName}")
+                script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
+            }
+            withBintrayCredentials(script){
+                script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
         pipeline.stage(CHECK_COMPONENT_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -156,7 +151,7 @@ pipeline.stages = [
                     CHECK_COMPONENT_STABLE,
                     CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE,
                     CHECK_RELEASE_NOTES_VALID
-            ].forEach {stageName ->
+            ].each {stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
             }
@@ -166,7 +161,7 @@ pipeline.stages = [
             }
         },
         pipeline.stage(SET_COMPONENT_ALPHA_COUNTER_TO_ZERO) {
-            script.sh("./gradlew setComponentAlphaCounterToZero -PrevisionToCompare=${revisionToCompare}")
+            script.sh("./gradlew setComponentAlphaCounterToZero -Pcomponent=${componentName}")
         },
 
         pipeline.stage(BUILD) {
@@ -199,26 +194,23 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives" //todo указать нужный артефакт
+                    script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
+                    script.sh "./gradlew distributeArtifactsToBintrayTask -Pcomponent=${componentName} -PoverrideExisted=false"
                 }
             }
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            //todo переписать логику на пуш обнуления каунтера
             RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
-
-            script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            script.sh "git commit -a -m \"Set component $componentName alpha counter to zero\" $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1"
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
         pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
+            if (pipeline.getStage(COMPONENT_ALPHA_COUNTER_PUSH).result != Result.SUCCESS) {
                 script.error("Cannot mirror without change version")
             }
-            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
-                    string(name: 'branch', value: branchName)
+            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
+                    string(name: 'branch', value: branchName),
+                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
             ]
         }
 ]
@@ -245,16 +237,16 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> properties(ScmPipeline ctx) {
+def static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
-            buildDiscarder(script),
-            parameters(script),
-            triggers(script)
+            initBuildDiscarder(script),
+            initParameters(script),
+            initTriggers(script)
     ]
 }
 
-def static buildDiscarder(script) {
+def static initBuildDiscarder(script) {
     return script.buildDiscarder(
             script.logRotator(
                     artifactDaysToKeepStr: '3',
@@ -264,7 +256,7 @@ def static buildDiscarder(script) {
     )
 }
 
-def static parameters(script) {
+def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName_0",
@@ -272,7 +264,7 @@ def static parameters(script) {
     ])
 }
 
-def static triggers(script) {
+def static initTriggers(script) {
     return script.pipelineTriggers([
             script.GenericTrigger(
                     genericVariables: [
@@ -284,7 +276,7 @@ def static triggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$', //todo изменить фильтр веток
+                    regexpFilterExpression: '^(origin\\/)?release/(.*)$', //todo изменить фильтр веток
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
@@ -314,7 +306,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
 
     def filteredCommits = []
     for (commit in commits) {
-        if (commit.startWith("*")) {
+        if (commit.startsWith("*")) {
             //filter only commit in
             filteredCommits.add(commit)
         }
@@ -325,11 +317,17 @@ def static getPreviousRevisionWithVersionIncrement(script) {
         if (commit.contains(RepositoryUtil.VERSION_LABEL1)) {
             script.echo("revision to compare: ${commit}")
             revisionToCompare = getCommitHash(script, commit)
+            break
         }
     }
     if (revisionToCompare == null) {
         //gets previous commit
-        def previousCommit = commits[1]
+        def previousCommit
+        if (commits[1] !="|\\  ") {
+            previousCommit = commits[1]
+        } else {
+            previousCommit = commits[2]
+        }
         script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
         revisionToCompare = getCommitHash(script, previousCommit)
     }
@@ -342,6 +340,17 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
+    ]) {
+        body()
+    }
+}
+
+def static withBintrayCredentials(script, body) {
+    script.withCredentials([
+            script.usernamePassword(
+                    credentialsId: "Bintray_Deploy_Credentials",
+                    usernameVariable: 'surf_bintray_username',
+                    passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
     }

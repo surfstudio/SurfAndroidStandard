@@ -1,15 +1,14 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-
+@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
-//@Library('surf-lib@version-2.0.0-SNAPSHOT')
-import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
+import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.stage.StageStrategy
+import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
+import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 //Pipeline for deploy snapshot artifacts
 
@@ -79,9 +78,6 @@ pipeline.initializeBody = {
 
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
-    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
-
-//    libNames = new ArrayList<String>()
 }
 
 pipeline.stages = [
@@ -94,6 +90,7 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+                CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
 
@@ -104,8 +101,8 @@ pipeline.stages = [
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
 
-            if (("dev/T-" + globalVersion) != branchName) { // TODO ПОМЕНЯТЬ НА dev/G-0.0.0
-                script.error("Deploy AndroidStandard with global version: $globalVersion from branch: '$branchName' forbidden")
+            if (("dev/G-" + globalVersion) != branchName) {
+                script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
@@ -125,29 +122,27 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        //TODO РАСКОМЕНТИТЬ ИНСТРУМЕНТАЛЬНЫЕ ТЕСТЫ (ПОКА ЧТО ОНИ ПАДАЮТ)
-//        pipeline.stage(INSTRUMENTATION_TEST) {
-//            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-//                    script,
-//                    new AvdConfig(),
-//                    "debug",
-//                    getTestInstrumentationRunnerName,
-//                    new AndroidTestConfig(
-//                            "assembleAndroidTest",
-//                            "build/outputs/androidTest-results/instrumental",
-//                            "build/reports/androidTests/instrumental",
-//                            true,
-//                            0
-//                    )
-//            )
-//        },
+        pipeline.stage(INSTRUMENTATION_TEST) {
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                    script,
+                    new AvdConfig(),
+                    "debug",
+                    getTestInstrumentationRunnerName,
+                    new AndroidTestConfig(
+                            "assembleAndroidTest",
+                            "build/outputs/androidTest-results/instrumental",
+                            "build/reports/androidTests/instrumental",
+                            true,
+                            0
+                    )
+            )
+        },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
-//                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                withGradleBuildCacheCredentials(script) {
+                AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
@@ -167,14 +162,15 @@ pipeline.stages = [
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
-//        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-//            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-//                script.error("Cannot mirror without change version")
-//            }
-//            script.build job: 'Android_Standard_Component_Mirroring', parameters: [
-//                    script.string(name: 'branch', value: branchName)
-//            ]
-//        }
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
+                script.error("Cannot mirror without change version")
+            }
+            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
+                    script.string(name: 'branch', value: branchName),
+                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
+            ]
+        }
 ]
 
 
@@ -238,7 +234,7 @@ def static initTriggers(script) {
                     printContributedVariables: true,
                     printPostContent: true,
                     causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?dev\\/T-(.*)$', // TODO ПОМЕНЯТЬ НА dev/G-0.0.0
+                    regexpFilterExpression: '^(origin\\/)?dev\\/G-(.*)$',
                     regexpFilterText: '$branchName_0'
             ),
             script.pollSCM('')
@@ -302,17 +298,6 @@ def static withArtifactoryCredentials(script, body) {
                     credentialsId: "Artifactory_Deploy_Credentials",
                     usernameVariable: 'surf_maven_username',
                     passwordVariable: 'surf_maven_password')
-    ]) {
-        body()
-    }
-}
-
-def static withGradleBuildCacheCredentials(Object script, Closure body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "gradle_build_cache",
-                    usernameVariable: 'GRADLE_BUILD_CACHE_USER',
-                    passwordVariable: 'GRADLE_BUILD_CACHE_PASS')
     ]) {
         body()
     }

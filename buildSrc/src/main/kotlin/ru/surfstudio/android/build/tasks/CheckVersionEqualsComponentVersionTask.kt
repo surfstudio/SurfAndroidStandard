@@ -24,7 +24,7 @@ open class CheckVersionEqualsComponentVersionTask : DefaultTask() {
         val propertyVersion = project.property(GradleProperties.COMPONENT_VERSION) as? String
                 ?: throw PropertyNotDefineException(GradleProperties.COMPONENT_VERSION)
 
-        if (component.projectVersion != propertyVersion) {
+        if (component.baseVersion != propertyVersion) {
             throw PropertyVersionsNotEqualsComponentVersionException(
                     component.name,
                     component.projectVersion,
