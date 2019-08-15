@@ -1,4 +1,4 @@
-//@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
@@ -38,10 +38,10 @@ def pipeline = new EmptyScmPipeline(script)
 
 pipeline.init()
 
-///* Workaround laggy filesystem */
-//script {
-//    System.setProperty("org.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL", "3800");
-//}
+/* Workaround laggy filesystem */
+script {
+    System.setProperty("org.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.REMOTE_TIMEOUT", "20")
+}
 
 //configuration
 pipeline.node = "android"
