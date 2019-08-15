@@ -495,6 +495,9 @@ pipeline.stages = [
                             ]
                         }
                 )
+                pipeline.stages.add(
+                        pipeline.stage("TEST_FINAL") {}
+                )
             }
         }
 ]
