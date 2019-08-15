@@ -166,66 +166,6 @@ def static initParameters(script) {
 // ============================================= ↑↑↑  END JOB PROPERTIES CONFIGURATION ↑↑↑  ==========================================
 
 // ============ Utils =================
-
-def static getCommitHash(script, commit) {
-    def parts = commit.split(" ")
-    for (part in parts) {
-        if (part.trim().matches("^[a-zA-Z0-9]+\$")) {
-            return part.trim()
-        }
-    }
-    script.error("Commit hash not found in commit str: $commit")
-}
-
-def static getPreviousRevisionWithVersionIncrement(script) {
-    def commits = script.sh(
-            returnStdout: true,
-            script: "git  --no-pager log --pretty=oneline -500 --graph")
-            .trim()
-            .split("\n")
-
-    def filteredCommits = []
-    for (commit in commits) {
-        if (commit.startsWith("*")) {
-            //filter only commit in
-            filteredCommits.add(commit)
-        }
-    }
-    def revisionToCompare = null
-
-    for (commit in filteredCommits) {
-        if (commit.contains(RepositoryUtil.VERSION_LABEL1)) {
-            script.echo("revision to compare: ${commit}")
-            revisionToCompare = getCommitHash(script, commit)
-            break
-        }
-    }
-    if (revisionToCompare == null) {
-        //gets previous commit
-        def previousCommit
-        if (commits[1] != "|\\  ") {
-            previousCommit = commits[1]
-        } else {
-            previousCommit = commits[2]
-        }
-        script.echo("Not found revision with version label, so use previous revision to compare: ${previousCommit}")
-        revisionToCompare = getCommitHash(script, previousCommit)
-    }
-    return revisionToCompare
-}
-
-def static withArtifactoryCredentials(script, body) {
-    script.withCredentials([
-            script.usernamePassword(
-                    credentialsId: "Artifactory_Deploy_Credentials",
-                    usernameVariable: 'surf_maven_username',
-                    passwordVariable: 'surf_maven_password'
-            )
-    ]) {
-        body()
-    }
-}
-
 def static withGithubCredentials(script, body) {
     script.withCredentials([
             script.usernamePassword(
