@@ -1,12 +1,9 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')_
+//@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.AndroidUtil
-
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
 //Pipeline for deploy snapshot artifacts
 
@@ -40,6 +37,11 @@ def script = this
 def pipeline = new EmptyScmPipeline(script)
 
 pipeline.init()
+
+///* Workaround laggy filesystem */
+//script {
+//    System.setProperty("org.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL", "3800");
+//}
 
 //configuration
 pipeline.node = "android"
