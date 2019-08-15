@@ -153,6 +153,12 @@ pipeline.stages = [
                 script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
             }
         },
+        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
+                    script.string(name: 'branch', value: branchName),
+                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
+            ]
+        },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
@@ -161,16 +167,25 @@ pipeline.stages = [
             script.sh "git commit -a -m \"Increase global alpha version counter to " +
                     "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-        },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
-                    script.string(name: 'branch', value: branchName),
-                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
-            ]
         }
+//        pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+//            RepositoryUtil.setDefaultJenkinsGitUser(script)
+//            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+//            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+//
+//            script.sh "git commit -a -m \"Increase global alpha version counter to " +
+//                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+//            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+//        },
+//        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+//            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
+//                script.error("Cannot mirror without change version")
+//            }
+//            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
+//                    script.string(name: 'branch', value: branchName),
+//                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
+//            ]
+//        }
 ]
 
 
