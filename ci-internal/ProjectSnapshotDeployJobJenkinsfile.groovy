@@ -1,5 +1,4 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
-import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -13,10 +12,6 @@ import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
-import java.util.regex.Pattern
-import java.util.regex.Matcher
-
-import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
 //Pipeline for deploy project snapshot artifacts
 

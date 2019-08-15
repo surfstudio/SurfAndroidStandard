@@ -2,12 +2,10 @@
 
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
-import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
 import ru.surfstudio.ci.pipeline.pr.PrPipeline
 import ru.surfstudio.ci.stage.SimpleStage
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
 
@@ -118,12 +116,9 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(PRE_MERGE) {
-            script.echo "dev_info 1"
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
-            script.echo "dev_info 2 $destinationBranch"
-            script.echo "destinationBranch=$destinationBranch"
 
             script.git(
                     url: pipeline.repoUrl,
@@ -131,19 +126,14 @@ pipeline.stages = [
                     branch: destinationBranch
             )
 
-            script.echo "dev_info 3"
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
-            script.echo "dev_info 4"
             script.sh "git checkout origin/$sourceBranch"
 
-            script.echo "dev_info 5"
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
             //local merge with destination
-            script.echo "dev_info 6"
             script.sh "git merge origin/$destinationBranch --no-ff"
-            script.echo "dev_info 7"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             withArtifactoryCredentials(script) {
@@ -169,10 +159,9 @@ pipeline.stages = [
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
         },
-        // TODO определиться как работать
-//        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-//            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-//        },
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+        },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
             [
@@ -180,9 +169,8 @@ pipeline.stages = [
                     CHECK_STABLE_MODULES_NOT_CHANGED,
                     CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
-                    CHECK_RELEASE_NOTES_VALID
-//                    ,
-//                    CHECK_RELEASE_NOTES_CHANGED
+                    CHECK_RELEASE_NOTES_VALID,
+                    CHECK_RELEASE_NOTES_CHANGED
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
@@ -205,21 +193,21 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-//        pipeline.stage(INSTRUMENTATION_TEST) {
-//            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-//                    script,
-//                    new AvdConfig(),
-//                    "debug",
-//                    getTestInstrumentationRunnerName,
-//                    new AndroidTestConfig(
-//                            "assembleAndroidTest",
-//                            "build/outputs/androidTest-results/instrumental",
-//                            "build/reports/androidTests/instrumental",
-//                            true,
-//                            0
-//                    )
-//            )
-//        },
+        pipeline.stage(INSTRUMENTATION_TEST) {
+            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                    script,
+                    new AvdConfig(),
+                    "debug",
+                    getTestInstrumentationRunnerName,
+                    new AndroidTestConfig(
+                            "assembleAndroidTest",
+                            "build/outputs/androidTest-results/instrumental",
+                            "build/reports/androidTests/instrumental",
+                            true,
+                            0
+                    )
+            )
+        },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         }

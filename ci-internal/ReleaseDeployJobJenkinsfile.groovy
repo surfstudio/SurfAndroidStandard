@@ -1,4 +1,5 @@
 @Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
@@ -11,8 +12,6 @@ import ru.surfstudio.ci.Result
 import ru.surfstudio.ci.AbortDuplicateStrategy
 import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
 import ru.surfstudio.ci.utils.android.config.AvdConfig
-
-import static ru.surfstudio.ci.CommonUtil.applyParameterIfNotEmpty
 
 //Pipeline for deploy snapshot artifacts
 
@@ -36,10 +35,6 @@ def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def COMPONENT_ALPHA_COUNTER_PUSH = 'Component Alpha Counter Push'
 def MIRROR_COMPONENT = 'Mirror Components'
-
-//constants
-def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def componentsFile = "buildSrc/components.json"
 
 //vars
 def branchName = ""
@@ -96,7 +91,6 @@ pipeline.initializeBody = {
 
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
-    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
 pipeline.stages = [
@@ -109,13 +103,14 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+                CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            //release_<component>_<version>
+            //release/<component>/<version>
             def parts = branchName.split("/")
             componentName = parts[1]
             componentVersion = parts[2]
