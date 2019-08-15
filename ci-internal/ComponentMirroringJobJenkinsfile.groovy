@@ -38,11 +38,6 @@ def pipeline = new EmptyScmPipeline(script)
 
 pipeline.init()
 
-/* Workaround laggy filesystem */
-script {
-    System.setProperty("org.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.REMOTE_TIMEOUT", "20")
-}
-
 //configuration
 pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
