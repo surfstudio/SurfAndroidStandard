@@ -6,6 +6,7 @@ import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundEx
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.ManyBranchesFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.MirrorCommitNotFoundByStandardHashException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.NoEndsDefineException
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.GitTree.NodeState.*
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
@@ -107,7 +108,7 @@ class GitTree(
      * @param mirrorRevCommits commits from mirror repository
      */
     private fun createMirrorNodes(mirrorRevCommits: Iterable<RevCommit>) {
-        mirrorNodes.addAll(mirrorRevCommits.map { Node(it)}.toSet())
+        mirrorNodes.addAll(mirrorRevCommits.map { Node(it) }.toSet())
         if (mirrorNodes.isEmpty()) throw NoEndsDefineException()
     }
 
@@ -206,7 +207,7 @@ class GitTree(
     /**
      * create mirror repository started commits and standard repository commits
      */
-    private fun defineCommits(){
+    private fun defineCommits() {
         val lines = createLines()
 
         buildMirrorStartCommits(lines)

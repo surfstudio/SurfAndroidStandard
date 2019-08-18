@@ -1,6 +1,5 @@
 package ru.surfstudio.android.build
 
-import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.CantReadFileException
 import ru.surfstudio.android.build.exceptions.NoPropertyDefinedInFileException
 import ru.surfstudio.android.build.utils.EMPTY_STRING

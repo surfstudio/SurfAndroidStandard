@@ -1,9 +1,9 @@
 package ru.surfstudio.android.build.model
 
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.utils.EMPTY_STRING
-import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
+import ru.surfstudio.android.build.model.module.Library
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
  * Represent artifact info

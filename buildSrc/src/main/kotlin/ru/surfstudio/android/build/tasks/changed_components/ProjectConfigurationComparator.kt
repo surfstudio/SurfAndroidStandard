@@ -109,7 +109,7 @@ class ProjectConfigurationComparator(
         firstLibraryList.forEach { libraryFirst ->
             val librarySecond = secondLibraryList.find { it.name == libraryFirst.name }!!
             val result = compareDependencies(component, libraryFirst, librarySecond)
-            if (result.isComponentChanged){
+            if (result.isComponentChanged) {
                 return result
             }
         }

@@ -3,7 +3,6 @@ package ru.surfstudio.android.build.utils
 import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gradle.api.GradleException
-import java.lang.Exception
 
 const val STANDARD_COMMIT_HASH_PREFIX = "("
 const val STANDARD_COMMIT_HASH_POSTFIX = ")"

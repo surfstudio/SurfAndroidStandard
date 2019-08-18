@@ -5,4 +5,4 @@ import org.gradle.api.GradleException
 /**
  * Unstable libraries
  */
-class UnstableLibraryDependenciesException(libDescription: String): GradleException(libDescription)
+class UnstableLibraryDependenciesException(libDescription: String) : GradleException(libDescription)

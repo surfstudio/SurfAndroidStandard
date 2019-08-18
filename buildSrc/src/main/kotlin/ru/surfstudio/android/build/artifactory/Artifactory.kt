@@ -57,13 +57,13 @@ object Artifactory {
         library.androidStandardDependencies
                 .filter { it.component != component }
                 .forEach { androidStandardDependency ->
-            if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
-                throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
-            }
-            Components.libraries.find { it.name == androidStandardDependency.name }?.let {
-                checkLibraryStandardDependenciesExisting(it, component)
-            }
-        }
+                    if (!isArtifactExists(androidStandardDependency.name, androidStandardDependency.component.projectVersion)) {
+                        throw ArtifactNotExistInArtifactoryException(library.name, androidStandardDependency)
+                    }
+                    Components.libraries.find { it.name == androidStandardDependency.name }?.let {
+                        checkLibraryStandardDependenciesExisting(it, component)
+                    }
+                }
     }
 
     /**
