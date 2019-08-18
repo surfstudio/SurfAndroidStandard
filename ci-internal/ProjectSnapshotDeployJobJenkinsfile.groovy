@@ -19,6 +19,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 def CHECKOUT = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
+def CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT = 'Check Configuration is project snapshot'
 def INCREMENT_PROJECT_SNAPSHOT_VERSION = 'Increment Project Snapshot Version'
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -27,7 +28,6 @@ def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
-//todo добавить шаг checkConfigurationIsProjectSnapshotTask
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
@@ -106,6 +106,9 @@ pipeline.stages = [
             if (("project-snapshot/" + project) != branchName) {
                 script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
             }
+        },
+        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
+            script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             script.sh("./gradlew incrementProjectSnapshotVersion")
