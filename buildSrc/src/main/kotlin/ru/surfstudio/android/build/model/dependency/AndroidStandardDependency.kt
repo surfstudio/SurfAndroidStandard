@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model.dependency
 
-import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 
 /**
  * Represent information about android standard dependency

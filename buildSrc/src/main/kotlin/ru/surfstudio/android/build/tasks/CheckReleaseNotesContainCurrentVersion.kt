@@ -2,11 +2,10 @@ package ru.surfstudio.android.build.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
+import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.ReleaseNotes
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesNotContainVersionException
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
-import ru.surfstudio.android.build.utils.getPropertyComponent
-import ru.surfstudio.android.build.Components
 
 
 /**

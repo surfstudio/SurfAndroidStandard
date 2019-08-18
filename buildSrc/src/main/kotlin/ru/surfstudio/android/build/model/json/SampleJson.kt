@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.model.json
 
-import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.model.module.Sample
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.Transformable
 
 /**

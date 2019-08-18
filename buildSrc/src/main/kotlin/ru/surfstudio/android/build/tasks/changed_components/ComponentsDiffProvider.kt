@@ -21,8 +21,7 @@ class ComponentsDiffProvider(
         val diffResults = getDiffBetweenRevisions()
         return if (diffResults.isNullOrEmpty()) {
             emptyMap()
-        }
-        else {
+        } else {
             createComponentsWithDiff(diffResults, components)
         }
     }

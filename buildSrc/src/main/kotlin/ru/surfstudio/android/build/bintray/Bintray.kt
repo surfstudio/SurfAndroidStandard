@@ -26,18 +26,18 @@ object Bintray {
         library.androidStandardDependencies
                 .filter { it.component != component }
                 .forEach { androidStandardDependency ->
-            if (!isArtifactExists(
-                            androidStandardDependency.name,
-                            androidStandardDependency.component.projectVersion
-                    )
-            ) {
-                throw ArtifactNotExistInBintrayException(library.name, androidStandardDependency)
-            }
+                    if (!isArtifactExists(
+                                    androidStandardDependency.name,
+                                    androidStandardDependency.component.projectVersion
+                            )
+                    ) {
+                        throw ArtifactNotExistInBintrayException(library.name, androidStandardDependency)
+                    }
 
-            Components.libraries.find { it.name == androidStandardDependency.name }?.let {
-                checkLibraryStandardDependenciesExisting(it, component)
-            }
-        }
+                    Components.libraries.find { it.name == androidStandardDependency.name }?.let {
+                        checkLibraryStandardDependenciesExisting(it, component)
+                    }
+                }
     }
 
     /**

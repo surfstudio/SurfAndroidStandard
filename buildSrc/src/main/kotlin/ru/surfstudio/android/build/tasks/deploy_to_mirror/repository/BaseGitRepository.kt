@@ -181,8 +181,8 @@ abstract class BaseGitRepository {
     /**
      *
      */
-    fun isBranchExists(branchName: String):Boolean{
-        return  git.branchList().call()
+    fun isBranchExists(branchName: String): Boolean {
+        return git.branchList().call()
                 .map { it.name }
                 .extractBranchNames()
                 .contains(branchName)
@@ -226,14 +226,14 @@ abstract class BaseGitRepository {
     /**
      * create branch
      */
-    fun createBranch(branchName: String, startCommit: String){
+    fun createBranch(branchName: String, startCommit: String) {
         git.branchCreate().setForce(true).setName(branchName).setStartPoint(startCommit).call()
     }
 
     /**
      * delete branch
      */
-    fun deleteBranch(branchName: String){
+    fun deleteBranch(branchName: String) {
         git.branchDelete().setBranchNames(branchName).setForce(true).call()
     }
 

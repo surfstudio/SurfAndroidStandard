@@ -71,7 +71,7 @@ class MirrorManager(
         val branchesToCreate = standardRepository.getBranchesByContainsId(commitToSetBranches.commit.name)
                 .map(Ref::getName)
                 .extractBranchNames()
-        branchesToCreate.forEach {branch ->
+        branchesToCreate.forEach { branch ->
             mirrorRepository.createBranch(branch, commitToSetBranches.mirrorCommitHash)
         }
         mirrorRepository.checkoutBranch(branchesToCreate.first())
