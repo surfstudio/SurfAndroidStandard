@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.ui.state.ScreenState
  * Создатель [LifecycleEvent] на основе [LifecycleStage].
  * Является лямбдой, принимающей [LifecycleStage] и создающей на его основе событие.
  */
-typealias LifecycleEventCreator<T> = (LifecycleStage) -> T
+typealias LifecycleEventCreator<E> = (LifecycleStage) -> E
 
 /**
  * [EventHub], рассылюащий события жизненного цикла экрана, к которому прикреплен
@@ -53,9 +53,9 @@ interface LifecycleEventHub<T : Event, Stream> : EventHub<T, Stream>, LifecycleV
     }
 
     fun emitEventByType(lifecycleStage: LifecycleStage) {
-        when (val event = lifecycleEventCreator?.invoke(lifecycleStage)) {
-            null -> return
-            else -> emit(event)
+        val event = lifecycleEventCreator?.invoke(lifecycleStage)
+        if (event != null) {
+            emit(event)
         }
     }
 
