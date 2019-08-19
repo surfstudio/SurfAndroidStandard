@@ -1,14 +1,12 @@
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+import groovy.json.JsonSlurper
 @Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurper
-import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
-import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.stage.StageStrategy
-import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
-import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 //Pipeline for deploy snapshot artifacts
 
@@ -144,14 +142,21 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_ANDROID_STANDARD_TEMPLATE) {
             String basePath = script.env.WORKSPACE
-            script.sh "git clone $androidStandardTemplateUrl"
+            script.sh(
+                    "rm -R androidStandardTemplateName " +
+                    "&& git clone $androidStandardTemplateUrl"
+            )
             script.sh("./gradlew generateModulesNamesFile")
-            script.sh("cd $androidStandardTemplateName/android-standard " +
+            script.sh(
+                    "cd $androidStandardTemplateName/android-standard " +
                     "&& printf \"androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true\" > androidStandard.properties " +
-                    "&& cd ../..")
-            script.sh("cd $androidStandardTemplateName " +
+                    "&& cd ../.."
+            )
+            script.sh(
+                    "cd $androidStandardTemplateName " +
                     "&& chmod +x gradlew " +
-                    "&& ./gradlew clean build")
+                    "&& ./gradlew clean build"
+            )
 //            script.file
 //            script.sh "echo \"\""
         },
