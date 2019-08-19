@@ -142,23 +142,11 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_ANDROID_STANDARD_TEMPLATE) {
             String basePath = script.env.WORKSPACE
-            script.sh(
-                    "rm -R $androidStandardTemplateName " +
-                    "&& git clone $androidStandardTemplateUrl"
-            )
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh(
-                    "cd $androidStandardTemplateName/android-standard " +
-                    "&& printf \"androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true\" > androidStandard.properties " +
-                    "&& cd ../.."
-            )
-            script.sh(
-                    "cd $androidStandardTemplateName " +
-                    "&& chmod +x gradlew " +
-                    "&& ./gradlew clean build"
-            )
-//            script.file
-//            script.sh "echo \"\""
+            script.sh "rm -R $androidStandardTemplateName && git clone $androidStandardTemplateUrl"
+            script.sh "./gradlew generateModulesNamesFile"
+            script.sh "printf \"androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true\" " +
+                            "> $androidStandardTemplateName/android-standard/androidStandard.properties "
+            script.sh "cd $androidStandardTemplateName && chmod +x gradlew && ./gradlew clean build"
         },
 //        pipeline.stage(DEPLOY_MODULES) {
 //            withArtifactoryCredentials(script) {
