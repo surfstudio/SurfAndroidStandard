@@ -147,8 +147,8 @@ pipeline.stages = [
                     url: androidStandardTemplateUrl,
                     credentialsId: pipeline.repoCredentialsId
             )
-            script.sh "./gradlew generateModulesNamesFile"
-            script.echo "123123 ${env.WORKSPACE}"
+            script.sh("./gradlew generateModulesNamesFile")
+            script.echo "123123 ${script.env.WORKSPACE}"
 //            script.file
 //            script.sh "echo \"\""
         },
