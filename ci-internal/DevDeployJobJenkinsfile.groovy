@@ -148,6 +148,10 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId
             )
             script.sh"chmod +x gradlew"
+            script.echo("1")
+            script.sh("ls")
+            script.echo("2")
+            script.sh("cd .. && ls")
             script.sh("./gradlew generateModulesNamesFile")
             script.echo "123123 ${script.env.WORKSPACE}"
 //            script.file
