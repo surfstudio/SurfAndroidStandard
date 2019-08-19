@@ -29,8 +29,8 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
-def androidStandardTemplateName = "android-standard-template"
-def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
+def androidStandardTemplateFolder = ".android-standard-template"
+def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/android-standard-template"
 
 //vars
 def branchName = ""
@@ -143,15 +143,7 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
         pipeline.stage(CHECK_ANDROID_STANDARD_TEMPLATE) {
-            script.git(
-                    url: androidStandardTemplateUrl,
-                    credentialsId: pipeline.repoCredentialsId
-            )
-            script.sh"chmod +x gradlew"
-            script.echo("1")
-            script.sh("ls")
-            script.echo("2")
-            script.sh("cd .. && ls")
+            script.sh "git clone $androidStandardTemplateUrl $androidStandardTemplateFolder"
             script.sh("./gradlew generateModulesNamesFile")
             script.echo "123123 ${script.env.WORKSPACE}"
 //            script.file
