@@ -17,12 +17,11 @@ open class CheckReleaseNotesContainCurrentVersion : DefaultTask() {
     fun check() {
 
         Components.value.forEach { component ->
-
             val releaseNotes: ReleaseNotesInfo = ReleaseNotes.findByComponentName(component.name)
 
             val version = releaseNotes.versions
-                    .find { it.version == component.baseVersion }
-                    ?: throw ReleaseNotesNotContainVersionException(releaseNotes, component.baseVersion)
+                    .find { it.version == component.projectVersion }
+                    ?: throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
 
             if (version.isEmpty) throw ReleaseNotesNotContainVersionException(releaseNotes, component.projectVersion)
         }
