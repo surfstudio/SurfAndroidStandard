@@ -21,6 +21,7 @@ def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
+def CHECK_ANDROID_STANDARD_TEMPLATE = 'Check Android Standard Template'
 def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
@@ -28,6 +29,8 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
+def androidStandardTemplateName = "android-standard-template"
+def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
 
 //vars
 def branchName = ""
@@ -105,72 +108,81 @@ pipeline.stages = [
                 script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
-            script.sh("./gradlew incrementGlobalUnstableVersion")
-        },
-        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
-            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
-            script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
-        },
-
-        pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
-        },
-        pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
-                    "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
-        },
-        pipeline.stage(INSTRUMENTATION_TEST) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
+//        pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
+//            script.sh("./gradlew incrementGlobalUnstableVersion")
+//        },
+//        pipeline.stage(INCREMENT_CHANGED_UNSTABLE_MODULES_ALPHA_VERSION) {
+//            def revisionToCompare = getPreviousRevisionWithVersionIncrement(script)
+//            script.sh("./gradlew incrementUnstableChangedComponents -PrevisionToCompare=${revisionToCompare}")
+//        },
+//        pipeline.stage(BUILD) {
+//            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+//        },
+//        pipeline.stage(UNIT_TEST) {
+//            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+//                    "testReleaseUnitTest",
+//                    "**/test-results/testReleaseUnitTest/*.xml",
+//                    "app/build/reports/tests/testReleaseUnitTest/")
+//        },
+//        pipeline.stage(INSTRUMENTATION_TEST) {
+//            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+//                    script,
+//                    new AvdConfig(),
+//                    "debug",
+//                    getTestInstrumentationRunnerName,
+//                    new AndroidTestConfig(
+//                            "assembleAndroidTest",
+//                            "build/outputs/androidTest-results/instrumental",
+//                            "build/reports/androidTests/instrumental",
+//                            true,
+//                            0
+//                    )
+//            )
+//        },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
-        pipeline.stage(DEPLOY_MODULES) {
-            withArtifactoryCredentials(script) {
-                AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                }
-            }
+        pipeline.stage(CHECK_ANDROID_STANDARD_TEMPLATE) {
+            script.git(
+                    url: androidStandardTemplateUrl,
+                    credentialsId: pipeline.repoCredentialsId
+            )
+            script.sh "./gradlew generateModulesNamesFile"
+            script.echo "123123 ${env.WORKSPACE}"
+//            script.file
+//            script.sh "echo \"\""
         },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
-            withArtifactoryCredentials(script) {
-                script.sh "./gradlew generateDataForPlugin"
-                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
-            }
-        },
-        pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
-
-            script.sh "git commit -a -m \"Increase global alpha version counter to " +
-                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-        },
-        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
-                script.error("Cannot mirror without change version")
-            }
-            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
-                    script.string(name: 'branch', value: branchName),
-                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
-            ]
-        }
+//        pipeline.stage(DEPLOY_MODULES) {
+//            withArtifactoryCredentials(script) {
+//                AndroidUtil.withGradleBuildCacheCredentials(script) {
+//                    script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+//                }
+//            }
+//        },
+//        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
+//            withArtifactoryCredentials(script) {
+//                script.sh "./gradlew generateDataForPlugin"
+//                script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
+//            }
+//        },
+//        pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+//            RepositoryUtil.setDefaultJenkinsGitUser(script)
+//            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+//            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+//
+//            script.sh "git commit -a -m \"Increase global alpha version counter to " +
+//                    "$globalConfiguration.unstable_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+//            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+//        },
+//        pipeline.stage(MIRROR_COMPONENTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+//            if (pipeline.getStage(VERSION_PUSH).result != Result.SUCCESS) {
+//                script.error("Cannot mirror without change version")
+//            }
+//            script.build job: 'Android_Standard_Component_Mirroring_Job', parameters: [
+//                    script.string(name: 'branch', value: branchName),
+//                    script.string(name: 'lastCommit', value: getPreviousRevisionWithVersionIncrement(script))
+//            ]
+//        }
 ]
 
 
