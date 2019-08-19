@@ -1,12 +1,14 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
-import groovy.json.JsonSlurper
 @Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurper
+import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.pipeline.helper.AndroidPipelineHelper
+import ru.surfstudio.ci.utils.android.AndroidUtil
 import ru.surfstudio.ci.stage.StageStrategy
+import ru.surfstudio.ci.utils.android.config.AndroidTestConfig
+import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 //Pipeline for deploy snapshot artifacts
 
