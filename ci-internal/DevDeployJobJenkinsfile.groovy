@@ -148,7 +148,9 @@ pipeline.stages = [
             script.sh("./gradlew generateModulesNamesFile")
             script.sh("cd $androidStandardTemplateName/android-standard " +
                     "&& printf \"androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true\" > androidStandard.properties " +
-                    "&& cd ../..")
+                    "&& cd ../.."
+            )
+            script.echo "123123 Finish"
         },
 //        pipeline.stage(DEPLOY_MODULES) {
 //            withArtifactoryCredentials(script) {
