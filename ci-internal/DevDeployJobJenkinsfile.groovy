@@ -143,7 +143,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_ANDROID_STANDARD_TEMPLATE) {
             String basePath = script.env.WORKSPACE
             script.sh(
-                    "rm -R androidStandardTemplateName " +
+                    "rm -R $androidStandardTemplateName " +
                     "&& git clone $androidStandardTemplateUrl"
             )
             script.sh("./gradlew generateModulesNamesFile")
