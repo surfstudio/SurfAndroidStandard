@@ -144,8 +144,7 @@ pipeline.stages = [
             String basePath = script.env.WORKSPACE
             script.sh "rm -R $androidStandardTemplateName && git clone $androidStandardTemplateUrl"
             script.sh "./gradlew generateModulesNamesFile"
-            script.sh "printf \"androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true\" " +
-                            "> $androidStandardTemplateName/android-standard/androidStandard.properties "
+            script.sh "printf 'androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true' > $androidStandardTemplateName/android-standard/androidStandard.properties "
             script.sh "cd $androidStandardTemplateName && chmod +x gradlew && ./gradlew clean build"
         },
 //        pipeline.stage(DEPLOY_MODULES) {
