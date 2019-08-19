@@ -46,5 +46,6 @@ class UiToolsDebugActivityView : BaseRenderableActivityView<UiToolsDebugScreenMo
             Toast.makeText(this, "Втряхните устройство для включения Scalpel", Toast.LENGTH_SHORT)
                     .show()
         }
+        vqa_tool.setOnClickListener { presenter.openWindowVQA() }
     }
 }
