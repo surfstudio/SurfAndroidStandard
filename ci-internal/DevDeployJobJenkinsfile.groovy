@@ -149,7 +149,9 @@ pipeline.stages = [
             script.sh("cd $androidStandardTemplateName/android-standard " +
                     "&& printf \"androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true\" > androidStandard.properties " +
                     "&& cd ../..")
-            script.sh("cd $androidStandardTemplateName && ./gradlew clean build")
+            script.sh("cd $androidStandardTemplateName " +
+                    "&& chmod +x gradlew " +
+                    "&& ./gradlew clean build")
 //            script.file
 //            script.sh "echo \"\""
         },
