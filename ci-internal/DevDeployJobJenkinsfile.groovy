@@ -142,6 +142,9 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_ANDROID_STANDARD_TEMPLATE) {
             String basePath = script.env.WORKSPACE
+            script.echo "========================================================================================================="
+            script.sh "ls"
+            script.echo "========================================================================================================="
             script.sh "rm -R $androidStandardTemplateName && git clone $androidStandardTemplateUrl"
             script.sh "./gradlew generateModulesNamesFile"
             script.sh "printf 'androidStandardDebugDir=$basePath/android-standard\nandroidStandardDebugMode=true' > $androidStandardTemplateName/android-standard/androidStandard.properties "
