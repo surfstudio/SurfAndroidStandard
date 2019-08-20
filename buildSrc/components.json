@@ -143,6 +143,35 @@
     "mirror_repo": ""
   },
   {
+    "id": "broadcast-extension",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "broadcast-extension",
+    "libs": [
+      {
+        "name": "broadcast-extension",
+        "dir": "lib-broadcast-extension",
+        "artifact_name": "broadcast-extension",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "connection",
     "version": "0.4.0",
     "unstable_version": 0,
