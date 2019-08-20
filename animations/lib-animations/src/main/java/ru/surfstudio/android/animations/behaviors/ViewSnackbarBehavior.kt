@@ -18,6 +18,9 @@ package ru.surfstudio.android.animations.behaviors
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.ViewCompat
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Behavior для view над [Snackbar]
