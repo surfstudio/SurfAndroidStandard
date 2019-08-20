@@ -1,3 +1,5 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
 android {
     defaultConfig {
         testBuildType "debug"
@@ -6,19 +8,19 @@ android {
 }
 
 dependencies {
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "org.powermock:powermock-module-junit4:$powerMockVersion"
-    testImplementation "org.powermock:powermock-module-junit4-rule:$powerMockVersion"
-    testImplementation "org.powermock:powermock-api-mockito2:$powerMockVersion"
-    testImplementation "org.powermock:powermock-classloading-xstream:$powerMockVersion"
-    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    DependencyConfigurator.testImplementation(project, "junit:junit")
+    DependencyConfigurator.testImplementation(project, "org.powermock:powermock-module-junit4")
+    DependencyConfigurator.testImplementation(project, "org.powermock:powermock-module-junit4-rule")
+    DependencyConfigurator.testImplementation(project, "org.powermock:powermock-api-mockito2")
+    DependencyConfigurator.testImplementation(project, "org.powermock:powermock-classloading-xstream")
+    DependencyConfigurator.testImplementation(project, "org.powermock:powermock-classloading-xstream")
+    DependencyConfigurator.kaptTest(project, "com.google.dagger:dagger-compiler")
 
-    androidTestImplementation "androidx.test:core:$androidxTestVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidxTestExtJunitVersion"
-    androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXEspressoCoreVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidXEspressoCoreVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-intents:$androidXEspressoCoreVersion"
-    androidTestImplementation "androidx.test.uiautomator:uiautomator:$uiAutomatorVersion"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    DependencyConfigurator.testImplementation(project, "androidx.test:core")
+    DependencyConfigurator.testImplementation(project, "androidx.test.ext:junit")
+    DependencyConfigurator.testImplementation(project, "androidx.test.espresso:espresso-core")
+    DependencyConfigurator.testImplementation(project, "androidx.test.espresso:espresso-contrib")
+    DependencyConfigurator.testImplementation(project, "androidx.test.espresso:espresso-intents")
+    DependencyConfigurator.testImplementation(project, "androidx.test.uiautomator:uiautomator")
+    DependencyConfigurator.kaptAndroidTest(project, "com.google.dagger:dagger-compiler")
 }

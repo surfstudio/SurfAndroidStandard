@@ -15,28 +15,32 @@
  */
 package ru.surfstudio.android.core.mvp.fragment;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import ru.surfstudio.android.core.mvp.model.LdsSwrScreenModel;
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
-import ru.surfstudio.android.core.mvp.loadstate.LoadStateRendererInterface;
-import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
+import ru.surfstudio.android.core.mvp.model.state.SwipeRefreshState;
 
 /**
- * Базовый класс FragmentView c поддержкой
+ * базовый класс FragmentView c поддержкой
  * состояния загрузки {@link LoadStateInterface}
+ * состояния SwipeRefresh {@link SwipeRefreshState}
  *
  * @param <M>
  */
-public abstract class BaseLdsFragmentView<M extends LdsScreenModel>
-        extends BaseRenderableFragmentView<M> {
+public abstract class BaseLdsSwrFragmentView<M extends LdsSwrScreenModel>
+        extends BaseLdsFragmentView<M> {
 
-    protected abstract LoadStateRendererInterface getLoadStateRenderer();
+    protected abstract SwipeRefreshLayout getSwipeRefreshLayout();
 
     @Override
     public void render(M sm) {
         renderLoadState(sm.getLoadState());
+        renderSwipeRefreshState(sm.getSwipeRefreshState());
         renderInternal(sm);
     }
 
-    protected void renderLoadState(LoadStateInterface loadState) {
-        getLoadStateRenderer().render(loadState);
+    protected void renderSwipeRefreshState(SwipeRefreshState swipeRefreshState) {
+        getSwipeRefreshLayout().setRefreshing(swipeRefreshState == SwipeRefreshState.REFRESHING);
     }
 }

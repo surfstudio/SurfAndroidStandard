@@ -15,32 +15,29 @@
  */
 package ru.surfstudio.android.core.mvp.activity;
 
-
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateRendererInterface;
+import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
-import ru.surfstudio.android.core.mvp.model.LdsSwrScreenModel;
-import ru.surfstudio.android.core.mvp.model.state.SwipeRefreshState;
 
 /**
  * базовый класс ActivityView c поддержкой
  * состояния загрузки {@link LoadStateInterface}
- * состояния SwipeRefresh {@link SwipeRefreshState}
+ * Используется вместе с PlaceHolderViewInterface.
  *
  * @param <M>
  */
-public abstract class BaseLdsSwrActivityView<M extends LdsSwrScreenModel>
-        extends BaseLdsActivityView<M> {
+public abstract class BaseLdsActivityView<M extends LdsScreenModel>
+        extends BaseRenderableActivityView<M> {
 
-    protected abstract SwipeRefreshLayout getSwipeRefreshLayout();
+    protected abstract LoadStateRendererInterface getLoadStateRenderer();
 
     @Override
     public void render(M sm) {
         renderLoadState(sm.getLoadState());
-        renderSwipeRefreshState(sm.getSwipeRefreshState());
         renderInternal(sm);
     }
 
-    protected void renderSwipeRefreshState(SwipeRefreshState swipeRefreshState) {
-        getSwipeRefreshLayout().setRefreshing(swipeRefreshState == SwipeRefreshState.REFRESHING);
+    public void renderLoadState(LoadStateInterface loadState) {
+        getLoadStateRenderer().render(loadState);
     }
 }

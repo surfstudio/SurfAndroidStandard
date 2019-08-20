@@ -228,6 +228,87 @@
     "mirror_repo": "https://github.com/surfstudio/Logger"
   },
   {
+    "id": "mvp",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "mvp",
+    "libs": [
+      {
+        "name": "core-mvp",
+        "dir": "lib-core-mvp",
+        "artifact_name": "core-mvp",
+        "third_party_dependencies": [
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "api"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4-rule",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-api-mockito2",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-classloading-xstream",
+            "type": "testImplementation"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "rx-extension",
     "version": "0.4.0",
     "unstable_version": 2,

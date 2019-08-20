@@ -15,13 +15,14 @@
  */
 package ru.surfstudio.android.core.mvp.presenter;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.agna.ferro.rx.CompletableOperatorFreeze;
 import com.agna.ferro.rx.MaybeOperatorFreeze;
 import com.agna.ferro.rx.ObservableOperatorFreeze;
 import com.agna.ferro.rx.SingleOperatorFreeze;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;
@@ -105,6 +106,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     //endregion
 
     //region subscribeTakeLastFrozen
+
     /**
      * Subscribe and take only last emitted value from frozen predicate.
      * This is very useful in situations when your screen is long time inactive and it should react
@@ -289,6 +291,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     //endregion
 
     //region subscribeIoTakeLastFrozen
+
     /**
      * Subscribe and take only last emitted value from frozen predicate.
      * This is very useful in situations when your screen is long time inactive and it should react
@@ -377,6 +380,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
     //endregion
 
     //region subscribeIoTakeLastFrozen
+
     /**
      * Subscribe and take only last emitted value from frozen predicate.
      * This is very useful in situations when your screen is long time inactive and it should react
@@ -561,7 +565,7 @@ public abstract class BasePresenter<V extends CoreView> extends CorePresenter<V>
         return maybe.doOnError(reloadErrorAction(reloadAction));
     }
 
-    private ConsumerSafe<Throwable> reloadErrorAction(ActionSafe reloadAction) {
+    protected ConsumerSafe<Throwable> reloadErrorAction(ActionSafe reloadAction) {
         return e -> {
             cancelAutoReload();
             if (connectionProvider.isDisconnected()) {

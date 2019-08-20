@@ -8,6 +8,12 @@ private const val LIBRARY_VERSIONS_KEY = "libraryVersions"
 private const val IMPLEMENTATION_DEP_TYPE = "implementation"
 private const val API_DEP_TYPE = "api"
 
+private const val TEST_IMPLEMENTATION_DEP_TYPE = "testImplementation"
+private const val ANDROID_TEST_IMPLEMENTATION_DEP_TYPE = "androidTestImplementation"
+
+private const val KAPT_TEST = "kaptTest"
+private const val KAPT_ANDROID_TEST = "kaptAndroidTest"
+
 /**
  * Encapsulate working with gradle dependencies
  */
@@ -73,6 +79,50 @@ object DependencyConfigurator {
     @JvmStatic
     fun api(project: Project, dep: String) {
         addDependency(project, API_DEP_TYPE, getDependencyNameWithVersion(dep))
+    }
+
+    /**
+     * Add dependency to project with "testImplementation"
+     *
+     * @param project - project
+     * @param dep - dependency name
+     */
+    @JvmStatic
+    fun testImplementation(project: Project, dep: String) {
+        addDependency(project, TEST_IMPLEMENTATION_DEP_TYPE, getDependencyNameWithVersion(dep))
+    }
+
+    /**
+     * Add dependency to project with "kaptTest"
+     *
+     * @param project - project
+     * @param dep - dependency name
+     */
+    @JvmStatic
+    fun kaptTest(project: Project, dep: String) {
+        addDependency(project, KAPT_TEST, getDependencyNameWithVersion(dep))
+    }
+
+    /**
+     * Add dependency to project with "kaptAndroidTest"
+     *
+     * @param project - project
+     * @param dep - dependency name
+     */
+    @JvmStatic
+    fun kaptAndroidTest(project: Project, dep: String) {
+        addDependency(project, KAPT_ANDROID_TEST, getDependencyNameWithVersion(dep))
+    }
+
+    /**
+     * Add dependency to project with "androidTestImplementation"
+     *
+     * @param project - project
+     * @param dep - dependency name
+     */
+    @JvmStatic
+    fun androidTestImplementation(project: Project, dep: String) {
+        addDependency(project, ANDROID_TEST_IMPLEMENTATION_DEP_TYPE, getDependencyNameWithVersion(dep))
     }
 
     private fun addThirdPartyDependencies(project: Project, dependencies: List<Dependency>) {
