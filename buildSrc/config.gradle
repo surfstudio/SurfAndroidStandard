@@ -62,6 +62,7 @@ ext {
             "javax.inject:javax.inject"                   : "1",            //https://goo.gl/cM9Kcd
             "androidx.constraintlayout:constraintlayout"  : "2.0.0-alpha3", //http://bit.ly/2S1WoNg
             "androidx.appcompat:appcompat"                : "1.0.2",        //http://bit.ly/2zjueqh
+            "com.google.code.gson:gson"                   : "2.8.5",        //https://vk.cc/7UFvbd
             "androidx.core:core"                          : "1.0.2"         //https://bit.ly/2yYY82h
     ]
 
@@ -76,9 +77,6 @@ ext {
     //lang
     annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
-
-    //DI
-
 
     //androidx
     androidxVersion = '1.0.2'                   //http://bit.ly/2zjueqh
@@ -98,7 +96,6 @@ ext {
     okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
     retrofitVersion = '2.5.0'                   //https://vk.cc/7UFxk3
     chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
-    gsonVersion = '2.8.5'                       //https://vk.cc/7UFvbd
 
     //rx
     rxJava2Version = '2.2.3'                    //https://goo.gl/uzna2x

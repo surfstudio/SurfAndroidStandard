@@ -282,7 +282,56 @@
     ],
     "samples": [],
     "has_mirror": true,
-    "mirror_repo": "https://github.com/surfstudio/Rx-extension"
+    "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
+  },
+  {
+    "id": "filestorage",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "filestorage",
+    "libs": [
+      {
+        "name": "filestorage",
+        "dir": "lib-filestorage",
+        "artifact_name": "filestorage",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.code.gson:gson",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "org.jetbrains:annotations",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
   },
   {
     "id": "logger",
@@ -313,7 +362,7 @@
       }
     ],
     "samples": [],
-    "has_mirror": false,
+    "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/Logger"
   },
   {
@@ -508,8 +557,8 @@
       }
     ],
     "samples": [],
-    "has_mirror": true,
-    "mirror_repo": "https://github.com/surfstudio/Rx-extension"
+    "has_mirror": false,
+    "mirror_repo": ""
   },
   {
     "id": "shared-pref",
