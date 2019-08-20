@@ -196,67 +196,6 @@
     "mirror_repo": ""
   },
   {
-    "id": "core-ui",
-    "version": "0.4.0",
-    "unstable_version": 0,
-    "stable": true,
-    "dir": "core-ui",
-    "libs": [
-      {
-        "name": "core-ui",
-        "dir": "lib-core-ui",
-        "artifact_name": "core-ui",
-        "third_party_dependencies": [
-          {
-            "name": "com.google.android.material:material",
-            "type": "api"
-          },
-          {
-            "name": "androidx.appcompat:appcompat",
-            "type": "implementation"
-          },
-          {
-            "name": "com.google.android.play:core",
-            "type": "implementation"
-          },
-          {
-            "name": "androidx.annotation:annotation",
-            "type": "implementation"
-          },
-          {
-            "name": "com.annimon:stream",
-            "type": "implementation"
-          },
-          {
-            "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
-          },
-          {
-            "name": "androidx.appcompat:appcompat",
-            "type": "implementation"
-          }
-        ],
-        "android_standard_dependencies": [
-          {
-            "name": "logger",
-            "type": "implementation"
-          },
-          {
-            "name": "rx-extension",
-            "type": "implementation"
-          },
-          {
-            "name": "activity-holder",
-            "type": "implementation"
-          }
-        ]
-      }
-    ],
-    "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
-  },
-  {
     "id": "core-app",
     "version": "0.4.0",
     "unstable_version": 0,
@@ -312,6 +251,144 @@
           },
           {
             "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "core-mvp-binding",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "core-mvp-binding",
+    "libs": [
+      {
+        "name": "core-mvp-binding",
+        "dir": "lib-core-mvp-binding",
+        "artifact_name": "core-mvp-binding",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxbinding2:rxbinding",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
+            "type": "api"
+          },
+          {
+            "name": "com.jakewharton.rxrelay2:rxrelay",
+            "type": "api"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-app",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-widget",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "core-ui",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "core-ui",
+    "libs": [
+      {
+        "name": "core-ui",
+        "dir": "lib-core-ui",
+        "artifact_name": "core-ui",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.android.material:material",
+            "type": "api"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.android.play:core",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          },
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
             "type": "implementation"
           }
         ]

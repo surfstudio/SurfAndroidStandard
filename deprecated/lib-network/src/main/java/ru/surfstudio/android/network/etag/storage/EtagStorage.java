@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.network.etag.storage;
 
+@Deprecated
 public final class EtagStorage {
 
     private EtagCache etagCache;

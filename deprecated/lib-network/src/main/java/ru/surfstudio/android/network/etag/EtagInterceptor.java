@@ -35,6 +35,7 @@ import static ru.surfstudio.android.network.etag.EtagConstants.HEADER_RESPONSE_E
  * EtagStorage. Только если в запросе присутствует header queryMode: ServerConstant.QUERY_MODE_ONLY_IF_CHANGED, в запрос будет
  * добавлен header c etag, header queryMode будет удален.
  */
+@Deprecated
 public class EtagInterceptor implements Interceptor {
 
     private final EtagStorage etagStorage;

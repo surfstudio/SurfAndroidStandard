@@ -20,6 +20,7 @@ package ru.surfstudio.android.network;
  *
  * @param <T>
  */
+@Deprecated
 public interface Transformable<T> {
     T transform();
 }

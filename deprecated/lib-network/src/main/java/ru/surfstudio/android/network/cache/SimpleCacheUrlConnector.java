@@ -34,6 +34,7 @@ import ru.surfstudio.android.network.BaseUrl;
  * ищет {@link SimpleCacheInfo} для url запроса
  * Базовый класс для хранения информации об Url простого кеша.
  */
+@Deprecated
 public class SimpleCacheUrlConnector {
     private static final String URL_SPLIT_REGEX = "[/?&]";
     private static final String BRACE = "{";

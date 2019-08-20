@@ -20,6 +20,7 @@ import androidx.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+@Deprecated
 public class BaseServerConstants {
 
     public static final String HEADER_QUERY_MODE = "queryMode";

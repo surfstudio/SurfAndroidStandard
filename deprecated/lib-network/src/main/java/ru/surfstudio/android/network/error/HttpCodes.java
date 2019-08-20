@@ -18,6 +18,7 @@ package ru.surfstudio.android.network.error;
 /**
  * коды ошибок
  */
+@Deprecated
 public class HttpCodes {
 
     public static final int CODE_200 = 200; //успех

@@ -30,6 +30,7 @@ import static ru.surfstudio.android.network.BaseServerConstants.QUERY_MODE_ONLY_
  * Базовый класс репозитория
  * Можно переопределить DataStrategy по умолчанию в классе {@link DataStrategy}
  */
+@Deprecated
 public class BaseNetworkInteractor {
 
     private ConnectionProvider connectionProvider;

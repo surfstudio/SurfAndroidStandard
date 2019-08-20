@@ -35,6 +35,7 @@ import ru.surfstudio.android.network.response.BaseResponse;
  * ResponseTypeAdapterFactory - кроме парсинга ответа,
  * конвертирует JsonSyntaxException -> ConversionException
  */
+@Deprecated
 public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
 
     public static final String PARSE_ERROR_MESSAGE_FORMAT = "Error when parse body: %s";

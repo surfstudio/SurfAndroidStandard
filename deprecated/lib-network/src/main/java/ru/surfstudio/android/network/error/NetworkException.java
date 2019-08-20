@@ -18,6 +18,7 @@ package ru.surfstudio.android.network.error;
 /**
  * базовый класс для всех ошибок, возникающих при работе с сервером
  */
+@Deprecated
 public abstract class NetworkException extends RuntimeException {
     public NetworkException() {
     }

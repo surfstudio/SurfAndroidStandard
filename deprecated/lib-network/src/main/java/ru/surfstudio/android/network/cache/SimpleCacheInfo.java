@@ -18,6 +18,7 @@ package ru.surfstudio.android.network.cache;
 /**
  * информация о запросах, поддерживающих простое кеширование
  */
+@Deprecated
 public class SimpleCacheInfo {
 
     private ApiMethod baseMethod;

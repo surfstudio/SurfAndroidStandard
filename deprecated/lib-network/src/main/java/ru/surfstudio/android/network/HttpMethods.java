@@ -15,6 +15,7 @@
  */
 package ru.surfstudio.android.network;
 
+@Deprecated
 public class HttpMethods {
     public static final String GET = "GET";
     public static final String POST = "POST";
