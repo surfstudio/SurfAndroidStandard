@@ -111,6 +111,38 @@
     "mirror_repo": ""
   },
   {
+    "id": "app-migration",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "app-migration",
+    "libs": [
+      {
+        "name": "app-migration",
+        "dir": "lib-app-migration",
+        "artifact_name": "app-migration",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "shared-pref",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "connection",
     "version": "0.4.0",
     "unstable_version": 0,
