@@ -1,6 +1,1 @@
-import ru.surfstudio.android.build.DependencyConfigurator
-
-apply from: '../../buildSrc/androidModule.gradle'
-
-DependencyConfigurator.configure(project)
-configureDeploy(this)
+apply from: '../../buildSrc/baseBuild.gradle'
