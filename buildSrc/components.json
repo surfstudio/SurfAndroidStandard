@@ -1,5 +1,29 @@
 [
   {
+    "id": "activity-holder",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "activity-holder",
+    "libs": [
+      {
+        "name": "activity-holder",
+        "dir": "lib-activity-holder",
+        "artifact_name": "activity-holder",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "analytics",
     "version": "0.4.0",
     "unstable_version": 10,
