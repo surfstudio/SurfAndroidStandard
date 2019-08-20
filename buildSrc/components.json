@@ -302,6 +302,55 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "mvp-widget",
+        "dir": "lib-mvp-widget",
+        "artifact_name": "mvp-widget",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "api"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "api"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4-rule",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-api-mockito2",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-classloading-xstream",
+            "type": "androidTestImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [],

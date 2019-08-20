@@ -1,4 +1,5 @@
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.DependencyConfigurator
 
 apply from: '../../buildSrc/config.gradle'
 apply plugin: 'com.android.application'
@@ -32,10 +33,10 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-    implementation "org.jetbrains.anko:anko-common:$ankoVersion"
-    implementation "androidx.appcompat:appcompat:$androidxVersion"
-    implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutXVersion"
+    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
+    DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
+    DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
 }
 
 task printTestInstrumentationRunnerName {

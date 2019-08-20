@@ -1,4 +1,5 @@
 import ru.surfstudio.android.build.ConfigInfoProvider
+import ru.surfstudio.android.build.DependencyConfigurator
 
 apply from: 'buildSrc/buildTasks.gradle'
 
@@ -17,6 +18,8 @@ buildscript {
 
     apply from: 'buildSrc/config.gradle'
 
+    DependencyConfigurator.configure(project)
+
     repositories {
         google()
         jcenter()
@@ -28,7 +31,7 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        DependencyConfigurator.classpath(project, "org.jetbrains.kotlin:kotlin-gradle-plugin")
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "io.fabric.tools:gradle:$fabricVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
