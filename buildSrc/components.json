@@ -351,6 +351,39 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "mvp-dialog",
+        "dir": "lib-mvp-dialog",
+        "artifact_name": "mvp-dialog",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-widget",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [],
