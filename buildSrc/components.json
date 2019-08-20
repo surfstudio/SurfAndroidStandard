@@ -347,6 +347,31 @@
             "type": "implementation"
           }
         ]
+      },
+      {
+        "name": "converter-gson",
+        "dir": "lib-converter-gson",
+        "artifact_name": "converter-gson",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.code.gson:gson",
+            "type": "api"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "network",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
       }
     ],
     "samples": [],

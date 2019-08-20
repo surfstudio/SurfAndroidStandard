@@ -15,13 +15,14 @@
  */
 package ru.surfstudio.android.converter.gson;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.reflect.TypeToken;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import ru.surfstudio.android.converter.gson.safe.SafeConverter;
 
 /**
