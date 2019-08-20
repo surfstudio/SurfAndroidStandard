@@ -16,6 +16,9 @@
 package ru.surfstudio.android.core.app
 
 import android.content.Context
+import androidx.annotation.ArrayRes
+import androidx.annotation.PluralsRes
+import androidx.annotation.StringRes
 
 /**
  * Класс, предоставляющий строки из ресурсов по id
