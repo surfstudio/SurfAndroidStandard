@@ -59,6 +59,30 @@
     "mirror_repo": "https://github.com/surfstudio/Analytics"
   },
   {
+    "id": "connection",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "connection",
+    "libs": [
+      {
+        "name": "connection",
+        "dir": "lib-connection",
+        "artifact_name": "connection",
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [],
+    "has_mirror": true,
+    "mirror_repo": ""
+  },
+  {
     "id": "easyadapter",
     "version": "1.0.0",
     "unstable_version": 0,
