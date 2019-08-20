@@ -21,15 +21,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+
 import com.agna.ferro.rx.ObservableOperatorFreeze;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
@@ -42,7 +43,6 @@ import ru.surfstudio.android.core.ui.event.lifecycle.pause.OnPauseDelegate;
 import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
-import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
@@ -56,6 +56,7 @@ import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureIn
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
 import ru.surfstudio.android.core.ui.navigation.feature.route.dynamic_feature.DynamicCrossFeatureRoute;
 import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureRoute;
+import ru.surfstudio.android.core.ui.navigation.feature.route.feature.ActivityCrossFeatureWithResultRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 
 /**
@@ -255,7 +256,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param route navigation route
      * @return stream of install state change events
      */
-    public Observable<SplitFeatureInstallState> startForResult(CrossFeatureSupportOnActivityResultRoute route) {
+    public <T extends Serializable> Observable<SplitFeatureInstallState> startForResult(ActivityCrossFeatureWithResultRoute<T> route) {
         return startCrossFeature(route, startStatusSubject -> performStartForResult(route, startStatusSubject));
     }
 
@@ -304,17 +305,21 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @return {@code true} if activity started successfully, {@code false} otherwise
      */
     public boolean startForResult(SupportOnActivityResultRoute route) {
-        if (!super.isObserved(route)) {
-            throw new IllegalStateException("route class " + route.getClass().getSimpleName()
+        if (route instanceof ActivityRouteInterface) {
+            if (!super.isObserved(route)) {
+                throw new IllegalStateException("route class " + route.getClass().getSimpleName()
                     + " must be registered by method ActivityNavigator#observeResult");
+            }
+            Context context = activityProvider.get();
+            Intent intent = ((ActivityRouteInterface) route).prepareIntent(context);
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                startActivityForResult(intent, route.getRequestCode(), prepareBundleCompat(((ActivityRouteInterface) route)));
+                return true;
+            }
+            return false;
+        } else {
+            return false;
         }
-        Context context = activityProvider.get();
-        Intent intent = route.prepareIntent(context);
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
-            startActivityForResult(intent, route.getRequestCode(), prepareBundleCompat(route));
-            return true;
-        }
-        return false;
     }
 
     /**

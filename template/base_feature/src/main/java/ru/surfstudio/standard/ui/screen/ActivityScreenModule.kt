@@ -9,6 +9,7 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigatorForActivity
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller
+import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.core.ui.permission.PermissionManagerForActivity
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
@@ -64,6 +65,15 @@ class ActivityScreenModule(
                 splitFeatureInstaller,
                 isSplitFeatureModeOn
         )
+    }
+
+    @Provides
+    @PerScreen
+    internal fun provideFragmentNavigator(
+        activityProvider: ActivityProvider,
+        screenEventDelegateManager: ScreenEventDelegateManager
+    ): FragmentNavigator {
+        return FragmentNavigator(activityProvider, screenEventDelegateManager)
     }
 
     @Provides

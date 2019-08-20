@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.ui.event;
 
-
 import java.util.List;
 
 import ru.surfstudio.android.core.ui.ScreenType;

@@ -15,6 +15,8 @@
  */
 package ru.surfstudio.android.core.ui.navigation.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 
 import androidx.annotation.IdRes;
 import androidx.annotation.IntDef;
@@ -23,12 +25,20 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.io.Serializable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import io.reactivex.Observable;
 import ru.surfstudio.android.core.ui.FragmentContainer;
+import ru.surfstudio.android.core.ui.ScreenType;
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
+import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute;
+import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentWithResultRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 
 import static android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
@@ -39,7 +49,7 @@ import static android.app.FragmentTransaction.TRANSIT_NONE;
 /**
  * позволяет осуществлять навигацияю между фрагментами
  */
-public class FragmentNavigator implements Navigator {
+public class FragmentNavigator extends BaseActivityResultDelegate implements Navigator {
     protected final ActivityProvider activityProvider;
 
     @IntDef({TRANSIT_NONE, TRANSIT_FRAGMENT_OPEN, TRANSIT_FRAGMENT_CLOSE, TRANSIT_FRAGMENT_FADE})
@@ -47,38 +57,65 @@ public class FragmentNavigator implements Navigator {
     private @interface Transit {
     }
 
-    public FragmentNavigator(ActivityProvider activityProvider) {
+    public FragmentNavigator(ActivityProvider activityProvider,
+                             ScreenEventDelegateManager screenEventDelegateManager) {
+        screenEventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
     }
 
-    public void add(FragmentRoute route, boolean stackable, @Transit int transition) {
-        int viewContainerId = getViewContainerIdOrThrow();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.executePendingTransactions();
-
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(viewContainerId, route.createFragment(), route.getTag());
-        fragmentTransaction.setTransition(transition);
-        if (stackable) {
-            fragmentTransaction.addToBackStack(route.getTag());
+    /**
+     * позволяет подписываться на событие OnActivityResult
+     *
+     * @param routeClass класс маршрута экрана, который должен вернуть результат
+     * @param <T>        тип возвращаемых данных
+     */
+    public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
+        Class<? extends SupportOnActivityResultRoute<T>> routeClass
+    ) {
+        try {
+            return this.observeOnActivityResult(routeClass.newInstance());
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException("route class " + routeClass.getCanonicalName()
+                + "must have default constructor", e);
         }
+    }
 
-        fragmentTransaction.commit();
+    /**
+     * позволяет подписываться на событие OnActivityResult
+     *
+     * @param route маршрут экрана, который должен вернуть результат
+     * @param <T>   тип возвращаемых данных
+     */
+    public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
+        SupportOnActivityResultRoute route
+    ) {
+        return super.observeOnActivityResult(route);
+    }
+
+    public void add(FragmentRoute route, boolean stackable, @Transit int transition) {
+        start(route, stackable, transition, StartType.ADD);
     }
 
     public void replace(FragmentRoute route, boolean stackable, @Transit int transition) {
-        int viewContainerId = getViewContainerIdOrThrow();
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.executePendingTransactions();
+        start(route, stackable, transition, StartType.REPLACE);
+    }
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(viewContainerId, route.createFragment(), route.getTag());
-        fragmentTransaction.setTransition(transition);
-        if (stackable) {
-            fragmentTransaction.addToBackStack(route.getTag());
-        }
+    public <T extends Serializable> boolean addFragmentForResult(
+        FragmentRoute currentRoute,
+        FragmentWithResultRoute<T> nextRoute,
+        boolean stackable,
+        @Transit int transition
+    ) {
+        return startFragmentForResult(currentRoute, nextRoute, stackable, transition, StartType.ADD);
+    }
 
-        fragmentTransaction.commit();
+    public <T extends Serializable> boolean replaceFragmentForResult(
+        FragmentRoute currentRoute,
+        FragmentWithResultRoute<T> nextRoute,
+        boolean stackable,
+        @Transit int transition
+    ) {
+        return startFragmentForResult(currentRoute, nextRoute, stackable, transition, StartType.REPLACE);
     }
 
     /**
@@ -94,9 +131,9 @@ public class FragmentNavigator implements Navigator {
         }
 
         fragmentManager.beginTransaction()
-                .setTransition(transition)
-                .remove(fragment)
-                .commit();
+            .setTransition(transition)
+            .remove(fragment)
+            .commit();
 
         return true;
     }
@@ -121,6 +158,65 @@ public class FragmentNavigator implements Navigator {
     public boolean popBackStack() {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
+
+        return fragmentManager.popBackStackImmediate();
+    }
+
+    /**
+     * Закрываает текущий фрагмент c результатом
+     *
+     * @param currentRoute маршрут текущего экрана
+     * @param success           показывает успешное ли завершение
+     * @param <T>               тип возвращаемого значения
+     */
+    public <T extends Serializable> void finishWithResult(
+        FragmentWithResultRoute<T> currentRoute,
+        boolean success
+    ) {
+        finishWithResult(currentRoute, null, success);
+    }
+
+    /**
+     * Закрываает текущий фрагмент c результатом
+     *
+     * @param currentRoute маршрут текущего экрана
+     * @param result            возвращаемый результат
+     * @param <T>               тип возвращаемого значения
+     */
+    public <T extends Serializable> void finishWithResult(
+        FragmentWithResultRoute<T> currentRoute,
+        T result
+    ) {
+        finishWithResult(currentRoute, result, true);
+    }
+
+    /**
+     * Закрываает текущий фрагмент c результатом
+     *
+     * @param currentRoute маршрут текущего экрана
+     * @param result       возвращаемый результат
+     * @param success      показывает успешное ли завершение
+     * @param <T>          тип возвращаемого значения
+     */
+    public <T extends Serializable> boolean finishWithResult(
+        FragmentWithResultRoute<T> currentRoute,
+        T result,
+        boolean success
+    ) {
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.executePendingTransactions();
+
+        Fragment fragment = fragmentManager.findFragmentByTag(currentRoute.getTag());
+        if (fragment == null) {
+            return false;
+        }
+        Intent resultIntent = currentRoute.prepareResultIntent(result);
+
+        fragment.onActivityResult(
+            currentRoute.getRequestCode(),
+            success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
+            resultIntent
+        );
 
         return fragmentManager.popBackStackImmediate();
     }
@@ -170,7 +266,7 @@ public class FragmentNavigator implements Navigator {
         }
 
         return fragmentManager.popBackStackImmediate(route.getTag(),
-                inclusive ? FragmentManager.POP_BACK_STACK_INCLUSIVE : 0);
+            inclusive ? FragmentManager.POP_BACK_STACK_INCLUSIVE : 0);
     }
 
     /**
@@ -193,7 +289,7 @@ public class FragmentNavigator implements Navigator {
         }
 
         return fragmentManager.popBackStackImmediate(fragmentManager.getBackStackEntryAt(backStackCount - 1).getName(),
-                FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     protected FragmentManager getFragmentManager() {
@@ -211,7 +307,79 @@ public class FragmentNavigator implements Navigator {
         }
 
         throw new IllegalStateException("Container has to have a ContentViewContainer " +
-                "implementation in order to make fragment navigation");
+            "implementation in order to make fragment navigation");
+    }
+
+    private void start(
+        FragmentRoute route,
+        boolean stackable,
+        @Transit int transition,
+        StartType startType
+    ) {
+        int viewContainerId = getViewContainerIdOrThrow();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.executePendingTransactions();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (startType) {
+            case ADD:
+                fragmentTransaction.add(viewContainerId, route.createFragment(), route.getTag());
+                break;
+            case REPLACE:
+                fragmentTransaction.replace(viewContainerId, route.createFragment(), route.getTag());
+                break;
+        }
+        fragmentTransaction.setTransition(transition);
+        if (stackable) {
+            fragmentTransaction.addToBackStack(route.getTag());
+        }
+
+        fragmentTransaction.commit();
+    }
+
+    private <T extends Serializable> boolean startFragmentForResult(
+        FragmentRoute currentRoute,
+        FragmentWithResultRoute<T> nextRoute,
+        boolean stackable,
+        @Transit int transition,
+        StartType startType
+    ) {
+        if (!super.isObserved(nextRoute)) {
+            throw new IllegalStateException("route class " + nextRoute.getClass().getSimpleName()
+                + " must be registered by method FragmentNavigator#observeResult");
+        }
+        int viewContainerId = getViewContainerIdOrThrow();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.executePendingTransactions();
+
+        Fragment currentFragment = fragmentManager.findFragmentByTag(currentRoute.getTag());
+        if (currentFragment == null) {
+            return false;
+        }
+        Fragment nextFragment = nextRoute.createFragment();
+        nextFragment.setTargetFragment(currentFragment, nextRoute.getRequestCode());
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (startType) {
+            case ADD:
+                fragmentTransaction.add(viewContainerId, nextRoute.createFragment(), nextRoute.getTag());
+                break;
+            case REPLACE:
+                fragmentTransaction.replace(viewContainerId, nextRoute.createFragment(), nextRoute.getTag());
+                break;
+        }
+        fragmentTransaction.setTransition(transition);
+        if (stackable) {
+            fragmentTransaction.addToBackStack(nextRoute.getTag());
+        }
+
+        fragmentTransaction.commit();
+
+        return true;
+    }
+
+    private enum StartType {
+        ADD, REPLACE
     }
 
     private boolean toggleVisibility(FragmentRoute route, boolean show, @Transit int transition) {

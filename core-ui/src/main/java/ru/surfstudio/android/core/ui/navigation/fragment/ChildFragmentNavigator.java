@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import ru.surfstudio.android.core.ui.FragmentContainer;
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
 import ru.surfstudio.android.core.ui.provider.FragmentProvider;
 
@@ -35,8 +36,9 @@ public class ChildFragmentNavigator extends FragmentNavigator {
     private final FragmentProvider fragmentProvider;
 
     public ChildFragmentNavigator(ActivityProvider activityProvider,
-                                  FragmentProvider fragmentProvider) {
-        super(activityProvider);
+                                  FragmentProvider fragmentProvider,
+                                  ScreenEventDelegateManager screenEventDelegateManager) {
+        super(activityProvider, screenEventDelegateManager);
         this.fragmentProvider = fragmentProvider;
     }
 

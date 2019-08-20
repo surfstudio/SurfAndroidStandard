@@ -15,12 +15,10 @@
  */
 package ru.surfstudio.android.core.ui.event;
 
-
 import java.util.List;
 
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
-
 
 /**
  * {@link ScreenEventDelegateManager} для активити

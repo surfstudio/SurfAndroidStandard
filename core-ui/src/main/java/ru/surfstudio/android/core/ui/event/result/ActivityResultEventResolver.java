@@ -24,14 +24,14 @@ import java.util.List;
 
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.base.ScreenEvent;
+import ru.surfstudio.android.core.ui.event.base.resolver.MultipleScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
-import ru.surfstudio.android.core.ui.event.base.resolver.SingleScreenEventResolver;
 import ru.surfstudio.android.core.ui.event.base.resolver.UnhandledEventsStore;
 
 /**
  * см {@link ScreenEventResolver}
  */
-public class ActivityResultEventResolver extends SingleScreenEventResolver<ActivityResultEvent, ActivityResultDelegate>
+public class ActivityResultEventResolver extends MultipleScreenEventResolver<ActivityResultEvent, ActivityResultDelegate, Void>
         implements UnhandledEventsStore {
 
     private ActivityResultEvent unhandledEvent;
@@ -52,7 +52,7 @@ public class ActivityResultEventResolver extends SingleScreenEventResolver<Activ
     }
 
     @Override
-    protected boolean resolve(ActivityResultDelegate delegate, ActivityResultEvent event) {
+    protected Void resolve(ActivityResultDelegate delegate, ActivityResultEvent event) {
         boolean resolved = delegate.onActivityResult(event.getRequestCode(), event.getResultCode(), event.getData());
 
         if (!resolved) {
@@ -61,7 +61,7 @@ public class ActivityResultEventResolver extends SingleScreenEventResolver<Activ
             unhandledEvent = null;
         }
 
-        return resolved;
+        return null;
     }
 
     @NotNull

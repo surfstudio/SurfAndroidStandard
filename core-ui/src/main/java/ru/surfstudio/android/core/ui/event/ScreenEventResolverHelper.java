@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.ui.event;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +37,11 @@ import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultEventR
 /**
  * содержит список стандартных {@link ScreenEventResolver}
  */
-public class ScreenEventResolverHelper {
+public final class ScreenEventResolverHelper {
+
+    private ScreenEventResolverHelper() {
+
+    }
 
     public static List<ScreenEventResolver> standardEventResolvers() {
         return new ArrayList<>(Arrays.asList(

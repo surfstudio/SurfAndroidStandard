@@ -51,7 +51,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
     private val EXTRA_CURRENT_FRAGMENT: String = TabFragmentNavigator::class.toString() + "CURRENT_FRAGMENT_TAG"
     private val EXTRA_FRAGMENT_STACK: String = TabFragmentNavigator::class.toString() + "FRAGMENT_STACK"
 
-    private val fragmentNavigator: FragmentNavigator = FragmentNavigator(activityProvider)
+    private val fragmentNavigator: FragmentNavigator = FragmentNavigator(activityProvider, eventDelegateManager)
 
     private var activeTabTag: String? = null
     private val fragmentMap: HashMap<String, Stack<Fragment>> = hashMapOf()
