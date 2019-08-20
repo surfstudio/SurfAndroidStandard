@@ -107,6 +107,67 @@
     "mirror_repo": ""
   },
   {
+    "id": "core-ui",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "core-ui",
+    "libs": [
+      {
+        "name": "core-ui",
+        "dir": "lib-core-ui",
+        "artifact_name": "core-ui",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.android.material:material",
+            "type": "api"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.android.play:core",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          },
+          {
+            "name": "com.agna.ferro:ferro-rx",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "easyadapter",
     "version": "1.0.0",
     "unstable_version": 0,
