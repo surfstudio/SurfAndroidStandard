@@ -257,6 +257,103 @@
     "mirror_repo": ""
   },
   {
+    "id": "deprecated",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "deprecated",
+    "libs": [
+      {
+        "name": "network",
+        "dir": "lib-network",
+        "artifact_name": "network",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.retrofit2:retrofit",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.retrofit2:converter-gson",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.retrofit2:adapter-rxjava2",
+            "type": "api"
+          },
+          {
+            "name": "com.squareup.okhttp3:logging-interceptor",
+            "type": "api"
+          },
+          {
+            "name": "com.annimon:stream",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.annotation:annotation",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-module-junit4-rule",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-api-mockito2",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.powermock:powermock-classloading-xstream",
+            "type": "testImplementation"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "androidTestImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "filestorage",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "easyadapter",
     "version": "1.0.0",
     "unstable_version": 0,

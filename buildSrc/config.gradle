@@ -63,6 +63,10 @@ ext {
             "androidx.constraintlayout:constraintlayout"  : "2.0.0-alpha3", //http://bit.ly/2S1WoNg
             "androidx.appcompat:appcompat"                : "1.0.2",        //http://bit.ly/2zjueqh
             "com.google.code.gson:gson"                   : "2.8.5",        //https://vk.cc/7UFvbd
+            "com.squareup.retrofit2:retrofit"             : "2.5.0",        //https://vk.cc/7UFxk3
+            "com.squareup.retrofit2:converter-gson"       : "2.5.0",        //https://vk.cc/7UFxk3
+            "com.squareup.retrofit2:adapter-rxjava2"      : "2.5.0",        //https://vk.cc/7UFxk3
+            "com.squareup.okhttp3:logging-interceptor"    : "3.12.0",       //https://vk.cc/7UFwTd
             "androidx.core:core"                          : "1.0.2"         //https://bit.ly/2yYY82h
     ]
 
@@ -93,8 +97,6 @@ ext {
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
 
     //network
-    okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
-    retrofitVersion = '2.5.0'                   //https://vk.cc/7UFxk3
     chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
 
     //rx
