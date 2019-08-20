@@ -79,7 +79,7 @@
       }
     ],
     "samples": [],
-    "has_mirror": true,
+    "has_mirror": false,
     "mirror_repo": ""
   },
   {
@@ -173,5 +173,42 @@
     "samples": [],
     "has_mirror": true,
     "mirror_repo": "https://github.com/surfstudio/Rx-extension"
+  },
+  {
+    "id": "util-ktx",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "util-ktx",
+    "libs": [
+      {
+        "name": "util-ktx",
+        "dir": "lib-util-ktx",
+        "artifact_name": "util-ktx",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "api"
+          },
+          {
+            "name": "com.google.android.material:material",
+            "type": "api"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
   }
 ]
