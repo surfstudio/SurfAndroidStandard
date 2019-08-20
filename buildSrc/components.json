@@ -362,7 +362,7 @@
           },
           {
             "name": "org.powermock:powermock-classloading-xstream",
-            "type": "androidTestImplementation"
+            "type": "testImplementation"
           }
         ],
         "android_standard_dependencies": [
