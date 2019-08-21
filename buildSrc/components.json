@@ -790,6 +790,39 @@
     "mirror_repo": ""
   },
   {
+    "id": "imageloader",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "imageloader",
+    "libs": [
+      {
+        "name": "imageloader",
+        "dir": "lib-imageloader",
+        "artifact_name": "imageloader",
+        "third_party_dependencies": [
+          {
+            "name": "com.github.bumptech.glide:glide",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "logger",
     "version": "0.4.0",
     "unstable_version": 5,
