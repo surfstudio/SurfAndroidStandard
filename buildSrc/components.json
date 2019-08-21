@@ -646,7 +646,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "core-ui-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
