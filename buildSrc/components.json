@@ -106,7 +106,12 @@
         "android_standard_dependencies": []
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "animations-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },

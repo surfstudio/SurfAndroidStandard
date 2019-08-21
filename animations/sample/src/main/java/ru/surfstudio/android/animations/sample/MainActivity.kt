@@ -2,7 +2,11 @@ package ru.surfstudio.android.animations.sample
 
 import android.os.Bundle
 import android.view.Gravity
-import ru.surfstudio.android.animations.anim.AnimationUtil
+import androidx.appcompat.app.AppCompatActivity
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_main.*
+import ru.surfstudio.android.animations.anim.*
 import ru.surfstudio.android.animations.behaviors.BottomButtonBehavior
 
 class MainActivity : AppCompatActivity() {
