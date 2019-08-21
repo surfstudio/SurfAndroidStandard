@@ -823,6 +823,39 @@
     "mirror_repo": ""
   },
   {
+    "id": "location",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "location",
+    "libs": [
+      {
+        "name": "location",
+        "dir": "lib-location",
+        "artifact_name": "location",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.android.gms:play-services-location",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "logger",
     "version": "0.4.0",
     "unstable_version": 5,
