@@ -21,6 +21,13 @@ import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.CallSuper
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getDrawable
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
+import ru.surfstudio.android.custom.view.R
 import kotlin.properties.Delegates
 
 /**

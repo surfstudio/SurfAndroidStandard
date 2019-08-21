@@ -444,6 +444,51 @@
     "mirror_repo": ""
   },
   {
+    "id": "custom-view",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "custom-view",
+    "libs": [
+      {
+        "name": "custom-view",
+        "dir": "lib-custom-view",
+        "artifact_name": "custom-view",
+        "third_party_dependencies": [
+          {
+            "name": "me.zhanghai.android.materialprogressbar:library",
+            "type": "api"
+          },
+          {
+            "name": "com.wang.avi:library",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "animations",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "deprecated",
     "version": "0.4.0",
     "unstable_version": 0,

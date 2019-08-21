@@ -1,0 +1,7 @@
+apply from: '../../buildSrc/baseBuild.gradle'
+
+android {
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+}
