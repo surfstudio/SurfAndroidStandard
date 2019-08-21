@@ -1,0 +1,9 @@
+apply from: '../../buildSrc/baseBuild.gradle'
+apply from: '../../buildSrc/androidTestModule.gradle'
+
+android {
+    defaultConfig {
+        minSdkVersion project.ext.sampleMinSdkVersion
+        multiDexEnabled true
+    }
+}

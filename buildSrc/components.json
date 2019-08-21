@@ -172,6 +172,188 @@
     "mirror_repo": ""
   },
   {
+    "id": "common",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "common",
+    "libs": [
+      {
+        "name": "sample-common",
+        "dir": "lib-sample-common",
+        "artifact_name": "sample-common",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.test:core",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.ext:junit",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-contrib",
+            "type": "api"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-intents",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "custom-view",
+            "type": "api"
+          },
+          {
+            "name": "core-mvp",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "api"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "connection",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "animations",
+            "type": "implementation"
+          },
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "recycler-extension",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "sample-dagger",
+        "dir": "lib-sample-dagger",
+        "artifact_name": "sample-dagger",
+        "third_party_dependencies": [
+          {
+            "name": "com.google.dagger:dagger-compiler",
+            "type": "kapt"
+          },
+          {
+            "name": "com.google.dagger:dagger",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-mvp",
+            "type": "api"
+          },
+          {
+            "name": "core-ui",
+            "type": "api"
+          },
+          {
+            "name": "dagger-scope",
+            "type": "api"
+          },
+          {
+            "name": "animations",
+            "type": "api"
+          },
+          {
+            "name": "picture-provider",
+            "type": "api"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "api"
+          },
+          {
+            "name": "mvp-widget",
+            "type": "api"
+          },
+          {
+            "name": "standard-dialog",
+            "type": "api"
+          },
+          {
+            "name": "logger",
+            "type": "api"
+          },
+          {
+            "name": "network",
+            "type": "api"
+          },
+          {
+            "name": "connection",
+            "type": "api"
+          },
+          {
+            "name": "filestorage",
+            "type": "api"
+          },
+          {
+            "name": "converter-gson",
+            "type": "api"
+          },
+          {
+            "name": "shared-pref",
+            "type": "api"
+          },
+          {
+            "name": "rx-extension",
+            "type": "api"
+          },
+          {
+            "name": "util-ktx",
+            "type": "api"
+          },
+          {
+            "name": "message-controller",
+            "type": "api"
+          },
+          {
+            "name": "rxbus",
+            "type": "api"
+          },
+          {
+            "name": "activity-holder",
+            "type": "api"
+          },
+          {
+            "name": "sample-common",
+            "type": "api"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "connection",
     "version": "0.4.0",
     "unstable_version": 0,

@@ -7,6 +7,7 @@ import ru.surfstudio.android.build.model.dependency.Dependency
 private const val LIBRARY_VERSIONS_KEY = "libraryVersions"
 private const val IMPLEMENTATION_DEP_TYPE = "implementation"
 private const val API_DEP_TYPE = "api"
+private const val KAPT_DEP_TYPE = "kapt"
 private const val TEST_IMPLEMENTATION_DEP_TYPE = "testImplementation"
 private const val ANDROID_TEST_IMPLEMENTATION_DEP_TYPE = "androidTestImplementation"
 private const val KAPT_TEST_DEP_TYPE = "kaptTest"
@@ -77,6 +78,17 @@ object DependencyConfigurator {
     @JvmStatic
     fun api(project: Project, dep: String) {
         addDependency(project, API_DEP_TYPE, getDependencyNameWithVersion(dep))
+    }
+
+    /**
+     * Add dependency to project with "kapt"
+     *
+     * @param project - project
+     * @param dep - dependency name
+     */
+    @JvmStatic
+    fun kapt(project: Project, dep: String) {
+        addDependency(project, KAPT_DEP_TYPE, getDependencyNameWithVersion(dep))
     }
 
     /**
