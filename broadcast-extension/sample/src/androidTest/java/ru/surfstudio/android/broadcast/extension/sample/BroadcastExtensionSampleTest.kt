@@ -1,7 +1,13 @@
 package ru.surfstudio.android.broadcast.extension.sample
 
 import android.Manifest
+import androidx.test.rule.GrantPermissionRule
+import org.junit.Rule
+import org.junit.Test
 import ru.surfstudio.android.broadcast.extension.sample.ui.screen.main.MainActivityView
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
+import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkAndInputText
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
 
 private const val PHONE_NUMBER = "1234"
 private const val MESSAGE_TEXT = " text"

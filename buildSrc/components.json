@@ -177,7 +177,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "broadcast-extension-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },

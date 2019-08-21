@@ -39,6 +39,10 @@ dependencies {
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
 }
 
+dependencies {
+
+}
+
 task printTestInstrumentationRunnerName {
     doLast {
         println "$android.defaultConfig.testInstrumentationRunner"

@@ -7,6 +7,7 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
 
