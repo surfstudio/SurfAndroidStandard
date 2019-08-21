@@ -16,6 +16,7 @@
 package ru.surfstudio.android.notification.interactor.push
 
 import android.content.Intent
+import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import java.util.*
 
 /**
@@ -24,12 +25,13 @@ import java.util.*
 object IntentPushDataConverter {
 
     fun convert(intent: Intent): Map<String, String> {
-        if (intent.extras == null) {
-            return HashMap()
-        }
-        val data = HashMap<String, String>(intent.extras!!.size())
-        intent.extras!!.keySet()
-                .forEach { value: String -> data[value] = intent.extras!!.get(value)!!.toString() }
+        val extras = intent.extras ?: return HashMap()
+
+        val data = HashMap<String, String>(extras.size())
+        extras.keySet()
+                .forEach { key: String ->
+                    data[key] = extras[key]?.toString() ?: EMPTY_STRING
+                }
         return data
     }
 }

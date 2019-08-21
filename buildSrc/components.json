@@ -1121,6 +1121,46 @@
     "mirror_repo": ""
   },
   {
+    "id": "push",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "push",
+    "libs": [
+      {
+        "name": "push",
+        "dir": "lib-push",
+        "artifact_name": "push",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "activity-holder",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "rx-extension",
     "version": "0.4.0",
     "unstable_version": 0,
