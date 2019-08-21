@@ -1080,6 +1080,47 @@
     "mirror_repo": ""
   },
   {
+    "id": "picture-provider",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "picture-provider",
+    "libs": [
+      {
+        "name": "picture-provider",
+        "dir": "lib-picture-provider",
+        "artifact_name": "picture-provider",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.exifinterface:exifinterface",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-app",
+            "type": "implementation"
+          },
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "rx-extension",
     "version": "0.4.0",
     "unstable_version": 0,
