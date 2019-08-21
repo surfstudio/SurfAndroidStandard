@@ -26,7 +26,7 @@
   {
     "id": "analytics",
     "version": "0.4.0",
-    "unstable_version": 10,
+    "unstable_version": 0,
     "stable": true,
     "dir": "analytics",
     "libs": [
@@ -1082,7 +1082,7 @@
   {
     "id": "rx-extension",
     "version": "0.4.0",
-    "unstable_version": 2,
+    "unstable_version": 0,
     "stable": true,
     "dir": "rx-extension",
     "libs": [
@@ -1108,8 +1108,8 @@
       }
     ],
     "samples": [],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/Rx-extension"
   },
   {
     "id": "shared-pref",
