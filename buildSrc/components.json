@@ -729,7 +729,12 @@
         "android_standard_dependencies": []
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "dagger-scope-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
