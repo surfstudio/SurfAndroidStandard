@@ -143,7 +143,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "app-migration-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },

@@ -1,0 +1,28 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: '../../buildSrc/androidSample.gradle'
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.app.migration.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "app-migration")
+    DependencyConfigurator.projectImplementation(project, "sample-dagger")
+    DependencyConfigurator.projectImplementation(project, "rx-extension")
+    DependencyConfigurator.projectImplementation(project, "dagger-scope")
+    DependencyConfigurator.projectImplementation(project, "shared-pref")
+    DependencyConfigurator.projectImplementation(project, "core-mvp")
+    DependencyConfigurator.projectImplementation(project, "core-ui")
+    DependencyConfigurator.projectImplementation(project, "connection")
+    DependencyConfigurator.projectImplementation(project, "message-controller")
+    DependencyConfigurator.projectImplementation(project, "rxbus")
+    DependencyConfigurator.projectImplementation(project, "network")
+    DependencyConfigurator.projectImplementation(project, "picture-provider")
+    DependencyConfigurator.projectImplementation(project, "activity-holder")
+    DependencyConfigurator.projectImplementation(project, "logger")
+    DependencyConfigurator.projectImplementation(project, "util-ktx")
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}
