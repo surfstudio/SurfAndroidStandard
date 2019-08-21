@@ -80,6 +80,7 @@ ext {
             "com.github.bumptech.glide:glide"                   : "4.8.0",        //http://bit.ly/2Q7Fa41
             "com.google.android.gms:play-services-location"     : "16.0.0",       //http://bit.ly/2CulYrn
             "androidx.exifinterface:exifinterface"              : "1.0.0",        //http://bit.ly/2DPqlw6
+            "io.reactivex.rxjava2:rxkotlin"                     : "2.3.0",
             "androidx.core:core"                                : "1.0.2"         //https://bit.ly/2yYY82h
     ]
 
