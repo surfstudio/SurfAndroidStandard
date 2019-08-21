@@ -5,6 +5,10 @@ import dagger.Component
 import dagger.Module
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
+import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
  * Конфигуратор активити главного экрана

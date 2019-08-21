@@ -1282,7 +1282,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "core-mvp-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
