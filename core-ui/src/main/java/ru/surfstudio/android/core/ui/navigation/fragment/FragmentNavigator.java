@@ -210,9 +210,14 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         if (fragment == null) {
             return false;
         }
+
+        Fragment target = fragment.getTargetFragment();
+        if (target == null) {
+            return false;
+        }
         Intent resultIntent = currentRoute.prepareResultIntent(result);
 
-        fragment.onActivityResult(
+        target.onActivityResult(
             currentRoute.getRequestCode(),
             success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
             resultIntent
@@ -362,10 +367,10 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (startType) {
             case ADD:
-                fragmentTransaction.add(viewContainerId, nextRoute.createFragment(), nextRoute.getTag());
+                fragmentTransaction.add(viewContainerId, nextFragment, nextRoute.getTag());
                 break;
             case REPLACE:
-                fragmentTransaction.replace(viewContainerId, nextRoute.createFragment(), nextRoute.getTag());
+                fragmentTransaction.replace(viewContainerId, nextFragment, nextRoute.getTag());
                 break;
         }
         fragmentTransaction.setTransition(transition);
