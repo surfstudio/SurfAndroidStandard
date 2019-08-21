@@ -1279,6 +1279,38 @@
     "mirror_repo": ""
   },
   {
+    "id": "standard-dialog",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "standard-dialog",
+    "libs": [
+      {
+        "name": "standard-dialog",
+        "dir": "lib-standard-dialog",
+        "artifact_name": "standard-dialog",
+        "third_party_dependencies": [],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "mvp-dialog",
+            "type": "implementation"
+          },
+          {
+            "name": "dagger-scope",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "util-ktx",
     "version": "0.4.0",
     "unstable_version": 0,
