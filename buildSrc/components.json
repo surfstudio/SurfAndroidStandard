@@ -1161,6 +1161,39 @@
     "mirror_repo": ""
   },
   {
+    "id": "recycler-extension",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "recycler-extension",
+    "libs": [
+      {
+        "name": "recycler-extension",
+        "dir": "lib-recycler-extension",
+        "artifact_name": "recycler-extension",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "com.google.android.material:material",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "rx-extension",
     "version": "0.4.0",
     "unstable_version": 0,
