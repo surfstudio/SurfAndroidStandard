@@ -888,6 +888,35 @@
     "mirror_repo": "https://github.com/surfstudio/Logger"
   },
   {
+    "id": "message-controller",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "message-controller",
+    "libs": [
+      {
+        "name": "message-controller",
+        "dir": "lib-message-controller",
+        "artifact_name": "message-controller",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.exifinterface:exifinterface",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "mvp",
     "version": "0.4.0",
     "unstable_version": 0,
