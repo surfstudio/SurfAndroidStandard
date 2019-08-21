@@ -261,6 +261,51 @@
     "mirror_repo": ""
   },
   {
+    "id": "core-mvi",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "core-mvi",
+    "libs": [
+      {
+        "name": "core-mvi",
+        "dir": "lib-core-mvi",
+        "artifact_name": "core-mvi",
+        "third_party_dependencies": [
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "org.mockito:mockito-core",
+            "type": "testImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "core-ui",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp",
+            "type": "implementation"
+          },
+          {
+            "name": "core-mvp-binding",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "core-mvp-binding",
     "version": "0.4.0",
     "unstable_version": 0,
