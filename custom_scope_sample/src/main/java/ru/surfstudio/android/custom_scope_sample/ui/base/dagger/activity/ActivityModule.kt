@@ -90,7 +90,10 @@ class ActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity
-    internal fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator {
-        return FragmentNavigator(activityProvider)
+    internal fun provideFragmentNavigator(
+        activityProvider: ActivityProvider,
+        screenEventDelegateManager: ScreenEventDelegateManager
+    ): FragmentNavigator {
+        return FragmentNavigator(activityProvider, screenEventDelegateManager)
     }
 }

@@ -4,12 +4,13 @@ import android.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE
 import android.util.Log
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list.ListActivityRoute
 import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.fragment.MainFragmentRoute
+import ru.surfstudio.android.mvpwidget.sample.ui.screen.main.list.ListActivityRoute
 import javax.inject.Inject
 
 /**
@@ -19,10 +20,11 @@ import javax.inject.Inject
 internal class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         activityProvider: ActivityProvider,
-        private val activityNavigator: ActivityNavigator
+        private val activityNavigator: ActivityNavigator,
+        screenEventDelegateManager: ScreenEventDelegateManager
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
-    private val fragmentNavigator = FragmentNavigator(activityProvider)
+    private val fragmentNavigator = FragmentNavigator(activityProvider, screenEventDelegateManager)
 
     fun openWidgetFragment() {
         fragmentNavigator.add(MainFragmentRoute(), true, TRANSIT_FRAGMENT_FADE)
