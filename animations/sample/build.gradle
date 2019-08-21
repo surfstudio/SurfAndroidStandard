@@ -11,5 +11,6 @@ android {
 dependencies {
     DependencyConfigurator.projectImplementation(project, "animations")
     DependencyConfigurator.projectImplementation(project, "sample-common")
+
     DependencyConfigurator.implementation(project, "com.jakewharton.timber:timber")
 }

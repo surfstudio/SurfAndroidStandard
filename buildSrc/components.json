@@ -580,7 +580,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "core-mvp-binding-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
