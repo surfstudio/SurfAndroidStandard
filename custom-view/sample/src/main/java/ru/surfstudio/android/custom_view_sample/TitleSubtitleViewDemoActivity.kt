@@ -1,6 +1,7 @@
 package ru.surfstudio.android.custom_view_sample
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class TitleSubtitleViewDemoActivity : AppCompatActivity() {
 

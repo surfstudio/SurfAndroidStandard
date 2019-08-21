@@ -1,9 +1,21 @@
 package ru.surfstudio.android.custom_view_sample
 
 import android.view.View
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.UiController
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.hamcrest.Matcher
 import org.junit.Test
 import ru.surfstudio.android.custom.view.bottomsheet.BottomSheetView
+import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
+import ru.surfstudio.android.sample.common.test.utils.ActivityUtils.checkIfActivityIsVisible
+import ru.surfstudio.android.sample.common.test.utils.AnimationUtils
+import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
+import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils
 
 class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.java) {
 
