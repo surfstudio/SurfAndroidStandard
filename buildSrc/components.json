@@ -489,6 +489,108 @@
     "mirror_repo": ""
   },
   {
+    "id": "dagger-scope",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "dagger-scope",
+    "libs": [
+      {
+        "name": "dagger-scope",
+        "dir": "lib-dagger-scope",
+        "artifact_name": "dagger-scope",
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "api"
+          },
+          {
+            "name": "com.google.dagger:dagger",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": []
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "datalist",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": true,
+    "dir": "datalist",
+    "libs": [
+      {
+        "name": "datalist-limit-offset",
+        "dir": "lib-datalist-limit-offset",
+        "artifact_name": "datalist-limit-offset",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "androidTestImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      },
+      {
+        "name": "datalist-page-count",
+        "dir": "lib-datalist-page-count",
+        "artifact_name": "datalist-page-count",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
+          },
+          {
+            "name": "androidx.test:runner",
+            "type": "androidTestImplementation"
+          },
+          {
+            "name": "androidx.test.espresso:espresso-core",
+            "type": "androidTestImplementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "rx-extension",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "deprecated",
     "version": "0.4.0",
     "unstable_version": 0,

@@ -58,6 +58,7 @@ ext {
             "androidx.test.espresso:espresso-contrib"           : "3.1.0",        //http://bit.ly/2DNc0AA
             "androidx.test.espresso:espresso-intents"           : "3.1.0",        //http://bit.ly/2DNc0AA
             "androidx.test.uiautomator:uiautomator"             : "2.2.0",        //http://bit.ly/2ORotVQ
+            "com.google.dagger:dagger"                          : "2.21",         //https://vk.cc/7UFvQo
             "com.google.dagger:dagger-compiler"                 : "2.21",         //https://vk.cc/7UFvQo
             "javax.inject:javax.inject"                         : "1",            //https://goo.gl/cM9Kcd
             "androidx.constraintlayout:constraintlayout"        : "2.0.0-alpha3", //http://bit.ly/2S1WoNg
