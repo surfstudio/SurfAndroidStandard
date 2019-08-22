@@ -1315,7 +1315,11 @@
     "samples": [
       {
         "name": "core-mvp-sample",
-        "dir": "sample"
+        "dir": "sample-core-mvp"
+      },
+      {
+        "name": "loadstate-sample",
+        "dir": "sample-loadstate"
       }
     ],
     "has_mirror": false,
