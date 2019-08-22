@@ -75,7 +75,7 @@
     ],
     "samples": [
       {
-        "name": "sample-analytics",
+        "name": "analytics-sample",
         "dir": "sample"
       }
     ],

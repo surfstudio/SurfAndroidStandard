@@ -81,7 +81,9 @@ ext {
             "com.google.android.gms:play-services-location"     : "16.0.0",       //http://bit.ly/2CulYrn
             "androidx.exifinterface:exifinterface"              : "1.0.0",        //http://bit.ly/2DPqlw6
             "io.reactivex.rxjava2:rxkotlin"                     : "2.3.0",
-            "androidx.core:core"                                : "1.0.2"         //https://bit.ly/2yYY82h
+            "com.google.firebase:firebase-messaging"            : "17.3.4",       //http://bit.ly/2Q81pGJ
+            "androidx.core:core"                                : "1.0.2",        //https://bit.ly/2yYY82h
+            "com.google.firebase:firebase-iid"                  : "17.0.4"
     ]
 
     gradlePluginVersion = '3.2.1'               //https://bit.ly/2NXD4Pe
@@ -106,7 +108,6 @@ ext {
 
     //gms
     firebaseCoreVersion = '16.0.5'              //http://bit.ly/2Q81pGJ
-    firebaseMessagingVersion = '17.3.4'         //http://bit.ly/2Q81pGJ
 
     //network
     chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
@@ -118,7 +119,6 @@ ext {
     //android framework
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
     firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
-    firebaseMessagingVersion = '17.3.4'
 
     fabricToolsVersion = '1.25.4'
     crashlyticsVersion = '2.9.6'                //http://bit.ly/2v5mXbp

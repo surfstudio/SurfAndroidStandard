@@ -48,3 +48,14 @@ android {
 dependencies {
     DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk7")
 }
+
+//временное решение для разрешения конфликтов версий сторонних зависимостей
+configurations.all {
+    resolutionStrategy.eachDependency { details ->
+        libraryVersions.each { libName, version ->
+            if ("${details.requested.group}:${details.requested.name}" == libName) {
+                details.useVersion version
+            }
+        }
+    }
+}
