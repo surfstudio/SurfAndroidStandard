@@ -9,8 +9,8 @@ import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
 sealed class ReactiveListEvent : Event {
     class Reload : ReactiveListEvent()
-    class LoadNextPage : ReactiveListEvent(), BaseLoadNextPageEvent
-    class SwipeRefresh : ReactiveListEvent(), BaseSwipeRefreshEvent
+    class LoadNextPage : ReactiveListEvent()
+    class SwipeRefresh : ReactiveListEvent()
 
     data class LoadList(
             override var type: Response<DataList<String>> = Response.Loading(),

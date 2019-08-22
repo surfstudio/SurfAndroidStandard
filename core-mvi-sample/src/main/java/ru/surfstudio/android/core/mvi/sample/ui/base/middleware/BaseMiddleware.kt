@@ -2,7 +2,7 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.middleware
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.OpenScreenMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.NavigatorMiddleware
 import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvp.binding.rx.builders.UiBuilderFinish
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
@@ -27,7 +27,7 @@ abstract class BaseMiddleware<T : Event>(
         RxBuilderHandleError,
         UiBuilderFinish,
         FlatMapMiddleware<T>,
-        OpenScreenMiddleware<T> {
+        NavigatorMiddleware<T> {
 
     override val activityNavigator: ActivityNavigator = baseMiddlewareDependency.activityNavigator
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
