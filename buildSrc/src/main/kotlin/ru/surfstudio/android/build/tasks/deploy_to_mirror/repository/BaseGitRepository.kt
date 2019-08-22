@@ -254,12 +254,11 @@ abstract class BaseGitRepository {
             reset(reader, oldCommit)
         }
 
-        val diffs = git.diff()
+        return git.diff()
                 .setNewTree(currentTree)
                 .setOldTree(oldTree)
                 .call()
                 .map { it.oldPath }
-        return diffs
     }
 
     /**
