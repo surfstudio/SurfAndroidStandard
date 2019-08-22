@@ -1050,7 +1050,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "imageloader-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
