@@ -1590,7 +1590,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "standard-dialog-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
