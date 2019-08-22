@@ -18,7 +18,7 @@ class GitCommandRunner(
 ) {
 
     fun diff(rev: String): List<String>? {
-        val command = "$GIT_DIFF_COMMAND $rev | cut"
+        val command = "$GIT_DIFF_COMMAND $rev"
         val res = runCommandWithResult(command, File(directory))
 
         return res?.trim()?.split(SPLIT_STRING.toRegex())

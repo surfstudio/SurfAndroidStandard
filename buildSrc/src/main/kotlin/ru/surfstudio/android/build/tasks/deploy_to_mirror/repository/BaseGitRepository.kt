@@ -238,6 +238,31 @@ abstract class BaseGitRepository {
     }
 
     /**
+     * Get diff from commit to current
+     */
+    fun diff(commit: String): List<String> {
+        val currentCommit = git.repository.resolve("HEAD^{tree}")
+        val oldCommit = git.repository.resolve("$commit^{tree}")
+
+        val reader = git.repository.newObjectReader()
+
+        val currentTree = CanonicalTreeParser().apply {
+            reset(reader, currentCommit)
+        }
+
+        val oldTree = CanonicalTreeParser().apply {
+            reset(reader, oldCommit)
+        }
+
+        val diffs = git.diff()
+                .setNewTree(currentTree)
+                .setOldTree(oldTree)
+                .call()
+                .map { it.oldPath }
+        return diffs
+    }
+
+    /**
      * get branch by name
      *
      * @param refName name of branch

@@ -1,6 +1,8 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
 import ru.surfstudio.android.build.model.Component
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.BaseGitRepository
+import java.io.File
 
 /**
  * Provides [components] (those only that have diff results between [currentRevision] and [revisionToCompare] )
@@ -32,7 +34,11 @@ class ComponentsDiffProvider(
      * @return output from git diff command
      */
     private fun getDiffBetweenRevisions(): List<String>? {
-        return GitCommandRunner().diff(revisionToCompare)
+        val repository = object :BaseGitRepository() {
+            override val repositoryPath = File("")
+            override val repositoryName = "Android Standard"
+        }
+        return repository.diff(revisionToCompare)
     }
 
     /**
