@@ -1330,6 +1330,14 @@
       {
         "name": "loadstate-sample",
         "dir": "sample-loadstate"
+      },
+      {
+        "name": "mvp-dialog-sample",
+        "dir": "sample-mvp-dialog"
+      },
+      {
+        "name": "mvp-widget-sample",
+        "dir": "sample-mvp-widget"
       }
     ],
     "has_mirror": false,
