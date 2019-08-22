@@ -1553,7 +1553,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "shared-pref-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
