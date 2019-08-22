@@ -50,10 +50,8 @@ dependencies {
     DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
     DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
     DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
-}
 
-dependencies {
-
+    DependencyConfigurator.projectAndroidTestImplementation(project, "sample-common")
 }
 
 task printTestInstrumentationRunnerName {

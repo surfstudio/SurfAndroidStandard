@@ -13,5 +13,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "location")
     DependencyConfigurator.projectImplementation(project, "picture-provider")
 
+    DependencyConfigurator.androidTestImplementation(project, "androidx.test.uiautomator:uiautomator")
+
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

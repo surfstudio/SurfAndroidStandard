@@ -59,6 +59,40 @@ object DependencyConfigurator {
     }
 
     /**
+     * Add dependency to project with "testImplementation"
+     * If current project is not mirror and dependency is not contained in current project then
+     * add in with artifactory name else add locally
+     *
+     * @param project - project
+     * @param dependencyName - dependency name
+     */
+    @JvmStatic
+    fun projectTestImplementation(project: Project, dependencyName: String) {
+        if (GradlePropertiesManager.isCurrentComponentAMirror() && !isProjectIncluded(project, dependencyName)) {
+            addDependency(project, TEST_IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(dependencyName))
+        } else {
+            addDependency(project, TEST_IMPLEMENTATION_DEP_TYPE, project.rootProject.project(dependencyName))
+        }
+    }
+
+    /**
+     * Add dependency to project with "androidTestImplementation"
+     * If current project is not mirror and dependency is not contained in current project then
+     * add in with artifactory name else add locally
+     *
+     * @param project - project
+     * @param dependencyName - dependency name
+     */
+    @JvmStatic
+    fun projectAndroidTestImplementation(project: Project, dependencyName: String) {
+        if (GradlePropertiesManager.isCurrentComponentAMirror() && !isProjectIncluded(project, dependencyName)) {
+            addDependency(project, ANDROID_TEST_IMPLEMENTATION_DEP_TYPE, getDependencyArtifactoryName(dependencyName))
+        } else {
+            addDependency(project, ANDROID_TEST_IMPLEMENTATION_DEP_TYPE, project.rootProject.project(dependencyName))
+        }
+    }
+
+    /**
      * Add dependency to project with "implementation"
      *
      * @param project - project
