@@ -930,7 +930,12 @@
         ]
       }
     ],
-    "samples": [],
+    "samples": [
+      {
+        "name": "network-sample",
+        "dir": "sample"
+      }
+    ],
     "has_mirror": false,
     "mirror_repo": ""
   },
