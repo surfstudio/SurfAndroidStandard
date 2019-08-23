@@ -5,6 +5,8 @@ dependencies {
     api "com.google.android.material:material:$androidxMaterialVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+
+    testImplementation 'junit:junit:4.12'
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
