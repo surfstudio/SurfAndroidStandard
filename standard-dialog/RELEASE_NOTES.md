@@ -2,4 +2,11 @@
 # Standard-dialog Release Notes
 ## 0.4.0
 ##### Standard-dialog
-* TODO
+* TODO 
+## 0.2.1
+##### Standard-dialog
+* ANDDEP-213 Fix StandardDialog closing when isCancelable is true
+* ANDDEP-215 Extend of all dialogs on AppCompatDialog
+## 0.2.0
+##### Standard-dialog
+* Fix StandardDialogRoute

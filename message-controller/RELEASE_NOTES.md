@@ -3,3 +3,7 @@
 ## 0.4.0
 ##### Message-controller
 * TODO
+## 0.2.1
+##### Message-controller
+* ANDDEP-210 added parameter - snackbar duration
+* ANDDEP-210 Added the ability to close snacks, it is important in the presence of snacks that do not go away themselves

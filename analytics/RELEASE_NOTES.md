@@ -2,6 +2,6 @@
 # Analytics Release Notes
 ## 0.4.0
 ##### Analytics
-* TODO
-* TODO
-* TODO
+* ANDDEP-294 Improved analytics module
+* Support for any analytics event parameters. The ability to send an event only to certain analysts or according to the conditions.
+* Old events work unchanged.

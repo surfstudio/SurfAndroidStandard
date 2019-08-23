@@ -2,4 +2,4 @@
 # Location Release Notes
 ## 0.4.0
 ##### Location
-* TODO
+* Fixed loss of callback of `LocationErrorResolution` in fragment
