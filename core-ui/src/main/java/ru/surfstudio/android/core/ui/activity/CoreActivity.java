@@ -18,13 +18,17 @@ package ru.surfstudio.android.core.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
+import ru.surfstudio.android.core.ui.FragmentContainer;
 import ru.surfstudio.android.core.ui.delegate.activity.ActivityDelegate;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
+import ru.surfstudio.android.core.ui.event.back.OnBackPressed;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
 import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
@@ -145,7 +149,19 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
 
     @Override
     public void onBackPressed() {
-        if (!activityDelegate.onBackPressed()) { //поддерживается пока только один обработчик
+        if (this instanceof FragmentContainer) {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(((FragmentContainer) this).getContentContainerViewId());
+            if (!(fragment instanceof OnBackPressed) || !((OnBackPressed) fragment).onBackPressed()) {
+                onBackPressedActivity();
+            }
+        } else {
+            onBackPressedActivity();
+        }
+
+    }
+
+    private void onBackPressedActivity() {
+        if (!activityDelegate.onBackPressed()) {
             super.onBackPressed();
         }
     }

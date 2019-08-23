@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.delegate.factory.ScreenDelegateFactoryContainer;
 import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
+import ru.surfstudio.android.core.ui.event.back.OnBackPressed;
 import ru.surfstudio.android.core.ui.scope.FragmentPersistentScope;
 import ru.surfstudio.android.logger.LogConstants;
 import ru.surfstudio.android.logger.Logger;
@@ -32,7 +33,7 @@ import ru.surfstudio.android.logger.Logger;
  * базовый фрагмент для всего приложения
  * см {@link FragmentDelegate}
  */
-public abstract class CoreFragment extends Fragment implements CoreFragmentInterface {
+public abstract class CoreFragment extends Fragment implements CoreFragmentInterface, OnBackPressed {
 
     private FragmentDelegate fragmentDelegate;
 
@@ -128,4 +129,8 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     }
 
 
+    @Override
+    public boolean onBackPressed() {
+        return fragmentDelegate.onBackPressed();
+    }
 }

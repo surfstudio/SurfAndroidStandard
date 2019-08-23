@@ -36,7 +36,7 @@ public class OnBackPressedEventResolver implements ScreenEventResolver<OnBackPre
 
     @Override
     public List<ScreenType> getEventEmitterScreenTypes() {
-        return ACTIVITY_TYPES;
+        return ALL_TYPES;
     }
 
     @Override

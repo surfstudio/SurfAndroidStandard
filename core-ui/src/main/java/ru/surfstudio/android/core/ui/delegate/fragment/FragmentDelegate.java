@@ -26,6 +26,7 @@ import java.util.List;
 import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;
 import ru.surfstudio.android.core.ui.delegate.base.BaseScreenDelegate;
 import ru.surfstudio.android.core.ui.event.FragmentScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.event.back.OnBackPressedEvent;
 import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
 import ru.surfstudio.android.core.ui.fragment.CoreFragmentInterface;
 import ru.surfstudio.android.core.ui.scope.ActivityPersistentScope;
@@ -103,5 +104,9 @@ public class FragmentDelegate extends BaseScreenDelegate {
         return new FragmentScreenEventDelegateManager(
                 eventResolvers,
                 activityPersistentScope.getScreenEventDelegateManager());
+    }
+
+    public boolean onBackPressed() {
+        return getEventDelegateManager().sendEvent(new OnBackPressedEvent());
     }
 }
