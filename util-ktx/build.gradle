@@ -4,6 +4,8 @@ dependencies {
     api "androidx.core:core-ktx:$androidxKtxVersion"
     api "com.google.android.material:material:$androidxMaterialVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+
+    testImplementation 'junit:junit:4.12'
 }
 
 gradle.ext.configAndroidStandardDependencies(this, [
