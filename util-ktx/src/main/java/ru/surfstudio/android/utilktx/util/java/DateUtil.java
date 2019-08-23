@@ -304,7 +304,8 @@ public class DateUtil {
     public static String reformatDate(
             @Nullable String inputDate,
             @NonNull String inputFormat,
-            @NonNull String outputFormat) {
+            @NonNull String outputFormat
+    ) {
         if (inputDate == null) {
             return null;
         } else {
