@@ -21,6 +21,7 @@ class MirrorRepository(dirPath: String) : BaseGitRepository() {
     fun commit(commit: RevCommit): String? {
         val resultCommit = git.commit()
                 .setAuthor(commit.authorIdent)
+                .setAll(true)
                 .setMessage("${commit.shortMessage} $STANDARD_COMMIT_HASH_PREFIX${commit.shortHash}$STANDARD_COMMIT_HASH_POSTFIX")
                 .call()
         return resultCommit.name
