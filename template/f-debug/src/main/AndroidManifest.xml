@@ -12,9 +12,9 @@
         <activity android:name="ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityView" />
 
         <activity
-            android:name="ru.surfstudio.standard.f_debug.server_settings.reboot.RebootActivityDebugView"
+            android:name="ru.surfstudio.standard.f_debug.server_settings.reboot.RebootDebugActivityView"
             android:launchMode="singleInstance"
-            android:theme="@style/Theme.Transparent" />
+            android:theme="@style/Theme.DebugTransparent" />
 
         <activity android:name="ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityView" />
 

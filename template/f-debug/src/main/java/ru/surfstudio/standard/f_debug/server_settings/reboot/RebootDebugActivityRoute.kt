@@ -9,6 +9,6 @@ import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResul
  */
 class RebootDebugActivityRoute : ActivityWithResultRoute<Boolean>() {
     override fun prepareIntent(context: Context?): Intent {
-        return Intent(context, RebootActivityDebugView::class.java)
+        return Intent(context, RebootDebugActivityView::class.java)
     }
 }

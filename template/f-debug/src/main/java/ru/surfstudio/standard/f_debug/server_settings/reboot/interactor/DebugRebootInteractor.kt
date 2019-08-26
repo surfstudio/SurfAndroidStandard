@@ -7,7 +7,7 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import javax.inject.Inject
 
 @PerApplication
-class RebootInteractor @Inject constructor(private val context: Context) {
+class DebugRebootInteractor @Inject constructor(private val context: Context) {
     /**
      * Полный перезапуск приложения
      *

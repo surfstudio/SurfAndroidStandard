@@ -16,7 +16,7 @@ import javax.inject.Inject
 class UiToolsDebugPresenter @Inject constructor(
         private val interactor: DebugInteractor,
         private val activityNavigator: ActivityNavigator,
-        private val overlayPermissionChecker: OverlayPermissionChecker,
+        private val debugOverlayPermissionChecker: DebugOverlayPermissionChecker,
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<UiToolsDebugActivityView>(basePresenterDependency) {
 
@@ -31,7 +31,7 @@ class UiToolsDebugPresenter @Inject constructor(
 
     fun setFpsEnable(enable: Boolean) {
         if (sm.isFpsEnabled != enable) {
-            subscribe(overlayPermissionChecker.checkOverlayPermission()) {
+            subscribe(debugOverlayPermissionChecker.checkOverlayPermission()) {
                 if (it) {
                     interactor.isFpsEnabled = enable
                     sm.isFpsEnabled = enable
