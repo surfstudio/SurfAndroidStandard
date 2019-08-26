@@ -48,6 +48,26 @@ fun EditText.deleteContextMenuItems(vararg menuIds: Int) {
 }
 
 /**
+ * Полное отключение контекстного меню у [EditText].
+ * Необходимо для запрета вставки и копирования значений в [EditText].
+ */
+fun EditText.disableContextMenu() {
+    this.customSelectionActionModeCallback = object : ActionMode.Callback {
+
+        override fun onActionItemClicked(p0: ActionMode?, p1: MenuItem?) = false
+
+        override fun onCreateActionMode(p0: ActionMode?, p1: Menu?) = false
+
+        override fun onPrepareActionMode(p0: ActionMode?, p1: Menu?) = false
+
+        override fun onDestroyActionMode(p0: ActionMode?) {
+            //no implementation
+        }
+    }
+    this.isLongClickable = false
+}
+
+/**
  * Добавляет флаг [WindowManager.LayoutParams.FLAG_SECURE] для Activity.
  */
 fun Activity.enableSecureMode() {

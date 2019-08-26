@@ -1529,6 +1529,60 @@
     "mirror_repo": ""
   },
   {
+    "id": "security",
+    "version": "0.4.0",
+    "unstable_version": 0,
+    "stable": false,
+    "dir": "security",
+    "libs": [
+      {
+        "name": "security",
+        "dir": "lib-security",
+        "artifact_name": "",
+        "third_party_dependencies": [
+          {
+            "name": "com.squareup.okhttp3:logging-interceptor",
+            "type": "api"
+          },
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "filestorage",
+            "type": "implementation"
+          },
+          {
+            "name": "logger",
+            "type": "implementation"
+          },
+          {
+            "name": "shared-pref",
+            "type": "implementation"
+          },
+          {
+            "name": "util-ktx",
+            "type": "implementation"
+          },
+          {
+            "name": "core-app",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "security-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "shared-pref",
     "version": "0.4.0",
     "unstable_version": 2,

@@ -1,7 +1,7 @@
 [TOC]
 # Security-sample-template Release Notes
 ## 0.4.0
-##### Security-sample-template
+##### Security
 * ANDDEP-82 Security Module
     * [AppDebuggableChecker] (security-sample-template / security / src / main / java / ru / surfstudio / android / security / app / AppDebuggableChecker.kt) - a class that checks the debuggable flags of the application when it starts.
     * [RootChecker] (security-sample-template / security / src / main / java / ru / surfstudio / android / security / root / RootChecker.kt) - checks for root-rights on the device.
