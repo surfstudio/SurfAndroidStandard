@@ -128,21 +128,22 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
-        },
+        //TODO закоментил для ускорения билдов.
+//        pipeline.stage(INSTRUMENTATION_TEST) {
+//            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+//                    script,
+//                    new AvdConfig(),
+//                    "debug",
+//                    getTestInstrumentationRunnerName,
+//                    new AndroidTestConfig(
+//                            "assembleAndroidTest",
+//                            "build/outputs/androidTest-results/instrumental",
+//                            "build/reports/androidTests/instrumental",
+//                            true,
+//                            0
+//                    )
+//            )
+//        },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
