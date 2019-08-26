@@ -77,7 +77,9 @@ task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotPro
 task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) // release
 
 task uploadArchiveComponentsTask(type: UploadArchiveComponentsTask){
-    Components.libraries.each{
-        dependsOn ":${it.name}:uploadArchives"
+    Components.libraries.each {
+        if(it.artifactName != "") {
+            dependsOn ":${it.name}:uploadArchives"
+        }
     }
 }
