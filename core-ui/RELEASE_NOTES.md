@@ -1,5 +1,8 @@
 [TOC]
 # Core-ui Release Notes
+## 0.4.0-alpha.0
+##### Core-ui
+* TODO
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.

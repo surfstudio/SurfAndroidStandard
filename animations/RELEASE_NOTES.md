@@ -1,5 +1,8 @@
 [TOC]
 # Animations Release Notes
+## 0.4.0-alpha.0
+##### Animations
+* TODO
 ## 0.4.0
 ##### Animations
 * ANDDEP-391 Added parameter `defaultAlpha` for functions` fadeIn (...) `and` fadeOut (...) `. It maintains constant transparency for the View while invoking animations multiple times.

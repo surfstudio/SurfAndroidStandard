@@ -1,5 +1,8 @@
 [TOC]
 # Custom-view Release Notes
+## 0.4.0-alpha.0
+##### Custom-view
+* TODO
 ## 0.4.0
 ##### Custom-view
 * Fixed incorrect behavior of MaterialProgressBar on Android version 5 and below

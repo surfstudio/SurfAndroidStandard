@@ -1,5 +1,8 @@
 [TOC]
 # Analytics Release Notes
+## 0.4.0-alpha.0
+##### Analytics
+* TODO
 ## 0.4.0
 ##### Analytics
 * ANDDEP-294 Improved analytics module
