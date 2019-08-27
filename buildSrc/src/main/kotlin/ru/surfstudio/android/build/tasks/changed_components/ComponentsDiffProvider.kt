@@ -62,6 +62,8 @@ class ComponentsDiffProvider(
             }
             .toMap()
 
-    private fun isDiffHasComponent(diffResult: String, component: Component) =
-            diffResult.startsWith(component.directory)
+    private fun isDiffHasComponent(diffResult: String, component: Component): Boolean {
+        return diffResult.startsWith(component.directory)
+                && !diffResult.endsWith("RELEASE_NOTES.md")
+    }
 }
