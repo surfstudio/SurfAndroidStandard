@@ -200,6 +200,8 @@
 
     * Расписаны Security tips, которые необходимо учитывать в приложении.
 * SBB-2530 Добавлен extension-метод для полной блокировки контекстного меню в поле ввода EditText.disableContextMenu()
+* SBB-2697 Исправлено возвращаемое значение метода
+```CertificatePinnerCreator.extractPeerCertificate```
 
 ## 0.3.0
 
