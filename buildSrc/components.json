@@ -2,8 +2,8 @@
   {
     "id": "activity-holder",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "activity-holder",
     "libs": [
       {
@@ -26,8 +26,8 @@
   {
     "id": "analytics",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "analytics",
     "libs": [
       {
@@ -85,8 +85,8 @@
   {
     "id": "animations",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "animations",
     "libs": [
       {
@@ -118,8 +118,8 @@
   {
     "id": "app-migration",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "app-migration",
     "libs": [
       {
@@ -155,8 +155,8 @@
   {
     "id": "broadcast-extension",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "broadcast-extension",
     "libs": [
       {
@@ -189,8 +189,8 @@
   {
     "id": "common",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "common",
     "libs": [
       {
@@ -371,8 +371,8 @@
   {
     "id": "connection",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "connection",
     "libs": [
       {
@@ -395,8 +395,8 @@
   {
     "id": "converter-gson",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "deprecated/converter-gson",
     "libs": [
       {
@@ -433,7 +433,7 @@
     "id": "core-app",
     "version": "0.4.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "deprecated/core-app",
     "libs": [
       {
@@ -497,8 +497,8 @@
   {
     "id": "core-mvi",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "core-mvi",
     "libs": [
       {
@@ -547,8 +547,8 @@
   {
     "id": "core-mvp-binding",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
       {
@@ -629,8 +629,8 @@
   {
     "id": "core-ui",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "core-ui",
     "libs": [
       {
@@ -695,8 +695,8 @@
   {
     "id": "custom-view",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "custom-view",
     "libs": [
       {
@@ -745,8 +745,8 @@
   {
     "id": "dagger-scope",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "dagger-scope",
     "libs": [
       {
@@ -778,8 +778,8 @@
   {
     "id": "datalist",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "datalist",
     "libs": [
       {
@@ -852,8 +852,8 @@
   {
     "id": "easyadapter",
     "version": "1.0.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "easyadapter",
     "libs": [
       {
@@ -885,8 +885,8 @@
   {
     "id": "filestorage",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "filestorage",
     "libs": [
       {
@@ -939,8 +939,8 @@
   {
     "id": "imageloader",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "imageloader",
     "libs": [
       {
@@ -977,8 +977,8 @@
   {
     "id": "location",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "location",
     "libs": [
       {
@@ -1015,8 +1015,8 @@
   {
     "id": "logger",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "logger",
     "libs": [
       {
@@ -1047,8 +1047,8 @@
   {
     "id": "message-controller",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "message-controller",
     "libs": [
       {
@@ -1081,8 +1081,8 @@
   {
     "id": "mvp",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "mvp",
     "libs": [
       {
@@ -1261,8 +1261,8 @@
   {
     "id": "network",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "deprecated/network",
     "libs": [
       {
@@ -1363,8 +1363,8 @@
   {
     "id": "picture-provider",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "picture-provider",
     "libs": [
       {
@@ -1409,8 +1409,8 @@
   {
     "id": "push",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "push",
     "libs": [
       {
@@ -1449,8 +1449,8 @@
   {
     "id": "recycler-extension",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "recycler-extension",
     "libs": [
       {
@@ -1488,7 +1488,7 @@
     "id": "rx-extension",
     "version": "0.4.0",
     "unstable_version": 0,
-    "stable": true,
+    "stable": false,
     "dir": "rx-extension",
     "libs": [
       {
@@ -1519,8 +1519,8 @@
   {
     "id": "rxbus",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "rxbus",
     "libs": [
       {
@@ -1543,8 +1543,8 @@
   {
     "id": "security",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "security",
     "libs": [
       {
@@ -1597,8 +1597,8 @@
   {
     "id": "shared-pref",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "shared-pref",
     "libs": [
       {
@@ -1631,8 +1631,8 @@
   {
     "id": "standard-dialog",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "standard-dialog",
     "libs": [
       {
@@ -1668,8 +1668,8 @@
   {
     "id": "util-ktx",
     "version": "0.4.0",
-    "unstable_version": 1,
-    "stable": true,
+    "unstable_version": 0,
+    "stable": false,
     "dir": "util-ktx",
     "libs": [
       {
