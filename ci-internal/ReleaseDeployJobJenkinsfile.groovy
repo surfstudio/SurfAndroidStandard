@@ -86,15 +86,10 @@ pipeline.initializeBody = {
         value -> branchName = value
     }
 
-    script.echo "123123 1 branchName = $branchName"
-
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
     }
 
-    script.echo "123123 2 branchName = $branchName"
-
-    script.echo "123123 3 buildDescription = $buildDescription"
     def buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
 }
