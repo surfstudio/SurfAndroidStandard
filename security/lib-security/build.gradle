@@ -1,4 +1,4 @@
-apply from: '../../buildSrc/baseBuild.gradle'
+apply from: "$rootDir/buildSrc/baseBuild.gradle"
 
 android {
     defaultConfig {

@@ -15,7 +15,7 @@
  */
 import ru.surfstudio.android.build.DependencyConfigurator
 
-apply from: '../../buildSrc/androidSample.gradle'
+apply from: "$rootDir/buildSrc/androidSample.gradle"
 
 android {
     defaultConfig {

@@ -1,8 +1,8 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.DependencyConfigurator
 
-apply from: '../../buildSrc/deploy.gradle'
-apply from: '../../buildSrc/config.gradle'
+apply from: "$rootDir/buildSrc/deploy.gradle"
+apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'

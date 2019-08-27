@@ -1,5 +1,5 @@
-apply from: '../../buildSrc/baseBuild.gradle'
-apply from: '../../buildSrc/androidTestModule.gradle'
+apply from: "$rootDir/buildSrc/baseBuild.gradle"
+apply from: "$rootDir/buildSrc/androidTestModule.gradle"
 
 android {
     defaultConfig {

@@ -1,13 +1,13 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.DependencyConfigurator
 
-apply from: '../../buildSrc/config.gradle'
+apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-apply from: '../../buildSrc/androidTestModule.gradle'
+apply from: "$rootDir/buildSrc/androidTestModule.gradle"
 
 android {
     compileSdkVersion project.ext.compileSdkVersion
