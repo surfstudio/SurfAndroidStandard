@@ -1,5 +1,8 @@
 [TOC]
 # Mvp Release Notes
+## 0.4.0-alpha.0
+##### Core-mvp
+* TODO
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState

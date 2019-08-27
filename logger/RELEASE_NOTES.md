@@ -1,5 +1,8 @@
 [TOC]
 # Logger Release Notes
+## 0.4.0-alpha.0
+##### Logger
+* TODO
 ## 0.4.0
 ##### Logger
 * TODO
