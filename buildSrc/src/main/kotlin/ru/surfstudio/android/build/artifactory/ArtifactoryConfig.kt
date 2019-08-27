@@ -17,7 +17,7 @@ object ArtifactoryConfig {
     const val GET_FOLDER_INFO = "$API_URL/storage/$SOURCE_REPO"
 
     const val DEPLOY_URL = "$ARTIFACTORY_URL/$SOURCE_REPO"
-    const val ANDROID_STANDARD_GROUP_ID = "com.example"
+    const val ANDROID_STANDARD_GROUP_ID = "ru.surfstudio.android"
 
     val USER_NAME: String = System.getenv("surf_maven_username") ?: EMPTY_STRING
     val PASSWORD: String = System.getenv("surf_maven_password") ?: EMPTY_STRING
