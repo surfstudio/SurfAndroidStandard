@@ -143,6 +143,7 @@
 * ANDDEP-323 Добавлен Chuck
     * Интеграция Chuck в template
     * Добавлена возможность его включения/выключения на DebugScreen
+* ANDDEP-329 Добавлен RxJava2Debug
 * ANDDEP-336 Добавить TinyDancer на debug screen
     * Добавлена библиотека TinyDancer для отображения FPS
 * ANDDEP-335 Добавлен Stetho на DebugScreen
