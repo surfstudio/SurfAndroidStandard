@@ -3,7 +3,7 @@
     "id": "activity-holder",
     "version": "0.4.0",
     "unstable_version": 1,
-    "stable": false,
+    "stable": true,
     "dir": "activity-holder",
     "libs": [
       {
