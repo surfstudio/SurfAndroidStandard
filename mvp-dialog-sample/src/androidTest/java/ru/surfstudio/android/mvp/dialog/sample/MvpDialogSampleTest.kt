@@ -2,11 +2,13 @@ package ru.surfstudio.android.mvp.dialog.sample
 
 import androidx.annotation.IdRes
 import org.junit.Test
+import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.result.DIALOG_RESULT
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.main.INITIAL_COMPLEX_DIALOG_VALUE
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkViewText
 import ru.surfstudio.android.sample.common.test.utils.ViewUtils.performClick
+import ru.surfstudio.android.sample.common.test.utils.VisibilityUtils
 
 class MvpDialogSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::class.java) {
 
@@ -24,6 +26,8 @@ class MvpDialogSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
         )
 
         testComplexDialog(R.id.show_complex_dialog_btn, R.id.show_complex_bottomsheet_dialog_btn)
+
+        testResultDialog()
     }
 
     private fun testComplexDialog(@IdRes vararg showSimpleDialogBtnResIdList: Int) {
@@ -43,5 +47,12 @@ class MvpDialogSampleTest : BaseSampleTest<MainActivityView>(MainActivityView::c
 
     private fun checkViewText(value: Int) {
         checkViewText(R.id.value_tv, value.toString())
+    }
+
+    private fun testResultDialog() {
+        performClick(R.id.show_result_dialog_btn)
+        checkViewText(R.id.result_dialog_finish_button, R.string.finish_btn_text)
+        performClick(R.id.result_dialog_finish_button)
+        VisibilityUtils.checkIfToastIsVisible(DIALOG_RESULT)
     }
 }

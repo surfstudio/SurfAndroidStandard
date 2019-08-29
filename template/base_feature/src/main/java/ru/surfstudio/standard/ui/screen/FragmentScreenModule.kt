@@ -85,9 +85,9 @@ class FragmentScreenModule(private val persistentScope: FragmentViewPersistentSc
     @PerScreen
     internal fun provideDialogNavigator(
             activityProvider: ActivityProvider,
-            fragmentProvider: FragmentProvider
+            screenEventDelegateManager: ScreenEventDelegateManager
     ): DialogNavigator {
-        return DialogNavigatorForFragment(activityProvider, fragmentProvider, persistentScope)
+        return DialogNavigatorForFragment(activityProvider, persistentScope, screenEventDelegateManager)
     }
 
     @Provides

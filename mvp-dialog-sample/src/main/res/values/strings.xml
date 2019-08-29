@@ -5,10 +5,12 @@
     <string name="show_simple_bottomsheet_dialog_btn_text">Show simple bottomsheet dialog</string>
     <string name="show_complex_dialog_btn_text">Show complex dialog</string>
     <string name="show_complex_bottomsheet_dialog_btn_text">Show complex bottomsheet dialog</string>
+    <string name="show_result_dialog_btn_text">Show result dialog</string>
 
     <string name="positive_btn_text">Yes</string>
     <string name="negative_btn_text">No</string>
     <string name="bottom_sheet_action">Perform action</string>
+    <string name="finish_btn_text">Finish</string>
 
     <string name="simple_dialog_title">Simple dialog title</string>
     <string name="simple_dialog_message">Simple dialog message</string>

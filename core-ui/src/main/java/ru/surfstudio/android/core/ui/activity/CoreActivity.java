@@ -131,6 +131,10 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
         activityDelegate.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void handleActivityResult(int requestCode, int resultCode, Intent data) {
+        activityDelegate.onActivityResult(requestCode, resultCode, data);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

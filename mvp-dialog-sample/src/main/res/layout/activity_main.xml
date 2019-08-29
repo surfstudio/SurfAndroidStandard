@@ -36,5 +36,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/show_complex_bottomsheet_dialog_btn_text" />
+
+        <Button
+            android:id="@+id/show_result_dialog_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:text="@string/show_result_dialog_btn_text" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

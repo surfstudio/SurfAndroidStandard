@@ -8,6 +8,7 @@ import ru.surfstudio.android.mvp.dialog.sample.domain.SampleData
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.ComplexDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.bottom.ComplexBottomSheetDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.complex.event.DataChangedEvent
+import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.result.ResultDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogPresenter
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.SimpleDialogRoute
 import ru.surfstudio.android.mvp.dialog.sample.ui.screen.dialogs.simple.bottom.SimpleBottomSheetDialogPresenter
@@ -32,6 +33,15 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
         view.render(sm)
+    }
+
+    override fun onFirstLoad() {
+        super.onFirstLoad()
+        subscribe(dialogNavigator.observeResult(ResultDialogRoute::class.java)) {
+            if (it.isSuccess) {
+                view.showMessage(it.data)
+            }
+        }
         subscribe(rxBus.observeEvents(DataChangedEvent::class.java)) {
             view.showMessage("New value = ${it.sampleData.value} from ${it.eventType.name}")
         }
@@ -48,6 +58,10 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     fun showComplexDialog() = dialogNavigator.show(ComplexDialogRoute(getSampleData()))
 
     fun showComplexBottomSheetDialog() = dialogNavigator.show(ComplexBottomSheetDialogRoute(getSampleData()))
+
+    fun openResultDialog() {
+        dialogNavigator.showForResultFromActivity(ResultDialogRoute())
+    }
 
     private fun getSampleData(): SampleData = SampleData(INITIAL_COMPLEX_DIALOG_VALUE)
 }

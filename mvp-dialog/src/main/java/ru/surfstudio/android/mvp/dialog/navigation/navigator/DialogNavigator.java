@@ -16,27 +16,39 @@
 package ru.surfstudio.android.mvp.dialog.navigation.navigator;
 
 
+import android.app.Activity;
+import android.content.Intent;
+
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import java.io.Serializable;
+
+import io.reactivex.Observable;
+import ru.surfstudio.android.core.ui.activity.CoreActivity;
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
+import ru.surfstudio.android.core.ui.navigation.ScreenResult;
+import ru.surfstudio.android.core.ui.navigation.fragment.route.FragmentRoute;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;
-import ru.surfstudio.android.core.ui.scope.ScreenPersistentScope;
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute;
+import ru.surfstudio.android.mvp.dialog.navigation.route.DialogWithResultRoute;
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogInterface;
 
 /**
  * позволяет открывать диалоги
  */
-public abstract class DialogNavigator implements Navigator {
+public abstract class DialogNavigator extends BaseActivityResultDelegate implements Navigator {
 
     private ActivityProvider activityProvider;
-    private ScreenPersistentScope screenPersistentScope;
 
     public DialogNavigator(ActivityProvider activityProvider,
-                           ScreenPersistentScope screenPersistentScope) {
+                           ScreenEventDelegateManager screenEventDelegateManager) {
+        screenEventDelegateManager.registerDelegate(this);
         this.activityProvider = activityProvider;
-        this.screenPersistentScope = screenPersistentScope;
     }
 
     public void show(DialogRoute dialogRoute) {
@@ -57,4 +69,76 @@ public abstract class DialogNavigator implements Navigator {
 
     protected abstract <D extends DialogFragment & CoreSimpleDialogInterface> void showSimpleDialog(D fragment);
 
+    public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
+            Class<? extends SupportOnActivityResultRoute<T>> routeClass
+    ) {
+        try {
+            return this.observeOnActivityResult(routeClass.newInstance());
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException("route class " + routeClass.getCanonicalName()
+                    + "must have default constructor", e);
+        }
+    }
+
+    public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
+            SupportOnActivityResultRoute<T> route
+    ) {
+        return super.observeOnActivityResult(route);
+    }
+
+    public <T extends Serializable> void showForResult(
+            FragmentRoute currentRoute,
+            DialogWithResultRoute<T> dialogRoute
+    ) {
+        if (!super.isObserved(dialogRoute)) {
+            throw new IllegalStateException("route class " + dialogRoute.getClass().getSimpleName()
+                    + " must be registered by method DialogNavigator#observeResult");
+        }
+
+        DialogFragment dialog = dialogRoute.createFragment();
+        Fragment currentFragment = activityProvider.get().getSupportFragmentManager().findFragmentByTag(currentRoute.getTag());
+        if (currentFragment != null) {
+            dialog.setTargetFragment(currentFragment, dialogRoute.getRequestCode());
+        }
+
+        dialog.show(activityProvider.get().getSupportFragmentManager(), dialogRoute.getTag());
+    }
+
+    public <T extends Serializable> void showForResultFromActivity(
+            DialogWithResultRoute<T> dialogRoute
+    ) {
+        if (!super.isObserved(dialogRoute)) {
+            throw new IllegalStateException("route class " + dialogRoute.getClass().getSimpleName()
+                    + " must be registered by method DialogNavigator#observeResult");
+        }
+
+        dialogRoute.createFragment().show(activityProvider.get().getSupportFragmentManager(), dialogRoute.getTag());
+    }
+
+    public <T extends Serializable> boolean dismissWithResult(
+            DialogWithResultRoute<T> dialogRoute,
+            T result,
+            boolean success
+    ) {
+        FragmentManager fragmentManager = activityProvider.get().getSupportFragmentManager();
+        DialogFragment dialogFragment = (DialogFragment) fragmentManager.findFragmentByTag(dialogRoute.getTag());
+        if (dialogFragment == null) return false;
+        Fragment target = dialogFragment.getTargetFragment();
+        Intent resultIntent = dialogRoute.prepareResultIntent(result);
+        if (target != null) {
+            target.onActivityResult(
+                    dialogRoute.getRequestCode(),
+                    success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
+                    resultIntent
+            );
+        } else {
+            ((CoreActivity) activityProvider.get()).handleActivityResult(
+                    dialogRoute.getRequestCode(),
+                    success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
+                    resultIntent
+            );
+        }
+        dialogFragment.dismiss();
+        return true;
+    }
 }

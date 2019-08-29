@@ -21,7 +21,6 @@ import ru.surfstudio.android.message.DefaultMessageController
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForWidget
-import ru.surfstudio.android.mvp.widget.provider.WidgetProvider
 import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
@@ -38,9 +37,9 @@ class WidgetScreenModule(private val persistentScope: WidgetViewPersistentScope)
     @PerScreen
     internal fun provideDialogNavigator(
             activityProvider: ActivityProvider,
-            widgetProvider: WidgetProvider
+            screenEventDelegateManager: ScreenEventDelegateManager
     ): DialogNavigator {
-        return DialogNavigatorForWidget(activityProvider, widgetProvider, persistentScope)
+        return DialogNavigatorForWidget(activityProvider, persistentScope, screenEventDelegateManager)
     }
 
     @Provides

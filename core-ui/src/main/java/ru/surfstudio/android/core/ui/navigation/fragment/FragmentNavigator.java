@@ -22,6 +22,7 @@ import androidx.annotation.IdRes;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -31,7 +32,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import io.reactivex.Observable;
 import ru.surfstudio.android.core.ui.FragmentContainer;
-import ru.surfstudio.android.core.ui.ScreenType;
+import ru.surfstudio.android.core.ui.activity.CoreActivity;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
@@ -70,13 +71,13 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
      * @param <T>        тип возвращаемых данных
      */
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-        Class<? extends SupportOnActivityResultRoute<T>> routeClass
+            Class<? extends SupportOnActivityResultRoute<T>> routeClass
     ) {
         try {
             return this.observeOnActivityResult(routeClass.newInstance());
         } catch (ReflectiveOperationException e) {
             throw new IllegalArgumentException("route class " + routeClass.getCanonicalName()
-                + "must have default constructor", e);
+                    + "must have default constructor", e);
         }
     }
 
@@ -87,7 +88,7 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
      * @param <T>   тип возвращаемых данных
      */
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-        SupportOnActivityResultRoute route
+            SupportOnActivityResultRoute<T> route
     ) {
         return super.observeOnActivityResult(route);
     }
@@ -100,22 +101,34 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         start(route, stackable, transition, StartType.REPLACE);
     }
 
-    public <T extends Serializable> boolean addFragmentForResult(
-        FragmentRoute currentRoute,
-        FragmentWithResultRoute<T> nextRoute,
-        boolean stackable,
-        @Transit int transition
+    public <T extends Serializable> void addFragmentForResult(
+            FragmentRoute currentRoute,
+            FragmentWithResultRoute<T> nextRoute,
+            @Transit int transition
     ) {
-        return startFragmentForResult(currentRoute, nextRoute, stackable, transition, StartType.ADD);
+        startFragmentForResult(currentRoute, nextRoute, transition, StartType.ADD);
     }
 
-    public <T extends Serializable> boolean replaceFragmentForResult(
-        FragmentRoute currentRoute,
-        FragmentWithResultRoute<T> nextRoute,
-        boolean stackable,
-        @Transit int transition
+    public <T extends Serializable> void replaceFragmentForResult(
+            FragmentRoute currentRoute,
+            FragmentWithResultRoute<T> nextRoute,
+            @Transit int transition
     ) {
-        return startFragmentForResult(currentRoute, nextRoute, stackable, transition, StartType.REPLACE);
+        startFragmentForResult(currentRoute, nextRoute, transition, StartType.REPLACE);
+    }
+
+    public <T extends Serializable> void addFragmentForResultFromActivity(
+            FragmentWithResultRoute<T> nextRoute,
+            @Transit int transition
+    ) {
+        startFragmentForResultFromActivity(nextRoute, transition, StartType.ADD);
+    }
+
+    public <T extends Serializable> void replaceFragmentForResultFromActivity(
+            FragmentWithResultRoute<T> nextRoute,
+            @Transit int transition
+    ) {
+        startFragmentForResultFromActivity(nextRoute, transition, StartType.REPLACE);
     }
 
     /**
@@ -131,9 +144,9 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         }
 
         fragmentManager.beginTransaction()
-            .setTransition(transition)
-            .remove(fragment)
-            .commit();
+                .setTransition(transition)
+                .remove(fragment)
+                .commit();
 
         return true;
     }
@@ -166,12 +179,12 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
      * Закрываает текущий фрагмент c результатом
      *
      * @param currentRoute маршрут текущего экрана
-     * @param success           показывает успешное ли завершение
-     * @param <T>               тип возвращаемого значения
+     * @param success      показывает успешное ли завершение
+     * @param <T>          тип возвращаемого значения
      */
     public <T extends Serializable> void finishWithResult(
-        FragmentWithResultRoute<T> currentRoute,
-        boolean success
+            FragmentWithResultRoute<T> currentRoute,
+            boolean success
     ) {
         finishWithResult(currentRoute, null, success);
     }
@@ -180,12 +193,12 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
      * Закрываает текущий фрагмент c результатом
      *
      * @param currentRoute маршрут текущего экрана
-     * @param result            возвращаемый результат
-     * @param <T>               тип возвращаемого значения
+     * @param result       возвращаемый результат
+     * @param <T>          тип возвращаемого значения
      */
     public <T extends Serializable> void finishWithResult(
-        FragmentWithResultRoute<T> currentRoute,
-        T result
+            FragmentWithResultRoute<T> currentRoute,
+            T result
     ) {
         finishWithResult(currentRoute, result, true);
     }
@@ -199,9 +212,9 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
      * @param <T>          тип возвращаемого значения
      */
     public <T extends Serializable> boolean finishWithResult(
-        FragmentWithResultRoute<T> currentRoute,
-        T result,
-        boolean success
+            FragmentWithResultRoute<T> currentRoute,
+            T result,
+            boolean success
     ) {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
@@ -211,17 +224,26 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
             return false;
         }
 
-        Fragment target = fragment.getTargetFragment();
-        if (target == null) {
-            return false;
-        }
         Intent resultIntent = currentRoute.prepareResultIntent(result);
 
-        target.onActivityResult(
-            currentRoute.getRequestCode(),
-            success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
-            resultIntent
-        );
+        Fragment target = fragment.getTargetFragment();
+        if (target == null) {
+            target = fragment.getParentFragment();
+        }
+
+        if (target != null) {
+            target.onActivityResult(
+                    currentRoute.getRequestCode(),
+                    success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
+                    resultIntent
+            );
+        } else {
+            ((CoreActivity) activityProvider.get()).handleActivityResult(
+                    currentRoute.getRequestCode(),
+                    success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
+                    resultIntent
+            );
+        }
 
         return fragmentManager.popBackStackImmediate();
     }
@@ -271,7 +293,7 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         }
 
         return fragmentManager.popBackStackImmediate(route.getTag(),
-            inclusive ? FragmentManager.POP_BACK_STACK_INCLUSIVE : 0);
+                inclusive ? FragmentManager.POP_BACK_STACK_INCLUSIVE : 0);
     }
 
     /**
@@ -294,7 +316,7 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         }
 
         return fragmentManager.popBackStackImmediate(fragmentManager.getBackStackEntryAt(backStackCount - 1).getName(),
-            FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     protected FragmentManager getFragmentManager() {
@@ -312,14 +334,14 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         }
 
         throw new IllegalStateException("Container has to have a ContentViewContainer " +
-            "implementation in order to make fragment navigation");
+                "implementation in order to make fragment navigation");
     }
 
     private void start(
-        FragmentRoute route,
-        boolean stackable,
-        @Transit int transition,
-        StartType startType
+            FragmentRoute route,
+            boolean stackable,
+            @Transit int transition,
+            StartType startType
     ) {
         int viewContainerId = getViewContainerIdOrThrow();
         FragmentManager fragmentManager = getFragmentManager();
@@ -342,27 +364,25 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
         fragmentTransaction.commit();
     }
 
-    private <T extends Serializable> boolean startFragmentForResult(
-        FragmentRoute currentRoute,
-        FragmentWithResultRoute<T> nextRoute,
-        boolean stackable,
-        @Transit int transition,
-        StartType startType
+    private <T extends Serializable> void startFragmentForResult(
+            FragmentRoute currentRoute,
+            FragmentWithResultRoute<T> nextRoute,
+            @Transit int transition,
+            StartType startType
     ) {
         if (!super.isObserved(nextRoute)) {
             throw new IllegalStateException("route class " + nextRoute.getClass().getSimpleName()
-                + " must be registered by method FragmentNavigator#observeResult");
+                    + " must be registered by method FragmentNavigator#observeResult");
         }
         int viewContainerId = getViewContainerIdOrThrow();
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.executePendingTransactions();
 
-        Fragment currentFragment = fragmentManager.findFragmentByTag(currentRoute.getTag());
-        if (currentFragment == null) {
-            return false;
-        }
         Fragment nextFragment = nextRoute.createFragment();
-        nextFragment.setTargetFragment(currentFragment, nextRoute.getRequestCode());
+        Fragment currentFragment = fragmentManager.findFragmentByTag(currentRoute.getTag());
+        if (currentFragment != null) {
+            nextFragment.setTargetFragment(currentFragment, nextRoute.getRequestCode());
+        }
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         switch (startType) {
@@ -374,13 +394,39 @@ public class FragmentNavigator extends BaseActivityResultDelegate implements Nav
                 break;
         }
         fragmentTransaction.setTransition(transition);
-        if (stackable) {
-            fragmentTransaction.addToBackStack(nextRoute.getTag());
-        }
+        fragmentTransaction.addToBackStack(nextRoute.getTag());
 
         fragmentTransaction.commit();
+    }
 
-        return true;
+    private <T extends Serializable> void startFragmentForResultFromActivity(
+            FragmentWithResultRoute<T> nextRoute,
+            @Transit int transition,
+            StartType startType
+    ) {
+        if (!super.isObserved(nextRoute)) {
+            throw new IllegalStateException("route class " + nextRoute.getClass().getSimpleName()
+                    + " must be registered by method FragmentNavigator#observeResult");
+        }
+        int viewContainerId = getViewContainerIdOrThrow();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.executePendingTransactions();
+
+        Fragment nextFragment = nextRoute.createFragment();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        switch (startType) {
+            case ADD:
+                fragmentTransaction.add(viewContainerId, nextFragment, nextRoute.getTag());
+                break;
+            case REPLACE:
+                fragmentTransaction.replace(viewContainerId, nextFragment, nextRoute.getTag());
+                break;
+        }
+        fragmentTransaction.setTransition(transition);
+        fragmentTransaction.addToBackStack(nextRoute.getTag());
+
+        fragmentTransaction.commit();
     }
 
     private enum StartType {

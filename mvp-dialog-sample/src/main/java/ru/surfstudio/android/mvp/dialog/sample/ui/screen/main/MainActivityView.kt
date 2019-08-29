@@ -31,6 +31,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         show_simple_bottomsheet_dialog_btn.setOnClickListener { presenter.showSimpleBottomSheetDialog() }
         show_complex_dialog_btn.setOnClickListener { presenter.showComplexDialog() }
         show_complex_bottomsheet_dialog_btn.setOnClickListener { presenter.showComplexBottomSheetDialog() }
+        show_result_dialog_btn.setOnClickListener { presenter.openResultDialog() }
     }
 
     override fun renderInternal(sm: MainScreenModel) {}

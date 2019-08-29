@@ -80,7 +80,7 @@ class ActivityScreenModule(
 
     @Provides
     @PerScreen
-    internal fun provideDialogNavigator(activityProvider: ActivityProvider): DialogNavigator {
-        return DialogNavigatorForActivity(activityProvider, activityViewPersistentScope)
+    internal fun provideDialogNavigator(activityProvider: ActivityProvider, screenEventDelegateManager: ScreenEventDelegateManager): DialogNavigator {
+        return DialogNavigatorForActivity(activityProvider, activityViewPersistentScope, screenEventDelegateManager)
     }
 }
