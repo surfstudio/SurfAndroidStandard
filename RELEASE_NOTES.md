@@ -165,9 +165,10 @@
 #### util-ktx
 
 * ANDDEP-592 Добавлено в readme описания к BlockableData, CheckableData, DeletableData, ExpandableDataInterface, LoadableData, ScrollableData, SelectableData, VisibleData
-
 * ANDDEP-319 Свойства `isAtLeast...`  класса [`SdkUtils`](util-ktx/src/main/java/ru/surfstudio/android/utilktx/util/SdkUtils.kt)
 помечены как `@Deprecated`, вместо них следует использовать методы `isAtLeast...()`, а так же `runOn...()`.
+* Методы `DateUtil.parseDate()` могут принимать `NULL` на вход и возвращают `NULL` в таком случае
+* Добавлен метод `DateUtil.reformatDate()`, позволяющий переворматировать строковое представление даты из одного формата в другой 
 
 #### connection
 * Добавлен метод для проверки подключения через Wi-Fi в [`ConnectionProvider`](connection/src/main/java/ru/surfstudio/android/connection/ConnectionProvider.java)
