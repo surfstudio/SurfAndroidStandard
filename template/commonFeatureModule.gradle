@@ -1,0 +1,5 @@
+apply from: '../commonModule.gradle'
+
+dependencies {
+    implementation project("$templatePrefix:base_feature")
+}

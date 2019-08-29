@@ -1,0 +1,42 @@
+apply from: '../commonModule.gradle'
+
+dependencies {
+    api project("$templatePrefix:domain")
+
+    gradle.ext.androidStandard.api(
+            this,
+            "$surfCoreVersionName",
+            [
+                    "activity-holder",
+                    "core-ui",
+                    "core-mvp",
+                    "core-mvp-binding",
+                    "mvp-dialog",
+                    "mvp-widget",
+                    "easyadapter",
+                    "analytics",
+                    "firebase-analytics",
+                    "push",
+                    "dagger-scope",
+                    "logger",
+                    "filestorage",
+                    "network",
+                    "converter-gson",
+                    "imageloader",
+                    "animations",
+                    "picture-provider",
+                    "app-migration",
+                    "connection",
+                    "custom-view",
+                    "datalist-limit-offset",
+                    "datalist-page-count",
+                    "recycler-extension",
+                    "rx-extension",
+                    "shared-pref",
+                    "util-ktx",
+                    "standard-dialog",
+                    "message-controller",
+                    "broadcast-extension",
+                    "rxbus"]
+    )
+}

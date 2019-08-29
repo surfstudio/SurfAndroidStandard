@@ -1,0 +1,43 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+apply from: '../config.gradle'
+apply from: '../commonAndroidDefaultConfig.gradle'
+
+android {
+
+    buildTypes {
+        qa {
+            buildConfigField "String", "BASE_URL", '""'
+            multiDexEnabled true
+            minifyEnabled true
+            debuggable = true
+            // сопоставление buildType.qa к buildType.release для корректного подключения локального android-standard
+            matchingFallbacks = ['release']
+        }
+
+        debug {
+            buildConfigField "String", "BASE_URL", '""'
+            multiDexEnabled true
+            debuggable = true
+        }
+
+        release {
+            buildConfigField "String", "BASE_URL", '""'
+            minifyEnabled true
+        }
+    }
+
+    sourceSets {
+        main {
+            java.srcDirs += 'src/main/kotlin/'
+            test.java.srcDirs += 'src/test/kotlin'
+            androidTest.java.srcDirs += 'src/androidTest/kotlin'
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+}

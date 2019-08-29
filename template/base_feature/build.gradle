@@ -1,0 +1,28 @@
+apply from: '../commonModule.gradle'
+apply from: '../commonKaptModule.gradle'
+
+dependencies {
+    api project("$templatePrefix:base")
+
+    //debug
+    releaseImplementation project("$templatePrefix:f-debug-no-op")
+    debugImplementation project("$templatePrefix:f-debug")
+    qaImplementation project("$templatePrefix:f-debug")
+
+    implementation project("$templatePrefix:i-push-notification")
+    implementation project("$templatePrefix:i-auth")
+    implementation project("$templatePrefix:i-network")
+    implementation project("$templatePrefix:i-token")
+    implementation project("$templatePrefix:i-initialization")
+    implementation project("$templatePrefix:i-session")
+
+    api "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
+    api "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Version"
+    api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
+
+    implementation("com.google.firebase:firebase-messaging:$firebaseMessagingVersion") {
+        exclude group: "com.google.firebase", module: "firebase-iid"
+    }
+
+    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
+}

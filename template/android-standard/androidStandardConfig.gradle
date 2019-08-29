@@ -1,0 +1,116 @@
+apply from: '../config.gradle'
+
+// Скрипт для чтения и экспорта properties для дальнейшей настройки сборки
+
+// Директория для локальной загрузки android-standard
+def androidStandardDebugDir = null
+// Флаг для включения режима локальной загрузки
+def androidStandardDebugMode = false
+
+Properties properties = new Properties()
+
+try {
+    properties.load(file('androidStandard.properties').newDataInputStream())
+
+    androidStandardDebugDir = properties.getProperty('androidStandardDebugDir')
+    if (androidStandardDebugDir == null) {
+        logger.error('androidStandardDebugDir not defined. ' +
+                'Please define it in androidStandard.properties file to enable android-standard debug mode.')
+    } else {
+        def debugModeProperty = properties.getProperty('androidStandardDebugMode')
+        if (debugModeProperty != null) {
+            androidStandardDebugMode = debugModeProperty.toBoolean()
+        }
+        if (!androidStandardDebugMode) {
+            logger.error('androidStandardDebugMode = false')
+        }
+    }
+} catch (FileNotFoundException ignored) {
+    logger.error('androidStandard.properties file not found')
+}
+
+gradle.ext {
+    androidStandard = [
+            debugDir : androidStandardDebugDir,
+            debugMode: androidStandardDebugMode,
+    ]
+
+    // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
+    androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
+
+    /**
+     * Функция для подключения модулей android-standard
+     * @param context                контекст вызова функции
+     * @param androidStandardVersion версия подключаемых модулей android-standard
+     * @param modules                список подключаемых модулей android-standard
+     * @param closure                функция, которая будет вызвана для каждого модуля;
+     * может использоваться для настройки подключения модулей, например: { exclude group: 'groupname' }
+     * @param sourceType             тип подключения модулей android-standard
+     */
+    androidStandard.api = {
+        context,
+        androidStandardVersion,
+        modules,
+        closure = null,
+        sourceType = ModuleSourceType.SETTINGS_DEFINED.toString() ->
+
+            def isRemoteModules
+
+            switch (sourceType.toUpperCase() as ModuleSourceType) {
+                case ModuleSourceType.SETTINGS_DEFINED:
+                    isRemoteModules = !gradle.ext.androidStandard.debugEnabled
+                    break
+                case ModuleSourceType.LOCAL:
+                    isRemoteModules = false
+                    break
+                case ModuleSourceType.REMOTE:
+                    isRemoteModules = true
+                    break
+            }
+
+            context.dependencies {
+                modules.each {
+                    if (closure == null) {
+                        api "ru.surfstudio.android:$it:$surfCoreVersionName"
+                    } else {
+                        api("ru.surfstudio.android:$it:$surfCoreVersionName", closure)
+                    }
+                }
+            }
+            if (isRemoteModules) {
+                // Установка com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
+                // с помощью рефлексии для избежания ошибок при конфликте версий GoogleServices
+                try {
+                    def pluginClass = new GroovyClassLoader().loadClass("com.google.gms.googleservices.GoogleServicesPlugin")
+                    pluginClass.getField("config").get(null).disableVersionCheck = true
+                } catch (Throwable e) {
+                    logger.error(e.message)
+                }
+            }
+    }
+}
+
+/**
+ * Перечисление, задающее источник, откуда будут подключаться модули android-standard
+ */
+enum ModuleSourceType {
+
+    // подключение модулей из artifactory
+    REMOTE("REMOTE"),
+
+    // локальное подключение модулей
+    LOCAL("LOCAL"),
+
+    // подключение модулей в соответствии с настройками файла androidStandard.properties
+    SETTINGS_DEFINED("SETTINGS_DEFINED")
+
+    private final String sourceName
+
+    ModuleSourceType(sourceName) {
+        this.sourceName = sourceName
+    }
+
+    String toString() {
+        return sourceName
+    }
+}
