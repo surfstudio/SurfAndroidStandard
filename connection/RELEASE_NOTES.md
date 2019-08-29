@@ -1,6 +1,6 @@
 [TOC]
 # Connection Release Notes
-## 0.4.0-alpha.0
+## 0.5.0-alpha.0
 ##### Connection
 * TODO
 ## 0.4.0

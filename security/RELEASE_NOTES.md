@@ -1,6 +1,6 @@
 [TOC]
 # Security-sample-template Release Notes
-## 0.4.0-alpha.0
+## 0.5.0-alpha.0
 ##### Security
 * TODO
 ## 0.4.0
