@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.base.network
+package ru.surfstudio.standard.i_network.network
 
 import com.google.gson.Gson
 import io.reactivex.Observable
@@ -7,9 +7,9 @@ import retrofit2.Call
 import retrofit2.HttpException
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
-import ru.surfstudio.android.network.calladapter.BaseCallAdapterFactory
-import ru.surfstudio.android.network.error.HttpCodes
-import ru.surfstudio.standard.base.error.*
+import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
+import ru.surfstudio.standard.i_network.network.error.HttpCodes
+import ru.surfstudio.standard.i_network.error.*
 import java.io.IOException
 import kotlin.reflect.KClass
 

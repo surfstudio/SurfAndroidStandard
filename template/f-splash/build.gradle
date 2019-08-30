@@ -3,4 +3,5 @@ apply from: '../commonKaptModule.gradle'
 
 dependencies {
     implementation project("$templatePrefix:i-initialization")
+    implementation project("$templatePrefix:i-network")
 }

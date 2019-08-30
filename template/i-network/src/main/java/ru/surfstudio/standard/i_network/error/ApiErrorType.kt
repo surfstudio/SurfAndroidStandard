@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.base.error
+package ru.surfstudio.standard.i_network.error
 
 /**
  * типы специфичных ошибок сервера

@@ -5,7 +5,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import ru.surfstudio.android.connection.ConnectionProvider
 import ru.surfstudio.android.dagger.scope.PerApplication
-import ru.surfstudio.android.network.BaseNetworkInteractor
+import ru.surfstudio.standard.i_network.network.BaseNetworkInteractor
 import ru.surfstudio.standard.domain.login.KeyInfo
 import ru.surfstudio.standard.domain.login.LoginInfo
 import ru.surfstudio.standard.f_debug.DebugInteractor

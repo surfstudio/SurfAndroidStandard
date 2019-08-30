@@ -1,7 +1,7 @@
-package ru.surfstudio.standard.base.error
+package ru.surfstudio.standard.i_network.error
 
 import retrofit2.HttpException
-import ru.surfstudio.android.network.error.NetworkException
+import ru.surfstudio.standard.i_network.network.error.NetworkException
 
 private fun prepareMessage(httpMessage: String, code: Int, url: String): String {
     return " httpCode=" + code + "\n" +

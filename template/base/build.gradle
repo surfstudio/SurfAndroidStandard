@@ -20,8 +20,6 @@ dependencies {
                     "dagger-scope",
                     "logger",
                     "filestorage",
-                    "network",
-                    "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",

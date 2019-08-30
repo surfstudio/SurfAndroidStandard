@@ -4,6 +4,7 @@ apply plugin: 'kotlin-kapt'
 dependencies {
     implementation project("$templatePrefix:base")
     implementation project("$templatePrefix:i-push-notification")
+    implementation project("$templatePrefix:i-network")
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
@@ -39,7 +40,6 @@ dependencies {
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
-                    "core-app",
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
@@ -49,8 +49,6 @@ dependencies {
                     "dagger-scope",
                     "logger",
                     "filestorage",
-                    "network",
-                    "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",
