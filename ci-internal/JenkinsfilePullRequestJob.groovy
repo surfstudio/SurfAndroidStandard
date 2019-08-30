@@ -168,13 +168,10 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh "androidStandardDebugDir=$workspace/android-standard"
+            script.sh "androidStandardDebugDir=$pwd/android-standard"
             script.sh("./gradlew generateModulesNamesFile")
-            script.echo "123123 1"
-            script.sh"ls"
-            script.echo "123123 2"
-            script.sh"cd buildSrc && ls"
-            script.echo "123123 3"
-            script.sh("echo \"androidStandardDebugDir=$pwd/android-standard\n" +
+            script.sh("echo \"androidStandardDebugDir=$workspace/android-standard\n" +
                     "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
             script.sh("./gradlew -p template clean assembleQa --stacktrace")
         },
