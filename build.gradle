@@ -1,3 +1,4 @@
+import ru.surfstudio.android.build.ConfigInfoProvider
 import ru.surfstudio.android.build.DependencyConfigurator
 
 apply from: 'buildSrc/buildTasks.gradle'
