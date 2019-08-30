@@ -14,15 +14,18 @@ private const val CONFIG_INFO_JSON_FILE_PATH = "buildSrc/projectConfiguration.js
  */
 object ConfigInfoProvider {
 
+    private var configInfoJsonFile: File = openConfigInfoFile()
+
+    lateinit var globalConfigInfo: GlobalConfigInfo
+
     /**
      * specified only when running settings for ability to add android standard locally
      * otherwise will be empty
      */
     var currentDirectory = EMPTY_STRING
-    private val configInfoJsonFile: File by lazy { openConfigInfoFile() }
-    var globalConfigInfo: GlobalConfigInfo
-
-    init {
+        set(value) {
+            field = value
+            configInfoJsonFile = openConfigInfoFile()
         globalConfigInfo = parseProjectConfigInfoJson()
     }
 
