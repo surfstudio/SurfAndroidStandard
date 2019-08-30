@@ -169,7 +169,7 @@ pipeline.stages = [
         },
         pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$pwd/android-standard\n" +
+            script.sh("echo \"androidStandardDebugDir=${workspace}/android-standard\n" +
                     "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties ")
             script.sh("cd template && chmod +x gradlew")
             script.sh("cd template && ./gradlew clean assembleQa")
