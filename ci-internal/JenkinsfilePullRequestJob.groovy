@@ -24,6 +24,7 @@ def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modul
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
 def CHECKS_RESULT = 'Checks Result'
+def CHECKS_BUILD_TEMPLATE = 'Checks Build Template'
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -166,6 +167,15 @@ pipeline.stages = [
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
+        pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.echo "echo \"androidStandardDebugDir=$pwd/android-standard"
+            script.sh("./gradlew generateModulesNamesFile")
+            script.sh("cd template " +
+                    "&& rm android-standard/androidStandard.properties " +
+                    "&& echo \"androidStandardDebugDir=$pwd/android-standard\n" +
+                    "androidStandardDebugMode=true\" > android-standard/androidStandard.properties " +
+                    "&& ./gradlew clean assembleQa ")
+        },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
             [
@@ -174,7 +184,8 @@ pipeline.stages = [
                     CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED
+                    CHECK_RELEASE_NOTES_CHANGED,
+                    CHECKS_BUILD_TEMPLATE
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
