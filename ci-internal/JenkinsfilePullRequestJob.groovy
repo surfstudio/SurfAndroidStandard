@@ -171,7 +171,7 @@ pipeline.stages = [
             script.sh("./gradlew generateModulesNamesFile")
             script.sh("echo \"androidStandardDebugDir=$workspace/android-standard\n" +
                     "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean assembleQa")
+            script.sh("./gradlew -p template clean assembleQa --stacktrace")
         },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
