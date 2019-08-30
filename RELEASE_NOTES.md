@@ -128,6 +128,7 @@
 #### rx-extension
 
 * ANDDEP-579 Добавлена поддержка Single в ObservableUtil
+* Добавлено семейство методов `ObservableUtil.mergeDelayError()`. По функционалу методы схожи с `Observable.mergeDelayError()`, с той разницей, что подписка осуществляется на отдельном `Scheduler`
 
 #### rxbus
 #### shared-pref
