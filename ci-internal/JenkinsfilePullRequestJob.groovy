@@ -168,6 +168,7 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.echo "workspace = ${workspace}"
             script.sh("./gradlew generateModulesNamesFile")
             script.sh("echo \"androidStandardDebugDir=${workspace}/android-standard\n" +
                     "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties ")
