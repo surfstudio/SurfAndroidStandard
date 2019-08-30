@@ -172,7 +172,7 @@ pipeline.stages = [
             script.sh("echo \"androidStandardDebugDir=$workspace/android-standard\n" +
                     "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
             script.sh("chmod +x template/gradlew")
-            script.sh("./template/gradlew clean assembleQa")
+            script.sh("cd template && ./gradlew clean assembleQa")
         },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
