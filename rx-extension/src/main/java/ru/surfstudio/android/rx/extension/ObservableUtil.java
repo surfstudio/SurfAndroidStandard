@@ -296,7 +296,6 @@ public class ObservableUtil {
                 .collect(Collectors.toList());
     }
 
-
     public static <T1, T2, R> FunctionSafe<Object[], R> toFunction(final BiFunctionSafe<? super T1, ? super T2, ? extends R> f) {
         ObjectHelper.requireNonNull(f, "f is null");
         return new Array2Func<>(f);
