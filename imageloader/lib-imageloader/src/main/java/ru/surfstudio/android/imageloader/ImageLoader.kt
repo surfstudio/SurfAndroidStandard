@@ -138,6 +138,18 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             }
 
     /**
+     * Указание URL изображения для загрузки в случае ошибки загрузки основного изображения
+     *
+     * @param errorUrl URL изображения
+     * @param shouldTransformError флаг, показывающий, нужно ли применять трансформации к изображению
+     */
+    override fun error(errorUrl: String, shouldTransformError: Boolean) =
+            apply {
+                this.imageResourceManager.errorUrl = errorUrl
+                this.imageResourceManager.shouldTransformError = shouldTransformError
+            }
+
+    /**
      * Установка лямбды для отслеживания загрузки изображения
      *
      * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
@@ -407,6 +419,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      */
     private fun buildRequest(): RequestBuilder<Drawable> = Glide.with(context)
             .load(imageResourceManager.toLoad())
+            .addErrorIf(imageResourceManager.isErrorUrlSet) { imageResourceManager.prepareErrorUrl() }
             .addErrorIf(imageResourceManager.isErrorSet) { imageResourceManager.prepareErrorDrawable() }
             .addThumbnailIf(imageResourceManager.isPreviewSet) { imageResourceManager.preparePreviewDrawable() }
             .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)

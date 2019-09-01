@@ -72,6 +72,18 @@ interface ImageLoaderInterface {
     fun error(@DrawableRes drawableResId: Int, shouldTransformError: Boolean = true): ImageLoaderInterface
 
     /**
+     * Указание URL ресурса, отображаемого в случае ошибки загрузки.
+     *
+     * Во всех случаях, когда это возможно, следует использовать уже трансформированный
+     * до этапа выполнения программы ресурс. Это поможет значительно увеличить производительность.
+     * В этом случае следует явно задать значение флага [shouldTransformError]=false.
+     *
+     * @param errorUrl URL изображения для показа в случае ошибки при загрузке основного изображения
+     * @param shouldTransformError необходимо ли применять трансформации исходника к превью
+     */
+    fun error(errorUrl: String, shouldTransformError: Boolean = true): ImageLoaderInterface
+
+    /**
      * Установка лямбды для отслеживания загрузки изображения и источника загрузки
      *
      * @param lambda лямбда, возвращающая загруженный [Drawable] и [ImageSource], указывающий откуда он был загружен
