@@ -116,6 +116,7 @@ pipeline.initializeBody = {
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
+//region Stages
 def preMergeStage = pipeline.stage(PRE_MERGE) {
     CommonUtil.safe(script) {
         script.sh "git reset --merge" //revert previous failed merge
@@ -137,11 +138,16 @@ def preMergeStage = pipeline.stage(PRE_MERGE) {
     script.sh "git merge origin/$destinationBranch --no-ff"
 }
 
-def checkConfigurationIsNotProjectSnapshotStage = pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
+def checkConfigurationIsNotProjectSnapshotStage = pipeline.stage(
+        CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT
+) {
     script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
 }
 
-def checkStableModulesInArtifactoryStage = pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+def checkStableModulesInArtifactoryStage = pipeline.stage(
+        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+        StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+) {
     withArtifactoryCredentials(script) {
         script.echo "artifactory user: ${script.env.surf_maven_username}"
         script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
@@ -151,85 +157,161 @@ def checkStableModulesInArtifactoryStage = pipeline.stage(CHECK_STABLE_MODULES_I
         script.echo "bintray user: ${script.env.surf_bintray_username}"
         script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
     }
-
 }
 
-pipeline.stages = [
-        preMergeStage,
-        checkConfigurationIsNotProjectSnapshotStage,
-        checkStableModulesInArtifactoryStage,
-        pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-        },
-        pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-        },
-        pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
-        },
-        pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
-        },
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-        },
-        pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
-        },
-        pipeline.stage(CHECKS_RESULT) {
-            def checksPassed = true
-            [
-                    CHECK_STABLE_MODULES_IN_ARTIFACTORY,
-                    CHECK_STABLE_MODULES_NOT_CHANGED,
-                    CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
-                    CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
-                    CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED,
-                    CHECKS_BUILD_TEMPLATE
-            ].each { stageName ->
-                def stageResult = pipeline.getStage(stageName).result
-                checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
-                if (!checksPassed) {
-                    script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
-                }
-            }
+def checkStableModulesNotChangedStage = pipeline.stage(
+        CHECK_STABLE_MODULES_NOT_CHANGED,
+        StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+) {
+    script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=" +
+            "${lastDestinationBranchCommitHash}")
+}
 
-            if (!checksPassed) {
-                script.error("Checks Failed")
-            }
-        },
+def checkModulesInDependencyTreeOfStableModuleAlsoStableStage = pipeline.stage(
+        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+        StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+) {
+    script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
+}
 
-        pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
-        },
-        pipeline.stage(UNIT_TEST) {
-            AndroidPipelineHelper.unitTestStageBodyAndroid(script,
-                    "testReleaseUnitTest",
-                    "**/test-results/testReleaseUnitTest/*.xml",
-                    "app/build/reports/tests/testReleaseUnitTest/")
-        },
-        pipeline.stage(INSTRUMENTATION_TEST) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "build/outputs/androidTest-results/instrumental",
-                            "build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
+def checkUnstableModulesDoNotBecameStableStage =  pipeline.stage(
+        CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
+        StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+) {
+    script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=" +
+            "${lastDestinationBranchCommitHash}")
+}
+
+def checkReleaseNotChangedStage = pipeline.stage(
+        CHECK_RELEASE_NOTES_VALID,
+        StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+) {
+    script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
+}
+
+def checkReleaseNotesChangedStage = pipeline.stage(
+        CHECK_RELEASE_NOTES_CHANGED,
+        StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+) {
+    script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+}
+
+def checkBuildTemplateStage = pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+    script.sh("./gradlew generateModulesNamesFile")
+    script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+            "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
+    script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+}
+
+def buildStage = pipeline.stage(BUILD) {
+    AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+}
+
+def unitTestStage = pipeline.stage(UNIT_TEST) {
+    AndroidPipelineHelper.unitTestStageBodyAndroid(script,
+            "testReleaseUnitTest",
+            "**/test-results/testReleaseUnitTest/*.xml",
+            "app/build/reports/tests/testReleaseUnitTest/")
+}
+
+def instrumentationTestStage = pipeline.stage(INSTRUMENTATION_TEST) {
+    AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+            script,
+            new AvdConfig(),
+            "debug",
+            getTestInstrumentationRunnerName,
+            new AndroidTestConfig(
+                    "assembleAndroidTest",
+                    "build/outputs/androidTest-results/instrumental",
+                    "build/reports/androidTests/instrumental",
+                    true,
+                    0
             )
-        },
-        pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        }
-]
+    )
+}
+
+def staticCodeAnalysisStage = pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
+    AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
+}
+//endregion
+
+if(isSourceBranchProjectSnapshot(sourceBranch)){
+    pipeline.stages = [
+            preMergeStage,
+            buildStage,
+            unitTestStage
+    ]
+} else if (isSourceBranchRelease(sourceBranch)){
+    pipeline.stages = [
+            preMergeStage,
+            checkConfigurationIsNotProjectSnapshotStage,
+            checkStableModulesInArtifactoryStage,
+            checkModulesInDependencyTreeOfStableModuleAlsoStableStage,
+            checkReleaseNotChangedStage,
+            checkBuildTemplateStage,
+            pipeline.stage(CHECKS_RESULT) {
+                def checksPassed = true
+                [
+                        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+                        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+                        CHECK_RELEASE_NOTES_VALID,
+                        CHECKS_BUILD_TEMPLATE
+                ].each { stageName ->
+                    def stageResult = pipeline.getStage(stageName).result
+                    checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+                    if (!checksPassed) {
+                        script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
+                    }
+                }
+
+                if (!checksPassed) {
+                    script.error("Checks Failed")
+                }
+            },
+            buildStage,
+            unitTestStage,
+            instrumentationTestStage,
+            staticCodeAnalysisStage
+    ]
+}else{
+    pipeline.stages = [
+            preMergeStage,
+            checkConfigurationIsNotProjectSnapshotStage,
+            checkStableModulesInArtifactoryStage,
+            checkStableModulesNotChangedStage,
+            checkUnstableModulesDoNotBecameStableStage,
+            checkModulesInDependencyTreeOfStableModuleAlsoStableStage,
+            checkReleaseNotChangedStage,
+            checkReleaseNotesChangedStage,
+            checkBuildTemplateStage,
+            pipeline.stage(CHECKS_RESULT) {
+                def checksPassed = true
+                [
+                        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+                        CHECK_STABLE_MODULES_NOT_CHANGED,
+                        CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
+                        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+                        CHECK_RELEASE_NOTES_VALID,
+                        CHECK_RELEASE_NOTES_CHANGED,
+                        CHECKS_BUILD_TEMPLATE
+                ].each { stageName ->
+                    def stageResult = pipeline.getStage(stageName).result
+                    checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+                    if (!checksPassed) {
+                        script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
+                    }
+                }
+
+                if (!checksPassed) {
+                    script.error("Checks Failed")
+                }
+            },
+            buildStage,
+            unitTestStage,
+            instrumentationTestStage,
+            staticCodeAnalysisStage
+    ]
+}
 
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
