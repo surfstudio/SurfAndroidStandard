@@ -2,7 +2,6 @@ package ru.surfstudio.android.plugin
 
 import com.google.gson.GsonBuilder
 import org.gradle.api.GradleException
-import java.io.File
 
 /**
  * Extension for version plugin
@@ -21,5 +20,6 @@ open class AndroidStandardVersionExtension {
     }
 
     fun version(name: String): String = androidStandardMap[name]
-        ?: throw GradleException("No Android-Standard version associated with $name")
+            ?: throw GradleException("No Android-Standard version associated with $name. androidStandardMap = $androidStandardMap")
+
 }
