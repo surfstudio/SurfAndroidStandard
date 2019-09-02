@@ -37,4 +37,6 @@ dependencies {
             null, //todo remove for real app
             "LOCAL"  //todo remove for real app
     )
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
 }
