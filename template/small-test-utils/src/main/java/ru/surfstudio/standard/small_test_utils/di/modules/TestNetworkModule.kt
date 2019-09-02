@@ -16,7 +16,7 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.i_network.network.BaseUrl
 import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
-import ru.surfstudio.standard.template.test_utils.BuildConfig
+import ru.surfstudio.android.template.test_utils.BuildConfig
 import ru.surfstudio.standard.i_network.network.CallAdapterFactory
 import ru.surfstudio.standard.i_network.TEST_API_URL
 

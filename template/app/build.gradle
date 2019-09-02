@@ -50,12 +50,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-        transitive = true
-    }
-
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-    implementation "androidx.multidex:multidex:$multidexVersion"
     implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
