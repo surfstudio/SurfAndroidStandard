@@ -15,6 +15,7 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 // Stage names
 
+def BUILD_STAGES = 'Build Stages'
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -233,86 +234,91 @@ def instrumentationTestStage = pipeline.stage(INSTRUMENTATION_TEST) {
 def staticCodeAnalysisStage = pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
     AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
 }
+
+//Must be last in stages definition
+def initStages = pipeline.stage(BUILD_STAGES) {
+    if (isSourceBranchProjectSnapshot(script, sourceBranch)) {
+        script.echo "DEV_INFO 3"
+        pipeline.stages.addAll(
+                preMergeStage,
+                buildStage,
+                unitTestStage
+        )
+    } else if (isSourceBranchRelease(sourceBranch)) {
+        pipeline.stages.addAll(
+                preMergeStage,
+                checkConfigurationIsNotProjectSnapshotStage,
+                checkStableModulesInArtifactoryStage,
+                checkModulesInDependencyTreeOfStableModuleAlsoStableStage,
+                checkReleaseNotChangedStage,
+                checkBuildTemplateStage,
+                pipeline.stage(CHECKS_RESULT) {
+                    def checksPassed = true
+                    [
+                            CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+                            CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+                            CHECK_RELEASE_NOTES_VALID,
+                            CHECKS_BUILD_TEMPLATE
+                    ].each { stageName ->
+                        def stageResult = pipeline.getStage(stageName).result
+                        checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+                        if (!checksPassed) {
+                            script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
+                        }
+                    }
+
+                    if (!checksPassed) {
+                        script.error("Checks Failed")
+                    }
+                },
+                buildStage,
+                unitTestStage,
+                instrumentationTestStage,
+                staticCodeAnalysisStage
+        )
+    } else {
+        pipeline.stages.addAll(
+                preMergeStage,
+                checkConfigurationIsNotProjectSnapshotStage,
+                checkStableModulesInArtifactoryStage,
+                checkStableModulesNotChangedStage,
+                checkUnstableModulesDoNotBecameStableStage,
+                checkModulesInDependencyTreeOfStableModuleAlsoStableStage,
+                checkReleaseNotChangedStage,
+                checkReleaseNotesChangedStage,
+                checkBuildTemplateStage,
+                pipeline.stage(CHECKS_RESULT) {
+                    def checksPassed = true
+                    [
+                            CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+                            CHECK_STABLE_MODULES_NOT_CHANGED,
+                            CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
+                            CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+                            CHECK_RELEASE_NOTES_VALID,
+                            CHECK_RELEASE_NOTES_CHANGED,
+                            CHECKS_BUILD_TEMPLATE
+                    ].each { stageName ->
+                        def stageResult = pipeline.getStage(stageName).result
+                        checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+                        if (!checksPassed) {
+                            script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
+                        }
+                    }
+
+                    if (!checksPassed) {
+                        script.error("Checks Failed")
+                    }
+                },
+                buildStage,
+                unitTestStage,
+                instrumentationTestStage,
+                staticCodeAnalysisStage
+        )
+    }
+}
 //endregion
 
-if(isSourceBranchProjectSnapshot(script, sourceBranch)){
-    script.echo "DEV_INFO 3"
-    pipeline.stages = [
-            preMergeStage,
-            buildStage,
-            unitTestStage
-    ]
-} else if (isSourceBranchRelease(sourceBranch)){
-    pipeline.stages = [
-            preMergeStage,
-            checkConfigurationIsNotProjectSnapshotStage,
-            checkStableModulesInArtifactoryStage,
-            checkModulesInDependencyTreeOfStableModuleAlsoStableStage,
-            checkReleaseNotChangedStage,
-            checkBuildTemplateStage,
-            pipeline.stage(CHECKS_RESULT) {
-                def checksPassed = true
-                [
-                        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
-                        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
-                        CHECK_RELEASE_NOTES_VALID,
-                        CHECKS_BUILD_TEMPLATE
-                ].each { stageName ->
-                    def stageResult = pipeline.getStage(stageName).result
-                    checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
-                    if (!checksPassed) {
-                        script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
-                    }
-                }
-
-                if (!checksPassed) {
-                    script.error("Checks Failed")
-                }
-            },
-            buildStage,
-            unitTestStage,
-            instrumentationTestStage,
-            staticCodeAnalysisStage
-    ]
-}else{
-    pipeline.stages = [
-            preMergeStage,
-            checkConfigurationIsNotProjectSnapshotStage,
-            checkStableModulesInArtifactoryStage,
-            checkStableModulesNotChangedStage,
-            checkUnstableModulesDoNotBecameStableStage,
-            checkModulesInDependencyTreeOfStableModuleAlsoStableStage,
-            checkReleaseNotChangedStage,
-            checkReleaseNotesChangedStage,
-            checkBuildTemplateStage,
-            pipeline.stage(CHECKS_RESULT) {
-                def checksPassed = true
-                [
-                        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
-                        CHECK_STABLE_MODULES_NOT_CHANGED,
-                        CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
-                        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
-                        CHECK_RELEASE_NOTES_VALID,
-                        CHECK_RELEASE_NOTES_CHANGED,
-                        CHECKS_BUILD_TEMPLATE
-                ].each { stageName ->
-                    def stageResult = pipeline.getStage(stageName).result
-                    checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
-                    if (!checksPassed) {
-                        script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
-                    }
-                }
-
-                if (!checksPassed) {
-                    script.error("Checks Failed")
-                }
-            },
-            buildStage,
-            unitTestStage,
-            instrumentationTestStage,
-            staticCodeAnalysisStage
-    ]
-}
+pipeline.stages = [initStages]
 
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
