@@ -359,6 +359,6 @@ def static isSourceBranchRelease(String sourceBranch) {
 
 def static isDestinationBranchProjectSnapshot(script, String destinationBranch) {
     script.echo "DEV_INFO 1 sourceBranch = $destinationBranch"
-    script.echo "DEV_INFO 2 ${sourceBranch.startsWith("project-snapshot/")}"
+    script.echo "DEV_INFO 2 ${destinationBranch.startsWith("project-snapshot/")}"
     return destinationBranch.startsWith("project-snapshot/")
 }
