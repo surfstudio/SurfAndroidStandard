@@ -116,42 +116,48 @@ pipeline.initializeBody = {
     CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
+def preMergeStage = pipeline.stage(PRE_MERGE) {
+    CommonUtil.safe(script) {
+        script.sh "git reset --merge" //revert previous failed merge
+    }
+
+    script.git(
+            url: pipeline.repoUrl,
+            credentialsId: pipeline.repoCredentialsId,
+            branch: destinationBranch
+    )
+
+    lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
+
+    script.sh "git checkout origin/$sourceBranch"
+
+    RepositoryUtil.saveCurrentGitCommitHash(script)
+
+    //local merge with destination
+    script.sh "git merge origin/$destinationBranch --no-ff"
+}
+
+def checkConfigurationIsNotProjectSnapshotStage = pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
+    script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
+}
+
+def checkStableModulesInArtifactoryStage = pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+    withArtifactoryCredentials(script) {
+        script.echo "artifactory user: ${script.env.surf_maven_username}"
+        script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
+    }
+
+    withBintrayCredentials(script) {
+        script.echo "bintray user: ${script.env.surf_bintray_username}"
+        script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
+    }
+
+}
+
 pipeline.stages = [
-        pipeline.stage(PRE_MERGE) {
-            CommonUtil.safe(script) {
-                script.sh "git reset --merge" //revert previous failed merge
-            }
-
-            script.git(
-                    url: pipeline.repoUrl,
-                    credentialsId: pipeline.repoCredentialsId,
-                    branch: destinationBranch
-            )
-
-            lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
-
-            script.sh "git checkout origin/$sourceBranch"
-
-            RepositoryUtil.saveCurrentGitCommitHash(script)
-
-            //local merge with destination
-            script.sh "git merge origin/$destinationBranch --no-ff"
-        },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
-            script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
-        },
-        pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            withArtifactoryCredentials(script) {
-                script.echo "artifactory user: ${script.env.surf_maven_username}"
-                script.sh("./gradlew checkStableArtifactsExistInArtifactoryTask")
-            }
-
-            withBintrayCredentials(script) {
-                script.echo "bintray user: ${script.env.surf_bintray_username}"
-                script.sh("./gradlew checkStableArtifactsExistInBintrayTask")
-            }
-
-        },
+        preMergeStage,
+        checkConfigurationIsNotProjectSnapshotStage,
+        checkStableModulesInArtifactoryStage,
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
@@ -256,4 +262,12 @@ def static withBintrayCredentials(script, body) {
     ]) {
         body()
     }
+}
+
+def static isSourceBranchRelease(String sourceBranch) {
+    return sourceBranch.startsWith("release/")
+}
+
+def static isSourceBranchProjectSnapshot(String sourceBranch) {
+    return sourceBranch.startsWith("project-snapshot/")
 }
