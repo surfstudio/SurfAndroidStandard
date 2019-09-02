@@ -237,8 +237,7 @@ def staticCodeAnalysisStage = pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy
 
 //Must be last in stages definition
 def initStages = pipeline.stage(BUILD_STAGES) {
-    if (isDestinationBranchProjectSnapshot(script, destinationBranch)) {
-        script.echo "DEV_INFO 3"
+    if (isDestinationBranchProjectSnapshot(destinationBranch)) {
         pipeline.stages.addAll(
                 buildStage,
                 unitTestStage
@@ -357,8 +356,6 @@ def static isSourceBranchRelease(String sourceBranch) {
     return sourceBranch.startsWith("release/")
 }
 
-def static isDestinationBranchProjectSnapshot(script, String destinationBranch) {
-    script.echo "DEV_INFO 1 sourceBranch = $destinationBranch"
-    script.echo "DEV_INFO 2 ${destinationBranch.startsWith("project-snapshot/")}"
+def static isDestinationBranchProjectSnapshot(String destinationBranch) {
     return destinationBranch.startsWith("project-snapshot/")
 }
