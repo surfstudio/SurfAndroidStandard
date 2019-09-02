@@ -15,8 +15,9 @@
  */
 package ru.surfstudio.android.mvp.widget.delegate.factory;
 
-import androidx.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import java.util.List;
 

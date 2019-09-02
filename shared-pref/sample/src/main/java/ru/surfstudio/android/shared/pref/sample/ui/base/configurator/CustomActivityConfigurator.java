@@ -2,9 +2,9 @@ package ru.surfstudio.android.shared.pref.sample.ui.base.configurator;
 
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule;
-import ru.surfstudio.android.shared.pref.sample.ui.base.dagger.activity.CustomActivityComponent;
 import ru.surfstudio.android.shared.pref.sample.app.CustomApp;
 import ru.surfstudio.android.shared.pref.sample.app.dagger.CustomAppComponent;
+import ru.surfstudio.android.shared.pref.sample.ui.base.dagger.activity.CustomActivityComponent;
 import ru.surfstudio.android.shared.pref.sample.ui.base.dagger.activity.DaggerCustomActivityComponent;
 
 /**

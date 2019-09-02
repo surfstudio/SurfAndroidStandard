@@ -16,6 +16,7 @@
 package ru.surfstudio.android.recycler.extension.snaphelper;
 
 import android.content.Context;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
