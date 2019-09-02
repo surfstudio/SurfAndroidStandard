@@ -235,7 +235,7 @@ def staticCodeAnalysisStage = pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy
 }
 //endregion
 
-if(isSourceBranchProjectSnapshot(sourceBranch)){
+if(isSourceBranchProjectSnapshot(script, sourceBranch)){
     script.echo "DEV_INFO 3"
     pipeline.stages = [
             preMergeStage,
