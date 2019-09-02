@@ -54,7 +54,7 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>(), Fragment
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
     private fun initListeners() {
-        button_to_fragment_2.setOnClickListener { presenter.openFragment2() }
+        button_to_fragment_2.setOnClickListener { presenter.openResultFragment() }
     }
 
     fun showMessage(data: String) {

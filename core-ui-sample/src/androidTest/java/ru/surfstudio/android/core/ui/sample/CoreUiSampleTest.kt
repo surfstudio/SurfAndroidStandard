@@ -5,7 +5,7 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.junit.Test
-import ru.surfstudio.android.core.ui.sample.ui.screen.fragment_2.FRAGMENT_2_RESULT
+import ru.surfstudio.android.core.ui.sample.ui.screen.result_fragment.FRAGMENT_2_RESULT
 import ru.surfstudio.android.core.ui.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.sample.common.test.base.BaseSampleTest
 import ru.surfstudio.android.sample.common.test.utils.TextUtils.checkViewText

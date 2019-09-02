@@ -4,8 +4,8 @@ import android.app.FragmentTransaction
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
-import ru.surfstudio.android.core.ui.sample.ui.screen.fragment_1.Fragment1Route
-import ru.surfstudio.android.core.ui.sample.ui.screen.fragment_2.Fragment2Route
+import ru.surfstudio.android.core.ui.sample.ui.screen.main_fragment.MainFragmentRoute
+import ru.surfstudio.android.core.ui.sample.ui.screen.result_fragment.ResultFragmentRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
@@ -26,15 +26,15 @@ internal class MainPresenter @Inject constructor(
     }
 
     override fun onFirstLoad() {
-        subscribe(fragmentNavigator.observeResult(Fragment2Route::class.java)) {
+        subscribe(fragmentNavigator.observeResult(ResultFragmentRoute::class.java)) {
             if (it.isSuccess) {
                 view.showMessage(it.data)
             }
         }
-        fragmentNavigator.add(Fragment1Route(), false, FragmentTransaction.TRANSIT_NONE)
+        fragmentNavigator.add(MainFragmentRoute(), false, FragmentTransaction.TRANSIT_NONE)
     }
 
-    fun openFragment2() {
-        fragmentNavigator.replaceFragmentForResultFromActivity(Fragment2Route(), FragmentTransaction.TRANSIT_NONE)
+    fun openResultFragment() {
+        fragmentNavigator.replaceFragmentForResultFromActivity(ResultFragmentRoute(), FragmentTransaction.TRANSIT_NONE)
     }
 }

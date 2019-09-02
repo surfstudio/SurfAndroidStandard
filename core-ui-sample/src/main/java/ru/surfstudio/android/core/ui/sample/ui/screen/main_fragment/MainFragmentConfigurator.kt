@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.sample.ui.screen.fragment_2
+package ru.surfstudio.android.core.ui.sample.ui.screen.main_fragment
 
 import android.os.Bundle
 import dagger.Component
@@ -15,17 +15,17 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivi
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultFragmentScreenModule
 
-class Fragment2Configurator(bundle: Bundle): DefaultFragmentScreenConfigurator(bundle) {
+class MainFragmentConfigurator(bundle: Bundle) : DefaultFragmentScreenConfigurator(bundle) {
 
     @PerScreen
     @Component(
             dependencies = [DefaultActivityComponent::class],
             modules = [DefaultFragmentScreenModule::class, FragmentModule::class]
     )
-    internal interface FragmentComponent : ScreenComponent<Fragment2View>
+    internal interface FragmentComponent : ScreenComponent<MainFragmentView>
 
     @Module
-    internal class FragmentModule(route: Fragment2Route) : DefaultCustomScreenModule<Fragment2Route>(route) {
+    internal class FragmentModule(route: MainFragmentRoute) : DefaultCustomScreenModule<MainFragmentRoute>(route) {
 
         @Provides
         fun provideChildFragmentNavigator(
@@ -41,10 +41,10 @@ class Fragment2Configurator(bundle: Bundle): DefaultFragmentScreenConfigurator(b
             fragmentScreenModule: DefaultFragmentScreenModule?,
             args: Bundle?
     ): ScreenComponent<*> {
-        return DaggerFragment2Configurator_FragmentComponent.builder()
+        return DaggerMainFragmentConfigurator_FragmentComponent.builder()
                 .defaultActivityComponent(parentComponent)
                 .defaultFragmentScreenModule(fragmentScreenModule)
-                .fragmentModule(FragmentModule(Fragment2Route()))
+                .fragmentModule(FragmentModule(MainFragmentRoute()))
                 .build()
     }
 }

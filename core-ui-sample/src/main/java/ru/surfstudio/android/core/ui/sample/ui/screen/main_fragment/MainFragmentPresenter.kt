@@ -1,32 +1,32 @@
-package ru.surfstudio.android.core.ui.sample.ui.screen.fragment_1
+package ru.surfstudio.android.core.ui.sample.ui.screen.main_fragment
 
 import android.app.FragmentTransaction
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
-import ru.surfstudio.android.core.ui.sample.ui.screen.fragment_2.Fragment2Route
+import ru.surfstudio.android.core.ui.sample.ui.screen.result_fragment.ResultFragmentRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 @PerScreen
-class Fragment1Presenter @Inject constructor(
+class MainFragmentPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
-        private val route: Fragment1Route,
+        private val route: MainFragmentRoute,
         private val fragmentNavigator: FragmentNavigator
-) : BasePresenter<Fragment1View>(
+) : BasePresenter<MainFragmentView>(
         basePresenterDependency
 ) {
 
     override fun onFirstLoad() {
         super.onFirstLoad()
-        subscribe(fragmentNavigator.observeResult<String>(Fragment2Route::class.java)) {
+        subscribe(fragmentNavigator.observeResult<String>(ResultFragmentRoute::class.java)) {
             if (it.isSuccess) {
                 view.showMessage(it.data)
             }
         }
     }
 
-    fun openFragment2() {
-        fragmentNavigator.replaceFragmentForResult(route, Fragment2Route(), FragmentTransaction.TRANSIT_NONE)
+    fun openResultFragment() {
+        fragmentNavigator.replaceFragmentForResult(route, ResultFragmentRoute(), FragmentTransaction.TRANSIT_NONE)
     }
 }
