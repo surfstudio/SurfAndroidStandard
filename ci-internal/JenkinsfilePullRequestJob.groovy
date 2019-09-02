@@ -237,16 +237,14 @@ def staticCodeAnalysisStage = pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy
 
 //Must be last in stages definition
 def initStages = pipeline.stage(BUILD_STAGES) {
-    if (isSourceBranchProjectSnapshot(script, sourceBranch)) {
+    if (isDestinationBranchProjectSnapshot(script, destinationBranch)) {
         script.echo "DEV_INFO 3"
         pipeline.stages.addAll(
-                preMergeStage,
                 buildStage,
                 unitTestStage
         )
     } else if (isSourceBranchRelease(sourceBranch)) {
         pipeline.stages.addAll(
-                preMergeStage,
                 checkConfigurationIsNotProjectSnapshotStage,
                 checkStableModulesInArtifactoryStage,
                 checkModulesInDependencyTreeOfStableModuleAlsoStableStage,
@@ -278,7 +276,6 @@ def initStages = pipeline.stage(BUILD_STAGES) {
         )
     } else {
         pipeline.stages.addAll(
-                preMergeStage,
                 checkConfigurationIsNotProjectSnapshotStage,
                 checkStableModulesInArtifactoryStage,
                 checkStableModulesNotChangedStage,
@@ -318,7 +315,10 @@ def initStages = pipeline.stage(BUILD_STAGES) {
 }
 //endregion
 
-pipeline.stages = [initStages]
+pipeline.stages = [
+        preMergeStage,
+        initStages
+]
 
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
@@ -357,8 +357,8 @@ def static isSourceBranchRelease(String sourceBranch) {
     return sourceBranch.startsWith("release/")
 }
 
-def static isSourceBranchProjectSnapshot(script, String sourceBranch) {
-    script.echo "DEV_INFO 1 sourceBranch = $sourceBranch"
+def static isDestinationBranchProjectSnapshot(script, String destinationBranch) {
+    script.echo "DEV_INFO 1 sourceBranch = $destinationBranch"
     script.echo "DEV_INFO 2 ${sourceBranch.startsWith("project-snapshot/")}"
-    return sourceBranch.startsWith("project-snapshot/")
+    return destinationBranch.startsWith("project-snapshot/")
 }
