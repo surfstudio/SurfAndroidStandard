@@ -1,5 +1,5 @@
-import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 import ru.surfstudio.android.build.ConfigInfoProvider
+import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 
 group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
 version = ConfigInfoProvider.getVersion()
@@ -18,7 +18,7 @@ artifacts {
 uploadArchives.repositories.mavenDeployer {
     pom {
         groupId = group
-        artifactId = "android-standard"
+        artifactId = "version-plugin"
         version = ConfigInfoProvider.getVersion()
     }
 
