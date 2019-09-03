@@ -78,7 +78,7 @@ ext.configureDeploy = { context ->
                 pom.whenConfigured {
                     p ->
                         p.dependencies = p.dependencies.findAll {
-                            dep -> dep.groupId != "android-standard"
+                            dep -> dep.groupId != rootDir.name
                         }
                 }
             } // repositories.mavenDeployer
