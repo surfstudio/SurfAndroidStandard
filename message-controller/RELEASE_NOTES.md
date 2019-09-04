@@ -1,6 +1,6 @@
 [TOC]
 # Message-controller Release Notes
-## 0.5.0-alpha.2
+## 0.5.0-alpha.0
 ##### Message-controller
 * TODO
 ## 0.2.1

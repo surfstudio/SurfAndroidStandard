@@ -1,6 +1,6 @@
 [TOC]
 # Logger Release Notes
-## 0.5.0-alpha.2
+## 0.5.0-alpha.0
 ##### Logger
 * TODO
 ## 0.3.0
