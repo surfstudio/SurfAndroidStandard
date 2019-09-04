@@ -16,14 +16,15 @@
 package ru.surfstudio.android.recycler.extension.snaphelper;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
-import android.util.DisplayMetrics;
-import android.view.View;
 
 /**
  * при флинге позволяет скроллить RecyclerView только на количество элементов, умещающееся в

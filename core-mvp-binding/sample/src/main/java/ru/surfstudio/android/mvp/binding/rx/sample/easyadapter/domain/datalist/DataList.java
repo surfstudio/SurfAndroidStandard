@@ -18,6 +18,8 @@ package ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.domain.datalist;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,8 +30,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-
-import androidx.annotation.NonNull;
 
 /**
  * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>

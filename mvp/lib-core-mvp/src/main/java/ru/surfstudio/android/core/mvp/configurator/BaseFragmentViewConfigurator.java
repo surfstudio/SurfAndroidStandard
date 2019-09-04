@@ -16,6 +16,7 @@
 package ru.surfstudio.android.core.mvp.configurator;
 
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 
 import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
