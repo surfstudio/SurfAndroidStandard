@@ -1,0 +1,90 @@
+/*
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
+package ru.surfstudio.android.core.mvp.delegate;
+
+import android.os.Bundle;
+import android.os.PersistableBundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import java.util.List;
+
+import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;
+import ru.surfstudio.android.core.mvp.fragment.CoreFragmentViewInterface;
+import ru.surfstudio.android.core.mvp.scope.FragmentViewPersistentScope;
+import ru.surfstudio.android.core.mvp.state.FragmentViewScreenState;
+import ru.surfstudio.android.core.ui.delegate.fragment.FragmentCompletelyDestroyChecker;
+import ru.surfstudio.android.core.ui.delegate.fragment.FragmentDelegate;
+import ru.surfstudio.android.core.ui.event.FragmentScreenEventDelegateManager;
+import ru.surfstudio.android.core.ui.event.base.resolver.ScreenEventResolver;
+import ru.surfstudio.android.core.ui.scope.PersistentScopeStorage;
+
+/**
+ * делегат для фрагмент вью, кроме логики базового делегата добавляет управление предентерами
+ */
+public class FragmentViewDelegate extends FragmentDelegate {
+
+    private CoreFragmentViewInterface coreFragmentView;
+    private Fragment fragment;
+
+    public <F extends Fragment & CoreFragmentViewInterface> FragmentViewDelegate(
+            F fragment,
+            PersistentScopeStorage scopeStorage,
+            List<ScreenEventResolver> eventResolvers,
+            FragmentCompletelyDestroyChecker completelyDestroyChecker) {
+        super(fragment, scopeStorage, eventResolvers, completelyDestroyChecker);
+        this.coreFragmentView = fragment;
+        this.fragment = fragment;
+    }
+
+    @Override
+    protected void prepareView(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle ignore) {
+        coreFragmentView.bindPresenters();
+        super.prepareView(savedInstanceState, ignore);
+    }
+
+    @Override
+    protected void notifyScreenStateAboutOnCreate(@Nullable Bundle savedInstanceState) {
+        this.getScreenState().onCreate(fragment, coreFragmentView, savedInstanceState);
+    }
+
+    @NonNull
+    @Override
+    protected FragmentViewPersistentScope createPersistentScope(List<ScreenEventResolver> eventResolvers) {
+        FragmentScreenEventDelegateManager eventDelegateManager = createFragmentScreenEventDelegateManager(eventResolvers);
+        FragmentViewScreenState screenState = new FragmentViewScreenState();
+        BaseFragmentViewConfigurator configurator = coreFragmentView.createConfigurator();
+        FragmentViewPersistentScope persistentScope = new FragmentViewPersistentScope(
+                eventDelegateManager,
+                screenState,
+                configurator,
+                getScopeId());
+        configurator.setPersistentScope(persistentScope);
+        return persistentScope;
+    }
+
+    @Override
+    public FragmentViewPersistentScope getPersistentScope() {
+        return (FragmentViewPersistentScope) super.getPersistentScope();
+    }
+
+    @Override
+    public FragmentViewScreenState getScreenState() {
+        return getPersistentScope().getScreenState();
+    }
+}

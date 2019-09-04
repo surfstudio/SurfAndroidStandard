@@ -1,7 +1,0 @@
-apply from: '../androidModule.gradle'
-
-gradle.ext.configAndroidStandardDependencies(this, [
-        'shared-pref',
-        'logger',
-        'rx-extension'
-])
