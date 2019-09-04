@@ -122,11 +122,11 @@ pipeline.initializeBody = {
 }
 
 //region Stages
-def codeStyleFormattingStage = stage(CODE_STYLE_FORMATTING, StageStrategy.SKIP_STAGE) {
+def codeStyleFormattingStage = pipeline.stage(CODE_STYLE_FORMATTING, StageStrategy.SKIP_STAGE) {
     AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
     hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
 }
-def updateCurrentCommitHashAfterFormatStage =  stage(
+def updateCurrentCommitHashAfterFormatStage =  pipeline.stage(
         UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
         StageStrategy.SKIP_STAGE,
         false
