@@ -27,6 +27,7 @@ def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
 def MIRROR_COMPONENTS = 'Mirror Components'
+def CHECKS_BUILD_TEMPLATE = 'Checks Build Template'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
@@ -146,14 +147,12 @@ pipeline.stages = [
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         },
-        //TODO имплементировать после того как остальные модули будут приведены к новому стандарту
-//        pipeline.stage(CHECK_ANDROID_STANDARD_TEMPLATE) {
-//            String basePath = script.env.WORKSPACE
-//            script.sh "rm -R $androidStandardTemplateName && git clone -b main $androidStandardTemplateUrl"
-//            script.sh "./gradlew generateModulesNamesFile"
-//            script.sh "printf 'androidStandardDebugDir=$basePath\nandroidStandardDebugMode=true' > $androidStandardTemplateName/android-standard/androidStandard.properties "
-//            script.sh "cd $androidStandardTemplateName && chmod +x gradlew && cd .. && ./gradlew clean build -p $androidStandardTemplateName --stacktrace"
-//        },
+        pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew generateModulesNamesFile")
+            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
+            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+        },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
