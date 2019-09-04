@@ -20,6 +20,6 @@ open class AndroidStandardVersionExtension {
     }
 
     fun version(name: String): String = androidStandardMap[name]
-            ?: throw GradleException("No Android-Standard version associated with $name. androidStandardMap = $androidStandardMap")
+            ?: throw GradleException("No Android-Standard version associated with $name")
 
 }
