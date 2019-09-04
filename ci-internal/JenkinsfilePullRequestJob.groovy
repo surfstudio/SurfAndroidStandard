@@ -16,6 +16,8 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 // Stage names
 
 def BUILD_STAGES = 'Build Stages'
+def CODE_STYLE_FORMATTING = 'Code Style Formatting'
+def UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT = "Update current commit hash after format"
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -59,6 +61,8 @@ def getTestInstrumentationRunnerName = { script, prefix ->
 //init
 def script = this
 def pipeline = new EmptyScmPipeline(script)
+
+def hasChanges = false
 
 pipeline.init()
 
@@ -118,6 +122,20 @@ pipeline.initializeBody = {
 }
 
 //region Stages
+def codeStyleFormattingStage = stage(CODE_STYLE_FORMATTING, StageStrategy.SKIP_STAGE) {
+    AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
+    hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
+}
+def updateCurrentCommitHashAfterFormatStage =  stage(
+        UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
+        StageStrategy.SKIP_STAGE,
+        false
+) {
+    if (hasChanges) {
+        RepositoryUtil.saveCurrentGitCommitHash(script)
+    }
+}
+
 def preMergeStage = pipeline.stage(PRE_MERGE) {
     CommonUtil.safe(script) {
         script.sh "git reset --merge" //revert previous failed merge
@@ -315,6 +333,8 @@ def initStages = pipeline.stage(BUILD_STAGES) {
 //endregion
 
 pipeline.stages = [
+        codeStyleFormattingStage,
+        updateCurrentCommitHashAfterFormatStage,
         preMergeStage,
         initStages
 ]
