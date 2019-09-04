@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="debug_item_height">60dp</dimen>
+    <dimen name="custom_controller_description_height">40dp</dimen>
+    <dimen name="text_button_height">36dp</dimen>
+</resources>
