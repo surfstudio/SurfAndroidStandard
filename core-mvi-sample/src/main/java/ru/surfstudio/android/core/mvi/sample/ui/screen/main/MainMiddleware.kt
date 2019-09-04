@@ -16,8 +16,8 @@ class MainMiddleware @Inject constructor(
         NavigatorMiddleware<MainEvent> {
 
     override fun transform(eventStream: Observable<MainEvent>) = transformations(eventStream) {
+        +mapNavigationDefault()
         +openScreenForResult(InputFormActivityRoute::class.java, InputFormResult())
-        +openScreenDefault()
         +react<InputFormResult> { messageController.show(it.result.data) }
     }
 }

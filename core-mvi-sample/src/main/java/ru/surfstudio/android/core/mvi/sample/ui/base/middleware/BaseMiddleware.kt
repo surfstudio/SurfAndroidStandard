@@ -3,7 +3,6 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.middleware
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
 import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvp.binding.rx.builders.UiBuilderFinish
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
