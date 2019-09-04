@@ -1,5 +1,9 @@
 [TOC]
 # Security-sample-template Release Notes
+## 0.5.0-alpha.1
+##### Security
+* SBB-2697 Исправлено возвращаемое значение метода
+```CertificatePinnerCreator.extractPeerCertificate```
 ## 0.5.0-alpha.0
 ##### Security
 * TODO
