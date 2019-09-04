@@ -1,0 +1,22 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.imageloader.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "imageloader")
+    DependencyConfigurator.projectImplementation(project, "sample-common")
+
+    DependencyConfigurator.implementation(project, "io.reactivex.rxjava2:rxjava")
+    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
+    DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
+
+    DependencyConfigurator.api(project, "com.caverock:androidsvg-aar")
+
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}

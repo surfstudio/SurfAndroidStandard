@@ -1,9 +1,0 @@
-apply from: '../androidModule.gradle'
-
-dependencies {
-    api "com.google.firebase:firebase-core:$firebaseCoreVersion"
-}
-
-gradle.ext.configAndroidStandardDependencies(this, [
-        'analytics'
-])
