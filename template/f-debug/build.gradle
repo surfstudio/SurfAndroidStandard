@@ -4,9 +4,9 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'ru.surfstudio.android'
 
 dependencies {
-    implementation project("$templatePrefix:base")
-    implementation project("$templatePrefix:i-push-notification")
-    implementation project("$templatePrefix:i-network")
+    implementation project(":base")
+    implementation project(":i-push-notification")
+    implementation project(":i-network")
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
@@ -31,8 +31,8 @@ dependencies {
     //rangebar
     implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
 
-    api project("$templatePrefix:domain")
-    implementation project("$templatePrefix:i-push-notification")
+    api project(":domain")
+    implementation project(":i-push-notification")
 
     gradle.ext.androidStandard.api(
             this,

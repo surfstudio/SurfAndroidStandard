@@ -3,11 +3,6 @@
 Скрипты позволяют переключаться между локальным искодным кодом android-standard и артефактами из artifactory.
 Использование локального исходного кода позволит быстро тестировать изменения в android-standard на своем проекте без деплоя артефактов.
 
-##Переключение источника android-standard
-
-1. Изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
-2. Выполнить ```File - Sync Project with Gradle Files```.
-
 ##Первичная настройка на конкретной машине
 
 1. В локальном андроид стандарт запустить градл таск ```generateModulesNamesFile``` (из терминала ```./gradlew generateModulesNamesFile```)
@@ -20,6 +15,11 @@ androidStandardDebugDir=/full/path/to/your/local/android-standard
 androidStandardDebugMode=false
 ```
 3. Выполнить ```File - Sync Project with Gradle Files```.
+
+##Переключение источника android-standard
+
+1. Изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
+2. Выполнить ```File - Sync Project with Gradle Files```.
 
 ##Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект

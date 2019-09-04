@@ -105,6 +105,4 @@ ext {
     anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
     materialRangebarVersion = '1.4.4'           //https://bit.ly/2TxqAkm
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
-
-    templatePrefix=''
 }

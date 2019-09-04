@@ -36,12 +36,12 @@ android {
 }
 
 dependencies {
-    implementation project("$templatePrefix:base")
-    implementation project("$templatePrefix:base_feature")
-    implementation project("$templatePrefix:i-push-notification")
-    implementation project("$templatePrefix:f-auth")
-    implementation project("$templatePrefix:f-main")
-    implementation project("$templatePrefix:f-splash")
+    implementation project(":base")
+    implementation project(":base_feature")
+    implementation project(":i-push-notification")
+    implementation project(":f-auth")
+    implementation project(":f-main")
+    implementation project(":f-splash")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 

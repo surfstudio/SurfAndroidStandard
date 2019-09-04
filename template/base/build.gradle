@@ -3,7 +3,7 @@ apply plugin: 'ru.surfstudio.android'
 apply from: '../commonModule.gradle'
 
 dependencies {
-    api project("$templatePrefix:domain")
+    api project(":domain")
 
     gradle.ext.androidStandard.api(
             this,
