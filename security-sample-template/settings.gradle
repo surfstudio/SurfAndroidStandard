@@ -1,1 +1,0 @@
-include ':security-sample-template:security-sample', ':security-sample-template:security'

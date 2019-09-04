@@ -1,0 +1,61 @@
+import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/config.gradle"
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply from: "$rootDir/buildSrc/androidTestModule.gradle"
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.sampleMinSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.moduleVersionCode
+        versionName Components.getModuleVersion(project.name)
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "sample-dagger")
+    DependencyConfigurator.projectImplementation(project, "dagger-scope")
+    DependencyConfigurator.projectImplementation(project, "rxbus")
+    DependencyConfigurator.projectImplementation(project, "core-ui")
+    DependencyConfigurator.projectImplementation(project, "core-mvp")
+    DependencyConfigurator.projectImplementation(project, "rx-extension")
+    DependencyConfigurator.projectImplementation(project, "connection")
+    DependencyConfigurator.projectImplementation(project, "message-controller")
+    DependencyConfigurator.projectImplementation(project, "network")
+    DependencyConfigurator.projectImplementation(project, "activity-holder")
+    DependencyConfigurator.projectImplementation(project, "logger")
+    DependencyConfigurator.projectImplementation(project, "util-ktx")
+
+    DependencyConfigurator.implementation(project, "org.jetbrains.kotlin:kotlin-stdlib-jdk7")
+    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
+    DependencyConfigurator.implementation(project, "androidx.appcompat:appcompat")
+    DependencyConfigurator.implementation(project, "androidx.constraintlayout:constraintlayout")
+
+    DependencyConfigurator.projectAndroidTestImplementation(project, "sample-common")
+}
+
+task printTestInstrumentationRunnerName {
+    doLast {
+        println "$android.defaultConfig.testInstrumentationRunner"
+    }
+}
