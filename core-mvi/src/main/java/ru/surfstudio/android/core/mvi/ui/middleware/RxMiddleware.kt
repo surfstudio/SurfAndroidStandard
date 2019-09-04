@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.ResponseEvent
 import ru.surfstudio.android.core.mvi.ui.relation.StateEmitter
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.mapResponse
+import ru.surfstudio.android.core.mvp.binding.rx.response.type.mapResponse
 
 /**
  * [Middleware] с реализацией в Rx.

@@ -4,11 +4,11 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.PaginationEvent
 import ru.surfstudio.android.core.mvi.event.ResponseEvent
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.state.ResponseState
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.Response
+import ru.surfstudio.android.core.mvp.binding.rx.response.state.ResponseState
+import ru.surfstudio.android.core.mvp.binding.rx.response.type.Response
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.toOptional
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.*
+import ru.surfstudio.android.core.mvp.binding.rx.response.data.*
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.network.toObservable
 

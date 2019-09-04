@@ -1,7 +1,6 @@
-package ru.surfstudio.android.core.mvp.binding.rx.loadable.type
+package ru.surfstudio.android.core.mvp.binding.rx.response.type
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.EmptyErrorException
 
 /**
  * Тип загрузки данных уровня Interactor.

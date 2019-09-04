@@ -1,9 +1,9 @@
-package ru.surfstudio.android.core.mvp.binding.rx.loadable.state
+package ru.surfstudio.android.core.mvp.binding.rx.response.state
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.toOptional
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.ResponseUi
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.data.Loading
+import ru.surfstudio.android.core.mvp.binding.rx.response.data.ResponseUi
+import ru.surfstudio.android.core.mvp.binding.rx.response.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.filterValue
 import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER

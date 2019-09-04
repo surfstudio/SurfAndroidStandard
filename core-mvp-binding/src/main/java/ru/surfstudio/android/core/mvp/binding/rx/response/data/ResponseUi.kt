@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvp.binding.rx.loadable.data
+package ru.surfstudio.android.core.mvp.binding.rx.response.data
 
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 

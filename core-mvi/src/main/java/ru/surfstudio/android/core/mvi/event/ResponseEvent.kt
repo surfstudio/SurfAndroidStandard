@@ -1,6 +1,6 @@
 package ru.surfstudio.android.core.mvi.event
 
-import ru.surfstudio.android.core.mvp.binding.rx.loadable.type.Response
+import ru.surfstudio.android.core.mvp.binding.rx.response.type.Response
 
 /**
  * Событие асинхронной загрузки данных.

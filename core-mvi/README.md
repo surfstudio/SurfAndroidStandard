@@ -176,11 +176,11 @@ Middleware принимает в себя поток событий, транс�
 [redrxholder]: src/main/java/ru/surfstudio/android/core/mvi/ui/holder/ReducerRxStateHolder.kt
 [rxbnd]: src/main/java/ru/surfstudio/android/core/mvi/ui/binder/RxBinder.kt 
 
-[loading]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/data/Loading.kt
-[rspui]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/data/ResponseUi.kt
+[loading]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/response/data/Loading.kt
+[rspui]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/response/data/ResponseUi.kt
 [rspev]: src/main/java/ru/surfstudio/android/core/mvi/event/ResponseEvent.kt
-[rsp]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/event/Response.kt 
-[rspst]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/loadable/state/ResponseState.kt
+[rsp]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/response/event/Response.kt 
+[rspst]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/response/state/ResponseState.kt
 
 [state]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/domain/mvp/State.kt
 [cmd]: ../core-mvp-binding/src/main/java/ru/surfstudio/android/core/mvp/rx/domain/mvp/Command.kt
