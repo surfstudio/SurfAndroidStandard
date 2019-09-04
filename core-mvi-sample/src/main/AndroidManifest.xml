@@ -40,6 +40,10 @@
         <activity
             android:name=".ui.screen.list.ReactiveListActivityView"
             android:label="Complex list screen" />
+
+        <activity
+            android:name=".ui.screen.input.InputFormActivityView"
+            android:label="Input form screen" />
     </application>
 
 </manifest>

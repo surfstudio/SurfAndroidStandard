@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.sample.ui.screen.main
+package ru.surfstudio.android.core.mvi.sample.ui.screen.input
 
 import android.content.Intent
 import dagger.Component
@@ -23,16 +23,16 @@ import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityS
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityComponent
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule
 
-class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
+class InputFormScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
 
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
-            modules = [DefaultActivityScreenModule::class, MainScreenModule::class])
-    internal interface MainScreenComponent
-        : BindableScreenComponent<MainActivityView>
+            modules = [DefaultActivityScreenModule::class, InputFormScreenModule::class])
+    internal interface InputFormScreenComponent
+        : BindableScreenComponent<InputFormActivityView>
 
     @Module
-    internal class MainScreenModule {
+    internal class InputFormScreenModule {
         @Provides
         @PerScreen
         fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator = FragmentNavigator(activityProvider)
@@ -48,35 +48,35 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
                 errorHandler: ErrorHandler
         ) = BaseNavMiddlewareDependency(activityNavigator, fragmentNavigator, dialogNavigator, schedulersProvider, errorHandler)
 
-
-
         @Provides
         @PerScreen
         fun provideEventHub(
                 screenState: ScreenState,
                 screenEventDelegateManager: ScreenEventDelegateManager
-        ): BaseEventHub<MainEvent> = BaseEventHub(
+        ): BaseEventHub<InputFormEvent> = BaseEventHub(
                 screenState,
                 screenEventDelegateManager
-        ) { MainEvent.MainLifecycle(it) }
+        ) { InputFormEvent.InputFormLifecycle(it) }
 
         @PerScreen
         @Provides
         fun provideBinder(
                 basePresenterDependency: BasePresenterDependency,
-                eventHub: BaseEventHub<MainEvent>,
-                middleware: MainMiddleware
+                eventHub: BaseEventHub<InputFormEvent>,
+                middleware: InputFormMiddleware,
+                reactor: InputFormReactor,
+                stateHolder: InputFormStateHolder
         ): Any = BaseBinder(basePresenterDependency)
-                .apply { bind(eventHub, middleware) }
+                .apply { bind(eventHub, middleware, stateHolder, reactor) }
     }
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
                                        intent: Intent): ScreenComponent<*> {
-        return DaggerMainScreenConfigurator_MainScreenComponent.builder()
+        return DaggerInputFormScreenConfigurator_InputFormScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .mainScreenModule(MainScreenModule())
+                .inputFormScreenModule(InputFormScreenModule())
                 .build()
     }
 }

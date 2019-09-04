@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListEvent.*
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
 import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.PaginationMiddleware
 
@@ -31,9 +33,6 @@ class ReactiveListMiddleware @Inject constructor(
             +streamMap(::debounceQuery)
         }
     }
-
-    override fun flatMap(event: ReactiveListEvent): Observable<out ReactiveListEvent> =
-            skip()
 
     private fun debounceQuery(
             eventStream: Observable<ReactiveListEvent>

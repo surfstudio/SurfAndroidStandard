@@ -1,18 +1,23 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.main
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddleware
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddlewareDependency
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseNavMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.NavigatorMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormActivityRoute
+import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
+import ru.surfstudio.android.core.mvi.sample.ui.screen.main.MainEvent.*
 
 class MainMiddleware @Inject constructor(
-        baseMiddlewareDependency: BaseMiddlewareDependency
-) : BaseMiddleware<MainEvent>(baseMiddlewareDependency),
+        baseNavMiddlewareDependency: BaseNavMiddlewareDependency,
+        private val messageController: MessageController
+) : BaseNavMiddleware<MainEvent>(baseNavMiddlewareDependency),
         NavigatorMiddleware<MainEvent> {
 
-    override fun transform(eventStream: Observable<MainEvent>) =
-            eventStream.openScreenDefault()
-
-    override fun flatMap(event: MainEvent): Observable<out MainEvent> = skip()
+    override fun transform(eventStream: Observable<MainEvent>) = transformations(eventStream) {
+        +openScreenForResult(InputFormActivityRoute::class.java, InputFormResult())
+        +openScreenDefault()
+        +react<InputFormResult> { messageController.show(it.result.data) }
+    }
 }

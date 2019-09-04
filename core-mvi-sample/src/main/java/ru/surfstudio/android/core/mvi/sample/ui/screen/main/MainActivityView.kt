@@ -27,7 +27,7 @@ class MainActivityView : BaseReactActivityView(), SingleHubOwner<MainEvent> {
         initLog()
 
         //самая обычная запись эмита события, явное указание, без экстеншнов
-        main_open_input_form_btn.clicks() bindTo { hub.emit(MainEvent.OpenInputForm) }
+        main_open_input_form_btn.clicks() bindTo { hub.emit(MainEvent.OpenInputForm()) }
 
         //облегченная запись с помощью экстеншна в SingleHubOwner
         main_open_simple_list_btn.clicks() bindTo { MainEvent.OpenSimpleList.emit() }

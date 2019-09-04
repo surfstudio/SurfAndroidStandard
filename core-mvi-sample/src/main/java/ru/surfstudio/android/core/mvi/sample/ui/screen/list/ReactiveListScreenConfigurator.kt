@@ -6,7 +6,8 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvi.sample.ui.base.binder.BaseBinder
 import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddlewareDependency
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
@@ -37,17 +38,11 @@ class ReactiveListScreenConfigurator(intent: Intent) : DefaultActivityScreenConf
 
         @Provides
         @PerScreen
-        fun provideFragmentNavigator(activityProvider: ActivityProvider): FragmentNavigator = FragmentNavigator(activityProvider)
-
-        @Provides
-        @PerScreen
         fun provideBaseMiddlewareDependency(
                 activityNavigator: ActivityNavigator,
                 schedulersProvider: SchedulersProvider,
-                fragmentNavigator: FragmentNavigator,
-                dialogNavigator: DialogNavigator,
                 errorHandler: ErrorHandler
-        ) = BaseMiddlewareDependency(activityNavigator, fragmentNavigator, dialogNavigator, schedulersProvider, errorHandler)
+        ) = BaseMiddlewareDependency(activityNavigator, schedulersProvider, errorHandler)
 
         @Provides
         @PerScreen

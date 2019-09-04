@@ -11,6 +11,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListEvent.*
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
+import ru.surfstudio.android.network.TransformUtil
 
 @PerScreen
 class ReactiveListStateHolder @Inject constructor() {
@@ -24,16 +25,13 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, Rea
 
     override fun react(holder: ReactiveListStateHolder, event: ReactiveListEvent) {
         when (event) {
-            is LoadList -> reactOnListLoadEvent(holder, event)
-            is FilterNumbers -> reactOnFilterEvent(holder, event)
+            is FilterNumbers -> onFilterNumbersEvent(holder, event)
+            is LoadList -> onLoadListEvent(holder, event)
             is QueryChangedDebounced -> holder.query.accept(event.query)
         }
     }
 
-    private fun reactOnListLoadEvent(
-            holder: ReactiveListStateHolder,
-            event: LoadList
-    ) {
+    private fun onLoadListEvent(holder: ReactiveListStateHolder, event: LoadList) {
         holder.list.modify {
             val hasData = data.hasValue && !data.get().isEmpty()
             copy(
@@ -44,7 +42,7 @@ class ReactiveListReactor @Inject constructor() : Reactor<ReactiveListEvent, Rea
         }
     }
 
-    private fun reactOnFilterEvent(holder: ReactiveListStateHolder, event: FilterNumbers) {
+    private fun onFilterNumbersEvent(holder: ReactiveListStateHolder, event: FilterNumbers) {
         val data = holder.list.dataOrNull ?: return
         val query = if (holder.query.hasValue) holder.query.value else null
         val list = if (data.isNotEmpty() && !query.isNullOrEmpty()) {

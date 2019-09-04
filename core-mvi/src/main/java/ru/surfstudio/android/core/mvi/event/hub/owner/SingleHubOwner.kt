@@ -32,6 +32,15 @@ interface SingleHubOwner<T : Event> : BaseReactView {
             this.map { event } bindTo hub
 
     /**
+     * Отправка события каждый раз, когда [Observable] эмитит новое значение.
+     *
+     * @param event     отправляемое событие
+     * @param hub       хаб, в который отправляется событие
+     */
+    fun <R> Observable<R>.emit(eventTransformer: (R) -> T) =
+            this.map(eventTransformer) bindTo hub
+
+    /**
      * Отправка события.
      *
      * @param hub хаб, в который отправляется событие

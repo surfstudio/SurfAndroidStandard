@@ -32,7 +32,8 @@ interface RxBinder {
             eventHub: RxEventHub<T>,
             middleware: RxMiddleware<T>
     ) {
-        (middleware.transform(eventHub.observe()) as Observable<T>).bindIgnore()
+        val eventHubObservable = eventHub.observe().share()
+        middleware.transform(eventHubObservable) as Observable<T> bindEvents eventHub
     }
 
     fun <T : Event, SH> bind(
@@ -48,15 +49,6 @@ interface RxBinder {
 
     fun <T : Event, SH> Observable<T>.bindUi(stateHolder: SH, reactor: Reactor<T, SH>) =
             subscribe(this, { reactor.react(stateHolder, it) }, ::onError)
-
-    fun <T> Observable<T>.bindIgnore() =
-            subscribe(
-                    this,
-                    {
-                        //ignore
-                    },
-                    ::onError
-            )
 
     fun <T> subscribe(
             observable: Observable<T>,
