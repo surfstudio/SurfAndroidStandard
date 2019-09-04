@@ -1,6 +1,6 @@
 [TOC]
 # Animations Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha.2
 ##### Animations
 * TODO
 ## 0.4.0
