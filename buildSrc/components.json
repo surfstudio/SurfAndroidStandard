@@ -26,7 +26,7 @@
   {
     "id": "analytics",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "analytics",
     "libs": [
@@ -432,7 +432,7 @@
   {
     "id": "core-app",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "deprecated/core-app",
     "libs": [
@@ -547,7 +547,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -629,7 +629,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -778,7 +778,7 @@
   {
     "id": "datalist",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "datalist",
     "libs": [
@@ -852,7 +852,7 @@
   {
     "id": "easyadapter",
     "version": "1.0.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -977,7 +977,7 @@
   {
     "id": "location",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "location",
     "libs": [
@@ -1081,7 +1081,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1261,7 +1261,7 @@
   {
     "id": "network",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "deprecated/network",
     "libs": [
@@ -1449,7 +1449,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1487,7 +1487,7 @@
   {
     "id": "rx-extension",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "rx-extension",
     "libs": [
@@ -1597,7 +1597,7 @@
   {
     "id": "shared-pref",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "shared-pref",
     "libs": [
