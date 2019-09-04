@@ -1,0 +1,21 @@
+apply from: 'config.gradle'
+
+include ":app",
+        ":base",
+        ":base_feature",
+        ":domain",
+        ":i-initialization",
+        ":i-network",
+        ":i-session",
+        ":i-token",
+        ":i-auth",
+        ":i-push-notification",
+        ":f-auth",
+        ":f-main",
+        ":f-debug",
+        ":f-splash",
+        ":f-debug-no-op",
+        ":small-test-utils"
+
+apply from: 'android-standard/androidStandardSettings.gradle'
+apply from: 'buildCache.gradle'
