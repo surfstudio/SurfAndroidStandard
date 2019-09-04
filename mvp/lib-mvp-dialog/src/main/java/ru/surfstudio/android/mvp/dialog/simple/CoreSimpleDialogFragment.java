@@ -17,6 +17,7 @@ package ru.surfstudio.android.mvp.dialog.simple;
 
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 

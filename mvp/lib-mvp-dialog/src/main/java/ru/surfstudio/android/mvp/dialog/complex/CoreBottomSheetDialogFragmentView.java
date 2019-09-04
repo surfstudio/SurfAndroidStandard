@@ -18,8 +18,10 @@ package ru.surfstudio.android.mvp.dialog.complex;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseFragmentViewConfigurator;

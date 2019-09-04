@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.navigation.feature.installer.SplitFeatureInstaller;
 import ru.surfstudio.android.core.ui.provider.ActivityProvider;

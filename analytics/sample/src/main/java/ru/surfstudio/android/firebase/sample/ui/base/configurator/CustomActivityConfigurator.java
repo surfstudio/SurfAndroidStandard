@@ -2,7 +2,6 @@ package ru.surfstudio.android.firebase.sample.ui.base.configurator;
 
 import ru.surfstudio.android.core.ui.configurator.BaseActivityConfigurator;
 import ru.surfstudio.android.firebase.sample.app.AppConfigurator;
-import ru.surfstudio.android.firebase.sample.app.CustomApp;
 import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent;
 import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.CustomActivityComponent;
 import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.DaggerCustomActivityComponent;

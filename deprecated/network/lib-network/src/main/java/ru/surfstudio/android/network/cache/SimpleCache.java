@@ -16,9 +16,10 @@
 package ru.surfstudio.android.network.cache;
 
 
+import androidx.annotation.Nullable;
+
 import org.jetbrains.annotations.NotNull;
 
-import androidx.annotation.Nullable;
 import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 import ru.surfstudio.android.filestorage.naming.NamingProcessor;
 import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;

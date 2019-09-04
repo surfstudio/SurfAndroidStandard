@@ -16,6 +16,7 @@
 package ru.surfstudio.android.core.ui.fragment;
 
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.configurator.BaseFragmentConfigurator;

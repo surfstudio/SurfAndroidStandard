@@ -18,6 +18,7 @@ package ru.surfstudio.android.core.mvp.delegate;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;

@@ -4,7 +4,6 @@ import android.content.Intent;
 
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.android.firebase.sample.app.AppConfigurator;
-import ru.surfstudio.android.firebase.sample.app.CustomApp;
 import ru.surfstudio.android.firebase.sample.app.dagger.CustomAppComponent;
 import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.CustomActivityComponent;
 import ru.surfstudio.android.firebase.sample.ui.base.dagger.activity.DaggerCustomActivityComponent;

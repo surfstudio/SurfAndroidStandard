@@ -16,7 +16,7 @@ open class AndroidStandardVersionExtension {
         GsonBuilder()
             .create()
             .fromJson(javaClass.classLoader.getResourceAsStream(FILE_NAME).reader(), Array<LibVersion>::class.java)
-            .associate { it.name to it.version }
+            .associate { it.first to it.second }
     }
 
     fun version(name: String): String = androidStandardMap[name]
