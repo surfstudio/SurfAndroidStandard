@@ -15,9 +15,9 @@
  */
 package ru.surfstudio.android.core.mvp.activity;
 
+import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
 import ru.surfstudio.android.core.mvp.loadstate.LoadStateRendererInterface;
 import ru.surfstudio.android.core.mvp.model.LdsScreenModel;
-import ru.surfstudio.android.core.mvp.loadstate.LoadStateInterface;
 
 /**
  * базовый класс ActivityView c поддержкой

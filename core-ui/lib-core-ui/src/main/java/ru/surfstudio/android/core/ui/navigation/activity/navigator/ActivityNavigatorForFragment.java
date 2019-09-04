@@ -18,6 +18,7 @@ package ru.surfstudio.android.core.ui.navigation.activity.navigator;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;

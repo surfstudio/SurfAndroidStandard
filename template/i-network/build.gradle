@@ -1,7 +1,7 @@
 apply from: '../commonInteractorModule.gradle'
 
 dependencies {
-    implementation project("$templatePrefix:i-token")
+    implementation project(":i-token")
 
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"

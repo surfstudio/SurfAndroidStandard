@@ -15,12 +15,13 @@
  */
 package ru.surfstudio.android.core.mvp.presenter;
 
+import androidx.annotation.CallSuper;
+
 import com.agna.ferro.rx.CompletableOperatorFreeze;
 import com.agna.ferro.rx.MaybeOperatorFreeze;
 import com.agna.ferro.rx.ObservableOperatorFreeze;
 import com.agna.ferro.rx.SingleOperatorFreeze;
 
-import androidx.annotation.CallSuper;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
 import io.reactivex.Observable;

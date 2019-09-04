@@ -447,11 +447,11 @@
           },
           {
             "name": "androidx.multidex:multidex",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.github.anrwatchdog:anrwatchdog",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.annotation:annotation",

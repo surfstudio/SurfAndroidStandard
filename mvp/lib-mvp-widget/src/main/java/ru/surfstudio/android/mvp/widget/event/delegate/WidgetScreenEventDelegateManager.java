@@ -1,9 +1,10 @@
 package ru.surfstudio.android.mvp.widget.event.delegate;
 
 
+import androidx.annotation.Nullable;
+
 import java.util.List;
 
-import androidx.annotation.Nullable;
 import ru.surfstudio.android.core.ui.ScreenType;
 import ru.surfstudio.android.core.ui.event.BaseScreenEventDelegateManager;
 import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager;

@@ -26,8 +26,8 @@ object ConfigInfoProvider {
         set(value) {
             field = value
             configInfoJsonFile = openConfigInfoFile()
-        globalConfigInfo = parseProjectConfigInfoJson()
-    }
+            globalConfigInfo = parseProjectConfigInfoJson()
+        }
 
     fun incrementUnstableVersion() {
         val newCounter = globalConfigInfo.unstableVersion + 1

@@ -21,7 +21,7 @@ open class GenerateDataForPluginTask : DefaultTask() {
     @TaskAction
     fun generate() {
         val gson = GsonBuilder().create()
-        val jsonText = gson.toJson(Components.value.map { it.name to it.projectVersion })
+        val jsonText = gson.toJson(Components.libraries.map { it.name to it.projectVersion })
         File("$PLUGIN_MODULE/$OUTPUT_DIR/$FILE_NAME").writeText(jsonText)
     }
 }

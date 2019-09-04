@@ -5,8 +5,8 @@ import android.content.Intent;
 import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator;
 import ru.surfstudio.android.easyadapter.sample.app.CustomApp;
 import ru.surfstudio.android.easyadapter.sample.app.dagger.CustomAppComponent;
-import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.DaggerCustomActivityComponent;
 import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.CustomActivityComponent;
+import ru.surfstudio.android.easyadapter.sample.ui.base.dagger.activity.DaggerCustomActivityComponent;
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.activity.DefaultActivityModule;
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivityScreenModule;
 

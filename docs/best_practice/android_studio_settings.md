@@ -47,6 +47,25 @@
 7. [ADB idea](https://github.com/pbreault/adb-idea). Упрощение работы с ADB
 9. Git Branch Cleaner - Очистка старых веток гита. Использование: VCS → Git → Delete Old Branches
 10. [Bitbucket Linky](https://plugins.jetbrains.com/plugin/8015-bitbucket-linky) - создание PR по Ctrl+Shift+X,P из студии. (Предварительно нужно настроить в Other Settings.)
+11. [CPU Usage Indicator](https://plugins.jetbrains.com/plugin/8580-cpu-usage-indicator) - Позволяет включить индикатор использования процессора. Также позволяет смотреть дамп тредов и фейлов.
+12. [Vector Drawable Thumbnails](https://plugins.jetbrains.com/plugin/10741-vector-drawable-thumbnails) - Просмотр drawable в виде сетки, в отдельном окошке.
+13. [Rainbow Brackets](https://plugins.jetbrains.com/plugin/10080-rainbow-brackets) - Раскрашивает открывающую и закрывающую скобку в один цвет, чтобы удобно было читать вложенные конструкции
+14. [Hunspell](https://plugins.jetbrains.com/plugin/10275-hunspell) - Продвинутый спелчекер. [Добавление русского языка](#hunspell)
+
+##### Настройка плагинов
+
+###### Hunspell
+1. В Ide: Settings -> Plugins -> Находим - ставим плагин Hunspell
+2. Перезагружаем ide
+3. Качаем словарь.
+    * Linux: 
+        1. `cd {путь где будет лежать словарь}` 
+        2. `$npm install dictionary-ru` ( если нет npm: `$sudo apt install npm`)
+    * Или вручную https://github.com/wooorm/dictionaries/tree/master/dictionaries/ru
+4. В Ide: Settings -> Editor -> Spelling -> Dictionaries -> “+” -> выбираем скачанный файл *.dic (`.../node_modules/dictionary-ru/index.dic`)
+Словари применяются только к проекту, локально для каждого пользователя. Поэтому, операцию стоит применить к каждому существующему проекту.
+Также, можно закрыть все открытые проекты и открыть settings на приветственном экране и добавить словарь.
+В этом случае, словарь будет добавляться во все новые и импортируемые проекты
 
 #### Полезные ссылки
 
