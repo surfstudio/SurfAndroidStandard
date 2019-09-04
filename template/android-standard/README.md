@@ -42,7 +42,6 @@ dependencies {
 
     gradle.ext.androidStandard.api(
                 this,
-                "0.3.0-SNAPSHOT",  // или "$surfCoreVersionName", если определена переменная в конфиге
                 [
                     "core-ui",     // массив модулей android-standard, который необходимо подключить к текущему модулю
                     "core-mvp",

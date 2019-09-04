@@ -1,3 +1,5 @@
+apply plugin: 'ru.surfstudio.android'
+
 apply from: '../commonModule.gradle'
 
 dependencies {
@@ -5,7 +7,6 @@ dependencies {
 
     gradle.ext.androidStandard.api(
             this,
-            "$surfCoreVersionName",
             [
                     "activity-holder",
                     "core-ui",

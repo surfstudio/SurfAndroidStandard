@@ -49,7 +49,6 @@ gradle.ext {
      */
     androidStandard.api = {
         context,
-        androidStandardVersion,
         modules,
         closure = null,
         sourceType = ModuleSourceType.SETTINGS_DEFINED.toString() ->
@@ -69,11 +68,12 @@ gradle.ext {
             }
 
             context.dependencies {
-                modules.each {
+                modules.each { artifactName ->
+                    def version = context.androidStandard.version(artifactName)
                     if (closure == null) {
-                        api "ru.surfstudio.android:$it:$surfCoreVersionName"
+                        api("ru.surfstudio.android:$artifactName:$version")
                     } else {
-                        api("ru.surfstudio.android:$it:$surfCoreVersionName", closure)
+                        api("ru.surfstudio.android:$artifactName:$version", closure)
                     }
                 }
             }
