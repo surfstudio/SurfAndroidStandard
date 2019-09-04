@@ -16,7 +16,7 @@
     <global id="screenModuleClassName" value="${screenName?cap_first}ScreenModule"/>
     <global id="screenComponentClassName" value="${screenName?cap_first}ScreenComponent"/>
     <global id="viewParentClassName" value="Base<#if !needToGenerateLds && !needToGenerateSwr && !needToGeneratePgn>Renderable<#else><#if needToGenerateLds>Lds</#if><#if needToGenerateSwr>Swr</#if><#if needToGeneratePgn>Pgn</#if></#if>${screenType?cap_first}View"/>
-    <global id="routeParentClassName" value="${screenType?cap_first}<#if needToGenerateParams && needToGenerateResult>WithParamsAndResult<#elseif needToGenerateParams>WithParams<#elseif needToGenerateParams>WithResult</#if>Route"/>
+    <global id="routeParentClassName" value="${screenType?cap_first}<#if crossFeature>CrossFeature</#if><#if needToGenerateParams && needToGenerateResult>WithParamsAndResult<#elseif needToGenerateParams>WithParams<#elseif needToGenerateParams>WithResult</#if>Route"/>
     <global id="configuratorParentClassName" value="${screenType?cap_first}ScreenConfigurator"/>
     <global id="screenModelParentClassName" value="<#if needToGenerateLds>Lds</#if><#if needToGenerateSwr>Swr</#if><#if needToGeneratePgn>Pgn</#if>ScreenModel"/>
     <global id="dependingScreenModuleClassName" value="${screenType?cap_first}ScreenModule"/>
