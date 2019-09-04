@@ -123,6 +123,6 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
      * Вручную вызывает onCompletelyDestroy у виджета
      */
     public void manualCompletelyDestroy() {
-        widgetViewDelegate.onCompletelyDestroy();
+        widgetViewDelegate.manualCompletelyDestroy();
     }
 }

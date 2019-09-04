@@ -124,6 +124,6 @@ public abstract class CoreRelativeLayoutView extends RelativeLayout implements C
      * Вручную вызывает onCompletelyDestroy у виджета
      */
     public void manualCompletelyDestroy() {
-        widgetViewDelegate.onCompletelyDestroy();
+        widgetViewDelegate.manualCompletelyDestroy();
     }
 }

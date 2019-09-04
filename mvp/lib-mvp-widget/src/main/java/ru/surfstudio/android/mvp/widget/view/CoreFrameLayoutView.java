@@ -124,6 +124,6 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
      * Вручную вызывает onCompletelyDestroy у виджета
      */
     public void manualCompletelyDestroy() {
-        widgetViewDelegate.onCompletelyDestroy();
+        widgetViewDelegate.manualCompletelyDestroy();
     }
 }

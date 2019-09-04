@@ -65,6 +65,7 @@ class ConstraintViewPresenter @Inject constructor(
         changeTextDisposable = subscribe(Observable.timer(500L, TimeUnit.MILLISECONDS), {
             view.render("presenter")
             Log.d("1WidgetLifecycle", "w=${view.widgetDataId}vh=${view.hashCode()} p=${hashCode()} wd=${view?.widgetViewDelegate?.hashCode()} receive event")
+            view.manualCompletelyDestroy()
         }, {
 
         })

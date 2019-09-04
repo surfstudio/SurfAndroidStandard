@@ -94,6 +94,13 @@ public class WidgetViewDelegate {
     }
 
     /**
+     * Принудительное полное ручное уничтожение View.
+     */
+    public void manualCompletelyDestroy() {
+        getLifecycleManager().onCompletelyDestroy(StageSource.DELEGATE);
+    }
+
+    /**
      * Пометка View как принудительно уничтоженной.
      * <p>
      * Необходимо для того, чтобы избежать повторного вызова onDestroy на onDetachFromWindow,
