@@ -14,6 +14,7 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
 // Stage names
+def CHECKOUT = 'Checkout'
 def CODE_STYLE_FORMATTING = 'Code Style Formatting'
 def UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT = "Update current commit hash after format"
 def PRE_MERGE = 'PreMerge'
@@ -47,6 +48,7 @@ def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
 def stagesForProjectMode = [
+        CHECKOUT,
         CODE_STYLE_FORMATTING,
         UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
         PRE_MERGE,
@@ -54,6 +56,7 @@ def stagesForProjectMode = [
         UNIT_TEST
 ]
 def stagesForReleaseMode = [
+        CHECKOUT,
         CODE_STYLE_FORMATTING,
         UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
         PRE_MERGE,
@@ -69,7 +72,11 @@ def stagesForReleaseMode = [
         INSTRUMENTATION_TEST,
         STATIC_CODE_ANALYSIS
 ]
-def stagesForTargetBranchChangedMode = [PRE_MERGE, BUILD, UNIT_TEST, INSTRUMENTATION_TEST]
+def stagesForTargetBranchChangedMode = [
+        PRE_MERGE, BUILD,
+        UNIT_TEST,
+        INSTRUMENTATION_TEST
+]
 
 def getTestInstrumentationRunnerName = { script, prefix ->
     def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
@@ -175,8 +182,20 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(CODE_STYLE_FORMATTING) {
+        stage(CHECKOUT, false) {
+            CommonUtil.safe(script) {
+                script.sh "git reset --merge" //revert previous failed merge
+                RepositoryUtil.revertUncommittedChanges(script)
+            }
+
+            script.git(
+                    url: url,
+                    credentialsId: credentialsId,
+                    branch: sourceBranch
+            )
             RepositoryUtil.saveCurrentGitCommitHash(script)
+        },
+        pipeline.stage(CODE_STYLE_FORMATTING) {
             AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
             hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
         },
@@ -186,16 +205,6 @@ pipeline.stages = [
             }
         },
         pipeline.stage(PRE_MERGE) {
-            CommonUtil.safe(script) {
-                script.sh "git reset --merge" //revert previous failed merge
-            }
-
-            script.git(
-                    url: pipeline.repoUrl,
-                    credentialsId: pipeline.repoCredentialsId,
-                    branch: destinationBranch
-            )
-
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
             script.sh "git checkout origin/$sourceBranch"
