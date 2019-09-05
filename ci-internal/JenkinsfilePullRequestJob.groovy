@@ -185,13 +185,11 @@ pipeline.stages = [
         pipeline.stage(CHECKOUT, false) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
-                RepositoryUtil.revertUncommittedChanges(script)
             }
-
             script.git(
-                    url: url,
-                    credentialsId: credentialsId,
-                    branch: sourceBranch
+                    url: pipeline.repoUrl,
+                    credentialsId: pipeline.repoCredentialsId,
+                    branch: destinationBranch
             )
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
