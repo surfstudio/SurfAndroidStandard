@@ -1,0 +1,31 @@
+import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
+import ru.surfstudio.android.build.ConfigInfoProvider
+
+group = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
+version = ConfigInfoProvider.getVersion()
+
+apply plugin: 'maven'
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.java.srcDirs
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+uploadArchives.repositories.mavenDeployer {
+    pom {
+        groupId = group
+        artifactId = "version-plugin"
+        version = ConfigInfoProvider.getVersion()
+    }
+
+    repository(url: ArtifactoryConfig.DEPLOY_URL) {
+        authentication(
+                userName: ArtifactoryConfig.USER_NAME,
+                password: ArtifactoryConfig.PASSWORD
+        )
+    }
+}

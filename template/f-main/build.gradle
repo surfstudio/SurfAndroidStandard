@@ -2,5 +2,6 @@ apply from: '../commonFeatureModule.gradle'
 apply from: '../commonKaptModule.gradle'
 
 dependencies {
-    implementation project("$templatePrefix:base_feature")
+    implementation project(":base_feature")
+    implementation project(":i-network")
 }
