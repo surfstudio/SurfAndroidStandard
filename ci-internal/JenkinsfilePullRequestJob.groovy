@@ -150,24 +150,27 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(PRE_MERGE) {
+            script.echo "123123 1"
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
-
+            script.echo "123123 2 ${pipeline.repoUrl} ${pipeline.repoCredentialsId} ${destinationBranch}"
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId,
                     branch: destinationBranch
             )
+            script.echo "123123 3"
 
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
-
+            script.echo "123123 4"
             script.sh "git checkout origin/$sourceBranch"
-
+            script.echo "123123 5"
             RepositoryUtil.saveCurrentGitCommitHash(script)
-
+            script.echo "123123 6"
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
+            script.echo "123123 7"
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
