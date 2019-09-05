@@ -182,7 +182,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        stage(CHECKOUT, false) {
+        pipeline.stage(CHECKOUT) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
                 RepositoryUtil.revertUncommittedChanges(script)
