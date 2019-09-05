@@ -58,7 +58,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.firebase:firebase-core",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -96,7 +96,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.android.material:material",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.appcompat:appcompat",
@@ -166,7 +166,7 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -442,10 +442,6 @@
         "artifact_name": "core-app",
         "third_party_dependencies": [
           {
-            "name": "org.jetbrains:annotations",
-            "type": "api"
-          },
-          {
             "name": "androidx.multidex:multidex",
             "type": "implementation"
           },
@@ -558,23 +554,23 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.jakewharton.rxbinding2:rxbinding",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.jakewharton.rxrelay2:rxrelay",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "junit:junit",
@@ -640,7 +636,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.android.material:material",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.appcompat:appcompat",
@@ -756,11 +752,11 @@
         "third_party_dependencies": [
           {
             "name": "javax.inject:javax.inject",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.google.dagger:dagger",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": []
@@ -863,7 +859,7 @@
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.annotation:annotation",
@@ -896,7 +892,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.code.gson:gson",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.annotation:annotation",
@@ -950,7 +946,7 @@
         "third_party_dependencies": [
           {
             "name": "com.github.bumptech.glide:glide",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -988,7 +984,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.android.gms:play-services-location",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1055,12 +1051,7 @@
         "name": "message-controller",
         "dir": "lib-message-controller",
         "artifact_name": "message-controller",
-        "third_party_dependencies": [
-          {
-            "name": "androidx.exifinterface:exifinterface",
-            "type": "api"
-          }
-        ],
+        "third_party_dependencies": [],
         "android_standard_dependencies": [
           {
             "name": "core-ui",
@@ -1092,7 +1083,7 @@
         "third_party_dependencies": [
           {
             "name": "com.agna.ferro:ferro-rx",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "junit:junit",
@@ -1161,11 +1152,11 @@
         "third_party_dependencies": [
           {
             "name": "javax.inject:javax.inject",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.constraintlayout:constraintlayout",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "junit:junit",
@@ -1210,7 +1201,7 @@
         "third_party_dependencies": [
           {
             "name": "javax.inject:javax.inject",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1374,7 +1365,7 @@
         "third_party_dependencies": [
           {
             "name": "androidx.exifinterface:exifinterface",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1460,11 +1451,11 @@
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.google.android.material:material",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1498,11 +1489,11 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "io.reactivex.rxjava2:rxandroid",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.annimon:stream",
@@ -1554,7 +1545,7 @@
         "third_party_dependencies": [
           {
             "name": "com.squareup.okhttp3:logging-interceptor",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.appcompat:appcompat",
@@ -1608,7 +1599,7 @@
         "third_party_dependencies": [
           {
             "name": "com.annimon:stream",
-            "type": "api"
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1679,11 +1670,11 @@
         "third_party_dependencies": [
           {
             "name": "androidx.core:core-ktx",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "com.google.android.material:material",
-            "type": "api"
+            "type": "implementation"
           },
           {
             "name": "androidx.appcompat:appcompat",
