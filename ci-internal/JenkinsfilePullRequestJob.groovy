@@ -123,53 +123,23 @@ pipeline.initializeBody = {
         value -> targetBranchChanged = Boolean.valueOf(value)
     }
 
-    if (targetBranchChanged) {
-        script.echo "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
-        pipeline.forStages { stage ->
-            if (!stage instanceof SimpleStage) {
-                return
-            }
-            def executeStage = false
-            for (stageNameForTargetBranchChangedMode in stagesForTargetBranchChangedMode) {
-                executeStage = executeStage || (stageNameForTargetBranchChangedMode == stage.getName())
-            }
-            if (!executeStage) {
-                stage.strategy = StageStrategy.SKIP_STAGE
-            }
-        }
-    }
+    configureStageSkipping(
+            targetBranchChanged,
+            stagesForTargetBranchChangedMode,
+            "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
+    )
 
-    if(isSourceBranchRelease(sourceBranch)){
-        script.echo "Build triggered by release source branch, run only ${stagesForReleaseMode} stages"
-        pipeline.forStages { stage ->
-            if (!stage instanceof SimpleStage) {
-                return
-            }
-            def executeStage = false
-            for (stageForReleaseMode in stagesForReleaseMode) {
-                executeStage = executeStage || (stageForReleaseMode == stage.getName())
-            }
-            if (!executeStage) {
-                stage.strategy = StageStrategy.SKIP_STAGE
-            }
-        }
-    }
+    configureStageSkipping(
+            isSourceBranchRelease(sourceBranch),
+            stagesForReleaseMode,
+            "Build triggered by release source branch, run only ${stagesForReleaseMode} stages"
+    )
 
-    if (isDestinationBranchProjectSnapshot(destinationBranch)){
-        script.echo "Build triggered by project destination branch, run only ${stagesForProjectMode} stages"
-        pipeline.forStages { stage ->
-            if (!stage instanceof SimpleStage) {
-                return
-            }
-            def executeStage = false
-            for (stageForProjectMode in stagesForProjectMode) {
-                executeStage = executeStage || (stageForProjectMode == stage.getName())
-            }
-            if (!executeStage) {
-                stage.strategy = StageStrategy.SKIP_STAGE
-            }
-        }
-    }
+    configureStageSkipping(
+            isDestinationBranchProjectSnapshot(destinationBranch),
+            stagesForProjectMode,
+            "Build triggered by project destination branch, run only ${stagesForProjectMode} stages"
+    )
 
     def buildDescription = targetBranchChanged ?
             "$sourceBranch to $destinationBranch: target branch changed" :
@@ -318,6 +288,24 @@ def static withBintrayCredentials(script, body) {
                     passwordVariable: 'surf_bintray_api_key')
     ]) {
         body()
+    }
+}
+
+def configureStageSkipping(isSkip, stageNames, message){
+    if (isSkip) {
+        script.echo message
+        pipeline.forStages { stage ->
+            if (!stage instanceof SimpleStage) {
+                return
+            }
+            def executeStage = false
+            for (stageName in stageNames) {
+                executeStage = executeStage || (stageName == stage.getName())
+            }
+            if (!executeStage) {
+                stage.strategy = StageStrategy.SKIP_STAGE
+            }
+        }
     }
 }
 
