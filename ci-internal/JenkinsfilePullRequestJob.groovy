@@ -176,6 +176,7 @@ pipeline.initializeBody = {
 
 pipeline.stages = [
         pipeline.stage(CODE_STYLE_FORMATTING) {
+            RepositoryUtil.saveCurrentGitCommitHash(script)
             AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
             hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
         },
