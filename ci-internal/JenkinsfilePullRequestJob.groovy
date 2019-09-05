@@ -289,7 +289,7 @@ def static withBintrayCredentials(script, body) {
 def configureStageSkipping(script, isSkip, stageNames, message){
     if (isSkip) {
         script.echo message
-        script.stages.each { stage ->
+        pipeline.stages.each { stage ->
             if (!stage instanceof SimpleStage) {
                 return
             }
