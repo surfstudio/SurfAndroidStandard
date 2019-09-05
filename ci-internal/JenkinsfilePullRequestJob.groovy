@@ -117,24 +117,18 @@ pipeline.initializeBody = {
     }
 
     configureStageSkipping(
-            script,
-            pipeline,
             targetBranchChanged,
             stagesForTargetBranchChangedMode,
             "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
     )
 
     configureStageSkipping(
-            script,
-            pipeline,
             isSourceBranchRelease(sourceBranch),
             stagesForReleaseMode,
             "Build triggered by release source branch, run only ${stagesForReleaseMode} stages"
     )
 
     configureStageSkipping(
-            script,
-            pipeline,
             isDestinationBranchProjectSnapshot(destinationBranch),
             stagesForProjectMode,
             "Build triggered by project destination branch, run only ${stagesForProjectMode} stages"
@@ -292,7 +286,7 @@ def static withBintrayCredentials(script, body) {
     }
 }
 
-def configureStageSkipping(script, pipeline,  isSkip, stageNames, message){
+def configureStageSkipping(isSkip, stageNames, message){
     if (isSkip) {
         script.echo message
         pipeline.stages.each { stage ->
