@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
+        android:id="@+id/fps_enable_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:switch_subtitle="@string/fps_subtitle_text"
+        app:switch_title="@string/fps_title_text" />
+
+    <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+        android:id="@+id/scalpel_tool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:catalog_item_description="@string/ui_tools_scalpel_description"
+        app:catalog_item_name="@string/ui_tools_scalpel_name" />
+</LinearLayout>

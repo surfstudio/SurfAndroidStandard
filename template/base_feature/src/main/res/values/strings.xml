@@ -1,0 +1,18 @@
+<resources>
+    <string name="notification_channel_id" translatable="false">CHANNEL_ID</string>
+    <string name="notification_channel_name">TEMPLATE</string> <!-- todo change -->
+
+    <string name="app_name">Template Multimodule</string>
+    <string name="server_error_message">Произошла ошибка сервера. Попробуйте позже еще раз</string>
+    <string name="server_error_not_found">Произошла ошибка, данные не найдены. Попробуйте позже еще раз</string>
+    <string name="default_http_error_message">Произошла ошибка загрузки данных, возможно, не вся информация на экране актуальна</string>
+    <string name="forbidden_error_error_message">Доступ запрещен</string>
+    <string name="no_internet_connection_error_message">Не удалось загрузить данные. Проверьте соединение с интернетом и попробуйте еще раз</string>
+    <string name="bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
+    <string name="unexpected_error_error_message">Непредвиденная ошибка</string>
+    <string name="common_error_message">Произошла ошибка загрузки данных,\nпопробуйте обновить экран позже</string>
+
+    <string name="state_empty_text">Ничего не найдено</string>
+    <string name="state_error_message">Произошла ошибка</string>
+    <string name="state_error_btn">Обновить</string>
+</resources>
