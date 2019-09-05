@@ -1,11 +1,9 @@
-package ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental
+package ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation
 
 import android.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE
 import android.app.FragmentTransaction.TRANSIT_FRAGMENT_OPEN
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.OpenScreenEvent
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.ScreenResultEvent
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.close.*
 import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware

@@ -12,29 +12,32 @@ import ru.surfstudio.android.core.mvi.sample.R
 import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.controller.ReactiveListController
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.controller.ComplexListController
 import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
 import ru.surfstudio.android.core.mvi.sample.ui.base.adapter.PaginationableAdapter
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeMainLoading
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeSwrLoading
 import javax.inject.Inject
 
-class ReactiveListActivityView : BaseReactActivityView() {
+/**
+ * Экран, демонстрирующий сложный экран с загрузкой, пагинацией и фильтрацией списка
+ */
+class ComplexListActivityView : BaseReactActivityView() {
 
-    private val adapter = PaginationableAdapter { ReactiveListEvent.LoadNextPage().sendTo(hub) }
-    private val controller = ReactiveListController()
+    private val adapter = PaginationableAdapter { ComplexListEvent.LoadNextPage().sendTo(hub) }
+    private val controller = ComplexListController()
 
-    override fun createConfigurator() = ReactiveListScreenConfigurator(intent)
+    override fun createConfigurator() = ComplexListScreenConfigurator(intent)
 
-    override fun getScreenName() = "ReactiveListActivityView"
+    override fun getScreenName() = "ComplexListActivityView"
 
     override fun getContentView(): Int = R.layout.activity_reactive_list
 
     @Inject
-    lateinit var sh: ReactiveListStateHolder
+    lateinit var sh: ComplexListStateHolder
 
     @Inject
-    lateinit var hub: BaseEventHub<ReactiveListEvent>
+    lateinit var hub: BaseEventHub<ComplexListEvent>
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
@@ -43,14 +46,14 @@ class ReactiveListActivityView : BaseReactActivityView() {
         reactive_rv.adapter = adapter
 
         reactive_reload_btn.clicks()
-                .send(ReactiveListEvent.Reload(), hub)
+                .send(ComplexListEvent.Reload(), hub)
 
         reactive_query_tv.textChanges()
                 .skipInitialValue()
-                .map { ReactiveListEvent.QueryChanged(it.toString()) }
+                .map { ComplexListEvent.QueryChanged(it.toString()) }
                 .sendTo(hub)
 
-        reactive_swr.setOnRefreshListener { ReactiveListEvent.SwipeRefresh().sendTo(hub) }
+        reactive_swr.setOnRefreshListener { ComplexListEvent.SwipeRefresh().sendTo(hub) }
 
         sh.list.observeMainLoading() bindTo { reactive_pb.isVisible = it }
         sh.list.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }

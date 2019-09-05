@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.middleware
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.NavigatorMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.NavigatorMiddleware
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator

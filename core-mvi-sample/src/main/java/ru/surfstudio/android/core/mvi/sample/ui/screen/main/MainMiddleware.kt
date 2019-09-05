@@ -3,12 +3,15 @@ package ru.surfstudio.android.core.mvi.sample.ui.screen.main
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseNavMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.NavigatorMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.NavigatorMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormActivityRoute
 import ru.surfstudio.android.message.MessageController
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.main.MainEvent.*
 
+/**
+ * Главный Middleware с механизмом навигации
+ */
 class MainMiddleware @Inject constructor(
         baseNavMiddlewareDependency: BaseNavMiddlewareDependency,
         private val messageController: MessageController

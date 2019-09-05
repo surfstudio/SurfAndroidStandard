@@ -12,6 +12,9 @@ import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormEvent.*
 
+/**
+ * Экран с формой ввода текста и возвращением результата на предыдущий экран
+ */
 class InputFormActivityView : BaseReactActivityView(), SingleHubOwner<InputFormEvent> {
 
     @Inject

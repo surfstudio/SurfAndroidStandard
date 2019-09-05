@@ -7,6 +7,9 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormEvent.*
 
+/**
+ * Middleware экрана [InputFormActivityView]
+ */
 @PerScreen
 class InputFormMiddleware @Inject constructor(
         baseNavMiddlewareDependency: BaseNavMiddlewareDependency,

@@ -1,6 +1,7 @@
-package ru.surfstudio.android.core.mvi.event
+package ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination
 
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
+
 /**
  * Событие пагинации
  */

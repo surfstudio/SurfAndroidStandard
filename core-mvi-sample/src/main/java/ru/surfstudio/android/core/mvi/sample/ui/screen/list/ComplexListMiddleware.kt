@@ -7,22 +7,24 @@ import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.dagger.scope.PerScreen
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ReactiveListEvent.*
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListEvent.*
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
 import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.PaginationMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination.PaginationMiddleware
 
+/**
+ * Middleware экрана [ComplexListActivityView]
+ */
 @PerScreen
-class ReactiveListMiddleware @Inject constructor(
+class ComplexListMiddleware @Inject constructor(
         baseMiddlewareDependency: BaseMiddlewareDependency,
-        private val sh: ReactiveListStateHolder
-) : BaseMiddleware<ReactiveListEvent>(baseMiddlewareDependency),
-        LifecycleMiddleware<ReactiveListEvent>,
-        PaginationMiddleware<ReactiveListEvent> {
+        private val sh: ComplexListStateHolder
+) : BaseMiddleware<ComplexListEvent>(baseMiddlewareDependency),
+        LifecycleMiddleware<ComplexListEvent>,
+        PaginationMiddleware<ComplexListEvent> {
 
-    override fun transform(eventStream: Observable<ReactiveListEvent>): Observable<out ReactiveListEvent> {
+    override fun transform(eventStream: Observable<ComplexListEvent>): Observable<out ComplexListEvent> {
         return transformations(eventStream) {
             +onCreate().eventMap { loadData() }
             +eventMap<SwipeRefresh> { loadData(isSwr = true) }
@@ -35,8 +37,8 @@ class ReactiveListMiddleware @Inject constructor(
     }
 
     private fun debounceQuery(
-            eventStream: Observable<ReactiveListEvent>
-    ): Observable<out ReactiveListEvent> =
+            eventStream: Observable<ComplexListEvent>
+    ): Observable<out ComplexListEvent> =
             eventStream
                     .filterIsInstance<QueryChanged>()
                     .map { it.query }

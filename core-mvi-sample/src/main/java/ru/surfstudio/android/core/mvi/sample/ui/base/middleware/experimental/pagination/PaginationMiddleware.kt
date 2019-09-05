@@ -1,8 +1,7 @@
-package ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental
+package ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.event.PaginationEvent
 import ru.surfstudio.android.core.mvi.event.ResponseEvent
 import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
 import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList

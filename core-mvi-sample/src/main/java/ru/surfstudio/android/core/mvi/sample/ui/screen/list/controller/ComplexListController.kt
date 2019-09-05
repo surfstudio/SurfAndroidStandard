@@ -6,7 +6,10 @@ import ru.surfstudio.android.core.mvi.sample.R
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 
-class ReactiveListController : BindableItemController<String, ReactiveListController.Holder>() {
+/**
+ * Контроллер экрана [ComplexListActivityView]
+ */
+class ComplexListController : BindableItemController<String, ComplexListController.Holder>() {
     override fun getItemId(data: String): String = data
 
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
