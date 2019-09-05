@@ -47,16 +47,12 @@ def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 // Other config
 def stagesForProjectMode = [
         CHECKOUT,
-        CODE_STYLE_FORMATTING,
-        UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
         PRE_MERGE,
         BUILD,
         UNIT_TEST
 ]
 def stagesForReleaseMode = [
         CHECKOUT,
-        CODE_STYLE_FORMATTING,
-        UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
         PRE_MERGE,
         CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
