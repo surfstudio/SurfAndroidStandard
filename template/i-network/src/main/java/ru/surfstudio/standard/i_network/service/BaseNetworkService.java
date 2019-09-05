@@ -2,9 +2,9 @@ package ru.surfstudio.standard.i_network.service;
 
 import io.reactivex.Observable;
 
-import ru.surfstudio.standard.base.error.HttpProtocolException;
+import ru.surfstudio.standard.i_network.error.HttpProtocolException;
 import ru.surfstudio.standard.i_network.error.handler.BaseErrorHandler;
-import ru.surfstudio.android.network.error.HttpCodes;
+import ru.surfstudio.standard.i_network.network.error.HttpCodes;
 
 /**
  * Бзовый класс для работы с api

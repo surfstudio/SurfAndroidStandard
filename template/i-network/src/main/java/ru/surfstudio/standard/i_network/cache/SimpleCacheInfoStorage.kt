@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.i_network.cache
 
-import ru.surfstudio.android.network.cache.SimpleCacheInfo
+import ru.surfstudio.standard.i_network.network.cache.SimpleCacheInfo
 import javax.inject.Inject
 
 /**

@@ -1,8 +1,0 @@
-apply from: '../androidModule.gradle'
-
-dependencies {
-    api "javax.inject:javax.inject:$javaInjectVersion"
-    api "com.google.dagger:dagger:$daggerVersion"
-}
-
-gradle.ext.configAndroidStandardDependencies this
