@@ -14,7 +14,6 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
 // Stage names
-def CHECKOUT = 'Checkout'
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -46,13 +45,11 @@ def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
 def stagesForProjectMode = [
-        CHECKOUT,
         PRE_MERGE,
         BUILD,
         UNIT_TEST
 ]
 def stagesForReleaseMode = [
-        CHECKOUT,
         PRE_MERGE,
         CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -93,10 +90,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { PrPipeline.properties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -146,18 +143,17 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(CHECKOUT, false) {
+        pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
+
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId,
                     branch: destinationBranch
             )
-            RepositoryUtil.saveCurrentGitCommitHash(script)
-        },
-        pipeline.stage(PRE_MERGE) {
+
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
             script.sh "git checkout origin/$sourceBranch"
