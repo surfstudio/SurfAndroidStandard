@@ -299,12 +299,14 @@ def configureStageSkipping(script, pipeline, isSkip, stageNames, message){
             }
             def executeStage = false
             stageNames.each{ stageName ->
-                println "stageName ${stage.getName()} ${stageName == stage.getName()}"
+                println "stageName ${stageName} ${stageName == stage.getName()}"
                 executeStage = executeStage || (stageName == stage.getName())
             }
             if (!executeStage) {
                 stage.strategy = StageStrategy.SKIP_STAGE
             }
+
+            println "Result ${stage.strategy}"
         }
     }
 }
