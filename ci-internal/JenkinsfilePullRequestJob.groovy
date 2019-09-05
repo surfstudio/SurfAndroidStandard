@@ -15,8 +15,6 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 // Stage names
 def CHECKOUT = 'Checkout'
-def CODE_STYLE_FORMATTING = 'Code Style Formatting'
-def UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT = "Update current commit hash after format"
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -192,18 +190,6 @@ pipeline.stages = [
                     branch: destinationBranch
             )
             RepositoryUtil.saveCurrentGitCommitHash(script)
-        },
-        pipeline.stage(CODE_STYLE_FORMATTING) {
-            script.echo "123123 1"
-            AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
-            script.echo "123123 2"
-            hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
-            script.echo "123123 3"
-        },
-        pipeline.stage(UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT) {
-            if (hasChanges) {
-                RepositoryUtil.saveCurrentGitCommitHash(script)
-            }
         },
         pipeline.stage(PRE_MERGE) {
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
