@@ -194,8 +194,11 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(CODE_STYLE_FORMATTING) {
+            script.echo "123123 1"
             AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
+            script.echo "123123 2"
             hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
+            script.echo "123123 3"
         },
         pipeline.stage(UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT) {
             if (hasChanges) {
