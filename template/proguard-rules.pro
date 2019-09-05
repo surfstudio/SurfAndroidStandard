@@ -79,7 +79,3 @@
 #android standard
 -keep class ru.surfstudio.android.rx.extension.ConsumerSafe { *; }
 -keep class ru.surfstudio.android.rx.extension.ActionSafe { *; }
-
-#Cross-feature navigation keeps
--keep interface ru.sbi.android.ui.fragment.CrossFeatureFragment {*;}
--keep class * implements ru.sbi.android.ui.fragment.CrossFeatureFragment

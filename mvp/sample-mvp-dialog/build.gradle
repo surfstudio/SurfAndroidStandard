@@ -1,0 +1,15 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.mvp.dialog.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "mvp-dialog")
+
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}

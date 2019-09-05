@@ -2,7 +2,7 @@ package ru.surfstudio.standard.i_network.response
 
 import ru.surfstudio.standard.domain.metadata.Metadata
 import com.google.gson.annotations.SerializedName
-import ru.surfstudio.android.network.Transformable
+import ru.surfstudio.standard.i_network.network.Transformable
 
 /**
  * Маппинг-модель метаданных [Metadata]
