@@ -81,8 +81,6 @@ def getTestInstrumentationRunnerName = { script, prefix ->
 def script = this
 def pipeline = new EmptyScmPipeline(script)
 
-def hasChanges = false
-
 pipeline.init()
 
 //configuration
@@ -292,21 +290,16 @@ def configureStageSkipping(script, pipeline, isSkip, stageNames, message){
     if (isSkip) {
         script.echo message
         pipeline.stages.each { stage ->
-            script.echo "stage = $stage"
-            script.echo "stage name = ${stage.getName()}"
             if (!(stage instanceof SimpleStage)) {
                 return
             }
             def executeStage = false
             stageNames.each{ stageName ->
-                println "stageName ${stageName} ${stageName == stage.getName()}"
                 executeStage = executeStage || (stageName == stage.getName())
             }
             if (!executeStage) {
                 stage.strategy = StageStrategy.SKIP_STAGE
             }
-
-            println "Result ${stage.strategy}"
         }
     }
 }
