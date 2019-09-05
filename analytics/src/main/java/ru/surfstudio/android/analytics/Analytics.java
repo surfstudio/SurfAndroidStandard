@@ -46,6 +46,7 @@ public interface Analytics {
      *
      * @param key название параметра
      * @param value значение
+     * @param value значение
      */
     void setUserProperty(String key, String value);
 }
