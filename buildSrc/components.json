@@ -58,7 +58,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.firebase:firebase-core",
-            "type": "implementation"
+            "type": "api"
           }
         ],
         "android_standard_dependencies": [
@@ -554,23 +554,23 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "com.jakewharton.rxbinding2:rxbinding",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "com.jakewharton.rxbinding2:rxbinding-kotlin",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "com.jakewharton.rxbinding2:rxbinding-appcompat-v7",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "com.jakewharton.rxrelay2:rxrelay",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "junit:junit",
@@ -636,7 +636,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.android.material:material",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "androidx.appcompat:appcompat",
@@ -859,7 +859,7 @@
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "androidx.annotation:annotation",
@@ -946,7 +946,7 @@
         "third_party_dependencies": [
           {
             "name": "com.github.bumptech.glide:glide",
-            "type": "implementation"
+            "type": "api"
           }
         ],
         "android_standard_dependencies": [
@@ -984,7 +984,7 @@
         "third_party_dependencies": [
           {
             "name": "com.google.android.gms:play-services-location",
-            "type": "implementation"
+            "type": "api"
           }
         ],
         "android_standard_dependencies": [
@@ -1489,11 +1489,11 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "io.reactivex.rxjava2:rxandroid",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "com.annimon:stream",
@@ -1518,7 +1518,12 @@
         "name": "rxbus",
         "dir": "lib-rxbus",
         "artifact_name": "rxbus",
-        "third_party_dependencies": [],
+        "third_party_dependencies": [
+          {
+            "name": "io.reactivex.rxjava2:rxjava",
+            "type": "api"
+          }
+        ],
         "android_standard_dependencies": [
           {
             "name": "rx-extension",
@@ -1670,7 +1675,7 @@
         "third_party_dependencies": [
           {
             "name": "androidx.core:core-ktx",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "com.google.android.material:material",
