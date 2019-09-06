@@ -7,10 +7,10 @@ import org.gradle.internal.logging.text.StyledTextOutputFactory
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.ReleaseNotes
+import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.EMPTY_STRING
-import java.lang.RuntimeException
 
 /**
  * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project
@@ -29,13 +29,16 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     fun generate() {
         extractInputArguments()
         if (componentName.isNotEmpty()) {
-            val component = Components.value.find { it.name == componentName }
-                    ?: throw RuntimeException("Component cant be found")
+            val component = findComponent()
             generateComponentDiff(component)
         } else {
             Components.value.forEach(::generateComponentDiff)
         }
     }
+
+    private fun findComponent(): Component =
+            Components.value.find { it.name == componentName }
+                    ?: throw ComponentNotFoundException(componentName)
 
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
@@ -58,23 +61,66 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     }
 
     private fun printDiff(diffs: List<GitDiff>) {
-        diffs.forEachIndexed { index, diff ->
-            addSpaceBetweenChanges(index, diff.type)
-            val style = getStyleFromDiffType(diff.type)
-            outputStyler.style(style).println(diff.line)
+        var currentChangeLineNumber = 0
+        var currentChangeLinesCount = 0
+        var addsCount = 0
+        var removesCount = 0
+        var prev: GitDiff? = null
+        diffs.forEach { diff ->
+
+            currentChangeLinesCount++
+
+            if (diff.type == GitDiff.Type.ADD) addsCount++
+            if (diff.type == GitDiff.Type.REMOVE) removesCount++
+
+            if (diff.type == GitDiff.Type.SEPARATE) {
+                currentChangeLineNumber = diff.line.toInt() + addsCount - removesCount
+            }
+
+            if (prev?.type != diff.type) {
+                currentChangeLinesCount = 0
+            }
+
+            val currentChangeLine = currentChangeLineNumber + currentChangeLinesCount
+
+            printLine(currentChangeLine, diff, prev)
+
+            prev = diff
         }
     }
 
-    private fun addSpaceBetweenChanges(index: Int, type: GitDiff.Type) {
-        if (index != 0 && type == GitDiff.Type.SEPARATE) {
-            println()
+    /**
+     * Prints styled line from git diff
+     */
+    private fun printLine(currentLine: Int, diff: GitDiff, prev: GitDiff?) {
+        val style = getStyleFromDiffType(diff.type)
+        val spaceString = getSpaces(currentLine)
+        val lineToPrint = when {
+            prev == null -> return
+            diff.type == GitDiff.Type.SEPARATE -> "..."
+            else -> "$currentLine$spaceString${diff.line}"
+
         }
+        outputStyler.style(style).println(lineToPrint)
     }
 
     private fun getStyleFromDiffType(type: GitDiff.Type): StyledTextOutput.Style = when (type) {
         GitDiff.Type.ADD -> StyledTextOutput.Style.Success
         GitDiff.Type.REMOVE -> StyledTextOutput.Style.Failure
         GitDiff.Type.SEPARATE -> StyledTextOutput.Style.Normal
+    }
+
+    /**
+     * Simple tabulation method which adds spaces according to line length
+     */
+    private fun getSpaces(currentLine: Int): String {
+        val space = " "
+        val spacesCount = when {
+            currentLine / 10 == 0 -> 3
+            currentLine / 100 == 0 -> 2
+            else -> 1
+        }
+        return space.repeat(spacesCount)
     }
 
     private fun extractInputArguments() {

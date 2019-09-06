@@ -33,16 +33,21 @@ object SimpleGitDiffParser {
     }
 
     private fun makeAddDiff(line: String): GitDiff {
-        return GitDiff(line.drop(1), GitDiff.Type.ADD)
+        val lineWithoutChar = line.drop(1)
+        val lineWithSpace = "$ADD_CHAR $lineWithoutChar"
+        return GitDiff(lineWithSpace, GitDiff.Type.ADD)
     }
 
     private fun makeRemoveDiff(line: String): GitDiff {
-        return GitDiff(line.drop(1), GitDiff.Type.REMOVE)
+        val lineWithoutChar = line.drop(1)
+        val lineWithSpace = "$REMOVE_CHAR $lineWithoutChar"
+        return GitDiff(lineWithSpace, GitDiff.Type.REMOVE)
     }
 
     private fun makeSeparator(separatorLine: String): GitDiff {
         val regex = "\\d+".toRegex()
         val lineNumber = regex.find(separatorLine)?.value
-        return GitDiff("Строка: $lineNumber", GitDiff.Type.SEPARATE)
+
+        return GitDiff(lineNumber.toString(), GitDiff.Type.SEPARATE)
     }
 }
