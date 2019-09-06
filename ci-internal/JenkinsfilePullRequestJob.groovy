@@ -14,7 +14,6 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
 // Stage names
-
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -45,7 +44,30 @@ def final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
 def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
-def stagesForTargetBranchChangedMode = [PRE_MERGE, BUILD, UNIT_TEST, INSTRUMENTATION_TEST]
+def stagesForProjectMode = [
+        PRE_MERGE,
+        BUILD,
+        UNIT_TEST
+]
+def stagesForReleaseMode = [
+        PRE_MERGE,
+        CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
+        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+        CHECK_RELEASE_NOTES_VALID,
+        CHECK_RELEASE_NOTES_CHANGED,
+        CHECKS_BUILD_TEMPLATE,
+        CHECKS_RESULT,
+        BUILD,
+        UNIT_TEST,
+        INSTRUMENTATION_TEST,
+        STATIC_CODE_ANALYSIS
+]
+def stagesForTargetBranchChangedMode = [
+        PRE_MERGE, BUILD,
+        UNIT_TEST,
+        INSTRUMENTATION_TEST
+]
 
 def getTestInstrumentationRunnerName = { script, prefix ->
     def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
@@ -92,21 +114,29 @@ pipeline.initializeBody = {
         value -> targetBranchChanged = Boolean.valueOf(value)
     }
 
-    if (targetBranchChanged) {
-        script.echo "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
-        pipeline.forStages { stage ->
-            if (!stage instanceof SimpleStage) {
-                return
-            }
-            def executeStage = false
-            for (stageNameForTargetBranchChangedMode in stagesForTargetBranchChangedMode) {
-                executeStage = executeStage || (stageNameForTargetBranchChangedMode == stage.getName())
-            }
-            if (!executeStage) {
-                stage.strategy = StageStrategy.SKIP_STAGE
-            }
-        }
-    }
+    configureStageSkipping(
+            script,
+            pipeline,
+            targetBranchChanged,
+            stagesForTargetBranchChangedMode,
+            "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
+    )
+
+    configureStageSkipping(
+            script,
+            pipeline,
+            isSourceBranchRelease(sourceBranch),
+            stagesForReleaseMode,
+            "Build triggered by release source branch, run only ${stagesForReleaseMode} stages"
+    )
+
+    configureStageSkipping(
+            script,
+            pipeline,
+            isDestinationBranchProjectSnapshot(destinationBranch),
+            stagesForProjectMode,
+            "Build triggered by project destination branch, run only ${stagesForProjectMode} stages"
+    )
 
     def buildDescription = targetBranchChanged ?
             "$sourceBranch to $destinationBranch: target branch changed" :
@@ -121,7 +151,6 @@ pipeline.stages = [
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
-
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId,
@@ -224,7 +253,6 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         }
 ]
-
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
@@ -256,4 +284,30 @@ def static withBintrayCredentials(script, body) {
     ]) {
         body()
     }
+}
+
+def configureStageSkipping(script, pipeline, isSkip, stageNames, message){
+    if (isSkip) {
+        script.echo message
+        pipeline.stages.each { stage ->
+            if (!(stage instanceof SimpleStage)) {
+                return
+            }
+            def executeStage = false
+            stageNames.each{ stageName ->
+                executeStage = executeStage || (stageName == stage.getName())
+            }
+            if (!executeStage) {
+                stage.strategy = StageStrategy.SKIP_STAGE
+            }
+        }
+    }
+}
+
+def static isSourceBranchRelease(String sourceBranch) {
+    return sourceBranch.startsWith("release/")
+}
+
+def static isDestinationBranchProjectSnapshot(String destinationBranch) {
+    return destinationBranch.startsWith("project-snapshot")
 }
