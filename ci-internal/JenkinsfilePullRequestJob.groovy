@@ -16,6 +16,7 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 // Stage names
 def PRE_MERGE = 'PreMerge'
+
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
@@ -25,6 +26,7 @@ def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
 def CHECK_BUILD_TEMPLATE = 'Check Build Template'
 def CHECKS_RESULT = 'All Checks Result'
+
 def GENERATE_RELEASE_NOTES_DIFF = 'Generates diffs in release notes'
 
 def BUILD = 'Build'
