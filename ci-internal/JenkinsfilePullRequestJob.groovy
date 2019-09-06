@@ -223,7 +223,7 @@ pipeline.stages = [
             }
 
             if (!checksPassed) {
-                script.error("Checks Failed")
+                throw RuntimeException("Checks Failed, see reason above ^^^")
             }
         },
 
