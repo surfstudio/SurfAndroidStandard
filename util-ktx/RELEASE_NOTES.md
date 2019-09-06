@@ -2,8 +2,8 @@
 # Util-ktx Release Notes
 ## 0.5.0-alpha.1
 ##### Util-ktx
-* Методы `DateUtil.parseDate()` могут принимать `NULL` на вход и возвращают `NULL` в таком случае
-* Добавлен метод `DateUtil.reformatDate()`, позволяющий переворматировать строковое представление даты из одного формата в другой 
+* `DateUtil.parseDate ()` methods can receive `NULL` as input parameter. Will return `NULL` in this case
+* Added method `DateUtil.reformatDate ()`, which allows to reformat string representation of the date from one format to another
 ## 0.5.0-alpha.0
 ##### Util-ktx
 * TODO
