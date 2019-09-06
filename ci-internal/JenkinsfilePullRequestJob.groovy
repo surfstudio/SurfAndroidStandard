@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -25,6 +26,7 @@ def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
 def CHECKS_RESULT = 'Checks Result'
 def CHECKS_BUILD_TEMPLATE = 'Checks Build Template'
+def GENERATE_RELEASE_NOTES_DIFF = 'Generates diffs in release notes'
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -137,7 +139,12 @@ pipeline.stages = [
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
+
+        pipeline.stage(GENERATE_RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+        },
+
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
