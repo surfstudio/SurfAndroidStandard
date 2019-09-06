@@ -30,6 +30,11 @@
         suggest="${classToResource(screenType)}_${classToResource(screenName)}"/>
 
     <parameter
+        id="crossFeature"
+        name="CrossFeature"
+        type="boolean"/>
+
+    <parameter
         id="needToGenerateLds"
         name="Lds"
         type="boolean"/>
