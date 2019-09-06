@@ -4,9 +4,16 @@ package ${packageName};
 
 import android.content.Context;
 import android.content.Intent;
-import ru.surfstudio.android.core.ui.navigation.${screenType}.route.${routeParentClassName}
 <#if screenType=='fragment'>
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
+</#if>
+<#if crossFeature>
+import ru.surfstudio.android.core.ui.navigation.feature.route.feature.${routeParentClassName}
+<#else>
+import ru.surfstudio.android.core.ui.navigation.${screenType}.route.${routeParentClassName}
+</#if>
+<#if screenType=='fragment'>
+import androidx.fragment.app.Fragment;
 </#if>
 
 /**
@@ -84,10 +91,12 @@ public class ${routeClassName} extends ${routeParentClassName} {
         return intent;
     }
     <#else>
+    <#if !crossFeature>
     @Override
     protected Class<? extends Fragment> getFragmentClass() {
         return ${viewClassName}.class;
     }
+    </#if>
 
     @Override
     public Bundle prepareBundle() {
@@ -102,6 +111,14 @@ public class ${routeClassName} extends ${routeParentClassName} {
             args.<@IntentAndBundleMacros.generatePutToBundleMethod routeParamClassName3/>(EXTRA_THIRD, ${routeParamName3});
         </#if>
         return args;
+    }
+    </#if>
+
+
+    <#if crossFeature>
+    @Override
+    public String targetClassPath() {
+        return "${packageName}.${viewClassName}";
     }
     </#if>
 }
