@@ -16,7 +16,6 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 
 // Stage names
 def PRE_MERGE = 'PreMerge'
-
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
