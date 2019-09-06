@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.ui.navigation.feature.route.feature.${routePar
 import ru.surfstudio.android.core.ui.navigation.${screenType}.route.${routeParentClassName}
 </#if>
 <#if screenType=='fragment'>
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 </#if>
 
 /**
@@ -51,7 +51,9 @@ class ${routeClassName}<#if needToGenerateParams>(<#if routeParamName1!='' && ro
     )
 
     </#if>
+    <#if !crossFeature>
     override fun getFragmentClass() = ${viewClassName}::class.java
+    </#if>
     <#if needToGenerateParams>
 
     override fun prepareBundle() = Bundle()<#if needToGenerateParams>.apply {
