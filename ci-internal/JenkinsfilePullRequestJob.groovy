@@ -54,6 +54,7 @@ def stagesForProjectMode = [
 ]
 def stagesForReleaseMode = [
         PRE_MERGE,
+        GENERATE_RELEASE_NOTES_DIFF,
         CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
@@ -297,7 +298,7 @@ def static withBintrayCredentials(script, body) {
     }
 }
 
-def configureStageSkipping(script, pipeline, isSkip, stageNames, message){
+def configureStageSkipping(script, pipeline, isSkip, stageNames, message) {
     if (isSkip) {
         script.echo message
         pipeline.stages.each { stage ->
@@ -305,7 +306,7 @@ def configureStageSkipping(script, pipeline, isSkip, stageNames, message){
                 return
             }
             def executeStage = false
-            stageNames.each{ stageName ->
+            stageNames.each { stageName ->
                 executeStage = executeStage || (stageName == stage.getName())
             }
             if (!executeStage) {
