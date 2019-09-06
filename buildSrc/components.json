@@ -166,7 +166,7 @@
         "third_party_dependencies": [
           {
             "name": "io.reactivex.rxjava2:rxjava",
-            "type": "implementation"
+            "type": "api"
           }
         ],
         "android_standard_dependencies": [
@@ -579,6 +579,10 @@
           {
             "name": "org.mockito:mockito-core",
             "type": "testImplementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -707,6 +711,10 @@
           {
             "name": "com.wang.avi:library",
             "type": "api"
+          },
+          {
+            "name": "com.google.android.material:material",
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1451,7 +1459,7 @@
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "com.google.android.material:material",
@@ -1635,7 +1643,12 @@
         "name": "standard-dialog",
         "dir": "lib-standard-dialog",
         "artifact_name": "standard-dialog",
-        "third_party_dependencies": [],
+        "third_party_dependencies": [
+          {
+            "name": "javax.inject:javax.inject",
+            "type": "implementation"
+          }
+        ],
         "android_standard_dependencies": [
           {
             "name": "core-ui",
