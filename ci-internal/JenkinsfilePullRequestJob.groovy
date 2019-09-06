@@ -22,8 +22,9 @@ def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
-def CHECKS_RESULT = 'Checks Result'
-def CHECKS_BUILD_TEMPLATE = 'Checks Build Template'
+def CHECK_BUILD_TEMPLATE = 'Check Build Template'
+def CHECKS_RESULT = 'All Checks Result'
+
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -196,7 +197,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew generateModulesNamesFile")
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
@@ -215,8 +216,9 @@ pipeline.stages = [
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+
                 if (!checksPassed) {
-                    script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
+                    script.echo "Stage '${stageName}' ${stageResult}"
                 }
             }
 
