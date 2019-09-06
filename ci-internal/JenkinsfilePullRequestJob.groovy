@@ -57,7 +57,7 @@ def stagesForReleaseMode = [
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
         CHECK_RELEASE_NOTES_VALID,
         CHECK_RELEASE_NOTES_CHANGED,
-        CHECKS_BUILD_TEMPLATE,
+        CHECK_BUILD_TEMPLATE,
         CHECKS_RESULT,
         BUILD,
         UNIT_TEST,
@@ -65,7 +65,8 @@ def stagesForReleaseMode = [
         STATIC_CODE_ANALYSIS
 ]
 def stagesForTargetBranchChangedMode = [
-        PRE_MERGE, BUILD,
+        PRE_MERGE,
+        BUILD,
         UNIT_TEST,
         INSTRUMENTATION_TEST
 ]
@@ -212,7 +213,7 @@ pipeline.stages = [
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
                     CHECK_RELEASE_NOTES_CHANGED,
-                    CHECKS_BUILD_TEMPLATE
+                    CHECK_BUILD_TEMPLATE
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
