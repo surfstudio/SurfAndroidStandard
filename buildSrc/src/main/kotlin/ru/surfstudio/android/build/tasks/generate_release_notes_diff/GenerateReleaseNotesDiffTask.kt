@@ -53,7 +53,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     }
 
     private fun parseRawDiff(diff: String): List<GitDiff> =
-            SimpleGitDiffParser.parse(diff)
+            SimpleGitDiffParser().parse(diff)
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
@@ -61,30 +61,9 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     }
 
     private fun printDiff(diffs: List<GitDiff>) {
-        var currentChangeLineNumber = 0
-        var currentChangeLinesCount = 0
-        var addsCount = 0
-        var removesCount = 0
         var prev: GitDiff? = null
         diffs.forEach { diff ->
-
-            currentChangeLinesCount++
-
-            if (diff.type == GitDiff.Type.ADD) addsCount++
-            if (diff.type == GitDiff.Type.REMOVE) removesCount++
-
-            if (diff.type == GitDiff.Type.SEPARATE) {
-                currentChangeLineNumber = diff.line.toInt() + addsCount - removesCount
-            }
-
-            if (prev?.type != diff.type) {
-                currentChangeLinesCount = 0
-            }
-
-            val currentChangeLine = currentChangeLineNumber + currentChangeLinesCount
-
-            printLine(currentChangeLine, diff, prev)
-
+            printLine(diff, prev)
             prev = diff
         }
     }
@@ -92,13 +71,13 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     /**
      * Prints styled line from git diff
      */
-    private fun printLine(currentLine: Int, diff: GitDiff, prev: GitDiff?) {
+    private fun printLine(diff: GitDiff, prev: GitDiff?) {
         val style = getStyleFromDiffType(diff.type)
-        val spaceString = getSpaces(currentLine)
+        val paddingSpaces = getSpaces(diff.lineNumber)
         val lineToPrint = when {
             prev == null -> return
             diff.type == GitDiff.Type.SEPARATE -> "..."
-            else -> "$currentLine$spaceString${diff.line}"
+            else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
 
         }
         outputStyler.style(style).println(lineToPrint)
@@ -111,7 +90,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     }
 
     /**
-     * Simple tabulation method which adds spaces according to line length
+     * Simple padding method which adds spaces according to line length
      */
     private fun getSpaces(currentLine: Int): String {
         val space = " "

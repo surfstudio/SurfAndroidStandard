@@ -3,11 +3,13 @@ package ru.surfstudio.android.build.tasks.generate_release_notes_diff
 /**
  * Simple git diff model. Contains information about single line differences.
  *
- * @param line text of the line, which is affected by diff
+ * @param line text of the line affected by diff
+ * @param lineNumber number of the line affected by diff
  * @param type type of git difference
  */
 data class GitDiff(
         val line: String,
+        val lineNumber: Int,
         val type: Type
 ) {
 
