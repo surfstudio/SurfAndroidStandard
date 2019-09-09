@@ -55,7 +55,6 @@ def stagesForProjectMode = [
 ]
 def stagesForReleaseMode = [
         PRE_MERGE,
-        GENERATE_RELEASE_NOTES_DIFF,
         CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
@@ -70,7 +69,6 @@ def stagesForReleaseMode = [
 ]
 def stagesForTargetBranchChangedMode = [
         PRE_MERGE,
-        GENERATE_RELEASE_NOTES_DIFF,
         BUILD,
         UNIT_TEST,
         INSTRUMENTATION_TEST
