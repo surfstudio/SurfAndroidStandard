@@ -29,11 +29,12 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * List для работы с пагинацией
- * Механизм limit-offset
- * Можно сливать с другим DataList
+ * Pagination list with mechanism limit-offset.
  *
- * @param <T> Item
+ * Two DataLists can be combined by calling merge function.
+ * This function is the only way to merge pagination data blocks.
+ *
+ * @param <T> item type
  */
 public class DataList<T> implements List<T>, Serializable {
 
