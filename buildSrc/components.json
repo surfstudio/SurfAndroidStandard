@@ -779,7 +779,7 @@
     "id": "datalist",
     "version": "0.4.0",
     "unstable_version": 0,
-    "stable": false,
+    "stable": true,
     "dir": "datalist",
     "libs": [
       {
