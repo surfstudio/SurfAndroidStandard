@@ -396,7 +396,7 @@
     "id": "converter-gson",
     "version": "0.4.0",
     "unstable_version": 0,
-    "stable": false,
+    "stable": true,
     "dir": "deprecated/converter-gson",
     "libs": [
       {
