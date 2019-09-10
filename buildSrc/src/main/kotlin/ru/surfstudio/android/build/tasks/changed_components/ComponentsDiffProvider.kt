@@ -59,13 +59,13 @@ class ComponentsDiffProvider(
                 diffResults.any { isDiffHasComponent(it, component, ignoreReleaseNotesChanges) }
             }
             .map { component ->
-                val componentsDiffs = diffResults.filter { isDiffHasComponent(it, component,ignoreReleaseNotesChanges) }
+                val componentsDiffs = diffResults.filter { isDiffHasComponent(it, component, ignoreReleaseNotesChanges) }
                 component to componentsDiffs
             }
             .toMap()
 
     private fun isDiffHasComponent(diffResult: String, component: Component, ignoreReleaseNotesChanges: Boolean = false): Boolean {
         return diffResult.startsWith(component.directory)
-                && !(ignoreReleaseNotesChanges || diffResult.endsWith(RELEASE_NOTES_FILE_NAME))
+                && if (diffResult.endsWith(RELEASE_NOTES_FILE_NAME)) !ignoreReleaseNotesChanges else true
     }
 }
