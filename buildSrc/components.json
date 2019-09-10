@@ -853,7 +853,7 @@
     "id": "easyadapter",
     "version": "1.0.0",
     "unstable_version": 0,
-    "stable": false,
+    "stable": true,
     "dir": "easyadapter",
     "libs": [
       {
