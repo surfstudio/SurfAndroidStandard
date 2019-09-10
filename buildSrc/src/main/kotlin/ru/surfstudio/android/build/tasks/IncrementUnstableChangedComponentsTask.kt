@@ -29,7 +29,7 @@ open class IncrementUnstableChangedComponentsTask : DefaultTask() {
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
 
         val resultByFiles = ComponentsFilesChecker(currentRevision, revisionToCompare)
-                .getChangeInformationForComponents()
+                .getChangeInformationForComponents(ignoreReleaseNotesChanges = true)
 
         val resultsByConfiguration = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()

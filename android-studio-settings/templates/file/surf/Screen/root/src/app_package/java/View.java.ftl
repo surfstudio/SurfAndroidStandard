@@ -4,7 +4,7 @@ import android.os.Bundle;
 <#if screenType=='activity'>
 import android.os.PersistableBundle;
 </#if>
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.View;
 import ru.surfstudio.android.core.mvp.${screenType}.${viewParentClassName};
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter;
@@ -15,7 +15,7 @@ import ${applicationPackage}.base_ui.component.provider.ComponentProvider
 import ru.surfstudio.standard.ui.base.placeholder.PlaceHolderView;
 import javax.inject.Inject;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 

@@ -4,6 +4,7 @@ import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesFileNotE
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesFormatException
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesNotFoundException
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesParsingException
+import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 import java.io.BufferedReader
 import java.io.File
@@ -25,12 +26,15 @@ object ReleaseNotes {
                 ?: throw ReleaseNotesNotFoundException(componentName)
     }
 
+    fun getReleaseNotesFilePath(component: Component): String =
+            "${component.directory}/$RELEASE_NOTES_FILE_NAME"
+
     /**
      * Parse releaseNotes.md files
      */
     private fun parseReleaseNotesFiles(): List<ReleaseNotesInfo> {
         return Components.value.map { component ->
-            val file = File("${component.directory}/$RELEASE_NOTES_FILE_NAME")
+            val file = File(getReleaseNotesFilePath(component))
 
             checkReleaseNotesFilesExist(file)
 
