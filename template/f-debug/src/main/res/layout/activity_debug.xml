@@ -64,5 +64,12 @@
             android:layout_height="wrap_content"
             app:catalog_item_icon="@drawable/ic_dev_settings"
             app:catalog_item_name="@string/show_developer_tools_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/show_app_settings_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:catalog_item_icon="@drawable/ic_android"
+            app:catalog_item_name="@string/show_app_settings_debug_item" />
     </LinearLayout>
 </ScrollView>

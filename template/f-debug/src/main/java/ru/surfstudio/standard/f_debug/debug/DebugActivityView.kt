@@ -47,5 +47,6 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
         show_ui_tools_item_layout.setOnClickListener { presenter.openUiToolsScreen() }
         show_developer_tools_item_layout.setOnClickListener { presenter.openDeveloperToolsScreen() }
         show_tools_item_layout.setOnClickListener { presenter.openToolsScreen() }
+        show_app_settings_item_layout.setOnClickListener { presenter.openAppSettingsScreen() }
     }
 }
