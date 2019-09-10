@@ -498,7 +498,7 @@
     "id": "core-mvi",
     "version": "0.4.0",
     "unstable_version": 0,
-    "stable": false,
+    "stable": true,
     "dir": "core-mvi",
     "libs": [
       {
