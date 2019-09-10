@@ -19,4 +19,12 @@
         android:layout_height="wrap_content"
         app:catalog_item_description="@string/ui_tools_scalpel_description"
         app:catalog_item_name="@string/ui_tools_scalpel_name" />
+
+    <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+        android:id="@+id/vqa_tool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:catalog_item_description="@string/ui_tools_window_vqa_description"
+        app:catalog_item_name="@string/ui_tools_window_vqa_name" />
+
 </LinearLayout>
