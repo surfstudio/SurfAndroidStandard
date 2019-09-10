@@ -1,6 +1,6 @@
 [TOC]
 # Standard-dialog Release Notes
-## 0.4.0-alpha.0
+## 0.4.0
 ##### Standard-dialog
 * TODO
 ## 0.2.1
