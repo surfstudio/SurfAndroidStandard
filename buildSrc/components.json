@@ -1701,5 +1701,16 @@
     "samples": [],
     "has_mirror": false,
     "mirror_repo": ""
+  },
+  {
+    "id": "template",
+    "version": "0.5.0",
+    "unstable_version": 0,
+    "stable": false,
+    "dir": "template",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
   }
 ]
