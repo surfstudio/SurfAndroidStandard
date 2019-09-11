@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Pagination list with mechanism limit-offset.
+ * Pagination list with limit-offset mechanism.
  *
  * Two DataLists can be combined by calling merge function.
  * This function is the only way to merge pagination data blocks.
@@ -38,11 +38,11 @@ import java.util.ListIterator;
  */
 public class DataList<T> implements List<T>, Serializable {
 
-    //количество элементов в списке
+    //count of elements in one pagination portion
     private int limit;
-    //сдвиг относительно первого элемента
+    //current offset from first element
     private int offset;
-    //максимально возможное количество эелементов списка
+    //maximum elements of list
     private int totalCount;
 
     private ArrayList<T> data;
