@@ -12,8 +12,8 @@ import okhttp3.OkHttpClient
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
-import ru.surfstudio.standard.f_debug.scalpel.ScalpelManager
-import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
+import ru.surfstudio.standard.f_debug.scalpel.DebugScalpelManager
+import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.DebugRebootInteractor
 import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.f_debug.storage.DebugUiToolsStorage
 import ru.surfstudio.standard.f_debug.storage.MemoryDebugStorage
@@ -28,7 +28,7 @@ class DebugInteractor @Inject constructor(
         private val debugUiToolsStorage: DebugUiToolsStorage,
         private val toolsDebugStorage: ToolsDebugStorage,
         private val application: Application,
-        private val rebootInteractor: RebootInteractor
+        private val rebootInteractor: DebugRebootInteractor
 ) {
 
     private val serverChangedPublishSubject = PublishSubject.create<Unit>()
@@ -116,7 +116,7 @@ class DebugInteractor @Inject constructor(
      */
     fun onCreateApp(icon: Int) {
         DebugNotificationBuilder.showDebugNotification(application, icon)
-        ScalpelManager.init(application)
+        DebugScalpelManager.init(application)
 
         if (memoryDebugStorage.isLeakCanaryEnabled) {
             LeakCanary.install(application)

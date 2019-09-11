@@ -11,21 +11,21 @@ import javax.inject.Inject
 /**
  * Вью экрана перезапуска приложения
  */
-class RebootActivityDebugView : BaseRenderableActivityView<RebootDebugScreenModel>() {
+class RebootDebugActivityView : BaseRenderableActivityView<RebootDebugScreenModel>() {
 
     @Inject
     lateinit var presenter: RebootDebugPresenter
 
     override fun getContentView() = R.layout.activity_reboot_debug
 
-    override fun getScreenName() = "RebootActivityDebugView"
+    override fun getScreenName() = "RebootDebugActivityView"
 
     override fun getPresenters() = arrayOf(presenter)
 
     override fun createConfigurator() = RebootDebugScreenConfigurator(intent)
 
     override fun renderInternal(sm: RebootDebugScreenModel) {
-        reboot_tw.text = getString(R.string.reboot_tw_start_text, sm.secondBeforeReboot.toString())
+        debug_reboot_tw.text = getString(R.string.debug_reboot_tw_start_text, sm.secondBeforeReboot.toString())
     }
 
     override fun onBackPressed() {
@@ -39,7 +39,7 @@ class RebootActivityDebugView : BaseRenderableActivityView<RebootDebugScreenMode
     }
 
     private fun initListeners() {
-        reboot_now_b.setOnClickListener { presenter.rebootNow() }
-        reboot_cancel_b.setOnClickListener { presenter.cancelReboot() }
+        debug_reboot_now_b.setOnClickListener { presenter.rebootNow() }
+        debug_reboot_cancel_b.setOnClickListener { presenter.cancelReboot() }
     }
 }

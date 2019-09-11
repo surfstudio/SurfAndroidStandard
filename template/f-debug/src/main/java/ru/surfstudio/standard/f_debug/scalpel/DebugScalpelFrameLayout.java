@@ -60,7 +60,7 @@ import static android.view.MotionEvent.INVALID_POINTER_ID;
  *
  * Changed By Surf
  */
-public class ScalpelFrameLayout extends FrameLayout {
+public class DebugScalpelFrameLayout extends FrameLayout {
     private static final int TRACKING_UNKNOWN = 0;
     private static final int TRACKING_VERTICALLY = 1;
     private static final int TRACKING_HORIZONTALLY = -1;
@@ -153,15 +153,15 @@ public class ScalpelFrameLayout extends FrameLayout {
     private int currentStartViewLayer = START_VIEW_LAYER;
     private int currentEndViewLayer = endViewLayer;
 
-    public ScalpelFrameLayout(Context context) {
+    public DebugScalpelFrameLayout(Context context) {
         this(context, null);
     }
 
-    public ScalpelFrameLayout(Context context, AttributeSet attrs) {
+    public DebugScalpelFrameLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ScalpelFrameLayout(Context context, AttributeSet attrs, int defStyle) {
+    public DebugScalpelFrameLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         res = context.getResources();
         density = context.getResources().getDisplayMetrics().density;
