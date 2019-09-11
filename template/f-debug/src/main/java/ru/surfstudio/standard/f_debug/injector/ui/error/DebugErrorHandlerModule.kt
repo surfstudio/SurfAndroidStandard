@@ -6,11 +6,11 @@ import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.dagger.scope.PerScreen
 
 @Module
-class ErrorHandlerModule {
+class DebugErrorHandlerModule {
 
     @Provides
     @PerScreen
-    fun provideNetworkErrorHandler(standardErrorHandler: StandardErrorHandler): ErrorHandler {
+    fun provideNetworkErrorHandler(standardErrorHandler: DebugStandardErrorHandler): ErrorHandler {
         return standardErrorHandler
     }
 }

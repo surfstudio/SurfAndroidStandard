@@ -49,8 +49,8 @@ class ReusedComponentsDebugActivityView : BaseRenderableActivityView<ReusedCompo
     override fun getScreenName(): String = "debug_controllers"
 
     private fun initRecycler() {
-        recycler.layoutManager = LinearLayoutManager(this)
-        recycler.adapter = adapter
+        debug_recycler.layoutManager = LinearLayoutManager(this)
+        debug_recycler.adapter = adapter
     }
 
     private fun initAdapter() {

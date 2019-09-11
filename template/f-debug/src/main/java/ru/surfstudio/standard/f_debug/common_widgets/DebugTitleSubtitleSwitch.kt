@@ -11,7 +11,7 @@ import ru.surfstudio.android.template.f_debug.R
 /**
  * Виджет, позволяющий задать как title, так и subtitle у Switch
  */
-class TitleSubtitleSwitch(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
+class DebugTitleSubtitleSwitch(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
     private val onCheckedChangeListener =
             CompoundButton.OnCheckedChangeListener { _, isChecked ->
@@ -22,12 +22,12 @@ class TitleSubtitleSwitch(context: Context, attrs: AttributeSet) : ConstraintLay
 
     var title: String = ""
         set(value) {
-            title_tv.text = value
+            debug_title_tv.text = value
         }
 
     var subtitle: String = ""
         set(value) {
-            subtitle_tv.text = value
+            debug_subtitle_tv.text = value
         }
 
 
@@ -42,26 +42,26 @@ class TitleSubtitleSwitch(context: Context, attrs: AttributeSet) : ConstraintLay
     fun isChecked() = isChecked
 
     fun setChecked(value: Boolean) {
-        value_switch.isChecked = value
+        debug_value_switch.isChecked = value
     }
 
     private fun initListeners() {
-        value_switch.setOnCheckedChangeListener(onCheckedChangeListener)
-        this.setOnClickListener { setChecked(!value_switch.isChecked) }
+        debug_value_switch.setOnCheckedChangeListener(onCheckedChangeListener)
+        this.setOnClickListener { setChecked(!debug_value_switch.isChecked) }
     }
 
     private fun obtainAttributes(context: Context, attributeSet: AttributeSet) {
-        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.TitleSubtitleSwitch)
-        value_switch.isChecked = typedArray.getBoolean(R.styleable.TitleSubtitleSwitch_switch_checked, isChecked)
-        title = typedArray.getString(R.styleable.TitleSubtitleSwitch_switch_title) ?: ""
-        subtitle = typedArray.getString(R.styleable.TitleSubtitleSwitch_switch_subtitle) ?: ""
+        val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DebugTitleSubtitleSwitch)
+        debug_value_switch.isChecked = typedArray.getBoolean(R.styleable.DebugTitleSubtitleSwitch_debug_switch_checked, isChecked)
+        title = typedArray.getString(R.styleable.DebugTitleSubtitleSwitch_debug_switch_title) ?: ""
+        subtitle = typedArray.getString(R.styleable.DebugTitleSubtitleSwitch_debug_switch_subtitle) ?: ""
         typedArray.recycle()
     }
 
     fun setOnCheckedChangeListener(listener: (CompoundButton, Boolean) -> Unit) {
-        value_switch.setOnClickListener {
-            onCheckedChangeListener.onCheckedChanged(value_switch, value_switch.isChecked)
-            listener(value_switch, isChecked)
+        debug_value_switch.setOnClickListener {
+            onCheckedChangeListener.onCheckedChanged(debug_value_switch, debug_value_switch.isChecked)
+            listener(debug_value_switch, isChecked)
         }
     }
 }

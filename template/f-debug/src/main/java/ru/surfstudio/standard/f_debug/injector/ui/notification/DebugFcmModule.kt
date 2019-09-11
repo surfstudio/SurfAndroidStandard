@@ -10,7 +10,7 @@ import javax.inject.Named
 
 
 @Module
-class FcmModule {
+class DebugFcmModule {
 
     @Provides
     @PerApplication

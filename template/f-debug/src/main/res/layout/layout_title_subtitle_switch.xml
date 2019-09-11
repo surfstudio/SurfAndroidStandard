@@ -7,7 +7,7 @@
     android:background="?selectableItemBackground">
 
     <TextView
-        android:id="@+id/title_tv"
+        android:id="@+id/debug_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,7 +20,7 @@
         tools:text="Title" />
 
     <TextView
-        android:id="@+id/subtitle_tv"
+        android:id="@+id/debug_subtitle_tv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -29,13 +29,13 @@
         android:textColor="@android:color/darker_gray"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/value_switch"
+        app:layout_constraintEnd_toStartOf="@id/debug_value_switch"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_tv"
+        app:layout_constraintTop_toBottomOf="@id/debug_title_tv"
         tools:text="Subtitle" />
 
     <Switch
-        android:id="@+id/value_switch"
+        android:id="@+id/debug_value_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -46,7 +46,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/scalpel_settings_container"
+        android:layout_below="@id/debug_scalpel_settings_container"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
