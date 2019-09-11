@@ -690,7 +690,7 @@
       }
     ],
     "has_mirror": true,
-    "mirror_repo": "https://github.com/surfstudio/core-ui"
+    "mirror_repo": "https://github.com/surfstudio/Core-ui"
   },
   {
     "id": "custom-view",
