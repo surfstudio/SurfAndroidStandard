@@ -1091,7 +1091,7 @@
         "third_party_dependencies": [
           {
             "name": "com.agna.ferro:ferro-rx",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "junit:junit",
