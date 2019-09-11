@@ -1,6 +1,6 @@
 [TOC]
 # Util-ktx Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Util-ktx
 * TODO
 ## 0.4.0

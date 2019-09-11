@@ -1,6 +1,6 @@
 [TOC]
 # Template Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Template
 * ANDDEP-329 Added RxJava2Debug
 
