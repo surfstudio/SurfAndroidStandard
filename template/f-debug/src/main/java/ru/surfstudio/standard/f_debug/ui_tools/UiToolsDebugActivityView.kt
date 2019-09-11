@@ -35,16 +35,17 @@ class UiToolsDebugActivityView : BaseRenderableActivityView<UiToolsDebugScreenMo
     }
 
     override fun renderInternal(sm: UiToolsDebugScreenModel) {
-        fps_enable_switch.setChecked(sm.isFpsEnabled)
+        debug_fps_enable_switch.setChecked(sm.isFpsEnabled)
     }
 
     private fun initListeners() {
-        fps_enable_switch.setOnCheckedChangeListener { _, isEnabled ->
+        debug_fps_enable_switch.setOnCheckedChangeListener { _, isEnabled ->
             presenter.setFpsEnable(isEnabled)
         }
-        scalpel_tool.setOnClickListener {
+        debug_scalpel_tool.setOnClickListener {
             Toast.makeText(this, "Втряхните устройство для включения Scalpel", Toast.LENGTH_SHORT)
                     .show()
         }
+        debug_vqa_tool.setOnClickListener { presenter.openWindowVQA() }
     }
 }

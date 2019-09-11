@@ -22,7 +22,7 @@ import android.os.Bundle
 /**
  * Слушатель жизненного цикла активити по умолчанию
  */
-open class DefaultActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
+open class DebugDefaultActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
     override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
         //do nothing

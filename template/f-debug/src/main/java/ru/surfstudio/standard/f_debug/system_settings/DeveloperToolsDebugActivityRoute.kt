@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.f_debug.developer_tools
+package ru.surfstudio.standard.f_debug.system_settings
 
 import android.content.Context
 import android.content.Intent

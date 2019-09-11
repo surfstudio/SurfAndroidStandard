@@ -12,7 +12,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
  * @param <R>
 </R> */
 @Module
-abstract class CustomScreenModule<out R : Route>(private val route: R) {
+abstract class DebugCustomScreenModule<out R : Route>(private val route: R) {
 
     @Provides
     @PerScreen
