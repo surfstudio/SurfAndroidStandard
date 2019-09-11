@@ -6,6 +6,7 @@
     <string name="show_app_info_debug_item">Общая информация</string>
     <string name="show_ui_tools_debug_item">UI-инструменты</string>
     <string name="show_developer_tools_debug_item">Настройки разработчика</string>
+    <string name="show_app_settings_debug_item">Настройки приложения</string>
     <string name="show_tools_debug_item">Остальные инструменты</string>
     <string name="copy_fcm_btn_text">Скопировать</string>
     <string name="fcm_copied_message">FCM-токен был скопирован в буфер обмена</string>
@@ -57,6 +58,8 @@
     <!--region UI-tools-->
     <string name="ui_tools_scalpel_name">Scalpel</string>
     <string name="ui_tools_scalpel_description">Отрисовывает иерархию вью как интерактивную 3D визуализацию. Запускается после встряхивания устройства.</string>
+    <string name="ui_tools_window_vqa_name">Window VQA</string>
+    <string name="ui_tools_window_vqa_description">Window VQA помогает дэбажить UI. Для запуска нужно произвести первоначальные настройки в самом приложении Window VQA, а затем можно запускать длительным нажатием на Home. Поддерживается с API 23.</string>
     <!--endregion-->
 
 </resources>

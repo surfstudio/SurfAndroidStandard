@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -14,7 +15,6 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
 // Stage names
-
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -23,8 +23,10 @@ def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
-def CHECKS_RESULT = 'Checks Result'
-def CHECKS_BUILD_TEMPLATE = 'Checks Build Template'
+def CHECK_BUILD_TEMPLATE = 'Check Build Template'
+def CHECKS_RESULT = 'All Checks Result'
+
+def GENERATE_RELEASE_NOTES_DIFF = 'Generates diffs in release notes'
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -45,7 +47,32 @@ def final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
 def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
-def stagesForTargetBranchChangedMode = [PRE_MERGE, BUILD, UNIT_TEST, INSTRUMENTATION_TEST]
+def stagesForProjectMode = [
+        PRE_MERGE,
+        GENERATE_RELEASE_NOTES_DIFF,
+        BUILD,
+        UNIT_TEST
+]
+def stagesForReleaseMode = [
+        PRE_MERGE,
+        CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
+        CHECK_STABLE_MODULES_IN_ARTIFACTORY,
+        CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
+        CHECK_RELEASE_NOTES_VALID,
+        CHECK_RELEASE_NOTES_CHANGED,
+        CHECK_BUILD_TEMPLATE,
+        CHECKS_RESULT,
+        BUILD,
+        UNIT_TEST,
+        INSTRUMENTATION_TEST,
+        STATIC_CODE_ANALYSIS
+]
+def stagesForTargetBranchChangedMode = [
+        PRE_MERGE,
+        BUILD,
+        UNIT_TEST,
+        INSTRUMENTATION_TEST
+]
 
 def getTestInstrumentationRunnerName = { script, prefix ->
     def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
@@ -92,21 +119,29 @@ pipeline.initializeBody = {
         value -> targetBranchChanged = Boolean.valueOf(value)
     }
 
-    if (targetBranchChanged) {
-        script.echo "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
-        pipeline.forStages { stage ->
-            if (!stage instanceof SimpleStage) {
-                return
-            }
-            def executeStage = false
-            for (stageNameForTargetBranchChangedMode in stagesForTargetBranchChangedMode) {
-                executeStage = executeStage || (stageNameForTargetBranchChangedMode == stage.getName())
-            }
-            if (!executeStage) {
-                stage.strategy = StageStrategy.SKIP_STAGE
-            }
-        }
-    }
+    configureStageSkipping(
+            script,
+            pipeline,
+            targetBranchChanged,
+            stagesForTargetBranchChangedMode,
+            "Build triggered by target branch changes, run only ${stagesForTargetBranchChangedMode} stages"
+    )
+
+    configureStageSkipping(
+            script,
+            pipeline,
+            isSourceBranchRelease(sourceBranch),
+            stagesForReleaseMode,
+            "Build triggered by release source branch, run only ${stagesForReleaseMode} stages"
+    )
+
+    configureStageSkipping(
+            script,
+            pipeline,
+            isDestinationBranchProjectSnapshot(destinationBranch),
+            stagesForProjectMode,
+            "Build triggered by project destination branch, run only ${stagesForProjectMode} stages"
+    )
 
     def buildDescription = targetBranchChanged ?
             "$sourceBranch to $destinationBranch: target branch changed" :
@@ -121,7 +156,6 @@ pipeline.stages = [
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
-
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId,
@@ -137,7 +171,12 @@ pipeline.stages = [
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
+
+        pipeline.stage(GENERATE_RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+        },
+
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -167,7 +206,7 @@ pipeline.stages = [
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(CHECK_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew generateModulesNamesFile")
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
@@ -182,17 +221,18 @@ pipeline.stages = [
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
                     CHECK_RELEASE_NOTES_CHANGED,
-                    CHECKS_BUILD_TEMPLATE
+                    CHECK_BUILD_TEMPLATE
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
+
                 if (!checksPassed) {
-                    script.echo "stageName = ${stageName}, checksPassed = ${checksPassed}, stageResult = ${stageResult}"
+                    script.echo "Stage '${stageName}' ${stageResult}"
                 }
             }
 
             if (!checksPassed) {
-                script.error("Checks Failed")
+                throw RuntimeException("Checks Failed, see reason above ^^^")
             }
         },
 
@@ -224,7 +264,6 @@ pipeline.stages = [
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
         }
 ]
-
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
@@ -256,4 +295,30 @@ def static withBintrayCredentials(script, body) {
     ]) {
         body()
     }
+}
+
+def configureStageSkipping(script, pipeline, isSkip, stageNames, message) {
+    if (isSkip) {
+        script.echo message
+        pipeline.stages.each { stage ->
+            if (!(stage instanceof SimpleStage)) {
+                return
+            }
+            def executeStage = false
+            stageNames.each { stageName ->
+                executeStage = executeStage || (stageName == stage.getName())
+            }
+            if (!executeStage) {
+                stage.strategy = StageStrategy.SKIP_STAGE
+            }
+        }
+    }
+}
+
+def static isSourceBranchRelease(String sourceBranch) {
+    return sourceBranch.startsWith("release/")
+}
+
+def static isDestinationBranchProjectSnapshot(String destinationBranch) {
+    return destinationBranch.startsWith("project-snapshot")
 }
