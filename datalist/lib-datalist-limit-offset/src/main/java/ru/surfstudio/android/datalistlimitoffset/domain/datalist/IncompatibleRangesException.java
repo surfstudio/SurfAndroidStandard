@@ -23,4 +23,8 @@ public class IncompatibleRangesException extends IllegalArgumentException {
     public IncompatibleRangesException(String s) {
         super(s);
     }
+
+    public IncompatibleRangesException() {
+        this("Incorrect data range");
+    }
 }

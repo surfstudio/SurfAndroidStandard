@@ -17,7 +17,6 @@ package ru.surfstudio.android.datalistlimitoffset.domain.datalist;
 
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,7 +29,7 @@ import java.util.ListIterator;
 
 /**
  * Pagination list with limit-offset mechanism.
- *
+ * <p>
  * Two DataLists can be combined by calling merge function.
  * This function is the only way to merge pagination data blocks.
  *
@@ -38,7 +37,7 @@ import java.util.ListIterator;
  */
 public class DataList<T> implements List<T>, Serializable {
 
-    //count of elements in one pagination portion
+    //count of elements in pagination portion
     private int limit;
     //current offset from first element
     private int offset;
@@ -72,71 +71,44 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Слияние двух DataList
+     * Merges two DataLists.
      *
-     * @param data DataList для слияния с текущим
-     * @return текущий экземпляр
+     * @param data next portion of data
+     * @return current DataList instance with merged data
+     * @throws IncompatibleRangesException
      */
     public DataList<T> merge(DataList<T> data) {
-        boolean reverse = data.offset < this.offset;
-        ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
-        if (merged == null) {
-            //Отрезки данных не совпадают, слияние не возможно
-            throw new IncompatibleRangesException("incorrect data range");
-        }
+        ArrayList<T> merged = performDataMerge(data);
         this.data.clear();
         this.data.addAll(merged);
-        if (this.offset < data.offset) { //загрузка вниз, как обычно
-            this.limit = data.offset + data.limit - this.offset;
-        } else if (this.offset == data.offset) { //коллизия?
-            this.limit = data.limit;
-        } else { // загрузка вверх
-            this.offset = data.offset;
-            this.limit = size();
-        }
-
-        this.totalCount = data.totalCount;
+        recalculateMetadata(data);
         return this;
     }
 
     /**
-     * Слияние двух DataList с удалением дублируемых элементов
-     * При удалении остаются актуальные (последние присланные сервером) элементы
+     * Merges two DataLists with remove of duplicated elements.
+     * After removal there will remain only actual elements (last added).
      *
-     * @param data              DataList для слияния с текущим
-     * @param distinctPredicate предикат, по которому происходит удаление дублируемых элементов
+     * @param data              next portion of data
+     * @param distinctPredicate predicate with duplicate removal logic
      * @return текущий экземпляр
+     * @throws IncompatibleRangesException
      */
     public <R> DataList<T> merge(DataList<T> data, MapFunc<R, T> distinctPredicate) {
-        boolean reverse = data.offset < this.offset;
-        ArrayList<T> merged = tryMerge(reverse ? data : this, reverse ? this : data);
-        if (merged == null) {
-            //Отрезки данных не совпадают, слияние не возможно
-            throw new IncompatibleRangesException("incorrect data range");
-        }
-
+        ArrayList<T> merged = performDataMerge(data);
         ArrayList<T> filtered = distinctByLast(merged, distinctPredicate);
         this.data.clear();
         this.data.addAll(filtered);
-        if (this.offset < data.offset) { //загрузка вниз, как обычно
-            this.limit = data.offset + data.limit - this.offset;
-        } else if (this.offset == data.offset) { //коллизия?
-            this.limit = data.limit;
-        } else { // загрузка вверх
-            this.offset = data.offset;
-            this.limit = size();
-        }
-
-        this.totalCount = data.totalCount;
+        recalculateMetadata(data);
         return this;
     }
 
     /**
-     * Преобразует dataList одного типа в dataList другого типа
+     * Transforms DataList from one type to another.
      *
-     * @param mapFunc функция преобразования
-     * @param <R>     тип данных нового списка
-     * @return DataList с элементами типа R
+     * @param mapFunc mapping function
+     * @param <R>     new data type
+     * @return DataList with elements of new type
      */
     public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
         List<R> resultData = new ArrayList<>();
@@ -148,7 +120,9 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * возвращает значение offset c которого нужно начать чтобы подгрузить слкдующий блок данных
+     * Gets the new offset value required to load next portion of data
+     *
+     * @return int
      */
     public int getNextOffset() {
         return limit + offset;
@@ -167,28 +141,12 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Проверка возможности дозагрузки данных
+     * Checks if the list can load next portion of data, or is it full.
      *
-     * @return
+     * @return boolean
      */
     public boolean canGetMore() {
         return totalCount > limit + offset;
-    }
-
-    @Nullable
-    private ArrayList<T> tryMerge(DataList<T> to, DataList<T> from) {
-        if ((to.offset + to.limit) >= from.offset) {
-            return merge(to.data, from.data, from.offset - to.offset);
-        }
-
-        return null;
-    }
-
-    private ArrayList<T> merge(ArrayList<T> to, ArrayList<T> from, int start) {
-        ArrayList<T> result = new ArrayList<>();
-        result.addAll(start < to.size() ? to.subList(0, start) : to);
-        result.addAll(from);
-        return result;
     }
 
     @Override
@@ -343,13 +301,61 @@ public class DataList<T> implements List<T>, Serializable {
                 '}';
     }
 
+    private ArrayList<T> performDataMerge(DataList<T> other) throws IncompatibleRangesException {
+        boolean isReverse = other.offset < this.offset;
+        DataList<T> source = isReverse ? this : other;
+        DataList<T> destination = isReverse ? other : this;
+        return tryMerge(destination, source);
+    }
+
+    private ArrayList<T> tryMerge(DataList<T> destination, DataList<T> source) {
+        if (canBeMerged(destination, source)) {
+            return merge(
+                    destination.data,
+                    source.data,
+                    source.offset - destination.offset
+            );
+        } else {
+            throw new IncompatibleRangesException();
+        }
+    }
+
+    private ArrayList<T> merge(ArrayList<T> destination, ArrayList<T> source, int start) {
+        ArrayList<T> result = new ArrayList<>();
+        boolean hasStarCollision = start < destination.size();
+        List<T> destinationElements = hasStarCollision ? destination.subList(0, start) : destination;
+        result.addAll(destinationElements);
+        result.addAll(source);
+        return result;
+    }
+
+    private boolean canBeMerged(DataList<T> destination, DataList<T> source) {
+        int destinationItemsCount = destination.offset + destination.limit;
+        return destinationItemsCount >= source.offset;
+    }
+
+    private void recalculateMetadata(DataList<T> other) {
+        boolean isReverse = other.offset < this.offset;
+
+        if (isReverse) { //reverse loading
+            this.offset = other.offset;
+            this.limit = size();
+        } else if (this.offset == other.offset) { //collision
+            this.limit = other.limit;
+        } else { //normal loading
+            this.limit = other.offset + other.limit - this.offset;
+        }
+
+        this.totalCount = other.totalCount;
+    }
+
     /**
-     * Удаление одинаковых элементов из исходного списка
-     * Критерий того, что элементы одинаковые, задается параметром distinctPredicate
+     * Delete duplicates of equal elements from the list.
+     * Equality criteria is defined in distinctPredicate.
      *
-     * @param source            исходный список
-     * @param distinctPredicate критерий того, что элементы одинаковые
-     * @return отфильтрованный список без одинаковых элементов
+     * @param source            source list
+     * @param distinctPredicate equality criteria
+     * @return filtered list without duplicates
      */
     private <R> ArrayList<T> distinctByLast(ArrayList<T> source, MapFunc<R, T> distinctPredicate) {
         HashMap<R, T> resultSet = new LinkedHashMap<>();
