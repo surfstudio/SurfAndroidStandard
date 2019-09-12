@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Message-controller
 * TODO
+* TODO
 ## 0.2.1
 ##### Message-controller
 * ANDDEP-210 added parameter - snackbar duration
