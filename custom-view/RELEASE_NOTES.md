@@ -1,8 +1,8 @@
 [TOC]
 # Custom-view Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Custom-view
-* TODO
+* ANDDEP-687 Added "com.google.android.material:material" dependency with "implementation" type
 ## 0.4.0
 ##### Custom-view
 * Fixed incorrect behavior of MaterialProgressBar on Android version 5 and below

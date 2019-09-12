@@ -1,6 +1,6 @@
 [TOC]
 # Analytics Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Analytics
 * TODO
 ## 0.4.0

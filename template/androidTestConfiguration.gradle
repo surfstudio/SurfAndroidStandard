@@ -1,0 +1,18 @@
+apply plugin: 'kotlin-kapt'
+android {
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    //instrumental test
+    androidTestImplementation project(":base")
+    androidTestImplementation "androidx.test:core:$androidxTestVersion"
+    androidTestImplementation "androidx.test.ext:junit:$androidxTestExtJunitVersion"
+    androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXEspressoCoreVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$androidXEspressoContribVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$androidXEspressoIntentsVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+}

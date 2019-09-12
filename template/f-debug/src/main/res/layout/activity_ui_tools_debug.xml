@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ru.surfstudio.standard.f_debug.common_widgets.DebugTitleSubtitleSwitch
+        android:id="@+id/debug_fps_enable_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:debug_switch_subtitle="@string/debug_fps_subtitle_text"
+        app:debug_switch_title="@string/debug_fps_title_text" />
+
+    <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+        android:id="@+id/debug_scalpel_tool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:debug_catalog_item_description="@string/debug_ui_tools_scalpel_description"
+        app:debug_catalog_item_name="@string/debug_ui_tools_scalpel_name" />
+
+    <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+        android:id="@+id/debug_vqa_tool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:debug_catalog_item_description="@string/debug_ui_tools_window_vqa_description"
+        app:debug_catalog_item_name="@string/debug_ui_tools_window_vqa_name" />
+</LinearLayout>

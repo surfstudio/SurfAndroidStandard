@@ -37,6 +37,11 @@ object GradleProperties {
     const val COMPONENTS_CHANGED_REVISION_TO_COMPARE = "revisionToCompare"
 
     /**
+     * Current revision to compare with previous
+     */
+    const val CURRENT_REVISION = "currentRevision"
+
+    /**
      * If artifact exist in artifactory replace it
      */
     const val DEPLOY_SAME_VERSION_ARTIFACTORY = "deploySameVersionArtifactory"

@@ -1,0 +1,75 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical">
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_app_info_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_info"
+            app:debug_catalog_item_name="@string/debug_show_app_info_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_server_settings_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_server"
+            app:debug_catalog_item_name="@string/debug_show_server_settings_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_reused_components_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_view_dashboard"
+            app:debug_catalog_item_name="@string/debug_show_reused_component_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_fcm_token_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_devices"
+            app:debug_catalog_item_name="@string/debug_show_fcm_token_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_memory_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_memory"
+            app:debug_catalog_item_name="@string/debug_show_memory_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_ui_tools_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_brush"
+            app:debug_catalog_item_name="@string/debug_show_ui_tools_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_tools_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_build"
+            app:debug_catalog_item_name="@string/debug_show_tools_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_developer_tools_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_dev_settings"
+            app:debug_catalog_item_name="@string/debug_show_developer_tools_debug_item" />
+
+        <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+            android:id="@+id/debug_show_app_settings_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:debug_catalog_item_icon="@drawable/debug_ic_android"
+            app:debug_catalog_item_name="@string/debug_show_app_settings_debug_item" />
+    </LinearLayout>
+</ScrollView>
