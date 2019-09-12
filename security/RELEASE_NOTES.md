@@ -2,7 +2,7 @@
 # Security-sample-template Release Notes
 ## 0.5.0-alpha
 ##### Security
-* TODO
+* ANDDEP-687 Changed "com.squareup.okhttp3:logging-interceptor" dependency from "api" to "implementation" type
 ## 0.4.0
 ##### Security
 * ANDDEP-82 Security Module
