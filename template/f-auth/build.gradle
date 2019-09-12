@@ -1,6 +1,6 @@
 apply from: '../commonFeatureModule.gradle'
 
 dependencies {
-    implementation project("$templatePrefix:i-auth")
-    implementation project("$templatePrefix:i-session")
+    implementation project(":i-auth")
+    implementation project(":i-session")
 }

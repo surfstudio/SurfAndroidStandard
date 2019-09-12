@@ -2,7 +2,7 @@ package ru.surfstudio.standard.i_auth.response
 
 import com.google.gson.annotations.SerializedName
 import ru.surfstudio.standard.domain.login.KeyInfo
-import ru.surfstudio.android.network.Transformable
+import ru.surfstudio.standard.i_network.network.Transformable
 
 /**
  * Модель для парсинга ответа сервера с ключом
