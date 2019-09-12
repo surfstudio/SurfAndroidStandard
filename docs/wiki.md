@@ -57,7 +57,7 @@ configurations.all {
 
 ## **[Source code](https://bitbucket.org/surfstudio/android-standard/src)**
 
-## **[Список артефактов](https://bitbucket.org/surfstudio/android-standard/wiki/Modules)**
+## **[Список компонент](https://bitbucket.org/surfstudio/android-standard/wiki/Modules)**
 
 ## **[Release notes](https://bitbucket.org/surfstudio/android-standard/src/master/RELEASE_NOTES.md)**
 
