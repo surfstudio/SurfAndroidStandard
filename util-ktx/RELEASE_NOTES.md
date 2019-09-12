@@ -1,12 +1,10 @@
 [TOC]
 # Util-ktx Release Notes
-## 0.5.0-alpha.1
+## 0.5.0-alpha
 ##### Util-ktx
 * `DateUtil.parseDate ()` methods can receive `NULL` as input parameter. Will return `NULL` in this case
 * Added method `DateUtil.reformatDate ()`, which allows to reformat string representation of the date from one format to another
-## 0.5.0-alpha.0
-##### Util-ktx
-* TODO
+* ANDDEP-687 Changed "com.google.android.material:material" dependency from "api" to "implementation" type
 ## 0.4.0
 ##### Util-ktx
 * ANDDEP-319 Properties of `isAtLeast ...` of class [`SdkUtils`] (util-ktx / src / main / java / ru / surfstudio / android / utilktx / util / SdkUtils.kt)

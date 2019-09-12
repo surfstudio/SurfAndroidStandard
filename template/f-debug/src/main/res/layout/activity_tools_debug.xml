@@ -5,11 +5,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
-        android:id="@+id/stetho_switch"
+    <ru.surfstudio.standard.f_debug.common_widgets.DebugTitleSubtitleSwitch
+        android:id="@+id/debug_stetho_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:switch_subtitle="@string/stetho_subtitle_text"
-        app:switch_title="@string/stetho_title_text" />
+        app:debug_switch_subtitle="@string/debug_stetho_subtitle_text"
+        app:debug_switch_title="@string/debug_stetho_title_text" />
 </LinearLayout>

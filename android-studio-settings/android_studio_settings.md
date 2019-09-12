@@ -23,7 +23,7 @@
 *Как использовать:* Tools -> Tasks&Contexts - создаем задачу, автоматически создатся ветка с подходящим названием, при переключении между задачами переключается соответствующая ветка с changelist'ом
 
 #### Выделяем цветом kotlin.synthetic
-*Зачем:* выделить цветом используемые вью с помощью **kotl in.synthetic** для наглядности
+*Зачем:* выделить цветом используемые вью с помощью **kotlin.synthetic** для наглядности
 
 *Как настроить:*  Settings -> Editor -> Color Scheme -> Kotlin -> Properties and Variables -> Android Extensions synthetic properties -> Foreign -> Цвет `#0AB9D5` (или по вкусу)
 
@@ -35,6 +35,53 @@
 1. Settings -> Appereance&Behavior -> Appereance -> Show memory indicator (в нижнем правом углу видим кол-во потребляемой памяти студией, при клике очищается память по возможности)
 2. Settings -> Compiler -> Compile independent modules in parallel (чтобы модули собирались одновременно)
 3. Help -> Edit Custom VM Options ->  Создатся файл -> -Xmx4g (можно и 8g) ->  Перезапустить Android Studio
+
+#### Оптимальная производительность при работе с Android Studio на Ubuntu 18.04 LTS.
+
+Даже при достаточной производительности ПК возможна следующая ситуация: потребление памяти процессами AS, "Gradle Daemon" и "Kotlin Compile Daemon" не ограничено должным образом, 
+из-за этого остальные процессы вытесняются из RAM на в десятки раз более медленный накопитель в swap, вследствие чего начинаются тормоза при использовании параллельно другого ПО, также swap может быть и исчерпан. 
+
+В RAM должно оставаться достаточное место для другого ПО (порядка 6-8ГБ). 
+
+Приоритет стоит отдать больше выполнению GC, чем своппингу, т.к. своппинг в несколько ГБ это 100% более жесткие тормоза.
+
+***Для Ubuntu 18.04 LTS можно предпринять следующее:***
+
+- **Настроить работу Ubuntu со swap для уменьшения возможного своппинга:**
+```bash
+echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf
+```
+*[Источник](https://help.ubuntu.ru/wiki/ubuntu_optimization)*
+
+- **Увеличить размер файла подкачки до 16ГБ:**
+```bash
+sudo swapoff /swapfile && \
+sudo rm /swapfile && \
+sudo fallocate -l 16G /swapfile && \
+sudo chmod 600 /swapfile && \
+sudo mkswap /swapfile && \
+sudo swapon /swapfile
+```
+*[Источник](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-18-04)*
+
+- **Настроить JDK для AS:**
+
+По замерам AS обычно потребляет порядка 700-1500 МБ.
+
+Открыть файл с настройками JDK в AS (Help -> Edit Custom VM Options) и вставить следующие строки (при необходимости можно увеличить до 3 ГБ):
+```gradle
+-Xmx2g
+-XX:ReservedCodeCacheSize=512m
+```
+
+*Источники - Android Studio is slow (how to speed up)?, Комфортная работа с Android Studio*
+
+- **Ограничить использование Java Heap через конфигурацию gradle.properties в проекте (2-4 ГБ в зависимости от величины проекта):**
+```gradle
+org.gradle.jvmargs=-Xmx3g
+```
+
+**УКАЗАННЫЕ ПАРАМЕТРЫ С ТЕЧЕНИЕМ ВРЕМЕНИ МОГУТ ТРЕБОВАТЬ КОРРЕКТИРОВКИ**
 
 #### Плагины
 

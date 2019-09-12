@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -25,6 +26,7 @@ def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
 def CHECK_BUILD_TEMPLATE = 'Check Build Template'
 def CHECKS_RESULT = 'All Checks Result'
 
+def GENERATE_RELEASE_NOTES_DIFF = 'Generates diffs in release notes'
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
@@ -47,6 +49,7 @@ def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 // Other config
 def stagesForProjectMode = [
         PRE_MERGE,
+        GENERATE_RELEASE_NOTES_DIFF,
         BUILD,
         UNIT_TEST
 ]
@@ -168,7 +171,12 @@ pipeline.stages = [
             //local merge with destination
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
+
+        pipeline.stage(GENERATE_RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+        },
+
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(CHECK_STABLE_MODULES_IN_ARTIFACTORY, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -289,7 +297,7 @@ def static withBintrayCredentials(script, body) {
     }
 }
 
-def configureStageSkipping(script, pipeline, isSkip, stageNames, message){
+def configureStageSkipping(script, pipeline, isSkip, stageNames, message) {
     if (isSkip) {
         script.echo message
         pipeline.stages.each { stage ->
@@ -297,7 +305,7 @@ def configureStageSkipping(script, pipeline, isSkip, stageNames, message){
                 return
             }
             def executeStage = false
-            stageNames.each{ stageName ->
+            stageNames.each { stageName ->
                 executeStage = executeStage || (stageName == stage.getName())
             }
             if (!executeStage) {

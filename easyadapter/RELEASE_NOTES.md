@@ -1,9 +1,6 @@
 [TOC]
 # Easy-adapter Release Notes
-## 1.0.0-alpha.0
-##### Easyadapter
-* TODO
-## 1.0.0
+## 1.0.0-alpha
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
 ## 0.3.0

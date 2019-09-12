@@ -19,13 +19,13 @@ import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigatorForActivity
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import ru.surfstudio.standard.f_debug.injector.ui.error.ErrorHandlerModule
+import ru.surfstudio.standard.f_debug.injector.ui.error.DebugErrorHandlerModule
 import javax.inject.Named
 
-@Module(includes = [ErrorHandlerModule::class])
-class ActivityScreenModule(
+@Module(includes = [DebugErrorHandlerModule::class])
+class DebugActivityScreenModule(
         private val activityViewPersistentScope: ActivityViewPersistentScope
-) : ScreenModule() {
+) : DebugScreenModule() {
 
     @Provides
     @PerScreen

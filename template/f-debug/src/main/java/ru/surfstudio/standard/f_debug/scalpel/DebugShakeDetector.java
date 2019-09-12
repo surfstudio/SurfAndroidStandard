@@ -16,7 +16,7 @@ import java.util.List;
  * @author Bob Lee (bob@squareup.com)
  * @author Eric Burke (eric@squareup.com)
  */
-public class ShakeDetector implements SensorEventListener {
+public class DebugShakeDetector implements SensorEventListener {
 
     public static final int SENSITIVITY_LIGHT = 11;
     public static final int SENSITIVITY_MEDIUM = 13;
@@ -46,7 +46,7 @@ public class ShakeDetector implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor accelerometer;
 
-    public ShakeDetector(Listener listener) {
+    public DebugShakeDetector(Listener listener) {
         this.listener = listener;
     }
 

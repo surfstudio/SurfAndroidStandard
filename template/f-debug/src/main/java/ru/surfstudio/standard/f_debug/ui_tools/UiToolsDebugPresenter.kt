@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_debug.DebugInteractor
 import ru.surfstudio.standard.f_debug.server_settings.reboot.RebootDebugActivityRoute
+import ru.surfstudio.standard.f_debug.window_vqa.WindowVQADebugActivityRoute
 import javax.inject.Inject
 
 /**
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class UiToolsDebugPresenter @Inject constructor(
         private val interactor: DebugInteractor,
         private val activityNavigator: ActivityNavigator,
-        private val overlayPermissionChecker: OverlayPermissionChecker,
+        private val debugOverlayPermissionChecker: DebugOverlayPermissionChecker,
         basePresenterDependency: BasePresenterDependency
 ) : BasePresenter<UiToolsDebugActivityView>(basePresenterDependency) {
 
@@ -30,7 +31,7 @@ class UiToolsDebugPresenter @Inject constructor(
 
     fun setFpsEnable(enable: Boolean) {
         if (sm.isFpsEnabled != enable) {
-            subscribe(overlayPermissionChecker.checkOverlayPermission()) {
+            subscribe(debugOverlayPermissionChecker.checkOverlayPermission()) {
                 if (it) {
                     interactor.isFpsEnabled = enable
                     sm.isFpsEnabled = enable
@@ -41,5 +42,9 @@ class UiToolsDebugPresenter @Inject constructor(
                 }
             }
         }
+    }
+
+    fun openWindowVQA() {
+        activityNavigator.start(WindowVQADebugActivityRoute())
     }
 }

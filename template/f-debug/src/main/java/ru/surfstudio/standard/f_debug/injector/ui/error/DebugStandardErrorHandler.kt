@@ -18,7 +18,7 @@ import javax.inject.Inject
  * Стандартный обработчик ошибок, возникающих при работе с сервером
  */
 @PerScreen
-open class StandardErrorHandler @Inject constructor(
+open class DebugStandardErrorHandler @Inject constructor(
         private val messageController: MessageController,
         private val globalNavigator: GlobalNavigator
 ) : NetworkErrorHandler() {
@@ -30,28 +30,28 @@ open class StandardErrorHandler @Inject constructor(
         }
 
         if (e.httpCode >= HttpCodes.CODE_500) {
-            messageController.show(R.string.server_error_message)
+            messageController.show(R.string.debug_server_error_message)
         } else if (e.httpCode == HttpCodes.CODE_403) {
-            messageController.show(R.string.forbidden_error_error_message)
+            messageController.show(R.string.debug_forbidden_error_error_message)
         } else if (!TextUtils.isEmpty(e.httpMessage)) {
             Logger.e(e.httpMessage)
         } else if (e.httpCode == HttpCodes.CODE_404) {
-            messageController.show(R.string.server_error_not_found)
+            messageController.show(R.string.debug_server_error_not_found)
         } else {
-            messageController.show(R.string.default_http_error_message)
+            messageController.show(R.string.debug_default_http_error_message)
         }
     }
 
     override fun handleNoInternetError(e: NoInternetException) {
-        messageController.show(R.string.no_internet_connection_error_message)
+        messageController.show(R.string.debug_no_internet_connection_error_message)
     }
 
     override fun handleConversionError(e: ConversionException) {
-        messageController.show(R.string.bad_response_error_message)
+        messageController.show(R.string.debug_bad_response_error_message)
     }
 
     override fun handleOtherError(e: Throwable) {
-        messageController.show(R.string.unexpected_error_error_message)
+        messageController.show(R.string.debug_unexpected_error_error_message)
         Logger.e(e, "Unexpected error")
     }
 }
