@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Template
 * ANDDEP-329 Added RxJava2Debug
+* ANDDEP-702 Fixed script for local connection of android standard
 
 ## 0.4.0
 ##### Template
