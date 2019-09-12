@@ -32,11 +32,11 @@ import java.util.TreeMap;
 import ru.surfstudio.android.logger.Logger;
 
 /**
- * List для работы с пагинацией
- * Механизм page-count
- * Можно сливать с другим DataList
+ * Pagination list with page-count mechanism.
+ * Two DataLists can be combined by calling merge function.
+ * This function is the only way to merge pagination data blocks.
  *
- * @param <T> Item
+ * @param <T> item type
  */
 public class DataList<T> implements List<T>, Serializable {
 
@@ -45,15 +45,10 @@ public class DataList<T> implements List<T>, Serializable {
     public static final int UNSPECIFIED_TOTAL_ITEMS_COUNT = -1;
     public static final int UNSPECIFIED_TOTAL_PAGES_COUNT = -1;
 
-    //размер страницы
     private int pageSize;
-    //с какой страницы начинается
     private int startPage;
-    //количество страниц
     private int numPages;
-    //максимальное количество элементов(опционально)
     private int totalItemsCount;
-    //максимальное количество страниц(опционально)
     private int totalPagesCount;
 
     private ArrayList<T> data;
@@ -64,11 +59,11 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Создает dataList, начиная с некоторой страницы
+     * Creates DataList starting with specific page
      *
-     * @param data     коллекция данных
-     * @param page     номер страницы
-     * @param pageSize размер страницы(кол-во элементов)
+     * @param data     collection with data
+     * @param page     page number
+     * @param pageSize page size (count of elements on each page)
      */
     public DataList(Collection<T> data, int page, int pageSize) {
         this(data, page, 1, pageSize);

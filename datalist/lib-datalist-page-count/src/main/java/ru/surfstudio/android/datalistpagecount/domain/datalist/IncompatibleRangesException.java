@@ -16,7 +16,7 @@
 package ru.surfstudio.android.datalistpagecount.domain.datalist;
 
 /**
- * несовместимые блоки данных
+ * Exception, which occurs when there's a gap in DataList data ranges.
  */
 public class IncompatibleRangesException extends IllegalArgumentException {
 
