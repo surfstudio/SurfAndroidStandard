@@ -2,8 +2,7 @@
 # Message-controller Release Notes
 ## 0.5.0-alpha
 ##### Message-controller
-* TODO
-* TODO
+* ANDDEP-687 Removed "androidx.exifinterface:exifinterface" dependency
 ## 0.2.1
 ##### Message-controller
 * ANDDEP-210 added parameter - snackbar duration
