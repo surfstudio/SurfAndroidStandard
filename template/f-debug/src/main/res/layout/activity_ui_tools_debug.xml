@@ -5,18 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
-        android:id="@+id/fps_enable_switch"
+    <ru.surfstudio.standard.f_debug.common_widgets.DebugTitleSubtitleSwitch
+        android:id="@+id/debug_fps_enable_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        app:switch_subtitle="@string/fps_subtitle_text"
-        app:switch_title="@string/fps_title_text" />
+        app:debug_switch_subtitle="@string/debug_fps_subtitle_text"
+        app:debug_switch_title="@string/debug_fps_title_text" />
 
     <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
-        android:id="@+id/scalpel_tool"
+        android:id="@+id/debug_scalpel_tool"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:catalog_item_description="@string/ui_tools_scalpel_description"
-        app:catalog_item_name="@string/ui_tools_scalpel_name" />
+        app:debug_catalog_item_description="@string/debug_ui_tools_scalpel_description"
+        app:debug_catalog_item_name="@string/debug_ui_tools_scalpel_name" />
+
+    <ru.surfstudio.standard.f_debug.debug.widget.DebugCatalogItemLayout
+        android:id="@+id/debug_vqa_tool"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:debug_catalog_item_description="@string/debug_ui_tools_window_vqa_description"
+        app:debug_catalog_item_name="@string/debug_ui_tools_window_vqa_name" />
 </LinearLayout>

@@ -17,7 +17,7 @@ private val DEBUG_NOTIFICATION_ID = "DEBUG_NOTIFICATION_ID".hashCode()
  */
 object DebugNotificationBuilder {
     fun showDebugNotification(context: Context, icon: Int) {
-            val channelId = context.getString(R.string.notification_channel_id)
+            val channelId = context.getString(R.string.debug_notification_channel_id)
             val notificationTitle = context.getString(R.string.debug_screen_title)
             val notificationBody = context.getString(R.string.debug_screen_body)
 
@@ -32,7 +32,7 @@ object DebugNotificationBuilder {
                     .setContentIntent(pendingIntent)
 
             if(SdkUtils.isAtLeastLollipop()){
-                notificationBuilder.setSmallIcon(R.drawable.ic_debug)
+                notificationBuilder.setSmallIcon(R.drawable.debug_ic_debug)
             } else {
                 notificationBuilder.setSmallIcon(icon)
             }

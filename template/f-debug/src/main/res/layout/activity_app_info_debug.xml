@@ -5,22 +5,22 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/app_info_version_code_tv"
+        android:id="@+id/debug_app_info_version_code_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/app_info_version_name_tv"
+        android:id="@+id/debug_app_info_version_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/app_info_package_name_tv"
+        android:id="@+id/debug_app_info_package_name_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/app_info_build_type_tv"
+        android:id="@+id/debug_app_info_build_type_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 </LinearLayout>

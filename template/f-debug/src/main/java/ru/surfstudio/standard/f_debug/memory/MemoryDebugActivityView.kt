@@ -20,14 +20,14 @@ class MemoryDebugActivityView : BaseRenderableActivityView<MemoryDebugScreenMode
     override fun getPresenters() = arrayOf(presenter)
 
     override fun renderInternal(model: MemoryDebugScreenModel) {
-        memory_leakcanary_switch.setChecked(model.isLeakCanaryEnabled)
+        debug_memory_leakcanary_switch.setChecked(model.isLeakCanaryEnabled)
         initListeners()
     }
 
     private fun initListeners() {
-        memory_leakcanary_switch.setOnCheckedChangeListener { _, isEnabled ->
+        debug_memory_leakcanary_switch.setOnCheckedChangeListener { _, isEnabled ->
             presenter.setLeakCanaryEnabled(isEnabled)
         }
-        show_storage_item_layout.setOnClickListener { presenter.openStorageDebugScreen() }
+        debug_show_storage_item_layout.setOnClickListener { presenter.openStorageDebugScreen() }
     }
 }

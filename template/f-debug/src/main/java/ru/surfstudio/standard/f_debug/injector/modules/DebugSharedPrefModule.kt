@@ -9,7 +9,7 @@ import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
 import javax.inject.Named
 
 @Module
-class SharedPrefModule {
+class DebugSharedPrefModule {
 
     @Provides
     @PerApplication

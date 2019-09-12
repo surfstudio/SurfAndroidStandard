@@ -1,12 +1,9 @@
 [TOC]
 # Security-sample-template Release Notes
-## 0.5.0-alpha.1
+## 0.5.0-alpha
 ##### Security
-* SBB-2697 Fixed method return value
-```CertificatePinnerCreator.extractPeerCertificate```
-## 0.5.0-alpha.0
-##### Security
-* TODO
+* SBB-2697 Fixed method return value ```CertificatePinnerCreator.extractPeerCertificate```
+* ANDDEP-687 Changed "com.squareup.okhttp3:logging-interceptor" dependency from "api" to "implementation" type
 ## 0.4.0
 ##### Security
 * ANDDEP-82 Security Module

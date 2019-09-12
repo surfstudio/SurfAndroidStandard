@@ -1,8 +1,8 @@
 [TOC]
 # Picture-provider Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Picture-provider
-* TODO
+* ANDDEP-687 Changed "androidx.exifinterface:exifinterface" dependency from "api" to "implementation" type
 ## 0.3.0
 ##### Picture-provider
 * ANDDEP-235 - refactoring and adding functional:

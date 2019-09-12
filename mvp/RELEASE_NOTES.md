@@ -1,8 +1,11 @@
 [TOC]
 # Mvp Release Notes
-## 0.5.0-alpha.0
-##### Core-mvp
-* TODO
+## 0.5.0-alpha
+##### Mvp-widget
+* ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
+* ANDDEP-687 Changed "androidx.constraintlayout:constraintlayout" dependency from "api" to "implementation" type
+##### Mvp-dialog
+* ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState

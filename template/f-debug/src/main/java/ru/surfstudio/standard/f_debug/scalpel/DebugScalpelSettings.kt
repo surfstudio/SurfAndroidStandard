@@ -4,9 +4,9 @@ import android.content.Context
 import ru.surfstudio.android.shared.pref.SettingsUtil
 
 /**
- * Настройки отображения [ScalpelFrameLayout]
+ * Настройки отображения [DebugScalpelFrameLayout]
  */
-class ScalpelSettings(val context: Context) {
+class DebugScalpelSettings(val context: Context) {
 
     companion object {
         private const val DRAW_IDS_KEY = "DRAW_IDS_KEY"
@@ -14,7 +14,7 @@ class ScalpelSettings(val context: Context) {
         private const val DRAW_VIEWS_CONTENT_KEY = "DRAW_VIEWS_CONTENT_KEY"
     }
 
-    private val sharedPref = context.getSharedPreferences("ScalpelSettings", Context.MODE_PRIVATE)
+    private val sharedPref = context.getSharedPreferences("DebugScalpelSettings", Context.MODE_PRIVATE)
 
     var drawIds: Boolean
         get() = SettingsUtil.getBoolean(sharedPref, DRAW_IDS_KEY, true)
