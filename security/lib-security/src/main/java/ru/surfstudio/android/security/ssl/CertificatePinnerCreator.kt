@@ -23,16 +23,14 @@ import java.security.MessageDigest
 import java.security.cert.CertificateFactory
 import java.security.cert.X509Certificate
 
+private const val CERTIFICATE_TYPE = "X509"
+private const val ALGORITHM_TYPE = "SHA-256"
+private const val CERTIFICATE_PREFIX = "sha256/"
+
 /**
  * Класс, создающий CertificatePinner для OkHttpClient для реализации ssl-pinning
  */
 class CertificatePinnerCreator(private val context: Context) {
-
-    companion object {
-        private const val certificateType = "X509"
-        private const val algorithmType = "SHA-256"
-        private const val certificatePrefix = "sha256/"
-    }
 
     fun create(@RawRes certId: Int, hostName: String): CertificatePinner {
         return CertificatePinner.Builder()
@@ -45,15 +43,15 @@ class CertificatePinnerCreator(private val context: Context) {
      */
     private fun extractPeerCertificate(@RawRes certId: Int): String {
         context.resources.openRawResource(certId).use { certificateInputStream ->
-            val x509Certificate = CertificateFactory.getInstance(certificateType)
+            val x509Certificate = CertificateFactory.getInstance(CERTIFICATE_TYPE)
                     .generateCertificate(certificateInputStream) as X509Certificate
 
             val publicKeyEncoded = x509Certificate.publicKey.encoded
-            val messageDigest = MessageDigest.getInstance(algorithmType)
+            val messageDigest = MessageDigest.getInstance(ALGORITHM_TYPE)
             val publicKeySha256 = messageDigest.digest(publicKeyEncoded)
             val publicKeyShaBase64 = Base64.encode(publicKeySha256, Base64.NO_WRAP)
 
-            return certificatePrefix + publicKeyShaBase64
+            return CERTIFICATE_PREFIX + String(publicKeyShaBase64)
         }
     }
 }
