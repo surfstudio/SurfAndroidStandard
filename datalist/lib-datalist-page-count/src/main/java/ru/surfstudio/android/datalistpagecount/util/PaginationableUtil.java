@@ -28,15 +28,14 @@ import ru.surfstudio.android.rx.extension.ObservableUtil;
 public class PaginationableUtil {
 
     /**
-     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
-     * размером blockSize.
-     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
-     * который используется при подгрузке новых данных.
+     * Creates Observable request with multiple subrequests for blocks of data with size of blockSize.
+     * Such block division is used for caching blocks with size of ordinary pagination data loading.
      *
-     * @param paginationRequestCreator функция, создающая один из подзапросов, имеет 1 параметр page
-     * @param numPages                 Клоличество страниц которые необходимо загрузить
-     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
-     * combineLatestDelayError
+     * @param paginationRequestCreator subrequests creator function. Has two params: limit and offset.
+     * @param emptyValue               DataList used to hold elements
+     * @param numPages                 number of pages to load
+     * @return Observable, which emits blocks of data.
+     * Could emit it several times due to combineLatestDelayError
      */
     private static <T, L extends DataList<T>> Observable<L> getPaginationRequestPortions(
             FunctionSafe<Integer, Observable<L>> paginationRequestCreator,
@@ -65,15 +64,13 @@ public class PaginationableUtil {
     }
 
     /**
-     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
-     * размером blockSize.
-     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
-     * который используется при подгрузке новых данных.
+     * Creates Observable request with multiple subrequests for blocks of data with size of blockSize.
+     * Such block division is used for caching blocks with size of ordinary pagination data loading.
+     * Could emit it several times due to combineLatestDelayError
      *
-     * @param paginationRequestCreator функция, создающая один из подзапросов, имеет 1 параметр page
-     * @param numPages                 Клоличество страниц которые необходимо загрузить
-     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
-     * combineLatestDelayError
+     * @param paginationRequestCreator subrequests creator function. Has two params: limit and offset.
+     * @param numPages                 number of pages to load
+     * @return Observable, which emits blocks of data.
      */
     public static <T> Observable<DataList<T>> getPaginationRequestPortions(
             FunctionSafe<Integer, Observable<DataList<T>>> paginationRequestCreator,
@@ -84,6 +81,14 @@ public class PaginationableUtil {
                 numPages);
     }
 
+    /**
+     * Creates Single request with multiple subrequests for blocks of data with size of blockSize.
+     * Such block division is used for caching blocks with size of ordinary pagination data loading.
+     *
+     * @param paginationRequestCreator subrequests creator function. Has two params: limit and offset.
+     * @param numPages                 number of pages to load
+     * @return Observable, which emits blocks of data.
+     */
     public static <T> Single<DataList<T>> getPaginationSingleRequestPortion(
             FunctionSafe<Integer, Single<DataList<T>>> paginationRequestCreator,
             int numPages) {

@@ -350,7 +350,10 @@ public class DataList<T> implements List<T>, Serializable {
                     from.offset - to.offset
             );
         } else {
-            throw new IncompatibleRangesException();
+            throw new IncompatibleRangesException(
+                    "There's empty space between ranges of two DataLists. Source list: " +
+                            this + "input list: " + from
+            );
         }
     }
 

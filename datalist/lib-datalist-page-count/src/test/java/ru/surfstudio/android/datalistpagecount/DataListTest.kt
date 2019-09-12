@@ -23,7 +23,8 @@ class DataListTest {
         }
 
         @AfterClass
-        @JvmStatic fun tearDown() {
+        @JvmStatic
+        fun tearDown() {
             Logger.removeLoggingStrategy(testLoggingStrategy)
         }
     }
@@ -33,21 +34,21 @@ class DataListTest {
         val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
         val list2 = DataList(arrayListOf(6, 7, 8, 8, 10), 1, 5)
 
-        val list3 = DataList(arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 8, 10), 0, 2, 5)
-
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected = DataList(arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 8, 10), 0, 2, 5)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
-    fun mergePagesWithSpace() {
+    fun mergePagesWithGapBetweenPages() {
         val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
         val list2 = DataList(arrayListOf(6, 7, 8, 8, 10), 2, 5)
 
-        val list3 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 1, 5)
-
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 1, 5)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
@@ -55,10 +56,10 @@ class DataListTest {
         val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 4, 5)
         val list2 = DataList(arrayListOf(6, 7, 8, 8, 10), 5, 5)
 
-        val list3 = DataList(arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 8, 10), 4, 2, 5)
-
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected = DataList(arrayListOf(1, 2, 3, 4, 5, 6, 7, 8, 8, 10), 4, 2, 5)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
@@ -66,53 +67,43 @@ class DataListTest {
         val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
         val list2 = DataList(arrayListOf<Int>(), 2, 5)
 
-        val list3 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 1, 5)
-
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 1, 5)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
-    fun mergeWithEmptyList2() {
+    fun mergeEmptyListWithNonEmpty() {
         val list1 = DataList.empty<Int>()
         val list2 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
 
-        val list3 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 1, 5)
-
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 1, 5)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
-    fun mergeEmptyListWithAnotherList() {
-        val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
-        val list2 = emptyDataListOf<Int>()
-
-        val list3 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5)
-
-        list2.merge(list1)
-        Assert.assertEquals(list3, list2)
-    }
-
-    @Test
-    fun mergeWithCollision1() {
+    fun mergeWithPreviousPage() {
         val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 2, 5)
-        val list2 = DataList(arrayListOf(6, 7, 8, 8, 10), 1, 5)
+        val list2 = DataList(arrayListOf(6, 7, 8, 9, 10), 1, 5)
 
-        val list3 = DataList(arrayListOf(6, 7, 8, 8, 10, 1, 2, 3, 4, 5), 1, 2, 5)
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected = DataList(arrayListOf(6, 7, 8, 9, 10, 1, 2, 3, 4, 5), 1, 2, 5)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
-    fun mergeWithCollision2() {
-        val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5,1)
-        val list2 = DataList(arrayListOf(6, 7, 8, 9, 10), 1, 5,1)
-
-        val list3 = DataList(arrayListOf(1, 6, 7, 8, 9, 10), 0, 6, 1)
+    fun mergeWithCollision() {
+        val list1 = DataList(arrayListOf(1, 2, 3, 4, 5), 0, 5, 1)
+        val list2 = DataList(arrayListOf(6, 7, 8, 9, 10), 1, 5, 1)
 
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected = DataList(arrayListOf(1, 6, 7, 8, 9, 10), 0, 6, 1)
+        Assert.assertEquals(expected, list1)
     }
 
 

@@ -24,7 +24,4 @@ public class IncompatibleRangesException extends IllegalArgumentException {
         super(s);
     }
 
-    public IncompatibleRangesException() {
-        this("Incorrect data range");
-    }
 }

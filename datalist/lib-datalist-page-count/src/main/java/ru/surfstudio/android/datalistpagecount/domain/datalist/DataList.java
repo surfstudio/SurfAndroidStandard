@@ -18,6 +18,8 @@ package ru.surfstudio.android.datalistpagecount.domain.datalist;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -59,10 +61,10 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Creates DataList starting with specific page
+     * Creates DataList starting from specific page
      *
      * @param data     collection with data
-     * @param page     page number
+     * @param page     start page number
      * @param pageSize page size (count of elements on each page)
      */
     public DataList(Collection<T> data, int page, int pageSize) {
@@ -70,31 +72,42 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Создает DataList , начиная с некоторой страницы ,
-     * с возможностью задавать максимальное количество элементов и страниц
+     * Creates DataList starting from specific page
+     * with maximum number of elements and maximum number of pages
      *
-     * @param data            коллекция данных
-     * @param page            номер страницы
-     * @param pageSize        размер страницы
-     * @param totalItemsCount максимальное количество элементов
-     * @param totalPagesCount максимальное количество страниц
+     * @param data            collection with data
+     * @param page            start page number
+     * @param pageSize        page size (count of elements on each page)
+     * @param totalItemsCount maximum number of elements
+     * @param totalPagesCount maximum number of pages
      */
     public DataList(Collection<T> data, int page, int pageSize, int totalItemsCount, int totalPagesCount) {
         this(data, page, 1, pageSize, totalItemsCount, totalPagesCount);
     }
 
     /**
-     * Создает dataList, начиная с некоторой страницы
+     * Creates DataList starting from specific page
      *
-     * @param data     коллекция данных
-     * @param page     номер страницы
-     * @param numPages количество страниц
-     * @param pageSize размер страницы(кол-во элементов)
+     * @param data     collection with data
+     * @param page     start page number
+     * @param numPages current number of pages
+     * @param pageSize page size (count of elements on each page)
      */
     public DataList(Collection<T> data, int page, int numPages, int pageSize) {
         this(data, page, numPages, pageSize, UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
     }
 
+    /**
+     * Creates DataList starting from specific page
+     * with maximum number of elements and pages
+     *
+     * @param data            collection with data
+     * @param page            start page number
+     * @param pageSize        page size (count of elements on each page)
+     * @param numPages        current number of pages
+     * @param totalItemsCount maximum number of elements
+     * @param totalPagesCount maximum number of pages
+     */
     public DataList(Collection<T> data, int page, int numPages, int pageSize, int totalItemsCount, int totalPagesCount) {
         this.data = new ArrayList<>();
         this.data.addAll(data);
@@ -106,20 +119,20 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * Создает пустой DataList
+     * Creates empty DataList with zero items and pages count
      *
-     * @param <T> тип данных в листе
-     * @return пустой дата-лист
+     * @param <T> item type
+     * @return Empty DataList
      */
     public static <T> DataList<T> empty() {
         return emptyWithTotalCount(0, 0);
     }
 
     /**
-     * Создает пустой DataList
+     * Creates empty DataList with unspecified total items and pages number.
      *
-     * @param <T> тип данных в листе
-     * @return пустой дата-лист
+     * @param <T> item type
+     * @return Empty DataList
      */
     public static <T> DataList<T> emptyUnspecifiedTotal() {
         return emptyWithTotalCount(UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
@@ -127,84 +140,32 @@ public class DataList<T> implements List<T>, Serializable {
 
 
     /**
-     * Создает пустой DataList
+     * Creates empty DataList
      *
-     * @param <T>             тип данных в листе
-     * @param totalItemsCount максимальное количество элементов
-     * @param totalPagesCount максимальное количество страниц
-     * @return пустой дата-лист
+     * @param totalItemsCount maximum number of elements
+     * @param totalPagesCount maximum number of pages
+     * @param <T>             item type
+     * @return Empty DataList
      */
     public static <T> DataList<T> emptyWithTotalCount(Integer totalItemsCount, Integer totalPagesCount) {
         return new DataList<>(new ArrayList<>(), UNSPECIFIED_PAGE, 0, UNSPECIFIED_PAGE_SIZE, totalItemsCount, totalPagesCount);
     }
 
     /**
-     * Слияние двух DataList
+     * Merges two DataLists.
      *
-     * @param inputDataList DataList для слияния с текущим
-     * @return текущий экземпляр
+     * @param inputDataList next portion of data
+     * @return current DataList instance with merged data
+     * @throws IncompatibleRangesException when the other DataList's offset is bigger than data count.
      */
     public DataList<T> merge(DataList<T> inputDataList) {
-        if (this.startPage != UNSPECIFIED_PAGE
-                && inputDataList.startPage != UNSPECIFIED_PAGE
-                && this.pageSize != inputDataList.pageSize) {
+        if (!isSamePageSize(inputDataList)) {
             throw new IllegalArgumentException("pageSize for merging DataList must be same");
         }
-        int lastSize = this.data.size();
-        Map<Integer, List<T>> originalPagesData = split();
-        Map<Integer, List<T>> inputPagesData = inputDataList.split();
-        SortedMap<Integer, List<T>> resultPagesData = new TreeMap<>();
-        resultPagesData.putAll(originalPagesData);
-        resultPagesData.putAll(inputPagesData);
-
-        ArrayList<T> newData = new ArrayList<>();
-        int lastPage = UNSPECIFIED_PAGE;
-        int lastPageItemsSize = UNSPECIFIED_PAGE_SIZE;
-        for (Map.Entry<Integer, List<T>> pageData : resultPagesData.entrySet()) {
-            Integer pageNumber = pageData.getKey();
-            List<T> pageItems = pageData.getValue();
-            if (lastPage != UNSPECIFIED_PAGE &&
-                    (pageNumber - lastPage > 1 || lastPageItemsSize < pageSize)) {
-                Logger.e(new IncompatibleRangesException("Merging DataLists has empty space " +
-                        "between its ranges, original list: " + this + ", inputList: " + inputDataList));
-                break;
-            }
-            lastPage = pageNumber;
-            lastPageItemsSize = pageItems.size();
-            newData.addAll(pageItems);
-        }
-        this.data = newData;
-        this.startPage = resultPagesData.firstKey();
-        this.numPages = lastPage - startPage + 1;
-        this.totalItemsCount = inputDataList.totalItemsCount == UNSPECIFIED_TOTAL_ITEMS_COUNT
-                ? this.totalItemsCount
-                : inputDataList.totalItemsCount;
-        this.totalPagesCount = inputDataList.totalPagesCount == UNSPECIFIED_TOTAL_PAGES_COUNT
-                ? this.totalPagesCount
-                : inputDataList.totalPagesCount;
-        if (inputDataList.pageSize != UNSPECIFIED_PAGE_SIZE) {
-            this.pageSize = inputDataList.pageSize;
-        }
+        SortedMap<Integer, List<T>> resultPagesData = mergePages(inputDataList);
+        this.data = extractNewData(resultPagesData, inputDataList);
+        calculateTotalCount(inputDataList);
         return this;
-    }
-
-    /**
-     * разделяет данные на блоки по страницам
-     *
-     * @return
-     */
-    private Map<Integer, List<T>> split() {
-        Map<Integer, List<T>> result = new HashMap<>();
-        for (int i = startPage; i < startPage + numPages; i++) {
-            int startItemIndex = (i - startPage) * pageSize;
-            int itemsRemained = data.size() - startItemIndex;
-            int endItemIndex = startItemIndex +
-                    (itemsRemained < pageSize ? itemsRemained : pageSize);
-            if (itemsRemained <= 0) break;
-
-            result.put(i, data.subList(startItemIndex, endItemIndex));
-        }
-        return result;
     }
 
     /**
@@ -223,51 +184,63 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * @return размер одной страницы
+     * Gets the amount of elements in one page
+     *
+     * @return int
      */
     public int getPageSize() {
         return pageSize;
     }
 
     /**
-     * @return первая страница
+     * Gets the number of first page
+     *
+     * @return int
      */
     public int getStartPage() {
         return startPage;
     }
 
     /**
-     * @return количество страниц
+     * Gets the current number of pages in list
+     *
+     * @return int
      */
     public int getNumPages() {
         return numPages;
     }
 
     /**
-     * возвращает значение page, c которого нужно начать чтобы подгрузить следующий блок данных
+     * Gets the page number for next pagination request
+     *
+     * @return int
      */
     public int getNextPage() {
         return startPage == UNSPECIFIED_PAGE ? 1 : startPage + numPages;
     }
 
     /**
-     * @return возможное количество элементов для загружки
+     * Gets maximum number of elements that list can hold
+     *
+     * @return int
      */
     public int getTotalItemsCount() {
         return totalItemsCount;
     }
 
     /**
-     * @return возможное количество страниц для загрузки
+     * Gets maximum number of pages that list can hold
+     *
+     * @return int
      */
     public int getTotalPagesCount() {
         return totalPagesCount;
     }
 
     /**
-     * Проверка возможности дозагрузки данных
+     * Checks if the list can load next portion of data, or is it full.
      *
-     * @return
+     * @return boolean
      */
     public boolean canGetMore() {
         return startPage == UNSPECIFIED_PAGE
@@ -424,6 +397,7 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     @Override
+    @NotNull
     public String toString() {
         return "DataList{" +
                 "pageSize=" + pageSize +
@@ -433,5 +407,76 @@ public class DataList<T> implements List<T>, Serializable {
                 ", totalPagesCount=" + totalPagesCount +
                 ", data=" + data +
                 '}';
+    }
+
+    private boolean isSamePageSize(DataList<T> other) {
+        return this.startPage == UNSPECIFIED_PAGE
+                || other.startPage == UNSPECIFIED_PAGE
+                || this.pageSize == other.pageSize;
+    }
+
+    private SortedMap<Integer, List<T>> mergePages(DataList<T> other) {
+        Map<Integer, List<T>> originalPagesData = splitByPages();
+        Map<Integer, List<T>> inputPagesData = other.splitByPages();
+        SortedMap<Integer, List<T>> resultPagesData = new TreeMap<>();
+        resultPagesData.putAll(originalPagesData);
+        resultPagesData.putAll(inputPagesData);
+        return resultPagesData;
+    }
+
+    /**
+     * Splits list by pages
+     *
+     * @return Map with page numbers as keys and lists with data as values
+     */
+    private Map<Integer, List<T>> splitByPages() {
+        Map<Integer, List<T>> result = new HashMap<>();
+        for (int i = startPage; i < startPage + numPages; i++) {
+            int startItemIndex = (i - startPage) * pageSize;
+            int itemsRemained = data.size() - startItemIndex;
+            int endItemIndex = startItemIndex +
+                    (itemsRemained < pageSize ? itemsRemained : pageSize);
+            if (itemsRemained <= 0) break;
+
+            result.put(i, data.subList(startItemIndex, endItemIndex));
+        }
+        return result;
+    }
+
+    private ArrayList<T> extractNewData(
+            SortedMap<Integer, List<T>> resultPagesData,
+            DataList<T> other
+    ) {
+        ArrayList<T> newData = new ArrayList<>();
+        int lastPage = UNSPECIFIED_PAGE;
+        int lastPageItemsSize = UNSPECIFIED_PAGE_SIZE;
+        for (Map.Entry<Integer, List<T>> pageData : resultPagesData.entrySet()) {
+            Integer pageNumber = pageData.getKey();
+            List<T> pageItems = pageData.getValue();
+            if (lastPage != UNSPECIFIED_PAGE &&
+                    (pageNumber - lastPage > 1 || lastPageItemsSize < pageSize)) {
+                Logger.e(new IncompatibleRangesException("Merging DataLists has empty space " +
+                        "between its ranges, original list: " + this + ", inputList: " + other));
+                break;
+            }
+            lastPage = pageNumber;
+            lastPageItemsSize = pageItems.size();
+            newData.addAll(pageItems);
+        }
+        this.startPage = resultPagesData.firstKey();
+        this.numPages = lastPage - startPage + 1;
+        return newData;
+    }
+
+    private void calculateTotalCount(DataList<T> inputDataList) {
+        this.totalItemsCount = inputDataList.totalItemsCount == UNSPECIFIED_TOTAL_ITEMS_COUNT
+                ? this.totalItemsCount
+                : inputDataList.totalItemsCount;
+        this.totalPagesCount = inputDataList.totalPagesCount == UNSPECIFIED_TOTAL_PAGES_COUNT
+                ? this.totalPagesCount
+                : inputDataList.totalPagesCount;
+        if (inputDataList.pageSize != UNSPECIFIED_PAGE_SIZE) {
+            this.pageSize = inputDataList.pageSize;
+        }
     }
 }

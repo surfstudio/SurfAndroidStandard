@@ -10,34 +10,30 @@ import ru.surfstudio.android.datalistpagecount.util.PaginationableUtil
 
 class PaginationableUtilTest {
     @Test
-    fun paginationableRequest() {
-        val response = (1..100).toList()
+    fun paginationRequest() {
+        val response = (1..10).toList()
 
         val resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
 
         PaginationableUtil.getPaginationRequestPortions<Int>({ page ->
             Observable.just(DataList(arrayListOf(response[page]), page, 1))
         }, 10)
-                .subscribe {
-                    resultList.merge(it)
-                }
+                .subscribe { list -> resultList.merge(list) }
 
         val expected = DataList(response.subList(0, 10), 0, 10, 1)
         Assert.assertEquals(expected, resultList)
     }
 
     @Test
-    fun getPaginationSingleRequestPortion() {
-        val response = (1..100).toList()
+    fun paginationSingleRequest() {
+        val response = (1..10).toList()
 
         val resultList: DataList<Int> = DataList.emptyUnspecifiedTotal()
 
         PaginationableUtil.getPaginationSingleRequestPortion<Int>({ page ->
             Single.just(DataList(arrayListOf(response[page]), page, 1))
         }, 10)
-                .subscribe { it: DataList<Int> ->
-                    resultList.merge(it)
-                }
+                .subscribe { list -> resultList.merge(list) }
 
         val expected = DataList(response.subList(0, 10), 0, 10, 1)
         Assert.assertEquals(expected, resultList)
