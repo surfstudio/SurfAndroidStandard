@@ -28,17 +28,15 @@ import ru.surfstudio.android.rx.extension.ObservableUtil;
 public class PaginationableUtil {
 
     /**
-     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
-     * размером blockSize.
-     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
-     * который используется при подгрузке новых данных.
+     * Creates Observable request with multiple subrequests for blocks of data with size of blockSize.
+     * Such block division is used for caching blocks with size of ordinary pagination data loading.
      *
-     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
-     * @param offset                   смещение с которого следует подгрузить данные
-     * @param limit                    размер загружаемых данных
-     * @param blockSize                размер подгружаемого блока
-     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
-     * combineLatestDelayError
+     * @param paginationRequestCreator subrequests creator function. Has two params: limit and offset.
+     * @param offset                   start offset
+     * @param limit                    size of all data blocks
+     * @param blockSize                size of one data block
+     * @return Observable, which emits blocks of data.
+     * Could emit it several times due to combineLatestDelayError
      */
     public static <T> Observable<DataList<T>> getPaginationRequestPortions(
             BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
@@ -56,18 +54,16 @@ public class PaginationableUtil {
     }
 
     /**
-     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
-     * размером blockSize.
-     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
-     * который используется при подгрузке новых данных.
+     * Creates Observable request with multiple subrequests for blocks of data with size of blockSize.
+     * Such block division is used for caching blocks with size of ordinary pagination data loading.
      *
-     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
-     * @param offset                   смещение с которого следует подгрузить данные
-     * @param limit                    размер загружаемых данных
-     * @param blockSize                размер подгружаемого блока
-     * @param totalCount               максимальное число элементов
-     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
-     * combineLatestDelayError
+     * @param paginationRequestCreator subrequests creator function. Has two params: limit and offset.
+     * @param offset                   start offset
+     * @param limit                    size of all data blocks
+     * @param blockSize                size of one data block
+     * @param totalCount               maximum number of elements in list
+     * @return Observable, which emits blocks of data.
+     * Could emit it several times due to combineLatestDelayError
      */
     public static <T> Observable<DataList<T>> getPaginationRequestPortionsWithTotal(
             BiFunctionSafe<Integer, Integer, Observable<DataList<T>>> paginationRequestCreator,
@@ -77,6 +73,17 @@ public class PaginationableUtil {
                 offset, limit, blockSize);
     }
 
+    /**
+     * Creates Single request with multiple subrequests for blocks of data with size of blockSize.
+     * Such block division is used for caching blocks with size of ordinary pagination data loading.
+     *
+     * @param paginationRequestCreator subrequests creator function. Has two params: limit and offset.
+     * @param offset                   start offset
+     * @param limit                    size of all data blocks
+     * @param blockSize                size of one data block
+     * @param totalCount               maximum number of elements in list
+     * @return Single, which emits blocks of data.
+     */
     public static <T> Single<DataList<T>> getPaginationRequestSinglePortionWithTotal(
             BiFunctionSafe<Integer, Integer, Single<DataList<T>>> paginationRequestCreator,
             int offset, int limit, int blockSize, int totalCount) {
@@ -85,17 +92,16 @@ public class PaginationableUtil {
     }
 
     /**
-     * Создает запрос составленный из нескольких запросов, каждый из которых загружает блок данных
-     * размером blockSize.
-     * Такое разбиение необходимо чтобы при обновлении данных списка они кешировались блоками с размером,
-     * который используется при подгрузке новых данных.
+     * Creates Observable request with multiple subrequests for blocks of data with size of blockSize.
+     * Such block division is used for caching blocks with size of ordinary pagination data loading.
      *
-     * @param paginationRequestCreator функции создающая один из подзапросов, имеет 2 параметра limit и offset
-     * @param offset                   смещение с которого следует подгрузить данные
-     * @param limit                    размер загружаемых данных
-     * @param blockSize                размер подгружаемого блока
-     * @return Observable, который эмитит необходимый блок данных, может эмитить несколько раз из-за
-     * combineLatestDelayError
+     * @param paginationRequestCreator subrequests creator function. Has two params: limit and offset.
+     * @param emptyValue               DataList used to hold elements
+     * @param offset                   start offset
+     * @param limit                    size of all data blocks
+     * @param blockSize                size of one data block
+     * @return Observable, which emits blocks of data.
+     * Could emit it several times due to combineLatestDelayError
      */
     private static <T, L extends DataList<T>> Observable<L> getPaginationRequestPortions(
             BiFunctionSafe<Integer, Integer, Observable<L>> paginationRequestCreator,

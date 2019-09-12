@@ -3,18 +3,18 @@ package ru.surfstudio.android.datalistlimitoffset.util
 import ru.surfstudio.android.datalistlimitoffset.domain.datalist.DataList
 
 /**
- * Создание пустого DataList
+ * Creates empty DataList
  *
- * @param totalCount суммарное количество элементов в новом DataList
+ * @param totalCount maximum number of elements in DataList
  */
 fun <T> emptyDataListOf(totalCount: Int = 0) = DataList.emptyWithTotal<T>(totalCount)
 
 /**
- * Фильтрация списка по указанному условию
+ * Filters elements in DataList by predicate
  *
- * @param predicate функция условия фильтрации
+ * @param predicate predicate with filter condition
  *
- * @return отфильтрованный DataList
+ * @return filtered DataList
  */
 fun <T> DataList<T>.filter(predicate: (T) -> Boolean): DataList<T> {
     val result = this.asIterable().filter(predicate)
@@ -22,11 +22,11 @@ fun <T> DataList<T>.filter(predicate: (T) -> Boolean): DataList<T> {
 }
 
 /**
- * Трансформация списка
+ * Transforms elements in DataList
  *
- * @param transform функция трансформации элемента
+ * @param transform mapper function
  *
- * @return трансформированный DataList
+ * @return transformed DataList
  */
 fun <T, R> DataList<T>.map(transform: (T) -> R): DataList<R> {
     val result = this.asIterable().map(transform)

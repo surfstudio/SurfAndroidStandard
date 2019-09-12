@@ -18,6 +18,8 @@ package ru.surfstudio.android.datalistlimitoffset.domain.datalist;
 
 import androidx.annotation.NonNull;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,25 +39,41 @@ import java.util.ListIterator;
  */
 public class DataList<T> implements List<T>, Serializable {
 
-    //count of elements in pagination portion
     private int limit;
-    //current offset from first element
     private int offset;
-    //maximum elements of list
     private int totalCount;
 
     private ArrayList<T> data;
 
+    /**
+     * Mapper Function Interface which is used to transform one type to another.
+     *
+     * @param <R> result type
+     * @param <T> source type
+     */
     public interface MapFunc<R, T> {
         R call(T item);
     }
 
+    /**
+     * Creates empty DataList
+     *
+     * @param <T> item type
+     * @return DataList instance without elements
+     */
     public static <T> DataList<T> empty() {
-        return new DataList(new ArrayList<>(), 0, 0, 0);
+        return new DataList<>(new ArrayList<>(), 0, 0, 0);
     }
 
+    /**
+     * Creates empty DataList with maximum elements number
+     *
+     * @param totalCount maximum elements in DataList
+     * @param <T>        item type
+     * @return DataList instance without elements
+     */
     public static <T> DataList<T> emptyWithTotal(int totalCount) {
-        return new DataList(new ArrayList<>(), 0, 0, totalCount);
+        return new DataList<>(new ArrayList<>(), 0, 0, totalCount);
     }
 
     public DataList(Collection<T> data, int limit, int offset) {
@@ -75,13 +93,13 @@ public class DataList<T> implements List<T>, Serializable {
      *
      * @param data next portion of data
      * @return current DataList instance with merged data
-     * @throws IncompatibleRangesException
+     * @throws IncompatibleRangesException when the other DataList's offset is bigger than data count.
      */
     public DataList<T> merge(DataList<T> data) {
         ArrayList<T> merged = performDataMerge(data);
         this.data.clear();
         this.data.addAll(merged);
-        recalculateMetadata(data);
+        recalculateDataRanges(data);
         return this;
     }
 
@@ -91,22 +109,22 @@ public class DataList<T> implements List<T>, Serializable {
      *
      * @param data              next portion of data
      * @param distinctPredicate predicate with duplicate removal logic
-     * @return текущий экземпляр
-     * @throws IncompatibleRangesException
+     * @return current DataList instance with merged data
+     * @throws IncompatibleRangesException when the other DataList's offset is bigger than data count.
      */
     public <R> DataList<T> merge(DataList<T> data, MapFunc<R, T> distinctPredicate) {
         ArrayList<T> merged = performDataMerge(data);
         ArrayList<T> filtered = distinctByLast(merged, distinctPredicate);
         this.data.clear();
         this.data.addAll(filtered);
-        recalculateMetadata(data);
+        recalculateDataRanges(data);
         return this;
     }
 
     /**
      * Transforms DataList from one type to another.
      *
-     * @param mapFunc mapping function
+     * @param mapFunc mapper function
      * @param <R>     new data type
      * @return DataList with elements of new type
      */
@@ -128,14 +146,29 @@ public class DataList<T> implements List<T>, Serializable {
         return limit + offset;
     }
 
+    /**
+     * Get count of elements in pagination portion
+     *
+     * @return int
+     */
     public int getLimit() {
         return limit;
     }
 
+    /**
+     * Get current pagination offset from the first element of list
+     *
+     * @return int
+     */
     public int getOffset() {
         return offset;
     }
 
+    /**
+     * Get maximum element count that list can hold.
+     *
+     * @return int
+     */
     public int getTotalCount() {
         return totalCount;
     }
@@ -293,6 +326,7 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     @Override
+    @NotNull
     public String toString() {
         return "DataList" +
                 "{limit=" + limit +
@@ -308,33 +342,33 @@ public class DataList<T> implements List<T>, Serializable {
         return tryMerge(destination, source);
     }
 
-    private ArrayList<T> tryMerge(DataList<T> destination, DataList<T> source) {
-        if (canBeMerged(destination, source)) {
+    private ArrayList<T> tryMerge(DataList<T> to, DataList<T> from) {
+        if (canBeMerged(to, from)) {
             return merge(
-                    destination.data,
-                    source.data,
-                    source.offset - destination.offset
+                    to.data,
+                    from.data,
+                    from.offset - to.offset
             );
         } else {
             throw new IncompatibleRangesException();
         }
     }
 
-    private ArrayList<T> merge(ArrayList<T> destination, ArrayList<T> source, int start) {
+    private ArrayList<T> merge(ArrayList<T> to, ArrayList<T> from, int start) {
         ArrayList<T> result = new ArrayList<>();
-        boolean hasStarCollision = start < destination.size();
-        List<T> destinationElements = hasStarCollision ? destination.subList(0, start) : destination;
+        boolean hasStartCollision = start < to.size();
+        List<T> destinationElements = hasStartCollision ? to.subList(0, start) : to;
         result.addAll(destinationElements);
-        result.addAll(source);
+        result.addAll(from);
         return result;
     }
 
-    private boolean canBeMerged(DataList<T> destination, DataList<T> source) {
-        int destinationItemsCount = destination.offset + destination.limit;
-        return destinationItemsCount >= source.offset;
+    private boolean canBeMerged(DataList<T> to, DataList<T> from) {
+        int destinationItemsCount = to.offset + to.limit;
+        return destinationItemsCount >= from.offset;
     }
 
-    private void recalculateMetadata(DataList<T> other) {
+    private void recalculateDataRanges(DataList<T> other) {
         boolean isReverse = other.offset < this.offset;
 
         if (isReverse) { //reverse loading
