@@ -1,6 +1,6 @@
 # Surf Android Standard
 
-Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/). Содержит множество компонент(**component**) и стандарты разработки, с помощью которых можно построить качественное приложение в короткие сроки.  
+**Android-standard** - это фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/). Содержит множество компонент(**component**) и стандарты разработки, с помощью которых можно построить качественное приложение в короткие сроки.  
 Компоненты - это совокупность gradle-модулей: библиотек (**lib**) и примеров их использования (**sample**).  
 Все компоненты, их библиотеки и примеры конфигурируются в отдельном файле: [components.json](https://bitbucket.org/surfstudio/android-standard/src/98f32ea6fb290266013ea996d9b67787eb65abbd/buildSrc/components.json) (не build.gradle).  
 Все константы, которые нужны для конфигурации, определяются в файле [config.gradle](https://bitbucket.org/surfstudio/android-standard/src/98f32ea6fb290266013ea996d9b67787eb65abbd/buildSrc/config.gradle). В том числе и версии сторонних библиотек. 
@@ -8,11 +8,11 @@
 **!!! Репозиторий в стадии активной разработки !!!**
 
 ## Версии
-Версии в Android-Standard формуруются по определенному правилу и могут быть четырех видов:
-1. 0.0.0 - стабильная, непроектная версия 
-2. 0.0.0-alpha.unstable_version - нестабильная, непроектная версия (0.5.0-alpha.4) 
-3. 0.0.0-projectPostfix.projectVersion - стабильная, проектная версия (0.5.0-mdk.4) 
-4. 0.0.0-alpha.unstable_version-projectPostfix.projectVersion - нестабильная, проектная версия (0.5.0-alpha.4-mdk.4)
+Версии в Android-Standard формуруются по определенному правилу и могут быть четырех видов:  
+1. 0.0.0 - стабильная, непроектная версия  
+2. 0.0.0-alpha.unstable_version - нестабильная, непроектная версия (0.5.0-alpha.4)   
+3. 0.0.0-projectPostfix.projectVersion - стабильная, проектная версия (0.5.0-mdk.4)   
+4. 0.0.0-alpha.unstable_version-projectPostfix.projectVersion - нестабильная, проектная версия (0.5.0-alpha.4-mdk.4)  
 
 Версии для компонент определяются в [components.json](https://bitbucket.org/surfstudio/android-standard/src/98f32ea6fb290266013ea996d9b67787eb65abbd/buildSrc/components.json). Библиотеки наследуют версию от компонент.  
 Версия проекта (в том числе и проектная) определяется в [projectConfiguration.json](https://bitbucket.org/surfstudio/android-standard/src/ab87de178c1a1c63bde197c0aabcc3aa64a8b818/buildSrc/projectConfiguration.json).
@@ -31,7 +31,7 @@ configurations.all {
 В крайнем случае, если изменения все-таки не загрузились, можно использовать:
 
 1. в консоли - *./gradlew assembleDebug --refresh-dependencies*
-1. на вкладке Gradle - "Refresh..."
+2. на вкладке Gradle - "Refresh..."
 
 Если после этих действий новая версия артефакта все равно не загружается, поможет удаление папки *.gradle* из директории проекта.
 
@@ -49,9 +49,9 @@ configurations.all {
 
 ## Ветки
 
-1. **dev/0.0.0** - ветка для основной разработки 
+1. **dev/0.0.0** - ветка для основной разработки
 2. **release/component-name/0.0.0** - ветка для релиза компоненты 
-2. **project-snapshot/project-name** - проектная ветка 
+3. **project-snapshot/project-name** - проектная ветка 
 
 ## **[Стандарты разработки приложений в Surf](https://bitbucket.org/surfstudio/android-standard/src/master/docs/main.md)**
 
