@@ -1,0 +1,19 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.location.sample"
+        testInstrumentationRunner "ru.surfstudio.android.location.sample.mock.LocationSampleTestRunner"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "location")
+    DependencyConfigurator.projectImplementation(project, "picture-provider")
+
+    DependencyConfigurator.androidTestImplementation(project, "androidx.test.uiautomator:uiautomator")
+
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}
