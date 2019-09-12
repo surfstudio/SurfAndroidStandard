@@ -1,0 +1,17 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.app.migration.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "app-migration")
+    DependencyConfigurator.projectImplementation(project, "shared-pref")
+    DependencyConfigurator.projectImplementation(project, "picture-provider")
+
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}
