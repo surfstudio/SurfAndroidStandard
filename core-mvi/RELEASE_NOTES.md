@@ -1,5 +1,5 @@
 [TOC]
 # Core-mvi Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Core-mvi
-* TODO
+* Core MVI Refactor was done

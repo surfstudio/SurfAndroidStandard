@@ -1,7 +1,8 @@
 [TOC]
 # Core-app Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Core-app
+* TODO
 * TODO
 ## 0.4.0
 ##### Core-app

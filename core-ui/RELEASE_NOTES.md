@@ -1,9 +1,9 @@
 [TOC]
 # Core-ui Release Notes
-## 0.5.0-alpha.1
+## 0.5.0-alpha
 ##### Core-ui
 * ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Core-ui
 * TODO
 ## 0.4.0

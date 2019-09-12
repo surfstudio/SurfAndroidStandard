@@ -30,7 +30,7 @@ import javax.inject.Named
  * принадлежащих скоупу @PerScreen
  */
 @Module
-class ActivityModule(private val persistentScope: ActivityPersistentScope) {
+class DebugActivityModule(private val persistentScope: ActivityPersistentScope) {
 
     @Provides
     @PerActivity

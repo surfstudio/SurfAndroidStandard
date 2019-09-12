@@ -15,11 +15,11 @@ import java.util.concurrent.TimeUnit
  * Управляет переходом и закритием режима Scalpel
  */
 @SuppressLint("StaticFieldLeak")
-object ScalpelManager {
+object DebugScalpelManager {
     private val shakeDetectedSubject = PublishSubject.create<Long>()
     private var currentActivity: Activity? = null
 
-    private lateinit var shakeDetector: ShakeDetector
+    private lateinit var shakeDetector: DebugShakeDetector
 
     fun init(app: Application) {
         initShakeDetector()
@@ -28,10 +28,10 @@ object ScalpelManager {
     }
 
     private fun initShakeDetector() {
-        shakeDetector = ShakeDetector {
+        shakeDetector = DebugShakeDetector {
             shakeDetectedSubject.onNext(System.currentTimeMillis())
         }
-        shakeDetector.setSensitivity(ShakeDetector.SENSITIVITY_MEDIUM)
+        shakeDetector.setSensitivity(DebugShakeDetector.SENSITIVITY_MEDIUM)
     }
 
     @SuppressLint("CheckResult")
@@ -46,7 +46,7 @@ object ScalpelManager {
     }
 
     private fun listenActivityLifecycle(app: Application) {
-        app.registerActivityLifecycleCallbacks(object : DefaultActivityLifecycleCallbacks() {
+        app.registerActivityLifecycleCallbacks(object : DebugDefaultActivityLifecycleCallbacks() {
             override fun onActivityResumed(activity: Activity) {
                 currentActivity = activity
                 shakeDetector.start(app.getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager)
@@ -72,7 +72,7 @@ object ScalpelManager {
     }
 
     private fun enableScalpel() {
-        val scalpelWidget = ScalpelWidget(currentActivity!!)
+        val scalpelWidget = DebugScalpelWidget(currentActivity!!)
         val content = currentActivity!!.findViewById<ViewGroup>(android.R.id.content)
         val childViews = (0 until content.childCount)
                 .map { content.getChildAt(it) }
@@ -89,8 +89,8 @@ object ScalpelManager {
             val content = activity.findViewById<ViewGroup>(android.R.id.content)
             val scalpelWidget = (0 until content.childCount)
                     .map { content.getChildAt(it)}
-                    .filter { it is ScalpelWidget }
-                    .last() as ScalpelWidget
+                    .filter { it is DebugScalpelWidget }
+                    .last() as DebugScalpelWidget
             val childViews = scalpelWidget.extractContentViews()
             content.removeAllViews()
             childViews.forEach { content.addView(it) }
@@ -100,7 +100,7 @@ object ScalpelManager {
     private fun isScalpelActive(): Boolean {
         val content = currentActivity!!.findViewById<ViewGroup>(android.R.id.content)
         return (0 until content.childCount)
-                .map { content.getChildAt(it) is ScalpelWidget }
+                .map { content.getChildAt(it) is DebugScalpelWidget }
                 .reduce { prev, new -> prev || new }
 
     }
