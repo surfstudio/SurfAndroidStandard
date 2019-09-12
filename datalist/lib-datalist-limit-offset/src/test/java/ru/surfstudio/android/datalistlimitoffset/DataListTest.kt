@@ -77,35 +77,41 @@ class DataListTest {
     @Test
     fun checkMergeWithCollisionInStartLimitSmallerThanSourceList() {
         val list1: DataList<Int> = DataList(arrayListOf(1, 2, 3, 4, 5), 5, 0, 10)
-        val list2: DataList<Int> = DataList(arrayListOf(6, 7), 3, 0, 10)
-        val list3: DataList<Int> = DataList(arrayListOf(6, 7), 3, 0, 10)
+        val list2: DataList<Int> = DataList(arrayListOf(6, 7), 2, 0, 10)
+
         list1.merge(list2)
-        Assert.assertEquals(list1, list3)
+
+        val expected: DataList<Int> = DataList(arrayListOf(6, 7), 2, 0, 10)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
     fun checkMergeWithCollisionInStartLimitBiggerThanSourceList() {
-        val list1: DataList<Int> = DataList(arrayListOf(6, 7), 3, 0, 10)
+        val list1: DataList<Int> = DataList(arrayListOf(6, 7), 2, 0, 10)
         val list2: DataList<Int> = DataList(arrayListOf(1, 2, 3, 4, 5), 5, 0, 10)
-        val list3: DataList<Int> = DataList(arrayListOf(1, 2, 3, 4, 5), 5, 0, 10)
+
         list1.merge(list2)
-        Assert.assertEquals(list1, list3)
+
+        val expected: DataList<Int> = DataList(arrayListOf(1, 2, 3, 4, 5), 5, 0, 10)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
     fun checkMergeEmptyWithNormal() {
         val list1: DataList<Int> = DataList.empty()
         val list2: DataList<Int> = DataList(arrayListOf(1, 2, 3, 4, 5), 5, 0, 10)
-        val list3: DataList<Int> = DataList(arrayListOf(1, 2, 3, 4, 5), 5, 0, 10)
 
         list1.merge(list2)
-        Assert.assertEquals(list3, list1)
+
+        val expected: DataList<Int> = DataList(arrayListOf(1, 2, 3, 4, 5), 5, 0, 10)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun checkInvalidData() {
+    fun checkInvalidRange() {
         val list1: DataList<Int> = DataList(arrayListOf(1, 2, 3), 3, 0, 10)
         val list2: DataList<Int> = DataList(arrayListOf(4, 5), 3, 4, 10)
+        assert(list1.limit + list1.offset < list2.offset) //there's a gap between ranges
         list1.merge(list2)
     }
 
@@ -137,116 +143,116 @@ class DataListTest {
     }
 
     @Test
-    fun checkDynamicDataInsertion() {
-        val element1 = Element(1)
-        val element2 = Element(2)
-        val element3 = Element(3)
-        val element4 = Element(4)
-        val element5 = Element(5)
-        val element6 = Element(6)
-        val element7 = Element(7)
-        val element8 = Element(8)
+    fun checkFilteringDuplicatesSimple() {
+        val e1 = Element(1)
+        val e2 = Element(2)
+        val e3 = Element(3)
+        val e4 = Element(4)
+        val e5 = Element(5)
+        val e6 = Element(6)
+        val e7 = Element(7)
+        val e8 = Element(8)
 
         val list1 = DataList(arrayListOf(
-                element1, element2, element3, element4, element5
+                e1, e2, e3, e4, e5
         ), 5, 4, 20)
 
         val list2 = DataList(arrayListOf(
-                element4, element5, element6, element7, element8
+                e4, e5, e6, e7, e8
         ), 5, 9, 10)
 
         list1.merge(list2) { it.id }
 
-        val list3 = DataList(arrayListOf(
-                element1,
-                element2,
-                element3,
-                element4,
-                element5,
-                element6,
-                element7,
-                element8
+        val expected = DataList(arrayListOf(
+                e1,
+                e2,
+                e3,
+                e4,
+                e5,
+                e6,
+                e7,
+                e8
         ), 10, 4, 20)
-        Assert.assertEquals(list3, list1)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
-    fun checkDynamicDataInsertion2() {
-        val element1 = Element(1)
-        val element2 = Element(2)
-        val element3 = Element(3)
-        val element4 = Element(4)
-        val element5 = Element(5)
-        val element6 = Element(6)
-        val element7 = Element(7)
+    fun checkFilteringDuplicates() {
+        val e1 = Element(1)
+        val e2 = Element(2)
+        val e3 = Element(3)
+        val e4 = Element(4)
+        val e5 = Element(5)
+        val e6 = Element(6)
+        val e7 = Element(7)
 
         val list1 = DataList(arrayListOf(
-                element1, element2, element3, element4, element5, element6, element7
+                e1, e2, e3, e4, e5, e6, e7
         ), 7, 6, 30)
 
         val list2 = DataList(arrayListOf(
-                element1, element2, element3, element4, element5, element6, element7
+                e1, e2, e3, e4, e5, e6, e7
         ), 7, 13, 30)
 
         val list3 = DataList(arrayListOf(
-                element1, element2, element3, element4, element5, element6, element7
+                e1, e2, e3, e4, e5, e6, e7
         ), 7, 20, 30)
 
         list1.merge(list2) { it.id }
         list1.merge(list3) { it.id }
 
-        val list4 = DataList(arrayListOf(
-                element1,
-                element2,
-                element3,
-                element4,
-                element5,
-                element6,
-                element7
+        val expected = DataList(arrayListOf(
+                e1,
+                e2,
+                e3,
+                e4,
+                e5,
+                e6,
+                e7
         ), 21, 6, 30)
 
-        Assert.assertEquals(list1, list4)
+        Assert.assertEquals(expected, list1)
     }
 
     @Test
-    fun checkDynamicDataInsertion3() {
-        val element0 = Element(0)
-        val element1 = Element(1)
-        val element2 = Element(2)
-        val element3 = Element(3)
-        val element4 = Element(4)
-        val element5 = Element(5)
-        val element6 = Element(6)
-        val element7 = Element(7)
-        val element8 = Element(8)
-        val element9 = Element(9)
+    fun checkFilteringDuplicatesMultiple() {
+        val e0 = Element(0)
+        val e1 = Element(1)
+        val e2 = Element(2)
+        val e3 = Element(3)
+        val e4 = Element(4)
+        val e5 = Element(5)
+        val e6 = Element(6)
+        val e7 = Element(7)
+        val e8 = Element(8)
+        val e9 = Element(9)
 
         val list1 = DataList(arrayListOf(
-                element1, element2, element3, element4, element5
+                e1, e2, e3, e4, e5
         ), 5, 4, 30)
 
         val list2 = DataList(arrayListOf(
-                element0, element1, element2, element3, element4
+                e0, e1, e2, e3, e4
         ), 5, 9, 30)
 
         val list3 = DataList(arrayListOf(
-                element5, element6, element7, element8, element9
+                e5, e6, e7, e8, e9
         ), 5, 14, 30)
 
         list1.merge(list2) { it.id }
         list1.merge(list3) { it.id }
 
         val list4 = DataList(arrayListOf(
-                element1,
-                element2,
-                element3,
-                element4,
-                element5,
-                element0,
-                element6,
-                element7,
-                element8,
-                element9
+                e1,
+                e2,
+                e3,
+                e4,
+                e5,
+                e0,
+                e6,
+                e7,
+                e8,
+                e9
         ), 15, 4, 30)
 
         Assert.assertEquals(list1, list4)
