@@ -7,6 +7,7 @@
 * ANDDEP-687 Added "javax.inject:javax.inject" and "com.annimon:stream" to commonModule.gradle
 * ANDDEP-687 Removed "com.annimon:stream" dependency from app-module
 * ANDDEP-329 Added RxJava2Debug
+* ANDDEP-702 Fixed script for local connection of android standard
 
 ## 0.4.0
 ##### Template
