@@ -9,7 +9,7 @@
 1. **Общие сведения о построении приложения**
     1. [Требования к коду](common/code_organization.md)
         1. [Java Code Style](common/codestyle/java_codestyle.md)
-        1. [Koltin Code Syle](common/codestyle/kotlin_codestyle.md)
+        1. [Kotlin Code Syle](common/codestyle/kotlin_codestyle.md)
     1. [Архитектура приложения](common/architect.md)
     1. [Многомодульность](common/multimodule/multimodules.md)
     1. [Инъекция зависимостей](common/di.md)
