@@ -1,6 +1,6 @@
 [TOC]
 # Custom-view Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Custom-view
 * TODO
 ## 0.4.0

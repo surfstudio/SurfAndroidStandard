@@ -1,6 +1,6 @@
 [TOC]
 # Filestorage Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Filestorage
 * TODO
 ## 0.3.0

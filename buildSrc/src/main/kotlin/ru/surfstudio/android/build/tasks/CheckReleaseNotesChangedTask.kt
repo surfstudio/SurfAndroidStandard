@@ -1,7 +1,6 @@
 package ru.surfstudio.android.build.tasks
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
@@ -64,17 +63,13 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
     private fun isComponentChanged(resultByConfig: Boolean, resultByFile: Boolean) =
             resultByConfig.or(resultByFile)
 
-    private fun isReleaseFileIncluded(diffs: List<String>, componentName: String) =
-            diffs.contains("$componentName/$RELEASE_NOTES_FILE_NAME")
+    private fun isReleaseFileIncluded(diffs: List<String>, componentName: String): Boolean =
+            diffs.find {  it.contains("$componentName/$RELEASE_NOTES_FILE_NAME") } != null
 
     private fun extractInputArguments() {
         if (!project.hasProperty(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE)) {
             throw PropertyNotDefineException(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE)
         }
         revisionToCompare = project.findProperty(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE) as String
-    }
-
-    private fun fail(reason: String) {
-        throw GradleException(reason)
     }
 }

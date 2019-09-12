@@ -1,6 +1,8 @@
 [TOC]
 # Mvp Release Notes
 ## 0.5.0-alpha.0
+##### Core-mvp
+* TODO
 ##### Mvp-widget
 * ANDDEP-633 Fixed widget manual destroy method
 ## 0.4.0
