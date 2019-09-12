@@ -497,7 +497,7 @@
   {
     "id": "core-mvi",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 0,
     "stable": false,
     "dir": "core-mvi",
     "libs": [
@@ -689,8 +689,8 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/Core-ui"
   },
   {
     "id": "custom-view",
@@ -1698,6 +1698,17 @@
         ]
       }
     ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "template",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "template",
+    "libs": [],
     "samples": [],
     "has_mirror": false,
     "mirror_repo": ""
