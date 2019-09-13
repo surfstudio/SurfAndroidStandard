@@ -629,7 +629,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -1080,7 +1080,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1486,7 +1486,7 @@
   {
     "id": "rx-extension",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "rx-extension",
     "libs": [
@@ -1677,7 +1677,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "util-ktx",
     "libs": [
