@@ -17,7 +17,7 @@ private const val HEAD = "HEAD"
  * Only [filesToMirror] and [foldersToMirror] are mirrored
  */
 class MirrorManager(
-        private val componentDirectory: String,
+        componentDirectory: String,
         private val standardRepository: StandardRepository,
         private val mirrorRepository: MirrorRepository,
         private val standardDepthLimit: Int,
@@ -90,7 +90,9 @@ class MirrorManager(
                 CommitType.SIMPLE -> commit(it)
                 CommitType.MERGE -> merge(it)
                 CommitType.MIRROR_START_POINT -> createMirrorStartCommit(it)
+                else -> {}
             }
+            it.tags.forEach { tag -> mirrorRepository.tag(it.commit, tag) }
         }
     }
 

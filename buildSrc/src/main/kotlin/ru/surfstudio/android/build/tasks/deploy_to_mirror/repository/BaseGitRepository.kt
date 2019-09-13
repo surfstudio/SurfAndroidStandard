@@ -25,6 +25,8 @@ abstract class BaseGitRepository {
 
     protected val git: Git by lazy { Git.open(repositoryPath) }
 
+    protected val tags: List<Ref> by lazy { git.tagList().call() }
+
     /**
      * Delete repository
      */
@@ -38,6 +40,9 @@ abstract class BaseGitRepository {
             .setMaxCount(1)
             .call()
             .first()
+
+    fun getTagsForCommit(commit: RevCommit): List<String> =
+            tags.filter { it.objectId == commit }.map { it.name }
 
     /**
      * Get all branches
@@ -213,6 +218,11 @@ abstract class BaseGitRepository {
             .call()
             ?.conflicts
             ?.map { it.key } ?: emptyList()
+
+    fun tag(commit: RevCommit, tagName: String) = git.tag()
+            .setObjectId(commit)
+            .setName(tagName)
+            .call()
 
     /**
      * add to git index
