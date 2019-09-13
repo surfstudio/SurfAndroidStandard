@@ -5,11 +5,12 @@ import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.standard.f_debug.reused_components.ReusedComponentsDebugActivityRoute
-import ru.surfstudio.standard.f_debug.developer_tools.DeveloperToolsDebugActivityRoute
+import ru.surfstudio.standard.f_debug.system_settings.DeveloperToolsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.fcm.FcmDebugActivityRoute
 import ru.surfstudio.standard.f_debug.info.AppInfoDebugActivityRoute
 import ru.surfstudio.standard.f_debug.memory.MemoryDebugActivityRoute
 import ru.surfstudio.standard.f_debug.server_settings.ServerSettingsDebugActivityRoute
+import ru.surfstudio.standard.f_debug.system_settings.AppSettingsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.ui_tools.UiToolsDebugActivityRoute
 import ru.surfstudio.standard.f_debug.tools.ToolsDebugActivityRoute
 import javax.inject.Inject
@@ -53,5 +54,9 @@ class DebugPresenter @Inject constructor(
 
     fun openToolsScreen() {
         activityNavigator.start(ToolsDebugActivityRoute())
+    }
+
+    fun openAppSettingsScreen() {
+        activityNavigator.start(AppSettingsDebugActivityRoute())
     }
 }

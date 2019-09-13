@@ -40,4 +40,6 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "javax.inject:javax.inject:$javaInjectVersion"
+    implementation "com.annimon:stream:$annimonStreamVersion"
 }
