@@ -5,9 +5,9 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.utils.AppDirectoriesProvider
-import ru.surfstudio.android.network.etag.EtagInterceptor
-import ru.surfstudio.android.network.etag.storage.EtagStorage
-import ru.surfstudio.android.network.etag.storage.EtagCache
+import ru.surfstudio.standard.i_network.network.etag.EtagInterceptor
+import ru.surfstudio.standard.i_network.network.etag.storage.EtagStorage
+import ru.surfstudio.standard.i_network.network.etag.storage.EtagCache
 
 @Module
 class EtagModule {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CoreWidgetViewInterface">
+        <!-- Ручная инициализация виджета. При установке этого флага как true, для инициализации виджета в коде необходимо будет явно вызвать метод lazyInit(). Необходимо использовать только в крайних случаях, когда не устраивает автоматическая инициализация на onAttachedToWindow. Это может потребоваться в случае когда onAttachedToWindow вызывается до того, как становится известен widgetId. Не следует использовать в RecyclerView. Для идентификации элементов в Recycler, необходимо переопределять метод getWidgetId.-->
+        <attr name="enableManualInit" format="boolean" />
+    </declare-styleable>
+
+</resources>

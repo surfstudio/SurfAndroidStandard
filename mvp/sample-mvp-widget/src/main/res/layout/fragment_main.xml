@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.constraint.ConstraintWidgetView
+        android:id="@+id/constraint_widget_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.frame.FrameWidgetView
+        android:id="@+id/frame_widget_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.linear.LinearWidgetView
+        android:id="@+id/linear_widget_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ru.surfstudio.android.mvpwidget.sample.ui.screen.main.widget.relative.RelativeWidgetView
+        android:id="@+id/relative_widget_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -17,7 +17,7 @@
 Расширение модуля core-mvp для работы со view(в терминах android фреймвока)
 как со View(в терминах MVP).
 1. [easyadapter](../easyadapter/README.md) -
-адаптер для легкого размещаения сложного контента в RecyclerView.
+адаптер для легкого размещения сложного контента в RecyclerView.
 1. [analytics](../analytics/README.md) -
 модуль для фиксирования событий в приложении
 1. [firebase-analytics](../firebase-analytics/README.md) -
@@ -73,8 +73,8 @@
 
 1. [template](../template/README.md) -
 модуль для инициализации нового приложения.
-1. [templates](../templates/README.md) -
-Live и File Templates для AndroidStudio
+1. [android-studio-settings](../android-studio-settings/README.md) -
+Live и File Android-studio-settings для AndroidStudio
 1. [sample-common](../sample-common/README.md) -
 модуль, содержащий общие ресурсы для примеров к другим модулям.
 1. [sample-dagger](../sample-dagger/README.md) -

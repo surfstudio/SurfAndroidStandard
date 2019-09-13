@@ -304,9 +304,22 @@ nullableInt?.let {
 
 * [**Delegates**][delegates]
 
-* Созд
+## Настройка форматирования для проекта
+
+1. Перенести содержимое [.idea][ideaCodeSettings] в корневую директорию 
+.idea проекта
+2. Добавить в корневой .gitignore  
+`!.idea/codeStyles`  
+`!.idea/inspectionProfiles`  
+И заменить в нем  
+`.idea` на `.idea/*`
+3. `$git add .idea/`  
+   `$git commit -a -m "Code formatting”`
+4. Убрать из `gradle.properies` `kotlin.code.style={official}`
+5. Запушить изменения
 
 
+[ktlint-install]: https://github.com/pinterest/ktlint#installation
 [conv]: https://kotlinlang.org/docs/reference/coding-conventions.html
 [style]: https://android.github.io/kotlin-guides/style.html
 [robot]: https://habrahabr.ru/company/redmadrobot/blog/343458/
@@ -314,5 +327,6 @@ nullableInt?.let {
 [r_naming]: https://github.com/RedMadRobot/kotlin-style-guide#%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0-%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F
 [special_chars]: https://android.github.io/kotlin-guides/style.html#special-characters
 [delegates]: kotlin_delegates.md
+[ideaCodeSettings]: https://bitbucket.org/surfstudio/android-standard/downloads/ideaProjectConfig.zip
 
 
