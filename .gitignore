@@ -4,7 +4,12 @@
 .idea/
 .DS_Store
 /build
+*/build
+*/.cxx
+*/*/.cxx
 /captures
+buildSrc/modules.json
+security-sample-template/
 .externalNativeBuild
 /temp
 .mirror
