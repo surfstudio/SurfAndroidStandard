@@ -36,13 +36,16 @@ class MirrorRepository(dirPath: String) : BaseGitRepository() {
                         )
                 )
                 .call()
-
     }
+
+    fun tag(commit: RevCommit, tagName: String) = git.tag()
+            .setObjectId(commit)
+            .setName(tagName)
+            .call()
 
     fun getCommitByStandardHash(standardHash: String): RevCommit = git.log()
             .all()
             .call()
             .find { it.mirrorStandardHash == standardHash }
             ?: throw MirrorCommitNotFoundByStandardHashException(standardHash)
-
 }

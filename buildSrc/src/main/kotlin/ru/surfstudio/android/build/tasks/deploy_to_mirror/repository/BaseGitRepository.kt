@@ -4,14 +4,12 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ListBranchCommand
 import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.diff.DiffEntry
-import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.treewalk.CanonicalTreeParser
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchCanNotBeDefinedException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchNotFoundException
-import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.extractBranchNames
 import java.io.File
 
@@ -27,8 +25,6 @@ abstract class BaseGitRepository {
 
     protected val git: Git by lazy { Git.open(repositoryPath) }
 
-    protected val tags: List<Ref> by lazy { git.tagList().call() }
-
     /**
      * Delete repository
      */
@@ -42,10 +38,6 @@ abstract class BaseGitRepository {
             .setMaxCount(1)
             .call()
             .first()
-
-    fun getTagsForCommit(commit: RevCommit): List<String> =
-            tags.filter { it.objectId == commit }
-                    .map { it.name.replace(Constants.R_TAGS, EMPTY_STRING) }
 
     /**
      * Get all branches
@@ -221,11 +213,6 @@ abstract class BaseGitRepository {
             .call()
             ?.conflicts
             ?.map { it.key } ?: emptyList()
-
-    fun tag(commit: RevCommit, tagName: String) = git.tag()
-            .setObjectId(commit)
-            .setName(tagName)
-            .call()
 
     /**
      * add to git index

@@ -247,9 +247,7 @@ class GitTree(
                     if (branchNameNames.size != 1) {
                         throw ManyBranchesFoundException(it.value.name, branchNameNames)
                     }
-
-                    val tags = mirrorRepository.getTagsForCommit(it.value)
-                    CommitWithBranch(it.value, tags = tags, branch = branchNameNames[0])
+                    CommitWithBranch(it.value, branch = branchNameNames[0])
                 }.toSet()
     }
 
