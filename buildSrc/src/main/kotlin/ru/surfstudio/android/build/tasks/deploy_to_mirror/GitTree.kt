@@ -96,7 +96,7 @@ class GitTree(
      */
     private fun createRootNode(value: RevCommit) {
         val node = Node(value).apply {
-            state = NodeState.ROOT
+            state = ROOT
         }
         rootNode = node
         standardNodes.add(node)
@@ -200,7 +200,7 @@ class GitTree(
         mirrorNodes.forEach { mirrorNode ->
             standardNodes.find {
                 it.value.standardHash == mirrorNode.value.mirrorStandardHash
-            }?.state = NodeState.END
+            }?.state = END
         }
     }
 
@@ -220,7 +220,7 @@ class GitTree(
     private fun createLines(): List<List<Node>> {
         markEndNodes()
 
-        val ends = standardNodes.filter { it.state == NodeState.END }
+        val ends = standardNodes.filter { it.state == END }
 
         return ends.flatMap { end -> buildChain(mutableListOf(end)) }
                 .filter { ends.contains(it.first()) && it.last() == rootNode }
@@ -247,7 +247,7 @@ class GitTree(
                     if (branchNameNames.size != 1) {
                         throw ManyBranchesFoundException(it.value.name, branchNameNames)
                     }
-                    CommitWithBranch(it.value, branchNameNames[0])
+                    CommitWithBranch(it.value, branch = branchNameNames[0])
                 }.toSet()
     }
 
@@ -276,7 +276,8 @@ class GitTree(
                         it.parents.size == 2 -> CommitType.MERGE
                         else -> CommitType.SIMPLE
                     }
-                    CommitWithBranch(commit = it.value, type = type)
+                    val tags = standardRepository.getTagsForCommit(it.value)
+                    CommitWithBranch(commit = it.value, tags = tags, type = type)
                 }
                 .sortedBy { it.commit.commitTime }
 
@@ -324,7 +325,7 @@ class GitTree(
      */
     private data class Node(
             val value: RevCommit,
-            var state: NodeState = NodeState.NONE,
+            var state: NodeState = NONE,
             val parents: MutableSet<Node> = mutableSetOf(),
             val children: MutableSet<Node> = mutableSetOf()
     ) {
