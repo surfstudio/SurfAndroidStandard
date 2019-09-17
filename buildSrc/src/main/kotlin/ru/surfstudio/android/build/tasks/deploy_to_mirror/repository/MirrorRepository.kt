@@ -18,13 +18,13 @@ class MirrorRepository(dirPath: String) : BaseGitRepository() {
 
     override val repositoryName = "Mirror"
 
-    fun commit(commit: RevCommit): String? {
+    fun commit(commit: RevCommit): RevCommit? {
         val resultCommit = git.commit()
                 .setAuthor(commit.authorIdent)
                 .setAll(true)
                 .setMessage("${commit.shortMessage} $STANDARD_COMMIT_HASH_PREFIX${commit.shortHash}$STANDARD_COMMIT_HASH_POSTFIX")
                 .call()
-        return resultCommit.name
+        return resultCommit
     }
 
     fun push() {

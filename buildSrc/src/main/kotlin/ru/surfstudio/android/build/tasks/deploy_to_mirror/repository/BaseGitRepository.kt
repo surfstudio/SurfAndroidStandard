@@ -4,12 +4,14 @@ import org.eclipse.jgit.api.Git
 import org.eclipse.jgit.api.ListBranchCommand
 import org.eclipse.jgit.api.ResetCommand
 import org.eclipse.jgit.diff.DiffEntry
+import org.eclipse.jgit.lib.Constants
 import org.eclipse.jgit.lib.ObjectId
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.treewalk.CanonicalTreeParser
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchCanNotBeDefinedException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.BranchNotFoundException
+import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.extractBranchNames
 import java.io.File
 
@@ -42,7 +44,8 @@ abstract class BaseGitRepository {
             .first()
 
     fun getTagsForCommit(commit: RevCommit): List<String> =
-            tags.filter { it.objectId == commit }.map { it.name }
+            tags.filter { it.objectId == commit }
+                    .map { it.name.replace(Constants.R_TAGS, EMPTY_STRING) }
 
     /**
      * Get all branches

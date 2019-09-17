@@ -278,7 +278,7 @@ class GitTree(
                         it.parents.size == 2 -> CommitType.MERGE
                         else -> CommitType.SIMPLE
                     }
-                    val tags = mirrorRepository.getTagsForCommit(it.value)
+                    val tags = standardRepository.getTagsForCommit(it.value)
                     CommitWithBranch(commit = it.value, tags = tags, type = type)
                 }
                 .sortedBy { it.commit.commitTime }
