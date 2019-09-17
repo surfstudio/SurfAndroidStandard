@@ -246,8 +246,7 @@ static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initBuildDiscarder(script),
-            initParameters(script),
-            initTriggers(script)
+            initParameters(script)
     ]
 }
 
@@ -266,25 +265,6 @@ def static initParameters(script) {
             script.string(
                     name: "branchName_0",
                     description: 'Ветка с исходным кодом')
-    ])
-}
-
-def static initTriggers(script) {
-    return script.pipelineTriggers([
-            script.GenericTrigger(
-                    genericVariables: [
-                            [
-                                    key  : "branchName",
-                                    value: '$.push.changes[?(@.new.type == "branch")].new.name'
-                            ]
-                    ],
-                    printContributedVariables: true,
-                    printPostContent: true,
-                    causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?release/(.*)$', //todo изменить фильтр веток
-                    regexpFilterText: '$branchName_0'
-            ),
-            script.pollSCM('')
     ])
 }
 
