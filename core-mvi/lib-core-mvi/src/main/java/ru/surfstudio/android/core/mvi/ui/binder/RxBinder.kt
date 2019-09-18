@@ -5,6 +5,7 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
+import ru.surfstudio.android.core.mvi.ui.binder.error.EventHubChainException
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 
@@ -31,20 +32,23 @@ interface RxBinder {
             eventHub: RxEventHub<T>,
             middleware: RxMiddleware<T>
     ) {
-        (middleware.transform(eventHub.observe()) as Observable<T>).bindIgnore()
+        val eventHubObservable = eventHub.observe().share()
+        middleware.transform(eventHubObservable) as Observable<T> bindEvents eventHub
+    }
+
+    fun <T : Event, SH> bind(
+            eventHub: RxEventHub<T>,
+            stateHolder: SH,
+            reactor: Reactor<T, SH>
+    ) {
+        eventHub.observe().bindUi(stateHolder, reactor)
     }
 
     infix fun <T> Observable<T>.bindEvents(consumer: Consumer<T>) =
             subscribe(this, consumer::accept, ::onError)
 
-    fun <T> Observable<T>.bindIgnore() =
-            subscribe(
-                    this,
-                    {
-                        //ignore
-                    },
-                    ::onError
-            )
+    fun <T : Event, SH> Observable<T>.bindUi(stateHolder: SH, reactor: Reactor<T, SH>) =
+            subscribe(this, { reactor.react(stateHolder, it) }, ::onError)
 
     fun <T> subscribe(
             observable: Observable<T>,
@@ -60,6 +64,6 @@ interface RxBinder {
      * @param throwable ошибка, возникшая в цепочке событий.
      */
     fun onError(throwable: Throwable) {
-        throw throwable
+        throw EventHubChainException(throwable)
     }
 }
