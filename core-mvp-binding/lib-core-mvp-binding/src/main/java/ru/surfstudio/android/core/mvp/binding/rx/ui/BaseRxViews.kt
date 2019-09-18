@@ -65,10 +65,9 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
 
     override fun getPresenters() = emptyArray<BaseRxPresenter>()
 
-    @CallSuper
-    override fun onDestroy() {
+    override fun onDestroyView() {
         viewDisposable.clear()
-        super.onDestroy()
+        super.onDestroyView()
     }
 
     override fun <T> subscribe(
