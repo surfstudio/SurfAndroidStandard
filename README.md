@@ -70,10 +70,5 @@ dependencies {
 [build_status_icon]: https://jenkins.surfstudio.ru/buildStatus/icon?job=Android_Standard_Component_Mirroring_Job
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
-[wiki_link]: $WIKI_LINK$
-[release_notes]: /$MODULE_NAME$/RELEASE_NOTES.md
-[issue_tracker]: $ISSUE_TRACKER$
-
 [android_standard_icon]: https://img.shields.io/badge/Android%20Standard-Repo-brightgreen 
 [android_standard_link]: https://github.com/surfstudio/SurfAndroidStandard
-[surf]: https://surfstudio.ru/
