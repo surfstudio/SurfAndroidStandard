@@ -1,10 +1,8 @@
 # Surf Android Standard
 
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat )]( https://android-arsenal.com/details/1/7290 )
-[![Download][build_version_icon]][build_version_link]
 [![Build Status][build_status_icon]][build_status_link]
 [![License][license_icon]][license_link]
-[![Android Standard][android_standard_icon]][android_standard_link]
 
 Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
@@ -64,11 +62,7 @@ dependencies {
 [docs]: docs/main.md
 [artifacts]: docs/artifacts.md
 
-[build_version_link]: https://bintray.com/surf/maven/easyadapter/_latestVersion
-[build_version_icon]: https://img.shields.io/bintray/v/surf/maven/easyadapter?label=JCenter
-[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Component_Mirroring_Job/
-[build_status_icon]: https://jenkins.surfstudio.ru/buildStatus/icon?job=Android_Standard_Component_Mirroring_Job
+[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Mirroring/
+[build_status_icon]: https://jenkins.surfstudio.ru/buildStatus/icon?job=Android_Standard_Mirroring
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
-[android_standard_icon]: https://img.shields.io/badge/Android%20Standard-Repo-brightgreen 
-[android_standard_link]: https://github.com/surfstudio/SurfAndroidStandard
