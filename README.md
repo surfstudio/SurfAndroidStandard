@@ -67,4 +67,6 @@ dependencies {
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
 [android_arsenal_link]: https://android-arsenal.com/details/1/7290
+
+[comment]: <В следующих версих нужно заменить на ссылку на икноку релаьного статуса>
 [android_arsenal_icon]: https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat
