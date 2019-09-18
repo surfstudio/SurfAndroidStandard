@@ -1,6 +1,6 @@
 # Surf Android Standard
 
-[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat )]( https://android-arsenal.com/details/1/7290 )
+[![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
 [![Build Status][build_status_icon]][build_status_link]
 [![License][license_icon]][license_link]
 
@@ -66,3 +66,5 @@ dependencies {
 [build_status_icon]: https://img.shields.io/badge/build-success-brightgreen
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
+[android_arsenal_link]: https://android-arsenal.com/details/1/7290
+[android_arsenal_icon]: https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat
