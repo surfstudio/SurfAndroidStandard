@@ -1721,5 +1721,38 @@
     "samples": [],
     "has_mirror": false,
     "mirror_repo": ""
+  },
+  {
+    "id": "android-standard-version-plugin",
+    "version": "0.5.0",
+    "unstable_version": 0,
+    "stable": false,
+    "dir": "android-standard-version-plugin",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "android-studio-settings",
+    "version": "0.5.0",
+    "unstable_version": 0,
+    "stable": false,
+    "dir": "android-studio-settings",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "docs",
+    "version": "0.5.0",
+    "unstable_version": 0,
+    "stable": false,
+    "dir": "docs",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
   }
 ]
