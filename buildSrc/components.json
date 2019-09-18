@@ -1362,7 +1362,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -1725,7 +1725,7 @@
   {
     "id": "android-standard-version-plugin",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "android-standard-version-plugin",
     "libs": [],
@@ -1736,7 +1736,7 @@
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "android-studio-settings",
     "libs": [],
@@ -1747,7 +1747,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "docs",
     "libs": [],
