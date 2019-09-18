@@ -62,7 +62,7 @@ dependencies {
 [docs]: docs/main.md
 [artifacts]: docs/artifacts.md
 
-[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Mirroring/
-[build_status_icon]: https://jenkins.surfstudio.ru/buildStatus/icon?job=Android_Standard_Mirroring
+[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Dev_Deploy/
+[build_status_icon]: https://img.shields.io/badge/build-success-brightgreen
 [license_link]: http://www.apache.org/licenses/LICENSE-2.0
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
