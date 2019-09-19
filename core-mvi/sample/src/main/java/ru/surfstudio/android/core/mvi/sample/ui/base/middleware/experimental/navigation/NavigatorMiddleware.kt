@@ -10,6 +10,7 @@ import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
+import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.core.ui.navigation.fragment.FragmentNavigator
@@ -104,33 +105,35 @@ interface NavigatorMiddleware<T : Event> : RxMiddleware<T> {
     /**
      * Автоматическое закрытие экрана при поступлении события [CloseScreenEvent]
      */
-    fun Observable<T>.mapAutoNavigation() =
+    fun Observable<T>.mapNavigationAuto() =
             merge(openScreenAuto(), closeScreenDefault())
 
     /**
      * Автоматическое закрытие и открытие экранов при поступлении
      * событий [CloseScreenEvent] и [OpenScreenEvent]
      */
-    fun EventTransformerList<T>.mapAutoNavigation() = eventStream.mapAutoNavigation()
+    fun EventTransformerList<T>.mapNavigationAuto() = eventStream.mapNavigationAuto()
 
     /**
-     * Автоматическое открытие экрана и установка слушателя результата работы этого экрана
-     * при поступлении события [CloseWithResultEvent]
+     * Установка слушателя результата работы экрана, вызываемого
+     * при поступлении события [CloseWithResultEvent].
+     * Используется, когда результат экрана нужно преобразовать в event.
      *
      * @param routeClass класс роута экрана, который необходимо прослушать
-     * @param screenResultEvent событие [ScreenResultEvent], которое будет использовано для
+     * @param screenResultMapper маппер, срабатывающий при получении результата с экрана,
+     * и трансформирующий результат в Observable<Event> для дальнейшего проброса в eventStream
      */
-    fun <D : Serializable> Observable<T>.openScreenForResult(
+    fun <D : Serializable> Observable<T>.listenForResultMap(
             routeClass: Class<out SupportOnActivityResultRoute<D>>,
-            screenResultEvent: ScreenResultEvent<D>
+            screenResultMapper: (ScreenResult<D>) -> Observable<T>
     ): Observable<out T> {
 
         observableRoutes.add(routeClass)
 
         val observeRoute = activityNavigator.observeResult(routeClass)
-                .map {
-                    screenResultEvent.apply { result = it }
-                } as Observable<T>
+                .flatMap {
+                    screenResultMapper(it)
+                }
 
 
         val openScreen = filterIsInstance<OpenScreenEvent>()
@@ -143,8 +146,48 @@ interface NavigatorMiddleware<T : Event> : RxMiddleware<T> {
         return merge(observeRoute, openScreen)
     }
 
-    fun <D : Serializable> EventTransformerList<T>.openScreenForResult(
+    /**
+     * Установка слушателя результата работы экрана, вызываемого
+     * при поступлении события [CloseWithResultEvent].
+     * Используется, когда результат экрана нужно преобразовать в event.
+     *
+     * @param routeClass класс роута экрана, который необходимо прослушать
+     * @param screenResultMapper маппер, срабатывающий при получении результата с экрана,
+     * и трансформирующий результат в Observable<Event> для дальнейшего проброса в eventStream
+     */
+    fun <D : Serializable> EventTransformerList<T>.listenForResultMap(
             routeClass: Class<out SupportOnActivityResultRoute<D>>,
-            screenResultEvent: ScreenResultEvent<D>
-    ): Observable<out T> = eventStream.openScreenForResult(routeClass, screenResultEvent)
+            screenResultMapper: (ScreenResult<D>) -> Observable<T>
+    ): Observable<out T> = eventStream.listenForResultMap(routeClass, screenResultMapper)
+
+    /**
+     * Установка слушателя результата работы экрана, вызываемого
+     * при поступлении события [CloseWithResultEvent].
+     * Используется, когда на результат экрана нужно просто прореагировать.
+     *
+     * @param routeClass класс роута экрана, который необходимо прослушать
+     * @param screenResultCallback коллбек, срабатываемый при получении результата с экрана
+     */
+    fun <D : Serializable> Observable<T>.listenForResult(
+            routeClass: Class<out SupportOnActivityResultRoute<D>>,
+            screenResultCallback: (ScreenResult<D>) -> Unit
+    ): Observable<out T> =
+            listenForResultMap(routeClass) {
+                screenResultCallback(it)
+                Observable.empty()
+            }
+
+    /**
+     * Установка слушателя результата работы экрана, вызываемого
+     * при поступлении события [CloseWithResultEvent].
+     * Используется, когда на результат экрана нужно просто прореагировать.
+     *
+     * @param routeClass класс роута экрана, который необходимо прослушать
+     * @param screenResultCallback коллбек, срабатываемый при получении результата с экрана
+     */
+    fun <D : Serializable> EventTransformerList<T>.listenForResult(
+            routeClass: Class<out SupportOnActivityResultRoute<D>>,
+            screenResultCallback: (ScreenResult<D>) -> Unit
+    ): Observable<out T> = eventStream.listenForResult(routeClass, screenResultCallback)
+
 }

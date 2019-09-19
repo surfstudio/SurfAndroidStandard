@@ -5,8 +5,9 @@ import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseNavMiddlewar
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.NavigatorMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormActivityRoute
-import ru.surfstudio.android.core.mvi.sample.ui.screen.main.MainEvent.InputFormResult
+import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.message.MessageController
+import ru.surfstudio.android.network.toObservable
 import javax.inject.Inject
 
 /**
@@ -19,13 +20,19 @@ class MainMiddleware @Inject constructor(
         NavigatorMiddleware<MainEvent> {
 
     override fun transform(eventStream: Observable<MainEvent>) = transformations(eventStream) {
-        +mapAutoNavigation()
-        +openScreenForResult(InputFormActivityRoute::class.java, InputFormResult())
-        +react<InputFormResult>(::showResult)
+        +mapNavigationAuto()
+//        Когда нужна простая реакция на событие - можно использовать listenForResult с колбеком
+        +listenForResult(InputFormActivityRoute::class.java, ::showResult)
+//        Когда нужна трансформация результата в событие - используется listenForResultMap
+//        +listenForResultMap(InputFormActivityRoute::class.java) {
+//            showResult(it)
+//            MainEvent.OpenComplexList().toObservable()
+//        }
+
     }
 
-    private fun showResult(event: InputFormResult) {
-        val message = if (event.result.isSuccess) event.result.data else "No result"
+    private fun showResult(result: ScreenResult<String>) {
+        val message = if (result.isSuccess) result.data else "No result"
         messageController.show(message)
     }
 }
