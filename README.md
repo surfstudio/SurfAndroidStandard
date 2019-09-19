@@ -69,9 +69,9 @@ dependencies {
 [license_icon]: https://img.shields.io/badge/license-Apache%202-blue
 
 [android_arsenal_link]: https://android-arsenal.com/details/1/7290
-[comment]: <В следующих версих нужно заменить на ссылку на икноку релаьного статуса>
+[comment]: # (В следующих версих нужно заменить на ссылку на икноку релаьного статуса)
 [android_arsenal_icon]: https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat
 
 [build_version_link]: https://bintray.com/surf/maven
-[comment]: <В следующих версих нужно заменить на ссылку на икноку релаьного статуса>
+[comment]: # (В следующих версих нужно заменить на ссылку на икноку релаьного статуса)
 [build_version_icon]: https://img.shields.io/badge/build-success-brightgreen
