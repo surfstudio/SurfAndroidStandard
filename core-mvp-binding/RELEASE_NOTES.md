@@ -3,7 +3,7 @@
 ## 0.5.0-alpha
 ##### Core-mvp-binding
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type
-* Освобождение viewDisposable в BaseRxFragmentView перенесено из onDestroy в onDestroyView
+* Clearing `BaseRxFragmentView.viewDisposable` move from onDestroy to onDestroyView
 ## 0.3.0
 ##### Core-mvp-binding
 * Renamed `onViewDetached ()` -> `onViewDetach ()`
