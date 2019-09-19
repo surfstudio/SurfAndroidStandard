@@ -74,4 +74,4 @@ dependencies {
 
 [build_version_link]: https://bintray.com/surf/maven
 [comment]: # (В следующих версиях нужно заменить на ссылку на иконку реального статуса)
-[build_version_icon]: https://img.shields.io/badge/build-success-brightgreen
+[build_version_icon]: https://img.shields.io/badge/bintray-components-brightgreen
