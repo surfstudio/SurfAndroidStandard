@@ -1,22 +1,20 @@
 /*
- * Copyright (c) 2019-present, SurfStudio LLC.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+  Copyright (c) 2018-present, SurfStudio LLC.
 
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+ */
 package ru.surfstudio.android.core.mvi.sample.domain.datalist;
 
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -31,13 +29,14 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import ru.surfstudio.android.logger.Logger;
+
 /**
- * Origin <a href="http://google.com">https://github.com/MaksTuev/EasyAdapter/tree/master/sample/src/main/java/ru/surfstudio/easyadapter/sample</a>
- * list for paginationable data
- * can merge two blok of data
- * start page is 1
+ * List для работы с пагинацией
+ * Механизм page-count
+ * Можно сливать с другим DataList
  *
- * @param <T> type of paginationable data
+ * @param <T> Item
  */
 public class DataList<T> implements List<T>, Serializable {
 
@@ -46,10 +45,15 @@ public class DataList<T> implements List<T>, Serializable {
     public static final int UNSPECIFIED_TOTAL_ITEMS_COUNT = -1;
     public static final int UNSPECIFIED_TOTAL_PAGES_COUNT = -1;
 
+    //размер страницы
     private int pageSize;
+    //с какой страницы начинается
     private int startPage;
+    //количество страниц
     private int numPages;
+    //максимальное количество элементов(опционально)
     private int totalItemsCount;
+    //максимальное количество страниц(опционально)
     private int totalPagesCount;
 
     private ArrayList<T> data;
@@ -59,19 +63,44 @@ public class DataList<T> implements List<T>, Serializable {
         R call(T item);
     }
 
+    /**
+     * Создает dataList, начиная с некоторой страницы
+     *
+     * @param data     коллекция данных
+     * @param page     номер страницы
+     * @param pageSize размер страницы(кол-во элементов)
+     */
     public DataList(Collection<T> data, int page, int pageSize) {
         this(data, page, 1, pageSize);
     }
 
+    /**
+     * Создает DataList , начиная с некоторой страницы ,
+     * с возможностью задавать максимальное количество элементов и страниц
+     *
+     * @param data            коллекция данных
+     * @param page            номер страницы
+     * @param pageSize        размер страницы
+     * @param totalItemsCount максимальное количество элементов
+     * @param totalPagesCount максимальное количество страниц
+     */
     public DataList(Collection<T> data, int page, int pageSize, int totalItemsCount, int totalPagesCount) {
         this(data, page, 1, pageSize, totalItemsCount, totalPagesCount);
     }
 
-    private DataList(Collection<T> data, int page, int numPages, int pageSize) {
+    /**
+     * Создает dataList, начиная с некоторой страницы
+     *
+     * @param data     коллекция данных
+     * @param page     номер страницы
+     * @param numPages количество страниц
+     * @param pageSize размер страницы(кол-во элементов)
+     */
+    public DataList(Collection<T> data, int page, int numPages, int pageSize) {
         this(data, page, numPages, pageSize, UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
     }
 
-    private DataList(Collection<T> data, int page, int numPages, int pageSize, int totalItemsCount, int totalPagesCount) {
+    public DataList(Collection<T> data, int page, int numPages, int pageSize, int totalItemsCount, int totalPagesCount) {
         this.data = new ArrayList<>();
         this.data.addAll(data);
         this.startPage = page;
@@ -81,20 +110,44 @@ public class DataList<T> implements List<T>, Serializable {
         this.totalPagesCount = totalPagesCount;
     }
 
+    /**
+     * Создает пустой DataList
+     *
+     * @param <T> тип данных в листе
+     * @return пустой дата-лист
+     */
     public static <T> DataList<T> empty() {
-        return new DataList<>(new ArrayList<T>(),
-                UNSPECIFIED_PAGE,
-                0,
-                UNSPECIFIED_PAGE_SIZE,
-                UNSPECIFIED_TOTAL_ITEMS_COUNT,
-                UNSPECIFIED_TOTAL_PAGES_COUNT);
+        return emptyWithTotalCount(0, 0);
     }
 
     /**
-     * Merge this list with new block
+     * Создает пустой DataList
      *
-     * @param inputDataList new block
-     * @return this
+     * @param <T> тип данных в листе
+     * @return пустой дата-лист
+     */
+    public static <T> DataList<T> emptyUnspecifiedTotal() {
+        return emptyWithTotalCount(UNSPECIFIED_TOTAL_ITEMS_COUNT, UNSPECIFIED_TOTAL_PAGES_COUNT);
+    }
+
+
+    /**
+     * Создает пустой DataList
+     *
+     * @param <T>             тип данных в листе
+     * @param totalItemsCount максимальное количество элементов
+     * @param totalPagesCount максимальное количество страниц
+     * @return пустой дата-лист
+     */
+    public static <T> DataList<T> emptyWithTotalCount(Integer totalItemsCount, Integer totalPagesCount) {
+        return new DataList<>(new ArrayList<>(), UNSPECIFIED_PAGE, 0, UNSPECIFIED_PAGE_SIZE, totalItemsCount, totalPagesCount);
+    }
+
+    /**
+     * Слияние двух DataList
+     *
+     * @param inputDataList DataList для слияния с текущим
+     * @return текущий экземпляр
      */
     public DataList<T> merge(DataList<T> inputDataList) {
         if (this.startPage != UNSPECIFIED_PAGE
@@ -102,6 +155,7 @@ public class DataList<T> implements List<T>, Serializable {
                 && this.pageSize != inputDataList.pageSize) {
             throw new IllegalArgumentException("pageSize for merging DataList must be same");
         }
+        int lastSize = this.data.size();
         Map<Integer, List<T>> originalPagesData = split();
         Map<Integer, List<T>> inputPagesData = inputDataList.split();
         SortedMap<Integer, List<T>> resultPagesData = new TreeMap<>();
@@ -110,13 +164,13 @@ public class DataList<T> implements List<T>, Serializable {
 
         ArrayList<T> newData = new ArrayList<>();
         int lastPage = UNSPECIFIED_PAGE;
-        int lastPageItemsSize = -1;
+        int lastPageItemsSize = UNSPECIFIED_PAGE_SIZE;
         for (Map.Entry<Integer, List<T>> pageData : resultPagesData.entrySet()) {
             Integer pageNumber = pageData.getKey();
             List<T> pageItems = pageData.getValue();
             if (lastPage != UNSPECIFIED_PAGE &&
                     (pageNumber - lastPage > 1 || lastPageItemsSize < pageSize)) {
-                Log.e("DataList", "merge error", new IncompatibleRangesException("Merging DataLists has empty space " +
+                Logger.e(new IncompatibleRangesException("Merging DataLists has empty space " +
                         "between its ranges, original list: " + this + ", inputList: " + inputDataList));
                 break;
             }
@@ -140,7 +194,9 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * divide data to blocks
+     * разделяет данные на блоки по страницам
+     *
+     * @return
      */
     private Map<Integer, List<T>> split() {
         Map<Integer, List<T>> result = new HashMap<>();
@@ -149,11 +205,20 @@ public class DataList<T> implements List<T>, Serializable {
             int itemsRemained = data.size() - startItemIndex;
             int endItemIndex = startItemIndex +
                     (itemsRemained < pageSize ? itemsRemained : pageSize);
+            if (itemsRemained <= 0) break;
+
             result.put(i, data.subList(startItemIndex, endItemIndex));
         }
         return result;
     }
 
+    /**
+     * Преобразует dataList одного типа в dataList другого типа
+     *
+     * @param mapFunc функция преобразования
+     * @param <R>     тип данных нового списка
+     * @return DataList с элементами типа R
+     */
     public <R> DataList<R> transform(MapFunc<R, T> mapFunc) {
         List<R> resultData = new ArrayList<R>();
         for (T item : this) {
@@ -163,43 +228,51 @@ public class DataList<T> implements List<T>, Serializable {
     }
 
     /**
-     * @return size of one page
+     * @return размер одной страницы
      */
     public int getPageSize() {
         return pageSize;
     }
 
     /**
-     * @return first page of this data block
+     * @return первая страница
      */
     public int getStartPage() {
         return startPage;
     }
 
     /**
-     * @return num pages of this data block
+     * @return количество страниц
      */
     public int getNumPages() {
         return numPages;
     }
 
     /**
-     * @return next page
+     * возвращает значение page, c которого нужно начать чтобы подгрузить следующий блок данных
      */
     public int getNextPage() {
         return startPage == UNSPECIFIED_PAGE ? 1 : startPage + numPages;
     }
 
+    /**
+     * @return возможное количество элементов для загружки
+     */
     public int getTotalItemsCount() {
         return totalItemsCount;
     }
 
+    /**
+     * @return возможное количество страниц для загрузки
+     */
     public int getTotalPagesCount() {
         return totalPagesCount;
     }
 
     /**
-     * @return true if can load more
+     * Проверка возможности дозагрузки данных
+     *
+     * @return
      */
     public boolean canGetMore() {
         return startPage == UNSPECIFIED_PAGE
