@@ -18,7 +18,7 @@ class InputFormMiddleware @Inject constructor(
 
     override fun transform(eventStream: Observable<InputFormEvent>): Observable<out InputFormEvent> =
             transformations(eventStream) {
-                +eventStream.mapNavigationDefault()
+                +eventStream.mapAutoNavigation()
                 +map<SubmitClicked> { InputFormClosed(InputFormActivityRoute(), sh.inputString.value) }
             }
 }

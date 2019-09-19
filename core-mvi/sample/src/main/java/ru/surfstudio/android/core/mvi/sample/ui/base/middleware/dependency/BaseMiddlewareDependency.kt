@@ -7,7 +7,7 @@ import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
- * Шаблонная зависимость для [BaseNavMiddleware], которую реализовать на проектах.
+ * Шаблонная зависимость для [BaseMiddleware], которую нужно провайдить на проектах.
  */
 class BaseMiddlewareDependency(
         val activityNavigator: ActivityNavigator,
