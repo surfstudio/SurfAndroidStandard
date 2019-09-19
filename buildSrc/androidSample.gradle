@@ -53,9 +53,3 @@ dependencies {
 
     DependencyConfigurator.projectAndroidTestImplementation(project, "sample-common")
 }
-
-task printTestInstrumentationRunnerName {
-    doLast {
-        println "$android.defaultConfig.testInstrumentationRunner"
-    }
-}

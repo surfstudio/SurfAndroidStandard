@@ -798,14 +798,6 @@
           {
             "name": "junit:junit",
             "type": "testImplementation"
-          },
-          {
-            "name": "androidx.test:runner",
-            "type": "androidTestImplementation"
-          },
-          {
-            "name": "androidx.test.espresso:espresso-core",
-            "type": "androidTestImplementation"
           }
         ],
         "android_standard_dependencies": [
@@ -827,14 +819,6 @@
           {
             "name": "junit:junit",
             "type": "testImplementation"
-          },
-          {
-            "name": "androidx.test:runner",
-            "type": "androidTestImplementation"
-          },
-          {
-            "name": "androidx.test.espresso:espresso-core",
-            "type": "androidTestImplementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1697,6 +1681,10 @@
           {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
           }
         ],
         "android_standard_dependencies": [

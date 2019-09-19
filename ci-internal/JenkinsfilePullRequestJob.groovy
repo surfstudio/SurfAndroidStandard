@@ -78,8 +78,8 @@ def getTestInstrumentationRunnerName = { script, prefix ->
     def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
     return script.sh(
             returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
+            script: "./gradlew -q :$prefix:$defaultInstrumentationRunnerGradleTaskName"
+    ).split("\n").last()
 }
 
 //init

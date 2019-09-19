@@ -2,7 +2,7 @@
 # Analytics Release Notes
 ## 0.5.0-alpha
 ##### Analytics
-* TODO
+* ANDDEP-714 Refactor instrumental tests
 ## 0.4.0
 ##### Analytics
 * ANDDEP-294 Improved analytics module
