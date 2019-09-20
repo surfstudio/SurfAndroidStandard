@@ -14,7 +14,7 @@ import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.controller.ComplexListController
 import ru.surfstudio.android.core.mvi.sample.ui.base.hub.ScreenEventHub
-import ru.surfstudio.android.core.mvi.sample.ui.base.adapter.PaginationableAdapter
+import ru.surfstudio.android.core.mvi.sample.ui.adapter.PaginationableAdapter
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeMainLoading
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeSwrLoading
 import javax.inject.Inject
