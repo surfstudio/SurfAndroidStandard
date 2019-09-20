@@ -4,7 +4,6 @@
 ##### Security
 * SBB-2697 Fixed method return value ```CertificatePinnerCreator.extractPeerCertificate```
 * ANDDEP-687 Changed "com.squareup.okhttp3:logging-interceptor" dependency from "api" to "implementation" type
-* ANDDEP-714 Refactor instrumental tests
 ## 0.4.0
 ##### Security
 * ANDDEP-82 Security Module
