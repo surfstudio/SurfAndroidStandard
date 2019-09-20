@@ -13,7 +13,7 @@ import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.controller.ComplexListController
-import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
+import ru.surfstudio.android.core.mvi.sample.ui.base.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.sample.ui.base.adapter.PaginationableAdapter
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeMainLoading
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeSwrLoading
@@ -37,7 +37,7 @@ class ComplexListActivityView : BaseReactActivityView() {
     lateinit var sh: ComplexListStateHolder
 
     @Inject
-    lateinit var hub: BaseEventHub<ComplexListEvent>
+    lateinit var hub: ScreenEventHub<ComplexListEvent>
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)

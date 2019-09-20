@@ -6,11 +6,13 @@ import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxPresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 
 /**
- * Базовая сущность [RxBinder], которую необходимо реализовать на проекте.
+ * Реализация сущность [RxBinder], используемая на экране приложения.
+ *
+ * Если необходима другая реализация - переопределить на проекте
  *
  * TODO убрать зависимость от presenter
  */
-class BaseBinder(
+class ScreenBinder(
         basePresenterDependency: BasePresenterDependency
 ) : RxBinder, BaseRxPresenter(basePresenterDependency) {
 

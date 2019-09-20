@@ -6,25 +6,26 @@ import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEventCreator
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEventHub
-import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.mvi.sample.ui.base.hub.dependency.ScreenEventHubDependency
 import ru.surfstudio.android.core.ui.state.ScreenState
 import ru.surfstudio.android.logger.Logger
 
 /**
- * Возможная имплементация [EventHub].
+ * Реализация [EventHub] для экрана.
  * Следует переопределить на проекте, если необходимо иное поведение.
  *
  * @param lifecycleEventCreator создатель [LifecycleEvent]
  */
-open class BaseEventHub<T : Event>(
-        override val screenState: ScreenState,
-        screenEventDelegate: ScreenEventDelegateManager,
+class ScreenEventHub<T : Event>(
+        dependency: ScreenEventHubDependency,
         override val lifecycleEventCreator: LifecycleEventCreator<T>? = null
 ) : RxEventHub<T>, LifecycleEventHub<T, Observable<T>> {
 
     init {
-        screenEventDelegate.registerDelegate(this)
+        dependency.screenEventDelegate.registerDelegate(this)
     }
+
+    override val screenState: ScreenState = dependency.screenState
 
     private val bus = PublishRelay.create<T>()
 
@@ -34,7 +35,7 @@ open class BaseEventHub<T : Event>(
 
     override fun emit(event: T) {
         //Log events
-        Logger.d("BaseEventHub emit: $event")
+        Logger.d("ScreenEventHub emit: $event")
         bus.accept(event)
     }
 

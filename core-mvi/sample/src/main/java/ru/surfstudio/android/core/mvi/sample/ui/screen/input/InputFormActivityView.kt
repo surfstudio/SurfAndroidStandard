@@ -7,7 +7,7 @@ import com.jakewharton.rxbinding2.widget.textChanges
 import kotlinx.android.synthetic.main.activity_input_form.*
 import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.sample.R
-import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
+import ru.surfstudio.android.core.mvi.sample.ui.base.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormEvent.*
@@ -18,7 +18,7 @@ import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormEvent.*
 class InputFormActivityView : BaseReactActivityView(), SingleHubOwner<InputFormEvent> {
 
     @Inject
-    override lateinit var hub: BaseEventHub<InputFormEvent>
+    override lateinit var hub: ScreenEventHub<InputFormEvent>
 
     @Inject
     lateinit var sh: InputFormStateHolder
