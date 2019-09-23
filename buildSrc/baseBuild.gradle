@@ -4,3 +4,9 @@ apply from: "$rootDir/buildSrc/androidModule.gradle"
 
 DependencyConfigurator.configure(project)
 configureDeploy(this)
+
+task printTestInstrumentationRunnerName {
+    doLast {
+        println "$android.defaultConfig.testInstrumentationRunner"
+    }
+}

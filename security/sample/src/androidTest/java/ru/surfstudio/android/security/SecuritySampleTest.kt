@@ -12,7 +12,6 @@ import ru.surfstudio.android.security.sample.R
 import ru.surfstudio.android.security.sample.ui.screen.main.MainActivityView
 import ru.surfstudio.android.security.sample.ui.screen.pin.CreatePinActivityView
 
-
 private const val PINT_TEXT = "1234"
 private const val LONG_DURATION_TIMEOUT: Long = 4000
 
