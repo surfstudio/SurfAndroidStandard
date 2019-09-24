@@ -2,9 +2,9 @@ package ru.surfstudio.android.core.mvi.ui.middleware
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.event.ResponseEvent
+import ru.surfstudio.android.core.mvi.event.RequestEvent
 import ru.surfstudio.android.core.mvi.ui.relation.StateEmitter
-import ru.surfstudio.android.core.mvp.binding.rx.response.type.mapResponse
+import ru.surfstudio.android.core.mvp.binding.rx.response.type.asRequest
 
 /**
  * [Middleware] с реализацией в Rx.
@@ -13,10 +13,10 @@ import ru.surfstudio.android.core.mvp.binding.rx.response.type.mapResponse
  */
 interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, StateEmitter {
 
-    fun <T, E : ResponseEvent<T>> Observable<T>.mapResponseEvent(
+    fun <T, E : RequestEvent<T>> Observable<T>.asRequestEvent(
             event: E
     ): Observable<out E> = this
-            .mapResponse()
+            .asRequest()
             .map { loadType ->
                 event.type = loadType
                 return@map event

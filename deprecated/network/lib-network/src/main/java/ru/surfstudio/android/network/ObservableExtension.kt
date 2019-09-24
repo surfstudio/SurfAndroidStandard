@@ -51,8 +51,3 @@ fun <T : Collection<Transformable<R>>, R> Single<T>.transformCollection(): Singl
                 it.transform()
             }
         }
-
-/**
- * Преобразует любой элемент типа [T] в [Observable]<[T]>
- */
-fun <T : Any> T.toObservable(): Observable<T> = Observable.just(this)

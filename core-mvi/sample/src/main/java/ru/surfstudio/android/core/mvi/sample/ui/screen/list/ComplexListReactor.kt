@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
-import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
-import ru.surfstudio.android.core.mvp.binding.rx.response.state.ResponseState
+import ru.surfstudio.android.core.mvp.binding.rx.response.state.RequestState
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.mapDataList
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.mapError
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.mapLoading
@@ -10,6 +9,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListEvent.*
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 
 /**
@@ -17,7 +17,7 @@ import ru.surfstudio.android.easyadapter.pagination.PaginationState
  */
 @PerScreen
 class ComplexListStateHolder @Inject constructor() {
-    val list = ResponseState<DataList<String>>()
+    val list = RequestState<DataList<String>>()
     val query = State<String>()
     val filteredList = State<Pair<List<String>, PaginationState>>()
 }
@@ -30,13 +30,13 @@ class ComplexListReactor @Inject constructor() : Reactor<ComplexListEvent, Compl
 
     override fun react(holder: ComplexListStateHolder, event: ComplexListEvent) {
         when (event) {
-            is FilterNumbers -> onFilterNumbersEvent(holder, event)
-            is LoadList -> onLoadListEvent(holder, event)
+            is FilterNumbers -> onFilterNumbers(holder, event)
+            is LoadList -> onLoadList(holder, event)
             is QueryChangedDebounced -> holder.query.accept(event.query)
         }
     }
 
-    private fun onLoadListEvent(holder: ComplexListStateHolder, event: LoadList) {
+    private fun onLoadList(holder: ComplexListStateHolder, event: LoadList) {
         holder.list.modify {
             val hasData = data.hasValue && !data.get().isEmpty()
             copy(
@@ -47,7 +47,7 @@ class ComplexListReactor @Inject constructor() : Reactor<ComplexListEvent, Compl
         }
     }
 
-    private fun onFilterNumbersEvent(holder: ComplexListStateHolder, event: FilterNumbers) {
+    private fun onFilterNumbers(holder: ComplexListStateHolder, event: FilterNumbers) {
         val data = holder.list.dataOrNull ?: return
         val query = if (holder.query.hasValue) holder.query.value else null
         val list = if (data.isNotEmpty() && !query.isNullOrEmpty()) {

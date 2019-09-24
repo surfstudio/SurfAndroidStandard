@@ -13,10 +13,10 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
  * UI-State запроса на загрузку данных.
  * Содержит в себе неизменяемый экземпляр [ResponseUi], который отражает текущее значение загрузки данных.
  *
- * Перед тем, как помещать Response в ResponseState, необходимо трансформировать его в ResponseUi,
+ * Перед тем, как помещать Request в RequestState, необходимо трансформировать его в ResponseUi,
  * то есть, произвести трансформацию i-слой -> ui-слой.
  */
-open class ResponseState<T>(
+open class RequestState<T>(
         initialResponse: ResponseUi<T>
 ) : BehaviorRelation<ResponseUi<T>, PRESENTER, StateTarget>(initialResponse) {
 

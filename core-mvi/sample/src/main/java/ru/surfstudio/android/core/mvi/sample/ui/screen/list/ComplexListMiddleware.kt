@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.mvi.sample.domain.datalist.DataList
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.*
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -12,6 +11,7 @@ import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination.PaginationMiddleware
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 
 /**
  * Middleware экрана [ComplexListActivityView]
@@ -32,7 +32,7 @@ class ComplexListMiddleware @Inject constructor(
             +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
             +map<QueryChangedDebounced> { FilterNumbers() }
             +eventMap<Reload> { loadData() }
-            +streamMap(::debounceQuery)
+            +streamMap<ComplexListEvent>(::debounceQuery)
         }
     }
 
@@ -49,7 +49,7 @@ class ComplexListMiddleware @Inject constructor(
     private fun loadData(page: Int = 1, isSwr: Boolean = false) = createObservable(page)
             .io()
             .handleError()
-            .mapResponseEvent(LoadList(isSwr = isSwr))
+            .asRequestEvent(LoadList(isSwr = isSwr))
 
     private fun createObservable(page: Int) = Observable.timer(2, TimeUnit.SECONDS).map {
         DataList(
