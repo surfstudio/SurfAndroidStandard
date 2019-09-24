@@ -37,6 +37,7 @@ def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStand
 //vars
 def branchName = ""
 def globalVersion = "<unknown>"
+def buildDescription = ""
 
 //other config
 
@@ -81,10 +82,8 @@ pipeline.initializeBody = {
         branchName = branchName.replace("origin/", "")
     }
 
-    def buildDescription = branchName
+    buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
-    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
-
 }
 
 pipeline.stages = [
@@ -99,6 +98,7 @@ pipeline.stages = [
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
+            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
