@@ -395,7 +395,9 @@ class StickyItemPositioner(
         // Set to Invisible until we position it in #checkHeaderPositions.
         currentHeader!!.visibility = View.INVISIBLE
         currentHeader!!.id = R.id.header_view
-        recyclerParent.addView(currentHeader)
+        if (currentHeader?.parent == null) {
+            recyclerParent.addView(currentHeader)
+        }
         if (checkMargins) {
             updateLayoutParams(currentHeader!!)
         }
@@ -429,7 +431,9 @@ class StickyItemPositioner(
         val coordinatorLp = currentFooter?.layoutParams as? CoordinatorLayout.LayoutParams
         coordinatorLp?.gravity = Gravity.BOTTOM
         currentFooter?.layoutParams = frameLp ?: coordinatorLp
-        recyclerParent.addView(currentFooter)
+        if (currentFooter?.parent == null) {
+            recyclerParent.addView(currentFooter)
+        }
         if (checkMargins) {
             updateLayoutParams(currentFooter!!)
         }
