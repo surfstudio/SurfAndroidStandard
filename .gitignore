@@ -11,4 +11,4 @@
 buildSrc/modules.json
 .externalNativeBuild
 /temp
-.mirror
+_mirror
