@@ -48,12 +48,13 @@ interface NavigatorMiddleware<T : Event> : RxMiddleware<T> {
                 }
                 activityNavigator.start(route)
             }
-            is FragmentRoute -> {
-                fragmentNavigator.add(route, true, TRANSIT_FRAGMENT_OPEN)
-            }
 
             is DialogRoute -> {
                 dialogNavigator.show(route)
+            }
+
+            is FragmentRoute -> {
+                fragmentNavigator.add(route, true, TRANSIT_FRAGMENT_OPEN)
             }
         }
     }
