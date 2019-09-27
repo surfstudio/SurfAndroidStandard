@@ -19,8 +19,7 @@ open class GenerateModuleNameFileTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val gson = GsonBuilder().create()
-        val moduleNames = (Components.value.flatMap { it.libraries }.map { library -> "${library.name}" })
+        val moduleNames = (Components.value.flatMap { it.libraries }.map { it.name })
         File("$OUTPUT_DIR/$FILE_NAME").writeText(GsonBuilder().create().toJson(moduleNames))
     }
 }

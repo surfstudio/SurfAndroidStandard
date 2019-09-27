@@ -26,7 +26,7 @@
   {
     "id": "analytics",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "analytics",
     "libs": [
@@ -547,7 +547,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -786,7 +786,7 @@
   {
     "id": "datalist",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "datalist",
     "libs": [
@@ -802,14 +802,6 @@
           {
             "name": "junit:junit",
             "type": "testImplementation"
-          },
-          {
-            "name": "androidx.test:runner",
-            "type": "androidTestImplementation"
-          },
-          {
-            "name": "androidx.test.espresso:espresso-core",
-            "type": "androidTestImplementation"
           }
         ],
         "android_standard_dependencies": [
@@ -831,14 +823,6 @@
           {
             "name": "junit:junit",
             "type": "testImplementation"
-          },
-          {
-            "name": "androidx.test:runner",
-            "type": "androidTestImplementation"
-          },
-          {
-            "name": "androidx.test.espresso:espresso-core",
-            "type": "androidTestImplementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1366,7 +1350,7 @@
   {
     "id": "picture-provider",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "picture-provider",
     "libs": [
@@ -1551,7 +1535,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -1681,7 +1665,7 @@
   {
     "id": "util-ktx",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "util-ktx",
     "libs": [
@@ -1701,6 +1685,10 @@
           {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
+          },
+          {
+            "name": "junit:junit",
+            "type": "testImplementation"
           }
         ],
         "android_standard_dependencies": [
@@ -1718,9 +1706,42 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "template",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "android-standard-version-plugin",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "android-standard-version-plugin",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "android-studio-settings",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "android-studio-settings",
+    "libs": [],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
+    "id": "docs",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "docs",
     "libs": [],
     "samples": [],
     "has_mirror": false,

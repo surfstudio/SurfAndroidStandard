@@ -19,8 +19,6 @@ android {
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
         versionName Components.getModuleVersion(project.name)
-        testBuildType "debug"
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     compileOptions {
@@ -57,5 +55,11 @@ configurations.all {
                 details.useVersion version
             }
         }
+    }
+}
+
+task printTestInstrumentationRunnerName {
+    doLast {
+        println "$android.defaultConfig.testInstrumentationRunner"
     }
 }

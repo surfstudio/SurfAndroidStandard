@@ -157,12 +157,12 @@ class MirrorManager(
         val mainBranch = commit.branch
         val secondBranch = gitTree.getMergeParents(commit)
                 .map(CommitWithBranch::branch)
-                .first { it != mainBranch }
+                .firstOrNull { it != mainBranch }
+                ?: return null
 
         if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return null
 
         mirrorRepository.checkoutBranch(mainBranch)
-
         val conflicts = mirrorRepository.merge(secondBranch)
         conflicts.forEach {
             val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
