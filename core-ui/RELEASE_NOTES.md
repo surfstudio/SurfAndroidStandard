@@ -2,7 +2,7 @@
 # Core-ui Release Notes
 ## 0.5.0-alpha
 ##### Core-ui
-* TODO
+* ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.

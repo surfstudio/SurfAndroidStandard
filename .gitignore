@@ -9,7 +9,6 @@
 */*/.cxx
 /captures
 buildSrc/modules.json
-security-sample-template/
 .externalNativeBuild
 /temp
-.mirror
+_mirror

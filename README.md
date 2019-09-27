@@ -1,6 +1,9 @@
 # Surf Android Standard
 
-[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat )]( https://android-arsenal.com/details/1/7290 )
+[![Android Arsenal][android_arsenal_icon]][android_arsenal_link]
+[![Build Status][build_status_icon]][build_status_link]
+[![License][license_icon]][license_link]
+[![Download][build_version_icon]][build_version_link] 
 
 Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
@@ -59,3 +62,16 @@ dependencies {
 
 [docs]: docs/main.md
 [artifacts]: docs/artifacts.md
+
+[build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Dev_Deploy/
+[build_status_icon]: https://img.shields.io/badge/build-success-brightgreen
+[license_link]: http://www.apache.org/licenses/LICENSE-2.0
+[license_icon]: https://img.shields.io/badge/license-Apache%202-blue
+
+[android_arsenal_link]: https://android-arsenal.com/details/1/7290
+[comment]: # (В следующих версиях нужно заменить на ссылку на иконку реального статуса)
+[android_arsenal_icon]: https://img.shields.io/badge/Android%20Arsenal-SurfAndroidStandard-green.svg?style=flat
+
+[build_version_link]: https://bintray.com/surf/maven
+[comment]: # (В следующих версиях нужно заменить на ссылку на иконку реального статуса)
+[build_version_icon]: https://img.shields.io/badge/jcenter-libs-brightgreen

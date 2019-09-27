@@ -17,7 +17,7 @@
 Расширение модуля core-mvp для работы со view(в терминах android фреймвока)
 как со View(в терминах MVP).
 1. [easyadapter](../easyadapter/README.md) -
-адаптер для легкого размещаения сложного контента в RecyclerView.
+адаптер для легкого размещения сложного контента в RecyclerView.
 1. [analytics](../analytics/README.md) -
 модуль для фиксирования событий в приложении
 1. [firebase-analytics](../firebase-analytics/README.md) -
