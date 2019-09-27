@@ -106,7 +106,7 @@ pipeline.stages = [
                     pipeline.stages.add(
                             pipeline.stage("$ASSEMBLE_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
                                 script.dir("$MIRROR_FOLDER") {
-                                    script.sh "./gradlew clean assemble"
+                                    script.sh "chmod +x gradlew && ./gradlew clean assemble"
                                 }
                             }
                     )
