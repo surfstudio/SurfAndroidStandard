@@ -8,7 +8,9 @@
 * ANDDEP-687 Removed "com.annimon:stream" dependency from app-module
 * ANDDEP-329 Added RxJava2Debug
 * ANDDEP-702 Fixed script for local connection of android standard
-
+* ANDDEP-413 Added transition to WindowVQA on DebugScreen
+* ANDDEP-459 Added transition to application settings on DebugScreen
+ 
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template

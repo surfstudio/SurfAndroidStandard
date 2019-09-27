@@ -8,6 +8,7 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
  */
 data class CommitWithBranch(
         val commit: RevCommit,
+        val tags: List<String> = emptyList(),
         var branch: String = EMPTY_STRING,
         var type: CommitType = CommitType.SIMPLE,
         var mirrorCommitHash: String = EMPTY_STRING

@@ -13,7 +13,6 @@ dependencies {
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
     DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
-    DependencyConfigurator.implementation(project, "ru.surfstudio.android:camera-view")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

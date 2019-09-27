@@ -149,6 +149,7 @@ open class TabFragmentNavigator(val activityProvider: ActivityProvider,
      * @param popDepth глубина, на которую надо чистить стек (по умолчанию на один фрагмент)
      */
     private fun popStack(popDepth: Int = 1) {
+        if (popDepth < 0) return
         activeStack.takeLast(popDepth)
                 .forEach {
                     remove(activeStack.pop().tag)
