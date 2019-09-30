@@ -20,20 +20,20 @@ class SimpleListStateHolder @Inject constructor() {
  */
 @PerScreen
 class SimpleListReactor @Inject constructor() : Reactor<SimpleListEvent, SimpleListStateHolder> {
-    override fun react(holder: SimpleListStateHolder, event: SimpleListEvent) {
+    override fun react(sh: SimpleListStateHolder, event: SimpleListEvent) {
         when (event) {
-            is ListLoaded -> onListLoaded(holder, event)
-            is StepperClicked -> onStepperClicked(holder, event)
+            is ListLoaded -> onListLoaded(sh, event)
+            is StepperClicked -> onStepperClicked(sh, event)
         }
     }
 
-    private fun onStepperClicked(holder: SimpleListStateHolder, event: StepperClicked) {
-        holder.items.change {
+    private fun onStepperClicked(sh: SimpleListStateHolder, event: StepperClicked) {
+        sh.items.change {
             it.mapIndexed { index, i -> if (index == event.position) i + 1 else i }
         }
     }
 
-    private fun onListLoaded(holder: SimpleListStateHolder, event: ListLoaded) {
-        holder.items.accept(event.list)
+    private fun onListLoaded(sh: SimpleListStateHolder, event: ListLoaded) {
+        sh.items.accept(event.list)
     }
 }

@@ -7,7 +7,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.SimpleListEvent.*
 import ru.surfstudio.android.core.ui.state.LifecycleStage
-import ru.surfstudio.android.network.toObservable
+import ru.surfstudio.android.rx.extension.toObservable
 
 /**
  * Middleware экрана [SimpleListActivityView]

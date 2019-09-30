@@ -1,6 +1,7 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import io.reactivex.Observable
+import io.reactivex.rxkotlin.ofType
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.*
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -32,15 +33,14 @@ class ComplexListMiddleware @Inject constructor(
             +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
             +map<QueryChangedDebounced> { FilterNumbers() }
             +eventMap<Reload> { loadData() }
-            +streamMap<ComplexListEvent>(::debounceQuery)
+            +eventStream.ofType<QueryChanged>().streamMap(::debounceQuery)
         }
     }
 
     private fun debounceQuery(
-            eventStream: Observable<ComplexListEvent>
+            eventStream: Observable<QueryChanged>
     ): Observable<out ComplexListEvent> =
             eventStream
-                    .filterIsInstance<QueryChanged>()
                     .map { it.query }
                     .distinctUntilChanged()
                     .debounce(1000, TimeUnit.MILLISECONDS)

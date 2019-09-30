@@ -28,16 +28,16 @@ class ComplexListStateHolder @Inject constructor() {
 @PerScreen
 class ComplexListReactor @Inject constructor() : Reactor<ComplexListEvent, ComplexListStateHolder> {
 
-    override fun react(holder: ComplexListStateHolder, event: ComplexListEvent) {
+    override fun react(sh: ComplexListStateHolder, event: ComplexListEvent) {
         when (event) {
-            is FilterNumbers -> onFilterNumbers(holder, event)
-            is LoadList -> onLoadList(holder, event)
-            is QueryChangedDebounced -> holder.query.accept(event.query)
+            is FilterNumbers -> onFilterNumbers(sh, event)
+            is LoadList -> onLoadList(sh, event)
+            is QueryChangedDebounced -> sh.query.accept(event.query)
         }
     }
 
-    private fun onLoadList(holder: ComplexListStateHolder, event: LoadList) {
-        holder.list.modify {
+    private fun onLoadList(sh: ComplexListStateHolder, event: LoadList) {
+        sh.list.modify {
             val hasData = data.hasValue && !data.get().isEmpty()
             copy(
                     data = mapDataList(event.type, data, hasData),
@@ -47,14 +47,14 @@ class ComplexListReactor @Inject constructor() : Reactor<ComplexListEvent, Compl
         }
     }
 
-    private fun onFilterNumbers(holder: ComplexListStateHolder, event: FilterNumbers) {
-        val data = holder.list.dataOrNull ?: return
-        val query = if (holder.query.hasValue) holder.query.value else null
+    private fun onFilterNumbers(sh: ComplexListStateHolder, event: FilterNumbers) {
+        val data = sh.list.dataOrNull ?: return
+        val query = if (sh.query.hasValue) sh.query.value else null
         val list = if (data.isNotEmpty() && !query.isNullOrEmpty()) {
             data.filter { it.contains(query, true) }
         } else {
             data
         }
-        holder.filteredList.accept(list to event.state)
+        sh.filteredList.accept(list to event.state)
     }
 }

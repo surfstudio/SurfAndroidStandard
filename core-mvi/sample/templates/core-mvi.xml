@@ -1,6 +1,6 @@
 <templateSet group="core-mvi">
     <template name="roe" description="Reacts on Event" toReformat="false" toShortenFQNames="true"
-        value="is $EVENT_TYPE$ -&gt; on$EVENT_TYPE$Event$END$(holder, event)">
+        value="is $EVENT_TYPE$ -&gt; on$EVENT_TYPE$Event$END$(sh, event)">
         <context>
             <option name="KOTLIN_EXPRESSION" value="true" />
             <option name="KOTLIN_STATEMENT" value="true" />
@@ -56,7 +56,7 @@
     </template>
     <template name="genreactor" description="Generate reactor and holder" toReformat="false"
         toShortenFQNames="true"
-        value="&#10;@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$StateHolder @javax.inject.Inject constructor() { &#10;&#10;}&#10;&#10;@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$Reactor @javax.inject.Inject constructor() : ru.surfstudio.android.core.mvi.ui.reactor.Reactor&lt;$PREFIX$Event, $PREFIX$StateHolder&gt; {&#10;&#10;    override fun react(holder: $PREFIX$StateHolder, event: $PREFIX$Event) {&#10;        when (event) { &#10;            $END$&#10;        }&#10;    }&#10;}">
+        value="&#10;@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$StateHolder @javax.inject.Inject constructor() { &#10;&#10;}&#10;&#10;@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$Reactor @javax.inject.Inject constructor() : ru.surfstudio.android.core.mvi.ui.reactor.Reactor&lt;$PREFIX$Event, $PREFIX$StateHolder&gt; {&#10;&#10;    override fun react(sh: $PREFIX$StateHolder, event: $PREFIX$Event) {&#10;        when (event) { &#10;            $END$&#10;        }&#10;    }&#10;}">
         <context>
             <option name="KOTLIN_TOPLEVEL" value="true" />
         </context>

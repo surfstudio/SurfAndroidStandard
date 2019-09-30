@@ -21,9 +21,9 @@ class InputFormStateHolder @Inject constructor() {
 @PerScreen
 class InputFormReactor @Inject constructor() : Reactor<InputFormEvent, InputFormStateHolder> {
 
-    override fun react(holder: InputFormStateHolder, event: InputFormEvent) {
+    override fun react(sh: InputFormStateHolder, event: InputFormEvent) {
         when (event) {
-            is InputChanged -> holder.inputString.accept(event.input)
+            is InputChanged -> sh.inputString.accept(event.input)
         }
     }
 }

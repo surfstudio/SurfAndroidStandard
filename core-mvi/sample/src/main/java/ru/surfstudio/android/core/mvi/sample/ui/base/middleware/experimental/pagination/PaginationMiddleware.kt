@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pa
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.RequestEvent
-import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.toPaginationEvent
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.util.filterIsInstance

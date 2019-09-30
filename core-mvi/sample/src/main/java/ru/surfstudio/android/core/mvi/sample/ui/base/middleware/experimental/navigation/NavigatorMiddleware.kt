@@ -6,7 +6,7 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.ExperimentalFeature
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.close.*
-import ru.surfstudio.android.core.mvi.ui.dsl.EventTransformerList
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
