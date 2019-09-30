@@ -28,6 +28,20 @@ interface RxBinder {
         middleware.transform(eventHubObservable) as Observable<T> bindEvents eventHub
     }
 
+    fun <T : Event, SH> bind(
+            eventHub: RxEventHub<T>,
+            middlewares: List<RxMiddleware<T>>,
+            stateHolder: SH,
+            reactor: Reactor<T, SH>
+    ) {
+        val eventHubObservable = eventHub
+                .observe()
+                .doOnNext { event -> reactor.react(stateHolder, event) }
+                .share()    //Создаем новый observable, чтобы избежать двойного подхватывания значений
+
+        middlewares.forEach { it.transform(eventHubObservable) as Observable<T> bindEvents eventHub }
+    }
+
     fun <T : Event> bind(
             eventHub: RxEventHub<T>,
             middleware: RxMiddleware<T>

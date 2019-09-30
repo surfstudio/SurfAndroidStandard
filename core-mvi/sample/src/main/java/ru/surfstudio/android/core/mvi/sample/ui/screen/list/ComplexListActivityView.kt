@@ -13,8 +13,8 @@ import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.controller.ComplexListController
-import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
-import ru.surfstudio.android.core.mvi.sample.ui.base.adapter.PaginationableAdapter
+import ru.surfstudio.android.core.mvi.sample.ui.base.hub.ScreenEventHub
+import ru.surfstudio.android.core.mvi.sample.ui.adapter.PaginationableAdapter
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeMainLoading
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.observeSwrLoading
 import javax.inject.Inject
@@ -24,7 +24,7 @@ import javax.inject.Inject
  */
 class ComplexListActivityView : BaseReactActivityView() {
 
-    private val adapter = PaginationableAdapter { ComplexListEvent.LoadNextPage().sendTo(hub) }
+    private val adapter = PaginationableAdapter { ComplexListEvent.LoadNextPage().emit(hub) }
     private val controller = ComplexListController()
 
     override fun createConfigurator() = ComplexListScreenConfigurator(intent)
@@ -37,7 +37,7 @@ class ComplexListActivityView : BaseReactActivityView() {
     lateinit var sh: ComplexListStateHolder
 
     @Inject
-    lateinit var hub: BaseEventHub<ComplexListEvent>
+    lateinit var hub: ScreenEventHub<ComplexListEvent>
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
@@ -46,14 +46,14 @@ class ComplexListActivityView : BaseReactActivityView() {
         reactive_rv.adapter = adapter
 
         reactive_reload_btn.clicks()
-                .send(ComplexListEvent.Reload(), hub)
+                .emit(ComplexListEvent.Reload(), hub)
 
         reactive_query_tv.textChanges()
                 .skipInitialValue()
                 .map { ComplexListEvent.QueryChanged(it.toString()) }
-                .sendTo(hub)
+                .emit(hub)
 
-        reactive_swr.setOnRefreshListener { ComplexListEvent.SwipeRefresh().sendTo(hub) }
+        reactive_swr.setOnRefreshListener { ComplexListEvent.SwipeRefresh().emit(hub) }
 
         sh.list.observeMainLoading() bindTo { reactive_pb.isVisible = it }
         sh.list.observeSwrLoading() bindTo { reactive_swr.isRefreshing = it }

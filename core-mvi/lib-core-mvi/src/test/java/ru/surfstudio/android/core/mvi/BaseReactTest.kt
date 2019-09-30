@@ -88,10 +88,10 @@ class TestReactor : Reactor<TestEvent, TestStateHolder> {
 
     var eventsCount = 0
 
-    override fun react(holder: TestStateHolder, event: TestEvent) {
+    override fun react(sh: TestStateHolder, event: TestEvent) {
         eventsCount++
         when (event) {
-            is TestEvent.Data -> holder.state.accept(event.value)
+            is TestEvent.Data -> sh.state.accept(event.value)
             else -> {
                 //do nothing
             }

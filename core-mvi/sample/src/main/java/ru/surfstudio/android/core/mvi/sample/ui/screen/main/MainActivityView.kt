@@ -6,7 +6,7 @@ import com.jakewharton.rxbinding2.view.clicks
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.sample.R
-import ru.surfstudio.android.core.mvi.sample.ui.base.hub.BaseEventHub
+import ru.surfstudio.android.core.mvi.sample.ui.base.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
@@ -19,7 +19,7 @@ import javax.inject.Inject
 class MainActivityView : BaseReactActivityView(), SingleHubOwner<MainEvent> {
 
     @Inject
-    override lateinit var hub: BaseEventHub<MainEvent>
+    override lateinit var hub: ScreenEventHub<MainEvent>
 
     override fun createConfigurator() = MainScreenConfigurator(intent)
 

@@ -11,9 +11,10 @@ import ru.surfstudio.ci.stage.StageStrategy
 def CHECKOUT = 'Checkout'
 def PREPARE_MIRRORING = 'Prepare Mirroring'
 def MIRROR_COMPONENT = 'Mirror Component'
+def ASSEMBLE_COMPONENT = 'Assemble Component'
 
 //constants
-def MIRROR_FOLDER = ".mirror"
+def MIRROR_FOLDER = "_mirror"
 def STANDARD_REPO_FOLDER = "temp"
 def DEPTH_LIMIT = 100
 def SEARCH_LIMIT = 100
@@ -99,6 +100,13 @@ pipeline.stages = [
                                 withGithubCredentials(script) {
                                     script.sh "./gradlew deployToMirror -Pcomponent=${component.id} -Pcommit=$lastCommit " +
                                             "-PmirrorDir=$MIRROR_FOLDER -PdepthLimit=$DEPTH_LIMIT -PsearchLimit=$SEARCH_LIMIT"
+                                }
+                            }
+                    )
+                    pipeline.stages.add(
+                            pipeline.stage("$ASSEMBLE_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+                                script.dir("$MIRROR_FOLDER") {
+                                    script.sh "chmod +x gradlew && ./gradlew clean assemble"
                                 }
                             }
                     )

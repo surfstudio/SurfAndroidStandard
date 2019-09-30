@@ -7,7 +7,6 @@ import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.nav
 import ru.surfstudio.android.core.mvi.sample.ui.screen.input.InputFormActivityRoute
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.network.toObservable
 import javax.inject.Inject
 
 /**

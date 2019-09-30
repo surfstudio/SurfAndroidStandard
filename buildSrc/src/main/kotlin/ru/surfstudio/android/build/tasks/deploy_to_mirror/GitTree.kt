@@ -69,7 +69,7 @@ class GitTree(
     fun getParent(commit: CommitWithBranch): CommitWithBranch {
         val node = standardNodes.find { it.value == commit.commit }
                 ?: throw GitNodeNotFoundException(commit.commit)
-        return standardRepositoryCommitsForMirror.find { it.commit == node.parents.first().value }
+        return standardRepositoryCommitsForMirror.find { it.commit == node.parents.firstOrNull()?.value }
                 ?: throw GitNodeNotFoundException(node.value)
     }
 
@@ -285,9 +285,13 @@ class GitTree(
             val branchName = BranchCreator.generateBranchName(existedBranchNames)
             line.forEach { node ->
                 val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
-                if (commit?.branch?.isEmpty() == true) commit.branch = branchName
+                if (commit?.branch?.isEmpty() == true) {
+                    commit.branch = branchName
+                }
             }
         }
+
+        standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter { it.branch.isNotEmpty() }
     }
 
     /**

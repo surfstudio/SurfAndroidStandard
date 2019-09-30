@@ -17,9 +17,9 @@ interface Reducer<
         S,
         H : ReducerStateHolder<S>> : Reactor<E, H> {
 
-    override fun react(holder: H, event: E) {
-        val newState = reduce(holder.state, event)
-        holder.state = newState
+    override fun react(sh: H, event: E) {
+        val newState = reduce(sh.state, event)
+        sh.state = newState
     }
 
     /**
