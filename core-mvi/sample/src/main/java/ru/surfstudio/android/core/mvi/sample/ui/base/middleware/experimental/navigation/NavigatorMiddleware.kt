@@ -6,8 +6,8 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.ExperimentalFeature
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.navigation.close.*
-import ru.surfstudio.android.core.mvi.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.EventTransformerList
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
@@ -68,6 +68,8 @@ interface NavigatorMiddleware<T : Event> : RxMiddleware<T> {
         when (event) {
             is CloseActivityEvent ->
                 activityNavigator.finishCurrent()
+            is CloseAffinityEvent ->
+                activityNavigator.finishAffinity()
             is CloseWithResultEvent<*> -> {
                 val resultRoute = event.route as SupportOnActivityResultRoute<Serializable>
                 activityNavigator.finishWithResult(resultRoute, event.result, event.isSuccess)
