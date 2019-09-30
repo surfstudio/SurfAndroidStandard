@@ -209,6 +209,16 @@ interface ImageLoaderInterface {
     fun signature(signature: Any): ImageLoaderInterface
 
     /**
+     * Отключение конфигурации [Bitmap.Config.HARDWARE].
+     * Необходимо в случае, когда нужен доступ к загруженному в графическую память [Bitmap].
+     *
+     * Подробнее о Hardware Bitmaps: [https://bumptech.github.io/glide/doc/hardwarebitmaps.html]
+     *
+     * @param isHardwareConfigDisabled должна ли быть отключена конфигурация [Bitmap.Config.HARDWARE]
+     */
+    fun disableHardwareConfig(isHardwareConfigDisabled: Boolean = false): ImageLoaderInterface
+
+    /**
      * Указание целевой [View].
      *
      * @param view экземпляр [View] для загрузки изображения.
