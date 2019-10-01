@@ -23,6 +23,7 @@ import javax.inject.Inject
 
 @PerApplication
 class DebugInteractor @Inject constructor(
+        private val activeActivityHolder: ActiveActivityHolder,
         private val memoryDebugStorage: MemoryDebugStorage,
         private val debugServerSettingsStorage: DebugServerSettingsStorage,
         private val debugUiToolsStorage: DebugUiToolsStorage,
@@ -32,6 +33,8 @@ class DebugInteractor @Inject constructor(
 ) {
 
     private val serverChangedPublishSubject = PublishSubject.create<Unit>()
+
+    private var firstActivityOpeningDisposable = Disposables.disposed()
 
     fun observeNeedClearSession(): Observable<Unit> {
         return serverChangedPublishSubject
@@ -115,7 +118,10 @@ class DebugInteractor @Inject constructor(
      * Нужно вызвать в [Application.onCreate]
      */
     fun onCreateApp(icon: Int) {
-        DebugNotificationBuilder.showDebugNotification(application, icon)
+        firstActivityOpeningDisposable = activeActivityHolder
+                .activityObservable
+                .subscribe { handleFirstActivityOpening(icon) }
+
         DebugScalpelManager.init(application)
 
         if (memoryDebugStorage.isLeakCanaryEnabled) {
@@ -132,5 +138,10 @@ class DebugInteractor @Inject constructor(
 
     fun reboot(route: ActivityRoute) {
         rebootInteractor.reboot(route)
+    }
+
+    private fun handleFirstActivityOpening(icon: Int) {
+        firstActivityOpeningDisposable.dispose()
+        DebugNotificationBuilder.showDebugNotification(application, icon)
     }
 }
