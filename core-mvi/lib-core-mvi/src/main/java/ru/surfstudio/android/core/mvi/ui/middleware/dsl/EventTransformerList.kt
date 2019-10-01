@@ -3,6 +3,7 @@ package ru.surfstudio.android.core.mvi.ui.middleware.dsl
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
+import kotlin.reflect.KClass
 
 /**
  * Список Observable с событиями экрана, полученный в результате всех трансформаций исходного потока событий.
@@ -15,6 +16,10 @@ class EventTransformerList<E : Event>(
 
     operator fun Observable<out E>.unaryPlus() {
         add(this as Observable<E>)
+    }
+
+    fun addAll(vararg transformations: Observable<out E>) {
+        addAll(transformations.toList() as List<Observable<E>>)
     }
 
     /**
@@ -114,5 +119,74 @@ class EventTransformerList<E : Event>(
             crossinline mapper: (Observable<T>) -> Observable<out E>
     ): Observable<out E> {
         return mapper(this)
+    }
+
+    sealed class ClassTransformer<T, R> {
+
+        abstract fun map(value: Observable<T>): Observable<out R>
+
+        class ReactTransformer<T, E>(
+                private val mapper: (T) -> Unit
+        ) : ClassTransformer<T, E>() {
+            override fun map(value: Observable<T>): Observable<out E> {
+                return value.flatMap {
+                    mapper(it)
+                    Observable.empty<E>()
+                }
+            }
+        }
+
+        class MapTransformer<T, E>(
+                private val mapper: (T) -> E
+        ) : ClassTransformer<T, E>() {
+            override fun map(value: Observable<T>): Observable<out E> {
+                return value.map { mapper(it) }
+            }
+        }
+
+        class EventMapTransformer<T, E>(
+                private val mapper: (T) -> Observable<out E>
+        ) : ClassTransformer<T, E>() {
+            override fun map(value: Observable<T>): Observable<out E> {
+                return value.flatMap { mapper(it) }
+            }
+        }
+
+        class StreamMapTransformer<T, E>(
+                private val mapper: (Observable<T>) -> Observable<out E>
+        ) : ClassTransformer<T, E>() {
+            override fun map(value: Observable<T>): Observable<out E> {
+                return mapper(value)
+            }
+        }
+
+    }
+
+    inline infix fun <reified T : Event> KClass<T>.reactTo(
+            noinline mapper: (T) -> Unit
+    ): Observable<out E> {
+        val transformer = ClassTransformer.ReactTransformer<T, E>(mapper)
+        return transformer.map(eventStream.ofType(this.java))
+    }
+
+    inline infix fun <reified T : Event> KClass<T>.mapTo(
+            noinline mapper: (T) -> E
+    ): Observable<out E> {
+        val transformer = ClassTransformer.MapTransformer(mapper)
+        return transformer.map(eventStream.ofType(this.java))
+    }
+
+    inline infix fun <reified T : Event> KClass<T>.eventMapTo(
+            noinline mapper: (T) -> Observable<out E>
+    ): Observable<out E> {
+        val transformer = ClassTransformer.EventMapTransformer(mapper)
+        return transformer.map(eventStream.ofType(this.java))
+    }
+
+    inline infix fun <reified T : Event> KClass<T>.streamMapTo(
+            noinline mapper: (Observable<T>) -> Observable<out E>
+    ): Observable<out E> {
+        val transformer = ClassTransformer.StreamMapTransformer(mapper)
+        return transformer.map(eventStream.ofType(this.java))
     }
 }
