@@ -2,8 +2,8 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.extension
 
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 import ru.surfstudio.android.core.mvp.binding.rx.extensions.toOptional
-import ru.surfstudio.android.core.mvp.binding.rx.response.data.*
-import ru.surfstudio.android.core.mvp.binding.rx.response.type.Request
+import ru.surfstudio.android.core.mvp.binding.rx.request.data.*
+import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 
 fun <T> mapLoading(type: Request<T>, hasData: Boolean, isSwr: Boolean = false): Loading {

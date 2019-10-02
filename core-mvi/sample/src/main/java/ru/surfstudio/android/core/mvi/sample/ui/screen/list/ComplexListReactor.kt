@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvi.sample.ui.base.extension.mapLoading
 import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListEvent.*
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
-import ru.surfstudio.android.core.mvp.binding.rx.response.state.RequestState
+import ru.surfstudio.android.core.mvp.binding.rx.request.state.RequestState
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState

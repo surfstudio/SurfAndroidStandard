@@ -25,25 +25,6 @@ class ComplexListMiddleware @Inject constructor(
         PaginationMiddleware<ComplexListEvent> {
 
     override fun transform(eventStream: Observable<ComplexListEvent>): Observable<out ComplexListEvent> {
-        transformations(eventStream) {
-//            +onCreate().eventMap { loadData() }
-//            +eventMap<SwipeRefresh> { loadData(isSwr = true) }
-//            +eventMap<LoadNextPage> { loadData(sh.list.data.nextPage) }
-//            +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
-//            +map<QueryChangedDebounced> { FilterNumbers() }
-//            +eventMap<Reload> { loadData() }
-//            +eventStream.ofType<QueryChanged>().streamMap(::debounceQuery)
-//
-//
-//            +onCreate().eventMap { loadData() }
-//            +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
-//            +(SwipeRefresh::class eventMapTo { loadData(isSwr = true) })
-//            +(LoadNextPage::class eventMapTo { loadData(sh.list.data.nextPage) })
-//            +(Reload::class eventMapTo { loadData() })
-//            +(QueryChanged::class streamMapTo (::debounceQuery))
-//            +(QueryChangedDebounced::class mapTo { FilterNumbers() })
-        }
-
         return transformations(eventStream) {
             addAll(
                     onCreate() eventMap { loadData() },

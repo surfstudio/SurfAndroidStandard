@@ -1,9 +1,9 @@
 package ru.surfstudio.android.core.mvi.sample.ui.base.extension
 
-import ru.surfstudio.android.core.mvp.binding.rx.response.data.MainLoading
-import ru.surfstudio.android.core.mvp.binding.rx.response.data.SwipeRefreshLoading
-import ru.surfstudio.android.core.mvp.binding.rx.response.data.TransparentLoading
-import ru.surfstudio.android.core.mvp.binding.rx.response.state.RequestState
+import ru.surfstudio.android.core.mvp.binding.rx.request.data.MainLoading
+import ru.surfstudio.android.core.mvp.binding.rx.request.data.SwipeRefreshLoading
+import ru.surfstudio.android.core.mvp.binding.rx.request.data.TransparentLoading
+import ru.surfstudio.android.core.mvp.binding.rx.request.state.RequestState
 
 /**
  * Маппинг функции для работы с данными

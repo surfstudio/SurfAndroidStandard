@@ -102,14 +102,14 @@ interface NavigatorMiddleware<T : Event> : RxMiddleware<T> {
     /**
      * Автоматическое закрытие экрана при поступлении события [CloseScreenEvent]
      */
-    fun Observable<T>.closeScreenDefault() = filterIsInstance<CloseScreenEvent>()
+    fun Observable<T>.closeScreenAuto() = filterIsInstance<CloseScreenEvent>()
             .flatMap { closeScreenByEvent(it).skip<T>() }
 
     /**
      * Автоматическое закрытие экрана при поступлении события [CloseScreenEvent]
      */
     fun Observable<T>.mapNavigationAuto() =
-            merge(openScreenAuto(), closeScreenDefault())
+            merge(openScreenAuto(), closeScreenAuto())
 
     /**
      * Автоматическое закрытие и открытие экранов при поступлении

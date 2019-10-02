@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvp.binding.rx.response.type
+package ru.surfstudio.android.core.mvp.binding.rx.request.type
 
 import io.reactivex.Observable
 

@@ -3,8 +3,8 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.extension
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.RequestEvent
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination.PaginationEvent
-import ru.surfstudio.android.core.mvp.binding.rx.response.state.RequestState
-import ru.surfstudio.android.core.mvp.binding.rx.response.type.Request
+import ru.surfstudio.android.core.mvp.binding.rx.request.state.RequestState
+import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.rx.extension.toObservable
