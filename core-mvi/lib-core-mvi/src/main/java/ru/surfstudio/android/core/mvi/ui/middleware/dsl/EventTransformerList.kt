@@ -2,6 +2,10 @@ package ru.surfstudio.android.core.mvi.ui.middleware.dsl
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.EventMapTransformer
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.MapTransformer
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.ReactTransformer
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.StreamMapTransformer
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import kotlin.reflect.KClass
 
@@ -10,7 +14,7 @@ import kotlin.reflect.KClass
  *
  * @param eventStream исходный поток
  */
-class EventTransformerList<E : Event>(
+open class EventTransformerList<E : Event>(
         val eventStream: Observable<E>
 ) : MutableList<Observable<E>> by ArrayList<Observable<E>>() {
 
@@ -31,7 +35,7 @@ class EventTransformerList<E : Event>(
      * @param mapper функция реакции.
      */
     inline fun <reified T : Event> react(
-            crossinline mapper: (T) -> Unit
+            noinline mapper: (T) -> Unit
     ) = eventStream.filterIsInstance<T>().react(mapper)
 
 
@@ -44,9 +48,10 @@ class EventTransformerList<E : Event>(
      * @param mapper функция, преобразующая событие.
      */
     inline fun <reified T : Event> map(
-            crossinline mapper: (T) -> E
+            noinline mapper: (T) -> E
     ): Observable<out E> {
-        return eventStream.filterIsInstance<T>().map { mapper(it) }
+        val mapTransformer = MapTransformer(mapper)
+        return mapTransformer.map(eventStream.filterIsInstance<T>())
     }
 
     /**
@@ -58,7 +63,7 @@ class EventTransformerList<E : Event>(
      * @param mapper функция, преобразующая событие.
      */
     inline fun <reified T : Event> eventMap(
-            crossinline mapper: (T) -> Observable<out E>
+            noinline mapper: (T) -> Observable<out E>
     ): Observable<out E> {
         return eventStream.filterIsInstance<T>().eventMap(mapper)
     }
@@ -72,7 +77,7 @@ class EventTransformerList<E : Event>(
      * @param mapper функция, преобразующая событие.
      */
     inline fun <reified T : Event> streamMap(
-            crossinline mapper: (Observable<T>) -> Observable<out E>
+            noinline mapper: (Observable<T>) -> Observable<out E>
     ): Observable<out E> {
         return eventStream.filterIsInstance<T>().streamMap(mapper)
     }
@@ -87,11 +92,8 @@ class EventTransformerList<E : Event>(
      * @param mapper функция реакции.
      */
     inline infix fun <reified T : Event> Observable<T>.react(
-            crossinline mapper: (T) -> Unit
-    ) = flatMap {
-        mapper(it)
-        Observable.empty<T>()
-    }
+            noinline mapper: (T) -> Unit
+    ) = ReactTransformer<T, E>(mapper).map(this)
 
     /**
      * Маппинг события типа [T] в [Observable] с типом [E].
@@ -102,9 +104,9 @@ class EventTransformerList<E : Event>(
      * @param mapper функция, преобразующая событие.
      */
     inline infix fun <reified T : Event> Observable<T>.eventMap(
-            crossinline mapper: (T) -> Observable<out E>
+            noinline mapper: (T) -> Observable<out E>
     ): Observable<out E> {
-        return flatMap { mapper(it) }
+        return EventMapTransformer(mapper).map(this)
     }
 
     /**
@@ -116,77 +118,36 @@ class EventTransformerList<E : Event>(
      * @param mapper функция, преобразующая событие.
      */
     inline fun <reified T : Event> Observable<T>.streamMap(
-            crossinline mapper: (Observable<T>) -> Observable<out E>
+            noinline mapper: (Observable<T>) -> Observable<out E>
     ): Observable<out E> {
-        return mapper(this)
-    }
-
-    sealed class ClassTransformer<T, R> {
-
-        abstract fun map(value: Observable<T>): Observable<out R>
-
-        class ReactTransformer<T, E>(
-                private val mapper: (T) -> Unit
-        ) : ClassTransformer<T, E>() {
-            override fun map(value: Observable<T>): Observable<out E> {
-                return value.flatMap {
-                    mapper(it)
-                    Observable.empty<E>()
-                }
-            }
-        }
-
-        class MapTransformer<T, E>(
-                private val mapper: (T) -> E
-        ) : ClassTransformer<T, E>() {
-            override fun map(value: Observable<T>): Observable<out E> {
-                return value.map { mapper(it) }
-            }
-        }
-
-        class EventMapTransformer<T, E>(
-                private val mapper: (T) -> Observable<out E>
-        ) : ClassTransformer<T, E>() {
-            override fun map(value: Observable<T>): Observable<out E> {
-                return value.flatMap { mapper(it) }
-            }
-        }
-
-        class StreamMapTransformer<T, E>(
-                private val mapper: (Observable<T>) -> Observable<out E>
-        ) : ClassTransformer<T, E>() {
-            override fun map(value: Observable<T>): Observable<out E> {
-                return mapper(value)
-            }
-        }
-
+        return StreamMapTransformer(mapper).map(this)
     }
 
     inline infix fun <reified T : Event> KClass<T>.reactTo(
             noinline mapper: (T) -> Unit
     ): Observable<out E> {
-        val transformer = ClassTransformer.ReactTransformer<T, E>(mapper)
+        val transformer = ReactTransformer<T, E>(mapper)
         return transformer.map(eventStream.ofType(this.java))
     }
 
     inline infix fun <reified T : Event> KClass<T>.mapTo(
             noinline mapper: (T) -> E
     ): Observable<out E> {
-        val transformer = ClassTransformer.MapTransformer(mapper)
+        val transformer = MapTransformer(mapper)
         return transformer.map(eventStream.ofType(this.java))
     }
 
     inline infix fun <reified T : Event> KClass<T>.eventMapTo(
             noinline mapper: (T) -> Observable<out E>
     ): Observable<out E> {
-        val transformer = ClassTransformer.EventMapTransformer(mapper)
+        val transformer = EventMapTransformer(mapper)
         return transformer.map(eventStream.ofType(this.java))
     }
 
     inline infix fun <reified T : Event> KClass<T>.streamMapTo(
             noinline mapper: (Observable<T>) -> Observable<out E>
     ): Observable<out E> {
-        val transformer = ClassTransformer.StreamMapTransformer(mapper)
+        val transformer = StreamMapTransformer(mapper)
         return transformer.map(eventStream.ofType(this.java))
     }
 }
