@@ -44,4 +44,4 @@ inline fun <T, reified PE : PaginationEvent> RequestEvent<DataList<T>>.toPaginat
 
 fun <T> Request<DataList<T>>.canGetMore() = (this as? Request.Success)?.data?.canGetMore() == true
 
-fun <T> RequestState<DataList<T>>.canGetMore() = this.dataOrNull?.canGetMore() == true
+fun <T> RequestState<DataList<T>>.canGetMore() = this.data?.canGetMore() == true

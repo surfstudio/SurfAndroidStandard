@@ -1,7 +1,5 @@
 package ru.surfstudio.android.core.mvp.binding.rx.request.data
 
-import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
-
 /**
  * Данные для отображения на Ui асинхронного запроса на получение данных.
  *
@@ -14,12 +12,11 @@ import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
  * должно быть отображено на UI: [Loading]
  *
  * @param data  данные, либо их отсутствие
- *              (используется [Optional] для предотвращения проблем с nullable-переменными)
  * @param load  обертка над состоянием загрузки, интерпретируемая на ui
  * @param error состояние ошибки
  */
-data class ResponseUi<T>(
-        val data: Optional<T> = Optional.empty(),
-        val load: Loading = MainLoading(false),
-        val error: Throwable = EmptyErrorException()
+data class RequestUi<T>(
+        val data: T? = null,
+        val load: Loading? = null,
+        val error: Throwable? = null
 )

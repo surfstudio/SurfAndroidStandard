@@ -1,65 +1,73 @@
 package ru.surfstudio.android.core.mvp.binding.rx.request.state
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.mvp.binding.rx.extensions.toOptional
-import ru.surfstudio.android.core.mvp.binding.rx.request.data.ResponseUi
-import ru.surfstudio.android.core.mvp.binding.rx.request.data.Loading
-import ru.surfstudio.android.core.mvp.binding.rx.extensions.filterValue
+import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
 import ru.surfstudio.android.core.mvp.binding.rx.relation.BehaviorRelation
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.PRESENTER
 import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.StateTarget
+import ru.surfstudio.android.core.mvp.binding.rx.request.data.Loading
+import ru.surfstudio.android.core.mvp.binding.rx.request.data.RequestUi
 
 /**
  * UI-State запроса на загрузку данных.
- * Содержит в себе неизменяемый экземпляр [ResponseUi], который отражает текущее значение загрузки данных.
+ * Содержит в себе неизменяемый экземпляр [RequestUi], который отражает текущее значение загрузки данных.
  *
- * Перед тем, как помещать Request в RequestState, необходимо трансформировать его в ResponseUi,
+ * Перед тем, как помещать Request в RequestState, необходимо трансформировать его в RequestUi,
  * то есть, произвести трансформацию i-слой -> ui-слой.
  */
 open class RequestState<T>(
-        initialResponse: ResponseUi<T>
-) : BehaviorRelation<ResponseUi<T>, PRESENTER, StateTarget>(initialResponse) {
+        initialResponse: RequestUi<T>
+) : BehaviorRelation<RequestUi<T>, PRESENTER, StateTarget>(initialResponse) {
 
-    constructor(initialData: T) : this(ResponseUi(data = initialData.toOptional()))
+    constructor(initialData: T) : this(RequestUi(data = initialData))
 
-    constructor(initialLoading: Loading) : this(ResponseUi(load = initialLoading))
+    constructor(initialLoading: Loading) : this(RequestUi(load = initialLoading))
 
-    constructor() : this(ResponseUi())
+    constructor() : this(RequestUi())
 
     override fun getConsumer(source: PRESENTER) = relay
 
     override fun getObservable(target: StateTarget) = relay.share()
 
     fun observeData(): Observable<T> = relay.share()
-            .map { it.data }
-            .filterValue()
+            .flatMap { skipIfNull(it.data) }
 
     fun observeLoading(): Observable<Loading> = relay.share()
-            .map { it.load }
+            .flatMap { skipIfNull(it.load) }
             .distinctUntilChanged()
 
-    fun observeIsLoading(): Observable<Boolean> = observeLoading().map { it.isLoading }
+    fun observeIsLoading(): Observable<Boolean> = observeLoading()
+            .map { it.isLoading }
 
     fun observeError(): Observable<Throwable> = relay.share()
-            .map { it.error }
+            .flatMap { skipIfNull(it.error) }
 
-    val data: T
-        get() = relay.value!!.data.get()
+    fun observeOptionalError() = relay.share()
+            .map { if (it.error == null) Optional.empty() else Optional.of(it.error) }
+            .distinctUntilChanged()
 
-    val dataOrNull: T?
-        get() = relay.value!!.data.getOrNull()
+    fun observeHasError() = relay.share()
+            .map { it.error == null }
+            .distinctUntilChanged()
 
-    val load: Loading
+    val data: T?
+        get() = relay.value!!.data
+
+    val loading: Loading?
         get() = relay.value!!.load
 
     val isLoading: Boolean
-        get() = relay.value!!.load.isLoading
+        get() = relay.value!!.load?.isLoading ?: false
 
-    val error: Throwable
+    val error: Throwable?
         get() = relay.value!!.error
 
-    fun modify(modifier: ResponseUi<T>.() -> ResponseUi<T>) {
+    fun modify(modifier: RequestUi<T>.() -> RequestUi<T>) {
         val value = relay.value ?: return
         relay.accept(modifier(value))
+    }
+
+    private fun <T> skipIfNull(value: T?): Observable<T> {
+        return if (value == null) Observable.empty() else Observable.just(value)
     }
 }

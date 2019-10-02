@@ -38,7 +38,7 @@ class ComplexListReactor @Inject constructor() : Reactor<ComplexListEvent, Compl
 
     private fun onLoadList(sh: ComplexListStateHolder, event: LoadList) {
         sh.list.modify {
-            val hasData = data.hasValue && !data.get().isEmpty()
+            val hasData = data?.isNotEmpty() ?: false
             copy(
                     data = mapDataList(event.type, data, hasData),
                     load = mapLoading(event.type, hasData, event.isSwr),
@@ -48,7 +48,7 @@ class ComplexListReactor @Inject constructor() : Reactor<ComplexListEvent, Compl
     }
 
     private fun onFilterNumbers(sh: ComplexListStateHolder, event: FilterNumbers) {
-        val data = sh.list.dataOrNull ?: return
+        val data = sh.list.data ?: return
         val query = if (sh.query.hasValue) sh.query.value else null
         val list = if (data.isNotEmpty() && !query.isNullOrEmpty()) {
             data.filter { it.contains(query, true) }

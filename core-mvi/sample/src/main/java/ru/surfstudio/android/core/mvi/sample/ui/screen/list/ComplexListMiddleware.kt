@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.ofType
 import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
@@ -31,7 +30,7 @@ class ComplexListMiddleware @Inject constructor(
                     mapPagination(FilterNumbers()) { sh.list.canGetMore() },
                     eventMap<SwipeRefresh> { loadData(isSwr = true) },
                     SwipeRefresh::class eventMapTo { loadData(isSwr = true) },
-                    LoadNextPage::class eventMapTo { loadData(sh.list.data.nextPage) },
+                    LoadNextPage::class eventMapTo { loadData(sh.list.data?.nextPage ?: 0) },
                     Reload::class eventMapTo { loadData() },
                     QueryChanged::class streamMapTo (::debounceQuery),
                     QueryChangedDebounced::class mapTo { FilterNumbers() }

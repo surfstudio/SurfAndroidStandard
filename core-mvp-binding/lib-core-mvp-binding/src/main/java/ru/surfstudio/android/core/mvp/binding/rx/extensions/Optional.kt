@@ -66,4 +66,4 @@ fun <T> Observable<Optional<T>>.filterValue(): Observable<T> = this
 
 fun <T> T.asOptional() = Optional.of(this)
 
-fun <T> T.toOptional() = Optional.of(this)
+fun <T> T?.toOptional() = this?.asOptional() ?: Optional.empty<T>()
