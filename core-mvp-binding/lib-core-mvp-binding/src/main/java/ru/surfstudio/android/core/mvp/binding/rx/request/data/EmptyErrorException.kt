@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvp.binding.rx.response.data
+package ru.surfstudio.android.core.mvp.binding.rx.request.data
 
 import java.lang.Exception
 

@@ -1,13 +1,11 @@
 package ru.surfstudio.android.core.mvi.sample.ui.base.extension
 
-import ru.surfstudio.android.core.mvp.binding.rx.extensions.Optional
-import ru.surfstudio.android.core.mvp.binding.rx.extensions.toOptional
-import ru.surfstudio.android.core.mvp.binding.rx.response.data.*
-import ru.surfstudio.android.core.mvp.binding.rx.response.type.Request
+import ru.surfstudio.android.core.mvp.binding.rx.request.data.*
+import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 
-fun <T> mapLoading(type: Request<T>, hasData: Boolean, isSwr: Boolean = false): Loading {
-    val isLoading = type is Request.Loading
+fun <T> mapLoading(request: Request<T>, hasData: Boolean, isSwr: Boolean = false): Loading {
+    val isLoading = request is Request.Loading
     return when {
         isSwr ->
             SwipeRefreshLoading(isLoading)
@@ -18,29 +16,29 @@ fun <T> mapLoading(type: Request<T>, hasData: Boolean, isSwr: Boolean = false): 
     }
 }
 
-fun <T> mapError(type: Request<T>, hasData: Boolean): Throwable =
-        if (!hasData && type is Request.Error) {
-            type.error
+fun <T> mapError(request: Request<T>, hasData: Boolean): Throwable? =
+        if (!hasData && request is Request.Error) {
+            request.error
         } else {
-            EmptyErrorException()
+            null
         }
 
-fun <T> mapData(type: Request<T>, data: Optional<T>): Optional<T> =
-        if (type is Request.Success) {
-            type.data.toOptional()
+fun <T> mapData(request: Request<T>, data: T?): T? =
+        if (request is Request.Success) {
+            request.data
         } else {
             data
         }
 
 fun <T> mapDataList(
-        type: Request<DataList<T>>,
-        data: Optional<DataList<T>>,
-        hasData: Boolean = data.hasValue
-): Optional<DataList<T>> = if (type is Request.Success) {
-    if (hasData && type.data.startPage > 1) { //мержим, если уже есть dataList + это не перезагрузка списка
-        data.get().merge(type.data).toOptional()
+        request: Request<DataList<T>>,
+        data: DataList<T>?,
+        hasData: Boolean = data != null
+): DataList<T>? = if (request is Request.Success) {
+    if (hasData && request.data.startPage > 1) { //мержим, если уже есть dataList + это не перезагрузка списка
+        data?.merge(request.data)
     } else {
-        type.data.toOptional()
+        request.data
     }
 } else {
     data

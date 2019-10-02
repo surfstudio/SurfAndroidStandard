@@ -18,7 +18,9 @@ class InputFormMiddleware @Inject constructor(
 ) : BaseNavMiddleware<InputFormEvent>(baseNavMiddlewareDependency) {
 
     override fun transform(eventStream: Observable<InputFormEvent>) = transformations(eventStream) {
-        +eventStream.mapNavigationAuto()
-        +map<SubmitClicked> { InputFormClosed(InputFormActivityRoute(), sh.inputString.value) }
+        addAll(
+                eventStream.mapNavigationAuto(),
+                SubmitClicked::class mapTo { InputFormClosed(InputFormActivityRoute(), sh.inputString.value) }
+        )
     }
 }

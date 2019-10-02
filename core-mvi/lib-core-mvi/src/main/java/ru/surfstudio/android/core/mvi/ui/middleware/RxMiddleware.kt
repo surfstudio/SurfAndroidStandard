@@ -1,10 +1,13 @@
 package ru.surfstudio.android.core.mvi.ui.middleware
 
+import io.reactivex.Completable
+import io.reactivex.Flowable
 import io.reactivex.Observable
+import io.reactivex.Single
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.RequestEvent
 import ru.surfstudio.android.core.mvi.ui.relation.StateEmitter
-import ru.surfstudio.android.core.mvp.binding.rx.response.type.asRequest
+import ru.surfstudio.android.core.mvp.binding.rx.request.type.asRequest
 
 /**
  * [Middleware] с реализацией в Rx.
@@ -13,7 +16,54 @@ import ru.surfstudio.android.core.mvp.binding.rx.response.type.asRequest
  */
 interface RxMiddleware<T : Event> : Middleware<T, Observable<T>, Observable<out T>>, StateEmitter {
 
+    /**
+     * Расширение для Observable, переводящее асинхронный запрос загрузки данных к Observable<[RequestEvent]>.
+     *
+     * При добавлении к цепочке observable, необходимо применять именно к тому элементу, который будет эмитить значения.
+     */
     fun <T, E : RequestEvent<T>> Observable<T>.asRequestEvent(
+            event: E
+    ): Observable<out E> = this
+            .asRequest()
+            .map { loadType ->
+                event.type = loadType
+                return@map event
+            }
+
+    /**
+     * Расширение для Single, переводящее асинхронный запрос загрузки данных к Observable<[RequestEvent]>.
+     *
+     * При добавлении к цепочке observable, необходимо применять именно к тому элементу, который будет эмитить значения.
+     */
+    fun <T, E : RequestEvent<T>> Single<T>.asRequestEvent(
+            event: E
+    ): Observable<out E> = this
+            .asRequest()
+            .map { loadType ->
+                event.type = loadType
+                return@map event
+            }
+
+    /**
+     * Расширение для Completable, переводящее асинхронный запрос загрузки данных к Observable<[RequestEvent]>.
+     *
+     * При добавлении к цепочке observable, необходимо применять именно к тому элементу, который будет эмитить значения.
+     */
+    fun <E : RequestEvent<Unit>> Completable.asRequestEvent(
+            event: E
+    ): Observable<out E> = this
+            .asRequest()
+            .map { loadType ->
+                event.type = loadType
+                return@map event
+            }
+
+    /**
+     * Расширение для Flowable, переводящее асинхронный запрос загрузки данных к Observable<[RequestEvent]>.
+     *
+     * При добавлении к цепочке observable, необходимо применять именно к тому элементу, который будет эмитить значения.
+     */
+    fun <T, E : RequestEvent<T>> Flowable<T>.asRequestEvent(
             event: E
     ): Observable<out E> = this
             .asRequest()

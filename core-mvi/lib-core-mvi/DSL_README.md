@@ -16,15 +16,27 @@
 
 Трансформация потока (для `Middleware<T>`) - это `Observable<out T>`, то есть, Observable с обновленным событием. 
 
-Для того, чтобы добавить эти трансформации, нужно вызвать либо метод `add(Observable<T>)` либо унарный плюс: `+Observable<T>` 
+## Добавление трансформаций
+
+Для того, чтобы добавить эти трансформации, нужно вызвать либо метод `addAll(vararg transformations: Observable<T>)` либо унарный плюс: `+Observable<T>` для добавления по очереди. 
+
+## Фильтрация по классу
+
+Трансформации можно фильтровать по классам со следующим синтаксисом:
+
+`<Класс события> <тип трансформации> <трансформация>`
+                
+Например: 
+                
+`Reload::class eventMapTo { loadData() }`
    
-## Возможные трансформации
+## Типы трансформаций
 
   * `react`: Реакция на событие типа *T*. Следует использовать, когда нам не нужно трансформировать *T* в поток данных, а нужно просто выполнить какое-то действие (например, для открытия экрана или отправки аналитики).
   
     Использование: 
             
-            +react<TextChangedEvent> { event -> 
+            ButtonClicked::class reactTo { event -> 
                 analyticsService.sendEvent(TEXT_CHANGED, event.text) 
             } 
     
@@ -33,13 +45,13 @@
      
      Использование:
      
-            +map<ButtonClicked> { OpenSelectPhotoDialog() } 
+        ButtonClicked::class mapTo { OpenSelectPhotoDialog() } 
   
   * `eventMap`: Маппинг события типа *T* в *Observable<R>*, где R - подтип эвента, используемого на экране. Используется, когда нам нужно трансформировать событие в поток (аналог flatMap), например, когда при получении события ButtonClicked нужно начать загрузку данных с i-слоя.
      
      Использование:
      
-            +eventMap<ReloadBtnClicked> { 
+            ReloadBtnClicked::class eventMapTo { 
                 interactor.loadData()
                     .io()
                     .handleError()
@@ -49,13 +61,15 @@
   * `streamMap`: Маппинг *Observable<T>* в *Observable<R>*, где R - подтип эвента, используемого на экране. Используется, когда `eventMap` недостаточно, и на цепочку нужно навесить модификаторы от Observable. Например, при получении события TextChanged добавить debounce и distinctUntilChanged перед отправкой запроса.
      Использование:
      
-            +streamMap<TextChanged> { textChangedObservable -> 
+            TextChanged::class streamMapTo { textChangedObservable -> 
                 textChangedObservable
                     .map { it.text } 
                     .debounce(300L, TimeUnit.MILLISECONDS)
                     .distinctUntilChanged()
                     .map { TextChangedDebounced(it) } 
                 }
+      
+      Либо
                
  Middleware cо списком трансформаций может выглядеть следующим образом:
    
@@ -79,15 +93,17 @@
 
     override fun transform(eventStream: Observable<ComplexListEvent>): Observable<out ComplexListEvent> {
         return transformations(eventStream) {
-            +onCreate().eventMap { loadData() }
-            +eventMap<SwipeRefresh> { loadData(isSwr = true) }
-            +eventMap<LoadNextPage> { loadData(sh.list.data.nextPage) }
-            +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
-            +map<QueryChangedDebounced> { FilterNumbers() }
-            +eventMap<Reload> { loadData() }
-            +eventStream.ofType<QueryChanged>().streamMap(::debounceQuery)
+            addAll(
+                    onCreate() eventMap { loadData() },
+                    mapPagination(FilterNumbers()) { sh.list.canGetMore() },
+                    eventMap<SwipeRefresh> { loadData(isSwr = true) },
+                    SwipeRefresh::class eventMapTo { loadData(isSwr = true) },
+                    LoadNextPage::class eventMapTo { loadData(sh.list.data.nextPage) },
+                    Reload::class eventMapTo { loadData() },
+                    QueryChanged::class streamMapTo (::debounceQuery),
+                    QueryChangedDebounced::class mapTo { FilterNumbers() }
+            )
         }
-    }
 
    
 [rxdslmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/DslRxMiddleware.kt

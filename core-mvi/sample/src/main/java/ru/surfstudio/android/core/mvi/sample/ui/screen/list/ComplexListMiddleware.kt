@@ -1,18 +1,16 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.list
 
 import io.reactivex.Observable
-import io.reactivex.rxkotlin.ofType
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.*
-import ru.surfstudio.android.core.mvi.util.filterIsInstance
+import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
+import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination.PaginationMiddleware
+import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListEvent.*
+import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
 import ru.surfstudio.android.dagger.scope.PerScreen
+import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import ru.surfstudio.android.core.mvi.sample.ui.screen.list.ComplexListEvent.*
-import ru.surfstudio.android.core.mvi.sample.ui.base.extension.canGetMore
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
-import ru.surfstudio.android.core.mvi.ui.middleware.builders.LifecycleMiddleware
-import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination.PaginationMiddleware
-import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 
 /**
  * Middleware экрана [ComplexListActivityView]
@@ -27,15 +25,19 @@ class ComplexListMiddleware @Inject constructor(
 
     override fun transform(eventStream: Observable<ComplexListEvent>): Observable<out ComplexListEvent> {
         return transformations(eventStream) {
-            +onCreate().eventMap { loadData() }
-            +eventMap<SwipeRefresh> { loadData(isSwr = true) }
-            +eventMap<LoadNextPage> { loadData(sh.list.data.nextPage) }
-            +mapPagination(FilterNumbers()) { sh.list.canGetMore() }
-            +map<QueryChangedDebounced> { FilterNumbers() }
-            +eventMap<Reload> { loadData() }
-            +eventStream.ofType<QueryChanged>().streamMap(::debounceQuery)
+            addAll(
+                    onCreate() eventMap { loadData() },
+                    mapPagination(FilterNumbers()) { sh.list.canGetMore() },
+                    eventMap<SwipeRefresh> { loadData(isSwr = true) },
+                    SwipeRefresh::class eventMapTo { loadData(isSwr = true) },
+                    LoadNextPage::class eventMapTo { loadData(sh.list.data?.nextPage ?: 0) },
+                    Reload::class eventMapTo { loadData() },
+                    QueryChanged::class streamMapTo (::debounceQuery),
+                    QueryChangedDebounced::class mapTo { FilterNumbers() }
+            )
         }
     }
+
 
     private fun debounceQuery(
             eventStream: Observable<QueryChanged>
