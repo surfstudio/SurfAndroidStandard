@@ -7,9 +7,9 @@
 ## 0.3.0
 ##### Picture-provider
 * ANDDEP-235 - refactoring and adding functional:
-     * In addition to going directly to the gallery, it became possible to select a file and file manager
-     * Added method for pre-saving image
-     * Added wrapper class over Uri
+* In addition to going directly to the gallery, it became possible to select a file and file manager
+* Added method for pre-saving image
+* Added wrapper class over Uri
 * Fix obtaining permission to access the camera
 * ANDDEP-286 - Fix working with remote images in PictureProvider
 * Replaced return types Observable -> Single

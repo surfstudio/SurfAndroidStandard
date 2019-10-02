@@ -13,17 +13,9 @@
 * `BasePresenter` - added the ability to get only the last value from` ObservableOperatorFreeze` using the method
 `subscribeTakeLastFrozen`.
 ##### Mvp-widget
-* Added the ability to use widgets in dynamic layout.
-    Eliminated the need to call `init ()` to initialize the widget.
-* For use in the recycler, you must use the manual initialization mode.
-    For this, the attribute `enableManualEdit` is created. Also in `onBindViewHoler` you need to call` init (scopeId) `,
-    where scopeId should be based on the data that the item displays.
-* ANDDEP-380 Update widgets: now for receiving
-    the widget's unique identifier is answered by the `getWidgetId` method.
-    Instead of `init (scopeId)` in `RecyclerView` follows
-    use `lazyInit`, and override` getWidgetId` based on data from `onBindViewHolder`.
-    To arrange widgets in a static layout
-    you must specify a unique `android: id`.
+* Added the ability to use widgets in dynamic layout. Eliminated the need to call `init ()` to initialize the widget.
+* For use in the recycler, you must use the manual initialization mode. For this, the attribute `enableManualEdit` is created. Also in `onBindViewHoler` you need to call` init (scopeId) `, where scopeId should be based on the data that the item displays.
+* ANDDEP-380 Update widgets: now for receiving the widget's unique identifier is answered by the `getWidgetId` method. Instead of `init (scopeId)` in `RecyclerView` follows use `lazyInit`, and override` getWidgetId` based on data from `onBindViewHolder`. To arrange widgets in a static layout you must specify a unique `android: id`.
 * Added support for binding in widgets
 * The problem with getting context for widgets lying inside the container with the theme attribute has been resolved
 ##### Mvp-dialog
