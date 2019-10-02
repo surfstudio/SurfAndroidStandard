@@ -15,7 +15,7 @@ interface BaseReactView : BindableRxView {
      *
      * @param hub хаб, в который отправляется событие
      */
-    fun <T : Event> Observable<out T>.sendTo(hub: RxEventHub<T>) =
+    fun <T : Event> Observable<out T>.emit(hub: RxEventHub<T>) =
             this as Observable<T> bindTo hub
 
     /**
@@ -24,7 +24,7 @@ interface BaseReactView : BindableRxView {
      * @param event     отправляемое событие
      * @param hub       хаб, в который отправляется событие
      */
-    fun <T, E : Event> Observable<T>.send(event: E, hub: RxEventHub<E>) =
+    fun <T, E : Event> Observable<T>.emit(event: E, hub: RxEventHub<E>) =
             this.map { event } bindTo hub
 
     /**
@@ -32,5 +32,5 @@ interface BaseReactView : BindableRxView {
      *
      * @param hub хаб, в который отправляется событие
      */
-    fun <T : Event> T.sendTo(hub: RxEventHub<T>) = hub.emit(this)
+    fun <T : Event> T.emit(hub: RxEventHub<T>) = hub.emit(this)
 }
