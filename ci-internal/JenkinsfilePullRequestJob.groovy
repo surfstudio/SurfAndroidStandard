@@ -266,19 +266,21 @@ pipeline.stages = [
             script.sh("./gradlew -p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(CHECK_INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                    script,
-                    new AvdConfig(),
-                    "debug",
-                    getTestInstrumentationRunnerName,
-                    new AndroidTestConfig(
-                            "assembleAndroidTest",
-                            "template/build/outputs/androidTest-results/instrumental",
-                            "template/build/reports/androidTests/instrumental",
-                            true,
-                            0
-                    )
-            )
+            script.dir("template") {
+                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                        script,
+                        new AvdConfig(),
+                        "debug",
+                        getTestInstrumentationRunnerName,
+                        new AndroidTestConfig(
+                                "assembleAndroidTest",
+                                "build/outputs/androidTest-results/instrumental",
+                                "build/reports/androidTests/instrumental",
+                                true,
+                                0
+                        )
+                )
+            }
         }
 ]
 pipeline.finalizeBody = {
