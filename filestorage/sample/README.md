@@ -1,3 +1,3 @@
 # Filestorage Sample
 
-Пример использования модуля [filestorage](../filestorage)
+Пример использования модуля [filestorage](../../filestorage/lib-filestorage/)
