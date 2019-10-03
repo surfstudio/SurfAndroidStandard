@@ -4,7 +4,7 @@
 
 # MVP widget
 
-Расширение модуля [core-mvp](../core-mvp) для работы со view
+Расширение модуля [core-mvp][core-mvp] для работы со view
 (в терминах android фреймвока) как со View(в терминах MVP).
 
 Виджет(Widget) - это кастомная вью со своим Presenter. Для них справедливы
@@ -50,10 +50,12 @@ Gradle:
 1. Расширить `BaseWidgetConfigurator`
 1. Опционально: создать ScreenModel, и реализовать один из [базовых интерфейсов](src/main/java/ru/surfstudio/android/mvp/widget/base)
 
-[custom]: ../docs/ui/custom_views.md
+[custom]: ../../docs/ui/custom_views.md
 [frame]: src/main/java/ru/surfstudio/android/mvp/widget/view/CoreFrameLayoutView.java
 [linear]: src/main/java/ru/surfstudio/android/mvp/widget/view/CoreLinearLayoutView.java
 [relative]: src/main/java/ru/surfstudio/android/mvp/widget/view/CoreRelativeLayoutView.java
 [contraint]: src/main/java/ru/surfstudio/android/mvp/widget/view/CoreConstraintLayoutView.java
 [conf]: src/main/java/ru/surfstudio/android/mvp/widget/configurator/BaseWidgetViewConfigurator.java
 [pres]: https://docs.google.com/presentation/d/184of9d-fYnNXu9IHegDddK9lT5i7KU4II-rgijKQIh4/edit#slide=id.p
+[core-mvp]: ../../mvp/lib-core-mvp/
+
