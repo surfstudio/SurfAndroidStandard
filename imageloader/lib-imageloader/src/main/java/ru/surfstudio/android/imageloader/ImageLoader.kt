@@ -299,11 +299,10 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 this.imageSignatureManager.signature = signature
             }
 
-    override fun disableHardwareConfig(
-            isHardwareConfigDisabled: Boolean
-    ): ImageLoaderInterface = apply {
-        imageResourceManager.isHardwareConfigDisabled = isHardwareConfigDisabled
-    }
+    override fun disableHardwareConfig(): ImageLoaderInterface =
+            apply {
+                imageResourceManager.isHardwareConfigDisabled = true
+            }
 
     /**
      * Получение исходника изображения в формате [Bitmap].

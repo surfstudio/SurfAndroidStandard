@@ -213,10 +213,8 @@ interface ImageLoaderInterface {
      * Необходимо в случае, когда нужен доступ к загруженному в графическую память [Bitmap].
      *
      * Подробнее о Hardware Bitmaps: [https://bumptech.github.io/glide/doc/hardwarebitmaps.html]
-     *
-     * @param isHardwareConfigDisabled должна ли быть отключена конфигурация [Bitmap.Config.HARDWARE]
      */
-    fun disableHardwareConfig(isHardwareConfigDisabled: Boolean = false): ImageLoaderInterface
+    fun disableHardwareConfig(): ImageLoaderInterface
 
     /**
      * Указание целевой [View].
