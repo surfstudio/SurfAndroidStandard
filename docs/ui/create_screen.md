@@ -26,6 +26,6 @@
 
 Шаблоны работают в студии 3.0 и выше
 
-[core-mvp]: ../../core-mvp/README.md
+[core-mvp]: ../../mvp/lib-core-mvp/README.md
 [multi]: ../common/multimodule/detail.md
-[configurator]: ../../core-mvp/docs/configurator.md
+[configurator]: ../../mvp/lib-core-mvp/docs/configurator.md
