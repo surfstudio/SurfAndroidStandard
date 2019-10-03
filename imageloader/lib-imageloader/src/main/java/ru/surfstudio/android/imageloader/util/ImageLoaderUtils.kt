@@ -37,6 +37,15 @@ fun RequestOptions.disableHardwareConfigIf(condition: Boolean): RequestOptions {
 }
 
 /**
+ * Функция-расширение для отключения анимаций.
+ *
+ * @param condition условие, при выполнении которого будут выключены анимации.
+ */
+fun RequestOptions.dontAnimateIf(condition: Boolean): RequestOptions {
+    return if (condition) this.dontAnimate() else this
+}
+
+/**
  * Функция-расширение для добавления плейсхолдера в случае ошибки загрузки изображения
  * Срабатывает только при выполнении условия condition
  *

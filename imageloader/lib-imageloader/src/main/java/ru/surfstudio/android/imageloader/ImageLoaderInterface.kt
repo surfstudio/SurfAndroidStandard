@@ -217,6 +217,11 @@ interface ImageLoaderInterface {
     fun disableHardwareConfig(): ImageLoaderInterface
 
     /**
+     * Отключение анимации загруженных изображений.
+     */
+    fun dontAnimate(): ImageLoaderInterface
+
+    /**
      * Указание целевой [View].
      *
      * @param view экземпляр [View] для загрузки изображения.

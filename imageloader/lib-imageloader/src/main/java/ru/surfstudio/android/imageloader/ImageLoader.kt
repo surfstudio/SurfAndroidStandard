@@ -304,6 +304,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 imageResourceManager.isHardwareConfigDisabled = true
             }
 
+    override fun dontAnimate(): ImageLoaderInterface =
+            apply {
+                imageResourceManager.isAnimationDisabled = true
+            }
+
     /**
      * Получение исходника изображения в формате [Bitmap].
      * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
@@ -419,6 +424,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .apply(
                     RequestOptions()
                             .disableHardwareConfigIf(imageResourceManager.isHardwareConfigDisabled)
+                            .dontAnimateIf(imageResourceManager.isAnimationDisabled)
                             .diskCacheStrategy(if (imageCacheManager.skipCache) {
                                 DiskCacheStrategy.NONE
                             } else {

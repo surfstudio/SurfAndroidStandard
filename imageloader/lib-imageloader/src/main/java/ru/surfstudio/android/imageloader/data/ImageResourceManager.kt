@@ -47,6 +47,8 @@ data class ImageResourceManager(
 
     var isHardwareConfigDisabled = false
 
+    var isAnimationDisabled = false
+
     val isErrorSet: Boolean get() = errorResId != DEFAULT_DRAWABLE_URI
 
     val isPreviewSet: Boolean get() = previewResId != DEFAULT_DRAWABLE_URI
