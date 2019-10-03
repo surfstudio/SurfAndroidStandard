@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
-import ru.surfstudio.android.core.mvi.ui.middleware.dsl.EventTransformerListDslMiddleware
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.BaseDslRxMiddleware
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderHandleError
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderIo
 import ru.surfstudio.android.core.mvp.binding.rx.builders.UiBuilderFinish
@@ -18,7 +18,7 @@ import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
  */
 abstract class BaseMiddleware<T : Event>(
         baseMiddlewareDependency: BaseMiddlewareDependency
-) : EventTransformerListDslMiddleware<T>,
+) : BaseDslRxMiddleware<T>,
         RxBuilderIo,
         RxBuilderHandleError,
         UiBuilderFinish {

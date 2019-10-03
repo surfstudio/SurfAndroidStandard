@@ -1,25 +1,29 @@
 package ru.surfstudio.android.core.mvi.ui.middleware.dsl
 
-import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
+import ru.surfstudio.android.core.mvi.ui.middleware.Middleware
 
-/**
- * [Middleware] с реализацией в Rx и поддержкой DSL.
- */
-interface DslMiddleware<T : Event, L : List<Observable<T>>> : RxMiddleware<T> {
+interface DslMiddleware<T : Event, InputStream, OutputStream, TransformList : List<OutputStream>> : Middleware<T, InputStream, OutputStream> {
 
-    fun provideTransformationList(eventStream: Observable<T>): L
+    fun provideTransformationList(eventStream: InputStream): TransformList
+
 
     /**
      * Трансформация потока событий с помощью DSL
      */
     fun transformations(
-            eventStream: Observable<T>,
-            eventStreamBuilder: L.() -> Unit
-    ): Observable<out T> {
+            eventStream: InputStream,
+            eventStreamBuilder: TransformList.() -> Unit
+    ): OutputStream {
         val streamTransformers = provideTransformationList(eventStream)
         eventStreamBuilder.invoke(streamTransformers)
-        return merge(*streamTransformers.toTypedArray())
+        return combineTransformations(streamTransformers)
     }
+
+    /**
+     * Комбинация списка трансформаций в один поток,
+     * для дальнейшего прикрепления к главному потоку событий.
+     */
+    fun combineTransformations(transformations: List<OutputStream>): OutputStream
+
 }
