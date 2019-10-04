@@ -29,7 +29,7 @@ android {
         versionCode config["versionCode"]
         versionName config["versionName"]
 
-        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        setProperty("archivesBaseName", "$applicationName-$versionName-$versionCode")
 
         testBuildType 'debug' //todo replace to 'qa' for real app
     }
