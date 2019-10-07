@@ -35,7 +35,7 @@ class UiTest : BaseReactTest() {
 
         testView.hub.emit(TestEvent.Ui())
         Thread.sleep(100)
-        assertEquals(3, testReactor.eventsCount) //reactor gets both Ui and Data event
+        assertEquals(3, testReactor.eventsCount) //reactor gets both Ui and Success event
     }
 
     @Test

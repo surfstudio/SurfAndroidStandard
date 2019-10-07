@@ -129,11 +129,11 @@ Observables в этом случае выполняются *параллель�
 [base]: ../src/main/java/ru/surfstudio/android/core/mvp/presenter/BasePresenter.java
 [view]: view.md
 [model]: screen_model.md
-[delegates]: ../../core-ui/README.md
-[nav]: ../../docs/ui/navigation.md
-[async]: ../../docs/common/async.md
+[delegates]: ../../../core-ui/lib-core-ui/README.md
+[nav]: ../../../docs/ui/navigation.md
+[async]: ../../../docs/common/async.md
 [mvp]: ../README.md
 [handler]: ../src/main/java/ru/surfstudio/android/core/mvp/error/ErrorHandler.java
-[ex1]: ../../template/base/src/main/java/ru/surfstudio/standard/base/error/NetworkErrorHandler.kt
-[ex2]: ../../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/error/StandardErrorHandler.kt
-[configurator]: ../../core-mvp/docs/configurator.md
+[ex1]: ../../../template/i-network/src/main/java/ru/surfstudio/standard/i_network/error/NetworkErrorHandler.kt
+[ex2]: ../../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/error/StandardErrorHandler.kt
+[configurator]: configurator.md

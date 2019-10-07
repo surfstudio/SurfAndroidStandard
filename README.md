@@ -15,8 +15,6 @@
 
 **[Список артефактов][artifacts]**
 
-**[Release notes](RELEASE_NOTES.md)**
-
 [Telegram чат](https://t.me/surf_android)
 
 ## **Использование**
