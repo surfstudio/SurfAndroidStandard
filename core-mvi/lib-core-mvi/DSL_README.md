@@ -7,7 +7,7 @@
 
 ## Начало работы
 
-Для того, чтобы начать работать с DSL, необходимо унаследовать Middleware, использующийся в проекте, от [DslRxMiddleware][rxdslmw], и переопределить метод `transform(eventStream)` следующим образом:
+Для того, чтобы начать работать с DSL, необходимо унаследовать Middleware, использующийся в проекте, от [BaseDslRxMiddleware][rxdslmw], и переопределить метод `transform(eventStream)` следующим образом:
 
     override fun transform(eventStream: Observable<ComplexListEvent>): Observable<out ComplexListEvent> {
         return transformations(eventStream) {
@@ -22,11 +22,11 @@
 
 ## Фильтрация по классу
 
-Трансформации можно фильтровать по классам со следующим синтаксисом:
+Трансформации можно применять только к событиям определенных классов со следующим синтаксисом:
 
 `<Класс события> <тип трансформации> <трансформация>`
                 
-Например: 
+Например, с помощью записи ниже, мы обновляем данные, как только получаем событие Reload: 
                 
 `Reload::class eventMapTo { loadData() }`
    
@@ -78,6 +78,12 @@
             //Здесь будут перечислены возможные трансформации
         }
   
+## Добавление новых типов трансформаций
+
+Если вам не хватает типов трансформаций, расположенных в базовом классе [EventTransformerList][trlist], вы можете добавить новые. 
+
+Для этого, нужно расширить базовый класс трансформации - [StreamTransformer][strtr], и описать там нужную логику, расширить класс [EventTransformerList][trlist] для добавления методов обработки новой трансформации, и расширить класс [DslRxMiddleware][rxdslmw] с указанием в параметре типа новый класса.
+  
 ## Middleware Builders
 Так же в модуле доступны интерфейсы для Middleware, позволяющие добавлять новую логику через их наследование:
 
@@ -106,7 +112,10 @@
         }
 
    
+[baserxdslmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/BaseDslRxMiddleware.kt
 [rxdslmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/DslRxMiddleware.kt
+[strtr]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/transformers/rx/StreamTransformer.kt
+[trlist]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/dsl/EventTransformerList.kt
 [lcmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/builders/LifecycleMiddleware.kt
 [flmpmw]: src/main/java/ru/surfstudio/android/core/mvi/ui/middleware/builders/FlatMapMiddleware.kt
 [lchub]: src/main/java/ru/surfstudio/android/core/mvi/event/hub/lifecycle/LifecycleEventHub.kt

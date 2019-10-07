@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers
+package ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.rx
 
 import io.reactivex.Observable
 

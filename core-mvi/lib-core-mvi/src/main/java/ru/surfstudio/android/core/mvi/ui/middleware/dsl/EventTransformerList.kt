@@ -2,10 +2,10 @@ package ru.surfstudio.android.core.mvi.ui.middleware.dsl
 
 import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.EventMapTransformer
-import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.MapTransformer
-import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.ReactTransformer
-import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.StreamMapTransformer
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.rx.EventMapTransformer
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.rx.MapTransformer
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.rx.ReactTransformer
+import ru.surfstudio.android.core.mvi.ui.middleware.dsl.transformers.rx.StreamMapTransformer
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import kotlin.reflect.KClass
 
