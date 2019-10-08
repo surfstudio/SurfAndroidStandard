@@ -7,6 +7,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.leakcanary.LeakCanary
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposables
 import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
