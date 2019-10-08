@@ -9,6 +9,7 @@ import com.squareup.leakcanary.LeakCanary
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
