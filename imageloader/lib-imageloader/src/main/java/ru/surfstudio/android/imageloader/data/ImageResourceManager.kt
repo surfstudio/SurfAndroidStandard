@@ -33,10 +33,13 @@ data class ImageResourceManager(
         private val context: Context,
         private var imageTransformationsManager: ImageTransformationsManager = ImageTransformationsManager(context),
         var url: String = "",                           //сетевая ссылка на изображение
+        var errorUrl: String = "",
         @DrawableRes
         var drawableResId: Int = DEFAULT_DRAWABLE_URI,  //ссылка на drawable-ресурс
         @DrawableRes
         var errorResId: Int = DEFAULT_DRAWABLE_URI,     //ссылка на drawable-ресурс при ошибке
+        @DrawableRes
+        var errorResIdForErrorUrl: Int = DEFAULT_DRAWABLE_URI,
         @DrawableRes
         var previewResId: Int = DEFAULT_DRAWABLE_URI    //ссылка на drawable-ресурс плейсхолдера
 ) {
@@ -46,6 +49,8 @@ data class ImageResourceManager(
     var shouldTransformPreview = true
 
     val isErrorSet: Boolean get() = errorResId != DEFAULT_DRAWABLE_URI
+
+    val isErrorUrlSet: Boolean get() = errorUrl.isNotBlank()
 
     val isPreviewSet: Boolean get() = previewResId != DEFAULT_DRAWABLE_URI
 
@@ -74,6 +79,13 @@ data class ImageResourceManager(
     fun prepareErrorDrawable() = prepareDrawable(errorResId, shouldTransformError)
 
     /**
+     * Подготовка заглушки из сети для ошибки.
+     *
+     * К заглушке применяются все трансформации, применяемые и к исходному изображению.
+     */
+    fun prepareErrorUrl() = prepareDrawable(errorUrl, errorResIdForErrorUrl, shouldTransformError)
+
+    /**
      * Подготовка заглушки для плейсхолдера.
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
@@ -97,6 +109,32 @@ data class ImageResourceManager(
                 .load(imageResId)
                 .apply(RequestOptions()
                         .applyTransformations(transformations)
+                )
+    }
+
+    /**
+     * Подготовка [Drawable] с применением всех трансформаций, применяемых и к исходному изображению.
+     *
+     * @param url URL изобаржения
+     * @param errorRestId идентификатор заглушки, отображаемой, если при загрузке картки по URL произошла ошибка
+     * @param shouldTransform необходимо ли применять к drawable трансформации для исходного изображения
+     */
+    private fun prepareDrawable(url: String,
+                                @DrawableRes errorRestId: Int,
+                                shouldTransform: Boolean
+    ): RequestBuilder<Drawable> {
+        val transformations = if (shouldTransform) {
+            imageTransformationsManager.prepareTransformations()
+        } else {
+            emptyList<Transformation<Bitmap>>()
+        }
+
+        return Glide.with(context)
+                .load(url)
+                .apply(
+                        RequestOptions()
+                                .applyTransformations(transformations)
+                                .error(errorRestId)
                 )
     }
 
