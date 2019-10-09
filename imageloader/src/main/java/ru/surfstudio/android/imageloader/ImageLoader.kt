@@ -20,11 +20,11 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.view.View
+import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
-import android.view.View
-import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
@@ -34,9 +34,11 @@ import com.bumptech.glide.load.resource.bitmap.DownsampleStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.*
+import com.bumptech.glide.request.target.CustomViewTarget
+import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
+import com.bumptech.glide.signature.ObjectKey
 import ru.surfstudio.android.imageloader.data.*
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
 import ru.surfstudio.android.imageloader.transformations.MaskTransformation.OverlayBundle
@@ -47,7 +49,6 @@ import ru.surfstudio.android.imageloader.util.*
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
-import com.bumptech.glide.signature.ObjectKey
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
@@ -141,11 +142,15 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Указание URL изображения для загрузки в случае ошибки загрузки основного изображения
      *
      * @param errorUrl URL изображения
+     * @param drawableResIdForErrorUrl идентификатор заглушки, отображаемой, если при загрузке картки по [errorUrl] произошла ошибка
      * @param shouldTransformError флаг, показывающий, нужно ли применять трансформации к изображению
      */
-    override fun error(errorUrl: String, shouldTransformError: Boolean) =
+    override fun error(errorUrl: String,
+                       @DrawableRes drawableResIdForErrorUrl: Int,
+                       shouldTransformError: Boolean) =
             apply {
                 this.imageResourceManager.errorUrl = errorUrl
+                this.imageResourceManager.errorResIdForErrorUrl = drawableResIdForErrorUrl
                 this.imageResourceManager.shouldTransformError = shouldTransformError
             }
 

@@ -39,6 +39,8 @@ data class ImageResourceManager(
         @DrawableRes
         var errorResId: Int = DEFAULT_DRAWABLE_URI,     //ссылка на drawable-ресурс при ошибке
         @DrawableRes
+        var errorResIdForErrorUrl: Int = DEFAULT_DRAWABLE_URI,
+        @DrawableRes
         var previewResId: Int = DEFAULT_DRAWABLE_URI    //ссылка на drawable-ресурс плейсхолдера
 ) {
 
@@ -81,7 +83,7 @@ data class ImageResourceManager(
      *
      * К заглушке применяются все трансформации, применяемые и к исходному изображению.
      */
-    fun prepareErrorUrl() = prepareDrawable(errorUrl, shouldTransformError)
+    fun prepareErrorUrl() = prepareDrawable(errorUrl, errorResIdForErrorUrl, shouldTransformError)
 
     /**
      * Подготовка заглушки для плейсхолдера.
@@ -114,9 +116,13 @@ data class ImageResourceManager(
      * Подготовка [Drawable] с применением всех трансформаций, применяемых и к исходному изображению.
      *
      * @param url URL изобаржения
+     * @param errorRestId идентификатор заглушки, отображаемой, если при загрузке картки по URL произошла ошибка
      * @param shouldTransform необходимо ли применять к drawable трансформации для исходного изображения
      */
-    private fun prepareDrawable(url: String, shouldTransform: Boolean): RequestBuilder<Drawable> {
+    private fun prepareDrawable(url: String,
+                                @DrawableRes errorRestId: Int,
+                                shouldTransform: Boolean
+    ): RequestBuilder<Drawable> {
         val transformations = if (shouldTransform) {
             imageTransformationsManager.prepareTransformations()
         } else {
@@ -125,8 +131,10 @@ data class ImageResourceManager(
 
         return Glide.with(context)
                 .load(url)
-                .apply(RequestOptions()
-                        .applyTransformations(transformations)
+                .apply(
+                        RequestOptions()
+                                .applyTransformations(transformations)
+                                .error(errorRestId)
                 )
     }
 
