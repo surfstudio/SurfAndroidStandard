@@ -19,10 +19,10 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
-import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.data.ImageSource
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
@@ -79,9 +79,12 @@ interface ImageLoaderInterface {
      * В этом случае следует явно задать значение флага [shouldTransformError]=false.
      *
      * @param errorUrl URL изображения для показа в случае ошибки при загрузке основного изображения
+     * @param drawableResIdForErrorUrl идентификатор заглушки, отображаемой, если при загрузке картки по [errorUrl] произошла ошибка
      * @param shouldTransformError необходимо ли применять трансформации исходника к превью
      */
-    fun error(errorUrl: String, shouldTransformError: Boolean = true): ImageLoaderInterface
+    fun error(errorUrl: String,
+              @DrawableRes drawableResIdForErrorUrl: Int,
+              shouldTransformError: Boolean = true): ImageLoaderInterface
 
     /**
      * Установка лямбды для отслеживания загрузки изображения и источника загрузки
