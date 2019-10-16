@@ -160,7 +160,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(CHECKOUT) {
+        pipeline.stage(CHECKOUT, false) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
