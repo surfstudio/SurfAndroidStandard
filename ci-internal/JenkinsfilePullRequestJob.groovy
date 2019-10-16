@@ -163,6 +163,7 @@ pipeline.stages = [
         pipeline.stage(CHECKOUT, false) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
+                RepositoryUtil.revertUncommittedChanges(script)
             }
             script.git(
                     url: pipeline.repoUrl,
@@ -175,6 +176,12 @@ pipeline.stages = [
             script.sh "git checkout origin/$sourceBranch"
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+
+            if (!targetBranchChanged) {
+                RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
+            }
+
+            abortDuplicateBuildsWithDescription(this)
         },
 
         pipeline.stage(CODE_STYLE_FORMATTING) {
