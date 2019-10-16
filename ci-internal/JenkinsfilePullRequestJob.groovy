@@ -150,13 +150,6 @@ pipeline.initializeBody = {
             stagesForProjectMode,
             "Build triggered by project destination branch, run only ${stagesForProjectMode} stages"
     )
-
-    def buildDescription = targetBranchChanged ?
-            "$sourceBranch to $destinationBranch: target branch changed" :
-            "$sourceBranch to $destinationBranch"
-
-    CommonUtil.setBuildDescription(script, buildDescription)
-    CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 }
 
 pipeline.stages = [
@@ -181,7 +174,12 @@ pipeline.stages = [
                 RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
             }
 
-            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription())
+            def buildDescription = targetBranchChanged ?
+                    "$sourceBranch to $destinationBranch: target branch changed" :
+                    "$sourceBranch to $destinationBranch"
+
+            CommonUtil.setBuildDescription(script, buildDescription)
+            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
         },
 
         pipeline.stage(CODE_STYLE_FORMATTING) {
