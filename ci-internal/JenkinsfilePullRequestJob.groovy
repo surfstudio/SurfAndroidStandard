@@ -190,7 +190,7 @@ pipeline.stages = [
 
         pipeline.stage(CODE_STYLE_FORMATTING) {
             AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
-            hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
+            hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
 
         pipeline.stage(UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT, false) {
