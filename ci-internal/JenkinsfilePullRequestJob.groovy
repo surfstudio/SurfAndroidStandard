@@ -181,7 +181,7 @@ pipeline.stages = [
                 RepositoryUtil.checkLastCommitMessageContainsSkipCiLabel(script)
             }
 
-            CommonUtil.abortDuplicateBuildsWithDescription(ctx.script, AbortDuplicateStrategy.ANOTHER, ctx.buildDescription())
+            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription())
         },
 
         pipeline.stage(CODE_STYLE_FORMATTING) {
