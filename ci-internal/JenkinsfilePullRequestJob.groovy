@@ -15,6 +15,9 @@ import static ru.surfstudio.ci.CommonUtil.extractValueFromEnvOrParamsAndRun
 //Pipeline for check prs
 
 // Stage names
+def CHECKOUT = 'Checkout'
+def CODE_STYLE_FORMATTING = 'Code Style Formatting'
+def UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT = 'Update current commit hash after format'
 def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
@@ -40,6 +43,8 @@ def authorUsername = ""
 def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
+def boolean hasChanges = false
+
 //parameters
 def final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
 def final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
@@ -54,6 +59,9 @@ def stagesForProjectMode = [
         UNIT_TEST
 ]
 def stagesForReleaseMode = [
+        CHECKOUT,
+        CODE_STYLE_FORMATTING,
+        UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT,
         PRE_MERGE,
         CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT,
         CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -152,7 +160,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(PRE_MERGE) {
+        pipeline.stage(CHECKOUT) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
             }
@@ -167,8 +175,20 @@ pipeline.stages = [
             script.sh "git checkout origin/$sourceBranch"
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+        },
 
-            //local merge with destination
+        pipeline.stage(CODE_STYLE_FORMATTING) {
+            AndroidPipelineHelper.ktlintFormatStageAndroid(script, sourceBranch, destinationBranch)
+            hasChanges = AndroidPipelineHelper.checkChangesAndUpdate(script, repoUrl, repoCredentialsId)
+        },
+
+        pipeline.stage(UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT, false) {
+            if (hasChanges) {
+                RepositoryUtil.saveCurrentGitCommitHash(script)
+            }
+        },
+
+        pipeline.stage(PRE_MERGE) {
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
 
