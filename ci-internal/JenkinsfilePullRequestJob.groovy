@@ -166,6 +166,12 @@ pipeline.stages = [
 
             lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
 
+            script.git(
+                    url: pipeline.repoUrl,
+                    credentialsId: pipeline.repoCredentialsId,
+                    branch: sourceBranch
+            )
+
             script.sh "git checkout origin/$sourceBranch"
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
