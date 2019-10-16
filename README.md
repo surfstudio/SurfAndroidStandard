@@ -13,7 +13,7 @@
 
 **[Стандарты разработки приложений в Surf][docs]**
 
-**[Список артефактов][artifacts]**
+**[Список компонентов][components]**
 
 [Telegram чат](https://t.me/surf_android)
 
@@ -39,7 +39,7 @@ dependencies {
 
 Актуальная нестабильная версия: **0.4.0-SNAPSHOT**
 
-Список всех артефактов [здесь][artifacts].
+Список всех компонентов [здесь][components].
 
 ## License
 ```
@@ -59,7 +59,7 @@ dependencies {
 ```
 
 [docs]: docs/main.md
-[artifacts]: docs/artifacts.md
+[components]: docs/components.md
 
 [build_status_link]: https://jenkins.surfstudio.ru/view/Projects/view/Android_Standard/job/Android_Standard_Dev_Deploy/
 [build_status_icon]: https://img.shields.io/badge/build-success-brightgreen
