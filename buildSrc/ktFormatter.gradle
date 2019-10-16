@@ -1,0 +1,38 @@
+/**
+ * Скрипт для поддержки плагина обертки над ktlint
+ * ktlint https://github.com/pinterest/ktlint
+ * плагин https://github.com/jeremymailen/kotlinter-gradle
+ */
+buildscript {
+
+    repositories {
+        maven { url uri("https://plugins.gradle.org/m2/") }
+        maven { url "${surf_maven_libs_url}" }
+    }
+    dependencies {
+        classpath "org.jmailen.gradle:kotlinter-gradle:$ktlintPluginVersion"
+    }
+}
+
+/**
+ * Таск для форматирования файлов указанных в параметре `lintFiles` через запятую
+ * например: ./gradlew ktlintFilesFormat -PlintFiles="src/classA.kt","src/classB.kt"
+ */
+task ktlintFilesFormat(type: org.jmailen.gradle.kotlinter.tasks.FormatTask) {
+
+    disabledRules = ["import-ordering"]
+
+    report = file('build/ktlint-report.txt')
+
+    if (findProperty("lintFiles")) {
+        source files(
+                lintFiles.split(',')
+        )
+        logger.info "Run formatting for files:"
+        source.forEach { file ->
+            logger.info("file: ", file)
+        }
+    } else {
+        logger.error "Files not set. Use -PlintFiles property"
+    }
+}
