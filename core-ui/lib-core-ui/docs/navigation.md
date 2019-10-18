@@ -23,7 +23,7 @@
 
     - [`TabFragmentNavigator`][tab];
 
-    - [`ChildFragmentBavigator`][child];
+    - [`ChildFragmentNavigator`][child];
 
 Навигаторы работают с определенными `Route`(Activity, Fragment, Dialog).
 **Но `Route` может быть использован отдельно от навигатора!**
