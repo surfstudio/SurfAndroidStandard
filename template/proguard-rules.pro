@@ -58,8 +58,9 @@
 -dontwarn afu.org.checkerframework.checker.regex.**
 -dontwarn afu.org.checkerframework.checker.units.**
 
--keep class * implements ru.surfstudio.android.network.Transformable
--keep class * implements ru.surfstudio.android.network.response.BaseResponse
+#network
+-keep class * implements ru.surfstudio.standard.i_network.network.Transformable
+-keep class * implements ru.surfstudio.standard.i_network.network.response.BaseResponse
 
 -dontwarn com.bumptech.glide.**
 
