@@ -63,7 +63,7 @@ Gradle:
 BottomSheetDialog с собственным презентером.
 
 # Навигация
-Общая информация по навигации - [здесь][../docs/ui/navigation.md].
+Общая информация по навигации - [здесь](../../core-ui/lib-core-ui/docs/navigation.md).
 
 Открытие диалогов осуществляется из презентера через [**DialogNavigator**][nav].
 
