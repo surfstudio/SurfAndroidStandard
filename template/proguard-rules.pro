@@ -62,6 +62,7 @@
 -keep class * implements ru.surfstudio.standard.i_network.network.Transformable
 -keep class * implements ru.surfstudio.standard.i_network.network.response.BaseResponse
 
+#glide
 -dontwarn com.bumptech.glide.**
 
 #crashlytics
