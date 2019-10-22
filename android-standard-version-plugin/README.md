@@ -18,7 +18,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'ru.surfstudio.android:version-plugin:%ANDROID-STANDARD-VERSION_HERE%'
+        classpath 'ru.surfstudio.android:version-plugin:%ANDROID-STANDARD-VERSION-HERE%'
     }
 }
 ```

@@ -21,7 +21,7 @@
 
 build.gradle(root)
 ```groovy
-buildscript {
+allprojects {
     repositories {
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
@@ -30,8 +30,6 @@ buildscript {
 
 build.gradle(app)
 ```groovy
-apply plugin: 'ru.surfstudio.android'
-
 dependencies {
     implementation "ru.surfstudio.android:%ARTIFACT-ID-HERE%:%VERSION-HERE"
 }
