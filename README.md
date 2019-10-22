@@ -25,10 +25,6 @@ buildscript {
     repositories {
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
-
-    dependencies {
-        classpath 'ru.surfstudio.android:version-plugin:%ANDROID-STANDARD-VERSION_HERE%'
-    }
 }
 ```
 
@@ -37,13 +33,11 @@ build.gradle(app)
 apply plugin: 'ru.surfstudio.android'
 
 dependencies {
-    implementation "ru.surfstudio.android:%ARTIFACT-ID-HERE%:${androidStandard.version("%ARTIFACT-ID-HERE%")}"
+    implementation "ru.surfstudio.android:%ARTIFACT-ID-HERE%:%VERSION-HERE"
 }
 ```
 
 Аткуальная стабильная версия: **0.4.0**
-
-Актуальная нестабильная версия: **0.5.0**
 
 Список всех артефактов [здесь][artifacts].
 
