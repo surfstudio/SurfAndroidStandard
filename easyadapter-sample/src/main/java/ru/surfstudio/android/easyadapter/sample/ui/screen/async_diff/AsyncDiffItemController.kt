@@ -6,11 +6,13 @@ import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.easyadapter.sample.R
 
+private const val ID_TAG = "AsyncDiffItemController"
+
 class AsyncDiffItemController(
         private val onClickAction: () -> Unit
 ) : BindableItemController<Int, AsyncDiffItemController.Holder>() {
 
-    override fun getItemId(data: Int): String = data.hashCode().toString()
+    override fun getItemId(data: Int): String = "$ID_TAG${data.hashCode()}"
 
     override fun createViewHolder(parentView: ViewGroup): Holder = Holder(parentView)
 

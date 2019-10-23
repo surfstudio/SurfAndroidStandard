@@ -16,20 +16,25 @@
 package ru.surfstudio.android.easyadapter;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
+import android.os.Handler;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Queue;
 
+import kotlin.Unit;
 import ru.surfstudio.android.easyadapter.controller.BaseItemController;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
 import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
@@ -60,7 +65,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private boolean infiniteScroll;
 
     private boolean isAsyncDiffCalculationEnabled = false;
-    private AsyncListDiffer<ItemInfo> asyncListDiffer = null;
+    private AsyncListDiffer asyncListDiffer = new AsyncListDiffer();
+    private final Queue<ItemList> pendingUpdates = new ArrayDeque<>();
 
     public EasyAdapter() {
         setHasStableIds(true);
@@ -127,6 +133,11 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return item.getItemController().getItemId(item);
     }
 
+    private final String getItemStringIdAsync(ItemList items, int position) {
+        BaseItem item = items.get(position);
+        return item.getItemController().getItemId(item);
+    }
+
     /**
      * Get the item's hashcode at certain position
      *
@@ -137,6 +148,12 @@ public class EasyAdapter extends RecyclerView.Adapter {
         BaseItem item = items.get(getListPosition(position));
         return item.getItemController().getItemHash(item);
     }
+
+    public final String getItemHashAsync(ItemList items, int position) {
+        BaseItem item = items.get(position);
+        return item.getItemController().getItemHash(item);
+    }
+
 
     /**
      * Set if we should invoke {@link #autoNotify()} on each call to {@link #setItems(ItemList)}.
@@ -167,19 +184,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     public void setAsyncDiffCalculationEnabled(boolean isAsyncDiffCalculationEnabled) {
         this.isAsyncDiffCalculationEnabled = isAsyncDiffCalculationEnabled;
-        if (asyncListDiffer == null) {
-            asyncListDiffer = new AsyncListDiffer<>(this, new DiffUtil.ItemCallback<ItemInfo>() {
-                @Override
-                public boolean areItemsTheSame(@NonNull ItemInfo oldItem, @NonNull ItemInfo newItem) {
-                    return oldItem.getId().equals(newItem.getId());
-                }
-
-                @Override
-                public boolean areContentsTheSame(@NonNull ItemInfo oldItem, @NonNull ItemInfo newItem) {
-                    return oldItem.getHash().equals(newItem.getHash());
-                }
-            });
-        }
     }
 
     /**
@@ -187,13 +191,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
      */
     public void autoNotify() {
         final List<ItemInfo> newItemInfo = extractRealItemInfo();
-        if (isAsyncDiffCalculationEnabled) {
-            asyncListDiffer.submitList(newItemInfo);
-        } else {
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
-                    new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
-            diffResult.dispatchUpdatesTo(this);
-        }
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
+                new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
+        diffResult.dispatchUpdatesTo(this);
         lastItemsInfo = newItemInfo;
     }
 
@@ -216,16 +216,66 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @param autoNotify should we need to call {@link #autoNotify()}
      */
     protected void setItems(@NonNull ItemList items, boolean autoNotify) {
-        this.items.clear();
-        if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
-            this.items.add(firstInvisibleItem);
+        if (!isAsyncDiffCalculationEnabled) {
+            this.items.clear();
+            if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
+                this.items.add(firstInvisibleItem);
+            }
+            this.items.addAll(items);
+
+            if (autoNotify) {
+                autoNotify();
+            }
+            updateSupportedItemControllers(this.items);
+        } else {
+            if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
+                items.add(firstInvisibleItem);
+            }
+            calculateDiff(items);
+        /*    pendingUpdates.add(items);
+            if (pendingUpdates.size() > 1) {
+                return;
+            }
+
+            final List<ItemInfo> newItemInfo = extractRealItemInfo();
+            asyncListDiffer.calculateDiff(
+                    new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo),
+                    this::applyDiffChanges
+            );*/
         }
+    }
+
+    private void calculateDiff(@NonNull ItemList items) {
+        pendingUpdates.add(items);
+        if (pendingUpdates.size() > 1) {
+            return;
+        }
+        calculateDiffInternal(items);
+    }
+
+    private void calculateDiffInternal(@NonNull ItemList items) {
+        final List<ItemInfo> newItemInfo = extractRealItemInfoAsync(items);
+        final Handler handler = new Handler();
+        new Thread(() -> {
+            final DiffUtil.DiffResult diffResult =
+                    DiffUtil.calculateDiff(new AutoNotifyDiffCallback(lastItemsInfo, newItemInfo));
+            handler.post(() -> applyDiffChanges(items, newItemInfo, diffResult));
+        }).start();
+    }
+
+    private void applyDiffChanges(@NonNull ItemList items, List<ItemInfo> newItemInfo, DiffUtil.DiffResult diffResult) {
+        pendingUpdates.remove();
+
+        lastItemsInfo = newItemInfo;
+
+        this.items.clear();
         this.items.addAll(items);
 
-        if (autoNotify) {
-            autoNotify();
-        }
         updateSupportedItemControllers(this.items);
+        diffResult.dispatchUpdatesTo(this);
+        if (pendingUpdates.size() > 0) {
+            calculateDiffInternal(pendingUpdates.element());
+        }
     }
 
     /**
@@ -265,6 +315,17 @@ public class EasyAdapter extends RecyclerView.Adapter {
             currentItemsInfo.add(new ItemInfo(
                     getItemStringId(i),
                     getItemHash(i)));
+        }
+        return currentItemsInfo;
+    }
+
+    private List<ItemInfo> extractRealItemInfoAsync(ItemList items) {
+        int itemCount = items.size();
+        List<ItemInfo> currentItemsInfo = new ArrayList<>(itemCount);
+        for (int i = 0; i < itemCount; i++) {
+            currentItemsInfo.add(new ItemInfo(
+                    getItemStringIdAsync(items, i),
+                    getItemHashAsync(items, i)));
         }
         return currentItemsInfo;
     }
@@ -357,27 +418,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
                     .get(oldItemPosition)
                     .getHash()
                     .equals(newItemsInfo.get(newItemPosition).getHash());
-        }
-    }
-
-    /**
-     * Content used in unique data checking.
-     */
-    private class ItemInfo {
-        private String id;
-        private String hash;
-
-        ItemInfo(String id, String hash) {
-            this.id = id;
-            this.hash = hash;
-        }
-
-        String getId() {
-            return id;
-        }
-
-        String getHash() {
-            return hash;
         }
     }
 
