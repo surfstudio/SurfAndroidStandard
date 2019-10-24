@@ -27,6 +27,7 @@ public class HttpCodes {
     public static final int CODE_400 = 400; //Bad request
     public static final int CODE_403 = 403; // Доступ запрещен
     public static final int CODE_404 = 404;
+    public static final int CODE_409 = 409; // конфликт запросов с текущим состоянием сервера
     public static final int CODE_422 = 422; // имеется какая-то логическая ошибка в данных запроса
     public static final int CODE_500 = 500; //ошибка сервера
     public static final int UNSPECIFIED = 0; //неопределен
