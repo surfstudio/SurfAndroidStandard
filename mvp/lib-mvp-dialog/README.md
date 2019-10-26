@@ -11,9 +11,9 @@
 Предоставляет 2 парадигмы работы с диалогами:
 
 1. Диалог как часть родительского вью, события диалога в этом случае
-получает презентер родительского вью (см [`CoreSimpleDialogFragment`][#coresimpledialogfragment])
+получает презентер родительского вью (см [`CoreSimpleDialogFragment`][simple])
 2. Диалог с собственным презентером, родительский презентер в этом случае
-может получить событие с диалога через RxBus (см [`CoreDialogFragmentView`][#coredialogfragmentview])
+может получить событие с диалога через RxBus (см [`CoreDialogFragmentView`][core])
 
 # Использование
 [Пример использования](../sample-mvp-dialog/)
