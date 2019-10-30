@@ -29,6 +29,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import ru.surfstudio.android.easyadapter.async_diff.ApplyLatestAsyncDiffer;
+import ru.surfstudio.android.easyadapter.async_diff.AsyncDiffStrategy;
+import ru.surfstudio.android.easyadapter.async_diff.AsyncDiffer;
+import ru.surfstudio.android.easyadapter.async_diff.DiffCalculationBundle;
+import ru.surfstudio.android.easyadapter.async_diff.DiffResultBundle;
+import ru.surfstudio.android.easyadapter.async_diff.QueueAllAsyncDiffer;
+
 import ru.surfstudio.android.easyadapter.controller.BaseItemController;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
 import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
@@ -57,6 +64,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private BaseItem<BaseViewHolder> firstInvisibleItem = new NoDataItem<>(new FirstInvisibleItemController());
 
     private boolean infiniteScroll;
+
+    private boolean isAsyncDiffCalculationEnabled = false;
+    private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
 
     public EasyAdapter() {
         setHasStableIds(true);
@@ -119,8 +129,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @return unique item id
      */
     public final String getItemStringId(int position) {
-        BaseItem item = items.get(getListPosition(position));
-        return item.getItemController().getItemId(item);
+        return getItemStringIdInternal(items, position);
     }
 
     /**
@@ -130,8 +139,27 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @return item's hashcode
      */
     public final String getItemHash(int position) {
-        BaseItem item = items.get(getListPosition(position));
-        return item.getItemController().getItemHash(item);
+        return getItemHashInternal(items, position);
+    }
+
+    /**
+     * Set if {@link DiffUtil} should calculate {@link DiffUtil.DiffResult} asynchronously
+     */
+    public final void setAsyncDiffCalculationEnabled(boolean isAsyncDiffCalculationEnabled) {
+        this.isAsyncDiffCalculationEnabled = isAsyncDiffCalculationEnabled;
+    }
+
+    /**
+     * Set {@link AsyncDiffStrategy} which will be used for asynchronous {@link DiffUtil.DiffResult} calculation
+     *
+     * @param asyncDiffStrategy strategy of diff result calculation
+     */
+    public final void setAsyncDiffStrategy(AsyncDiffStrategy asyncDiffStrategy) {
+        if (asyncDiffStrategy == AsyncDiffStrategy.APPLY_LATEST) {
+            asyncDiffer = new ApplyLatestAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
+        } else {
+            asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
+        }
     }
 
     /**
@@ -191,16 +219,20 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @param autoNotify should we need to call {@link #autoNotify()}
      */
     protected void setItems(@NonNull ItemList items, boolean autoNotify) {
-        this.items.clear();
-        if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
-            this.items.add(firstInvisibleItem);
-        }
-        this.items.addAll(items);
+        if (isAsyncDiffCalculationEnabled) {
+            calculateDiffAsync(items);
+        } else {
+            this.items.clear();
+            if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
+                this.items.add(firstInvisibleItem);
+            }
+            this.items.addAll(items);
 
-        if (autoNotify) {
-            autoNotify();
+            if (autoNotify) {
+                autoNotify();
+            }
+            updateSupportedItemControllers(this.items);
         }
-        updateSupportedItemControllers(this.items);
     }
 
     /**
@@ -222,26 +254,38 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return new ItemList(items);
     }
 
+    private void calculateDiffAsync(ItemList newItems) {
+        final List<ItemInfo> newItemInfo = extractRealItemInfo(newItems);
+        final DiffCalculationBundle diffCalculationBundle = new DiffCalculationBundle(newItems, lastItemsInfo, newItemInfo);
+        asyncDiffer.calculateDiff(diffCalculationBundle);
+    }
+
+    private DiffUtil.Callback createDiffCallback(List<ItemInfo> oldItems, List<ItemInfo> newItems) {
+        return new AutoNotifyDiffCallback(oldItems, newItems);
+    }
+
+    private void dispatchDiffResult(DiffResultBundle diffResultBundle) {
+        final ItemList newItems = diffResultBundle.getItems();
+
+        items.clear();
+        if (firstInvisibleItemEnabled && (newItems.isEmpty() || newItems.get(0) != firstInvisibleItem)) {
+            items.add(firstInvisibleItem);
+        }
+        items.addAll(newItems);
+
+        final DiffUtil.DiffResult diffResult = diffResultBundle.getDiffResult();
+        diffResult.dispatchUpdatesTo(this);
+        lastItemsInfo = diffResultBundle.getNewItemInfo();
+
+        updateSupportedItemControllers(items);
+    }
+
     private void updateSupportedItemControllers(List<BaseItem> items) {
         supportedItemControllers.clear();
         for (BaseItem item : items) {
             BaseItemController itemController = item.getItemController();
             supportedItemControllers.put(itemController.viewType(), itemController);
         }
-    }
-
-    /**
-     * Extract real items info, despite of infinite or ordinary scroll.
-     */
-    private List<ItemInfo> extractRealItemInfo() {
-        int itemCount = items.size();
-        List<ItemInfo> currentItemsInfo = new ArrayList<>(itemCount);
-        for (int i = 0; i < itemCount; i++) {
-            currentItemsInfo.add(new ItemInfo(
-                    getItemStringId(i),
-                    getItemHash(i)));
-        }
-        return currentItemsInfo;
     }
 
     private void initLayoutManager(LayoutManager layoutManager) {
@@ -263,7 +307,42 @@ public class EasyAdapter extends RecyclerView.Adapter {
         }
     }
 
+    /**
+     * Extract real items info, despite of infinite or ordinary scroll.
+     */
+    private List<ItemInfo> extractRealItemInfo() {
+        return extractRealItemInfo(items);
+    }
+
+    private List<ItemInfo> extractRealItemInfo(List<BaseItem> items) {
+        int itemCount = items.size();
+        List<ItemInfo> extractedItemsInfo = new ArrayList<>(itemCount);
+        for (int i = 0; i < itemCount; i++) {
+            extractedItemsInfo.add(
+                    new ItemInfo(
+                            getItemStringIdInternal(items, i),
+                            getItemHashInternal(items, i)
+                    )
+            );
+        }
+        return extractedItemsInfo;
+    }
+
+    private String getItemStringIdInternal(List<BaseItem> items, int position) {
+        BaseItem item = items.get(getListPosition(position));
+        return item.getItemController().getItemId(item);
+    }
+
+    private String getItemHashInternal(List<BaseItem> items, int position) {
+        BaseItem item = items.get(getListPosition(position));
+        return item.getItemController().getItemHash(item);
+    }
+
     private int getListPosition(int adapterPosition) {
+        return getListPosition(items, adapterPosition);
+    }
+
+    private int getListPosition(List<BaseItem> items, int adapterPosition) {
         return infiniteScroll
                 ? adapterPosition % items.size()
                 : adapterPosition;
@@ -332,27 +411,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
                     .get(oldItemPosition)
                     .getHash()
                     .equals(newItemsInfo.get(newItemPosition).getHash());
-        }
-    }
-
-    /**
-     * Content used in unique data checking.
-     */
-    private class ItemInfo {
-        private String id;
-        private String hash;
-
-        ItemInfo(String id, String hash) {
-            this.id = id;
-            this.hash = hash;
-        }
-
-        String getId() {
-            return id;
-        }
-
-        String getHash() {
-            return hash;
         }
     }
 

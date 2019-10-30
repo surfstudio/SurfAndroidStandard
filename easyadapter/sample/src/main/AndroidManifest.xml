@@ -19,5 +19,6 @@
         <activity android:name=".ui.screen.multitype.MultitypeListActivityView" />
         <activity android:name=".ui.screen.pagination.PaginationListActivityView" />
         <activity android:name=".ui.screen.async.AsyncInflateListActivityView" />
+        <activity android:name=".ui.screen.async_diff.AsyncDiffActivityView" />
     </application>
 </manifest>

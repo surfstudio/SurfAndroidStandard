@@ -4,6 +4,8 @@
     <string name="show_multitype_list_btn_text">Show multitype list</string>
     <string name="show_paginationable_list_btn_text">Show paginationable list</string>
     <string name="show_async_inflate_list_btn_text">Show async inflate list</string>
+    <string name="show_async_diff_list_btn_text">Show async diff list</string>
     <string name="empty_item_controller_text">Empty item controller</string>
     <string name="pagination_footer_text">Load more</string>
+    <string name="generate_new_data_list_text">Generate new data list</string>
 </resources>
