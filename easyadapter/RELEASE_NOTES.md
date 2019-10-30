@@ -3,6 +3,7 @@
 ## 1.0.0-alpha
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
+* Added support for asynchronous item list updates diff calculation
 ## 0.3.0
 ##### Easyadapter
 * ANDDEP-200 - Removed ViewType randomization from ItemController
