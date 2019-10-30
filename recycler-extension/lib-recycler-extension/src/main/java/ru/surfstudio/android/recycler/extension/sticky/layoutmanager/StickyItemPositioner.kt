@@ -375,7 +375,7 @@ class StickyItemPositioner(
 
     @VisibleForTesting
     private fun attachHeader(viewHolder: RecyclerView.ViewHolder?, headerPosition: Int) {
-        if (currentHeaderViewHolder === viewHolder) {
+        if (currentHeaderViewHolder === viewHolder && currentHeader?.parent != null) {
             callDetachHeader(lastHeaderBoundPosition)
 
             recyclerView?.adapter?.onBindViewHolder(currentHeaderViewHolder!!, headerPosition)
