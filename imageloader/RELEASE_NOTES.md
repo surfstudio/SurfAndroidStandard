@@ -2,7 +2,7 @@
 # Imageloader Release Notes
 ## 0.5.0-alpha
 ##### Imageloader
-* TODO
+* Added ability to disable hardware bitmaps config and immediate GIF playback after loading
 ## 0.4.0
 ##### Imageloader
 * ANDDEP-317 Optimization [`ImageLoader`](lib-imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):
