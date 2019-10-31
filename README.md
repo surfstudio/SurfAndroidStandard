@@ -23,7 +23,7 @@ build.gradle(root)
 ```groovy
 allprojects {
     repositories {
-        maven { url "http://artifactory.surfstudio.ru/artifactory/libs-release-local" }
+        maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 }
 ```
@@ -31,13 +31,11 @@ allprojects {
 build.gradle(app)
 ```groovy
 dependencies {
-    implementation "ru.surfstudio.android:artifact-id:version"
+    implementation "ru.surfstudio.android:%ARTIFACT-ID-HERE%:%VERSION-HERE"
 }
 ```
 
-Аткуальная стабильная версия: **0.3.0**
-
-Актуальная нестабильная версия: **0.4.0-SNAPSHOT**
+Аткуальная стабильная версия: **0.4.0**
 
 Список всех артефактов [здесь][artifacts].
 
