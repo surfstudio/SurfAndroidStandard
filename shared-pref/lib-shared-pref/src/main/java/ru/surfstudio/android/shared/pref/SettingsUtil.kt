@@ -28,11 +28,11 @@ import java.util.*
 const val NO_BACKUP_SHARED_PREF = "NO_BACKUP_SHARED_PREF"
 const val BACKUP_SHARED_PREF = "BACKUP_SHARED_PREF"
 
-const val EMPTY_STRING_SETTING = ""
-const val EMPTY_INT_SETTING = -1
-const val EMPTY_LONG_SETTING = -1L
-
 object SettingsUtil {
+
+    const val EMPTY_STRING_SETTING = ""
+    const val EMPTY_INT_SETTING = -1
+    const val EMPTY_LONG_SETTING = -1L
 
     private val sharedPreferencesEditorMap = mutableMapOf<SharedPreferences, SharedPreferences.Editor>()
 
