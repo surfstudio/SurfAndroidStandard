@@ -1,8 +1,10 @@
 [TOC]
 # Easy-adapter Release Notes
+
 ## 1.0.0-alpha
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
+* ANDDEP-784 Added unbind method to BaseItemController, map for type ids
 ## 0.3.0
 ##### Easyadapter
 * ANDDEP-200 - Removed ViewType randomization from ItemController

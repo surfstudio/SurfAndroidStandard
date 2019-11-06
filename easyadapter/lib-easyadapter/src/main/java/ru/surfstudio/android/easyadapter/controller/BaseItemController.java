@@ -96,6 +96,16 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
         Integer id = viewTypeIdsMap.get(clazz);
         if (id == null) {
             id = new Random().nextInt(1000) + 1;
+            boolean hasId = false;
+            for (Map.Entry<Class<? extends BaseItemController>, Integer> e : viewTypeIdsMap.entrySet()) {
+                if (id.equals(e.getValue())) {
+                    hasId = true;
+                    break;
+                }
+            }
+            if (hasId) {
+                return getTypeHashCode();
+            }
             viewTypeIdsMap.put(clazz, id);
         }
         return id;
