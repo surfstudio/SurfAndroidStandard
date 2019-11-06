@@ -96,6 +96,13 @@ public class EasyAdapter extends RecyclerView.Adapter {
         item.getItemController().bind(holder, item);
     }
 
+    @Override
+    public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewRecycled(holder);
+        BaseItem item = items.get(getListPosition(holder.getAdapterPosition()));
+        item.getItemController().unbind(holder, item);
+    }
+
     /**
      * @see RecyclerView.Adapter#getItemCount()
      */
