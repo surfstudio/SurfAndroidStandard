@@ -37,8 +37,9 @@ interface ImageLoaderInterface {
      * Загрузка изображения из сети
      *
      * @param url сетевая ссылка на изображение
+     * @param headers заголовки для запроса к [url]
      */
-    fun url(url: String): ImageLoaderInterface
+    fun url(url: String, headers: Map<String, String> = emptyMap()): ImageLoaderInterface
 
     /**
      * Загрузка изображения из ресурсов

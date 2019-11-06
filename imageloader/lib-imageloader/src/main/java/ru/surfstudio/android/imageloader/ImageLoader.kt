@@ -96,15 +96,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         fun with(context: Context) = ImageLoader(context)
     }
 
-    /**
-     * Загрузка изображения из сети
-     *
-     * @param url сетевая ссылка на изображение
-     */
     @Throws(IllegalArgumentException::class)
-    override fun url(url: String) =
+    override fun url(url: String,  headers: Map<String, String>) =
             apply {
                 this.imageResourceManager.url = url
+                this.imageResourceManager.headers = headers
             }
 
     /**
