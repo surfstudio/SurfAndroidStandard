@@ -28,13 +28,13 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
             R.color.colorAccent)
 
     fun showSnackbarWithDuration() = messageController.show(
-            stringId = R.string.snackbar_message,
+            messageResId = R.string.snackbar_message,
             duration = 5000)
 
     fun showSnackbarWithListener() = messageController.show(
-            stringId = R.string.snackbar_message,
-            actionStringId = R.string.snackbar_action,
-            buttonColor = R.color.colorPrimary,
+            messageResId = R.string.snackbar_message,
+            actionResId = R.string.snackbar_action,
+            actionColorResId = R.color.colorPrimary,
             listener = { messageController.showToast(R.string.toast_action) })
 
     fun showGravityToast() = messageController.showToast(R.string.toast_message, Gravity.CENTER)
