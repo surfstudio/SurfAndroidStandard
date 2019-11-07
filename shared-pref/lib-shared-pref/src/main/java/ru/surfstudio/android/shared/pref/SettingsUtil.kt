@@ -292,12 +292,8 @@ object SettingsUtil {
                 sp.edit()
             }
 
-    private fun saveChanges(editor: SharedPreferences.Editor, async: Boolean = true) {
-        if (async) {
-            editor.apply()
-        } else {
-            editor.commit()
-        }
+    private fun saveChanges(editor: SharedPreferences.Editor) {
+        editor.apply()
     }
 
     private fun getDefaultSharedPreferences(context: Context): SharedPreferences {
