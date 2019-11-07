@@ -6,7 +6,7 @@
 * ANDDEP-200 - Delete randomisation ViewType in ItemController
 * `getItemId` return String
 ## 1.0.0-alpha
-##### c
+##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
 ## 0.3.0
 ##### Easyadapter
