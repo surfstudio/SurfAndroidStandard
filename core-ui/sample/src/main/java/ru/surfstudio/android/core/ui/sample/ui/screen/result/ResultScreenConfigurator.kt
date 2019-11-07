@@ -11,18 +11,18 @@ import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultActivity
 import ru.surfstudio.android.sample.dagger.ui.base.dagger.screen.DefaultCustomScreenModule
 
 /**
- * Конфигуратор активити главного экрана
+ * Конфигуратор [ResultNoDataActivityView]
  */
 internal class ResultScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator(intent) {
     @PerScreen
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, ResultScreenModule::class])
     internal interface ResultScreenComponent
-        : ScreenComponent<ResultActivityView>
+        : ScreenComponent<ResultNoDataActivityView>
 
     @Module
-    internal class ResultScreenModule(route: ResultActivityRoute)
-        : DefaultCustomScreenModule<ResultActivityRoute>(route)
+    internal class ResultScreenModule(route: ResultNoDataActivityRoute)
+        : DefaultCustomScreenModule<ResultNoDataActivityRoute>(route)
 
     override fun createScreenComponent(defaultActivityComponent: DefaultActivityComponent,
                                        defaultActivityScreenModule: DefaultActivityScreenModule,
@@ -30,7 +30,7 @@ internal class ResultScreenConfigurator(intent: Intent) : DefaultActivityScreenC
         return DaggerResultScreenConfigurator_ResultScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .resultScreenModule(ResultScreenModule(ResultActivityRoute()))
+                .resultScreenModule(ResultScreenModule(ResultNoDataActivityRoute()))
                 .build()
     }
 }

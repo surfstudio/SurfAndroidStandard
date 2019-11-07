@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.ui.sample.ui.screen.main
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.sample.ui.screen.result.ResultActivityRoute
+import ru.surfstudio.android.core.ui.sample.ui.screen.result.ResultNoDataActivityRoute
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
@@ -20,13 +20,13 @@ internal class MainPresenter @Inject constructor(
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        subscribe(activityNavigator.observeResultNoData(ResultActivityRoute::class.java)) {
-            view.showToast("Result from ResultActivityRoute is: " + it.isSuccess)
+        subscribe(activityNavigator.observeResultNoData(ResultNoDataActivityRoute::class.java)) {
+            view.showToast("Result from ResultNoDataActivityRoute is: " + it.isSuccess)
         }
         view.render(sm)
     }
 
     fun startResultActivity() {
-        activityNavigator.startForResult(ResultActivityRoute())
+        activityNavigator.startForResult(ResultNoDataActivityRoute())
     }
 }

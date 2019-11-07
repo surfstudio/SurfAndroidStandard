@@ -5,11 +5,11 @@ import android.content.Intent
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultNoDataRoute
 
 /**
- * Роутер открытия главного экрана
+ * Роу открытия [ResultNoDataActivityView]
  */
-class ResultActivityRoute : ActivityWithResultNoDataRoute() {
+class ResultNoDataActivityRoute : ActivityWithResultNoDataRoute() {
 
     override fun prepareIntent(context: Context?): Intent {
-        return Intent(context, ResultActivityView::class.java)
+        return Intent(context, ResultNoDataActivityView::class.java)
     }
 }

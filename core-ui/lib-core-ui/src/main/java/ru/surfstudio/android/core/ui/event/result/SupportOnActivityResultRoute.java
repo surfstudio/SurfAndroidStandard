@@ -21,7 +21,7 @@ import android.content.Intent;
 import java.io.Serializable;
 
 /**
- * интерфейс для Route с данными, работающего через onActivityResult
+ * Интерфейс для Route с данными, работающего через onActivityResult
  *
  * @param <T> тип данных результата, переданного в Intent
  */

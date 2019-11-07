@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.screen.result.ResultActivityView"
+            android:name=".ui.screen.result.ResultNoDataActivityView"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />

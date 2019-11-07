@@ -16,7 +16,7 @@
 package ru.surfstudio.android.core.ui.event.result;
 
 /**
- * интерфейс для Route без данных, работающего через onActivityResult
+ * Интерфейс для Route без данных, работающего через onActivityResult
  */
 public interface SupportOnActivityResultNoDataRoute extends SupportCodeActivityRoute {
     // empty

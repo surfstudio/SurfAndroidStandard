@@ -15,7 +15,6 @@
  */
 package ru.surfstudio.android.core.ui.event.result;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.util.SparseArray;
