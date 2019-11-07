@@ -2,7 +2,7 @@
 # Easy-adapter Release Notes
 ## 1.0.1-alpha
 ##### Easyadapter
-* ANDDEP-270 Added async inflate view в ViewHolder
+* ANDDEP-270 Added async inflate view in ViewHolder
 * ANDDEP-200 - Delete randomisation ViewType in ItemController
 * `getItemId` return String
 ## 1.0.0-alpha
