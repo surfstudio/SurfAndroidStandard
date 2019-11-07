@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
@@ -44,10 +45,13 @@ import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate;
 import ru.surfstudio.android.core.ui.event.newintent.NewIntentDelegate;
 import ru.surfstudio.android.core.ui.event.result.BaseActivityResultDelegate;
 import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityResultRoute;
+import ru.surfstudio.android.core.ui.event.result.SupportCodeActivityRoute;
+import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultNoDataRoute;
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
+import ru.surfstudio.android.core.ui.navigation.ScreenResultNoData;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.NewIntentRoute;
@@ -139,9 +143,9 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
             Class<? extends SupportOnActivityResultRoute<T>> routeClass) {
         try {
-            return this.observeOnActivityResult(routeClass.newInstance());
+            return observeResult(routeClass.newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            throw new IllegalArgumentException("route class " + routeClass.getCanonicalName()
+            throw new IllegalArgumentException("Route class " + routeClass.getCanonicalName()
                     + "must have default constructor", e);
         }
     }
@@ -152,9 +156,35 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param route маршрут экрана, который должен вернуть результат
      * @param <T>   тип возвращаемых данных
      */
-    public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
-            SupportOnActivityResultRoute route) {
-        return super.observeOnActivityResult(route);
+    @SuppressWarnings("unchecked")
+    @NonNull
+    public <T extends Serializable> Observable<ScreenResult<T>> observeResult(SupportOnActivityResultRoute route) {
+        return super.observeOnActivityResult((SupportOnActivityResultRoute<T>) route);
+    }
+
+    /**
+     * позволяет подписываться на событие OnActivityResult без данных
+     *
+     * @param routeClass класс маршрута экрана, который должен вернуть результат
+     */
+    public Observable<ScreenResultNoData> observeResultNoData(
+            Class<? extends SupportOnActivityResultNoDataRoute> routeClass) {
+        try {
+            return observeResultNoData(routeClass.newInstance());
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new IllegalArgumentException("Route class " + routeClass.getCanonicalName()
+                    + "must have default constructor", e);
+        }
+    }
+
+    /**
+     * позволяет подписываться на событие OnActivityResult без данных
+     *
+     * @param route маршрут экрана, который должен вернуть результат
+     */
+    @NonNull
+    public Observable<ScreenResultNoData> observeResultNoData(SupportOnActivityResultNoDataRoute route) {
+        return super.observeOnActivityResultNoData(route);
     }
 
     /**
@@ -196,15 +226,18 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     }
 
     /**
-     * Закрываает текущую активити c результатом
+     * Закрывает текущую активити c результатом
      *
      * @param currentScreenRoute маршрут текущего экрана
      * @param result             возвращаемый результат
      * @param success            показывает успешное ли завершение
      * @param <T>                тип возвращаемого значения
      */
-    public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> currentScreenRoute,
-                                                          T result, boolean success) {
+    public <T extends Serializable> void finishWithResult(
+            SupportOnActivityResultRoute<T> currentScreenRoute,
+            T result,
+            boolean success
+    ) {
         Intent resultIntent = currentScreenRoute.prepareResultIntent(result);
         activityProvider.get().setResult(
                 success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
@@ -213,9 +246,25 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     }
 
     /**
+     * Закрывает текущую активити c результатом, без данных
+     *
+     * @param currentScreenRoute маршрут текущего экрана
+     * @param success            показывает успешное ли завершение
+     */
+    public void finishWithResultNoData(
+            SupportOnActivityResultNoDataRoute currentScreenRoute,
+            boolean success
+    ) {
+        activityProvider.get().setResult(
+                success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
+                new Intent());
+        finishCurrent();
+    }
+
+    /**
      * Launch a new activity.
      * <p>
-     * Works synchronically.
+     * Works synchronously.
      *
      * @param route navigation route
      * @return {@code true} if activity started successfully, {@code false} otherwise
@@ -304,7 +353,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param route navigation route
      * @return {@code true} if activity started successfully, {@code false} otherwise
      */
-    public boolean startForResult(SupportOnActivityResultRoute route) {
+    public boolean startForResult(SupportCodeActivityRoute route) {
         if (!super.isObserved(route)) {
             throw new IllegalStateException("route class " + route.getClass().getSimpleName()
                     + " must be registered by method ActivityNavigator#observeResult");

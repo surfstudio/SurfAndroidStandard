@@ -22,9 +22,11 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.annotation.WorkerThread
+import io.reactivex.Completable
 import io.reactivex.Observable
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
+import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultNoDataRoute
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import java.io.*
@@ -92,6 +94,19 @@ internal fun <T : Serializable> observeSingleScreenResult(
 ): Observable<T> {
     return activityNavigator.observeResult<T>(route)
             .flatMap { parseScreenResult(it) }
+}
+
+internal fun observeSingleScreenResultNoData(
+        activityNavigator: ActivityNavigator,
+        route: ActivityWithResultNoDataRoute
+): Completable {
+    return activityNavigator.observeResultNoData(route)
+            .map {
+                if (!it.isSuccess) {
+                    throw ActionInterruptedException()
+                }
+                true
+            }.ignoreElements()
 }
 
 internal fun <T : Serializable> observeMultipleScreenResult(

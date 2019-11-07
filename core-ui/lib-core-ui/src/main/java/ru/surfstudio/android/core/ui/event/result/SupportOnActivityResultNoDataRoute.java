@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC, Maxim Tuev.
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Smirnov.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -13,23 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.core.ui.navigation.activity.route;
-
-import android.content.Intent;
-
-import java.io.Serializable;
+package ru.surfstudio.android.core.ui.event.result;
 
 /**
- * см {@link ActivityWithResultRoute}
- *
- * @param <T> тип результата
+ * интерфейс для Route без данных, работающего через onActivityResult
  */
-public abstract class ActivityWithParamsAndResultRoute<T extends Serializable> extends ActivityWithResultRoute<T> {
-
-    public ActivityWithParamsAndResultRoute() {
-    }
-
-    public ActivityWithParamsAndResultRoute(Intent intent) {
-    }
-
+public interface SupportOnActivityResultNoDataRoute extends SupportCodeActivityRoute {
+    // empty
 }
