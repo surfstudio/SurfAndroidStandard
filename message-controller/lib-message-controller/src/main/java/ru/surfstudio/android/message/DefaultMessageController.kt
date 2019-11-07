@@ -34,8 +34,8 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider
  */
 class DefaultMessageController @JvmOverloads constructor(
         val activityProvider: ActivityProvider,
-        val fragmentProvider: FragmentProvider? = null)
-    : MessageController {
+        val fragmentProvider: FragmentProvider? = null
+) : MessageController {
 
     @ColorInt
     private var snackBarBackgroundColor: Int? = null
@@ -62,31 +62,7 @@ class DefaultMessageController @JvmOverloads constructor(
     }
 
     override fun show(
-            @StringRes
-            messageResId: Int?,
-            @ColorRes
-            backgroundColorResId: Int?,
-            @StringRes
-            actionResId: Int?,
-            @ColorRes
-            actionColorResId: Int?,
-            duration: Int,
-            listener: (view: View) -> Unit
-    ) {
-        show(
-                SnackParams(
-                        messageResId = messageResId ?: 0,
-                        backgroundColorResId = backgroundColorResId ?: 0,
-                        actionResId = actionResId ?: 0,
-                        actionColorResId = actionColorResId ?: 0,
-                        duration = duration
-                ),
-                listener
-        )
-    }
-
-    override fun show(
-            message: String,
+            message: CharSequence,
             @ColorRes
             backgroundColorResId: Int?,
             @StringRes
@@ -99,6 +75,30 @@ class DefaultMessageController @JvmOverloads constructor(
         show(
                 SnackParams(
                         message = message,
+                        backgroundColorResId = backgroundColorResId ?: 0,
+                        actionResId = actionResId ?: 0,
+                        actionColorResId = actionColorResId ?: 0,
+                        duration = duration
+                ),
+                listener
+        )
+    }
+
+    override fun show(
+            @StringRes
+            messageResId: Int,
+            @ColorRes
+            backgroundColorResId: Int?,
+            @StringRes
+            actionResId: Int?,
+            @ColorRes
+            actionColorResId: Int?,
+            duration: Int,
+            listener: (view: View) -> Unit
+    ) {
+        show(
+                SnackParams(
+                        messageResId = messageResId,
                         backgroundColorResId = backgroundColorResId ?: 0,
                         actionResId = actionResId ?: 0,
                         actionColorResId = actionColorResId ?: 0,
@@ -160,7 +160,10 @@ class DefaultMessageController @JvmOverloads constructor(
         snackbar?.dismiss()
     }
 
-    override fun showToast(@StringRes messageResId: Int?, gravity: Int, duration: Int) {
+    override fun showToast(
+            @StringRes messageResId: Int,
+            gravity: Int?,duration: Int
+    ) {
         showToast(
                 ToastParams(messageResId = messageResId ?: 0,
                         gravity = gravity,
@@ -168,7 +171,11 @@ class DefaultMessageController @JvmOverloads constructor(
         )
     }
 
-    override fun showToast(message: String, gravity: Int, duration: Int) {
+    override fun showToast(
+            message: CharSequence,
+            gravity: Int?,
+            duration: Int
+    ) {
         showToast(
                 ToastParams(message = message,
                         gravity = gravity,
@@ -186,7 +193,7 @@ class DefaultMessageController @JvmOverloads constructor(
             duration = Toast.LENGTH_SHORT
         }
         if (params.customView == null) {
-            val message: String = if (params.messageResId != 0) {
+            val message = if (params.messageResId != 0) {
                 activity.getString(params.messageResId)
             } else {
                 params.message
@@ -207,7 +214,7 @@ class DefaultMessageController @JvmOverloads constructor(
      * Порядок поиска подходящей корневой вью для SnackBar происходит со следующим приоритетом:
      * R.id.snackbar_container во фрагменте, должен быть FrameLayout
      * R.id.coordinator во фрагменте, должен быть CoordinatorLayout
-     * R.id.snackbar_container в активитиб должен быть CoordinatorLayout или FrameLayout
+     * R.id.snackbar_container в активити, должен быть CoordinatorLayout или FrameLayout
      * R.id.coordinator в активити, должен быть CoordinatorLayout
      * android.R.id.content активити
      *

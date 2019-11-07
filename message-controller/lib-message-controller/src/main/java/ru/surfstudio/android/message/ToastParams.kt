@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC.
+  Copyright (c) 2018-present, SurfStudio LLC, Maxim Smirnov.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@ import android.view.View
 import android.widget.Toast
 
 /**
- * Container for Toast parameters
+ * Container for Toast parameters;
  * if custom view not specified -
  * make text priority:
  * 1. messageResId
  * 2. message
  */
 data class ToastParams(
-        val message: String = "",
+        val message: CharSequence = "",
         val messageResId: Int = 0,
         val gravity: Int? = null,
         val xOffset: Int = 0,

@@ -35,7 +35,7 @@ interface MessageController {
     }
 
     fun show(
-            message: String,
+            message: CharSequence,
             @ColorRes backgroundColorResId: Int? = null,
             @StringRes actionResId: Int? = null,
             @ColorRes actionColorResId: Int? = null,
@@ -44,7 +44,7 @@ interface MessageController {
     )
 
     fun show(
-            @StringRes messageResId: Int? = null,
+            @StringRes messageResId: Int,
             @ColorRes backgroundColorResId: Int? = null,
             @StringRes actionResId: Int? = null,
             @ColorRes actionColorResId: Int? = null,
@@ -57,14 +57,14 @@ interface MessageController {
     fun closeSnack()
 
     fun showToast(
-            @StringRes messageResId: Int? = null,
-            gravity: Int = DEFAULT_TOAST_GRAVITY,
+            @StringRes messageResId: Int,
+            gravity: Int? = DEFAULT_TOAST_GRAVITY,
             duration: Int = DEFAULT_TOAST_DURATION
     )
 
     fun showToast(
-            message: String,
-            gravity: Int = DEFAULT_TOAST_GRAVITY,
+            message: CharSequence,
+            gravity: Int? = DEFAULT_TOAST_GRAVITY,
             duration: Int = Toast.LENGTH_LONG
     )
 
