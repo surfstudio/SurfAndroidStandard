@@ -36,7 +36,7 @@ import ru.surfstudio.android.logger.Logger;
  */
 public abstract class CoreActivity extends AppCompatActivity implements CoreActivityInterface {
 
-    private ActivityDelegate activityDelegate;
+
 
     @Override
     public ActivityDelegate createActivityDelegate() {
