@@ -19,6 +19,8 @@ import android.content.SharedPreferences;
 
 import ru.surfstudio.android.shared.pref.SettingsUtil;
 
+import static ru.surfstudio.android.shared.pref.SettingsUtil.EMPTY_INT_SETTING;
+
 
 /**
  * хранилище конфигурации запуска устройства
@@ -40,7 +42,7 @@ public class AppLaunchConfigurationStorage {
      * @return - последняя версия
      */
     public int getLastLaunchVersion() {
-        return SettingsUtil.INSTANCE.getInt(noBackupSharedPref, LAST_LAUNCH_VERSION);
+        return SettingsUtil.INSTANCE.getInt(noBackupSharedPref, LAST_LAUNCH_VERSION, EMPTY_INT_SETTING);
     }
 
 
