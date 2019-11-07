@@ -38,6 +38,7 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
 
 
 
+
     @Override
     public ActivityDelegate createActivityDelegate() {
         return ScreenDelegateFactoryContainer.get().createActivityDelegate(this);
