@@ -45,10 +45,6 @@ public abstract class ActivityWithResultRoute<T extends Serializable> extends Ac
 
     @Override
     public final int getRequestCode() {
-        String name = getClass().getCanonicalName();
-        if (name == null) {
-            name = "ActivityWithResultRoute";
-        }
-        return Math.abs(name.hashCode() % MAX_REQUEST_CODE);
+        return Math.abs(this.getClass().getCanonicalName().hashCode() % MAX_REQUEST_CODE);
     }
 }
