@@ -2,9 +2,7 @@
 # Easy-adapter Release Notes
 ## 1.1.0-alpha
 ##### Easyadapter
-* ANDDEP-270 Added async inflate view in ViewHolder
-* ANDDEP-200 - Delete randomisation ViewType in ItemController
-* `getItemId` return String
+* ANDDEP-646 - added links to next and previous items. Added adapterPosition
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
