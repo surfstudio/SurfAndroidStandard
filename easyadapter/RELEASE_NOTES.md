@@ -1,6 +1,6 @@
 [TOC]
 # Easy-adapter Release Notes
-## 1.1.0
+## 1.1.0-alpha
 ##### Easyadapter
 * ANDDEP-270 Добавлена поддержка асинхронного инфлейта view в ViewHolder
 * ANDDEP-200 - Убрана рандомизация ViewType у ItemController
