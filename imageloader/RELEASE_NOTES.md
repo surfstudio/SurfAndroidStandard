@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Imageloader
 * Added ability to disable hardware bitmaps config and immediate GIF playback after loading
+* ANDDEP-781 Added headers to ImageLoader when specifying URL
 ## 0.4.0
 ##### Imageloader
 * ANDDEP-317 Optimization [`ImageLoader`](lib-imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):
