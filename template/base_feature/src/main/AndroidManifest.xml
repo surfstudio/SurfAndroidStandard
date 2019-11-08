@@ -13,5 +13,18 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning" />
+        tools:ignore="GoogleAppIndexingWarning" >
+
+        <service android:name="ru.surfstudio.android.notification.service.NotificationReviverService"
+            android:exported="false"
+            android:enabled="true"/>
+
+        <receiver android:name="ru.surfstudio.standard.application.notification.AppStartReceiver"
+            android:exported="false"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+    </application>
 </manifest>

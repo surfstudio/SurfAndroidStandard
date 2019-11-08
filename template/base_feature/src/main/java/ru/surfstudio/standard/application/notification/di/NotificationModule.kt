@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.application.notification
+package ru.surfstudio.standard.application.notification.di
 
 import dagger.Module
 import dagger.Provides
@@ -8,6 +8,7 @@ import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.impl.DefaultPushHandler
 import ru.surfstudio.android.notification.interactor.push.PushInteractor
 import ru.surfstudio.android.notification.ui.notification.AbstractPushHandleStrategyFactory
+import ru.surfstudio.standard.application.notification.PushHandleStrategyFactory
 
 @Module
 class NotificationModule {

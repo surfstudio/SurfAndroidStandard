@@ -2,7 +2,7 @@
 # Push Release Notes
 ## 0.5.0-alpha
 ##### Push
-* TODO
+* ANDDEP-495 
 ## 0.4.0
 ##### Push
 * NotificationCenter removed - use `PushHandler`

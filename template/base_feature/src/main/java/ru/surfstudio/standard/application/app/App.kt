@@ -22,8 +22,12 @@ import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 import ru.surfstudio.standard.application.app.di.AppInjector
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
+import ru.surfstudio.standard.application.notification.NotificationProcessStarter
 
 class App : MultiDexApplication() {
+
+    @Inject
+    lateinit var serviceStarter: NotificationProcessStarter
 
     val activeActivityHolder = ActiveActivityHolder()
 
@@ -47,6 +51,8 @@ class App : MultiDexApplication() {
         initRxJava2Debug()
 
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
+
+        startNotificationServiceReviver()
     }
 
     private fun initFabric() {
@@ -106,5 +112,11 @@ class App : MultiDexApplication() {
                 //todo
             }
         }
+    }
+
+    private fun startNotificationServiceReviver() {
+        AppConfigurator.appComponent.inject(this)
+        NotificationProcessStarterHolder.serviceStarter = serviceStarter
+        serviceStarter.startNotificationServiceReviver()
     }
 }

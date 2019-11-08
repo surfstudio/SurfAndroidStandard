@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.application.notification
+package ru.surfstudio.standard.application.notification.di
 
 import android.content.SharedPreferences
 import dagger.Module
