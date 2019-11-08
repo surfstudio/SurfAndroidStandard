@@ -248,13 +248,9 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     /**
      * Закрывает текущую активити c результатом, без данных
      *
-     * @param currentScreenRoute маршрут текущего экрана
      * @param success            показывает успешное ли завершение
      */
-    public void finishWithResultNoData(
-            SupportOnActivityResultNoDataRoute currentScreenRoute,
-            boolean success
-    ) {
+    public void finishWithResultNoData(boolean success) {
         activityProvider.get().setResult(
                 success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
                 new Intent());

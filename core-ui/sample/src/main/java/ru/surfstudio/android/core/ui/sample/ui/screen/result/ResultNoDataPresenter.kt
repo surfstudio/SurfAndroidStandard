@@ -18,7 +18,7 @@ class ResultNoDataPresenter @Inject constructor(
 
     override fun onLoad(viewRecreated: Boolean) {
         super.onLoad(viewRecreated)
-        activityNavigator.finishWithResultNoData(resultRoute, true)
+        activityNavigator.finishWithResultNoData(true)
         view.render(sm)
     }
 }

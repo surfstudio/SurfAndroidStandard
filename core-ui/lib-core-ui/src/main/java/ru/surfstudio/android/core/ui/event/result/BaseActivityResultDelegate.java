@@ -41,7 +41,6 @@ public class BaseActivityResultDelegate implements ActivityResultDelegate {
     private SparseArray<ActivityResultRegistration> activityResultSubjects = new SparseArray<>();
     private SparseArray<ActivityResultNoDataRegistration> activityResultNoDataSubjects = new SparseArray<>();
 
-    @SuppressWarnings("unchecked")
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         boolean result = false;
@@ -50,31 +49,14 @@ public class BaseActivityResultDelegate implements ActivityResultDelegate {
         for (int i = 0; i < activityResultSubjects.size(); i++) {
             code = activityResultSubjects.keyAt(i);
             Pair<Integer, ActivityResultRegistration> routePair = new Pair<>(code, activityResultSubjects.get(code));
-            if (routePair.first != null
-                    && routePair.first == requestCode
-                    && routePair.second != null) {
-                Subject resultSubject = routePair.second.getSubject();
-                resultSubject.onNext(
-                        new ScreenResult(
-                                resultCode == Activity.RESULT_OK,
-                                data != null ? ((SupportOnActivityResultRoute) routePair.second.getRoute())
-                                        .parseResultIntent(data) : null
-                        )
-                );
+            if (handleScreenResultForRegistration(routePair, requestCode, resultCode, data)) {
                 result = true;
             }
         }
-
         for (int i = 0; i < activityResultNoDataSubjects.size(); i++) {
             code = activityResultNoDataSubjects.keyAt(i);
             Pair<Integer, ActivityResultNoDataRegistration> routePair = new Pair<>(code, activityResultNoDataSubjects.get(code));
-            if (routePair.first != null
-                    && routePair.first == requestCode
-                    && routePair.second != null) {
-                Subject resultSubject = routePair.second.getSubject();
-                resultSubject.onNext(
-                        new ScreenResultNoData(resultCode == Activity.RESULT_OK)
-                );
+            if (handleScreenResultForRegistration(routePair, requestCode, resultCode, data)) {
                 result = true;
             }
         }
@@ -102,6 +84,33 @@ public class BaseActivityResultDelegate implements ActivityResultDelegate {
         PublishSubject<ScreenResultNoData> resultSubject = PublishSubject.create();
         activityResultNoDataSubjects.put(route.getRequestCode(), new ActivityResultNoDataRegistration(route, resultSubject));
         return resultSubject;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <R extends BaseActivityResultRegistration> boolean handleScreenResultForRegistration(
+            Pair<Integer, R> routePair,
+            int requestCode,
+            int resultCode,
+            Intent data
+    ) {
+        if (routePair.first != null
+                && routePair.first == requestCode
+                && routePair.second != null) {
+            Subject resultSubject = routePair.second.getSubject();
+            final SupportCodeActivityRoute route = routePair.second.getRoute();
+            final Object event;
+            if (route instanceof SupportOnActivityResultRoute) {
+                event = new ScreenResult(
+                        resultCode == Activity.RESULT_OK,
+                        data != null ? ((SupportOnActivityResultRoute) route).parseResultIntent(data) : null
+                );
+            } else {
+                event = new ScreenResultNoData(resultCode == Activity.RESULT_OK);
+            }
+            resultSubject.onNext(event);
+            return true;
+        }
+        return false;
     }
 
     private void tryRemoveDuplicateResultSubjects(SupportCodeActivityRoute route) {
