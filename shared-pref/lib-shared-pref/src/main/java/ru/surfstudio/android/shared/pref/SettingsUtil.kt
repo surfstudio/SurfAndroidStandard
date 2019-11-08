@@ -93,66 +93,77 @@ object SettingsUtil {
             context: Context,
             key: String,
             value: Boolean,
-            prefName: String = EMPTY_STRING
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
     ) {
-        putBoolean(getSharedPreferences(context, prefName), key, value)
+        putBoolean(getSharedPreferences(context, prefName), key, value, async)
     }
 
     fun putString(
             context: Context,
             key: String,
             value: String,
-            prefName: String = EMPTY_STRING
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
     ) {
-        putString(getSharedPreferences(context, prefName), key, value)
+        putString(getSharedPreferences(context, prefName), key, value, async)
     }
 
     fun putInt(
             context: Context,
             key: String,
             value: Int,
-            prefName: String = EMPTY_STRING
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
     ) {
-        putInt(getSharedPreferences(context, prefName), key, value)
+        putInt(getSharedPreferences(context, prefName), key, value, async)
     }
 
     fun putLong(
             context: Context,
             key: String,
             value: Long,
-            prefName: String = EMPTY_STRING
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
     ) {
-        putLong(getSharedPreferences(context, prefName), key, value)
+        putLong(getSharedPreferences(context, prefName), key, value, async)
     }
 
     fun putFloat(
             context: Context,
             key: String,
             value: Float,
-            prefName: String = EMPTY_STRING
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
     ) {
-        putFloat(getSharedPreferences(context, prefName), key, value)
+        putFloat(getSharedPreferences(context, prefName), key, value, async)
     }
 
     fun putDouble(
             context: Context,
             key: String,
             value: Double,
-            prefName: String = EMPTY_STRING
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
     ) {
-        putDouble(getSharedPreferences(context, prefName), key, value)
+        putDouble(getSharedPreferences(context, prefName), key, value, async)
     }
 
     fun removeKey(
             context: Context,
             key: String,
-            prefName: String = EMPTY_STRING
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
     ) {
-        removeKey(getSharedPreferences(context, prefName), key)
+        removeKey(getSharedPreferences(context, prefName), key, async)
     }
 
-    fun clear(context: Context, prefName: String = EMPTY_STRING) {
-        clear(getSharedPreferences(context, prefName))
+    fun clear(
+            context: Context,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        clear(getSharedPreferences(context, prefName), async)
     }
 
     fun getBoolean(
@@ -200,79 +211,90 @@ object SettingsUtil {
     fun putBoolean(
             sp: SharedPreferences,
             key: String,
-            value: Boolean
+            value: Boolean,
+            async: Boolean = true
     ) {
         val editor = getOrCreateEditor(sp)
         editor.putBoolean(key, value)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
     fun putString(
             sp: SharedPreferences,
             key: String,
-            value: String
+            value: String,
+            async: Boolean = true
     ) {
         val editor = getOrCreateEditor(sp)
         editor.putString(key, value)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
     fun putStringSet(
             sp: SharedPreferences,
             key: String,
-            value: Set<String>
+            value: Set<String>,
+            async: Boolean = true
     ) {
         val editor = getOrCreateEditor(sp)
         editor.putStringSet(key, value)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
-    fun putInt(sp: SharedPreferences, key: String, value: Int) {
+    fun putInt(
+            sp: SharedPreferences,
+            key: String,
+            value: Int,
+            async: Boolean = true
+    ) {
         val editor = getOrCreateEditor(sp)
         editor.putInt(key, value)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
     fun putLong(
             sp: SharedPreferences,
             key: String,
-            value: Long
+            value: Long,
+            async: Boolean = true
     ) {
         val editor = getOrCreateEditor(sp)
         editor.putLong(key, value)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
     fun putFloat(
             sp: SharedPreferences,
             key: String,
-            value: Float
+            value: Float,
+            async: Boolean = true
     ) {
         val editor = getOrCreateEditor(sp)
         editor.putFloat(key, value)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
     fun putDouble(
             sp: SharedPreferences,
             key: String,
-            value: Double
+            value: Double,
+            async: Boolean = true
     ) {
         val editor = getOrCreateEditor(sp)
         editor.putLong(key, value.toBits())
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
-    fun removeKey(sp: SharedPreferences, key: String) {
+    fun removeKey(sp: SharedPreferences, key: String, async: Boolean = true) {
         val editor = getOrCreateEditor(sp)
         editor.remove(key)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
-    fun clear(sp: SharedPreferences) {
+    fun clear(sp: SharedPreferences, async: Boolean = true) {
         val editor = getOrCreateEditor(sp)
         editor.clear()
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
     private fun getSharedPreferences(
@@ -292,8 +314,12 @@ object SettingsUtil {
                 sp.edit()
             }
 
-    private fun saveChanges(editor: SharedPreferences.Editor) {
-        editor.apply()
+    private fun saveChanges(editor: SharedPreferences.Editor, async: Boolean = true) {
+        if (async) {
+            editor.apply()
+        } else {
+            editor.commit()
+        }
     }
 
     private fun getDefaultSharedPreferences(context: Context): SharedPreferences {
