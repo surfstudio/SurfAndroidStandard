@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Message-controller
 * ANDDEP-687 Removed "androidx.exifinterface:exifinterface" dependency
+* ANDDEP-783 Added parametrized containers for MessageController, ability to set custom view for Toast
 ## 0.2.1
 ##### Message-controller
 * ANDDEP-210 added parameter - snackbar duration
