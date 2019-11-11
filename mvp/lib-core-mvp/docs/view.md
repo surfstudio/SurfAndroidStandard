@@ -116,8 +116,8 @@ Api вью может иметь только методы вида `void someMe
 [render_v]: ../src/main/java/ru/surfstudio/android/core/mvp/view/RenderableView.java
 [presenter_holder]: ../src/main/java/ru/surfstudio/android/core/mvp/view/PresenterHolderCoreView.java
 [presenter]: presenter.md
-[custom]: ../../docs/ui/custom_views.md
-[ls]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/LoadState.java
+[custom]: ../../../docs/ui/custom_views.md
+[ls]: ../../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/placeholder/LoadState.kt
 [sws]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/SwipeRefreshState.java
-[placeholder]: ../../custom-view/README.md
-[widget]: ../../mvp-widget/README.md
+[placeholder]: ../../../custom-view/lib-custom-view/README.md
+[widget]: ../../../mvp/lib-mvp-widget/README.md

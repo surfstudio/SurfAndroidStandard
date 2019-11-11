@@ -15,8 +15,8 @@
 #### Структура данных
 Для поддержки пагинации на клиенте предусмотрены структуры данных,
 предоставляемые одним из следующих модулей:
-- [datalist-limit-offset](../../datalist-limit-offset/README.md);
-- [datalist-page-count](../../datalist-page-count/README.md).
+- [datalist-limit-offset](../../datalist/lib-datalist-limit-offset/);
+- [datalist-page-count](../../datalist/lib-datalist-page-count/).
 
 
 #### Организация запроса
@@ -66,10 +66,10 @@
 
 #### Пример реализации
 
-Пример реализации пагинируемой загрузки в приложении представлен [здесь](../../network-sample/docs/pagin_sample.md).
-Демонстрационный пример с двумя механизмами пагинации [здесь](../../easyadapter-sample/README.md).
+Пример реализации пагинируемой загрузки в приложении представлен [здесь](../../deprecated/network/sample/docs/pagin_sample.md).
+Демонстрационный пример с двумя механизмами пагинации [здесь](../../easyadapter/sample/).
 
-[control]: ../../easyadapter/README.md
-[cache]: ../../network/README.md
-[easy]: ../../easyadapter/README.md
-[ktx]: ../../util-ktx/README.md
+[control]: ../../easyadapter/lib-easyadapter/
+[cache]: ../../docs/interactor/cache.md
+[easy]: ../../easyadapter/lib-easyadapter/
+[ktx]: ../../util-ktx/lib-util-ktx/
