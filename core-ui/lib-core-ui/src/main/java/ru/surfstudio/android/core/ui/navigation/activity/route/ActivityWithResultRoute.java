@@ -47,4 +47,5 @@ public abstract class ActivityWithResultRoute<T extends Serializable> extends Ac
     public final int getRequestCode() {
         return Math.abs(this.getClass().getCanonicalName().hashCode() % MAX_REQUEST_CODE);
     }
+
 }
