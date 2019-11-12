@@ -11,19 +11,23 @@ import ru.surfstudio.android.rx.extension.toObservable
 import java.io.Serializable
 
 /**
- * TODO добавить документацию
+ * Listen for screen result events and execute [onScreenResult] when the result will appear.
+ *
+ * @param routeClass                class of route, which will be observed
+ * @param navigationEventFactory    factory that creates navigation event
+ * @param onScreenResult            callback, which will be executed when screen result is appeared
  */
 fun <T : Event, R : Serializable> EventTransformerList<T>.listenForResultMap(
         routeClass: Class<out SupportOnActivityResultRoute<R>>,
-        navigationEventFactory: EventFactory<List<NavigationEvent>, NavigationComposition>,
+        navigationEventFactory: EventFactory<List<NavigationEvent>, T>,
         onScreenResult: (ScreenResult<R>) -> Observable<T>
 ): Observable<T> {
-    val event = navigationEventFactory.invoke(listOf(ObserveResult(routeClass)))
-    val observeResultEvent = event as T
+    val event = navigationEventFactory.invoke(listOf(ObserveResult(routeClass))) //create listen for result event
     return eventStream.ofType(event::class.java)
-            .flatMap { navEvent ->
-                val nestedEvents = navEvent.events
-                val resultEvent = nestedEvents.filterIsInstance<ObserveResult<R>>().firstOrNull()
+            .flatMap { unCastedEvent ->
+                val navEvent = unCastedEvent as? NavigationComposition
+                val nestedEvents = navEvent?.events
+                val resultEvent = nestedEvents?.filterIsInstance<ObserveResult<R>>()?.firstOrNull()
                 val screenResult = resultEvent?.result
                 if (screenResult != null) {
                     onScreenResult(screenResult)
@@ -31,18 +35,22 @@ fun <T : Event, R : Serializable> EventTransformerList<T>.listenForResultMap(
                     Observable.empty<T>()
                 }
             }
-            .mergeWith(observeResultEvent.toObservable())
+            .mergeWith(event.toObservable())
 }
 
 /**
- * TODO добавить документацию
+ * Listen for screen result events and execute [onScreenResult] when the result will appear.
+ *
+ * @param routeClass                class of route, which will be observed
+ * @param navigationEventFactory    factory that creates navigation event
+ * @param onScreenResult            callback, which will be executed when screen result is appeared
  */
 fun <T : Event, R : Serializable> EventTransformerList<T>.listenForResult(
         routeClass: Class<out SupportOnActivityResultRoute<R>>,
-        navigationEventFactory: EventFactory<List<NavigationEvent>, NavigationComposition>,
+        navigationEventFactory: EventFactory<List<NavigationEvent>, T>,
         onScreenResult: (ScreenResult<R>) -> Unit
 ): Observable<T> = listenForResultMap(
         routeClass,
         navigationEventFactory,
-        { onScreenResult(it); Observable.empty() }
+        { onScreenResult(it); Observable.empty<T>() }
 )
