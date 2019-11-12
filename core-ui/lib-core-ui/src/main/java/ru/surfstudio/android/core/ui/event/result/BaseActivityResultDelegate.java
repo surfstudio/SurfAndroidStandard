@@ -19,6 +19,8 @@ package ru.surfstudio.android.core.ui.event.result;
 import android.app.Activity;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,20 +39,26 @@ import ru.surfstudio.android.logger.Logger;
 public class BaseActivityResultDelegate implements ActivityResultDelegate {
     private Map<Integer, ActivityResultRegistration> activityResultSubjects = new HashMap<>();
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
         for (Map.Entry<Integer, ActivityResultRegistration> routeEntry : activityResultSubjects.entrySet()) {
             if (routeEntry.getKey() == requestCode) {
                 Subject resultSubject = routeEntry.getValue().getSubject();
-                resultSubject.onNext(new ScreenResult<>(
-                        resultCode == Activity.RESULT_OK,
-                        data != null ? routeEntry.getValue().getRoute().parseResultIntent(data) : null));
+                final SupportOnActivityResultRoute route = routeEntry.getValue().getRoute();
+                resultSubject.onNext(
+                        new ScreenResult<>(
+                                resultCode == Activity.RESULT_OK,
+                                data != null ? route.parseResultIntent(data) : null
+                        )
+                );
                 return true;
             }
         }
         return false;
     }
 
+    @NonNull
     protected <T extends Serializable> Observable<ScreenResult<T>> observeOnActivityResult(
             SupportOnActivityResultRoute<T> route) {
         tryRemoveDuplicateResultSubjects(route);

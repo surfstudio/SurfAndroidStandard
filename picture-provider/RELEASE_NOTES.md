@@ -4,6 +4,7 @@
 ##### Picture-provider
 * ANDDEP-687 Changed "androidx.exifinterface:exifinterface" dependency from "api" to "implementation" type
 * ANDDEP-729 Removed camera-view dependency from picture-provider-sample
+* ANDDEP-786 Accessory usage of ActivityNavigator's observe no data result
 ## 0.3.0
 ##### Picture-provider
 * ANDDEP-235 - refactoring and adding functional:

@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
@@ -47,6 +48,7 @@ import ru.surfstudio.android.core.ui.event.result.CrossFeatureSupportOnActivityR
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute;
 import ru.surfstudio.android.core.ui.navigation.ActivityRouteInterface;
 import ru.surfstudio.android.core.ui.navigation.Navigator;
+import ru.surfstudio.android.core.ui.navigation.NoScreenDataStub;
 import ru.surfstudio.android.core.ui.navigation.ScreenResult;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute;
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute;
@@ -152,9 +154,21 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * @param route маршрут экрана, который должен вернуть результат
      * @param <T>   тип возвращаемых данных
      */
+    @SuppressWarnings("unchecked")
+    @NonNull
     public <T extends Serializable> Observable<ScreenResult<T>> observeResult(
             SupportOnActivityResultRoute route) {
-        return super.observeOnActivityResult(route);
+        return super.observeOnActivityResult((SupportOnActivityResultRoute<T>) route);
+    }
+
+    /**
+     * позволяет подписываться на событие OnActivityResult без данных
+     *
+     * @param route маршрут экрана, который должен вернуть результат
+     */
+    @NonNull
+    public Observable<ScreenResult<NoScreenDataStub>> observeResultNoData(ActivityWithResultRoute<NoScreenDataStub> route) {
+        return observeResult(route);
     }
 
     /**
@@ -175,18 +189,6 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      * Закрываает текущую активити c результатом
      *
      * @param activeScreenRoute маршрут текущего экрана
-     * @param success           показывает успешное ли завершение
-     * @param <T>               тип возвращаемого значения
-     */
-    public <T extends Serializable> void finishWithResult(ActivityWithResultRoute<T> activeScreenRoute,
-                                                          boolean success) {
-        finishWithResult(activeScreenRoute, null, success);
-    }
-
-    /**
-     * Закрываает текущую активити c результатом
-     *
-     * @param activeScreenRoute маршрут текущего экрана
      * @param result            возвращаемый результат
      * @param <T>               тип возвращаемого значения
      */
@@ -196,19 +198,36 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     }
 
     /**
-     * Закрываает текущую активити c результатом
+     * Закрывает текущую активити c результатом
      *
      * @param currentScreenRoute маршрут текущего экрана
      * @param result             возвращаемый результат
      * @param success            показывает успешное ли завершение
      * @param <T>                тип возвращаемого значения
      */
-    public <T extends Serializable> void finishWithResult(SupportOnActivityResultRoute<T> currentScreenRoute,
-                                                          T result, boolean success) {
+    public <T extends Serializable> void finishWithResult(
+            SupportOnActivityResultRoute<T> currentScreenRoute,
+            T result,
+            boolean success
+    ) {
         Intent resultIntent = currentScreenRoute.prepareResultIntent(result);
         activityProvider.get().setResult(
                 success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
-                resultIntent);
+                resultIntent
+        );
+        finishCurrent();
+    }
+
+    /**
+     * Закрывает текущую активити c результатом, без данных
+     *
+     * @param success показывает успешное ли завершение
+     */
+    public void finishWithResultNoData(boolean success) {
+        activityProvider.get().setResult(
+                success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
+                new Intent()
+        );
         finishCurrent();
     }
 
