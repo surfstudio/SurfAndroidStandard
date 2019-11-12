@@ -551,7 +551,7 @@
         "android_standard_dependencies": [
           {
             "name": "mvi-core",
-            "type": "implementation"
+            "type": "api"
           },
           {
             "name": "logger",

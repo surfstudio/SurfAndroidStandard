@@ -8,12 +8,12 @@ import ru.surfstudio.android.core.mvi.event.composition.CompositionEvent
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 
 /**
- * Декомпозиция событий с последующей обработкой в стороннем middleware.
+ * [CompositionEvent]'s decomposition to another middleware.
  *
- * Механизм следующий:
- *  1) Извлечение входных событий из базового события [CompositionEvent].
- *  2) Направление этих событий в сторонний [RxMiddleware] и их трансформация в выходные события
- *  3) Помещение выходных событий в базовое событие [CompositionEvent] для дальнейшей обработки
+ * It works as follows:
+ *  1) Extracts input events from [CompositionEvent].
+ *  2) Passes events to another [RxMiddleware]<[T]> responsible for mapping from input to output.
+ *  3) Packs output events in the [CompositionEvent] and pass it to the parent middleware.
  */
 class CompositionTransformer<T: Event, C: CompositionEvent<T>>(
         private val middleware: RxMiddleware<T>

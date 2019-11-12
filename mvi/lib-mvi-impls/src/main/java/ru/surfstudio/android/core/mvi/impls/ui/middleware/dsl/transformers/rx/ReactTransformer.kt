@@ -4,8 +4,8 @@ import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 
 /**
- * Трансформер, не выполняющий преобразований:
- * он просто реагирует на каждый эмит эвента действием, результат которого игнорируется.
+ * Transformer which doesn't apply any direct transformations:
+ * It simply reacts on each emission of [T] with callback.
  */
 class ReactTransformer<T, E>(
         private val mapper: (T) -> Unit

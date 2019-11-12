@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.ui.middleware.dsl.DslRxMiddleware
 
 /**
- * [Middleware] с реализацией в Rx и поддержкой DSL с помощью [EventTransformerList].
+ * [Middleware] with Rx and DSL support with    [EventTransformerList].
  */
 interface BaseDslRxMiddleware<T : Event> : DslRxMiddleware<T, EventTransformerList<T>> {
 

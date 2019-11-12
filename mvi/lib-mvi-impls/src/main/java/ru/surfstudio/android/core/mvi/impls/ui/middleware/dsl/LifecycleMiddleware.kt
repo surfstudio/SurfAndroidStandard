@@ -8,10 +8,9 @@ import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 
 /**
- * Middleware, реагирующий на события жизненного цикла.
+ * Middleware, that reacts on android lifecycle.
  *
- * Для того, чтобы класс получал эти события, необходимо,
- * чтобы связанный с ним EventHub реализовывал интерфейс [LifecycleEventHub]
+ * To receive events, you need EventHub to implement interface [LifecycleEventHub]
  */
 interface LifecycleMiddleware<T : Event> : RxMiddleware<T> {
     fun Observable<T>.onCreate() = filterLifecycleEvent(LifecycleStage.CREATED)

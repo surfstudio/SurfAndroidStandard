@@ -4,8 +4,8 @@ import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 
 /**
- * Трансформер, выполняющий преобразование, аналогичное flatMap:
- * он берет элемент [T] и преобразовывает его в Observable<[E]>
+ * Transforms events like RxJava's flatMap:
+ * Takes element [T] and maps it to [Observable]<[E]>
  */
 class EventMapTransformer<T, E>(
         private val mapper: (T) -> Observable<out E>

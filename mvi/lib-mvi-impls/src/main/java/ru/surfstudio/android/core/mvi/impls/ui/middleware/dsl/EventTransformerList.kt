@@ -9,23 +9,23 @@ import ru.surfstudio.android.core.mvi.util.filterIsInstance
 import kotlin.reflect.KClass
 
 /**
- * Список Observable с событиями экрана, полученный в результате всех трансформаций исходного потока событий.
+ * List with all transformations of the screen events.
  *
- * @param eventStream исходный поток
+ * @param eventStream source stream with screen events
  */
 open class EventTransformerList<E : Event>(
         val eventStream: Observable<E>
 ) : MutableList<Observable<E>> by ArrayList<Observable<E>>() {
 
     /**
-     * Перегрузка унарного оператора для удобного добавления трансформации в список
+     * Unary operator overload to add Observables directly to the list
      */
     operator fun Observable<out E>.unaryPlus() {
         add(this as Observable<E>)
     }
 
     /**
-     * Добавление произвольного количества трансформаций в список
+     * Add several transformations to the list
      */
     fun addAll(vararg transformations: Observable<out E>) {
         addAll(transformations.toList() as List<Observable<E>>)
@@ -33,10 +33,10 @@ open class EventTransformerList<E : Event>(
 
 
     /**
-     * Реакция на событие типа [T].
+     * Reaction on event of type [T].
      *
-     * Следует использовать, когда нам не нужно трансформировать [T] в поток данных,
-     * а нужно просто выполнить какое-то действие (например, для открытия экрана или отправки аналитики).
+     * You should use it when the event [T] shouldn't be passed through data stream,
+     * and we need to simply react on the event (for example, to open a screen, log something, or to send analytics).
      *
      * @param mapper функция реакции.
      */
@@ -45,48 +45,10 @@ open class EventTransformerList<E : Event>(
     ) = ReactTransformer<T, E>(mapper).apply(this)
 
     /**
-     * Маппинг события типа [T] в [Observable] с типом [E].
+     * Reaction on event of type [T].
      *
-     * Используется, когда нам нужно трансформировать событие в поток (аналог flatMap),
-     * например, когда при получении события ButtonClicked нужно начать загрузку данных с i-слоя.
-     *
-     * @param mapper функция, преобразующая событие.
-     */
-    infix fun <T : Event> Observable<T>.eventMap(
-            mapper: (T) -> Observable<out E>
-    ): Observable<out E> {
-        return EventMapTransformer(mapper).apply(this)
-    }
-
-    /**
-     * Маппинг [Observable] типа [T] в [Observable] с типом [E].
-     *
-     * Используется, когда [eventMap] недостаточно, и нужно модификаторы от Observable,
-     * например, при получении события TextChanged навесить debounce и distinctUntilChanged перед отправкой запроса.
-     *
-     * @param mapper функция, преобразующая событие.
-     */
-    fun <T : Event> Observable<T>.streamMap(
-            mapper: (Observable<T>) -> Observable<out E>
-    ): Observable<out E> {
-        return StreamMapTransformer(mapper).apply(this)
-    }
-
-    infix fun <T : Event, C : CompositionEvent<T>> Observable<C>.decompose(
-            mw: RxMiddleware<T>
-    ) = flatMap { composition ->
-        val inEvents = Observable.fromIterable(composition.events)
-        val outEvents = mw.transform(inEvents)
-        outEvents.map { composition.apply { events = listOf(it) } }
-
-    }
-
-
-    /**
-     * Реакция на событие типа [T].
-     *
-     * Следует использовать, когда нам не нужно трансформировать [T] в поток данных,
-     * а нужно просто выполнить какое-то действие (например, для открытия экрана или отправки аналитики).
+     * You should use it when the event [T] shouldn't be passed through data stream,
+     * and we need to simply react on the event (for example, to open a screen, log something, or to send analytics).
      *
      * @param mapper функция реакции.
      */
@@ -94,62 +56,11 @@ open class EventTransformerList<E : Event>(
             noinline mapper: (T) -> Unit
     ) = eventStream.filterIsInstance<T>().react(mapper)
 
-
     /**
-     * Маппинг события типа [T] в другой тип, являющийся подтипом [E].
+     * Reaction on event of type [T].
      *
-     * Используется, когда нам нужно запустить событие при получении другого события,
-     * например, когда при получении события ButtonClicked нужно эмитить событие OpenSelectPhotoDialog.
-     *
-     * @param mapper функция, преобразующая событие.
-     */
-    inline fun <reified T : Event> map(
-            noinline mapper: (T) -> E
-    ): Observable<out E> {
-        return eventStream.filterIsInstance<T>().compose(MapTransformer(mapper))
-    }
-
-    /**
-     * Маппинг события типа [T] в [Observable] с типом [E].
-     *
-     * Используется, когда нам нужно трансформировать событие в поток (аналог flatMap),
-     * например, когда при получении события ButtonClicked нужно начать загрузку данных с i-слоя.
-     *
-     * @param mapper функция, преобразующая событие.
-     */
-    inline fun <reified T : Event> eventMap(
-            noinline mapper: (T) -> Observable<out E>
-    ): Observable<out E> {
-        return eventStream.filterIsInstance<T>().eventMap(mapper)
-    }
-
-    /**
-     * Маппинг [Observable] типа [T] в [Observable] с типом [E].
-     *
-     * Используется, когда [eventMap] недостаточно, и нужно модификаторы от Observable,
-     * например, при получении события TextChanged навесить debounce и distinctUntilChanged перед отправкой запроса.
-     *
-     * @param mapper функция, преобразующая событие.
-     */
-    inline fun <reified T : Event> streamMap(
-            noinline mapper: (Observable<T>) -> Observable<out E>
-    ): Observable<out E> {
-        return eventStream.filterIsInstance<T>().streamMap(mapper)
-    }
-
-    /**
-     * Декомпозиция событий, отфильтрованных по классу с последующей обработкой в стороннем middleware.
-     *
-     * Описание механизма указано в [decompose].
-     */
-    inline fun <reified T : Event, reified C : CompositionEvent<T>> decomposeTo(mw: RxMiddleware<T>) =
-            eventStream.filterIsInstance<C>().decompose(mw)
-
-    /**
-     * Реакция на событие типа [T].
-     *
-     * Следует использовать, когда нам не нужно трансформировать [T] в поток данных,
-     * а нужно просто выполнить какое-то действие (например, для открытия экрана или отправки аналитики).
+     * You should use it when the event [T] shouldn't be passed through data stream,
+     * and we need to simply react on the event (for example, to open a screen, log something, or to send analytics).
      *
      * @param mapper функция реакции.
      */
@@ -160,12 +71,26 @@ open class EventTransformerList<E : Event>(
     }
 
     /**
-     * Маппинг события типа [T] в другой тип, являющийся подтипом [E].
+     * Maps events of type [T] in another type, successor of type [E].
      *
-     * Используется, когда нам нужно запустить событие при получении другого события,
-     * например, когда при получении события ButtonClicked нужно эмитить событие OpenSelectPhotoDialog.
+     * Used when we need to map event to another event,
+     * For example, when the PhotoButtonClick is appeared, we need to emit OpenSelectPhotoDialog.
      *
-     * @param mapper функция, преобразующая событие.
+     * @param mapper mapper function.
+     */
+    inline fun <reified T : Event> map(
+            noinline mapper: (T) -> E
+    ): Observable<out E> {
+        return eventStream.filterIsInstance<T>().compose(MapTransformer(mapper))
+    }
+
+    /**
+     * Maps events of type [T] in another type, successor of type [E].
+     *
+     * Used when we need to map event to another event,
+     * For example, when the PhotoButtonClick is appeared, we need to emit OpenSelectPhotoDialog.
+     *
+     * @param mapper mapper function.
      */
     inline infix fun <reified T : Event> KClass<T>.mapTo(
             noinline mapper: (T) -> E
@@ -174,12 +99,40 @@ open class EventTransformerList<E : Event>(
     }
 
     /**
-     * Маппинг события типа [T] в [Observable] с типом [E].
+     * Maps events of type [T] to [Observable]<[E]>.
      *
-     * Используется, когда нам нужно трансформировать событие в поток (аналог flatMap),
-     * например, когда при получении события ButtonClicked нужно начать загрузку данных с i-слоя.
+     * Can be used when we need to transform event to a stream (like [flatMap]),
+     * For example, when we should load data from data-layer on ButtonClicked event.
      *
-     * @param mapper функция, преобразующая событие.
+     * @param mapper mapper function.
+     */
+    infix fun <T : Event> Observable<T>.eventMap(
+            mapper: (T) -> Observable<out E>
+    ): Observable<out E> {
+        return EventMapTransformer(mapper).apply(this)
+    }
+
+    /**
+     * Maps events of type [T] to [Observable]<[E]>.
+     *
+     * Can be used when we need to transform event to a stream (like [flatMap]),
+     * For example, when we should load data from data-layer on ButtonClicked event.
+     *
+     * @param mapper mapper function.
+     */
+    inline fun <reified T : Event> eventMap(
+            noinline mapper: (T) -> Observable<out E>
+    ): Observable<out E> {
+        return eventStream.filterIsInstance<T>().eventMap(mapper)
+    }
+
+    /**
+     * Maps events of type [T] to [Observable]<[E]>.
+     *
+     * Can be used when we need to transform event to a stream (like [flatMap]),
+     * For example, when we should load data from data-layer on ButtonClicked event.
+     *
+     * @param mapper mapper function.
      */
     inline infix fun <reified T : Event> KClass<T>.eventMapTo(
             noinline mapper: (T) -> Observable<out E>
@@ -188,12 +141,40 @@ open class EventTransformerList<E : Event>(
     }
 
     /**
-     * Маппинг [Observable] типа [T] в [Observable] с типом [E].
+     * Maps [Observable]<[T]> to [Observable]<[E]>.
      *
-     * Используется, когда [eventMap] недостаточно, и нужно модификаторы от Observable,
-     * например, при получении события TextChanged навесить debounce и distinctUntilChanged перед отправкой запроса.
+     * Can be used when the [eventMap] is not enough, and we should modify source [Observable].
+     * For example, when we need to add debounce and distinctUntilChanged on TextChanged event before sending it to network.
      *
-     * @param mapper функция, преобразующая событие.
+     * @param mapper mapper function.
+     */
+    fun <T : Event> Observable<T>.streamMap(
+            mapper: (Observable<T>) -> Observable<out E>
+    ): Observable<out E> {
+        return StreamMapTransformer(mapper).apply(this)
+    }
+
+    /**
+     * Maps [Observable]<[T]> to [Observable]<[E]>.
+     *
+     * Can be used when the [eventMap] is not enough, and we should modify source [Observable].
+     * For example, when we need to add debounce and distinctUntilChanged on TextChanged event before sending it to network.
+     *
+     * @param mapper mapper function.
+     */
+    inline fun <reified T : Event> streamMap(
+            noinline mapper: (Observable<T>) -> Observable<out E>
+    ): Observable<out E> {
+        return eventStream.filterIsInstance<T>().streamMap(mapper)
+    }
+
+    /**
+     * Maps [Observable]<[T]> to [Observable]<[E]>.
+     *
+     * Can be used when the [eventMap] is not enough, and we should modify source [Observable].
+     * For example, when we need to add debounce and distinctUntilChanged on TextChanged event before sending it to network.
+     *
+     * @param mapper mapper function.
      */
     inline infix fun <reified T : Event> KClass<T>.streamMapTo(
             noinline mapper: (Observable<T>) -> Observable<out E>
@@ -201,14 +182,34 @@ open class EventTransformerList<E : Event>(
         return eventStream.ofType(this.java).streamMap(mapper)
     }
 
+
     /**
-     * Декомпозиция событий, отфильтрованных по классу с последующей обработкой в стороннем middleware.
+     * Decompose events to process them in another middleware
      *
-     * Используется в DSL-механизме с синтаксисом "Event::class decomposeTo middleware"
+     * @see [CompositionTransformer]
+     */
+    infix fun <T : Event, C : CompositionEvent<T>> Observable<C>.decompose(
+            mw: RxMiddleware<T>
+    ): Observable<C> {
+        return CompositionTransformer<T, C>(mw).apply(this) as Observable<C>
+    }
+
+    /**
+     * Decompose events filtered by type [T], to process them in another middleware.
      *
-     * Описание механизма указано в [decompose].
+     * @see [CompositionTransformer]
+     */
+    inline fun <reified T : Event, reified C : CompositionEvent<T>> decomposeTo(mw: RxMiddleware<T>) =
+            eventStream.filterIsInstance<C>().decompose(mw)
+
+
+    /**
+     * Decompose events filtered by type [T], to process them in another middleware.
+     *
+     * Used in DSL mechanism with syntax: "Event::class decomposeTo middleware"
+     *
+     * @see [CompositionTransformer]
      */
     infix fun <T : Event, C : CompositionEvent<T>> KClass<C>.decomposeTo(mw: RxMiddleware<T>) =
             eventStream.ofType(this.java).decompose(mw)
-
 }

@@ -7,8 +7,9 @@ import ru.surfstudio.android.core.ui.event.lifecycle.resume.OnResumeDelegate
 import ru.surfstudio.android.core.ui.event.lifecycle.view.destroy.OnViewDestroyDelegate
 
 /**
- * "Замораживает" подписку, когда экран переходит в состояние paused/destroyed
- * */
+ * Subscription freezer, that works with android lifecycle events:
+ * freezes subscription on pause or view destroy, and resumes it on resume.
+ */
 class LifecycleSubscriptionFreezer(
         screenEventDelegateManager: ScreenEventDelegateManager
 ) :

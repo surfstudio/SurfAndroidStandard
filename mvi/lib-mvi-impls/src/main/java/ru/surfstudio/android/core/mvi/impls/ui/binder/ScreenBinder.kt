@@ -6,13 +6,16 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
 import io.reactivex.internal.functions.Functions
 import io.reactivex.internal.observers.LambdaObserver
+import ru.surfstudio.android.core.mvi.impls.ui.freezer.SubscriptionFreezer
 import ru.surfstudio.android.core.mvi.impls.ui.freezer.freeze
 import ru.surfstudio.android.core.mvi.ui.binder.RxBinder
 import ru.surfstudio.android.core.ui.event.lifecycle.completely.destroy.OnCompletelyDestroyDelegate
 import ru.surfstudio.android.rx.extension.ObservableUtil
 
 /**
- * Базовая сущность [RxBinder], которую необходимо реализовать на проекте.
+ * Custom [RxBinder] implementation.
+ *
+ * Supports subscription freezing through [SubscriptionFreezer].
  */
 class ScreenBinder(
         screenBinderDependency: ScreenBinderDependency
@@ -23,7 +26,7 @@ class ScreenBinder(
         screenBinderDependency.eventDelegateManager.registerDelegate(this)
     }
 
-    var subscriptionFreezer = screenBinderDependency.subscriptionFreezer
+    var subscriptionFreezer: SubscriptionFreezer = screenBinderDependency.subscriptionFreezer
     private val disposables: CompositeDisposable = CompositeDisposable()
 
     override fun <T> subscribe(

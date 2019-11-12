@@ -4,12 +4,10 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- * Не замораживает Observable
+ * Empty subscription freezer without freeze effect on subscriptions.
  *
- * Чтобы использовать EmptySubscriptionFreezer на экране, необходимо проставить аннотацию
- * @Named(EmptySubscriptionFreezer.TAG) у поля [ScreenBinderDependency] в конфигураторе экрана.
- *
- * После этого, управление заморозкой подписок полностью ложится на вас.
+ * If it is used in ScreenBinder, the observable chain wont be frozen,
+ * and its lifecycle management is all up to you.
  */
 class EmptySubscriptionFreezer : SubscriptionFreezer() {
 

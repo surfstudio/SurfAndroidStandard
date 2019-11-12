@@ -4,8 +4,8 @@ import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
 
 /**
- * Трансформер, выполняющий преобразование целого потока:
- * он берет поток Observable<[T]> и преобразовывает его в другой поток Observable<[E]>
+ * Transformer which is responsible of mapping stream:
+ * It takes stream of [Observable]<[T]> and transforms it to [Observable]<[E]>
  */
 class StreamMapTransformer<T, E>(
         private val mapper: (Observable<T>) -> Observable<out E>

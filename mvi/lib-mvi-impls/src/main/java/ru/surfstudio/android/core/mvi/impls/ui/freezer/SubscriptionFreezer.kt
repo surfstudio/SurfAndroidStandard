@@ -5,13 +5,25 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- * Класс, отвечающий за заморозку/разморозку Observable в случаях,
- * когда consumer не должен реагировать на события
+ * Object that freezes observable subscriptions when the consumer shouldn't react on changes.
  */
 abstract class SubscriptionFreezer {
 
+    /**
+     * Selector which is responsible for freezing.
+     * When it's accepting [true] in 'onNext' callback, it will freeze events.
+     * When the [false] is accepted, all unhandled events will be pushed to subscribers.
+     * */
     abstract val freezeSelector: BehaviorSubject<Boolean>
 
+    /**
+     * Freeze observable chain with [ObservableOperatorFreeze] and [freezeSelector].
+     *
+     * @param observable observable to freeze
+     * @param replaceFrozenPredicate    predicate to determine whether to replace new values of subscription or not.
+     *                                  You need to pass 'true' to keep only last value.
+     *                                  By default, it wont replace any values.
+     */
     open fun <T> freeze(
             observable: Observable<T>,
             replaceFrozenPredicate: (t1: T, t2: T) -> Boolean = { _, _ -> false }
@@ -25,7 +37,7 @@ abstract class SubscriptionFreezer {
 }
 
 /**
- * Заморозка с помощью [SubscriptionFreezer].
+ * Freeze an observable with [SubscriptionFreezer].
  */
 fun <T> Observable<T>.freeze(
         subscriptionFreezer: SubscriptionFreezer,

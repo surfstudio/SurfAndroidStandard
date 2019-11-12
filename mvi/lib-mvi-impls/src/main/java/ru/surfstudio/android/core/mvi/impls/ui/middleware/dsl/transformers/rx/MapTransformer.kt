@@ -5,8 +5,8 @@ import io.reactivex.ObservableSource
 import io.reactivex.ObservableTransformer
 
 /**
- * Трансформер, выполняющий преобразование, аналогичное transform:
- * он берет элемент [T] и преобразовывает его в [E]
+ * Transforms events like RxJava's map:
+ * Takes element [T] and maps it to [E]
  */
 class MapTransformer<T, E>(
         private val mapper: (T) -> E
