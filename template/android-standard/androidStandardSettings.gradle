@@ -1,5 +1,6 @@
 apply from: '../android-standard/androidStandardConfig.gradle'
 import groovy.json.JsonSlurper
+
 // Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
 
 if (gradle.ext.androidStandard.debugEnabled) {
@@ -10,9 +11,19 @@ if (gradle.ext.androidStandard.debugEnabled) {
         includeBuild("$androidStandardDebugDir") {
             dependencySubstitution {
                 components.each { component ->
-                    if (component.libraries != null && !component.libraries.isEmpty()) {
-                        component.libraries.each { library ->
-                            substitute module("ru.surfstudio.android:${library.artifactName}") with project(":${library.artifactName}")
+                    if (component.libs != null && !component.libs.isEmpty()) {
+                        component.libs.each { library ->
+                            def libraryName = library.name
+                            logger.debug("component ${component.dir} / library name: $libraryName, dir: ${library.dir}, artifact name: ${library.artifact_name}")
+                            def aarLibraryName = "ru.surfstudio.android:"
+                            def artifactName = library.artifact_name
+                            if (artifactName != null && !artifactName.toString().isEmpty()) {
+                                aarLibraryName += artifactName
+                                logger.debug("replacing aar library $aarLibraryName by :$libraryName")
+                                substitute module(aarLibraryName) with project(":$libraryName")
+                            } else {
+                                logger.error("incorrect aar library name: \"$aarLibraryName\"")
+                            }
                         }
                     }
                 }

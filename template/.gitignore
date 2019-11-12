@@ -8,3 +8,4 @@
 .externalNativeBuild
 /temp
 _mirror
+android-standard/androidStandard.properties

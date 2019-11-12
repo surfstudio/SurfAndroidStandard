@@ -5,15 +5,16 @@
 
 ##Первичная настройка на конкретной машине
 
-1. В локальном андроид стандарт запустить градл таск ```generateModulesNamesFile``` (из терминала ```./gradlew generateModulesNamesFile```)
-Это необходимо для генерации вспомогательного файла с именами всех имеющихся в андроид стандарте на данный момент модулей
-
+1. Открыть проект ```template``` из репозитория ```android-standard``` (не копируя его).
 2. Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
 # флаг для активации режима локальной загрузки репозитория android-standard
-androidStandardDebugMode=false
+androidStandardDebugMode=true
 ```
+
+Режим локальной сборки активируется только при наличии пути в соответствующей переменной и выставленном флаге
+
 3. Выполнить ```File - Sync Project with Gradle Files```.
 
 ##Переключение источника android-standard
@@ -32,28 +33,18 @@ androidStandardDebugMode=false
 
 для подключения локального репозитория android-standard.
 
-+ **build.gradle** уровня модуля приложения
+Таким образом, в целевом модуле уже будут заменены все зависимости с удалённых aar-библитек на локальные модули ```android-standard``` из исходников.
+Это произойдёт согласно описанным компонентам в components.json и имеющимся gradle-модулям в проекте ```android-standard```
 
-Добавить модули android-standard следующим образом:
+**Важно:**
 
-```
-dependencies {
-    // other dependencies
++ все модули android-standard следует подключать только таким образом, не использовать
 
-    gradle.ext.androidStandard.api(
-                this,
-                [
-                    "core-ui",     // массив модулей android-standard, который необходимо подключить к текущему модулю
-                    "core-mvp",
-                    "core-app"
-                ]
-    )
-}
-```
+  ```implementation "ru.surfstudio.android:module-name:${version}"```
 
-**Важно:** все модули android-standard следует подключать только таким образом, не использовать
++ при необходимости использования плагина ```android-standard``` с обращением к ```gradle.ext.androidStandard```
+в начале build.gradle целевого модуля поставить ```apply plugin: 'ru.surfstudio.android'```
 
-```implementation "ru.surfstudio.android:module-name:${version}"```
 
 + **gitignore** уровня проекта
 
