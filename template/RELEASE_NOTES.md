@@ -12,6 +12,7 @@
 * ANDDEP-459 Added transition to application settings on DebugScreen
 * Fixed debug screen push notification appearing on each App#onCreate invocation
 * ANDDEP-770 Fixed textStyle overriding and proguard bugs
+* ANDDEP-495 Update push-module dependency, added necessary classes
 
 ## 0.4.0
 ##### Template
