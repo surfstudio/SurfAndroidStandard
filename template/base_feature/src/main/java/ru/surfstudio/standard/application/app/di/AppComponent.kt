@@ -8,11 +8,10 @@ import ru.surfstudio.standard.application.migration.di.MigrationModule
 import ru.surfstudio.standard.application.network.di.EtagModule
 import ru.surfstudio.standard.application.network.di.NetworkModule
 import ru.surfstudio.standard.application.network.di.OkHttpModule
-import ru.surfstudio.standard.application.notification.di.FcmModule
 import ru.surfstudio.standard.application.notification.MessagingService
+import ru.surfstudio.standard.application.notification.di.FcmModule
 import ru.surfstudio.standard.application.notification.di.NotificationModule
 import ru.surfstudio.standard.application.storage.di.SharedPrefModule
-import ru.surfstudio.standard.application.notification.AppStartReceiver
 
 @PerApplication
 @Component(modules = [
@@ -30,6 +29,4 @@ import ru.surfstudio.standard.application.notification.AppStartReceiver
 interface AppComponent : AppProxyDependencies {
 
     fun inject(to: MessagingService)
-
-    fun inject(to: AppStartReceiver)
 }

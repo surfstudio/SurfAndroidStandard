@@ -2,7 +2,7 @@
 # Push Release Notes
 ## 0.5.0-alpha
 ##### Push
-* ANDDEP-495 
+* ANDDEP-495 Added Service with BroadcastReceiver for keeping app alive to receive pushes
 ## 0.4.0
 ##### Push
 * NotificationCenter removed - use `PushHandler`

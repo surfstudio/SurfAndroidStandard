@@ -9,14 +9,13 @@ import ru.surfstudio.android.utilktx.util.SdkUtils
  * Базовый класс для запуска [NotificationReviverService]
  */
 abstract class BaseNotificationProcessStarter(
-        private val uiHandler: UiHandler,
         private val applicationContext: Context
 ) {
 
     abstract fun getAppStartReceiverClassName(): String
 
     fun startNotificationServiceReviver() {
-        uiHandler.runOnUI { startServiceInternal() }
+        UiHandler.runOnUI { startServiceInternal() }
     }
 
     /**

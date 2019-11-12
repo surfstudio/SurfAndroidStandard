@@ -2,12 +2,14 @@ package ru.surfstudio.standard.application.notification
 
 import ru.surfstudio.android.notification.service.BaseAppStartReceiver
 import ru.surfstudio.android.notification.service.BaseNotificationProcessStarter
-import javax.inject.Inject
+import ru.surfstudio.android.notification.service.NotificationProcessStarterHolder
 
-class AppStartReceiver : BaseAppStartReceiver<NotificationProcessStarter>() {
-
-    @Inject
-    lateinit var starter: NotificationProcessStarter
-
-    override fun getNotificationProcessStarter(): NotificationProcessStarter = starter
+/**
+ * Целевой ресивер, куда приходит ивент о закрытии сервиса [NotificationReviverService],
+ * предоставляющий ссылку на [NotificationProcessStarter]
+ */
+class AppStartReceiver : BaseAppStartReceiver() {
+    
+    override fun getNotificationProcessStarter(): BaseNotificationProcessStarter =
+            NotificationProcessStarterHolder.serviceStarter 
 }
