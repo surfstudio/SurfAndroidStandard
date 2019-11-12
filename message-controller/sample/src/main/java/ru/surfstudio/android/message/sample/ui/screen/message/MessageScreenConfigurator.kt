@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.sample.ui.screen.message
+package ru.surfstudio.android.message.sample.ui.screen.message
 
 import android.content.Intent
 import dagger.Component
@@ -30,7 +30,7 @@ internal class MessageScreenConfigurator(intent: Intent) : DefaultActivityScreen
         return DaggerMessageScreenConfigurator_MessageScreenComponent.builder()
                 .defaultActivityComponent(defaultActivityComponent)
                 .defaultActivityScreenModule(defaultActivityScreenModule)
-                .messageScreenModule(MessageScreenModule(MessageActivityRoute()))
+                .messageScreenModule(MessageScreenModule(MessageActivityRoute(intent)))
                 .build()
     }
 }

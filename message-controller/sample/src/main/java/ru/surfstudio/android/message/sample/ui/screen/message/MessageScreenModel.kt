@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.sample.ui.screen.message
+package ru.surfstudio.android.message.sample.ui.screen.message
 
 import ru.surfstudio.android.core.mvp.model.ScreenModel
 import ru.surfstudio.android.message.SnackParams

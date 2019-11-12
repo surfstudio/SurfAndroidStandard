@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.ui.sample.ui.screen.message
+package ru.surfstudio.android.message.sample.ui.screen.message
 
 import android.os.CountDownTimer
 import android.view.Gravity
@@ -7,10 +7,10 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.core.ui.sample.R
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.message.SnackParams
 import ru.surfstudio.android.message.ToastParams
+import ru.surfstudio.android.message.sample.R
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

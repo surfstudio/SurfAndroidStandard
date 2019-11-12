@@ -3,17 +3,21 @@ package ru.surfstudio.android.message.sample.ui.screen.main
 import android.view.Gravity
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
+import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.message.sample.R
+import ru.surfstudio.android.message.sample.ui.screen.message.MessageActivityRoute
 import javax.inject.Inject
 
 /**
  * Презентер главного экрана
  */
 @PerScreen
-internal class MainPresenter @Inject constructor(basePresenterDependency: BasePresenterDependency,
-                                                 private val messageController: MessageController
+internal class MainPresenter @Inject constructor(
+        basePresenterDependency: BasePresenterDependency,
+        private val activityNavigator: ActivityNavigator,
+        private val messageController: MessageController
 ) : BasePresenter<MainActivityView>(basePresenterDependency) {
 
     private val sm: MainScreenModel = MainScreenModel()
@@ -40,4 +44,6 @@ internal class MainPresenter @Inject constructor(basePresenterDependency: BasePr
     fun showGravityToast() = messageController.showToast(R.string.toast_message, Gravity.CENTER)
 
     fun closeSnackbar() = messageController.closeSnack()
+
+    fun startMessageDemo() = activityNavigator.start(MessageActivityRoute())
 }
