@@ -71,8 +71,6 @@ task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask) //pr
 
 task deployToMirror(type: DeployToMirrorTask)
 
-task generateModulesNamesFile(type: GenerateModuleNameFileTask)
-
 task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
 
 task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotProjectSnapshotTask) // dev, release, pr

@@ -1,9 +1,9 @@
-#Скрипты с механизмом подключения модулей Android Standard
+# Скрипты с механизмом подключения модулей Android Standard
 
 Скрипты позволяют переключаться между локальным искодным кодом android-standard и артефактами из artifactory.
 Использование локального исходного кода позволит быстро тестировать изменения в android-standard на своем проекте без деплоя артефактов.
 
-##Первичная настройка на конкретной машине
+## Первичная настройка на конкретной машине
 
 1. Открыть проект ```template``` из репозитория ```android-standard``` (не копируя его).
 2. Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
@@ -17,12 +17,12 @@ androidStandardDebugMode=true
 
 3. Выполнить ```File - Sync Project with Gradle Files```.
 
-##Переключение источника android-standard
+## Переключение источника android-standard
 
 1. Изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
 2. Выполнить ```File - Sync Project with Gradle Files```.
 
-##Подключение скриптов к сборщику gradle
+## Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект
 
 + **settings.gradle** уровня проекта
@@ -38,13 +38,9 @@ androidStandardDebugMode=true
 
 **Важно:**
 
-+ все модули android-standard следует подключать только таким образом, не использовать
++ все модули android-standard следует подключать через указание пути в переменной ```androidStandardDebugDir```, не использовать
 
   ```implementation "ru.surfstudio.android:module-name:${version}"```
-
-+ при необходимости использования плагина ```android-standard``` с обращением к ```gradle.ext.androidStandard```
-в начале build.gradle целевого модуля поставить ```apply plugin: 'ru.surfstudio.android'```
-
 
 + **gitignore** уровня проекта
 

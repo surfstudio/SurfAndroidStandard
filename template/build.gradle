@@ -36,3 +36,4 @@ task clean(type: Delete) {
 }
 
 apply from: "scripts/dependenciesModules.gradle"
+apply plugin: 'ru.surfstudio.android'
