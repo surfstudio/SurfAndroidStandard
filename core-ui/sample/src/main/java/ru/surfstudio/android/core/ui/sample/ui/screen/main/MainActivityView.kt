@@ -40,15 +40,9 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         }
     }
 
-    override fun renderInternal(sm: MainScreenModel) {
-        presenter.startResultActivity()
-    }
+    override fun renderInternal(sm: MainScreenModel) {}
 
     override fun getPresenters(): Array<CorePresenter<*>> = arrayOf(presenter)
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
-
-    fun showToast(message: String) {
-        messageController.show(message)
-    }
 }

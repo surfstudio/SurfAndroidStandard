@@ -97,19 +97,6 @@ internal fun <T : Serializable> observeSingleScreenResult(
             .flatMap { parseScreenResult(it) }
 }
 
-internal fun observeSingleScreenResultNoData(
-        activityNavigator: ActivityNavigator,
-        route: ActivityWithResultNoDataRoute
-): Completable {
-    return activityNavigator.observeResult<NoScreenDataStub>(route)
-            .map {
-                if (!it.isSuccess) {
-                    throw ActionInterruptedException()
-                }
-                true
-            }.ignoreElements()
-}
-
 internal fun <T : Serializable> observeMultipleScreenResult(
         activityNavigator: ActivityNavigator,
         route: ActivityWithResultRoute<ArrayList<T>>
