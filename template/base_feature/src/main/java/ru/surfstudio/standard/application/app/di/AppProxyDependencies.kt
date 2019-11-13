@@ -9,7 +9,6 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.shared.pref.NO_BACKUP_SHARED_PREF
-import ru.surfstudio.standard.application.notification.NotificationProcessStarter
 import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.standard.i_auth.AuthInteractor
 import ru.surfstudio.standard.i_initialization.InitializeAppInteractor
@@ -39,6 +38,4 @@ interface AppProxyDependencies {
     fun sharedPreferences(): SharedPreferences
 
     fun authInteractor(): AuthInteractor
-
-    fun notificationProcessStarter(): NotificationProcessStarter
 }

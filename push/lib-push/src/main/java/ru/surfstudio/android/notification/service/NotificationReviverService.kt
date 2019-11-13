@@ -1,12 +1,14 @@
 package ru.surfstudio.android.notification.service
 
+import android.app.ActivityManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import ru.surfstudio.android.logger.Logger
 
 /**
- * Пустой сервис, который после смерти отправляет броадкаст в [BaseNotificationProcessStarter]
+ * Empty service which sends broadcast to [NotificationServiceStartReceiver] for restart
  */
 class NotificationReviverService : Service() {
 
@@ -19,16 +21,25 @@ class NotificationReviverService : Service() {
 
     override fun onDestroy() {
         Logger.d("NotificationReviverService :: onDestroy")
-        val receiverClassName = NotificationProcessStarterHolder.serviceStarter.getAppStartReceiverClassName()
-        var receiverClass: Class<*>? = null
-        try {
-            receiverClass = Class.forName(receiverClassName)
-        } catch (e: ClassNotFoundException) {
-            Logger.e("Receiver with class name $receiverClassName not found")
+        Logger.d("Sending broadcast to NotificationServiceStartReceiver")
+        sendBroadcast(Intent(this, NotificationServiceStartReceiver::class.java))
+    }
+
+    companion object {
+
+        @Suppress("DEPRECATION")
+        private fun isServiceRunning(context: Context): Boolean {
+            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
+                    ?: throw RuntimeException(ActivityManager::class.java.simpleName + " is null")
+            return manager.getRunningServices(Integer.MAX_VALUE).find {
+                service -> NotificationReviverService::class.java.name == service.service.className
+            } != null
         }
-        receiverClass?.let {
-            Logger.d("Sending broadcast to $receiverClassName")
-            sendBroadcast(Intent(this, it))
+
+        fun startServiceWithCheck(context: Context) {
+            if (!isServiceRunning(context)) {
+                context.startService(Intent(context, NotificationReviverService::class.java))
+            }
         }
     }
 }

@@ -19,7 +19,7 @@
             android:exported="false"
             android:enabled="true"/>
 
-        <receiver android:name="ru.surfstudio.standard.application.notification.AppStartReceiver"
+        <receiver android:name="ru.surfstudio.android.notification.service.NotificationServiceStartReceiver"
             android:exported="false"
             android:enabled="true">
             <intent-filter>

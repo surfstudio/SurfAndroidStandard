@@ -15,7 +15,7 @@ import ru.surfstudio.android.logger.RemoteLogger
 import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy
 import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
 import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy
-import ru.surfstudio.android.notification.service.NotificationProcessStarterHolder
+import ru.surfstudio.android.notification.service.NotificationReviverService
 import ru.surfstudio.android.notification.ui.PushClickProvider
 import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
@@ -49,7 +49,7 @@ class App : MultiDexApplication() {
 
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
 
-        startNotificationServiceReviver()
+        NotificationReviverService.startServiceWithCheck(this)
     }
 
     private fun initFabric() {
@@ -109,11 +109,5 @@ class App : MultiDexApplication() {
                 //todo
             }
         }
-    }
-
-    private fun startNotificationServiceReviver() {
-        val serviceStarter = AppInjector.appComponent.notificationProcessStarter()
-        NotificationProcessStarterHolder.serviceStarter = serviceStarter
-        serviceStarter.startNotificationServiceReviver()
     }
 }
