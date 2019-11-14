@@ -162,16 +162,6 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
     }
 
     /**
-     * позволяет подписываться на событие OnActivityResult без данных
-     *
-     * @param route маршрут экрана, который должен вернуть результат
-     */
-    @NonNull
-    public Observable<ScreenResult<NoScreenDataStub>> observeResultNoData(ActivityWithResultRoute<NoScreenDataStub> route) {
-        return observeResult(route);
-    }
-
-    /**
      * Закрываает текущую активити
      */
     public void finishCurrent() {
@@ -223,7 +213,7 @@ public abstract class ActivityNavigator extends BaseActivityResultDelegate
      *
      * @param success показывает успешное ли завершение
      */
-    public void finishWithResultNoData(boolean success) {
+    public void finishWithResult(boolean success) {
         activityProvider.get().setResult(
                 success ? Activity.RESULT_OK : Activity.RESULT_CANCELED,
                 new Intent()
