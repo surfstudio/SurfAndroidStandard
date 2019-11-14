@@ -33,12 +33,26 @@ androidStandardDebugMode=true
 
 для подключения локального репозитория android-standard.
 
-Таким образом, в целевом модуле уже будут заменены все зависимости с удалённых aar-библитек на локальные модули ```android-standard``` из исходников.
-Это произойдёт согласно описанным компонентам в components.json и имеющимся gradle-модулям в проекте ```android-standard```
++ **build.gradle** уровня модуля приложения
 
-**Важно:**
+Добавить модули android-standard следующим образом:
 
-+ все модули android-standard следует подключать через указание пути в переменной ```androidStandardDebugDir```, не использовать
+```
+dependencies {
+    // other dependencies
+
+    gradle.ext.androidStandard.api(
+                this,
+                [
+                    "core-ui",     // массив модулей android-standard, который необходимо подключить к текущему модулю
+                    "core-mvp",
+                    "core-app"
+                ]
+    )
+}
+```
+
+**Важно:** все модули android-standard следует подключать только таким образом, не использовать
 
   ```implementation "ru.surfstudio.android:module-name:${version}"```
 
