@@ -15,11 +15,11 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning" >
 
-        <service android:name="ru.surfstudio.android.notification.service.NotificationReviverService"
+        <service android:name="ru.surfstudio.android.notification.service.KeepAliveAppService"
             android:exported="false"
             android:enabled="true"/>
 
-        <receiver android:name="ru.surfstudio.android.notification.service.NotificationServiceStartReceiver"
+        <receiver android:name="ru.surfstudio.android.notification.service.KeepAliveAppServiceStartReceiver"
             android:exported="false"
             android:enabled="true">
             <intent-filter>
