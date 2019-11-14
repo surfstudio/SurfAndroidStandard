@@ -22,12 +22,9 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.annotation.WorkerThread
-import io.reactivex.Completable
 import io.reactivex.Observable
-import ru.surfstudio.android.core.ui.navigation.NoScreenDataStub
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
-import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultNoDataRoute
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.picturechooser.exceptions.ActionInterruptedException
 import java.io.*
