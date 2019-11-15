@@ -24,17 +24,8 @@ class KeepAliveAppService : Service() {
 
     companion object {
 
-        @Suppress("DEPRECATION")
-        private fun isServiceRunning(context: Context): Boolean {
-            val manager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager?
-                    ?: throw RuntimeException(ActivityManager::class.java.simpleName + " is null")
-            return manager.getRunningServices(Integer.MAX_VALUE).find {
-                service -> KeepAliveAppService::class.java.name == service.service.className
-            } != null
-        }
-
         fun startServiceWithCheck(context: Context) {
-            if (!SdkUtils.isAtLeastOreo() && !isServiceRunning(context)) {
+            if (!SdkUtils.isAtLeastOreo()) {
                 context.startService(Intent(context, KeepAliveAppService::class.java))
             }
         }
