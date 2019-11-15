@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.standard.i_network.converter.gson;
+package ru.surfstudio.standard.i_network.converter.gson.factory;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

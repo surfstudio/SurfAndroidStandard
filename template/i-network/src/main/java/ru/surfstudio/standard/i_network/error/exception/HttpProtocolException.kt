@@ -1,13 +1,13 @@
 package ru.surfstudio.standard.i_network.error.exception
 
 
+import com.google.gson.Gson
 import retrofit2.HttpException
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 import ru.surfstudio.standard.i_network.error.ApiErrorCode
 import ru.surfstudio.standard.i_network.error.exception.converters.BaseErrorResponseConverter
 import ru.surfstudio.standard.i_network.network.error.NetworkException
-import ru.surfstudio.standard.i_network.network.gson.GsonHolder
 import ru.surfstudio.standard.i_network.network.response.BaseErrorObjResponse
 import java.io.IOException
 
@@ -51,6 +51,7 @@ open class HttpProtocolException(
     constructor(source: HttpProtocolException) :
             this(prepareMessage(source.httpMessage, source.httpCode, source.url, source.serverMessage, source.innerCode), source.cause) {
         url = source.url
+        method = source.method
         httpCode = source.httpCode
         httpMessage = source.httpMessage
         innerCode = source.innerCode
@@ -71,10 +72,10 @@ open class HttpProtocolException(
      * @param converter конкретный [BaseErrorResponseConverter] для преобразования тела
      * ошибочного респонса в указанную сущность [Response]
      */
-    open class Builder<E : HttpProtocolException,
-            Response : BaseErrorObjResponse<*>>(
+    open class Builder<E : HttpProtocolException, Response : BaseErrorObjResponse<*>>(
             val cause: HttpException,
-            converter: BaseErrorResponseConverter<Response>
+            converter: BaseErrorResponseConverter<Response>,
+            gson: Gson
     ) {
 
         val innerCode: String
@@ -105,7 +106,7 @@ open class HttpProtocolException(
                 }
             } ?: EMPTY_STRING
 
-            val response: Response? = converter.convert(GsonHolder.gson, url, errorBodyString)
+            val response: Response? = converter.convert(gson, url, errorBodyString)
 
             if (response?.errorObj != null) {
                 innerCode = response.errorObj?.code ?: EMPTY_STRING

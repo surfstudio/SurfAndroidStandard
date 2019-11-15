@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.i_network.network.gson
+package ru.surfstudio.standard.i_network.converter.gson
 
 import com.google.gson.Gson
 import com.google.gson.JsonParseException

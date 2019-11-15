@@ -8,7 +8,7 @@ import ru.surfstudio.android.template.i_network.BuildConfig
 
 //todo определить проектные url и path
 
-private const val ACCESS_TOKEN_PATH = "sso/oauth2/access_token"
+private const val ACCESS_TOKEN_PATH = "auth"
 const val AUTH_ACCESS_TOKEN = ACCESS_TOKEN_PATH
 
 const val BASE_API_URL = BuildConfig.BASE_URL

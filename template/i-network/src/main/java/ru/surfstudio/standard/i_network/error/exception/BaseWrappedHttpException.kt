@@ -8,4 +8,9 @@ abstract class BaseWrappedHttpException
 protected constructor(
         val displayMessage: String,
         val httpCause: HttpProtocolException
-) : RuntimeException(displayMessage, httpCause)
+) : RuntimeException(displayMessage, httpCause) {
+
+    override fun toString(): String {
+        return "BaseWrappedHttpException(displayMessage='$displayMessage', httpCause=$httpCause)"
+    }
+}

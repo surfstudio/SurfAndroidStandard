@@ -26,7 +26,6 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 import ru.surfstudio.android.logger.Logger;
 import ru.surfstudio.standard.i_network.network.error.CacheEmptyException;
-import ru.surfstudio.standard.i_network.network.error.HttpCodes;
 import ru.surfstudio.standard.i_network.network.BaseServerConstants;
 
 /**
@@ -104,7 +103,7 @@ public class SimpleCacheInterceptor implements Interceptor {
 
     private Response createCachedResponse(String cachedResponseBody, Request originalRequest) {
         return new Response.Builder()
-                .code(HttpCodes.CODE_200)
+                .code(200)
                 .message(MESSAGE_OK)
                 .body(ResponseBody.create(MediaType.parse(MEDIA_TYPE_APPLICATION_JSON), cachedResponseBody))
                 .request(originalRequest)

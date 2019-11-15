@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.i_network.network.typeadapter
+package ru.surfstudio.standard.i_network.converter.gson.factory
 
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken

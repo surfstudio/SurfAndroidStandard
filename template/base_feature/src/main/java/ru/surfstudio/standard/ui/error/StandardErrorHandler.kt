@@ -5,6 +5,7 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.standard.i_network.error.ApiErrorCode
 import ru.surfstudio.standard.i_network.error.NetworkErrorHandler
 import ru.surfstudio.standard.i_network.error.exception.BaseWrappedHttpException
@@ -18,7 +19,8 @@ import javax.inject.Inject
  */
 @PerScreen
 open class StandardErrorHandler @Inject constructor(
-        private val messageController: MessageController
+        private val messageController: MessageController,
+        private val stringsProvider: StringsProvider
 ) : NetworkErrorHandler() {
 
     override fun handleHttpProtocolException(e: BaseWrappedHttpException) {
@@ -35,6 +37,7 @@ open class StandardErrorHandler @Inject constructor(
             messageController.show(R.string.debug_forbidden_error_error_message)
         } else if (!TextUtils.isEmpty(httpException.httpMessage)) {
             Logger.e(httpException.httpMessage)
+            messageController.show(stringsProvider.getString(R.string.debug_common_error_message_format_text, httpException.httpMessage))
         } else if (httpException.httpCode == ApiErrorCode.NOT_FOUND.code) {
             messageController.show(R.string.debug_server_error_not_found)
         } else {

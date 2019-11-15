@@ -1,6 +1,7 @@
 package ru.surfstudio.standard.i_network.network.calladapter
 
 import androidx.annotation.CallSuper
+import com.google.gson.Gson
 import io.reactivex.*
 import org.reactivestreams.Publisher
 import retrofit2.Call
@@ -18,22 +19,21 @@ import ru.surfstudio.standard.i_network.error.exception.*
 import ru.surfstudio.standard.i_network.error.exception.converters.AuthAccessTokenErrorResponseConverter
 import ru.surfstudio.standard.i_network.error.handler.BaseErrorHandler
 import ru.surfstudio.standard.i_network.network.error.NoInternetException
-import ru.surfstudio.standard.i_network.network.response.auth.AuthErrorObj
 import ru.surfstudio.standard.i_network.network.response.ErrorResponse
+import ru.surfstudio.standard.i_network.network.response.auth.AuthErrorObj
 import ru.zenit.android.interactor.common.network.error.http.InternalServerError
 import java.io.IOException
-import java.lang.Exception
-import java.lang.IllegalStateException
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
-import java.net.SocketTimeoutException
+import java.net.ConnectException
 import javax.inject.Inject
 
 @Suppress("UNCHECKED_CAST")
 @PerApplication
 open class CallAdapterFactory @Inject constructor(
         private val stringsProvider: StringsProvider,
-        private val errorHandler: BaseErrorHandler? = null
+        private val errorHandler: BaseErrorHandler? = null,
+        private val gson: Gson
 ) : CallAdapter.Factory() {
 
     private val rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create()
@@ -52,7 +52,8 @@ open class CallAdapterFactory @Inject constructor(
             // в кач-ве примера используется AuthAccessTokenErrorResponseConverter
             HttpProtocolException.Builder<HttpProtocolException, ErrorResponse>(
                     cause,
-                    AuthAccessTokenErrorResponseConverter(AUTH_ACCESS_TOKEN, AuthErrorObj::class.java)
+                    AuthAccessTokenErrorResponseConverter(AUTH_ACCESS_TOKEN, AuthErrorObj::class.java),
+                    gson
             ).build()
 
     /**
@@ -151,7 +152,7 @@ open class CallAdapterFactory @Inject constructor(
 
         private fun handleNetworkError(e: Throwable, call: Call<Response>): Observable<out Exception> {
             return when (e) {
-                is SocketTimeoutException -> Observable.error(SocketTimeoutException())
+                is ConnectException -> Observable.error(e)
                 is IOException -> Observable.error(NoInternetException(e))
                 is HttpException -> onHttpException(e, call)
                 else -> Observable.error(e)

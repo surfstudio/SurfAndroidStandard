@@ -45,6 +45,7 @@
     <string name="debug_bad_response_error_message">Произошла ошибка загрузки данных на экране. Попробуйте позже еще раз</string>
     <string name="debug_unexpected_error_error_message">Непредвиденная ошибка</string>
     <string name="debug_common_error_message">Произошла ошибка загрузки данных,\nпопробуйте обновить экран позже</string>
+    <string name="debug_common_error_message_format_text">Произошла ошибка загрузки данных: %s</string>
 
     <string name="debug_state_empty_text">Ничего не найдено</string>
     <string name="debug_state_error_message">Произошла ошибка</string>

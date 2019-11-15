@@ -29,13 +29,15 @@ public class BaseUrl {
     private String base;
     @Nullable
     private String apiVersion;
+    private int port;
 
-    public BaseUrl(@NonNull String base, @Nullable String apiVersion) {
+    public BaseUrl(@NonNull String base, @Nullable String apiVersion, int port) {
         this.base = base.replaceFirst(END_SLASH, "");
         if (apiVersion != null) {
             this.apiVersion = apiVersion.replaceFirst(START_SLASH, "")
                     .replaceFirst(END_SLASH, "");
         }
+        this.port = port;
     }
 
     @NonNull
@@ -48,11 +50,19 @@ public class BaseUrl {
         return apiVersion;
     }
 
+    public int getPort() {
+        return port;
+    }
+
     @Override
     public String toString() {
-        if (apiVersion != null) {
-            return base + "/" + apiVersion + "/";
+        String result = base;
+        if (port > 0) {
+            result += ":" + port;
         }
-        return base;
+        if (apiVersion != null) {
+            result += "/" + apiVersion + "/";
+        }
+        return result;
     }
 }

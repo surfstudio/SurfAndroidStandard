@@ -10,15 +10,17 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.surfstudio.standard.i_network.converter.gson.ResponseTypeAdapterFactory
-import ru.surfstudio.standard.i_network.converter.gson.SafeConverterFactory
+import ru.surfstudio.standard.i_network.converter.gson.factory.ResponseTypeAdapterFactory
+import ru.surfstudio.standard.i_network.converter.gson.factory.SafeConverterFactory
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.i_network.network.BaseUrl
-import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.android.template.test_utils.BuildConfig
-import ru.surfstudio.standard.i_network.network.CallAdapterFactory
+import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.standard.i_network.TEST_API_URL
+import ru.surfstudio.standard.i_network.converter.gson.factory.EmptyToNullTypeAdapterFactory
+import ru.surfstudio.standard.i_network.error.handler.BaseErrorHandler
+import ru.surfstudio.standard.i_network.network.calladapter.CallAdapterFactory
 
 @Module
 class TestNetworkModule {
@@ -31,7 +33,7 @@ class TestNetworkModule {
     @PerApplication
     internal fun provideRetrofit(
             okHttpClient: OkHttpClient,
-            callAdapterFactory: BaseCallAdapterFactory,
+            callAdapterFactory: CallAdapterFactory,
             gson: Gson,
             apiUrl: BaseUrl
     ): Retrofit {
@@ -46,9 +48,13 @@ class TestNetworkModule {
     @Provides
     @PerApplication
     internal fun provideGson(): Gson {
-        return GsonBuilder()
-                .registerTypeAdapterFactory(ResponseTypeAdapterFactory(SafeConverterFactory()))
-                .create()
+        with (GsonBuilder()) {
+            registerTypeAdapterFactory(ResponseTypeAdapterFactory(SafeConverterFactory()))
+            registerTypeAdapterFactory(EmptyToNullTypeAdapterFactory())
+            setLenient()
+            serializeNulls()
+            return create()
+        }
     }
 
     @Provides
@@ -72,9 +78,13 @@ class TestNetworkModule {
 
     @Provides
     @PerApplication
-    internal fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
+    internal fun provideCallAdapterFactory(
+            stringsProvider: StringsProvider,
+            errorHandler: BaseErrorHandler,
+            gson: Gson
+    ): CallAdapterFactory = CallAdapterFactory(stringsProvider, errorHandler, gson)
 
     @Provides
     @PerApplication
-    internal fun provideBaseUrl() = BaseUrl(TEST_API_URL, null)
+    internal fun provideBaseUrl() = BaseUrl(TEST_API_URL, null, 0)
 }

@@ -2,10 +2,10 @@ package ru.surfstudio.standard.i_network.service;
 
 import io.reactivex.Observable;
 
+import ru.surfstudio.standard.i_network.error.ApiErrorCode;
 import ru.surfstudio.standard.i_network.error.exception.BaseWrappedHttpException;
 import ru.surfstudio.standard.i_network.error.exception.HttpProtocolException;
 import ru.surfstudio.standard.i_network.error.handler.BaseErrorHandler;
-import ru.surfstudio.standard.i_network.network.error.HttpCodes;
 
 /**
  * Бзовый класс для работы с api
@@ -22,7 +22,7 @@ public class BaseNetworkService {
             HttpProtocolException httpException = wrappedHttpException.getHttpCause();
             int httpCode = httpException.getHttpCode();
 
-            if (httpCode == HttpCodes.CODE_400) {
+            if (httpCode == ApiErrorCode.BAD_REQUEST.getCode()) {
                 errorHandler.handle(wrappedHttpException);
             }
         }
