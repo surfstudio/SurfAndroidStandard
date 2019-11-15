@@ -4,7 +4,6 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
@@ -19,10 +18,8 @@ class ReactScreenModule {
     @Provides
     fun provideBaseMiddlewareDependency(
             schedulersProvider: SchedulersProvider,
-            errorHandler: ErrorHandler,
-            activityNavigator: ActivityNavigator
+            errorHandler: ErrorHandler
     ): BaseMiddlewareDependency = BaseMiddlewareDependency(
-            activityNavigator,
             schedulersProvider,
             errorHandler
     )

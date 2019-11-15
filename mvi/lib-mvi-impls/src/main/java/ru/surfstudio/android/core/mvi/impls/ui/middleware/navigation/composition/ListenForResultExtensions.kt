@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.factory.EventFactory
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.EventTransformerList
-import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.NavigationEvent
+import ru.surfstudio.android.core.mvi.event.navigation.NavigationEvent
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.ScreenResult
 import ru.surfstudio.android.rx.extension.toObservable
@@ -24,8 +24,8 @@ fun <T : Event, R : Serializable> EventTransformerList<T>.listenForResultMap(
 ): Observable<T> {
     val event = navigationEventFactory.invoke(listOf(ObserveResult(routeClass))) //create listen for result event
     return eventStream.ofType(event::class.java)
-            .flatMap { unCastedEvent ->
-                val navEvent = unCastedEvent as? NavigationComposition
+            .flatMap { uncastedEvent ->
+                val navEvent = uncastedEvent as? NavigationComposition
                 val nestedEvents = navEvent?.events
                 val resultEvent = nestedEvents?.filterIsInstance<ObserveResult<R>>()?.firstOrNull()
                 val screenResult = resultEvent?.result

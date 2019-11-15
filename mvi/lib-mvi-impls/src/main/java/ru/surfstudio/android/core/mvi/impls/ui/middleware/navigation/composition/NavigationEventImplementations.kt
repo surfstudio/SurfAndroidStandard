@@ -1,7 +1,6 @@
 package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 
-import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.NavigationEvent
-import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.OpenScreenEvent
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.open.OpenScreenEvent
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.close.*
 import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.core.ui.navigation.Route
@@ -62,6 +61,6 @@ data class CloseFragment(override val route: FragmentRoute) : CloseFragmentEvent
  * @param result screen result
  */
 data class ObserveResult<R : Serializable>(
-        val routeClass: Class<out SupportOnActivityResultRoute<R>>,
-        var result: ScreenResult<R>? = null
-) : NavigationEvent
+        override val routeClass: Class<out SupportOnActivityResultRoute<R>>,
+        override var result: ScreenResult<R>? = null
+) : ObserveResultEvent<R>

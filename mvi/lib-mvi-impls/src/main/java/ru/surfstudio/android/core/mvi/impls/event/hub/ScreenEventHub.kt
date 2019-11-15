@@ -19,11 +19,11 @@ import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 
 /**
- * Реализация [RxEventHub].
+ * Implementation of [RxEventHub].
  *
- * @param lifecycleEventCreator создатель [LifecycleEvent]
- * @param backPressedCreator    создатель события BackPressed
- * @param newIntentCreator      создатель события OnNewIntent
+ * @param lifecycleEventCreator creator of Lifecycle event
+ * @param backPressedCreator    creator of BackPressed event
+ * @param newIntentCreator      creator of OnNewIntent event
  */
 class ScreenEventHub<T : Event>(
         dependency: ScreenEventHubDependency,
@@ -70,7 +70,7 @@ class ScreenEventHub<T : Event>(
 
     override fun emit(event: T) {
         //Log events
-        Logger.d("Event | $screenName | $event")
+        Logger.d("Event / $screenName / $event")
         bus.accept(event)
     }
 
