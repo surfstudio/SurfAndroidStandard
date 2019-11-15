@@ -23,7 +23,6 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import io.reactivex.*
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.location.domain.LocationPriority
@@ -35,7 +34,6 @@ import ru.surfstudio.android.location.location_errors_resolver.resolutions.Locat
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.no_location_permission.NoLocationPermissionResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.play_services_are_not_available.PlayServicesAreNotAvailableResolution
 import ru.surfstudio.android.location.location_errors_resolver.resolutions.impl.concrete.resolveble_api_exception.ResolvableApiExceptionResolution
-import java.util.*
 
 /**
  * Сервис для работы с местоположением.
@@ -105,7 +103,6 @@ class LocationService(
                         }
                         .addOnFailureListener { exception -> maybeEmitter.onError(exception) }
             }
-
 
     /**
      * Подписаться на получение обновлений местоположения.
