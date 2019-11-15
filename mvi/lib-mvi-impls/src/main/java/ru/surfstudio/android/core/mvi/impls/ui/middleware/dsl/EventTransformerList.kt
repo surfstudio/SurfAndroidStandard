@@ -42,7 +42,7 @@ open class EventTransformerList<E : Event>(
      */
     inline infix fun <reified T : Event> Observable<T>.react(
             noinline mapper: (T) -> Unit
-    ) = ReactTransformer<T, E>(mapper).apply(this)
+    ) = compose(ReactTransformer<T, E>(mapper))
 
     /**
      * Reaction on event of type [T].
@@ -109,7 +109,7 @@ open class EventTransformerList<E : Event>(
     infix fun <T : Event> Observable<T>.eventMap(
             mapper: (T) -> Observable<out E>
     ): Observable<out E> {
-        return EventMapTransformer(mapper).apply(this)
+        return compose(EventMapTransformer(mapper))
     }
 
     /**
@@ -151,7 +151,7 @@ open class EventTransformerList<E : Event>(
     fun <T : Event> Observable<T>.streamMap(
             mapper: (Observable<T>) -> Observable<out E>
     ): Observable<out E> {
-        return StreamMapTransformer(mapper).apply(this)
+        return compose(StreamMapTransformer(mapper))
     }
 
     /**
@@ -191,7 +191,7 @@ open class EventTransformerList<E : Event>(
     infix fun <T : Event, C : CompositionEvent<T>> Observable<C>.decompose(
             mw: RxMiddleware<T>
     ): Observable<C> {
-        return CompositionTransformer<T, C>(mw).apply(this) as Observable<C>
+        return compose(CompositionTransformer<T, C>(mw))
     }
 
     /**
