@@ -98,6 +98,6 @@ open class ScreenNavigator(
     }
 
     protected open fun openFragment(route: FragmentRoute) {
-        fragmentNavigator.add(route, true, TRANSIT_FRAGMENT_OPEN)
+        fragmentNavigator.show(route, TRANSIT_FRAGMENT_OPEN)
     }
 }
