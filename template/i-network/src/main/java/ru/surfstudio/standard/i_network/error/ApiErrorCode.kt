@@ -5,11 +5,10 @@ package ru.surfstudio.standard.i_network.error
  */
 enum class ApiErrorCode(val code: Int) {
 
-    // TODO дописать сюда остальные из HttpCodes, его удалить
-
+    NOT_MODIFIED(304),
+    BAD_REQUEST(400),
     NOT_AUTHORIZED(401),
     FORBIDDEN(403),
-    NOT_MODIFIED(304),
     NOT_FOUND(404),
     INTERNAL_SERVER_ERROR(500),
     UNKNOWN(-1);

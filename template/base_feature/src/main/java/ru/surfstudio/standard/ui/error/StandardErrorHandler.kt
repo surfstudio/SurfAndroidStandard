@@ -1,18 +1,16 @@
 package ru.surfstudio.standard.ui.error
 
 import android.text.TextUtils
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigator
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.standard.i_network.network.error.ConversionException
-import ru.surfstudio.standard.i_network.network.error.HttpCodes
-import ru.surfstudio.standard.i_network.network.error.NoInternetException
 import ru.surfstudio.android.template.base_feature.R
+import ru.surfstudio.standard.i_network.error.ApiErrorCode
 import ru.surfstudio.standard.i_network.error.NetworkErrorHandler
 import ru.surfstudio.standard.i_network.error.exception.BaseWrappedHttpException
-import ru.surfstudio.standard.i_network.error.exception.HttpProtocolException
 import ru.surfstudio.standard.i_network.error.exception.NonAuthorizedException
+import ru.surfstudio.standard.i_network.network.error.ConversionException
+import ru.surfstudio.standard.i_network.network.error.NoInternetException
 import javax.inject.Inject
 
 /**
@@ -20,8 +18,7 @@ import javax.inject.Inject
  */
 @PerScreen
 open class StandardErrorHandler @Inject constructor(
-        private val messageController: MessageController,
-        private val globalNavigator: GlobalNavigator
+        private val messageController: MessageController
 ) : NetworkErrorHandler() {
 
     override fun handleHttpProtocolException(e: BaseWrappedHttpException) {
@@ -29,19 +26,19 @@ open class StandardErrorHandler @Inject constructor(
             //TODO
             return
         }
-
+        
         val httpException = e.httpCause
-
-        if (httpException.httpCode >= HttpCodes.CODE_500) {
-            messageController.show(R.string.server_error_message)
-        } else if (httpException.httpCode == HttpCodes.CODE_403) {
-            messageController.show(R.string.forbidden_error_error_message)
+        
+        if (httpException.httpCode >= ApiErrorCode.INTERNAL_SERVER_ERROR.code) {
+            messageController.show(R.string.debug_server_error_message)
+        } else if (httpException.httpCode == ApiErrorCode.FORBIDDEN.code) {
+            messageController.show(R.string.debug_forbidden_error_error_message)
         } else if (!TextUtils.isEmpty(httpException.httpMessage)) {
             Logger.e(httpException.httpMessage)
-        } else if (httpException.httpCode == HttpCodes.CODE_404) {
-            messageController.show(R.string.server_error_not_found)
+        } else if (httpException.httpCode == ApiErrorCode.NOT_FOUND.code) {
+            messageController.show(R.string.debug_server_error_not_found)
         } else {
-            messageController.show(R.string.default_http_error_message)
+            messageController.show(R.string.debug_default_http_error_message)
         }
     }
 

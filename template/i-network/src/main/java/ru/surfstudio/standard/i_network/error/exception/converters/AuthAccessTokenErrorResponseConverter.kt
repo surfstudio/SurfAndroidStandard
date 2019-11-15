@@ -19,7 +19,7 @@ class AuthAccessTokenErrorResponseConverter<E: BaseAuthErrorObj>(
     override fun convert(gson: Gson, url: String, errorBodyString: String): ErrorResponse? {
         return if (url.contains(accessTokenPath)) {
             val authErrorObj = GsonHelper.fromJsonObjectString(gson, errorBodyString, authErrorObjClass)
-            ErrorResponse(ErrorObj(if (authErrorObj != null) authErrorObj.error else EMPTY_STRING, EMPTY_STRING))
+            ErrorResponse(ErrorObj(authErrorObj?.error ?: EMPTY_STRING, EMPTY_STRING))
         } else {
             GsonHelper.fromJsonObjectString(gson, errorBodyString, ErrorResponse::class.java)
         }

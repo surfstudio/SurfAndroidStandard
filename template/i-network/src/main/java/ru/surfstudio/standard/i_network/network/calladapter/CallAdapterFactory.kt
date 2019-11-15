@@ -12,12 +12,12 @@ import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.RemoteLogger
 import ru.surfstudio.android.template.i_network.R
 import ru.surfstudio.standard.base.util.StringsProvider
+import ru.surfstudio.standard.i_network.AUTH_ACCESS_TOKEN
 import ru.surfstudio.standard.i_network.error.ApiErrorCode.*
 import ru.surfstudio.standard.i_network.error.exception.*
 import ru.surfstudio.standard.i_network.error.exception.converters.AuthAccessTokenErrorResponseConverter
 import ru.surfstudio.standard.i_network.error.handler.BaseErrorHandler
 import ru.surfstudio.standard.i_network.network.error.NoInternetException
-import ru.surfstudio.standard.i_network.network.response.auth.AUTH_ACCESS_TOKEN
 import ru.surfstudio.standard.i_network.network.response.auth.AuthErrorObj
 import ru.surfstudio.standard.i_network.network.response.ErrorResponse
 import ru.zenit.android.interactor.common.network.error.http.InternalServerError
@@ -68,8 +68,9 @@ open class CallAdapterFactory @Inject constructor(
 
         logHttpProtocolException(httpError)
         val wrappedError = when (httpError.getApiErrorCode()) {
-            NOT_AUTHORIZED -> NonAuthorizedException(stringsProvider.getString(R.string.http_not_authorized_error_text), httpError)
             NOT_MODIFIED -> NotModifiedException(stringsProvider.getString(R.string.http_not_modified_error_text), httpError)
+            BAD_REQUEST -> BadRequestError(stringsProvider.getString(R.string.http_bad_request_error_text), httpError)
+            NOT_AUTHORIZED -> NonAuthorizedException(stringsProvider.getString(R.string.http_not_authorized_error_text), httpError)
             NOT_FOUND -> NotFoundError(stringsProvider.getString(R.string.http_not_found_error_text), httpError)
             INTERNAL_SERVER_ERROR -> InternalServerError(stringsProvider.getString(R.string.http_internal_server_error_text), httpError)
             FORBIDDEN -> ForbiddenError(stringsProvider.getString(R.string.http_forbidden_error_text), httpError)
