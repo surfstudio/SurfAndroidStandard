@@ -5,8 +5,7 @@
 
 ## Первичная настройка на конкретной машине
 
-1. Открыть проект ```template``` из репозитория ```android-standard``` (не копируя его).
-2. Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
+1. Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
 # флаг для активации режима локальной загрузки репозитория android-standard
@@ -15,7 +14,7 @@ androidStandardDebugMode=true
 
 Режим локальной сборки активируется только при наличии пути в соответствующей переменной и выставленном флаге
 
-3. Выполнить ```File - Sync Project with Gradle Files```.
+2. Выполнить ```File - Sync Project with Gradle Files```.
 
 ## Переключение источника android-standard
 
