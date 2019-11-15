@@ -1,5 +1,7 @@
 package ru.surfstudio.android.core.mvi.impls.ui.middleware
 
+import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Observable
 import io.reactivex.Single
 import ru.surfstudio.android.core.mvi.event.Event
@@ -10,26 +12,24 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.LifecycleMiddlewar
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderHandleError
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderIo
-import ru.surfstudio.android.core.mvp.binding.rx.builders.UiBuilderFinish
 import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
-import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 import ru.surfstudio.android.rx.extension.toObservable
 
 /**
- * Шаблонный базовый [RxMiddleware], который необходимо реализовать на проектах.
+ * Base [RxMiddleware] with DSL support and with builders for Rx requests.
+ *
+ * All screen middlewares should implement it.
  */
-abstract class BaseMiddleware<T : Event> (
+abstract class BaseMiddleware<T : Event>(
         baseMiddlewareDependency: BaseMiddlewareDependency
 ) : BaseDslRxMiddleware<T>,
         LifecycleMiddleware<T>,
         RxBuilderIo,
-        RxBuilderHandleError,
-        UiBuilderFinish {
+        RxBuilderHandleError {
 
-    override val activityNavigator: ActivityNavigator = baseMiddlewareDependency.activityNavigator
     override val schedulersProvider: SchedulersProvider = baseMiddlewareDependency.schedulersProvider
     override val errorHandler: ErrorHandler = baseMiddlewareDependency.errorHandler
 
@@ -41,6 +41,10 @@ abstract class BaseMiddleware<T : Event> (
     protected fun <E> Observable<E>.ioHandleError() = io().handleError()
 
     protected fun <E> Single<E>.ioHandleError() = io().handleError()
+
+    protected fun <E> Maybe<E>.ioHandleError() = io().handleError()
+
+    protected fun Completable.ioHandleError() = io().handleError()
 
     /**
      * Трансформация [Observable]<[Request]<[T]>> Observable с событием с данными.

@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.compositio
 import ru.surfstudio.android.core.ui.navigation.Route
 
 /**
- * Роут, не открывающий никакой экран, заглушка.
+ * Rout that doesn't open any screen, simple stub.
  */
 object NoScreenRoute : Route {
     override fun toString(): String = "NoScreenRoute"

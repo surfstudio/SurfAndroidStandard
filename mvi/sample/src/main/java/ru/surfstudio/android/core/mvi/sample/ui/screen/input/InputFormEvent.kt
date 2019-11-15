@@ -3,7 +3,7 @@ package ru.surfstudio.android.core.mvi.sample.ui.screen.input
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.NavigationComposition
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
-import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.NavigationEvent
+import ru.surfstudio.android.core.mvi.event.navigation.NavigationEvent
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 
 /**

@@ -1,20 +1,19 @@
 package ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 
 import io.reactivex.Observable
-import io.reactivex.internal.operators.observable.ObserverResourceWrapper
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
-import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.NavigationEvent
+import ru.surfstudio.android.core.mvi.event.navigation.NavigationEvent
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.NavigationMiddlewareInterface
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.ScreenNavigator
-import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.close.ObserveResultEvent
 import ru.surfstudio.android.core.mvi.util.filterIsInstance
-import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import ru.surfstudio.android.rx.extension.toObservable
 import java.io.Serializable
 
 /**
- * Шаблонный базовый [RxMiddleware] с поддержкой навигации.
+ * [NavigationMiddlewareInterface] implementation.
+ * It works with [NavigationEvent] and adds automatic listen for result functional.
  */
 class NavigationMiddleware(
         baseMiddlewareDependency: BaseMiddlewareDependency,
@@ -29,11 +28,10 @@ class NavigationMiddleware(
             )
 
     private fun Observable<NavigationEvent>.listenForResultAuto(): Observable<NavigationEvent> {
-        return filterIsInstance<ObserveResult<*>>().flatMap { event ->
-            val castedEvent = event as ObserveResult<Serializable>
-            listenForResultMap(castedEvent.routeClass) {
-                castedEvent.result = it
-                castedEvent.toObservable()
+        return filterIsInstance<ObserveResultEvent<Serializable>>().flatMap { event ->
+            listenForResultMap(event.routeClass) {
+                event.result = it
+                event.toObservable()
             }
         }
     }

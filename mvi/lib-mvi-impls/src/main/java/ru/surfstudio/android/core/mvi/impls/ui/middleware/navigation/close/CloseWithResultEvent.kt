@@ -4,7 +4,11 @@ import ru.surfstudio.android.core.ui.event.result.SupportOnActivityResultRoute
 import java.io.Serializable
 
 /**
- * Событие закрытия экрана с результатом
+ * Closes screen with result
+ *
+ * @property route screen route
+ * @property result screen result
+ * @property isSuccess is result successful
  */
 interface CloseWithResultEvent<T : Serializable> : CloseScreenEvent {
     val route: SupportOnActivityResultRoute<T>

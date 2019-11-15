@@ -4,4 +4,7 @@
 ##### Core-mvi
 * ANDDEP-671 Core mvi refactor, add comments
 * ANDDEP-671 Add navigation middleware, add dsl
-* ANDDEP-671 Divide base middlewares: Simple, Map, Navigation
+* Divide Mvi Core and Mvi Implementation
+* Add base mvi entities to mvi-impls module
+* Refactor screen navigation, add NavigationMiddleware
+* Add CompositionEvent and event composition principle, navigation composition

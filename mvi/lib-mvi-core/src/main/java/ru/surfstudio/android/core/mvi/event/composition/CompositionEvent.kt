@@ -3,9 +3,9 @@ package ru.surfstudio.android.core.mvi.event.composition
 import ru.surfstudio.android.core.mvi.event.Event
 
 /**
- * Событие, содержащее в себе другие события
+ * Event that nests other events within itself. Used as alternative to event inheritance.
  *
- * Служит для реализации операции наследования и обработки списка событий отдельным переиспользуемым middleware.
+ * Events from the list can be processed with custom reusable middleware of type [E].
  */
 interface CompositionEvent<E : Event> {
     var events: List<E>

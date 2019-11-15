@@ -15,7 +15,7 @@ import ru.surfstudio.android.mvp.dialog.navigation.route.DialogRoute
 import java.io.Serializable
 
 /**
- * Навигатор
+ * Screen Navigator used to simplify navigation process.
  */
 open class ScreenNavigator(
         protected val activityNavigator: ActivityNavigator,
@@ -24,7 +24,7 @@ open class ScreenNavigator(
 ) {
 
     /**
-     * Открытие экрана с [Route]
+     * Open screen with [Route]
      */
     fun open(route: Route) {
         when (route) {
@@ -36,21 +36,21 @@ open class ScreenNavigator(
     }
 
     /**
-     * Закрытие activity
+     * Close current activity
      */
     open fun close() {
         activityNavigator.finishCurrent()
     }
 
     /**
-     * Закрытие таска activity
+     * Close activity taskAffinity
      */
     open fun closeTask() {
         activityNavigator.finishAffinity()
     }
 
     /**
-     * Закрытие activity c простановкой результата
+     * Close activity with result
      */
     open fun <R : Serializable> closeWithResult(
             route: SupportOnActivityResultRoute<R>,
@@ -61,23 +61,23 @@ open class ScreenNavigator(
     }
 
     /**
-     * Закрытие Dialog
+     * Close Dialog with specific [Route]
      */
     open fun close(route: DialogRoute) {
         dialogNavigator.dismiss(route)
     }
 
     /**
-     * Закрытие Fragment
+     * Close Fragment with specific  [Route]
      */
     open fun close(route: FragmentRoute) {
         fragmentNavigator.hide(route, TRANSIT_FRAGMENT_CLOSE)
     }
 
     /**
-     * Подписка на результат работы экрана
+     * Observe screen result
      *
-     * Следует выполнять строго до отрытия экрана с помощью [Route] типа [routeClass].
+     * Should be called strictly before opening screen with [Route] of type [routeClass].
      */
     open fun <R : Serializable> observeResult(
             routeClass: Class<out SupportOnActivityResultRoute<R>>
@@ -98,6 +98,6 @@ open class ScreenNavigator(
     }
 
     protected open fun openFragment(route: FragmentRoute) {
-        fragmentNavigator.add(route, true, TRANSIT_FRAGMENT_OPEN)
+        fragmentNavigator.show(route, TRANSIT_FRAGMENT_OPEN)
     }
 }

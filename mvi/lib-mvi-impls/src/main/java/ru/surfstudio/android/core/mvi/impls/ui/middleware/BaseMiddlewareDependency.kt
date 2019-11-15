@@ -5,10 +5,9 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
 
 /**
- * Шаблонная зависимость для [BaseMiddleware], которую нужно провайдить на проектах.
+ * Dependency for [BaseMiddleware]
  */
 class BaseMiddlewareDependency(
-        val activityNavigator: ActivityNavigator,
         val schedulersProvider: SchedulersProvider,
         val errorHandler: ErrorHandler
 )

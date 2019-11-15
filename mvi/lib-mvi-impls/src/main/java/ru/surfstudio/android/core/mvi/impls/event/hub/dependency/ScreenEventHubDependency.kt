@@ -4,7 +4,7 @@ import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
 import ru.surfstudio.android.core.ui.state.ScreenState
 
 /**
- * Зависимости EventHub экрана
+ * Dependency for [ScreenEventHub]
  */
 class ScreenEventHubDependency(
         val screenState: ScreenState,

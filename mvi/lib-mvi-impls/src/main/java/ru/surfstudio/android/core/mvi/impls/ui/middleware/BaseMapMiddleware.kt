@@ -5,10 +5,10 @@ import ru.surfstudio.android.core.mvi.ui.middleware.FlatMapMiddleware
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 
 /**
- * Шаблонный базовый [RxMiddleware], c простейшей реализацией функции transform:
- * вместо transform(observable<event>): observable<event>
- * используется flatMap(event): observable<event>,
- * с которым можно просто и понято работать в when-блоке.
+ * [BaseMiddleware] with simplified transform function:
+ * Instead of using `transform(Observable<Event>): Observable<Event>`
+ * it uses `flatMap(Event): Observable<Event>`,
+ * which declarative uses when-expression block in style of reactor.
  */
 abstract class BaseMapMiddleware<T : Event>(
         baseMiddlewareDependency: BaseMiddlewareDependency

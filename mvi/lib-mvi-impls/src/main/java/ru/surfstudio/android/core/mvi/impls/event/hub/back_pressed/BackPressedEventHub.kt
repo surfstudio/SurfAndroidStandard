@@ -6,7 +6,7 @@ import ru.surfstudio.android.core.mvi.event.hub.EventHub
 import ru.surfstudio.android.core.ui.event.back.OnBackPressedDelegate
 
 /**
- * [EventHub], обрабатывающий события OnBackPressed из вью (нажатия системной кнопки "Назад")
+ * [EventHub], that handles BackPressedEvents (clicks on system "Back" button)
  */
 interface BackPressedEventHub<E : Event, EventStream> : EventHub<E, EventStream>, OnBackPressedDelegate {
 
