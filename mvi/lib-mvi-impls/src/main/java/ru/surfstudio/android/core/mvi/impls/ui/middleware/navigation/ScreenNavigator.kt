@@ -26,7 +26,7 @@ open class ScreenNavigator(
     /**
      * Open screen with [Route]
      */
-    fun open(route: Route) {
+    open fun open(route: Route) {
         when (route) {
             is SupportOnActivityResultRoute<*> -> openForResult(route)
             is ActivityRoute -> openActivity(route)
