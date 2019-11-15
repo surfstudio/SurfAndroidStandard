@@ -1,2 +1,9 @@
 <resources>
+    <!--  change if needed  -->
+    <string name="http_not_authorized_error_text">Not authorized</string>
+    <string name="http_not_modified_error_text">Not modified</string>
+    <string name="http_not_found_error_text">Not found</string>
+    <string name="http_internal_server_error_text">Internal server error</string>
+    <string name="http_forbidden_error_text">Forbidden error</string>
+    <string name="http_other_error_text">Other error</string>
 </resources>

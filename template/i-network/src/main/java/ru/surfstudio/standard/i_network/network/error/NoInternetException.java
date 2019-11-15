@@ -16,9 +16,8 @@
 package ru.surfstudio.standard.i_network.network.error;
 
 /**
- * отсутствует подключение к интернету
+ * Ошибка при отсутствующем подключении к интернету
  */
-@Deprecated
 public class NoInternetException extends NetworkException {
 
     public NoInternetException(Throwable e) {

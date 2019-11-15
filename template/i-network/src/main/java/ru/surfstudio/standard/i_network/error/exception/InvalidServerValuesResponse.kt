@@ -1,9 +1,11 @@
 package ru.surfstudio.standard.i_network.error.exception
 
+import java.lang.RuntimeException
+
 /**
  * Ошибка если сервер возвращает недопустимые значения
  */
-class InvalidServerValuesResponse(vararg values: Pair<String, String>) : BaseMessagedException(pairToMessage(values))
+class InvalidServerValuesResponse(vararg values: Pair<String, String>) : RuntimeException(pairToMessage(values))
 
 private fun pairToMessage(values: Array<out Pair<String, String>>): String {
     val joinedValues: String = values.asSequence()

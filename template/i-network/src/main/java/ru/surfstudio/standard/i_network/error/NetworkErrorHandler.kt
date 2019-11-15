@@ -3,6 +3,7 @@ package ru.surfstudio.standard.i_network.error
 import io.reactivex.exceptions.CompositeException
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.standard.i_network.error.exception.BaseWrappedHttpException
 import ru.surfstudio.standard.i_network.network.error.ConversionException
 import ru.surfstudio.standard.i_network.network.error.NetworkException
 import ru.surfstudio.standard.i_network.network.error.NoInternetException
@@ -17,7 +18,7 @@ abstract class NetworkErrorHandler : ErrorHandler {
         when (err) {
             is CompositeException -> handleCompositeException(err)
             is ConversionException -> handleConversionError(err)
-            is HttpProtocolException -> handleHttpProtocolException(err)
+            is BaseWrappedHttpException -> handleHttpProtocolException(err)
             is NoInternetException -> handleNoInternetError(err)
             else -> handleOtherError(err)
         }
@@ -47,7 +48,7 @@ abstract class NetworkErrorHandler : ErrorHandler {
         }
     }
 
-    protected abstract fun handleHttpProtocolException(e: HttpProtocolException)
+    protected abstract fun handleHttpProtocolException(e: BaseWrappedHttpException)
 
     protected abstract fun handleNoInternetError(e: NoInternetException)
 

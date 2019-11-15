@@ -15,12 +15,14 @@ import ru.surfstudio.standard.i_network.converter.gson.SafeConverterFactory
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.i_network.network.BaseUrl
-import ru.surfstudio.standard.i_network.network.calladapter.BaseCallAdapterFactory
 import ru.surfstudio.android.template.base_feature.BuildConfig
-import ru.surfstudio.standard.i_network.network.CallAdapterFactory
+import ru.surfstudio.standard.base.util.StringsProvider
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 import ru.surfstudio.standard.i_network.BASE_API_URL
 import ru.surfstudio.standard.i_network.TEST_API_URL
+import ru.surfstudio.standard.i_network.error.handler.BaseErrorHandler
+import ru.surfstudio.standard.i_network.error.handler.LogErrorHandler
+import ru.surfstudio.standard.i_network.network.calladapter.CallAdapterFactory
 
 @Module
 class NetworkModule {
@@ -33,7 +35,7 @@ class NetworkModule {
     @PerApplication
     internal fun provideRetrofit(
             okHttpClient: OkHttpClient,
-            callAdapterFactory: BaseCallAdapterFactory,
+            callAdapterFactory: CallAdapterFactory,
             gson: Gson,
             apiUrl: BaseUrl
     ): Retrofit {
@@ -74,7 +76,14 @@ class NetworkModule {
 
     @Provides
     @PerApplication
-    internal fun provideCallAdapterFactory(): BaseCallAdapterFactory = CallAdapterFactory()
+    internal fun provideErrorHandler(): BaseErrorHandler = LogErrorHandler()
+
+    @Provides
+    @PerApplication
+    internal fun provideCallAdapterFactory(
+            stringsProvider: StringsProvider,
+            errorHandler: BaseErrorHandler?
+    ): CallAdapterFactory = CallAdapterFactory(stringsProvider, errorHandler)
 
     @Provides
     @PerApplication

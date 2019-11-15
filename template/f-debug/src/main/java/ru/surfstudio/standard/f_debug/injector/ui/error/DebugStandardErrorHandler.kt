@@ -9,9 +9,9 @@ import ru.surfstudio.standard.i_network.network.error.ConversionException
 import ru.surfstudio.standard.i_network.network.error.HttpCodes
 import ru.surfstudio.standard.i_network.network.error.NoInternetException
 import ru.surfstudio.android.template.f_debug.R
-import ru.surfstudio.standard.i_network.error.HttpProtocolException
 import ru.surfstudio.standard.i_network.error.NetworkErrorHandler
-import ru.surfstudio.standard.i_network.error.NonAuthorizedException
+import ru.surfstudio.standard.i_network.error.exception.BaseWrappedHttpException
+import ru.surfstudio.standard.i_network.error.exception.NonAuthorizedException
 import javax.inject.Inject
 
 /**
@@ -23,19 +23,21 @@ open class DebugStandardErrorHandler @Inject constructor(
         private val globalNavigator: GlobalNavigator
 ) : NetworkErrorHandler() {
 
-    override fun handleHttpProtocolException(e: HttpProtocolException) {
+    override fun handleHttpProtocolException(e: BaseWrappedHttpException) {
         if (e is NonAuthorizedException) {
             //TODO
             return
         }
 
-        if (e.httpCode >= HttpCodes.CODE_500) {
+        val httpException = e.httpCause
+
+        if (httpException.httpCode >= HttpCodes.CODE_500) {
             messageController.show(R.string.debug_server_error_message)
-        } else if (e.httpCode == HttpCodes.CODE_403) {
+        } else if (httpException.httpCode == HttpCodes.CODE_403) {
             messageController.show(R.string.debug_forbidden_error_error_message)
-        } else if (!TextUtils.isEmpty(e.httpMessage)) {
-            Logger.e(e.httpMessage)
-        } else if (e.httpCode == HttpCodes.CODE_404) {
+        } else if (!TextUtils.isEmpty(httpException.httpMessage)) {
+            Logger.e(httpException.httpMessage)
+        } else if (httpException.httpCode == HttpCodes.CODE_404) {
             messageController.show(R.string.debug_server_error_not_found)
         } else {
             messageController.show(R.string.debug_default_http_error_message)

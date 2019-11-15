@@ -2,7 +2,8 @@ package ru.surfstudio.standard.i_network.service;
 
 import io.reactivex.Observable;
 
-import ru.surfstudio.standard.i_network.error.HttpProtocolException;
+import ru.surfstudio.standard.i_network.error.exception.BaseWrappedHttpException;
+import ru.surfstudio.standard.i_network.error.exception.HttpProtocolException;
 import ru.surfstudio.standard.i_network.error.handler.BaseErrorHandler;
 import ru.surfstudio.standard.i_network.network.error.HttpCodes;
 
@@ -16,15 +17,15 @@ public class BaseNetworkService {
     }
 
     private <T> Observable<T> handleError(Throwable throwable, BaseErrorHandler errorHandler) {
-        if (throwable instanceof HttpProtocolException) {
-            HttpProtocolException httpException = (HttpProtocolException) throwable;
+        if (throwable instanceof BaseWrappedHttpException) {
+            final BaseWrappedHttpException wrappedHttpException = (BaseWrappedHttpException) throwable;
+            HttpProtocolException httpException = wrappedHttpException.getHttpCause();
             int httpCode = httpException.getHttpCode();
 
             if (httpCode == HttpCodes.CODE_400) {
-                errorHandler.handle(httpException);
+                errorHandler.handle(wrappedHttpException);
             }
         }
-
         return Observable.error(throwable);
     }
 }
