@@ -2,11 +2,7 @@
 # Push Release Notes
 ## 0.5.0-alpha
 ##### Push
-* ANDDEP-495 Added Service with BroadcastReceiver for keeping app alive to receive pushes:
-```
-When system starts, receiver invokes service, which running in background to keep app alive;
-when app dies - service sends broadcast again and thus restarts itself
-````
+* ANDDEP-495 Added Service with BroadcastReceiver for keeping app alive to receive pushes
 ## 0.4.0
 ##### Push
 * NotificationCenter removed - use `PushHandler`
