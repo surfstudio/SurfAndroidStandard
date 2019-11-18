@@ -1,7 +1,8 @@
-package ru.surfstudio.android.easyadapter.async_diff
+package ru.surfstudio.android.easyadapter.diff.base
 
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import androidx.recyclerview.widget.DiffUtil.DiffResult
+import ru.surfstudio.android.easyadapter.diff.base.data.DiffResultBundle
 
 /**
  * Interface of entity capable to apply calculated [DiffResult] to [Adapter].

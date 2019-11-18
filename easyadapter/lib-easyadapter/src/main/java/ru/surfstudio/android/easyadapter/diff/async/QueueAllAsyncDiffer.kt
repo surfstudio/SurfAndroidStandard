@@ -1,5 +1,11 @@
-package ru.surfstudio.android.easyadapter.async_diff
+package ru.surfstudio.android.easyadapter.diff.async
 
+import ru.surfstudio.android.easyadapter.diff.async.base.AsyncDiffer
+import ru.surfstudio.android.easyadapter.diff.async.base.BaseAsyncDiffer
+import ru.surfstudio.android.easyadapter.diff.base.DiffCallbackCreator
+import ru.surfstudio.android.easyadapter.diff.base.DiffResultApplier
+import ru.surfstudio.android.easyadapter.diff.base.data.DiffCalculationBundle
+import ru.surfstudio.android.easyadapter.diff.base.data.DiffResultBundle
 import java.util.*
 
 /**

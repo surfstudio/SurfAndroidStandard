@@ -1,4 +1,4 @@
-package ru.surfstudio.android.easyadapter.async_diff
+package ru.surfstudio.android.easyadapter.diff.base.data
 
 import androidx.recyclerview.widget.DiffUtil.DiffResult
 import ru.surfstudio.android.easyadapter.ItemInfo
@@ -11,7 +11,7 @@ import ru.surfstudio.android.easyadapter.ItemList
  * @property calculationBundle [DiffCalculationBundle] with information used for diff calculation.
  */
 internal data class DiffResultBundle(
-        val diffResult: DiffResult,
+        val diffResult: DiffResult?,
         val calculationBundle: DiffCalculationBundle
 ) {
 

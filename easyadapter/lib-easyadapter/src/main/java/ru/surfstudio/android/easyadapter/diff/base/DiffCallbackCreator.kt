@@ -1,4 +1,4 @@
-package ru.surfstudio.android.easyadapter.async_diff
+package ru.surfstudio.android.easyadapter.diff.base
 
 import androidx.recyclerview.widget.DiffUtil.Callback
 import ru.surfstudio.android.easyadapter.ItemInfo

@@ -27,14 +27,18 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-import ru.surfstudio.android.easyadapter.async_diff.ApplyLatestAsyncDiffer;
-import ru.surfstudio.android.easyadapter.async_diff.AsyncDiffStrategy;
-import ru.surfstudio.android.easyadapter.async_diff.AsyncDiffer;
-import ru.surfstudio.android.easyadapter.async_diff.DiffCalculationBundle;
-import ru.surfstudio.android.easyadapter.async_diff.DiffResultBundle;
-import ru.surfstudio.android.easyadapter.async_diff.QueueAllAsyncDiffer;
+import ru.surfstudio.android.easyadapter.diff.DefaultDiffer;
+import ru.surfstudio.android.easyadapter.diff.async.ApplyLatestAsyncDiffer;
+import ru.surfstudio.android.easyadapter.diff.async.AsyncDiffStrategy;
+import ru.surfstudio.android.easyadapter.diff.async.base.AsyncDiffer;
+import ru.surfstudio.android.easyadapter.diff.base.Differ;
+import ru.surfstudio.android.easyadapter.diff.base.data.DiffCalculationBundle;
+import ru.surfstudio.android.easyadapter.diff.base.data.DiffResultBundle;
+import ru.surfstudio.android.easyadapter.diff.async.QueueAllAsyncDiffer;
 
 import ru.surfstudio.android.easyadapter.controller.BaseItemController;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
@@ -66,6 +70,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private boolean infiniteScroll;
 
     private boolean isAsyncDiffCalculationEnabled = false;
+    private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
     private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
 
     public EasyAdapter() {
@@ -220,18 +225,20 @@ public class EasyAdapter extends RecyclerView.Adapter {
      */
     protected void setItems(@NonNull ItemList items, boolean autoNotify) {
         if (isAsyncDiffCalculationEnabled) {
-            calculateDiffAsync(items);
+            calculateDiff(asyncDiffer, items);
+        } else if (autoNotify) {
+            calculateDiff(defaultDiffer, items);
         } else {
-            this.items.clear();
-            if (firstInvisibleItemEnabled && (items.isEmpty() || items.get(0) != firstInvisibleItem)) {
-                this.items.add(firstInvisibleItem);
-            }
-            this.items.addAll(items);
-
-            if (autoNotify) {
-                autoNotify();
-            }
-            updateSupportedItemControllers(this.items);
+            dispatchDiffResult(
+                    new DiffResultBundle(
+                            null,
+                            new DiffCalculationBundle(
+                                    items,
+                                    Collections.emptyList(),
+                                    Collections.emptyList()
+                            )
+                    )
+            );
         }
     }
 
@@ -254,10 +261,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return new ItemList(items);
     }
 
-    private void calculateDiffAsync(ItemList newItems) {
+    private void calculateDiff(Differ differ, ItemList newItems) {
         final List<ItemInfo> newItemInfo = extractRealItemInfo(newItems);
         final DiffCalculationBundle diffCalculationBundle = new DiffCalculationBundle(newItems, lastItemsInfo, newItemInfo);
-        asyncDiffer.calculateDiff(diffCalculationBundle);
+        differ.calculateDiff(diffCalculationBundle);
     }
 
     private DiffUtil.Callback createDiffCallback(List<ItemInfo> oldItems, List<ItemInfo> newItems) {
@@ -273,9 +280,12 @@ public class EasyAdapter extends RecyclerView.Adapter {
         }
         items.addAll(newItems);
 
-        final DiffUtil.DiffResult diffResult = diffResultBundle.getDiffResult();
-        diffResult.dispatchUpdatesTo(this);
-        lastItemsInfo = diffResultBundle.getNewItemInfo();
+        if (isAsyncDiffCalculationEnabled || autoNotifyOnSetItemsEnabled) {
+            final DiffUtil.DiffResult diffResult = diffResultBundle.getDiffResult();
+            Objects.requireNonNull(diffResult);
+            diffResult.dispatchUpdatesTo(this);
+            lastItemsInfo = diffResultBundle.getNewItemInfo();
+        }
 
         updateSupportedItemControllers(items);
     }

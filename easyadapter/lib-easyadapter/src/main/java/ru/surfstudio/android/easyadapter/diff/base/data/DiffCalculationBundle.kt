@@ -1,4 +1,4 @@
-package ru.surfstudio.android.easyadapter.async_diff
+package ru.surfstudio.android.easyadapter.diff.base.data
 
 import ru.surfstudio.android.easyadapter.ItemInfo
 import ru.surfstudio.android.easyadapter.ItemList

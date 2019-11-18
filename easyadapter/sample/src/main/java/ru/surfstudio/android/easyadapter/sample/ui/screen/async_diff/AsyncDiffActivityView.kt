@@ -10,7 +10,7 @@ import ru.surfstudio.android.core.mvp.configurator.BaseActivityViewConfigurator
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.easyadapter.async_diff.AsyncDiffStrategy
+import ru.surfstudio.android.easyadapter.diff.async.AsyncDiffStrategy
 import ru.surfstudio.android.easyadapter.sample.R
 import javax.inject.Inject
 

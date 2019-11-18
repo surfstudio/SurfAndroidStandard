@@ -1,11 +1,12 @@
-package ru.surfstudio.android.easyadapter.async_diff
+package ru.surfstudio.android.easyadapter.diff.base
 
 import androidx.recyclerview.widget.DiffUtil.DiffResult
+import ru.surfstudio.android.easyadapter.diff.base.data.DiffCalculationBundle
 
 /**
- * Interface of entity capable to calculate [DiffResult] in a worker thread.
+ * Interface of entity capable to calculate [DiffResult].
  */
-internal interface AsyncDiffer {
+internal interface Differ {
 
     /**
      * Initiate a diff calculation process.
