@@ -153,6 +153,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     /**
      * Set if {@link DiffUtil} should calculate {@link DiffUtil.DiffResult} asynchronously
+     * <p>
+     * By default, asynchronous {@link DiffUtil.DiffResult} calculation is disabled
      */
     public final void setAsyncDiffCalculationEnabled(boolean isAsyncDiffCalculationEnabled) {
         this.isAsyncDiffCalculationEnabled = isAsyncDiffCalculationEnabled;
@@ -160,6 +162,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
 
     /**
      * Set {@link AsyncDiffStrategy} which will be used for asynchronous {@link DiffUtil.DiffResult} calculation
+     * <p>
+     * By default, {@link DiffUtil.DiffResult} calculates using {@link AsyncDiffStrategy#QUEUE_ALL} strategy
      *
      * @param asyncDiffStrategy strategy of diff result calculation
      */
