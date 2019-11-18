@@ -11,7 +11,8 @@
 * ANDDEP-413 Added transition to WindowVQA on DebugScreen
 * ANDDEP-459 Added transition to application settings on DebugScreen
 * Fixed debug screen push notification appearing on each App#onCreate invocation
- 
+* ANDDEP-770 Fixed textStyle overriding and proguard bugs
+
 ## 0.4.0
 ##### Template
 * Updated navigation mechanisms in template
