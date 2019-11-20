@@ -101,12 +101,13 @@ pipeline.stages = [
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
-        },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            def groupId = "test_job"
+
+
+            def groupId = "#test_job"
             script.echo "qwerty2 ${groupId}"
             JarvisUtil.sendMessageToGroup(script, "spam", groupId, "slack", success)
-
+        },
+        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
