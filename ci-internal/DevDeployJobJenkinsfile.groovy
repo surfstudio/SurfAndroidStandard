@@ -113,9 +113,6 @@ pipeline.stages = [
             def message = "Modules changed:\n${changedReleaseNotes}"
             JarvisUtil.sendMessageToGroup(script, message, androidDevSlackChat, "slack", true)
         },
-        pipeline.stage(CHECK_RELEASE_NOTES) {
-
-        },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
