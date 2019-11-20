@@ -101,12 +101,6 @@ pipeline.stages = [
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
-
-
-            def groupId = "test_job"
-            script.echo "qwerty2 ${groupId}"
-
-            JarvisUtil.sendMessageToGroup(script, "spam", groupId, "Slack", success)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
@@ -200,6 +194,9 @@ pipeline.finalizeBody = {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
     //JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
+    def groupId = "test_job"
+    script.echo "qwerty2 ${groupId}"
+    JarvisUtil.sendMessageToGroup(script, "spam", groupId, "slack", success)
 }
 
 pipeline.run()
