@@ -103,7 +103,7 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
 
-            def groupId = "test_job"
+            def groupId = "https://surfnetwork.slack.com/archives/CQS581YBF"
             script.echo "qwerty2 ${groupId}"
             JarvisUtil.sendMessageToGroup(script, "spam", groupId, "slack", true)
         },
