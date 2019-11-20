@@ -15,6 +15,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 // Stage names
 def CHECKOUT = 'Checkout'
+def CHECK_RELEASE_NOTES = 'Checkout'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
@@ -33,11 +34,14 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
+def changedReleaseNotesUrl = "buildSrc/releaseNotesDiff.txt"
+def androidDevSlackChat = "CQS581YBF"
 
 //vars
 def branchName = ""
 def globalVersion = "<unknown>"
 def buildDescription = ""
+def lastDestinationBranchCommitHash = ""
 
 //other config
 
@@ -60,10 +64,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECK_RELEASE_NOTES) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECK_RELEASE_NOTES) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -87,7 +91,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(CHECKOUT) {
+        pipeline.stage(CHECK_RELEASE_NOTES) {
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
@@ -101,19 +105,13 @@ pipeline.stages = [
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
-
-
-
-            def lastDestinationBranchCommitHash = script.sh(returnStdout: true, script: 'git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk \'{ print $1}\'').trim()
+        },
+        pipeline.stage(CHECK_RELEASE_NOTES) {
+            lastDestinationBranchCommitHash = script.sh(returnStdout: true, script: 'git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk \'{ print $1}\'').trim()
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
-
-
-            String fileText = script.readFile("buildSrc/releaseNotesDiff.txt")
-            script.echo "qwerty2 \n ${fileText}"
-
-            def message = "${fileText}"
-            def groupId = "CQS581YBF"
-            JarvisUtil.sendMessageToGroup(script, message, groupId, "slack", true)
+            String changedReleaseNotes = script.readFile(changedReleaseNotesUrl)
+            def message = "Modules changed:\n${changedReleaseNotes}"
+            JarvisUtil.sendMessageToGroup(script, message, androidDevSlackChat, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
@@ -199,7 +197,7 @@ pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
-    def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
+    def checkoutAborted = pipeline.getStage(CHECK_RELEASE_NOTES).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"

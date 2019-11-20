@@ -2,8 +2,6 @@ package ru.surfstudio.android.build.tasks.generate_release_notes_diff
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import org.gradle.internal.logging.text.StyledTextOutput
-import org.gradle.internal.logging.text.StyledTextOutputFactory
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.ReleaseNotes
@@ -30,9 +28,9 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         extractInputArguments()
         if (componentName.isNotEmpty()) {
             val component = findComponent()
-            generateComponentDiff(component)
+            generateNameComponentDiff(component)
         } else {
-            Components.value.forEach(::generateComponentDiff)
+            Components.value.forEach(::generateNameComponentDiff)
         }
     }
 
@@ -40,16 +38,16 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
             Components.value.find { it.name == componentName }
                     ?: throw ComponentNotFoundException(componentName)
 
-    private fun generateComponentDiff(component: Component) {
-        val rawDiff = extractRawDiff(component)
+    private fun generateNameComponentDiff(component: Component) {
+        val rawDiff = getNameDiffComponent(component)
         writeToFile(rawDiff.replace("/RELEASE_NOTES.md", "".trim()))
     }
 
-    fun writeToFile(text: String) {
+    private fun writeToFile(text: String) {
         File("buildSrc/releaseNotesDiff.txt").appendText("$text")
     }
 
-    private fun extractRawDiff(component: Component): String {
+    private fun getNameDiffComponent(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
         return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
     }
