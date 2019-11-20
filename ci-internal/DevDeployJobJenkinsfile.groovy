@@ -103,8 +103,12 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
 
+            script.echo "qwerty2"
+            def lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
+            script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+
+
             def groupId = "CQS581YBF"
-            script.echo "qwerty2 ${groupId}"
             JarvisUtil.sendMessageToGroup(script, "spam", groupId, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
