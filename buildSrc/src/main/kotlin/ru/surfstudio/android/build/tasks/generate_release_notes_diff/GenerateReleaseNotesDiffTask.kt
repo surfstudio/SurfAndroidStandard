@@ -41,11 +41,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
-//        val diffs = parseRawDiff(rawDiff)
-//        if (diffs.isNotEmpty()) writeToFile(component.name)
-//        writeDiff(diffs)
-//        if (diffs.isNotEmpty()) println()
-        writeToFile(rawDiff)
+        writeToFile(rawDiff.replace("RELEASE_NOTES.md", "".trim()))
     }
 
     fun writeToFile(text: String) {
