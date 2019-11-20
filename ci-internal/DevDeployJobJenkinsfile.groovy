@@ -104,7 +104,7 @@ pipeline.stages = [
 
 
             script.echo "qwerty2"
-            JarvisUtil.sendMessageToUser(script, "spam229", "trofimenko@surfstudio.ru", "email")
+            JarvisUtil.sendMessageToUser(script, "spam229", "trofimenko@surfstudio.ru", "sd")
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
