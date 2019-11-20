@@ -47,6 +47,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
       //  if (diffs.isNotEmpty()) writeToFile(component.name)
        // writeDiff(diffs)
         if (diffs.isNotEmpty()) println()
+        writeToFile(rawDiff)
     }
 
     fun writeToFile(text: String) {
@@ -76,8 +77,6 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
-        File(filePath).forEachLine {  writeToFile(it) }
-
         return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
     }
 

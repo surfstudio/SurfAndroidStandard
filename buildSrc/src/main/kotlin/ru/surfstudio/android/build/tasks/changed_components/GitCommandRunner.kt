@@ -5,7 +5,8 @@ import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 
 const val GIT_DIFF_COMMAND = "git diff --name-only"
-const val GIT_FULL_DIFF_COMMAND = "git diff"
+//const val GIT_FULL_DIFF_COMMAND = "git diff"
+const val GIT_FULL_DIFF_COMMAND = "git show :"
 const val GIT_CHECKOUT_COMMAND = "git checkout"
 const val GIT_STASH_COMMAND = "git stash"
 const val GIT_GET_CURRENT_REVISION_COMMAND = "git rev-parse --short HEAD"
@@ -48,10 +49,16 @@ class GitCommandRunner(
             filePath: String,
             opts: String = "-U0"
     ): String? {
+//        val command = if (previousRevision.isEmpty()) {
+//            "$GIT_FULL_DIFF_COMMAND $opts $currentRevision $filePath"
+//        } else {
+//            "$GIT_FULL_DIFF_COMMAND $opts $previousRevision $currentRevision $filePath"
+//        }
+
         val command = if (previousRevision.isEmpty()) {
-            "$GIT_FULL_DIFF_COMMAND $opts $currentRevision $filePath"
+            "$GIT_FULL_DIFF_COMMAND$filePath"
         } else {
-            "$GIT_FULL_DIFF_COMMAND $opts $previousRevision $currentRevision $filePath"
+            "$GIT_FULL_DIFF_COMMAND$filePath"
         }
         return runCommandWithResult(command, File(directory))
     }
