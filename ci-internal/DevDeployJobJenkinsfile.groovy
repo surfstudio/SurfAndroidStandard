@@ -104,7 +104,7 @@ pipeline.stages = [
 
 
             script.echo "qwerty2"
-            JarvisUtil.sendMessageToGroup(script, message, "https://surfnetwork.slack.com/archives/CQS581YBF", "slack", success)
+            JarvisUtil.sendMessageToGroup(script, message, "CQS581YBF", "slack", success)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
