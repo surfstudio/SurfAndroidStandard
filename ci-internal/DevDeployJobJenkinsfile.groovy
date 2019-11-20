@@ -103,8 +103,10 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
 
-            script.echo "qwerty2"
-            JarvisUtil.sendMessageToGroup(script, message, "test_job", "slack", success)
+            def groupId = "test_job"
+            script.echo "qwerty2 ${groupId}"
+
+            JarvisUtil.sendMessageToGroup(script, message, groupId, "slack", success)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
@@ -197,7 +199,9 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
+    //JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
+    JarvisUtil.sendMessageToUser(script, message, "trofimenko@surfstudio.ru", "email")
+
 }
 
 pipeline.run()
