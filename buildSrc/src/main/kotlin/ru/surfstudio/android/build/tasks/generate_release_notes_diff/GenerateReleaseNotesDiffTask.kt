@@ -23,6 +23,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     private lateinit var currentRevision: String
 
     private val gitRunner: GitCommandRunner = GitCommandRunner()
+    private var i = 0
 
     @TaskAction
     fun generate() {
@@ -41,50 +42,16 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
-        writeToFile(rawDiff.replace("RELEASE_NOTES.md", "".trim()))
+        writeToFile(rawDiff.replace("/RELEASE_NOTES.md", "".trim()))
     }
 
     fun writeToFile(text: String) {
-        val file = File("buildSrc/releaseNotesDiff.txt").appendText("$text \n")
+        File("buildSrc/releaseNotesDiff.txt").appendText("${i++} $text \n")
     }
-
-    private fun writeDiff(diffs: List<GitDiff>) {
-        var prev: GitDiff? = null
-        diffs.forEach { diff ->
-            writeLine(diff, prev)
-            prev = diff
-        }
-    }
-
-    private fun writeLine(diff: GitDiff, prev: GitDiff?) {
-        val paddingSpaces = getSpaces(diff.lineNumber)
-        val lineToPrint = when {
-            prev == null -> return
-            diff.type == GitDiff.Type.SEPARATE -> "..."
-            else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
-        }
-        writeToFile(lineToPrint)
-    }
-
-    private fun parseRawDiff(diff: String): List<GitDiff> =
-            SimpleGitDiffParser().parse(diff)
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
         return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
-    }
-
-    /**
-     * Simple padding method which adds spaces according to line length
-     */
-    private fun getSpaces(currentLine: Int): String {
-        val space = " "
-        val spacesCount = when {
-            currentLine / 10 == 0 -> 3
-            currentLine / 100 == 0 -> 2
-            else -> 1
-        }
-        return space.repeat(spacesCount)
     }
 
     private fun extractInputArguments() {
