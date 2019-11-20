@@ -106,7 +106,7 @@ pipeline.stages = [
             def groupId = "test_job"
             script.echo "qwerty2 ${groupId}"
 
-            JarvisUtil.sendMessageToGroup(script, message, groupId, "Slack", success)
+            JarvisUtil.sendMessageToGroup(script, "spam", groupId, "Slack", success)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
