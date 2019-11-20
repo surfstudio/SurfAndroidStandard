@@ -17,7 +17,7 @@ import java.io.File
 open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     companion object {
-        private const val changedReleaseNotesUrl = "buildSrc/releaseNotesDiff.txt"
+        private const val changedReleaseNotesUrl = "buildSrc/changedReleaseNotes.txt"
     }
 
     private lateinit var componentName: String
