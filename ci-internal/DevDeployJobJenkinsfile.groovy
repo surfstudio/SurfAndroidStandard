@@ -103,18 +103,22 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
 
-//            def lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
-//            git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk '{ print $1}'
-//            def lastDestinationBranchCommitHash = "0a16df92d1cc2ae4ba9e53511a0ea9d888021ee3"
+
             def lastDestinationBranchCommitHash = script.sh(returnStdout: true, script: 'git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk \'{ print $1}\'').trim()
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+
+
+
+            val diffff = script.sh(returnStdout: true, script: 'git diff e3195839d7304ed6100917ce8b3691e18ec93413 0a16df92d1cc2ae4ba9e53511a0ea9d888021ee3 ').trim()
+
+
 
             String fileText = script.readFile("buildSrc/releaseNotesDiff.txt")
             script.echo "qwerty2 \n ${fileText}"
 
             def message = "HASH = ${lastDestinationBranchCommitHash} \n ${fileText}"
             def groupId = "CQS581YBF"
-            JarvisUtil.sendMessageToGroup(script, message, groupId, "slack", true)
+            JarvisUtil.sendMessageToGroup(script, diffff, groupId, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
