@@ -103,8 +103,11 @@ public class EasyAdapter extends RecyclerView.Adapter {
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        BaseItem item = items.get(getListPosition(holder.getAdapterPosition()));
-        item.getItemController().unbind(holder, item);
+        int postioin = getListPosition(holder.getAdapterPosition());
+        if (postioin != -1) {
+            BaseItem item = items.get(postioin);
+            item.getItemController().unbind(holder, item);
+        }
     }
 
     /**
