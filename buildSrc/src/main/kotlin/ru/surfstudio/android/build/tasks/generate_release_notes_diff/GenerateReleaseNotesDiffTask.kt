@@ -50,15 +50,14 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         if (diffs.isNotEmpty()) writeToFile(component.name)
         writeDiff(diffs)
         if (diffs.isNotEmpty()) println()
-        writeToFile("21212121")
         writeToFile(component.name)
         writeToFile(diffs.toString())
+        writeToFile("21212121")
 
     }
 
     fun writeToFile(text: String) {
-        val file = File("buildSrc/releaseNotesDiff.txt")
-        file.printWriter().use { out -> out.println("$text \n write to file") }
+        val file = File("buildSrc/releaseNotesDiff.txt").appendText("$text \n write to file")
     }
 
     private fun writeDiff(diffs: List<GitDiff>) {
