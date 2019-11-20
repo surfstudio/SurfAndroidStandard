@@ -44,9 +44,6 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
         val diffs = parseRawDiff(rawDiff)
-//        if (diffs.isNotEmpty()) printComponentName(component)
-//        printDiff(diffs)
-//        if (diffs.isNotEmpty()) println()
         if (diffs.isNotEmpty()) writeToFile(component.name)
         writeDiff(diffs)
         if (diffs.isNotEmpty()) println()
@@ -74,45 +71,13 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         writeToFile(lineToPrint)
     }
 
-    private fun printComponentName(component: Component) {
-        outputStyler.style(StyledTextOutput.Style.Header).println(component.name)
-    }
-
     private fun parseRawDiff(diff: String): List<GitDiff> =
             SimpleGitDiffParser().parse(diff)
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
+        writeToFile("ReleaseNotes.getReleaseNotesFilePath(component) $filePath")
         return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
-    }
-
-    private fun printDiff(diffs: List<GitDiff>) {
-        var prev: GitDiff? = null
-        diffs.forEach { diff ->
-            printLine(diff, prev)
-            prev = diff
-        }
-    }
-
-    /**
-     * Prints styled line from git diff
-     */
-    private fun printLine(diff: GitDiff, prev: GitDiff?) {
-        val style = getStyleFromDiffType(diff.type)
-        val paddingSpaces = getSpaces(diff.lineNumber)
-        val lineToPrint = when {
-            prev == null -> return
-            diff.type == GitDiff.Type.SEPARATE -> "..."
-            else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
-
-        }
-        outputStyler.style(style).println(lineToPrint)
-    }
-
-    private fun getStyleFromDiffType(type: GitDiff.Type): StyledTextOutput.Style = when (type) {
-        GitDiff.Type.ADD -> StyledTextOutput.Style.Success
-        GitDiff.Type.REMOVE -> StyledTextOutput.Style.Failure
-        GitDiff.Type.SEPARATE -> StyledTextOutput.Style.Normal
     }
 
     /**
