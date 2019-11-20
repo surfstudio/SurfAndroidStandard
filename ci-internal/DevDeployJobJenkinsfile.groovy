@@ -105,13 +105,16 @@ pipeline.stages = [
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
-        },
-        pipeline.stage(CHECK_RELEASE_NOTES) {
+
+
             lastDestinationBranchCommitHash = script.sh(returnStdout: true, script: 'git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk \'{ print $1}\'').trim()
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
             String changedReleaseNotes = script.readFile(changedReleaseNotesUrl)
             def message = "Modules changed:\n${changedReleaseNotes}"
             JarvisUtil.sendMessageToGroup(script, message, androidDevSlackChat, "slack", true)
+        },
+        pipeline.stage(CHECK_RELEASE_NOTES) {
+
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)

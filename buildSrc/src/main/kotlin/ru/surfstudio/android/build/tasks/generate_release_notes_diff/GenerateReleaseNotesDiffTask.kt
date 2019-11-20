@@ -16,9 +16,14 @@ import java.io.File
  */
 open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
+    companion object {
+        private const val changedReleaseNotesUrl = "buildSrc/releaseNotesDiff.txt"
+    }
+
     private lateinit var componentName: String
     private lateinit var revisionToCompare: String
     private lateinit var currentRevision: String
+
 
     private val gitRunner: GitCommandRunner = GitCommandRunner()
     private var i = 0
@@ -43,9 +48,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         writeToFile(rawDiff.replace("/RELEASE_NOTES.md", "".trim()))
     }
 
-    private fun writeToFile(text: String) {
-        File("buildSrc/releaseNotesDiff.txt").appendText("$text")
-    }
+    private fun writeToFile(text: String) = File(changedReleaseNotesUrl).appendText(text)
 
     private fun getChangedReleaseNotesComponent(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
