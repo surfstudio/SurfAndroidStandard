@@ -109,7 +109,7 @@ pipeline.stages = [
 
 
 
-            val diffff = script.sh(returnStdout: true, script: 'git diff e3195839d7304ed6100917ce8b3691e18ec93413 0a16df92d1cc2ae4ba9e53511a0ea9d888021ee3 ').trim()
+            val diffff = script.sh('git diff e3195839d7304ed6100917ce8b3691e18ec93413 0a16df92d1cc2ae4ba9e53511a0ea9d888021ee3 ')
 
 
 
@@ -118,7 +118,7 @@ pipeline.stages = [
 
             def message = "HASH = ${lastDestinationBranchCommitHash} \n ${fileText}"
             def groupId = "CQS581YBF"
-            JarvisUtil.sendMessageToGroup(script, diffff, groupId, "slack", true)
+            JarvisUtil.sendMessageToGroup(script, message, groupId, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
