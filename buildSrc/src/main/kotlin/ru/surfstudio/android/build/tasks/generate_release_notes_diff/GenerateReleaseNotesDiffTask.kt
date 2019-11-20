@@ -28,9 +28,9 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         extractInputArguments()
         if (componentName.isNotEmpty()) {
             val component = findComponent()
-            generateNameComponentDiff(component)
+            generateChangedReleaseNotesComponentName(component)
         } else {
-            Components.value.forEach(::generateNameComponentDiff)
+            Components.value.forEach(::generateChangedReleaseNotesComponentName)
         }
     }
 
@@ -38,8 +38,8 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
             Components.value.find { it.name == componentName }
                     ?: throw ComponentNotFoundException(componentName)
 
-    private fun generateNameComponentDiff(component: Component) {
-        val rawDiff = getNameDiffComponent(component)
+    private fun generateChangedReleaseNotesComponentName(component: Component) {
+        val rawDiff = getChangedReleaseNotesComponent(component)
         writeToFile(rawDiff.replace("/RELEASE_NOTES.md", "".trim()))
     }
 
@@ -47,7 +47,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         File("buildSrc/releaseNotesDiff.txt").appendText("$text")
     }
 
-    private fun getNameDiffComponent(component: Component): String {
+    private fun getChangedReleaseNotesComponent(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
         return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
     }
