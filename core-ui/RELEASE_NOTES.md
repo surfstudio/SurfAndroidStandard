@@ -22,4 +22,15 @@ the ability to show the need to go to the phone settings;
 * ANDDEP-198 The shouldShowRequestPermissionRationale method has been added to the PermissionManager, which allows to understand whether the permissions request dialog is still displayed or is it already prohibited
 ## 0.2.0
 ##### Core-ui
-* ANDDEP-108  Realize TabFragmentNavigator by detach/attach
+* ANDDEP-108  Realize TabFragmentNavigator by detach/attachfdsfsd fsd
+fsd
+f
+dsf
+sda
+fd
+saf
+sdf
+sd
+f
+sd
+fsdfsdfds  q2
