@@ -54,7 +54,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     fun writeToFile(text: String) {
         val file = File("buildSrc/releaseNotesDiff.txt")
-        file.writeText("$text \n")
+        file.writeText("$text \n write to file")
     }
 
     private fun writeDiff(diffs: List<GitDiff>) {
@@ -71,7 +71,6 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
             prev == null -> return
             diff.type == GitDiff.Type.SEPARATE -> "..."
             else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
-
         }
         writeToFile(lineToPrint)
     }
