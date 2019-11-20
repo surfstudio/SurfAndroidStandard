@@ -103,13 +103,14 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
 
+//            def lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
             def lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
 
             String fileText = script.readFile("buildSrc/releaseNotesDiff.txt")
             script.echo "qwerty2 \n ${fileText}"
 
-            def message = fileText
+            def message = "HASH = ${lastDestinationBranchCommitHash} \n ${fileText}"
             def groupId = "CQS581YBF"
             JarvisUtil.sendMessageToGroup(script, message, groupId, "slack", true)
         },
