@@ -42,6 +42,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
                     ?: throw ComponentNotFoundException(componentName)
 
     private fun generateComponentDiff(component: Component) {
+        writeToFile("21212121")
         val rawDiff = extractRawDiff(component)
         val diffs = parseRawDiff(rawDiff)
 //        if (diffs.isNotEmpty()) printComponentName(component)
