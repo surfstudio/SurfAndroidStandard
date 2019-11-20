@@ -34,7 +34,7 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
-def changedReleaseNotesUrl = "buildSrc/releaseNotesDiff.txt"
+def changedReleaseNotesUrl = "buildSrc/changedReleaseNotes.txt"
 def androidDevSlackChat = "CQS581YBF"
 
 //vars
