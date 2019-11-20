@@ -46,7 +46,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     }
 
     fun writeToFile(text: String) {
-        File("buildSrc/releaseNotesDiff.txt").appendText("${i++} $text \n")
+        File("buildSrc/releaseNotesDiff.txt").appendText("${i++} $text")
     }
 
     private fun extractRawDiff(component: Component): String {
