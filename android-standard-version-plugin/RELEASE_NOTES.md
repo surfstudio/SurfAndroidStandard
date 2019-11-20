@@ -4,3 +4,4 @@
 ##### Android-standard-version-plugin
 * ANDDEP-521 Added gradle plugin for providing artifacts versions 
 * ANDDEP-521 test release note1
+* работает
