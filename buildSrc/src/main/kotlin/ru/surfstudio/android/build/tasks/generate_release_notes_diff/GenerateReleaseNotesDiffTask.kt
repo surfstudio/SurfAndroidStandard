@@ -24,8 +24,6 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     private val gitRunner: GitCommandRunner = GitCommandRunner()
 
-    private val outputStyler = services.get(StyledTextOutputFactory::class.java).create("styled output")
-
     @TaskAction
     fun generate() {
         extractInputArguments()
@@ -43,10 +41,10 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
-        val diffs = parseRawDiff(rawDiff)
-      //  if (diffs.isNotEmpty()) writeToFile(component.name)
-       // writeDiff(diffs)
-        if (diffs.isNotEmpty()) println()
+//        val diffs = parseRawDiff(rawDiff)
+//        if (diffs.isNotEmpty()) writeToFile(component.name)
+//        writeDiff(diffs)
+//        if (diffs.isNotEmpty()) println()
         writeToFile(rawDiff)
     }
 
