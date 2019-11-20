@@ -50,7 +50,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     }
 
     fun writeToFile(text: String) {
-        val file = File("buildSrc/releaseNotesDiff.txt").appendText("${text.substring(0,9000)} \n")
+        val file = File("buildSrc/releaseNotesDiff.txt").appendText("$text \n")
     }
 
     private fun writeDiff(diffs: List<GitDiff>) {
@@ -76,7 +76,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
-        File(filePath).forEachLine { writeToFile(it) }
+        File(filePath).forEachLine {  writeToFile(it) }
 
         return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
     }
