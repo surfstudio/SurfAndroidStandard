@@ -118,7 +118,7 @@ pipeline.stages = [
 
             def message = "HASH = ${lastDestinationBranchCommitHash} \n ${fileText}"
             def groupId = "CQS581YBF"
-            JarvisUtil.sendMessageToGroup(script, diffff, groupId, "slack", true)
+            JarvisUtil.sendMessageToGroup(script, message, groupId, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
