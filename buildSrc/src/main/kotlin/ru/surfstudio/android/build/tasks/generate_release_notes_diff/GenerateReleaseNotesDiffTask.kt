@@ -58,7 +58,7 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
     fun writeToFile(text: String) {
         val file = File("buildSrc/releaseNotesDiff.txt")
-        file.writeText("$text \n write to file")
+        file.printWriter().use { out -> out.println("$text \n write to file") }
     }
 
     private fun writeDiff(diffs: List<GitDiff>) {
