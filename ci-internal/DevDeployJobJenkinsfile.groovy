@@ -104,7 +104,9 @@ pipeline.stages = [
 
 
 //            def lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
-            def lastDestinationBranchCommitHash = "0a16df92d1cc2ae4ba9e53511a0ea9d888021ee3"
+//            git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk '{ print $1}'
+//            def lastDestinationBranchCommitHash = "0a16df92d1cc2ae4ba9e53511a0ea9d888021ee3"
+            def lastDestinationBranchCommitHash = script.sh(returnStdout: true, script: 'git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk \'{ print $1}\'').trim()
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
 
             String fileText = script.readFile("buildSrc/releaseNotesDiff.txt")
