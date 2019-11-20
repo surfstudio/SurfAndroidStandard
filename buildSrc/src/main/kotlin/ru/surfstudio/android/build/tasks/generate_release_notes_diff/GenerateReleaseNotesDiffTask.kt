@@ -44,15 +44,36 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
         val diffs = parseRawDiff(rawDiff)
-        if (diffs.isNotEmpty()) printComponentName(component)
-        printDiff(diffs)
+//        if (diffs.isNotEmpty()) printComponentName(component)
+//        printDiff(diffs)
+//        if (diffs.isNotEmpty()) println()
+        if (diffs.isNotEmpty()) writeToFile(component.name)
+        writeDiff(diffs)
         if (diffs.isNotEmpty()) println()
-        deleteMeFun()
     }
 
-    fun deleteMeFun(){
-       val file =  File("buildSrc/releaseNotesDiff.txt")
-        file.writeText("ey")
+    fun writeToFile(text: String) {
+        val file = File("buildSrc/releaseNotesDiff.txt")
+        file.writeText("$text \n")
+    }
+
+    private fun writeDiff(diffs: List<GitDiff>) {
+        var prev: GitDiff? = null
+        diffs.forEach { diff ->
+            writeLine(diff, prev)
+            prev = diff
+        }
+    }
+
+    private fun writeLine(diff: GitDiff, prev: GitDiff?) {
+        val paddingSpaces = getSpaces(diff.lineNumber)
+        val lineToPrint = when {
+            prev == null -> return
+            diff.type == GitDiff.Type.SEPARATE -> "..."
+            else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
+
+        }
+        writeToFile(lineToPrint)
     }
 
     private fun printComponentName(component: Component) {
