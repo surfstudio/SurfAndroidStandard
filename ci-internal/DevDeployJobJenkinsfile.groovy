@@ -114,7 +114,7 @@ pipeline.stages = [
             JarvisUtil.sendMessageToGroup(script, message, androidDevSlackChat, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+            String globalConfigurationJsonStr = script.readFile("buildSrc/releaseNotesDiff.txt")
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
             globalVersion = globalConfiguration.version
 
