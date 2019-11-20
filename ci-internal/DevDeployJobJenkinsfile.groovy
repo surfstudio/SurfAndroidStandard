@@ -102,14 +102,16 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
-            String fileText = script.readFile("buildSrc/releaseNotesDiff.txt")
-            script.echo "qwerty2 \n ${fileText}"
+
             def lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
 
+            String fileText = script.readFile("buildSrc/releaseNotesDiff.txt")
+            script.echo "qwerty2 \n ${fileText}"
+
             def message = fileText
             def groupId = "CQS581YBF"
-            JarvisUtil.sendMessageToGroup(script, "spam", groupId, "slack", true)
+            JarvisUtil.sendMessageToGroup(script, message, groupId, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)

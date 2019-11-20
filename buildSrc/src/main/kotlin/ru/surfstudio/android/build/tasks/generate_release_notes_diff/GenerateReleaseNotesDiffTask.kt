@@ -11,6 +11,7 @@ import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.EMPTY_STRING
+import java.io.File
 
 /**
  * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project
@@ -46,6 +47,12 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         if (diffs.isNotEmpty()) printComponentName(component)
         printDiff(diffs)
         if (diffs.isNotEmpty()) println()
+        deleteMeFun()
+    }
+
+    fun deleteMeFun(){
+       val file =  File("buildSrc/releaseNotesDiff.txt")
+        file.writeText("ey")
     }
 
     private fun printComponentName(component: Component) {
