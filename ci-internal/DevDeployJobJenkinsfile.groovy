@@ -102,8 +102,8 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
-
-            script.echo "qwerty2"
+            String fileText = script.readFile(projectConfigurationFile)
+            script.echo "qwerty2 \n ${fileText}"
             def lastDestinationBranchCommitHash = RepositoryUtil.getCurrentCommitHash(script)
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
 
