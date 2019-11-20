@@ -50,9 +50,9 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
         if (diffs.isNotEmpty()) writeToFile(component.name)
         writeDiff(diffs)
         if (diffs.isNotEmpty()) println()
-        writeToFile(component.name)
-        writeToFile(diffs.toString())
-        writeToFile("21212121")
+//        writeToFile(component.name)
+//        writeToFile(diffs.toString())
+//        writeToFile("21212121")
 
     }
 
