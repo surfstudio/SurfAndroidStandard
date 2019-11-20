@@ -103,7 +103,7 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
 
 
-            script.echo "qwerty1"
+            script.echo "qwerty2"
             JarvisUtil.sendMessageToUser(script, "spam229", "trofimenko@surfstudio.ru", "email")
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
