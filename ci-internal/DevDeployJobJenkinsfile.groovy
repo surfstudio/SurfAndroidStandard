@@ -14,6 +14,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 // Stage names
 def CHECKOUT = 'Checkout'
+def CHECK_RELEASE_NOTES_CHANGES = "Check release notes changes "
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
@@ -32,6 +33,8 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
+def releaseNotesChangesFileUrl = "buildSrc/releaseNotesDiff.txt"
+def idChatAndroidSlack = "CQS581YBF"
 
 //vars
 def branchName = ""
@@ -100,6 +103,14 @@ pipeline.stages = [
             CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
+        },
+        pipeline.stage(CHECK_RELEASE_NOTES_CHANGES) {
+            def mainBranchHeadHash = script.sh(returnStdout: true, script: 'git ls-remote https://trofimentko-surf@bitbucket.org/surfstudio/android-standard.git HEAD | awk \'{ print $1}\'').trim()
+            script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${mainBranchHeadHash}")
+            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
+
+            def message = releaseNotesChanges
+            JarvisUtil.sendMessageToGroup(script, message, idChatAndroidSlack, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
