@@ -49,9 +49,9 @@ class GitCommandRunner(
             opts: String = "-U0"
     ): String? {
         val command = if (previousRevision.isEmpty()) {
-            "$GIT_FULL_DIFF_COMMAND $opts $currentRevision $filePath"
+            "$GIT_DIFF_COMMAND $opts $currentRevision $filePath"
         } else {
-            "$GIT_FULL_DIFF_COMMAND $opts $previousRevision $currentRevision $filePath"
+            "$GIT_DIFF_COMMAND $opts $previousRevision $currentRevision $filePath"
         }
         return runCommandWithResult(command, File(directory))
     }

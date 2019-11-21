@@ -2,8 +2,6 @@ package ru.surfstudio.android.build.tasks.generate_release_notes_diff
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import org.gradle.internal.logging.text.StyledTextOutput
-import org.gradle.internal.logging.text.StyledTextOutputFactory
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.ReleaseNotes
@@ -18,22 +16,26 @@ import java.io.File
  */
 open class GenerateReleaseNotesDiffTask : DefaultTask() {
 
+    companion object {
+        private const val changedReleaseNotesUrl = "buildSrc/changedReleaseNotes.txt"
+    }
+
     private lateinit var componentName: String
     private lateinit var revisionToCompare: String
     private lateinit var currentRevision: String
 
-    private val gitRunner: GitCommandRunner = GitCommandRunner()
 
-    private val outputStyler = services.get(StyledTextOutputFactory::class.java).create("styled output")
+    private val gitRunner: GitCommandRunner = GitCommandRunner()
+    private var i = 0
 
     @TaskAction
     fun generate() {
         extractInputArguments()
         if (componentName.isNotEmpty()) {
             val component = findComponent()
-            generateComponentDiff(component)
+            generateChangedReleaseNotesComponentName(component)
         } else {
-            Components.value.forEach(::generateComponentDiff)
+            Components.value.forEach(::generateChangedReleaseNotesComponentName)
         }
     }
 
@@ -41,91 +43,16 @@ open class GenerateReleaseNotesDiffTask : DefaultTask() {
             Components.value.find { it.name == componentName }
                     ?: throw ComponentNotFoundException(componentName)
 
-    private fun generateComponentDiff(component: Component) {
-        val rawDiff = extractRawDiff(component)
-        val diffs = parseRawDiff(rawDiff)
-//        if (diffs.isNotEmpty()) printComponentName(component)
-//        printDiff(diffs)
-//        if (diffs.isNotEmpty()) println()
-        if (diffs.isNotEmpty()) writeToFile(component.name)
-        writeDiff(diffs)
-        if (diffs.isNotEmpty()) println()
+    private fun generateChangedReleaseNotesComponentName(component: Component) {
+        val rawDiff = getChangedReleaseNotesComponent(component)
+        writeToFile(rawDiff.replace("/RELEASE_NOTES.md", "".trim()))
     }
 
-    fun writeToFile(text: String) {
-        val file = File("buildSrc/releaseNotesDiff.txt").appendText("$text \n")
-    }
+    private fun writeToFile(text: String) = File(changedReleaseNotesUrl).appendText(text)
 
-    private fun writeDiff(diffs: List<GitDiff>) {
-        var prev: GitDiff? = null
-        diffs.forEach { diff ->
-            writeLine(diff, prev)
-            prev = diff
-        }
-    }
-
-    private fun writeLine(diff: GitDiff, prev: GitDiff?) {
-        val paddingSpaces = getSpaces(diff.lineNumber)
-        val lineToPrint = when {
-            prev == null -> return
-            diff.type == GitDiff.Type.SEPARATE -> "..."
-            else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
-        }
-        writeToFile(lineToPrint)
-    }
-
-    private fun printComponentName(component: Component) {
-        outputStyler.style(StyledTextOutput.Style.Header).println(component.name)
-    }
-
-    private fun parseRawDiff(diff: String): List<GitDiff> =
-            SimpleGitDiffParser().parse(diff)
-
-    private fun extractRawDiff(component: Component): String {
+    private fun getChangedReleaseNotesComponent(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
         return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
-    }
-
-    private fun printDiff(diffs: List<GitDiff>) {
-        var prev: GitDiff? = null
-        diffs.forEach { diff ->
-            printLine(diff, prev)
-            prev = diff
-        }
-    }
-
-    /**
-     * Prints styled line from git diff
-     */
-    private fun printLine(diff: GitDiff, prev: GitDiff?) {
-        val style = getStyleFromDiffType(diff.type)
-        val paddingSpaces = getSpaces(diff.lineNumber)
-        val lineToPrint = when {
-            prev == null -> return
-            diff.type == GitDiff.Type.SEPARATE -> "..."
-            else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
-
-        }
-        outputStyler.style(style).println(lineToPrint)
-    }
-
-    private fun getStyleFromDiffType(type: GitDiff.Type): StyledTextOutput.Style = when (type) {
-        GitDiff.Type.ADD -> StyledTextOutput.Style.Success
-        GitDiff.Type.REMOVE -> StyledTextOutput.Style.Failure
-        GitDiff.Type.SEPARATE -> StyledTextOutput.Style.Normal
-    }
-
-    /**
-     * Simple padding method which adds spaces according to line length
-     */
-    private fun getSpaces(currentLine: Int): String {
-        val space = " "
-        val spacesCount = when {
-            currentLine / 10 == 0 -> 3
-            currentLine / 100 == 0 -> 2
-            else -> 1
-        }
-        return space.repeat(spacesCount)
     }
 
     private fun extractInputArguments() {
