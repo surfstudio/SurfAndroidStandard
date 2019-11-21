@@ -64,10 +64,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECK_RELEASE_NOTES) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECK_RELEASE_NOTES) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -91,7 +91,7 @@ pipeline.initializeBody = {
 }
 
 pipeline.stages = [
-        pipeline.stage(CHECK_RELEASE_NOTES) {
+        pipeline.stage(CHECKOUT) {
             script.git(
                     url: pipeline.repoUrl,
                     credentialsId: pipeline.repoCredentialsId
@@ -197,7 +197,7 @@ pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
-    def checkoutAborted = pipeline.getStage(CHECK_RELEASE_NOTES).result == Result.ABORTED
+    def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
