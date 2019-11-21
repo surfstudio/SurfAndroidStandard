@@ -4,7 +4,7 @@
 ##### Analytics
 * TODO 
 ## 0.4.0
-##### Analytics
+##### Analytics два
 * ANDDEP-294 Improved analytics module
 * Support for any analytics event parameters. The ability to send an event only to certain analysts or according to the conditions.
 * Old events work unchanged.fdsjkfskdafjdskf
