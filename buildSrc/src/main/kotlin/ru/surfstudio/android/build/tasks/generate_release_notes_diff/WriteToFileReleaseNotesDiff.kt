@@ -23,7 +23,8 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     private lateinit var componentName: String
     private lateinit var revisionToCompare: String
     private lateinit var currentRevision: String
-    private val releaseNotesDiffFile = File(releaseNotesChangesFileUrl)
+    private val releaseNotesChangesFile = File(releaseNotesChangesFileUrl).apply { createNewFile() }
+
     private val gitRunner: GitCommandRunner = GitCommandRunner()
 
     @TaskAction
@@ -49,8 +50,7 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         if (diffs.isNotEmpty()) println()
     }
 
-    private fun writeToFile(text: String)
-            = releaseNotesDiffFile.appendText("$text\n")
+    private fun writeToFile(text: String) = releaseNotesChangesFile.appendText("$text\n")
 
     private fun writeDiff(diffs: List<GitDiff>) {
         var prev: GitDiff? = null
