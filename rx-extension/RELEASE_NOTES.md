@@ -2,4 +2,4 @@
 # Rx-extension Release Notes
 ## 0.5.0-alpha
 ##### Rx-extension
-* TODO
+* ANDDEP-671 Add Any.toObservable() extension method

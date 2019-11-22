@@ -26,7 +26,7 @@
         1. [Кеширование](interactor/cache.md)
         1. [Гибридные запросы](../deprecated/network/lib-network/docs/hybrid.md)
     1. [Работа с локацией](../location/sample/README.md)
-    1. [Проверка соединения](../connection/sample/README.md)
+    1. [Проверка соединения](../connection/lib-connection/README.md)
     1. [Миграция между версиями приложения](../app-migration/sample/README.md)
     1. [Работа с Broadcast](../broadcast-extension/sample/README.md)
     1. [Работа с файловым хранилищем](../filestorage/sample/README.md)

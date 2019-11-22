@@ -6,9 +6,9 @@
 ## 0.4.0
 ##### Recycler-extension
 * ANDDEP-266 DividerItemDecorator Update
-     * Added ability to set padding for delimiters
-     * FooterCount parameter renamed lastItemsCountWithoutDividers
-     * Added the ability to set firstItemsCountWithoutDividers
+* Added ability to set padding for delimiters
+* FooterCount parameter renamed lastItemsCountWithoutDividers
+* Added the ability to set firstItemsCountWithoutDividers
 ## 0.3.0
 ##### Recycler-extension
 * Changed the constructor of `StickyLayoutManager`

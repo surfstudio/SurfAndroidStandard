@@ -1,6 +1,7 @@
 [TOC]
 # Deprecated Release Notes
 ## 0.5.0-alpha
+* ANDDEP-671 Add Any.toObservable() extension method
 ##### Network
 * TODO
 ## 0.2.1
