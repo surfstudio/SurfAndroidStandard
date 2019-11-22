@@ -27,7 +27,6 @@ def DEPLOY_MODULES = 'Deploy Modules'
 def DEPLOY_GLOBAL_VERSION_PLUGIN = 'Deploy Global Version Plugin'
 def VERSION_PUSH = 'Version Push'
 def MIRROR_COMPONENTS = 'Mirror Components'
-def CHECKS_BUILD_TEMPLATE = 'Checks Build Template'
 
 //constants
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
@@ -147,12 +146,6 @@ pipeline.stages = [
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.stage(CHECKS_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {

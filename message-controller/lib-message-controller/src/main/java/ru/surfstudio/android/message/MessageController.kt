@@ -15,12 +15,12 @@
  */
 package ru.surfstudio.android.message
 
-import androidx.annotation.ColorRes
-import androidx.annotation.StringRes
-import com.google.android.material.snackbar.Snackbar
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * Интерфейс контроллера отображения сообщений
@@ -34,27 +34,39 @@ interface MessageController {
         private const val DEFAULT_SNACK_DURATION = Snackbar.LENGTH_LONG
     }
 
-    fun show(message: String,
-             @ColorRes backgroundColor: Int? = null,
-             @StringRes actionStringId: Int? = null,
-             @ColorRes buttonColor: Int? = null,
-             duration: Int = DEFAULT_SNACK_DURATION,
-             listener: (view: View) -> Unit = {})
+    fun show(
+            message: CharSequence,
+            @ColorRes backgroundColorResId: Int? = null,
+            @StringRes actionResId: Int? = null,
+            @ColorRes actionColorResId: Int? = null,
+            duration: Int = DEFAULT_SNACK_DURATION,
+            listener: (view: View) -> Unit = {}
+    )
 
-    fun show(@StringRes stringId: Int,
-             @ColorRes backgroundColor: Int? = null,
-             @StringRes actionStringId: Int? = null,
-             @ColorRes buttonColor: Int? = null,
-             duration: Int = DEFAULT_SNACK_DURATION,
-             listener: (view: View) -> Unit = {})
+    fun show(
+            @StringRes messageResId: Int,
+            @ColorRes backgroundColorResId: Int? = null,
+            @StringRes actionResId: Int? = null,
+            @ColorRes actionColorResId: Int? = null,
+            duration: Int = DEFAULT_SNACK_DURATION,
+            listener: (view: View) -> Unit = {}
+    )
+
+    fun show(params: SnackParams, actionListener: (view: View) -> Unit = {})
 
     fun closeSnack()
 
-    fun showToast(@StringRes stringId: Int,
-                  gravity: Int = DEFAULT_TOAST_GRAVITY,
-                  duration: Int = DEFAULT_TOAST_DURATION)
+    fun showToast(
+            @StringRes messageResId: Int,
+            gravity: Int? = DEFAULT_TOAST_GRAVITY,
+            duration: Int = DEFAULT_TOAST_DURATION
+    )
 
-    fun showToast(message: String,
-                  gravity: Int = DEFAULT_TOAST_GRAVITY,
-                  duration: Int = Toast.LENGTH_LONG)
+    fun showToast(
+            message: CharSequence,
+            gravity: Int? = DEFAULT_TOAST_GRAVITY,
+            duration: Int = Toast.LENGTH_LONG
+    )
+
+    fun showToast(params: ToastParams)
 }

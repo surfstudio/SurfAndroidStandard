@@ -23,7 +23,7 @@
     Например в случае телефона открывается экран, а в случае планшета
     посылается событие через шину в соседний презентер.
 
-Реализация такой шины представлена модулем [rxbus](../../rxbus/README.md).
+Реализация такой шины представлена модулем [rxbus][rxbus].
 
 В остальных случаях для рассылки событий следует использовать [Эммитер внутри интерактора][interactor].
 Таким образом например можно связать несколько активити.
@@ -32,7 +32,9 @@ Activity в стеке.
 
 **Важно** : для рассылки событий внутри приложения не используем BroadcastReceiver.
 
-Для подписки на внешние события(системные) используется обертка над [BroadCastReceiver](../../broadcast-extension/README.md).
+Для подписки на внешние события(системные) используется обертка над [BroadCastReceiver][bcr].
 
-[widget]: ../../mvp-widget/README.md
+[widget]: ../../mvp/lib-mvp-widget/README.md
+[rxbus]: ../../rxbus/lib-rxbus/README.md
 [interactor]: ../interactor/events_by_interactor.md
+[bcr]: ../../broadcast-extension/lib-broadcast-extension/README.md

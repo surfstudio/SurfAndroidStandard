@@ -51,4 +51,3 @@ fun <T : Collection<Transformable<R>>, R> Single<T>.transformCollection(): Singl
                 it.transform()
             }
         }
-
