@@ -7,6 +7,7 @@
 * ANDDEP-633 Fixed widget manual destroy method
 ##### Mvp-dialog
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
+* Fix logging screen names
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState
