@@ -109,8 +109,7 @@ pipeline.stages = [
             script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${mainBranchHeadHash}")
             String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
 
-            def message = releaseNotesChanges
-            JarvisUtil.sendMessageToGroup(script, message, idChatAndroidSlack, "slack", true)
+            JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
