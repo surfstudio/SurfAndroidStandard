@@ -18,7 +18,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'ru.surfstudio.android:version-plugin:version'
+        classpath 'ru.surfstudio.android:version-plugin:%ANDROID-STANDARD-VERSION-HERE%'
     }
 }
 ```
@@ -28,7 +28,7 @@ build.gradle(app)
 apply plugin: 'ru.surfstudio.android'
 
 dependencies {
-    implementation "ru.surfstudio.android:artifact-id:${androidStandard.version("artifact-id")}"
+    implementation "ru.surfstudio.android:%ARTIFACT-ID-HERE%:${androidStandard.version("%ARTIFACT-ID-HERE%")}"
 }
 ```
 

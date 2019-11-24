@@ -54,13 +54,13 @@
 * Вместо нативного ProgressBar используем MaterialProgressBar из этой библиотеки
 (для стилизации элемента на prelollipop-устройствах).
 
-* [PlaceHolderViewContainer](../../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt) - кастомизируемый плейсхолдер
+* [PlaceHolderViewContainer](../../custom-view/lib-custom-view/src/main/java/ru/surfstudio/android/custom/view/placeholder/PlaceHolderViewContainer.kt) - кастомизируемый плейсхолдер
 для различных лоад-стейтов.
 
 
-[broadcast]: ../../broadcast-extension/README.md
-[message]: ../../nessage-controller/README.md
-[sticky]: ../../recycler-extension/README.md
-[easy]: ../../easyadapter/README.md
-[imageloader]: ../../imageloader/README.md
+[broadcast]: ../../broadcast-extension/lib-broadcast-extension/README.md
+[message]: ../../message-controller/lib-message-controller/README.md
+[sticky]: ../../recycler-extension/lib-recycler-extension/README.md
+[easy]: ../../easyadapter/lib-easyadapter/
+[imageloader]: ../../imageloader/lib-imageloader/README.md
 [glide]: https://github.com/bumptech/glide
