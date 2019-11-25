@@ -55,12 +55,6 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         releaseNotesChanges += "$chane\n"
     }
 
-//    private fun formatingReleaseChagne() {
-//        val formattedReleaseChange = ""
-//        val rows = releaseNotesChanges.split("\n")
-//        val rowsWithoutPlusAndMinus = rows.map { it.substring("") }
-//    }
-
     private fun writeChangesToFile() {
         val file = File(releaseNotesChangesFileUrl)
         with(file) {
@@ -90,8 +84,18 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         addReleaseNoteChange(lineToPrint)
     }
 
-    private fun parseRawDiff(diff: String): List<GitDiff> =
-            SimpleGitDiffParser().parse(diff)
+    private fun parseRawDiff(diff: String): List<GitDiff> {
+        val diffs = SimpleGitDiffParser().parse(diff)
+        return diffs.filter { filteredDiff ->
+            var isNewLineOrSpaceDiff = false
+            diffs.map {
+                if (filteredDiff.line.trim() == it.line.trim()) {
+                    isNewLineOrSpaceDiff = true
+                }
+            }
+            !isNewLineOrSpaceDiff
+        }
+    }
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
