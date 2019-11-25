@@ -10,6 +10,7 @@ import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import java.io.File
+
 /**
  * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project
  */
@@ -23,12 +24,6 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     private lateinit var revisionToCompare: String
     private lateinit var currentRevision: String
     private var releaseNotesChanges = ""
-    private val releaseNotesChangesFile = File(releaseNotesChangesFileUrl).apply {
-        if (exists()) {
-            delete()
-        }
-        createNewFile()
-    }
 
     private val gitRunner: GitCommandRunner = GitCommandRunner()
 
@@ -57,16 +52,18 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     }
 
     private fun addReleaseNoteChange(chane: String) {
-        val changeWithoutPlusOrMinus = chane.substring(1)
-        if (releaseNotesChanges.contains("$changeWithoutPlusOrMinus\n")){
-            releaseNotesChanges.replace("changeWithoutPlusOrMinus\n","")
-        } else {
-            releaseNotesChanges+= "$chane\n"
-        }
+        releaseNotesChanges += "$chane\n"
     }
 
-    private fun writeChangesToFile(){
-        releaseNotesChangesFile.appendText(releaseNotesChanges)
+    private fun writeChangesToFile() {
+        val file = File(releaseNotesChangesFileUrl)
+        with(file){
+            if (exists()) {
+                delete()
+            }
+            createNewFile()
+            appendText(releaseNotesChanges)
+        }
     }
 
     private fun writeDiff(diffs: List<GitDiff>) {
