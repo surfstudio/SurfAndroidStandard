@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
@@ -34,7 +35,8 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
-def idChatAndroidSlack = "CFS619TMH"
+//def idChatAndroidSlack = "CFS619TMH"
+def idChatAndroidSlack = "CQS581YBF"
 
 //vars
 def branchName = ""
@@ -107,10 +109,11 @@ pipeline.stages = [
         pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             def prevCommitHash = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').trim()
             script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${prevCommitHash}")
-            String releaseNotesChanges = "Android Standard changes:\n"
-            releaseNotesChanges += script.readFile(releaseNotesChangesFileUrl)
-
-            JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
+            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
+            if (releaseNotesChanges.trim() != "") {
+                releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
+                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
+            }
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
