@@ -10,7 +10,6 @@ import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import java.io.File
-
 /**
  * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project
  */
@@ -23,6 +22,7 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     private lateinit var componentName: String
     private lateinit var revisionToCompare: String
     private lateinit var currentRevision: String
+    private var releaseNotesChanges = ""
     private val releaseNotesChangesFile = File(releaseNotesChangesFileUrl).apply {
         if (exists()) {
             delete()
@@ -50,12 +50,19 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     private fun generateComponentDiff(component: Component) {
         val rawDiff = extractRawDiff(component)
         val diffs = parseRawDiff(rawDiff)
-        if (diffs.isNotEmpty()) writeToFile(component.name)
+        if (diffs.isNotEmpty()) addReleaseNoteChange(component.name)
         writeDiff(diffs)
         if (diffs.isNotEmpty()) println()
     }
 
-    private fun writeToFile(text: String) = releaseNotesChangesFile.appendText("$text\n")
+    private fun addReleaseNoteChange(chane: String) {
+        val changeWithoutPlusOrMinus = chane.substring(1)
+        if (releaseNotesChanges.contains("$changeWithoutPlusOrMinus\n")){
+            releaseNotesChanges.replace("changeWithoutPlusOrMinus\n","")
+        } else {
+            releaseNotesChanges+= "$chane\n"
+        }
+    }
 
     private fun writeDiff(diffs: List<GitDiff>) {
         var prev: GitDiff? = null
@@ -72,7 +79,7 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
             diff.type == GitDiff.Type.SEPARATE -> "..."
             else -> "${diff.lineNumber}$paddingSpaces${diff.line}"
         }
-        writeToFile(lineToPrint)
+        addReleaseNoteChange(lineToPrint)
     }
 
     private fun parseRawDiff(diff: String): List<GitDiff> =
@@ -116,3 +123,4 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         }
     }
 }
+
