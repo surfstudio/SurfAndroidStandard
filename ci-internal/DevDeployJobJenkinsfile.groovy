@@ -15,6 +15,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 // Stage names
 def CHECKOUT = 'Checkout'
+def NOTIFY_ANOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
@@ -104,7 +105,7 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(CHECK_RELEASE_NOTES_CHANGES) {
+        pipeline.stage(NOTIFY_ANOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             def prevCommitHash = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').trim()
             script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${prevCommitHash}")
             String releaseNotesChanges = "Android Standard changes:\n"
