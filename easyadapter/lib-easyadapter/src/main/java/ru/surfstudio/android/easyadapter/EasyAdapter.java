@@ -23,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -56,6 +55,11 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private boolean firstInvisibleItemEnabled = false;
     private BaseItem<BaseViewHolder> firstInvisibleItem = new NoDataItem<>(new FirstInvisibleItemController());
 
+    private RecyclerView currentRecyclerView;
+    private RecyclerView.LayoutManager currentLayoutManager;
+    private GridLayoutManager.SpanSizeLookup defaultSpanSizeLookup;
+
+    private boolean changeSpanSizeForGridLayoutManager = false;
     private boolean infiniteScroll;
 
     public EasyAdapter() {
@@ -66,9 +70,17 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
      */
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        initLayoutManager(recyclerView.getLayoutManager());
+        currentRecyclerView = recyclerView;
+        setupLayoutManager(false);
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView);
+        currentRecyclerView = null;
+        setupLayoutManager(false);
     }
 
     /**
@@ -154,6 +166,17 @@ public class EasyAdapter extends RecyclerView.Adapter {
      */
     public void setFirstInvisibleItemEnabled(boolean enableFirstInvisibleItem) {
         this.firstInvisibleItemEnabled = enableFirstInvisibleItem;
+    }
+
+    /**
+     * Set custom {@link GridLayoutManager.SpanSizeLookup} (if can) to return different
+     * span count for first item; or restore default
+     */
+    public void setChangeSpanSizeForGridLayoutManager(boolean toggle) {
+        if (changeSpanSizeForGridLayoutManager != toggle) {
+            changeSpanSizeForGridLayoutManager = toggle;
+            setupLayoutManager(true);
+        }
     }
 
     /**
@@ -248,29 +271,40 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return currentItemsInfo;
     }
 
-    private void initLayoutManager(LayoutManager layoutManager) {
-        if (layoutManager instanceof GridLayoutManager) {
-            final GridLayoutManager castedLayoutManager = (GridLayoutManager) layoutManager;
-            final GridLayoutManager.SpanSizeLookup existingLookup = castedLayoutManager.getSpanSizeLookup();
+    private void setupLayoutManager(boolean shouldNotifyOnChange) {
+        if (currentLayoutManager != null) {
+            if (defaultSpanSizeLookup != null
+                    && currentLayoutManager instanceof GridLayoutManager) {
+                ((GridLayoutManager) currentLayoutManager).setSpanSizeLookup(defaultSpanSizeLookup);
+            }
+            currentLayoutManager = null;
+        }
+        if (currentRecyclerView != null) {
+            currentLayoutManager = currentRecyclerView.getLayoutManager();
+            if (currentLayoutManager instanceof GridLayoutManager) {
 
-            castedLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    if (position == 0) {
-                        //full first invisible element
-                        return castedLayoutManager.getSpanCount();
-                    } else {
-                        return existingLookup.getSpanSize(position);
-                    }
+                boolean hasChanged = true;
+
+                final GridLayoutManager castedLayoutManager = (GridLayoutManager) currentLayoutManager;
+                if (changeSpanSizeForGridLayoutManager) {
+                    defaultSpanSizeLookup = castedLayoutManager.getSpanSizeLookup();
+                    castedLayoutManager.setSpanSizeLookup(new WrappedSpanSizeLookup(castedLayoutManager));
+                } else if (defaultSpanSizeLookup != null) {
+                    castedLayoutManager.setSpanSizeLookup(defaultSpanSizeLookup);
+                    defaultSpanSizeLookup = null;
+                } else {
+                    hasChanged = false;
                 }
-            });
+
+                if (hasChanged && shouldNotifyOnChange) {
+                    notifyDataSetChanged();
+                }
+            }
         }
     }
 
     private int getListPosition(int adapterPosition) {
-        return infiniteScroll
-                ? adapterPosition % items.size()
-                : adapterPosition;
+        return infiniteScroll ? adapterPosition % items.size() : adapterPosition;
     }
 
     /**
@@ -330,10 +364,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
             if (infiniteScroll) {
                 //magic numbers make every element id unique
                 String lastItemsFakeItemId = lastItemsInfo.get(oldItemPosition % lastItemsInfo.size()).getId() +
-                        String.valueOf(oldItemPosition) +
+                        oldItemPosition +
                         MAGIC_NUMBER;
                 String newItemsFakeItemId = newItemsInfo.get(newItemPosition % newItemsInfo.size()).getId() +
-                        String.valueOf(newItemPosition) +
+                        newItemPosition +
                         MAGIC_NUMBER;
 
                 return lastItemsFakeItemId.equals(newItemsFakeItemId);
@@ -388,6 +422,27 @@ public class EasyAdapter extends RecyclerView.Adapter {
             View itemView = new View(parent.getContext());
             itemView.setLayoutParams(lp);
             return new BaseViewHolder(itemView);
+        }
+    }
+
+    private class WrappedSpanSizeLookup extends GridLayoutManager.SpanSizeLookup {
+
+        @NonNull
+        private GridLayoutManager layoutManager;
+
+        private WrappedSpanSizeLookup(@NonNull GridLayoutManager layoutManager) {
+            this.layoutManager = layoutManager;
+        }
+
+        @Override
+        public int getSpanSize(int position) {
+            if (position == 0 || defaultSpanSizeLookup == null) {
+                // first item will take all spans space if needed (see changeSpanSizeForGridLayoutManager)
+                return layoutManager.getSpanCount();
+            } else {
+                // normal span count (1 by default from DefaultSpanSizeLookup)
+                return defaultSpanSizeLookup.getSpanSize(position);
+            }
         }
     }
 }
