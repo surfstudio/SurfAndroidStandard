@@ -114,6 +114,7 @@ pipeline.stages = [
                 releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
                 JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
             }
+
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
