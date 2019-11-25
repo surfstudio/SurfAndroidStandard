@@ -23,3 +23,4 @@ the ability to show the need to go to the phone settings;
 ## 0.2.0
 ##### Core-ui
 * ANDDEP-108  Realize TabFragmentNavigator by detach/attach
+ch2
