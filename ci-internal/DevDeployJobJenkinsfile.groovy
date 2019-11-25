@@ -15,7 +15,6 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 // Stage names
 def CHECKOUT = 'Checkout'
-def CHECK_RELEASE_NOTES_CHANGES = "Check release notes changes "
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
