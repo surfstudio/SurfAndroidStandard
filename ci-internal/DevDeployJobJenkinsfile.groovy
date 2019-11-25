@@ -34,7 +34,7 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
 def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
-def idChatAndroidSlack = "CQS581YBF"
+def idChatAndroidSlack = "CFS619TMH"
 
 //vars
 def branchName = ""
