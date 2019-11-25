@@ -62,7 +62,6 @@ gradle.ext {
                 return true
             }
         }
-        logger.error("extracted version \"$result\" for name \"$name\"")
         return result
     }
 
