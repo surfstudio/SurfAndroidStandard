@@ -84,9 +84,13 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         addReleaseNoteChange(lineToPrint)
     }
 
-    private fun parseRawDiff(diff: String): List<GitDiff>
-            = SimpleGitDiffParser().parse(diff)
-            .filter { it.line.trim() != EMPTY_STRING }
+    private fun parseRawDiff(diff: String): List<GitDiff> = SimpleGitDiffParser().parse(diff)
+            .filter {
+                it.line.replace(
+                        "[0-9]{1,4}[ ]{0,4}[+-]".toRegex(),
+                        ""
+                ).trim() != EMPTY_STRING
+            }
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
