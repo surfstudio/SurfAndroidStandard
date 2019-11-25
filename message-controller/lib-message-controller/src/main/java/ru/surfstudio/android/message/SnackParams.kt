@@ -17,6 +17,7 @@ package ru.surfstudio.android.message
 
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.google.android.material.snackbar.Snackbar
 
@@ -38,5 +39,7 @@ data class SnackParams(
         @ColorRes
         val actionColorResId: Int = 0,
         val actionColor: Int? = null,
-        val duration: Int = Snackbar.LENGTH_SHORT
+        val duration: Int = Snackbar.LENGTH_LONG,
+        @DrawableRes
+        val drawableResId: Int? = null
 )
