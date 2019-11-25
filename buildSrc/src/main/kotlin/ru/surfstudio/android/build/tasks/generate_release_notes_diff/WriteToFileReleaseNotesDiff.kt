@@ -41,6 +41,7 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         } else {
             Components.value.forEach(::generateComponentDiff)
         }
+        writeChangesToFile()
     }
 
     private fun findComponent(): Component =
@@ -62,6 +63,10 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         } else {
             releaseNotesChanges+= "$chane\n"
         }
+    }
+
+    private fun writeChangesToFile(){
+        releaseNotesChangesFile.appendText(releaseNotesChanges)
     }
 
     private fun writeDiff(diffs: List<GitDiff>) {
