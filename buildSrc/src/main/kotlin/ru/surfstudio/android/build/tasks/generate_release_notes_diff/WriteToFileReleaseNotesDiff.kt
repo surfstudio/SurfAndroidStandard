@@ -52,12 +52,18 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     }
 
     private fun addReleaseNoteChange(chane: String) {
-        releaseNotesChanges += "$chane\n"
+        releaseNotesChanges += "$chane|-|"
     }
+
+//    private fun formatingReleaseChagne() {
+//        val formattedReleaseChange = ""
+//        val rows = releaseNotesChanges.split("\n")
+//        val rowsWithoutPlusAndMinus = rows.map { it.substring("") }
+//    }
 
     private fun writeChangesToFile() {
         val file = File(releaseNotesChangesFileUrl)
-        with(file){
+        with(file) {
             if (exists()) {
                 delete()
             }
