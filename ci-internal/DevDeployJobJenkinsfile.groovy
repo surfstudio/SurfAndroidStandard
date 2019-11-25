@@ -107,10 +107,10 @@ pipeline.stages = [
 
             def prevCommitHash = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').trim()
             script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${prevCommitHash}")
-            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
+            String releaseNotesChanges = "Android Standard changes:\n"
+            releaseNotesChanges += script.readFile(releaseNotesChangesFileUrl)
 
-
-            JarvisUtil.sendMessageToGroup(script, " d", idChatAndroidSlack, "slack", true)
+            JarvisUtil.sendMessageToGroup(script, "$releaseNotesChanges", idChatAndroidSlack, "slack", true)
         },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
