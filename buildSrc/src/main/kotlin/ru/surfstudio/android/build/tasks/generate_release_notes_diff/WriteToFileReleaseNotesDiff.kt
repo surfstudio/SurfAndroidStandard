@@ -84,25 +84,12 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         addReleaseNoteChange(lineToPrint)
     }
 
-    private fun parseRawDiff(diff: String): List<GitDiff> {
-        val diffs = SimpleGitDiffParser().parse(diff)
-        return diffs.filter { filteredDiff ->
-            var isNewLineOrSpaceDiff = false
-            diffs.map {
-                if (filteredDiff.line.trim().replace("\n", "")
-                        == it.line.trim().replace("\n", "")
-                        &&
-                        filteredDiff.type != it.type) {
-                    isNewLineOrSpaceDiff = true
-                }
-            }
-            !isNewLineOrSpaceDiff
-        }
-    }
+    private fun parseRawDiff(diff: String): List<GitDiff>
+            = SimpleGitDiffParser().parse(diff)
 
     private fun extractRawDiff(component: Component): String {
         val filePath = ReleaseNotes.getReleaseNotesFilePath(component)
-        return gitRunner.getFullDiff(currentRevision, revisionToCompare, filePath) ?: ""
+        return gitRunner.getDiffWithoutSpace(currentRevision, revisionToCompare, filePath) ?: ""
     }
 
     /**
