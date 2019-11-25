@@ -4,5 +4,5 @@
 ##### Logger
 * TODO
 ## 0.3.0
-##### Logger123
+##### Logger
 * ANDDEP-222 - added the ability to select a strategy for logging
