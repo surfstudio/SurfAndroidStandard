@@ -52,7 +52,7 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
     }
 
     private fun addReleaseNoteChange(chane: String) {
-        releaseNotesChanges += "$chane\n"
+        releaseNotesChanges += "$chane|"
     }
 
     private fun writeChangesToFile() {
