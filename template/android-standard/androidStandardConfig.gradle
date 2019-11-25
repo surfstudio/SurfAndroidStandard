@@ -1,3 +1,5 @@
+import groovy.json.JsonSlurper
+
 apply from: '../config.gradle'
 
 // Скрипт для чтения и экспорта properties для дальнейшей настройки сборки
@@ -38,6 +40,32 @@ gradle.ext {
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
     androidStandard.debugEnabled = gradle.ext.androidStandard.debugDir != null && gradle.ext.androidStandard.debugMode
 
+    getVersionForArtifactName = { name ->
+        def result = ""
+        def components = new JsonSlurper().parse(new File("$androidStandardDebugDir/buildSrc/components.json"), 'utf-8')
+        assert components instanceof List
+        components.each { component ->
+            def hasLib = false
+            if (component.libs != null && !component.libs.isEmpty()) {
+                component.libs.each { library ->
+                    if (library.artifact_name == name) {
+                        hasLib = true
+                        return true
+                    }
+                 }
+            }
+            if (hasLib) {
+                result = component.version
+                if (!component.stable) {
+                    result += "-alpha." + component.unstable_version
+                }
+                return true
+            }
+        }
+        logger.error("extracted version \"$result\" for name \"$name\"")
+        return result
+    }
+
     /**
      * Функция для подключения модулей android-standard
      * @param context                контекст вызова функции
@@ -53,11 +81,12 @@ gradle.ext {
         closure = null,
         sourceType = ModuleSourceType.SETTINGS_DEFINED.toString() ->
 
+            def isDebug = gradle.ext.androidStandard.debugEnabled
             def isRemoteModules
 
             switch (sourceType.toUpperCase() as ModuleSourceType) {
                 case ModuleSourceType.SETTINGS_DEFINED:
-                    isRemoteModules = !gradle.ext.androidStandard.debugEnabled
+                    isRemoteModules = !isDebug
                     break
                 case ModuleSourceType.LOCAL:
                     isRemoteModules = false
@@ -69,7 +98,12 @@ gradle.ext {
 
             context.dependencies {
                 modules.each { artifactName ->
-                    def version = context.androidStandard.version(artifactName)
+                    def version
+                    if (isDebug) {
+                        version = getVersionForArtifactName(artifactName)
+                    } else {
+                        version = context.androidStandard.version(artifactName)
+                    }
                     if (closure == null) {
                         api("ru.surfstudio.android:$artifactName:$version")
                     } else {

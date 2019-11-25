@@ -20,6 +20,9 @@ androidStandardDebugMode=true
 
 1. Изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
 2. Выполнить ```File - Sync Project with Gradle Files```.
+3. При переключении в режим локальной сборки и недоступности artifactory с android-standard-version-plugin убрать строки:
+из секции dependencies корневого build.gradle ```classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"```
+и ```apply plugin: 'ru.surfstudio.android'``` из всех build.gradle
 
 ## Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект
