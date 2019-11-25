@@ -89,7 +89,9 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         return diffs.filter { filteredDiff ->
             var isNewLineOrSpaceDiff = false
             diffs.map {
-                if (filteredDiff.line.trim() == it.line.trim() &&
+                if (filteredDiff.line.trim().replace("\n", "")
+                        == it.line.trim().replace("\n", "")
+                        &&
                         filteredDiff.type != it.type) {
                     isNewLineOrSpaceDiff = true
                 }
