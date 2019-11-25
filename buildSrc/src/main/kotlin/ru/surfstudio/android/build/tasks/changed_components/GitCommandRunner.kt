@@ -5,7 +5,8 @@ import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 
 const val GIT_DIFF_COMMAND = "git diff --name-only"
-const val GIT_FULL_DIFF_COMMAND = "git diff"
+//const val GIT_FULL_DIFF_COMMAND = "git diff"
+const val GIT_FULL_DIFF_COMMAND = "git diff -w (--ignore-all-space)"
 const val GIT_CHECKOUT_COMMAND = "git checkout"
 const val GIT_STASH_COMMAND = "git stash"
 const val GIT_GET_CURRENT_REVISION_COMMAND = "git rev-parse --short HEAD"
