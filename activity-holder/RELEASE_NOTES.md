@@ -3,19 +3,3 @@
 ## 0.5.0-alpha
 ##### Activity-holder
 * TODO
-f
-
-
-
-x
-
-
-
-xx
-
-
-
-f
-
-
-k
