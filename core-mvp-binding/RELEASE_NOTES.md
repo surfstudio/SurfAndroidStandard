@@ -7,4 +7,8 @@
 * ANDDEP-671 Renamed loadable to response
 ## 0.3.0
 ##### Core-mvp-binding
-* Renamed `onViewDetached ()` -> `onViewDetach ()`
+* Renamed `onViewDetached ()` -> `onViewDetach ()` ch1
+ch2
+
+
+ch3
