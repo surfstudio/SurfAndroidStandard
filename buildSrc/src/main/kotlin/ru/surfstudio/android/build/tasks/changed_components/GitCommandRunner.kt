@@ -4,7 +4,7 @@ import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.ru
 import ru.surfstudio.android.build.tasks.currentDirectory
 import java.io.File
 
-const val GIT_DIFF_COMMAND = "git diff --name-only"
+const val GIT_DIFF_COMMAND = "git diff --ignore-space-at-eol"
 //const val GIT_FULL_DIFF_COMMAND = "git diff"
 const val GIT_FULL_DIFF_COMMAND = "git diff -w (--ignore-all-space)"
 const val GIT_CHECKOUT_COMMAND = "git checkout"
