@@ -51,7 +51,7 @@ ext {
 
     //network
     okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
-    retrofitVersion = '2.5.0'                   //https://vk.cc/7UFxk3
+    retrofitVersion = '2.6.2'                   //https://vk.cc/7UFxk3
     chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
     gsonVersion = '2.8.5'                       //https://vk.cc/7UFvbd
 

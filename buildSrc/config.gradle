@@ -45,8 +45,8 @@ ext {
             "com.google.firebase:firebase-core"                 : "16.0.5",       //http://bit.ly/2Q81pGJ
             "com.jakewharton.timber:timber"                     : "4.7.1",        //http://bit.ly/2LWbLaY
             "com.crashlytics.sdk.android:crashlytics"           : "2.9.6",        //http://bit.ly/2v5mXbp
-            "io.reactivex.rxjava2:rxjava"                       : "2.2.3",        //https://goo.gl/uzna2x
-            "io.reactivex.rxjava2:rxandroid"                    : "2.1.0",        //https://goo.gl/3Kd3iP
+            "io.reactivex.rxjava2:rxjava"                       : "2.2.15",        //https://goo.gl/uzna2x
+            "io.reactivex.rxjava2:rxandroid"                    : "2.1.1",        //https://goo.gl/3Kd3iP
             "androidx.recyclerview:recyclerview"                : "1.0.0",        //https://bit.ly/33s8ohH
             "androidx.core:core-ktx"                            : "1.0.1",        //http://bit.ly/2qY7ffW
             "com.google.android.material:material"              : "1.0.0",        //http://bit.ly/2KAAq1y

@@ -90,12 +90,14 @@ open class HttpProtocolException(
 
         init {
 
-            val request = cause.response().raw().request()
-            val requestUrl = request.url()
-            url = requestUrl.toString()
-            method = request.method()
+            val rawResponse = cause.response()
 
-            val responseBody = cause.response().errorBody()
+            val request = rawResponse?.raw()?.request()
+            val requestUrl = request?.url()
+            url = requestUrl.toString()
+            method = request?.method() ?: EMPTY_STRING
+
+            val responseBody = rawResponse?.errorBody()
 
             errorBodyString = responseBody?.let {
                 try {
