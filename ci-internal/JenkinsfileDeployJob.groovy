@@ -88,7 +88,7 @@ pipeline.initializeBody = {
     }
 
     CommonUtil.safe(script){
-        def buildLink = CommonUtil.getBuildUrlMarkdownLink(script)
+        def buildLink = CommonUtil.getBuildUrlSlackLink(script)
         JarvisUtil.sendMessageToGroup(script, "Инициирован Deploy ветки ${branchName}. $buildLink", pipeline.repoUrl, "bitbucket", true)
     }
 
@@ -197,7 +197,7 @@ pipeline.stages = [
 ]
 
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
+    def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS.equals(pipeline.jobResult)
     if (!success) {
