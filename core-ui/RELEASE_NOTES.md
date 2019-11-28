@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Core-ui
 * ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
+* Fix logging screen names
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.

@@ -11,4 +11,4 @@ Components.getModules().forEach { Module module ->
     project(module.getGradleModuleName()).projectDir = new File(module.directoryPath)
 }
 
-apply from: 'buildCache.gradle'
+apply from: 'buildSrc/buildCache.gradle'

@@ -1,7 +1,7 @@
 {
   "version": "0.5.0",
   "stable": false,
-  "unstable_version": 42,
+  "unstable_version": 48,
   "project_snapshot_name": "LRNAND",
-  "project_snapshot_version": 1
+  "project_snapshot_version": 2
 }
