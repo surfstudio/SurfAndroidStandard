@@ -8,3 +8,5 @@
 ## 0.3.0
 ##### Core-mvp-binding
 * Renamed `onViewDetached ()` -> `onViewDetach ()`
+* AndroidSchedulers.mainThread() replaced with ImmediateScheduler 
+ in subscription methods of BaseRxViews.
