@@ -18,7 +18,6 @@ package ru.surfstudio.android.core.mvp.binding.rx.ui
 
 import androidx.annotation.CallSuper
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.functions.Consumer
@@ -30,6 +29,7 @@ import ru.surfstudio.android.mvp.dialog.complex.CoreBottomSheetDialogFragmentVie
 import ru.surfstudio.android.mvp.dialog.complex.CoreDialogFragmentView
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 import ru.surfstudio.android.mvp.dialog.simple.bottomsheet.CoreSimpleBottomSheetDialogFragment
+import ru.surfstudio.android.rx.extension.scheduler.ImmediateMainScheduler
 
 /**
  * Базовая Activity для связывания с моделью
@@ -51,7 +51,7 @@ abstract class BaseRxActivityView : CoreActivityView(), BindableRxView {
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+            observable.observeOn(ImmediateMainScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -76,7 +76,7 @@ abstract class BaseRxFragmentView : CoreFragmentView(), BindableRxView {
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+            observable.observeOn(ImmediateMainScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -98,7 +98,7 @@ abstract class BaseRxDialogView : CoreDialogFragmentView(), BindableRxView {
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+            observable.observeOn(ImmediateMainScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -120,7 +120,7 @@ abstract class BaseRxSimpleDialogFragment : CoreSimpleDialogFragment(), Related<
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+            observable.observeOn(ImmediateMainScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -143,7 +143,7 @@ abstract class BaseRxBottomSheetDialogFragment : CoreBottomSheetDialogFragmentVi
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+            observable.observeOn(ImmediateMainScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
@@ -166,7 +166,7 @@ abstract class BaseRxSimpleBottomSheetDialogFragment : CoreSimpleBottomSheetDial
         onNext: Consumer<T>,
         onError: (Throwable) -> Unit
     ): Disposable =
-        observable.observeOn(AndroidSchedulers.mainThread())
+            observable.observeOn(ImmediateMainScheduler)
             .subscribe(onNext, Consumer(onError))
             .also { viewDisposable.add(it) }
 }
