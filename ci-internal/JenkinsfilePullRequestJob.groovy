@@ -286,7 +286,7 @@ pipeline.stages = [
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlMarkdownLink(script)}"
+        def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlSlackLink(script)}"
         JarvisUtil.sendMessageToUser(script, message, authorUsername, "bitbucket")
     }
 }
