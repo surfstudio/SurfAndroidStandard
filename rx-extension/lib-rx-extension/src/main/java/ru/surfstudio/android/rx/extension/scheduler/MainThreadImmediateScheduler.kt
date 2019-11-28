@@ -8,19 +8,22 @@ import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 /**
- * [Scheduler] that does the work immediately, when in main thread,
+ * [Scheduler] that executes work immediately when in main thread,
  * or switches thread to main and pushes work to the end of the MessageQueue when in other thread.
  */
-object ImmediateMainScheduler : Scheduler() {
+object MainThreadImmediateScheduler : Scheduler() {
 
     private val immediateScheduler = Schedulers.trampoline()
     private val mainThreadScheduler = AndroidSchedulers.mainThread()
 
     override fun createWorker(): Worker {
-        return ImmediateMainWorker(immediateScheduler.createWorker(), mainThreadScheduler.createWorker())
+        return MainThreadImmediateWorker(
+                immediateScheduler.createWorker(),
+                mainThreadScheduler.createWorker()
+        )
     }
 
-    class ImmediateMainWorker(
+    class MainThreadImmediateWorker(
             private val immediateWorker: Worker,
             private val mainWorker: Worker
     ) : Worker() {
