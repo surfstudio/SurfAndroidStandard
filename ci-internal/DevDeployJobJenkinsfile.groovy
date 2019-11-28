@@ -195,7 +195,7 @@ pipeline.stages = [
 
 
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
+    def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
