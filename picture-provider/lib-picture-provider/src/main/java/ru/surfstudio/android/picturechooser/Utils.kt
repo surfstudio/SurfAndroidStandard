@@ -121,18 +121,15 @@ internal fun <T : Serializable> parseScreenResult(
  */
 fun Uri.getRealPath(activity: Activity, tempFileName: String = DEFAULT_TEMP_FILE_NAME): String {
     val result: String
-    val column = MediaStore.Images.Media.DATA
-    val projection = arrayOf(column)
-
-    val cursor = activity.applicationContext.contentResolver
-            .query(this, projection, null, null, null)
+    val cursor = activity.contentResolver
+            .query(this, null, null, null, null)
     if (cursor == null) {
         result = this.path
     } else {
         cursor.moveToFirst()
-        val idx = cursor.getColumnIndexOrThrow(column)
+        val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
         result = if (idx > -1) {
-            cursor.getString(idx) ?: createTempBitmap(activity, tempFileName)
+            cursor.getString(idx)
         } else {
             this.path
         }
