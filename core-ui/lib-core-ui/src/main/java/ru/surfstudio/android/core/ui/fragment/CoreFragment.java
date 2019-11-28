@@ -56,7 +56,7 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public String getScreenName() {
         //уникальное имя по умолчанию для фрагмента контейнера
-        return this.getClass().getCanonicalName() + getTag() + getId();
+        return this.getClass().getCanonicalName() + getId();
     }
 
     @Override
