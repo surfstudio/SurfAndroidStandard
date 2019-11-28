@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.standard.i_network.converter.gson;
+package ru.surfstudio.standard.i_network.converter.gson.factory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -26,10 +26,12 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
-import ru.surfstudio.standard.i_network.converter.gson.safe.SafeConverter;
 import ru.surfstudio.android.logger.Logger;
+import ru.surfstudio.standard.i_network.converter.gson.safe.SafeConverter;
 import ru.surfstudio.standard.i_network.network.error.ConversionException;
 import ru.surfstudio.standard.i_network.network.response.BaseResponse;
+
+import static ru.surfstudio.standard.i_network.converter.gson.factory.TypeAdapterHelper.parseElement;
 
 /**
  * ResponseTypeAdapterFactory - кроме парсинга ответа,
@@ -68,7 +70,7 @@ public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
                 // случае ошибки эмитим ConversionException с текстом ответа
                 if (BaseResponse.class.isAssignableFrom(type.getRawType())) {
                     try {
-                        return parseElement(jsonElement, true);
+                        return parseElement(in, jsonElement, type, delegate);
                     } catch (JsonSyntaxException e) {
                         String body = jsonElement != null ? jsonElement.toString() : "";
                         String errorMessage = String.format(PARSE_ERROR_MESSAGE_FORMAT, body);
@@ -78,18 +80,9 @@ public class ResponseTypeAdapterFactory implements TypeAdapterFactory {
 
                     }
                 }
-                return parseElement(jsonElement, false);
+                return parseElement(in, jsonElement, type, delegate);
             }
 
-            /**
-             * Метод для кастомизации парсинга элементов.
-             *
-             * @param isBaseResponse элемент, производный от {@link BaseResponse}
-             */
-            protected T parseElement(JsonElement jsonElement, boolean isBaseResponse) {
-                return delegate.fromJsonTree(jsonElement);
-            }
         }.nullSafe();
     }
 }
-

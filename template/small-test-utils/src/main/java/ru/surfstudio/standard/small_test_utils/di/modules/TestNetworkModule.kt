@@ -10,8 +10,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.surfstudio.standard.i_network.converter.gson.ResponseTypeAdapterFactory
-import ru.surfstudio.standard.i_network.converter.gson.SafeConverterFactory
+import ru.surfstudio.standard.i_network.converter.gson.factory.ResponseTypeAdapterFactory
+import ru.surfstudio.standard.i_network.converter.gson.factory.SafeConverterFactory
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.standard.i_network.network.BaseUrl
