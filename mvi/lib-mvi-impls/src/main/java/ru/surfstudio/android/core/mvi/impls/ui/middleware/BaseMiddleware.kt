@@ -62,5 +62,23 @@ abstract class BaseMiddleware<T : Event>(
         }
     }
 
-    override fun provideTransformationList(eventStream: Observable<T>): EventTransformerList<T> = EventTransformerList(eventStream)
+    override fun provideTransformationList(eventStream: Observable<T>): EventTransformerList<T> =
+            EventTransformerList(eventStream).apply {
+                add(createReactorTriggerTransformation(eventStream))
+            }
+
+    /**
+     * Creates transformation which does nothing, but consumes all events from eventStream.
+     *
+     * It serves to handles rare unpleasant case:
+     * if [Middleware] doesn't contain any transformations, [Reactor.react] method won't be triggered,
+     * event if stream contains events from UI.
+     *
+     *
+     * As a workout, we can add transformation,
+     * which'll consume all input events but wont produce any output,
+     * and this transformation will work like a trigger to [Reactor.react] method.
+     */
+    private fun createReactorTriggerTransformation(eventStream: Observable<T>) =
+            eventStream.filter { it !is T }
 }
