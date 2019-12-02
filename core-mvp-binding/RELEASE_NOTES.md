@@ -5,8 +5,6 @@
 * ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type
 * Clearing `BaseRxFragmentView.viewDisposable` move from onDestroy to onDestroyView
 * ANDDEP-671 Renamed loadable to response
-* AndroidSchedulers.mainThread() replaced with MainThreadImmediateScheduler
- in subscription methods of BaseRxViews.
 * Fixed RequestState's observeHasError method + added observeOptionalData
 ## 0.3.0
 ##### Core-mvp-binding
