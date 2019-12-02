@@ -96,15 +96,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         fun with(context: Context) = ImageLoader(context)
     }
 
-    /**
-     * Загрузка изображения из сети
-     *
-     * @param url сетевая ссылка на изображение
-     */
     @Throws(IllegalArgumentException::class)
-    override fun url(url: String) =
+    override fun url(url: String,  headers: Map<String, String>) =
             apply {
                 this.imageResourceManager.url = url
+                this.imageResourceManager.headers = headers
             }
 
     /**
@@ -298,6 +294,16 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 this.imageSignatureManager.signature = signature
             }
 
+    override fun disableHardwareConfig(): ImageLoaderInterface =
+            apply {
+                imageResourceManager.isHardwareConfigDisabled = true
+            }
+
+    override fun dontAnimate(): ImageLoaderInterface =
+            apply {
+                imageResourceManager.isAnimationDisabled = true
+            }
+
     /**
      * Получение исходника изображения в формате [Bitmap].
      * Кейс использования - загрузка изображения на уровне интерактора для отправки на сервер.
@@ -412,6 +418,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
+                            .disableHardwareConfigIf(imageResourceManager.isHardwareConfigDisabled)
+                            .dontAnimateIf(imageResourceManager.isAnimationDisabled)
                             .diskCacheStrategy(if (imageCacheManager.skipCache) {
                                 DiskCacheStrategy.NONE
                             } else {

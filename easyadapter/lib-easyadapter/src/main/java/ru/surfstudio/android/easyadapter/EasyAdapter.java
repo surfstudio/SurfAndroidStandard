@@ -91,8 +91,12 @@ public class EasyAdapter extends RecyclerView.Adapter {
      * @see RecyclerView.Adapter#onBindViewHolder(RecyclerView.ViewHolder, int)
      */
     @Override
-    public final void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        BaseItem item = items.get(getListPosition(position));
+    public final void onBindViewHolder(RecyclerView.ViewHolder holder, int adapterPosition) {
+        int position = getListPosition(adapterPosition);
+        BaseItem item = items.get(position);
+
+        computeAdditionalItemListParams(item, position, adapterPosition);
+
         item.getItemController().bind(holder, item);
     }
 
@@ -267,6 +271,24 @@ public class EasyAdapter extends RecyclerView.Adapter {
         return infiniteScroll
                 ? adapterPosition % items.size()
                 : adapterPosition;
+    }
+
+    /**
+     * Compute additional params for Item
+     *
+     * @param item            - BaseItem to add params
+     * @param position        - position in ItemList
+     * @param adapterPosition - position in EasyAdapter
+     */
+    private void computeAdditionalItemListParams(BaseItem item, int position, int adapterPosition) {
+        item.position = position;
+        item.adapterPosition = adapterPosition;
+
+        int nextIndex = getListPosition(adapterPosition + 1);
+        if (nextIndex < items.size()) item.nextItem = items.get(nextIndex);
+
+        int previousIndex = getListPosition(adapterPosition - 1);
+        if (previousIndex >= 0) item.previousItem = items.get(previousIndex);
     }
 
     /**
