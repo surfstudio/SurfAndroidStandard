@@ -70,14 +70,13 @@ abstract class BaseMiddleware<T : Event>(
     /**
      * Creates transformation which does nothing, but consumes all events from eventStream.
      *
-     * It serves to handles rare unpleasant case:
+     * It serves to handle specific case:
      * if [Middleware] doesn't contain any transformations, [Reactor.react] method won't be triggered,
-     * event if stream contains events from UI.
-     *
+     * even if stream contains events from UI, which should be reacted directly.
      *
      * As a workout, we can add transformation,
-     * which'll consume all input events but wont produce any output,
-     * and this transformation will work like a trigger to [Reactor.react] method.
+     * which will consume all input events but wont produce any output.
+     * This transformation will work like a trigger to [Reactor.react] method.
      */
     private fun createReactorTriggerTransformation(eventStream: Observable<T>) =
             eventStream.filter { it !is T }
