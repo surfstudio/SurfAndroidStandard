@@ -23,7 +23,7 @@ object MainThreadImmediateScheduler : Scheduler() {
         )
     }
 
-    class MainThreadImmediateWorker(
+    private class MainThreadImmediateWorker(
             private val immediateWorker: Worker,
             private val mainWorker: Worker
     ) : Worker() {
