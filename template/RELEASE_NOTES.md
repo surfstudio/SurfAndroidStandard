@@ -10,6 +10,7 @@
 * ANDDEP-702 Fixed script for local connection of android standard
 * ANDDEP-413 Added transition to WindowVQA on DebugScreen
 * ANDDEP-459 Added transition to application settings on DebugScreen
+* Added `PostfixEditText` to base_feature
  
 ## 0.4.0
 ##### Template
