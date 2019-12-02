@@ -74,7 +74,7 @@ abstract class BaseMiddleware<T : Event>(
      * if [Middleware] doesn't contain any transformations, [Reactor.react] method won't be triggered,
      * even if stream contains events from UI, which should be reacted directly.
      *
-     * As a workout, we can add transformation,
+     * As a workaround, we can add transformation,
      * which will consume all input events but wont produce any output.
      * This transformation will work like a trigger to [Reactor.react] method.
      */
