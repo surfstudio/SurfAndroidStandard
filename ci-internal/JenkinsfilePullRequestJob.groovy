@@ -96,7 +96,7 @@ pipeline.preExecuteStageBody = { stage ->
     if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
