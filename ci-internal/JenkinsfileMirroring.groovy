@@ -65,7 +65,7 @@ pipeline.stages = [
 
 pipeline.finalizeBody = {
     if (pipeline.jobResult == Result.FAILURE) {
-        def message = "Ошибка зеркалирования AndroidStandard на GitHub. ${CommonUtil.getBuildUrlMarkdownLink(this)}"
+        def message = "Ошибка зеркалирования AndroidStandard на GitHub. ${CommonUtil.getBuildUrlSlackLink(this)}"
         JarvisUtil.sendMessageToGroup(this, message, pipeline.repoUrl, "bitbucket", false)
     }
 }
