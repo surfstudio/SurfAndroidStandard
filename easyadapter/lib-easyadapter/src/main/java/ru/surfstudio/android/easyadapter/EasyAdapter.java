@@ -259,7 +259,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private void initLayoutManager(LayoutManager layoutManager) {
-        if (layoutManager instanceof GridLayoutManager) {
+        if (firstInvisibleItemEnabled && layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager castedLayoutManager = (GridLayoutManager) layoutManager;
             final GridLayoutManager.SpanSizeLookup existingLookup = castedLayoutManager.getSpanSizeLookup();
 
