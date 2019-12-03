@@ -3,6 +3,7 @@
 ## 1.1.0-alpha
 ##### Easyadapter
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.
+* ANDDEP-795 - Fixed the appear of the invisible item in all rows except first in case of using GridLayoutManager
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
