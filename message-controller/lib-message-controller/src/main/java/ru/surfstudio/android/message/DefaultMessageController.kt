@@ -15,12 +15,16 @@
  */
 package ru.surfstudio.android.message
 
+import android.annotation.SuppressLint
 import android.graphics.Color
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.snackbar.Snackbar
-import androidx.core.content.ContextCompat
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.StringRes
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import ru.surfstudio.android.core.ui.provider.FragmentProvider
 
@@ -30,22 +34,25 @@ import ru.surfstudio.android.core.ui.provider.FragmentProvider
  */
 class DefaultMessageController @JvmOverloads constructor(
         val activityProvider: ActivityProvider,
-        val fragmentProvider: FragmentProvider? = null)
-    : MessageController {
+        val fragmentProvider: FragmentProvider? = null
+) : MessageController {
 
-    private val ILLEGAL_COLOR = Color.TRANSPARENT
-
+    @ColorInt
     private var snackBarBackgroundColor: Int? = null
+    @ColorInt
+    private var snackBarActionButtonColor: Int? = null
     private var toast: Toast? = null
     private var snackbar: Snackbar? = null
 
     init {
         val typedArray = activityProvider.get()
-                .obtainStyledAttributes(intArrayOf(R.attr.snackBarBackgroundColor))
+                .obtainStyledAttributes(intArrayOf(R.attr.snackBarBackgroundColor, R.attr.snackBarActionButtonColor))
         try {
-            val color = typedArray.getColor(0, ILLEGAL_COLOR)
-            if (color != ILLEGAL_COLOR) {
-                snackBarBackgroundColor = color
+            if (typedArray.hasValue(R.styleable.Core_snackBarBackgroundColor)) {
+                snackBarBackgroundColor = typedArray.getColor(R.styleable.Core_snackBarBackgroundColor, Color.TRANSPARENT)
+            }
+            if (typedArray.hasValue(R.styleable.Core_snackBarActionButtonColor)) {
+                snackBarActionButtonColor = typedArray.getColor(R.styleable.Core_snackBarActionButtonColor, Color.TRANSPARENT)
             }
         } catch (ignored: UnsupportedOperationException) {
             // ignored
@@ -54,34 +61,96 @@ class DefaultMessageController @JvmOverloads constructor(
         }
     }
 
-    override fun show(stringId: Int,
-                      backgroundColor: Int?,
-                      actionStringId: Int?,
-                      buttonColor: Int?,
-                      duration: Int,
-                      listener: (view: View) -> Unit) {
-        show(getView().resources.getString(stringId), backgroundColor, actionStringId, buttonColor, duration, listener)
+    override fun show(
+            message: CharSequence,
+            @ColorRes
+            backgroundColorResId: Int?,
+            @StringRes
+            actionResId: Int?,
+            @ColorRes
+            actionColorResId: Int?,
+            duration: Int,
+            listener: (view: View) -> Unit
+    ) {
+        show(
+                SnackParams(
+                        message = message,
+                        backgroundColorResId = backgroundColorResId ?: 0,
+                        actionResId = actionResId ?: 0,
+                        actionColorResId = actionColorResId ?: 0,
+                        duration = duration
+                ),
+                listener
+        )
     }
 
-    override fun show(message: String,
-                      backgroundColor: Int?,
-                      actionStringId: Int?,
-                      buttonColor: Int?,
-                      duration: Int,
-                      listener: (view: View) -> Unit) {
+    override fun show(
+            @StringRes
+            messageResId: Int,
+            @ColorRes
+            backgroundColorResId: Int?,
+            @StringRes
+            actionResId: Int?,
+            @ColorRes
+            actionColorResId: Int?,
+            duration: Int,
+            listener: (view: View) -> Unit
+    ) {
+        show(
+                SnackParams(
+                        messageResId = messageResId,
+                        backgroundColorResId = backgroundColorResId ?: 0,
+                        actionResId = actionResId ?: 0,
+                        actionColorResId = actionColorResId ?: 0,
+                        duration = duration
+                ),
+                listener
+        )
+    }
+
+    override fun show(params: SnackParams, actionListener: (view: View) -> Unit) {
+        val activity = activityProvider.get()
+        val message = if (params.messageResId != 0) {
+            activity.getString(params.messageResId)
+        } else {
+            params.message
+        }
+        var duration = params.duration
+        if (duration != Snackbar.LENGTH_SHORT
+                && duration != Snackbar.LENGTH_LONG
+                && duration != Snackbar.LENGTH_INDEFINITE) {
+            duration = Snackbar.LENGTH_SHORT
+        }
         snackbar = Snackbar.make(getView(), message, duration).apply {
-            if (backgroundColor == null) {
-                snackBarBackgroundColor?.let {
-                    view.setBackgroundColor(it)
-                }
+            var backgroundColor: Int? = if (params.backgroundColorResId != 0) {
+                ContextCompat.getColor(activity, params.backgroundColorResId)
             } else {
-                view.setBackgroundColor(ContextCompat.getColor(view.context, backgroundColor))
+                params.backgroundColor
             }
-            actionStringId?.let {
-                setAction(it) { view -> listener.invoke(view) }
+            if (backgroundColor == null) {
+                backgroundColor = snackBarBackgroundColor
             }
-            buttonColor?.let {
-                setActionTextColor(ContextCompat.getColor(view.context, it))
+            if (backgroundColor != null) {
+                view.setBackgroundColor(backgroundColor)
+            }
+            val actionText = if (params.actionResId != 0) {
+                activity.getString(params.actionResId)
+            } else {
+                params.action
+            }
+            if (actionText.isNotEmpty()) {
+                setAction(actionText) { view -> actionListener.invoke(view) }
+            }
+            var actionButtonColor = if (params.actionColorResId != 0) {
+                ContextCompat.getColor(activity, params.actionColorResId)
+            } else {
+                params.actionColor
+            }
+            if (actionButtonColor == null) {
+                actionButtonColor = snackBarActionButtonColor
+            }
+            if (actionButtonColor != null) {
+                setActionTextColor(actionButtonColor)
             }
             show()
         }
@@ -91,24 +160,61 @@ class DefaultMessageController @JvmOverloads constructor(
         snackbar?.dismiss()
     }
 
-    override fun showToast(stringId: Int, gravity: Int, duration: Int) {
-        showToast(getView().resources.getString(stringId), gravity, duration)
+    override fun showToast(
+            @StringRes messageResId: Int,
+            gravity: Int?,duration: Int
+    ) {
+        showToast(
+                ToastParams(messageResId = messageResId ?: 0,
+                        gravity = gravity,
+                        duration = duration)
+        )
     }
 
-    override fun showToast(message: String, gravity: Int, duration: Int) {
+    override fun showToast(
+            message: CharSequence,
+            gravity: Int?,
+            duration: Int
+    ) {
+        showToast(
+                ToastParams(message = message,
+                        gravity = gravity,
+                        duration = duration)
+        )
+    }
+
+    @SuppressLint("ShowToast")
+    override fun showToast(params: ToastParams) {
         toast?.cancel()
-        toast = Toast.makeText(getView().context, message, duration)
-                .apply {
-                    setGravity(gravity, 0, 0)
-                    show()
-                }
+        val activity = activityProvider.get()
+        val toast: Toast
+        var duration = params.duration
+        if (duration != Toast.LENGTH_SHORT && duration != Toast.LENGTH_LONG) {
+            duration = Toast.LENGTH_SHORT
+        }
+        if (params.customView == null) {
+            val message = if (params.messageResId != 0) {
+                activity.getString(params.messageResId)
+            } else {
+                params.message
+            }
+            toast = Toast.makeText(activity, message, duration)
+        } else {
+            toast = Toast(activity)
+            toast.view = params.customView
+            toast.duration = params.duration
+        }
+        params.gravity?.let {
+            toast.setGravity(params.gravity, params.xOffset, params.yOffset)
+        }
+        toast.show()
     }
 
     /**
      * Порядок поиска подходящей корневой вью для SnackBar происходит со следующим приоритетом:
      * R.id.snackbar_container во фрагменте, должен быть FrameLayout
      * R.id.coordinator во фрагменте, должен быть CoordinatorLayout
-     * R.id.snackbar_container в активитиб должен быть CoordinatorLayout или FrameLayout
+     * R.id.snackbar_container в активити, должен быть CoordinatorLayout или FrameLayout
      * R.id.coordinator в активити, должен быть CoordinatorLayout
      * android.R.id.content активити
      *

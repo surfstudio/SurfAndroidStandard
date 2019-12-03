@@ -4,6 +4,7 @@
 ##### Core-ui
 * ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
 * ANDDEP-786 Added ability to subscribe on result from Activity without Intent data
+* Fix logging screen names
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.
