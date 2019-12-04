@@ -897,7 +897,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -1759,7 +1759,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "template",
     "libs": [],
