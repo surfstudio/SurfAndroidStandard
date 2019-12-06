@@ -71,8 +71,7 @@ class CustomAlertDialogView<E : Event> : CoreSimpleDialogFragment() {
                 .setNegativeButtonSafe(negativeText, negativeListener)
                 .create()
                 .apply {
-                    // красим кнопку только когда диалог будет показан
-                    // потому что до этого момента кнопка может быть не создана
+                    // paint button only after the dialog is shown
                     setOnShowListener {
                         setButtonColorSafe(AlertDialog.BUTTON_NEGATIVE, negativeColor)
                         setButtonColorSafe(AlertDialog.BUTTON_POSITIVE, positiveColor)

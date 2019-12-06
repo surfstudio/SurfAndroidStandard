@@ -46,7 +46,9 @@ class CustomAlertDialogRoute<E : Event>(
             args?.getBoolean(Route.EXTRA_SEVEN) ?: false,
             args?.getSerializable(Route.EXTRA_EIGHT) as? E,
             args?.getSerializable(Route.EXTRA_NINE) as? E,
-            args?.getSerializable(Route.EXTRA_TEN) as? E
+            args?.getSerializable(Route.EXTRA_TEN) as? E,
+            args?.getInt(Route.EXTRA_ELEVEN) ?: EMPTY_RES,
+            args?.getInt(Route.EXTRA_TWELVE) ?: EMPTY_RES
     )
 
     override fun getFragmentClass(): Class<out DialogFragment> = CustomAlertDialogView::class.java
