@@ -25,15 +25,31 @@ import kotlin.reflect.KClass
 object Logger {
 
     private val LOGGING_STRATEGIES = hashMapOf<KClass<*>, LoggingStrategy>()
+    private val LOGGING_DEFINED_PRIORITIES = hashMapOf<KClass<*>, Int>()
+
+    private fun getDefinedPriority(t: Throwable?, defaultPriority: Int): Int =
+            when {
+                t != null -> LOGGING_DEFINED_PRIORITIES[t::class] ?: defaultPriority
+                else -> defaultPriority
+            }
 
     @JvmStatic
     fun getLoggingStrategies() = LOGGING_STRATEGIES
+
+    @JvmStatic
+    fun getDefaultLoggingPriorities() = LOGGING_DEFINED_PRIORITIES
 
     @JvmStatic
     fun addLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.put(strategy::class, strategy)
 
     @JvmStatic
     fun removeLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.remove(strategy::class)
+
+    @JvmStatic
+    fun addDefalutLoggingPriority(errorClass: KClass<*>, defaultPriority: Int) = LOGGING_DEFINED_PRIORITIES.put(errorClass, defaultPriority)
+
+    @JvmStatic
+    fun removeDefalutLoggingPriority(errorClass: KClass<*>) = LOGGING_STRATEGIES.remove(errorClass)
 
     /**
      * Log a verbose developerMessage with optional format args.
@@ -48,7 +64,7 @@ object Logger {
      */
     @JvmStatic
     fun v(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.VERBOSE, t, message, *args) }
+        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, Log.VERBOSE), t, message, *args) }
     }
 
     /**
@@ -64,7 +80,7 @@ object Logger {
      */
     @JvmStatic
     fun d(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.DEBUG, t, message, *args) }
+        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, Log.DEBUG), t, message, *args) }
     }
 
     /**
@@ -80,7 +96,7 @@ object Logger {
      */
     @JvmStatic
     fun i(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.INFO, t, message, *args) }
+        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, Log.INFO), t, message, *args) }
     }
 
     /**
@@ -88,8 +104,8 @@ object Logger {
      * Логгирует только сообщение ошибки
      */
     @JvmStatic
-    fun w(e: Throwable?) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.WARN, e, null) }
+    fun w(t: Throwable?) {
+        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, Log.WARN), t, null) }
     }
 
     /**
@@ -105,7 +121,7 @@ object Logger {
      */
     @JvmStatic
     fun w(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.WARN, t, message, *args) }
+        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, Log.WARN), t, message, *args) }
     }
 
     /**
@@ -121,12 +137,12 @@ object Logger {
      */
     @JvmStatic
     fun e(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.ERROR, t, message, *args) }
+        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, Log.ERROR), t, message, *args) }
     }
 
     @JvmStatic
     fun e(t: Throwable?) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.ERROR, t, null) }
+        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, Log.ERROR), t, null) }
     }
 
     private fun forEachLoggingStrategy(action: (LoggingStrategy) -> Unit) {
