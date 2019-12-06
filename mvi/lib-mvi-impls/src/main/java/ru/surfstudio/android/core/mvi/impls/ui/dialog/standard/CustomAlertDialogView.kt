@@ -13,12 +13,12 @@ import ru.surfstudio.android.core.mvi.impls.ui.dialog.EventHubDialogComponent
 import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
 
 /**
- * Вью простого диалога с заголовком, сообщением, позитивной и негативной кнопкой
+ * Simple alert dialog view with title, messages and two buttons.
  *
- * Живет в родительском dagger-scope и содержит в себе родительский EventHub
- * для отсылки событий закрытия и нажатия на кнопки.
+ * It lives in parent dagger scope and holds reference to parent [ScreenEventHub]
+ * to emit events, which should be consumed by parent.
  *
- * Для добавления этого диалога на экран, необходимо унаследовать родительский компонент от [EventHubDialogComponent]
+ * To emit events from this dialog, you need to inherit parent component from [EventHubDialogComponent]
  */
 class CustomAlertDialogView<E : Event> : CoreSimpleDialogFragment() {
 

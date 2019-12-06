@@ -8,3 +8,4 @@
 * Add base mvi entities to mvi-impls module
 * Refactor screen navigation, add NavigationMiddleware
 * Add CompositionEvent and event composition principle, navigation composition
+* Add CustomAlertDialog based on Events.

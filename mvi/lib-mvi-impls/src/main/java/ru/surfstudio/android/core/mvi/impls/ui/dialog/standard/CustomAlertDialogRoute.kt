@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.impls.R
+import ru.surfstudio.android.core.mvi.impls.ui.dialog.EventHubDialogComponent
 import ru.surfstudio.android.core.ui.navigation.Route
 import ru.surfstudio.android.mvp.dialog.navigation.route.DialogWithParamsRoute
 import java.io.Serializable
@@ -13,12 +14,12 @@ import java.io.Serializable
 const val EMPTY_RES = -1
 
 /**
- * Роут простого диалога с заголовком, сообщением, позитивной и негативной кнопкой [CustomAlertDialogView]
+ * Route for customizable alert dialog view.
  *
- * В случае, если надо выполнять какое-то действие по нажатию на кнопки или скрытие диалога -
- * необходимо передавать эти события в конструктор.
- * Для добавления этого диалога на экран, необходимо унаследовать родительский компонент от [EventHubDialogComponent]
- * и запровайдить родительский ScreenEventHub<T> как ScreenEventHub<Event>
+ * If you need do do some action on button clicks or dialog dismiss -
+ * you need to pass this events to route constructor.
+ *
+ * To emit events from this dialog, you need to inherit parent component from [EventHubDialogComponent]
  */
 class CustomAlertDialogRoute<E : Event>(
         @StringRes var titleRes: Int = EMPTY_RES,
