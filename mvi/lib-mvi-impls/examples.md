@@ -10,12 +10,12 @@
 **В:** Допустим, нам нужно загрузить данные по нажатию на кнопку refresh_btn. Какие сущности будут задействованы, 
 и как будет выглядеть стек вызовов? 
 
-**О:** Из View (Activity/Fragment) эмитится в EventHub событие RefreshClicked. Это происходит следующим образом:
+**О:** Из View (Activity/Fragment) эмитится в EventHub событие RefreshClicked:
 
     refresh_btn.setOnClickListener { hub.emit(RefreshClicked) } //стандартная запись
     refresh_btn.clicks().emit(RefreshClicked) //упрощенная запись с экстеншнами
  
- После того, как оно попало в EventHub, и на него могут среагировать Reactor и Middleware.
+ После того, как оно попало в EventHub, на него могут среагировать Reactor и Middleware.
  
  Reactor в функции react может сразу дать понять view, чтобы она показала данные, и таким образом сменить ее стейт: 
  
@@ -39,7 +39,7 @@
             .map(::DataLoaded) //Маппим данные в событие
     } 
     
- Когда данные загружены, и маппинг произведен, middleware направляет событие DataLoaded в EventHub, где на него может прореагировать реактор:
+ Когда данные загружены, и маппинг произведен, middleware направляет событие DataLoaded в EventHub, где на него может прореагировать Reactor:
  
     when (event) { 
         is RetryClicked -> stateHolder.isLoading.accept(true)
@@ -67,13 +67,17 @@ StateHolder же, в свою очередь, служит только опов
     refresh_btn.setOnClickListener { hub.emit(RefreshClicked) } 
     
     
-В данном кейсе мы не рассматривали случай с обработкой ошибок, RequestState и продвинутым DSL. Они описаны ниже:
+Схематично, упрощенный стек вызовов при загрузке данных от нажатия на кнопку, до отображения данных, будет выглядеть так: 
 
-Обычно, асинхронную загрузку данных (например, из сети) мы представляем в качестве RequestEvent 
-и отображаем это событие с помощью RequestState. 
+`View` -> `EventHub` -> `Middleware` -> `EventHub` -> `Reactor` -> `StateHolder` -> `View`
 
-Синтаксис меняется следующим образом: View остается практически без изменений, 
-она так же эмитит событие RetryClicked в EventHub. 
+В данном кейсе мы не рассматривали случай с обработкой ошибок, RequestState и продвинутым DSL. 
+На реалньных проектах используются именно они, поэтому полезно будет с ними ознакомиться: 
+
+Обычно, асинхронную загрузку данных (например, из сети) мы мапим в событие RequestEvent и отображаем это событие с помощью RequestState. 
+
+Синтаксис будет следующим: View остается практически без изменений, она так же эмитит событие RetryClicked в EventHub. 
+
 А вот Middleware затрагивают серьезные изменения: Во-первых, там больше не нужно добавлять явную фильтрацию к observable, так как за это отвечает DSL-синтаксис:
 
     transform(eventStream: Observable<...>): Observable<...> = transformations(eventStream) { 
@@ -86,7 +90,7 @@ StateHolder же, в свою очередь, служит только опов
 
 1. Сразу же пушит в чейн событие LoadData со статусом Loading, т.е. уведомляет EventHub о том, что загрузка началась
 
-1. Маппит успешную загрузку данных в событие LoadData со статусом Success, т.е. уведомляет EventHub, что загрузка началась.
+1. Маппит успешную загрузку данных в событие LoadData со статусом Success, т.е. уведомляет EventHub, что данные получены.
 
 1. Проглатывает ошибку и маппит ее в событие LoadData со статусом Error, т.е. уведомляет EventHub о том, что при загрузке возникла ошибка. 
 
@@ -102,13 +106,15 @@ StateHolder же, в свою очередь, служит только опов
             )
         }   
  
- Либо, можно упростить запись с дефолтной модификацией: 
+ Синтаксис выглядит слека перегруженным, однако это необходимо понимать, 
+ что именно здесь происходит маппинг сущности с сервисного слоя в слой представления (тип загрузки, свайп рефреш, отображать или нет ошибку, и так далее). 
+ Эту запись можно упростить, и использовать модификацию по-умолчанию: 
         
     when(event) {     
         is LoadData -> stateHolder.data.modifyDefault(event) //делает то же самое, только быстрее. 
     }
  
- StateHolder, соответственно, хранит только одно состояние: RequestState с данными.
+ Что касается, StateHolder - он хранит только одно состояние, RequestState с данными.
  
     class StateHolder {
         val data = RequestState<Data>() 
@@ -116,7 +122,7 @@ StateHolder же, в свою очередь, служит только опов
 
  View, соответственно, будет подписываться на data, и отображать данные: 
  
-    sh.data.observeData().bindTo { newData -> setItems(newData) }
+    sh.data.observeData().bindTo { newData -> setItems(newData) } 
     sh.data.observeHasLoading().bindTo { isLoading -> loader_view.isVisible = isLoading }  
     sh.data.observeHasError().bindTo { hasError -> error_container.isVisible = hasError } 
     
@@ -134,7 +140,7 @@ StateHolder же, в свою очередь, служит только опов
  После того, как оно попало в EventHub, и на него могут среагировать Reactor и Middleware.
  
  Middleware в функции `transform` маппит событие OpenMainClicked в стандартное событие Navigation, вызывает у него метод open. 
- Дальше происходит декомпозиция события Navigation, о которой можно почитать в документе по композиции.
+ Дальше происходит декомпозиция события Navigation, о которой можно почитать в [документе по композиции][compreadme].
  
      transform(eventStream: Observable<...>): Observable<...> = transformations(eventStream) { 
         addAll(
@@ -147,9 +153,9 @@ Reactor и StateHolder в этом процессе не участвуют.
 
 ## Шаблонные события
 
-**В:** Какие событие необходимо добавлять при старте экрана?
+**В:** Какие событие необходимо добавлять в класс событий экрана?
 
-**O:** При создании экрана, необходимо прямо при создании явно указывать 2 типа событий: Lifecycle и Navigation: 
+**O:** При создании экрана, кроме создания самого sealed-класса событий экрана, необходимо сразу добавлять в него 2 события: Lifecycle и Navigation: 
 
 1. Lifecycle нужен для того, чтобы EventHub мог автоматически оповещать Middleware и Reactor о сменах ЖЦ View. 
  
@@ -157,10 +163,10 @@ Reactor и StateHolder в этом процессе не участвуют.
 
 Результирующий класс в итоге выглядит следующим образом: 
 
-    sealed class MainScreenEvent: Event { 
+    sealed class MainEvent: Event { 
     
-        data class Lifecycle(override var stage: LifecycleStage) : LifecycleEvent, InputFormEvent()
-        data class Navigation(override var events: List<NavigationEvent> = listOf()) : NavigationComposition, InputFormEvent()
+        data class Lifecycle(override var stage: LifecycleStage) : LifecycleEvent, MainEvent()
+        data class Navigation(override var events: List<NavigationEvent> = listOf()) : NavigationComposition, MainEvent()
     }    
     
     
