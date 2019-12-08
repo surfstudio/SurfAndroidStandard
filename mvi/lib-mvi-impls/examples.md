@@ -144,3 +144,25 @@ StateHolder же, в свою очередь, служит только опов
     } 
 
 Reactor и StateHolder в этом процессе не участвуют.
+
+## Шаблонные события
+
+**В:** Какие событие необходимо добавлять при старте экрана?
+
+**O:** При создании экрана, необходимо прямо при создании явно указывать 2 типа событий: Lifecycle и Navigation: 
+
+1. Lifecycle нужен для того, чтобы EventHub мог автоматически оповещать Middleware и Reactor о сменах ЖЦ View. 
+ 
+1. Navigation нужен для реализации композиции событий навигации. Более подробно можно почитать здесь: [navigation][navreadme], [composition][compreadme]
+
+Результирующий класс в итоге выглядит следующим образом: 
+
+    sealed class MainScreenEvent: Event { 
+    
+        data class Lifecycle(override var stage: LifecycleStage) : LifecycleEvent, InputFormEvent()
+        data class Navigation(override var events: List<NavigationEvent> = listOf()) : NavigationComposition, InputFormEvent()
+    }    
+    
+    
+[compreadme]: composition.md
+[navreadme]: navigation.md
