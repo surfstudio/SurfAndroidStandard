@@ -11,3 +11,4 @@
 * Add empty trigger transformation to BaseMiddleware to fix specific behavior: 
 if Middleware doesn't contain any transformations, Reactor.react method won't be triggered, 
 even if stream contains events from UI, which should be reacted directly.
+* Add examples and additional docs 

@@ -12,6 +12,8 @@
 * ANDDEP-459 Added transition to application settings on DebugScreen
 * Fixed debug screen push notification appearing on each App#onCreate invocation
 * ANDDEP-770 Fixed textStyle overriding and proguard bugs
+* Added `PostfixEditText` to base_feature
+* Add color styling to generateDependencyGraph task
 
 ## 0.4.0
 ##### Template
