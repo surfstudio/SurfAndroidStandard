@@ -118,9 +118,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
     @Override
     public void onViewRecycled(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewRecycled(holder);
-        int postioin = getListPosition(holder.getAdapterPosition());
-        if (postioin != RecyclerView.NO_POSITION) {
-            BaseItem item = items.get(postioin);
+        int position = getListPosition(holder.getAdapterPosition());
+        if (position != RecyclerView.NO_POSITION) {
+            BaseItem item = items.get(position);
             item.getItemController().unbind(holder, item);
         }
     }
@@ -238,20 +238,24 @@ public class EasyAdapter extends RecyclerView.Adapter {
     /**
      * Set the collection of data with itemController and display it in {@link RecyclerView}.
      *
-     * @param items      items to display
+     * @param newItems   items to display
      * @param autoNotify should we need to call {@link #autoNotify()}
      */
-    protected void setItems(@NonNull ItemList items, boolean autoNotify) {
+    protected void setItems(@NonNull ItemList newItems, boolean autoNotify) {
+        if (firstInvisibleItemEnabled && (newItems.isEmpty() || newItems.get(0) != firstInvisibleItem)) {
+            newItems.insert(0, firstInvisibleItem);
+        }
+
         if (isAsyncDiffCalculationEnabled) {
-            calculateDiff(asyncDiffer, items);
+            calculateDiff(asyncDiffer, newItems);
         } else if (autoNotify) {
-            calculateDiff(defaultDiffer, items);
+            calculateDiff(defaultDiffer, newItems);
         } else {
             dispatchDiffResult(
                     new DiffResultBundle(
                             null,
                             new DiffCalculationBundle(
-                                    items,
+                                    newItems,
                                     Collections.emptyList(),
                                     Collections.emptyList()
                             )
@@ -293,9 +297,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
         final ItemList newItems = diffResultBundle.getItems();
 
         items.clear();
-        if (firstInvisibleItemEnabled && (newItems.isEmpty() || newItems.get(0) != firstInvisibleItem)) {
-            items.add(firstInvisibleItem);
-        }
         items.addAll(newItems);
 
         if (isAsyncDiffCalculationEnabled || autoNotifyOnSetItemsEnabled) {
@@ -357,12 +358,12 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private String getItemStringIdInternal(List<BaseItem> items, int position) {
-        BaseItem item = items.get(getListPosition(position));
+        BaseItem item = items.get(getListPosition(items, position));
         return item.getItemController().getItemId(item);
     }
 
     private String getItemHashInternal(List<BaseItem> items, int position) {
-        BaseItem item = items.get(getListPosition(position));
+        BaseItem item = items.get(getListPosition(items, position));
         return item.getItemController().getItemHash(item);
     }
 
@@ -371,6 +372,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private int getListPosition(List<BaseItem> items, int adapterPosition) {
+        return getListPositionInternal(items, adapterPosition);
+    }
+
+    private int getListPositionInternal(List<BaseItem> items, int adapterPosition) {
         return infiniteScroll
                 ? adapterPosition % items.size()
                 : adapterPosition;
