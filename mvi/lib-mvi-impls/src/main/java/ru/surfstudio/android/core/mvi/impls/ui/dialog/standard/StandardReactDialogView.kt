@@ -20,12 +20,12 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
  *
  * To emit events from this dialog, you need to inherit parent component from [EventHubDialogComponent]
  */
-class CustomAlertDialogView<E : Event> : CoreSimpleDialogFragment() {
+class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
 
-    override fun getName(): String = "CustomAlertDialogView"
+    override fun getName(): String = "StandardReactDialogView"
 
     private lateinit var hub: ScreenEventHub<E>
-    private lateinit var route: CustomAlertDialogRoute<E>
+    private lateinit var route: StandardReactDialogRoute<E>
 
     private var positiveButtonEvent: E? = null
     private var negativeButtonEvent: E? = null
@@ -42,7 +42,7 @@ class CustomAlertDialogView<E : Event> : CoreSimpleDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hub = getScreenComponent(EventHubDialogComponent::class.java).screenHub() as ScreenEventHub<E>
-        route = CustomAlertDialogRoute(arguments!!)
+        route = StandardReactDialogRoute(arguments!!)
 
         isCancelable = route.isCancelable
 

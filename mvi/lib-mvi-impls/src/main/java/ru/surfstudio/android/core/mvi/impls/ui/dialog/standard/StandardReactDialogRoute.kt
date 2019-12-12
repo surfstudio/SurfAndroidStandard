@@ -21,7 +21,7 @@ const val EMPTY_RES = -1
  *
  * To emit events from this dialog, you need to inherit parent component from [EventHubDialogComponent]
  */
-class CustomAlertDialogRoute<E : Event>(
+class StandardReactDialogRoute<E : Event>(
         @StringRes var titleRes: Int = EMPTY_RES,
         @StringRes var messageRes: Int = EMPTY_RES,
         @StringRes var positiveBtnTextRes: Int = R.string.positive_btn,
@@ -51,9 +51,9 @@ class CustomAlertDialogRoute<E : Event>(
             args?.getInt(Route.EXTRA_TWELVE) ?: EMPTY_RES
     )
 
-    override fun getFragmentClass(): Class<out DialogFragment> = CustomAlertDialogView::class.java
+    override fun getFragmentClass(): Class<out DialogFragment> = StandardReactDialogView::class.java
 
-    override fun getTag(): String = "CustomAlertDialogView"
+    override fun getTag(): String = "StandardReactDialogView"
 
     override fun prepareBundle(): Bundle = Bundle().apply {
         putInt(Route.EXTRA_FIRST, titleRes)

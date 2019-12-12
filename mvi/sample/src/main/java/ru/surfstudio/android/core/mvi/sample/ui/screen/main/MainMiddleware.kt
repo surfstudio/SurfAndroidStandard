@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.main
 
 import io.reactivex.Observable
-import ru.surfstudio.android.core.mvi.impls.ui.dialog.standard.CustomAlertDialogRoute
+import ru.surfstudio.android.core.mvi.impls.ui.dialog.standard.StandardReactDialogRoute
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.NavigationMiddleware
@@ -46,7 +46,7 @@ class MainMiddleware @Inject constructor(
         return if (hasResultData) {
             messageController.show(result.data).skip()
         } else {
-            Navigation().open(CustomAlertDialogRoute<MainEvent>(
+            Navigation().open(StandardReactDialogRoute<MainEvent>(
                     title = "No result",
                     message = "Try again?",
                     positiveButtonEvent = Navigation().open(InputFormActivityRoute()))
