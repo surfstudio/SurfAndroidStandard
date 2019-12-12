@@ -8,6 +8,7 @@ import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubDependency
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinder
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinderDependency
+import ru.surfstudio.android.core.mvi.impls.ui.dialog.EventHubDialogComponent
 import ru.surfstudio.android.core.mvi.sample.ui.base.di.ReactScreenModule
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
@@ -22,7 +23,8 @@ class MainScreenConfigurator(intent: Intent) : DefaultActivityScreenConfigurator
     @Component(dependencies = [DefaultActivityComponent::class],
             modules = [DefaultActivityScreenModule::class, MainScreenModule::class, ReactScreenModule::class])
     internal interface MainScreenComponent
-        : BindableScreenComponent<MainActivityView>
+        : BindableScreenComponent<MainActivityView>,
+            EventHubDialogComponent<MainEvent>
 
     @Module
     internal class MainScreenModule {
