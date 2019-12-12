@@ -22,65 +22,57 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
  */
 class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
 
-    override fun getName(): String = "StandardReactDialogView"
 
     private lateinit var hub: ScreenEventHub<E>
-    private lateinit var route: StandardReactDialogRoute<E>
 
     private var positiveButtonEvent: E? = null
     private var negativeButtonEvent: E? = null
     private var dismissEvent: E? = null
 
     private val positiveListener = DialogInterface.OnClickListener { _, _ ->
-        positiveButtonEvent?.let { hub.emit(it) }
+        tryEmit(positiveButtonEvent)
     }
 
     private val negativeListener = DialogInterface.OnClickListener { _, _ ->
-        negativeButtonEvent?.let { hub.emit(it) }
+        tryEmit(negativeButtonEvent)
     }
+
+    override fun getName(): String = "StandardReactDialogView"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hub = getScreenComponent(EventHubDialogComponent::class.java).screenHub() as ScreenEventHub<E>
-        route = StandardReactDialogRoute(arguments!!)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val route = StandardReactDialogRoute<E>(arguments ?: Bundle())
 
         isCancelable = route.isCancelable
 
         positiveButtonEvent = route.positiveButtonEvent
         negativeButtonEvent = route.negativeButtonEvent
         dismissEvent = route.dismissEvent
-    }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val titleRes = route.titleRes
-        val title = if (titleRes != EMPTY_RES) getString(titleRes) else route.title
-
-        val messageRes = route.messageRes
-        val message = if (messageRes != EMPTY_RES) getString(messageRes) else route.message
-
-        val positiveText = route.positiveBtnTextRes
-        val negativeText = route.negativeBtnTextRes
-
-        val positiveColor = route.positiveBtnColorRes
-        val negativeColor = route.negativeBtnColorRes
+        val title = if (route.titleRes != EMPTY_RES) getString(route.titleRes) else route.title
+        val message = if (route.messageRes != EMPTY_RES) getString(route.messageRes) else route.message
 
         return AlertDialog.Builder(requireContext())
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButtonSafe(positiveText, positiveListener)
-                .setNegativeButtonSafe(negativeText, negativeListener)
+                .setPositiveButtonSafe(route.positiveBtnTextRes, positiveListener)
+                .setNegativeButtonSafe(route.negativeBtnTextRes, negativeListener)
                 .create()
                 .apply {
                     // paint button only after the dialog is shown
                     setOnShowListener {
-                        setButtonColorSafe(AlertDialog.BUTTON_NEGATIVE, negativeColor)
-                        setButtonColorSafe(AlertDialog.BUTTON_POSITIVE, positiveColor)
+                        setButtonColorSafe(AlertDialog.BUTTON_POSITIVE, route.positiveBtnColorRes)
+                        setButtonColorSafe(AlertDialog.BUTTON_NEGATIVE, route.negativeBtnColorRes)
                     }
                 }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        dismissEvent?.let { hub.emit(it) }
+        tryEmit(dismissEvent)
         super.onDismiss(dialog)
     }
 
@@ -101,5 +93,9 @@ class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
             val color = ContextCompat.getColor(context, colorResId)
             getButton(buttonType)?.setTextColor(color)
         }
+    }
+
+    private fun tryEmit(event: E?) {
+        event?.let(hub::emit)
     }
 }
