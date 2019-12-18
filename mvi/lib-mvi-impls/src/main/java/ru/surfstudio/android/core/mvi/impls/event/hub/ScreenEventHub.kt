@@ -11,6 +11,7 @@ import ru.surfstudio.android.core.mvi.impls.event.hub.new_intent.NewIntentEventH
 import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEventHub
+import ru.surfstudio.android.core.mvi.impls.event.hub.logging.EventLogger
 import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.LifecycleStage
@@ -41,7 +42,9 @@ class ScreenEventHub<T : Event>(
 
     override val screenState: ScreenState = dependency.screenState
 
-    private val screenName: String = extractScreenName(screenState)
+    private val logger: EventLogger = dependency.logger
+
+    private val screenName: String = if (logger.shouldLog) extractScreenName(screenState) else ""
 
     private fun extractScreenName(screenState: ScreenState): String {
         return when (screenState) {
@@ -65,12 +68,12 @@ class ScreenEventHub<T : Event>(
     private val bus = PublishRelay.create<T>()
 
     override fun accept(t: T?) {
+        logger.log(t, screenName)
         emit(t ?: return)
     }
 
     override fun emit(event: T) {
-        //Log events
-        Logger.d("Event / $screenName / $event")
+
         bus.accept(event)
     }
 
