@@ -21,7 +21,7 @@ import ru.surfstudio.android.logger.Logger;
 /**
  * Базовый класс миграции с одной версии приложения на другую
  */
-public abstract class AppMigration {
+public abstract class                       AppMigration {
 
     private final int baseVersion;
 
