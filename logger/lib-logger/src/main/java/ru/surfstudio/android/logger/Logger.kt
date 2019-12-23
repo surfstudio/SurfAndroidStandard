@@ -20,7 +20,7 @@ import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import kotlin.reflect.KClass
 
 /**
- * Сущность для логгирования с использованием различных уровней и стратегий
+ * Object for logging with using different levels and strategies
  */
 object Logger {
 
@@ -40,7 +40,7 @@ object Logger {
      */
     @JvmStatic
     fun v(message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.VERBOSE, null, message, *args) }
+        log(Log.VERBOSE, null, message, *args)
     }
 
     /**
@@ -48,7 +48,7 @@ object Logger {
      */
     @JvmStatic
     fun v(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.VERBOSE, t, message, *args) }
+        log(Log.VERBOSE, t, message, *args)
     }
 
     /**
@@ -56,7 +56,7 @@ object Logger {
      */
     @JvmStatic
     fun d(message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.DEBUG, null, message, *args) }
+        log(Log.DEBUG, null, message, *args)
     }
 
     /**
@@ -64,7 +64,7 @@ object Logger {
      */
     @JvmStatic
     fun d(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.DEBUG, t, message, *args) }
+        log(Log.DEBUG, t, message, *args)
     }
 
     /**
@@ -72,7 +72,7 @@ object Logger {
      */
     @JvmStatic
     fun i(message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.INFO, null, message, *args) }
+        log(Log.INFO, null, message, *args)
     }
 
     /**
@@ -80,16 +80,15 @@ object Logger {
      */
     @JvmStatic
     fun i(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.INFO, t, message, *args) }
+        log(Log.INFO, t, message, *args)
     }
 
     /**
-     * используется для ожидаемых ошибок
-     * Логгирует только сообщение ошибки
+     * Log an expectable error.
      */
     @JvmStatic
-    fun w(e: Throwable?) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.WARN, e, null) }
+    fun w(t: Throwable?) {
+        log(Log.WARN, t, null)
     }
 
     /**
@@ -97,7 +96,7 @@ object Logger {
      */
     @JvmStatic
     fun w(message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.WARN, null, message, *args) }
+        log(Log.WARN, null, message, *args)
     }
 
     /**
@@ -105,7 +104,7 @@ object Logger {
      */
     @JvmStatic
     fun w(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.WARN, t, message, *args) }
+        log(Log.WARN, t, message, *args)
     }
 
     /**
@@ -113,7 +112,7 @@ object Logger {
      */
     @JvmStatic
     fun e(message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.ERROR, null, message, *args) }
+        log(Log.ERROR, null, message, *args)
     }
 
     /**
@@ -121,12 +120,16 @@ object Logger {
      */
     @JvmStatic
     fun e(t: Throwable?, message: String, vararg args: Any) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.ERROR, t, message, *args) }
+        log(Log.ERROR, t, message, *args)
     }
 
     @JvmStatic
     fun e(t: Throwable?) {
-        forEachLoggingStrategy { strategy -> strategy.log(Log.ERROR, t, null) }
+        log(Log.ERROR, t, null)
+    }
+
+    private fun log(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {
+        forEachLoggingStrategy { strategy -> strategy.log(priority, t, message, args) }
     }
 
     private fun forEachLoggingStrategy(action: (LoggingStrategy) -> Unit) {
