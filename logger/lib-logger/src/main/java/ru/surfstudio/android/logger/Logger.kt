@@ -25,25 +25,15 @@ import kotlin.reflect.KClass
 object Logger {
 
     private val LOGGING_STRATEGIES = hashMapOf<KClass<*>, LoggingStrategy>()
-    private val LOGGING_DEFINED_PRIORITIES = hashMapOf<KClass<*>, Int>()
 
     @JvmStatic
     fun getLoggingStrategies() = LOGGING_STRATEGIES
-
-    @JvmStatic
-    fun getDefaultLoggingPriorities() = LOGGING_DEFINED_PRIORITIES
 
     @JvmStatic
     fun addLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.put(strategy::class, strategy)
 
     @JvmStatic
     fun removeLoggingStrategy(strategy: LoggingStrategy) = LOGGING_STRATEGIES.remove(strategy::class)
-
-    @JvmStatic
-    fun addDefalutLoggingPriority(errorClass: KClass<*>, defaultPriority: Int) = LOGGING_DEFINED_PRIORITIES.put(errorClass, defaultPriority)
-
-    @JvmStatic
-    fun removeDefalutLoggingPriority(errorClass: KClass<*>) = LOGGING_STRATEGIES.remove(errorClass)
 
     /**
      * Log a verbose developerMessage with optional format args.
@@ -139,16 +129,10 @@ object Logger {
     }
 
     private fun log(priority: Int, t: Throwable?, message: String?, vararg args: Any?) {
-        forEachLoggingStrategy { strategy -> strategy.log(getDefinedPriority(t, priority), t, message, args) }
+        forEachLoggingStrategy { strategy -> strategy.log(priority, t, message, args) }
     }
 
     private fun forEachLoggingStrategy(action: (LoggingStrategy) -> Unit) {
         LOGGING_STRATEGIES.values.forEach(action)
     }
-
-    private fun getDefinedPriority(t: Throwable?, defaultPriority: Int): Int =
-            when {
-                t != null -> LOGGING_DEFINED_PRIORITIES[t::class] ?: defaultPriority
-                else -> defaultPriority
-            }
 }

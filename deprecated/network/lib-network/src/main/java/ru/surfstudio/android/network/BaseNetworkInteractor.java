@@ -106,7 +106,7 @@ public class BaseNetworkInteractor {
     private <T> Observable<T> processErrorFinal(Throwable e, Observable<T> networkRequest) {
         if (e instanceof CacheExceptionWrapper) {
             //в случае ошибки получения данных из кеша производим запрос на сервер
-            Logger.e(e.getCause(), "Error when getting data from cache");
+            Logger.w(e.getCause(), "Error when getting data from cache");
             return networkRequest;
         } else {
             return Observable.error(e);
