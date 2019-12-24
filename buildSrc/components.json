@@ -118,7 +118,7 @@
   {
     "id": "app-migration",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "app-migration",
     "libs": [
@@ -493,7 +493,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 5,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -600,7 +600,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 6,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -686,7 +686,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -897,7 +897,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 2,
+    "unstable_version": 5,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -1121,7 +1121,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1527,7 +1527,7 @@
   {
     "id": "rx-extension",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 5,
     "stable": false,
     "dir": "rx-extension",
     "libs": [
@@ -1588,7 +1588,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 5,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -1642,7 +1642,7 @@
   {
     "id": "shared-pref",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "shared-pref",
     "libs": [
@@ -1759,7 +1759,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 9,
     "stable": false,
     "dir": "template",
     "libs": [],
