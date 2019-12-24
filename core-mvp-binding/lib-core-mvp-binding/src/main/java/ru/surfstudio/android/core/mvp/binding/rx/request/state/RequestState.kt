@@ -32,6 +32,10 @@ open class RequestState<T>(
     fun observeData(): Observable<T> = relay.share()
             .flatMap { skipIfNull(it.data) }
 
+    fun observeOptionalData(): Observable<Optional<T>> = relay.share()
+            .map { if (it.data == null) Optional.empty() else Optional.of(it.data) }
+            .distinctUntilChanged()
+
     fun observeLoading(): Observable<Loading> = relay.share()
             .flatMap { skipIfNull(it.load) }
             .distinctUntilChanged()
@@ -42,12 +46,12 @@ open class RequestState<T>(
     fun observeError(): Observable<Throwable> = relay.share()
             .flatMap { skipIfNull(it.error) }
 
-    fun observeOptionalError() = relay.share()
+    fun observeOptionalError(): Observable<Optional<Throwable>> = relay.share()
             .map { if (it.error == null) Optional.empty() else Optional.of(it.error) }
             .distinctUntilChanged()
 
-    fun observeHasError() = relay.share()
-            .map { it.error == null }
+    fun observeHasError(): Observable<Boolean> = relay.share()
+            .map { it.error != null }
             .distinctUntilChanged()
 
     val data: T?
