@@ -56,13 +56,13 @@ class TitleSubtitleView @JvmOverloads constructor(
             subTitleView.text = field
         }
 
-    var titleText: String = defaultTitle
+    var titleText: CharSequence = defaultTitle
         set(value) {
             field = value
             updateView()
         }
 
-    var subTitleText: String = defaultSubTitle
+    var subTitleText: CharSequence = defaultSubTitle
         set(value) {
             field = value
             updateView()
@@ -128,7 +128,7 @@ class TitleSubtitleView @JvmOverloads constructor(
             subTitleView.maxLines = value
         }
 
-    var onTitleClickListenerCallback: ((String) -> Unit)? = null
+    var onTitleClickListenerCallback: ((CharSequence) -> Unit)? = null
         set(value) {
             field = value
             if (value != null) {
@@ -139,7 +139,7 @@ class TitleSubtitleView @JvmOverloads constructor(
             }
         }
 
-    var onSubTitleClickListenerCallback: ((String) -> Unit)? = null
+    var onSubTitleClickListenerCallback: ((CharSequence) -> Unit)? = null
         set(value) {
             field = value
             if (value != null) {
