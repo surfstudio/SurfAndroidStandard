@@ -10,6 +10,7 @@ import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubD
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinder
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinderDependency
 import ru.surfstudio.android.core.mvi.sample.ui.base.di.ReactScreenModule
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.configurator.BindableScreenComponent
 import ru.surfstudio.android.core.mvp.configurator.ScreenComponent
 import ru.surfstudio.android.dagger.scope.PerScreen
@@ -36,6 +37,10 @@ class SimpleListScreenConfigurator(intent: Intent) : DefaultActivityScreenConfig
         ): ScreenEventHub<SimpleListEvent> =
                 ScreenEventHub(screenEventHubDependency, SimpleListEvent::Lifecycle)
 
+        @Provides
+        @PerScreen
+        fun provideState(): State<SimpleListModel> = State(SimpleListModel())
+
         @PerScreen
         @Provides
         fun provideBinder(
@@ -43,7 +48,7 @@ class SimpleListScreenConfigurator(intent: Intent) : DefaultActivityScreenConfig
                 eventHub: ScreenEventHub<SimpleListEvent>,
                 middleware: SimpleListMiddleware,
                 reactor: SimpleListReactor,
-                stateHolder: SimpleListStateHolder
+                stateHolder: State<SimpleListModel>
         ): Any = ScreenBinder(screenBinderDependency)
                 .apply { bind(eventHub, middleware, stateHolder, reactor) }
     }
