@@ -7,9 +7,12 @@ import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.sample.R
 import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.controller.StepperButtonController
+import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.controller.StepperData
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.logger.Logger
 import javax.inject.Inject
 
 /**
@@ -22,7 +25,7 @@ class SimpleListActivityView : BaseRxActivityView(), SingleHubOwner<SimpleListEv
     override lateinit var hub: ScreenEventHub<SimpleListEvent>
 
     @Inject
-    lateinit var sh: SimpleListStateHolder
+    lateinit var sh: State<SimpleListModel>
 
     val adapter = EasyAdapter()
     val controller = StepperButtonController { SimpleListEvent.StepperClicked(it).emit() }
@@ -35,14 +38,19 @@ class SimpleListActivityView : BaseRxActivityView(), SingleHubOwner<SimpleListEv
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
         initViews()
-        sh.items bindTo ::createItemList
+        sh bindTo ::render
     }
 
     private fun initViews() {
         simple_list_rv.adapter = adapter
     }
 
-    private fun createItemList(list: List<Int>) {
+    private fun render(model: SimpleListModel) {
+        Logger.d("render state $model")
+        createItemList(model.items)
+    }
+
+    private fun createItemList(list: List<StepperData>) {
         adapter.setItems(ItemList.create(list, controller))
     }
 }
