@@ -12,7 +12,6 @@ import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 import ru.surfstudio.android.core.mvp.binding.rx.ui.BaseRxActivityView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.logger.Logger
 import javax.inject.Inject
 
 /**
@@ -46,7 +45,6 @@ class SimpleListActivityView : BaseRxActivityView(), SingleHubOwner<SimpleListEv
     }
 
     private fun render(model: SimpleListModel) {
-        Logger.d("render state $model")
         createItemList(model.items)
     }
 

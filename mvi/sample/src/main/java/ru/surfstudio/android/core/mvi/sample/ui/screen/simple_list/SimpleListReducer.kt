@@ -5,7 +5,6 @@ import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.SimpleListEvent.*
 import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.controller.StepperData
 import ru.surfstudio.android.core.mvi.ui.reducer.Reducer
-import ru.surfstudio.android.logger.Logger
 
 /**
  * Хранитель состояния экрана [SimpleListActivityView]
@@ -18,10 +17,9 @@ data class SimpleListModel(
  * Реактор экрана [SimpleListActivityView]
  */
 @PerScreen
-class SimpleListReactor @Inject constructor() : Reducer<SimpleListEvent, SimpleListModel> {
+class SimpleListReducer @Inject constructor() : Reducer<SimpleListEvent, SimpleListModel> {
 
     override fun reduce(state: SimpleListModel, event: SimpleListEvent): SimpleListModel {
-        Logger.d("reduce state on $event")
         return when (event) {
             is ListLoaded -> onListLoaded(state, event)
             is StepperClicked -> onStepperClicked(state, event)

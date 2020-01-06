@@ -47,7 +47,7 @@ class SimpleListScreenConfigurator(intent: Intent) : DefaultActivityScreenConfig
                 screenBinderDependency: ScreenBinderDependency,
                 eventHub: ScreenEventHub<SimpleListEvent>,
                 middleware: SimpleListMiddleware,
-                reactor: SimpleListReactor,
+                reactor: SimpleListReducer,
                 stateHolder: State<SimpleListModel>
         ): Any = ScreenBinder(screenBinderDependency)
                 .apply { bind(eventHub, middleware, stateHolder, reactor) }
