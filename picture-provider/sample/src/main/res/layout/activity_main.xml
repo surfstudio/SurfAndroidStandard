@@ -58,11 +58,5 @@
             android:layout_marginTop="@dimen/default_margin"
             android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/chooser_save_btn_text" />
-
-        <com.google.android.cameraview.CameraView
-            android:id="@+id/camera_preview"
-            android:layout_width="match_parent"
-            android:layout_height="600dp"
-            android:layout_below="@id/chooser_save_btn"/>
     </RelativeLayout>
 </ScrollView>

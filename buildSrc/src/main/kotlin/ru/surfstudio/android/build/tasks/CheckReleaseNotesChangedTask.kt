@@ -48,10 +48,17 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
             if (isComponentChanged(resultByConfig.isComponentChanged, resultByFile.isComponentChanged)) {
                 if (isComponentHasDiffs(componentsWithDiffs, component)) {
                     val diffs = componentsWithDiffs.getValue(component)
-                    if (!isReleaseFileIncluded(diffs, component.name))
-                        throw ReleaseNotesForFilesException(component.name)
+                    if (!isReleaseFileIncluded(diffs, component.name)) {
+                        throw ReleaseNotesForFilesException(
+                                component.name,
+                                resultByConfig.reasonOfComponentChange.reason
+                        )
+                    }
                 } else {
-                    throw ReleaseNotesForConfigurationException(component.name)
+                    throw ReleaseNotesForConfigurationException(
+                            component.name,
+                            resultByFile.reasonOfComponentChange.reason
+                    )
                 }
             }
         }
@@ -64,7 +71,7 @@ open class CheckReleaseNotesChangedTask : DefaultTask() {
             resultByConfig.or(resultByFile)
 
     private fun isReleaseFileIncluded(diffs: List<String>, componentName: String): Boolean =
-            diffs.find {  it.contains("$componentName/$RELEASE_NOTES_FILE_NAME") } != null
+            diffs.find { it.contains("$componentName/$RELEASE_NOTES_FILE_NAME") } != null
 
     private fun extractInputArguments() {
         if (!project.hasProperty(GradleProperties.COMPONENTS_CHANGED_REVISION_TO_COMPARE)) {

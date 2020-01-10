@@ -55,12 +55,3 @@ dependencies {
     implementation "androidx.multidex:multidex:$androidxMultidexVersion"
     implementation project(':security-sample-template:security')
     implementation project(':sample-dagger')
-
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-}
-
-task printTestInstrumentationRunnerName {
-    doLast {
-        println "$android.defaultConfig.testInstrumentationRunner"
-    }
-}

@@ -37,8 +37,9 @@ interface ImageLoaderInterface {
      * Загрузка изображения из сети
      *
      * @param url сетевая ссылка на изображение
+     * @param headers заголовки для запроса к [url]
      */
-    fun url(url: String): ImageLoaderInterface
+    fun url(url: String, headers: Map<String, String> = emptyMap()): ImageLoaderInterface
 
     /**
      * Загрузка изображения из ресурсов
@@ -185,7 +186,7 @@ interface ImageLoaderInterface {
      *
      * @param duration продолжительность перехода (в мс)
      */
-    fun crossFade(duration: Int = 300, hidePreviousImage: Boolean = false): ImageLoaderInterface
+    fun crossFade(duration: Int = 300): ImageLoaderInterface
 
     /**
      * Размножения изображения для соответствия его размеров размерам View
@@ -207,6 +208,19 @@ interface ImageLoaderInterface {
      * @param signature
      */
     fun signature(signature: Any): ImageLoaderInterface
+
+    /**
+     * Отключение конфигурации [Bitmap.Config.HARDWARE].
+     * Необходимо в случае, когда нужен доступ к загруженному в графическую память [Bitmap].
+     *
+     * Подробнее о Hardware Bitmaps: [https://bumptech.github.io/glide/doc/hardwarebitmaps.html]
+     */
+    fun disableHardwareConfig(): ImageLoaderInterface
+
+    /**
+     * Отключение анимации загруженных изображений.
+     */
+    fun dontAnimate(): ImageLoaderInterface
 
     /**
      * Указание целевой [View].

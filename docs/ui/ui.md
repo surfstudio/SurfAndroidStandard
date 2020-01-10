@@ -19,20 +19,23 @@
 Для построения ахитектуры UI слоя следует подключить в проект core-модули:
 - [core-ui][core-ui]  - базовые классы ui-слоя
 - [core-mvp][core-mvp]- mvp-обертка для core-ui
-- [core-app](../../core-app/README.md) - стандартная конфигурация App + дополнительные сущности
+- [core-app][core_app] - стандартная конфигурация App + дополнительные сущности
 
 Также при неодбходимости использовать диалоги с поддержкой mvp и виджеты:
-- [mvp-dialog](../../mvp-dialog/README.md) - стандартные диалоги
-- [mvp-widget](../../mvp-widget/README.md) - виджеты с поддержкой mvp
+- [mvp-dialog][dial] - стандартные диалоги
+- [mvp-widget][mvp_widget] - виджеты с поддержкой mvp
 
 Опционально(**экспериметальный модуль**):
-- [core-mvp-binding](../../core-mvp-binding/README.md) - модуль для биндинга
+- [core-mvp-binding][mvp_binding] - модуль для биндинга
 
 Как правильно построить UI слой можно посмотреть [здесь][core-mvp].
 
-[core-ui]: ../../core-ui/README.md
-[core-mvp]: ../../core-mvp/README.md
+[core_ui]: ../../core-ui/lib-core-ui/README.md
+[core_mvp]: ../../mvp/lib-core-mvp/
+[core_app]: ../../deprecated/core-app/lib-core-app/README.md
+[mvp_widget]: ../../mvp/lib-mvp-widget/README.md
+[mvp_binding]: ../../core-mvp-binding/lib-core-mvp-binding/README.md
 [struct]: structure.md
 [nav]: navigation.md
-[dial]: ../../mvp-dialog/README.md
+[dial]: ../../mvp/lib-mvp-dialog/README.md
 [create]: create_screen.md

@@ -48,7 +48,6 @@ import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.utilktx.util.DrawableUtil
 import java.util.concurrent.ExecutionException
 import com.bumptech.glide.signature.ObjectKey
-import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 
 @Suppress("MemberVisibilityCanBePrivate")
 /**
@@ -97,15 +96,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
         fun with(context: Context) = ImageLoader(context)
     }
 
-    /**
-     * Загрузка изображения из сети
-     *
-     * @param url сетевая ссылка на изображение
-     */
     @Throws(IllegalArgumentException::class)
-    override fun url(url: String) =
+    override fun url(url: String,  headers: Map<String, String>) =
             apply {
                 this.imageResourceManager.url = url
+                this.imageResourceManager.headers = headers
             }
 
     /**
@@ -269,16 +264,11 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Добавление перехода с растворением между изображениями.
      *
      * @param duration продолжительность перехода (в мс)
-     * @param hidePreviousImage заставляет Glide скрыть предыдущее изображение,
-     * а не просто нарисовать следующее поверх см. документацию https://clck.ru/FVpbQ
      */
-    override fun crossFade(duration: Int, hidePreviousImage: Boolean): ImageLoaderInterface =
+    override fun crossFade(duration: Int): ImageLoaderInterface =
             also {
-                val factory = DrawableCrossFadeFactory.Builder(duration)
-                        .setCrossFadeEnabled(hidePreviousImage)
-                        .build();
                 imageTransitionManager.imageTransitionOptions =
-                        DrawableTransitionOptions().crossFade(factory)
+                        DrawableTransitionOptions().crossFade(duration)
             }
 
     /**
@@ -302,6 +292,16 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     override fun signature(signature: Any): ImageLoaderInterface =
             apply {
                 this.imageSignatureManager.signature = signature
+            }
+
+    override fun disableHardwareConfig(): ImageLoaderInterface =
+            apply {
+                imageResourceManager.isHardwareConfigDisabled = true
+            }
+
+    override fun dontAnimate(): ImageLoaderInterface =
+            apply {
+                imageResourceManager.isAnimationDisabled = true
             }
 
     /**
@@ -418,6 +418,8 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
             .addTransitionIf(imageTransitionManager.isTransitionSet, imageTransitionManager.imageTransitionOptions)
             .apply(
                     RequestOptions()
+                            .disableHardwareConfigIf(imageResourceManager.isHardwareConfigDisabled)
+                            .dontAnimateIf(imageResourceManager.isAnimationDisabled)
                             .diskCacheStrategy(if (imageCacheManager.skipCache) {
                                 DiskCacheStrategy.NONE
                             } else {

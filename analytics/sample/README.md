@@ -2,9 +2,9 @@
 
 Пример использования модулей:
 
-+ [analytics](../analytics)
-+ [firebase-analytics](../firebase-analytics)
-+ [push](../push)
++ [analytics][analytic]
++ [firebase-analytics][firebase_analytic]
++ [push][push]
 
 Посмотреть проект в консоли Firebase можно [здесь](https://console.firebase.google.com/u/1/project/androidstandard-sample-7707a/overview).
 
@@ -43,4 +43,8 @@ Content-Type | application/json
 Project Overview - Settings - Cloud Messaging;
 
 + FCM_TOKEN можно найти в логах приложения при его запуске;
-+ EVENT_TYPE - тип события, возможные значения представлены [здесь](../firebase-sample/src/main/java/ru/surfstudio/android/firebase/sample/domain/notification/NotificationType.kt).
++ EVENT_TYPE - тип события, возможные значения представлены [здесь](../sample/src/main/java/ru/surfstudio/android/firebase/sample/domain/notification/NotificationType.kt).
+
+[analytic]: ../../analytics/lib-analytics/
+[firebase_analytic]: ../../analytics/lib-firebase-analytics/
+[push]: ../../push/lib-push/

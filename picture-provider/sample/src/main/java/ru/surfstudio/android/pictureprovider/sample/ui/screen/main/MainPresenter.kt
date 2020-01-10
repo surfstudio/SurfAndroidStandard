@@ -3,10 +3,8 @@ package ru.surfstudio.android.pictureprovider.sample.ui.screen.main
 import io.reactivex.Single
 import ru.surfstudio.android.core.mvp.presenter.BasePresenter
 import ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency
-import ru.surfstudio.android.core.ui.permission.PermissionManager
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.picturechooser.CameraStoragePermissionRequest
 import ru.surfstudio.android.picturechooser.PicturePermissionChecker
 import ru.surfstudio.android.picturechooser.PictureProvider
 import ru.surfstudio.android.pictureprovider.sample.R
@@ -20,7 +18,6 @@ import javax.inject.Inject
 internal class MainPresenter @Inject constructor(
         basePresenterDependency: BasePresenterDependency,
         stringsProvider: StringsProvider,
-        private val permissionManager: PermissionManager,
         private val picturePermissionChecker: PicturePermissionChecker,
         private val photoProvider: PictureProvider,
         private val messageController: MessageController
@@ -57,19 +54,5 @@ internal class MainPresenter @Inject constructor(
         subscribeIoHandleError(single) {
             messageController.show(it.toString())
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (checkPermission()) view.startCamera()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (checkPermission()) view.stopCamera()
-    }
-
-    private fun checkPermission(): Boolean {
-        return permissionManager.check(CameraStoragePermissionRequest()).isGranted
     }
 }

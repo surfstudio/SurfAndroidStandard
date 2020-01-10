@@ -9,6 +9,7 @@ dependencies {
     implementation project(":i-network")
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
 
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
@@ -30,6 +31,7 @@ dependencies {
 
     //rangebar
     implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutXVersion}"
 
     api project(":domain")
     implementation project(":i-push-notification")

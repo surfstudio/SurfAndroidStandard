@@ -27,6 +27,25 @@ fun RequestOptions.applyTransformations(transformations: List<Transformation<Bit
 }
 
 /**
+ * Функция-расширение для отключения конфигурации [Bitmap.Config.HARDWARE].
+ *
+ * @param condition условие, при выполнении которого будет выключена
+ *                  конфигурация [Bitmap.Config.HARDWARE].
+ */
+fun RequestOptions.disableHardwareConfigIf(condition: Boolean): RequestOptions {
+    return if (condition) this.disallowHardwareConfig() else this
+}
+
+/**
+ * Функция-расширение для отключения анимаций.
+ *
+ * @param condition условие, при выполнении которого будут выключены анимации.
+ */
+fun RequestOptions.dontAnimateIf(condition: Boolean): RequestOptions {
+    return if (condition) this.dontAnimate() else this
+}
+
+/**
  * Функция-расширение для добавления плейсхолдера в случае ошибки загрузки изображения
  * Срабатывает только при выполнении условия condition
  *
@@ -36,7 +55,7 @@ fun RequestOptions.applyTransformations(transformations: List<Transformation<Bit
 fun <T> RequestBuilder<T>.addErrorIf(
         condition: Boolean,
         errorRequest: () -> RequestBuilder<T>
-) : RequestBuilder<T> {
+): RequestBuilder<T> {
     return if (condition) this.error(errorRequest()) else this
 }
 
@@ -50,7 +69,7 @@ fun <T> RequestBuilder<T>.addErrorIf(
 fun <T> RequestBuilder<T>.addThumbnailIf(
         condition: Boolean,
         thumbnailRequest: () -> RequestBuilder<T>
-) : RequestBuilder<T> {
+): RequestBuilder<T> {
     return if (condition) this.thumbnail(thumbnailRequest()) else this
 }
 
@@ -61,10 +80,10 @@ fun <T> RequestBuilder<T>.addThumbnailIf(
  * @param condition условие, при выполнении которого будет осуществлена анимация
  * @param transitionOptions опции, которые описывают анимацию
  */
-fun <T, Child: TransitionOptions<Child, T>> RequestBuilder<T>.addTransitionIf(
+fun <T, Child : TransitionOptions<Child, T>> RequestBuilder<T>.addTransitionIf(
         condition: Boolean,
         transitionOptions: TransitionOptions<Child, T>
-) : RequestBuilder<T> {
+): RequestBuilder<T> {
     return if (condition) this.transition(transitionOptions) else this
 }
 

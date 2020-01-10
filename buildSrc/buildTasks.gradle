@@ -59,6 +59,8 @@ task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) 
 
 task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion) //pr //release
 
+task checkReleaseNotesNotContainCyrillic(type: CheckReleaseNotesNotContainCyrillic) //pr //release
+
 task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
 
 task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask) //pr
@@ -78,6 +80,8 @@ task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotPro
 task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) // release
 
 task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
+
+task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
 
 task uploadArchiveComponentsTask(type: UploadArchiveComponentsTask){
     Components.libraries.each {
