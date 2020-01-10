@@ -19,13 +19,13 @@
 Для создания нового экрана предусмотрены шаблоны.
 Чтобы их использовать необходимо выполнить следующее:
 
-1. Скопировать папку `surf` из директории `android-standard/templates/file`
+1. Скопировать папку `surf` из директории `android-standard/android-studio-settings/file`
 в папку `<android-studio-folder>/plugins/android/lib/templates`
 
 1. Нажать ПКМ в дереве пакетов -> New -> Surf -> Activity/Fragment
 
 Шаблоны работают в студии 3.0 и выше
 
-[core-mvp]: ../../core-mvp/README.md
+[core-mvp]: ../../mvp/lib-core-mvp/README.md
 [multi]: ../common/multimodule/detail.md
-[configurator]: ../../core-mvp/docs/configurator.md
+[configurator]: ../../mvp/lib-core-mvp/docs/configurator.md

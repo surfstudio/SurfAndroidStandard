@@ -4,10 +4,10 @@ apply from: '../commonModule.gradle'
 apply plugin: 'kotlin-kapt'
 
 dependencies {
-    api project("$templatePrefix:i-network")
-    api project("$templatePrefix:i-token")
+    api project(":i-network")
+    api project(":i-token")
 
-    implementation project("$templatePrefix:base")
+    implementation project(":base")
     implementation "junit:junit:$junitVersion"
     implementation "com.annimon:stream:$annimonStreamVersion"
     implementation "org.robolectric:robolectric:$robolectricVersion"

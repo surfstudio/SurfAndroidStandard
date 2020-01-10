@@ -1,5 +1,5 @@
 apply from: '../commonInteractorModule.gradle'
 
 dependencies {
-    implementation project("$templatePrefix:i-network")
+    implementation project(":i-network")
 }

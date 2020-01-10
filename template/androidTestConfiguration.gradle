@@ -7,7 +7,7 @@ android {
 
 dependencies {
     //instrumental test
-    androidTestImplementation project("$templatePrefix:base")
+    androidTestImplementation project(":base")
     androidTestImplementation "androidx.test:core:$androidxTestVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxTestExtJunitVersion"
     androidTestImplementation "androidx.test:runner:$androidXTestRunnerVersion"

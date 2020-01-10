@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/default_margin">
+
+    <Button
+        android:id="@+id/show_colored_snackbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/show_colored_snackbar_btn_text" />
+
+    <Button
+        android:id="@+id/show_snackbar_with_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/show_snackbar_with_duration_btn_text"/>
+
+    <Button
+        android:id="@+id/show_snackbar_with_listener"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/show_snackbar_with_listener_btn_text"/>
+
+    <Button
+        android:id="@+id/show_gravity_toast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/show_gravity_toast_btn_text" />
+
+    <Button
+        android:id="@+id/close_snackbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/close_snackbar_btn_text" />
+
+    <Button
+        android:id="@+id/start_message_demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/start_message_demo_btn_text" />
+</LinearLayout>

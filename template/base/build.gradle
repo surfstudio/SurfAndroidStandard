@@ -1,11 +1,12 @@
+apply plugin: 'ru.surfstudio.android'
+
 apply from: '../commonModule.gradle'
 
 dependencies {
-    api project("$templatePrefix:domain")
+    api project(":domain")
 
     gradle.ext.androidStandard.api(
             this,
-            "$surfCoreVersionName",
             [
                     "activity-holder",
                     "core-ui",
@@ -20,8 +21,6 @@ dependencies {
                     "dagger-scope",
                     "logger",
                     "filestorage",
-                    "network",
-                    "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",
@@ -37,8 +36,6 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"],
-            null, //todo remove for real app
-            "LOCAL"  //todo remove for real app
+                    "rxbus"]
     )
 }

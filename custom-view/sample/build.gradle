@@ -1,0 +1,17 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.custom_view_sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "animations")
+    DependencyConfigurator.projectImplementation(project, "custom-view")
+    DependencyConfigurator.projectImplementation(project, "sample-common")
+
+    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
+}

@@ -1,10 +1,10 @@
+.idea
 *.iml
 .gradle
 /local.properties
-/android-standard/androidStandard.properties
-.idea/
 .DS_Store
 /build
-*/build
 /captures
 .externalNativeBuild
+/temp
+_mirror

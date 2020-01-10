@@ -3,6 +3,7 @@ package ru.surfstudio.standard.application.app
 import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
+import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.crashlytics.android.Crashlytics
 import com.crashlytics.android.core.CrashlyticsCore
 import com.github.anrwatchdog.ANRWatchDog
@@ -43,6 +44,7 @@ class App : MultiDexApplication() {
 
         initFabric()
         initPushEventListener()
+        initRxJava2Debug()
 
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
@@ -72,6 +74,10 @@ class App : MultiDexApplication() {
         Logger.addLoggingStrategy(TimberLoggingStrategy())
         Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
         RemoteLogger.addRemoteLoggingStrategy(CrashlyticsRemoteLoggingStrategy())
+    }
+
+    private fun initRxJava2Debug() {
+        RxJava2Debug.enableRxJava2AssemblyTracking(arrayOf(packageName))
     }
 
     /**

@@ -1,7 +1,0 @@
-apply from: '../androidModule.gradle'
-
-gradle.ext.configAndroidStandardDependencies(this, [
-        'core-ui',
-        'mvp-dialog',
-        'dagger-scope'
-])

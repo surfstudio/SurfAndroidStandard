@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.filestorage.utils.AppDirectoriesProvider
-import ru.surfstudio.android.network.BaseUrl
-import ru.surfstudio.android.network.cache.SimpleCacheFactory
-import ru.surfstudio.android.network.cache.SimpleCacheInterceptor
-import ru.surfstudio.android.network.cache.SimpleCacheUrlConnector
+import ru.surfstudio.standard.i_network.network.BaseUrl
+import ru.surfstudio.standard.i_network.network.cache.SimpleCacheFactory
+import ru.surfstudio.standard.i_network.network.cache.SimpleCacheInterceptor
+import ru.surfstudio.standard.i_network.network.cache.SimpleCacheUrlConnector
 import ru.surfstudio.standard.i_network.cache.SimpleCacheInfoStorage
 
 /**
