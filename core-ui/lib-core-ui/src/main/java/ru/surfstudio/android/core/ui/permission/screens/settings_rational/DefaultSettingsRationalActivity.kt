@@ -16,31 +16,33 @@ private const val SETTINGS_REQUEST_CODE = 1005
  */
 class DefaultSettingsRationalActivity : AppCompatActivity() {
 
-    private val settingsRationalStr: String
-        get() = intent.getStringExtra(Route.EXTRA_FIRST)
+    private val params: SettingsRationalDialogParams =
+        intent.getSerializableExtra(Route.EXTRA_FIRST) as SettingsRationalDialogParams
 
-    private val settingsPositiveButtonStr: String
-        get() = intent.getStringExtra(Route.EXTRA_SECOND)
-                ?: getString(R.string.settings_rational_go_to_settings)
+    private val settingsRationalStr: String = params.rationalTxt
+        ?: getString(R.string.settings_rational_msg)
 
-    private val settingsNegativeButtonStr: String
-        get() = intent.getStringExtra(Route.EXTRA_FIRST)
-                ?: getString(R.string.settings_rational_cancel)
+    private val settingsPositiveButtonStr: String = params.positiveButtonTxt
+        ?: getString(R.string.settings_rational_go_to_settings)
+
+    private val settingsNegativeButtonStr: String = params.negativeButtonTxt
+        ?: getString(R.string.settings_rational_cancel)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         AlertDialog
-                .Builder(this)
-                .setMessage(settingsRationalStr)
-                .setPositiveButton(settingsPositiveButtonStr) { _, _ ->
-                    val settingsUri = Uri.fromParts("package", packageName, null)
-                    val settingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, settingsUri)
-                    startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE)
-                }
-                .setNegativeButton(settingsNegativeButtonStr, null)
-                .setOnDismissListener { finish() }
-                .create()
-                .show()
+            .Builder(this)
+            .setMessage(settingsRationalStr)
+            .setPositiveButton(settingsPositiveButtonStr) { _, _ ->
+                val settingsUri = Uri.fromParts("package", packageName, null)
+                val settingsIntent =
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, settingsUri)
+                startActivityForResult(settingsIntent, SETTINGS_REQUEST_CODE)
+            }
+            .setNegativeButton(settingsNegativeButtonStr, null)
+            .setOnDismissListener { finish() }
+            .create()
+            .show()
     }
 }
