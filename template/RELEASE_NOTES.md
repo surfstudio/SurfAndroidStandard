@@ -2,18 +2,8 @@
 # Template Release Notes
 ## 0.5.0-alpha
 ##### Template
-* ANDDEP-687 Added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type to f-debug
-* ANDDEP-687 Added "com.google.dagger:dagger" dependency with "implementation" type to f-debug
-* ANDDEP-687 Added "javax.inject:javax.inject" and "com.annimon:stream" to commonModule.gradle
-* ANDDEP-687 Removed "com.annimon:stream" dependency from app-module
 * ANDDEP-329 Added RxJava2Debug
 * ANDDEP-702 Fixed script for local connection of android standard
-* ANDDEP-413 Added transition to WindowVQA on DebugScreen
-* ANDDEP-459 Added transition to application settings on DebugScreen
-* Fixed debug screen push notification appearing on each App#onCreate invocation
-* ANDDEP-770 Fixed textStyle overriding and proguard bugs
-* Added `PostfixEditText` to base_feature
-* Add color styling to generateDependencyGraph task
 
 ## 0.4.0
 ##### Template
