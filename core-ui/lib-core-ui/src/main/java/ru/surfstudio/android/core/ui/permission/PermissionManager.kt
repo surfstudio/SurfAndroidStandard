@@ -180,11 +180,13 @@ abstract class PermissionManager(
 
     private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
         val customSettingsRationalRoute = permissionRequest.settingsRationalRoute
-        val customSettingsRationalStr = permissionRequest.settingsRationalStr
+        val customSettingsRationalDialogParams = permissionRequest.settingsRationalDialogParams
 
         val settingsRationalRoute = when {
             customSettingsRationalRoute != null -> customSettingsRationalRoute
-            customSettingsRationalStr != null -> DefaultSettingsRationalRoute(customSettingsRationalStr)
+            customSettingsRationalDialogParams != null -> DefaultSettingsRationalRoute(
+                    customSettingsRationalDialogParams
+            )
             else -> return Single.error(SettingsRationalIsNotProvidedException())
         }
         return startAndObserveReturnFromScreen(settingsRationalRoute)
