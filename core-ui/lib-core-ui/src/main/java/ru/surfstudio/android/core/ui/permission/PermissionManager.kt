@@ -18,24 +18,21 @@ package ru.surfstudio.android.core.ui.permission
 import android.content.SharedPreferences
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-
-import java.util.HashMap
-
-import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
-import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelegate
-import ru.surfstudio.android.core.ui.provider.ActivityProvider
-
 import androidx.core.content.PermissionChecker.PERMISSION_GRANTED
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.SingleEmitter
+import ru.surfstudio.android.core.ui.event.ScreenEventDelegateManager
+import ru.surfstudio.android.core.ui.event.result.RequestPermissionsResultDelegate
 import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavigator
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.permission.exceptions.PermissionsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.exceptions.SettingsRationalIsNotProvidedException
 import ru.surfstudio.android.core.ui.permission.screens.default_permission_rational.DefaultPermissionRationalRoute
 import ru.surfstudio.android.core.ui.permission.screens.settings_rational.DefaultSettingsRationalRoute
+import ru.surfstudio.android.core.ui.provider.ActivityProvider
 import java.io.Serializable
+import java.util.*
 
 /**
  * Класс для проверки и запросов разрешений.
@@ -180,11 +177,13 @@ abstract class PermissionManager(
 
     private fun performPermissionRequestBySettings(permissionRequest: PermissionRequest): Single<Boolean> {
         val customSettingsRationalRoute = permissionRequest.settingsRationalRoute
-        val customSettingsRationalStr = permissionRequest.settingsRationalStr
+        val customSettingsRationalDialogParams = permissionRequest.settingsRationalDialogParams
 
         val settingsRationalRoute = when {
             customSettingsRationalRoute != null -> customSettingsRationalRoute
-            customSettingsRationalStr != null -> DefaultSettingsRationalRoute(customSettingsRationalStr)
+            customSettingsRationalDialogParams != null -> DefaultSettingsRationalRoute(
+                    customSettingsRationalDialogParams
+            )
             else -> return Single.error(SettingsRationalIsNotProvidedException())
         }
         return startAndObserveReturnFromScreen(settingsRationalRoute)
