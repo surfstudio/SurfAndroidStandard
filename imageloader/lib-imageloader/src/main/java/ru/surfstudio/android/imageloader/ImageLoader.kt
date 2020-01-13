@@ -36,6 +36,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.*
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.bumptech.glide.request.transition.Transition
 import ru.surfstudio.android.imageloader.data.*
 import ru.surfstudio.android.imageloader.transformations.BlurTransformation.BlurBundle
@@ -97,7 +98,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     @Throws(IllegalArgumentException::class)
-    override fun url(url: String,  headers: Map<String, String>) =
+    override fun url(url: String, headers: Map<String, String>) =
             apply {
                 this.imageResourceManager.url = url
                 this.imageResourceManager.headers = headers
@@ -265,10 +266,13 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      *
      * @param duration продолжительность перехода (в мс)
      */
-    override fun crossFade(duration: Int): ImageLoaderInterface =
+    override fun crossFade(duration: Int, hidePreviousImage: Boolean): ImageLoaderInterface =
             also {
+                val factory = DrawableCrossFadeFactory.Builder(duration)
+                        .setCrossFadeEnabled(hidePreviousImage)
+                        .build()
                 imageTransitionManager.imageTransitionOptions =
-                        DrawableTransitionOptions().crossFade(duration)
+                        DrawableTransitionOptions().crossFade(factory)
             }
 
     /**
