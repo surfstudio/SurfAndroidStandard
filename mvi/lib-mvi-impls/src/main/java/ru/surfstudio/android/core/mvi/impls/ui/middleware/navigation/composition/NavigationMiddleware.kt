@@ -15,7 +15,7 @@ import java.io.Serializable
  * [NavigationMiddlewareInterface] implementation.
  * It works with [NavigationEvent] and adds automatic listen for result functional.
  */
-class NavigationMiddleware(
+open class NavigationMiddleware(
         baseMiddlewareDependency: BaseMiddlewareDependency,
         override var screenNavigator: ScreenNavigator
 ) : NavigationMiddlewareInterface<NavigationEvent>,
