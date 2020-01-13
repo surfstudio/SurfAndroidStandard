@@ -17,7 +17,6 @@ package ru.surfstudio.android.core.ui.permission
 
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
 import ru.surfstudio.android.core.ui.permission.screens.settings_rational.SettingsRationalDialogParams
-import ru.surfstudio.android.core.ui.permission.screens.settings_rational.SettingsRationalDialogParamsBuilder
 
 private const val MAX_REQUEST_CODE = 32768
 
