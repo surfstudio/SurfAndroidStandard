@@ -188,7 +188,7 @@ interface ImageLoaderInterface {
      * @param hidePreviousImage заставляет Glide скрыть предыдущее изображение,
      * а не просто нарисовать следующее поверх см. документацию https://clck.ru/FVpbQ
      */
-    fun crossFade(duration: Int = 300, hidePreviousImage: Boolean): ImageLoaderInterface
+    fun crossFade(duration: Int = 300, hidePreviousImage: Boolean = false): ImageLoaderInterface
 
     /**
      * Размножения изображения для соответствия его размеров размерам View
