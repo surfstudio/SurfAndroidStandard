@@ -16,6 +16,7 @@
 package ru.surfstudio.android.core.ui.permission
 
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityWithResultRoute
+import ru.surfstudio.android.core.ui.permission.screens.settings_rational.SettingsRationalDialogParams
 
 private const val MAX_REQUEST_CODE = 32768
 
@@ -65,8 +66,8 @@ abstract class PermissionRequest {
      *
      * Если задано true, то при необходимости объяснения будут выполнены следующие действия:
      * - если задан {@link #settingsRationalRoute}, то будет совершен переход по заданному маршруту;
-     * - если {@link #settingsRationalRoute} не задан, но задан {@link #settingsRationalStr}, то будет
-     * совершен переход на стандартный диалог отображающий заданную строку;
+     * - если {@link #settingsRationalRoute} не задан, но задан {@link #settingsRationalDialogParams}, то будет
+     * совершен переход на стандартный диалог, отображающий заданные параметры;
      * - если не задано ни одно из вышеперечисленных свойств, то будет возбуждено исключение
      * [SettingsRationalIsNotProvidedException].
      */
@@ -80,8 +81,8 @@ abstract class PermissionRequest {
         protected set
 
     /**
-     * Строка, отображаемая в стандартном диалоге объяснения необходимости перехода в настройки приложения.
+     * Параметры диалога с объяснением необходимости перехода в настройки приложения.
      */
-    var settingsRationalStr: String? = null
+    var settingsRationalDialogParams: SettingsRationalDialogParams? = null
         protected set
 }
