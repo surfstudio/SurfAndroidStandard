@@ -96,14 +96,14 @@ public abstract class CoreActivity extends AppCompatActivity implements CoreActi
     @Override
     protected void onResume() {
         super.onResume();
-        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
+        Logger.d(String.format(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName()));
         activityDelegate.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
+        Logger.d(String.format(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName()));
         activityDelegate.onPause();
     }
 

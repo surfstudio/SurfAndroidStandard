@@ -1,0 +1,65 @@
+<templateSet group="core-mvi">
+    <template name="roe" description="Reacts on Event" toReformat="false" toShortenFQNames="true"
+        value="is $EVENT_TYPE$ -&gt; on$EVENT_TYPE$Event$END$(sh, event)">
+        <context>
+            <option name="KOTLIN_EXPRESSION" value="true" />
+            <option name="KOTLIN_STATEMENT" value="true" />
+        </context>
+        <variable name="EVENT_TYPE" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+    <template name="tre" description="Transform Event" toReformat="false" toShortenFQNames="true"
+        value="is $EVENT_TYPE$ -&gt; transform$EVENT_TYPE$Event$END$(event)">
+        <context>
+            <option name="KOTLIN" value="true" />
+        </context>
+        <variable name="EVENT_TYPE" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+    <template name="genev" description="Generate Event Class" toReformat="false"
+        toShortenFQNames="true"
+        value="sealed class $EVENT_NAME$Event: ru.surfstudio.android.core.mvi.event.Event { &#10;&#10;    data class $EVENT_NAME$Lifecycle(&#10;        override var stage: ru.surfstudio.android.core.ui.state.LifecycleStage&#10;    ): $EVENT_NAME$Event(), ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent&#10;&#10;} ">
+        <context>
+            <option name="KOTLIN_TOPLEVEL" value="true" />
+        </context>
+        <variable name="EVENT_NAME" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+    <template name="gennavmw" description="Generate base navigation middleware" toReformat="false"
+        toShortenFQNames="true"
+        value="@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$Middleware @javax.inject.Inject constructor(&#10;        baseMiddlewareDependency: ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseNavMiddlewareDependency&#10;) : ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseNavMiddleware&lt;$PREFIX$Event&gt;(baseMiddlewareDependency) {&#10; &#10;    override fun transform(eventStream: io.reactivex.Observable&lt;$PREFIX$Event&gt;) = transformations(eventStream) { &#10;        $END$&#10;    }&#10;}">
+        <context>
+            <option name="KOTLIN_TOPLEVEL" value="true" />
+        </context>
+        <variable name="PREFIX" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+    <template name="genbasemw" description="Generate base navigation middleware" toReformat="false"
+        toShortenFQNames="true"
+        value="@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$Middleware @javax.inject.Inject constructor(&#10;        baseMiddlewareDependency: ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency&#10;) : ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMiddleware&lt;$PREFIX$Event&gt;(baseMiddlewareDependency) {&#10; &#10;    override fun transform(eventStream: io.reactivex.Observable&lt;$PREFIX$Event&gt;) = transformations(eventStream) { &#10;        $END$&#10;    }&#10;}">
+        <context>
+            <option name="KOTLIN_TOPLEVEL" value="true" />
+        </context>
+        <variable name="PREFIX" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+    <template name="genmapmw" description="Generate base navigation middleware" toReformat="false"
+        toShortenFQNames="true"
+        value="@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$Middleware @javax.inject.Inject constructor(&#10;        baseMiddlewareDependency: ru.surfstudio.android.core.mvi.sample.ui.base.middleware.dependency.BaseMiddlewareDependency&#10;) : ru.surfstudio.android.core.mvi.sample.ui.base.middleware.BaseMapMiddleware&lt;$PREFIX$Event&gt;(baseMiddlewareDependency) {&#10; &#10;    override fun flatMap(event: $PREFIX$Event): io.reactivex.Observable&lt;out $PREFIX$Event&gt; = when (event) {&#10;        $END$&#10;        else -&gt; skip()&#10;    }&#10;}">
+        <context>
+            <option name="KOTLIN_TOPLEVEL" value="true" />
+        </context>
+        <variable name="PREFIX" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+    <template name="providedep" description="Provide dependencies for mvi" toReformat="false"
+        toShortenFQNames="true"
+        value="&#10;        @dagger.Provides&#10;        @PerScreen&#10;        fun provideEventHub(&#10;                screenEventHubDependency: ru.surfstudio.android.core.mvi.sample.ui.base.hub.dependency.ScreenEventHubDependency&#10;        ) = ru.surfstudio.android.core.mvi.sample.ui.base.hub.ScreenEventHub&lt;$PREFIX$Event&gt;(screenEventHubDependency, $PREFIX$Event::$PREFIX$Lifecycle)&#10;&#10;        @Provides&#10;        @PerScreen&#10;        fun provideBinder(&#10;                basePresenterDependency: ru.surfstudio.android.core.mvp.presenter.BasePresenterDependency,&#10;                eventHub: ru.surfstudio.android.core.mvi.sample.ui.base.hub.ScreenEventHub&lt;$PREFIX$Event&gt;,&#10;                middleware: $PREFIX$Middleware,&#10;                sh: $PREFIX$StateHolder,&#10;                reactor: $PREFIX$Reactor&#10;        ): Any = ru.surfstudio.android.core.mvi.sample.ui.base.binder.ScreenBinder(basePresenterDependency).apply {&#10;            bind(eventHub, middleware, sh, reactor)&#10;        }&#10;">
+        <context>
+            <option name="KOTLIN_CLASS" value="true" />
+        </context>
+        <variable name="PREFIX" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+    <template name="genreactor" description="Generate reactor and holder" toReformat="false"
+        toShortenFQNames="true"
+        value="&#10;@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$StateHolder @javax.inject.Inject constructor() { &#10;&#10;}&#10;&#10;@ru.surfstudio.android.dagger.scope.PerScreen&#10;class $PREFIX$Reactor @javax.inject.Inject constructor() : ru.surfstudio.android.core.mvi.ui.reactor.Reactor&lt;$PREFIX$Event, $PREFIX$StateHolder&gt; {&#10;&#10;    override fun react(sh: $PREFIX$StateHolder, event: $PREFIX$Event) {&#10;        when (event) { &#10;            $END$&#10;        }&#10;    }&#10;}">
+        <context>
+            <option name="KOTLIN_TOPLEVEL" value="true" />
+        </context>
+        <variable name="PREFIX" alwaysStopAt="true" defaultValue="" expression="" />
+    </template>
+</templateSet>

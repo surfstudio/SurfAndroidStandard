@@ -4,7 +4,7 @@ import ru.surfstudio.android.build.DependencyConfigurator
 GoogleServicesPlugin.config.disableVersionCheck = true
 
 apply from: "$rootDir/buildSrc/androidSample.gradle"
-//apply plugin: 'io.fabric'
+apply plugin: 'io.fabric'
 
 android {
     ext.enableCrashlytics = false

@@ -41,15 +41,11 @@ class MainActivity : AppCompatActivity() {
     private fun loadOriginalImage() {
         ImageLoader
                 .with(this)
-                .skipCache(true)
                 .crossFade(500)
                 .maxWidth(imageView.width / 2)
                 .maxHeight(imageView.height / 2)
                 .tile()
-                .maxWidth(570)
-                .maxHeight(9300)
-                .crossFade(1000)
-                .url(IMAGE_URL)
+                .url(IMAGE_URL, mapOf(Pair("User-Agent", "*")))
                 .mask(true, R.drawable.ic_error_state, PorterDuff.Mode.LIGHTEN)
                 .signature(Math.random()) // картинка будет грузиться при каждом тапе
                 .preview(R.drawable.ic_launcher_background)
@@ -63,9 +59,8 @@ class MainActivity : AppCompatActivity() {
                 .crossFade(500)
                 .centerCrop()
                 .blur(blurDownSampling = 4)
-                .url(IMAGE_URL)
+                .url(IMAGE_URL, mapOf(Pair("User-Agent", "*")))
                 .signature(Math.random()) // картинка будет грузиться при каждом тапе
-                .force()
                 .error(R.drawable.ic_launcher_background)
                 .into(imageView)
     }

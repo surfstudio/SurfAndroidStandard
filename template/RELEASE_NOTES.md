@@ -10,6 +10,10 @@
 * ANDDEP-702 Fixed script for local connection of android standard
 * ANDDEP-413 Added transition to WindowVQA on DebugScreen
 * ANDDEP-459 Added transition to application settings on DebugScreen
+* Fixed debug screen push notification appearing on each App#onCreate invocation
+* ANDDEP-770 Fixed textStyle overriding and proguard bugs
+* Added `PostfixEditText` to base_feature
+* Add color styling to generateDependencyGraph task
 
 ## 0.4.0
 ##### Template
@@ -18,13 +22,13 @@
 * ANDDEP-336 Added TinyDancer
 * ANDDEP-335 Added Stetho
 * Added version labels on application icons in the launcher
-* Добавлен переключатель между основным и тестовым сервером
+* Added switcher between main and test servers
 * Added switch between main and test server
 * Added LeakCanary
 * Added viewer of file storage of application
 * Added plugin [`Build scans`](https://guides.gradle.org/creating-build-scans/)
 * Added the ability to add a request execution delay
-    * On the DebugScreen screen in the server settings section, you can add a request delay of 0s, 0.5s, 1s, 2s, 4s, 8s
+  * On the DebugScreen screen in the server settings section, you can add a request delay of 0s, 0.5s, 1s, 2s, 4s, 8s
 * ANDDEP-444 Dagger dependencies taken out of [`AppComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppComponent.kt)
 and [`ActivityComponent`](template/base_feature/src/main/java/ru/surfstudio/standard/ui/activity/di/ActivityComponent.kt)
 in separate classes:  [`AppProxyDependencies`](template/base_feature/src/main/java/ru/surfstudio/standard/application/app/di/AppProxyDependencies.kt)
