@@ -43,7 +43,6 @@ abstract class BaseBindableActivityView<in M : ScreenModel> : CoreActivityView()
     }
 }
 
-@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 abstract class BaseBindableFragmentView<in M : ScreenModel> : CoreFragmentView(), BindableView<M>, BindSource {
 
     private val bindsHolder = BindsHolder(this)
@@ -62,7 +61,6 @@ abstract class BaseBindableFragmentView<in M : ScreenModel> : CoreFragmentView()
     }
 }
 
-@Deprecated("Используйте пакет ru.surfstudio.android.core.mvp.binding.rx")
 interface BindableView<in M : ScreenModel> {
 
     fun onBind(sm: M)
