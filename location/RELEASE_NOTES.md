@@ -6,3 +6,4 @@
 ## 0.4.0
 ##### Location
 * Fixed loss of callback of `LocationErrorResolution` in fragment
+* Setting rational text in `CommonLocationPermissionRequest` signature changed 
