@@ -4,6 +4,8 @@
 ##### Core-ui
 * ANDDEP-466 Fixed crash when calling `FragmentNavigaotr.popStack` with `popDepth` < 0
 * Fix logging screen names
+* Stardard "go to settings to give permission" dialog params customization is added. 
+Now you can set you own rational and buttons texts by setting `settingsRationalDialogParams` in your `PermissionRequest`
 ## 0.4.0
 ##### Core-ui
 * Added the ability to set text for the buttons of the standard dialog for switching to settings.
