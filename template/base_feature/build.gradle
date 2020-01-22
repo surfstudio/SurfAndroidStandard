@@ -4,10 +4,6 @@ apply from: '../commonKaptModule.gradle'
 dependencies {
     api project(":base")
 
-    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-        transitive = true
-    }
-
     implementation "androidx.multidex:multidex:$multidexVersion"
 
     //debug

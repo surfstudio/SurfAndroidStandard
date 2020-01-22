@@ -4,10 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
 import com.akaita.java.rxjava2debug.RxJava2Debug
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
 import com.github.anrwatchdog.ANRWatchDog
-import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
@@ -42,24 +39,11 @@ class App : MultiDexApplication() {
             return
         }
 
-        initFabric()
         initPushEventListener()
         initRxJava2Debug()
 
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
-
-    private fun initFabric() {
-        Fabric.with(this, *getFabricKits())
-    }
-
-    private fun getFabricKits() = arrayOf(
-            Crashlytics.Builder()
-                    .core(CrashlyticsCore.Builder()
-                            .disabled(BuildConfig.DEBUG)
-                            .build())
-                    .build()
-    )
 
     /**
      * отслеживает ANR и отправляет в крашлитикс

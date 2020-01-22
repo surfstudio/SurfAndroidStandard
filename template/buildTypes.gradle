@@ -26,6 +26,10 @@ android {
             matchingFallbacks = ['release']
             ext.betaDistributionGroupAliases = "Surf"
             ext.betaDistributionNotifications = true
+
+            firebaseAppDistribution {
+                groups="Surf"
+            }
         }
         release {
             signingConfig signingConfigs.test //todo заменить на signingConfigs.release

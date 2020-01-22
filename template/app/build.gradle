@@ -9,7 +9,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 //todo uncoment for real app
-//apply plugin: 'io.fabric'
+//apply plugin: 'com.google.firebase.appdistribution'
 
 apply from: '../config.gradle'
 
@@ -62,5 +62,5 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
 }
 
-//todo uncoment for real app
+//todo uncoment for real app for firebase app distribution
 //apply plugin: 'com.google.gms.google-services'

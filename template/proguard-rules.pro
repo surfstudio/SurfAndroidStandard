@@ -71,8 +71,6 @@
 #fabric
 -keepattributes *Annotation*,SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
--keep class com.crashlytics.** { *; }
--dontwarn com.crashlytics.**
 
 #kotlin-reflect
 #https://stackoverflow.com/questions/45871970/kotlin-reflect-proguard-smallsortedmap
