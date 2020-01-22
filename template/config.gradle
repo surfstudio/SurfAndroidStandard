@@ -101,4 +101,5 @@ ext {
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
     rxJava2DebugVersion = '1.4.0'               //https://bit.ly/322Qzo7
     firebaseAppDistributionVersion = '1.2.0'    //http://bit.ly/2Gc2qHh
+    firebaseCrashlyticsVersion = '17.0.0-beta01'//http://bit.ly/2RM7ec2
 }
