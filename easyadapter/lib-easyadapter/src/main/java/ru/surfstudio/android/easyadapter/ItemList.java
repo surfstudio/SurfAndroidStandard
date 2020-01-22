@@ -32,6 +32,7 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
 
 
 /**
+ * test
  * List of items for RecyclerView, used with {@link EasyAdapter} and constructed in a Builder manner.
  * <br>
  * It contains logic of combining items with different types into one list that will be displayed in a single {@link RecyclerView}.
