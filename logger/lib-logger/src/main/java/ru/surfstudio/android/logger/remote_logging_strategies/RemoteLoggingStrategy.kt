@@ -16,7 +16,7 @@
 package ru.surfstudio.android.logger.remote_logging_strategies
 
 /**
- * Интерфейс для стратегий логгирования на удаленный сервер
+ * Interface of logging strategies for remote server
  */
 interface RemoteLoggingStrategy {
 

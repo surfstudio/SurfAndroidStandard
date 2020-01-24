@@ -61,7 +61,6 @@ ext {
     rxRelayVersion = '2.1.0'                    //https://goo.gl/E643M0
 
     //android framework
-    androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
     firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
     googleServicesVersion = '4.3.3'             //http://bit.ly/2mZ4j0B

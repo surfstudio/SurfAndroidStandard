@@ -19,7 +19,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 
 /**
- * Стратегия логгирования в Firebase Crashlytics
+ * Logging strategy for Firebase Crashlytics
  */
 class FirebaseCrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 

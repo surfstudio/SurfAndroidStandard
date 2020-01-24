@@ -19,7 +19,7 @@ import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import timber.log.Timber
 
 /**
- * Стратегия для логгирования с использованием Timber
+ * Logging strategy with [Timber] usage
  */
 class TimberLoggingStrategy : LoggingStrategy {
 

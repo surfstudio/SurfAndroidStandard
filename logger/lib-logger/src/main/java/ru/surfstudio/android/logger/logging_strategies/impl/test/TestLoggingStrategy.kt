@@ -20,7 +20,7 @@ import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import java.io.PrintStream
 
 /**
- * Стратегия логгирования для тестов, использующая системный поток вывода для логов
+ * Logging strategy for tests which uses system output for logs
  */
 class TestLoggingStrategy : LoggingStrategy {
 

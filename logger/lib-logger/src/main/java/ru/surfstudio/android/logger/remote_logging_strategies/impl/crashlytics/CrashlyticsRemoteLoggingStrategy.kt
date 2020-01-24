@@ -20,7 +20,7 @@ import com.crashlytics.android.Crashlytics
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 
 /**
- * Стратегия логгирования в Fabric Crashlytics
+ * Logging strategy for Fabric Crashlytics
  */
 @Deprecated("Use FirebaseCrashlyticsRemoteLoggingStrategy and firebase crashlytics instead")
 class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
