@@ -11,6 +11,7 @@ import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.RemoteLogger
 import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy
 import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
+import ru.surfstudio.android.logger.remote_logging_strategies.impl.firebase_crashlytics.FirebaseCrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.android.notification.ui.PushClickProvider
 import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
@@ -56,7 +57,7 @@ class App : MultiDexApplication() {
     private fun initLog() {
         Logger.addLoggingStrategy(TimberLoggingStrategy())
         Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
-        //RemoteLogger.addRemoteLoggingStrategy(CrashlyticsRemoteLoggingStrategy())
+        RemoteLogger.addRemoteLoggingStrategy(FirebaseCrashlyticsRemoteLoggingStrategy())
     }
 
     private fun initRxJava2Debug() {

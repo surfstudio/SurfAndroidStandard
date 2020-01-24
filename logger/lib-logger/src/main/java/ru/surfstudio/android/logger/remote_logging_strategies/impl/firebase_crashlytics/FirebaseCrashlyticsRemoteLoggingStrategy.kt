@@ -13,23 +13,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics
+package ru.surfstudio.android.logger.remote_logging_strategies.impl.firebase_crashlytics
 
-import com.crashlytics.android.Crashlytics
-
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 
 /**
- * Стратегия логгирования в Fabric Crashlytics
+ * Стратегия логгирования в Firebase Crashlytics
  */
-@Deprecated("Use FirebaseCrashlyticsRemoteLoggingStrategy and firebase crashlytics instead")
-class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
+class FirebaseCrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun setUser(id: String, username: String, email: String) {
         try {
-            Crashlytics.getInstance().core.setUserName(username)
-            Crashlytics.getInstance().core.setUserEmail(email)
-            Crashlytics.getInstance().core.setUserIdentifier(id)
+            FirebaseCrashlytics.getInstance().setUserId(id)
         } catch (e: Exception) {
             //ignored
         }
@@ -37,9 +33,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun clearUser() {
         try {
-            Crashlytics.getInstance().core.setUserName("")
-            Crashlytics.getInstance().core.setUserEmail("")
-            Crashlytics.getInstance().core.setUserIdentifier("")
+            FirebaseCrashlytics.getInstance().setUserId("")
         } catch (e: Exception) {
             //ignored
         }
@@ -47,7 +41,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun logKeyValue(key: String, value: String) {
         try {
-            Crashlytics.getInstance().core.setString(key, value)
+            FirebaseCrashlytics.getInstance().setCustomKey(key, value)
         } catch (e: Exception) {
             //ignored
         }
@@ -55,7 +49,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun logError(e: Throwable) {
         try {
-            Crashlytics.getInstance().core.logException(e)
+            FirebaseCrashlytics.getInstance().recordException(e)
         } catch (err: Exception) {
             //ignored
         }
@@ -63,7 +57,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
     override fun logMessage(message: String) {
         try {
-            Crashlytics.getInstance().core.log(message)
+            FirebaseCrashlytics.getInstance().log(message)
         } catch (e: Exception) {
             //ignored
         }
