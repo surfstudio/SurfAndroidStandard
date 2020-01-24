@@ -64,7 +64,7 @@ ext {
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
     firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
-    googleServicesVersion = '4.1.0'             //http://bit.ly/2mZ4j0B
+    googleServicesVersion = '4.3.3'             //http://bit.ly/2mZ4j0B
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
     multidexVersion = '2.0.0'                   //http://bit.ly/2KenzA7
     constraintLayoutXVersion = '2.0.0-alpha3'   //http://bit.ly/2S1WoNg
