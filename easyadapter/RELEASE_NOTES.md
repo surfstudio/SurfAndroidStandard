@@ -10,6 +10,7 @@
 * ANDDEP-829 Fixed synchronous DiffResult dispatching in DefaultDiffer.
 * test
 * test
+* test
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder

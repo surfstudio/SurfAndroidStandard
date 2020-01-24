@@ -50,6 +50,7 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem;
 /**
  *
  * test
+ * test
  * Adapter for RecyclerView with two main features:
  * <br>
  * 1) invokes necessary notify... methods automatically after {@link #setItems(ItemList)} is called, or {@link #setData(Collection, BindableItemController)};
