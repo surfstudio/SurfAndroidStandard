@@ -13,7 +13,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "com.google.firebase:firebase-appdistribution-gradle:$firebaseAppDistributionVersion"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsGradleVersion"
         classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
         classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"

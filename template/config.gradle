@@ -10,13 +10,13 @@ ext {
     debugVersionNameSuffix = ".debug"
     qaVersionNameSuffix = ".qa"
 
-    gradlePluginVersion = '3.2.1'               //https://bit.ly/2NXD4Pe
-    buildToolsVersion = "28.0.3"                //https://bit.ly/2DNmq3Y
-    googleServicesVersion = '4.2.0'             //https://bit.ly/2Q5FCge
+    gradlePluginVersion = '3.5.2'               //https://bit.ly/2NXD4Pe
+    buildToolsVersion = "29.0.3"                //https://bit.ly/2DNmq3Y
+    googleServicesVersion = '4.3.3'             //https://bit.ly/2Q5FCge
     buildScanPluginVersion = '1.16'             //https://goo.gl/coZHFo
 
     //lang
-    kotlinVersion = '1.3.20'                    //https://goo.gl/2Epeje
+    kotlinVersion = '1.3.61'                    //https://goo.gl/2Epeje
     ankoVersion = '0.10.8'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
@@ -43,8 +43,9 @@ ext {
 
     //gms
     firebaseCoreVersion = '16.0.5'              //http://bit.ly/2Q81pGJ
-    firebaseMessagingVersion = '17.3.4'         //http://bit.ly/2Q81pGJ
+    firebaseMessagingVersion = '20.1.0'         //http://bit.ly/2Q81pGJ
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
+    firebaseAnalyticsVersion = '17.2.2'         //http://bit.ly/2OU6gHc
 
     //network
     okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
@@ -62,7 +63,6 @@ ext {
     //android framework
     androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
     firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
-    firebaseMessagingVersion = '17.3.4'
     playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
     googleServicesVersion = '4.1.0'             //http://bit.ly/2mZ4j0B
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
@@ -101,5 +101,6 @@ ext {
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
     rxJava2DebugVersion = '1.4.0'               //https://bit.ly/322Qzo7
     firebaseAppDistributionVersion = '1.2.0'    //http://bit.ly/2Gc2qHh
-    firebaseCrashlyticsVersion = '17.0.0-beta01'//http://bit.ly/2RM7ec2
+    firebaseCrashlyticsVersion = '17.0.0-beta01'     //http://bit.ly/2RM7ec2
+    firebaseCrashlyticsGradleVersion = '2.0.0-beta01'//http://bit.ly/2RM7ec2
 }

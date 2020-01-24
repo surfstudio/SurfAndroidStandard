@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 //todo uncoment for real app
+//apply plugin: 'com.google.firebase.crashlytics'
 //apply plugin: 'com.google.firebase.appdistribution'
 
 apply from: '../config.gradle'
