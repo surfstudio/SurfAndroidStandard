@@ -924,8 +924,8 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
   },
   {
     "id": "filestorage",
