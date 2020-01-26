@@ -897,7 +897,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -924,8 +924,8 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
   },
   {
     "id": "filestorage",
