@@ -1539,6 +1539,10 @@
           {
             "name": "androidx.recyclerview:recyclerview",
             "type": "api"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "api"
           }
         ],
         "android_standard_dependencies": [

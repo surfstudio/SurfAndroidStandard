@@ -10,13 +10,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ru.surfstudio.android.recycler.decorator.sample.MainActivity">
+        <activity android:name="ru.surfstudio.android.recycler.decorator.sample.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".LinearDecoratorActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".CarouselDecoratorActivity" />
     </application>
 
 </manifest>

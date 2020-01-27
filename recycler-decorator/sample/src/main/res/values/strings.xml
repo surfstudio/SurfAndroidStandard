@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Recycler decorator sample</string>
+    <string name="linear_decoration_btn">Linear decoration</string>
+    <string name="round_decoration_btn">Round decoration</string>
+    <string name="drawble_decoration_btn">Pager decoration</string>
+    <string name="recycler_view_text">RecyclerView</string>
 </resources>
