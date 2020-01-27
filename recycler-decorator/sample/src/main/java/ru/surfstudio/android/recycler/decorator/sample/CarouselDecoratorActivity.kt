@@ -19,7 +19,6 @@ import ru.surfstudio.android.recycler.decorator.sample.controllers.LinePagerIndi
 class CarouselDecoratorActivity : AppCompatActivity() {
 
     private val easyAdapter = EasyAdapter()
-    private val easyAdapter2 = EasyAdapter()
 
     private val controller = Controller(R.layout.item_controller_pager)
 
@@ -59,6 +58,5 @@ class CarouselDecoratorActivity : AppCompatActivity() {
         }
 
         easyAdapter.setItems(itemList)
-        easyAdapter2.setItems(itemList)
     }
 }
