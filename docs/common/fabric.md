@@ -1,5 +1,7 @@
 
-# Подготовка проекта к выгрузке в Fabric
+# DEPRECATED Подготовка проекта к выгрузке в Fabric
+
+Неактуально. Использовать [firebase app distribution](firebase/app_distribution_migration.md)
 
 1. Проект должен быть проинициализирован из актуального template.
 2. Авторизоваться в [fabric](https://fabric.io) через рабочую почту.

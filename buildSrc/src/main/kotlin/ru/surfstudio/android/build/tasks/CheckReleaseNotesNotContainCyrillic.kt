@@ -10,7 +10,7 @@ import java.util.regex.Pattern
 
 
 /**
- * Check ReleaseNotes does not contain cyrillic symbols
+ * Check ReleaseNotes does not contain cyrillic symbols.
  */
 open class CheckReleaseNotesNotContainCyrillic : DefaultTask() {
 

@@ -8,6 +8,7 @@
 * Fixed RequestState's observeHasError method + added observeOptionalData
 * AndroidSchedulers.mainThread() replaced with MainThreadImmediateScheduler
  in subscription methods of BaseRxViews.
+* Added description of two-way binding problem
 ## 0.3.0
 ##### Core-mvp-binding
 * Renamed `onViewDetached ()` -> `onViewDetach ()`
