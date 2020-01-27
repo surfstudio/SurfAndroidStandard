@@ -38,7 +38,7 @@ public abstract class NoDataItemController<H extends RecyclerView.ViewHolder>
 
     @Override
     public String getItemId(NoDataItem<H> item) {
-        return String.valueOf(getClass().getCanonicalName().hashCode());
+        return getTypeStringHashCode();
     }
 
     /**

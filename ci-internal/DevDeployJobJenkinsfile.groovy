@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurper
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.*
@@ -14,6 +15,7 @@ import ru.surfstudio.ci.utils.android.config.AvdConfig
 
 // Stage names
 def CHECKOUT = 'Checkout'
+def NOTIFY_ABOUT_NEW_RELEASE_NOTES = 'Notify About New Release Notes'
 def CHECK_BRANCH_AND_VERSION = 'Check Branch & Version'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def INCREMENT_GLOBAL_ALPHA_VERSION = 'Increment Global Alpha Version'
@@ -32,6 +34,8 @@ def MIRROR_COMPONENTS = 'Mirror Components'
 def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 def androidStandardTemplateName = "android-standard-template"
 def androidStandardTemplateUrl = "https://bitbucket.org/surfstudio/$androidStandardTemplateName"
+def releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
+def idChatAndroidSlack = "CFSF53SJ1"
 
 //vars
 def branchName = ""
@@ -101,6 +105,16 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
+        pipeline.stage(NOTIFY_ABOUT_NEW_RELEASE_NOTES, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR, false) {
+            def commitParents = script.sh(returnStdout: true, script: 'git log -1  --pretty=%P').split(' ')
+            def prevCommitHash = commitParents[0]
+            script.sh("./gradlew writeToFileReleaseNotesDiff -PrevisionToCompare=${prevCommitHash}")
+            String releaseNotesChanges = script.readFile(releaseNotesChangesFileUrl)
+            if (releaseNotesChanges.trim() != "") {
+                releaseNotesChanges = "Android Standard changes:\n$releaseNotesChanges"
+                JarvisUtil.sendMessageToGroup(script, releaseNotesChanges, idChatAndroidSlack, "slack", true)
+            }
+        },
         pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurper().parseText(globalConfigurationJsonStr)
@@ -110,7 +124,7 @@ pipeline.stages = [
                 script.error("Deploy AndroidStandard with global version: dev/G-${globalVersion} from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(INCREMENT_GLOBAL_ALPHA_VERSION) {
@@ -181,9 +195,8 @@ pipeline.stages = [
 ]
 
 
-
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
+    def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
@@ -288,7 +301,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     if (revisionToCompare == null) {
         //gets previous commit
         def previousCommit
-        if (commits[1] !="|\\  ") {
+        if (commits[1] != "|\\  ") {
             previousCommit = commits[1]
         } else {
             previousCommit = commits[2]
