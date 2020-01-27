@@ -9,6 +9,7 @@
 * AndroidSchedulers.mainThread() replaced with MainThreadImmediateScheduler
  in subscription methods of BaseRxViews.
 * Added description of two-way binding problem
+* Make State open for inheritance
 ## 0.3.0
 ##### Core-mvp-binding
 * Renamed `onViewDetached ()` -> `onViewDetach ()`

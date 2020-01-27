@@ -3,20 +3,19 @@ package ru.surfstudio.android.core.mvi.impls.event.hub
 import android.content.Intent
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
+import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.factory.EventFactory
 import ru.surfstudio.android.core.mvi.event.factory.ParamlessEventFactory
-import ru.surfstudio.android.core.mvi.impls.event.hub.back_pressed.BackPressedEventHub
-import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubDependency
-import ru.surfstudio.android.core.mvi.impls.event.hub.new_intent.NewIntentEventHub
-import ru.surfstudio.android.core.mvi.event.Event
 import ru.surfstudio.android.core.mvi.event.hub.RxEventHub
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEventHub
+import ru.surfstudio.android.core.mvi.impls.event.hub.back_pressed.BackPressedEventHub
+import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubDependency
 import ru.surfstudio.android.core.mvi.impls.event.hub.logging.EventLogger
+import ru.surfstudio.android.core.mvi.impls.event.hub.new_intent.NewIntentEventHub
 import ru.surfstudio.android.core.ui.state.ActivityScreenState
 import ru.surfstudio.android.core.ui.state.FragmentScreenState
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.core.ui.state.ScreenState
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.mvp.widget.state.WidgetScreenState
 
 /**
@@ -68,12 +67,11 @@ class ScreenEventHub<T : Event>(
     private val bus = PublishRelay.create<T>()
 
     override fun accept(t: T?) {
-        logger.log(t, screenName)
         emit(t ?: return)
     }
 
     override fun emit(event: T) {
-
+        logger.log(event, screenName)
         bus.accept(event)
     }
 
