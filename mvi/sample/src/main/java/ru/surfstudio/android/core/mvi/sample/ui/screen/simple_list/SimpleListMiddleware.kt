@@ -6,6 +6,7 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependen
 import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.SimpleListEvent.*
+import ru.surfstudio.android.core.mvi.sample.ui.screen.simple_list.controller.StepperData
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 import ru.surfstudio.android.rx.extension.toObservable
 
@@ -25,7 +26,13 @@ class SimpleListMiddleware @Inject constructor(
     fun reactOnLifecycle(event: Lifecycle): Observable<out SimpleListEvent> =
             when (event.stage) {
                 LifecycleStage.CREATED ->
-                    ListLoaded(listOf(1, 2, 3)).toObservable()
+                    ListLoaded(
+                            listOf(
+                                    StepperData(0),
+                                    StepperData(1),
+                                    StepperData(2)
+                            )
+                    ).toObservable()
                 else -> skip()
             }
 }

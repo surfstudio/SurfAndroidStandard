@@ -30,7 +30,7 @@ ext {
     debugVersionNameSuffix = ".debug"
     qaVersionNameSuffix = ".qa"
 
-    gradlePluginVersion = '3.2.1'               //https://bit.ly/2NXD4Pe
+    gradlePluginVersion = '3.5.2'               //https://bit.ly/2NXD4Pe
     buildToolsVersion = "29.0.0"                //https://bit.ly/2DNmq3Y
     googleServicesVersion = '4.3.3'             //https://bit.ly/2Q5FCge
     buildScanPluginVersion = '2.0.2'             //https://goo.gl/coZHFo
