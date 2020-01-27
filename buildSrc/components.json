@@ -493,7 +493,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -600,7 +600,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -984,7 +984,7 @@
   {
     "id": "imageloader",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "imageloader",
     "libs": [
