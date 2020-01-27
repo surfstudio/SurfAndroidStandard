@@ -45,6 +45,7 @@ class MainBindModel @Inject constructor()
 
     override val checkboxSampleActivityOpen = Action<Unit>()
     override val easyadapterSampleActivityOpen = Action<Unit>()
+    override val twoWayBindingSampleOpen = Action<Unit>()
 
     override val doubleTextAction = Action<Unit>()
     override val textEditBond = Bond<String>()
