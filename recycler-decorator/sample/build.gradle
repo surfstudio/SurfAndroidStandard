@@ -1,0 +1,15 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.recycler.decorator.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "easyadapter")
+//    DependencyConfigurator.projectImplementation(project, "sample-common")
+
+}

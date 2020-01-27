@@ -14,7 +14,9 @@ allprojects {
     }
 }
 
-buildscript {
+buildscript { 
+    ext.kotlin_version = '1.3.61'
+
 
     apply from: 'buildSrc/config.gradle'
 
@@ -37,8 +39,10 @@ buildscript {
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
         //classpath "ru.surfstudio.android:version-plugin:${ConfigInfoProvider.getVersion()}"
         //todo use this for get as dependencies for mirror
+    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }
+
+    
     }
-}
 
 /**
  * "Build scan" - является общей и централизованной записью сборки которая дает представление о том, что произошло и почему.
