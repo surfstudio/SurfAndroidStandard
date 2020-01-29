@@ -65,7 +65,7 @@ class ProjectConfigurationProvider(
      * @return command to run [GRADLE_TASK_CREATE_FROM_TEMP] task with parameters
      */
     private fun createCommandForRevisionToCompare(revisionToCompare: String): String {
-        return "$tempDirectory./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
+        return "./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
                 "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT=$tempDirectory " +
                 "-P$CREATE_PROJECT_CONFIGURATION_REVISION=$revisionToCompare"
     }
