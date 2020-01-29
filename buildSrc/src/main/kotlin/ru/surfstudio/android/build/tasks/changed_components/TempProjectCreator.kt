@@ -27,6 +27,7 @@ class TempProjectCreator(
      */
     private fun copyProjectToTempFolder() {
         val fileFrom = File(currentDirectory)
+        println("copyProjectToTempFolder $currentDirectory")
         fileFrom.listFiles().forEach { file ->
             if (file.name != tempFolderName) {
                 file.copyRecursively(File("$tempDirectory/${file.name}"), true)

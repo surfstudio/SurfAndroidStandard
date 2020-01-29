@@ -48,11 +48,12 @@ class ProjectConfigurationProvider(
      * @return project configuration
      */
     fun provideRevisionToCompareConfiguration(): ProjectConfiguration {
+        println("provideRevisionToCompareConfiguration start")
         val outputJsonFile = createJsonFileNameByRevision(revisionToCompare)
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
+            println("!isProjectConfigurationJsonExists")
             TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
             runCommandWithResult(createCommandForRevisionToCompare(revisionToCompare), File(currentDirectory))
-
         }
 
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
@@ -64,7 +65,7 @@ class ProjectConfigurationProvider(
      * @return command to run [GRADLE_TASK_CREATE_FROM_TEMP] task with parameters
      */
     private fun createCommandForRevisionToCompare(revisionToCompare: String): String {
-        return "./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
+        return "$tempDirectory./gradlew $GRADLE_TASK_CREATE_FROM_TEMP " +
                 "-P$CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT=$tempDirectory " +
                 "-P$CREATE_PROJECT_CONFIGURATION_REVISION=$revisionToCompare"
     }

@@ -20,17 +20,23 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
 
     @TaskAction
     fun check() {
+        println("CheckStableComponentsChangedTask start check")
         extractInputArguments()
         val currentRevision = GitCommandRunner().getCurrentRevisionShort()
+        println("extracted revisionToCompare $revisionToCompare currentRevision $currentRevision")
 
         checkForFileChanges(currentRevision)
+        println("checkForFileChanges")
 
         checkForConfigurationChanges(currentRevision)
+        println("checkForConfigurationChanges finish")
     }
 
     private fun checkForConfigurationChanges(currentRevision: String) {
+        println("checkForConfigurationChanges start")
         val componentsChangeResults = ComponentsConfigurationChecker(currentRevision, revisionToCompare)
                 .getChangeInformationForComponents()
+        println("componentsChangeResults.isNotEmpty()")
         if (componentsChangeResults.isNotEmpty()) {
             checkStableComponentsChanged(componentsChangeResults)
         }
@@ -52,6 +58,7 @@ open class CheckStableComponentsChangedTask : DefaultTask() {
     }
 
     private fun checkStableComponentsChanged(changeResultComponents: List<ComponentCheckResult>) {
+        println("checkStableComponentsChanged")
         val components = changeResultComponents.filter {
             it.isComponentChanged && it.isComponentStable
         }

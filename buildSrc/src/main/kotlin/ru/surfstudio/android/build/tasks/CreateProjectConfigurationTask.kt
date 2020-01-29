@@ -19,10 +19,12 @@ open class CreateProjectConfigurationTask : DefaultTask() {
     @TaskAction
     fun create() {
         extractInputArguments()
+        println("CreateProjectConfigurationTask createProjectConfigurationFile $pathToProject")
         ProjectConfigurationCreator(revision, pathToProject).createProjectConfigurationFile()
     }
 
     private fun extractInputArguments() {
+        println("CreateProjectConfigurationTask extractInputArguments")
         if (!project.hasProperty(CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT)) {
             throw GradleException("please specify $CREATE_PROJECT_CONFIGURATION_PATH_TO_PROJECT param")
         }

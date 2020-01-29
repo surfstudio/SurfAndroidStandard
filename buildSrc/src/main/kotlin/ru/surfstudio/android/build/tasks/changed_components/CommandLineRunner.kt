@@ -18,6 +18,7 @@ object CommandLineRunner {
      * @return result of command
      */
     fun runCommandWithResult(command: String, workingDir: File): String? {
+        println("runCommandWithResult $command")
         val parts = command.split(SPLIT_STRING.toRegex())
         val process = ProcessBuilder(*parts.toTypedArray())
                 .directory(workingDir)

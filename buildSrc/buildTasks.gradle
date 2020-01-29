@@ -20,6 +20,7 @@ task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
 task createProjectConfiguration(type: CreateProjectConfigurationTask)
 
 task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
+    println "runCreateProjectConfigurationFromTemp start"
     dir = file('./temp')
     tasks = ['CreateProjectConfiguration']
     doFirst {
@@ -35,6 +36,7 @@ task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
         } else {
             throw new GradleException("No arguments found")
         }
+        println "runCreateProjectConfigurationFromTemp startParameter"
         startParameter.projectProperties = [pathToProject: pathToProject, revision: revision]
     }
 }

@@ -40,6 +40,7 @@ class ProjectConfigurationCreator(
      * @return project configuration
      */
     private fun createProjectConfiguration(): ProjectConfiguration {
+        println("ProjectConfigurationCreator createProjectConfiguration $pathToProject")
         val config = ConfigHelper.parseConfigFile(pathToProject)
         val configList = config.getValue("ext") as ConfigObject
         val versions = configList["libraryVersions"] as LinkedHashMap<String, String>
@@ -68,6 +69,7 @@ class ProjectConfigurationCreator(
      * and its version as second parameter
      */
     private fun createComponentsWithVersions(versions: LinkedHashMap<String, String>): List<ComponentWithVersion> {
+        println("ProjectConfigurationCreator createComponentsWithVersions")
         val components = JsonHelper.parseComponentsJson("$pathToProject$COMPONENTS_JSON_FILE_PATH").map(ComponentJson::transform)
 
         return components.map { component ->

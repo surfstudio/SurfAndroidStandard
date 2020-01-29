@@ -25,6 +25,7 @@ class ComponentsConfigurationChecker(
         val projectConfigurationProvider = ProjectConfigurationProvider(currentRevision, revisionToCompare)
         val currentRevisionConfiguration = projectConfigurationProvider.provideCurrentRevisionConfiguration()
         val revisionToCompareConfiguration = projectConfigurationProvider.provideRevisionToCompareConfiguration()
+        println("start compareProjects")
         return compareProjects(currentRevisionConfiguration, revisionToCompareConfiguration)
     }
 
