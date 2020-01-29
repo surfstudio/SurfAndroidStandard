@@ -16,3 +16,5 @@ even if stream contains events from UI, which should be reacted directly.
 * Add Reducer StateHolder implementations
 * Add customizable EventHub logger 
 * Add .gitignore to mvi/lib-mvi-impls
+* Add CustomAlertDialog based on Events.
+* Move logging to "ScreenEventHub.emit" method.
