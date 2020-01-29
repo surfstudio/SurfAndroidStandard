@@ -320,7 +320,7 @@ nullableInt?.let {
 `.idea` на `.idea/*`
 3. `$git add .idea/`  
    `$git commit -a -m "Code formatting”`
-4. Убрать из `gradle.properies` `kotlin.code.style={official}`
+4. Убрать из `gradle.properies` `kotlin.code.style={official}` (если имеется)
 5. Запушить изменения
 
 ### Форматирование для CI
@@ -334,10 +334,12 @@ nullableInt?.let {
 3. Добавить   
 `apply from: "scripts/ktFormatter.gradle"`  
 в корневой build.gradle проекта.
-4. Проверить работоспособность командой  
-`./gradlew ktlintFilesFormat -PlintFiles={relative_path_to_file}`  
+4. Добавить параметр в gradle.properties (если нет)  
+`surf_maven_libs_url=https\://artifactory.surfstudio.ru/artifactory/libs-release-local`
+5. Проверить работоспособность командой  
+`./gradlew ktlintFilesFormat -PlintFiles=relative_path_to_file`    
 где relative_path_to_file это относительный путь к файлу с заранее испорченным форматированием.
-5. Запушить изменение в основную ветку спринта. Соответственно, автоформатирование будет работать только в тех ветках, которые содержат коммит с изменениями выше
+6. Запушить изменение в основную ветку спринта. Соответственно, автоформатирование будет работать только в тех ветках, которые содержат коммит с изменениями выше
 
 
 Для проверки можно использовать следующий [коммит](https://bitbucket.org/surfstudio/unicredit-android/commits/5b0ef710aa7387123d650378b6aefa0261ba5870#chg-config.gradle) 
