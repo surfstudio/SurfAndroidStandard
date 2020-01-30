@@ -37,7 +37,13 @@ object KeyboardUtil {
 
     fun showKeyboard(editText: EditText) {
         val imm = editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        editText.postDelayed({ imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT) }, 50)
+        editText.postDelayed(
+                {
+                    editText.requestFocus()
+                    imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+                },
+                50
+        )
     }
 
     /**
