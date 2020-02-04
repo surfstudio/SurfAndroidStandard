@@ -6,5 +6,5 @@ import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
 class ReleaseNotesContainsCyrillicException(
         releaseNotes: ReleaseNotesInfo
 ) : GradleException(
-        "Release notes \"${releaseNotes.title}\" contains cyrillic symbols"
+        "Release notes \"${releaseNotes.title}\" contains cyrillic symbols."
 )

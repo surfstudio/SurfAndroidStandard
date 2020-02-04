@@ -46,6 +46,8 @@
         <activity
             android:name="ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.pagination.PaginationActivityView"
             android:label="Pagination" />
+
+        <activity android:name="ru.surfstudio.android.mvp.binding.rx.sample.twoway.TwoWayActivityView" />
     </application>
 
 </manifest>
