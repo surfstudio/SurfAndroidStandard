@@ -27,4 +27,10 @@
 Для упрощения переиспользования, NavigationMiddleware можно использовать в middleware родительских экранов через композицию событий.
 Механизм подробное описан [здесь][compreadme].
 
+## Схема
+
+Схематично все вышеописанное можно отобразить так:
+
+![Navigation flow diagram]( https://i.imgur.com/vfHcolI.jpg )
+
 [compreadme]: composition.md

@@ -69,7 +69,7 @@ StateHolder же, в свою очередь, служит только опов
     
 Схематично, упрощенный стек вызовов при загрузке данных от нажатия на кнопку, до отображения данных, будет выглядеть так: 
 
-`View` -> `EventHub` -> `Middleware` -> `EventHub` -> `Reactor` -> `StateHolder` -> `View`
+![Load data example]( https://i.imgur.com/jQNRR2z.png )
 
 В данном кейсе мы не рассматривали случай с обработкой ошибок, RequestState и продвинутым DSL. 
 На реалньных проектах используются именно они, поэтому полезно будет с ними ознакомиться: 
@@ -127,6 +127,10 @@ StateHolder же, в свою очередь, служит только опов
     sh.data.observeHasError().bindTo { hasError -> error_container.isVisible = hasError } 
     
     refresh_btn.setOnClickListener { hub.emit(RefreshClicked) } 
+    
+Схематично, загрузка с помощью RequestState выглядит так:
+    
+![RequestState load example]( https://i.imgur.com/59klnGr.jpg )
     
     
 ## Навигация
