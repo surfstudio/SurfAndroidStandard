@@ -1401,6 +1401,29 @@
     "mirror_repo": ""
   },
   {
+    "id": "navigation",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "navigation",
+    "libs": [
+      {
+        "name": "navigation-core",
+        "dir": "lib-navigation-core",
+        "artifact_name": "navigation-core",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.appcompat:appcompat",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "picture-provider",
     "version": "0.5.0",
     "unstable_version": 1,
