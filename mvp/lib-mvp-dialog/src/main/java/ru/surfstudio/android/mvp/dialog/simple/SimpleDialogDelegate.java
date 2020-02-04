@@ -53,20 +53,29 @@ public class SimpleDialogDelegate {
     }
 
     public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
-        show(parentActivityViewPersistentScope.getScreenState().getActivity().getSupportFragmentManager(),
+        FragmentActivity activity = parentActivityViewPersistentScope.getScreenState().getActivity();
+        show(activity.getSupportFragmentManager(),
                 ScreenType.ACTIVITY,
                 parentActivityViewPersistentScope.getScopeId());
     }
 
     public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
-        show(parentFragmentViewPersistentScope.getScreenState().getFragment().getFragmentManager(),
+        FragmentActivity activity = parentFragmentViewPersistentScope
+                .getScreenState()
+                .getFragment()
+                .requireActivity();
+        show(activity.getSupportFragmentManager(),
                 ScreenType.FRAGMENT,
                 parentFragmentViewPersistentScope.getScopeId());
     }
 
     public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
-        show(((FragmentActivity) parentWidgetViewPersistentScope.getScreenState().getWidget().getContext())
-                        .getSupportFragmentManager(),
+        FragmentActivity activity = (FragmentActivity) parentWidgetViewPersistentScope
+                .getScreenState()
+                .getWidget()
+                .getContext();
+
+        show(activity.getSupportFragmentManager(),
                 ScreenType.WIDGET,
                 parentWidgetViewPersistentScope.getScopeId());
     }
