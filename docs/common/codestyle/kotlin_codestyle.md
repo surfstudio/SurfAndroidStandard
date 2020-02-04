@@ -340,7 +340,12 @@ nullableInt?.let {
 `./gradlew ktlintFilesFormat -PlintFiles=relative_path_to_file`    
 где relative_path_to_file это относительный путь к файлу с заранее испорченным форматированием.
 6. Запушить изменение в основную ветку спринта. Соответственно, автоформатирование будет работать только в тех ветках, которые содержат коммит с изменениями выше
-
+7. В master ветке проекта в файле `ci/JenkinsfilePullRequestJob.groovy` добавить следующие строки в любое место между `def pipeline = new PrPipelineAndroid(this)` и `pipeline.run()`  
+```
+pipeline.getStage(pipeline.CODE_STYLE_FORMATTING).strategy = StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+pipeline.getStage(pipeline.UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT).strategy = StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+```  
+И запушить изменения
 
 Для проверки можно использовать следующий [коммит](https://bitbucket.org/surfstudio/unicredit-android/commits/5b0ef710aa7387123d650378b6aefa0261ba5870#chg-config.gradle) 
 с полной установкой форматирования.
