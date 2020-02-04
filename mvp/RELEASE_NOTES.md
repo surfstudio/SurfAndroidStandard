@@ -8,6 +8,7 @@
 ##### Mvp-dialog
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * Fix logging screen names
+* ANDDEP-922 Fix crash on dismiss simple dialog in child fragment
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState
