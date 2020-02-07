@@ -52,7 +52,7 @@ ext {
             "androidx.recyclerview:recyclerview"                : "1.0.0",        //https://bit.ly/33s8ohH
             "androidx.core:core-ktx"                            : "1.0.1",        //http://bit.ly/2qY7ffW
             "com.google.android.material:material"              : "1.0.0",        //http://bit.ly/2KAAq1y
-            "com.google.android.play:core"                      : "1.3.6",        //http://bit.ly/2Hod1T1
+            "com.google.android.play:core"                      : "1.6.4",        //http://bit.ly/2Hod1T1
             "com.agna.ferro:ferro-rx"                           : "2.0.0",        //https://goo.gl/6ir26N
             "junit:junit"                                       : "4.12",         //https://goo.gl/hEcfw1
             "org.powermock:powermock-module-junit4"             : "1.7.4",        //https://goo.gl/hEcfw1
