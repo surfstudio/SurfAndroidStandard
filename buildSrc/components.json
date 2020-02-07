@@ -1792,7 +1792,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 7,
+    "unstable_version": 8,
     "stable": false,
     "dir": "docs",
     "libs": [],
