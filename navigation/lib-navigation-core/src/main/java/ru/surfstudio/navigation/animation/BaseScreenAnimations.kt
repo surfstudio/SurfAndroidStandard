@@ -9,4 +9,4 @@ open class BaseScreenAnimations(
         @AnimatorRes @AnimRes val exitAnimation: Int,
         @AnimatorRes @AnimRes val popEnterAnimation: Int,
         @AnimatorRes @AnimRes val popExitAnimation: Int
-) : Serializable
+) : Serializable, Animations

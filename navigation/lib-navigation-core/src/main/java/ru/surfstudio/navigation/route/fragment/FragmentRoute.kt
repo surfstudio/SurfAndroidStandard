@@ -6,7 +6,7 @@ import ru.surfstudio.navigation.route.BaseRoute
 /**
  * Route for [Fragment].
  */
-open class FragmentRoute2 : BaseRoute<Fragment>() {
+open class FragmentRoute : BaseRoute<Fragment>() {
 
     /**
      * Creates Fragment with [getScreenClass] or [getScreenClassPath] class.
