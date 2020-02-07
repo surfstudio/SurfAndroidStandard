@@ -48,10 +48,8 @@ class ProjectConfigurationProvider(
      * @return project configuration
      */
     fun provideRevisionToCompareConfiguration(): ProjectConfiguration {
-        println("provideRevisionToCompareConfiguration start")
         val outputJsonFile = createJsonFileNameByRevision(revisionToCompare)
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
-            println("!isProjectConfigurationJsonExists")
             TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
             runCommandWithResult(createCommandForRevisionToCompare(revisionToCompare), File(currentDirectory))
         }
