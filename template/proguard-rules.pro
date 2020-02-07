@@ -71,6 +71,7 @@
 -keep public class * extends java.lang.Exception
 -keep class com.google.firebase.crashlytics.** { *; }
 -dontwarn com.google.firebase.crashlytics.**
+-dontwarn com.google.firebase.messaging.**
 
 #kotlin-reflect
 #https://stackoverflow.com/questions/45871970/kotlin-reflect-proguard-smallsortedmap

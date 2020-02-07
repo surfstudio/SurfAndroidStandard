@@ -192,10 +192,10 @@ pipeline.stages = [
 
         },
         pipeline.stage(CHECK_STABLE_MODULES_NOT_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            //script.sh("./gradlew checkStableComponentsChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            //script.sh("./gradlew checkUnstableToStableChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkStableComponentStandardDependenciesStableTask")
@@ -205,7 +205,7 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesNotContainCyrillic")
         },
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
+            //script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
@@ -240,6 +240,7 @@ pipeline.stages = [
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
         pipeline.stage(INSTRUMENTATION_TEST) {
+            /*
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -252,7 +253,7 @@ pipeline.stages = [
                             true,
                             0
                     )
-            )
+            )*/
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
