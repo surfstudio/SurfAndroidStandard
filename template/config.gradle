@@ -44,7 +44,8 @@ ext {
     //gms
     firebaseMessagingVersion = '20.1.0'         //http://bit.ly/2Q81pGJ
     playServicesLocationVersion = '17.0.0'      //http://bit.ly/2CulYrn
-    firebaseAnalyticsVersion = '17.2.2'         //http://bit.ly/2OU6gHc
+    firebaseAnalyticsVersion = '17.2.2'         //http://bit.ly/2Q81pGJ
+    firebaseCoreVersion = '17.2.2'
 
     //network
     okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
@@ -60,8 +61,6 @@ ext {
     rxRelayVersion = '2.1.0'                    //https://goo.gl/E643M0
 
     //android framework
-    playServicesLocationVersion = '17.0.0'      //http://bit.ly/2CulYrn
-    googleServicesVersion = '4.3.3'             //http://bit.ly/2mZ4j0B
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
     multidexVersion = '2.0.0'                   //http://bit.ly/2KenzA7
     constraintLayoutXVersion = '2.0.0-alpha3'   //http://bit.ly/2S1WoNg

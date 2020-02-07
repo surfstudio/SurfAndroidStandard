@@ -57,7 +57,7 @@
         "artifact_name": "firebase-analytics",
         "third_party_dependencies": [
           {
-            "name": "com.google.firebase:firebase-core",
+            "name": "com.google.firebase:firebase-analytics",
             "type": "api"
           }
         ],

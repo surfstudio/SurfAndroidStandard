@@ -4,6 +4,7 @@ apply from: '../commonModule.gradle'
 
 dependencies {
     api project(":domain")
+    api "com.google.firebase:firebase-core:$firebaseCoreVersion" //todo might be removed for real project
     api "com.google.firebase:firebase-analytics:$firebaseAnalyticsVersion"
     api "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 

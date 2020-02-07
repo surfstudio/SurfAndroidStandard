@@ -61,6 +61,5 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 1, 'seconds'
 }
 
-//todo uncoment for real app for firebase app distribution
+//todo uncoment for real app
 //apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'com.google.firebase.crashlytics'
