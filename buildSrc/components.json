@@ -1408,9 +1408,9 @@
     "dir": "navigation",
     "libs": [
       {
-        "name": "navigation-core",
-        "dir": "lib-navigation-core",
-        "artifact_name": "navigation-core",
+        "name": "navigation",
+        "dir": "lib-navigation",
+        "artifact_name": "navigation",
         "third_party_dependencies": [
           {
             "name": "androidx.appcompat:appcompat",
