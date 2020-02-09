@@ -9,7 +9,7 @@ import ru.surfstudio.android.navigation.route.Route
 /**
  * Add new screen to a screen stack.
  *
- * Can be supplied with [ActivityBundleOptions] to specify ActivityOptions for starting new screen,
+ * Can be supplied with [ActivityBundleOptions] to specify ActivityOptions for starting new screen.
  *
  * This operation supports back stack.
  */

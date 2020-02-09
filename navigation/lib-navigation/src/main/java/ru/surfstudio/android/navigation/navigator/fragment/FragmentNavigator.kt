@@ -1,6 +1,7 @@
 package ru.surfstudio.android.navigation.navigator.fragment
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -31,7 +32,7 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  */
 open class FragmentNavigator(
         override val fragmentManager: FragmentManager,
-        override var containerId: Int = -1
+        override val containerId: Int = View.NO_ID
 ) : FragmentNavigatorInterface {
 
     protected val backStack: FragmentBackStack = FragmentBackStack()
