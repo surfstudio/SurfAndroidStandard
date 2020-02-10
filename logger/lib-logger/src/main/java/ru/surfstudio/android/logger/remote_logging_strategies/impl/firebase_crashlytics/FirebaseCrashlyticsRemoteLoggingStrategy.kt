@@ -20,6 +20,9 @@ import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrat
 
 private const val DEFAULT_STRING_VALUE = "null"
 
+private const val DEFAULT_USERNAME_KEY = "username"
+private const val DEFAULT_EMAIL_KEY = "email"
+
 /**
  * Logging strategy for Firebase Crashlytics
  */
@@ -28,6 +31,8 @@ class FirebaseCrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
     override fun setUser(id: String?, username: String?, email: String?) {
         try {
             FirebaseCrashlytics.getInstance().setUserId(id ?: DEFAULT_STRING_VALUE)
+            logKeyValue(DEFAULT_USERNAME_KEY, username)
+            logKeyValue(DEFAULT_EMAIL_KEY, email)
         } catch (e: Exception) {
             //ignored
         }
