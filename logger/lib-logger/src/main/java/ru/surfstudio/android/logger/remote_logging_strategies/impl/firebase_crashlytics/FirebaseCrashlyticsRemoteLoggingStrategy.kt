@@ -18,14 +18,16 @@ package ru.surfstudio.android.logger.remote_logging_strategies.impl.firebase_cra
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 
+private const val DEFAULT_STRING_VALUE = "null"
+
 /**
  * Logging strategy for Firebase Crashlytics
  */
 class FirebaseCrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
-    override fun setUser(id: String, username: String, email: String) {
+    override fun setUser(id: String?, username: String?, email: String?) {
         try {
-            FirebaseCrashlytics.getInstance().setUserId(id)
+            FirebaseCrashlytics.getInstance().setUserId(id ?: DEFAULT_STRING_VALUE)
         } catch (e: Exception) {
             //ignored
         }
@@ -39,25 +41,32 @@ class FirebaseCrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
         }
     }
 
-    override fun logKeyValue(key: String, value: String) {
+    override fun logError(e: Throwable?) {
         try {
-            FirebaseCrashlytics.getInstance().setCustomKey(key, value)
-        } catch (e: Exception) {
-            //ignored
-        }
-    }
-
-    override fun logError(e: Throwable) {
-        try {
-            FirebaseCrashlytics.getInstance().recordException(e)
+            if (e != null) {
+                FirebaseCrashlytics.getInstance().recordException(e)
+            } else {
+                logMessage("FirebaseCrashlytics is ignoring a request to log a null exception.")
+            }
         } catch (err: Exception) {
             //ignored
         }
     }
 
-    override fun logMessage(message: String) {
+    override fun logMessage(message: String?) {
         try {
-            FirebaseCrashlytics.getInstance().log(message)
+            FirebaseCrashlytics.getInstance().log(message ?: DEFAULT_STRING_VALUE)
+        } catch (e: Exception) {
+            //ignored
+        }
+    }
+
+    override fun logKeyValue(key: String?, value: String?) {
+        try {
+            FirebaseCrashlytics.getInstance().setCustomKey(
+                    key ?: DEFAULT_STRING_VALUE,
+                    value ?: DEFAULT_STRING_VALUE
+            )
         } catch (e: Exception) {
             //ignored
         }

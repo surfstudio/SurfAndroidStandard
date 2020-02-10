@@ -25,7 +25,7 @@ import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrat
 @Deprecated("Use FirebaseCrashlyticsRemoteLoggingStrategy and firebase crashlytics instead")
 class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
 
-    override fun setUser(id: String, username: String, email: String) {
+    override fun setUser(id: String?, username: String?, email: String?) {
         try {
             Crashlytics.getInstance().core.setUserName(username)
             Crashlytics.getInstance().core.setUserEmail(email)
@@ -45,7 +45,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
         }
     }
 
-    override fun logKeyValue(key: String, value: String) {
+    override fun logKeyValue(key: String?, value: String?) {
         try {
             Crashlytics.getInstance().core.setString(key, value)
         } catch (e: Exception) {
@@ -53,7 +53,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
         }
     }
 
-    override fun logError(e: Throwable) {
+    override fun logError(e: Throwable?) {
         try {
             Crashlytics.getInstance().core.logException(e)
         } catch (err: Exception) {
@@ -61,7 +61,7 @@ class CrashlyticsRemoteLoggingStrategy : RemoteLoggingStrategy {
         }
     }
 
-    override fun logMessage(message: String) {
+    override fun logMessage(message: String?) {
         try {
             Crashlytics.getInstance().core.log(message)
         } catch (e: Exception) {

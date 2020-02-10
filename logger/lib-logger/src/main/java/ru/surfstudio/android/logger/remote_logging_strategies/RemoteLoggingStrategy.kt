@@ -20,13 +20,13 @@ package ru.surfstudio.android.logger.remote_logging_strategies
  */
 interface RemoteLoggingStrategy {
 
-    fun setUser(id: String, username: String, email: String)
+    fun setUser(id: String?, username: String?, email: String?)
 
     fun clearUser()
 
-    fun logError(e: Throwable)
+    fun logError(e: Throwable?)
 
-    fun logMessage(message: String)
+    fun logMessage(message: String?)
 
-    fun logKeyValue(key: String, value: String)
+    fun logKeyValue(key: String?, value: String?)
 }
