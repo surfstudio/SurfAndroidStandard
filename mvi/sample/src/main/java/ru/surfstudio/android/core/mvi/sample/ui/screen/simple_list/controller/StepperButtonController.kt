@@ -12,19 +12,19 @@ import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
  */
 class StepperButtonController(
         private val onBtnClick: (position: Int) -> Unit
-) : BindableItemController<Int, StepperButtonController.Holder>() {
+) : BindableItemController<StepperData, StepperButtonController.Holder>() {
 
-    override fun getItemId(data: Int): String = data.toString()
+    override fun getItemId(data: StepperData): String = data.id.toString()
 
     override fun createViewHolder(parent: ViewGroup): Holder = Holder(parent)
 
-    inner class Holder(parent: ViewGroup) : BindableViewHolder<Int>(parent, R.layout.element_stepper_btn) {
+    inner class Holder(parent: ViewGroup) : BindableViewHolder<StepperData>(parent, R.layout.element_stepper_btn) {
 
         val button = itemView as Button
 
-        override fun bind(data: Int) {
-            button.setOnClickListener { onBtnClick(adapterPosition) }
-            button.text = "Taps: $data"
+        override fun bind(data: StepperData) {
+            button.setOnClickListener { onBtnClick(data.id) }
+            button.text = "Clicks: ${data.clicks}"
 
         }
     }

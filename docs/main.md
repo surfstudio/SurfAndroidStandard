@@ -50,7 +50,8 @@
     1. [Особенности реализации View](ui/view_realization_specs.md)
 
 1. [Инициализация приложения](../template/README.md)
-    1. [Подготовка проекта к выгрузке в fabric](common/fabric.md)
+    1. [DEPRECATED Подготовка проекта к выгрузке в fabric](common/fabric.md)
+    1. [Миграция приложения с fabric на firebase app distribution](common/firebase/app_distribution_migration.md)
 
 1. [Безопасность](../security/sample/README.md)
 

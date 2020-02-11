@@ -26,6 +26,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.mvp.binding.rx.sample.checkbox.CheckboxActivityRoute
 import ru.surfstudio.android.mvp.binding.rx.sample.easyadapter.ui.screen.main.EAMainActivityRoute
+import ru.surfstudio.android.mvp.binding.rx.sample.twoway.TwoWayRoute
 import ru.surfstudio.android.mvp.dialog.navigation.navigator.DialogNavigator
 import javax.inject.Inject
 
@@ -34,8 +35,8 @@ import javax.inject.Inject
  */
 @PerScreen
 class MainPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency,
-        private val bm: MainBindModel
+    basePresenterDependency: BasePresenterDependency,
+    private val bm: MainBindModel
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
@@ -52,8 +53,8 @@ class MainPresenter @Inject constructor(
  */
 @PerScreen
 class DoubleTextPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency,
-        private val bm: DoubleTextBindModel
+    basePresenterDependency: BasePresenterDependency,
+    private val bm: DoubleTextBindModel
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
@@ -75,8 +76,8 @@ interface DoubleTextBindModel : BindModel {
  */
 @PerScreen
 class CounterPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency,
-        private val bm: CounterBindModel
+    basePresenterDependency: BasePresenterDependency,
+    private val bm: CounterBindModel
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
@@ -100,9 +101,9 @@ interface CounterBindModel : BindModel {
  */
 @PerScreen
 class MainNavigationPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency,
-        private val activityNavigator: ActivityNavigator,
-        private val bm: MainNavigationBindModel
+    basePresenterDependency: BasePresenterDependency,
+    private val activityNavigator: ActivityNavigator,
+    private val bm: MainNavigationBindModel
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
@@ -110,6 +111,7 @@ class MainNavigationPresenter @Inject constructor(
         with(bm) {
             checkboxSampleActivityOpen bindTo { activityNavigator.start(CheckboxActivityRoute(true)) }
             easyadapterSampleActivityOpen bindTo { activityNavigator.start(EAMainActivityRoute()) }
+            twoWayBindingSampleOpen bindTo { activityNavigator.start(TwoWayRoute()) }
         }
     }
 }
@@ -118,6 +120,7 @@ interface MainNavigationBindModel : BindModel {
 
     val checkboxSampleActivityOpen: Action<Unit>
     val easyadapterSampleActivityOpen: Action<Unit>
+    val twoWayBindingSampleOpen: Action<Unit>
 }
 
 /**
@@ -125,9 +128,9 @@ interface MainNavigationBindModel : BindModel {
  */
 @PerScreen
 class DialogControlPresenter @Inject constructor(
-        basePresenterDependency: BasePresenterDependency,
-        private val dialogNavigator: DialogNavigator,
-        private val bm: DialogControlBindModel
+    basePresenterDependency: BasePresenterDependency,
+    private val dialogNavigator: DialogNavigator,
+    private val bm: DialogControlBindModel
 ) : BaseRxPresenter(basePresenterDependency) {
 
     override fun onFirstLoad() {
