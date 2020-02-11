@@ -39,6 +39,10 @@ class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
 
     override fun getName(): String = "StandardReactDialogView"
 
+    override fun inject() {
+        //Do nothing
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hub = getScreenComponent(EventHubDialogComponent::class.java).screenHub() as ScreenEventHub<E>
