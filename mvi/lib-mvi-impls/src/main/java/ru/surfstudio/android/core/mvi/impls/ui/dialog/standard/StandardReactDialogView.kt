@@ -49,6 +49,8 @@ class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
+
         val route = StandardReactDialogRoute<E>(arguments ?: Bundle.EMPTY)
 
         isCancelable = route.isCancelable
