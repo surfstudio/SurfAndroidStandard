@@ -34,6 +34,7 @@ buildscript {
         DependencyConfigurator.classpath(project, "org.jetbrains.kotlin:kotlin-gradle-plugin")
         classpath "com.google.gms:google-services:$googleServicesVersion"
         classpath "io.fabric.tools:gradle:$fabricVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsGradleVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
         //classpath "ru.surfstudio.android:version-plugin:${ConfigInfoProvider.getVersion()}"
         //todo use this for get as dependencies for mirror

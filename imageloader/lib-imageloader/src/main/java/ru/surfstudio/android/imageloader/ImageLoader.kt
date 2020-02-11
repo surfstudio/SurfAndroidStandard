@@ -37,6 +37,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.CustomViewTarget
 import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.bumptech.glide.request.transition.Transition
 import com.bumptech.glide.signature.ObjectKey
 import ru.surfstudio.android.imageloader.data.*
@@ -98,7 +99,7 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
     }
 
     @Throws(IllegalArgumentException::class)
-    override fun url(url: String,  headers: Map<String, String>) =
+    override fun url(url: String, headers: Map<String, String>) =
             apply {
                 this.imageResourceManager.url = url
                 this.imageResourceManager.headers = headers
@@ -281,11 +282,17 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
      * Добавление перехода с растворением между изображениями.
      *
      * @param duration продолжительность перехода (в мс)
+     * @param hidePreviousImage заставляет Glide скрыть предыдущее изображение,
+     * а не просто нарисовать следующее поверх см. документацию https://clck.ru/FVpbQ
      */
-    override fun crossFade(duration: Int): ImageLoaderInterface =
+    override fun crossFade(duration: Int, hidePreviousImage: Boolean): ImageLoaderInterface =
             also {
+                val factory = DrawableCrossFadeFactory.Builder(duration)
+                        .setCrossFadeEnabled(hidePreviousImage)
+                        .build()
+
                 imageTransitionManager.imageTransitionOptions =
-                        DrawableTransitionOptions().crossFade(duration)
+                        DrawableTransitionOptions().crossFade(factory)
             }
 
     /**

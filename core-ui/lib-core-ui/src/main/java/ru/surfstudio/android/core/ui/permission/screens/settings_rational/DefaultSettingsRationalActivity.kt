@@ -24,7 +24,7 @@ class DefaultSettingsRationalActivity : AppCompatActivity() {
                 ?: getString(R.string.settings_rational_go_to_settings)
 
     private val settingsNegativeButtonStr: String
-        get() = intent.getStringExtra(Route.EXTRA_FIRST)
+        get() = intent.getStringExtra(Route.EXTRA_THIRD)
                 ?: getString(R.string.settings_rational_cancel)
 
     override fun onCreate(savedInstanceState: Bundle?) {

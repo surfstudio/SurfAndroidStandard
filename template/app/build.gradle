@@ -1,15 +1,9 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//todo uncoment for real app
-//apply plugin: 'io.fabric'
+//apply plugin: 'com.google.firebase.crashlytics' todo uncoment for real app
+//apply plugin: 'com.google.firebase.appdistribution' todo uncoment for real app
 
 apply from: '../config.gradle'
 
@@ -55,6 +49,10 @@ dependencies {
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
+
+    api("com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion") {
+        transitive = true
+    }
 }
 
 configurations.all {
