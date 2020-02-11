@@ -10,16 +10,13 @@ ext {
     debugVersionNameSuffix = ".debug"
     qaVersionNameSuffix = ".qa"
 
-    gradlePluginVersion = '3.2.1'               //https://bit.ly/2NXD4Pe
-    buildToolsVersion = "28.0.3"                //https://bit.ly/2DNmq3Y
-    googleServicesVersion = '4.2.0'             //https://bit.ly/2Q5FCge
+    gradlePluginVersion = '3.5.2'               //https://bit.ly/2NXD4Pe
+    buildToolsVersion = "29.0.0"                //https://bit.ly/2DNmq3Y
+    googleServicesVersion = '4.3.3'             //https://bit.ly/2Q5FCge
     buildScanPluginVersion = '1.16'             //https://goo.gl/coZHFo
 
-    fabricVersion = "1.26.1"                    //https://bit.ly/2OOly00
-    crashlyticsVersion = '2.9.6'                //http://bit.ly/2v5mXbp
-
     //lang
-    kotlinVersion = '1.3.20'                    //https://goo.gl/2Epeje
+    kotlinVersion = '1.3.61'                    //https://goo.gl/2Epeje
     ankoVersion = '0.10.8'                      //https://goo.gl/XGJGR7
     annimonStreamVersion = '1.2.1'              //https://bit.ly/2Ke0nlQ
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
@@ -45,9 +42,10 @@ ext {
     playCoreVersion = '1.3.6'                   //http://bit.ly/2Hod1T1
 
     //gms
-    firebaseCoreVersion = '16.0.5'              //http://bit.ly/2Q81pGJ
-    firebaseMessagingVersion = '17.3.4'         //http://bit.ly/2Q81pGJ
-    playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
+    firebaseMessagingVersion = '20.1.0'         //http://bit.ly/2Q81pGJ
+    playServicesLocationVersion = '17.0.0'      //http://bit.ly/2CulYrn
+    firebaseAnalyticsVersion = '17.2.2'         //http://bit.ly/2Q81pGJ
+    firebaseCoreVersion = '17.2.2'
 
     //network
     okHttpVersion = '3.12.0'                    //https://vk.cc/7UFwTd
@@ -63,13 +61,6 @@ ext {
     rxRelayVersion = '2.1.0'                    //https://goo.gl/E643M0
 
     //android framework
-    androidGradleToolsVersion = '3.2.1'         //https://bit.ly/2NXD4Pe
-    firebaseCoreVersion = '16.0.4'              //http://bit.ly/2LQ9fCQ
-    firebaseMessagingVersion = '17.3.4'
-    playServicesLocationVersion = '16.0.0'      //http://bit.ly/2CulYrn
-    fabricToolsVersion = '1.25.4'
-    crashlyticsVersion = '2.9.6'                //http://bit.ly/2v5mXbp
-    googleServicesVersion = '4.1.0'             //http://bit.ly/2mZ4j0B
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
     multidexVersion = '2.0.0'                   //http://bit.ly/2KenzA7
     constraintLayoutXVersion = '2.0.0-alpha3'   //http://bit.ly/2S1WoNg
@@ -105,4 +96,7 @@ ext {
     materialRangebarVersion = '1.4.4'           //https://bit.ly/2TxqAkm
     timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
     rxJava2DebugVersion = '1.4.0'               //https://bit.ly/322Qzo7
+    firebaseAppDistributionVersion = '1.2.0'    //http://bit.ly/2Gc2qHh
+    firebaseCrashlyticsVersion = '17.0.0-beta01'     //http://bit.ly/2RM7ec2
+    firebaseCrashlyticsGradleVersion = '2.0.0-beta01'//http://bit.ly/2RM7ec2
 }

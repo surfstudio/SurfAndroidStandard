@@ -57,7 +57,7 @@
         "artifact_name": "firebase-analytics",
         "third_party_dependencies": [
           {
-            "name": "com.google.firebase:firebase-core",
+            "name": "com.google.firebase:firebase-analytics",
             "type": "api"
           }
         ],
@@ -1075,6 +1075,10 @@
           },
           {
             "name": "com.crashlytics.sdk.android:crashlytics",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.firebase:firebase-crashlytics",
             "type": "implementation"
           },
           {
