@@ -57,7 +57,7 @@
         "artifact_name": "firebase-analytics",
         "third_party_dependencies": [
           {
-            "name": "com.google.firebase:firebase-core",
+            "name": "com.google.firebase:firebase-analytics",
             "type": "api"
           }
         ],
@@ -493,7 +493,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 8,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -600,7 +600,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 8,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -686,7 +686,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 4,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -984,7 +984,7 @@
   {
     "id": "imageloader",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "imageloader",
     "libs": [
@@ -1075,6 +1075,10 @@
           },
           {
             "name": "com.crashlytics.sdk.android:crashlytics",
+            "type": "implementation"
+          },
+          {
+            "name": "com.google.firebase:firebase-crashlytics",
             "type": "implementation"
           },
           {
@@ -1792,7 +1796,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 8,
     "stable": false,
     "dir": "docs",
     "libs": [],

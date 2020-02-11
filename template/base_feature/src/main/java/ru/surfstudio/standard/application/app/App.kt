@@ -4,17 +4,13 @@ import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
 import com.akaita.java.rxjava2debug.RxJava2Debug
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
 import com.github.anrwatchdog.ANRWatchDog
-import io.fabric.sdk.android.Fabric
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.logger.RemoteLogger
 import ru.surfstudio.android.logger.logging_strategies.impl.remote_logger.RemoteLoggerLoggingStrategy
 import ru.surfstudio.android.logger.logging_strategies.impl.timber.TimberLoggingStrategy
-import ru.surfstudio.android.logger.remote_logging_strategies.impl.crashlytics.CrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.android.notification.ui.PushClickProvider
 import ru.surfstudio.android.notification.ui.PushEventListener
 import ru.surfstudio.android.template.base_feature.BuildConfig
@@ -42,24 +38,11 @@ class App : MultiDexApplication() {
             return
         }
 
-        initFabric()
         initPushEventListener()
         initRxJava2Debug()
 
         DebugAppInjector.debugInteractor.onCreateApp(R.mipmap.ic_launcher)
     }
-
-    private fun initFabric() {
-        Fabric.with(this, *getFabricKits())
-    }
-
-    private fun getFabricKits() = arrayOf(
-            Crashlytics.Builder()
-                    .core(CrashlyticsCore.Builder()
-                            .disabled(BuildConfig.DEBUG)
-                            .build())
-                    .build()
-    )
 
     /**
      * отслеживает ANR и отправляет в крашлитикс
@@ -73,7 +56,8 @@ class App : MultiDexApplication() {
     private fun initLog() {
         Logger.addLoggingStrategy(TimberLoggingStrategy())
         Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
-        RemoteLogger.addRemoteLoggingStrategy(CrashlyticsRemoteLoggingStrategy())
+        //todo uncoment after logger deploy
+        //RemoteLogger.addRemoteLoggingStrategy(FirebaseCrashlyticsRemoteLoggingStrategy())
     }
 
     private fun initRxJava2Debug() {

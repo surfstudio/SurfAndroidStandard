@@ -200,8 +200,10 @@ interface ImageLoaderInterface {
      * Добавление перехода с растворением между изображениями.
      *
      * @param duration продолжительность перехода (в мс)
+     * @param hidePreviousImage определяет скрыть ли предыдущее изображение
+     * или нарисовать следующее поверх предыдущего
      */
-    fun crossFade(duration: Int = 300): ImageLoaderInterface
+    fun crossFade(duration: Int = 300, hidePreviousImage: Boolean = false): ImageLoaderInterface
 
     /**
      * Размножения изображения для соответствия его размеров размерам View

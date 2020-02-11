@@ -20,7 +20,7 @@ import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import kotlin.reflect.KClass
 
 /**
- * Object for logging with using different levels and strategies
+ * Object for logging which supports different levels and strategies
  */
 object Logger {
 

@@ -43,12 +43,13 @@ def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
 //parameters
-def final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
-def final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
-def final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
-def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
+final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
+final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
+final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
+final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
+final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
         RELEASE_NOTES_DIFF,
@@ -208,6 +209,7 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECKS_RESULT) {
+            script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
