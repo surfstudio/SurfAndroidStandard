@@ -76,7 +76,7 @@ ext {
             "com.squareup.retrofit2:converter-gson"             : "2.5.0",        //https://vk.cc/7UFxk3
             "com.squareup.retrofit2:adapter-rxjava2"            : "2.5.0",        //https://vk.cc/7UFxk3
             "com.squareup.okhttp3:logging-interceptor"          : "3.12.0",       //https://vk.cc/7UFwTd
-            "androidx.multidex:multidex"                        : "2.0.0",        //https://vk.cc/7UFwTd
+            "androidx.multidex:multidex"                        : "2.0.1",        //https://vk.cc/7UFwTd
             "com.github.anrwatchdog:anrwatchdog"                : "1.3.0",        //http://bit.ly/2NZvjZc
             "com.jakewharton.rxrelay2:rxrelay"                  : "2.1.0",        //https://goo.gl/E643M0
             "com.jakewharton.rxbinding2:rxbinding-appcompat-v7" : "2.2.0",        //https://goo.gl/KQ5Vga

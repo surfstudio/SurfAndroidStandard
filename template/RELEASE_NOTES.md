@@ -15,6 +15,7 @@
 * Added `PostfixEditText` to base_feature
 * Add color styling to generateDependencyGraph task
 * ANDDEP-392 Add firebase app distribution and firebase crashlytics
+* ANDDEP-927 Increase multidex version
 
 ## 0.4.0
 ##### Template
