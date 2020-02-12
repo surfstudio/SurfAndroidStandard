@@ -17,6 +17,7 @@ import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 import ru.surfstudio.standard.application.app.di.AppInjector
+import ru.surfstudio.standard.application.logger
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
 class App : MultiDexApplication() {
@@ -56,8 +57,7 @@ class App : MultiDexApplication() {
     private fun initLog() {
         Logger.addLoggingStrategy(TimberLoggingStrategy())
         Logger.addLoggingStrategy(RemoteLoggerLoggingStrategy())
-        //todo uncoment after logger deploy
-        //RemoteLogger.addRemoteLoggingStrategy(FirebaseCrashlyticsRemoteLoggingStrategy())
+        RemoteLogger.addRemoteLoggingStrategy(FirebaseCrashlyticsRemoteLoggingStrategy())
     }
 
     private fun initRxJava2Debug() {
