@@ -15,7 +15,6 @@ android {
     buildToolsVersion project.ext.buildToolsVersion
 
     defaultConfig {
-        multiDexEnabled true
         minSdkVersion project.ext.libMinSdkVersion
         targetSdkVersion project.ext.targetSdkVersion
         versionCode project.ext.moduleVersionCode
