@@ -49,10 +49,6 @@ dependencies {
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
-
-    api("com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion") {
-        transitive = true
-    }
 }
 
 configurations.all {
