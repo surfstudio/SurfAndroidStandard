@@ -7,3 +7,4 @@
 ##### Logger
 * ANDDEP-222 - added the ability to select a strategy for logging
 * ANDDEP-392 - Add FirebaseCrashlyticsRemoteLoggingStrategy
+* ANDDEP-927 - Remove Firebase dependencies

@@ -1078,10 +1078,6 @@
             "type": "implementation"
           },
           {
-            "name": "com.google.firebase:firebase-crashlytics",
-            "type": "implementation"
-          },
-          {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
           }
