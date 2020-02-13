@@ -235,11 +235,34 @@ pipeline.stages = [
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
+        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew generateModulesNamesFile")
+            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
+            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+        },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
+        },
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.dir("template") {
+                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                        script,
+                        new AvdConfig(),
+                        "debug",
+                        getTestInstrumentationRunnerName,
+                        new AndroidTestConfig(
+                                "assembleAndroidTest",
+                                "build/outputs/androidTest-results/instrumental",
+                                "build/reports/androidTests/instrumental",
+                                true,
+                                0
+                        )
+                )
+            }
         },
         pipeline.stage(INSTRUMENTATION_TEST) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -258,29 +281,6 @@ pipeline.stages = [
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
-        },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.dir("template") {
-                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        script,
-                        new AvdConfig(),
-                        "debug",
-                        getTestInstrumentationRunnerName,
-                        new AndroidTestConfig(
-                                "assembleAndroidTest",
-                                "build/outputs/androidTest-results/instrumental",
-                                "build/reports/androidTests/instrumental",
-                                true,
-                                0
-                        )
-                )
-            }
         }
 ]
 pipeline.finalizeBody = {
