@@ -9,23 +9,18 @@ import java.io.Serializable
 /**
  * Маршрут экрана объяснения необходимости перехода в настройки приложения.
  *
- * Route of screen for go to settings to give permissions
+ * Route of screen for going to settings to give permissions
  *
- * @param settingsRationalStr rationale message
- * @param settingsPositiveButtonStr positive button text
- * @param settingsNegativeButtonStr negative button text
+ * @param params dialog for going to settings params like:
+ * rationale message, positive button text, negative button text
  */
 class DefaultSettingsRationalRoute(
-        private val settingsRationalStr: String,
-        private val settingsPositiveButtonStr: String? = null,
-        private val settingsNegativeButtonStr: String? = null
+        private val params: SettingsRationalDialogParams
 ) : ActivityWithResultRoute<Serializable>() {
 
     override fun prepareIntent(context: Context?): Intent =
             Intent(context, DefaultSettingsRationalActivity::class.java)
                     .apply {
-                        putExtra(Route.EXTRA_FIRST, settingsRationalStr)
-                        putExtra(Route.EXTRA_SECOND, settingsPositiveButtonStr)
-                        putExtra(Route.EXTRA_THIRD, settingsNegativeButtonStr)
+                        putExtra(Route.EXTRA_FIRST, params)
                     }
 }

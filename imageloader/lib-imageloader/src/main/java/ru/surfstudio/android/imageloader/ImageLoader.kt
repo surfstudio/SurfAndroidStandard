@@ -274,7 +274,6 @@ class ImageLoader(private val context: Context) : ImageLoaderInterface {
                 val factory = DrawableCrossFadeFactory.Builder(duration)
                         .setCrossFadeEnabled(hidePreviousImage)
                         .build()
-
                 imageTransitionManager.imageTransitionOptions =
                         DrawableTransitionOptions().crossFade(factory)
             }

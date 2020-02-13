@@ -1,0 +1,57 @@
+apply from: '../../config.gradle'
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+allprojects {
+    configurations.all {
+        resolutionStrategy.force "androidx.appcompat:appcompat:$androidxVersion"
+    }
+}
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+    buildToolsVersion project.ext.buildToolsVersion
+
+    defaultConfig {
+        applicationId "ru.surfstudio.android.security.sample"
+        minSdkVersion project.ext.sampleMinSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.moduleVersionCode
+        versionName project.ext.moduleVersionName
+        multiDexEnabled true
+        testBuildType "debug"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "false"
+        }
+        release {
+            debuggable false
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "true"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "androidx.vectordrawable:vectordrawable:$androidxVectorDrawable"
+    implementation "androidx.core:core:$androidxKtxVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
+    implementation project(':security-sample-template:security')
+    implementation project(':sample-dagger')
