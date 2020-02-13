@@ -20,7 +20,7 @@ import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 import kotlin.reflect.KClass
 
 /**
- * Сущность для логгирования с использованием различных уровней и стратегий
+ * Object for logging which supports different levels and strategies
  */
 object Logger {
 
@@ -84,8 +84,7 @@ object Logger {
     }
 
     /**
-     * используется для ожидаемых ошибок
-     * Логгирует только сообщение ошибки
+     * Log an expectable error.
      */
     @JvmStatic
     fun w(e: Throwable?) {

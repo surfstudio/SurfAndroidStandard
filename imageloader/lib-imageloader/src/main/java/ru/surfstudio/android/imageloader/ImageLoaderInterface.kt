@@ -19,10 +19,10 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
-import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.data.ImageSource
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
