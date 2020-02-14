@@ -12,3 +12,4 @@
 * `DefaultActivityLifecycleCallbacks` deprecated, the default implementation is in the template module
 * `StringsProvider` deprecated, the default implementation is in the template module
 * `Unit` - deprecated, use kotlin.Unit. 
+* Remove multidex for module

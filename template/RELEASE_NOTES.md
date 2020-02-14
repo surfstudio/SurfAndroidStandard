@@ -14,6 +14,8 @@
 * ANDDEP-770 Fixed textStyle overriding and proguard bugs
 * Added `PostfixEditText` to base_feature
 * Add color styling to generateDependencyGraph task
+* ANDDEP-392 Add firebase app distribution and firebase crashlytics
+* ANDDEP-927 Add FirebaseCrashlyticsRemoteLoggingStrategy
 
 ## 0.4.0
 ##### Template
