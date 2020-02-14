@@ -225,8 +225,8 @@ open class EventTransformerList<E : Event>(
             eventStream.ofType(this.java).decompose(mw)
 
     /**
-     * Adds event filtering by a given [filterCondition].
+     * Filters events by a given [filterCondition].
      */
-    infix fun <T : Event> KClass<T>.onlyIf(filterCondition: (T) -> Boolean): Observable<T> =
+    infix fun <T : Event> KClass<T>.filter(filterCondition: (T) -> Boolean): Observable<T> =
             eventStream.ofType(this.java).filter(filterCondition)
 }
