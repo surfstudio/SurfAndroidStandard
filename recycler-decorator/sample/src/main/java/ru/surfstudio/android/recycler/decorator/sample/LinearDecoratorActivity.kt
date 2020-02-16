@@ -34,28 +34,28 @@ class LinearDecoratorActivity : AppCompatActivity() {
         }
 
         val simpleOffsetDrawer1 = SimpleOffsetDrawer(
-            left = 16.px,
-            top = 8.px,
-            right = 16.px,
-            bottom = 8.px
+            left = 16.toPx,
+            top = 8.toPx,
+            right = 16.toPx,
+            bottom = 8.toPx
         )
 
         val simpleOffsetDrawer2 = SimpleOffsetDrawer(
-            left = 16.px,
-            right = 16.px
+            left = 16.toPx,
+            right = 16.toPx
         )
 
         val dividerDrawer2Px = LinearOverDividerDrawer(
             Gap(
                 resources.getColor(R.color.gray_A150),
-                2.px,
-                paddingStart = 16.px,
-                paddingEnd = 16.px,
+                2.toPx,
+                paddingStart = 16.toPx,
+                paddingEnd = 16.toPx,
                 rule = Rules.MIDDLE
             )
         )
 
-        val roundViewHoldersGroupDrawer = RoundViewHoldersGroupDrawer(12.px.toFloat())
+        val roundViewHoldersGroupDrawer = RoundViewHoldersGroupDrawer(12.toPx.toFloat())
         val paralaxdecorator = ParallaxHeaderDecoration(this, R.drawable.night_png)
 
         val decorator2 = Builder()

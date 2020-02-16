@@ -22,7 +22,11 @@
         <activity android:name=".LinearDecoratorActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".CarouselDecoratorActivity" />
+        <activity android:name=".CarouselDecoratorActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".EasyAdapterDecoratorActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

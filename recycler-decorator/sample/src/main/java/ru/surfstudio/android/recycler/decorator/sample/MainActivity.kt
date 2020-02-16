@@ -15,8 +15,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, LinearDecoratorActivity::class.java))
         }
 
-        drawable_decor_btn.setOnClickListener {
+        pager_decor_btn.setOnClickListener {
             startActivity(Intent(this, CarouselDecoratorActivity::class.java))
+        }
+
+        easy_adapter_decor_btn.setOnClickListener {
+            startActivity(Intent(this, EasyAdapterDecoratorActivity::class.java))
         }
     }
 }

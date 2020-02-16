@@ -36,11 +36,11 @@ class CarouselDecoratorActivity : AppCompatActivity() {
             PagerSnapHelper().attachToRecyclerView(pager_rv)
         }
 
-        val roundViewHoldersGroupDrawer = RoundViewHoldersGroupDrawer(8.px.toFloat())
+        val roundViewHoldersGroupDrawer = RoundViewHoldersGroupDrawer(8.toPx.toFloat())
 
         val simpleOffsetDrawer2 = SimpleOffsetDrawer(
-            left = 16.px,
-            right = 16.px
+            left = 16.toPx,
+            right = 16.toPx
         )
 
         val decorator2 = ru.surfstudio.android.recycler.decorator.Builder()

@@ -6,7 +6,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.recycler.decorator.base.RecyclerViewDecor
-import ru.surfstudio.android.recycler.decorator.sample.px
+import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 class LinePagerIndicatorDecoration : RecyclerViewDecor {
 
@@ -16,21 +16,21 @@ class LinePagerIndicatorDecoration : RecyclerViewDecor {
     /**
      * Height attachTo the space the indicator takes up at the bottom attachTo the view.
      */
-    private val indicatorHeight = 16.px
+    private val indicatorHeight = 16.toPx
 
     /**
      * Indicator stroke width.
      */
-    private val indicatorStrokeWidth = 2.px
+    private val indicatorStrokeWidth = 2.toPx
 
     /**
      * Indicator width.
      */
-    private val indicatorItemLength = 16.px
+    private val indicatorItemLength = 16.toPx
     /**
      * Padding between indicators.
      */
-    private val indicatorItemPadding = 4.px
+    private val indicatorItemPadding = 4.toPx
 
     /**
      * Some more natural animation interpolation
