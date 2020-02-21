@@ -30,6 +30,7 @@ class BindableController(@LayoutRes val layoutRes: Int) : BindableItemController
     }
 
     class Holder(parent: ViewGroup, layoutRes: Int) : BindableViewHolder<Int>(parent, layoutRes) {
+
         override fun bind(number: Int) {
             itemView.number_tv.text = "$number"
         }
@@ -46,7 +47,7 @@ class BindableController(@LayoutRes val layoutRes: Int) : BindableItemController
         }
 
 
-        override fun draw(canvas: Canvas, view: View, recyclerView: RecyclerView, state: RecyclerView.State, baseItem: BindableItem<Int, Holder>) {
+        override fun draw(canvas: Canvas, view: View, recyclerView: RecyclerView, state: RecyclerView.State, baseItem: BindableItem<Int, Holder>?) {
 
             val startX = recyclerView.paddingLeft + gap.paddingStart
             val startY = view.bottom + view.translationY
@@ -55,20 +56,21 @@ class BindableController(@LayoutRes val layoutRes: Int) : BindableItemController
 
             dividerPaint.alpha = (view.alpha * alpha).toInt()
 
-            val nextBaseItem = baseItem.nextItem as? BindableItem<Int, Holder>
+            val nextBaseItem = baseItem?.nextItem as? BindableItem<Int, Holder>
 
-            if(baseItem.data != nextBaseItem?.data ?: -1) {
+            if(baseItem?.data != nextBaseItem?.data ?: -1) {
                 canvas.drawLine(startX.toFloat(), startY, stopX.toFloat(), stopY, dividerPaint)
             }
         }
     }
 
     class BindableOffset : BaseViewHolderOffset<BindableItem<Int, Holder>> {
-        override fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State, baseItem: BindableItem<Int, Holder>) {
-            if(baseItem.data.rem(2) == 0) {
+
+        override fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State, baseItem: BindableItem<Int, Holder>?) {
+            if(baseItem?.data?.rem(2) == 0) {
                 outRect.set(24.toPx, 0, 0, 0)
             }
-            if(baseItem.data.rem(3) == 0) {
+            if(baseItem?.data?.rem(3) == 0) {
                 outRect.set(48.toPx, 0, 0, 0)
             }
         }

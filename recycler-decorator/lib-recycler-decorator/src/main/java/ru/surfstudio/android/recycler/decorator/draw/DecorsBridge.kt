@@ -46,8 +46,8 @@ class DecorsBridge(
      */
     fun onDrawUnderlay(canvas: Canvas, recyclerView: RecyclerView, state: RecyclerView.State) {
         underlaysRecycler.drawRecyclerViewDecors(canvas, recyclerView, state)
-        groupedUnderlays.drawAttachedDecors(canvas, recyclerView, state)
         groupedUnderlays.drawNotAttachedDecors(canvas, recyclerView, state)
+        groupedUnderlays.drawAttachedDecors(canvas, recyclerView, state)
     }
 
     /**
@@ -64,14 +64,15 @@ class DecorsBridge(
      */
     fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         drawOffset(EACH_VIEW, outRect, view, recyclerView, state)
-        val itemViewType = recyclerView.findContainingViewHolder(view)?.itemViewType ?: EACH_VIEW
-        drawOffset(itemViewType, outRect, view, recyclerView, state)
+        recyclerView.findContainingViewHolder(view)?.itemViewType?.let { itemViewType ->
+            drawOffset(itemViewType, outRect, view, recyclerView, state)
+        }
     }
 
     private fun Map<Int, List<DecorDrawer<ViewHolderDecor>>>.drawAttachedDecors(
-        canvas: Canvas,
-        recyclerView: RecyclerView,
-        state: RecyclerView.State
+            canvas: Canvas,
+            recyclerView: RecyclerView,
+            state: RecyclerView.State
     ) {
 
         recyclerView.children.forEach { view ->
@@ -83,27 +84,27 @@ class DecorsBridge(
     }
 
     private fun Map<Int, List<DecorDrawer<ViewHolderDecor>>>.drawNotAttachedDecors(
-        canvas: Canvas,
-        recyclerView: RecyclerView,
-        state: RecyclerView.State
+            canvas: Canvas,
+            recyclerView: RecyclerView,
+            state: RecyclerView.State
     ) {
         recyclerView.children.forEach { view ->
             this[EACH_VIEW]
-                ?.forEach { it.drawer.draw(canvas, view, recyclerView, state) }
+                    ?.forEach { it.drawer.draw(canvas, view, recyclerView, state) }
         }
     }
 
     private fun List<RecyclerViewDecor>.drawRecyclerViewDecors(
-        canvas: Canvas,
-        recyclerView: RecyclerView,
-        state: RecyclerView.State
+            canvas: Canvas,
+            recyclerView: RecyclerView,
+            state: RecyclerView.State
     ) {
         forEach { it.draw(canvas, recyclerView, state) }
     }
 
     private fun drawOffset(viewType: Int, outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         associatedOffsets[viewType]
-            ?.drawer
-            ?.getItemOffsets(outRect, view, recyclerView, state)
+                ?.drawer
+                ?.getItemOffsets(outRect, view, recyclerView, state)
     }
 }

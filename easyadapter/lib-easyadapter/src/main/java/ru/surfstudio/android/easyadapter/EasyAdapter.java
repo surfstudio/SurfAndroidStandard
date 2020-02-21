@@ -214,6 +214,16 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
+     *
+     * @see FirstInvisibleItemController
+     *
+     * @return state of the property {@link FirstInvisibleItemController} enabled
+     */
+    public boolean isFirstInvisibleItemEnabled() {
+        return firstInvisibleItemEnabled;
+    }
+
+    /**
      * Set if the infinite scroll enabled.
      *
      * @param infiniteScroll make list infinite scrollable

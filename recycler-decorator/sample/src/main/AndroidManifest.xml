@@ -27,6 +27,9 @@
 
         <activity android:name=".EasyAdapterDecoratorActivity"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".ChatActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

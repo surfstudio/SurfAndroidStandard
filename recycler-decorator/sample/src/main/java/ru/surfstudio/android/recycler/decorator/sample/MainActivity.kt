@@ -22,5 +22,9 @@ class MainActivity : AppCompatActivity() {
         easy_adapter_decor_btn.setOnClickListener {
             startActivity(Intent(this, EasyAdapterDecoratorActivity::class.java))
         }
+
+        chat_btn.setOnClickListener {
+            startActivity(Intent(this, ChatActivity::class.java))
+        }
     }
 }
