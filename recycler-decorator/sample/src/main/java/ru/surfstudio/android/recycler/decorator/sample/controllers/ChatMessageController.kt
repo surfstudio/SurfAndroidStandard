@@ -2,17 +2,16 @@ package ru.surfstudio.android.recycler.decorator.sample.controllers
 
 import android.content.Context
 import android.graphics.*
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.chat_message_layout.view.*
+import kotlinx.android.synthetic.main.item_controller_message_time.view.*
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.easyadapter.item.BindableItem
-import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.controllers.ChatMessageDirection.INCOME
 import ru.surfstudio.android.recycler.decorator.sample.easydecor.BaseViewHolderDecor
@@ -40,6 +39,23 @@ class ChatMessageController : BindableItemController<ChatObject, ChatMessageCont
 
             itemView.chat_vh_root.gravity = gravity
             itemView.message_area_layout.gravity = gravity
+        }
+    }
+}
+
+class MessageTimeController : BindableItemController<String, MessageTimeController.Holder>() {
+
+    override fun getItemId(data: String): String {
+        return data
+    }
+
+    override fun createViewHolder(parent: ViewGroup): Holder {
+        return Holder(parent)
+    }
+
+    class Holder(parent: ViewGroup) : BindableViewHolder<String>(parent, R.layout.item_controller_message_time) {
+        override fun bind(data: String) {
+            itemView.time_tv.text = data
         }
     }
 }

@@ -5,8 +5,8 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.ozh.dd.example.round.RoundMode
-import com.ozh.dd.example.round.RoundOutlineProvider
+import ru.surfstudio.android.recycler.decorator.sample.round.RoundMode
+import ru.surfstudio.android.recycler.decorator.sample.round.RoundOutlineProvider
 import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

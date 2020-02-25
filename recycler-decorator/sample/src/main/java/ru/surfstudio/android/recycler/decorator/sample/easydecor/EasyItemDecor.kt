@@ -2,15 +2,20 @@ package ru.surfstudio.android.recycler.decorator.sample.easydecor
 
 import android.graphics.Canvas
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.item.BaseItem
+import ru.surfstudio.android.easyadapter.item.BindableItem
 import ru.surfstudio.android.easyadapter.item.NoDataItem
 import ru.surfstudio.android.recycler.decorator.Builder
 import ru.surfstudio.android.recycler.decorator.base.OffsetDecor
 import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.sample.controllers.ChatMessageController
+import ru.surfstudio.android.recycler.decorator.sample.controllers.ChatObject
+import java.lang.reflect.ParameterizedType
+import java.lang.reflect.Type
+import kotlin.reflect.KClass
 
 @Suppress("UNCHECKED_CAST")
 class BaseItemControllerDecoration<I : BaseItem<out RecyclerView.ViewHolder>>(
@@ -29,7 +34,9 @@ class BaseItemControllerDecoration<I : BaseItem<out RecyclerView.ViewHolder>>(
             return
         }
 
-        baseViewHolderDecor.draw(canvas, view, recyclerView, state, baseItem)
+        baseItem?.let { item ->
+            baseViewHolderDecor.draw(canvas, view, recyclerView, state, item)
+        }
     }
 }
 
@@ -41,8 +48,6 @@ class BaseItemControllerOffset<I : BaseItem<out RecyclerView.ViewHolder>>(
     override fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         val itemPosition = recyclerView.getChildAdapterPosition(view)
 
-//        Log.d("BaseItemControllerOffset","Call draw for position: $itemPosition")
-
         val adapter = recyclerView.adapter as EasyAdapter
 
         val baseItem = adapter.getItem(itemPosition) as? I
@@ -51,7 +56,9 @@ class BaseItemControllerOffset<I : BaseItem<out RecyclerView.ViewHolder>>(
             return
         }
 
-        baseViewHolderOffset.getItemOffsets(outRect, view, recyclerView, state, baseItem)
+        baseItem?.let { item ->
+            baseViewHolderOffset.getItemOffsets(outRect, view, recyclerView, state, item)
+        }
     }
 }
 
