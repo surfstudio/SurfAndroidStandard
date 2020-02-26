@@ -16,6 +16,7 @@
 * Add color styling to generateDependencyGraph task
 * ANDDEP-392 Add firebase app distribution and firebase crashlytics
 * ANDDEP-927 Add FirebaseCrashlyticsRemoteLoggingStrategy
+* ANDDEP-936 Remove Deprecated annotation from i-network module
 
 ## 0.4.0
 ##### Template

@@ -33,7 +33,6 @@ import ru.surfstudio.standard.i_network.network.BaseServerConstants;
  * Интерцептор с логикой работы простого кеша
  * если в запросе есть header: queryMode: ServerConstant.QUERY_MODE_FROM_SIMPLE_CACHE
  */
-@Deprecated
 public class SimpleCacheInterceptor implements Interceptor {
     public static final String VERSION_CHAR = "v";
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
