@@ -30,5 +30,7 @@ firebaseAppDistribution {
 ```
 1. В файле **ci/JenkinsfileTagJob.groovy** после `pipeline.init()`
 добавить `pipeline.useFirebaseDistribution = true`
+(для [библиотеки](https://github.com/surfstudio/jenkins-pipeline-lib)
+версии `version-2.0.0-SNAPSHOT`.
 
 [Документация](https://firebase.google.com/docs/app-distribution/android/distribute-gradle)
