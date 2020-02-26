@@ -29,7 +29,6 @@ import ru.surfstudio.standard.i_network.converter.gson.safe.SafeConverter;
  * предоставляет доступ к безопасным парсерам, которые предназначены для правильного парсинга ошибочных
  * ответов сервера
  */
-@Deprecated
 public class SafeConverterFactory {
 
     private Map<Class, Function<TypeToken, SafeConverter>> safeConverterCreators = new HashMap<>();
