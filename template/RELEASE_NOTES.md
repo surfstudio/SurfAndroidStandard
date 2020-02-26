@@ -16,6 +16,7 @@
 * Add color styling to generateDependencyGraph task
 * ANDDEP-392 Add firebase app distribution and firebase crashlytics
 * ANDDEP-927 Add FirebaseCrashlyticsRemoteLoggingStrategy
+* ANDDEP-392 Fix firebase crashlytics initialization
 
 ## 0.4.0
 ##### Template
