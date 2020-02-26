@@ -29,7 +29,6 @@ import ru.surfstudio.android.filestorage.encryptor.Encryptor;
 /**
  * фабрика простых кешей
  */
-@Deprecated
 public class SimpleCacheFactory {
 
     private final String cacheDir;
