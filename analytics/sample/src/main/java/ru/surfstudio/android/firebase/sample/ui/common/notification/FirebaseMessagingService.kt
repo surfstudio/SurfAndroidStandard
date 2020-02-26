@@ -26,19 +26,19 @@ class FirebaseMessagingService : FirebaseMessagingService() {
                 .inject(this)
     }
 
-    override fun onNewToken(newToken: String?) {
+    override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
         Logger.i("Новый Firebase токен: $newToken")
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Logger.i("Получено push-уведомление: " +
-                "title = [${remoteMessage?.notification?.title}], " +
-                "body = [${remoteMessage?.notification?.body}], " +
-                "data = [${remoteMessage?.data}]")
+                "title = [${remoteMessage.notification?.title}], " +
+                "body = [${remoteMessage.notification?.body}], " +
+                "data = [${remoteMessage.data}]")
 
-        remoteMessage?.let {
+        remoteMessage.let {
             pushHandler.handleMessage(this,
                     it.messageId?.hashCode() ?: -1,
                     it.notification?.title ?: "",

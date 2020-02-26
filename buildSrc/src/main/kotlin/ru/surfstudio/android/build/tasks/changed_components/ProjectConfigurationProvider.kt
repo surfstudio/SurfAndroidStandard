@@ -52,7 +52,6 @@ class ProjectConfigurationProvider(
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
             TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
             runCommandWithResult(createCommandForRevisionToCompare(revisionToCompare), File(currentDirectory))
-
         }
 
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)
