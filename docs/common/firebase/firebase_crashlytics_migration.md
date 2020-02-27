@@ -12,12 +12,6 @@ buildscript {
 ```
 Добавить строку `apply plugin: 'com.google.firebase.crashlytics'` после
 `apply plugin: 'kotlin-kapt'`
-В конец блока `dependencies` добавить
-```
-api("com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion") {
-    transitive = true
-}
-```
 1. В **app/src/main/AndroidManifest.xml** удалить блок
 ```
 <meta-data
@@ -32,6 +26,12 @@ api "com.google.firebase:firebase-messaging:$firebaseMessagingVersion"
 1. В **base_feature/build.gradle** удалить блок
 ```
 api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
+    transitive = true
+}
+```
+и в конец блока `dependencies` добавить
+```
+api("com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion") {
     transitive = true
 }
 ```
