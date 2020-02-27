@@ -18,7 +18,6 @@ package ru.surfstudio.standard.i_network.network.error;
 /**
  * коды ошибок
  */
-@Deprecated
 public class HttpCodes {
 
     public static final int CODE_200 = 200; //успех

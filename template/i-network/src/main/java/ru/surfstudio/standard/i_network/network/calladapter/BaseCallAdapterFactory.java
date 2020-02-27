@@ -37,7 +37,6 @@ import ru.surfstudio.standard.i_network.network.error.NoInternetException;
  * кроме конвертирования запроса в Observable, выполняет следующие функции:
  * Конвертирует IOException в NoConnectionException
  */
-@Deprecated
 public abstract class BaseCallAdapterFactory extends CallAdapter.Factory {
 
     private RxJava2CallAdapterFactory rxJavaCallAdapterFactory = RxJava2CallAdapterFactory.create();

@@ -432,7 +432,7 @@
   {
     "id": "core-app",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "deprecated/core-app",
     "libs": [
@@ -493,7 +493,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 9,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -1060,7 +1060,7 @@
   {
     "id": "logger",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "logger",
     "libs": [
@@ -1121,7 +1121,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1759,7 +1759,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 11,
     "stable": false,
     "dir": "template",
     "libs": [],

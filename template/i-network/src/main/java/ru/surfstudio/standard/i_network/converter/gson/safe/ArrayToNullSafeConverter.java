@@ -26,7 +26,6 @@ import com.google.gson.reflect.TypeToken;
  *
  * @param <T>
  */
-@Deprecated
 public class ArrayToNullSafeConverter<T> extends SafeConverter<T> {
 
     public ArrayToNullSafeConverter(TypeToken<T> type) {
