@@ -82,7 +82,7 @@ ext {
     assertJVersion = '3.11.1'                   //http://bit.ly/2mXO1EX
 
     //surf
-    androidStandardVersion = '0.5.0-alpha.8-MAGNIT.1'    //версия version-plugin
+    androidStandardVersion = '0.5.0-alpha.8'    //версия version-plugin
 
     //debug
     stethoVersion = '1.5.0'                     //https://bit.ly/2eZ3YI7
