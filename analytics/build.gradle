@@ -1,8 +1,0 @@
-apply from: '../androidModule.gradle'
-
-dependencies {
-    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
-    implementation "com.annimon:stream:$annimonStreamVersion"
-}
-
-gradle.ext.configAndroidStandardDependencies this

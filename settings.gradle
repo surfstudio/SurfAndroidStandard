@@ -1,12 +1,14 @@
-apply from: 'modules.gradle'
+include ':android-standard-version-plugin'
+import ru.surfstudio.android.build.Initializator
+import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.model.module.Module
 
-gradle.ext.extractModules('modules.json').each {
-    include it.name
+def currentBuildDirectory = gradle.startParameter.currentDir.path
+
+Initializator.init(currentBuildDirectory)
+Components.getModules().forEach { Module module ->
+    include module.getGradleModuleName()
+    project(module.getGradleModuleName()).projectDir = new File(module.directoryPath)
 }
 
-gradle.ext.extractModules('samples.json').each {
-    include it.name
-}
-
-apply from: 'template/settings.gradle'
-apply from: 'security-sample-template/settings.gradle'
+apply from: 'buildSrc/buildCache.gradle'

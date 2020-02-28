@@ -1,26 +1,32 @@
 apply from: '../commonModule.gradle'
 apply from: '../commonKaptModule.gradle'
-apply from: '../commonTestModule.gradle'
 
 dependencies {
-    api project("$templatePrefix:base")
+    api project(":base")
+
+    implementation "androidx.multidex:multidex:$multidexVersion"
 
     //debug
-    releaseImplementation project("$templatePrefix:f-debug-no-op")
-    debugImplementation project("$templatePrefix:f-debug")
-    qaImplementation project("$templatePrefix:f-debug")
+    releaseImplementation project(":f-debug-no-op")
+    debugImplementation project(":f-debug")
+    qaImplementation project(":f-debug")
 
-    implementation project("$templatePrefix:i-auth")
-    implementation project("$templatePrefix:i-network")
-    implementation project("$templatePrefix:i-token")
-    implementation project("$templatePrefix:i-initialization")
-    implementation project("$templatePrefix:i-session")
+    implementation project(":i-push-notification")
+    implementation project(":i-auth")
+    implementation project(":i-network")
+    implementation project(":i-token")
+    implementation project(":i-initialization")
+    implementation project(":i-session")
 
     api "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
     api "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Version"
     api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
 
-    implementation("com.google.firebase:firebase-messaging:$firebaseMessagingVersion") {
-        exclude group: "com.google.firebase", module: "firebase-iid"
+    api("com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion") {
+        transitive = true
     }
+    
+    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
+
+    implementation "com.akaita.java:rxjava2-debug:$rxJava2DebugVersion"
 }

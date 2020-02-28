@@ -1,0 +1,92 @@
+import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.tasks.*
+import ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_repositories.*
+import ru.surfstudio.android.build.tasks.check_dependencies_stable.*
+import ru.surfstudio.android.build.tasks.deploy_to_mirror.*
+import ru.surfstudio.android.build.tasks.generate_release_notes_diff.*
+
+task checkStandardDependenciesStableTask(type: CheckStandardDependenciesStableTask) //release
+
+task checkStableComponentStandardDependenciesStableTask(type: CheckStableComponentStandardDependenciesStableTask) //pr
+
+task checkExistingDependencyArtifactsInArtifactory(type: CheckExistingDependencyArtifactsInArtifactoryTask) //release
+
+task checkExistingDependencyArtifactsInBintray(type: CheckExistingDependencyArtifactsInBintrayTask) //release
+
+task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstableTask) //release
+
+task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
+
+task createProjectConfiguration(type: CreateProjectConfigurationTask)
+
+task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
+    dir = file('./temp')
+    tasks = ['CreateProjectConfiguration']
+    doFirst {
+        def pathToProject = null
+        def revision = null
+        if (project.hasProperty('pathToProject')) {
+            pathToProject = project.findProperty('pathToProject')
+        } else {
+            throw new GradleException("No arguments found")
+        }
+        if (project.hasProperty('revision')) {
+            revision = project.findProperty('revision')
+        } else {
+            throw new GradleException("No arguments found")
+        }
+        startParameter.projectProperties = [pathToProject: pathToProject, revision: revision]
+    }
+}
+
+task incrementUnstableChangedComponents(type: IncrementUnstableChangedComponentsTask) // dev
+
+task checkSameArtifactsInArtifactory(type: CheckSameArtifactsInArtifactoryTask) //release
+
+task checkSameArtifactsInBintray(type: CheckSameArtifactsInBintrayTask) //release
+
+task checkUnstableToStableChanged(type: CheckUnstableToStableChangedTask) // pr
+
+task checkComponentStable(type: CheckComponentStableTask) //release
+
+task checkVersionEqualsComponentVersion(type: CheckVersionEqualsComponentVersionTask) //release
+
+task generateDataForPlugin(type: GenerateDataForPluginTask) //dev //project-snapshot
+
+task incrementGlobalUnstableVersion(type: IncrementGlobalUnstableVersionTask) //dev
+
+task incrementProjectSnapshotVersion(type: IncrementProjectSnapshotVersionTask) // project-snapshot
+
+task checkReleaseNotesContainCurrentVersion(type: CheckReleaseNotesContainCurrentVersion) //pr //release
+
+task checkReleaseNotesNotContainCyrillic(type: CheckReleaseNotesNotContainCyrillic) //pr //release
+
+task checkStableArtifactsExistInArtifactoryTask(type: CheckStableArtifactsExistInArtifactoryTask) //pr
+
+task checkStableArtifactsExistInBintrayTask(type: CheckStableArtifactsExistInBintrayTask) //pr
+
+task setComponentAlphaCounterToZero(type: SetComponentAlphaCounterToZeroTask) //release
+
+task checkReleaseNotesChanged(type: CheckReleaseNotesChangedTask) //pr
+
+task deployToMirror(type: DeployToMirrorTask)
+
+task generateModulesNamesFile(type: GenerateModuleNameFileTask)
+
+task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
+
+task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotProjectSnapshotTask) // dev, release, pr
+
+task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) // release
+
+task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
+
+task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
+
+task uploadArchiveComponentsTask(type: UploadArchiveComponentsTask){
+    Components.libraries.each {
+        if(it.artifactName != "") {
+            dependsOn ":${it.name}:uploadArchives"
+        }
+    }
+}

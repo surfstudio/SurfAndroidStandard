@@ -1,0 +1,16 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.animations.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "animations")
+    DependencyConfigurator.projectImplementation(project, "sample-common")
+
+    DependencyConfigurator.implementation(project, "com.jakewharton.timber:timber")
+}

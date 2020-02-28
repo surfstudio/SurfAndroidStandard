@@ -1,0 +1,8 @@
+apply from: "$rootDir/buildSrc/baseBuild.gradle"
+
+android {
+    defaultConfig {
+        minSdkVersion project.ext.sampleMinSdkVersion
+        multiDexEnabled true
+    }
+}

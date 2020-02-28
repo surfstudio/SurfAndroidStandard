@@ -1,0 +1,20 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.dagger.dagger.scope.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "shared-pref")
+
+    DependencyConfigurator.implementation(project, "com.jakewharton.rxbinding2:rxbinding")
+    DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
+    DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")
+    DependencyConfigurator.implementation(project, "androidx.core:core-ktx")
+
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}

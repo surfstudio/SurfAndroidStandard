@@ -1,14 +1,24 @@
 apply from: '../android-standard/androidStandardConfig.gradle'
-
+import groovy.json.JsonSlurper
 // Скрипт для включения модулей android-standard из локального репозитория в settings.gradle
 
 if (gradle.ext.androidStandard.debugEnabled) {
-    // Подключаем все модули android-standard, выполнив скрипт из локального репозитория
-    def androidStandardDebugDir = gradle.ext.androidStandard.debugDir
-    apply from: "$androidStandardDebugDir/modules.gradle"
-    gradle.ext.extractModules("$androidStandardDebugDir/modules.json").each {
-        def moduleName = "$it.name"
-        include "$moduleName"
-        project(":$moduleName").projectDir = new File("$androidStandardDebugDir/$moduleName")
+    try {
+        def androidStandardDebugDir = gradle.ext.androidStandard.debugDir
+        def components = new JsonSlurper().parse(new File("$androidStandardDebugDir/buildSrc/components.json"), 'utf-8')
+        assert components instanceof List
+        includeBuild("$androidStandardDebugDir") {
+            dependencySubstitution {
+                components.each { component ->
+                    if (component.libraries != null && !component.libraries.isEmpty()) {
+                        component.libraries.each { library ->
+                            substitute module("ru.surfstudio.android:${library.artifactName}") with project(":${library.artifactName}")
+                        }
+                    }
+                }
+            }
+        }
+    } catch (FileNotFoundException ignored) {
+        logger.error("file buildSrc/components.json  in local android standard folder  not found")
     }
 }

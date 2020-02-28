@@ -5,13 +5,13 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.GlobalNavigat
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.message.MessageController
-import ru.surfstudio.android.network.error.ConversionException
-import ru.surfstudio.android.network.error.HttpCodes
-import ru.surfstudio.android.network.error.NoInternetException
+import ru.surfstudio.standard.i_network.network.error.ConversionException
+import ru.surfstudio.standard.i_network.network.error.HttpCodes
+import ru.surfstudio.standard.i_network.network.error.NoInternetException
 import ru.surfstudio.android.template.base_feature.R
-import ru.surfstudio.standard.base.error.HttpProtocolException
-import ru.surfstudio.standard.base.error.NetworkErrorHandler
-import ru.surfstudio.standard.base.error.NonAuthorizedException
+import ru.surfstudio.standard.i_network.error.HttpProtocolException
+import ru.surfstudio.standard.i_network.error.NetworkErrorHandler
+import ru.surfstudio.standard.i_network.error.NonAuthorizedException
 import javax.inject.Inject
 
 /**

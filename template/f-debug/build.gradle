@@ -1,10 +1,15 @@
 apply from: '../commonModule.gradle'
+
 apply plugin: 'kotlin-kapt'
+apply plugin: 'ru.surfstudio.android'
 
 dependencies {
-    implementation project("$templatePrefix:base")
+    implementation project(":base")
+    implementation project(":i-push-notification")
+    implementation project(":i-network")
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
 
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
@@ -26,17 +31,18 @@ dependencies {
 
     //rangebar
     implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutXVersion}"
 
-    api project("$templatePrefix:domain")
+    api project(":domain")
+    implementation project(":i-push-notification")
 
     gradle.ext.androidStandard.api(
             this,
-            "$surfCoreVersionName",
             [
+                    "activity-holder",
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
-                    "core-app",
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
@@ -46,8 +52,6 @@ dependencies {
                     "dagger-scope",
                     "logger",
                     "filestorage",
-                    "network",
-                    "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",
@@ -63,8 +67,7 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"],
-            null, //todo remove for real app
-            "LOCAL"  //todo remove for real app
+                    "rxbus"
+            ]
     )
 }

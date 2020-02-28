@@ -1,9 +1,0 @@
-apply from: '../androidModule.gradle'
-
-dependencies {
-    api "androidx.exifinterface:exifinterface:$androidxExitInterfaceVersion"
-}
-
-gradle.ext.configAndroidStandardDependencies(this, [
-        'core-ui'
-])

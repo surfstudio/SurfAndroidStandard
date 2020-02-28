@@ -1,23 +1,17 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//todo uncoment for real app
-//apply plugin: 'io.fabric'
+//apply plugin: 'com.google.firebase.crashlytics' todo uncoment for real app
+//apply plugin: 'com.google.firebase.appdistribution' todo uncoment for real app
 
 apply from: '../config.gradle'
-apply from: '../commonTestModule.gradle'
 
 apply from: '../setLabelToIcon.gradle'
 apply from: '../keystore/signingConfigs.gradle'
 apply from: '../buildTypes.gradle'
 apply from: '../commonAndroidDefaultConfig.gradle'
+apply from: '../androidTestConfiguration.gradle'
 
 def config = extensions.getByName("ext")
 
@@ -28,19 +22,20 @@ android {
 
         versionCode config["versionCode"]
         versionName config["versionName"]
-
-        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        
+        //setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)") //todo uncomment for real app
 
         testBuildType 'debug' //todo replace to 'qa' for real app
     }
 }
 
 dependencies {
-    implementation project("$templatePrefix:base")
-    implementation project("$templatePrefix:base_feature")
-    implementation project("$templatePrefix:f-auth")
-    implementation project("$templatePrefix:f-main")
-    implementation project("$templatePrefix:f-splash")
+    implementation project(":base")
+    implementation project(":base_feature")
+    implementation project(":i-push-notification")
+    implementation project(":f-auth")
+    implementation project(":f-main")
+    implementation project(":f-splash")
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
@@ -49,9 +44,11 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
-    api("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
-        transitive = true
-    }
+    implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
+    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
+
+    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
 }
 
 configurations.all {

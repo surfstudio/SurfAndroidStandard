@@ -2,7 +2,7 @@ package ru.surfstudio.standard.application.notification
 
 import dagger.Module
 import dagger.Provides
-import ru.surfstudio.android.core.app.ActiveActivityHolder
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.android.notification.PushHandler
 import ru.surfstudio.android.notification.impl.DefaultPushHandler

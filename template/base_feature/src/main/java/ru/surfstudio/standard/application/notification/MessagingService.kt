@@ -4,8 +4,8 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.notification.PushHandler
-import ru.surfstudio.android.notification.interactor.push.storage.FcmStorage
 import ru.surfstudio.standard.application.app.di.AppInjector
+import ru.surfstudio.standard.i_push_notification.storage.FcmStorage
 import javax.inject.Inject
 
 /**
@@ -36,7 +36,7 @@ class MessagingService : FirebaseMessagingService() {
         //todo отправить новый токен на сервер для получения push-уведомлений
     }
 
-    override fun onMessageReceived(remoteMessage: RemoteMessage?) {
+    override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         Logger.i("Получено push-уведомление: " +
                 "title = [${remoteMessage?.notification?.title}], " +
@@ -45,6 +45,7 @@ class MessagingService : FirebaseMessagingService() {
 
         remoteMessage?.let {
             pushHandler.handleMessage(this,
+                    it.messageId?.hashCode() ?: -1,
                     it.notification?.title ?: "",
                     it.notification?.body ?: "",
                     it.data)

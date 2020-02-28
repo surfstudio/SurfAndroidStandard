@@ -304,7 +304,65 @@ nullableInt?.let {
 
 * [**Delegates**][delegates]
 
-* Созд
+## Настройка форматирования для проекта
+
+### Локальное форматирование
+
+Настройка форматирования для AndroidStudio
+Из-за размещения настроек под vcs изменения распространятся на всю команду.
+
+1. Перенести содержимое [.idea][ideaCodeSettings] в корневую директорию 
+.idea проекта
+2. Добавить в корневой .gitignore  
+`!.idea/codeStyles`  
+`!.idea/inspectionProfiles`  
+И заменить в нем  
+`.idea` на `.idea/*`
+3. `$git add .idea/`  
+   `$git commit -a -m "Code formatting”`
+4. Убрать из `gradle.properies` `kotlin.code.style={official}` (если имеется)
+5. Запушить изменения
+
+### Форматирование для CI
+#### Установка
+1. Загрузить [ktFormatter.gradle][ktFormatter] в директорию {project}/scripts
+рабочего проекта.
+2. Добавить
+`ktlintPluginVersion = '2.1.0'               //https://bit.ly/2YLc3n8`  
+в .gradle файл содержащий версии зависимостей. Как правило это {project}/config.gradle  
+Имеет смысл проверить и при возможности обновить версию плагина.
+3. Добавить   
+`apply from: "scripts/ktFormatter.gradle"`  
+в корневой build.gradle проекта.
+4. Добавить параметр в gradle.properties (если нет)  
+`surf_maven_libs_url=https\://artifactory.surfstudio.ru/artifactory/libs-release-local`
+5. Проверить работоспособность командой  
+`./gradlew ktlintFilesFormat -PlintFiles=relative_path_to_file`    
+где relative_path_to_file это относительный путь к файлу с заранее испорченным форматированием.
+6. Запушить изменение в основную ветку спринта. Соответственно, автоформатирование будет работать только в тех ветках, которые содержат коммит с изменениями выше
+7. В master ветке проекта в файле `ci/JenkinsfilePullRequestJob.groovy` добавить следующие строки в любое место между `def pipeline = new PrPipelineAndroid(this)` и `pipeline.run()`  
+```
+pipeline.getStage(pipeline.CODE_STYLE_FORMATTING).strategy = StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+pipeline.getStage(pipeline.UPDATE_CURRENT_COMMIT_HASH_AFTER_FORMAT).strategy = StageStrategy.UNSTABLE_WHEN_STAGE_ERROR
+```  
+И запушить изменения
+
+Для проверки можно использовать следующий [коммит](https://bitbucket.org/surfstudio/unicredit-android/commits/5b0ef710aa7387123d650378b6aefa0261ba5870#chg-config.gradle) 
+с полной установкой форматирования.
+
+#### Настройка для CI
+Можно изменять список правил для форматирования добавляя свои или удаляя существующие    
+Для отключения любого из них достаточно добавить
+```
+task ktlintFilesFormat(type: org.jmailen.gradle.kotlinter.tasks.FormatTask) {
+...
+disabledRules = ["{имя_правила}"]
+...
+}
+```
+{имя_правила} можно получить из   
+[Списка существующих правил](https://github.com/pinterest/ktlint/tree/master/ktlint-ruleset-standard/src/main/kotlin/com/pinterest/ktlint/ruleset/standard)  
+в классе правила в строке декларирования класса `: Rule("имя_правила")` 
 
 
 [conv]: https://kotlinlang.org/docs/reference/coding-conventions.html
@@ -314,5 +372,7 @@ nullableInt?.let {
 [r_naming]: https://github.com/RedMadRobot/kotlin-style-guide#%D0%9F%D1%80%D0%B0%D0%B2%D0%B8%D0%BB%D0%B0-%D0%B8%D0%BC%D0%B5%D0%BD%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F
 [special_chars]: https://android.github.io/kotlin-guides/style.html#special-characters
 [delegates]: kotlin_delegates.md
+[ktFormatter]: https://bitbucket.org/surfstudio/android-standard/downloads/ktFormatter.gradle
+[ideaCodeSettings]: https://bitbucket.org/surfstudio/android-standard/downloads/ideaProjectConfig.zip
 
 

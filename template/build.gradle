@@ -4,17 +4,19 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://plugins.gradle.org/m2/' }
+        maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 
     dependencies {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
-        classpath "io.fabric.tools:gradle:$fabricVersion"
+        classpath "com.google.firebase:firebase-appdistribution-gradle:$firebaseAppDistributionVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsGradleVersion"
         classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
+        classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"
     }
 }
 
@@ -22,7 +24,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url "https://artifactory.surfstudio.ru/artifactory/libs-release-local" }
         maven { url "https://dl.bintray.com/terrakok/terramaven" }
         maven { url 'https://jitpack.io' }
@@ -31,20 +32,6 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-/**
- * "Build scan" - является общей и централизованной записью сборки которая дает представление о том, что произошло и почему.
- * С этим плагином вы можете опубликовать свои записи сборки на https://scans.gradle.com бесплатно.
- *
- * пример использования: ./gradlew build --scan
- */
-//apply plugin: "com.gradle.build-scan" todo убрать после инициализации проекта
-
-buildScan {
-    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
-    termsOfServiceAgree = 'yes'
-    allowUntrustedServer = true
 }
 
 apply from: "scripts/dependenciesModules.gradle"

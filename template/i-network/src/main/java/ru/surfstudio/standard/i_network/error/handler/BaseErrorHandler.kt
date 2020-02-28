@@ -1,6 +1,6 @@
 package ru.surfstudio.standard.i_network.error.handler
 
-import ru.surfstudio.standard.base.error.HttpProtocolException
+import ru.surfstudio.standard.i_network.error.HttpProtocolException
 
 /**
  * Базовый класс обработки ошибок сервера

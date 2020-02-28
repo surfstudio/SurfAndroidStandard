@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">Mvp binding sample</string>
-    <string name="win_message">You win</string>
-    <string name="lose_message">You broke it</string>
-</resources>

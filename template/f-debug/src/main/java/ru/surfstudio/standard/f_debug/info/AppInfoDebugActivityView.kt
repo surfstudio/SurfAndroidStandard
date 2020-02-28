@@ -41,14 +41,14 @@ class AppInfoDebugActivityView : BaseRenderableActivityView<AppInfoDebugScreenMo
     @SuppressLint("StringFormatMatches")
     private fun initContent() {
         with(packageManager.getPackageInfo(packageName, 0)) {
-            app_info_version_code_tv.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                 getString(R.string.app_info_version_code_text, longVersionCode)
+            debug_app_info_version_code_tv.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                 getString(R.string.debug_app_info_version_code_text, longVersionCode)
             } else {
-                getString(R.string.app_info_version_code_text, versionCode)
+                getString(R.string.debug_app_info_version_code_text, versionCode)
             }
-            app_info_version_name_tv.text = getString(R.string.app_info_version_name_text, versionName)
+            debug_app_info_version_name_tv.text = getString(R.string.debug_app_info_version_name_text, versionName)
         }
-        app_info_package_name_tv.text = getString(R.string.app_info_package_name_text, packageName)
-        app_info_build_type_tv.text = getString(R.string.app_info_build_type_text, BuildConfig.BUILD_TYPE)
+        debug_app_info_package_name_tv.text = getString(R.string.debug_app_info_package_name_text, packageName)
+        debug_app_info_build_type_tv.text = getString(R.string.debug_app_info_build_type_text, BuildConfig.BUILD_TYPE)
     }
 }

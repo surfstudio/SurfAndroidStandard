@@ -49,7 +49,6 @@ gradle.ext {
      */
     androidStandard.api = {
         context,
-        androidStandardVersion,
         modules,
         closure = null,
         sourceType = ModuleSourceType.SETTINGS_DEFINED.toString() ->
@@ -68,35 +67,24 @@ gradle.ext {
                     break
             }
 
+            context.dependencies {
+                modules.each { artifactName ->
+                    def version = context.androidStandard.version(artifactName)
+                    if (closure == null) {
+                        api("ru.surfstudio.android:$artifactName:$version")
+                    } else {
+                        api("ru.surfstudio.android:$artifactName:$version", closure)
+                    }
+                }
+            }
             if (isRemoteModules) {
-                // Подключение модулей из artifactory
-                context.dependencies {
-                    modules.each {
-                        if (closure == null) {
-                            api "ru.surfstudio.android:$it:$androidStandardVersion"
-                        } else {
-                            api("ru.surfstudio.android:$it:$androidStandardVersion", closure)
-                        }
-                    }
-                }
-            } else {
-                // Подключение модулей из локального репозитория для отладки
-                context.dependencies {
-                    modules.each {
-                        if (closure == null) {
-                            api context.project(":$it")
-                        } else {
-                            api(context.project(":$it"), closure)
-                        }
-                    }
-                }
                 // Установка com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
                 // с помощью рефлексии для избежания ошибок при конфликте версий GoogleServices
                 try {
                     def pluginClass = new GroovyClassLoader().loadClass("com.google.gms.googleservices.GoogleServicesPlugin")
                     pluginClass.getField("config").get(null).disableVersionCheck = true
                 } catch (Throwable e) {
-                    logger.error("Ошибка установки GoogleServicesPlugin.config.disableVersionCheck: $e.message")
+                    logger.error(e.message)
                 }
             }
     }

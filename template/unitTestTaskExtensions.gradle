@@ -1,0 +1,69 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+
+final String TEST_TYPE_PROPERTY_NAME = "testType"
+final String TEST_NAME_PATTERN = "^test\\w*UnitTest\$"
+
+final String CHECK_API_TESTS_CONSOLE_PARAMETER = "check_api"
+final String WAIT_API_TESTS_CONSOLE_PARAMETER = "wait_api"
+
+final String UNIT_TEST_TYPE = "unit"
+final String API_TEST_TYPE = "api"
+final String WAIT_API_TEST_TYPE = "waitApi"
+
+final String API_TEST_RUNNER = "@RunWith(ApiTestRunner"
+final String TEST_ANNOTATION = "@Test"
+
+final String JAVA_FILE_EXTENSIONS = ".java"
+final String KOTLIN_FILE_EXTENSIONS = ".kt"
+final String API_TEST_FLAG_VALUE = "true"
+
+// Данная надстройка над тестами позволяет запускать разные виды тестов используя флаг -PtestType.
+tasks.whenTaskAdded { task ->
+    if (task.name.matches(TEST_NAME_PATTERN)) {
+
+        if (project.hasProperty(TEST_TYPE_PROPERTY_NAME)) {
+
+            String ps = project.property(TEST_TYPE_PROPERTY_NAME)
+            List<String> testType = ps.split(",")
+
+            task.doFirst {
+                List<String> excludeCandidatesClasses = []
+                android.sourceSets.test.getJavaDirectories().forEach { testDir ->
+                    if (testDir.exists()) {
+                        String prefix = "${testDir}/"
+                        testDir.traverse { File testFile ->
+                            if (testFile.absolutePath.endsWith(KOTLIN_FILE_EXTENSIONS) || testFile.absolutePath.endsWith(JAVA_FILE_EXTENSIONS)) {
+                                String testContent = new String(Files.readAllBytes(Paths.get(testFile.absolutePath)))
+
+                                if (testContent.contains(TEST_ANNOTATION)) {
+
+                                    boolean isJustUnitTests = testType.size() == 1 && testType.contains(UNIT_TEST_TYPE)
+                                    boolean isApiTest = testType.contains(API_TEST_TYPE)
+                                    boolean isWaitApiTest = testType.contains(WAIT_API_TEST_TYPE)
+                                    boolean isApiRunner = testContent.contains(API_TEST_RUNNER)
+
+                                    if (isJustUnitTests && isApiRunner) {
+                                        excludeCandidatesClasses.add(Utils.getTestClassName(testFile, prefix))
+                                    }
+
+                                    if ((isApiTest || isWaitApiTest) && isApiRunner) {
+                                        if (isApiTest) systemProperty CHECK_API_TESTS_CONSOLE_PARAMETER, API_TEST_FLAG_VALUE
+                                        if (isWaitApiTest) systemProperty WAIT_API_TESTS_CONSOLE_PARAMETER, API_TEST_FLAG_VALUE
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                exclude(excludeCandidatesClasses)
+            }
+        }
+    }
+}
+
+class Utils {
+    static String getTestClassName(File testFile, String prefix) {
+        (testFile.absolutePath - prefix).replace(".kt", ".*").replace(".java", ".*")
+    }
+}

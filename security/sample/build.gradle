@@ -1,0 +1,37 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.security.sample"
+    }
+    buildTypes {
+        debug {
+            debuggable true
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "false"
+        }
+        release {
+            debuggable false
+            buildConfigField "boolean", "CHECK_DEBUGGABLE", "true"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "security")
+    DependencyConfigurator.projectImplementation(project, "filestorage")
+    DependencyConfigurator.projectImplementation(project, "picture-provider")
+
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}
