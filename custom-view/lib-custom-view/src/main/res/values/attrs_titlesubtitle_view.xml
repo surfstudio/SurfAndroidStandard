@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="TitleSubtitleView">
+        <attr name="titleText" format="string" />
+        <attr name="titleTextColor" format="color" />
+        <attr name="titleTextSize" format="dimension" />
+        <attr name="titleLineSpacingExtra" format="dimension" />
+        <attr name="titlePaddingStart" format="dimension" />
+        <attr name="titlePaddingTop" format="dimension" />
+        <attr name="titlePaddingEnd" format="dimension" />
+        <attr name="titlePaddingBottom" format="dimension" />
+        <attr name="titleLines" format="integer" />
+        <attr name="titleMaxLines" format="integer" />
+        <attr name="titleTextAppearance" format="reference" />
+        <attr name="titleGravity">
+            <flag name="bottom" value="80" />
+            <flag name="center" value="17" />
+            <flag name="center_horizontal" value="1" />
+            <flag name="center_vertical" value="16" />
+            <flag name="clip_horizontal" value="8" />
+            <flag name="clip_vertical" value="128" />
+            <flag name="end" value="8388613" />
+            <flag name="left" value="3" />
+            <flag name="right" value="5" />
+            <flag name="start" value="8388611" />
+            <flag name="top" value="48" />
+        </attr>
+        <attr name="titleBackgroundColor" format="color" />
+        <attr name="titleEllipsize">
+            <flag name="none" value="0" />
+            <flag name="start" value="1" />
+            <flag name="middle" value="2" />
+            <flag name="end" value="3" />
+            <flag name="marquee" value="4" />
+        </attr>
+        <attr name="titleVisibility">
+            <flag name="visible" value="0" />
+            <flag name="invisible" value="1" />
+            <flag name="gone" value="2" />
+        </attr>
+        <attr name="titleDrawablePadding" format="dimension" />
+        <attr name="titleDrawableStart" format="reference" />
+        <attr name="titleDrawableEnd" format="reference" />
+        <attr name="titleDrawableTop" format="reference" />
+        <attr name="titleDrawableBottom" format="reference" />
+
+        <attr name="subTitleText" format="string" />
+        <attr name="subTitleTextColor" format="color" />
+        <attr name="subTitleTextSize" format="dimension" />
+        <attr name="subTitleLineSpacingExtra" format="dimension" />
+        <attr name="subTitlePaddingStart" format="dimension" />
+        <attr name="subTitlePaddingTop" format="dimension" />
+        <attr name="subTitlePaddingEnd" format="dimension" />
+        <attr name="subTitlePaddingBottom" format="dimension" />
+        <attr name="subTitleLines" format="integer" />
+        <attr name="subTitleMaxLines" format="integer" />
+        <attr name="subTitleTextAppearance" format="reference" />
+        <attr name="subTitleGravity">
+            <flag name="bottom" value="80" />
+            <flag name="center" value="17" />
+            <flag name="center_horizontal" value="1" />
+            <flag name="center_vertical" value="16" />
+            <flag name="clip_horizontal" value="8" />
+            <flag name="clip_vertical" value="128" />
+            <flag name="end" value="8388613" />
+            <flag name="left" value="3" />
+            <flag name="right" value="5" />
+            <flag name="start" value="8388611" />
+            <flag name="top" value="48" />
+        </attr>
+        <attr name="subTitleBackgroundColor" format="color" />
+        <attr name="subTitleEllipsize">
+            <flag name="none" value="0" />
+            <flag name="start" value="1" />
+            <flag name="middle" value="2" />
+            <flag name="end" value="3" />
+            <flag name="marquee" value="4" />
+        </attr>
+        <attr name="subTitleVisibility">
+            <flag name="visible" value="0" />
+            <flag name="invisible" value="1" />
+            <flag name="gone" value="2" />
+        </attr>
+        <attr name="subTitleDrawablePadding" format="dimension" />
+        <attr name="subTitleDrawableStart" format="reference" />
+        <attr name="subTitleDrawableEnd" format="reference" />
+        <attr name="subTitleDrawableTop" format="reference" />
+        <attr name="subTitleDrawableBottom" format="reference" />
+
+    </declare-styleable>
+</resources>

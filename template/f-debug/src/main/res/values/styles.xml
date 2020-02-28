@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Transparent" parent="AppTheme">
+    <style name="Theme.DebugTransparent" parent="AppTheme">
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -10,10 +10,10 @@
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
 
-    <style name="RebootDialogButton">
+    <style name="DebugRebootDialogButton">
         <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/debug_colorPrimary</item>
     </style>
 
 </resources>

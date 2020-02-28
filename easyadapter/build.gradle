@@ -1,8 +1,0 @@
-apply from: '../androidModule.gradle'
-
-dependencies {
-    api "androidx.recyclerview:recyclerview:$androidxRecyclerViewVersion"
-    implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
-}
-
-gradle.ext.configAndroidStandardDependencies this

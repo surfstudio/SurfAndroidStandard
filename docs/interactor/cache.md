@@ -38,8 +38,8 @@
 С решением этой проблемы может помочь механизм [etag][etag].
 [Гибридные запросы][hybrid] помогут конкатенировать данные из кеша и из сети.
 
-[etag]: ../../network/docs/etag.md
-[hybrid]: ../../network/docs/hybrid.md
-[simple_cache]: ../../network/docs/url_cache.md
-[file_cache]: ../../filestorage/README.md
-[network]: ../../network/README.md
+[etag]: ../../deprecated/network/lib-network/docs/etag.md
+[hybrid]: ../../deprecated/network/lib-network/docs/hybrid.md
+[simple_cache]: ../../deprecated/network/lib-network/docs/url_cache.md
+[file_cache]: ../../filestorage/lib-filestorage/README.md
+[network]: ../../deprecated/network/lib-network/docs/usage.md

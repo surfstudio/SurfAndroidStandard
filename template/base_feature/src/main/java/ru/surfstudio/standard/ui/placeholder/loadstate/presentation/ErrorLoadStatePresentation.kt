@@ -30,7 +30,7 @@ class ErrorLoadStatePresentation(
                 .inflate(R.layout.layout_state_error, placeHolder, false)
                 .apply {
                     messageView = error_load_state_tv
-                    reloadButton = error_load_state_b
+                    reloadButton = error_load_state_btn
                 }
     }
 

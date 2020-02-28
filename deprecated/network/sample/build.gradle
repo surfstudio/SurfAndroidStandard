@@ -1,0 +1,24 @@
+import ru.surfstudio.android.build.DependencyConfigurator
+
+apply from: "$rootDir/buildSrc/androidSample.gradle"
+
+android {
+    defaultConfig {
+        applicationId "ru.surfstudio.android.network.sample"
+    }
+}
+
+dependencies {
+    DependencyConfigurator.projectImplementation(project, "network")
+    DependencyConfigurator.projectImplementation(project, "easyadapter")
+    DependencyConfigurator.projectImplementation(project, "filestorage")
+    DependencyConfigurator.projectImplementation(project, "custom-view")
+    DependencyConfigurator.projectImplementation(project, "datalist-page-count")
+    DependencyConfigurator.projectImplementation(project, "picture-provider")
+    DependencyConfigurator.projectImplementation(project, "sample-common")
+    DependencyConfigurator.projectImplementation(project, "converter-gson")
+
+    DependencyConfigurator.implementation(project, "me.zhanghai.android.materialprogressbar:library")
+
+    DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
+}

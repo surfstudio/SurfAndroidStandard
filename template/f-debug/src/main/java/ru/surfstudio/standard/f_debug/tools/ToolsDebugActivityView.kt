@@ -34,11 +34,11 @@ class ToolsDebugActivityView : BaseRenderableActivityView<ToolsDebugScreenModel>
     }
 
     override fun renderInternal(sm: ToolsDebugScreenModel) {
-        stetho_switch.setChecked(sm.isStethoEnabled)
+        debug_stetho_switch.setChecked(sm.isStethoEnabled)
     }
 
     private fun initListeners() {
-        stetho_switch.setOnCheckedChangeListener { _, isEnable ->
+        debug_stetho_switch.setOnCheckedChangeListener { _, isEnable ->
             presenter.setStethoEnable(isEnable)
         }
     }

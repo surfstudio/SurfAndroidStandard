@@ -2,7 +2,7 @@
  * Конфигурация плагина Dependency Graph Generator.
  *
  * Для построения графа нужно запускать Gradle Task "generateDependencyGraphTemplate".
- * Сгенерированные изображения графов хранятся в директории "mdk-android/build/reports/dependency-graph".
+ * Сгенерированные изображения графов хранятся в директории "../build/reports/dependency-graph".
  */
 buildscript {
     repositories {
@@ -22,11 +22,33 @@ import guru.nidi.graphviz.attribute.Style
 
 plugins.apply(DependencyGraphGeneratorPlugin)
 
+//TODO заменить template на название проекта
 def generator = new Generator(
         "template", //суффикс для Gradle Task ("generateDependencyGraphTemplate")
-        { dependency -> dependency.getModuleGroup().startsWith("ru.surfstudio.android") /*|| dependency.getModuleGroup().startsWith("template")*/ },
-        { dependency -> true }, //включение транзитивных зависимостей
-        { node, dependency -> node.add(Style.FILLED, Color.rgb("#B57FFF")) },
+        { dependency ->
+            //Префикс группы модулей проекта. Для проекта sample-android это будет sample-android
+            dependency.getModuleGroup().startsWith("template")
+        },
+        { dependency ->
+            true //включение транзитивных зависимостей
+        },
+        { node, dependency ->
+            //Имя ноды. Содержит префикс группы и имя модуля без дефисов.
+            def nodeName = node.name().toString()
+            //Вырезаем префикс группы из имени ноды. Для проекта sample-android префикс будет sampleandroid (убираем дефисы)
+            def moduleName = nodeName.replace("template", "") //
+            def color = ""
+            if (moduleName.startsWith("i")) { //i-модуль
+                color = "#88AAFF"
+            } else if (moduleName.startsWith("cf")) { //cf-модуль
+                color = "#FF9933"
+            } else if (moduleName.startsWith("f")) { //f-модуль
+                color = "#FC46AA"
+            } else { //базовый модуль
+                color = "#ECECEC"
+            }
+            node.add(Style.FILLED, Color.rgb(color))
+        },
 )
 
 dependencyGraphGenerator {

@@ -39,13 +39,14 @@ class DebugActivityView : BaseRenderableActivityView<DebugScreenModel>() {
     override fun getScreenName(): String = "debug"
 
     private fun initListeners() {
-        show_server_settings_item_layout.setOnClickListener { presenter.openServerSettingsScreen() }
-        show_reused_components_item_layout.setOnClickListener { presenter.openReusedComponentsScreen() }
-        show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
-        show_memory_item_layout.setOnClickListener { presenter.openMemoryScreen() }
-        show_app_info_item_layout.setOnClickListener { presenter.openAppInfoScreen() }
-        show_ui_tools_item_layout.setOnClickListener { presenter.openUiToolsScreen() }
-        show_developer_tools_item_layout.setOnClickListener { presenter.openDeveloperToolsScreen() }
-        show_tools_item_layout.setOnClickListener { presenter.openToolsScreen() }
+        debug_show_server_settings_item_layout.setOnClickListener { presenter.openServerSettingsScreen() }
+        debug_show_reused_components_item_layout.setOnClickListener { presenter.openReusedComponentsScreen() }
+        debug_show_fcm_token_item_layout.setOnClickListener { presenter.openFcmTokenScreen() }
+        debug_show_memory_item_layout.setOnClickListener { presenter.openMemoryScreen() }
+        debug_show_app_info_item_layout.setOnClickListener { presenter.openAppInfoScreen() }
+        debug_show_ui_tools_item_layout.setOnClickListener { presenter.openUiToolsScreen() }
+        debug_show_developer_tools_item_layout.setOnClickListener { presenter.openDeveloperToolsScreen() }
+        debug_show_tools_item_layout.setOnClickListener { presenter.openToolsScreen() }
+        debug_show_app_settings_item_layout.setOnClickListener { presenter.openAppSettingsScreen() }
     }
 }

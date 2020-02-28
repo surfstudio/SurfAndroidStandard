@@ -1,14 +1,15 @@
 apply from: '../commonModule.gradle'
 
+apply plugin: 'ru.surfstudio.android'
+
 dependencies {
     gradle.ext.androidStandard.api(
             this,
-            "$surfCoreVersionName",
             [
+                    "activity-holder",
                     "core-ui",
                     "core-mvp",
                     "core-mvp-binding",
-                    "core-app",
                     "mvp-dialog",
                     "mvp-widget",
                     "easyadapter",
@@ -18,8 +19,6 @@ dependencies {
                     "dagger-scope",
                     "logger",
                     "filestorage",
-                    "network",
-                    "converter-gson",
                     "imageloader",
                     "animations",
                     "picture-provider",
@@ -35,8 +34,8 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"],
-            null, //todo remove for real app
-            "LOCAL"  //todo remove for real app
+                    "rxbus"]
     )
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
 }

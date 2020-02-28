@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MessageController Sample</string>
+
+    <string name="show_colored_snackbar_btn_text">Show colored snackbar</string>
+    <string name="show_snackbar_with_duration_btn_text">Show snackbar with duration</string>
+    <string name="close_snackbar_btn_text">Close snackbar</string>
+    <string name="show_snackbar_with_listener_btn_text">Show snackbar with listener</string>
+    <string name="show_gravity_toast_btn_text">Show gravity toast</string>
+    <string name="start_message_demo_btn_text">Start toast/snackbar demo</string>
+
+    <string name="toast_message">Toast message</string>
+    <string name="toast_action">Action performed</string>
+    <string name="snackbar_message">Snackbar message</string>
+    <string name="snackbar_action">Perform action</string>
+</resources>

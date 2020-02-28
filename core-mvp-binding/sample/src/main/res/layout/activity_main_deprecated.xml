@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019-present, SurfStudio LLC.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:columnCount="3">
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_1"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_3"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_4"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_5"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_6"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_7"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_8"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+        <ru.surfstudio.android.mvp.binding.sample.ui.screen.main.view.PaneView
+            android:id="@+id/pane_9"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            tools:background="@color/colorPrimary" />
+
+    </GridLayout>
+
+    <Button
+        android:id="@+id/easy_win_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Easy win"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/unbind_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Unbind presenter"
+        tools:ignore="HardcodedText" />
+</LinearLayout>

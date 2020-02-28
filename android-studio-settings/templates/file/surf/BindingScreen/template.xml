@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<template
+    format="4"
+    revision="1"
+    name="BindingScreen"
+    description="BindingScreen">
+
+    <category value="Surf"/>
+
+    <parameter
+        id="screenName"
+        name="Имя экрана (без окончания)"
+        type="string"
+        constraints="nonempty"/>
+
+    <parameter
+        id="screenType"
+        name="Тип экрана"
+        type="enum"
+        default="activity">
+        <option id="activity">Activity</option>
+        <option id="fragment">Fragment</option>
+    </parameter>
+
+    <parameter
+        id="layoutName"
+        name="Имя файла XML разметки"
+        type="string"
+        constraints="layout|unique|nonempty"
+        suggest="${classToResource(screenType)}_${classToResource(screenName)}"/>
+
+    <parameter
+        id="crossFeature"
+        name="CrossFeature"
+        type="boolean"/>
+    
+    <parameter
+        id="needToGenerateResult"
+        name="Добавить результат"
+        type="boolean"
+        visibility="screenType='activity'"/>
+    
+    <parameter
+        id="resultClass"
+        name="Класс результата"
+        type="string"
+        constraints="class|nonempty"
+        visibility="needToGenerateResult"/>
+
+    <parameter
+        id="needToGenerateParams"
+        name="Добавить параметры"
+        type="boolean"/>
+
+    <parameter
+        id="routeParamName1"
+        name="Имя параметра №1"
+        type="string"
+        visibility="needToGenerateParams"/>
+
+    <parameter
+        id="routeParamClassName1"
+        name="Класс параметра №1"
+        type="string"
+        constraints="class"
+        visibility="needToGenerateParams"/>
+
+    <parameter
+        id="routeParamName2"
+        name="Имя параметра №2"
+        type="string"
+        visibility="routeParamName1?has_content &amp;&amp; routeParamClassName1?has_content"/>
+
+    <parameter
+        id="routeParamClassName2"
+        name="Класс параметра №2"
+        type="string"
+        constraints="class"
+        visibility="routeParamName1?has_content &amp;&amp; routeParamClassName1?has_content"/>
+
+    <parameter
+        id="routeParamName3"
+        name="Имя параметра №3"
+        type="string"
+        visibility="routeParamName2?has_content &amp;&amp; routeParamClassName2?has_content"/>
+
+    <parameter
+        id="routeParamClassName3"
+        name="Класс параметра №3"
+        type="string"
+        constraints="class"
+        visibility="routeParamName2?has_content &amp;&amp; routeParamClassName2?has_content"/>
+
+    <globals file="globals.xml.ftl"/>
+    <execute file="recipe.xml.ftl"/>
+
+</template>

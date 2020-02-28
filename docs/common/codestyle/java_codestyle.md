@@ -162,4 +162,4 @@ id компонентов в layout должны соответствовать 
 [java_conv]: http://www.oracle.com/technetwork/java/codeconvtoc-136057.html
 [google_java]: https://github.com/surfstudio/java-code-style
 [ex_order]: https://gist.github.com/icebail/aab425a46efab03a1024df5dbc553763#file-registrationactivitystep2-java
-[extra]: ../../../core-ui/docs/navigation.md
+[extra]: ../../../core-ui/lib-core-ui/docs/navigation.md

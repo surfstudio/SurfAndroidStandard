@@ -29,9 +29,9 @@ class DebugCatalogItemLayout(
 
     private fun obtainAttributes(context: Context, attributeSet: AttributeSet) {
         val typedArray = context.obtainStyledAttributes(attributeSet, R.styleable.DebugCatalogItemLayout)
-        debugItemName = typedArray.getString(R.styleable.DebugCatalogItemLayout_catalog_item_name) ?: ""
-        debugItemDescription = typedArray.getString(R.styleable.DebugCatalogItemLayout_catalog_item_description) ?: ""
-        debugItemIcon = typedArray.getDrawable(R.styleable.DebugCatalogItemLayout_catalog_item_icon)
+        debugItemName = typedArray.getString(R.styleable.DebugCatalogItemLayout_debug_catalog_item_name) ?: ""
+        debugItemDescription = typedArray.getString(R.styleable.DebugCatalogItemLayout_debug_catalog_item_description) ?: ""
+        debugItemIcon = typedArray.getDrawable(R.styleable.DebugCatalogItemLayout_debug_catalog_item_icon)
         typedArray.recycle()
     }
 

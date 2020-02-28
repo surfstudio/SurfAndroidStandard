@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ru.surfstudio.android.custom_view_sample.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/content_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="?actionBarSize"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/open_tv_screen_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_tv_screen_btn_text" />
+
+        <Button
+            android:id="@+id/change_state_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/change_state_btn_text" />
+
+        <ru.surfstudio.android.custom.view.placeholder.PlaceHolderViewContainer
+            android:id="@+id/placeholder_view"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+    </LinearLayout>
+
+    <ru.surfstudio.android.custom.view.bottomsheet.BottomSheetView
+        android:id="@+id/example_bsv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:behavior_hideable="false"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="94dp"
+            android:gravity="center"
+            android:text="Bottom Sheet View"
+            tools:ignore="HardcodedText" />
+
+    </ru.surfstudio.android.custom.view.bottomsheet.BottomSheetView>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimaryDark">
+
+        <ru.surfstudio.android.custom.view.TitleSubtitleView
+            android:id="@+id/top_title_tsv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:subTitleText="Example text"
+            app:subtitleTextAppearance="@style/Text.Light.12"
+            app:titleText="@string/app_name"
+            app:titleTextAppearance="@style/Text.Dark.24" />
+    </androidx.appcompat.widget.Toolbar>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
