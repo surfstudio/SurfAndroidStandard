@@ -14,27 +14,24 @@
   limitations under the License.
 */
 
-package ru.surfstudio.android.recycler.decorator.draw
+package ru.surfstudio.android.recycler.decorator
 
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.EACH_VIEW
-import ru.surfstudio.android.recycler.decorator.base.OffsetDecor
-import ru.surfstudio.android.recycler.decorator.base.RecyclerViewDecor
-import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.Decorator.EACH_VIEW
 
 /**
  * Calls appropriate drawers for every ViewHolder or RecyclerView
  */
 class DecorsBridge(
-        private val underlays: List<DecorDrawer<ViewHolderDecor>>,
-        private val underlaysRecycler: List<RecyclerViewDecor>,
-        private val overlays: List<DecorDrawer<ViewHolderDecor>>,
-        private val overlaysRecycler: List<RecyclerViewDecor>,
-        private val offsets: List<DecorDrawer<OffsetDecor>>
+        private val underlays: List<DecorDrawer<Decorator.ViewHolderDecor>>,
+        private val underlaysRecycler: List<Decorator.RecyclerViewDecor>,
+        private val overlays: List<DecorDrawer<Decorator.ViewHolderDecor>>,
+        private val overlaysRecycler: List<Decorator.RecyclerViewDecor>,
+        private val offsets: List<DecorDrawer<Decorator.OffsetDecor>>
 ) {
 
     private val groupedUnderlays = underlays.groupBy { it.viewItemType }
@@ -69,7 +66,7 @@ class DecorsBridge(
         }
     }
 
-    private fun Map<Int, List<DecorDrawer<ViewHolderDecor>>>.drawAttachedDecors(
+    private fun Map<Int, List<DecorDrawer<Decorator.ViewHolderDecor>>>.drawAttachedDecors(
             canvas: Canvas,
             recyclerView: RecyclerView,
             state: RecyclerView.State
@@ -83,7 +80,7 @@ class DecorsBridge(
         }
     }
 
-    private fun Map<Int, List<DecorDrawer<ViewHolderDecor>>>.drawNotAttachedDecors(
+    private fun Map<Int, List<DecorDrawer<Decorator.ViewHolderDecor>>>.drawNotAttachedDecors(
             canvas: Canvas,
             recyclerView: RecyclerView,
             state: RecyclerView.State
@@ -94,7 +91,7 @@ class DecorsBridge(
         }
     }
 
-    private fun List<RecyclerViewDecor>.drawRecyclerViewDecors(
+    private fun List<Decorator.RecyclerViewDecor>.drawRecyclerViewDecors(
             canvas: Canvas,
             recyclerView: RecyclerView,
             state: RecyclerView.State

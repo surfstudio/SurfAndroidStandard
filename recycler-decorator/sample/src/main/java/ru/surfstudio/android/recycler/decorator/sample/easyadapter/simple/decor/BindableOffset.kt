@@ -5,11 +5,11 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.item.BindableItem
-import ru.surfstudio.android.recycler.decorator.base.OffsetDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.controller.BindableController
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
-class BindableOffset : OffsetDecor {
+class BindableOffset : Decorator.OffsetDecor {
 
     override fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         val vh = recyclerView.getChildViewHolder(view)

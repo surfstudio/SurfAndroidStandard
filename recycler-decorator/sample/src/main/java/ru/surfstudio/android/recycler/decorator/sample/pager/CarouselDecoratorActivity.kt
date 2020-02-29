@@ -13,6 +13,7 @@ import ru.surfstudio.android.recycler.decorator.sample.list.decor.SimpleOffsetDr
 import kotlinx.android.synthetic.main.activity_pager.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.LinePagerIndicatorDecoration
 import ru.surfstudio.android.recycler.decorator.sample.toPx
@@ -34,7 +35,7 @@ class CarouselDecoratorActivity : AppCompatActivity() {
     private fun init() {
         pager_rv.apply {
             layoutManager = LinearLayoutManager(this@CarouselDecoratorActivity, RecyclerView.HORIZONTAL, false)
-            adapter = easyAdapter.apply { setFirstInvisibleItemEnabled(false) }
+            adapter = easyAdapter.apply { isFirstInvisibleItemEnabled = false }
             PagerSnapHelper().attachToRecyclerView(pager_rv)
         }
 
@@ -45,7 +46,7 @@ class CarouselDecoratorActivity : AppCompatActivity() {
             right = 16.toPx
         )
 
-        val decorator2 = ru.surfstudio.android.recycler.decorator.Builder()
+        val decorator2 = Decorator.Builder()
             .underlay(roundViewHoldersGroupDrawer)
             .overlay(LinePagerIndicatorDecoration())
             .offset(simpleOffsetDrawer2)

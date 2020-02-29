@@ -8,14 +8,12 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder
 import ru.surfstudio.android.easyadapter.item.BaseItem
 import ru.surfstudio.android.easyadapter.item.NoDataItem
-import ru.surfstudio.android.recycler.decorator.Builder
-import ru.surfstudio.android.recycler.decorator.base.OffsetDecor
-import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 
 @Suppress("UNCHECKED_CAST")
 class BaseItemControllerDecoration<I : BaseItem<out RecyclerView.ViewHolder>>(
         private val baseViewHolderDecor: BaseViewHolderDecor<I>
-) : ViewHolderDecor {
+) : Decorator.ViewHolderDecor {
 
     override fun draw(canvas: Canvas, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
 
@@ -35,7 +33,7 @@ class BaseItemControllerDecoration<I : BaseItem<out RecyclerView.ViewHolder>>(
 
 class BaseItemControllerDecoration2<VH : BaseViewHolder>(
         private val baseViewHolderDecor: BaseViewHolderDecor2<VH>
-) : ViewHolderDecor {
+) : Decorator.ViewHolderDecor {
 
     override fun draw(canvas: Canvas, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
 
@@ -59,7 +57,7 @@ class BaseItemControllerDecoration2<VH : BaseViewHolder>(
 @Suppress("UNCHECKED_CAST")
 class BaseItemControllerOffset<I : BaseItem<out RecyclerView.ViewHolder>>(
         private val baseViewHolderOffset: BaseViewHolderOffset<I>
-) : OffsetDecor {
+) : Decorator.OffsetDecor {
 
     override fun getItemOffsets(outRect: Rect, view: View, recyclerView: RecyclerView, state: RecyclerView.State) {
         val itemPosition = recyclerView.getChildAdapterPosition(view)
@@ -116,7 +114,7 @@ interface BaseViewHolderOffset<I : BaseItem<out RecyclerView.ViewHolder>> {
 //    return this.underlay(BaseItemControllerDecoration(baseItemControllerDecoration))
 //}
 
-fun <I : BaseItem<out RecyclerView.ViewHolder>> Builder.underlay(baseItemControllerDecoration: BaseViewHolderDecor<I>): Builder {
+fun <I : BaseItem<out RecyclerView.ViewHolder>> Decorator.Builder.underlay(baseItemControllerDecoration: BaseViewHolderDecor<I>): Decorator.Builder {
     return this.underlay(BaseItemControllerDecoration(baseItemControllerDecoration))
 }
 
@@ -124,10 +122,10 @@ fun <I : BaseItem<out RecyclerView.ViewHolder>> Builder.underlay(baseItemControl
 //    return this.underlay(pair.first to BaseItemControllerDecoration(pair.second))
 //}
 
-fun <D : BaseViewHolderOffset<out BaseItem<out RecyclerView.ViewHolder>>> Builder.offset(baseItemControllerOffset: D): Builder {
+fun <D : BaseViewHolderOffset<out BaseItem<out RecyclerView.ViewHolder>>> Decorator.Builder.offset(baseItemControllerOffset: D): Decorator.Builder {
     return this.offset(BaseItemControllerOffset(baseItemControllerOffset))
 }
 
-fun <D : BaseViewHolderOffset<out BaseItem<out RecyclerView.ViewHolder>>> Builder.offset(pair: Pair<Int, D>): Builder {
+fun <D : BaseViewHolderOffset<out BaseItem<out RecyclerView.ViewHolder>>> Decorator.Builder.offset(pair: Pair<Int, D>): Decorator.Builder {
     return this.offset(pair.first to BaseItemControllerOffset(pair.second))
 }

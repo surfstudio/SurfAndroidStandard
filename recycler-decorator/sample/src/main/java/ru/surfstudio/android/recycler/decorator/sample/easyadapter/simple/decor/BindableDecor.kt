@@ -6,11 +6,11 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.item.BindableItem
-import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.controller.BindableController
 import ru.surfstudio.android.recycler.decorator.sample.list.decor.Gap
 
-class BindableDecor(val gap: Gap) : ViewHolderDecor {
+class BindableDecor(val gap: Gap) : Decorator.ViewHolderDecor {
 
     private val dividerPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val alpha = dividerPaint.alpha

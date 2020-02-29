@@ -3,11 +3,11 @@ package ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.base.OffsetDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.ChatMessageController
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
-class ChatDecorOffset : OffsetDecor {
+class ChatDecorOffset : Decorator.OffsetDecor {
 
     override fun getItemOffsets(outRect: Rect,
                                 view: View,

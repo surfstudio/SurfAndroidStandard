@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.chat_message_layout.view.*
 import kotlinx.android.synthetic.main.item_controller_message_time.view.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.item.BindableItem
-import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatMessageDirection
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatObject
@@ -17,7 +17,7 @@ import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controll
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.MessageTimeController
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
-class ChatDecor(private val context: Context) : ViewHolderDecor {
+class ChatDecor(private val context: Context) : Decorator.ViewHolderDecor {
 
     private val outcomeBubbleColor = ContextCompat.getColor(context, R.color.material_50)
     private val incomeBubbleColor = ContextCompat.getColor(context, R.color.material_501)

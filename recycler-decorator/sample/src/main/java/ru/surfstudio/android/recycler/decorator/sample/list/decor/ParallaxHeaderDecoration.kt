@@ -6,10 +6,9 @@ import android.view.View
 
 import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
+import ru.surfstudio.android.recycler.decorator.Decorator
 
-import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
-
-class ParallaxHeaderDecoration(context: Context, @DrawableRes resId: Int) : ViewHolderDecor {
+class ParallaxHeaderDecoration(context: Context, @DrawableRes resId: Int) : Decorator.ViewHolderDecor {
 
     private val mImage: Bitmap = BitmapFactory.decodeResource(context.resources, resId)
 

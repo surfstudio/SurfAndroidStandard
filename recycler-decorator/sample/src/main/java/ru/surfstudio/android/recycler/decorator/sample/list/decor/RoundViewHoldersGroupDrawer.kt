@@ -5,15 +5,15 @@ import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.list.decor.round.RoundMode
 import ru.surfstudio.android.recycler.decorator.sample.list.decor.round.RoundOutlineProvider
-import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class RoundViewHoldersGroupDrawer(
     private val cornerRadius: Float,
     private val roundPolitic: RoundPolitic = Every(RoundMode.ALL))
-    : ViewHolderDecor {
+    : Decorator.ViewHolderDecor {
 
     override fun draw(
         canvas: Canvas,

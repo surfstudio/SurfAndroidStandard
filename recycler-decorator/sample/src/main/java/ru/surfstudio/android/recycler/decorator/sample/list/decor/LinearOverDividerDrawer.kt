@@ -4,9 +4,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 
-class LinearOverDividerDrawer(private val gap: Gap) : ViewHolderDecor {
+class LinearOverDividerDrawer(private val gap: Gap) : Decorator.ViewHolderDecor {
 
     private val dividerPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val alpha = dividerPaint.alpha

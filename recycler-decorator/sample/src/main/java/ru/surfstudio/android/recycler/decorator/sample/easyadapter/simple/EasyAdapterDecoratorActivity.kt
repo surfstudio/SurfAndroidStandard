@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_recycler.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.recycler.decorator.Builder
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.controller.BindableController
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.decor.BindableDecor
@@ -46,7 +46,7 @@ class EasyAdapterDecoratorActivity : AppCompatActivity() {
 
         val bindableOffset = BindableOffset()
 
-        val decorator2 = Builder()
+        val decorator2 = Decorator.Builder()
                 .overlay(easyDecor)
                 .offset(bindableOffset)
                 .build()

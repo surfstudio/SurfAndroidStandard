@@ -9,7 +9,7 @@ import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.Control
 import kotlinx.android.synthetic.main.activity_recycler.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.recycler.decorator.Builder
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.list.decor.*
 import ru.surfstudio.android.recycler.decorator.sample.toPx
@@ -60,7 +60,7 @@ class LinearDecoratorActivity : AppCompatActivity() {
         val roundViewHoldersGroupDrawer = RoundViewHoldersGroupDrawer(12.toPx.toFloat())
         val paralaxdecorator = ParallaxHeaderDecoration(this, R.drawable.night_png)
 
-        val decorator2 = Builder()
+        val decorator2 = Decorator.Builder()
             .underlay(longCardController.viewType() to roundViewHoldersGroupDrawer)
             .underlay(paralaxdecorator)
             .overlay(shortCardController.viewType() to dividerDrawer2Px)

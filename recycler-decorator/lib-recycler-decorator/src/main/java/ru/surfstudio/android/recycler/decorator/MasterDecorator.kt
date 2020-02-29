@@ -14,18 +14,18 @@
   limitations under the License.
 */
 
-package ru.surfstudio.android.recycler.decorator.draw
+package ru.surfstudio.android.recycler.decorator
 
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.draw.DecorsBridge
+import ru.surfstudio.android.recycler.decorator.DecorsBridge
 
 /**
  * Main item decorator for draw all decor of RecyclerView and ViewHolders decors
  */
-class Decorator(private val decorsBridge: DecorsBridge) : RecyclerView.ItemDecoration() {
+class MasterDecorator(private val decorsBridge: DecorsBridge) : RecyclerView.ItemDecoration() {
 
     override fun onDrawOver(canvas: Canvas, parent: RecyclerView, state: RecyclerView.State) {
         super.onDrawOver(canvas, parent, state)

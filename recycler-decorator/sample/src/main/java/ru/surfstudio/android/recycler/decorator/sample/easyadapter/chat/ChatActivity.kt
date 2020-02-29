@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_recycler.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.recycler.decorator.Builder
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.*
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatDecor
@@ -35,7 +35,7 @@ class ChatActivity : AppCompatActivity() {
             adapter = easyAdapter
         }
 
-        val decorator = Builder()
+        val decorator = Decorator.Builder()
                 .underlay(ChatDecor(this))
                 .offset(chatController.viewType() to ChatDecorOffset())
                 .build()

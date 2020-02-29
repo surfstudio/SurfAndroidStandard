@@ -5,10 +5,10 @@ import android.graphics.Paint
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.base.RecyclerViewDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
-class LinePagerIndicatorDecoration : RecyclerViewDecor {
+class LinePagerIndicatorDecoration : Decorator.RecyclerViewDecor {
 
     private val colorActive = -0x1
     private val colorInactive = 0x66FFFFFF

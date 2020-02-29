@@ -3,14 +3,14 @@ package ru.surfstudio.android.recycler.decorator.sample.list.decor
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.base.OffsetDecor
+import ru.surfstudio.android.recycler.decorator.Decorator
 
 class SimpleOffsetDrawer(
     private val left: Int = 0,
     private val top: Int = 0,
     private val right: Int = 0,
     private val bottom: Int = 0
-) : OffsetDecor {
+) : Decorator.OffsetDecor {
 
     constructor(offset: Int) : this(offset, offset, offset, offset)
 

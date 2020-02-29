@@ -13,10 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-
 package ru.surfstudio.android.recycler.decorator
 
 /**
- * Const use when decor must draw for every ViewHolder
+ * Contain view type of [androidx.recyclerview.widget.RecyclerView.ViewHolder]
+ * and drawer for draw decor or offset for ViewHolder
  */
-const val EACH_VIEW = -1
+class DecorDrawer<D>(val viewItemType: Int, val drawer: D)
