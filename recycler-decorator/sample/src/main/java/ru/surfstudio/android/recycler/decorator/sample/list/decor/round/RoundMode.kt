@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package ru.surfstudio.android.recycler.decorator.sample.round
+package ru.surfstudio.android.recycler.decorator.sample.list.decor.round
 
 /**
  * Enum describes mode round corners

@@ -1,20 +1,18 @@
-package ru.surfstudio.android.recycler.decorator.sample
+package ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat
 
-import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_recycler.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.decorator.Builder
-import ru.surfstudio.android.recycler.decorator.sample.controllers.*
-import ru.surfstudio.android.recycler.decorator.sample.easydecor.offset
-import ru.surfstudio.android.recycler.decorator.sample.easydecor.underlay
+import ru.surfstudio.android.recycler.decorator.sample.R
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.*
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatDecor
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatDecorOffset
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class ChatActivity : AppCompatActivity() {
 
     private val easyAdapter = EasyAdapter()
@@ -39,7 +37,7 @@ class ChatActivity : AppCompatActivity() {
 
         val decorator = Builder()
                 .underlay(ChatDecor(this))
-                .offset(ChatDecorOffset())
+                .offset(chatController.viewType() to ChatDecorOffset())
                 .build()
 
         recycler_view.addItemDecoration(decorator)
@@ -47,12 +45,11 @@ class ChatActivity : AppCompatActivity() {
         val items = ItemList.create()
 
         repeat(150) { number ->
-            val direction = ChatMessageDirection.values()[(0..1).random()]
-
             if(number.rem(4) == 0) {
-                val date = DateFormat.format("dd:mm:YYYY HH:mm", System.currentTimeMillis())
+                val date = DateFormat.format("dd MMMM yyyy HH:mm:ss", System.currentTimeMillis())
                 items.add(date.toString(), messageTimeController)
             }
+            val direction = ChatMessageDirection.values()[(0..1).random()]
             items.add(ChatObject(number, direction), chatController)
         }
 

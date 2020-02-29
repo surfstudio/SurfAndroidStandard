@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package ru.surfstudio.android.recycler.decorator.sample.round
+package ru.surfstudio.android.recycler.decorator.sample.list.decor.round
 
 import android.graphics.Outline
 import android.os.Build

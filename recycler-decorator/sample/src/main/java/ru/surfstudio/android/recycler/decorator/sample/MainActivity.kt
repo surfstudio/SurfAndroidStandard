@@ -4,6 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatActivity
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.EasyAdapterDecoratorActivity
+import ru.surfstudio.android.recycler.decorator.sample.list.LinearDecoratorActivity
+import ru.surfstudio.android.recycler.decorator.sample.pager.CarouselDecoratorActivity
 
 class MainActivity : AppCompatActivity() {
 

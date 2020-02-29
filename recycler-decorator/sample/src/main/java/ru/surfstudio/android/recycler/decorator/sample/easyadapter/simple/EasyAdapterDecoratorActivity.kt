@@ -1,4 +1,4 @@
-package ru.surfstudio.android.recycler.decorator.sample
+package ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple
 
 import android.os.Build
 import android.os.Bundle
@@ -9,11 +9,13 @@ import kotlinx.android.synthetic.main.activity_recycler.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.decorator.Builder
-import ru.surfstudio.android.recycler.decorator.sample.controllers.BindableController
-import ru.surfstudio.android.recycler.decorator.sample.easydecor.offset
-import ru.surfstudio.android.recycler.decorator.sample.easydecor.overlay
-import ru.surfstudio.android.recycler.decorator.sample.sample.Gap
-import ru.surfstudio.android.recycler.decorator.sample.sample.Rules
+import ru.surfstudio.android.recycler.decorator.sample.R
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.controller.BindableController
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.decor.BindableDecor
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.simple.decor.BindableOffset
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.Gap
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.Rules
+import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class EasyAdapterDecoratorActivity : AppCompatActivity() {
@@ -34,7 +36,7 @@ class EasyAdapterDecoratorActivity : AppCompatActivity() {
             adapter = easyAdapter
         }
 
-        val easyDecor = BindableController.BindableDecor(Gap(
+        val easyDecor = BindableDecor(Gap(
                 resources.getColor(R.color.gray_A150),
                 2.toPx,
                 paddingStart = 16.toPx,
@@ -42,7 +44,7 @@ class EasyAdapterDecoratorActivity : AppCompatActivity() {
                 rule = Rules.MIDDLE
         ))
 
-        val bindableOffset = BindableController.BindableOffset()
+        val bindableOffset = BindableOffset()
 
         val decorator2 = Builder()
                 .overlay(easyDecor)

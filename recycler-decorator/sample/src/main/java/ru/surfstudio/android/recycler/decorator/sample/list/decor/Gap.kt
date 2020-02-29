@@ -1,9 +1,9 @@
-package ru.surfstudio.android.recycler.decorator.sample.sample
+package ru.surfstudio.android.recycler.decorator.sample.list.decor
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import ru.surfstudio.android.recycler.decorator.sample.sample.Rules.END
-import ru.surfstudio.android.recycler.decorator.sample.sample.Rules.MIDDLE
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.Rules.END
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.Rules.MIDDLE
 
 /**
  * Модель для описания разделителя

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.recycler.decorator.sample.controllers
+package ru.surfstudio.android.recycler.decorator.sample.pager.controllers
 
 import android.graphics.Canvas
 import android.graphics.Paint

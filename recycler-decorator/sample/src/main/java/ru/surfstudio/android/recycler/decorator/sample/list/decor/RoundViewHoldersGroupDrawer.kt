@@ -1,12 +1,12 @@
-package ru.surfstudio.android.recycler.decorator.sample.sample
+package ru.surfstudio.android.recycler.decorator.sample.list.decor
 
 import android.graphics.Canvas
 import android.os.Build
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.sample.round.RoundMode
-import ru.surfstudio.android.recycler.decorator.sample.round.RoundOutlineProvider
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.round.RoundMode
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.round.RoundOutlineProvider
 import ru.surfstudio.android.recycler.decorator.base.ViewHolderDecor
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

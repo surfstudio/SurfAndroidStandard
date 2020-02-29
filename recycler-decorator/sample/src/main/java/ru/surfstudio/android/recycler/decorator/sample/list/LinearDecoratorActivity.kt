@@ -1,16 +1,18 @@
-package ru.surfstudio.android.recycler.decorator.sample
+package ru.surfstudio.android.recycler.decorator.sample.list
 
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import ru.surfstudio.android.recycler.decorator.sample.controllers.Controller
+import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.Controller
 import kotlinx.android.synthetic.main.activity_recycler.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.decorator.Builder
-import ru.surfstudio.android.recycler.decorator.sample.sample.*
+import ru.surfstudio.android.recycler.decorator.sample.R
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.*
+import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class LinearDecoratorActivity : AppCompatActivity() {

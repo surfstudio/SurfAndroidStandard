@@ -1,4 +1,4 @@
-package ru.surfstudio.android.recycler.decorator.sample.controllers
+package ru.surfstudio.android.recycler.decorator.sample.pager.controllers
 
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes

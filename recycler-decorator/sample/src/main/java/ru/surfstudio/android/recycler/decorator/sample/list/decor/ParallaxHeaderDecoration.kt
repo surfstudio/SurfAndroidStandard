@@ -1,4 +1,4 @@
-package ru.surfstudio.android.recycler.decorator.sample.sample
+package ru.surfstudio.android.recycler.decorator.sample.list.decor
 
 import android.content.Context
 import android.graphics.*

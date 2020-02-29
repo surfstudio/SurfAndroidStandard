@@ -1,4 +1,4 @@
-package ru.surfstudio.android.recycler.decorator.sample
+package ru.surfstudio.android.recycler.decorator.sample.pager
 
 import android.os.Build
 import android.os.Bundle
@@ -7,13 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import ru.surfstudio.android.recycler.decorator.sample.controllers.Controller
-import ru.surfstudio.android.recycler.decorator.sample.sample.RoundViewHoldersGroupDrawer
-import ru.surfstudio.android.recycler.decorator.sample.sample.SimpleOffsetDrawer
+import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.Controller
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.RoundViewHoldersGroupDrawer
+import ru.surfstudio.android.recycler.decorator.sample.list.decor.SimpleOffsetDrawer
 import kotlinx.android.synthetic.main.activity_pager.*
 import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.recycler.decorator.sample.controllers.LinePagerIndicatorDecoration
+import ru.surfstudio.android.recycler.decorator.sample.R
+import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.LinePagerIndicatorDecoration
+import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class CarouselDecoratorActivity : AppCompatActivity() {

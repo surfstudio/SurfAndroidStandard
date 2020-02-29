@@ -19,16 +19,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LinearDecoratorActivity"
+        <activity android:name=".list.LinearDecoratorActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".CarouselDecoratorActivity"
+        <activity android:name=".pager.CarouselDecoratorActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".EasyAdapterDecoratorActivity"
+        <activity android:name=".easyadapter.simple.EasyAdapterDecoratorActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".ChatActivity"
+        <activity android:name="ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatActivity"
             android:screenOrientation="portrait" />
     </application>
 
