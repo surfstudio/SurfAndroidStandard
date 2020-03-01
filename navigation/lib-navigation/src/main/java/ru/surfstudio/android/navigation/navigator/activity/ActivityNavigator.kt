@@ -4,11 +4,16 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute
+import ru.surfstudio.android.navigation.utils.ActivityAnimationSupplier
 
 open class ActivityNavigator(open val activity: AppCompatActivity) : ActivityNavigatorInterface {
 
+    protected open val animationSupplier = ActivityAnimationSupplier()
+
     override fun start(route: ActivityRoute, animations: Animations, optionsCompat: Bundle?) {
-        activity.startActivity(route.createIntent(activity), optionsCompat)
+        val optionsWithAnimations =
+                animationSupplier.supplyWithAnimations(activity, optionsCompat, animations)
+        activity.startActivity(route.createIntent(activity), optionsWithAnimations)
     }
 
     override fun replace(route: ActivityRoute, animations: Animations, optionsCompat: Bundle?) {
@@ -22,9 +27,5 @@ open class ActivityNavigator(open val activity: AppCompatActivity) : ActivityNav
 
     override fun finishAffinity() {
         activity.finishAffinity()
-    }
-
-    protected open fun Bundle?.supplyWithAnimations() = this?.apply {
-
     }
 }

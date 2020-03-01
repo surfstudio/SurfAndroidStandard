@@ -18,14 +18,10 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  */
 interface FragmentNavigatorInterface {
 
-    val containerId: Int
-
     val isBackStackEmpty: Boolean
         get() = backStackEntryCount == 0
 
     val backStackEntryCount: Int
-
-    val fragmentManager: FragmentManager
 
     fun add(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 

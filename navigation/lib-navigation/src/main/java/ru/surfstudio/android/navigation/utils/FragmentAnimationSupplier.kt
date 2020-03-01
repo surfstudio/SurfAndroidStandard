@@ -1,7 +1,9 @@
 package ru.surfstudio.android.navigation.utils
 
 import androidx.fragment.app.FragmentTransaction
+import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimations
+import ru.surfstudio.android.navigation.animation.set.SetAnimations
 import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 
 open class FragmentAnimationSupplier {
@@ -64,6 +66,21 @@ open class FragmentAnimationSupplier {
         }
         // Очищаем элементы, как только добавили в transaction
         animations.sharedElements.clear()
+        return transaction
+    }
+
+    open fun supplyWithAnimations(
+            transaction: FragmentTransaction,
+            animations: Animations
+    ): FragmentTransaction {
+        when (animations) {
+            is SetAnimations ->
+                animations.set.forEach { supplyWithAnimations(transaction, it) }
+            is BaseResourceAnimations ->
+                setResourceAnimations(transaction, animations, false)
+            is SharedElementAnimations ->
+                setSharedElementAnimations(transaction, animations)
+        }
         return transaction
     }
 }

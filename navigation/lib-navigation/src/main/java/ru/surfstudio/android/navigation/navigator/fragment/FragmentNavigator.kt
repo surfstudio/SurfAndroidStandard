@@ -34,8 +34,8 @@ import ru.surfstudio.android.navigation.utils.FragmentAnimationSupplier
  * [onSaveState] and [onRestoreState] methods in corresponding lifecycle callbacks of parent screen.
  */
 open class FragmentNavigator(
-        override val fragmentManager: FragmentManager,
-        override val containerId: Int = View.NO_ID
+        val fragmentManager: FragmentManager,
+        val containerId: Int = View.NO_ID
 ) : FragmentNavigatorInterface {
 
     protected val backStack: FragmentBackStack = FragmentBackStack()
@@ -45,7 +45,7 @@ open class FragmentNavigator(
 
     private val backStackChangedListeners = arrayListOf<BackStackChangedListener>()
 
-    var animationSupplier = FragmentAnimationSupplier()
+    protected open var animationSupplier = FragmentAnimationSupplier()
 
     override fun add(route: FragmentRoute, animations: Animations) {
         val fragmentManager = fragmentManager
@@ -245,19 +245,6 @@ open class FragmentNavigator(
         return BACK_STACK_KEY.format(containerId)
     }
 
-    protected open fun FragmentTransaction.supplyWithAnimations(
-            animations: Animations
-    ): FragmentTransaction = apply {
-        when (animations) {
-            is SetAnimations ->
-                animations.set.forEach { supplyWithAnimations(it) }
-            is BaseResourceAnimations ->
-                animationSupplier.setResourceAnimations(this, animations, false)
-            is SharedElementAnimations ->
-                animationSupplier.setSharedElementAnimations(this, animations)
-        }
-    }
-
     /**
      * Add animations to a reverse operations.
      */
@@ -283,7 +270,6 @@ open class FragmentNavigator(
         }
     }
 
-
     /**
      * Perform operation opposite to ordinary [replace]
      */
@@ -294,12 +280,19 @@ open class FragmentNavigator(
         notifyBackStackListeners()
     }
 
+
     /**
      * Perform operation opposite to ordinary [add].
      */
     private fun setupReverseAdd(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         transaction.remove(entry.fragment)
         notifyBackStackListeners()
+    }
+
+    private fun FragmentTransaction.supplyWithAnimations(
+            animations: Animations
+    ): FragmentTransaction {
+        return animationSupplier.supplyWithAnimations(this, animations)
     }
 
     private fun toggleVisibility(
