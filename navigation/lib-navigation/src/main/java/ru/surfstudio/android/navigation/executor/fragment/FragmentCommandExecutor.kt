@@ -4,20 +4,27 @@ import ru.surfstudio.android.navigation.command.fragment.*
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.executor.CommandExecutor
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigator
+import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
+import ru.surfstudio.android.navigation.navigator.fragment.tab.TabFragmentNavigator
 
 open class FragmentCommandExecutor(
-        private val fragmentNavigator: FragmentNavigator
+        private val fragmentNavigator: FragmentNavigator,
+        private val tabFragmentNavigator: TabFragmentNavigator
 ): CommandExecutor<FragmentNavigationCommand> {
 
     open override fun execute(command: FragmentNavigationCommand) {
+        when (command.route) { }
+    }
+
+    fun execute(command: FragmentNavigationCommand, navigator: FragmentNavigatorInterface) {
         when (command) {
-            is Add -> fragmentNavigator.add(command.route, command.animations)
-            is Replace -> fragmentNavigator.replace(command.route, command.animations)
-            is ReplaceHard -> fragmentNavigator.replaceHard(command.route, command.animations)
-            is Remove -> fragmentNavigator.remove(command.route, command.animations)
-            is RemoveLast -> fragmentNavigator.removeLast(command.animations)
-            is RemoveUntil -> fragmentNavigator.removeUntil(command.route, command.isInclusive)
-            is RemoveAll -> fragmentNavigator.removeAll()
+            is Add -> navigator.add(command.route, command.animations)
+            is Replace -> navigator.replace(command.route, command.animations)
+            is ReplaceHard -> navigator.replaceHard(command.route, command.animations)
+            is Remove -> navigator.remove(command.route, command.animations)
+            is RemoveLast -> navigator.removeLast(command.animations)
+            is RemoveUntil -> navigator.removeUntil(command.route, command.isInclusive)
+            is RemoveAll -> navigator.removeAll()
         }
     }
 }
