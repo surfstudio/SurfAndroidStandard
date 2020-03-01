@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.navigator.backstack.fragment
+package ru.surfstudio.android.navigation.backstack.fragment
 
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import java.io.Serializable

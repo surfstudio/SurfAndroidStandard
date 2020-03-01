@@ -1,8 +1,8 @@
-package ru.surfstudio.android.navigation.navigator.backstack.fragment
+package ru.surfstudio.android.navigation.backstack.fragment
 
 import androidx.fragment.app.Fragment
-import ru.surfstudio.android.navigation.navigator.backstack.BackStack
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntry
+import ru.surfstudio.android.navigation.backstack.BackStack
+import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntry
 import java.util.Stack
 
 /**

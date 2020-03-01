@@ -10,7 +10,7 @@ class TabHostFragmentNavigator(
         override val fragmentManager: FragmentManager,
         override val containerId: Int,
         private val hostRouteTag: String
-) : FragmentNavigator(fragmentManager, containerId) {
+) : FragmentNavigator() {
 
     internal fun obtainBackStack() = backStack
 

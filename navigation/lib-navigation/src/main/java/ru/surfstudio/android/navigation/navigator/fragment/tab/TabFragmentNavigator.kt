@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.resource.EmptyResourceAnimations
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
+import ru.surfstudio.android.navigation.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntries
 import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
@@ -26,10 +26,10 @@ import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
  *
  * Delegates all the methods of a [FragmentNavigatorInterface] to an active stack.
  */
-open class TabFragmentNavigator(
-        val fragmentManager: FragmentManager,
-        val containerId: Int = View.NO_ID
-) : FragmentNavigatorInterface {
+abstract class TabFragmentNavigator : FragmentNavigatorInterface {
+
+    protected abstract val fragmentManager: FragmentManager
+    protected abstract val containerId: Int
 
     private var activeTabTag: String = ""
 

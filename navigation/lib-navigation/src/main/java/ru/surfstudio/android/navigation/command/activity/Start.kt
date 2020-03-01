@@ -9,5 +9,5 @@ import ru.surfstudio.android.navigation.route.activity.ActivityRoute
 data class Start(
         override val route: ActivityRoute,
         override val animations: Animations = EmptyResourceAnimations,
-        val options: Bundle? = null
+        val activityOptions: Bundle? = null
 ) : ActivityNavigationCommand

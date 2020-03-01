@@ -13,11 +13,11 @@ import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 import ru.surfstudio.android.navigation.command.fragment.Add
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.FragmentBackStack
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntry
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntryObj
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.BackStackFragmentRoute
+import ru.surfstudio.android.navigation.backstack.fragment.FragmentBackStack
+import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntry
+import ru.surfstudio.android.navigation.backstack.fragment.entry.FragmentBackStackEntryObj
+import ru.surfstudio.android.navigation.backstack.fragment.listener.BackStackChangedListener
+import ru.surfstudio.android.navigation.backstack.fragment.BackStackFragmentRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 import ru.surfstudio.android.navigation.utils.FragmentAnimationSupplier
 
@@ -33,10 +33,11 @@ import ru.surfstudio.android.navigation.utils.FragmentAnimationSupplier
  * To save back stack on configuration changes you must call
  * [onSaveState] and [onRestoreState] methods in corresponding lifecycle callbacks of parent screen.
  */
-open class FragmentNavigator(
-        val fragmentManager: FragmentManager,
-        val containerId: Int = View.NO_ID
+abstract class FragmentNavigator(
 ) : FragmentNavigatorInterface {
+
+    protected abstract val fragmentManager: FragmentManager
+    protected abstract val containerId: Int
 
     protected val backStack: FragmentBackStack = FragmentBackStack()
 

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.navigator.backstack
+package ru.surfstudio.android.navigation.backstack
 
 /**
  * Base back stack model.
