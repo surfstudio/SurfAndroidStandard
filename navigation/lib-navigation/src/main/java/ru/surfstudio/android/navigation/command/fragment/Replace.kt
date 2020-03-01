@@ -1,10 +1,10 @@
-package ru.surfstudio.android.navigation.command
+package ru.surfstudio.android.navigation.command.fragment
 
 import ru.surfstudio.android.navigation.animation.Animations
 import ru.surfstudio.android.navigation.animation.EmptyScreenAnimations
-import ru.surfstudio.android.navigation.option.Options
+import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.option.activity.ActivityBundleOptions
-import ru.surfstudio.android.navigation.route.Route
+import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
  * Replace screen in a current stack with a screen specified by [route].
@@ -14,7 +14,6 @@ import ru.surfstudio.android.navigation.route.Route
  * This operation supports back stack.
  */
 data class Replace(
-        override val route: Route,
-        override val animations: Animations = EmptyScreenAnimations,
-        override val options: Options? = null
-) : NavigationCommand
+        override val route: FragmentRoute,
+        override val animations: Animations = EmptyScreenAnimations
+) : FragmentNavigationCommand

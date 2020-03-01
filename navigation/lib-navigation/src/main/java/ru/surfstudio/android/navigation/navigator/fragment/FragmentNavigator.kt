@@ -7,15 +7,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.BaseScreenAnimations
 import ru.surfstudio.android.navigation.animation.NoScreenAnimations
-import ru.surfstudio.android.navigation.command.Add
+import ru.surfstudio.android.navigation.command.fragment.Add
 import ru.surfstudio.android.navigation.command.NavigationCommand
-import ru.surfstudio.android.navigation.command.Replace
+import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.extension.fragment.setAnimations
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.FragmentBackStack
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntry
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntryObj
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
-import ru.surfstudio.android.navigation.navigator.backstack.route.BackStackRoute
+import ru.surfstudio.android.navigation.navigator.backstack.fragment.BackStackRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -199,12 +199,12 @@ open class FragmentNavigator(
     override fun onSaveState(outState: Bundle?) {
         outState ?: return
         val outStack = backStack.map { FragmentBackStackEntryObj.from(it) }
-        val stackKey = BACK_STACK_KEY.format(containerId)
+        val stackKey = getBackStackKey()
         outState.putSerializable(stackKey, ArrayList(outStack))
     }
 
     override fun onRestoreState(savedInstanceState: Bundle?) {
-        val stackKey = BACK_STACK_KEY.format(containerId)
+        val stackKey = getBackStackKey()
         val inStack = savedInstanceState?.getSerializable(stackKey) as? ArrayList<FragmentBackStackEntryObj>
                 ?: return
         inStack
@@ -238,6 +238,8 @@ open class FragmentNavigator(
     protected fun convertToRouteTag(backStackTag: String): String {
         return backStackTag.split("-")[1]
     }
+
+    protected open fun getBackStackKey() = BACK_STACK_KEY.format(containerId)
 
     private fun toggleVisibility(
             route: FragmentRoute,

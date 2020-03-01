@@ -3,7 +3,7 @@ package ru.surfstudio.android.navigation.animation
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
 import java.io.Serializable
-import ru.surfstudio.android.navigation.command.*
+import ru.surfstudio.android.navigation.command.fragment.*
 
 /**
  * Base resource-based screen animations.
@@ -15,9 +15,9 @@ import ru.surfstudio.android.navigation.command.*
  * @param exitAnimation An animation or animator resource ID used for the exit animation on the
  * screen by [Add], [Replace] or same command.
  * @param popEnterAnimation An animation or animator resource ID used for the enter animation on the
- * screen being re-added from backStack by [RemoveLast] command.
+ * screen being re-added from backStack by [RemoveLast] or same command.
  * @param popExitAnimation An animation or animator resource ID used for the exit animation on the
- * screen being removed by [RemoveLast] command.
+ * screen being removed by [RemoveLast] or same command.
 
  */
 open class BaseScreenAnimations(

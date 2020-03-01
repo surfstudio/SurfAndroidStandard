@@ -1,17 +1,20 @@
-package ru.surfstudio.android.navigation.navigator.tab
+package ru.surfstudio.android.navigation.navigator.fragment.tab
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.BaseScreenAnimations
+import ru.surfstudio.android.navigation.animation.EmptyScreenAnimations
+import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
-import ru.surfstudio.android.navigation.navigator.tab.host.TabHostEntries
-import ru.surfstudio.android.navigation.navigator.tab.host.TabHostEntry
-import ru.surfstudio.android.navigation.navigator.tab.host.TabHostFragment
-import ru.surfstudio.android.navigation.navigator.tab.listener.ActiveTabReopenedListener
-import ru.surfstudio.android.navigation.navigator.tab.route.TabRootRoute
+import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntries
+import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostEntry
+import ru.surfstudio.android.navigation.navigator.fragment.tab.host.TabHostFragmentNavigator
+import ru.surfstudio.android.navigation.navigator.fragment.tab.listener.ActiveTabReopenedListener
+import ru.surfstudio.android.navigation.navigator.fragment.tab.route.TabRootRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -28,18 +31,12 @@ open class TabFragmentNavigator(
         override val containerId: Int = View.NO_ID
 ) : FragmentNavigatorInterface {
 
-
     private var activeTabTag: String = ""
 
     private val hostEntries: TabHostEntries = TabHostEntries()
 
-
-    private val activeFragment: TabHostFragment
-        get() = hostEntries.fragments.firstOrNull { it.tag == activeTabTag }
-                ?: hostEntries.fragments.first()
-
     private val activeNavigator
-        get() = activeFragment.navigator
+        get() = hostEntries.first { it.tag == activeTabTag }.navigator
 
     private var activeTabReopenedListener: ActiveTabReopenedListener = {}
 
@@ -50,12 +47,16 @@ open class TabFragmentNavigator(
         if (route is TabRootRoute) {
             openTab(route)
         } else {
-            activeNavigator.add(route, animations) // TODO try to use common navigation algorythm on empty navigation stack
+            activeNavigator.add(route, animations) // TODO support common navigation algorithm without tabs
         }
     }
 
     override fun replace(route: FragmentRoute, animations: BaseScreenAnimations) {
-        activeNavigator.replace(route, animations)
+        if (route is TabRootRoute) {
+            openTab(route)
+        } else {
+            activeNavigator.replace(route, animations) // TODO support common navigation algorithm without tabs
+        }
     }
 
     override fun replaceHard(route: FragmentRoute, animations: BaseScreenAnimations) {
@@ -90,24 +91,21 @@ open class TabFragmentNavigator(
         outState ?: return
         outState.putString(EXTRA_ACTIVE_TAG, activeTabTag)
         outState.putStringArrayList(EXTRA_HOST_TAGS, ArrayList(hostEntries.tags))
-        hostEntries.fragments.forEach { it.navigator.onSaveState(outState) }
+        hostEntries.navigators.forEach { it.onSaveState(outState) }
     }
 
     override fun onRestoreState(savedInstanceState: Bundle?) {
         savedInstanceState ?: return
 
         hostEntries.clear()
-        val restoredTags = savedInstanceState.getStringArrayList(EXTRA_HOST_TAGS) ?: arrayListOf()
-        val restoredEntries = restoredTags
-                .mapNotNull { tag ->
-                    val fragment = fragmentManager.findFragmentByTag(tag) as? TabHostFragment
-                    fragment?.let { TabHostEntry(tag, fragment) }
-                }
-        hostEntries.addAll(restoredEntries)
-        hostEntries.fragments.forEach { it.navigator.onRestoreState(savedInstanceState) }
+
+        val tags = savedInstanceState.getStringArrayList(EXTRA_HOST_TAGS) ?: return
+        val navigators = tags.map { TabHostFragmentNavigator(fragmentManager, containerId, it) }
+        tags.forEachIndexed { index, s -> hostEntries.add(TabHostEntry(s, navigators[index])) }
+
+        hostEntries.navigators.forEach { it.onRestoreState(savedInstanceState) }
 
         activeTabTag = savedInstanceState.getString(EXTRA_ACTIVE_TAG) ?: ""
-        attachExistentTab(activeTabTag)
     }
 
     fun addBackStackChangeListener(listener: BackStackChangedListener) {
@@ -137,13 +135,15 @@ open class TabFragmentNavigator(
         val routeTag = route.getTag()
         activeTabTag = routeTag
         fragmentManager.executePendingTransactions()
-        fragmentManager.beginTransaction().apply {
-            val newStackFragment = TabHostFragment.newInstance(route)
-            detachVisibleTabs()
-            hostEntries.add(TabHostEntry(routeTag, newStackFragment))
-            add(containerId, newStackFragment, routeTag)
-            commitNow()
-        }
+
+        val newNavigator = TabHostFragmentNavigator(fragmentManager, containerId, routeTag)
+        val newEntry = TabHostEntry(routeTag, newNavigator)
+        hostEntries.add(newEntry)
+
+        fragmentManager.beginTransaction()
+                .detachVisibleTabs()
+                .commitNow()
+        newNavigator.replace(route, EmptyScreenAnimations)
     }
 
     private fun openExistentTab(routeTag: String) {
@@ -159,15 +159,38 @@ open class TabFragmentNavigator(
         fragmentManager.executePendingTransactions()
         fragmentManager.beginTransaction().apply {
             detachVisibleTabs()
-            attach(activeFragment)
+            extractFragmentsToAttach().forEach { attach(it) }
             commitNow()
         }
     }
 
-    private fun FragmentTransaction.detachVisibleTabs() {
-        hostEntries.fragments.forEach {
-            if (!it.isDetached && it.tag != activeTabTag) detach(it)
+    /**
+     * Извлечение из бекстека фрагментов, которые необходимо присоединить к отображению.
+     *
+     * Просто извлечь последний видимый не получится,
+     * так как фрагменты могут быть добавлены с помощью операции [Add],
+     * и тогда нам необходимо приаттачить все фрагменты до первого, у которого вызвана операция [Replace]
+     */
+    private fun extractFragmentsToAttach(): List<Fragment> {
+        val activeStack = activeNavigator.obtainBackStack()
+        val activeStackSize = activeStack.size
+        val fragmentsToAttach = mutableListOf<Fragment>()
+        var i = 0
+        do {
+            i++
+            val index = activeStackSize - i
+            fragmentsToAttach.add(activeStack[index].fragment)
+        } while (activeStack[index].command !is Replace)
+        return fragmentsToAttach.reversed()
+    }
+
+    private fun FragmentTransaction.detachVisibleTabs(): FragmentTransaction {
+        hostEntries.forEach { entry ->
+            if (entry.tag != activeTabTag) {
+                entry.navigator.obtainBackStack().forEach { detach(it.fragment) }
+            }
         }
+        return this
     }
 
     companion object {

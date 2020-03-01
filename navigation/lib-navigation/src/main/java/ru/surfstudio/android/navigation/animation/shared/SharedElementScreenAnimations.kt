@@ -10,27 +10,10 @@ import java.io.Serializable
  * @param sharedElements elements to share between screens
  */
 class SharedElementScreenAnimations(
-        enterAnimation: Int,
-        exitAnimation: Int,
-        popEnterAnimation: Int,
-        popExitAnimation: Int,
         val sharedElements: MutableList<SharedElement>
-) : Serializable, BaseScreenAnimations(
-        enterAnimation,
-        exitAnimation,
-        popEnterAnimation,
-        popExitAnimation
-) {
+) : Serializable {
 
-    constructor(elements: MutableList<SharedElement>) : this(
-            0,
-            0,
-            0,
-            0,
-            elements
-    )
-
-    constructor(vararg elements: SharedElement) : this(elements = elements.toMutableList())
+    constructor(vararg elements: SharedElement) : this(elements.toMutableList())
 
     constructor(view: View, transitionName: String) : this(
             mutableListOf(

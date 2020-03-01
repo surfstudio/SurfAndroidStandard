@@ -1,7 +1,6 @@
 package ru.surfstudio.android.navigation.command
 
 import ru.surfstudio.android.navigation.animation.Animations
-import ru.surfstudio.android.navigation.option.Options
 import ru.surfstudio.android.navigation.route.Route
 import java.io.Serializable
 
@@ -14,13 +13,10 @@ import java.io.Serializable
  * * route [Route] that identifies the screen and makes command
  * ### Optional
  * * animations [Animations] used to specify navigation transition appearance.
- * * options [Options] additional options used to tweak navigation transition behavior.
  */
 interface NavigationCommand : Serializable {
 
     val route: Route
 
     val animations: Animations?
-
-    val options: Options?
 }
