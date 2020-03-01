@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.animation.res
+package ru.surfstudio.android.navigation.animation.resource
 
 /**
  * Simple empty animation, that will just show new screen above previous.

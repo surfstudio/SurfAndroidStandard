@@ -1,7 +1,7 @@
 package ru.surfstudio.android.navigation.command.fragment
 
 import ru.surfstudio.android.navigation.animation.Animations
-import ru.surfstudio.android.navigation.animation.res.EmptyResourceAnimations
+import ru.surfstudio.android.navigation.animation.resource.EmptyResourceAnimations
 import ru.surfstudio.android.navigation.command.fragment.base.FragmentNavigationCommand
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 

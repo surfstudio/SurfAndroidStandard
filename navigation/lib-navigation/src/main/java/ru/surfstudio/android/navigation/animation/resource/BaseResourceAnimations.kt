@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.animation.res
+package ru.surfstudio.android.navigation.animation.resource
 
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes

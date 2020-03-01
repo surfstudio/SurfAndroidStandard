@@ -3,7 +3,7 @@ package ru.surfstudio.android.navigation.navigator.fragment
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
 import ru.surfstudio.android.navigation.animation.Animations
-import ru.surfstudio.android.navigation.animation.res.EmptyResourceAnimations
+import ru.surfstudio.android.navigation.animation.resource.EmptyResourceAnimations
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**

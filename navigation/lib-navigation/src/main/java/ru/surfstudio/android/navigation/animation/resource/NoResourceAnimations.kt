@@ -1,4 +1,4 @@
-package ru.surfstudio.android.navigation.animation.res
+package ru.surfstudio.android.navigation.animation.resource
 
 /**
  * Animations that should not be displayed.

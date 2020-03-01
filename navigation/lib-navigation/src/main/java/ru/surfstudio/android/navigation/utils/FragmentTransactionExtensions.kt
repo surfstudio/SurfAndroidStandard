@@ -1,7 +1,7 @@
 package ru.surfstudio.android.navigation.utils
 
 import androidx.fragment.app.FragmentTransaction
-import ru.surfstudio.android.navigation.animation.res.BaseResourceAnimations
+import ru.surfstudio.android.navigation.animation.resource.BaseResourceAnimations
 import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 
 /**

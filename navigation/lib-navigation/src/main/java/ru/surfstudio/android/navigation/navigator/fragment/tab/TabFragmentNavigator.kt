@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import ru.surfstudio.android.navigation.animation.Animations
-import ru.surfstudio.android.navigation.animation.res.EmptyResourceAnimations
+import ru.surfstudio.android.navigation.animation.resource.EmptyResourceAnimations
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
