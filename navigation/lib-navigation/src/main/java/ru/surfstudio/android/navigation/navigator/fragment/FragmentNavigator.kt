@@ -5,17 +5,21 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import ru.surfstudio.android.navigation.animation.BaseScreenAnimations
-import ru.surfstudio.android.navigation.animation.NoScreenAnimations
+import ru.surfstudio.android.navigation.animation.Animations
+import ru.surfstudio.android.navigation.animation.res.BaseResourceAnimations
+import ru.surfstudio.android.navigation.animation.res.NoResourceAnimations
+import ru.surfstudio.android.navigation.animation.set.SetAnimations
+import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 import ru.surfstudio.android.navigation.command.fragment.Add
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.extension.fragment.setAnimations
+import ru.surfstudio.android.navigation.utils.setResourceAnimations
+import ru.surfstudio.android.navigation.utils.setSharedElementAnimations
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.FragmentBackStack
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntry
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntryObj
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
-import ru.surfstudio.android.navigation.navigator.backstack.fragment.BackStackRoute
+import ru.surfstudio.android.navigation.navigator.backstack.fragment.BackStackFragmentRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -42,7 +46,7 @@ open class FragmentNavigator(
 
     private val backStackChangedListeners = arrayListOf<BackStackChangedListener>()
 
-    override fun add(route: FragmentRoute, animations: BaseScreenAnimations) {
+    override fun add(route: FragmentRoute, animations: Animations) {
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
@@ -50,13 +54,13 @@ open class FragmentNavigator(
         val fragment = route.createFragment()
 
         fragmentManager.beginTransaction().apply {
-            setAnimations(animations)
+            supplyWithAnimations(animations)
             add(containerId, fragment, backStackTag)
             addToBackStack(
                     FragmentBackStackEntry(
                             backStackTag,
                             fragment,
-                            Add(BackStackRoute(route.getTag()), animations)
+                            Add(BackStackFragmentRoute(route.getTag()), animations)
                     )
             )
             commit()
@@ -64,7 +68,7 @@ open class FragmentNavigator(
     }
 
 
-    override fun replace(route: FragmentRoute, animations: BaseScreenAnimations) {
+    override fun replace(route: FragmentRoute, animations: Animations) {
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
@@ -73,31 +77,28 @@ open class FragmentNavigator(
         val lastFragment = backStack.peekFragment()
 
         fragmentManager.beginTransaction().apply {
-            setAnimations(animations)
+            supplyWithAnimations(animations)
             lastFragment?.let(::detach) //detach fragment if not null
             add(containerId, fragment, backStackTag)
             addToBackStack(
                     FragmentBackStackEntry(
                             backStackTag,
                             fragment,
-                            Replace(BackStackRoute(route.getTag()), animations)
+                            Replace(BackStackFragmentRoute(route.getTag()), animations)
                     )
             )
             commit()
         }
     }
 
-    override fun remove(
-            route: FragmentRoute,
-            animations: BaseScreenAnimations
-    ): Boolean {
+    override fun remove(route: FragmentRoute, animations: Animations): Boolean {
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
         val fragment = findFragment(convertToBackStackTag(route.getTag())) ?: return false
 
         fragmentManager.beginTransaction()
-                .setAnimations(animations)
+                .supplyWithAnimations(animations)
                 .remove(fragment)
                 .commit()
         return true
@@ -106,15 +107,15 @@ open class FragmentNavigator(
     private fun findFragment(backStackTag: String): Fragment? =
             backStack.findFragment(backStackTag)
 
-    override fun show(route: FragmentRoute, animations: BaseScreenAnimations): Boolean {
+    override fun show(route: FragmentRoute, animations: Animations): Boolean {
         return toggleVisibility(route, true, animations)
     }
 
-    override fun hide(route: FragmentRoute, animations: BaseScreenAnimations): Boolean {
+    override fun hide(route: FragmentRoute, animations: Animations): Boolean {
         return toggleVisibility(route, false, animations)
     }
 
-    override fun removeLast(animations: BaseScreenAnimations): Boolean {
+    override fun removeLast(animations: Animations): Boolean {
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
@@ -130,7 +131,7 @@ open class FragmentNavigator(
         return true
     }
 
-    override fun replaceHard(route: FragmentRoute, animations: BaseScreenAnimations) {
+    override fun replaceHard(route: FragmentRoute, animations: Animations) {
         val fragmentManager = fragmentManager
         fragmentManager.executePendingTransactions()
 
@@ -138,14 +139,14 @@ open class FragmentNavigator(
         val fragment = route.createFragment()
 
         fragmentManager.beginTransaction().apply {
-            setAnimations(animations)
+            supplyWithAnimations(animations)
             remove(backStack.pop().fragment)
             add(containerId, fragment, backStackTag)
             addToBackStack(
                     FragmentBackStackEntry(
                             backStackTag,
                             fragment,
-                            Replace(BackStackRoute(route.getTag()), animations)
+                            Replace(BackStackFragmentRoute(route.getTag()), animations)
                     )
             )
             commit()
@@ -239,53 +240,48 @@ open class FragmentNavigator(
         return backStackTag.split("-")[1]
     }
 
-    protected open fun getBackStackKey() = BACK_STACK_KEY.format(containerId)
+    protected open fun getBackStackKey(): String {
+        return BACK_STACK_KEY.format(containerId)
+    }
 
-    private fun toggleVisibility(
-            route: FragmentRoute,
-            shouldShow: Boolean,
-            animationBundle: BaseScreenAnimations
-    ): Boolean {
-        val fragmentManager = fragmentManager
-        fragmentManager.executePendingTransactions()
-
-        val fragment = fragmentManager.findFragmentByTag(convertToBackStackTag(route.getTag()))
-                ?: return false
-
-        fragmentManager.beginTransaction()
-                .apply {
-                    setAnimations(animationBundle)
-                    if (shouldShow) show(fragment) else hide(fragment)
-                    commit()
-                }
-
-        return true
+    protected open fun FragmentTransaction.supplyWithAnimations(
+            animations: Animations
+    ): FragmentTransaction = apply {
+        when (animations) {
+            is SetAnimations -> animations.set.forEach { supplyWithAnimations(it) }
+            is BaseResourceAnimations -> setResourceAnimations(animations, false)
+            is SharedElementAnimations -> setSharedElementAnimations(animations)
+        }
     }
 
     /**
      * Add animations to a reverse operations.
      */
-    private fun setupReverseAnimations(
+    protected open fun setupReverseAnimations(
             transaction: FragmentTransaction,
             command: NavigationCommand,
-            overridingAnimations: BaseScreenAnimations
+            overridingAnimations: Animations
     ) {
         val lastAnimations = when (command) {
-            is Add -> command.animations as BaseScreenAnimations
-            is Replace -> command.animations as BaseScreenAnimations
-            else -> NoScreenAnimations
+            is Add -> command.animations as BaseResourceAnimations
+            is Replace -> command.animations as BaseResourceAnimations
+            else -> NoResourceAnimations
         }
 
-        if (lastAnimations != NoScreenAnimations || overridingAnimations != NoScreenAnimations) {
-            val shouldOverrideAnimations = overridingAnimations != NoScreenAnimations
-            val transactionAnimations = if (shouldOverrideAnimations) overridingAnimations else lastAnimations
-
-            transaction.setAnimations(transactionAnimations, true)
+        if (lastAnimations != NoResourceAnimations || overridingAnimations != NoResourceAnimations) {
+            val shouldOverrideAnimations = overridingAnimations != NoResourceAnimations
+            val transactionAnimations = if (shouldOverrideAnimations && overridingAnimations is BaseResourceAnimations) {
+                overridingAnimations
+            } else {
+                lastAnimations
+            }
+            transaction.setResourceAnimations(transactionAnimations, true)
         }
     }
 
+
     /**
-     * Perform opertation opposite to ordinary [replace]
+     * Perform operation opposite to ordinary [replace]
      */
     private fun setupReverseReplace(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         val lastFragment = backStack.peekFragment()
@@ -300,6 +296,27 @@ open class FragmentNavigator(
     private fun setupReverseAdd(transaction: FragmentTransaction, entry: FragmentBackStackEntry) {
         transaction.remove(entry.fragment)
         notifyBackStackListeners()
+    }
+
+    private fun toggleVisibility(
+            route: FragmentRoute,
+            shouldShow: Boolean,
+            animationBundle: Animations
+    ): Boolean {
+        val fragmentManager = fragmentManager
+        fragmentManager.executePendingTransactions()
+
+        val fragment = fragmentManager.findFragmentByTag(convertToBackStackTag(route.getTag()))
+                ?: return false
+
+        fragmentManager.beginTransaction()
+                .apply {
+                    supplyWithAnimations(animationBundle)
+                    if (shouldShow) show(fragment) else hide(fragment)
+                    commit()
+                }
+
+        return true
     }
 
     private fun addToBackStack(entry: FragmentBackStackEntry) {

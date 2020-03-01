@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityOptionsCompat
 import ru.surfstudio.android.navigation.route.BaseRoute
 import ru.surfstudio.android.navigation.route.activity.ActivityRoute.Companion.EXTRA_DATA_BUNDLE
 
@@ -26,13 +25,6 @@ open class ActivityRoute : BaseRoute<AppCompatActivity>() {
         return Intent(context, requireScreenClass())
                 .apply { putExtra(EXTRA_DATA_BUNDLE, prepareData()) }
     }
-
-    /**
-     * Prepare options [ActivityOptionsCompat] to launch activity.
-     *
-     * Can be used to set custom animations, shared element transitions, etc
-     */
-    fun prepareOptions(): Bundle? = null
 }
 
 /**

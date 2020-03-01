@@ -1,7 +1,8 @@
-package ru.surfstudio.android.navigation.animation
+package ru.surfstudio.android.navigation.animation.res
 
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
+import ru.surfstudio.android.navigation.animation.Animations
 import java.io.Serializable
 import ru.surfstudio.android.navigation.command.fragment.*
 
@@ -20,7 +21,7 @@ import ru.surfstudio.android.navigation.command.fragment.*
  * screen being removed by [RemoveLast] or same command.
 
  */
-open class BaseScreenAnimations(
+open class BaseResourceAnimations(
         @AnimatorRes @AnimRes val enterAnimation: Int,
         @AnimatorRes @AnimRes val exitAnimation: Int,
         @AnimatorRes @AnimRes val popEnterAnimation: Int,

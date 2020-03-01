@@ -8,4 +8,4 @@ import java.io.Serializable
  *
  * Serializable to survive configuration changes.
  */
-data class BackStackRoute(val backStackTag: String) : FragmentRoute(), Serializable
+data class BackStackFragmentRoute(val backStackTag: String) : FragmentRoute(), Serializable

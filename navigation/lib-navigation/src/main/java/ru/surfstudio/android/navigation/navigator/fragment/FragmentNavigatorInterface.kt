@@ -2,8 +2,8 @@ package ru.surfstudio.android.navigation.navigator.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentManager
-import ru.surfstudio.android.navigation.animation.BaseScreenAnimations
-import ru.surfstudio.android.navigation.animation.EmptyScreenAnimations
+import ru.surfstudio.android.navigation.animation.Animations
+import ru.surfstudio.android.navigation.animation.res.EmptyResourceAnimations
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
 
 /**
@@ -27,18 +27,18 @@ interface FragmentNavigatorInterface {
 
     val fragmentManager: FragmentManager
 
-    fun add(route: FragmentRoute, animations: BaseScreenAnimations = EmptyScreenAnimations)
+    fun add(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
-    fun replace(route: FragmentRoute, animations: BaseScreenAnimations = EmptyScreenAnimations)
+    fun replace(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
-    fun replaceHard(route: FragmentRoute, animations: BaseScreenAnimations = EmptyScreenAnimations)
+    fun replaceHard(route: FragmentRoute, animations: Animations = EmptyResourceAnimations)
 
     fun remove(
             route: FragmentRoute,
-            animations: BaseScreenAnimations = EmptyScreenAnimations
+            animations: Animations = EmptyResourceAnimations
     ): Boolean
 
-    fun removeLast(animations: BaseScreenAnimations): Boolean
+    fun removeLast(animations: Animations): Boolean
 
     fun removeUntil(route: FragmentRoute, isInclusive: Boolean): Boolean
 
@@ -46,12 +46,12 @@ interface FragmentNavigatorInterface {
 
     fun hide(
             route: FragmentRoute,
-            animations: BaseScreenAnimations = EmptyScreenAnimations
+            animations: Animations = EmptyResourceAnimations
     ): Boolean
 
     fun show(
             route: FragmentRoute,
-            animations: BaseScreenAnimations = EmptyScreenAnimations
+            animations: Animations = EmptyResourceAnimations
     ): Boolean
 
     fun onSaveState(outState: Bundle?)

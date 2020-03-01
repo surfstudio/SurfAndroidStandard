@@ -5,8 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import ru.surfstudio.android.navigation.animation.BaseScreenAnimations
-import ru.surfstudio.android.navigation.animation.EmptyScreenAnimations
+import ru.surfstudio.android.navigation.animation.Animations
+import ru.surfstudio.android.navigation.animation.res.EmptyResourceAnimations
 import ru.surfstudio.android.navigation.command.fragment.Replace
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.fragment.FragmentNavigatorInterface
@@ -43,7 +43,7 @@ open class TabFragmentNavigator(
     override val backStackEntryCount: Int
         get() = activeNavigator.backStackEntryCount
 
-    override fun add(route: FragmentRoute, animations: BaseScreenAnimations) {
+    override fun add(route: FragmentRoute, animations: Animations) {
         if (route is TabRootRoute) {
             openTab(route)
         } else {
@@ -51,7 +51,7 @@ open class TabFragmentNavigator(
         }
     }
 
-    override fun replace(route: FragmentRoute, animations: BaseScreenAnimations) {
+    override fun replace(route: FragmentRoute, animations: Animations) {
         if (route is TabRootRoute) {
             openTab(route)
         } else {
@@ -59,15 +59,15 @@ open class TabFragmentNavigator(
         }
     }
 
-    override fun replaceHard(route: FragmentRoute, animations: BaseScreenAnimations) {
+    override fun replaceHard(route: FragmentRoute, animations: Animations) {
         activeNavigator.replaceHard(route, animations)
     }
 
-    override fun remove(route: FragmentRoute, animations: BaseScreenAnimations): Boolean {
+    override fun remove(route: FragmentRoute, animations: Animations): Boolean {
         return activeNavigator.remove(route, animations)
     }
 
-    override fun removeLast(animations: BaseScreenAnimations): Boolean {
+    override fun removeLast(animations: Animations): Boolean {
         return activeNavigator.removeLast(animations)
     }
 
@@ -79,11 +79,11 @@ open class TabFragmentNavigator(
         return activeNavigator.removeAll()
     }
 
-    override fun hide(route: FragmentRoute, animations: BaseScreenAnimations): Boolean {
+    override fun hide(route: FragmentRoute, animations: Animations): Boolean {
         return activeNavigator.hide(route, animations)
     }
 
-    override fun show(route: FragmentRoute, animations: BaseScreenAnimations): Boolean {
+    override fun show(route: FragmentRoute, animations: Animations): Boolean {
         return activeNavigator.show(route, animations)
     }
 
@@ -143,7 +143,7 @@ open class TabFragmentNavigator(
         fragmentManager.beginTransaction()
                 .detachVisibleTabs()
                 .commitNow()
-        newNavigator.replace(route, EmptyScreenAnimations)
+        newNavigator.replace(route, EmptyResourceAnimations)
     }
 
     private fun openExistentTab(routeTag: String) {
