@@ -13,14 +13,13 @@ import ru.surfstudio.android.navigation.animation.shared.SharedElementAnimations
 import ru.surfstudio.android.navigation.command.fragment.Add
 import ru.surfstudio.android.navigation.command.NavigationCommand
 import ru.surfstudio.android.navigation.command.fragment.Replace
-import ru.surfstudio.android.navigation.utils.setResourceAnimations
-import ru.surfstudio.android.navigation.utils.setSharedElementAnimations
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.FragmentBackStack
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntry
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.entry.FragmentBackStackEntryObj
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.listener.BackStackChangedListener
 import ru.surfstudio.android.navigation.navigator.backstack.fragment.BackStackFragmentRoute
 import ru.surfstudio.android.navigation.route.fragment.FragmentRoute
+import ru.surfstudio.android.navigation.utils.FragmentAnimationSupplier
 
 /**
  * Fragment navigator.
@@ -45,6 +44,8 @@ open class FragmentNavigator(
         get() = backStack.size
 
     private val backStackChangedListeners = arrayListOf<BackStackChangedListener>()
+
+    var animationSupplier = FragmentAnimationSupplier()
 
     override fun add(route: FragmentRoute, animations: Animations) {
         val fragmentManager = fragmentManager
@@ -248,9 +249,12 @@ open class FragmentNavigator(
             animations: Animations
     ): FragmentTransaction = apply {
         when (animations) {
-            is SetAnimations -> animations.set.forEach { supplyWithAnimations(it) }
-            is BaseResourceAnimations -> setResourceAnimations(animations, false)
-            is SharedElementAnimations -> setSharedElementAnimations(animations)
+            is SetAnimations ->
+                animations.set.forEach { supplyWithAnimations(it) }
+            is BaseResourceAnimations ->
+                animationSupplier.setResourceAnimations(this, animations, false)
+            is SharedElementAnimations ->
+                animationSupplier.setSharedElementAnimations(this, animations)
         }
     }
 
@@ -275,7 +279,7 @@ open class FragmentNavigator(
             } else {
                 lastAnimations
             }
-            transaction.setResourceAnimations(transactionAnimations, true)
+            animationSupplier.setResourceAnimations(transaction, transactionAnimations, true)
         }
     }
 
