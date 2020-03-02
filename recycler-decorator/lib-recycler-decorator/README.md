@@ -56,8 +56,11 @@ val decorator = Decorator.Builder()
 
 Для создания компонентов рисующих декор, используется два интерфейса,  
 *RecyclerViewDecor* - нужен для отрисовки декора всего RecyclerView. Например полосы прокрутки.
+
 *ViewHolderDecor* - является расширяет возможности RecyclerViewDecor.  
-Нужен для отрисовки декора непосредственно элемента внутри RecyclerView. Для удобства в метод draw поставляется View.
+Нужен для отрисовки декора непосредственно элемента внутри RecyclerView.
+
+Для удобства в метод draw поставляется View.
 ```
     interface RecyclerViewDecor {
         fun draw(canvas: Canvas, recyclerView: RecyclerView, state: RecyclerView.State)
@@ -73,8 +76,11 @@ val decorator = Decorator.Builder()
 Всего билдер имеет 4 метода для построения декоратора
 
 *underlay* - сюда передаются все декораторы для отрисовки декора до отрисовки View внутри RecyclerView
+
 *overlay* - сюда передаются все декораторы для отрисовки декора после отрисовки View внутри RecyclerView
+
 *offset* - сюда передаются все декораторы для отрисовки отсупов у View внутри RecyclerView
+
 *build* -  собирает все переданные декораторы и возвращает экземпляр *RecyclerVIew.ItemDecoration*
 
 Методы *underlay*, *overlay* принимают реализации интерфейсов RecyclerViewDecor и ViewHolderDecor.
@@ -98,7 +104,7 @@ val decorator = Decorator.Builder()
 2. НЕ привязанные к itemViewType ViewHolderDecor
 3. Привязанные к itemViewType ViewHolderDecor
 
-После отрисовки ViewHolder'ов отрисоовываются (переденные через метод overlay):
+После отрисовки ViewHolder'ов отрисовываются (переденные через метод overlay):
 1. Привязанные к itemViewType ViewHolderDecor
 2. НЕ привязанные к itemViewType ViewHolderDecor
 3. Все RecyclerViewDecor
@@ -106,6 +112,7 @@ val decorator = Decorator.Builder()
 Отрисовка OffsetDecor:
 1. Не привязанные к itemViewType
 2. Привязанные к itemViewType
+
 #### Пример 1
 ```
     .underlay(someViewHolder.itemViewType to someDecorDrawer1)
@@ -141,6 +148,11 @@ override fun draw(canvas: Canvas,
         val baseItem = adapter.getItem(vh.adapterPosition)
         ...
 }
+```
+
+Для более удобного подключения к EasyAdapter есть библиотека с расширениями
+```
+ru.surfstudio.android:recycler-decorator-ktx
 ```
 
 # Подключение

@@ -10,7 +10,6 @@ android {
 
 dependencies {
     DependencyConfigurator.projectImplementation(project, "recycler-decorator")
+    DependencyConfigurator.projectImplementation(project, "recycler-decorator-ktx")
     DependencyConfigurator.projectImplementation(project, "easyadapter")
-//    DependencyConfigurator.projectImplementation(project, "sample-common")
-
 }

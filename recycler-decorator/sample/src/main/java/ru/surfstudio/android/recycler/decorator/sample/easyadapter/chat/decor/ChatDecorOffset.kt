@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.easyadapter.item.BindableItem
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatObject
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.ChatMessageController
-import ru.surfstudio.android.recycler.decorator.sample.easydecor.BaseViewHolderOffset
+import ru.surfstudio.android.recycler.decorator.ktx.BaseViewHolderOffset
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 class ChatDecorOffset : BaseViewHolderOffset<BindableItem<ChatObject, ChatMessageController.Holder>> {
