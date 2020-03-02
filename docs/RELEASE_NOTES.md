@@ -4,6 +4,3 @@
 ##### Docs
 * Init tracking changes in RELEASE_NOTES 
 * Kotlin code style settings configuration.
-* ANDDEP-392 Add firebase app distribution migration instruction
-* ANDDEP-392 Add firebase crashlytics migration instruction
-* ANDDEP-392 Fix firebase crashlytics migration instruction
