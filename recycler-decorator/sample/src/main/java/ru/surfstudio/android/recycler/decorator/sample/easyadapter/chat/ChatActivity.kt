@@ -9,9 +9,14 @@ import ru.surfstudio.android.easyadapter.EasyAdapter
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.decorator.Decorator
 import ru.surfstudio.android.recycler.decorator.sample.R
-import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.*
-import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatDecor
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.ChatMessageController
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.MessageTimeController
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatDecorOffset
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatMessageDecor
+import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.MessageTimeDecor
+import ru.surfstudio.android.recycler.decorator.sample.easydecor.offset
+import ru.surfstudio.android.recycler.decorator.sample.easydecor.overlay
+import ru.surfstudio.android.recycler.decorator.sample.easydecor.underlay
 
 class ChatActivity : AppCompatActivity() {
 
@@ -36,7 +41,8 @@ class ChatActivity : AppCompatActivity() {
         }
 
         val decorator = Decorator.Builder()
-                .underlay(ChatDecor(this))
+                .underlay(messageTimeController.viewType() to MessageTimeDecor(this))
+                .underlay(chatController.viewType() to ChatMessageDecor(this))
                 .offset(chatController.viewType() to ChatDecorOffset())
                 .build()
 
@@ -44,7 +50,7 @@ class ChatActivity : AppCompatActivity() {
 
         val items = ItemList.create()
 
-        repeat(150) { number ->
+        repeat(1500) { number ->
             if(number.rem(4) == 0) {
                 val date = DateFormat.format("dd MMMM yyyy HH:mm:ss", System.currentTimeMillis())
                 items.add(date.toString(), messageTimeController)
