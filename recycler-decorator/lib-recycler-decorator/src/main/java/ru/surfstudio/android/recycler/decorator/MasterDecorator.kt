@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.surfstudio.android.recycler.decorator.DecorsBridge
 
 /**
- * Main item decorator for draw all decor of RecyclerView and ViewHolders decors
+ * Main item decorator for drawing all decors of RecyclerView and ViewHolders decors
  */
 class MasterDecorator(private val decorsBridge: DecorsBridge) : RecyclerView.ItemDecoration() {
 

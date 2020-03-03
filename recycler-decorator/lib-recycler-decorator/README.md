@@ -10,13 +10,15 @@
 # Использование
 [Пример использования](/recycler-decorator/sample)
 
-Данный декоратор представляет собой надстройку для класса RecyclerVIew.ItemDecoration.
+Данный декоратор представляет собой надстройку для класса RecyclerView.ItemDecoration.
+Вместо RecyclerView.ItemDecoration логика отрисовки разбивается на более мелки состаявляющие, которые отвечают за свои части декора.
+(см. дальше пункт "Компоненты")
 Также он не исключает возможность использовать свои реализации RecyclerVIew.ItemDecoration.
 
 # Цели
 1. Удобная работа с декорированием RecyclerView, т.е уйти от написания RecyclerVIew.ItemDecoration под каждый нужный кейс.
 2. Разделение сложной логики для отрисовки декора на более мелкие части.
-3. Лекое комбинирования и переиспользование разных декораторов.
+3. Легкое комбинирование и переиспользование разных декораторов.
 4. Простое управление последовательностью отрисовки декоров у RecyclerView.
 5. Простота управления отрисовки декора над ViewHolder'ами и под ними.
 6. Возможность привязывания декора к определенному типу ViewHolder.
@@ -42,7 +44,7 @@ val decorator = Decorator.Builder()
 Подключается с RecyclerView как и обычный ItemDecoration
 
 ```
-            recycler_view.addItemDecoration(decorator)
+recycler_view.addItemDecoration(decorator)
 ```
 # Компоненты
 
@@ -58,7 +60,7 @@ val decorator = Decorator.Builder()
 *RecyclerViewDecor* - нужен для отрисовки декора всего RecyclerView. Например полосы прокрутки.
 
 *ViewHolderDecor* - является расширяет возможности RecyclerViewDecor.  
-Нужен для отрисовки декора непосредственно элемента внутри RecyclerView.
+Нужен для отрисовки декора для видимой View в RecyclerView.
 
 Для удобства в метод draw поставляется View.
 ```
