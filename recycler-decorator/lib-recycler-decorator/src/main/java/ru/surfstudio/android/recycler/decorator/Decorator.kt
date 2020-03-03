@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2018-present, SurfStudio LLC. Oleg Zhilo
+  Copyright (c) 2020, SurfStudio LLC. Oleg Zhilo
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
