@@ -45,7 +45,7 @@
    7. [Анимации](../animations/sample/README.md)
    8. [Загрузка изображений](../imageloader/sample/README.md)
    9. [Работа со списками](../easyadapter/sample/README.md)
-   10. [Декоратор списка](../recycler-decorator/lib-recycler-decorator/README.md)
+   10. [Декоратор для RecyclerView](../recycler-decorator/lib-recycler-decorator/README.md)
    11. [Управлениями сообщениями](../message-controller/sample/README.md)
    12. [Загрузка данных](ui/load_data/load_data.md)
    13. [Особенности реализации View](ui/view_realization_specs.md)

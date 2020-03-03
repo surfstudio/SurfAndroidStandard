@@ -5,4 +5,4 @@
 * Init tracking changes in RELEASE_NOTES
 * Kotlin code style settings configuration.
 * Init tracking changes in RELEASE_NOTES
-* ANDDEP-785 added link to recycler-decorator
+* ANDDEP-785 added link to recycler-decorator lib
