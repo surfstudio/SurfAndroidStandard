@@ -38,4 +38,11 @@ interface PushEventListener {
      * Will be call on push dismissed
      */
     fun pushDismissListener(context: Context, intent: Intent)
+
+    /**
+     * Вызывается когда нажато на кастомную кнопку
+     *
+     * Will be called on custom action click
+     */
+    fun customActionListener(context: Context, intent: Intent)
 }
