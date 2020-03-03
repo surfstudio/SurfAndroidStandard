@@ -18,7 +18,7 @@ import ru.surfstudio.android.recycler.decorator.sample.list.decor.Rules
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class EasyAdapterDecoratorActivity : AppCompatActivity() {
+class EasyAdapterDecoratorActivityView : AppCompatActivity() {
 
     private val easyAdapter = EasyAdapter()
 
@@ -32,7 +32,7 @@ class EasyAdapterDecoratorActivity : AppCompatActivity() {
 
     private fun init() {
         recycler_view.apply {
-            layoutManager = LinearLayoutManager(this@EasyAdapterDecoratorActivity)
+            layoutManager = LinearLayoutManager(this@EasyAdapterDecoratorActivityView)
             adapter = easyAdapter
         }
 

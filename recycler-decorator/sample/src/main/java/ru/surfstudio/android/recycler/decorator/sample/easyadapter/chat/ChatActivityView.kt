@@ -17,7 +17,7 @@ import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.Me
 import ru.surfstudio.android.recycler.decorator.easyadapter.offset
 import ru.surfstudio.android.recycler.decorator.easyadapter.underlay
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivityView : AppCompatActivity() {
 
     private val easyAdapter = EasyAdapter()
             .apply {
@@ -35,7 +35,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun init() {
         recycler_view.apply {
-            layoutManager = LinearLayoutManager(this@ChatActivity)
+            layoutManager = LinearLayoutManager(this@ChatActivityView)
             adapter = easyAdapter
         }
 

@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="ru.surfstudio.android.recycler.decorator.sample.MainActivity"
+        <activity android:name="ru.surfstudio.android.recycler.decorator.sample.MainActivityView"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,16 +19,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".list.LinearDecoratorActivity"
+        <activity android:name=".list.LinearDecoratorActivityView"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".pager.CarouselDecoratorActivity"
+        <activity android:name=".pager.CarouselDecoratorActivityView"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".easyadapter.simple.EasyAdapterDecoratorActivity"
+        <activity android:name=".easyadapter.simple.EasyAdapterDecoratorActivityView"
             android:screenOrientation="portrait" />
 
-        <activity android:name="ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatActivity"
+        <activity android:name="ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatActivityView"
             android:screenOrientation="portrait" />
     </application>
 

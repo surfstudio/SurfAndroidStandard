@@ -19,7 +19,7 @@ import ru.surfstudio.android.recycler.decorator.sample.pager.controllers.LinePag
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class CarouselDecoratorActivity : AppCompatActivity() {
+class CarouselDecoratorActivityView : AppCompatActivity() {
 
     private val easyAdapter = EasyAdapter()
 
@@ -34,7 +34,7 @@ class CarouselDecoratorActivity : AppCompatActivity() {
 
     private fun init() {
         pager_rv.apply {
-            layoutManager = LinearLayoutManager(this@CarouselDecoratorActivity, RecyclerView.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(this@CarouselDecoratorActivityView, RecyclerView.HORIZONTAL, false)
             adapter = easyAdapter.apply { isFirstInvisibleItemEnabled = false }
             PagerSnapHelper().attachToRecyclerView(pager_rv)
         }

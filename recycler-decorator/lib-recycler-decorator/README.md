@@ -5,7 +5,7 @@
 # RecyclerView decorator
 
 Универсальный декоратор для работы с `RecycleView`.
-Может быть использован как для отрисовки простых девайдеров так и более сложных кейсов, например паралакс картинки на фоне ViewHolder или всей области RecyclerView.
+Может быть использован как для отрисовки простых дивайдеров так и более сложных кейсов, например паралакс картинки на фоне ViewHolder или всей области RecyclerView.
 
 # Использование
 [Пример использования](/recycler-decorator/sample)
@@ -86,8 +86,8 @@ val decorator = Decorator.Builder()
 Методы *underlay*, *overlay* принимают реализации интерфейсов RecyclerViewDecor и ViewHolderDecor.
 
 #### Связь с RecyclerView.ItemDecoration.
-1. Все декораторы ViewHolderDecor, RecyclerViewDecor переденные в *underlay* отрисовываются в методе RecyclerView.ItemDecoration.onDrawOver(...)
-2. Все декораторы ViewHolderDecor, RecyclerViewDecor переденные в *overlay* отрисовываются в методе RecyclerView.ItemDecoration.onDraw(...)
+1. Все декораторы ViewHolderDecor, RecyclerViewDecor переденные в *underlay* отрисовываются в методе RecyclerView.ItemDecoration.onDraw(...)
+2. Все декораторы ViewHolderDecor, RecyclerViewDecor переденные в *overlay* отрисовываются в методе RecyclerView.ItemDecoration.onDrawOver(...)
 3. Все OffsetDecor переданные в методе *offset* отрисовываются в методе RecyclerView.ItemDecoration.getItemOffsets(...)
 
 Исключения:
