@@ -1525,6 +1525,59 @@
     "mirror_repo": ""
   },
   {
+    "id": "recycler-decorator",
+    "version": "0.5.0",
+    "unstable_version": 0,
+    "stable": false,
+    "dir": "recycler-decorator",
+    "libs": [
+      {
+        "name": "recycler-decorator",
+        "dir": "lib-recycler-decorator",
+        "artifact_name": "recycler-decorator",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "api"
+          }
+        ]
+      },
+      {
+        "name": "recycler-decorator-easyadapter",
+        "dir": "lib-recycler-decorator-easyadapter",
+        "artifact_name": "recycler-decorator-easyadapter",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "recycler-decorator",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "recycler-decorator-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "rx-extension",
     "version": "0.5.0",
     "unstable_version": 5,
