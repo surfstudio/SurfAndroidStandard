@@ -9,7 +9,7 @@ import ru.surfstudio.android.easyadapter.item.NoDataItem
 import ru.surfstudio.android.recycler.decorator.Decorator
 
 /**
- * Wrapper for connect Decorator.ViewHolderDecor and EasyAdapter
+ * Wrapper to connect Decorator.ViewHolderDecor and EasyAdapter
  */
 @Suppress("UNCHECKED_CAST")
 class BaseItemControllerDecoration<I : BaseItem<out RecyclerView.ViewHolder>>(
