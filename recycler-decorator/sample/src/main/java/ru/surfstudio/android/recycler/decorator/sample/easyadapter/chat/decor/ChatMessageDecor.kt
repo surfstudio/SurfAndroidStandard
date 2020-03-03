@@ -14,7 +14,7 @@ import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatMessageDirection
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.ChatObject
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.ChatMessageController
-import ru.surfstudio.android.recycler.decorator.ktx.BaseViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.easyadapter.BaseViewHolderDecor
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 class ChatMessageDecor(private val context: Context) : BaseViewHolderDecor<BindableItem<ChatObject, ChatMessageController.Holder>> {

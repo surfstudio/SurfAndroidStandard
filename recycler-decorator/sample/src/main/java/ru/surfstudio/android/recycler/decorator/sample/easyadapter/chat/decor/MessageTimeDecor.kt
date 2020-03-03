@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.item_controller_message_time.view.*
 import ru.surfstudio.android.easyadapter.item.BindableItem
 import ru.surfstudio.android.recycler.decorator.sample.R
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controller.MessageTimeController
-import ru.surfstudio.android.recycler.decorator.ktx.BaseViewHolderDecor
+import ru.surfstudio.android.recycler.decorator.easyadapter.BaseViewHolderDecor
 import ru.surfstudio.android.recycler.decorator.sample.toPx
 
 class MessageTimeDecor(private val context: Context) : BaseViewHolderDecor<BindableItem<String, MessageTimeController.Holder>> {

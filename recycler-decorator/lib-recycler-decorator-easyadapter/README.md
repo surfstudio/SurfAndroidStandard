@@ -29,5 +29,5 @@ ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat
 # Подключение
 Gradle:
 ```
-    implementation "ru.surfstudio.android:recycler-decorator-ktx:X.X.X"
+    implementation "ru.surfstudio.android:recycler-decorator-easyadapter:X.X.X"
 ```

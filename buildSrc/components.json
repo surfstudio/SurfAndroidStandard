@@ -1544,18 +1544,12 @@
             "name": "androidx.core:core-ktx",
             "type": "api"
           }
-        ],
-        "android_standard_dependencies": [
-          {
-            "name": "easyadapter",
-            "type": "implementation"
-          }
         ]
       },
       {
-        "name": "recycler-decorator-ktx",
-        "dir": "lib-recycler-decorator-ktx",
-        "artifact_name": "recycler-decorator-ktx",
+        "name": "recycler-decorator-easyadapter",
+        "dir": "lib-recycler-decorator-easyadapter",
+        "artifact_name": "recycler-decorator-easyadapter",
         "third_party_dependencies": [
           {
             "name": "androidx.recyclerview:recyclerview",

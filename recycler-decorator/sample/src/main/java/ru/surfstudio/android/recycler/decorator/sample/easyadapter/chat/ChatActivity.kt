@@ -14,9 +14,8 @@ import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.controll
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatDecorOffset
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.ChatMessageDecor
 import ru.surfstudio.android.recycler.decorator.sample.easyadapter.chat.decor.MessageTimeDecor
-import ru.surfstudio.android.recycler.decorator.ktx.offset
-import ru.surfstudio.android.recycler.decorator.ktx.overlay
-import ru.surfstudio.android.recycler.decorator.ktx.underlay
+import ru.surfstudio.android.recycler.decorator.easyadapter.offset
+import ru.surfstudio.android.recycler.decorator.easyadapter.underlay
 
 class ChatActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.recycler.decorator.ktx
+package ru.surfstudio.android.recycler.decorator.easyadapter
 
 import android.graphics.Canvas
 import android.view.View
