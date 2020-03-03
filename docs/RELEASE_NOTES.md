@@ -2,4 +2,5 @@
 # Docs Release Notes
 ## 0.5.0-alpha
 ##### Docs
-* Init tracking changes in RELEASE_NOTES 
+* Init tracking changes in RELEASE_NOTES
+* ANDDEP-785 added link to recycler-decorator
