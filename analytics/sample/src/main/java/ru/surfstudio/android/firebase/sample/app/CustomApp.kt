@@ -76,6 +76,11 @@ class CustomApp : MultiDexApplication() {
             override fun pushOpenListener(context: Context, intent: Intent) {
                 Logger.i("Push notification open")
             }
+
+            override fun customActionListener(context: Context, intent: Intent) {
+                Logger.i("Push notification custom action clicked")
+
+            }
         }
     }
 }
