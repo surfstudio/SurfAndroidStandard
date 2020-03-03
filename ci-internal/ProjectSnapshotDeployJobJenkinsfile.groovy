@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -34,6 +35,8 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 
 //vars
 def branchName = ""
+def useBintrayDeploy = false
+def isLastSkipCiCommit = false
 
 //other config
 
@@ -73,6 +76,9 @@ pipeline.initializeBody = {
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
         value -> branchName = value
     }
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
+        value -> useBintrayDeploy = value
+    }
 
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
@@ -92,7 +98,9 @@ pipeline.stages = [
             script.sh "git checkout -B $branchName origin/$branchName"
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
-            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
+            isLastSkipCiCommit = true
+            // RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script)
+            if (isLastSkipCiCommit && !CommonUtil.isJobStartedByUser(script)) {
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
 
@@ -103,20 +111,25 @@ pipeline.stages = [
             def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
             project = globalConfiguration.project_snapshot_name
 
+            /*
             if (("project-snapshot/" + project) != branchName) {
                 script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
-            }
+            }*/
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
-            script.sh("./gradlew incrementProjectSnapshotVersion")
+            if (!isLastSkipCiCommit) {
+                script.sh("./gradlew incrementProjectSnapshotVersion")
+            } else {
+                script.echo "skip version incrementation"
+            }
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST) {
+        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) { //todo вернуть
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
@@ -143,7 +156,12 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    if (!useBintrayDeploy) {
+                        script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    } else {
+                        script.sh "./gradlew clean uploadArchives"
+                        script.sh "./gradlew distributeArtifactsToBintrayTask -Pcomponent=all -PoverrideExisted=true"
+                    }
                 }
             }
         },
@@ -154,16 +172,19 @@ pipeline.stages = [
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            if (!isLastSkipCiCommit) {
+                RepositoryUtil.setDefaultJenkinsGitUser(script)
+                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
-            script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
-                    "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+                script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
+                        "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+                RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+            } else {
+                script.echo "skip version push"
+            }
         }
 ]
-
 
 
 pipeline.finalizeBody = {
@@ -177,7 +198,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
+    // JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 
 }
 
@@ -186,7 +207,7 @@ pipeline.run()
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
 
-def static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initBuildDiscarder(script),
@@ -209,7 +230,13 @@ def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName_0",
-                    description: 'Ветка с исходным кодом')
+                    description: 'Ветка с исходным кодом'
+            ),
+            script.booleanParam(
+                    defaultValue: false,
+                    name: "useBintrayDeploy",
+                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory'
+            )
     ])
 }
 

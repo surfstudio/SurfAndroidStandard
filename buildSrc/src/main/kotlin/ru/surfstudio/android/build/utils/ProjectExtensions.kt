@@ -11,11 +11,26 @@ import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
 import ru.surfstudio.android.build.model.Component
 
 /**
+ * Component name that provided by gradle property
+ */
+fun Project.getPropertyComponentName(): String {
+    return project.property(GradleProperties.COMPONENT) as? String
+            ?: throw ComponentPropertyNotFoundException()
+}
+
+/**
  * Component that provided by gradle property
  */
 fun Project.getPropertyComponent(): Component {
-    val componentName = project.property(GradleProperties.COMPONENT) as? String
-            ?: throw ComponentPropertyNotFoundException()
+    val componentName = getPropertyComponentName()
+    return Components.value.find { it.name == componentName }
+            ?: throw ComponentNotFoundException(componentName)
+}
+
+/**
+ * Component that provided by component name
+ */
+fun Project.getPropertyComponent(componentName: String): Component {
     return Components.value.find { it.name == componentName }
             ?: throw ComponentNotFoundException(componentName)
 }

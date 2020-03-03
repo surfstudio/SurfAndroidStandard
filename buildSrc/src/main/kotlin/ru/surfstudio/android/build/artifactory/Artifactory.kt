@@ -24,6 +24,7 @@ object Artifactory {
 
         var packagesRepoPaths = ""
         artifacts.forEachIndexed { index, artifactInfo ->
+            println("distributeArtifactToBintray ${artifactInfo.libraryName}")
             packagesRepoPaths += artifactInfo.getPath()
             if (index != artifacts.size - 1) packagesRepoPaths += ", "
         }
