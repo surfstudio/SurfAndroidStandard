@@ -56,6 +56,8 @@ ext.configureDeploy = { context ->
                 def artifactName = Components.getArtifactName(project.name)
                 def artifactVersion = Components.getModuleVersion(project.name)
 
+                println "uploadAcrhives $artifactGroupId $artifactName $artifactVersion"
+
                 pom.groupId = artifactGroupId
                 pom.artifactId = artifactName
                 pom.version = artifactVersion
