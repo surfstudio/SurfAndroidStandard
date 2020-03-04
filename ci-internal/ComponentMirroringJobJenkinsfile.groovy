@@ -87,7 +87,6 @@ pipeline.stages = [
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(PREPARE_MIRRORING) {
-
             getСomponents(script).each { component ->
                 if (component.mirror_repo != null && component.mirror_repo != "") {
                     pipeline.stages.add(
@@ -127,9 +126,9 @@ pipeline.finalizeBody = {
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        message = "Зеркалирование из ветки '${branchName}' не выполнено из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
     } else {
-        message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+        message = "Зеркалирование из ветки '${branchName}' успешно выполнено. ${jenkinsLink}"
     }
     JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 
