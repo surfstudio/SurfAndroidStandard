@@ -21,3 +21,5 @@ even if stream contains events from UI, which should be reacted directly.
 * Add additional schemes to docs
 * Remove listenForResult extension for EventTransformerList + listenForResult from NavigationMiddleware
 * Fixed StandardReactDialogView negative button nullability
+* Add examples and additional docs 
+* Add CustomAlertDialog based on Events.
