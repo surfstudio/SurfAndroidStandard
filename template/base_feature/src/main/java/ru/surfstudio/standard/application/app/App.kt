@@ -97,6 +97,10 @@ class App : MultiDexApplication() {
             override fun pushOpenListener(context: Context, intent: Intent) {
                 //todo
             }
+
+            override fun customActionListener(context: Context, intent: Intent) {
+                //todo
+            }
         }
     }
 }
