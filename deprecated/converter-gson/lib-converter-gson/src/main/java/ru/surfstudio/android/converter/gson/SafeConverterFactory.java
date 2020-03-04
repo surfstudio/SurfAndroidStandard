@@ -65,7 +65,7 @@ public class SafeConverterFactory {
         return null;
     }
 
-    private interface Function<T, R> {
+    interface Function<T, R> {
         R apply(T value);
     }
 }
