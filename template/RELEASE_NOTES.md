@@ -19,6 +19,7 @@
 * ANDDEP-936 Remove Deprecated annotation from i-network module
 * ANDDEP-392 Fix firebase crashlytics initialization
 * ANDDEP-938 Add link of instruction of project initialization
+* ANDDEP-930 Added handling custom notification actions
 
 ## 0.4.0
 ##### Template
