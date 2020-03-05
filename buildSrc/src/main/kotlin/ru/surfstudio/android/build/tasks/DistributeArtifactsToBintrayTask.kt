@@ -9,7 +9,10 @@ import ru.surfstudio.android.build.utils.getPropertyComponent
 import ru.surfstudio.android.build.utils.readProperty
 
 /**
- * Distribute artifacts to Bintray
+ * Distribute artifacts to Bintray.
+ *
+ * This task can only be used for deploy of a single artifact via the name.
+ * For deploy of multiple artifacts to bintray, see [distributeArtifactsToBintray] gradle task
  */
 open class DistributeArtifactsToBintrayTask : DefaultTask() {
 
