@@ -201,8 +201,8 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
-                    script.sh "./gradlew distributeArtifactsToBintrayTask -Pcomponent=${componentName} -PoverrideExisted=false"
+                    script.sh "./gradlew clean uploadArchivesComponentsTask -Pcomponent=${componentName}"
+                    script.sh "./gradlew distributeArtifactsToBintrayComponentsTask -Pcomponent=${componentName} -PoverrideExisted=false"
                 }
             }
         },

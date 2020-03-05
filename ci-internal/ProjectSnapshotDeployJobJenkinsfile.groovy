@@ -157,10 +157,10 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     if (!useBintrayDeploy) {
-                        script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                        script.sh "./gradlew clean uploadArchivesComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                     } else {
-                        script.sh "./gradlew clean uploadArchives"
-                        script.sh "./gradlew distributeArtifactsToBintray -PoverrideExisted=true"
+                        script.sh "./gradlew clean uploadArchivesComponentsTask"
+                        script.sh "./gradlew distributeArtifactsToBintrayComponentsTask -PoverrideExisted=true"
                     }
                 }
             }
