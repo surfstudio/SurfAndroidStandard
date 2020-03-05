@@ -2,8 +2,7 @@
 # Core-app Release Notes
 ## 0.5.0-alpha
 ##### Core-app
-* TODO
-* TODO
+* ANDDEP-950 Add different gradle script for modules without deploy
 ## 0.4.0
 ##### Core-app
 * Module - ** deprecated **

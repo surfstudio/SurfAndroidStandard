@@ -18,3 +18,4 @@ even if stream contains events from UI, which should be reacted directly.
 * Add .gitignore to mvi/lib-mvi-impls
 * Add CustomAlertDialog based on Events.
 * Move logging to "ScreenEventHub.emit" method.
+* ANDDEP-950 Add different gradle script for modules without deploy

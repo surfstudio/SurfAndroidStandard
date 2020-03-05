@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Animations
 * ANDDEP-687 Changed "com.google.android.material:material" dependency from "api" to "implementation" type
+* ANDDEP-950 Add different gradle script for modules without deploy
 ## 0.4.0
 ##### Animations
 * ANDDEP-391 Added parameter `defaultAlpha` for functions` fadeIn (...) `and` fadeOut (...) `. It maintains constant transparency for the View while invoking animations multiple times.

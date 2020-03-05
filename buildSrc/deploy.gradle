@@ -29,7 +29,6 @@ ext.configureDeploy = { context ->
                 def componentName = project.property(GradleProperties.COMPONENT)
                 if (!Components.isLibraryFromComponent(project.name, componentName)) return
             }
-            //todo как происходит деплой релизных артефактов в бинтрей, здесь я логики не вижу
 
             // If -PonlyUnstable=true deploy only unstable artifacts
             if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
@@ -56,7 +55,7 @@ ext.configureDeploy = { context ->
                 def artifactName = Components.getArtifactName(project.name)
                 def artifactVersion = Components.getModuleVersion(project.name)
 
-                println "uploadAcrhives $artifactGroupId $artifactName $artifactVersion"
+                println "uploadAcrhives $artifactName $artifactVersion"
 
                 pom.groupId = artifactGroupId
                 pom.artifactId = artifactName
@@ -85,5 +84,10 @@ ext.configureDeploy = { context ->
                 }
             } // repositories.mavenDeployer
         } // uploadArchives
+
+        /*
+        distributeArtifactsToBintray {
+
+        }*/
     }
 }
