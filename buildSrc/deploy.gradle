@@ -10,7 +10,7 @@ apply plugin: 'maven'
 // контекст которого передается параметром.
 
 ext.configureDeploy = { context ->
-    // определние функции для деплоя текущего модуля в artifactory
+    // определение функции для деплоя текущего модуля в artifactory
     context.afterEvaluate {
 
         // add java source to artifacts for release in JCenter !!! REQUIRED
@@ -54,7 +54,9 @@ ext.configureDeploy = { context ->
                 def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
                 def artifactName = Components.getArtifactName(project.name)
                 def artifactVersion = Components.getModuleVersion(project.name)
-
+                if (!artifactName.trim()) {
+                    throw new GradleException("uploadAcrhives: artifactName for ${project.name} can not be blank for deploy")
+                }
                 println "uploadAcrhives $artifactName $artifactVersion"
 
                 pom.groupId = artifactGroupId
@@ -85,9 +87,24 @@ ext.configureDeploy = { context ->
             } // repositories.mavenDeployer
         } // uploadArchives
 
-        /*
-        distributeArtifactsToBintray {
+        task distributeArtifactsToBintray {
+            // If -Pcomponent set, deploy only its artifacts
+            if (project.hasProperty(GradleProperties.COMPONENT)) {
+                def componentName = project.property(GradleProperties.COMPONENT)
+                if (!Components.isLibraryFromComponent(project.name, componentName)) return
+            }
 
-        }*/
+            def overrideExisted = false
+            // Read -PoverrideExisted property
+            if (project.hasProperty(GradleProperties.OVERRIDE_EXISTED)) {
+                overrideExisted = project.property(GradleProperties.OVERRIDE_EXISTED) == "true"
+            }
+
+            def artifactName = Components.getArtifactName(project.name)
+            if (!artifactName.trim()) {
+                throw new GradleException("distributeArtifactsToBintray: artifactName for ${project.name} can not be blank for deploy")
+            }
+            Artifactory.distributeArtifactToBintray(overrideExisted, artifactName)
+        } // distributeArtifactsToBintray
     }
 }

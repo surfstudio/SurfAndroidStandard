@@ -160,7 +160,7 @@ pipeline.stages = [
                         script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                     } else {
                         script.sh "./gradlew clean uploadArchives"
-                        script.sh "./gradlew distributeArtifactsToBintrayTask -Pcomponent=all -PoverrideExisted=true"
+                        script.sh "./gradlew distributeArtifactsToBintray -PoverrideExisted=true"
                     }
                 }
             }
