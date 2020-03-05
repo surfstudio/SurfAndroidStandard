@@ -8,7 +8,7 @@ import org.gradle.api.tasks.TaskAction
  *
  * It's need to start dependent task :[libname]:uploadArchives
  */
-open class UploadArchiveComponentsTask : DefaultTask() {
+open class UploadArchivesComponentsTask : DefaultTask() {
 
     @TaskAction
     fun upload() {
