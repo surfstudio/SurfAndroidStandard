@@ -10,6 +10,7 @@
 * ANDDEP-829 Fixed synchronous DiffResult dispatching in DefaultDiffer.
 * ANDDEP-785 Added method getItem() in EasyAdapter, to get BaseItem by position
 * ANDDEP-785 Added getter in EasyAdapter, for *firstInvisibleItemEnabled* property
+* ANDDEP-950 Add different gradle script for modules without deploy
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder

@@ -2,7 +2,7 @@
 # Push Release Notes
 ## 0.5.0-alpha
 ##### Push
-* TODO
+* ANDDEP-950 Add different gradle script for modules without deploy
 ## 0.4.0
 ##### Push
 * NotificationCenter removed - use `PushHandler`
