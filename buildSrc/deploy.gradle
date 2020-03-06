@@ -24,79 +24,76 @@ ext.configureDeploy = { context ->
         }
 
         uploadArchives {
-            // WARNING! This is very important to use doLast here,
-            // otherwise the task will be executed for every module configuration
-            // https://stackoverflow.com/questions/20737494/why-is-my-gradle-task-always-running
-            doLast {
-                // If -Pcomponent set, deploy only its artifacts
-                if (project.hasProperty(GradleProperties.COMPONENT)) {
-                    def componentName = project.property(GradleProperties.COMPONENT)
-                    if (!Components.isLibraryFromComponent(project.name, componentName)) return
+            // If -Pcomponent set, deploy only its artifacts
+            if (project.hasProperty(GradleProperties.COMPONENT)) {
+                def componentName = project.property(GradleProperties.COMPONENT)
+                if (!Components.isLibraryFromComponent(project.name, componentName)) return
+            }
+
+            // If -PonlyUnstable=true deploy only unstable artifacts
+            if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
+                if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == "true"
+                        && Components.getComponentStability(project.name)
+                ) return
+            }
+
+            // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
+            if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
+                if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == "true"
+                        && Artifactory.isLibraryAlreadyDeployed(project.name)
+                ) return
+            }
+            repositories.mavenDeployer {
+                repository(url: ArtifactoryConfig.DEPLOY_URL) {
+                    authentication(
+                            userName: ArtifactoryConfig.USER_NAME,
+                            password: ArtifactoryConfig.PASSWORD
+                    )
                 }
 
-                // If -PonlyUnstable=true deploy only unstable artifacts
-                if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
-                    if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == "true"
-                            && Components.getComponentStability(project.name)
-                    ) return
+                def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
+                def artifactName = Components.getArtifactName(project.name)
+                def artifactVersion = Components.getModuleVersion(project.name)
+                if (!artifactName.trim()) {
+                    throw new GradleException("uploadAcrhives: artifactName for ${project.name} can not be blank for deploy")
                 }
+                println "uploadAcrhives $artifactName $artifactVersion"
 
-                // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
-                if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
-                    if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == "true"
-                            && Artifactory.isLibraryAlreadyDeployed(project.name)
-                    ) return
-                }
-                repositories.mavenDeployer {
-                    repository(url: ArtifactoryConfig.DEPLOY_URL) {
-                        authentication(
-                                userName: ArtifactoryConfig.USER_NAME,
-                                password: ArtifactoryConfig.PASSWORD
-                        )
-                    }
+                pom.groupId = artifactGroupId
+                pom.artifactId = artifactName
+                pom.version = artifactVersion
 
-                    def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
-                    def artifactName = Components.getArtifactName(project.name)
-                    def artifactVersion = Components.getModuleVersion(project.name)
-                    if (!artifactName.trim()) {
-                        throw new GradleException("uploadAcrhives: artifactName for ${project.name} can not be blank for deploy")
-                    }
-                    println "uploadAcrhives $artifactName $artifactVersion"
-
-                    pom.groupId = artifactGroupId
-                    pom.artifactId = artifactName
-                    pom.version = artifactVersion
-
-                    pom.project {
-                        dependencies {
-                            Components.getAndroidStandardDependencies(project.name).each {
-                                def depArtifactName = it.getArtifactName()
-                                def depArtifactVersion = Components.getModuleVersion(it.getName())
-                                dependency {
-                                    groupId artifactGroupId
-                                    artifactId depArtifactName
-                                    version depArtifactVersion
-                                    scope "compile"
-                                }
+                pom.project {
+                    dependencies {
+                        Components.getAndroidStandardDependencies(project.name).each {
+                            def depArtifactName = it.getArtifactName()
+                            def depArtifactVersion = Components.getModuleVersion(it.getName())
+                            dependency {
+                                groupId artifactGroupId
+                                artifactId depArtifactName
+                                version depArtifactVersion
+                                scope "compile"
                             }
                         }
                     }
-                    //This code delete "implementation project("...") dependencies from pom file"
-                    pom.whenConfigured {
-                        p ->
-                            p.dependencies = p.dependencies.findAll {
-                                dep -> dep.groupId != rootDir.name
-                            }
-                    }
-                } // repositories.mavenDeployer
-            }
+                }
+                //This code delete "implementation project("...") dependencies from pom file"
+                pom.whenConfigured {
+                    p ->
+                        p.dependencies = p.dependencies.findAll {
+                            dep -> dep.groupId != rootDir.name
+                        }
+                }
+            } // repositories.mavenDeployer
         } // uploadArchives
 
         task distributeArtifactsToBintray {
-            // WARNING! This is very important to use doLast here,
-            // otherwise the task will be executed for every module configuration
-            // https://stackoverflow.com/questions/20737494/why-is-my-gradle-task-always-running
-            doLast {
+            // WARNING! This is very important to use doFirst here
+            // in order to avoid calling this task during configuration of modules.
+            // uploadArchives could be called during configuration with no errors
+            // and without actual deploy, but we need to add doFirst for custom tasks.
+            // See http://bit.ly/39vFtMj and http://bit.ly/3avuzq0
+            doFirst {
                 // If -Pcomponent set, deploy only its artifacts
                 if (project.hasProperty(GradleProperties.COMPONENT)) {
                     def componentName = project.property(GradleProperties.COMPONENT)
