@@ -82,19 +82,3 @@ task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) //
 task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
 
 task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
-
-task uploadArchivesComponentsTask(type: UploadArchivesComponentsTask) {
-    Components.libraries.each {
-        if (!it.artifactName.trim()) {
-            dependsOn ":${it.name}:uploadArchives"
-        }
-    }
-}
-
-task distributeArtifactsToBintrayComponentsTask(type: DistributeArtifactsToBintrayComponentsTask) {
-    Components.libraries.each {
-        if (!it.artifactName.trim()) {
-            dependsOn ":${it.name}:distributeArtifactsToBintray"
-        }
-    }
-}
