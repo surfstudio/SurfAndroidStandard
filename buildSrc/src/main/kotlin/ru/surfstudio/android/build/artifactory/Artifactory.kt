@@ -23,7 +23,6 @@ object Artifactory {
         val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
         var packagesRepoPaths = ""
         artifacts.forEachIndexed { index, artifactInfo ->
-            println("distributeArtifactToBintray ${artifactInfo.libraryName}")
             packagesRepoPaths += artifactInfo.getPath()
             if (index != artifacts.size - 1) packagesRepoPaths += ", "
         }
@@ -35,7 +34,6 @@ object Artifactory {
      */
     @JvmStatic
     fun distributeArtifactToBintray(overrideExisting: Boolean, libraryName: String) {
-        println("distributeArtifactToBintray $libraryName")
         distribute(ArtifactInfo(libraryName).getPath(), overrideExisting)
     }
 
