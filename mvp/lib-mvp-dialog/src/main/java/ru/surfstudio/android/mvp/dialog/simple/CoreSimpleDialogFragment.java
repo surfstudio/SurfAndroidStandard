@@ -43,16 +43,16 @@ public abstract class CoreSimpleDialogFragment extends AppCompatDialogFragment i
     private SimpleDialogDelegate delegate = new SimpleDialogDelegate(this);
 
 
-    public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
-        delegate.show(parentActivityViewPersistentScope);
+    public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope, String tag) {
+        delegate.show(parentActivityViewPersistentScope, tag);
     }
 
-    public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
-        delegate.show(parentFragmentViewPersistentScope);
+    public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope, String tag) {
+        delegate.show(parentFragmentViewPersistentScope, tag);
     }
 
-    public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
-        delegate.show(parentWidgetViewPersistentScope);
+    public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope, String tag) {
+        delegate.show(parentWidgetViewPersistentScope, tag);
     }
 
     public <T> T getScreenComponent(Class<T> componentClass) {

@@ -41,6 +41,7 @@ def MIRROR_COMPONENT = 'Mirror Components'
 def branchName = ""
 def componentVersion = "<unknown>"
 def componentName = "<unknown>"
+def buildDescription = ""
 
 
 def isDeploySameVersionArtifactory = "deploySameVersionArtifactory"
@@ -90,8 +91,9 @@ pipeline.initializeBody = {
         branchName = branchName.replace("origin/", "")
     }
 
-    def buildDescription = branchName
+    buildDescription = branchName
     CommonUtil.setBuildDescription(script, buildDescription)
+
 }
 
 pipeline.stages = [
@@ -104,9 +106,9 @@ pipeline.stages = [
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
             if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
-                CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
+            CommonUtil.abortDuplicateBuildsWithDescription(script, AbortDuplicateStrategy.ANOTHER, buildDescription)
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
@@ -145,6 +147,7 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
+            script.sh("./gradlew checkReleaseNotesNotContainCyrillic")
         },
         pipeline.stage(CHECKS_RESULT) {
             def checksPassed = true
@@ -223,7 +226,7 @@ pipeline.stages = [
 
 
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
+    def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
@@ -246,8 +249,7 @@ static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initBuildDiscarder(script),
-            initParameters(script),
-            initTriggers(script)
+            initParameters(script)
     ]
 }
 
@@ -266,25 +268,6 @@ def static initParameters(script) {
             script.string(
                     name: "branchName_0",
                     description: 'Ветка с исходным кодом')
-    ])
-}
-
-def static initTriggers(script) {
-    return script.pipelineTriggers([
-            script.GenericTrigger(
-                    genericVariables: [
-                            [
-                                    key  : "branchName",
-                                    value: '$.push.changes[?(@.new.type == "branch")].new.name'
-                            ]
-                    ],
-                    printContributedVariables: true,
-                    printPostContent: true,
-                    causeString: 'Triggered by Bitbucket',
-                    regexpFilterExpression: '^(origin\\/)?release/(.*)$', //todo изменить фильтр веток
-                    regexpFilterText: '$branchName_0'
-            ),
-            script.pollSCM('')
     ])
 }
 

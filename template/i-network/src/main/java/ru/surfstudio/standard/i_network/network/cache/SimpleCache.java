@@ -30,7 +30,6 @@ import ru.surfstudio.android.filestorage.storage.BaseTextFileStorage;
  * простой кеш, кеширует сырой ответ сервера
  * если размер кеша равен 1, данные содержатся в файле с именем cacheDirName внутри папки cacheDirName
  */
-@Deprecated
 public class SimpleCache extends BaseTextFileStorage {
 
     private static final NamingProcessor simpleNamingProcessor = new SimpleNamingProcessor();

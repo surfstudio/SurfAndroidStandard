@@ -42,5 +42,6 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
         show_snackbar_with_listener.setOnClickListener { presenter.showSnackbarWithListener() }
         show_gravity_toast.setOnClickListener { presenter.showGravityToast() }
         close_snackbar.setOnClickListener { presenter.closeSnackbar() }
+        start_message_demo.setOnClickListener { presenter.startMessageDemo() }
     }
 }

@@ -38,5 +38,13 @@
         android:id="@+id/close_snackbar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
         android:text="@string/close_snackbar_btn_text" />
+
+    <Button
+        android:id="@+id/start_message_demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:text="@string/start_message_demo_btn_text" />
 </LinearLayout>

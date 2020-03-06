@@ -98,4 +98,11 @@
         android:layout_gravity="center"
         android:text="Reactive list sample" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/two_way_sample_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Two way binding sample" />
+
 </LinearLayout>

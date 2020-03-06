@@ -58,19 +58,20 @@
 -dontwarn afu.org.checkerframework.checker.regex.**
 -dontwarn afu.org.checkerframework.checker.units.**
 
--keep class * implements ru.surfstudio.android.network.Transformable
--keep class * implements ru.surfstudio.android.network.response.BaseResponse
+#network
+-keep class * implements ru.surfstudio.standard.i_network.network.Transformable
+-keep class * implements ru.surfstudio.standard.i_network.network.response.BaseResponse
 
+#glide
 -dontwarn com.bumptech.glide.**
 
-#crashlytics
+#firebase crashlytics
 -printmapping mapping.txt
-
-#fabric
 -keepattributes *Annotation*,SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
--keep class com.crashlytics.** { *; }
--dontwarn com.crashlytics.**
+-keep class com.google.firebase.crashlytics.** { *; }
+-dontwarn com.google.firebase.crashlytics.**
+-dontwarn com.google.firebase.messaging.**
 
 #kotlin-reflect
 #https://stackoverflow.com/questions/45871970/kotlin-reflect-proguard-smallsortedmap
@@ -79,3 +80,7 @@
 #android standard
 -keep class ru.surfstudio.android.rx.extension.ConsumerSafe { *; }
 -keep class ru.surfstudio.android.rx.extension.ActionSafe { *; }
+
+#cross feature fragments
+-keep interface ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment {*;}
+-keep class * implements ru.surfstudio.android.core.ui.navigation.feature.route.feature.CrossFeatureFragment

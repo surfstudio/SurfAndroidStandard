@@ -15,10 +15,11 @@
  */
 package ru.surfstudio.android.shared.pref
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import java.util.*
+import ru.surfstudio.android.utilktx.ktx.text.EMPTY_STRING
 
 /**
  * хелпер для работы с SharedPref
@@ -27,98 +28,298 @@ const val NO_BACKUP_SHARED_PREF = "NO_BACKUP_SHARED_PREF"
 const val BACKUP_SHARED_PREF = "BACKUP_SHARED_PREF"
 
 object SettingsUtil {
-    val EMPTY_STRING_SETTING = ""
-    val EMPTY_INT_SETTING = -1
-    val EMPTY_LONG_SETTING = -1L
 
-    fun getString(context: Context, key: String): String {
-        return getString(getDefaultSharedPreferences(context), key)
+    const val EMPTY_BOOLEAN_SETTING = false
+    const val EMPTY_INT_SETTING = -1
+    const val EMPTY_LONG_SETTING = -1L
+    const val EMPTY_FLOAT_SETTING = -1f
+    const val EMPTY_DOUBLE_SETTING = -1.0
+    val EMPTY_SET_SETTING = HashSet<String>()
+    val EMPTY_STRING_SETTING = EMPTY_STRING
+
+    private val sharedPreferencesEditorMap = mutableMapOf<SharedPreferences, SharedPreferences.Editor>()
+
+    fun getBoolean(
+            context: Context,
+            key: String,
+            defaultValue: Boolean = EMPTY_BOOLEAN_SETTING,
+            prefName: String = EMPTY_STRING
+    ) = getBoolean(getSharedPreferences(context, prefName), key, defaultValue)
+
+    fun getString(
+            context: Context,
+            key: String,
+            defaultValue: String = EMPTY_STRING_SETTING,
+            prefName: String = EMPTY_STRING
+    ) = getString(getSharedPreferences(context, prefName), key, defaultValue)
+
+    fun getStringSet(
+            context: Context,
+            key: String,
+            defaultValue: Set<String> = EMPTY_SET_SETTING,
+            prefName: String = EMPTY_STRING
+    ) = getStringSet(getSharedPreferences(context, prefName), key, defaultValue)
+
+    fun getInt(
+            context: Context,
+            key: String,
+            defaultValue: Int = EMPTY_INT_SETTING,
+            prefName: String = EMPTY_STRING
+    ) = getInt(getSharedPreferences(context, prefName, defaultValue), key)
+
+    fun getLong(
+            context: Context,
+            key: String,
+            defaultValue: Long = EMPTY_LONG_SETTING,
+            prefName: String = EMPTY_STRING
+    ) = getLong(getSharedPreferences(context, prefName), key, defaultValue)
+
+
+    fun getFloat(
+            context: Context,
+            key: String,
+            defaultValue: Float = EMPTY_FLOAT_SETTING,
+            prefName: String = EMPTY_STRING
+    ) = getFloat(getSharedPreferences(context, prefName), key, defaultValue)
+
+    fun getDouble(
+            context: Context,
+            key: String,
+            defaultValue: Double = EMPTY_DOUBLE_SETTING,
+            prefName: String = EMPTY_STRING
+    ) = getDouble(getSharedPreferences(context, prefName), key, defaultValue)
+
+    fun putBoolean(
+            context: Context,
+            key: String,
+            value: Boolean,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        putBoolean(getSharedPreferences(context, prefName), key, value, async)
     }
 
-    fun putString(context: Context, key: String, value: String) {
-        putString(getDefaultSharedPreferences(context), key, value)
+    fun putString(
+            context: Context,
+            key: String,
+            value: String,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        putString(getSharedPreferences(context, prefName), key, value, async)
     }
 
-    fun putInt(context: Context, key: String, value: Int) {
-        putInt(getDefaultSharedPreferences(context), key, value)
+    fun putInt(
+            context: Context,
+            key: String,
+            value: Int,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        putInt(getSharedPreferences(context, prefName), key, value, async)
     }
 
-    fun putLong(context: Context, key: String, value: Long) {
-        putLong(getDefaultSharedPreferences(context), key, value)
+    fun putLong(
+            context: Context,
+            key: String,
+            value: Long,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        putLong(getSharedPreferences(context, prefName), key, value, async)
     }
 
-    fun getInt(context: Context, key: String): Int {
-        return getInt(getDefaultSharedPreferences(context), key)
+    fun putFloat(
+            context: Context,
+            key: String,
+            value: Float,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        putFloat(getSharedPreferences(context, prefName), key, value, async)
     }
 
-    fun getLong(context: Context, key: String): Long {
-        return getLong(getDefaultSharedPreferences(context), key)
+    fun putDouble(
+            context: Context,
+            key: String,
+            value: Double,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        putDouble(getSharedPreferences(context, prefName), key, value, async)
     }
 
-    fun putBoolean(context: Context, key: String, value: Boolean) {
-        putBoolean(getDefaultSharedPreferences(context), key, value)
+    fun removeKey(
+            context: Context,
+            key: String,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        removeKey(getSharedPreferences(context, prefName), key, async)
     }
 
-    fun getBoolean(context: Context, key: String, defaultValue: Boolean): Boolean {
-        return getBoolean(getDefaultSharedPreferences(context), key, defaultValue)
+    fun clear(
+            context: Context,
+            prefName: String = EMPTY_STRING,
+            async: Boolean = true
+    ) {
+        clear(getSharedPreferences(context, prefName), async)
     }
 
-    fun getString(sp: SharedPreferences, key: String): String {
-        return sp.getString(key, EMPTY_STRING_SETTING)
-    }
+    fun getBoolean(
+            sp: SharedPreferences,
+            key: String,
+            defaultValue: Boolean = EMPTY_BOOLEAN_SETTING
+    ) = sp.getBoolean(key, defaultValue)
 
-    fun getStringSet(sp: SharedPreferences, key: String): Set<String> {
-        return sp.getStringSet(key, HashSet())
-    }
+    fun getString(
+            sp: SharedPreferences,
+            key: String,
+            defaultValue: String = EMPTY_STRING_SETTING
+    ) = sp.getString(key, defaultValue) ?: EMPTY_STRING
 
-    fun putStringSet(sp: SharedPreferences, key: String, value: Set<String>) {
-        val editor = sp.edit()
-        editor.putStringSet(key, value)
-        saveChanges(editor)
-    }
+    fun getStringSet(
+            sp: SharedPreferences,
+            key: String,
+            defaultValue: Set<String> = EMPTY_SET_SETTING
+    ) = sp.getStringSet(key, defaultValue) ?: setOf()
 
-    fun putString(sp: SharedPreferences, key: String, value: String) {
-        val editor = sp.edit()
-        editor.putString(key, value)
-        saveChanges(editor)
-    }
+    fun getInt(
+            sp: SharedPreferences,
+            key: String,
+            defaultValue: Int = EMPTY_INT_SETTING
+    ) = sp.getInt(key, defaultValue)
 
-    fun putInt(sp: SharedPreferences, key: String, value: Int) {
-        val editor = sp.edit()
-        editor.putInt(key, value)
-        saveChanges(editor)
-    }
+    fun getLong(
+            sp: SharedPreferences,
+            key: String,
+            defaultValue: Long = EMPTY_LONG_SETTING
+    ) = sp.getLong(key, defaultValue)
 
-    fun putLong(sp: SharedPreferences, key: String, value: Long) {
-        val editor = sp.edit()
-        editor.putLong(key, value)
-        saveChanges(editor)
-    }
+    fun getFloat(
+            sp: SharedPreferences,
+            key: String,
+            defaultValue: Float = EMPTY_FLOAT_SETTING
+    ) = sp.getFloat(key, defaultValue)
 
-    fun getInt(sp: SharedPreferences, key: String): Int {
-        return sp.getInt(key, EMPTY_INT_SETTING)
-    }
+    fun getDouble(
+            sp: SharedPreferences,
+            key: String,
+            defaultValue: Double = EMPTY_DOUBLE_SETTING
+    ) = Double.fromBits(sp.getLong(key, defaultValue.toBits()))
 
-    fun getLong(sp: SharedPreferences, key: String): Long {
-        return sp.getLong(key, EMPTY_LONG_SETTING)
-    }
-
-    fun getLong(sp: SharedPreferences, key: String, defaultValue: Long): Long {
-        return sp.getLong(key, defaultValue)
-    }
-
-    fun putBoolean(sp: SharedPreferences, key: String, value: Boolean) {
-        val editor = sp.edit()
+    fun putBoolean(
+            sp: SharedPreferences,
+            key: String,
+            value: Boolean,
+            async: Boolean = true
+    ) {
+        val editor = getOrCreateEditor(sp)
         editor.putBoolean(key, value)
-        saveChanges(editor)
+        saveChanges(editor, async)
     }
 
-    fun getBoolean(sp: SharedPreferences, key: String, defaultValue: Boolean): Boolean {
-        return sp.getBoolean(key, defaultValue)
+    fun putString(
+            sp: SharedPreferences,
+            key: String,
+            value: String,
+            async: Boolean = true
+    ) {
+        val editor = getOrCreateEditor(sp)
+        editor.putString(key, value)
+        saveChanges(editor, async)
     }
 
-    private fun saveChanges(editor: SharedPreferences.Editor) {
-        editor.apply()
+    fun putStringSet(
+            sp: SharedPreferences,
+            key: String,
+            value: Set<String>,
+            async: Boolean = true
+    ) {
+        val editor = getOrCreateEditor(sp)
+        editor.putStringSet(key, value)
+        saveChanges(editor, async)
+    }
+
+    fun putInt(
+            sp: SharedPreferences,
+            key: String,
+            value: Int,
+            async: Boolean = true
+    ) {
+        val editor = getOrCreateEditor(sp)
+        editor.putInt(key, value)
+        saveChanges(editor, async)
+    }
+
+    fun putLong(
+            sp: SharedPreferences,
+            key: String,
+            value: Long,
+            async: Boolean = true
+    ) {
+        val editor = getOrCreateEditor(sp)
+        editor.putLong(key, value)
+        saveChanges(editor, async)
+    }
+
+    fun putFloat(
+            sp: SharedPreferences,
+            key: String,
+            value: Float,
+            async: Boolean = true
+    ) {
+        val editor = getOrCreateEditor(sp)
+        editor.putFloat(key, value)
+        saveChanges(editor, async)
+    }
+
+    fun putDouble(
+            sp: SharedPreferences,
+            key: String,
+            value: Double,
+            async: Boolean = true
+    ) {
+        val editor = getOrCreateEditor(sp)
+        editor.putLong(key, value.toBits())
+        saveChanges(editor, async)
+    }
+
+    fun removeKey(sp: SharedPreferences, key: String, async: Boolean = true) {
+        val editor = getOrCreateEditor(sp)
+        editor.remove(key)
+        saveChanges(editor, async)
+    }
+
+    fun clear(sp: SharedPreferences, async: Boolean = true) {
+        val editor = getOrCreateEditor(sp)
+        editor.clear()
+        saveChanges(editor, async)
+    }
+
+    private fun getSharedPreferences(
+            context: Context,
+            name: String,
+            mode: Int = Context.MODE_PRIVATE
+    ): SharedPreferences =
+            if (name.isEmpty()) {
+                getDefaultSharedPreferences(context)
+            } else {
+                context.getSharedPreferences(name, mode)
+            }
+
+    @SuppressLint("CommitPrefEdits")
+    private fun getOrCreateEditor(sp: SharedPreferences): SharedPreferences.Editor =
+            sharedPreferencesEditorMap.getOrPut(sp) {
+                sp.edit()
+            }
+
+    private fun saveChanges(editor: SharedPreferences.Editor, async: Boolean = true) {
+        if (async) {
+            editor.apply()
+        } else {
+            editor.commit()
+        }
     }
 
     private fun getDefaultSharedPreferences(context: Context): SharedPreferences {

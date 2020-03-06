@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?selectableItemBackground">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?selectableItemBackground"
+    tools:showIn="@layout/activity_memory_debug">
 
     <TextView
         android:id="@+id/debug_title_tv"
@@ -53,4 +54,4 @@
         android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</merge>
