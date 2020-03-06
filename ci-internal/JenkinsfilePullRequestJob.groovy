@@ -43,12 +43,13 @@ def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
 //parameters
-def final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
-def final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
-def final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
-def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
+final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
+final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
+final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
+final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
+final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
         RELEASE_NOTES_DIFF,
@@ -208,6 +209,7 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECKS_RESULT) {
+            script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -233,11 +235,34 @@ pipeline.stages = [
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
+        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("./gradlew generateModulesNamesFile")
+            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
+            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+        },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
+        },
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.dir("template") {
+                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                        script,
+                        new AvdConfig(),
+                        "debug",
+                        getTestInstrumentationRunnerName,
+                        new AndroidTestConfig(
+                                "assembleAndroidTest",
+                                "build/outputs/androidTest-results/instrumental",
+                                "build/reports/androidTests/instrumental",
+                                true,
+                                0
+                        )
+                )
+            }
         },
         pipeline.stage(INSTRUMENTATION_TEST) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
@@ -256,29 +281,6 @@ pipeline.stages = [
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
-        },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.dir("template") {
-                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        script,
-                        new AvdConfig(),
-                        "debug",
-                        getTestInstrumentationRunnerName,
-                        new AndroidTestConfig(
-                                "assembleAndroidTest",
-                                "build/outputs/androidTest-results/instrumental",
-                                "build/reports/androidTests/instrumental",
-                                true,
-                                0
-                        )
-                )
-            }
         }
 ]
 pipeline.finalizeBody = {

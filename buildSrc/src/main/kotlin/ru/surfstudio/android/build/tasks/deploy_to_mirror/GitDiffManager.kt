@@ -78,7 +78,7 @@ class GitDiffManager(
 
         FileUtils.copyFile(standardFile, mirrorFile)
 
-        mirrorRepository.addToIndex(mirrorFile.path)
+        mirrorRepository.addToIndex(filePath)
     }
 
     /**

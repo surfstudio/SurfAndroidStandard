@@ -22,7 +22,6 @@ import ru.surfstudio.android.filestorage.naming.Sha256NamingProcessor;
 import ru.surfstudio.android.filestorage.processor.FileProcessor;
 import ru.surfstudio.android.filestorage.storage.BaseTextFileStorage;
 
-@Deprecated
 final public class EtagCache extends BaseTextFileStorage {
 
     private static final int CACHE_SIZE = 5000;

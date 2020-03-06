@@ -13,6 +13,12 @@
 * Fixed debug screen push notification appearing on each App#onCreate invocation
 * ANDDEP-770 Fixed textStyle overriding and proguard bugs
 * Added `PostfixEditText` to base_feature
+* Add color styling to generateDependencyGraph task
+* ANDDEP-392 Add firebase app distribution and firebase crashlytics
+* ANDDEP-927 Add FirebaseCrashlyticsRemoteLoggingStrategy
+* ANDDEP-936 Remove Deprecated annotation from i-network module
+* ANDDEP-392 Fix firebase crashlytics initialization
+* ANDDEP-938 Add link of instruction of project initialization
 
 ## 0.4.0
 ##### Template

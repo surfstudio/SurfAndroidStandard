@@ -57,7 +57,7 @@
         "artifact_name": "firebase-analytics",
         "third_party_dependencies": [
           {
-            "name": "com.google.firebase:firebase-core",
+            "name": "com.google.firebase:firebase-analytics",
             "type": "api"
           }
         ],
@@ -189,7 +189,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -432,7 +432,7 @@
   {
     "id": "core-app",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "deprecated/core-app",
     "libs": [
@@ -493,7 +493,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 4,
+    "unstable_version": 10,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -600,7 +600,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 8,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -686,7 +686,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 4,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -897,7 +897,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 4,
+    "unstable_version": 7,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -924,8 +924,8 @@
         "dir": "sample"
       }
     ],
-    "has_mirror": false,
-    "mirror_repo": ""
+    "has_mirror": true,
+    "mirror_repo": "https://github.com/surfstudio/EasyAdapter"
   },
   {
     "id": "filestorage",
@@ -984,7 +984,7 @@
   {
     "id": "imageloader",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "imageloader",
     "libs": [
@@ -1060,7 +1060,7 @@
   {
     "id": "logger",
     "version": "0.5.0",
-    "unstable_version": 0,
+    "unstable_version": 1,
     "stable": false,
     "dir": "logger",
     "libs": [
@@ -1121,7 +1121,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1525,6 +1525,60 @@
     "mirror_repo": ""
   },
   {
+    "id": "recycler-decorator",
+    "version": "0.5.0",
+    "unstable_version": 1,
+    "stable": false,
+    "dir": "recycler-decorator",
+    "libs": [
+      {
+        "name": "recycler-decorator",
+        "dir": "lib-recycler-decorator",
+        "artifact_name": "recycler-decorator",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": []
+      },
+      {
+        "name": "recycler-decorator-easyadapter",
+        "dir": "lib-recycler-decorator-easyadapter",
+        "artifact_name": "recycler-decorator-easyadapter",
+        "third_party_dependencies": [
+          {
+            "name": "androidx.recyclerview:recyclerview",
+            "type": "api"
+          }
+        ],
+        "android_standard_dependencies": [
+          {
+            "name": "easyadapter",
+            "type": "implementation"
+          },
+          {
+            "name": "recycler-decorator",
+            "type": "implementation"
+          }
+        ]
+      }
+    ],
+    "samples": [
+      {
+        "name": "recycler-decorator-sample",
+        "dir": "sample"
+      }
+    ],
+    "has_mirror": false,
+    "mirror_repo": ""
+  },
+  {
     "id": "rx-extension",
     "version": "0.5.0",
     "unstable_version": 5,
@@ -1759,7 +1813,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 8,
+    "unstable_version": 13,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -1792,7 +1846,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 11,
     "stable": false,
     "dir": "docs",
     "libs": [],

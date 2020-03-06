@@ -30,7 +30,7 @@
 
         <provider
             android:name="com.krishna.debug_tools.utils.FileProvider"
-            android:authorities="${applicationId}.debug.provider"
+            android:authorities="${applicationId}.provider"
             android:exported="true"
             tools:replace="android:authorities" />
     </application>

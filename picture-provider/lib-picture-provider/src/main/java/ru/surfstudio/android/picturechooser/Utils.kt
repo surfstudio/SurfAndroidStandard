@@ -119,7 +119,7 @@ internal fun <T : Serializable> parseScreenResult(
 /**
  * Функция, возвращающая путь к файлу по его Uri
  */
-fun Uri.getRealPath(activity: Activity, tempFileName: String = DEFAULT_TEMP_FILE_NAME): String {
+fun Uri.getRealPath(activity: Activity, name: String = ""): String {
     val result: String
     val cursor = activity.contentResolver
             .query(this, null, null, null, null)

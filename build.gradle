@@ -38,6 +38,7 @@ buildscript {
         //classpath "ru.surfstudio.android:version-plugin:${ConfigInfoProvider.getVersion()}"
         //todo use this for get as dependencies for mirror
     }
+
 }
 
 /**

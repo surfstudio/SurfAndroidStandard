@@ -20,67 +20,59 @@ import ru.surfstudio.android.mvp.dialog.simple.CoreSimpleDialogFragment
  *
  * To emit events from this dialog, you need to inherit parent component from [EventHubDialogComponent]
  */
-class CustomAlertDialogView<E : Event> : CoreSimpleDialogFragment() {
+class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
 
-    override fun getName(): String = "CustomAlertDialogView"
 
     private lateinit var hub: ScreenEventHub<E>
-    private lateinit var route: CustomAlertDialogRoute<E>
 
     private var positiveButtonEvent: E? = null
     private var negativeButtonEvent: E? = null
     private var dismissEvent: E? = null
 
     private val positiveListener = DialogInterface.OnClickListener { _, _ ->
-        positiveButtonEvent?.let { hub.emit(it) }
+        tryEmit(positiveButtonEvent)
     }
 
     private val negativeListener = DialogInterface.OnClickListener { _, _ ->
-        negativeButtonEvent?.let { hub.emit(it) }
+        tryEmit(negativeButtonEvent)
     }
+
+    override fun getName(): String = "StandardReactDialogView"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         hub = getScreenComponent(EventHubDialogComponent::class.java).screenHub() as ScreenEventHub<E>
-        route = CustomAlertDialogRoute(arguments!!)
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val route = StandardReactDialogRoute<E>(arguments ?: Bundle.EMPTY)
 
         isCancelable = route.isCancelable
 
         positiveButtonEvent = route.positiveButtonEvent
         negativeButtonEvent = route.negativeButtonEvent
         dismissEvent = route.dismissEvent
-    }
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val titleRes = route.titleRes
-        val title = if (titleRes != EMPTY_RES) getString(titleRes) else route.title
-
-        val messageRes = route.messageRes
-        val message = if (messageRes != EMPTY_RES) getString(messageRes) else route.message
-
-        val positiveText = route.positiveBtnTextRes
-        val negativeText = route.negativeBtnTextRes
-
-        val positiveColor = route.positiveBtnColorRes
-        val negativeColor = route.negativeBtnColorRes
+        val title = if (route.titleRes != EMPTY_RES) getString(route.titleRes) else route.title
+        val message = if (route.messageRes != EMPTY_RES) getString(route.messageRes) else route.message
 
         return AlertDialog.Builder(requireContext())
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButtonSafe(positiveText, positiveListener)
-                .setNegativeButtonSafe(negativeText, negativeListener)
+                .setPositiveButtonSafe(route.positiveBtnTextRes, positiveListener)
+                .setNegativeButtonSafe(route.negativeBtnTextRes, negativeListener)
                 .create()
                 .apply {
                     // paint button only after the dialog is shown
                     setOnShowListener {
-                        setButtonColorSafe(AlertDialog.BUTTON_NEGATIVE, negativeColor)
-                        setButtonColorSafe(AlertDialog.BUTTON_POSITIVE, positiveColor)
+                        setButtonColorSafe(AlertDialog.BUTTON_POSITIVE, route.positiveBtnColorRes)
+                        setButtonColorSafe(AlertDialog.BUTTON_NEGATIVE, route.negativeBtnColorRes)
                     }
                 }
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        dismissEvent?.let { hub.emit(it) }
+        tryEmit(dismissEvent)
         super.onDismiss(dialog)
     }
 
@@ -91,15 +83,19 @@ class CustomAlertDialogView<E : Event> : CoreSimpleDialogFragment() {
             if (textResId != EMPTY_RES) setPositiveButton(textResId, onClickListener) else this
 
     private fun AlertDialog.Builder.setNegativeButtonSafe(
-            @StringRes textResId: Int?,
+            @StringRes textResId: Int,
             onClickListener: DialogInterface.OnClickListener
     ): AlertDialog.Builder =
-            if (textResId != null) setNegativeButton(textResId, onClickListener) else this
+            if (textResId != EMPTY_RES) setNegativeButton(textResId, onClickListener) else this
 
     private fun AlertDialog.setButtonColorSafe(buttonType: Int, @ColorRes colorResId: Int) {
         if (colorResId != EMPTY_RES) {
             val color = ContextCompat.getColor(context, colorResId)
             getButton(buttonType)?.setTextColor(color)
         }
+    }
+
+    private fun tryEmit(event: E?) {
+        event?.let(hub::emit)
     }
 }

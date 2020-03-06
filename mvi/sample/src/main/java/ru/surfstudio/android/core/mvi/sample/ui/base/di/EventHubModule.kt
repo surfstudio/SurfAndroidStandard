@@ -3,6 +3,7 @@ package ru.surfstudio.android.core.mvi.sample.ui.base.di
 import dagger.Module
 import dagger.Provides
 import ru.surfstudio.android.core.mvi.impls.event.hub.dependency.ScreenEventHubDependency
+import ru.surfstudio.android.core.mvi.impls.event.hub.logging.EventLogger
 import ru.surfstudio.android.core.mvi.impls.ui.binder.ScreenBinderDependency
 import ru.surfstudio.android.core.mvi.impls.ui.freezer.EmptySubscriptionFreezer
 import ru.surfstudio.android.core.mvi.impls.ui.freezer.LifecycleSubscriptionFreezer
@@ -61,6 +62,12 @@ class EventHubModule {
     fun provideBaseEventHubDependency(
             screenState: ScreenState,
             screenEventDelegateManager: ScreenEventDelegateManager
-    ): ScreenEventHubDependency = ScreenEventHubDependency(screenState, screenEventDelegateManager)
+    ): ScreenEventHubDependency {
+        return ScreenEventHubDependency(
+                screenState,
+                screenEventDelegateManager,
+                EventLogger()
+        )
+    }
 
 }
