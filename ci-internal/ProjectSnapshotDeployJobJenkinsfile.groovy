@@ -36,7 +36,6 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 //vars
 def branchName = ""
 def useBintrayDeploy = false
-def isLastSkipCiCommit = false
 
 //other config
 
@@ -98,9 +97,7 @@ pipeline.stages = [
             script.sh "git checkout -B $branchName origin/$branchName"
 
             script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
-            isLastSkipCiCommit = true
-            // RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script)
-            if (isLastSkipCiCommit && !CommonUtil.isJobStartedByUser(script)) {
+            if (RepositoryUtil.isCurrentCommitMessageContainsSkipCiLabel(script) && !CommonUtil.isJobStartedByUser(script)) {
                 throw new InterruptedException("Job aborted, because it triggered automatically and last commit message contains $RepositoryUtil.SKIP_CI_LABEL1 label")
             }
 
@@ -111,25 +108,20 @@ pipeline.stages = [
             def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
             project = globalConfiguration.project_snapshot_name
 
-            /*
             if (("project-snapshot/" + project) != branchName) {
                 script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
-            }*/
+            }
         },
         pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
-            if (!isLastSkipCiCommit) {
-                script.sh("./gradlew incrementProjectSnapshotVersion")
-            } else {
-                script.echo "skip version incrementation"
-            }
+            script.sh("./gradlew incrementProjectSnapshotVersion")
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) { //todo вернуть
+        pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
@@ -160,7 +152,7 @@ pipeline.stages = [
                         script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                     } else {
                         script.sh "./gradlew clean uploadArchives"
-                        script.sh "./gradlew distributeArtifactsToBintray -PoverrideExisted=true"
+                        script.sh "./gradlew distributeArtifactsToBintray"
                     }
                 }
             }
@@ -172,17 +164,13 @@ pipeline.stages = [
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            if (!isLastSkipCiCommit) {
-                RepositoryUtil.setDefaultJenkinsGitUser(script)
-                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            RepositoryUtil.setDefaultJenkinsGitUser(script)
+            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
-                script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
-                        "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-                RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
-            } else {
-                script.echo "skip version push"
-            }
+            script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
+                    "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         }
 ]
 
@@ -198,8 +186,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    // JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
 }
 
 pipeline.run()
