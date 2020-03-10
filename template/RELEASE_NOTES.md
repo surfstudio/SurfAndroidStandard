@@ -20,6 +20,7 @@
 * ANDDEP-392 Fix firebase crashlytics initialization
 * ANDDEP-938 Add link of instruction of project initialization
 * ANDDEP-911 Kotlin code style auto-formatting support
+* ANDDEP-957 Fix dependency substitution for debug mode
 
 ## 0.4.0
 ##### Template
