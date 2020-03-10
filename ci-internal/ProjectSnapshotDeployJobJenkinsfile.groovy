@@ -182,15 +182,14 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-
-def static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initBuildDiscarder(script),

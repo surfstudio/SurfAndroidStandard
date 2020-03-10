@@ -23,16 +23,6 @@ def SEARCH_LIMIT = 100
 def branchName = ""
 def lastCommit = ""
 
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
-
 //init
 def script = this
 def pipeline = new EmptyScmPipeline(script)
@@ -126,20 +116,18 @@ pipeline.finalizeBody = {
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Зеркалирование из ветки '${branchName}' не выполнено из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        message = "Зеркалирование компонентов из ветки '${branchName}' не выполнено из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
     } else {
-        message = "Зеркалирование из ветки '${branchName}' успешно выполнено. ${jenkinsLink}"
+        message = "Зеркалирование компонентов из ветки '${branchName}' успешно выполнено. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-
-def static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initDiscarder(script),

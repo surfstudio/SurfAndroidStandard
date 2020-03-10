@@ -241,8 +241,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
