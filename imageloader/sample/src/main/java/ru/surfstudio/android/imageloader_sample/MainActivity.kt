@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     private fun loadGifImage() {
         ImageLoader
                 .with(this)
-                .url(R.drawable.splash_g)
+                .url(R.drawable.android_gif)
                 .into(gifImageView, onCompleteLambda = { res, _, _ ->
                     if (res is GifDrawable) {
                         res.setLoopCount(10)
