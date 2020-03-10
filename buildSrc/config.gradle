@@ -18,7 +18,6 @@ ext {
     applicationName = "AndroidStandard"
     applicationId = "ru.surfstudio.android.template"
 
-    defaultVersionName = '0.4.0-SNAPSHOT'
     moduleVersionCode = 20
     projectPostfix = ""
     projectVersion = -1
