@@ -25,9 +25,7 @@ buildscript {
 
 build.gradle(app)
 ```groovy
-if (!gradle.ext.androidStandard.debugEnabled) {
     apply plugin: 'ru.surfstudio.android'
-}
 
 dependencies {
     implementation "ru.surfstudio.android:%ARTIFACT-ID-HERE%:${androidStandard.version("%ARTIFACT-ID-HERE%")}"

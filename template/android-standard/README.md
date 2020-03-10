@@ -6,7 +6,7 @@
 ##Термины
 
 **Локальный Android Standard** - локальная копия Android Standard, клонированная из удаленного
-репозитория. С том случае, если ваш проект использует проектный снапшот Android Standard, следует
+репозитория. В том случае, если ваш проект использует проектный снапшот Android Standard, следует
 переключить его на соответствующую ветку (`project-snapshot/PROJECT-TAG`)
 **Рабочий проект** - исходный код приложения, для которого выполняется конфигурация для работы с локальным Android Standard
 
@@ -35,7 +35,7 @@ androidStandardDebugMode=false
 ```
  if (!gradle.ext.androidStandard.debugEnabled) {
     apply plugin: 'ru.surfstudio.android'
-}
+ }
 ```
 в Gradle-скриптах модулей
 

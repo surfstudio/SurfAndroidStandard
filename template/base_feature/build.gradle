@@ -27,7 +27,6 @@ dependencies {
     }
     
     implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
-    implementation "androidx.multidex:multidex:$multidexVersion"
 
     implementation "com.akaita.java:rxjava2-debug:$rxJava2DebugVersion"
 }
