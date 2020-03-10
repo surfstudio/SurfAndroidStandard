@@ -35,3 +35,4 @@ task clean(type: Delete) {
 }
 
 apply from: "scripts/dependenciesModules.gradle"
+apply from: "scripts/ktFormatter.gradle"

@@ -19,6 +19,7 @@
 * ANDDEP-936 Remove Deprecated annotation from i-network module
 * ANDDEP-392 Fix firebase crashlytics initialization
 * ANDDEP-938 Add link of instruction of project initialization
+* ANDDEP-911 Kotlin code style auto-formatting support
 
 ## 0.4.0
 ##### Template
