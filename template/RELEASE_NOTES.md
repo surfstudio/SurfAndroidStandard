@@ -16,6 +16,9 @@
 * Add color styling to generateDependencyGraph task
 * ANDDEP-392 Add firebase app distribution and firebase crashlytics
 * ANDDEP-927 Add FirebaseCrashlyticsRemoteLoggingStrategy
+* ANDDEP-936 Remove Deprecated annotation from i-network module
+* ANDDEP-392 Fix firebase crashlytics initialization
+* ANDDEP-938 Add link of instruction of project initialization
 * ANDDEP-911 Kotlin code style auto-formatting support
 
 ## 0.4.0

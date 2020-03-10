@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.multidex.MultiDexApplication
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.github.anrwatchdog.ANRWatchDog
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.logger.Logger
@@ -17,7 +18,7 @@ import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 import ru.surfstudio.standard.application.app.di.AppInjector
-import ru.surfstudio.standard.application.logger
+import ru.surfstudio.standard.application.logger.FirebaseCrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.standard.f_debug.injector.DebugAppInjector
 
 class App : MultiDexApplication() {
@@ -39,6 +40,7 @@ class App : MultiDexApplication() {
             return
         }
 
+        initFirebaseCrashlytics()
         initPushEventListener()
         initRxJava2Debug()
 
@@ -79,6 +81,12 @@ class App : MultiDexApplication() {
                 )
         )
     }
+
+    private fun initFirebaseCrashlytics() {
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(isNotDebug())
+    }
+
+    private fun isNotDebug() = !BuildConfig.BUILD_TYPE.contains("debug")
 
     private fun initPushEventListener() {
         PushClickProvider.pushEventListener = object : PushEventListener {

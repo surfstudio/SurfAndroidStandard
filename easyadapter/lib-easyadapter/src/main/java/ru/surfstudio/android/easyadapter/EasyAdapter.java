@@ -152,6 +152,16 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
+     * Get BaseItem from items list at certain position
+     *
+     * @param position position of item
+     * @return unique item id
+     */
+    public final BaseItem getItem(int position) {
+        return items.get(getListPosition(position));
+    }
+
+    /**
      * Get the item's hashcode at certain position
      *
      * @param position position of item
@@ -201,6 +211,16 @@ public class EasyAdapter extends RecyclerView.Adapter {
      */
     public void setFirstInvisibleItemEnabled(boolean enableFirstInvisibleItem) {
         this.firstInvisibleItemEnabled = enableFirstInvisibleItem;
+    }
+
+    /**
+     *
+     * @see FirstInvisibleItemController
+     *
+     * @return state of the property {@link FirstInvisibleItemController} enabled
+     */
+    public boolean isFirstInvisibleItemEnabled() {
+        return firstInvisibleItemEnabled;
     }
 
     /**
