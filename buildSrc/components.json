@@ -1813,7 +1813,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 13,
+    "unstable_version": 14,
     "stable": false,
     "dir": "template",
     "libs": [],
