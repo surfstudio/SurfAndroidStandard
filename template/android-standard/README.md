@@ -5,7 +5,9 @@
 
 ##Термины
 
-**Локальный Android Standard** - локальная копия Android Standard, клонированная из удаленного репозитория
+**Локальный Android Standard** - локальная копия Android Standard, клонированная из удаленного
+репозитория. С том случае, если ваш проект использует проектный снапшот Android Standard, следует
+переключить его на соответствующую ветку (`project-snapshot/PROJECT-TAG`)
 **Рабочий проект** - исходный код приложения, для которого выполняется конфигурация для работы с локальным Android Standard
 
 ##Первичная настройка на конкретной машине
@@ -25,6 +27,17 @@ androidStandardDebugMode=false
 
 1. В рабочем проекте изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
 2. В рабочем проекте выполнить ```File - Sync Project with Gradle Files```.
+
+##Локальный Android Standard и android-standard-version-plugin
+
+В том случае, если модули рабочего проекта используют android-standard-version-plugin, для
+корректной работы локального Android Standard следует использовать конструкцию
+```
+ if (!gradle.ext.androidStandard.debugEnabled) {
+    apply plugin: 'ru.surfstudio.android'
+}
+```
+в Gradle-скриптах модулей
 
 ##Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект
