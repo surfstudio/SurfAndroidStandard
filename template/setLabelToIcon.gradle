@@ -451,8 +451,10 @@ class IconService {
     }
 
     private void copyFile(File fileFrom, File fileTo) {
-        createFile(fileTo)
-        Files.copy(fileFrom.toPath(), fileTo.toPath(), StandardCopyOption.REPLACE_EXISTING)
+        File absFileFrom = fileFrom.absoluteFile
+        File absFileTo = fileTo.absoluteFile
+        createFile(absFileTo)
+        Files.copy(absFileFrom.toPath(), absFileTo.toPath(), StandardCopyOption.REPLACE_EXISTING)
     }
 
     private String createVectorIconName(File icon) {
