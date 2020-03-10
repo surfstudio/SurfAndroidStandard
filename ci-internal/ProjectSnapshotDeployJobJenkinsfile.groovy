@@ -36,6 +36,7 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 //vars
 def branchName = ""
 def useBintrayDeploy = false
+def skipIncrementVersion = false
 
 //other config
 
@@ -78,6 +79,9 @@ pipeline.initializeBody = {
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
         value -> useBintrayDeploy = value
     }
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
+        value -> skipIncrementVersion = value
+    }
 
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
@@ -116,7 +120,11 @@ pipeline.stages = [
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
-            script.sh("./gradlew incrementProjectSnapshotVersion")
+            if (!skipIncrementVersion) {
+                script.sh("./gradlew incrementProjectSnapshotVersion")
+            } else {
+                script.echo "skip project snapshot version incrementation stage"
+            }
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
@@ -164,13 +172,17 @@ pipeline.stages = [
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            if (!skipIncrementVersion) {
+                RepositoryUtil.setDefaultJenkinsGitUser(script)
+                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
-            script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
-                    "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+                script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
+                        "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+                RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+            } else {
+                script.echo "skip version push stage"
+            }
         }
 ]
 
@@ -227,6 +239,11 @@ def static initParameters(script) {
                     defaultValue: false,
                     name: "useBintrayDeploy",
                     description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory'
+            ),
+            script.booleanParam(
+                    defaultValue: false,
+                    name: "skipIncrementVersion",
+                    description: 'Деплой артефактов без инкремента версии'
             )
     ])
 }
