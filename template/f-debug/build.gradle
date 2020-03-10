@@ -1,7 +1,9 @@
 apply from: '../commonModule.gradle'
 
 apply plugin: 'kotlin-kapt'
-apply plugin: 'ru.surfstudio.android'
+if (!gradle.ext.androidStandard.debugEnabled) {
+    apply plugin: 'ru.surfstudio.android'
+}
 
 dependencies {
     implementation project(":base")
