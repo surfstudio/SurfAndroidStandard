@@ -30,9 +30,7 @@ androidStandardDebugMode=false
 В том случае, если модули рабочего проекта используют android-standard-version-plugin, для
 корректной работы локального Android Standard следует использовать конструкцию
 ```
- if (!gradle.ext.androidStandard.debugEnabled) {
-    apply plugin: 'ru.surfstudio.android'
- }
+apply from: '../androidStandardPlugin.gradle'
 ```
 в Gradle-скриптах модулей
 

@@ -1,8 +1,5 @@
 apply from: '../commonModule.gradle'
-
-if (!gradle.ext.androidStandard.debugEnabled) {
-    apply plugin: 'ru.surfstudio.android'
-}
+apply from: '../androidStandardPlugin.gradle'
 
 dependencies {
     gradle.ext.androidStandard.api(
