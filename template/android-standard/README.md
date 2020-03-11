@@ -12,10 +12,7 @@
 
 ##Первичная настройка на конкретной машине
 
-1. В локальном Android Standard запустить Gradle task ```generateModulesNamesFile``` (из терминала ```./gradlew generateModulesNamesFile```)
-Это необходимо для генерации вспомогательного файла с именами всех имеющихся в андроид стандарте на данный момент модулей
-
-2. В рабочем проекте добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
+1. В рабочем проекте добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
 # флаг для активации режима локальной загрузки репозитория android-standard
