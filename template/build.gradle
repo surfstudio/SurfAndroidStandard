@@ -16,7 +16,9 @@ buildscript {
         classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsGradleVersion"
         classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
-        classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"
+        if (!gradle.ext.androidStandard.debugEnabled) {
+            classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"
+        }
     }
 }
 
@@ -36,3 +38,4 @@ task clean(type: Delete) {
 
 apply from: "scripts/dependenciesModules.gradle"
 apply from: "scripts/ktFormatter.gradle"
+apply from: "androidStandardPlugin.gradle"
