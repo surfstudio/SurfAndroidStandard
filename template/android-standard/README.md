@@ -25,15 +25,6 @@ androidStandardDebugMode=false
 1. В рабочем проекте изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
 2. В рабочем проекте выполнить ```File - Sync Project with Gradle Files```.
 
-##Локальный Android Standard и android-standard-version-plugin
-
-В том случае, если модули рабочего проекта используют android-standard-version-plugin, для
-корректной работы локального Android Standard следует использовать конструкцию
-```
-apply from: '../androidStandardPlugin.gradle'
-```
-в Gradle-скриптах модулей
-
 ##Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект
 

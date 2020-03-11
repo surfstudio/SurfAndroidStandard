@@ -1,5 +1,4 @@
 apply from: '../commonModule.gradle'
-apply from: '../androidStandardPlugin.gradle'
 
 dependencies {
     gradle.ext.androidStandard.api(

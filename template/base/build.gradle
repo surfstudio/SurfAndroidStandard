@@ -1,4 +1,3 @@
-apply from: '../androidStandardPlugin.gradle'
 apply from: '../commonModule.gradle'
 
 dependencies {
