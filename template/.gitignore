@@ -1,4 +1,6 @@
-.idea
+.idea/*
+!.idea/codeStyles
+!.idea/inspectionProfile
 *.iml
 .gradle
 /local.properties
