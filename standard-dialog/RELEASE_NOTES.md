@@ -4,7 +4,6 @@
 ##### Standard-dialog
 * ANDDEP-687 Added "javax.inject:javax.inject" dependency with "implementation" type
 * Fix unused mvi import
-* ANDDEP-950 Add different gradle script for modules without deploy
 ## 0.2.1
 ##### Standard-dialog
 * ANDDEP-213 Fix StandardDialog closing when isCancelable is true

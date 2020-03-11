@@ -3,7 +3,6 @@
 ## 0.5.0-alpha
 ##### Recycler-extension
 * ANDDEP-687 Changed "com.google.android.material:material" dependency from "api" to "implementation" type
-* ANDDEP-950 Add different gradle script for modules without deploy
 ## 0.4.0
 ##### Recycler-extension
 * ANDDEP-266 DividerItemDecorator Update
