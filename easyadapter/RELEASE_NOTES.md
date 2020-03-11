@@ -8,7 +8,6 @@
 * Added support for asynchronous item list updates diff calculation
 * ANDDEP-812 - Fixed crash after enabling infinite scroll, fixed scroll position saving mechanism
 * ANDDEP-829 Fixed synchronous DiffResult dispatching in DefaultDiffer.
-* ANDDEP-950 Add different gradle script for modules without deploy
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
