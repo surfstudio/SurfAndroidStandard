@@ -41,10 +41,11 @@ public abstract class DialogNavigator implements Navigator {
 
     public void show(DialogRoute dialogRoute) {
         DialogFragment dialog = dialogRoute.createFragment();
+        String tag = dialogRoute.getTag();
         if (dialog instanceof CoreSimpleDialogInterface) {
-            showSimpleDialog((DialogFragment & CoreSimpleDialogInterface) dialog);
+            showSimpleDialog((DialogFragment & CoreSimpleDialogInterface) dialog, tag);
         } else {
-            dialog.show(activityProvider.get().getSupportFragmentManager(), dialogRoute.getTag());
+            dialog.show(activityProvider.get().getSupportFragmentManager(), tag);
         }
     }
 
@@ -58,6 +59,9 @@ public abstract class DialogNavigator implements Navigator {
         }
     }
 
-    protected abstract <D extends DialogFragment & CoreSimpleDialogInterface> void showSimpleDialog(D fragment);
+    protected abstract <D extends DialogFragment & CoreSimpleDialogInterface> void showSimpleDialog(
+            D fragment,
+            String tag
+    );
 
 }

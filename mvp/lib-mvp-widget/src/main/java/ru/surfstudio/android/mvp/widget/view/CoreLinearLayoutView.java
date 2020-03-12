@@ -121,9 +121,16 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     }
 
     /**
-     * Вручную вызывает onCompletelyDestroy у виджета
+     * Вручную вызывает onCompletelyDestroy у виджета.
+     * <p>
+     * Необходимо вызывать только тогда, когда виджет навсегда удаляется из верстки,
+     * и больше не должен быть создан.
+     * Все данные из скоупа виджета (презентер, модель экрана, итд) уничтожаются.
+     * <p>
+     * Рекомендованный сценарий использования: виджет динамически добавляется в верстку через addView,
+     * а когда он нам больше не нужен - вызывается метод manualCompletelyDestroy и затем removeView.
      */
     public void manualCompletelyDestroy() {
-        widgetViewDelegate.onManualCompletelyDestroy();
+        widgetViewDelegate.manualCompletelyDestroy();
     }
 }

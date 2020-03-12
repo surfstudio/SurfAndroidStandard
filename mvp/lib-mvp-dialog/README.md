@@ -4,7 +4,7 @@
 
 # MVP dialog
 
-Расширение модуля [core-mvp](../core-mvp/README.md) для работы с диалогами.
+Расширение модуля [core-mvp][core_mvp] для работы с диалогами.
 
 В наших приложениях мы не используем напрямую диалоги из Android Framework.
 
@@ -16,7 +16,7 @@
 может получить событие с диалога через RxBus (см [`CoreDialogFragmentView`][#coredialogfragmentview])
 
 # Использование
-[Пример использования](../mvp-dialog-sample)
+[Пример использования](../sample-mvp-dialog/)
 
 
 # Подключение
@@ -75,8 +75,9 @@ BottomSheetDialog с собственным презентером.
 
 [simple]: src/main/java/ru/surfstudio/android/mvp/dialog/simple/CoreSimpleDialogFragment.java
 [core]: src/main/java/ru/surfstudio/android/mvp/dialog/complex/CoreDialogFragmentView.java
-[bottom]: src/main/java/ru/surfstudio/android/mvp/dialog/complex/CoreBottomSheetDialogDialogFragmentView.java
+[bottom]: src/main/java/ru/surfstudio/android/mvp/dialog/complex/CoreBottomSheetDialogFragmentView.java
 [bottom_simple]: src/main/java/ru/surfstudio/android/mvp/dialog/simple/bottomsheet/CoreSimpleBottomSheetDialogFragment.kt
 [nav]: src/main/java/ru/surfstudio/android/mvp/dialog/navigation/navigator/DialogNavigator.java
 [dr]: src/main/java/ru/surfstudio/android/mvp/dialog/navigation/route/DialogRoute.java
 [dwpr]: src/main/java/ru/surfstudio/android/mvp/dialog/navigation/route/DialogWithParamsRoute.java
+[core_mvp]: ../../mvp/lib-core-mvp/

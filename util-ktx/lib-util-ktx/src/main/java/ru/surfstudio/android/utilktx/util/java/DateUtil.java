@@ -30,6 +30,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+@SuppressWarnings("WeakerAccess")
 public class DateUtil {
 
     /**
@@ -129,38 +130,59 @@ public class DateUtil {
         return defaultTimeZone.getOffset(currentTimeInMillis);
     }
 
+    /**
+     * Parse {@link java.util.Date} from {@link java.lang.String} representation using {@link DateUtil#DATE_DEFAULT_FORMAT}
+     * @param dateValue string representation of date
+     * @return java.util.Date instance or NULL in case of parsing failure
+     */
     @Nullable
-    public static Date parseDate(@NonNull final String dateValue) {
+    public static Date parseDate(@Nullable final String dateValue) {
         return parseDate(dateValue, (String[]) null);
     }
 
+    /**
+     * Parse {@link java.util.Date} from {@link java.lang.String} representation using provided date format
+     * @param dateValue string representation of date
+     * @param dateFormat format used to format date
+     * @return {@link java.util.Date} instance or NULL in case of parsing failure
+     */
     @Nullable
-    public static Date parseDate(@NonNull final String dateValue, @NonNull final String dateFormat) {
+    public static Date parseDate(@Nullable final String dateValue, @NonNull final String dateFormat) {
         return parseDate(dateValue, new String[]{dateFormat});
     }
 
     // endregion
 
+    /**
+     * Parse {@link java.util.Date} from {@link java.lang.String} representation using provided date formats
+     * @param dateValue string representation of date
+     * @param dateFormats format list, one of which was used for date formatting
+     * @return {@link java.util.Date} instance or NULL in case of parsing failure
+     */
     @Nullable
-    public static Date parseDate(@NonNull final String dateValue, @Nullable final String[] dateFormats) {
-        final String[] localDateFormats = dateFormats != null ? dateFormats : DATE_DEFAULT_PATTERNS;
-        String v = dateValue;
-        // trim single quotes around date if present
-        // see issue #5279
-        if (v.length() > 1 && v.startsWith("'") && v.endsWith("'")) {
-            v = v.substring(1, v.length() - 1);
-        }
-
-        for (final String dateFormat : localDateFormats) {
-            final SimpleDateFormat dateParser = DateFormatHolder.formatFor(dateFormat);
-            final ParsePosition pos = new ParsePosition(0);
-            final Date result = dateParser.parse(v, pos);
-            if (pos.getIndex() != 0) {
-                return result;
+    public static Date parseDate(@Nullable final String dateValue, @Nullable final String[] dateFormats) {
+        if (dateValue != null) {
+            final String[] localDateFormats = dateFormats != null ? dateFormats : DATE_DEFAULT_PATTERNS;
+            String v = dateValue;
+            // trim single quotes around date if present
+            // see issue #5279
+            if (v.length() > 1 && v.startsWith("'") && v.endsWith("'")) {
+                v = v.substring(1, v.length() - 1);
             }
-        }
 
-        return null;
+            for (final String dateFormat : localDateFormats) {
+                final SimpleDateFormat dateParser = DateFormatHolder.formatFor(dateFormat);
+                final ParsePosition pos = new ParsePosition(0);
+                final Date result = dateParser.parse(v, pos);
+                if (pos.getIndex() != 0) {
+                    return result;
+                }
+            }
+
+            return null;
+        } else {
+            return null;
+        }
     }
 
     // ---------- скопироваино из Apache commons DateUtils.java --------------- //
@@ -269,6 +291,30 @@ public class DateUtil {
             }
 
             return format;
+        }
+    }
+
+    /**
+     * Changes {@link java.lang.String} representation of date from input format to output format
+     * @param inputDate original {@link java.lang.String} representation of date
+     * @param inputFormat format of original {@link java.lang.String}
+     * @param outputFormat desired format of {@link java.lang.String}
+     * @return {@link java.lang.String} in desired format, NULL reformat attempt failed
+     */
+    public static String reformatDate(
+            @Nullable String inputDate,
+            @NonNull String inputFormat,
+            @NonNull String outputFormat
+    ) {
+        if (inputDate == null) {
+            return null;
+        } else {
+            Date parsed = parseDate(inputDate, inputFormat);
+            if (parsed != null) {
+                return new SimpleDateFormat(outputFormat, Locale.getDefault()).format(parsed);
+            } else {
+                return null;
+            }
         }
     }
 }

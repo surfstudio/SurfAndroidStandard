@@ -53,32 +53,55 @@ public class SimpleDialogDelegate {
         this.dialogFragment = simpleDialog;
     }
 
-    public <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope) {
-        show(parentActivityViewPersistentScope.getScreenState().getActivity().getSupportFragmentManager(),
-                ScreenType.ACTIVITY,
-                parentActivityViewPersistentScope.getScopeId());
+    public <A extends ActivityViewPersistentScope> void show(
+            A parentActivityViewPersistentScope,
+            String tag
+    ) {
+        FragmentActivity activity = parentActivityViewPersistentScope.getScreenState().getActivity();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        String parentScopeId = parentActivityViewPersistentScope.getScopeId();
+
+        show(fragmentManager, ScreenType.ACTIVITY, parentScopeId, tag);
     }
 
-    public <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope) {
-        Fragment fragment = parentFragmentViewPersistentScope.getScreenState().getFragment();
-        FragmentManager fm = fragment.getParentFragment() == null
-                ? fragment.getFragmentManager()
-                : fragment.getParentFragment().getFragmentManager();
+    public <F extends FragmentViewPersistentScope> void show(
+            F parentFragmentViewPersistentScope,
+            String tag
+    ) {
+        FragmentActivity activity = parentFragmentViewPersistentScope
+                .getScreenState()
+                .getFragment()
+                .requireActivity();
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        String parentScopeId = parentFragmentViewPersistentScope.getScopeId();
 
-        show(fm, ScreenType.FRAGMENT, parentFragmentViewPersistentScope.getScopeId());
+        show(fragmentManager, ScreenType.FRAGMENT, parentScopeId, tag);
     }
 
-    public <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope) {
-        show(((FragmentActivity) parentWidgetViewPersistentScope.getScreenState().getWidget().getContext())
-                        .getSupportFragmentManager(),
-                ScreenType.WIDGET,
-                parentWidgetViewPersistentScope.getScopeId());
+    public <W extends WidgetViewPersistentScope> void show(
+            W parentWidgetViewPersistentScope,
+            String tag
+    ) {
+        FragmentActivity activity = (FragmentActivity) parentWidgetViewPersistentScope
+                .getScreenState()
+                .getWidget()
+                .getContext();
+
+        FragmentManager fragmentManager = activity.getSupportFragmentManager();
+        String parentScopeId = parentWidgetViewPersistentScope.getScopeId();
+
+        show(fragmentManager, ScreenType.WIDGET, parentScopeId, tag);
     }
 
-    protected void show(FragmentManager fragmentManager, ScreenType parentType, String parentName) {
+    protected void show(
+            FragmentManager fragmentManager,
+            ScreenType parentType,
+            String parentName,
+            String tag
+    ) {
         this.parentScopeId = parentName;
         this.parentType = parentType;
-        dialogFragment.show(fragmentManager, simpleDialog.getName());
+        dialogFragment.show(fragmentManager, tag);
     }
 
     public <T> T getScreenComponent(Class<T> componentClass) {

@@ -19,10 +19,10 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.annotation.FloatRange
 import androidx.annotation.WorkerThread
-import android.view.View
 import ru.surfstudio.android.imageloader.data.CacheStrategy
 import ru.surfstudio.android.imageloader.data.ImageSource
 import ru.surfstudio.android.imageloader.transformations.RoundedCornersTransformation.CornerType
@@ -37,8 +37,9 @@ interface ImageLoaderInterface {
      * Загрузка изображения из сети
      *
      * @param url сетевая ссылка на изображение
+     * @param headers заголовки для запроса к [url]
      */
-    fun url(url: String): ImageLoaderInterface
+    fun url(url: String, headers: Map<String, String> = emptyMap()): ImageLoaderInterface
 
     /**
      * Загрузка изображения из ресурсов
@@ -184,8 +185,10 @@ interface ImageLoaderInterface {
      * Добавление перехода с растворением между изображениями.
      *
      * @param duration продолжительность перехода (в мс)
+     * @param hidePreviousImage определяет скрыть ли предыдущее изображение
+     * или нарисовать следующее поверх предыдущего
      */
-    fun crossFade(duration: Int = 300): ImageLoaderInterface
+    fun crossFade(duration: Int = 300, hidePreviousImage: Boolean = false): ImageLoaderInterface
 
     /**
      * Размножения изображения для соответствия его размеров размерам View
@@ -207,6 +210,19 @@ interface ImageLoaderInterface {
      * @param signature
      */
     fun signature(signature: Any): ImageLoaderInterface
+
+    /**
+     * Отключение конфигурации [Bitmap.Config.HARDWARE].
+     * Необходимо в случае, когда нужен доступ к загруженному в графическую память [Bitmap].
+     *
+     * Подробнее о Hardware Bitmaps: [https://bumptech.github.io/glide/doc/hardwarebitmaps.html]
+     */
+    fun disableHardwareConfig(): ImageLoaderInterface
+
+    /**
+     * Отключение анимации загруженных изображений.
+     */
+    fun dontAnimate(): ImageLoaderInterface
 
     /**
      * Указание целевой [View].

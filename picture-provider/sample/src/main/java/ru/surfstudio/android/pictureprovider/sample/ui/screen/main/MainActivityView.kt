@@ -21,9 +21,11 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
     @IdRes
     override fun getContentView(): Int = R.layout.activity_main
 
-    override fun onCreate(savedInstanceState: Bundle?,
-                          persistentState: PersistableBundle?,
-                          viewRecreated: Boolean) {
+    override fun onCreate(
+            savedInstanceState: Bundle?,
+            persistentState: PersistableBundle?,
+            viewRecreated: Boolean
+    ) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
 
         camera_btn.setOnClickListener { presenter.openCamera() }
@@ -40,9 +42,5 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
-    override fun getScreenName(): String  = "MainActivity"
-
-    fun startCamera() = camera_preview.start()
-
-    fun stopCamera() = camera_preview.stop()
+    override fun getScreenName(): String = "MainActivity"
 }

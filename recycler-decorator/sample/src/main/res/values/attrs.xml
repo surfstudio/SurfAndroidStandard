@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="StubView">
+        <attr name="isCircle" format="boolean" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="stubColor" format="reference" />
+    </declare-styleable>
+</resources>

@@ -19,7 +19,6 @@ package ru.surfstudio.standard.i_network.network.response;
  * Базовый интерфейс ответа.
  * Все корневые обьекты для парсинга ответа сервера должны реализовывать его.
  */
-@Deprecated
 public interface BaseResponse {
 
 }

@@ -18,7 +18,6 @@ package ru.surfstudio.standard.i_network.network.cache;
 /**
  * информация о запросах, поддерживающих простое кеширование
  */
-@Deprecated
 public class SimpleCacheInfo {
 
     private ApiMethod baseMethod;

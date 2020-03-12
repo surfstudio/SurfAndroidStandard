@@ -47,8 +47,8 @@
 [lssm]: ../src/main/java/ru/surfstudio/android/core/mvp/model/LdsSwrScreenModel.java
 [lpsm]: ../src/main/java/ru/surfstudio/android/core/mvp/model/LdsPgnScreenModel.java
 [lspsm]: ../src/main/java/ru/surfstudio/android/core/mvp/model/LdsSwrPgnScreenModel.java
+[ls]: ../../../template/base_feature/src/main/java/ru/surfstudio/standard/ui/placeholder/LoadState.kt
 
-[ls]: ../src/main/java/ru/surfstudio/android/core/mvp/model/state/LoadState.java
 [sws]:../src/main/java/ru/surfstudio/android/core/mvp/model/state/SwipeRefreshState.java
 
 [view]: view.md

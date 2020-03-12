@@ -16,16 +16,16 @@ abstract class CoreSimpleBottomSheetDialogFragment : BottomSheetDialogFragment()
 
     private val delegate = SimpleDialogDelegate(this)
 
-    override fun <A : ActivityViewPersistentScope> show(parentActivityViewPersistentScope: A) {
-        delegate.show(parentActivityViewPersistentScope)
+    override fun <A : ActivityViewPersistentScope> show(parentActivityViewPersistentScope: A, tag: String) {
+        delegate.show(parentActivityViewPersistentScope, tag)
     }
 
-    override fun <F : FragmentViewPersistentScope> show(parentFragmentViewPersistentScope: F) {
-        delegate.show(parentFragmentViewPersistentScope)
+    override fun <F : FragmentViewPersistentScope> show(parentFragmentViewPersistentScope: F, tag: String) {
+        delegate.show(parentFragmentViewPersistentScope, tag)
     }
 
-    override fun <W : WidgetViewPersistentScope> show(parentWidgetViewPersistentScope: W) {
-        delegate.show(parentWidgetViewPersistentScope)
+    override fun <W : WidgetViewPersistentScope> show(parentWidgetViewPersistentScope: W, tag: String) {
+        delegate.show(parentWidgetViewPersistentScope, tag)
     }
 
     override fun <T> getScreenComponent(componentClass: Class<T>): T {
