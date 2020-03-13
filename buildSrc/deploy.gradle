@@ -6,11 +6,13 @@ import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
 apply from: "$rootDir/buildSrc/config.gradle"
 apply plugin: 'maven'
 
-// Функция, конфигурирующая зависимости android-standard для текущего модуля,
-// контекст которого передается параметром.
+// Function for configuration of dependencies of current android-standard module.
+// Context of current module is passed in parameters.
+
+def trueValue = "true"
 
 ext.configureDeploy = { context ->
-    // определение функции для деплоя текущего модуля в artifactory
+    // define function for deploy of current module to artifactory
     context.afterEvaluate {
 
         // add java source to artifacts for release in JCenter !!! REQUIRED
@@ -21,6 +23,11 @@ ext.configureDeploy = { context ->
 
         artifacts {
             archives sourcesJar
+        }
+
+        def artifactName = Components.getArtifactName(project.name)
+        if (!artifactName.trim()) {
+            throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
         }
 
         uploadArchives {
@@ -38,17 +45,18 @@ ext.configureDeploy = { context ->
 
                 // If -PonlyUnstable=true deploy only unstable artifacts
                 if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
-                    if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == "true"
+                    if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue
                             && Components.getComponentStability(project.name)
                     ) return
                 }
 
                 // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
                 if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
-                    if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == "true"
+                    if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue
                             && Artifactory.isLibraryAlreadyDeployed(project.name)
                     ) return
                 }
+
                 repositories.mavenDeployer {
                     repository(url: ArtifactoryConfig.DEPLOY_URL) {
                         authentication(
@@ -58,11 +66,7 @@ ext.configureDeploy = { context ->
                     }
 
                     def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
-                    def artifactName = Components.getArtifactName(project.name)
                     def artifactVersion = Components.getModuleVersion(project.name)
-                    if (!artifactName.trim()) {
-                        throw new GradleException("uploadAcrhives: artifactName for ${project.name} can not be blank for deploy")
-                    }
                     println "uploadAcrhives $artifactName $artifactVersion"
 
                     pom.groupId = artifactGroupId
@@ -108,16 +112,26 @@ ext.configureDeploy = { context ->
                     if (!Components.isLibraryFromComponent(project.name, componentName)) return
                 }
 
+                // If -PonlyUnstable=true deploy only unstable artifacts
+                if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
+                    if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue
+                            && Components.getComponentStability(project.name)
+                    ) return
+                }
+
+                // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
+                if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
+                    if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue
+                            && Artifactory.isLibraryAlreadyDeployed(project.name)
+                    ) return
+                }
+
                 def overrideExisted = false
                 // Read -PoverrideExisted property
                 if (project.hasProperty(GradleProperties.OVERRIDE_EXISTED)) {
-                    overrideExisted = project.property(GradleProperties.OVERRIDE_EXISTED) == "true"
+                    overrideExisted = project.property(GradleProperties.OVERRIDE_EXISTED) == trueValue
                 }
 
-                def artifactName = Components.getArtifactName(project.name)
-                if (!artifactName.trim()) {
-                    throw new GradleException("distributeArtifactsToBintray: artifactName for ${project.name} can not be blank for deploy")
-                }
                 Artifactory.distributeArtifactToBintray(overrideExisted, artifactName)
             }
         } // distributeArtifactsToBintray

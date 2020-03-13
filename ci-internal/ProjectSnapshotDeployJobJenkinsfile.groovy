@@ -156,17 +156,10 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives " +
-                            "-PonlyUnstable=true " +
-                            "-PdeployOnlyIfNotExist=true " +
-                            "-PuseBintrayDeploy=$useBintrayDeploy"
-                    /*
-                    if (!useBintrayDeploy) {
-                        script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
-                    } else {
-                        script.sh "./gradlew clean uploadArchives"
-                        script.sh "./gradlew distributeArtifactsToBintray"
-                    }*/
+                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    if (useBintrayDeploy) {
+                        script.sh "./gradlew distributeArtifactsToBintray -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    }
                 }
             }
         },
