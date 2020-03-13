@@ -22,6 +22,7 @@
 * ANDDEP-911 Kotlin code style auto-formatting support
 * ANDDEP-957 Fix dependency substitution for debug mode
 * ANDDEP-732 Fix version-plugin configuration for debug mode
+* ANDDEP-937 Fix setting label to app icon
 
 ## 0.4.0
 ##### Template
