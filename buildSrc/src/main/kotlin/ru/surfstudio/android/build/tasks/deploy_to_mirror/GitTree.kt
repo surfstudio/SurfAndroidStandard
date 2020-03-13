@@ -243,7 +243,6 @@ class GitTree(
                     mirrorStandardHashes.contains(it.value.mirrorStandardHash)
                 }
                 .map {
-                    it.value
                     val branchNameNames =
                             mirrorRepository.getBranchesByContainsId(it.value.name)
                                     .map(Ref::getName)
