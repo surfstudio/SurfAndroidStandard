@@ -119,13 +119,6 @@ ext.configureDeploy = { context ->
                     ) return
                 }
 
-                // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
-                if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
-                    if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue
-                            && Artifactory.isLibraryAlreadyDeployed(project.name)
-                    ) return
-                }
-
                 def overrideExisted = false
                 // Read -PoverrideExisted property
                 if (project.hasProperty(GradleProperties.OVERRIDE_EXISTED)) {
