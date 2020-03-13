@@ -87,7 +87,7 @@ ext.configureDeploy = { context ->
                             }
                         }
                     }
-                    //This code delete "implementation project("...") dependencies from pom file"
+                    //This code deletes "implementation project("...") dependencies from pom file"
                     pom.whenConfigured {
                         p ->
                             p.dependencies = p.dependencies.findAll {
@@ -116,13 +116,6 @@ ext.configureDeploy = { context ->
                 if (project.hasProperty(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS)) {
                     if (project.property(GradleProperties.DEPLOY_ONLY_UNSTABLE_COMPONENTS) == trueValue
                             && Components.getComponentStability(project.name)
-                    ) return
-                }
-
-                // If -PdeployOnlyIfNotExist=true deploy only artifacts that don't exist in artifactory
-                if (project.hasProperty(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST)) {
-                    if (project.property(GradleProperties.DEPLOY_ONLY_IF_NOT_EXIST) == trueValue
-                            && Artifactory.isLibraryAlreadyDeployed(project.name)
                     ) return
                 }
 
