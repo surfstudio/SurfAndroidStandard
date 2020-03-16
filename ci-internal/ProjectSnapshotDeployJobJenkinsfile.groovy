@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
@@ -34,6 +35,8 @@ def projectConfigurationFile = "buildSrc/projectConfiguration.json"
 
 //vars
 def branchName = ""
+def useBintrayDeploy = false
+def skipIncrementVersion = false
 
 //other config
 
@@ -73,6 +76,12 @@ pipeline.initializeBody = {
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
         value -> branchName = value
     }
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
+        value -> useBintrayDeploy = value
+    }
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
+        value -> skipIncrementVersion = value
+    }
 
     if (branchName.contains("origin/")) {
         branchName = branchName.replace("origin/", "")
@@ -111,7 +120,11 @@ pipeline.stages = [
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
-            script.sh("./gradlew incrementProjectSnapshotVersion")
+            if (!skipIncrementVersion) {
+                script.sh("./gradlew incrementProjectSnapshotVersion")
+            } else {
+                script.echo "skip project snapshot version incrementation stage"
+            }
         },
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
@@ -144,6 +157,15 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    if (useBintrayDeploy) {
+                        /**
+                         * We can not use parameter -PdeployOnlyIfNotExist
+                         * for distributeArtifactsToBintray after uploadArchives,
+                         * otherwise deploy to Bintray will never be executed
+                         * after successful deploy to artifactory
+                         */
+                        script.sh "./gradlew distributeArtifactsToBintray -PonlyUnstable=true"
+                    }
                 }
             }
         },
@@ -154,16 +176,19 @@ pipeline.stages = [
             }
         },
         pipeline.stage(VERSION_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            RepositoryUtil.setDefaultJenkinsGitUser(script)
-            String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
-            def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
+            if (!skipIncrementVersion) {
+                RepositoryUtil.setDefaultJenkinsGitUser(script)
+                String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
+                def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
 
-            script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
-                    "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+                script.sh "git commit -a -m \"Increase project-snapshot version counter to " +
+                        "$globalConfiguration.project_snapshot_version $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+                RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
+            } else {
+                script.echo "skip version push stage"
+            }
         }
 ]
-
 
 
 pipeline.finalizeBody = {
@@ -212,7 +237,18 @@ def static initParameters(script) {
     return script.parameters([
             script.string(
                     name: "branchName_0",
-                    description: 'Ветка с исходным кодом')
+                    description: 'Ветка с исходным кодом'
+            ),
+            script.booleanParam(
+                    defaultValue: false,
+                    name: "useBintrayDeploy",
+                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory'
+            ),
+            script.booleanParam(
+                    defaultValue: false,
+                    name: "skipIncrementVersion",
+                    description: 'Деплой артефактов без инкремента версии'
+            )
     ])
 }
 

@@ -1,9 +1,8 @@
 [TOC]
 # Deprecated Release Notes
 ## 0.5.0-alpha
-* ANDDEP-671 Add Any.toObservable() extension method
 ##### Network
-* TODO
+* ANDDEP-671 Add Any.toObservable() extension method
 ## 0.2.1
 ##### Network
 * ANDDEP-194 BaseCallAdapterFactory added the ability to repeat a failed request through a method available in the ancestor of the class

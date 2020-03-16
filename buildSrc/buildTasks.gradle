@@ -80,11 +80,3 @@ task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) //
 task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
 
 task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
-
-task uploadArchiveComponentsTask(type: UploadArchiveComponentsTask){
-    Components.libraries.each {
-        if(it.artifactName != "") {
-            dependsOn ":${it.name}:uploadArchives"
-        }
-    }
-}
