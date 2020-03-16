@@ -26,6 +26,7 @@ object Initializator {
             checkAllComponentsFolders(jsonComponents, currentBuildDirectory)
         }
         Components.init(jsonComponents)
+        GradlePropertiesManager.init()
     }
 
     /**

@@ -8,7 +8,6 @@ def currentBuildDirectory = gradle.startParameter.currentDir.path
 Initializator.init(currentBuildDirectory)
 Components.getModules().forEach { Module module ->
     include module.getGradleModuleName()
-    println "${module.getGradleModuleName()} ${module.directoryPath}"
     project(module.getGradleModuleName()).projectDir = new File(module.directoryPath)
 }
 

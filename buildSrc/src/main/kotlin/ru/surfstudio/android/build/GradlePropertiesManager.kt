@@ -8,7 +8,7 @@ import java.io.FileInputStream
 import java.util.*
 
 private const val GRADLE_PROPERTIES_FILE_PATH = "mirror.properties"
-private const val ANDROID_STANDARD_PROPERTIES_FILE_PATH = "androidStandard.properties"
+private const val ANDROID_STANDARD_PROPERTIES_FILE_PATH = "android-standard/androidStandard.properties"
 
 private const val MIRROR_COMPONENT_NAME = "surf.mirrorComponentName"
 private const val SKIP_SAMPLES_BUILD_PROPERTY_NAME = "skipSamplesBuild"
@@ -26,7 +26,7 @@ object GradlePropertiesManager {
     var skipSamplesBuilding: Boolean = false
         private set
 
-    init {
+    fun init() {
         loadMirrorComponentName()
         loadSkipSamplesBuildProperty()
     }

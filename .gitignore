@@ -12,4 +12,3 @@ buildSrc/modules.json
 .externalNativeBuild
 /temp
 _mirror
-androidStandard.properties

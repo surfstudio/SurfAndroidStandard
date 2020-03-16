@@ -23,6 +23,7 @@
 * ANDDEP-957 Fix dependency substitution for debug mode
 * ANDDEP-732 Fix version-plugin configuration for debug mode
 * ANDDEP-937 Fix setting label to app icon
+* ANDDEP-961 Add skipSamplesBuild flag for local android standard connection
 
 ## 0.4.0
 ##### Template
