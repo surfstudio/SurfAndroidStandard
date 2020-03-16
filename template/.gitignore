@@ -2,6 +2,7 @@
 *.iml
 .gradle
 /local.properties
+/android-standard/androidStandard.properties
 .DS_Store
 /build
 /captures
