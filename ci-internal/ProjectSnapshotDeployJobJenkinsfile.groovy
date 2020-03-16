@@ -107,7 +107,7 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
             project = globalConfiguration.project_snapshot_name
@@ -116,20 +116,20 @@ pipeline.stages = [
                 script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
-        pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
             if (!skipIncrementVersion) {
                 script.sh("./gradlew incrementProjectSnapshotVersion")
             } else {
                 script.echo "skip project snapshot version incrementation stage"
             }
         },
-        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
@@ -169,13 +169,13 @@ pipeline.stages = [
                 }
             }
         },
-        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(DEPLOY_GLOBAL_VERSION_PLUGIN) {
             withArtifactoryCredentials(script) {
                 script.sh "./gradlew generateDataForPlugin"
                 script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
             }
         },
-        pipeline.stage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(VERSION_PUSH) {
             if (!skipIncrementVersion) {
                 RepositoryUtil.setDefaultJenkinsGitUser(script)
                 String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
@@ -202,7 +202,7 @@ pipeline.finalizeBody = {
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    //JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()

@@ -87,7 +87,7 @@ ext.configureDeploy = { context ->
                             }
                         }
                     }
-                    //This code delete "implementation project("...") dependencies from pom file"
+                    //This code deletes "implementation project("...") dependencies from pom file"
                     pom.whenConfigured {
                         p ->
                             p.dependencies = p.dependencies.findAll {
