@@ -7,27 +7,28 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
-const val GRADLE_PROPERTIES_FILE_PATH = "mirror.properties"
-const val MIRROR_COMPONENT_NAME = "surf.mirrorComponentName"
+private const val GRADLE_PROPERTIES_FILE_PATH = "mirror.properties"
+private const val ANDROID_STANDARD_PROPERTIES_FILE_PATH = "androidStandard.properties"
+
+private const val MIRROR_COMPONENT_NAME = "surf.mirrorComponentName"
+private const val SKIP_SAMPLES_BUILD_PROPERTY_NAME = "skipSamplesBuild"
 
 /**
- * Loading properties and caching them from [GRADLE_PROPERTIES_FILE_PATH]
+ * Loading properties and caching them
+ * from [GRADLE_PROPERTIES_FILE_PATH] and [ANDROID_STANDARD_PROPERTIES_FILE_PATH]
  * Created for loading only once during settings.gradle execute and then use everywhere
  */
 object GradlePropertiesManager {
-    private var componentMirrorName: String = EMPTY_STRING
+
+    var componentMirrorName: String = EMPTY_STRING
+        private set
+
+    var skipSamplesBuilding: Boolean = false
+        private set
 
     init {
         loadMirrorComponentName()
-    }
-
-    /**
-     * get current mirror component name
-     *
-     * @return component mirror name
-     */
-    fun getMirrorComponentName(): String {
-        return componentMirrorName
+        loadSkipSamplesBuildProperty()
     }
 
     /**
@@ -42,18 +43,36 @@ object GradlePropertiesManager {
      * if there is no such file then current repository is not mirror
      */
     private fun loadMirrorComponentName() {
+        loadProperty(
+                propertiesFileName = GRADLE_PROPERTIES_FILE_PATH,
+                propertyName = MIRROR_COMPONENT_NAME
+        )?.also { propertyValue ->
+            componentMirrorName = propertyValue
+        }
+    }
+
+    private fun loadSkipSamplesBuildProperty() {
+        loadProperty(
+                propertiesFileName = ANDROID_STANDARD_PROPERTIES_FILE_PATH,
+                propertyName = SKIP_SAMPLES_BUILD_PROPERTY_NAME
+        )?.also {propertyValue ->
+            skipSamplesBuilding = propertyValue.toBoolean()
+        }
+    }
+
+    private fun loadProperty(propertiesFileName: String, propertyName: String): String? {
         val props = Properties()
-        val propFile = File(GRADLE_PROPERTIES_FILE_PATH)
-        if (!propFile.exists()) return
+        val propFile = File(propertiesFileName)
+        if (!propFile.exists()) return null
         if (propFile.canRead()) {
             props.load(FileInputStream(propFile))
-            if (props.containsKey(MIRROR_COMPONENT_NAME)) {
-                componentMirrorName = props[MIRROR_COMPONENT_NAME] as String
+            if (props.containsKey(propertyName)) {
+                return props[propertyName].toString()
             } else {
-                throw NoPropertyDefinedInFileException(MIRROR_COMPONENT_NAME, GRADLE_PROPERTIES_FILE_PATH)
+                throw NoPropertyDefinedInFileException(propertyName, propertiesFileName)
             }
         } else {
-            throw CantReadFileException(GRADLE_PROPERTIES_FILE_PATH)
+            throw CantReadFileException(propertiesFileName)
         }
     }
 }
