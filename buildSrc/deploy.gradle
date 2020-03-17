@@ -128,5 +128,13 @@ ext.configureDeploy = { context ->
                 Artifactory.distributeArtifactToBintray(overrideExisted, artifactName)
             }
         } // distributeArtifactsToBintray
+
+        task checkIfDeployAvailable {
+            doFirst {
+                /**
+                 * This is an empty stub task for simple check if the current module supports deploy.
+                 */
+            }
+        } // checkIfDeployAvailable
     }
 }

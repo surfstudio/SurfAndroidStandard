@@ -2,6 +2,7 @@ package ru.surfstudio.android.build.bintray
 
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.exceptions.ArtifactNotExistInBintrayException
+import ru.surfstudio.android.build.model.BintrayRepoLatestVersion
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 
@@ -13,14 +14,14 @@ object Bintray {
     private val repository = BintrayRepository()
 
     /**
-     * Check libraries's android standard dependencies exist in bintray
+     * Check if libraries's android standard dependencies exist in bintray
      */
     fun checkLibrariesStandardDependenciesExisting(component: Component) {
         component.libraries.forEach { this.checkLibraryStandardDependenciesExisting(it, component) }
     }
 
     /**
-     * Check library's android standard dependencies exist in bintray
+     * Check if library's android standard dependencies exist in bintray
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library, component: Component) {
         library.androidStandardDependencies
@@ -41,9 +42,14 @@ object Bintray {
     }
 
     /**
-     * Check artifact exist in bintray
+     * Check if artifact exists in bintray
      */
-    fun isArtifactExists(dependencyName: String, version: String): Boolean {
-        return repository.isArtifactVersionExist(dependencyName, version)
-    }
+    fun isArtifactExists(dependencyName: String, version: String): Boolean =
+            repository.isArtifactVersionExist(dependencyName, version)
+
+    fun getAllPackages(): List<String> =
+            repository.getAllPackages()
+
+    fun getArtifactLatestVersion(artifactName: String): BintrayRepoLatestVersion =
+            repository.getArtifactLatestVersion(artifactName)
 }
