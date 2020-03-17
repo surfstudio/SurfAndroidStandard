@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks
+package ru.surfstudio.android.build.tasks.check_release_notes
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -6,8 +6,6 @@ import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.ReleaseNotes
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesContainsCyrillicException
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
-import java.util.regex.Pattern
-
 
 /**
  * Check ReleaseNotes does not contain cyrillic symbols.

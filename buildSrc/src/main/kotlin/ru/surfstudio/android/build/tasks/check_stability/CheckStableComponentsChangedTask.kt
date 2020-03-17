@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks
+package ru.surfstudio.android.build.tasks.check_stability
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks
+package ru.surfstudio.android.build.tasks.increment_version
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
@@ -11,6 +11,7 @@ import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurat
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.tasks.changed_components.models.ComponentCheckResult
+import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File

@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks
+package ru.surfstudio.android.build.tasks.check_release_notes
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -7,7 +7,6 @@ import ru.surfstudio.android.build.ReleaseNotes
 import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesNotContainVersionException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.release_notes.ReleaseNotesInfo
-
 
 /**
  * Check ReleaseNotes contain current project version

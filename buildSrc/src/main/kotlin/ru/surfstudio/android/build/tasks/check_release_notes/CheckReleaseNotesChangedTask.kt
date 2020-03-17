@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks
+package ru.surfstudio.android.build.tasks.check_release_notes
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
@@ -14,7 +14,6 @@ import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurat
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsDiffProvider
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsFilesChecker
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
-
 
 open class CheckReleaseNotesChangedTask : DefaultTask() {
 
