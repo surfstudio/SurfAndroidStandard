@@ -7,6 +7,11 @@ import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
+/**
+ * These files will be searched in local project's directory,
+ * if the local android standard connection is active,
+ * otherwise these files will be searched in android standard directory as usual
+ */
 const val GRADLE_PROPERTIES_FILE_PATH = "mirror.properties"
 const val MIRROR_COMPONENT_NAME = "surf.mirrorComponentName"
 
