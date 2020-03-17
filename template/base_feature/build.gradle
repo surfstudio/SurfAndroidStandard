@@ -4,7 +4,7 @@ apply from: '../commonKaptModule.gradle'
 dependencies {
     api project(":base")
 
-    implementation "androidx.multidex:multidex:$multidexVersion"
+    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
 
     //debug
     releaseImplementation project(":f-debug-no-op")
