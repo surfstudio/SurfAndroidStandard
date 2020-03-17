@@ -3,8 +3,8 @@ package ru.surfstudio.android.build.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
-import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
-import ru.surfstudio.android.build.exceptions.PropertyVersionsNotEqualsComponentVersionException
+import ru.surfstudio.android.build.exceptions.property.PropertyNotDefineException
+import ru.surfstudio.android.build.exceptions.property.PropertyVersionsNotEqualsComponentVersionException
 import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**

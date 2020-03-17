@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build
 
 import ru.surfstudio.android.build.exceptions.CantReadFileException
-import ru.surfstudio.android.build.exceptions.NoPropertyDefinedInFileException
+import ru.surfstudio.android.build.exceptions.property.NoPropertyDefinedInFileException
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import java.io.File
 import java.io.FileInputStream

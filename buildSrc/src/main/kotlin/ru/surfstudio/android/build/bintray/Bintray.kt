@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.bintray
 
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.exceptions.ArtifactNotExistInBintrayException
+import ru.surfstudio.android.build.exceptions.bintray.ArtifactNotExistInBintrayException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 

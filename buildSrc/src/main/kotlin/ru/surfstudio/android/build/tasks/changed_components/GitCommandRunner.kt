@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
-import ru.surfstudio.android.build.tasks.currentDirectory
+import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import java.io.File
 
 const val GIT_DIFF_COMMAND = "git diff --name-only"
