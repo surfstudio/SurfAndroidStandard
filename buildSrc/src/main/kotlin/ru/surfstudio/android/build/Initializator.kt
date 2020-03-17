@@ -26,6 +26,7 @@ object Initializator {
             checkAllComponentsFolders(jsonComponents, currentBuildDirectory)
         }
         Components.init(jsonComponents)
+        GradlePropertiesManager.init()
     }
 
     /**
@@ -36,7 +37,7 @@ object Initializator {
     }
 
     private fun checkOnlyMirrorComponentFolder(jsonComponents: List<ComponentJson>, currentDirectory: String) {
-        val componentMirrorName = GradlePropertiesManager.getMirrorComponentName()
+        val componentMirrorName = GradlePropertiesManager.componentMirrorName
         val component = jsonComponents.firstOrNull { it.id == componentMirrorName }
                 ?: throw ComponentNotFoundException(componentMirrorName)
         checkComponentFolders(component, currentDirectory)
