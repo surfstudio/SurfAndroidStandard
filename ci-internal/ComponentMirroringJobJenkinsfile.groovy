@@ -71,9 +71,6 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId
             )
             script.sh "git checkout -B $branchName origin/$branchName"
-
-            script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
-
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(PREPARE_MIRRORING) {

@@ -57,6 +57,8 @@ open class CheckBintrayStableVersionsTask : DefaultTask() {
                     val bintrayVersion = Bintray.getArtifactLatestVersion(name).name
                     if (stableVersion != bintrayVersion) {
                         sb.append("latest bintray version=$bintrayVersion for $name is not stable=$stableVersion\n")
+                    } else {
+                        println("latest bintray version=$bintrayVersion for $name is stable")
                     }
                 } else {
                     println("CheckBintrayStableVersions warning: $name has stable version $stableVersion, " +
