@@ -4,7 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.artifactory.Artifactory
-import ru.surfstudio.android.build.exceptions.SameArtifactVersionInArtifactoryException
+import ru.surfstudio.android.build.exceptions.artifactory.SameArtifactVersionInArtifactoryException
 import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**

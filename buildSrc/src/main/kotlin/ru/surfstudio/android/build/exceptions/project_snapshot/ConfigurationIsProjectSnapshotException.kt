@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.exceptions
+package ru.surfstudio.android.build.exceptions.project_snapshot
 
 import org.gradle.api.GradleException
 

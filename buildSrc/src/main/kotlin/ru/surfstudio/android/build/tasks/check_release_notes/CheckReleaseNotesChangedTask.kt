@@ -5,10 +5,10 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.RELEASE_NOTES_FILE_NAME
-import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
-import ru.surfstudio.android.build.exceptions.PropertyNotDefineException
-import ru.surfstudio.android.build.exceptions.ReleaseNotesForConfigurationException
-import ru.surfstudio.android.build.exceptions.ReleaseNotesForFilesException
+import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
+import ru.surfstudio.android.build.exceptions.property.PropertyNotDefineException
+import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesForConfigurationException
+import ru.surfstudio.android.build.exceptions.release_notes.ReleaseNotesForFilesException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsConfigurationChecker
 import ru.surfstudio.android.build.tasks.changed_components.ComponentsDiffProvider

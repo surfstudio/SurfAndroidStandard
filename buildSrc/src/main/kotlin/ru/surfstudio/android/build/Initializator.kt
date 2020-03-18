@@ -1,8 +1,8 @@
 package ru.surfstudio.android.build
 
-import ru.surfstudio.android.build.exceptions.ComponentDirectoryNotExistException
-import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
-import ru.surfstudio.android.build.exceptions.LibraryDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.component.ComponentDirectoryNotExistException
+import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
+import ru.surfstudio.android.build.exceptions.library.LibraryDirectoryNotExistException
 import ru.surfstudio.android.build.exceptions.SampleDirectoryNotExistException
 import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH

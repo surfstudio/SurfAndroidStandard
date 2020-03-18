@@ -4,7 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.bintray.Bintray
-import ru.surfstudio.android.build.exceptions.SameArtifactVersionInBintrayException
+import ru.surfstudio.android.build.exceptions.bintray.SameArtifactVersionInBintrayException
 import ru.surfstudio.android.build.utils.getPropertyComponent
 
 /**

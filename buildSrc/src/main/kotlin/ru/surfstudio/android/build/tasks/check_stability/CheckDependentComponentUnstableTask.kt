@@ -3,7 +3,7 @@ package ru.surfstudio.android.build.tasks.check_stability
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
-import ru.surfstudio.android.build.exceptions.DependentComponentsStableException
+import ru.surfstudio.android.build.exceptions.component.DependentComponentsStableException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.module.Library
 import ru.surfstudio.android.build.utils.getPropertyComponent

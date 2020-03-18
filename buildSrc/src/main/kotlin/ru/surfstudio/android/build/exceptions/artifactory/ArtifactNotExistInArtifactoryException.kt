@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.exceptions
+package ru.surfstudio.android.build.exceptions.artifactory
 
 import org.gradle.api.GradleException
 import ru.surfstudio.android.build.model.dependency.AndroidStandardDependency
