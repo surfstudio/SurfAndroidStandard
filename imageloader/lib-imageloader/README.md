@@ -178,14 +178,28 @@ ImageLoader предоставляет сигнатуру, максимальн�
 ### into
 * into(view: View)
 * into(simpleTarget: SimpleTarget<Bitmap>)
+* into(view: View, 
+&nbsp;&nbsp;&nbsp;&nbsp;onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?, 
+&nbsp;&nbsp;&nbsp;&nbsp;onCompleteLambda: ((resource: Drawable?, imageSource: ImageSource?) -> Unit)?, 
+&nbsp;&nbsp;&nbsp;&nbsp;onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?)
+* into(view: View, 
+&nbsp;&nbsp;&nbsp;&nbsp;onErrorLambda: ((errorDrawable: Drawable?) -> Unit)?, 
+&nbsp;&nbsp;&nbsp;&nbsp;onCompleteLambda: ((resource: Drawable, transition: Transition<in Drawable>?, imageSource: ImageSource?) -> Unit)?, 
+&nbsp;&nbsp;&nbsp;&nbsp;onClearMemoryLambda: ((placeholder: Drawable?) -> Unit)?)
 
 Данный метод стартует загрузку изображения через `ImageLoader`. Он имеет две версии:
 
 1. Для указания целевой `View` - это может быть как `ImageView`, так и любая другая `View`, способная 
-отображать `background`. В случае, если необходимо работать с `Animatable` drawable (например с `GifDrawable`), в качестве `View` должна быть `ImageView`;
+отображать `background`;
 2. Для указания SimpleTarget - используется в случае, когда загруженное изображение по какой-то 
 причине не требуется отображать на UI, но необходимо получить его экземпляр.
 Для преобразования в `Bitmap` при реализации методов `SimpleTarget` можно использовать `Drawable.toBitmap()`.
+3-4. Предоставляет возможность обращаться к коллбекам Target у Glide.
+Коллбеки: `onErrorLambda` - вызывается при ошибке загрузки ресурса, `onCompleteLambda` - вызывается 
+при успешной загрузке ресурса, `onClearMemoryLambda` - вызывается, когда view может быть очищена. 
+В ней следует производить операции по дополнительному освобождению памяти.
+В случае, если необходимо работать с `Animatable` drawable (например с `GifDrawable`), в качестве 
+`View` должна быть передана `ImageView`.
 
 ### get
 * get()
