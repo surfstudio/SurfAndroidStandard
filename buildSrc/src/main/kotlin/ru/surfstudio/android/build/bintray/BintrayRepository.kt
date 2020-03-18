@@ -12,6 +12,12 @@ import ru.surfstudio.android.build.model.json.bintray.BintrayPackageInfoJson
 import ru.surfstudio.android.build.model.json.bintray.BintrayRepoLatestVersionJson
 
 /**
+ * Any Bintray response can suddenly return -1 error code with empty response.
+ * These requests need to be repeated
+ */
+private const val EMPTY_ERROR_CODE = -1
+
+/**
  * Class to use bintray api
  */
 internal class BintrayRepository {
@@ -34,7 +40,7 @@ internal class BintrayRepository {
     /**
      * Function for getting all packages from bintray
      */
-    fun getAllPackages(): List<String> {
+    fun getAllPackages(needRetry: Boolean = true): List<String> {
         val response = getResponse(BintrayConfig.GET_ALL_PACKAGES_URL)
 
         if (response.isSuccessful) {
@@ -45,27 +51,49 @@ internal class BintrayRepository {
                         it.transform()
                     }
         } else {
-            if (response.statusCode == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
-                throw UnauthorizedException(response.toString())
+            val stringResponse = response.toString()
+            when (response.statusCode) {
+                HttpStatusCodes.STATUS_CODE_UNAUTHORIZED -> throw UnauthorizedException(stringResponse)
+                EMPTY_ERROR_CODE -> {
+                    if (needRetry) {
+                        println("$stringResponse\n RETRY ${BintrayConfig.GET_ALL_PACKAGES_URL}")
+                        return getAllPackages(false)
+                    } else {
+                        throw GradleException(stringResponse)
+                    }
+                }
+                else -> throw GradleException(stringResponse)
             }
-            throw GradleException(response.toString())
         }
     }
 
     /**
      * Function for getting the latest version of artifact in bintray
      */
-    fun getArtifactLatestVersion(artifactName: String): BintrayRepoLatestVersion {
-        val response = getResponse("${BintrayConfig.GET_VERSION_URL}/$artifactName/versions/_latest")
+    fun getArtifactLatestVersion(
+            artifactName: String,
+            needRetry: Boolean = true
+    ): BintrayRepoLatestVersion {
+        val url = "${BintrayConfig.GET_VERSION_URL}/$artifactName/versions/_latest"
+        val response = getResponse(url)
 
         if (response.isSuccessful) {
             val data = String(response.data)
             return gson.fromJson(data, BintrayRepoLatestVersionJson::class.java).transform()
         } else {
-            if (response.statusCode == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
-                throw UnauthorizedException(response.toString())
+            val stringResponse = response.toString()
+            when (response.statusCode) {
+                HttpStatusCodes.STATUS_CODE_UNAUTHORIZED -> throw UnauthorizedException(stringResponse)
+                EMPTY_ERROR_CODE -> {
+                    if (needRetry) {
+                        println("$stringResponse\n RETRY $url")
+                        return getArtifactLatestVersion(artifactName, false)
+                    } else {
+                        throw GradleException(stringResponse)
+                    }
+                }
+                else -> throw GradleException(stringResponse)
             }
-            throw GradleException(response.toString())
         }
     }
 
