@@ -201,6 +201,10 @@ pipeline.finalizeBody = {
         message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+        if (useBintrayDeploy) {
+            message += "\nБыл выполнен деплой артефактов в Bintray.\n" +
+                    "Необходимо заменить последние версии артефактов в Bintray на стабильные"
+        }
     }
     JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
