@@ -1,5 +1,8 @@
 package ru.surfstudio.android.build.model
 
+/**
+ * Model of latest version info of artifact in bintray
+ */
 data class BintrayRepoLatestVersion(
         val name: String,
         val desc: String?,

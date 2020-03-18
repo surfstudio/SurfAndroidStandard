@@ -47,9 +47,15 @@ object Bintray {
     fun isArtifactExists(dependencyName: String, version: String): Boolean =
             repository.isArtifactVersionExist(dependencyName, version)
 
+    /**
+     * Function for getting all packages from bintray
+     */
     fun getAllPackages(): List<String> =
             repository.getAllPackages()
 
+    /**
+     * Function for getting the latest version of artifact in bintray
+     */
     fun getArtifactLatestVersion(artifactName: String): BintrayRepoLatestVersion =
             repository.getArtifactLatestVersion(artifactName)
 }

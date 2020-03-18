@@ -29,6 +29,14 @@ object CommandLineRunner {
         return process.inputStream.bufferedReader().readText()
     }
 
+    /**
+     * Function which checks if the command executed successfully
+     *
+     * @param command running command
+     * @param workingDir current working directoryPath
+     *
+     * @return true if the command executed successfully
+     */
     fun isCommandSucceed(command: String, workingDir: File): Boolean {
         val process = runCommandProcess(command, workingDir)
         process.waitFor(COMMAND_RUN_TIMEOUT_SEC, TimeUnit.SECONDS)

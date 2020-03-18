@@ -4,8 +4,8 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.isSuccessful
 import com.google.gson.GsonBuilder
+import org.gradle.api.GradleException
 import org.gradle.internal.impldep.com.google.api.client.http.HttpStatusCodes
-import ru.surfstudio.android.build.exceptions.UnableGetBintrayPackagesException
 import ru.surfstudio.android.build.exceptions.UnauthorizedException
 import ru.surfstudio.android.build.model.BintrayRepoLatestVersion
 import ru.surfstudio.android.build.model.json.bintray.BintrayPackageInfoJson
@@ -31,6 +31,9 @@ internal class BintrayRepository {
         return response.isSuccessful
     }
 
+    /**
+     * Function for getting all packages from bintray
+     */
     fun getAllPackages(): List<String> {
         val response = getResponse(BintrayConfig.GET_ALL_PACKAGES_URL)
 
@@ -45,10 +48,13 @@ internal class BintrayRepository {
             if (response.statusCode == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
                 throw UnauthorizedException(response.toString())
             }
-            throw UnableGetBintrayPackagesException(response.toString())
+            throw GradleException(response.toString())
         }
     }
 
+    /**
+     * Function for getting the latest version of artifact in bintray
+     */
     fun getArtifactLatestVersion(artifactName: String): BintrayRepoLatestVersion {
         val response = getResponse("${BintrayConfig.GET_VERSION_URL}/$artifactName/versions/_latest")
 
@@ -59,7 +65,7 @@ internal class BintrayRepository {
             if (response.statusCode == HttpStatusCodes.STATUS_CODE_UNAUTHORIZED) {
                 throw UnauthorizedException(response.toString())
             }
-            throw UnableGetBintrayPackagesException(response.toString())
+            throw GradleException(response.toString())
         }
     }
 

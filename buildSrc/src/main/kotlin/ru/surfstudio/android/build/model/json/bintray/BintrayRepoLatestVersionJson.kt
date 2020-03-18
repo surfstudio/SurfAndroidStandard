@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName
 import ru.surfstudio.android.build.model.BintrayRepoLatestVersion
 import ru.surfstudio.android.build.utils.Transformable
 
+/**
+ * Response model of latest version info of artifact in bintray
+ */
 data class BintrayRepoLatestVersionJson(
         @SerializedName("name") val name: String,
         @SerializedName("desc") val desc: String?,
