@@ -12,8 +12,10 @@ import java.io.File
 import java.lang.StringBuilder
 
 private val currentDirectory: String = System.getProperty("user.dir")
+private const val LINE = "________________________________________________________________"
 
 //region commands
+private const val GET_ALL_TAGS_COMMAND = "git tag --list"
 private const val GET_LATEST_TAG_COMMAND = "git describe --tags" //http://bit.ly/2QlsLbo
 private const val GET_LATEST_TAG_HASH_COMMAND = "git rev-list --tags --max-count=1"
 private const val CHECKOUT_COMMAND = "git checkout"
@@ -33,43 +35,83 @@ open class CheckBintrayStableVersionsTask : DefaultTask() {
     fun check() {
         val workingDir = File(currentDirectory)
         val latestTagHash = CommandLineRunner.runCommandWithResult(GET_LATEST_TAG_HASH_COMMAND, workingDir)
-        val latestTag = CommandLineRunner.runCommandWithResult("$GET_LATEST_TAG_COMMAND $latestTagHash", workingDir)
+        val latestTag = CommandLineRunner.runCommandWithResult(
+                "$GET_LATEST_TAG_COMMAND $latestTagHash",
+                workingDir
+        )?.trim()
         val currentBranch = CommandLineRunner.runCommandWithResult(GET_CURRENT_BRANCH_NAME_COMMAND, workingDir)
-        println("latest release version = $latestTag")
+        println("latest release version = $latestTag\n")
 
-        // Get stable versions of components for latest tag.
-        CommandLineRunner.runCommandWithResult("$CHECKOUT_TAG_COMMAND/$latestTag", workingDir)
-        val jsonComponents = JsonHelper.parseComponentsJson("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
-        Components.init(jsonComponents)
-        CommandLineRunner.runCommandWithResult("$CHECKOUT_COMMAND $currentBranch", workingDir)
+        val allTags = CommandLineRunner.runCommandWithResult(GET_ALL_TAGS_COMMAND, workingDir)
+                ?.split("\n")
 
-        val allBintrayPackages = Bintray.getAllPackages()
-        val sb = StringBuilder()
+        val errorSb = StringBuilder()
+        val tagWarningSb = StringBuilder()
 
-        // Check if deploy is available for the current component and bintray contains the component
-        Components.value.forEach { component ->
-            val name = component.name
-            val stableVersion = component.baseVersion
+        allTags?.also { safeAllTags ->
+            Bintray.getAllPackages().forEach { packageName ->
+                // find release tag for artifact
+                val checkoutTag = safeAllTags.firstOrNull { it.startsWith(packageName) } ?: latestTag
+                if (checkoutTag != null) {
+                    val isCheckoutTagForArtifact = checkoutTag.startsWith(packageName)
+                    println("for $packageName checkoutTag = $checkoutTag")
 
-            if (CommandLineRunner.isCommandSucceed("./gradlew :$name:checkIfDeployAvailable", workingDir)) {
-                if (allBintrayPackages.contains(name)) {
-                    println("checking latest bintray version for $name")
-                    val bintrayVersion = Bintray.getArtifactLatestVersion(name).name
-                    if (stableVersion != bintrayVersion) {
-                        val errorMessage = "latest bintray version=$bintrayVersion for $name is not stable=$stableVersion"
-                        sb.append("$errorMessage\n")
-                        println("ERROR: $errorMessage")
+                    val stableVersion = if (isCheckoutTagForArtifact) {
+                        // get stable version from the artifact's release tag
+                        checkoutTag.split("/").last()
                     } else {
-                        println("latest bintray version=$bintrayVersion for $name is stable")
+                        // get stable version of the artifact for common tag
+                        CommandLineRunner.runCommandWithResult("$CHECKOUT_TAG_COMMAND/$checkoutTag", workingDir)
+                        val jsonComponents = JsonHelper.parseComponentsJson("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
+                        Components.init(jsonComponents)
+                        CommandLineRunner.runCommandWithResult("$CHECKOUT_COMMAND $currentBranch", workingDir)
+                        Components.value
+                                .firstOrNull { it.name == packageName }
+                                ?.baseVersion
                     }
-                } else {
-                    println("CheckBintrayStableVersions warning: $name has stable version $stableVersion, " +
-                            "but haven't deployed to bintray."
-                    )
+                    
+                    val bintrayVersion = Bintray.getArtifactLatestVersion(packageName).name
+
+                    if (stableVersion != null) {
+                        // fail to parse the artifact's release tag
+                        if (stableVersion.isEmpty()) {
+                            throw GradleException("Invalid release tag format for $checkoutTag, " +
+                                    "must be \"$packageName/STABLE-VERSION\""
+                            )
+                        }
+
+                        // the artifact's release tag is not found, the common tag will be used
+                        if (!isCheckoutTagForArtifact) {
+                            tagWarningSb.append(
+                                    "WARNING! Released artifact $packageName must have " +
+                                            "a release tag \"$packageName/$stableVersion\"\n"
+                            )
+                        }
+
+                        if (stableVersion != bintrayVersion) {
+                            val errorMessage = "latest bintray version=$bintrayVersion for $packageName " +
+                                    "is not stable=$stableVersion"
+                            errorSb.append("$errorMessage\n")
+                            println("ERROR: $errorMessage\n")
+                        } else {
+                            println("SUCCESS: latest bintray version=$bintrayVersion for $packageName is stable\n")
+                        }
+                    } else {
+                        println("NOT FOUND: Bintray contains a new artifact $packageName " +
+                                "which is not found for tag $checkoutTag\n")
+                    }
+                    println(LINE)
                 }
+            } // Bintray.getAllPackages().forEach
+        } // safeAllTags
+
+        with(tagWarningSb.toString()) {
+            if (isNotEmpty()) {
+                println(this)
             }
         }
-        with(sb.toString()) {
+
+        with(errorSb.toString()) {
             if (isNotEmpty()) {
                 throw GradleException(this)
             }
