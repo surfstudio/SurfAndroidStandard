@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks.bintray_tasks
+package ru.surfstudio.android.build.tasks.bintray_tasks.release
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
@@ -9,7 +9,6 @@ import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
-import java.lang.StringBuilder
 
 private val currentDirectory: String = System.getProperty("user.dir")
 private const val LINE = "________________________________________________________________"
@@ -24,9 +23,9 @@ private const val GET_CURRENT_BRANCH_NAME_COMMAND = "git rev-parse --abbrev-ref 
 //endregion
 
 /**
- * Check if all artifacts in bintray have stable version as latest.
+ * Check if all release artifacts have a tag with format ARTIFACT-NAME/STABLE-VERSION
  */
-open class CheckBintrayStableVersionsTask : DefaultTask() {
+open class CheckTagsForReleaseArtifactsTask : DefaultTask() {
 
     @TaskAction
     fun check() {
@@ -42,8 +41,7 @@ open class CheckBintrayStableVersionsTask : DefaultTask() {
         val allTags = CommandLineRunner.runCommandWithResult(GET_ALL_TAGS_COMMAND, workingDir)
                 ?.split("\n")
 
-        val errorSb = StringBuilder()
-        val tagWarningSb = StringBuilder()
+        val sb = StringBuilder()
 
         allTags?.also { safeAllTags ->
             Bintray.getAllPackages().forEach { packageName ->
@@ -64,8 +62,6 @@ open class CheckBintrayStableVersionsTask : DefaultTask() {
                         CommandLineRunner.runCommandWithResult("$CHECKOUT_COMMAND $currentBranch", workingDir)
                         component?.baseVersion
                     }
-                    
-                    val bintrayVersion = Bintray.getArtifactLatestVersion(packageName).name
 
                     if (stableVersion != null) {
                         // fail to parse the artifact's release tag
@@ -77,19 +73,10 @@ open class CheckBintrayStableVersionsTask : DefaultTask() {
 
                         // the artifact's release tag is not found, the common tag will be used
                         if (!isCheckoutTagForArtifact) {
-                            tagWarningSb.append(
+                            sb.append(
                                     "WARNING! Released artifact $packageName must have " +
                                             "a release tag \"$packageName/$stableVersion\"\n"
                             )
-                        }
-
-                        if (stableVersion != bintrayVersion) {
-                            val errorMessage = "latest bintray version=$bintrayVersion for $packageName " +
-                                    "is not stable=$stableVersion"
-                            errorSb.append("$errorMessage\n")
-                            println("ERROR: $errorMessage\n")
-                        } else {
-                            println("SUCCESS: latest bintray version=$bintrayVersion for $packageName is stable\n")
                         }
                     } else {
                         println("NOT FOUND: Bintray contains a new artifact $packageName " +
@@ -100,13 +87,7 @@ open class CheckBintrayStableVersionsTask : DefaultTask() {
             } // Bintray.getAllPackages().forEach
         } // safeAllTags
 
-        with(tagWarningSb.toString()) {
-            if (isNotEmpty()) {
-                println(this)
-            }
-        }
-
-        with(errorSb.toString()) {
+        with(sb.toString()) {
             if (isNotEmpty()) {
                 throw GradleException(this)
             }
