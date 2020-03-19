@@ -189,8 +189,8 @@
   {
     "id": "common",
     "version": "0.4.0",
-    "unstable_version": 0,
-    "stable": true,
+    "unstable_version": 1,
+    "stable": false,
     "dir": "common",
     "libs": [
       {
@@ -1543,8 +1543,8 @@
   {
     "id": "security",
     "version": "0.4.0",
-    "unstable_version": 0,
-    "stable": true,
+    "unstable_version": 1,
+    "stable": false,
     "dir": "security",
     "libs": [
       {
