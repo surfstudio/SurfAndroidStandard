@@ -33,6 +33,12 @@ object Components {
     }
 
     /**
+     * Function for parsing a single component from list
+     */
+    fun parseComponent(componentJsons: List<ComponentJson>, componentName: String): Component? =
+            componentJsons.firstOrNull { it.id == componentName }?.transform()
+
+    /**
      * Get project's module
      */
     @JvmStatic

@@ -25,9 +25,6 @@ private const val GET_CURRENT_BRANCH_NAME_COMMAND = "git rev-parse --abbrev-ref 
 
 /**
  * Check if all artifacts in bintray have stable version as latest.
- *
- * WARNING! The task overrides [Components.value] using old components versions from git history.
- * Components must be initialized with actual values after this task, if needed.
  */
 open class CheckBintrayStableVersionsTask : DefaultTask() {
 
@@ -63,11 +60,9 @@ open class CheckBintrayStableVersionsTask : DefaultTask() {
                         // get stable version of the artifact for common tag
                         CommandLineRunner.runCommandWithResult("$CHECKOUT_TAG_COMMAND/$checkoutTag", workingDir)
                         val jsonComponents = JsonHelper.parseComponentsJson("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
-                        Components.init(jsonComponents)
+                        val component = Components.parseComponent(jsonComponents, packageName)
                         CommandLineRunner.runCommandWithResult("$CHECKOUT_COMMAND $currentBranch", workingDir)
-                        Components.value
-                                .firstOrNull { it.name == packageName }
-                                ?.baseVersion
+                        component?.baseVersion
                     }
                     
                     val bintrayVersion = Bintray.getArtifactLatestVersion(packageName).name
