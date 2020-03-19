@@ -38,4 +38,27 @@
             android:text="@string/app_name" />
     </FrameLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+        <ImageView
+            android:id="@+id/imageloader_sample_gif_iv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="@color/colorPrimary"
+            android:contentDescription="@string/content_description"
+            android:padding="16dp"
+            tools:src="@drawable/a123321" />
+
+        <Button
+            android:id="@+id/image_loader_sample_gif_btn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="bottom|start"
+            android:layout_margin="32dp"
+            android:text="@string/gif_button" />
+    </FrameLayout>
 </LinearLayout>
