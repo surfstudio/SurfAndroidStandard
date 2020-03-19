@@ -5,6 +5,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.bintray.Bintray
+import ru.surfstudio.android.build.model.json.ComponentJson
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.utils.COMPONENTS_JSON_FILE_PATH
 import ru.surfstudio.android.build.utils.JsonHelper
@@ -45,39 +46,54 @@ abstract class BaseCheckBintrayForReleaseTask : DefaultTask() {
 
         allTags?.also { safeAllTags ->
             Bintray.getAllPackages().forEach { packageName ->
-                // find release tag for artifact
-                val checkoutTag = safeAllTags.firstOrNull { it.startsWith(packageName) } ?: latestTag
-                if (checkoutTag != null) {
-                    val isCheckoutTagForArtifact = checkoutTag.startsWith(packageName)
-                    println("for $packageName checkoutTag = $checkoutTag")
+                // packageName from Bintray is equal to library name of a component.
+                // find a component for current packageName
+                val componentName = Components.value
+                        .firstOrNull { component ->
+                            component.libraries
+                                    .map { it.artifactName }
+                                    .contains(packageName)
+                        }?.name
 
-                    val stableVersion = if (isCheckoutTagForArtifact) {
-                        // get stable version from the artifact's release tag
-                        checkoutTag.split("/").last()
-                    } else {
-                        // get stable version of the artifact for common tag
-                        CommandLineRunner.runCommandWithResult("$CHECKOUT_TAG_COMMAND/$checkoutTag", workingDir)
-                        val jsonComponents = JsonHelper.parseComponentsJson("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
-                        val component = Components.parseComponent(jsonComponents, packageName)
-                        CommandLineRunner.runCommandWithResult("$CHECKOUT_COMMAND $currentBranch", workingDir)
-                        component?.baseVersion
-                    }
+                if (componentName != null) {
+                    // find a release tag for artifact
+                    val checkoutTag = safeAllTags.firstOrNull { it.startsWith(componentName) }
+                            ?: latestTag
+                    if (checkoutTag != null) {
+                        val isCheckoutTagForArtifact = checkoutTag.startsWith(componentName)
+                        println("for $packageName componentName = $componentName checkoutTag = $checkoutTag")
 
-                    if (stableVersion != null) {
-                        // fail to parse the artifact's release tag
-                        if (stableVersion.isEmpty()) {
-                            throw GradleException("Invalid release tag format for $checkoutTag, " +
-                                    "must be \"$packageName/STABLE-VERSION\""
-                            )
+                        val stableVersion = if (isCheckoutTagForArtifact) {
+                            // get stable version from the artifact's release tag
+                            checkoutTag.split("/").last()
+                        } else {
+                            // get stable version of the artifact for common tag
+                            CommandLineRunner.runCommandWithResult("$CHECKOUT_TAG_COMMAND/$checkoutTag", workingDir)
+                            val jsonComponents = JsonHelper.parseComponentsJson("$currentDirectory/$COMPONENTS_JSON_FILE_PATH")
+                            val component = Components.parseComponent(jsonComponents, packageName)
+                            CommandLineRunner.runCommandWithResult("$CHECKOUT_COMMAND $currentBranch", workingDir)
+                            component?.baseVersion
                         }
 
-                        performCheck(packageName, stableVersion, isCheckoutTagForArtifact)
-                    } else {
-                        println("NOT FOUND: Bintray contains a new artifact $packageName " +
-                                "which is not found for tag $checkoutTag\n")
-                    }
-                    println(LINE)
-                }
+                        if (stableVersion != null) {
+                            // fail to parse the artifact's release tag
+                            if (stableVersion.isEmpty()) {
+                                throw GradleException("Invalid release tag format for $checkoutTag, " +
+                                        "must be \"$packageName/STABLE-VERSION\""
+                                )
+                            }
+
+                            performCheck(packageName, stableVersion, isCheckoutTagForArtifact)
+                        } else {
+                            println("NOT FOUND: Bintray contains a new artifact $packageName " +
+                                    "which is not found for tag $checkoutTag\n")
+                        }
+                    } // if (checkoutTag != null)
+                } else {
+                    println("\nNOT FOUND: Bintray contains an old artifact $packageName " +
+                            "which is not found for branch $currentBranch")
+                } // if (componentName != null)
+                println(LINE)
             } // Bintray.getAllPackages().forEach
         } // safeAllTags
 
@@ -91,7 +107,7 @@ abstract class BaseCheckBintrayForReleaseTask : DefaultTask() {
     /**
      * Custom check
      *
-     * @param packageName packageName from Bintray, which equals to component name
+     * @param packageName packageName from Bintray, which is equal to library name
      * @param stableVersion stableVersion of artifact
      * @param isCheckoutTagForArtifact true if for current release artifact was used unique tag
      */
