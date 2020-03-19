@@ -208,10 +208,11 @@ pipeline.stages = [
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
+            def labels = "$RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1"
+            def tag = "$componentName-$componentVersion"
             script.sh "git commit -a -m " +
-                    "\"Set component $componentName alpha counter to zero " +
-                    "$RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\" || true"
-            script.sh "git tag -a $componentName-$componentVersion -m \"Set tag $componentName-$componentVersion $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+                    "\"Set component $componentName alpha counter to zero $labels\" || true"
+            script.sh "git tag -a $tag -m \"Set tag $tag $labels\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
         pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
