@@ -43,6 +43,7 @@ internal class ArtifactoryRepository {
 
     /**
      * Deploy artifact to bintray
+     * https://www.jfrog.com/confluence/display/RTF4X/Artifactory+REST+API
      */
     fun distribute(packagesRepoPaths: String, overrideExisting: Boolean): Response {
         val bodyJson = """
