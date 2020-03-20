@@ -2,7 +2,7 @@ package ru.surfstudio.standard.application.logger.strategies.remote
 
 import android.util.Log
 
-import ru.surfstudio.standard.application.logger.RemoteLogger
+import ru.surfstudio.standard.base.logger.RemoteLogger
 import ru.surfstudio.android.logger.logging_strategies.LoggingStrategy
 
 /**

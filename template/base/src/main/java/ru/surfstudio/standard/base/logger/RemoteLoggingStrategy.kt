@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.application.logger.strategies.remote
+package ru.surfstudio.standard.base.logger
 
 /**
  * Interface of logging strategies for remote server

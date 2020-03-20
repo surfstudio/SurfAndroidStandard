@@ -15,7 +15,7 @@ import ru.surfstudio.android.template.base_feature.BuildConfig
 import ru.surfstudio.android.template.base_feature.R
 import ru.surfstudio.android.utilktx.ktx.ui.activity.ActivityLifecycleListener
 import ru.surfstudio.standard.application.app.di.AppInjector
-import ru.surfstudio.standard.application.logger.RemoteLogger
+import ru.surfstudio.standard.base.logger.RemoteLogger
 import ru.surfstudio.standard.application.logger.strategies.remote.RemoteLoggerLoggingStrategy
 import ru.surfstudio.standard.application.logger.strategies.remote.FirebaseCrashlyticsRemoteLoggingStrategy
 import ru.surfstudio.standard.application.logger.strategies.remote.timber.TimberLoggingStrategy

@@ -1,6 +1,5 @@
-package ru.surfstudio.standard.application.logger
+package ru.surfstudio.standard.base.logger
 
-import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy
 import kotlin.reflect.KClass
 
 /**
