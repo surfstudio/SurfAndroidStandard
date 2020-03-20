@@ -9,7 +9,6 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url "https://jitpack.io" }
-        maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
 }
@@ -23,7 +22,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://maven.google.com' }
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
@@ -33,7 +31,6 @@ buildscript {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         DependencyConfigurator.classpath(project, "org.jetbrains.kotlin:kotlin-gradle-plugin")
         classpath "com.google.gms:google-services:$googleServicesVersion"
-        classpath "io.fabric.tools:gradle:$fabricVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
         //classpath "ru.surfstudio.android:version-plugin:${ConfigInfoProvider.getVersion()}"
         //todo use this for get as dependencies for mirror

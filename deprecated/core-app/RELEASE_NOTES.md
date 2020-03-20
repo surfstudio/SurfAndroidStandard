@@ -2,8 +2,7 @@
 # Core-app Release Notes
 ## 0.5.0-alpha
 ##### Core-app
-* TODO
-* TODO
+* ANDDEP-928 Remove Crashlytics dependencies
 ## 0.4.0
 ##### Core-app
 * Module - ** deprecated **
