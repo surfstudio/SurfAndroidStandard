@@ -12,7 +12,8 @@ def CHECK_TAGS_FOR_RELEASE_ARTIFACTS = "Check Tags For Release Artifacts"
 def CHECK_BINTRAY_STABLE_VERSIONS = 'Check Bintray Stable Versions'
 
 //vars
-def branchName = ""
+def UNDEFINED_BRANCH = "<undefined>"
+def branchName = UNDEFINED_BRANCH
 
 //init
 def script = this
@@ -34,11 +35,12 @@ pipeline.postExecuteStageBody = { stage ->
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
-    //Выбираем значения веток из параметров, Установка их в параметры происходит
-    // если триггером был webhook или если стартанули Job вручную
-    //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromParamsAndRun(script, 'branchName_0') {
         value -> branchName = value
+    }
+
+    if (!branchName || branchName == UNDEFINED_BRANCH) {
+        branchName = JarvisUtil.getMainBranch(script, pipeline.repoUrl)
     }
 
     if (branchName.contains("origin/")) {
