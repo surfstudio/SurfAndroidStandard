@@ -8,10 +8,12 @@ import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 
 // Stage names
 def CHECKOUT = 'Checkout'
+def CHECK_TAGS_FOR_RELEASE_ARTIFACTS = "Check Tags For Release Artifacts"
 def CHECK_BINTRAY_STABLE_VERSIONS = 'Check Bintray Stable Versions'
 
 //vars
-def branchName = ""
+def UNDEFINED_BRANCH = "<undefined>"
+def branchName = UNDEFINED_BRANCH
 
 //init
 def script = this
@@ -33,11 +35,12 @@ pipeline.postExecuteStageBody = { stage ->
 pipeline.initializeBody = {
     CommonUtil.printInitialStageStrategies(pipeline)
 
-    //Выбираем значения веток из параметров, Установка их в параметры происходит
-    // если триггером был webhook или если стартанули Job вручную
-    //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromParamsAndRun(script, 'branchName_0') {
         value -> branchName = value
+    }
+
+    if (!branchName || branchName == UNDEFINED_BRANCH) {
+        branchName = JarvisUtil.getMainBranch(script, pipeline.repoUrl)
     }
 
     if (branchName.contains("origin/")) {
@@ -58,6 +61,9 @@ pipeline.stages = [
             script.sh "git checkout -B $branchName origin/$branchName"
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
+        pipeline.stage(CHECK_TAGS_FOR_RELEASE_ARTIFACTS, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh "./gradlew checkTagsForReleaseArtifactsTask"
+        },
         pipeline.stage(CHECK_BINTRAY_STABLE_VERSIONS) {
             script.sh "./gradlew checkBintrayStableVersionsTask"
         }
@@ -65,10 +71,17 @@ pipeline.stages = [
 
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
+    def message
     def success = Result.SUCCESS == pipeline.jobResult
+    def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
-        def message = "Ошибка проверки стабильных версий артефактов на Bintray из ветки '${branchName}' ${jenkinsLink}"
+        def errorReasons = "из ветки '${branchName}' ${unsuccessReasons} ${jenkinsLink}"
+        if (unstable) {
+            message = "Ошибка проверки наличия релизных тегов артефактов $errorReasons"
+        } else {
+            message = "Ошибка проверки стабильных версий артефактов на Bintray $errorReasons"
+        }
         JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
     }
 }
