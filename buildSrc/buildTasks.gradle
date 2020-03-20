@@ -82,8 +82,6 @@ task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSn
 
 task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotProjectSnapshotTask) // dev, release, pr
 
-task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) // release
-
 task generateReleaseNotesDiff(type: GenerateReleaseNotesDiffTask) // helper
 
 task writeToFileReleaseNotesDiff(type: WriteToFileReleaseNotesDiff)
