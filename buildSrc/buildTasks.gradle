@@ -73,13 +73,3 @@ task generateModulesNamesFile(type: GenerateModuleNameFileTask)
 task checkConfigurationIsProjectSnapshotTask(type: CheckConfigurationIsProjectSnapshotTask) // project-snapshot
 
 task checkConfigurationIsNotProjectSnapshotTask(type: CheckConfigurationIsNotProjectSnapshotTask) // dev, release, pr
-
-task distributeArtifactsToBintrayTask(type: DistributeArtifactsToBintrayTask) // release
-
-task uploadArchiveComponentsTask(type: UploadArchiveComponentsTask){
-    Components.libraries.each {
-        if(it.artifactName != "") {
-            dependsOn ":${it.name}:uploadArchives"
-        }
-    }
-}

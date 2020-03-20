@@ -19,22 +19,18 @@ object Artifactory {
     /**
      * Deploy artifact to bintray
      */
-    fun distributeArtifactToBintray(overrideExisting: Boolean, libraryNames: List<String>) {
-        val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
+    @JvmStatic
+    fun distributeArtifactToBintray(overrideExisting: Boolean, libraryName: String) {
+        distribute(ArtifactInfo(libraryName).getPath(), overrideExisting)
+    }
 
-        var packagesRepoPaths = ""
-        artifacts.forEachIndexed { index, artifactInfo ->
-            packagesRepoPaths += artifactInfo.getPath()
-            if (index != artifacts.size - 1) packagesRepoPaths += ", "
-        }
-
-        val response = repository.distribute(packagesRepoPaths, overrideExisting)
-
+    private fun distribute(packagesRepoPath: String, overrideExisting: Boolean) {
+        val response = repository.distribute(packagesRepoPath, overrideExisting)
         if (response.statusCode != 200) throw GradleException(response.toString())
     }
 
     /**
-     * Check libraries's android standard dependencies exist in artifactory
+     * Check if libraries's android standard dependencies exist in artifactory
      */
     fun checkLibrariesStandardDependenciesExisting(component: Component) {
         component.libraries.forEach { checkLibraryStandardDependenciesExisting(it, component) }
@@ -51,7 +47,7 @@ object Artifactory {
     }
 
     /**
-     * Check library android standard dependencies exist in artifactory
+     * Check if library android standard dependencies exist in artifactory
      */
     private fun checkLibraryStandardDependenciesExisting(library: Library, component: Component) {
         library.androidStandardDependencies
@@ -67,7 +63,7 @@ object Artifactory {
     }
 
     /**
-     * Check artifact exist in artifactory
+     * Check if artifact exists in artifactory
      */
     fun isArtifactExists(artifactName: String, version: String): Boolean {
         val folderPath = "$artifactName/$version"
