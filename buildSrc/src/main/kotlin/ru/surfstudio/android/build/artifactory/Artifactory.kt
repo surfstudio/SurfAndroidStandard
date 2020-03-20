@@ -19,22 +19,8 @@ object Artifactory {
     /**
      * Deploy artifact to bintray
      */
-    fun distributeArtifactToBintray(overrideExisting: Boolean, libraryNames: List<String>) {
-        val artifacts: List<ArtifactInfo> = libraryNames.map { ArtifactInfo(it) }
-        var packagesRepoPaths = ""
-        artifacts.forEachIndexed { index, artifactInfo ->
-            packagesRepoPaths += artifactInfo.getPath()
-            if (index != artifacts.size - 1) packagesRepoPaths += ", "
-        }
-        distribute(packagesRepoPaths, overrideExisting)
-    }
-
-    /**
-     * Deploy artifact to bintray
-     */
     @JvmStatic
     fun distributeArtifactToBintray(overrideExisting: Boolean, libraryName: String) {
-        println("distributeArtifactToBintray $libraryName")
         distribute(ArtifactInfo(libraryName).getPath(), overrideExisting)
     }
 
