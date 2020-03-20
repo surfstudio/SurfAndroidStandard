@@ -1,4 +1,4 @@
-package ru.surfstudio.standard.application.logger
+package ru.surfstudio.standard.application.logger.strategies.remote
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrategy

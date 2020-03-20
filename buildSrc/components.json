@@ -442,48 +442,15 @@
         "artifact_name": "core-app",
         "third_party_dependencies": [
           {
-            "name": "androidx.multidex:multidex",
-            "type": "implementation"
-          },
-          {
-            "name": "com.github.anrwatchdog:anrwatchdog",
-            "type": "implementation"
-          },
-          {
             "name": "androidx.annotation:annotation",
             "type": "implementation"
           },
           {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
-          },
-          {
-            "name": "com.annimon:stream",
-            "type": "implementation"
           }
         ],
-        "android_standard_dependencies": [
-          {
-            "name": "logger",
-            "type": "implementation"
-          },
-          {
-            "name": "connection",
-            "type": "implementation"
-          },
-          {
-            "name": "rx-extension",
-            "type": "implementation"
-          },
-          {
-            "name": "util-ktx",
-            "type": "implementation"
-          },
-          {
-            "name": "easyadapter",
-            "type": "implementation"
-          }
-        ]
+        "android_standard_dependencies": []
       }
     ],
     "samples": [],
@@ -1069,10 +1036,6 @@
         "dir": "lib-logger",
         "artifact_name": "logger",
         "third_party_dependencies": [
-          {
-            "name": "com.jakewharton.timber:timber",
-            "type": "implementation"
-          },
           {
             "name": "androidx.annotation:annotation",
             "type": "implementation"

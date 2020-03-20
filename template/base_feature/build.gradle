@@ -27,6 +27,6 @@ dependencies {
     }
     
     implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
-
+    implementation "com.jakewharton.timber:timber:$timberVersion"
     implementation "com.akaita.java:rxjava2-debug:$rxJava2DebugVersion"
 }
