@@ -2,6 +2,8 @@
 # Docs Release Notes
 ## 0.5.0-alpha
 ##### Docs
-* Init tracking changes in RELEASE_NOTES 
+* Init tracking changes in RELEASE_NOTES
 * Kotlin code style settings configuration.
-* ANDDEP-392 Add firebase app distribution migration instruction
+* Init tracking changes in RELEASE_NOTES
+* ANDDEP-785 added link to recycler-decorator lib
+* Remove redundant links

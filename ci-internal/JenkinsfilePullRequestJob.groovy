@@ -236,9 +236,9 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
+                    "androidStandardDebugMode=true\n" +
+                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
             script.sh("./gradlew -p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(UNIT_TEST) {
@@ -264,7 +264,7 @@ pipeline.stages = [
                 )
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),

@@ -78,10 +78,22 @@ open class EventTransformerList<E : Event>(
      *
      * @param mapper mapper function.
      */
+    inline infix fun <reified T : Event> Observable<T>.map(
+            noinline mapper: (T) -> E
+    ): Observable<out E> = compose(MapTransformer(mapper))
+
+    /**
+     * Maps events of type [T] in another type, successor of type [E].
+     *
+     * Used when we need to map event to another event,
+     * For example, when the PhotoButtonClick is appeared, we need to emit OpenSelectPhotoDialog.
+     *
+     * @param mapper mapper function.
+     */
     inline fun <reified T : Event> map(
             noinline mapper: (T) -> E
     ): Observable<out E> {
-        return eventStream.filterIsInstance<T>().compose(MapTransformer(mapper))
+        return eventStream.filterIsInstance<T>() map mapper
     }
 
     /**
@@ -202,7 +214,6 @@ open class EventTransformerList<E : Event>(
     inline fun <reified T : Event, reified C : CompositionEvent<T>> decomposeTo(mw: RxMiddleware<T>) =
             eventStream.filterIsInstance<C>().decompose(mw)
 
-
     /**
      * Decompose events filtered by type [T], to process them in another middleware.
      *
@@ -212,4 +223,10 @@ open class EventTransformerList<E : Event>(
      */
     infix fun <T : Event, C : CompositionEvent<T>> KClass<C>.decomposeTo(mw: RxMiddleware<T>) =
             eventStream.ofType(this.java).decompose(mw)
+
+    /**
+     * Filters events by a given [filterCondition].
+     */
+    infix fun <T : Event> KClass<T>.filter(filterCondition: (T) -> Boolean): Observable<T> =
+            eventStream.ofType(this.java).filter(filterCondition)
 }

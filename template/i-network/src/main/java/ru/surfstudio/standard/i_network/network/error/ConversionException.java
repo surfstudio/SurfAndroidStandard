@@ -18,7 +18,6 @@ package ru.surfstudio.standard.i_network.network.error;
 /**
  * ошибка парсинга ответа
  */
-@Deprecated
 public class ConversionException extends NetworkException {
     public ConversionException(String message, Throwable cause) {
         super(message, cause);

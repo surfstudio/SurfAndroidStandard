@@ -10,9 +10,12 @@ if (gradle.ext.androidStandard.debugEnabled) {
         includeBuild("$androidStandardDebugDir") {
             dependencySubstitution {
                 components.each { component ->
-                    if (component.libraries != null && !component.libraries.isEmpty()) {
-                        component.libraries.each { library ->
-                            substitute module("ru.surfstudio.android:${library.artifactName}") with project(":${library.artifactName}")
+                    if (component.libs != null && !component.libs.isEmpty()) {
+                        component.libs.each { library ->
+                            def artifactName = library.artifact_name
+                            if (artifactName != null && !artifactName.isEmpty()) {
+                                substitute module("ru.surfstudio.android:${artifactName}") with project(":${artifactName}")
+                            }
                         }
                     }
                 }
