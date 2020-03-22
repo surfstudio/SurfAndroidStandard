@@ -83,10 +83,10 @@ class StandardReactDialogView<E : Event> : CoreSimpleDialogFragment() {
             if (textResId != EMPTY_RES) setPositiveButton(textResId, onClickListener) else this
 
     private fun AlertDialog.Builder.setNegativeButtonSafe(
-            @StringRes textResId: Int?,
+            @StringRes textResId: Int,
             onClickListener: DialogInterface.OnClickListener
     ): AlertDialog.Builder =
-            if (textResId != null) setNegativeButton(textResId, onClickListener) else this
+            if (textResId != EMPTY_RES) setNegativeButton(textResId, onClickListener) else this
 
     private fun AlertDialog.setButtonColorSafe(buttonType: Int, @ColorRes colorResId: Int) {
         if (colorResId != EMPTY_RES) {

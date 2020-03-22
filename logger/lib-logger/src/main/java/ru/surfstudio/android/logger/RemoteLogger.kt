@@ -19,7 +19,7 @@ import ru.surfstudio.android.logger.remote_logging_strategies.RemoteLoggingStrat
 import kotlin.reflect.KClass
 
 /**
- * Сущность для логгирования на удаленный сервер, позволяющая добавить различные стратегии логгирования
+ * Object for logging to remote server which supports different logging strategies
  */
 object RemoteLogger {
 
