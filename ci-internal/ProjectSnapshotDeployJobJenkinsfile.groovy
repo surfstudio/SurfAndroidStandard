@@ -77,10 +77,10 @@ pipeline.initializeBody = {
         value -> branchName = value
     }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'useBintrayDeploy') {
-        value -> useBintrayDeploy = value
+        value -> useBintrayDeploy = Boolean.valueOf(value)
     }
     CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'skipIncrementVersion') {
-        value -> skipIncrementVersion = value
+        value -> skipIncrementVersion = Boolean.valueOf(value)
     }
 
     if (branchName.contains("origin/")) {
