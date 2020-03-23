@@ -130,24 +130,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * @see RecyclerView.Adapter#getItemId(int)
-     */
-    @Override
-    public final long getItemId(int position) {
-        return getItemStringId(position).hashCode();
-    }
-
-    /**
-     * Get the unique id from item at certain position
-     *
-     * @param position position of item
-     * @return unique item id
-     */
-    public final String getItemStringId(int position) {
-        return getItemStringIdInternal(items, position);
-    }
-
-    /**
      * Get BaseItem from items list at certain position
      *
      * @param position position of item
