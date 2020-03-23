@@ -7,7 +7,7 @@ import org.gradle.internal.logging.text.StyledTextOutputFactory
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.ReleaseNotes
-import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
+import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.EMPTY_STRING
