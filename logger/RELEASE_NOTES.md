@@ -2,10 +2,11 @@
 # Logger Release Notes
 ## 0.5.0-alpha
 ##### Logger
-* ANDDEP-392 - Add FirebaseCrashlyticsRemoteLoggingStrategy
-* ANDDEP-927 - Remove Firebase dependencies
-* **NO BACKWARD COMPATIBILITY** ANDDEP-928 - Remove Crashlytics
+* **NO BACKWARD COMPATIBILITY** ANDDEP-928 Remove Crashlytics and Timber
   dependencies
+  * Following classes were moved to Template: `RemoteLogger`,
+    `RemoteLoggerLoggingStrategy`, `TimberLoggingStrategy`,
+    `RemoteLoggingStrategy`
 ## 0.3.0
 ##### Logger
 * ANDDEP-222 - added the ability to select a strategy for logging

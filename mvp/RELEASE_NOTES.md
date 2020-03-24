@@ -15,7 +15,7 @@
   `CoreSimpleDialogInterface.show`,
   `CoreSimpleBottomSheetDialogFragment.show`,
   `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are
-  changed **without backward compatibility support**.
+  changed.
 
 * ANDDEP-928 Fix SimpleDialogDelegate logs
 ## 0.4.0
