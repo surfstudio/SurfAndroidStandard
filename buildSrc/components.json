@@ -1486,7 +1486,7 @@
   {
     "id": "recycler-decorator",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "recycler-decorator",
     "libs": [
