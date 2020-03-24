@@ -2,7 +2,9 @@
 # Core-app Release Notes
 ## 0.5.0-alpha
 ##### Core-app
-* ANDDEP-928 Remove Crashlytics dependencies
+* **NO BACKWARD COMPATIBILITY** ANDDEP-928 Remove Crashlytics
+  dependencies
+
 ## 0.4.0
 ##### Core-app
 * Module - ** deprecated **
