@@ -246,7 +246,8 @@ def static initParameters(script) {
             script.booleanParam(
                     defaultValue: false,
                     name: "useBintrayDeploy",
-                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory'
+                    description: 'Будет ли выполнен деплой на bintray помимо обычного деплоя на artifactory.\n' +
+                            'Необходимо перед передачей проекта заказчику'
             ),
             script.booleanParam(
                     defaultValue: false,
