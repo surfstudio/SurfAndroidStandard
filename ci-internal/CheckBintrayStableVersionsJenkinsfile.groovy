@@ -24,7 +24,7 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { initProperties(pipeline) }
+pipeline.propertiesProvider = { initProperties(pipeline, UNDEFINED_BRANCH) }
 
 pipeline.preExecuteStageBody = { stage ->
     if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
@@ -91,11 +91,11 @@ pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx, String defaultBranch) {
     def script = ctx.script
     return [
             initDiscarder(script),
-            initParameters(script)
+            initParameters(script, defaultBranch)
     ]
 }
 
@@ -109,10 +109,11 @@ def static initDiscarder(script) {
     )
 }
 
-def static initParameters(script) {
+def static initParameters(script, defaultBranch) {
     return script.parameters([
             script.string(
                     name: "branchName_0",
+                    defaultValue: defaultBranch,
                     description: 'Ветка с исходным кодом'
             )
     ])

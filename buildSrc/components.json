@@ -653,7 +653,7 @@
   {
     "id": "core-ui",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "core-ui",
     "libs": [
@@ -1080,7 +1080,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1486,7 +1486,7 @@
   {
     "id": "recycler-decorator",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "recycler-decorator",
     "libs": [

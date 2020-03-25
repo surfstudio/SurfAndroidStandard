@@ -16,7 +16,8 @@
   `CoreSimpleBottomSheetDialogFragment.show`,
   `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are
   changed.
-
+* ANDDEP-922 Fix inconsistent dialog navigator behavior: CoreSimpleDialog now showing with it's route tag. Methods `DialogNavigator.showSimpleDialog`, `CoreSimpleDialogInterface.show`, `CoreSimpleBottomSheetDialogFragment.show`, `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are changed **without backward compatibility support**.
+* ANDDEP-985 Fix screen names logging
 * ANDDEP-928 Fix SimpleDialogDelegate logs
 ## 0.4.0
 ##### Core-mvp
