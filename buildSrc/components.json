@@ -26,7 +26,7 @@
   {
     "id": "analytics",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "analytics",
     "libs": [
@@ -85,7 +85,7 @@
   {
     "id": "animations",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "animations",
     "libs": [
@@ -432,7 +432,7 @@
   {
     "id": "core-app",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "deprecated/core-app",
     "libs": [
@@ -460,7 +460,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 11,
+    "unstable_version": 12,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -1027,7 +1027,7 @@
   {
     "id": "logger",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "logger",
     "libs": [
@@ -1080,7 +1080,7 @@
   {
     "id": "mvp",
     "version": "0.5.0",
-    "unstable_version": 6,
+    "unstable_version": 7,
     "stable": false,
     "dir": "mvp",
     "libs": [
@@ -1601,7 +1601,7 @@
   {
     "id": "security",
     "version": "0.5.0",
-    "unstable_version": 5,
+    "unstable_version": 6,
     "stable": false,
     "dir": "security",
     "libs": [
@@ -1772,7 +1772,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 18,
+    "unstable_version": 19,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -1805,7 +1805,7 @@
   {
     "id": "docs",
     "version": "0.5.0",
-    "unstable_version": 12,
+    "unstable_version": 13,
     "stable": false,
     "dir": "docs",
     "libs": [],
