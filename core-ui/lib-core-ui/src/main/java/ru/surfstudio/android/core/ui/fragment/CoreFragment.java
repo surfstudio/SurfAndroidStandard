@@ -81,14 +81,14 @@ public abstract class CoreFragment extends Fragment implements CoreFragmentInter
     @Override
     public void onResume() {
         super.onResume();
-        Logger.d(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName());
+        Logger.d(String.format(LogConstants.LOG_SCREEN_RESUME_FORMAT, getScreenName()));
         fragmentDelegate.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Logger.d(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName());
+        Logger.d(String.format(LogConstants.LOG_SCREEN_PAUSE_FORMAT, getScreenName()));
         fragmentDelegate.onPause();
     }
 

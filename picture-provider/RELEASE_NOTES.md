@@ -1,14 +1,15 @@
 [TOC]
 # Picture-provider Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Picture-provider
-* TODO
+* ANDDEP-687 Changed "androidx.exifinterface:exifinterface" dependency from "api" to "implementation" type
+* ANDDEP-729 Removed camera-view dependency from picture-provider-sample
 ## 0.3.0
 ##### Picture-provider
 * ANDDEP-235 - refactoring and adding functional:
-     * In addition to going directly to the gallery, it became possible to select a file and file manager
-     * Added method for pre-saving image
-     * Added wrapper class over Uri
+* In addition to going directly to the gallery, it became possible to select a file and file manager
+* Added method for pre-saving image
+* Added wrapper class over Uri
 * Fix obtaining permission to access the camera
 * ANDDEP-286 - Fix working with remote images in PictureProvider
 * Replaced return types Observable -> Single

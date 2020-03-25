@@ -40,7 +40,7 @@ class FcmDebugPresenter @Inject constructor(
     fun copyFcmToken() {
         sm.fcmToken?.let {
             view.copyFcmToken()
-            view.showMessage(stringsProvider.getString(R.string.fcm_copied_message))
+            view.showMessage(stringsProvider.getString(R.string.debug_fcm_copied_message))
             logFcmToken()
         }
     }

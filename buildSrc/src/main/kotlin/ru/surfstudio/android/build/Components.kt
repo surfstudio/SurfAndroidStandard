@@ -1,8 +1,8 @@
 package ru.surfstudio.android.build
 
 import org.gradle.api.GradleException
-import ru.surfstudio.android.build.exceptions.ComponentNotFoundForStandardDependencyException
-import ru.surfstudio.android.build.exceptions.LibraryNotFoundException
+import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundForStandardDependencyException
+import ru.surfstudio.android.build.exceptions.library.LibraryNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.model.dependency.Dependency
 import ru.surfstudio.android.build.model.json.ComponentJson
@@ -33,15 +33,23 @@ object Components {
     }
 
     /**
+     * Function for parsing a single component from list
+     */
+    fun parseComponent(componentJsons: List<ComponentJson>, componentName: String): Component? =
+            componentJsons.firstOrNull { it.id == componentName }?.transform()
+
+    /**
      * Get project's module
      */
     @JvmStatic
     fun getModules(): List<Module> {
-        val mirrorComponentName = GradlePropertiesManager.getMirrorComponentName()
-
+        val mirrorComponentName = GradlePropertiesManager.componentMirrorName
+        val skipSamplesBuilding = GradlePropertiesManager.skipSamplesBuilding
 
         return if (!GradlePropertiesManager.isCurrentComponentAMirror()) {
-            value.flatMap(Component::getModules)
+            value.flatMap { component ->
+                component.getModules(skipSamplesBuilding)
+            }
         } else {
             val mirrorComponent = getMirrorComponentByName(mirrorComponentName)
             mirrorComponent.libraries + mirrorComponent.samples
@@ -58,7 +66,6 @@ object Components {
      * 4. X.Y.Z-alpha.unstable_version-projectPostfix.projectVersion - component is unstable, projectPostfix isn't empty
      */
     @JvmStatic
-
     fun getModuleVersion(moduleName: String): String {
         if (value.isEmpty()) return EMPTY_STRING
 

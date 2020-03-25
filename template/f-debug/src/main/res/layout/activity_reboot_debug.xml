@@ -15,41 +15,41 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/reboot_tw"
+                android:id="@+id/debug_reboot_tw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/reboot_now_b"
+                app:layout_constraintBottom_toTopOf="@+id/debug_reboot_now_b"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Перезагрузка" />
 
             <Button
-                android:id="@+id/reboot_now_b"
+                android:id="@+id/debug_reboot_now_b"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/text_button_height"
+                android:layout_height="@dimen/debug_text_button_height"
                 android:layout_marginBottom="8dp"
                 android:background="?attr/selectableItemBackground"
-                android:text="@string/reboot_now_text"
-                android:textAppearance="@style/RebootDialogButton"
+                android:text="@string/debug_reboot_now_text"
+                android:textAppearance="@style/DebugRebootDialogButton"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/reboot_cancel_b"
+                app:layout_constraintEnd_toStartOf="@+id/debug_reboot_cancel_b"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <Button
-                android:id="@+id/reboot_cancel_b"
+                android:id="@+id/debug_reboot_cancel_b"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/text_button_height"
+                android:layout_height="@dimen/debug_text_button_height"
                 android:layout_marginBottom="8dp"
                 android:background="?attr/selectableItemBackground"
-                android:text="@string/reboot_cancel_text"
-                android:textAppearance="@style/RebootDialogButton"
+                android:text="@string/debug_reboot_cancel_text"
+                android:textAppearance="@style/DebugRebootDialogButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/reboot_now_b" />
+                app:layout_constraintStart_toEndOf="@+id/debug_reboot_now_b" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

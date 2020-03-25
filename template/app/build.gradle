@@ -1,15 +1,9 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-//todo uncoment for real app
-//apply plugin: 'io.fabric'
+//apply plugin: 'com.google.firebase.crashlytics' todo uncoment for real app
+//apply plugin: 'com.google.firebase.appdistribution' todo uncoment for real app
 
 apply from: '../config.gradle'
 
@@ -28,8 +22,8 @@ android {
 
         versionCode config["versionCode"]
         versionName config["versionName"]
-
-        setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)")
+        
+        //setProperty("archivesBaseName", "$applicationName-$versionName-($versionCode)") //todo uncomment for real app
 
         testBuildType 'debug' //todo replace to 'qa' for real app
     }
@@ -51,11 +45,9 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     implementation "org.jetbrains:annotations:$jetbrainsAnnotationsVersion"
-    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
 
     implementation "androidx.annotation:annotation:$androidxAnnotationVersion"
     implementation "androidx.appcompat:appcompat:$androidxVersion"
-    implementation "com.annimon:stream:$annimonStreamVersion"
 }
 
 configurations.all {

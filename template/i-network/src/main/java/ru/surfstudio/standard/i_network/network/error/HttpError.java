@@ -19,7 +19,6 @@ package ru.surfstudio.standard.i_network.network.error;
 /**
  * получен ответ не 2xx
  */
-@Deprecated
 public abstract class HttpError extends NetworkException {
     private final int code;
 

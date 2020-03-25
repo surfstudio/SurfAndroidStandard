@@ -11,9 +11,10 @@ import ru.surfstudio.ci.stage.StageStrategy
 def CHECKOUT = 'Checkout'
 def PREPARE_MIRRORING = 'Prepare Mirroring'
 def MIRROR_COMPONENT = 'Mirror Component'
+def ASSEMBLE_COMPONENT = 'Assemble Component'
 
 //constants
-def MIRROR_FOLDER = ".mirror"
+def MIRROR_FOLDER = "_mirror"
 def STANDARD_REPO_FOLDER = "temp"
 def DEPTH_LIMIT = 100
 def SEARCH_LIMIT = 100
@@ -21,16 +22,6 @@ def SEARCH_LIMIT = 100
 //vars
 def branchName = ""
 def lastCommit = ""
-
-//other config
-
-def getTestInstrumentationRunnerName = { script, prefix ->
-    def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
-    return script.sh(
-            returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
-}
 
 //init
 def script = this
@@ -80,13 +71,9 @@ pipeline.stages = [
                     credentialsId: pipeline.repoCredentialsId
             )
             script.sh "git checkout -B $branchName origin/$branchName"
-
-            script.echo "Checking $RepositoryUtil.SKIP_CI_LABEL1 label in last commit message for automatic builds"
-
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
         pipeline.stage(PREPARE_MIRRORING) {
-
             getСomponents(script).each { component ->
                 if (component.mirror_repo != null && component.mirror_repo != "") {
                     pipeline.stages.add(
@@ -102,6 +89,13 @@ pipeline.stages = [
                                 }
                             }
                     )
+                    pipeline.stages.add(
+                            pipeline.stage("$ASSEMBLE_COMPONENT : ${component.id}", StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+                                script.dir("$MIRROR_FOLDER") {
+                                    script.sh "chmod +x gradlew && ./gradlew clean assemble"
+                                }
+                            }
+                    )
                 }
             }
         }
@@ -113,26 +107,24 @@ static void getСomponents(script){
 }
 
 pipeline.finalizeBody = {
-    def jenkinsLink = CommonUtil.getBuildUrlMarkdownLink(script)
+    def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        message = "Зеркалирование компонентов из ветки '${branchName}' не выполнено из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
     } else {
-        message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
+        message = "Зеркалирование компонентов из ветки '${branchName}' успешно выполнено. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-
-def static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initDiscarder(script),

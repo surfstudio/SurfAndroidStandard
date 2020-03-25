@@ -258,7 +258,9 @@ abstract class BaseGitRepository {
                 .setNewTree(currentTree)
                 .setOldTree(oldTree)
                 .call()
-                .map { it.oldPath }
+                .map { entry ->
+                    entry.oldPath?.takeIf { it != DiffEntry.DEV_NULL } ?: entry.newPath
+                }
     }
 
     /**

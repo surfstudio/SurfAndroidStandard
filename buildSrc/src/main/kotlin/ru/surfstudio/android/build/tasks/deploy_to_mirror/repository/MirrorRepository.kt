@@ -18,13 +18,13 @@ class MirrorRepository(dirPath: String) : BaseGitRepository() {
 
     override val repositoryName = "Mirror"
 
-    fun commit(commit: RevCommit): String? {
+    fun commit(commit: RevCommit): RevCommit? {
         val resultCommit = git.commit()
                 .setAuthor(commit.authorIdent)
                 .setAll(true)
                 .setMessage("${commit.shortMessage} $STANDARD_COMMIT_HASH_PREFIX${commit.shortHash}$STANDARD_COMMIT_HASH_POSTFIX")
                 .call()
-        return resultCommit.name
+        return resultCommit
     }
 
     fun push() {
@@ -36,13 +36,16 @@ class MirrorRepository(dirPath: String) : BaseGitRepository() {
                         )
                 )
                 .call()
-
     }
+
+    fun tag(commit: RevCommit, tagName: String) = git.tag()
+            .setObjectId(commit)
+            .setName(tagName)
+            .call()
 
     fun getCommitByStandardHash(standardHash: String): RevCommit = git.log()
             .all()
             .call()
             .find { it.mirrorStandardHash == standardHash }
             ?: throw MirrorCommitNotFoundByStandardHashException(standardHash)
-
 }

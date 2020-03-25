@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicReference
  * Хранит в себе последнее прошедшее значение.
  * При подписке сообщает это значение или initialValue
  */
+@Deprecated("Use Action/State pair instead")
 class Bond<T>(initialValue: T? = null) : ValuableRelation<T, BondSource, BondTarget>() {
 
     private val action = initialValue?.let { Action(it) } ?: Action()

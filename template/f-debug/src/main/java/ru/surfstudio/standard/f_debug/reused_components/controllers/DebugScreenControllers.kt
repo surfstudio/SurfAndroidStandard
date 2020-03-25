@@ -21,7 +21,7 @@ class CustomControllerDescriptionItemController
     ): BindableViewHolder<String>(parent, R.layout.custom_controller_description_layout) {
 
         override fun bind(string: String) {
-            itemView.description_tv.text = string
+            itemView.debug_description_tv.text = string
         }
     }
 }

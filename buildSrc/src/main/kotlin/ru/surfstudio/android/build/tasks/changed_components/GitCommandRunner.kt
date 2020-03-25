@@ -1,11 +1,12 @@
 package ru.surfstudio.android.build.tasks.changed_components
 
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
-import ru.surfstudio.android.build.tasks.currentDirectory
+import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import java.io.File
 
 const val GIT_DIFF_COMMAND = "git diff --name-only"
 const val GIT_FULL_DIFF_COMMAND = "git diff"
+const val GIT_WITHOUT_SPACE_DIFF_COMMAND = "git diff -w --ignore-all-space"
 const val GIT_CHECKOUT_COMMAND = "git checkout"
 const val GIT_STASH_COMMAND = "git stash"
 const val GIT_GET_CURRENT_REVISION_COMMAND = "git rev-parse --short HEAD"
@@ -52,6 +53,20 @@ class GitCommandRunner(
             "$GIT_FULL_DIFF_COMMAND $opts $currentRevision $filePath"
         } else {
             "$GIT_FULL_DIFF_COMMAND $opts $previousRevision $currentRevision $filePath"
+        }
+        return runCommandWithResult(command, File(directory))
+    }
+
+    fun getDiffWithoutSpace(
+            currentRevision: String,
+            previousRevision: String,
+            filePath: String,
+            opts: String = "-U0"
+    ): String? {
+        val command = if (previousRevision.isEmpty()) {
+            "$GIT_WITHOUT_SPACE_DIFF_COMMAND $opts $currentRevision $filePath"
+        } else {
+            "$GIT_WITHOUT_SPACE_DIFF_COMMAND $opts $previousRevision $currentRevision $filePath"
         }
         return runCommandWithResult(command, File(directory))
     }

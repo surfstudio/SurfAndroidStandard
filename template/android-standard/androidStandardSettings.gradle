@@ -5,17 +5,23 @@ import groovy.json.JsonSlurper
 if (gradle.ext.androidStandard.debugEnabled) {
     try {
         def androidStandardDebugDir = gradle.ext.androidStandard.debugDir
-        def modules = new JsonSlurper().parse(new File("$androidStandardDebugDir/buildSrc/modules.json"), 'utf-8')
-        assert modules instanceof List
+        def components = new JsonSlurper().parse(new File("$androidStandardDebugDir/buildSrc/components.json"), 'utf-8')
+        assert components instanceof List
         includeBuild("$androidStandardDebugDir") {
             dependencySubstitution {
-                modules.each {
-                    substitute module("ru.surfstudio.android:$it") with project(":$it")
+                components.each { component ->
+                    if (component.libs != null && !component.libs.isEmpty()) {
+                        component.libs.each { library ->
+                            def artifactName = library.artifact_name
+                            if (artifactName != null && !artifactName.isEmpty()) {
+                                substitute module("ru.surfstudio.android:${artifactName}") with project(":${artifactName}")
+                            }
+                        }
+                    }
                 }
             }
         }
     } catch (FileNotFoundException ignored) {
-        logger.error("file buildSrc/modules.json  in local android standard folder  not found")
+        logger.error("file buildSrc/components.json  in local android standard folder  not found")
     }
-
 }

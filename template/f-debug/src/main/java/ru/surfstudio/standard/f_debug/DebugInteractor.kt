@@ -7,13 +7,15 @@ import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.readystatesoftware.chuck.ChuckInterceptor
 import com.squareup.leakcanary.LeakCanary
 import io.reactivex.Observable
+import io.reactivex.disposables.Disposables
 import io.reactivex.subjects.PublishSubject
 import okhttp3.OkHttpClient
+import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
 import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
-import ru.surfstudio.standard.f_debug.scalpel.ScalpelManager
-import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.RebootInteractor
+import ru.surfstudio.standard.f_debug.scalpel.DebugScalpelManager
+import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.DebugRebootInteractor
 import ru.surfstudio.standard.f_debug.storage.DebugServerSettingsStorage
 import ru.surfstudio.standard.f_debug.storage.DebugUiToolsStorage
 import ru.surfstudio.standard.f_debug.storage.MemoryDebugStorage
@@ -23,15 +25,18 @@ import javax.inject.Inject
 
 @PerApplication
 class DebugInteractor @Inject constructor(
+        private val activeActivityHolder: ActiveActivityHolder,
         private val memoryDebugStorage: MemoryDebugStorage,
         private val debugServerSettingsStorage: DebugServerSettingsStorage,
         private val debugUiToolsStorage: DebugUiToolsStorage,
         private val toolsDebugStorage: ToolsDebugStorage,
         private val application: Application,
-        private val rebootInteractor: RebootInteractor
+        private val rebootInteractor: DebugRebootInteractor
 ) {
 
     private val serverChangedPublishSubject = PublishSubject.create<Unit>()
+
+    private var firstActivityOpeningDisposable = Disposables.disposed()
 
     fun observeNeedClearSession(): Observable<Unit> {
         return serverChangedPublishSubject
@@ -115,8 +120,10 @@ class DebugInteractor @Inject constructor(
      * Нужно вызвать в [Application.onCreate]
      */
     fun onCreateApp(icon: Int) {
-        DebugNotificationBuilder.showDebugNotification(application, icon)
-        ScalpelManager.init(application)
+        firstActivityOpeningDisposable = activeActivityHolder
+                .activityObservable
+                .subscribe { handleFirstActivityOpening(icon) }
+        DebugScalpelManager.init(application)
 
         if (memoryDebugStorage.isLeakCanaryEnabled) {
             LeakCanary.install(application)
@@ -132,5 +139,10 @@ class DebugInteractor @Inject constructor(
 
     fun reboot(route: ActivityRoute) {
         rebootInteractor.reboot(route)
+    }
+
+    private fun handleFirstActivityOpening(icon: Int) {
+        firstActivityOpeningDisposable.dispose()
+        DebugNotificationBuilder.showDebugNotification(application, icon)
     }
 }

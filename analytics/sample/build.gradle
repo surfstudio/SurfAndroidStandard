@@ -1,13 +1,8 @@
-import com.google.gms.googleservices.GoogleServicesPlugin
 import ru.surfstudio.android.build.DependencyConfigurator
 
-GoogleServicesPlugin.config.disableVersionCheck = true
-
 apply from: "$rootDir/buildSrc/androidSample.gradle"
-//apply plugin: 'io.fabric'
 
 android {
-    ext.enableCrashlytics = false
 
     defaultConfig {
         applicationId "ru.surfstudio.android.firebase.sample"
@@ -23,7 +18,6 @@ dependencies {
 
     DependencyConfigurator.implementation(project, "com.android.support:multidex")
     DependencyConfigurator.implementation(project, "com.google.firebase:firebase-messaging")
-    DependencyConfigurator.implementation(project, "com.crashlytics.sdk.android:crashlytics")
 
     DependencyConfigurator.kapt(project, "com.google.dagger:dagger-compiler")
 }

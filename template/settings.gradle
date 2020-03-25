@@ -18,4 +18,4 @@ include ":app",
         ":small-test-utils"
 
 apply from: 'android-standard/androidStandardSettings.gradle'
-apply from: 'buildCache.gradle'
+apply from: '../buildSrc/buildCache.gradle'

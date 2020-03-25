@@ -39,19 +39,19 @@ class FcmDebugActivityView : BaseRenderableActivityView<FcmDebugScreenModel>() {
 
     override fun renderInternal(sm: FcmDebugScreenModel) {
         val hasFcmToken = sm.hasFcmToken()
-        fcm_tv.text = sm.fcmToken
-        fcm_tv.goneIf(!hasFcmToken)
-        container.goneIf(hasFcmToken)
+        debug_fcm_tv.text = sm.fcmToken
+        debug_fcm_tv.goneIf(!hasFcmToken)
+        debug_container.goneIf(hasFcmToken)
     }
 
     override fun getScreenName(): String = "debug_fcm"
 
     private fun initListeners() {
-        fcm_tv.setOnClickListener { presenter.copyFcmToken() }
-        reload_btn.setOnClickListener { presenter.loadFcmToken() }
+        debug_fcm_tv.setOnClickListener { presenter.copyFcmToken() }
+        debug_reload_btn.setOnClickListener { presenter.loadFcmToken() }
     }
 
-    fun copyFcmToken() = fcm_tv.copyTextToClipboard()
+    fun copyFcmToken() = debug_fcm_tv.copyTextToClipboard()
 
     fun showMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

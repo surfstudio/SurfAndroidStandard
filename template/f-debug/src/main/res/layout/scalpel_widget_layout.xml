@@ -4,20 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ru.surfstudio.standard.f_debug.scalpel.ScalpelFrameLayout
-        android:id="@+id/scalpel"
+    <ru.surfstudio.standard.f_debug.scalpel.DebugScalpelFrameLayout
+        android:id="@+id/debug_scalpel"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <FrameLayout
-        android:id="@+id/scalpel_panel"
+        android:id="@+id/debug_scalpel_panel"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:alpha="0.8"
         android:background="@android:color/white">
 
         <LinearLayout
-            android:id="@+id/scalpel_settings_btn"
+            android:id="@+id/debug_scalpel_settings_btn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="start"
@@ -27,7 +27,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:padding="8dp"
-                android:src="@drawable/ic_settings" />
+                android:src="@drawable/debug_ic_settings" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/close_scalpel_btn"
+            android:id="@+id/debug_close_scalpel_btn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="end"
@@ -54,10 +54,10 @@
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/scalpel_settings_container"
+        android:id="@+id/debug_scalpel_settings_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/scalpel_panel"
+        android:layout_below="@+id/debug_scalpel_panel"
         android:alpha="0.8"
         android:background="@android:color/white"
         android:orientation="vertical"
@@ -68,23 +68,23 @@
             android:layout_height="1dp"
             android:background="@android:color/darker_gray" />
 
-        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
-            android:id="@+id/draw_class_scalpel_settings"
+        <ru.surfstudio.standard.f_debug.common_widgets.DebugTitleSubtitleSwitch
+            android:id="@+id/debug_draw_class_scalpel_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:switch_title="Show View classes" />
+            app:debug_switch_title="Show View classes" />
 
-        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
-            android:id="@+id/draw_id_scalpel_settings"
+        <ru.surfstudio.standard.f_debug.common_widgets.DebugTitleSubtitleSwitch
+            android:id="@+id/debug_draw_id_scalpel_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:switch_title="Show View ids" />
+            app:debug_switch_title="Show View ids" />
 
-        <ru.surfstudio.standard.f_debug.common_widgets.TitleSubtitleSwitch
-            android:id="@+id/draw_views_scalpel_settings"
+        <ru.surfstudio.standard.f_debug.common_widgets.DebugTitleSubtitleSwitch
+            android:id="@+id/debug_draw_views_scalpel_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:switch_title="Draw Views content" />
+            app:debug_switch_title="Draw Views content" />
 
         <TextView
             android:layout_width="match_parent"
@@ -94,7 +94,7 @@
             android:text="Visible Layers:" />
 
         <com.appyvet.materialrangebar.RangeBar
-            android:id="@+id/views_layers_scalpel_settings"
+            android:id="@+id/debug_views_layers_scalpel_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -106,11 +106,11 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@id/scalpel_settings_container"
+            android:layout_below="@id/debug_scalpel_settings_container"
             android:background="@android:color/darker_gray" />
 
         <TextView
-            android:id="@+id/hide_scalpel_settings_btn"
+            android:id="@+id/debug_hide_scalpel_settings_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -126,7 +126,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/scalpel_settings_container"
+        android:layout_below="@id/debug_scalpel_settings_container"
         android:background="@android:color/darker_gray" />
 
     <TextView
