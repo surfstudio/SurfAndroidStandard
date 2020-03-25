@@ -2,7 +2,7 @@ package ru.surfstudio.android.build.tasks.check_stable_artifacts_exist_in_reposi
 
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.artifactory.Artifactory
-import ru.surfstudio.android.build.exceptions.ArtifactsNotFoundInArtifactoryException
+import ru.surfstudio.android.build.exceptions.artifactory.ArtifactsNotFoundInArtifactoryException
 import ru.surfstudio.android.build.model.module.Library
 
 /**

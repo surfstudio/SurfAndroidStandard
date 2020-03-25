@@ -31,6 +31,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 /**
  * This class contains missing functions for [Observable]
  */
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class ObservableUtil {
 
     public static final ActionSafe EMPTY_ACTION = new ActionSafe() {

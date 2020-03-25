@@ -23,7 +23,6 @@ import com.google.gson.reflect.TypeToken;
 /**
  * Если приходит примитив, а ожидамое поле объект, то мапим его как null
  */
-@Deprecated
 public class PrimitiveToNullSafeConverter<T> extends SafeConverter<T> {
 
     public PrimitiveToNullSafeConverter(TypeToken<T> type) {

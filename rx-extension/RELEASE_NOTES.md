@@ -1,5 +1,6 @@
 [TOC]
 # Rx-extension Release Notes
-## 0.5.0-alpha.0
+## 0.5.0-alpha
 ##### Rx-extension
-* TODO
+* ANDDEP-671 Add Any.toObservable() extension method
+* Add scheduler which runs code immediate when in main thread

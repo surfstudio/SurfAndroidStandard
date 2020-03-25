@@ -17,7 +17,7 @@ private const val HEAD = "HEAD"
  * Only [filesToMirror] and [foldersToMirror] are mirrored
  */
 class MirrorManager(
-        private val componentDirectory: String,
+        componentDirectory: String,
         private val standardRepository: StandardRepository,
         private val mirrorRepository: MirrorRepository,
         private val standardDepthLimit: Int,
@@ -85,12 +85,13 @@ class MirrorManager(
      * For all git tree commits apply them to mirror repository
      */
     private fun applyGitTreeToMirror() {
-        gitTree.standardRepositoryCommitsForMirror.forEach {
-            when (it.type) {
-                CommitType.SIMPLE -> commit(it)
-                CommitType.MERGE -> merge(it)
-                CommitType.MIRROR_START_POINT -> createMirrorStartCommit(it)
-            }
+        gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
+            (when (commit.type) {
+                CommitType.SIMPLE -> commit(commit)
+                CommitType.MERGE -> merge(commit)
+                CommitType.MIRROR_START_POINT -> createMirrorStartCommit(commit)
+                else -> null
+            })?.let { commit.tags.forEach { tag -> mirrorRepository.tag(it, tag) } }
         }
     }
 
@@ -99,11 +100,12 @@ class MirrorManager(
      *
      * @param commit start commit
      */
-    private fun createMirrorStartCommit(commit: CommitWithBranch) {
+    private fun createMirrorStartCommit(commit: CommitWithBranch): RevCommit {
         val mirrorCommit = gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash)
         mirrorRepository.reset(mirrorCommit.commit)
         mirrorRepository.checkoutBranch(mirrorCommit.branch)
         commit.mirrorCommitHash = mirrorCommit.commit.name
+        return mirrorCommit.commit
     }
 
     /**
@@ -113,17 +115,18 @@ class MirrorManager(
      *
      * @param commit commit to apply
      */
-    private fun commit(commit: CommitWithBranch) {
+    private fun commit(commit: CommitWithBranch): RevCommit? {
         standardRepository.reset(commit.commit)
 
         val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
-        if (changes.isEmpty()) return
+        if (changes.isEmpty()) return null
 
         checkoutMirrorBranchForCommit(commit)
         applyChanges(changes)
-        val commitHash = mirrorRepository.commit(commit.commit) ?: EMPTY_STRING
-        commit.mirrorCommitHash = commitHash
+        val newCommit = mirrorRepository.commit(commit.commit)
+        commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
         commit.type = CommitType.COMMITED
+        return newCommit
     }
 
     /**
@@ -148,27 +151,28 @@ class MirrorManager(
      *
      * @param commit commit to apply
      */
-    private fun merge(commit: CommitWithBranch) {
+    private fun merge(commit: CommitWithBranch): RevCommit? {
         standardRepository.reset(commit.commit)
 
         val mainBranch = commit.branch
         val secondBranch = gitTree.getMergeParents(commit)
                 .map(CommitWithBranch::branch)
-                .first { it != mainBranch }
+                .firstOrNull { it != mainBranch }
+                ?: return null
 
-        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return
+        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return null
 
         mirrorRepository.checkoutBranch(mainBranch)
-
         val conflicts = mirrorRepository.merge(secondBranch)
         conflicts.forEach {
             val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
             diffManager.modify(filePath)
         }
 
-        val commitHash = mirrorRepository.commit(commit.commit)
-        commit.mirrorCommitHash = commitHash ?: EMPTY_STRING
+        val newCommit = mirrorRepository.commit(commit.commit)
+        commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
         commit.type = CommitType.COMMITED
+        return newCommit
     }
 
     /**

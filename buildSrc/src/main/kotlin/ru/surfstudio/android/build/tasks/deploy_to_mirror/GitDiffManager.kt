@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils
 import org.eclipse.jgit.diff.DiffEntry
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import java.io.File
+import java.io.FileNotFoundException
 
 /**
  * Work with git changes
@@ -47,11 +48,15 @@ class GitDiffManager(
      * @param diffEntry information about diff
      */
     fun delete(diffEntry: DiffEntry) {
-        val file = mirrorPath(diffEntry.oldPath)
+        try {
+            val file = mirrorPath(diffEntry.oldPath)
 
-        FileUtils.forceDelete(file)
+            FileUtils.forceDelete(file)
 
-        mirrorRepository.addToIndex(file.path)
+            mirrorRepository.addToIndex(file.path)
+        } catch (ignored: FileNotFoundException) {
+
+        }
     }
 
     /**
@@ -73,7 +78,7 @@ class GitDiffManager(
 
         FileUtils.copyFile(standardFile, mirrorFile)
 
-        mirrorRepository.addToIndex(mirrorFile.path)
+        mirrorRepository.addToIndex(filePath)
     }
 
     /**

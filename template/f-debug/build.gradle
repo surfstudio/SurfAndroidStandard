@@ -1,7 +1,6 @@
 apply from: '../commonModule.gradle'
 
 apply plugin: 'kotlin-kapt'
-apply plugin: 'ru.surfstudio.android'
 
 dependencies {
     implementation project(":base")
@@ -9,6 +8,7 @@ dependencies {
     implementation project(":i-network")
 
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
 
     implementation "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
     implementation "com.jakewharton:process-phoenix:$processPhoenix"
@@ -30,42 +30,8 @@ dependencies {
 
     //rangebar
     implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
+    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutXVersion}"
 
     api project(":domain")
     implementation project(":i-push-notification")
-
-    gradle.ext.androidStandard.api(
-            this,
-            [
-                    "activity-holder",
-                    "core-ui",
-                    "core-mvp",
-                    "core-mvp-binding",
-                    "mvp-dialog",
-                    "mvp-widget",
-                    "easyadapter",
-                    "analytics",
-                    "firebase-analytics",
-                    "push",
-                    "dagger-scope",
-                    "logger",
-                    "filestorage",
-                    "imageloader",
-                    "animations",
-                    "picture-provider",
-                    "app-migration",
-                    "connection",
-                    "custom-view",
-                    "datalist-limit-offset",
-                    "datalist-page-count",
-                    "recycler-extension",
-                    "rx-extension",
-                    "shared-pref",
-                    "util-ktx",
-                    "standard-dialog",
-                    "message-controller",
-                    "broadcast-extension",
-                    "rxbus"
-            ]
-    )
 }

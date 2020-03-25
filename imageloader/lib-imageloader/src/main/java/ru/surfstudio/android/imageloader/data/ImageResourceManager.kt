@@ -15,13 +15,17 @@
  */
 package ru.surfstudio.android.imageloader.data
 
+import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.Transformation
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.request.RequestOptions
 import ru.surfstudio.android.imageloader.DEFAULT_DRAWABLE_URI
 import ru.surfstudio.android.imageloader.util.applyTransformations
@@ -32,13 +36,30 @@ import ru.surfstudio.android.imageloader.util.applyTransformations
 data class ImageResourceManager(
         private val context: Context,
         private var imageTransformationsManager: ImageTransformationsManager = ImageTransformationsManager(context),
-        var url: String = "",                           //сетевая ссылка на изображение
+        /**
+         * сетевая ссылка на изображение
+         */
+        var url: String = "",
+        /**
+         * заголовки, которые будут добавлены в запрос,
+         * если указан [url]
+         */
+        var headers: Map<String, String> = mapOf(),
+        /**
+         * ссылка на drawable-ресурс
+         */
         @DrawableRes
-        var drawableResId: Int = DEFAULT_DRAWABLE_URI,  //ссылка на drawable-ресурс
+        var drawableResId: Int = DEFAULT_DRAWABLE_URI,
+        /**
+         * ссылка на drawable-ресурс при ошибке
+         */
         @DrawableRes
-        var errorResId: Int = DEFAULT_DRAWABLE_URI,     //ссылка на drawable-ресурс при ошибке
+        var errorResId: Int = DEFAULT_DRAWABLE_URI,
+        /**
+         * ссылка на drawable-ресурс плейсхолдера
+         */
         @DrawableRes
-        var previewResId: Int = DEFAULT_DRAWABLE_URI    //ссылка на drawable-ресурс плейсхолдера
+        var previewResId: Int = DEFAULT_DRAWABLE_URI
 ) {
 
     var shouldTransformError = true
@@ -53,6 +74,7 @@ data class ImageResourceManager(
 
     val isPreviewSet: Boolean get() = previewResId != DEFAULT_DRAWABLE_URI
 
+
     /**
      * Метод, автоматически предоставляющий ссылку для загрузки изображения.
      *
@@ -62,7 +84,17 @@ data class ImageResourceManager(
             if (isImageFromResourcesPresented()) {
                 drawableResId
             } else {
-                url
+                if (!isFileUrlSpecified() && hasValidHeaders()) {
+                    GlideUrl(url, LazyHeaders.Builder().apply {
+                        headers.forEach {
+                            if (it.key.isNotEmpty()) {
+                                addHeader(it.key, it.value)
+                            }
+                        }
+                    }.build())
+                } else {
+                    url
+                }
             }
 
     /**
@@ -107,5 +139,22 @@ data class ImageResourceManager(
     /**
      * Загружается ли изображение из res/drawable
      */
-    private fun isImageFromResourcesPresented() = drawableResId != DEFAULT_DRAWABLE_URI
+    private fun isImageFromResourcesPresented() = drawableResId != DEFAULT_DRAWABLE_URI && drawableResId != 0
+
+    private fun hasValidHeaders() = headers.entries.find {
+        it.key.isNotEmpty()
+    } != null
+
+    /**
+     * @return true если данная урла является файловой
+     */
+    private fun isFileUrlSpecified(): Boolean {
+        if (url.isEmpty()) {
+            return false
+        }
+        val url = Uri.parse(url)
+        with(url.scheme) {
+            return isNullOrEmpty() || this == ContentResolver.SCHEME_FILE
+        }
+    }
 }

@@ -35,11 +35,11 @@ import ru.surfstudio.android.mvp.widget.scope.WidgetViewPersistentScope;
 
 public interface CoreSimpleDialogInterface extends HasName {
 
-    <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope);
+    <A extends ActivityViewPersistentScope> void show(A parentActivityViewPersistentScope, String tag);
 
-    <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope);
+    <F extends FragmentViewPersistentScope> void show(F parentFragmentViewPersistentScope, String tag);
 
-    <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope);
+    <W extends WidgetViewPersistentScope> void show(W parentWidgetViewPersistentScope, String tag);
 
     <T> T getScreenComponent(Class<T> componentClass);
 }

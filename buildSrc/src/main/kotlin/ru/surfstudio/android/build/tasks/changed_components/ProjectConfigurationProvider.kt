@@ -8,7 +8,7 @@ import ru.surfstudio.android.build.GradleTasksNames.GRADLE_TASK_CREATE_FROM_TEMP
 import ru.surfstudio.android.build.GradleTasksNames.GRADLE_TASK_CREATE_PROJECT_CONFIGURATION
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner.runCommandWithResult
 import ru.surfstudio.android.build.tasks.changed_components.models.ProjectConfiguration
-import ru.surfstudio.android.build.tasks.currentDirectory
+import ru.surfstudio.android.build.tasks.check_stability.currentDirectory
 import ru.surfstudio.android.build.utils.JsonHelper
 import java.io.File
 
@@ -52,7 +52,6 @@ class ProjectConfigurationProvider(
         if (!isProjectConfigurationJsonExists(File(outputJsonFile))) {
             TempProjectCreator(revisionToCompare, TEMP_FOLDER_NAME).createProjectWithRevToCompare()
             runCommandWithResult(createCommandForRevisionToCompare(revisionToCompare), File(currentDirectory))
-
         }
 
         return JsonHelper.parseProjectConfigurationFile(outputJsonFile)

@@ -7,8 +7,8 @@
 Работа с сервером обычно происходит с помощью библиотек retrofit2, okhttp, gson, rxjava.
 
 Для работы с сетью предусмотрены модули:
- * [network](../../network/README.md)
- * [Gson-конвертер](../../converter-gson/README.md)
+ * [network][network]
+ * [Gson-конвертер](../../deprecated/converter-gson/lib-converter-gson/README.md)
 
 При работе с сервером возникает необхдимость добавлять те или иные параметры
 в запрос. Для этих целей хорошо подходит сущности типа `Interceptor`. Такие
@@ -27,14 +27,14 @@
 исключению. Эти операции следует производить на уровне [`CallAdapter`'а][call]
 
 Ошибки парсинга Json (`JsonSyntaxException`) следует конвертировать в некоторую
-кастомную ошибку. Этим занимается [`Converter`][gson].
+кастомную ошибку. Этим занимается [`Converter`][gson_converter].
 
 ###### Открытие экранов по спец ошибкам
 
 В случае если возникает необходимость открыть экран прямо из слоя Interactor,
 например, когда у пользователя устарел токен и необходимо перекинуть его на экран
 авторизации, необходимо использовать глобальный навигатор, поставляемый модулем
-[core-ui](../../core-ui/README.md).
+[core-ui][core_ui].
 Это необходимо,  чтобы не тащить данную логику на ui.
 
 ### Маппинг ответов сервера
@@ -85,12 +85,15 @@
 
 
 [log]: ../common/logging.md
-[gson]: ../../converter-gson/README.md
-[call]: ../../network/README.md
+[gson_converter]: ../../deprecated/converter-gson/lib-converter-gson/
+[call]: ../../deprecated/network/sample/README.md
 [simple_cache]: ../../network/docs/usage.md
 [etag]: ../../network/docs/etag.md
 [hybrid]: ../../network/docs/hybrid.md
 [handle_errors_on_presenter]: ../ui/presenter.md
 [file_cache]: ../../filestorage/README.md
-[mapping]: ../../network/docs/usage.md
+[mapping]: ../../deprecated/network/lib-network/docs/usage.md?at=dev%2FG-0.5.0
 [interactor]: interactor.md
+[network]: ../../deprecated/network/lib-network/docs/usage.md
+[core_ui]: ../../core-ui/lib-core-ui/README.md
+

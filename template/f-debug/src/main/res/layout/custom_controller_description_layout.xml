@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/custom_controller_description_height">
+    android:layout_height="@dimen/debug_custom_controller_description_height">
 
     <TextView
-        android:id="@+id/description_tv"
+        android:id="@+id/debug_description_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

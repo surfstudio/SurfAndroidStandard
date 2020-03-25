@@ -19,19 +19,21 @@ def PRE_MERGE = 'PreMerge'
 def CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT = 'Check Configuration Is Not Project Snapshot'
 def CHECK_STABLE_MODULES_IN_ARTIFACTORY = 'Check Stable Modules In Artifactory'
 def CHECK_STABLE_MODULES_NOT_CHANGED = 'Check Stable Modules Not Changed'
-def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Bacame Stable'
+def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not Became Stable'
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
-def CHECK_BUILD_TEMPLATE = 'Check Build Template'
 def CHECKS_RESULT = 'All Checks Result'
 
-def GENERATE_RELEASE_NOTES_DIFF = 'Generates diffs in release notes'
+def RELEASE_NOTES_DIFF = 'Release notes diff'
 
 def BUILD = 'Build'
 def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
+
+def BUILD_TEMPLATE = 'Template Build '
+def INSTRUMENTATION_TEST_TEMPLATE = 'Template Instrumentation Test'
 
 // git variables
 def sourceBranch = ""
@@ -41,15 +43,16 @@ def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
 //parameters
-def final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
-def final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
-def final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
-def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
+final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
+final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
+final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
+final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
+final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
-        GENERATE_RELEASE_NOTES_DIFF,
+        RELEASE_NOTES_DIFF,
         BUILD,
         UNIT_TEST
 ]
@@ -60,26 +63,24 @@ def stagesForReleaseMode = [
         CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
         CHECK_RELEASE_NOTES_VALID,
         CHECK_RELEASE_NOTES_CHANGED,
-        CHECK_BUILD_TEMPLATE,
         CHECKS_RESULT,
         BUILD,
         UNIT_TEST,
         INSTRUMENTATION_TEST,
-        STATIC_CODE_ANALYSIS
+        STATIC_CODE_ANALYSIS,
+        BUILD_TEMPLATE,
+        INSTRUMENTATION_TEST_TEMPLATE
 ]
 def stagesForTargetBranchChangedMode = [
-        PRE_MERGE,
-        BUILD,
-        UNIT_TEST,
-        INSTRUMENTATION_TEST
+        PRE_MERGE
 ]
 
 def getTestInstrumentationRunnerName = { script, prefix ->
     def defaultInstrumentationRunnerGradleTaskName = "printTestInstrumentationRunnerName"
     return script.sh(
             returnStdout: true,
-            script: "./gradlew :$prefix:$defaultInstrumentationRunnerGradleTaskName | tail -4 | head -1"
-    )
+            script: "./gradlew -q :$prefix:$defaultInstrumentationRunnerGradleTaskName"
+    ).split("\n").last()
 }
 
 //init
@@ -96,7 +97,7 @@ pipeline.preExecuteStageBody = { stage ->
     if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -172,7 +173,7 @@ pipeline.stages = [
             script.sh "git merge origin/$destinationBranch --no-ff"
         },
 
-        pipeline.stage(GENERATE_RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+        pipeline.stage(RELEASE_NOTES_DIFF, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew generateReleaseNotesDiff -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
 
@@ -202,17 +203,13 @@ pipeline.stages = [
         },
         pipeline.stage(CHECK_RELEASE_NOTES_VALID, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesContainCurrentVersion")
+            script.sh("./gradlew checkReleaseNotesNotContainCyrillic")
         },
         pipeline.stage(CHECK_RELEASE_NOTES_CHANGED, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
-        pipeline.stage(CHECK_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
-        },
         pipeline.stage(CHECKS_RESULT) {
+            script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -220,8 +217,7 @@ pipeline.stages = [
                     CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE,
                     CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE,
                     CHECK_RELEASE_NOTES_VALID,
-                    CHECK_RELEASE_NOTES_CHANGED,
-                    CHECK_BUILD_TEMPLATE
+                    CHECK_RELEASE_NOTES_CHANGED
             ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
@@ -232,12 +228,18 @@ pipeline.stages = [
             }
 
             if (!checksPassed) {
-                throw RuntimeException("Checks Failed, see reason above ^^^")
+                throw script.error("Checks Failed, see reason above ^^^")
             }
         },
 
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+        },
+        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+                    "androidStandardDebugMode=true\n" +
+                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
@@ -245,7 +247,24 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.dir("template") {
+                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                        script,
+                        new AvdConfig(),
+                        "debug",
+                        getTestInstrumentationRunnerName,
+                        new AndroidTestConfig(
+                                "assembleAndroidTest",
+                                "build/outputs/androidTest-results/instrumental",
+                                "build/reports/androidTests/instrumental",
+                                true,
+                                0
+                        )
+                )
+            }
+        },
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -267,7 +286,7 @@ pipeline.stages = [
 pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlMarkdownLink(script)}"
+        def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlSlackLink(script)}"
         JarvisUtil.sendMessageToUser(script, message, authorUsername, "bitbucket")
     }
 }

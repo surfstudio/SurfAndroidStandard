@@ -8,7 +8,7 @@ import ru.surfstudio.android.core.ui.navigation.activity.navigator.ActivityNavig
 import ru.surfstudio.android.message.MessageController
 import ru.surfstudio.android.template.f_debug.R
 import ru.surfstudio.standard.f_debug.DebugInteractor
-import ru.surfstudio.standard.f_debug.server_settings.reboot.route.LauncherActivityRoute
+import ru.surfstudio.standard.f_debug.server_settings.reboot.route.DebugLauncherActivityRoute
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class RebootDebugPresenter @Inject constructor(
         private val activityNavigator: ActivityNavigator,
         private val messageController: MessageController,
         basePresenterDependency: BasePresenterDependency
-) : BasePresenter<RebootActivityDebugView>(basePresenterDependency) {
+) : BasePresenter<RebootDebugActivityView>(basePresenterDependency) {
 
     private val sm = RebootDebugScreenModel(DELAY_SEC)
     private var delayDisposable = Disposables.disposed()
@@ -35,12 +35,12 @@ class RebootDebugPresenter @Inject constructor(
 
     fun rebootNow() {
         cancelReboot()
-        debugInteractor.reboot(LauncherActivityRoute())
+        debugInteractor.reboot(DebugLauncherActivityRoute())
     }
 
     fun cancelReboot() {
         delayDisposable.dispose()
-        messageController.showToast(R.string.reboot_canceled_toast)
+        messageController.showToast(R.string.debug_reboot_canceled_toast)
         activityNavigator.finishWithResult(route, false, true)
     }
 
@@ -53,7 +53,7 @@ class RebootDebugPresenter @Inject constructor(
             view.render(sm)
 
             if (it == DELAY_SEC - 1) {
-                debugInteractor.reboot(LauncherActivityRoute())
+                debugInteractor.reboot(DebugLauncherActivityRoute())
             }
         }
     }

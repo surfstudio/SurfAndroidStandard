@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DebugCatalogItemLayout">
-        <attr name="catalog_item_name" format="string" />
-        <attr name="catalog_item_description" format="string" />
-        <attr name="catalog_item_icon" format="reference" />
+        <attr name="debug_catalog_item_name" format="string" />
+        <attr name="debug_catalog_item_description" format="string" />
+        <attr name="debug_catalog_item_icon" format="reference" />
     </declare-styleable>
 
-    <declare-styleable name="TitleSubtitleSwitch">
-        <attr name="switch_title" format="string" />
-        <attr name="switch_subtitle" format="string" />
-        <attr name="switch_checked" format="boolean" />
+    <declare-styleable name="DebugTitleSubtitleSwitch">
+        <attr name="debug_switch_title" format="string" />
+        <attr name="debug_switch_subtitle" format="string" />
+        <attr name="debug_switch_checked" format="boolean" />
     </declare-styleable>
 </resources>
