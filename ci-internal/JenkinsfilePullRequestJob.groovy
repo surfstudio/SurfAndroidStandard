@@ -233,8 +233,8 @@ pipeline.stages = [
             }
         },
 
-        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleDebug")
+        pipeline.stage(BUILD) {
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean :mvi-sample:assembleDebug")
         },
         pipeline.stage(BUILD_TEMPLATE) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
@@ -265,14 +265,14 @@ pipeline.stages = [
                 )
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INSTRUMENTATION_TEST) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
                     "debug",
                     getTestInstrumentationRunnerName,
                     new AndroidTestConfig(
-                            "assembleAndroidTest",
+                            ":mvi-sample:assembleAndroidTest",
                             "build/outputs/androidTest-results/instrumental",
                             "build/reports/androidTests/instrumental",
                             true,
