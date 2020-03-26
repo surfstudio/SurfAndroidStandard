@@ -154,7 +154,7 @@ override fun draw(canvas: Canvas,
 
 Для более удобного подключения к EasyAdapter есть библиотека с расширениями
 ```
-ru.surfstudio.android:recycler-decorator-ktx
+ru.surfstudio.android:recycler-decorator-easyadapter
 ```
 
 # Подключение
