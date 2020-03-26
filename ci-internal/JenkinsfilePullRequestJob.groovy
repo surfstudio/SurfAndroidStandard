@@ -233,14 +233,14 @@ pipeline.stages = [
             }
         },
 
-        pipeline.stage(BUILD) {
+        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assembleDebug")
         },
-        pipeline.stage(BUILD_TEMPLATE, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(BUILD_TEMPLATE) {
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=true\n" +
                     "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
         },
         pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
@@ -248,7 +248,7 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE) {
             script.dir("template") {
                 AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                         script,
@@ -265,14 +265,14 @@ pipeline.stages = [
                 )
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
                     "debug",
                     getTestInstrumentationRunnerName,
                     new AndroidTestConfig(
-                            "assembleDebugAndroidTest",
+                            "assembleAndroidTest",
                             "build/outputs/androidTest-results/instrumental",
                             "build/reports/androidTests/instrumental",
                             true,
