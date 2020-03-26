@@ -107,7 +107,7 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
+        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
             project = globalConfiguration.project_snapshot_name
@@ -116,7 +116,7 @@ pipeline.stages = [
                 script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
         pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
@@ -126,10 +126,10 @@ pipeline.stages = [
                 script.echo "skip project snapshot version incrementation stage"
             }
         },
-        pipeline.stage(BUILD) {
+        pipeline.stage(BUILD, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
-        pipeline.stage(UNIT_TEST) {
+        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
@@ -206,7 +206,7 @@ pipeline.finalizeBody = {
                     "Необходимо заменить последние версии артефактов в Bintray на стабильные"
         }
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
+    //JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
