@@ -25,6 +25,7 @@
 * ANDDEP-937 Fix setting label to app icon
 * ANDDEP-961 Add skipSamplesBuild flag for local android standard connection
 * ANDDEP-961 Small fixes
+* ANDDEP-928 Add RemoteLogger
 
 ## 0.4.0
 ##### Template

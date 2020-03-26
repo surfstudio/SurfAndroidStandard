@@ -73,10 +73,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
     private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
 
-    public EasyAdapter() {
-        setHasStableIds(true);
-    }
-
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
      */
@@ -131,24 +127,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     @Override
     public final int getItemCount() {
         return infiniteScroll ? INFINITE_SCROLL_LOOPS_COUNT * items.size() : items.size();
-    }
-
-    /**
-     * @see RecyclerView.Adapter#getItemId(int)
-     */
-    @Override
-    public final long getItemId(int position) {
-        return getItemStringId(position).hashCode();
-    }
-
-    /**
-     * Get the unique id from item at certain position
-     *
-     * @param position position of item
-     * @return unique item id
-     */
-    public final String getItemStringId(int position) {
-        return getItemStringIdInternal(items, position);
     }
 
     /**
