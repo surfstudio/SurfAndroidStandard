@@ -16,7 +16,6 @@ dependencies {
 
     // leak canary
     implementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
-    implementation "com.squareup.leakcanary:leakcanary-support-fragment:$leakCanaryVersion"
 
     //chunk
     implementation "com.readystatesoftware.chuck:library:$chuckVersion"
