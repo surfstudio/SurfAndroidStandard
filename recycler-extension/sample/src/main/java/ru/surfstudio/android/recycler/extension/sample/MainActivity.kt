@@ -31,41 +31,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler, isVisibleFirstFooterAtLaunch = true)
-        stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(object : StickyHeaderListener {
+        stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(
+                object : StickyHeaderListener {
 
-            override fun headerAttached(headerView: View, adapterPosition: Int) = log("headerAttached")
+                    override fun headerAttached(headerView: View, adapterPosition: Int) = log("headerAttached")
 
-            override fun headerDetached(headerView: View, adapterPosition: Int) = log("headerDetached")
-        })
+                    override fun headerDetached(headerView: View, adapterPosition: Int) = log("headerDetached")
+                }
+        )
 
-        stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(object : StickyFooterListener {
+        stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(
+                object : StickyFooterListener {
 
-            override fun footerAttached(footerView: View, adapterPosition: Int) = log("footerAttached")
+                    override fun footerAttached(footerView: View, adapterPosition: Int) = log("footerAttached")
 
-            override fun footerDetached(footerView: View, adapterPosition: Int) = log("footerDetached")
-        })
+                    override fun footerDetached(footerView: View, adapterPosition: Int) = log("footerDetached")
+                }
+        )
         activity_main_recycler.adapter = stickyEasyAdapter
-
-        val itemList = generateData()
-        /*itemList.addStickyHeaderIf({ prev, next ->
-            val prv = prev as? Data
-            val nxt = next as? Data
-            if (prv?.rank != nxt?.rank) {
-                nxt?.rank
-            } else {
-                null
-            }
-        }, stickyHeaderItemController)*/
-        /*itemList.addStickyFooterIf({ prev, next ->
-            val prv = prev as? Data
-            val nxt = next as? Data
-            if (prv?.rank != nxt?.rank) {
-                nxt?.rank
-            } else {
-                null
-            }
-        }, stickyFooterItemController)*/
-        stickyEasyAdapter.setItems(itemList)
+        stickyEasyAdapter.setItems(generateData())
     }
 
     private fun generateData() = ItemList().apply {
