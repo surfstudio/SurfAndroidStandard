@@ -26,6 +26,7 @@
 * ANDDEP-961 Add skipSamplesBuild flag for local android standard connection
 * ANDDEP-961 Small fixes
 * ANDDEP-928 Add RemoteLogger
+* ANDDEP-964 Refactored dependency imports in the project template
 
 ## 0.4.0
 ##### Template
