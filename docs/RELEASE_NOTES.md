@@ -7,3 +7,4 @@
 * Init tracking changes in RELEASE_NOTES
 * ANDDEP-785 added link to recycler-decorator lib
 * Remove redundant links
+* ANDDEP-928 Update logging docs

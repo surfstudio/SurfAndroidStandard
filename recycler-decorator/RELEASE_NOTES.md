@@ -7,3 +7,4 @@
 * ANDDEP-785 added ktx for Decorator.Builder to use with EasyAdapter
 * Add .gitignore
 * fix gradle config for recycler-decorator-easyadapter
+* Fix readme

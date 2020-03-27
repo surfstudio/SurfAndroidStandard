@@ -1,4 +1,4 @@
-@Library('surf-lib@ANDDEP-980-fix-instrumental-tests')
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
 import ru.surfstudio.ci.*

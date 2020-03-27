@@ -66,6 +66,7 @@ ext {
     jetbrainsAnnotationsVersion = '16.0.3'      //http://bit.ly/2NYf6Dt
     constraintLayoutXVersion = '2.0.0-alpha3'   //http://bit.ly/2S1WoNg
     easyLauncherVersion = '1.3.1'               //https://goo.gl/CQNp8c
+    timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
 
     //glide
     glideVersion = '4.8.0'                      //http://bit.ly/2Q7Fa41
@@ -91,11 +92,9 @@ ext {
     processPhoenix = '2.0.0'                    //https://bit.ly/2OAc0po
     leakCanaryVersion = '1.6.2'                 //https://goo.gl/w3pm32
     anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
-    timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
     chuckVersion = '1.1.0'                      //https://bit.ly/2qCecTE
     anrWatchDogVersion = '1.3.0'                //http://bit.ly/2NZvjZc
     materialRangebarVersion = '1.4.4'           //https://bit.ly/2TxqAkm
-    timberVersion = '4.7.1'                     //http://bit.ly/2LWbLaY
     rxJava2DebugVersion = '1.4.0'               //https://bit.ly/322Qzo7
     firebaseAppDistributionVersion = '1.2.0'    //http://bit.ly/2Gc2qHh
     firebaseCrashlyticsVersion = '17.0.0-beta01'     //http://bit.ly/2RM7ec2
