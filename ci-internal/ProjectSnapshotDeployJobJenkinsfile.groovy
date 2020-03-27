@@ -107,7 +107,7 @@ pipeline.stages = [
 
             RepositoryUtil.saveCurrentGitCommitHash(script)
         },
-        pipeline.stage(CHECK_BRANCH_AND_VERSION) {
+        pipeline.stage(CHECK_BRANCH_AND_VERSION, StageStrategy.SKIP_STAGE) {
             String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
             def globalConfiguration = new JsonSlurperClassic().parseText(globalConfigurationJsonStr)
             project = globalConfiguration.project_snapshot_name
@@ -116,10 +116,10 @@ pipeline.stages = [
                 script.error("Deploy AndroidStandard for project: $project from branch: '$branchName' forbidden")
             }
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT) {
+        pipeline.stage(CHECK_CONFIGURATION_IS_PROJECT_SNAPHOT, StageStrategy.SKIP_STAGE) {
             script.sh("./gradlew checkConfigurationIsProjectSnapshotTask")
         },
-        pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION) {
+        pipeline.stage(INCREMENT_PROJECT_SNAPSHOT_VERSION, StageStrategy.SKIP_STAGE) {
             if (!skipIncrementVersion) {
                 script.sh("./gradlew incrementProjectSnapshotVersion")
             } else {
@@ -127,22 +127,22 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean :easyadapter:assemble")
         },
-        pipeline.stage(UNIT_TEST) {
+        pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.SKIP_STAGE) {
+        pipeline.stage(INSTRUMENTATION_TEST) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
                     "debug",
                     getTestInstrumentationRunnerName,
                     new AndroidTestConfig(
-                            "assembleAndroidTest",
+                            ":easyadapter:assembleAndroidTest",
                             "build/outputs/androidTest-results/instrumental",
                             "build/reports/androidTests/instrumental",
                             true,
@@ -156,7 +156,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true"
                     if (useBintrayDeploy) {
                         /**
                          * We can not use parameter -PdeployOnlyIfNotExist
@@ -175,7 +175,7 @@ pipeline.stages = [
                 script.sh "./gradlew :android-standard-version-plugin:uploadArchives"
             }
         },
-        pipeline.stage(VERSION_PUSH) {
+        pipeline.stage(VERSION_PUSH, StageStrategy.SKIP_STAGE) {
             if (!skipIncrementVersion) {
                 RepositoryUtil.setDefaultJenkinsGitUser(script)
                 String globalConfigurationJsonStr = script.readFile(projectConfigurationFile)
