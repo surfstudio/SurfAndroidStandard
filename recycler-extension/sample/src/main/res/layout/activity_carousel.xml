@@ -8,7 +8,7 @@
     <ru.surfstudio.android.recycler.extension.sample.view.SampleCarouselView
         android:id="@+id/sample_carousel_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:isInfinite="true" />
 
 </LinearLayout>
