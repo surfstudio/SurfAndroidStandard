@@ -6,7 +6,7 @@
     tools:context="ru.surfstudio.android.recycler.extension.sample.screen.MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/activity_sticky_recycler"
+        android:id="@+id/sticky_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

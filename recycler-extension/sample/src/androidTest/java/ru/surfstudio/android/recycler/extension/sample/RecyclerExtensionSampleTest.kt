@@ -14,7 +14,7 @@ class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::c
     @Test
     fun testRecyclerExtensionSample() {
         checkText(STICKY_HEADER_TITLE, STICKY_FOOTER_TITLE)
-        RecyclerViewUtils.scrollTo(R.id.activity_sticky_recycler, LAST_ITEM_TITLE)
+        RecyclerViewUtils.scrollTo(R.id.sticky_rv, LAST_ITEM_TITLE)
         checkText(LAST_ITEM_TITLE)
     }
 }
