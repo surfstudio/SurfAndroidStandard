@@ -17,8 +17,8 @@ import ru.surfstudio.android.recycler.extension.sticky.addStickyHeader
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyFooterListener
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderListener
 
-private const val STICKY_HEADER_TITLE = "Sticky header title"
-private const val STICKY_FOOTER_TITLE = "Sticky footer title"
+const val STICKY_HEADER_TITLE = "Sticky header title"
+const val STICKY_FOOTER_TITLE = "Sticky footer title"
 const val LAST_ITEM_TITLE = "Last item title"
 
 /**
