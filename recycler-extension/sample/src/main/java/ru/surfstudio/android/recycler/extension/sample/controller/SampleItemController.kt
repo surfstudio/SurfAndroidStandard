@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
-import ru.surfstudio.android.recycler.extension.sample.Data
+import ru.surfstudio.android.recycler.extension.sample.domain.Data
 import ru.surfstudio.android.recycler.extension.sample.R
 
 class SampleItemController : BindableItemController<Data, SampleItemController.Holder>() {
