@@ -2,13 +2,13 @@ package ru.surfstudio.android.recycler.extension.sample.screen
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.PagerSnapHelper
 import kotlinx.android.synthetic.main.activity_carousel.*
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.extension.CarouselView
 import ru.surfstudio.android.recycler.extension.sample.R
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.domain.Data
-import ru.surfstudio.android.recycler.extension.snaphelper.PagerSnapHelper
 
 /**
  * Sample using of [CarouselView]
@@ -21,7 +21,7 @@ class CarouselActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_carousel)
         with(sample_carousel_view) {
-            setSnapHelper(PagerSnapHelper(context))
+            setSnapHelper(PagerSnapHelper())
             render(generateData())
         }
     }
