@@ -1,4 +1,4 @@
-package ru.surfstudio.android.recycler.extension.sample
+package ru.surfstudio.android.recycler.extension.sample.screen
 
 import android.os.Bundle
 import android.view.View
@@ -8,9 +8,11 @@ import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.recycler.extension.sticky.addStickyFooter
 import ru.surfstudio.android.recycler.extension.sticky.addStickyHeader
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.recycler.extension.sample.R
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyFooterItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyHeaderItemController
+import ru.surfstudio.android.recycler.extension.sample.domain.Data
 import ru.surfstudio.android.recycler.extension.sticky.*
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyFooterListener
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderListener
