@@ -3,7 +3,7 @@ package ru.surfstudio.android.recycler.extension.sample.screen
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_sticly_recycler.*
+import kotlinx.android.synthetic.main.activity_sticky_recycler.*
 import ru.surfstudio.android.easyadapter.ItemList
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.recycler.extension.sample.R
@@ -17,8 +17,8 @@ import ru.surfstudio.android.recycler.extension.sticky.addStickyHeader
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyFooterListener
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderListener
 
-private const val STICKY_HEADER_TITLE = "Sticky header title"
-private const val STICKY_FOOTER_TITLE = "Sticky footer title"
+const val STICKY_HEADER_TITLE = "Sticky header title"
+const val STICKY_FOOTER_TITLE = "Sticky footer title"
 const val LAST_ITEM_TITLE = "Last item title"
 
 /**
@@ -33,7 +33,7 @@ class StickyRecyclerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sticly_recycler)
+        setContentView(R.layout.activity_sticky_recycler)
 
         stickyEasyAdapter = StickyEasyAdapter(sticky_rv, isVisibleFirstFooterAtLaunch = true)
         stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(
