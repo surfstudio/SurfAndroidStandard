@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.multidex.MultiDexApplication
 import com.akaita.java.rxjava2debug.RxJava2Debug
 import com.github.anrwatchdog.ANRWatchDog
+import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.reactivex.plugins.RxJavaPlugins
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
@@ -35,10 +36,6 @@ class App : MultiDexApplication() {
         RxJavaPlugins.setErrorHandler { Logger.e(it) }
         AppInjector.initInjector(this)
         DebugAppInjector.initInjector(this, activeActivityHolder)
-        if (DebugAppInjector.debugInteractor.mustNotInitializeApp()) {
-            // работает LeakCanary, ненужно ничего инициализировать
-            return
-        }
 
         initFirebaseCrashlytics()
         initPushEventListener()

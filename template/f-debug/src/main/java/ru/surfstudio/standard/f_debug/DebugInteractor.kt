@@ -5,10 +5,10 @@ import com.codemonkeylabs.fpslibrary.TinyDancer
 import com.facebook.stetho.Stetho
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.readystatesoftware.chuck.ChuckInterceptor
-import com.squareup.leakcanary.LeakCanary
 import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
 import io.reactivex.subjects.PublishSubject
+import leakcanary.LeakCanary
 import okhttp3.OkHttpClient
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
@@ -47,15 +47,8 @@ class DebugInteractor @Inject constructor(
         get() = memoryDebugStorage.isLeakCanaryEnabled
         set(value) {
             memoryDebugStorage.isLeakCanaryEnabled = value
+            toggleLeakCanary(value)
         }
-
-    /**
-     * Возвращает <pre>true</pre> если ненужно инициализировать [Application] иначе <pre>false</pre>
-     * @return ненужно ли инициализировать [Application]
-     */
-    fun mustNotInitializeApp(): Boolean {
-        return LeakCanary.isInAnalyzerProcess(application)
-    }
     //endregion
 
     //region UI-tools
@@ -124,10 +117,8 @@ class DebugInteractor @Inject constructor(
                 .activityObservable
                 .subscribe { handleFirstActivityOpening(icon) }
         DebugScalpelManager.init(application)
+        toggleLeakCanary(memoryDebugStorage.isLeakCanaryEnabled)
 
-        if (memoryDebugStorage.isLeakCanaryEnabled) {
-            LeakCanary.install(application)
-        }
         if (toolsDebugStorage.isStethoEnabled) {
             Stetho.initializeWithDefaults(application)
         }
@@ -135,6 +126,13 @@ class DebugInteractor @Inject constructor(
         if (debugUiToolsStorage.isFpsEnabled) {
             TinyDancer.create().show(application)
         }
+    }
+
+    /**
+     * Включает/выключает отслеживание утечек памяти через LeakCanary.
+     * */
+    private fun toggleLeakCanary(isEnabled: Boolean) {
+        LeakCanary.config = LeakCanary.config.copy(dumpHeap = isEnabled)
     }
 
     fun reboot(route: ActivityRoute) {
