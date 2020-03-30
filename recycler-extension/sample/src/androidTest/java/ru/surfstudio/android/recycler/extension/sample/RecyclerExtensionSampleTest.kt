@@ -19,7 +19,7 @@ class RecyclerExtensionSampleTest : BaseSampleTest<MainActivity>(MainActivity::c
                 activityClass = StickyRecyclerActivity::class.java,
                 lambda = {
                     checkText(STICKY_HEADER_TITLE, STICKY_FOOTER_TITLE)
-                    RecyclerViewUtils.scrollTo(R.id.sticky_rv, LAST_ITEM_TITLE)
+                    RecyclerViewUtils.scrollToBottom(R.id.sticky_rv)
                     checkText(LAST_ITEM_TITLE)
                 }
         )
