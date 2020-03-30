@@ -12,6 +12,7 @@
 * ANDDEP-785 Added getter in EasyAdapter, for *firstInvisibleItemEnabled* property
 * **NO BACKWARD COMPATIBILITY** ANDDEP-909 Removed
   `setHasStableIds(true)` in EasyAdapter.
+* ANDDEP-999 Update instrumental tests
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder
