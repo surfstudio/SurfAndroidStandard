@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="statePressedAlpha" format="float" />
+    <attr name="stateNormalAlpha" format="float" />
+    <declare-styleable name="AlphaStateableLinearLayout">
+        <attr name="statePressedAlpha" />
+        <attr name="stateNormalAlpha"/>
+    </declare-styleable>
+    <declare-styleable name="AlphaStateableFrameLayout">
+        <attr name="statePressedAlpha" />
+        <attr name="stateNormalAlpha"  />
+    </declare-styleable>
+    <declare-styleable name="AlphaStateableConstraintLayout">
+        <attr name="statePressedAlpha" />
+        <attr name="stateNormalAlpha"  />
+    </declare-styleable>
+</resources>

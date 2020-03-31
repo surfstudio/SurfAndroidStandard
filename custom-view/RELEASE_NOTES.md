@@ -3,6 +3,7 @@
 ## 0.5.0-alpha
 ##### Custom-view
 * ANDDEP-687 Added "com.google.android.material:material" dependency with "implementation" type
+* ANDDEP-947 Added AlphaStateableLayout and added "androidx.constraintlayout:constraintlayout" dependency with "implementation" type
 ## 0.4.0
 ##### Custom-view
 * Fixed incorrect behavior of MaterialProgressBar on Android version 5 and below

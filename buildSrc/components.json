@@ -101,6 +101,10 @@
           {
             "name": "androidx.appcompat:appcompat",
             "type": "implementation"
+          },
+          {
+            "name": "androidx.core:core-ktx",
+            "type": "implementation"
           }
         ],
         "android_standard_dependencies": []
@@ -771,6 +775,10 @@
           },
           {
             "name": "com.google.android.material:material",
+            "type": "implementation"
+          },
+          {
+            "name": "androidx.constraintlayout:constraintlayout",
             "type": "implementation"
           }
         ],

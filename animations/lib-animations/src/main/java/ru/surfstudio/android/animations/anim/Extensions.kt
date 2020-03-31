@@ -15,11 +15,11 @@
  */
 package ru.surfstudio.android.animations.anim
 
-import android.animation.ObjectAnimator
-import android.animation.TimeInterpolator
+import android.animation.*
 import androidx.interpolator.view.animation.FastOutLinearInInterpolator
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.core.animation.doOnEnd
 
 /**
  * Extension для анимации View
@@ -86,3 +86,62 @@ fun View.pulseAnimation(scale: Float = 1.15f,
 fun View.toSize(newWidth: Int, newHeight: Int,
                 duration: Long = AnimationUtil.ANIM_TRANSITION) =
         AnimationUtil.newSize(this, newWidth, newHeight, duration)
+
+/**
+ * Функция запускает [ValueAnimator] по заданным параметрам
+ *
+ * @param from от какого значения нужно начинать
+ * @param to до какого значения нужно продолжать
+ * @param duration продолжительность анимации в миллисекундах
+ * @param startDelay задержка до начало анимации
+ * @param update функция которая вызовется при каждом обновлении значения
+ * @param complete функция которая вызовется при заканчивании анимации
+ *
+ * @return запущенную анимацию
+ */
+inline fun changeValue(
+        from: Int,
+        to: Int,
+        duration: Long,
+        crossinline update: (value: Int) -> Unit,
+        startDelay: Long = 0,
+        crossinline complete: () -> Unit = {}
+): ValueAnimator {
+
+    val vH: PropertyValuesHolder = PropertyValuesHolder.ofInt("prop", from, to)
+
+    return ValueAnimator.ofPropertyValuesHolder(vH).apply {
+        this.duration = duration
+        this.startDelay = startDelay
+        addUpdateListener {
+            update(this.getAnimatedValue("prop") as Int)
+        }
+        doOnEnd { complete() }
+        start()
+    }
+}
+
+/**
+ * @see changeValue
+ */
+inline fun changeValue(
+        from: Float,
+        to: Float,
+        duration: Long,
+        crossinline update: (value: Float) -> Unit,
+        startDelay: Long = 0,
+        crossinline complete: () -> Unit = {}
+): ValueAnimator {
+
+    val vH: PropertyValuesHolder = PropertyValuesHolder.ofFloat("prop", from, to)
+
+    return ValueAnimator.ofPropertyValuesHolder(vH).apply {
+        this.duration = duration
+        this.startDelay = startDelay
+        addUpdateListener {
+            update(this.getAnimatedValue("prop") as Float)
+        }
+        doOnEnd { complete() }
+        start()
+    }
+}

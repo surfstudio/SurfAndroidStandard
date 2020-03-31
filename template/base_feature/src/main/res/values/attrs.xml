@@ -7,9 +7,4 @@
         <attr name="postfixPadding" format="dimension" />
         <attr name="postfixTextAppearance" format="reference" />
     </declare-styleable>
-
-    <declare-styleable name="AlphaStateableLinearLayout"> <!-- todo Удалить если ненужно AlphaStateableLinearLayout -->
-        <attr name="statePressedAlpha" format="float" />
-        <attr name="stateNormalAlpha" format="float" />
-    </declare-styleable>
 </resources>
