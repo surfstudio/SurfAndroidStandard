@@ -102,11 +102,6 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     }
 
     @Override
-    public void onCreate() {
-        //empty
-    }
-
-    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
@@ -117,6 +112,10 @@ public abstract class CoreConstraintLayoutView extends ConstraintLayout implemen
     @Override
     public WidgetViewPersistentScope getPersistentScope() {
         return widgetViewDelegate.getPersistentScope();
+    }
+
+    public void onCreate() {
+        //empty
     }
 
     /**

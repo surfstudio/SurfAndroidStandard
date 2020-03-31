@@ -5,6 +5,8 @@
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * ANDDEP-687 Changed "androidx.constraintlayout:constraintlayout" dependency from "api" to "implementation" type
 * ANDDEP-633 Fixed widget manual destroy method
+* ANDDEP-990 Removed redundant @Override annotation for onCreate in base
+  widgets classes
 ##### Mvp-dialog
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * Fix logging screen names

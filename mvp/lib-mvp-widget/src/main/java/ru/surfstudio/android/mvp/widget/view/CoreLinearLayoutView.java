@@ -103,11 +103,6 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     }
 
     @Override
-    public void onCreate() {
-        //empty
-    }
-
-    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
@@ -118,6 +113,10 @@ public abstract class CoreLinearLayoutView extends LinearLayout implements CoreW
     @Override
     public WidgetViewPersistentScope getPersistentScope() {
         return widgetViewDelegate.getPersistentScope();
+    }
+
+    public void onCreate() {
+        //empty
     }
 
     /**

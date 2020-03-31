@@ -103,11 +103,6 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     }
 
     @Override
-    public void onCreate() {
-        //empty
-    }
-
-    @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (widgetViewDelegate != null) {
@@ -118,6 +113,10 @@ public abstract class CoreFrameLayoutView extends FrameLayout implements CoreWid
     @Override
     public WidgetViewPersistentScope getPersistentScope() {
         return widgetViewDelegate.getPersistentScope();
+    }
+
+    public void onCreate() {
+        //empty
     }
 
     /**
