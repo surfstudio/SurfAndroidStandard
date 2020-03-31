@@ -15,6 +15,7 @@ data class Component(
         val baseVersion: String = EMPTY_STRING, // Version from components.json
         var projectVersion: String = EMPTY_STRING, // Project version
         val stable: Boolean = false,
+        val noSnapshotDeploy: Boolean = false, // Flag which forbids a deployment to project snapshot branches
         var unstableVersion: Int = EMPTY_INT,
         val libraries: List<Library> = listOf(),
         val samples: List<Sample> = listOf(),

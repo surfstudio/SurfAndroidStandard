@@ -54,5 +54,8 @@ object ConfigInfoProvider {
     private fun openConfigInfoFile() = File(currentDirectory + CONFIG_INFO_JSON_FILE_PATH)
 
     @JvmStatic
-    private fun getVersion() = globalConfigInfo.version
+    fun getVersion(): String = globalConfigInfo.version
+
+    @JvmStatic
+    fun getProjectSnapshotName(): String = globalConfigInfo.projectSnapshotName
 }

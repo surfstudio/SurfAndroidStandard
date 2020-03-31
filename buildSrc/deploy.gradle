@@ -1,4 +1,5 @@
 import ru.surfstudio.android.build.Components
+import ru.surfstudio.android.build.ConfigInfoProvider
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.artifactory.Artifactory
 import ru.surfstudio.android.build.artifactory.ArtifactoryConfig
@@ -25,8 +26,23 @@ ext.configureDeploy = { context ->
             archives sourcesJar
         }
 
+        def isEmpty = { string ->
+            return !string.trim()
+        }
+
+        def isDeployForbidden = { artifactName ->
+            return Components.isSnapshotDeployForbidden(artifactName) &&
+                    !isEmpty(ConfigInfoProvider.getProjectSnapshotName())
+        }
+
+        def printWarning = { artifactName, taskName ->
+            println "-------------------- WARNING: -------------------- \n" +
+                    "Project snapshot deploy is forbidden for a component = $artifactName. " +
+                    "Skipping $taskName"
+        }
+
         def artifactName = Components.getArtifactName(project.name)
-        if (!artifactName.trim()) {
+        if (isEmpty(artifactName)) {
             throw new GradleException("artifactName for ${project.name} can not be blank for deploy")
         }
 
@@ -37,6 +53,11 @@ ext.configureDeploy = { context ->
             // To avoid this, add doFirst, so uploadArchives will not be called during configuration of modules.
             // See http://bit.ly/39vFtMj and http://bit.ly/3avuzq0
             doFirst {
+                if (isDeployForbidden(artifactName)) {
+                    printWarning(artifactName, "uploadArchives")
+                    return
+                }
+
                 // If -Pcomponent set, deploy only its artifacts
                 if (project.hasProperty(GradleProperties.COMPONENT)) {
                     def componentName = project.property(GradleProperties.COMPONENT)
@@ -67,7 +88,7 @@ ext.configureDeploy = { context ->
 
                     def artifactGroupId = ArtifactoryConfig.ANDROID_STANDARD_GROUP_ID
                     def artifactVersion = Components.getModuleVersion(project.name)
-                    println "uploadAcrhives $artifactName $artifactVersion"
+                    println "uploadArchives $artifactName $artifactVersion"
 
                     pom.groupId = artifactGroupId
                     pom.artifactId = artifactName
@@ -106,6 +127,11 @@ ext.configureDeploy = { context ->
             // because the custom task also deploys during configuration, which is incorrect
             // See http://bit.ly/39vFtMj and http://bit.ly/3avuzq0
             doFirst {
+                if (isDeployForbidden(artifactName)) {
+                    printWarning(artifactName, "distributeArtifactsToBintray")
+                    return
+                }
+
                 // If -Pcomponent set, deploy only its artifacts
                 if (project.hasProperty(GradleProperties.COMPONENT)) {
                     def componentName = project.property(GradleProperties.COMPONENT)

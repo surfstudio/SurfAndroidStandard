@@ -77,6 +77,20 @@ object Components {
     }
 
     /**
+     * Check if the snapshot deploy is forbidden for a component.
+     * A component would be found with its library name
+     *
+     * @param libraryName - library name
+     */
+    @JvmStatic
+    fun isSnapshotDeployForbidden(libraryName: String): Boolean {
+        val component = value.firstOrNull { component ->
+            component.libraries.map { it.name }.contains(libraryName)
+        }
+        return component?.noSnapshotDeploy ?: false
+    }
+
+    /**
      * Get artifact name for library
      *
      * @param libraryName - library name

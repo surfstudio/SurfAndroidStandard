@@ -192,6 +192,7 @@
     "unstable_version": 1,
     "stable": false,
     "dir": "common",
+    "no_snapshot_deploy": true,
     "libs": [
       {
         "name": "sample-common",
