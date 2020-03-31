@@ -73,10 +73,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
     private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
 
-    public EasyAdapter() {
-        setHasStableIds(true);
-    }
-
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
      */
@@ -134,21 +130,13 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * @see RecyclerView.Adapter#getItemId(int)
-     */
-    @Override
-    public final long getItemId(int position) {
-        return getItemStringId(position).hashCode();
-    }
-
-    /**
-     * Get the unique id from item at certain position
+     * Get BaseItem from items list at certain position
      *
      * @param position position of item
      * @return unique item id
      */
-    public final String getItemStringId(int position) {
-        return getItemStringIdInternal(items, position);
+    public final BaseItem getItem(int position) {
+        return items.get(getListPosition(position));
     }
 
     /**
@@ -201,6 +189,16 @@ public class EasyAdapter extends RecyclerView.Adapter {
      */
     public void setFirstInvisibleItemEnabled(boolean enableFirstInvisibleItem) {
         this.firstInvisibleItemEnabled = enableFirstInvisibleItem;
+    }
+
+    /**
+     *
+     * @see FirstInvisibleItemController
+     *
+     * @return state of the property {@link FirstInvisibleItemController} enabled
+     */
+    public boolean isFirstInvisibleItemEnabled() {
+        return firstInvisibleItemEnabled;
     }
 
     /**

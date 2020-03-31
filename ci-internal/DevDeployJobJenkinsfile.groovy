@@ -143,7 +143,7 @@ pipeline.stages = [
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -164,7 +164,7 @@ pipeline.stages = [
         pipeline.stage(DEPLOY_MODULES) {
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
-                    script.sh "./gradlew clean uploadArchiveComponentsTask -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
+                    script.sh "./gradlew clean uploadArchives -PonlyUnstable=true -PdeployOnlyIfNotExist=true"
                 }
             }
         },
@@ -199,23 +199,26 @@ pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
+    def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        if (unstable) {
+            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+        } else {
+            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        }
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
 
 // ============================================= ↓↓↓ JOB PROPERTIES CONFIGURATION ↓↓↓  ==========================================
 
-
-def static List<Object> initProperties(ScmPipeline ctx) {
+static List<Object> initProperties(ScmPipeline ctx) {
     def script = ctx.script
     return [
             initDiscarder(script),

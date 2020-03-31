@@ -156,6 +156,7 @@ pipeline.stages = [
         pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
+                script.sh "git clean -fd"
             }
             script.git(
                     url: pipeline.repoUrl,
@@ -236,10 +237,14 @@ pipeline.stages = [
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
         pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+                    "androidStandardDebugMode=true\n" +
+                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+            /**
+             * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
+             * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
+             */
+            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
@@ -264,7 +269,7 @@ pipeline.stages = [
                 )
             }
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),

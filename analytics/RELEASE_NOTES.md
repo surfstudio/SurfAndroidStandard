@@ -2,6 +2,7 @@
 # Analytics Release Notes
 ## 0.5.0-alpha
 ##### Analytics
+* ANDDEP-928 Remove Crashlytics dependencies
 * ANDDEP-930 Added example to creating notifications in the `BaseSimplePushStrategy` and example to creating notification with custom action in it.
 ## 0.4.0
 ##### Analytics

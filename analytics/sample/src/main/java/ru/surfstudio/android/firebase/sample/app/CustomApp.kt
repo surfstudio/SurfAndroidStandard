@@ -4,9 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import androidx.multidex.MultiDexApplication
-import com.crashlytics.android.Crashlytics
-import com.crashlytics.android.core.CrashlyticsCore
-import io.fabric.sdk.android.Fabric
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.firebase.sample.BuildConfig
 import ru.surfstudio.android.logger.Logger
@@ -23,22 +20,11 @@ class CustomApp : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
-        initFabric()
         initInjector()
         initNotificationCenter()
         registerActiveActivityListener()
         initPushEventListener()
     }
-
-    private fun initFabric() {
-        Fabric.with(this, *getFabricKits())
-    }
-
-    private fun getFabricKits() = arrayOf(Crashlytics.Builder()
-            .core(CrashlyticsCore.Builder()
-                    .disabled(BuildConfig.DEBUG)
-                    .build())
-            .build())
 
     private fun initInjector() {
         AppConfigurator.initInjector(this)
