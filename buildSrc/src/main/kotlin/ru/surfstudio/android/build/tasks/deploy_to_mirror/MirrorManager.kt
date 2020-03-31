@@ -62,7 +62,7 @@ class MirrorManager(
         gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
         applyGitTreeToMirror()
         setBranches()
-        mirrorRepository.push()
+        //mirrorRepository.push()
     }
 
     private fun setBranches() {
