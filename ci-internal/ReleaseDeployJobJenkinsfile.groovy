@@ -1,4 +1,5 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT') // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+@Library('surf-lib@version-2.0.0-SNAPSHOT')
+// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
 import ru.surfstudio.ci.stage.StageStrategy
@@ -119,7 +120,7 @@ pipeline.stages = [
             componentVersion = parts[2]
             script.sh("./gradlew checkVersionEqualsComponentVersion -Pcomponent=${componentName} -PcomponentVersion=${componentVersion}")
         },
-        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT){
+        pipeline.stage(CHECK_CONFIGURATION_IS_NOT_PROJECT_SNAPSHOT) {
             script.sh "./gradlew checkConfigurationIsNotProjectSnapshotTask"
         },
         pipeline.stage(CHECK_COMPONENT_DEPENDENCY_STABLE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -135,7 +136,7 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInArtifactory -Pcomponent=${componentName} -P${isDeploySameVersionArtifactory}=false")
             }
-            withBintrayCredentials(script){
+            withBintrayCredentials(script) {
                 script.sh("./gradlew checkSameArtifactsInBintray -Pcomponent=${componentName} -P${isDeploySameVersionBintray}=false")
             }
         },
@@ -158,12 +159,12 @@ pipeline.stages = [
                     CHECK_COMPONENT_STABLE,
                     CHECK_COMPONENTS_DEPENDENT_FROM_CURRENT_UNSTABLE,
                     CHECK_RELEASE_NOTES_VALID
-            ].each {stageName ->
+            ].each { stageName ->
                 def stageResult = pipeline.getStage(stageName).result
                 checksPassed = checksPassed && (stageResult == Result.SUCCESS || stageResult == Result.NOT_BUILT)
             }
 
-            if(!checksPassed) {
+            if (!checksPassed) {
                 script.error("Checks Failed")
             }
         },
@@ -202,14 +203,17 @@ pipeline.stages = [
             withArtifactoryCredentials(script) {
                 AndroidUtil.withGradleBuildCacheCredentials(script) {
                     script.sh "./gradlew clean uploadArchives -Pcomponent=${componentName}"
-                    script.sh "./gradlew distributeArtifactsToBintrayTask -Pcomponent=${componentName} -PoverrideExisted=false"
+                    script.sh "./gradlew distributeArtifactsToBintray -Pcomponent=${componentName} -PoverrideExisted=false"
                 }
             }
         },
         pipeline.stage(COMPONENT_ALPHA_COUNTER_PUSH, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             RepositoryUtil.setDefaultJenkinsGitUser(script)
-            script.sh "git commit -a -m \"Set component $componentName alpha counter to zero $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
-            script.sh "git tag -a $componentName-$componentVersion -m \"Set tag $componentName-$componentVersion $RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1\""
+            def labels = "$RepositoryUtil.SKIP_CI_LABEL1 $RepositoryUtil.VERSION_LABEL1"
+            def tag = "$componentName/$componentVersion"
+            script.sh "git commit -a -m " +
+                    "\"Set component $componentName alpha counter to zero $labels\" || true"
+            script.sh "git tag -a $tag -m \"Set tag $tag $labels\""
             RepositoryUtil.push(script, pipeline.repoUrl, pipeline.repoCredentialsId)
         },
         pipeline.stage(MIRROR_COMPONENT, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
@@ -224,20 +228,23 @@ pipeline.stages = [
 ]
 
 
-
 pipeline.finalizeBody = {
     def jenkinsLink = CommonUtil.getBuildUrlSlackLink(script)
     def message
     def success = Result.SUCCESS == pipeline.jobResult
+    def unstable = Result.UNSTABLE == pipeline.jobResult
     def checkoutAborted = pipeline.getStage(CHECKOUT).result == Result.ABORTED
     if (!success && !checkoutAborted) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
-        message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        if (unstable) {
+            message = "Deploy из ветки '${branchName}' выполнен. Найдены нестабильные этапы: ${unsuccessReasons}. ${jenkinsLink}"
+        } else {
+            message = "Deploy из ветки '${branchName}' не выполнен из-за этапов: ${unsuccessReasons}. ${jenkinsLink}"
+        }
     } else {
         message = "Deploy из ветки '${branchName}' успешно выполнен. ${jenkinsLink}"
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", success)
-
+    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
@@ -311,7 +318,7 @@ def static getPreviousRevisionWithVersionIncrement(script) {
     if (revisionToCompare == null) {
         //gets previous commit
         def previousCommit
-        if (commits[1] !="|\\  ") {
+        if (commits[1] != "|\\  ") {
             previousCommit = commits[1]
         } else {
             previousCommit = commits[2]

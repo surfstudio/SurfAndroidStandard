@@ -2,7 +2,7 @@
 # Analytics Release Notes
 ## 0.5.0-alpha
 ##### Analytics
-* TODO 
+* ANDDEP-928 Remove Crashlytics dependencies
 ## 0.4.0
 ##### Analytics
 * ANDDEP-294 Improved analytics module
