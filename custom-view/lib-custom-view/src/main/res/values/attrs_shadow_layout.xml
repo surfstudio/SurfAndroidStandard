@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ShadowLayout">
+        <attr name="shadowLeftOffset" format="dimension|reference" />
+        <attr name="shadowRightOffset" format="dimension|reference" />
+        <attr name="shadowTopOffset" format="dimension|reference" />
+        <attr name="shadowRadius" format="dimension|reference" />
+        <attr name="shadowAlphaPercent" format="integer|reference" />
+        <attr name="shadowClippedToPadding" format="boolean" />
+        <attr name="isAsync" format="boolean" />
+    </declare-styleable>
+</resources>
