@@ -5,6 +5,13 @@
 * ANDDEP-646 - Improved EasyAdapter. In BaseItem added next and previous links to items, adapterPosition, position in ItemList.
 * ANDDEP-795 - Fixed the appear of the invisible item in all rows except first in case of using GridLayoutManager
 * ANDDEP-784 Added unbind method to BaseItemController, fixed view type collision by generating each id for item controller class 
+* Added support for asynchronous item list updates diff calculation
+* ANDDEP-812 - Fixed crash after enabling infinite scroll, fixed scroll position saving mechanism
+* ANDDEP-829 Fixed synchronous DiffResult dispatching in DefaultDiffer.
+* ANDDEP-785 Added method getItem() in EasyAdapter, to get BaseItem by position
+* ANDDEP-785 Added getter in EasyAdapter, for *firstInvisibleItemEnabled* property
+* **NO BACKWARD COMPATIBILITY** ANDDEP-909 Removed
+  `setHasStableIds(true)` in EasyAdapter.
 ## 1.0.0
 ##### Easyadapter
 * ANDDEP-270 Added support for asynchronous view inflate in ViewHolder

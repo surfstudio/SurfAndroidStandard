@@ -1,0 +1,3 @@
+if (!gradle.ext.androidStandard.debugEnabled) {
+    apply plugin: 'ru.surfstudio.android'
+}

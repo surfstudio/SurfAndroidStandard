@@ -2,8 +2,8 @@
 # Core-app Release Notes
 ## 0.5.0-alpha
 ##### Core-app
-* TODO
-* TODO
+* **NO BACKWARD COMPATIBILITY** ANDDEP-928 Remove CoreApp
+
 ## 0.4.0
 ##### Core-app
 * Module - ** deprecated **
@@ -12,3 +12,4 @@
 * `DefaultActivityLifecycleCallbacks` deprecated, the default implementation is in the template module
 * `StringsProvider` deprecated, the default implementation is in the template module
 * `Unit` - deprecated, use kotlin.Unit. 
+* Remove multidex for module

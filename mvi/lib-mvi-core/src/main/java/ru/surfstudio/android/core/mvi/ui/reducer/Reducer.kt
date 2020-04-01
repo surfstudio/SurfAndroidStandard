@@ -1,8 +1,8 @@
 package ru.surfstudio.android.core.mvi.ui.reducer
 
 import ru.surfstudio.android.core.mvi.event.Event
-import ru.surfstudio.android.core.mvi.ui.holder.ReducerStateHolder
 import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
+import ru.surfstudio.android.core.mvp.binding.rx.relation.mvp.State
 
 /**
  * [Reducer] из терминологии Redux:
@@ -12,15 +12,27 @@ import ru.surfstudio.android.core.mvi.ui.reactor.Reactor
  *
  * @see <a href="Reducers documentation">https://redux.js.org/basics/reducers</a>
  */
-interface Reducer<
-        E : Event,
-        S,
-        H : ReducerStateHolder<S>> : Reactor<E, H> {
+interface Reducer<E : Event, S> :
+        Reactor<E, State<S>> {
 
-    override fun react(sh: H, event: E) {
-        val newState = reduce(sh.state, event)
-        sh.state = newState
+    override fun react(sh: State<S>, event: E) {
+        val oldState = sh.value
+        val newState = reduce(oldState, event)
+        if (isStateChanged(oldState, newState)) {
+            sh.accept(newState)
+        }
     }
+
+    /**
+     * Метод, в котором происходит определение того, изменилось ли состояние
+     * после того, как произошла реакция на событие.
+     *
+     * Это происходит, чтобы StateHolder уведомлял своих подписчиков
+     * только при реальной смене состояния.
+     *
+     * Можно переопределить, если необходима сложная проверка или настраиваемое поведение.
+     */
+    fun isStateChanged(oldState: S, newState: S) = oldState != newState
 
     /**
      * Трансформация состояния экрана с помощью поступающих событий от Ui или от слоя данных.

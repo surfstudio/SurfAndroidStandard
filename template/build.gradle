@@ -4,7 +4,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://artifactory.surfstudio.ru/artifactory/libs-release-local' }
     }
@@ -13,10 +12,13 @@ buildscript {
         classpath "com.android.tools.build:gradle:$gradlePluginVersion"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
-        classpath "io.fabric.tools:gradle:$fabricVersion"
+        classpath "com.google.firebase:firebase-appdistribution-gradle:$firebaseAppDistributionVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsGradleVersion"
         classpath "com.akaita.android:easylauncher:$easyLauncherVersion"
         classpath "com.gradle:build-scan-plugin:$buildScanPluginVersion"
-        classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"
+        if (!gradle.ext.androidStandard.debugEnabled) {
+            classpath "ru.surfstudio.android:version-plugin:$androidStandardVersion"
+        }
     }
 }
 
@@ -24,7 +26,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://maven.fabric.io/public' }
         maven { url "https://artifactory.surfstudio.ru/artifactory/libs-release-local" }
         maven { url "https://dl.bintray.com/terrakok/terramaven" }
         maven { url 'https://jitpack.io' }
@@ -36,3 +37,5 @@ task clean(type: Delete) {
 }
 
 apply from: "scripts/dependenciesModules.gradle"
+apply from: "scripts/ktFormatter.gradle"
+apply from: "androidStandardPlugin.gradle"

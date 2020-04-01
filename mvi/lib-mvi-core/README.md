@@ -164,7 +164,7 @@ Middleware принимает в себя поток событий, транс�
 
 Для подключения модуля через Gradle:
 ```
-    implementation "ru.surfstudio.android:core-mvi:X.X.X"
+    implementation "ru.surfstudio.android:mvi-core:X.X.X"
 ```
 
 [ev]: src/main/java/ru/surfstudio/android/core/mvi/event/Event.kt

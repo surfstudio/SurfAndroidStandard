@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/gray_A100"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ru.surfstudio.android.recycler.decorator.sample.StubView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            app:isCircle="true"
+            app:stubColor="@color/gray_A150" />
+
+        <TextView
+            android:id="@+id/number_tv"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            tools:text="1" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <ru.surfstudio.android.recycler.decorator.sample.StubView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            app:cornerRadius="8dp"
+            app:stubColor="@color/gray_A150" />
+
+        <ru.surfstudio.android.recycler.decorator.sample.StubView
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="64dp"
+            app:cornerRadius="8dp"
+            app:stubColor="@color/gray_A150" />
+
+    </LinearLayout>
+
+</LinearLayout>

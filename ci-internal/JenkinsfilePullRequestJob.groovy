@@ -23,8 +23,6 @@ def CHECK_UNSTABLE_MODULES_DO_NOT_BECAME_STABLE = 'Check Unstable Modules Do Not
 def CHECK_MODULES_IN_DEPENDENCY_TREE_OF_STABLE_MODULE_ALSO_STABLE = 'Check Modules In Dependency Tree Of Stable Module Also Stable'
 def CHECK_RELEASE_NOTES_VALID = 'Check Release Notes Valid'
 def CHECK_RELEASE_NOTES_CHANGED = 'Check Release Notes Changed'
-def CHECK_BUILD_TEMPLATE = 'Check Build Template'
-def CHECK_INSTRUMENTATION_TEST_TEMPLATE = 'Check Instrumentation Test Template'
 def CHECKS_RESULT = 'All Checks Result'
 
 def RELEASE_NOTES_DIFF = 'Release notes diff'
@@ -34,6 +32,9 @@ def UNIT_TEST = 'Unit Test'
 def INSTRUMENTATION_TEST = 'Instrumentation Test'
 def STATIC_CODE_ANALYSIS = 'Static Code Analysis'
 
+def BUILD_TEMPLATE = 'Template Build '
+def INSTRUMENTATION_TEST_TEMPLATE = 'Template Instrumentation Test'
+
 // git variables
 def sourceBranch = ""
 def destinationBranch = ""
@@ -42,12 +43,13 @@ def targetBranchChanged = false
 def lastDestinationBranchCommitHash = ""
 
 //parameters
-def final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
-def final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
-def final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
-def final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
+final String SOURCE_BRANCH_PARAMETER = 'sourceBranch'
+final String DESTINATION_BRANCH_PARAMETER = 'destinationBranch'
+final String AUTHOR_USERNAME_PARAMETER = 'authorUsername'
+final String TARGET_BRANCH_CHANGED_PARAMETER = 'targetBranchChanged'
 
 // Other config
+final String TEMP_FOLDER_NAME = "temp"
 def stagesForProjectMode = [
         PRE_MERGE,
         RELEASE_NOTES_DIFF,
@@ -66,14 +68,11 @@ def stagesForReleaseMode = [
         UNIT_TEST,
         INSTRUMENTATION_TEST,
         STATIC_CODE_ANALYSIS,
-        CHECK_BUILD_TEMPLATE,
-        CHECK_INSTRUMENTATION_TEST_TEMPLATE
+        BUILD_TEMPLATE,
+        INSTRUMENTATION_TEST_TEMPLATE
 ]
 def stagesForTargetBranchChangedMode = [
-        PRE_MERGE,
-        BUILD,
-        UNIT_TEST,
-        INSTRUMENTATION_TEST
+        PRE_MERGE
 ]
 
 def getTestInstrumentationRunnerName = { script, prefix ->
@@ -98,7 +97,7 @@ pipeline.preExecuteStageBody = { stage ->
     if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -157,6 +156,7 @@ pipeline.stages = [
         pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
+                script.sh "git clean -fd"
             }
             script.git(
                     url: pipeline.repoUrl,
@@ -210,6 +210,7 @@ pipeline.stages = [
             script.sh("./gradlew checkReleaseNotesChanged -PrevisionToCompare=${lastDestinationBranchCommitHash}")
         },
         pipeline.stage(CHECKS_RESULT) {
+            script.sh "rm -rf $TEMP_FOLDER_NAME"
             def checksPassed = true
             [
                     CHECK_STABLE_MODULES_IN_ARTIFACTORY,
@@ -235,13 +236,40 @@ pipeline.stages = [
         pipeline.stage(BUILD) {
             AndroidPipelineHelper.buildStageBodyAndroid(script, "clean assemble")
         },
+        pipeline.stage(BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
+                    "androidStandardDebugMode=true\n" +
+                    "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
+            /**
+             * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
+             * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
+             */
+            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
+        },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
                     "testReleaseUnitTest",
                     "**/test-results/testReleaseUnitTest/*.xml",
                     "app/build/reports/tests/testReleaseUnitTest/")
         },
-        pipeline.stage(INSTRUMENTATION_TEST) {
+        pipeline.stage(INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
+            script.dir("template") {
+                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
+                        script,
+                        new AvdConfig(),
+                        "debug",
+                        getTestInstrumentationRunnerName,
+                        new AndroidTestConfig(
+                                "assembleAndroidTest",
+                                "build/outputs/androidTest-results/instrumental",
+                                "build/reports/androidTests/instrumental",
+                                true,
+                                0
+                        )
+                )
+            }
+        },
+        pipeline.stage(INSTRUMENTATION_TEST, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
             AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
                     script,
                     new AvdConfig(),
@@ -258,29 +286,6 @@ pipeline.stages = [
         },
         pipeline.stage(STATIC_CODE_ANALYSIS, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.staticCodeAnalysisStageBody(script)
-        },
-        pipeline.stage(CHECK_BUILD_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.sh("./gradlew generateModulesNamesFile")
-            script.sh("echo \"androidStandardDebugDir=$workspace\n" +
-                    "androidStandardDebugMode=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
-        },
-        pipeline.stage(CHECK_INSTRUMENTATION_TEST_TEMPLATE, StageStrategy.UNSTABLE_WHEN_STAGE_ERROR) {
-            script.dir("template") {
-                AndroidPipelineHelper.instrumentationTestStageBodyAndroid(
-                        script,
-                        new AvdConfig(),
-                        "debug",
-                        getTestInstrumentationRunnerName,
-                        new AndroidTestConfig(
-                                "assembleAndroidTest",
-                                "build/outputs/androidTest-results/instrumental",
-                                "build/reports/androidTests/instrumental",
-                                true,
-                                0
-                        )
-                )
-            }
         }
 ]
 pipeline.finalizeBody = {

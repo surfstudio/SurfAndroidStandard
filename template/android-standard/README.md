@@ -3,23 +3,33 @@
 Скрипты позволяют переключаться между локальным искодным кодом android-standard и артефактами из artifactory.
 Использование локального исходного кода позволит быстро тестировать изменения в android-standard на своем проекте без деплоя артефактов.
 
+##Термины
+
+**Локальный Android Standard** - локальная копия Android Standard, клонированная из удаленного
+репозитория. В том случае, если ваш проект использует проектный снапшот Android Standard, следует
+переключить его на соответствующую ветку (`project-snapshot/PROJECT-TAG`)
+**Рабочий проект** - исходный код приложения, для которого выполняется конфигурация для работы с локальным Android Standard
+
 ##Первичная настройка на конкретной машине
 
-1. В локальном андроид стандарт запустить градл таск ```generateModulesNamesFile``` (из терминала ```./gradlew generateModulesNamesFile```)
-Это необходимо для генерации вспомогательного файла с именами всех имеющихся в андроид стандарте на данный момент модулей
-
-2. Добавить в папку android-standard файл ```androidStandard.properties``` со следующим содержимым:
+1. В рабочем проекте добавить в папку android-standard файл `androidStandard.properties` со следующим содержимым:
 ```
 androidStandardDebugDir=/full/path/to/your/local/android-standard
 # флаг для активации режима локальной загрузки репозитория android-standard
 androidStandardDebugMode=false
+# флаг для отключения сборки примеров к модулям при локальном подключении
+skipSamplesBuild=true
 ```
-3. Выполнить ```File - Sync Project with Gradle Files```.
+
+2. В рабочем проекте выполнить ```File - Sync Project with Gradle Files```.
 
 ##Переключение источника android-standard
 
-1. Изменить флаг ```androidStandardDebugMode``` в файле ```android-standard/androidStandard.properties```
-2. Выполнить ```File - Sync Project with Gradle Files```.
+1. В рабочем проекте изменить флаг `androidStandardDebugMode` в файле `android-standard/androidStandard.properties`
+2. В рабочем проекте выполнить `File - Sync Project with Gradle Files`.
+
+**ВАЖНО!** При активном локальном подключении при любом изменении флага
+`skipSamplesBuild` делать Gradle Sync перед сборкой проекта.
 
 ##Подключение скриптов к сборщику gradle
 Этот раздел будет полезен для тех кто собирается перенести эти скрипты в существующий проект

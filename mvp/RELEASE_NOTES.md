@@ -8,6 +8,17 @@
 ##### Mvp-dialog
 * ANDDEP-687 Changed "javax.inject:javax.inject" dependency from "api" to "implementation" type
 * Fix logging screen names
+* ANDDEP-922 Fix crash on dismiss simple dialog in child fragment
+* **NO BACKWARD COMPATIBILITY** ANDDEP-922 Fix inconsistent dialog
+  navigator behavior: CoreSimpleDialog now showing with it's route tag.
+  Methods `DialogNavigator.showSimpleDialog`,
+  `CoreSimpleDialogInterface.show`,
+  `CoreSimpleBottomSheetDialogFragment.show`,
+  `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are
+  changed.
+* ANDDEP-922 Fix inconsistent dialog navigator behavior: CoreSimpleDialog now showing with it's route tag. Methods `DialogNavigator.showSimpleDialog`, `CoreSimpleDialogInterface.show`, `CoreSimpleBottomSheetDialogFragment.show`, `CoreSimpleDialogFragment.show` and `SimpleDialogDelegate.show` are changed **without backward compatibility support**.
+* ANDDEP-985 Fix screen names logging
+* ANDDEP-928 Fix SimpleDialogDelegate logs
 ## 0.4.0
 ##### Core-mvp
 * ANDDEP-320 Ability to dynamically set LoadState, a flexible way to display LoadState

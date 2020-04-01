@@ -5,14 +5,14 @@ import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.GradleProperties
 import ru.surfstudio.android.build.ReleaseNotes
-import ru.surfstudio.android.build.exceptions.ComponentNotFoundException
+import ru.surfstudio.android.build.exceptions.component.ComponentNotFoundException
 import ru.surfstudio.android.build.model.Component
 import ru.surfstudio.android.build.tasks.changed_components.GitCommandRunner
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import java.io.File
 
 /**
- * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project
+ * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project.
  */
 open class WriteToFileReleaseNotesDiff : DefaultTask() {
 

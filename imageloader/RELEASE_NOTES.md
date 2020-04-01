@@ -4,6 +4,9 @@
 ##### Imageloader
 * Added ability to disable hardware bitmaps config and immediate GIF playback after loading
 * ANDDEP-781 Added headers to ImageLoader when specifying URL
+* Cross fading with placeholders and transparent images fixed, the ability to hide background image is added to crossfade() method, 
+more about this problem -  https://clck.ru/FVpbQ
+* ANDDEP-959 Added ability to work with Animatable drawable (GIF) in callbacks of into method
 ## 0.4.0
 ##### Imageloader
 * ANDDEP-317 Optimization [`ImageLoader`](lib-imageloader/src/main/java/ru/surfstudio/android/imageloader/ImageLoader.kt):
