@@ -22,3 +22,4 @@ even if stream contains events from UI, which should be reacted directly.
 * Remove listenForResult extension for EventTransformerList + listenForResult from NavigationMiddleware
 * Fixed StandardReactDialogView negative button nullability
 * ANDDEP-928 Remove Timber dependencies
+* Added instrumental tests for sample
