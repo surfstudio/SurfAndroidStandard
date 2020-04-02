@@ -127,7 +127,8 @@ pipeline.stages = [
             }
         },
         pipeline.stage(BUILD) {
-            AndroidPipelineHelper.buildStageBodyAndroid(script, "clean :easyadapter:assemble")
+            AndroidPipelineHelper.buildStageBodyAndroid(script,
+                    "clean :easyadapter:assemble :recycler-extension:assemble")
         },
         pipeline.stage(UNIT_TEST, StageStrategy.SKIP_STAGE) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
@@ -142,7 +143,7 @@ pipeline.stages = [
                     "debug",
                     getTestInstrumentationRunnerName,
                     new AndroidTestConfig(
-                            ":easyadapter:assembleAndroidTest",
+                            ":easyadapter:assembleAndroidTest :recycler-extension:assembleAndroidTest",
                             "build/outputs/androidTest-results/instrumental",
                             "build/reports/androidTests/instrumental",
                             true,
@@ -206,7 +207,7 @@ pipeline.finalizeBody = {
                     "Необходимо заменить последние версии артефактов в Bintray на стабильные"
         }
     }
-    JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
+    //JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
 }
 
 pipeline.run()
