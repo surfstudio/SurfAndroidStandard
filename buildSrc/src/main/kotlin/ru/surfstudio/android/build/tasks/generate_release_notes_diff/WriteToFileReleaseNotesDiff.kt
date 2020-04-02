@@ -17,7 +17,14 @@ import java.io.File
 open class WriteToFileReleaseNotesDiff : DefaultTask() {
 
     companion object {
-        const val releaseNotesChangesFileUrl = "buildSrc/build/tmp/releaseNotesChanges.txt"
+        const val RELEASE_NOTES_CHANGES_FILE_URL = "buildSrc/build/tmp/releaseNotesChanges.txt"
+
+        //customize line const
+        const val LINE_INFO_REGEX = "([0-9]+) +([-+]) (\\*)?"
+        const val NO_BACKWARD_LABEL_REGEX = "(\\*\\*)?NO BACKWARD COMPATIBILITY(\\*\\*)?"
+        const val SMILE_WARNING = ":warning:"
+        const val SMILE_CHECK_MARK = ":heavy_check_mark:"
+        const val SMILE_DELETE = ":small_red_triangle_down:"
     }
 
     private lateinit var componentName: String
@@ -51,12 +58,8 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         if (diffs.isNotEmpty()) println()
     }
 
-    private fun addReleaseNoteChange(chane: String) {
-        releaseNotesChanges += "$chane\n"
-    }
-
     private fun writeChangesToFile() {
-        val file = File(releaseNotesChangesFileUrl)
+        val file = File(RELEASE_NOTES_CHANGES_FILE_URL)
         with(file) {
             if (exists()) {
                 delete()
@@ -109,6 +112,46 @@ open class WriteToFileReleaseNotesDiff : DefaultTask() {
         }
         return space.repeat(spacesCount)
     }
+
+    private fun addReleaseNoteChange(change: String) {
+        releaseNotesChanges += customizeRow(change) + "\n"
+    }
+
+    private fun customizeRow(line: String): String {
+        val matchResult = LINE_INFO_REGEX.toRegex().find(line)
+        if (matchResult?.value == null) return setBold(setRedBackground(line))
+
+        var customizedLine = ""
+        var lineInfo = matchResult.value.trim()
+        var lineText = line.substring(matchResult.range.last + 1).trim()
+
+        val rawEditType = matchResult.groupValues[2]
+        if (rawEditType == "-") customizedLine = setQuote(customizedLine)
+        lineInfo = lineInfo.replace(rawEditType, "")
+
+        val isStartParagraph = matchResult.groupValues[3].isNotBlank()
+        if (isStartParagraph) {
+            if (rawEditType == "+") {
+                lineInfo = lineInfo.replace(matchResult.groupValues[3], SMILE_CHECK_MARK)
+            } else {
+                lineInfo = lineInfo.replace(matchResult.groupValues[3], "")
+                lineInfo = SMILE_DELETE + lineInfo
+            }
+        }
+
+        lineText = lineText.replace(NO_BACKWARD_LABEL_REGEX.toRegex(), SMILE_WARNING + setBold(setItalic(setRedBackground("NO BACKWARD COMPATIBILITY"))))
+        customizedLine += lineInfo + lineText
+
+        return customizedLine
+    }
+
+    private fun setBold(text: String) = "*$text*"
+
+    private fun setItalic(text: String) = "_${text}_"
+
+    private fun setRedBackground(text: String) = "`$text`"
+
+    private fun setQuote(text: String) = ">$text"
 
     private fun extractInputArguments() {
         componentName = if (!project.hasProperty(GradleProperties.COMPONENT)) {
