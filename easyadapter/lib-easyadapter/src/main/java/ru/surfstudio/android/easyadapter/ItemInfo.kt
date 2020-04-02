@@ -21,4 +21,4 @@ package ru.surfstudio.android.easyadapter
  * @property id Unique data id.
  * @property hash Data hash.
  */
-internal class ItemInfo(val id: String?, val hash: String?)
+internal class ItemInfo(val id: Object?, val hash: Object?)
