@@ -37,7 +37,8 @@ dependencies {
                     "standard-dialog",
                     "message-controller",
                     "broadcast-extension",
-                    "rxbus"],
+                    "rxbus",
+                    "toolbar-config"],
             null, //todo remove for real app
             "LOCAL"  //todo remove for real app
     )

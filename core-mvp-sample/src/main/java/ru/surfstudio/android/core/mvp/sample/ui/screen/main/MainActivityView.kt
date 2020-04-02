@@ -8,6 +8,7 @@ import ru.surfstudio.android.core.mvp.activity.BaseRenderableActivityView
 import ru.surfstudio.android.core.mvp.presenter.CorePresenter
 import ru.surfstudio.android.core.mvp.sample.R
 import ru.surfstudio.android.sample.dagger.ui.base.configurator.DefaultActivityScreenConfigurator
+import ru.surfstudio.android.toolbar.config.ToolbarConfig
 import javax.inject.Inject
 
 /**
@@ -25,14 +26,25 @@ class MainActivityView : BaseRenderableActivityView<MainScreenModel>() {
 
     override fun createConfigurator(): DefaultActivityScreenConfigurator = MainScreenConfigurator(intent)
 
-    override fun getScreenName(): String  = "MainActivity"
+    override fun getScreenName(): String = "MainActivity"
 
     override fun onCreate(savedInstanceState: Bundle?,
                           persistentState: PersistableBundle?,
                           viewRecreated: Boolean) {
         super.onCreate(savedInstanceState, persistentState, viewRecreated)
+        initToolbar()
         open_another_screen_btn.setOnClickListener { presenter.openAnotherScreen() }
     }
 
-    override fun renderInternal(sm: MainScreenModel) {}
+    override fun renderInternal(sm: MainScreenModel) {
+        //Do nothing
+    }
+
+    private fun initToolbar() {
+        ToolbarConfig.builder(this)
+                .setDisplayHomeAsUpEnabled(true)
+                .setHomeAsUpIndicatorColor(R.color.colorAccent)
+                .setTitleText(getString(R.string.main_screen_toolbar_text))
+                .apply()
+    }
 }

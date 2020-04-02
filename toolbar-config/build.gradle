@@ -1,0 +1,7 @@
+apply from: '../androidModule.gradle'
+
+dependencies {
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+}
+
+gradle.ext.configAndroidStandardDependencies this

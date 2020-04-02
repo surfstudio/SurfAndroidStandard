@@ -4,6 +4,10 @@
 
 ## 0.4.0 - SNAPSHOT
 
+#### toolbar-config
+
+* ANDDEP-593 Добавлен ToolbarConfig
+
 #### custom-view
 
 * ANDDEP-571 Убран двойной сеттинг setTextAppearance у TitleSubtitleView
