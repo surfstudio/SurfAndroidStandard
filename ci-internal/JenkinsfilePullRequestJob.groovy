@@ -91,7 +91,6 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-//pipeline.propertiesProvider = { PrPipeline.properties(pipeline) }
 pipeline.propertiesProvider = {
     [
             script.buildDiscarder(
