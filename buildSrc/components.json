@@ -864,7 +864,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -1448,7 +1448,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1772,7 +1772,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 20,
+    "unstable_version": 21,
     "stable": false,
     "dir": "template",
     "libs": [],
@@ -1794,7 +1794,7 @@
   {
     "id": "android-studio-settings",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "android-studio-settings",
     "libs": [],

@@ -1,4 +1,4 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 import ru.surfstudio.ci.*
 import ru.surfstudio.ci.stage.StageStrategy
@@ -27,10 +27,10 @@ pipeline.node = "android"
 pipeline.propertiesProvider = { initProperties(pipeline, UNDEFINED_BRANCH) }
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    if (stage.name != CHECKOUT) RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    if (stage.name != CHECKOUT) RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -83,7 +83,7 @@ pipeline.finalizeBody = {
         } else {
             message = "Ошибка проверки стабильных версий артефактов на Bintray $errorReasons"
         }
-        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "bitbucket", pipeline.jobResult)
+        JarvisUtil.sendMessageToGroup(script, message, pipeline.repoUrl, "gitlab", pipeline.jobResult)
     }
 }
 

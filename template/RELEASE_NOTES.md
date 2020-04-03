@@ -27,6 +27,7 @@
 * ANDDEP-961 Small fixes
 * ANDDEP-928 Add RemoteLogger
 * ANDDEP-980 Fix template build
+* ANDDEP-1002 app module dependencies refactoring
 * ANDDEP-930 Added handling custom notification actions
 
 ## 0.4.0

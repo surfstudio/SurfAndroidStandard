@@ -1,17 +1,19 @@
-package ru.surfstudio.android.recycler.extension.sample
+package ru.surfstudio.android.recycler.extension.sample.screen
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_sticly_recycler.*
 import ru.surfstudio.android.easyadapter.ItemList
-import ru.surfstudio.android.recycler.extension.sticky.addStickyFooter
-import ru.surfstudio.android.recycler.extension.sticky.addStickyHeader
 import ru.surfstudio.android.logger.Logger
+import ru.surfstudio.android.recycler.extension.sample.R
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyFooterItemController
 import ru.surfstudio.android.recycler.extension.sample.controller.SampleStickyHeaderItemController
-import ru.surfstudio.android.recycler.extension.sticky.*
+import ru.surfstudio.android.recycler.extension.sample.domain.Data
+import ru.surfstudio.android.recycler.extension.sticky.StickyEasyAdapter
+import ru.surfstudio.android.recycler.extension.sticky.addStickyFooter
+import ru.surfstudio.android.recycler.extension.sticky.addStickyHeader
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyFooterListener
 import ru.surfstudio.android.recycler.extension.sticky.layoutmanager.StickyHeaderListener
 
@@ -19,7 +21,10 @@ const val STICKY_HEADER_TITLE = "Sticky header title"
 const val STICKY_FOOTER_TITLE = "Sticky footer title"
 const val LAST_ITEM_TITLE = "Last item title"
 
-class MainActivity : AppCompatActivity() {
+/**
+ * Sample using of [StickyEasyAdapter]
+ */
+class StickyRecyclerActivity : AppCompatActivity() {
 
     private lateinit var stickyEasyAdapter: StickyEasyAdapter
     private val itemController = SampleItemController()
@@ -28,44 +33,28 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_sticly_recycler)
 
-        stickyEasyAdapter = StickyEasyAdapter(activity_main_recycler, isVisibleFirstFooterAtLaunch = true)
-        stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(object : StickyHeaderListener {
+        stickyEasyAdapter = StickyEasyAdapter(sticky_rv, isVisibleFirstFooterAtLaunch = true)
+        stickyEasyAdapter.stickyLayoutManager.setStickyHeaderListener(
+                object : StickyHeaderListener {
 
-            override fun headerAttached(headerView: View, adapterPosition: Int) = log("headerAttached")
+                    override fun headerAttached(headerView: View, adapterPosition: Int) = log("headerAttached")
 
-            override fun headerDetached(headerView: View, adapterPosition: Int) = log("headerDetached")
-        })
+                    override fun headerDetached(headerView: View, adapterPosition: Int) = log("headerDetached")
+                }
+        )
 
-        stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(object : StickyFooterListener {
+        stickyEasyAdapter.stickyLayoutManager.setStickyFooterListener(
+                object : StickyFooterListener {
 
-            override fun footerAttached(footerView: View, adapterPosition: Int) = log("footerAttached")
+                    override fun footerAttached(footerView: View, adapterPosition: Int) = log("footerAttached")
 
-            override fun footerDetached(footerView: View, adapterPosition: Int) = log("footerDetached")
-        })
-        activity_main_recycler.adapter = stickyEasyAdapter
-
-        val itemList = generateData()
-        /*itemList.addStickyHeaderIf({ prev, next ->
-            val prv = prev as? Data
-            val nxt = next as? Data
-            if (prv?.rank != nxt?.rank) {
-                nxt?.rank
-            } else {
-                null
-            }
-        }, stickyHeaderItemController)*/
-        /*itemList.addStickyFooterIf({ prev, next ->
-            val prv = prev as? Data
-            val nxt = next as? Data
-            if (prv?.rank != nxt?.rank) {
-                nxt?.rank
-            } else {
-                null
-            }
-        }, stickyFooterItemController)*/
-        stickyEasyAdapter.setItems(itemList)
+                    override fun footerDetached(footerView: View, adapterPosition: Int) = log("footerDetached")
+                }
+        )
+        sticky_rv.adapter = stickyEasyAdapter
+        stickyEasyAdapter.setItems(generateData())
     }
 
     private fun generateData() = ItemList().apply {

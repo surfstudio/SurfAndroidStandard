@@ -101,18 +101,23 @@ org.gradle.jvmargs=-Xmx3g
 
 ##### Настройка плагинов
 
-###### Hunspell
-1. В Ide: Settings -> Plugins -> Находим - ставим плагин Hunspell
-2. Перезагружаем ide
-3. Качаем словарь.
-    * Linux: 
-        1. `cd {путь где будет лежать словарь}` 
-        2. `$npm install dictionary-ru` ( если нет npm: `$sudo apt install npm`)
-    * Или вручную https://github.com/wooorm/dictionaries/tree/master/dictionaries/ru
-4. В Ide: Settings -> Editor -> Spelling -> Dictionaries -> “+” -> выбираем скачанный файл *.dic (`.../node_modules/dictionary-ru/index.dic`)
+###### Hunspell. Проверка правописания
+1. В Ide: Settings -> Plugins -> Установить плагин [hunspell](https://plugins.jetbrains.com/plugin/10275-hunspell) для  AndroidStudio.
+2. Перезапустить ide при необходимости
+3. Скачивание словаря
+    1. Переходим в удобное для вас место, которое не будет чистится(т.е. не надо держать в ~/Downloads).  
+     `cd {путь где будет лежать словарь}`
+    2. Скачиваем словарь
+        *  Вариант 1: скопировать [репозиторий](https://github.com/wooorm/dictionaries)  
+        `git clone https://github.com/wooorm/dictionaries.git`       
+        *  Вариант 2: `$npm install dictionary-ru` ( если нет npm: `$sudo apt install npm`)  
+4. В Ide: Settings -> Editor -> Spelling -> Dictionaries -> “+” (кнопка добавить) -> выбираем скачанный файл *.dic (`.../node_modules/dictionary-ru/index.dic`)
+
+Аналогично подключаются другие языки.  
+Все кроме директории /ru и ее содержимого из скаченных словарей можно удалить  
 Словари применяются только к проекту, локально для каждого пользователя. Поэтому, операцию стоит применить к каждому существующему проекту.
 Также, можно закрыть все открытые проекты и открыть settings на приветственном экране и добавить словарь.
-В этом случае, словарь будет добавляться во все новые и импортируемые проекты
+В этом случае, словарь будет добавляться во все новые и импортируемые проекты  
 
 #### Полезные ссылки
 
