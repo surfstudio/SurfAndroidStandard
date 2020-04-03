@@ -70,7 +70,8 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
 
     /**
      * Get the unique id for item.
-     * Method is used for automatically call notify... methods, see {@link EasyAdapter}.
+     * Method is used for automatically call notify... methods
+     * to define if the items are the same, see {@link EasyAdapter}.
      *
      * @param item item
      * @return unique id retrieved from item
@@ -79,7 +80,8 @@ public abstract class BaseItemController<H extends RecyclerView.ViewHolder, I ex
 
     /**
      * Get the item hashcode.
-     * Method is used for automatically call notify... methods, see {@link EasyAdapter}
+     * Method is used for automatically call notify... methods
+     * to define if the item's content is the same, see {@link EasyAdapter}
      *
      * @param item item
      * @return hashcode of the item
