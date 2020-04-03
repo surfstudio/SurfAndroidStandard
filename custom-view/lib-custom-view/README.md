@@ -9,6 +9,7 @@
 
 + `TitleSubtitleView` - виджет для отображения текста с подписью;
 + `StandardPlaceHolderView` - Полноэкранный плейсхолдер с поддержкой смены состояний. **В настоящее время разработка приостоновлена. Следует использовать [PlaceHolderViewContainer](../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt)**
++ `AlphaStateable*Layout` - лейаут с поддержкой изменения прозрачности при клике на него.
 
 ## Использование
 [Пример использования](../custom-view-sample)

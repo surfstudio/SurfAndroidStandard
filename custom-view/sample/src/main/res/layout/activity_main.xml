@@ -39,11 +39,11 @@
         app:behavior_hideable="false"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-        <ru.surfstudio.android.custom.view.alphastate.AlphaStateableLinearLayout
+        <ru.surfstudio.android.custom.view.alphastate.impls.AlphaStateableLinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:statePressedAlpha="0.5">
+            app:statePressedAlpha="0.1">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 tools:ignore="HardcodedText" />
-        </ru.surfstudio.android.custom.view.alphastate.AlphaStateableLinearLayout>
+        </ru.surfstudio.android.custom.view.alphastate.impls.AlphaStateableLinearLayout>
 
         <View
             android:layout_width="match_parent"
