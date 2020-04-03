@@ -84,7 +84,7 @@ pipeline.initializeBody = {
     //Выбираем значения веток из параметров, Установка их в параметры происходит
     // если триггером был webhook или если стартанули Job вручную
     //Используется имя branchName_0 из за особенностей jsonPath в GenericWebhook plugin
-    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName_0') {
+    CommonUtil.extractValueFromEnvOrParamsAndRun(script, 'branchName') {
         value -> branchName = value
     }
 
@@ -273,7 +273,7 @@ def static initBuildDiscarder(script) {
 def static initParameters(script) {
     return script.parameters([
             script.string(
-                    name: "branchName_0",
+                    name: "branchName",
                     description: 'Ветка с исходным кодом')
     ])
 }
