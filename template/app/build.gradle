@@ -28,8 +28,6 @@ android {
 }
 
 dependencies {
-    implementation project(":base")
-    implementation project(":base_feature")
     implementation project(":i-push-notification")
     implementation project(":f-auth")
     implementation project(":f-main")

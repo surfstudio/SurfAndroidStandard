@@ -40,7 +40,7 @@ class App : MultiDexApplication() {
             return
         }
 
-        initFirebaseCrashlytics()
+        //initFirebaseCrashlytics() todo uncoment for a real app
         initPushEventListener()
         initRxJava2Debug()
 

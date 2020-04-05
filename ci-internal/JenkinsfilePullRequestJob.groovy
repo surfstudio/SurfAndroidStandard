@@ -1,4 +1,4 @@
-@Library('surf-lib@version-2.0.0-SNAPSHOT')
+@Library('surf-lib@version-3.0.0-SNAPSHOT')
 // https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
 
 import ru.surfstudio.ci.*
@@ -91,13 +91,27 @@ pipeline.init()
 
 //configuration
 pipeline.node = "android"
-pipeline.propertiesProvider = { PrPipeline.properties(pipeline) }
+pipeline.propertiesProvider = {
+    [
+            script.buildDiscarder(
+                    script.logRotator(
+                            artifactDaysToKeepStr: '3',
+                            artifactNumToKeepStr: '10',
+                            daysToKeepStr: '30',
+                            numToKeepStr: '100')
+            ),
+            PrPipeline.parameters(script),
+            PrPipeline.triggers(script, pipeline.repoUrl),
+            script.gitLabConnection(pipeline.gitlabConnection)
+    ]
+}
+
 
 pipeline.preExecuteStageBody = { stage ->
-    if (stage.name != PRE_MERGE) RepositoryUtil.notifyBitbucketAboutStageStart(script, pipeline.repoUrl, stage.name)
+    if (stage.name != PRE_MERGE) RepositoryUtil.notifyGitlabAboutStageStart(script, pipeline.repoUrl, stage.name)
 }
 pipeline.postExecuteStageBody = { stage ->
-    RepositoryUtil.notifyBitbucketAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
+    RepositoryUtil.notifyGitlabAboutStageFinish(script, pipeline.repoUrl, stage.name, stage.result)
 }
 
 pipeline.initializeBody = {
@@ -156,6 +170,7 @@ pipeline.stages = [
         pipeline.stage(PRE_MERGE) {
             CommonUtil.safe(script) {
                 script.sh "git reset --merge" //revert previous failed merge
+                script.sh "git clean -fd"
             }
             script.git(
                     url: pipeline.repoUrl,
@@ -239,7 +254,11 @@ pipeline.stages = [
             script.sh("echo \"androidStandardDebugDir=$workspace\n" +
                     "androidStandardDebugMode=true\n" +
                     "skipSamplesBuild=true\" > template/android-standard/androidStandard.properties")
-            script.sh("./gradlew -p template clean build assembleQa --stacktrace")
+            /**
+             * assembleDebug is used for assembleAndroidTest with testBuildType=debug for Template.
+             * Running assembleAndroidTest with testBuildType=qa could cause some problems with proguard settings
+             */
+            script.sh("./gradlew -p template clean build assembleQa assembleDebug --stacktrace")
         },
         pipeline.stage(UNIT_TEST) {
             AndroidPipelineHelper.unitTestStageBodyAndroid(script,
@@ -287,7 +306,7 @@ pipeline.finalizeBody = {
     if (pipeline.jobResult != Result.SUCCESS && pipeline.jobResult != Result.ABORTED) {
         def unsuccessReasons = CommonUtil.unsuccessReasonsToString(pipeline.stages)
         def message = "Ветка ${sourceBranch} в состоянии ${pipeline.jobResult} из-за этапов: ${unsuccessReasons}; ${CommonUtil.getBuildUrlSlackLink(script)}"
-        JarvisUtil.sendMessageToUser(script, message, authorUsername, "bitbucket")
+        JarvisUtil.sendMessageToUser(script, message, authorUsername, "gitlab")
     }
 }
 
