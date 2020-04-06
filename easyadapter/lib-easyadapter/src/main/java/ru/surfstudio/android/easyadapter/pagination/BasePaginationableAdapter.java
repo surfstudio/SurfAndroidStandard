@@ -112,7 +112,7 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         initLayoutManager(layoutManager);
@@ -122,7 +122,7 @@ public abstract class BasePaginationableAdapter extends EasyAdapter {
     protected void initPaginationListener(RecyclerView recyclerView, final RecyclerView.LayoutManager layoutManager) {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (onShowMoreListener != null && !blockShowMoreEvent) {
                     int totalItemCount = layoutManager.getItemCount();
