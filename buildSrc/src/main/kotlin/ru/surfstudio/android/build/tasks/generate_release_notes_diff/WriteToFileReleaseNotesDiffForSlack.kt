@@ -3,7 +3,7 @@ package ru.surfstudio.android.build.tasks.generate_release_notes_diff
 /**
  * Task to see the differences between two revisions of RELEASE_NOTES.md in each module of a project.
  */
-class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
+open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
 
     companion object {
         //stylized line const
