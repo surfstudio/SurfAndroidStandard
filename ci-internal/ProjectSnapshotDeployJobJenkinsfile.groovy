@@ -1,5 +1,5 @@
 @Library('surf-lib@version-3.0.0-SNAPSHOT')
-// https://bitbucket.org/surfstudio/jenkins-pipeline-lib/
+// https://gitlab.com/surfstudio/infrastructure/tools/jenkins-pipeline-lib
 import groovy.json.JsonSlurperClassic
 import ru.surfstudio.ci.pipeline.ScmPipeline
 import ru.surfstudio.ci.pipeline.empty.EmptyScmPipeline
