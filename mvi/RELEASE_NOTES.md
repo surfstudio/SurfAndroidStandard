@@ -24,4 +24,3 @@ even if stream contains events from UI, which should be reacted directly.
 * ANDDEP-928 Remove Timber dependencies
 * **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
 Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
-Added state checker methods to Request.
