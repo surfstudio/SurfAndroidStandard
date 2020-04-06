@@ -22,3 +22,6 @@ even if stream contains events from UI, which should be reacted directly.
 * Remove listenForResult extension for EventTransformerList + listenForResult from NavigationMiddleware
 * Fixed StandardReactDialogView negative button nullability
 * ANDDEP-928 Remove Timber dependencies
+* **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
+Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
+Added state checker methods to Request.

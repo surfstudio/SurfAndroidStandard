@@ -40,9 +40,9 @@ class ComplexListReactor @Inject constructor() : Reactor<ComplexListEvent, Compl
         sh.list.modify {
             val hasData = data?.isNotEmpty() ?: false
             copy(
-                    data = mapDataList(event.type, data, hasData),
-                    load = mapLoading(event.type, hasData, event.isSwr),
-                    error = mapError(event.type, hasData)
+                    data = mapDataList(event.request, data, hasData),
+                    load = mapLoading(event.request, hasData, event.isSwr),
+                    error = mapError(event.request, hasData)
             )
         }
     }

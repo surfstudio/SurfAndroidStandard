@@ -4,17 +4,16 @@ import io.reactivex.Observable
 import ru.surfstudio.android.core.mvi.event.RequestEvent
 import ru.surfstudio.android.core.mvi.sample.ui.base.middleware.experimental.pagination.PaginationEvent
 import ru.surfstudio.android.core.mvp.binding.rx.request.state.RequestState
-import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
+import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.datalistpagecount.domain.datalist.DataList
 import ru.surfstudio.android.easyadapter.pagination.PaginationState
 import ru.surfstudio.android.rx.extension.toObservable
 
-
 fun <T, PE : PaginationEvent> RequestEvent<DataList<T>>.toPaginationEvent(
         paginationEvent: PE,
-        canGetMore: Boolean = type.canGetMore()
+        canGetMore: Boolean = request.canGetMore()
 ): Observable<PE> {
-    return when (this.type) {
+    return when (this.request) {
         is Request.Loading ->
             Observable.empty()
         is Request.Success -> paginationEvent
@@ -27,10 +26,10 @@ fun <T, PE : PaginationEvent> RequestEvent<DataList<T>>.toPaginationEvent(
 }
 
 inline fun <T, reified PE : PaginationEvent> RequestEvent<DataList<T>>.toPaginationEvent(
-        canGetMore: Boolean = type.canGetMore()
+        canGetMore: Boolean = request.canGetMore()
 ): Observable<PE> {
     val paginationEvent = PE::class.java.newInstance()
-    return when (this.type) {
+    return when (this.request) {
         is Request.Loading ->
             Observable.empty()
         is Request.Success -> paginationEvent
@@ -42,6 +41,6 @@ inline fun <T, reified PE : PaginationEvent> RequestEvent<DataList<T>>.toPaginat
     }
 }
 
-fun <T> Request<DataList<T>>.canGetMore() = (this as? Request.Success)?.data?.canGetMore() == true
+fun <T> Request<DataList<T>>.canGetMore() = tryGetData()?.canGetMore() ?: false
 
-fun <T> RequestState<DataList<T>>.canGetMore() = this.data?.canGetMore() == true
+fun <T> RequestState<DataList<T>>.canGetMore() = this.data?.canGetMore() ?: false
