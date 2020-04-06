@@ -55,7 +55,7 @@ abstract class BaseMiddleware<T : Event>(
     protected fun <D> Observable<Request<D>>.toDataEvent(eventFactory: EventFactory<D, out T>): Observable<out T> {
         return flatMap {
             if (it.isSuccess) {
-                eventFactory(it.getData()).toObservable()
+                eventFactory(it.extractData()).toObservable()
             } else {
                 skip()
             }

@@ -12,8 +12,8 @@ package ru.surfstudio.android.core.mvp.binding.rx.request
 sealed class Request<T> {
 
     class Loading<T> : Request<T>()
-    data class Success<T>(internal val data: T) : Request<T>()
-    data class Error<T>(internal val error: Throwable) : Request<T>()
+    data class Success<T>(val data: T) : Request<T>()
+    data class Error<T>(val error: Throwable) : Request<T>()
 
     /**
      * Флаг, определяющий, выполняется ли запрос в данный момент.
@@ -33,24 +33,24 @@ sealed class Request<T> {
     /**
      * Извлечение данных, полученных в результате выполнения запроса.
      */
-    fun getData(): T = (this as Success).data
+    fun extractData(): T = (this as Success).data
 
     /**
      * Безопасное извлечение данных, полученных в результате выполнения запроса.
      * В случае отсутствия данных будет возвращен null.
      */
-    fun tryGetData(): T? = (this as? Success)?.data
+    fun extractDataOrNull(): T? = (this as? Success)?.data
 
     /**
      * Извлечение ошибки, полученной в результате выполнения запроса.
      */
-    fun getError(): Throwable = (this as Error).error
+    fun extractError(): Throwable = (this as Error).error
 
     /**
      * Безопасное извлечение ошибки, полученной в результате выполнения запроса.
      * В случае отсутствия ошибки будет возвращен null.
      */
-    fun tryGetError(): Throwable? = (this as? Error)?.error
+    fun extractErrorOrNull(): Throwable? = (this as? Error)?.error
 
     /**
      * Трансформация Request<T> в Request<R>.
