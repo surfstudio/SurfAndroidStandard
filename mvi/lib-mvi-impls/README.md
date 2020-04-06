@@ -32,7 +32,7 @@ Middleware, инкапсулирющий в себе логику трансфо
 # Подключение
 Для подключения данного модуля из [Artifactory Surf](http://artifactory.surfstudio.ru)
 необходимо, чтобы корневой `build.gradle` файл проекта был сконфигурирован так,
-как описано [здесь](https://bitbucket.org/surfstudio/android-standard/overview).
+как описано [здесь](https://gitlab.com/surfstudio/projects/standard/android-standard/-/blob/HEAD/README.md).
 
 Для подключения модуля через Gradle:
 ```
