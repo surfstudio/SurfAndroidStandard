@@ -19,23 +19,23 @@ open class WriteToFileReleaseNotesDiffForSlack : WriteToFileReleaseNotesDiff() {
     }
 
     private fun styleLine(line: String): String {
-        val matchResult = LINE_INFO_REGEX.toRegex().find(line)
-        if (matchResult?.value == null) return setBold(setRedBackground(line))
+        val lineInfoMatch = LINE_INFO_REGEX.toRegex().find(line)
+        if (lineInfoMatch?.value == null) return setBold(setRedBackground(line))
 
         var stylizedLine = ""
-        var lineInfo = matchResult.value.trim()
-        var lineText = line.substring(matchResult.range.last + 1).trim()
+        var lineInfo = lineInfoMatch.value.trim()
+        var lineText = line.substring(lineInfoMatch.range.last + 1).trim()
 
-        val rawEditType = matchResult.groupValues[2]
-        if (rawEditType == "-") stylizedLine = setQuote(stylizedLine)
-        lineInfo = lineInfo.replace(rawEditType, "")
+        val lineEditType = lineInfoMatch.groupValues[2]
+        if (lineEditType == "-") stylizedLine = setQuote(stylizedLine)
+        lineInfo = lineInfo.replace(lineEditType, "")
 
-        val isStartParagraph = matchResult.groupValues[3].isNotBlank()
+        val isStartParagraph = lineInfoMatch.groupValues[3].isNotBlank()
         if (isStartParagraph) {
-            if (rawEditType == "+") {
-                lineInfo = lineInfo.replace(matchResult.groupValues[3], SMILE_CHECK_MARK)
+            if (lineEditType == "+") {
+                lineInfo = lineInfo.replace(lineInfoMatch.groupValues[3], SMILE_CHECK_MARK)
             } else {
-                lineInfo = lineInfo.replace(matchResult.groupValues[3], "")
+                lineInfo = lineInfo.replace(lineInfoMatch.groupValues[3], "")
                 lineInfo = SMILE_DELETE + lineInfo
             }
         }
