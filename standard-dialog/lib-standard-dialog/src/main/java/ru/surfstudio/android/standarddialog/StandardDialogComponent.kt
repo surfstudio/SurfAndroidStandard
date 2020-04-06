@@ -13,12 +13,11 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package com.example.standarddialog
+package ru.surfstudio.android.standarddialog
 
 /**
- * Интерфейс, которому должен удовлетворять любой презентер, использующий стандартный диалог
+ * Компонент стандартного диалога
  */
-interface StandardDialogPresenter {
-    fun simpleDialogPositiveBtnAction(dialogTag: String)
-    fun simpleDialogNegativeBtnAction(dialogTag: String)
+interface StandardDialogComponent {
+    fun inject(d: StandardDialog)
 }
