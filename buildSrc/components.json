@@ -155,7 +155,7 @@
   {
     "id": "broadcast-extension",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "broadcast-extension",
     "libs": [
@@ -460,7 +460,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 13,
+    "unstable_version": 14,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -567,7 +567,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 10,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -864,7 +864,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 10,
+    "unstable_version": 11,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
