@@ -12,7 +12,7 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.dsl.LifecycleMiddlewar
 import ru.surfstudio.android.core.mvi.ui.middleware.RxMiddleware
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderHandleError
 import ru.surfstudio.android.core.mvp.binding.rx.builders.RxBuilderIo
-import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
+import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.core.mvp.error.ErrorHandler
 import ru.surfstudio.android.logger.Logger
 import ru.surfstudio.android.rx.extension.scheduler.SchedulersProvider
@@ -54,8 +54,8 @@ abstract class BaseMiddleware<T : Event>(
      */
     protected fun <D> Observable<Request<D>>.toDataEvent(eventFactory: EventFactory<D, out T>): Observable<out T> {
         return flatMap {
-            if (it is Request.Success) {
-                eventFactory(it.data).toObservable()
+            if (it.isSuccess) {
+                eventFactory(it.getData()).toObservable()
             } else {
                 skip()
             }
