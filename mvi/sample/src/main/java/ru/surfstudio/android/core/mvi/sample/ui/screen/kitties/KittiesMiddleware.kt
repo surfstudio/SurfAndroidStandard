@@ -22,7 +22,11 @@ internal class KittiesMiddleware @Inject constructor(
         private val kittiesStateHolder: KittiesStateHolder
 ) : BaseMiddleware<KittiesEvent>(baseMiddlewareDependency) {
 
-    private val state: KittiesState get() = kittiesStateHolder.value
+    private val state get() = kittiesStateHolder.value
+    private val isTopKittenLoading get() = state.loadTopKittenRequestUi.isLoading
+    private val isNewKittiesCountLoading get() = state.loadNewKittiesCountRequestUi.isLoading
+    private val isPopularKittiesLoading get() = state.loadPopularKittiesRequestUi.isLoading
+    private val isMeowLoading get() = state.isMeowButtonLoading
 
     override fun transform(eventStream: Observable<KittiesEvent>): Observable<out KittiesEvent> {
         return transformations(eventStream) {
@@ -31,59 +35,25 @@ internal class KittiesMiddleware @Inject constructor(
                     BackClicked::class mapTo { closeScreen() },
 
                     TopKitten.UpdateClicked::class mapTo { TopKitten.Load },
-                    TopKitten.Load::class eventMapTo { onTopKittenLoad() },
+                    TopKitten.Load::class.filter { !isTopKittenLoading }.eventMap { loadTopKitten() },
 
                     NewKittiesCount.UpdateClicked::class mapTo { NewKittiesCount.Load },
-                    NewKittiesCount.Load::class eventMapTo { onNewKittiesCountLoad() },
+                    NewKittiesCount.Load::class.filter { !isNewKittiesCountLoading }.eventMap { loadNewKittiesCount() },
 
                     PopularKitties.AllClicked::class mapTo { openAllKittiesScreen() },
-                    PopularKitties.UpdateClicked::class mapTo { onPopularKittiesUpdateClicked() },
-                    PopularKitties.Load::class eventMapTo { onPopularKittiesLoad() },
+                    PopularKitties.UpdateClicked::class mapTo {
+                        kittiesStorage.generateNewKittiesList()
+                        PopularKitties.Load
+                    },
+                    PopularKitties.Load::class.filter { !isPopularKittiesLoading }.eventMap { loadPopularKitties() },
 
                     Meow.Clicked::class mapTo { Meow.Send },
-                    Meow.Send::class eventMapTo { onMeowSend() },
-                    Meow.UpdateCount::class eventMapTo { onMeowUpdateCount() },
-                    Meow.SendReq::class eventMapTo ::onMeowSendRequest,
+                    Meow.Send::class.filter { !isMeowLoading }.eventMap { sendMeow() },
+                    Meow.SendReq::class.filter { it.hasData }.map { Meow.UpdateCount },
+                    Meow.UpdateCount::class.filter { !isMeowLoading }.eventMap { updateMeowCount() },
 
                     Navigation::class decomposeTo navigationMiddleware
             )
-        }
-    }
-
-    private fun onPopularKittiesUpdateClicked(): KittiesEvent {
-        kittiesStorage.generateNewKittiesList()
-        return PopularKitties.Load
-    }
-
-    private fun onTopKittenLoad(): Observable<out KittiesEvent> {
-        return if (state.loadTopKittenRequestUi.isLoading) skip()
-        else loadTopKitten()
-    }
-
-    private fun onNewKittiesCountLoad(): Observable<out KittiesEvent> {
-        return if (state.loadNewKittiesCountRequestUi.isLoading) skip()
-        else loadNewKittiesCount()
-    }
-
-    private fun onPopularKittiesLoad(): Observable<out KittiesEvent> {
-        return if (state.loadPopularKittiesRequestUi.isLoading) skip()
-        else loadPopularKitties()
-    }
-
-    private fun onMeowUpdateCount(): Observable<out KittiesEvent> {
-        return if (state.isMeowButtonLoading) skip()
-        else updateMeowCount()
-    }
-
-    private fun onMeowSend(): Observable<out KittiesEvent> {
-        return if (state.isMeowButtonLoading) skip()
-        else sendMeow()
-    }
-
-    private fun onMeowSendRequest(event: Meow.SendReq): Observable<out KittiesEvent> {
-        return when (event.type) {
-            is Request.Success -> Meow.UpdateCount.toObservable()
-            else -> skip()
         }
     }
 
