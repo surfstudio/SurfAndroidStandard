@@ -55,6 +55,10 @@ class MirrorManager(
     fun mirror(rootCommitHash: String) {
         val standardCommits = standardRepository.getAllCommits(rootCommitHash, standardDepthLimit)
 
+        /*
+        standardCommits.forEach {
+            println("standardCommits ${it.shortMessage}")
+        }*/
         val rootCommit = standardCommits.find { it.name == rootCommitHash }
                 ?: throw RevCommitNotFoundException(rootCommitHash)
 
@@ -114,8 +118,19 @@ class MirrorManager(
      * For all git tree commits apply them to mirror repository
      */
     private fun applyGitTreeToMirror() {
-        gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
-            println("commit ${commit.type} ${commit.commit.shortMessage}")
+        val index = gitTree.standardRepositoryCommitsForMirror.indexOfFirst {
+            it.commit.shortMessage.endsWith("80 [skip ci] [version]")
+        }
+        val size = gitTree.standardRepositoryCommitsForMirror.size
+        gitTree.standardRepositoryCommitsForMirror.filter {
+            it.commit.shortMessage.startsWith("ANDDEP-785")
+        }.forEach {
+            println("sublist ${it.commit.shortMessage}")
+        }
+        gitTree.standardRepositoryCommitsForMirror.filter {
+            it.commit.shortMessage.startsWith("ANDDEP-785")
+        }.forEach { commit ->
+            println("commit ${commit.type} ${commit.commit.shortMessage} ${commit.commit.commitTime}")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)
@@ -171,7 +186,7 @@ class MirrorManager(
             if (parent.mirrorCommitHash.isNotEmpty()) {
                 checkoutCommit(parent.mirrorCommitHash)
             }
-            checkoutBranch(commit.branch)
+            //checkoutBranch(commit.branch)
         }
     }
 
@@ -184,7 +199,6 @@ class MirrorManager(
      */
     private fun merge(commit: CommitWithBranch): RevCommit? {
         standardRepository.reset(commit.commit)
-        println("merge ${commit.commit.shortMessage}")
 
         val mainBranch = commit.branch
         val secondBranch = gitTree.getMergeParents(commit)
@@ -192,11 +206,9 @@ class MirrorManager(
                 .firstOrNull { it != mainBranch }
                 ?: return null
 
-        println("merge $mainBranch ${mirrorRepository.isBranchExists(mainBranch)} $secondBranch ${mirrorRepository.isBranchExists(secondBranch)}")
-
         if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) {
-            mirrorRepository.commit(commit.commit)
-            return commit.commit
+            // mirrorRepository.commit(commit.commit)
+            return null
         }
 
         mirrorRepository.checkoutBranch(mainBranch)

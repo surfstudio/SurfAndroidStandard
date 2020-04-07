@@ -203,7 +203,11 @@ class GitTree(
         mirrorNodes.forEach { mirrorNode ->
             standardNodes.find {
                 it.value.standardHash == mirrorNode.value.mirrorStandardHash
-            }?.state = END
+            }?.apply {
+                println("mirrorNode ${mirrorNode.value.shortMessage}")
+                println("standardNode ${value.shortMessage}")
+                state = END
+            }
         }
     }
 
@@ -226,7 +230,7 @@ class GitTree(
         val ends = standardNodes.filter { it.state == END }
 
         return ends.flatMap { end -> buildChain(mutableListOf(end)) }
-                .filter { ends.contains(it.first()) && it.last() == rootNode }
+                //.filter { ends.contains(it.first()) && it.last() == rootNode }
     }
 
     /**
@@ -314,17 +318,25 @@ class GitTree(
                 }
                 .sortedBy { it.commit.commitTime }
 
+        println("----------------------------------------")
+        standardRepositoryCommitsForMirror.filter { it.commit.shortMessage.startsWith("ANDDEP-785") }.forEach {
+            println("standardRepositoryCommitsForMirror ${it.commit.shortMessage}")
+        }
+        println("----------------------------------------")
+
+        /*
         lines.forEach { line ->
             val branchName = BranchCreator.generateBranchName(existedBranchNames)
             line.forEach { node ->
+                println("node ${node.value.shortMessage}")
                 val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
                 if (commit?.branch?.isEmpty() == true) {
                     commit.branch = branchName
                 }
             }
-        }
+        }*/
 
-        standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter { it.branch.isNotEmpty() }
+        //standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter { it.branch.isNotEmpty() }
     }
 
     /**
@@ -333,20 +345,30 @@ class GitTree(
     private fun buildChain(chain: MutableList<Node>): List<List<Node>> {
         val result: MutableList<List<Node>> = mutableListOf()
         var node = chain.last()
+        println("!!!!!!!!!!!!!!!!!!!! buildChain node ${node.value.shortMessage}")
 
         while (true) {
             when (node.children.size) {
                 1 -> {
                     val next = node.children.first()
+                    println("\nbuildChain next ${next.value.shortMessage} ${next.value.type}")
                     chain.add(next)
                     node = next
+                    next.value.parents.forEach {
+                        println("parents ${it.shortMessage}")
+                    }
+                    //if (next.value.type == CommitType.MERGE.ordinal) {
+
+                    //}
                 }
                 0 -> {
+                    println("buildChain no children")
                     result.add(chain)
                     return result
                 }
                 else -> {
                     node.children.forEach {
+                        println("buildChain else ${it.value.shortMessage}")
                         val newChain = chain.toMutableList()
                         newChain.add(it)
                         result.addAll(buildChain(newChain))
