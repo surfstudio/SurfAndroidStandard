@@ -5,7 +5,7 @@ import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 /**
  * Событие асинхронной загрузки данных.
  *
- * Содержит тип загрузки [Request], меняющийся в зависимости от состояния загрузки данных.
+ * Содержит тип загрузки данных [Request].
  */
 interface RequestEvent<T> : Event {
 
