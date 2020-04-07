@@ -32,6 +32,8 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "mvp-dialog")
     DependencyConfigurator.projectImplementation(project, "rxbus")
     DependencyConfigurator.projectImplementation(project, "datalist-page-count")
+    DependencyConfigurator.projectImplementation(project, "datalist-limit-offset")
+    DependencyConfigurator.projectImplementation(project, "imageloader")
 
     DependencyConfigurator.implementation(project, "androidx.recyclerview:recyclerview")
     DependencyConfigurator.implementation(project, "org.jetbrains.anko:anko-common")

@@ -5,11 +5,14 @@ import ru.surfstudio.android.core.mvi.event.RequestEvent
 import ru.surfstudio.android.core.mvi.event.lifecycle.LifecycleEvent
 import ru.surfstudio.android.core.mvi.event.navigation.NavigationEvent
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.NavigationComposition
-import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.data.Kitty
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.data.Kitten
 import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 import ru.surfstudio.android.core.ui.state.LifecycleStage
 
 internal sealed class KittiesEvent : Event {
+
+    object BackClicked : KittiesEvent()
+    object KittenClicked : KittiesEvent()
 
     data class Navigation(override var events: List<NavigationEvent> = emptyList()) :
             KittiesEvent(), NavigationEvent, NavigationComposition
@@ -17,32 +20,40 @@ internal sealed class KittiesEvent : Event {
     data class Lifecycle(override var stage: LifecycleStage) :
             KittiesEvent(), LifecycleEvent
 
-    sealed class Input : KittiesEvent() {
-        object BackClicked : Input()
-        object LoadTopKittyNameClicked : Input()
-        object LoadKittiesCountClicked : Input()
-        object LoadKittiesListClicked : Input()
-        object SendMeowClicked : Input()
+    sealed class TopKitten : KittiesEvent() {
+        object UpdateClicked : TopKitten()
+        object Load : TopKitten()
+
+        data class Req(override var type: Request<Kitten> = Request.Loading()) :
+                TopKitten(), RequestEvent<Kitten>
     }
 
-    sealed class Data : KittiesEvent() {
-        object LoadTopKittyName : Data()
-        object LoadKittiesCount : Data()
-        object LoadKittiesList : Data()
-        object SendMeow : Data()
+    sealed class NewKittiesCount : KittiesEvent() {
+        object UpdateClicked : NewKittiesCount()
+        object Load : NewKittiesCount()
+
+        data class Req(override var type: Request<Int> = Request.Loading()) :
+                NewKittiesCount(), RequestEvent<Int>
     }
 
-    // TODO Сделать ненадобным указывать в конструкторе Request.Loading()
-    data class LoadTopKittyNameRequestEvent(override var type: Request<String> = Request.Loading()) :
-            KittiesEvent(), RequestEvent<String>
+    sealed class PopularKitties : KittiesEvent() {
+        object AllClicked : PopularKitties()
+        object UpdateClicked : PopularKitties()
+        object Load : PopularKitties()
 
-    data class LoadKittiesCountRequestEvent(override var type: Request<Int> = Request.Loading()) :
-            KittiesEvent(), RequestEvent<Int>
+        data class Req(override var type: Request<List<Kitten>> = Request.Loading()) :
+                PopularKitties(), RequestEvent<List<Kitten>>
+    }
 
-    data class LoadKittiesListRequestEvent(override var type: Request<List<Kitty>> = Request.Loading()) :
-            KittiesEvent(), RequestEvent<List<Kitty>>
+    sealed class Meow : KittiesEvent() {
+        object Clicked : Meow()
+        object Send : Meow()
+        object UpdateCount : Meow()
 
-    data class SendMeowRequestEvent(override var type: Request<Unit> = Request.Loading()) :
-            KittiesEvent(), RequestEvent<Unit>
+        data class SendReq(override var type: Request<Unit> = Request.Loading()) :
+                Meow(), RequestEvent<Unit>
 
+        data class UpdateCountReq(override var type: Request<Int> = Request.Loading()) :
+                Meow(), RequestEvent<Int>
+    }
 }
