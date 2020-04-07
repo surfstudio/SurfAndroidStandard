@@ -3,14 +3,16 @@ package ru.surfstudio.android.build.tasks.deploy_to_mirror
 import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
+import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
+import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
 import ru.surfstudio.android.build.utils.*
 
-private const val HEAD = "HEAD"
+private const val GET_MAIN_BRANCH_COMMAND = "git symbolic-ref refs/remotes/origin/HEAD"
 
 /**
  * Class for mirroring android standard to mirror repository
@@ -53,16 +55,40 @@ class MirrorManager(
 
         val rootCommit = standardCommits.find { it.name == rootCommitHash }
                 ?: throw RevCommitNotFoundException(rootCommitHash)
+        
+        val mainBranchFullName = CommandLineRunner.runCommandWithResult(
+                command = GET_MAIN_BRANCH_COMMAND,
+                workingDir = mirrorRepository.repositoryPath
+        )?.trim()
 
-        val mirrorCommits: Set<RevCommit> = mirrorRepository.getAllBranches()
-                .flatMap { mirrorRepository.getAllCommits(it.objectId.name, mirrorDepthLimit) }
-                .filter { it.mirrorStandardHash.isNotEmpty() }
-                .toSet()
+        if (mainBranchFullName != null) {
+            val mainBranch = mirrorRepository.getAllBranches()
+                    .first { it.name == mainBranchFullName }
 
-        gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
-        applyGitTreeToMirror()
-        setBranches()
-        mirrorRepository.push()
+            val mirrorCommits: Set<RevCommit> = mirrorRepository.getAllCommits(
+                    mainBranch.objectId.name, mirrorDepthLimit)
+                    .toSet()
+
+            val latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
+
+            if (latestMirrorCommit != null) {
+                if (latestMirrorCommit.commitTime > rootCommit.commitTime) {
+                    throw GradleException("Invalid mirror commit $rootCommitHash: " +
+                            "can't be earlier than latest mirror commit ${latestMirrorCommit.standardHash}")
+                }
+
+                gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
+                applyGitTreeToMirror()
+                setBranches()
+                mirrorRepository.push()
+            } else {
+                throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
+                        "for repo ${mirrorRepository.repositoryName}")
+            }
+        } else {
+            throw GradleException("Can't get main branch " +
+                    "for repo ${mirrorRepository.repositoryName}")
+        }
     }
 
     private fun setBranches() {
