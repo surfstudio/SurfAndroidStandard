@@ -7,29 +7,27 @@ dependencies {
     implementation project(":i-push-notification")
     implementation project(":i-network")
 
-    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
-    implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation di.dagger
+    kapt di.daggerKapt
 
-    implementation "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
-    implementation "com.jakewharton:process-phoenix:$processPhoenix"
-    implementation 'com.github.kk121:Android-Debug-Tools:1.0'
+    implementation rxBinding2.core
 
-    // leak canary
-    implementation "com.squareup.leakcanary:leakcanary-android:$leakCanaryVersion"
+    implementation debug.processPhoenix
+    implementation debug.androidDebugTools
 
-    //chunk
-    implementation "com.readystatesoftware.chuck:library:$chuckVersion"
+    implementation leakCanary.core
+    implementation leakCanary.supportFragment
 
-    //tiny dancer
-    implementation "com.github.brianPlummer:tinydancer:$tinyDancerVerxion"
+    implementation network.chuck
 
-    //stetho
-    implementation "com.facebook.stetho:stetho:${stethoVersion}"
-    implementation "com.facebook.stetho:stetho-okhttp3:${stethoVersion}"
+    implementation debug.tinyDancer
 
-    //rangebar
-    implementation "com.appyvet:materialrangebar:${materialRangebarVersion}"
-    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutXVersion}"
+    implementation stetho.core
+    implementation stetho.okHttp
+
+    implementation view.materialRangeBar
+
+    implementation androidX.constraintLayout
 
     api project(":domain")
     implementation project(":i-push-notification")

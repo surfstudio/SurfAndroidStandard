@@ -4,7 +4,7 @@ apply from: '../commonKaptModule.gradle'
 dependencies {
     api project(":base")
 
-    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
+    implementation androidX.multidex
 
     //debug
     releaseImplementation project(":f-debug-no-op")
@@ -18,15 +18,15 @@ dependencies {
     implementation project(":i-initialization")
     implementation project(":i-session")
 
-    api "com.jakewharton.rxbinding2:rxbinding:$rxBinding2Version"
-    api "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBinding2Version"
-    api "com.jakewharton.rxbinding2:rxbinding-appcompat-v7:$rxBinding2Version"
+    api rxBinding2.core
+    api rxBinding2.kotlin
+    api rxBinding2.appcompatV7
 
-    api("com.google.firebase:firebase-crashlytics:$firebaseCrashlyticsVersion") {
+    api(firebase.crashlytics) {
         transitive = true
     }
-    
-    implementation "com.github.anrwatchdog:anrwatchdog:$anrWatchDogVersion"
-    implementation "com.jakewharton.timber:timber:$timberVersion"
-    implementation "com.akaita.java:rxjava2-debug:$rxJava2DebugVersion"
+
+    implementation debug.anrWatchDog
+    implementation debug.timber
+    implementation debug.rxJava2Debug
 }

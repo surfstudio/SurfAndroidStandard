@@ -37,7 +37,7 @@ class App : MultiDexApplication() {
         AppInjector.initInjector(this)
         DebugAppInjector.initInjector(this, activeActivityHolder)
 
-        initFirebaseCrashlytics()
+        //initFirebaseCrashlytics() todo uncoment for a real app
         initPushEventListener()
         initRxJava2Debug()
 
