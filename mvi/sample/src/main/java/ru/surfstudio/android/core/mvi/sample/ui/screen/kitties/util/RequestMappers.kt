@@ -109,6 +109,21 @@ object RequestMappers {
                         else -> MainLoading(request.isLoading)
                     }
                 }
+
+        /**
+         * Маппер состояния загрузки пагинируемого запроса.
+         *
+         * @return актуальное состояние загрузки.
+         * */
+        fun <T> pagination(isSwr: Boolean = false): RequestLoadingMapper<DataList<T>, PaginationBundle<T>> =
+                { request, data ->
+                    val hasData = data?.hasData ?: false
+                    when {
+                        isSwr -> SwipeRefreshLoading(request.isLoading)
+                        hasData -> TransparentLoading(request.isLoading)
+                        else -> MainLoading(request.isLoading)
+                    }
+                }
     }
 
     /**

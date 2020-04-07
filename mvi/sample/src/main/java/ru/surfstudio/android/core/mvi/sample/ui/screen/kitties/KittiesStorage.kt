@@ -34,12 +34,12 @@ internal class KittiesStorage @Inject constructor() {
 
     fun getPopularKitties(): List<Kitten> = kitties.take(10)
 
-    fun getPaginatedKitties(offset: Int, limit: Int = 20): DataList<Kitten> {
+    fun getPaginatedKitties(offset: Int, limit: Int = 40): DataList<Kitten> {
         val nextOffset = (offset + limit)
                 .let { if (it > kitties.size) kitties.size else it }
 
         val kittiesSlice = kitties.subList(offset, nextOffset)
-        return DataList(kittiesSlice, limit, nextOffset, kitties.size)
+        return DataList(kittiesSlice, limit, offset, kitties.size)
     }
 
     fun sendMeow() {

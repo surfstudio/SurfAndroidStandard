@@ -5,7 +5,9 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.BaseMiddlewareDependency
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.NavigationMiddleware
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.close
+import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.open
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.KittiesEvent.*
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.all.KittiesAllActivityRoute
 import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 import ru.surfstudio.android.dagger.scope.PerScreen
 import ru.surfstudio.android.rx.extension.toObservable
@@ -121,7 +123,7 @@ internal class KittiesMiddleware @Inject constructor(
     }
 
     private fun openAllKittiesScreen(): KittiesEvent {
-        return Navigation()//.open() // TODO add route
+        return Navigation().open(KittiesAllActivityRoute())
     }
 
     private fun closeScreen(): KittiesEvent {

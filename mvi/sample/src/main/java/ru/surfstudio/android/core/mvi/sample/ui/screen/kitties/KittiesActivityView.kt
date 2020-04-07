@@ -64,7 +64,6 @@ internal class KittiesActivityView :
     override fun createConfigurator() = KittiesScreenConfigurator(intent)
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?, viewRecreated: Boolean) {
-        super.onCreate(savedInstanceState, persistentState, viewRecreated)
         initViews()
         bind()
     }

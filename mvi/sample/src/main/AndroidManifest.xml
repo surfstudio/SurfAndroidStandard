@@ -55,6 +55,11 @@
             android:name=".ui.screen.kitties.KittiesActivityView"
             android:label="MVI-Reducer showcase activity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ui.screen.kitties.all.KittiesAllActivityView"
+            android:label="MVI-Reducer showcase activity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
     </application>
 
 </manifest>

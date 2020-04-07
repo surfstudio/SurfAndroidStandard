@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.kitties
 
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.KittiesEvent.*
-import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.data.Kitten
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.data.KittenUi
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.util.RequestMappers
 import ru.surfstudio.android.core.mvi.ui.reducer.Reducer
 import ru.surfstudio.android.core.mvi.ui.reducer.RequestMapper
@@ -15,15 +15,15 @@ import ru.surfstudio.android.dagger.scope.PerScreen
 import javax.inject.Inject
 
 internal data class KittiesState(
-        val loadTopKittenRequestUi: RequestUi<Kitten> = RequestUi(),
+        val loadTopKittenRequestUi: RequestUi<KittenUi> = RequestUi(),
         val loadNewKittiesCountRequestUi: RequestUi<Int> = RequestUi(),
-        val loadPopularKittiesRequestUi: RequestUi<List<Kitten>> = RequestUi(),
+        val loadPopularKittiesRequestUi: RequestUi<List<KittenUi>> = RequestUi(),
         val updateMeowCountRequestUi: RequestUi<Int> = RequestUi(),
         val sendMeowRequestUi: RequestUi<Unit> = RequestUi()
 ) {
-    val topKitten: Kitten = loadTopKittenRequestUi.data ?: Kitten()
+    val topKitten: KittenUi = loadTopKittenRequestUi.data ?: KittenUi()
     val newKittiesCount: Int = loadNewKittiesCountRequestUi.data ?: 0
-    val popularKitties: List<Kitten> = loadPopularKittiesRequestUi.data ?: emptyList()
+    val popularKitties: List<KittenUi> = loadPopularKittiesRequestUi.data ?: emptyList()
 
     val meowCount: Int = updateMeowCountRequestUi.data ?: 0
     val isMeowButtonLoading: Boolean = listOf(sendMeowRequestUi, updateMeowCountRequestUi)
@@ -59,8 +59,8 @@ internal class KittiesReducer @Inject constructor(
         }
     }
 
-    // Демо-метод, который инкапсулирует в себе кастомный маппинг запроса
-    private fun <T> mapKittiesRequest(request: Request<T>, requestUi: RequestUi<T>): RequestUi<T> {
+    // Демо-метод, который инкапсулирует в себе стандартный (для экрана) маппинг запроса
+    private fun <T> mapDefaultRequest(request: Request<T>, requestUi: RequestUi<T>): RequestUi<T> {
         return RequestMapper.builder(request, requestUi)
                 .mapData(RequestMappers.data.default())
                 .mapLoading(RequestMappers.loading.simple())
@@ -70,11 +70,12 @@ internal class KittiesReducer @Inject constructor(
     }
 
     private fun onTopKittenRequest(state: KittiesState, event: TopKitten.Req): KittiesState {
-        // Делегируем маппинг запроса другому методу, который под капотом использует RequestMapper:
-        val newRequestUi = when (33) {
+        val newRequestUi = when (1) {
             0 -> {
                 // Самый длинный и гибкий путь - писать мапперы самостоятельно
                 RequestMapper.builder(event.type, state.loadTopKittenRequestUi)
+                        // Приводим Request<Kitten> к Request<KittenUi>
+                        .mapRequest { kitten -> KittenUi(kitten) }
                         // Вручную маппим данные: либо берем их из запроса,
                         // если он завершился удачно, либо берем прошлые данных из RequestUi
                         .mapData { request, data -> request.dataOrNull ?: data }
@@ -111,10 +112,12 @@ internal class KittiesReducer @Inject constructor(
                         // Собираем цепочку, выполняем и получаем на выходе RequestUi.
                         .build()
             }
-            1 -> {
+            else -> {
                 // Наиболее оптимальный и лаконичный путь - использовать заранее созданные мапперы
                 // Реализации мапперов можно посмотреть в RequestMappers.kt
                 RequestMapper.builder(event.type, state.loadTopKittenRequestUi)
+                        // Приводим Request<Kitten> к Request<KittenUi>
+                        .mapRequest { kitten -> KittenUi(kitten) }
                         // Мапим данные по-умолчанию (пытаемся получить новые данные, иначе оставляем старые)
                         .mapData(RequestMappers.data.default())
                         // Мапим состояния загрузки (оборачиваем isLoading запроса в SimpleLoading)
@@ -125,23 +128,27 @@ internal class KittiesReducer @Inject constructor(
                         .reactOnError { error -> ch.updateFailed.accept() }
                         .build()
             }
-            else -> {
-                // Наиболее быстрый в написании (для самых распространенных типов запросов):
-                // либо в базовом редюсере для всего проекта, либо на конкретном экране пишем
-                // кастомную функцию-маппер и передаем туда Request и RequestUi (и опционально флаг isSwr).
-                mapKittiesRequest(event.type, state.loadTopKittenRequestUi)
-            }
         }
         return state.copy(loadTopKittenRequestUi = newRequestUi)
     }
 
     private fun onNewKittiesCountRequest(state: KittiesState, event: NewKittiesCount.Req): KittiesState {
-        val newRequestUi = mapKittiesRequest(event.type, state.loadNewKittiesCountRequestUi)
+        // Наиболее быстрый в написании (для самых распространенных типов запросов):
+        // либо в базовом редюсере для всего проекта, либо на конкретном экране пишем
+        // кастомную функцию-маппер и передаем туда Request и RequestUi.
+        val newRequestUi = mapDefaultRequest(event.type, state.loadNewKittiesCountRequestUi)
         return state.copy(loadNewKittiesCountRequestUi = newRequestUi)
     }
 
     private fun onPopularKittiesRequest(state: KittiesState, event: PopularKitties.Req): KittiesState {
-        val newRequestUi = mapKittiesRequest(event.type, state.loadPopularKittiesRequestUi)
+        val newRequestUi = RequestMapper.builder(event.type, state.loadPopularKittiesRequestUi)
+                // Преобразования списка типа T1 в список типа T2
+                .mapRequest { kittiesList -> kittiesList.map { KittenUi(it) } }
+                .mapData(RequestMappers.data.default())
+                .mapLoading(RequestMappers.loading.simple())
+                .reactOnSuccess { data -> ch.updateSucceed.accept() }
+                .reactOnError { error -> ch.updateFailed.accept() }
+                .build()
         return state.copy(loadPopularKittiesRequestUi = newRequestUi)
     }
 
