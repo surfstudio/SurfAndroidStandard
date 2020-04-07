@@ -41,6 +41,6 @@ inline fun <T, reified PE : PaginationEvent> RequestEvent<DataList<T>>.toPaginat
     }
 }
 
-fun <T> Request<DataList<T>>.canGetMore() = extractDataOrNull()?.canGetMore() ?: false
+fun <T> Request<DataList<T>>.canGetMore() = getDataOrNull()?.canGetMore() ?: false
 
 fun <T> RequestState<DataList<T>>.canGetMore() = this.data?.canGetMore() ?: false

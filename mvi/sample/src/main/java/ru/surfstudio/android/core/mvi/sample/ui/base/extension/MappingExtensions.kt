@@ -18,14 +18,14 @@ fun <T> mapLoading(request: Request<T>, hasData: Boolean, isSwr: Boolean = false
 
 fun <T> mapError(request: Request<T>, hasData: Boolean): Throwable? =
         if (!hasData && request.isError) {
-            request.extractError()
+            request.getError()
         } else {
             null
         }
 
 fun <T> mapData(request: Request<T>, data: T?): T? =
         if (request.isSuccess) {
-            request.extractData()
+            request.getData()
         } else {
             data
         }
@@ -38,8 +38,8 @@ fun <T> mapDataList(
         when {
             request.isSuccess -> {
                 when {
-                    hasData && request.extractData().startPage > 1 -> data?.merge(request.extractData())
-                    else -> request.extractData()
+                    hasData && request.getData().startPage > 1 -> data?.merge(request.getData())
+                    else -> request.getData()
                 }
             }
             else -> data
