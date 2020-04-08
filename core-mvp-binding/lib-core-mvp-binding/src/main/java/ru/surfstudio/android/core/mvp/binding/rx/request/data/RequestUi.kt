@@ -21,13 +21,19 @@ data class RequestUi<T>(
         val error: Throwable? = null
 ) {
 
-    /** Запрос загружается? */
+    /**
+     * Флаг, определяющий, выполняется ли запрос в данный момент.
+     * */
     val isLoading: Boolean get() = load?.isLoading ?: false
 
-    /** Есть данные? */
+    /**
+     * Флаг, определяющий, есть ли данные в результате выполнения запроса.
+     * */
     val hasData: Boolean get() = data != null
 
-    /** Есть ошибка? */
+    /**
+     * Флаг, определяющий, есть ли ошибка в результате выполнения запроса.
+     * */
     val hasError: Boolean get() = error != null
 
 }
