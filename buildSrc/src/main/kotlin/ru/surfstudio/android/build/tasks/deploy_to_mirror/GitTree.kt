@@ -13,7 +13,6 @@ import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
-import ru.surfstudio.android.build.utils.BranchCreator
 import ru.surfstudio.android.build.utils.extractBranchNames
 import ru.surfstudio.android.build.utils.mirrorStandardHash
 import ru.surfstudio.android.build.utils.standardHash
@@ -203,11 +202,7 @@ class GitTree(
         mirrorNodes.forEach { mirrorNode ->
             standardNodes.find {
                 it.value.standardHash == mirrorNode.value.mirrorStandardHash
-            }?.apply {
-                println("mirrorNode ${mirrorNode.value.shortMessage}")
-                println("standardNode ${value.shortMessage}")
-                state = END
-            }
+            }?.state = END
         }
     }
 
@@ -218,7 +213,7 @@ class GitTree(
         val lines = createLines()
 
         buildMirrorStartCommits(lines)
-        buildStandardCommitsForMirror(lines)
+        buildStandardCommitsForMirror()
     }
 
     /**
@@ -230,7 +225,7 @@ class GitTree(
         val ends = standardNodes.filter { it.state == END }
 
         return ends.flatMap { end -> buildChain(mutableListOf(end)) }
-                //.filter { ends.contains(it.first()) && it.last() == rootNode }
+                .filter { ends.contains(it.first()) && it.last() == rootNode }
     }
 
     /**
@@ -289,19 +284,12 @@ class GitTree(
     }
 
     /**
-     * creates from lines standard repository commit for applying to mirror. For every line branch name is created
      * Marks every commit either as:
      * MIRROR_START_POINT - commits that are already in mirror repository and applying commits started from
      * SIMPLE - usual commit
      * MERGE - merge commit
-     *
-     * @param lines created lines in standard repository tree
      */
-    private fun buildStandardCommitsForMirror(lines: List<List<Node>>) {
-        val existedBranchNames = mirrorRepository.getAllBranches()
-                .map { it.name }
-                .extractBranchNames()
-
+    private fun buildStandardCommitsForMirror() {
         val mirrorStartCommitsStandardHashes = startMirrorRepositoryCommits.map { it.commit.mirrorStandardHash }
 
         standardRepositoryCommitsForMirror = standardNodes
@@ -317,26 +305,6 @@ class GitTree(
                     CommitWithBranch(commit = it.value, tags = tags, type = type)
                 }
                 .sortedBy { it.commit.commitTime }
-
-        println("----------------------------------------")
-        standardRepositoryCommitsForMirror.filter { it.commit.shortMessage.startsWith("ANDDEP-785") }.forEach {
-            println("standardRepositoryCommitsForMirror ${it.commit.shortMessage}")
-        }
-        println("----------------------------------------")
-
-        /*
-        lines.forEach { line ->
-            val branchName = BranchCreator.generateBranchName(existedBranchNames)
-            line.forEach { node ->
-                println("node ${node.value.shortMessage}")
-                val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
-                if (commit?.branch?.isEmpty() == true) {
-                    commit.branch = branchName
-                }
-            }
-        }*/
-
-        //standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter { it.branch.isNotEmpty() }
     }
 
     /**
@@ -357,9 +325,6 @@ class GitTree(
                     next.value.parents.forEach {
                         println("parents ${it.shortMessage}")
                     }
-                    //if (next.value.type == CommitType.MERGE.ordinal) {
-
-                    //}
                 }
                 0 -> {
                     println("buildChain no children")

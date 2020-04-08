@@ -55,10 +55,6 @@ class MirrorManager(
     fun mirror(rootCommitHash: String) {
         val standardCommits = standardRepository.getAllCommits(rootCommitHash, standardDepthLimit)
 
-        /*
-        standardCommits.forEach {
-            println("standardCommits ${it.shortMessage}")
-        }*/
         val rootCommit = standardCommits.find { it.name == rootCommitHash }
                 ?: throw RevCommitNotFoundException(rootCommitHash)
 
@@ -186,7 +182,9 @@ class MirrorManager(
             if (parent.mirrorCommitHash.isNotEmpty()) {
                 checkoutCommit(parent.mirrorCommitHash)
             }
-            //checkoutBranch(commit.branch)
+            if (commit.branch.isNotEmpty()) {
+                checkoutBranch(commit.branch)
+            }
         }
     }
 
@@ -194,6 +192,8 @@ class MirrorManager(
      * creates merge commit by getting merge parents for commit
      * and merging them.
      * In case of conflicts just copies file from standard repository to mirror repository
+     *
+     * todo in case if mirror repo contains unique commits, its content must not be overridden
      *
      * @param commit commit to apply
      */
@@ -206,16 +206,10 @@ class MirrorManager(
                 .firstOrNull { it != mainBranch }
                 ?: return null
 
-        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) {
-            // mirrorRepository.commit(commit.commit)
-            return null
-        }
+        if (!mirrorRepository.isBranchExists(mainBranch) || !mirrorRepository.isBranchExists(secondBranch)) return null
 
         mirrorRepository.checkoutBranch(mainBranch)
         val conflicts = mirrorRepository.merge(secondBranch)
-        conflicts.forEach {
-            println("conflict $it")
-        }
         conflicts.forEach {
             val filePath = it.replaceFirst("${mirrorRepository.repositoryPath.path}/", EMPTY_STRING)
             diffManager.modify(filePath)
