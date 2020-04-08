@@ -102,6 +102,7 @@ class DebugInteractor @Inject constructor(
             okHttpBuilder.addNetworkInterceptor(StethoInterceptor())
         }
 
+        //TODO add kotlinoption for jvm_1_8
         okHttpBuilder.addInterceptor {
             TimeUnit.MILLISECONDS.sleep(requestDelay)
             it.proceed(it.request())
