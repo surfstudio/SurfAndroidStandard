@@ -22,15 +22,11 @@ even if stream contains events from UI, which should be reacted directly.
 * Remove listenForResult extension for EventTransformerList + listenForResult from NavigationMiddleware
 * Fixed StandardReactDialogView negative button nullability
 * ANDDEP-928 Remove Timber dependencies
+* **NO BACKWARD COMPATIBILITY** ANDDEP-997 Renamed RequestEvent.type to RequestEvent.request.
+Replaced RxMiddleware.asRequestEvent `Event` parameter with `EventFactory`.
 * ANDDEP-968 `Reducer.kt`: moved to `mvi-reducer` module;
 ##### Mvi-reducer
 * ANDDEP-968 **NEW** `RequestMapper.kt`: class for managing requests;
 * ANDDEP-968 **NEW** `RequestMapperLambdas.kt`: file that holds typealiases for `RequestMapper`;
 ##### Mvi-sample
-* ANDDEP-968 New sample screen `KittiesActivity`:
-  * Can be opened from `MainActivity`;
-  * Demonstration of multiple running requests at the same time;
-  * Demonstration of various ways of use of `RequestMapper`;
-* ANDDEP-968 New sample screen `KittiesAllActivity`:
-  * Can be opened from `KittiesActivity`;
-  * Demonstration of pagination request mapping;
+* ANDDEP-968 New sample screens: `KittiesActivity` and `KittiesAllActivity`;
