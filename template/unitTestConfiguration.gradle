@@ -12,11 +12,11 @@ dependencies {
     testImplementation project(":base")
     testImplementation project(":small-test-utils")
 
-    testImplementation "junit:junit:$junitVersion"
-    testImplementation "com.annimon:stream:$annimonStreamVersion"
-    testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    testImplementation "org.robolectric:shadows-multidex:$robolectricVersion"
-    testImplementation "com.squareup.leakcanary:leakcanary-android-no-op:$leakCanaryVersion"
-    testImplementation "com.google.dagger:dagger:$daggerVersion"
-    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    testImplementation lang.annimonStream
+    testImplementation test.junit
+    testImplementation test.robolectric
+    testImplementation test.shadowsMultidex
+    testImplementation leakCanary.coreNoOp
+    testImplementation di.dagger
+    kaptTest di.daggerKapt
 }

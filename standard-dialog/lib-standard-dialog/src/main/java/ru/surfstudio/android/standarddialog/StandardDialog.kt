@@ -13,7 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package com.example.standarddialog
+package ru.surfstudio.android.standarddialog
 
 import android.app.Dialog
 import android.os.Bundle

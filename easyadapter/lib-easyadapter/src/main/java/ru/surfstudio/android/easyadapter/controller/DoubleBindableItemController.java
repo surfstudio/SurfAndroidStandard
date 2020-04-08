@@ -56,12 +56,12 @@ public abstract class DoubleBindableItemController<T1, T2, H extends DoubleBinda
     }
 
     @Override
-    public final String getItemId(DoubleBindableItem<T1, T2, H> item) {
+    public final Object getItemId(DoubleBindableItem<T1, T2, H> item) {
         return getItemId(item.getFirstData(), item.getSecondData());
     }
 
     @Override
-    public final String getItemHash(DoubleBindableItem<T1, T2, H> item) {
+    public final Object getItemHash(DoubleBindableItem<T1, T2, H> item) {
         return getItemHash(item.getFirstData(), item.getSecondData());
     }
 
@@ -73,7 +73,7 @@ public abstract class DoubleBindableItemController<T1, T2, H extends DoubleBinda
      * @param secondData second data
      * @return unique id retrieved from two blocks of data
      */
-    protected abstract String getItemId(T1 firstData, T2 secondData);
+    protected abstract Object getItemId(T1 firstData, T2 secondData);
 
 
     /**
@@ -84,9 +84,8 @@ public abstract class DoubleBindableItemController<T1, T2, H extends DoubleBinda
      * @param secondData second data
      * @return hashcode of data
      */
-    protected String getItemHash(T1 firstData, T2 secondData) {
-        return String.valueOf(
-                firstData == null ? 0 : firstData.hashCode() +
-                        (secondData == null ? 0 : secondData.hashCode()));
+    protected Object getItemHash(T1 firstData, T2 secondData) {
+        return firstData == null ? 0 : firstData.hashCode() +
+                        (secondData == null ? 0 : secondData.hashCode());
     }
 }
