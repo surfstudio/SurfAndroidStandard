@@ -44,6 +44,8 @@ class MirrorManager(
             "common"
     )
 
+    private var latestMirrorCommit: RevCommit? = null
+
     /**
      * Mirrors standard repository to mirror repository.
      * Builds git tree presentation and then applies to mirror repository
@@ -55,7 +57,7 @@ class MirrorManager(
 
         val rootCommit = standardCommits.find { it.name == rootCommitHash }
                 ?: throw RevCommitNotFoundException(rootCommitHash)
-        
+
         val mainBranchFullName = CommandLineRunner.runCommandWithResult(
                 command = GET_MAIN_BRANCH_COMMAND,
                 workingDir = mirrorRepository.repositoryPath
@@ -69,21 +71,18 @@ class MirrorManager(
                     mainBranch.objectId.name, mirrorDepthLimit)
                     .toSet()
 
-            val latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
-
-            if (latestMirrorCommit != null) {
-                if (latestMirrorCommit.commitTime > rootCommit.commitTime) {
+            latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
+            latestMirrorCommit?.also { safeLatestMirrorCommit ->
+                if (safeLatestMirrorCommit.commitTime > rootCommit.commitTime) {
                     throw GradleException("Invalid mirror commit $rootCommitHash: " +
-                            "can't be earlier than latest mirror commit ${latestMirrorCommit.standardHash}")
+                            "can't be earlier than latest mirror commit ${safeLatestMirrorCommit.standardHash}")
                 }
 
                 gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
                 applyGitTreeToMirror()
                 setBranches()
                 mirrorRepository.push()
-            } else {
-                throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
-                        "for repo ${mirrorRepository.repositoryName}")
+                return
             }
         } else {
             throw GradleException("Can't get main branch " +
@@ -115,23 +114,10 @@ class MirrorManager(
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)
-                CommitType.MIRROR_START_POINT -> createMirrorStartCommit(commit)
+                CommitType.MIRROR_START_POINT -> latestMirrorCommit
                 else -> null
             })?.let { commit.tags.forEach { tag -> mirrorRepository.tag(it, tag) } }
         }
-    }
-
-    /**
-     * creates start commit of git tree in mirror repository
-     *
-     * @param commit start commit
-     */
-    private fun createMirrorStartCommit(commit: CommitWithBranch): RevCommit {
-        val mirrorCommit = gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash)
-        mirrorRepository.reset(mirrorCommit.commit)
-        mirrorRepository.checkoutBranch(mirrorCommit.branch)
-        commit.mirrorCommitHash = mirrorCommit.commit.name
-        return mirrorCommit.commit
     }
 
     /**
