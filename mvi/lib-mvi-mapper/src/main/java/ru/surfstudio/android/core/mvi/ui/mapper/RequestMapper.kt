@@ -1,8 +1,8 @@
 package ru.surfstudio.android.core.mvi.ui.mapper
 
+import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.RequestUi
-import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 
 /**
  * Предназначен для удобного и максимально контролируемого
@@ -66,7 +66,7 @@ class RequestMapper<T, D> private constructor(
      * */
     fun handleError(handler: RequestErrorHandler<D>): RequestMapper<T, D> {
         if (isErrorHandled) return this
-        val isHandled = handler(request.errorOrNull, data, loading)
+        val isHandled = handler(request.getErrorOrNull(), data, loading)
         return produceNewRequestMapper(request, data, isErrorHandled = isHandled)
     }
 
@@ -79,10 +79,10 @@ class RequestMapper<T, D> private constructor(
      * */
     @Suppress("UNCHECKED_CAST")
     fun <E : Throwable> handleSpecificError(handler: RequestErrorHandler<D>): RequestMapper<T, D> {
-        val error = request.errorOrNull as? E
+        val error = request.getErrorOrNull() as? E
         return when {
             !isErrorHandled && error is E -> {
-                val isHandled = handler(request.errorOrNull, data, loading)
+                val isHandled = handler(request.getErrorOrNull(), data, loading)
                 produceNewRequestMapper(request, data, isErrorHandled = isHandled)
             }
             else -> this
@@ -122,7 +122,7 @@ class RequestMapper<T, D> private constructor(
      * Получает в качестве аргументов: ошибку.
      * */
     fun reactOnError(reactor: RequestErrorReactor): RequestMapper<T, D> =
-            this.also { if (request.isError) reactor(request.errorOrNull) }
+            this.also { if (request.isError) reactor(request.getErrorOrNull()) }
 
     /**
      * "Среагировать" при загрузке запроса.
@@ -141,7 +141,7 @@ class RequestMapper<T, D> private constructor(
     /**
      * "Собрать" результат выполнения маппинга в [RequestUi].
      * */
-    fun build(): RequestUi<D> = RequestUi(data, loading, request.errorOrNull)
+    fun build(): RequestUi<D> = RequestUi(data, loading, request.getErrorOrNull())
 
     /**
      * Используется для быстрого создания нового инстанса [RequestMapper]'а.

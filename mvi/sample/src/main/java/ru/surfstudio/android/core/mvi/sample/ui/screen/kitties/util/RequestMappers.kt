@@ -1,8 +1,8 @@
 package ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.util
 
-import ru.surfstudio.android.core.mvi.ui.reducer.RequestDataMapper
-import ru.surfstudio.android.core.mvi.ui.reducer.RequestErrorHandler
-import ru.surfstudio.android.core.mvi.ui.reducer.RequestLoadingMapper
+import ru.surfstudio.android.core.mvi.ui.mapper.RequestDataMapper
+import ru.surfstudio.android.core.mvi.ui.mapper.RequestErrorHandler
+import ru.surfstudio.android.core.mvi.ui.mapper.RequestLoadingMapper
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.MainLoading
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.SimpleLoading
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.SwipeRefreshLoading
@@ -42,7 +42,7 @@ object RequestMappers {
          * @return только что полученные данные из запроса.
          * */
         fun <T> single(): RequestDataMapper<T, T, T> =
-                { request, _ -> request.dataOrNull }
+                { request, _ -> request.getDataOrNull() }
 
         /**
          * Стандартный маппер данных запроса.
@@ -50,7 +50,7 @@ object RequestMappers {
          * @return только что полученные данные из запроса, либо данные из стейта.
          * */
         fun <T> default(): RequestDataMapper<T, T, T> =
-                { request, data -> request.dataOrNull ?: data }
+                { request, data -> request.getDataOrNull() ?: data }
 
         /**
          * Маппер данных пагинируемого запроса.
@@ -61,7 +61,7 @@ object RequestMappers {
         fun <T> pagination(): RequestDataMapper<DataList<T>, PaginationBundle<T>, PaginationBundle<T>> =
                 { request, data ->
                     val currentDataList = data?.list
-                    val newDataList = request.dataOrNull
+                    val newDataList = request.getDataOrNull()
 
                     val hasCurrentData = currentDataList != null
                     val hasNewData = newDataList != null

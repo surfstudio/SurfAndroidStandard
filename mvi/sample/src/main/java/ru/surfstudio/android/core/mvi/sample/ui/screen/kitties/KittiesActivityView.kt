@@ -7,6 +7,7 @@ import kotlinx.android.synthetic.main.activity_kitties.*
 import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.sample.R
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.KittiesEvent.Input
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.controller.DividerItemController
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.controller.HeaderItemController
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.controller.KittenItemController
@@ -24,22 +25,22 @@ internal class KittiesActivityView :
 
     private val easyAdapter = EasyAdapter()
     private val headerItemController = HeaderItemController(
-            onBackClickedAction = { KittiesEvent.BackClicked.emit() }
+            onBackClickedAction = { Input.BackClicked.emit() }
     )
     private val kittenItemController = KittenItemController(
-            onClickedAction = { KittiesEvent.KittenClicked.emit() }
+            onClickedAction = { Input.KittenClicked(it).emit() }
     )
     private val dividerItemController = DividerItemController(
             onRefreshClickedAction = { type ->
                 when (type) {
-                    DividerType.TOP_KITTEN -> KittiesEvent.TopKitten.UpdateClicked.emit()
-                    DividerType.NEW_KITTIES -> KittiesEvent.NewKittiesCount.UpdateClicked.emit()
-                    DividerType.POPULAR_KITTIES -> KittiesEvent.PopularKitties.UpdateClicked.emit()
+                    DividerType.TOP_KITTEN -> Input.TopKittenUpdateClicked.emit()
+                    DividerType.NEW_KITTIES -> Input.NewKittiesCountUpdateClicked.emit()
+                    DividerType.POPULAR_KITTIES -> Input.PopularKittiesUpdateClicked.emit()
                 }
             },
             onAllClickedAction = { type ->
                 when (type) {
-                    DividerType.POPULAR_KITTIES -> KittiesEvent.PopularKitties.AllClicked.emit()
+                    DividerType.POPULAR_KITTIES -> Input.PopularKittiesAllClicked.emit()
                     else -> Unit
                 }
             }
@@ -70,7 +71,7 @@ internal class KittiesActivityView :
 
     private fun initViews() {
         kitties_rv.adapter = easyAdapter
-        kitties_meow_btn.setOnClickListener { KittiesEvent.Meow.Clicked.emit() }
+        kitties_meow_btn.setOnClickListener { Input.MeowClicked.emit() }
     }
 
     private fun bind() {
@@ -112,23 +113,23 @@ internal class KittiesActivityView :
         val topKittenDividerItem = DividerUi(
                 type = DividerType.TOP_KITTEN,
                 title = "Top kitten of the week!",
-                isLoading = state.loadTopKittenRequestUi.isLoading
+                isLoading = state.isTopKittenLoading
         )
         val newKittiesCountDividerItem = DividerUi(
                 type = DividerType.NEW_KITTIES,
                 title = "New kitties: ${state.newKittiesCount}",
-                isLoading = state.loadNewKittiesCountRequestUi.isLoading
+                isLoading = state.isNewKittiesCountLoading
         )
         val popularKittiesDividerItem = DividerUi(
                 type = DividerType.POPULAR_KITTIES,
                 title = "Popular kitties",
-                isLoading = state.loadPopularKittiesRequestUi.isLoading,
+                isLoading = state.isPopularKittiesLoading,
                 isAllVisible = true
         )
         val itemList = ItemList.create()
                 .add(headerItemController)
                 .add(topKittenDividerItem, dividerItemController)
-                .addIf(state.topKitten.name.isNotBlank(), state.topKitten, kittenItemController)
+                .addIf(state.topKitten.isValid, state.topKitten, kittenItemController)
                 .add(newKittiesCountDividerItem, dividerItemController)
                 .add(popularKittiesDividerItem, dividerItemController)
                 .addAll(state.popularKitties, kittenItemController)

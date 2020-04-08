@@ -8,6 +8,7 @@ import ru.surfstudio.android.core.mvi.event.hub.owner.SingleHubOwner
 import ru.surfstudio.android.core.mvi.impls.event.hub.ScreenEventHub
 import ru.surfstudio.android.core.mvi.sample.R
 import ru.surfstudio.android.core.mvi.sample.ui.adapter.PaginationableAdapter
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.all.KittiesAllEvent.Input
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.controller.HeaderItemController
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.controller.KittenItemController
 import ru.surfstudio.android.core.mvi.ui.BaseReactActivityView
@@ -19,13 +20,13 @@ internal class KittiesAllActivityView :
         SingleHubOwner<KittiesAllEvent> {
 
     private val easyAdapter = PaginationableAdapter(
-            onShowMoreListener = { KittiesAllEvent.Content.LoadNext.emit() }
+            onShowMoreListener = { Input.LoadNext.emit() }
     )
     private val kittenItemController = KittenItemController(
             onClickedAction = { /*no action*/ }
     )
     private val headerItemController = HeaderItemController(
-            onBackClickedAction = { KittiesAllEvent.BackClicked.emit() }
+            onBackClickedAction = { Input.BackClicked.emit() }
     )
 
     @Inject
@@ -47,7 +48,7 @@ internal class KittiesAllActivityView :
 
     private fun initViews() {
         kitties_all_rv.adapter = easyAdapter
-        kitties_all_swr.setOnRefreshListener { KittiesAllEvent.Content.LoadSwr.emit() }
+        kitties_all_swr.setOnRefreshListener { Input.SwrReload.emit() }
     }
 
     private fun bind() {

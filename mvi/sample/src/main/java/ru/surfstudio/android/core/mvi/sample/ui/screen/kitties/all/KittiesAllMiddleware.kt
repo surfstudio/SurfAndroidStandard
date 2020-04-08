@@ -25,22 +25,24 @@ internal class KittiesAllMiddleware @Inject constructor(
     override fun transform(eventStream: Observable<KittiesAllEvent>): Observable<out KittiesAllEvent> {
         return transformations(eventStream) {
             addAll(
-                    onCreate() map { Content.LoadNext },
-                    BackClicked::class mapTo { closeScreen() },
+                    Navigation::class decomposeTo navigationMiddleware,
+                    onCreate() map { Data.LoadKitties(0, false) },
 
-                    Content.LoadNext::class mapTo { Content.Load(nextPaginationOffset, false) },
-                    Content.LoadSwr::class mapTo { Content.Load(0, true) },
-                    Content.Load::class streamMapTo ::onLoadContent,
+                    // Ui events transformation:
+                    Input.BackClicked::class mapTo { closeScreen() },
+                    Input.SwrReload::class mapTo { Data.LoadKitties(0, true) },
+                    Input.LoadNext::class mapTo { Data.LoadKitties(nextPaginationOffset, false) },
 
-                    Navigation::class decomposeTo navigationMiddleware
+                    // Data events transformation:
+                    Data.LoadKitties::class streamMapTo ::onLoadKitties
             )
         }
     }
 
-    private fun onLoadContent(observable: Observable<Content.Load>): Observable<out KittiesAllEvent> {
+    private fun onLoadKitties(observable: Observable<Data.LoadKitties>): Observable<out KittiesAllEvent> {
         return observable.switchMap { event ->
             fakeRequest(1500L, kittiesStorage.getPaginatedKitties(event.offset))
-                    .asRequestEvent(Content.Req(isSwr = event.isSwr))
+                    .asRequestEvent { LoadKittiesRequestEvent(it, isSwr = event.isSwr) }
         }
     }
 

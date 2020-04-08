@@ -1,7 +1,7 @@
 package ru.surfstudio.android.core.mvi.ui.mapper
 
+import ru.surfstudio.android.core.mvp.binding.rx.request.Request
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.Loading
-import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 
 /**
  * Маппер типа данных запроса.

@@ -3,13 +3,14 @@ package ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.controller
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.list_item_kitties_kitten.view.*
 import ru.surfstudio.android.core.mvi.sample.R
+import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.data.Kitten
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.data.KittenUi
 import ru.surfstudio.android.easyadapter.controller.BindableItemController
 import ru.surfstudio.android.easyadapter.holder.BindableViewHolder
 import ru.surfstudio.android.imageloader.ImageLoader
 
 internal class KittenItemController(
-        private val onClickedAction: (KittenUi) -> Unit
+        private val onClickedAction: (Kitten) -> Unit
 ) : BindableItemController<KittenUi, KittenItemController.Holder>() {
 
     override fun getItemId(data: KittenUi): String = data.name
@@ -25,7 +26,7 @@ internal class KittenItemController(
         private lateinit var payload: KittenUi
 
         init {
-            clickableView.setOnClickListener { onClickedAction(payload) }
+            clickableView.setOnClickListener { onClickedAction(payload.data) }
         }
 
         override fun bind(data: KittenUi) {
