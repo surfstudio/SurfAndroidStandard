@@ -11,6 +11,10 @@ import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
 import ru.surfstudio.android.build.utils.*
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 private const val GET_MAIN_BRANCH_COMMAND = "git symbolic-ref refs/remotes/origin/HEAD"
 
@@ -118,11 +122,15 @@ class MirrorManager(
             it.type == CommitType.MIRROR_START_POINT
         }
         val size = gitTree.standardRepositoryCommitsForMirror.size
-        gitTree.standardRepositoryCommitsForMirror.subList(index, size).forEach {
-            println("sublist ${it.commit.shortMessage}")
+        gitTree.standardRepositoryCommitsForMirror.forEach {
+            //println("sublist ${it.commit.shortMessage}")
         }
-        gitTree.standardRepositoryCommitsForMirror.subList(index, size).forEach { commit ->
-            println("commit ${commit.type} ${commit.commit.shortMessage} ${commit.commit.commitTime}")
+        println()
+        gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
+            val date = Date(1000L * commit.commit.commitTime)
+            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+                    .format(date)
+            println("commit ${commit.type} ${commit.commit.shortMessage} $format")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)
