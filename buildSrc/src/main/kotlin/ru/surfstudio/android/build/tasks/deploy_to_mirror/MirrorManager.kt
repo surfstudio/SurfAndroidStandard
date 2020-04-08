@@ -115,17 +115,13 @@ class MirrorManager(
      */
     private fun applyGitTreeToMirror() {
         val index = gitTree.standardRepositoryCommitsForMirror.indexOfFirst {
-            it.commit.shortMessage.endsWith("80 [skip ci] [version]")
+            it.type == CommitType.MIRROR_START_POINT
         }
         val size = gitTree.standardRepositoryCommitsForMirror.size
-        gitTree.standardRepositoryCommitsForMirror.filter {
-            it.commit.shortMessage.startsWith("ANDDEP-785")
-        }.forEach {
+        gitTree.standardRepositoryCommitsForMirror.subList(index, size).forEach {
             println("sublist ${it.commit.shortMessage}")
         }
-        gitTree.standardRepositoryCommitsForMirror.filter {
-            it.commit.shortMessage.startsWith("ANDDEP-785")
-        }.forEach { commit ->
+        gitTree.standardRepositoryCommitsForMirror.subList(index, size).forEach { commit ->
             println("commit ${commit.type} ${commit.commit.shortMessage} ${commit.commit.commitTime}")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
