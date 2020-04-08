@@ -19,24 +19,32 @@ internal class KittiesAllMiddleware @Inject constructor(
         private val kittiesAllStateHolder: KittiesAllStateHolder
 ) : BaseMiddleware<KittiesAllEvent>(baseMiddlewareDependency) {
 
-    private val state: KittiesAllState get() = kittiesAllStateHolder.value
-    private val nextPaginationOffset: Int get() = state.kittiesRequestUi.data?.list?.nextOffset ?: 0
+    private val state get() = kittiesAllStateHolder.value
 
     override fun transform(eventStream: Observable<KittiesAllEvent>): Observable<out KittiesAllEvent> {
         return transformations(eventStream) {
             addAll(
                     Navigation::class decomposeTo navigationMiddleware,
-                    onCreate() map { Data.LoadKitties(0, false) },
+                    onCreate() map { reloadKitties() },
 
                     // Ui events transformation:
                     Input.BackClicked::class mapTo { closeScreen() },
-                    Input.SwrReload::class mapTo { Data.LoadKitties(0, true) },
-                    Input.LoadNext::class mapTo { Data.LoadKitties(nextPaginationOffset, false) },
+                    Input.SwrReload::class mapTo { reloadKitties(isSwr = true) },
+                    Input.LoadNext::class mapTo { loadNextPageKitties() },
 
                     // Data events transformation:
                     Data.LoadKitties::class streamMapTo ::onLoadKitties
             )
         }
+    }
+
+    private fun reloadKitties(isSwr: Boolean = false): KittiesAllEvent {
+        return Data.LoadKitties(offset = 0, isSwr = isSwr)
+    }
+
+    private fun loadNextPageKitties(): KittiesAllEvent {
+        val nextOffset = state.kittiesRequestUi.data?.list?.nextOffset ?: 0
+        return Data.LoadKitties(nextOffset, isSwr = false)
     }
 
     private fun onLoadKitties(observable: Observable<Data.LoadKitties>): Observable<out KittiesAllEvent> {
