@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.ui.reducer
+package ru.surfstudio.android.core.mvi.ui.mapper
 
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.RequestUi
@@ -59,6 +59,8 @@ class RequestMapper<T, D> private constructor(
 
     /**
      * Обработать ошибку запроса.
+     *
+     * `RequestErrorHandler`:
      * Получает в качестве аргументов: ошибку, ui-данные и состояния загрузки.
      * Возвращает: была ли обработана ошибка?
      * */

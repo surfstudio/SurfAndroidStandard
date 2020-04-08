@@ -1,4 +1,4 @@
-package ru.surfstudio.android.core.mvi.ui.reducer
+package ru.surfstudio.android.core.mvi.ui.mapper
 
 import ru.surfstudio.android.core.mvp.binding.rx.request.data.Loading
 import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request

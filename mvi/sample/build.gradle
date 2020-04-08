@@ -27,7 +27,7 @@ dependencies {
     DependencyConfigurator.projectImplementation(project, "core-mvp-binding")
     DependencyConfigurator.projectImplementation(project, "easyadapter")
     DependencyConfigurator.projectImplementation(project, "mvi-core")
-    DependencyConfigurator.projectImplementation(project, "mvi-reducer")
+    DependencyConfigurator.projectImplementation(project, "mvi-mapper")
     DependencyConfigurator.projectImplementation(project, "mvi-impls")
     DependencyConfigurator.projectImplementation(project, "mvp-dialog")
     DependencyConfigurator.projectImplementation(project, "rxbus")

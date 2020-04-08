@@ -498,9 +498,9 @@
         ]
       },
       {
-        "name": "mvi-reducer",
-        "dir": "lib-mvi-reducer",
-        "artifact_name": "mvi-reducer",
+        "name": "mvi-mapper",
+        "dir": "lib-mvi-mapper",
+        "artifact_name": "mvi-mapper",
         "third_party_dependencies": [
           {
             "name": "junit:junit",

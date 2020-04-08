@@ -8,9 +8,7 @@ import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition
 import ru.surfstudio.android.core.mvi.impls.ui.middleware.navigation.composition.open
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.KittiesEvent.*
 import ru.surfstudio.android.core.mvi.sample.ui.screen.kitties.all.KittiesAllActivityRoute
-import ru.surfstudio.android.core.mvp.binding.rx.request.type.Request
 import ru.surfstudio.android.dagger.scope.PerScreen
-import ru.surfstudio.android.rx.extension.toObservable
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
