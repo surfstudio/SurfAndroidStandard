@@ -119,7 +119,7 @@ internal class KittiesReducer @Inject constructor(
                 }
                 // Выполнится только если вышележащие handleError'ы вернули false
                 .handleError { error, data, loading ->
-                    errorHandler.handleError(error)
+                    error?.let(errorHandler::handleError)
                     true
                 }
                 // Также мы можем реагировать на события жизненного цикла запроса
