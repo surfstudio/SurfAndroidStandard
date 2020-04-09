@@ -35,7 +35,16 @@ object VisibilityUtils {
     }
 
     /**
-     * Функция, проверяющая, что на экране отображается Snackbar с заданным сообщением
+     * Функция, проверяющая, что на экране отображается Snackbar с заданным текстом
+     */
+    fun checkIfSnackbarIsVisible(message: String) {
+        onView(withId(SNACKBAR_ID))
+                .check(matches(withText(message)))
+                .check(matches(isDisplayed()))
+    }
+
+    /**
+     * Функция, проверяющая, что на экране отображается Snackbar с заданным текстовым ресурсом
      */
     fun checkIfSnackbarIsVisible(@StringRes messageResId: Int) {
         onView(withId(SNACKBAR_ID))

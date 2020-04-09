@@ -155,7 +155,7 @@
   {
     "id": "broadcast-extension",
     "version": "0.5.0",
-    "unstable_version": 2,
+    "unstable_version": 3,
     "stable": false,
     "dir": "broadcast-extension",
     "libs": [
@@ -189,7 +189,7 @@
   {
     "id": "common",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "common",
     "libs": [
@@ -460,7 +460,7 @@
   {
     "id": "mvi",
     "version": "0.5.0",
-    "unstable_version": 12,
+    "unstable_version": 15,
     "stable": false,
     "dir": "mvi",
     "libs": [
@@ -567,7 +567,7 @@
   {
     "id": "core-mvp-binding",
     "version": "0.5.0",
-    "unstable_version": 9,
+    "unstable_version": 11,
     "stable": false,
     "dir": "core-mvp-binding",
     "libs": [
@@ -868,7 +868,7 @@
   {
     "id": "easyadapter",
     "version": "1.1.0",
-    "unstable_version": 9,
+    "unstable_version": 11,
     "stable": false,
     "dir": "easyadapter",
     "libs": [
@@ -1452,7 +1452,7 @@
   {
     "id": "recycler-extension",
     "version": "0.5.0",
-    "unstable_version": 1,
+    "unstable_version": 2,
     "stable": false,
     "dir": "recycler-extension",
     "libs": [
@@ -1693,7 +1693,7 @@
   {
     "id": "standard-dialog",
     "version": "0.5.0",
-    "unstable_version": 3,
+    "unstable_version": 4,
     "stable": false,
     "dir": "standard-dialog",
     "libs": [
@@ -1776,7 +1776,7 @@
   {
     "id": "template",
     "version": "0.5.0",
-    "unstable_version": 20,
+    "unstable_version": 22,
     "stable": false,
     "dir": "template",
     "libs": [],

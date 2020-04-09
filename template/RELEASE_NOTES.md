@@ -27,6 +27,8 @@
 * ANDDEP-961 Small fixes
 * ANDDEP-928 Add RemoteLogger
 * ANDDEP-980 Fix template build
+* ANDDEP-1002 app module dependencies refactoring
+* ANDDEP-964 Refactored dependency imports in the project template
 
 ## 0.4.0
 ##### Template
