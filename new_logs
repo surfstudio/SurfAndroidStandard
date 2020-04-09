@@ -1,0 +1,484 @@
+> Task :buildSrc:compileKotlin
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC
+> Task :buildSrc:jar
+> Task :buildSrc:assemble
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build
+Remote build cache DISABLED. Need specify 'GRADLE_BUILD_CACHE_USER' and 'GRADLE_BUILD_CACHE_PASS' global variables
+
+> Task :deployToMirror
+latestMirrorCommit Merge pull request #3 from surfstudio/fix-readme
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 80 [skip ci] [version]
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 80 [skip ci] [version] hash = c4e91c9c
+ADD HASH c4e91c9c
+PARENTS FOR: Increase global alpha version counter to 80 [skip ci] [version]
+NEXT PARENTS FOR: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+-------------------------- SKIP Increase global alpha version counter to 80 [skip ci] [version]
+parent: ANDDEP-785 added release notes fo sample-common ba0b8360
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 added release notes fo sample-common hash = ba0b8360
+ADD HASH ba0b8360
+parent: ANDDEP-785 PR fixes 1f9a747b
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 PR fixes hash = 1f9a747b
+ADD HASH 1f9a747b
+parent: ANDDEP-785 added ui test, PR fixes 3c3d4f82
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 added ui test, PR fixes hash = 3c3d4f82
+ADD HASH 3c3d4f82
+parent: ANDDEP-785 updated licens c079230c
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 updated licens hash = c079230c
+ADD HASH c079230c
+parent: ANDDEP-785 PR fixes cd88987b
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 PR fixes hash = cd88987b
+ADD HASH cd88987b
+parent: ANDDEP-785 PR fixes d75defd8
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 PR fixes hash = d75defd8
+ADD HASH d75defd8
+parent: ANDDEP-785 added release note for docs module 0358937b
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 added release note for docs module hash = 0358937b
+ADD HASH 0358937b
+parent: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration 0fb8ad6f
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration hash = 0fb8ad6f
+ADD HASH 0fb8ad6f
+-------------------------- SKIP Increase global alpha version counter to 79 [skip ci] [version]
+parent: ANDDEP-785 added release note for docs module 96ab835c
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 added release note for docs module hash = 96ab835c
+ADD HASH 96ab835c
+parent: ANDDEP-785 Decorator.Builder extensions moved to own library 41f4c394
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Decorator.Builder extensions moved to own library hash = 41f4c394
+ADD HASH 41f4c394
+parent: ANDDEP-785 finalized easy adapter extensions implements 4926cbee
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 finalized easy adapter extensions implements hash = 4926cbee
+ADD HASH 4926cbee
+parent: ANDDEP-785 fix links in Readme aacdd6f3
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fix links in Readme hash = aacdd6f3
+ADD HASH aacdd6f3
+parent: ANDDEP-785 fix link to sample dbf6edb3
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fix link to sample hash = dbf6edb3
+ADD HASH dbf6edb3
+parent: ANDDEP-785 added link from main.md user manual d9f9c624
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 added link from main.md user manual hash = d9f9c624
+ADD HASH d9f9c624
+parent: ANDDEP-785 add user manual 9ec85d88
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 add user manual hash = 9ec85d88
+ADD HASH 9ec85d88
+parent: ANDDEP-785 fixed PR notes ee620486
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fixed PR notes hash = ee620486
+ADD HASH ee620486
+parent: ANDDEP-785 has refactored package structure, finished chat sample 031a8305
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 has refactored package structure, finished chat sample hash = 031a8305
+ADD HASH 031a8305
+parent: ANDDEP-785 Added date controller to Chat sample 86b0a03f
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Added date controller to Chat sample hash = 86b0a03f
+ADD HASH 86b0a03f
+parent: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss 30f7fd1d
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss hash = 30f7fd1d
+ADD HASH 30f7fd1d
+parent: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. 3e81a1d2
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. hash = 3e81a1d2
+ADD HASH 3e81a1d2
+parent: ANDDEP-785 Cleared sample for CarouselDecoratorActivity 4406a76d
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Cleared sample for CarouselDecoratorActivity hash = 4406a76d
+ADD HASH 4406a76d
+parent: ANDDEP-785 Has added release notes b8b39b53
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Has added release notes hash = b8b39b53
+ADD HASH b8b39b53
+parent: ANDDEP-785 Deleted extra changes 58736557
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Deleted extra changes hash = 58736557
+ADD HASH 58736557
+parent: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator 3e884182
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator hash = 3e884182
+ADD HASH 3e884182
+parent: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration ffb0676c
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration hash = ffb0676c
+ADD HASH ffb0676c
+PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+NEXT PARENTS FOR: ANDDEP-785 Deleted extra changes
+-------------------------- SKIP ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+PARENTS FOR: ANDDEP-785 Deleted extra changes
+NEXT PARENTS FOR: ANDDEP-785 Has added release notes
+-------------------------- SKIP ANDDEP-785 Deleted extra changes
+PARENTS FOR: ANDDEP-785 Has added release notes
+NEXT PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+-------------------------- SKIP ANDDEP-785 Has added release notes
+PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+NEXT PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+-------------------------- SKIP ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+NEXT PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+-------------------------- SKIP ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+NEXT PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
+-------------------------- SKIP ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
+NEXT PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
+-------------------------- SKIP ANDDEP-785 Added date controller to Chat sample
+PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
+NEXT PARENTS FOR: ANDDEP-785 fixed PR notes
+-------------------------- SKIP ANDDEP-785 has refactored package structure, finished chat sample
+PARENTS FOR: ANDDEP-785 fixed PR notes
+NEXT PARENTS FOR: ANDDEP-785 add user manual
+-------------------------- SKIP ANDDEP-785 fixed PR notes
+PARENTS FOR: ANDDEP-785 add user manual
+NEXT PARENTS FOR: ANDDEP-785 added link from main.md user manual
+-------------------------- SKIP ANDDEP-785 add user manual
+PARENTS FOR: ANDDEP-785 added link from main.md user manual
+NEXT PARENTS FOR: ANDDEP-785 fix link to sample
+-------------------------- SKIP ANDDEP-785 added link from main.md user manual
+PARENTS FOR: ANDDEP-785 fix link to sample
+NEXT PARENTS FOR: ANDDEP-785 fix links in Readme
+-------------------------- SKIP ANDDEP-785 fix link to sample
+PARENTS FOR: ANDDEP-785 fix links in Readme
+NEXT PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
+-------------------------- SKIP ANDDEP-785 fix links in Readme
+PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
+NEXT PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
+-------------------------- SKIP ANDDEP-785 finalized easy adapter extensions implements
+PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
+NEXT PARENTS FOR: ANDDEP-785 added release note for docs module
+-------------------------- SKIP ANDDEP-785 Decorator.Builder extensions moved to own library
+PARENTS FOR: ANDDEP-785 added release note for docs module
+NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+-------------------------- SKIP Increase global alpha version counter to 79 [skip ci] [version]
+-------------------------- SKIP ANDDEP-785 added release note for docs module
+PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+NEXT PARENTS FOR: ANDDEP-785 added release note for docs module
+-------------------------- SKIP Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+PARENTS FOR: ANDDEP-785 added release note for docs module
+NEXT PARENTS FOR: ANDDEP-785 PR fixes
+-------------------------- SKIP ANDDEP-785 added release note for docs module
+PARENTS FOR: ANDDEP-785 PR fixes
+NEXT PARENTS FOR: ANDDEP-785 PR fixes
+-------------------------- SKIP ANDDEP-785 PR fixes
+PARENTS FOR: ANDDEP-785 PR fixes
+NEXT PARENTS FOR: ANDDEP-785 updated licens
+-------------------------- SKIP ANDDEP-785 PR fixes
+PARENTS FOR: ANDDEP-785 updated licens
+NEXT PARENTS FOR: ANDDEP-785 added ui test, PR fixes
+-------------------------- SKIP ANDDEP-785 updated licens
+PARENTS FOR: ANDDEP-785 added ui test, PR fixes
+NEXT PARENTS FOR: ANDDEP-785 PR fixes
+-------------------------- SKIP ANDDEP-785 added ui test, PR fixes
+PARENTS FOR: ANDDEP-785 PR fixes
+NEXT PARENTS FOR: ANDDEP-785 added release notes fo sample-common
+-------------------------- SKIP ANDDEP-785 PR fixes
+PARENTS FOR: ANDDEP-785 added release notes fo sample-common
+NEXT PARENTS FOR: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+-------------------------- SKIP Increase global alpha version counter to 80 [skip ci] [version]
+-------------------------- SKIP ANDDEP-785 added release notes fo sample-common
+
+ONLY CHILD = NEXT NODE: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) hash = 47587636
+ADD HASH 47587636
+parents Increase global alpha version counter to 80 [skip ci] [version] c4e91c9c
+parents ANDDEP-785 added release notes fo sample-common ba0b8360
+children Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+PARENTS FOR: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+NEXT PARENTS FOR: Increase global alpha version counter to 81 [skip ci] [version]
+-------------------------- SKIP Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+
+ONLY CHILD = NEXT NODE: Increase global alpha version counter to 81 [skip ci] [version] hash = 34b1f0aa
+ADD HASH 34b1f0aa
+parents Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 47587636
+PARENTS FOR: Increase global alpha version counter to 81 [skip ci] [version]
+NO CHILDREN
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 79 [skip ci] [version]
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 79 [skip ci] [version] hash = aef86338
+ADD HASH aef86338
+PARENTS FOR: Increase global alpha version counter to 79 [skip ci] [version]
+NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+-------------------------- SKIP Increase global alpha version counter to 79 [skip ci] [version]
+parent: ANDDEP-785 added release note for docs module 96ab835c
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 added release note for docs module hash = 96ab835c
+ADD HASH 96ab835c
+parent: ANDDEP-785 Decorator.Builder extensions moved to own library 41f4c394
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Decorator.Builder extensions moved to own library hash = 41f4c394
+ADD HASH 41f4c394
+parent: ANDDEP-785 finalized easy adapter extensions implements 4926cbee
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 finalized easy adapter extensions implements hash = 4926cbee
+ADD HASH 4926cbee
+parent: ANDDEP-785 fix links in Readme aacdd6f3
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fix links in Readme hash = aacdd6f3
+ADD HASH aacdd6f3
+parent: ANDDEP-785 fix link to sample dbf6edb3
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fix link to sample hash = dbf6edb3
+ADD HASH dbf6edb3
+parent: ANDDEP-785 added link from main.md user manual d9f9c624
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 added link from main.md user manual hash = d9f9c624
+ADD HASH d9f9c624
+parent: ANDDEP-785 add user manual 9ec85d88
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 add user manual hash = 9ec85d88
+ADD HASH 9ec85d88
+parent: ANDDEP-785 fixed PR notes ee620486
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fixed PR notes hash = ee620486
+ADD HASH ee620486
+parent: ANDDEP-785 has refactored package structure, finished chat sample 031a8305
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 has refactored package structure, finished chat sample hash = 031a8305
+ADD HASH 031a8305
+parent: ANDDEP-785 Added date controller to Chat sample 86b0a03f
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Added date controller to Chat sample hash = 86b0a03f
+ADD HASH 86b0a03f
+parent: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss 30f7fd1d
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss hash = 30f7fd1d
+ADD HASH 30f7fd1d
+parent: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. 3e81a1d2
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. hash = 3e81a1d2
+ADD HASH 3e81a1d2
+parent: ANDDEP-785 Cleared sample for CarouselDecoratorActivity 4406a76d
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Cleared sample for CarouselDecoratorActivity hash = 4406a76d
+ADD HASH 4406a76d
+parent: ANDDEP-785 Has added release notes b8b39b53
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Has added release notes hash = b8b39b53
+ADD HASH b8b39b53
+parent: ANDDEP-785 Deleted extra changes 58736557
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Deleted extra changes hash = 58736557
+ADD HASH 58736557
+parent: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator 3e884182
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator hash = 3e884182
+ADD HASH 3e884182
+parent: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration ffb0676c
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration hash = ffb0676c
+ADD HASH ffb0676c
+PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+NEXT PARENTS FOR: ANDDEP-785 Deleted extra changes
+-------------------------- SKIP ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+PARENTS FOR: ANDDEP-785 Deleted extra changes
+NEXT PARENTS FOR: ANDDEP-785 Has added release notes
+-------------------------- SKIP ANDDEP-785 Deleted extra changes
+PARENTS FOR: ANDDEP-785 Has added release notes
+NEXT PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+-------------------------- SKIP ANDDEP-785 Has added release notes
+PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+NEXT PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+-------------------------- SKIP ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+NEXT PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+-------------------------- SKIP ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+NEXT PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
+-------------------------- SKIP ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
+NEXT PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
+-------------------------- SKIP ANDDEP-785 Added date controller to Chat sample
+PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
+NEXT PARENTS FOR: ANDDEP-785 fixed PR notes
+-------------------------- SKIP ANDDEP-785 has refactored package structure, finished chat sample
+PARENTS FOR: ANDDEP-785 fixed PR notes
+NEXT PARENTS FOR: ANDDEP-785 add user manual
+-------------------------- SKIP ANDDEP-785 fixed PR notes
+PARENTS FOR: ANDDEP-785 add user manual
+NEXT PARENTS FOR: ANDDEP-785 added link from main.md user manual
+-------------------------- SKIP ANDDEP-785 add user manual
+PARENTS FOR: ANDDEP-785 added link from main.md user manual
+NEXT PARENTS FOR: ANDDEP-785 fix link to sample
+-------------------------- SKIP ANDDEP-785 added link from main.md user manual
+PARENTS FOR: ANDDEP-785 fix link to sample
+NEXT PARENTS FOR: ANDDEP-785 fix links in Readme
+-------------------------- SKIP ANDDEP-785 fix link to sample
+PARENTS FOR: ANDDEP-785 fix links in Readme
+NEXT PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
+-------------------------- SKIP ANDDEP-785 fix links in Readme
+PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
+NEXT PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
+-------------------------- SKIP ANDDEP-785 finalized easy adapter extensions implements
+PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
+NEXT PARENTS FOR: ANDDEP-785 added release note for docs module
+-------------------------- SKIP ANDDEP-785 Decorator.Builder extensions moved to own library
+PARENTS FOR: ANDDEP-785 added release note for docs module
+NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+-------------------------- SKIP Increase global alpha version counter to 79 [skip ci] [version]
+-------------------------- SKIP ANDDEP-785 added release note for docs module
+
+ONLY CHILD = NEXT NODE: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration hash = 0fb8ad6f
+ADD HASH 0fb8ad6f
+parents ANDDEP-785 added release note for docs module 96ab835c
+parents Increase global alpha version counter to 79 [skip ci] [version] aef86338
+children ANDDEP-785 added release note for docs module 0358937b
+PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+NEXT PARENTS FOR: ANDDEP-785 added release note for docs module
+-------------------------- SKIP Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+
+ONLY CHILD = NEXT NODE: ANDDEP-785 added release note for docs module hash = 0358937b
+ADD HASH 0358937b
+parents Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration 0fb8ad6f
+children ANDDEP-785 PR fixes d75defd8
+PARENTS FOR: ANDDEP-785 added release note for docs module
+NEXT PARENTS FOR: ANDDEP-785 PR fixes
+-------------------------- SKIP ANDDEP-785 added release note for docs module
+
+ONLY CHILD = NEXT NODE: ANDDEP-785 PR fixes hash = d75defd8
+ADD HASH d75defd8
+parents ANDDEP-785 added release note for docs module 0358937b
+children ANDDEP-785 PR fixes cd88987b
+PARENTS FOR: ANDDEP-785 PR fixes
+NEXT PARENTS FOR: ANDDEP-785 PR fixes
+-------------------------- SKIP ANDDEP-785 PR fixes
+
+ONLY CHILD = NEXT NODE: ANDDEP-785 PR fixes hash = cd88987b
+ADD HASH cd88987b
+parents ANDDEP-785 PR fixes d75defd8
+children ANDDEP-785 updated licens c079230c
+PARENTS FOR: ANDDEP-785 PR fixes
+NEXT PARENTS FOR: ANDDEP-785 updated licens
+-------------------------- SKIP ANDDEP-785 PR fixes
+
+ONLY CHILD = NEXT NODE: ANDDEP-785 updated licens hash = c079230c
+ADD HASH c079230c
+parents ANDDEP-785 PR fixes cd88987b
+children ANDDEP-785 added ui test, PR fixes 3c3d4f82
+PARENTS FOR: ANDDEP-785 updated licens
+NEXT PARENTS FOR: ANDDEP-785 added ui test, PR fixes
+-------------------------- SKIP ANDDEP-785 updated licens
+
+ONLY CHILD = NEXT NODE: ANDDEP-785 added ui test, PR fixes hash = 3c3d4f82
+ADD HASH 3c3d4f82
+parents ANDDEP-785 updated licens c079230c
+children ANDDEP-785 PR fixes 1f9a747b
+PARENTS FOR: ANDDEP-785 added ui test, PR fixes
+NEXT PARENTS FOR: ANDDEP-785 PR fixes
+-------------------------- SKIP ANDDEP-785 added ui test, PR fixes
+
+ONLY CHILD = NEXT NODE: ANDDEP-785 PR fixes hash = 1f9a747b
+ADD HASH 1f9a747b
+parents ANDDEP-785 added ui test, PR fixes 3c3d4f82
+children ANDDEP-785 added release notes fo sample-common ba0b8360
+PARENTS FOR: ANDDEP-785 PR fixes
+NEXT PARENTS FOR: ANDDEP-785 added release notes fo sample-common
+-------------------------- SKIP ANDDEP-785 PR fixes
+
+ONLY CHILD = NEXT NODE: ANDDEP-785 added release notes fo sample-common hash = ba0b8360
+ADD HASH ba0b8360
+parents ANDDEP-785 PR fixes 1f9a747b
+children Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 47587636
+PARENTS FOR: ANDDEP-785 added release notes fo sample-common
+NEXT PARENTS FOR: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+-------------------------- SKIP Increase global alpha version counter to 80 [skip ci] [version]
+-------------------------- SKIP ANDDEP-785 added release notes fo sample-common
+
+ONLY CHILD = NEXT NODE: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) hash = 47587636
+ADD HASH 47587636
+parents Increase global alpha version counter to 80 [skip ci] [version] c4e91c9c
+parents ANDDEP-785 added release notes fo sample-common ba0b8360
+children Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+PARENTS FOR: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+NEXT PARENTS FOR: Increase global alpha version counter to 81 [skip ci] [version]
+-------------------------- SKIP Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+
+ONLY CHILD = NEXT NODE: Increase global alpha version counter to 81 [skip ci] [version] hash = 34b1f0aa
+ADD HASH 34b1f0aa
+parents Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 47587636
+PARENTS FOR: Increase global alpha version counter to 81 [skip ci] [version]
+NO CHILDREN
+---------------------------------------------
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 80 [skip ci] [version]
+NODE ANDDEP-785 added release notes fo sample-common
+NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 80 [skip ci] [version]
+NODE ANDDEP-785 added release notes fo sample-common
+NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 79 [skip ci] [version]
+NODE ANDDEP-785 added release note for docs module
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+NODE ANDDEP-785 added release note for docs module
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 updated licens
+NODE ANDDEP-785 added ui test, PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 added release notes fo sample-common
+NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 79 [skip ci] [version]
+NODE ANDDEP-785 added release note for docs module
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+NODE ANDDEP-785 added release note for docs module
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 updated licens
+NODE ANDDEP-785 added ui test, PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 added release notes fo sample-common
+NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+commit MIRROR_START_POINT Increase global alpha version counter to 79 [skip ci] [version] 2020-03-02T13:07:24
+commit SIMPLE ANDDEP-785 added release note for docs module 2020-03-03T12:06:12
+commit MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration 2020-03-03T12:09:51
+commit SIMPLE ANDDEP-785 added release note for docs module 2020-03-03T12:14:13
+commit SIMPLE ANDDEP-785 PR fixes 2020-03-03T13:05:22
+commit SIMPLE ANDDEP-785 PR fixes 2020-03-03T13:06:14
+commit SIMPLE ANDDEP-785 updated licens 2020-03-03T13:16:57
+commit MIRROR_START_POINT Increase global alpha version counter to 80 [skip ci] [version] 2020-03-03T13:22:14
+commit SIMPLE ANDDEP-785 added ui test, PR fixes 2020-03-03T14:00:45
+commit SIMPLE ANDDEP-785 PR fixes 2020-03-03T21:57:36
+commit SIMPLE ANDDEP-785 added release notes fo sample-common 2020-03-03T22:05:14
+commit MERGE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 2020-03-03T22:13:33
+commit SIMPLE Increase global alpha version counter to 81 [skip ci] [version] 2020-03-03T22:30:02
+
+BUILD SUCCESSFUL in 1m 55s
+1 actionable task: 1 executed

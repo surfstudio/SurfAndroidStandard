@@ -232,7 +232,7 @@ class GitTree(
             watchedHashed.clear()
             buildChain(mutableListOf(end))
         }
-               // .filter { ends.contains(it.first()) && it.last() == rootNode }
+                .filter { ends.contains(it.first()) && it.last() == rootNode }
     }
 
     /**
@@ -347,6 +347,7 @@ class GitTree(
         println("START BUILD CHAIN FOR NODE: ${node.value.shortMessage} hash = ${node.value.standardHash}")
         watchedHashed.add(node.value.standardHash)
         println("ADD HASH ${node.value.standardHash}")
+        result.add(chain)
 
         node.parents.forEach {
             //todo filter old parents
