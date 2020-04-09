@@ -16,9 +16,9 @@
 package ru.surfstudio.android.easyadapter.diff.listener;
 
 /**
- * Listener invoked after the DiffResult calculation.
+ * Listener invoked after the DiffResult dispatching to the RecyclerView.
  */
-public interface DiffResultCalculationListener {
+public interface DiffResultDispatchListener {
 
-    void onDiffResultCalculated();
+    void onDiffResultDispatched();
 }

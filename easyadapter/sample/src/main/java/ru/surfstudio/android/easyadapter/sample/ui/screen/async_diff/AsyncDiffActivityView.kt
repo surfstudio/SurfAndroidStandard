@@ -56,7 +56,7 @@ class AsyncDiffActivityView : BaseRenderableActivityView<AsyncDiffScreenModel>()
         async_diff_rv.adapter = adapter.apply {
             isFirstInvisibleItemEnabled = true
             setAsyncDiffCalculationEnabled(true)
-            setDiffResultCalculationListener { toast("Diff calculated!") }
+            setDiffResultDispatchListener { toast("Diff dispatched!") }
             setAsyncDiffStrategy(AsyncDiffStrategy.APPLY_LATEST)
         }
     }

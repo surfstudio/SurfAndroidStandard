@@ -43,7 +43,7 @@ import ru.surfstudio.android.easyadapter.diff.async.QueueAllAsyncDiffer;
 import ru.surfstudio.android.easyadapter.controller.BaseItemController;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
 import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
-import ru.surfstudio.android.easyadapter.diff.listener.DiffResultCalculationListener;
+import ru.surfstudio.android.easyadapter.diff.listener.DiffResultDispatchListener;
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder;
 import ru.surfstudio.android.easyadapter.item.BaseItem;
 import ru.surfstudio.android.easyadapter.item.NoDataItem;
@@ -74,7 +74,7 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
     private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
 
-    private DiffResultCalculationListener diffResultCalculationListener;
+    private DiffResultDispatchListener diffResultDispatchListener;
 
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
@@ -178,14 +178,15 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     * Set {@link DiffResultCalculationListener} which will be invoked after {@link DiffUtil.DiffResult} calculation.
+     * Set {@link DiffResultDispatchListener} which will be invoked
+     * after the {@link DiffUtil.DiffResult} dispatching to the {@link RecyclerView}.
      *
-     * @param diffResultCalculationListener {@link DiffResultCalculationListener}
+     * @param diffResultDispatchListener {@link DiffResultDispatchListener}
      */
-    public final void setDiffResultCalculationListener(
-            DiffResultCalculationListener diffResultCalculationListener
+    public final void setDiffResultDispatchListener(
+            DiffResultDispatchListener diffResultDispatchListener
     ) {
-        this.diffResultCalculationListener = diffResultCalculationListener;
+        this.diffResultDispatchListener = diffResultDispatchListener;
     }
 
     /**
@@ -305,9 +306,6 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private void dispatchDiffResult(DiffResultBundle diffResultBundle) {
-        if (diffResultCalculationListener != null) {
-            diffResultCalculationListener.onDiffResultCalculated();
-        }
 
         final ItemList newItems = diffResultBundle.getItems();
 
@@ -318,6 +316,9 @@ public class EasyAdapter extends RecyclerView.Adapter {
             final DiffUtil.DiffResult diffResult = diffResultBundle.getDiffResult();
             Objects.requireNonNull(diffResult);
             diffResult.dispatchUpdatesTo(this);
+            if (diffResultDispatchListener != null) {
+                diffResultDispatchListener.onDiffResultDispatched();
+            }
             lastItemsInfo = diffResultBundle.getNewItemInfo();
         }
 
