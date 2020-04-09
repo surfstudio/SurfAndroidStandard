@@ -1,6 +1,4 @@
-[Главная страница репозитория](../docs/main.md)
-
-[TOC]
+[Главная страница репозитория](../../docs/main.md)
 
 # Custom view
 Модуль с реализаций различных полезных кастомных виджетов.
@@ -8,10 +6,11 @@
 ## Список виджетов
 
 + `TitleSubtitleView` - виджет для отображения текста с подписью;
-+ `StandardPlaceHolderView` - Полноэкранный плейсхолдер с поддержкой смены состояний. **В настоящее время разработка приостоновлена. Следует использовать [PlaceHolderViewContainer](../template/base-ui/src/main/java/ru/surfstudio/standard/base_ui/loadstate/PlaceHolderViewContainer.kt)**
++ `StandardPlaceHolderView` - полноэкранный плейсхолдер с поддержкой смены состояний. **В настоящее время разработка приостоновлена. Следует использовать [PlaceHolderViewContainer](src/main/java/ru/surfstudio/android/custom/view/placeholder/PlaceHolderViewContainer.kt)**
++ `ShadowLayout` - контейнер для отрисовки красивой тени под содержащимися внутри элементами.
 
 ## Использование
-[Пример использования](../custom-view-sample)
+[Пример использования](../sample)
 
 ## Подключение
 Gradle:
@@ -32,4 +31,4 @@ Gradle:
     com.wang.avi:library:$wangAviLibraryVersion                                    Кастомные Loader Indicators
 
 ## Документация
-[`StandardPlaceHolderView`](../custom-view/STANDARD-PLACEHOLDER-VIEW-README.md)
+[`StandardPlaceHolderView`](STANDARD-PLACEHOLDER-VIEW-README.md)

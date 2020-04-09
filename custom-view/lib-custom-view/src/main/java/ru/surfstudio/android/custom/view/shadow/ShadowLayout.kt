@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2019-present, SurfStudio LLC.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package ru.surfstudio.android.custom.view.shadow
 
 import android.content.Context
@@ -16,6 +31,18 @@ import ru.surfstudio.android.logger.Logger
 
 /**
  * Layout that creates blurred shadow of its children.
+ *
+ * How it works:
+ * 1. Children are drawn on the canvas.
+ * 2. This canvases bitmap is blurred by stack blur algorithm.
+ * 3. Blurred bitmap is stored in [shadowBitmap] for reuse during next [dispatchDraw] passes.
+ *    Every next pass will skip first three steps, if [shadowBitmap] exists.
+ * 4. Children are drawn one more time on the top of the blurred bitmap.
+ *
+ * If the content of the layout has been changed, shadow could be updated with [redrawShadow] method.
+ *
+ * Some shadow parameters could be modified from .xml (offsets, blur radius, shadow alpha, etc.).
+ * For more information see /res/attrs.xml.
  */
 class ShadowLayout @JvmOverloads constructor(
         context: Context,
@@ -81,7 +108,9 @@ class ShadowLayout @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         clearShadowBitmap()
-        disposable.dispose()
+        if (isAsync) {
+            disposable.dispose()
+        }
     }
 
     override fun dispatchDraw(canvas: Canvas?) {
