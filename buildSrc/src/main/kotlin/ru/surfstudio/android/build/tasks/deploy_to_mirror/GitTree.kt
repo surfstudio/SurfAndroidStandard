@@ -241,7 +241,6 @@ class GitTree(
                 ?: throw GradleException("Can't find a stop end node with min commit time")
 
         return ends.flatMap { end ->
-            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR ${end.value.shortMessage}")
             watchedHashed.clear()
             buildChain(mutableListOf(end))
         }
@@ -338,9 +337,7 @@ class GitTree(
                 .sortedBy { it.commit.commitTime }
 
         lines.forEach { line ->
-            println("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE $line\n")
             line.forEach { node ->
-                println("NODE ${node.value.shortMessage}")
                 val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
                 if (commit?.branch?.isEmpty() == true) {
                     commit.branch = branchName
@@ -357,77 +354,53 @@ class GitTree(
     private fun buildChain(chain: MutableList<Node>): List<List<Node>> {
         val result: MutableList<List<Node>> = mutableListOf()
         var node = chain.last()
-        println("--------------------------------------------------------")
-        println("START BUILD CHAIN FOR NODE: ${node.value.shortMessage} hash = ${node.value.standardHash}")
         markAsWatched(node)
         result.add(chain)
-        println("ADD HASH ${node.value.standardHash}")
+
         // every line starts and ends with [version] commit
         if (chain.first() != node && node.value.shortMessage.contains(VERSION_LABEL)) {
-            println("-------------------------- STOP ${node.value.shortMessage}")
             return result
         }
 
         node.parents.forEach {
             if (!isWatched(it)) {
                 markAsWatched(it)
-                println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                 val newChain = chain.toMutableList()
                 newChain.add(it)
                 result.addAll(buildChain(newChain))
-            } else {
-                println("-------------------------- SKIP ${it.value.shortMessage}")
             }
         }
 
         while (true) {
-            println("PARENTS FOR: ${node.value.shortMessage}")
             when (node.children.size) {
                 1 -> {
                     val next = node.children.first()
 
-                    println("NEXT PARENTS FOR: ${next.value.shortMessage}")
                     next.parents.forEach {
                         if (!isWatched(it)) {
                             markAsWatched(it)
-                            println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                             val newChain = chain.toMutableList()
                             newChain.add(it)
                             result.addAll(buildChain(newChain))
-                        } else {
-                            println("-------------------------- SKIP ${it.value.shortMessage}")
                         }
                     }
 
                     if (!isWatched(next)) {
                         markAsWatched(next)
-                        println("\nONLY CHILD = NEXT NODE: ${next.value.shortMessage} " +
-                                "hash = ${next.value.standardHash}")
                         chain.add(next)
-                        println("ADD HASH ${next.value.standardHash}")
                         node = next
-                        next.value.parents.forEach {
-                            println("parents ${it.shortMessage} ${it.standardHash}")
-                        }
-                        next.children.forEach {
-                            println("children ${it.value.shortMessage} ${it.value.standardHash}")
-                        }
                     } else {
-                        println("-------------------------- RETURN FOR ${next.value.shortMessage}")
                         return result
                     }
                 }
                 0 -> {
-                    println("NO CHILDREN")
                     result.add(chain)
                     return result
                 }
                 else -> {
-                    println("HAS CHILDREN")
                     node.children.forEach {
                         if (!isWatched(it)) {
                             markAsWatched(it)
-                            println("child: ${it.value.shortMessage}")
                             val newChain = chain.toMutableList()
                             newChain.add(it)
                             result.addAll(buildChain(newChain))

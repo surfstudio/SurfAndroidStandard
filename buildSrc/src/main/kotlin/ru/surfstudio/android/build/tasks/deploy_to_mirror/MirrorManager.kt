@@ -14,8 +14,6 @@ import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.extractBranchNames
 import ru.surfstudio.android.build.utils.standardHash
 import ru.surfstudio.android.build.utils.type
-import java.text.SimpleDateFormat
-import java.util.*
 
 private const val GET_MAIN_BRANCH_COMMAND = "git symbolic-ref refs/remotes/origin/HEAD"
 
@@ -79,7 +77,6 @@ class MirrorManager(
             latestMirrorCommit = mirrorCommits.maxBy { it.commitTime }
 
             latestMirrorCommit?.also { safeLatestMirrorCommit ->
-                println("latestMirrorCommit ${safeLatestMirrorCommit.shortMessage}")
                 if (safeLatestMirrorCommit.commitTime > rootCommit.commitTime) {
                     throw GradleException("Invalid mirror commit $rootCommitHash: " +
                             "can't be earlier than latest mirror commit ${safeLatestMirrorCommit.standardHash}")
@@ -120,10 +117,7 @@ class MirrorManager(
      */
     private fun applyGitTreeToMirror() {
         gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
-            val date = Date(1000L * commit.commit.commitTime)
-            val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
-                    .format(date)
-            println("commit ${commit.type} ${commit.commit.shortMessage} $format")
+            println("commit ${commit.type} ${commit.commit.shortMessage}")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)
