@@ -247,7 +247,7 @@ class GitTree(
         }
                 .filter {
                     ends.contains(it.first()) && it.last() == rootNode
-                            || it.last().value.shortMessage.endsWith(VERSION_LABEL)
+                            || it.size > 1 && it.last().value.shortMessage.endsWith(VERSION_LABEL)
                 }
     }
 
@@ -337,15 +337,10 @@ class GitTree(
                 }
                 .sortedBy { it.commit.commitTime }
 
-        println("---------------------------------------------")
         lines.forEach { line ->
             println("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE $line\n")
             line.forEach { node ->
                 println("NODE ${node.value.shortMessage}")
-            }
-        }
-        lines.forEach { line ->
-            line.forEach { node ->
                 val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
                 if (commit?.branch?.isEmpty() == true) {
                     commit.branch = branchName
@@ -365,17 +360,16 @@ class GitTree(
         println("--------------------------------------------------------")
         println("START BUILD CHAIN FOR NODE: ${node.value.shortMessage} hash = ${node.value.standardHash}")
         watchedHashed.add(node.value.standardHash)
+        result.add(chain)
         println("ADD HASH ${node.value.standardHash}")
         // every line starts and ends with [version] commit
         if (chain.first() != node && node.value.shortMessage.contains(VERSION_LABEL)) {
             println("-------------------------- STOP ${node.value.shortMessage}")
-            result.add(chain)
             return result
         }
-        result.add(chain)
 
         node.parents.forEach {
-            if (!watchedHashed.contains(it.value.standardHash) && it.state != END) {
+            if (!watchedHashed.contains(it.value.standardHash)) {
                 println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                 val newChain = chain.toMutableList()
                 newChain.add(it)
@@ -393,7 +387,7 @@ class GitTree(
 
                     println("NEXT PARENTS FOR: ${next.value.shortMessage}")
                     next.parents.forEach {
-                        if (!watchedHashed.contains(it.value.standardHash) && it.state != END) {
+                        if (!watchedHashed.contains(it.value.standardHash)) {
                             println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                             val newChain = chain.toMutableList()
                             newChain.add(it)
@@ -403,7 +397,7 @@ class GitTree(
                         }
                     }
 
-                    if (next.state != END && !watchedHashed.contains(next.value.standardHash)) {
+                    if (!watchedHashed.contains(next.value.standardHash)) {
                         println("\nONLY CHILD = NEXT NODE: ${next.value.shortMessage} " +
                                 "hash = ${next.value.standardHash}")
                         chain.add(next)
@@ -429,7 +423,7 @@ class GitTree(
                 else -> {
                     println("HAS CHILDREN")
                     node.children.forEach {
-                        if (!watchedHashed.contains(it.value.standardHash) && it.state != END) {
+                        if (!watchedHashed.contains(it.value.standardHash)) {
                             println("child: ${it.value.shortMessage}")
                             val newChain = chain.toMutableList()
                             newChain.add(it)

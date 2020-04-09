@@ -57,7 +57,11 @@ parent: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decor
 --------------------------------------------------------
 START BUILD CHAIN FOR NODE: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration hash = 0fb8ad6f
 ADD HASH 0fb8ad6f
--------------------------- SKIP Increase global alpha version counter to 79 [skip ci] [version]
+parent: Increase global alpha version counter to 79 [skip ci] [version] aef86338
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 79 [skip ci] [version] hash = aef86338
+ADD HASH aef86338
+-------------------------- STOP Increase global alpha version counter to 79 [skip ci] [version]
 parent: ANDDEP-785 added release note for docs module 96ab835c
 --------------------------------------------------------
 START BUILD CHAIN FOR NODE: ANDDEP-785 added release note for docs module hash = 96ab835c
@@ -460,7 +464,11 @@ parents ANDDEP-785 PR fixes 1f9a747b
 children Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 47587636
 PARENTS FOR: ANDDEP-785 added release notes fo sample-common
 NEXT PARENTS FOR: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
--------------------------- SKIP Increase global alpha version counter to 80 [skip ci] [version]
+parent: Increase global alpha version counter to 80 [skip ci] [version] c4e91c9c
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 80 [skip ci] [version] hash = c4e91c9c
+ADD HASH c4e91c9c
+-------------------------- STOP Increase global alpha version counter to 80 [skip ci] [version]
 -------------------------- SKIP ANDDEP-785 added release notes fo sample-common
 
 ONLY CHILD = NEXT NODE: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) hash = 47587636
@@ -478,11 +486,6 @@ parents Объединено в ANDDEP-785-universal-recycler-item-decoration (p
 PARENTS FOR: Increase global alpha version counter to 81 [skip ci] [version]
 NO CHILDREN
 -------------------------- RETURN FOR Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
----------------------------------------------
-
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END]
-
-NODE Increase global alpha version counter to 80 [skip ci] [version]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
 
@@ -490,6 +493,19 @@ NODE Increase global alpha version counter to 80 [skip ci] [version]
 NODE ANDDEP-785 added release notes fo sample-common
 NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, Increase global alpha version counter to 79 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 80 [skip ci] [version]
+NODE ANDDEP-785 added release notes fo sample-common
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 added ui test, PR fixes
+NODE ANDDEP-785 updated licens
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 added release note for docs module
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+NODE Increase global alpha version counter to 79 [skip ci] [version]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 Decorator.Builder extensions moved to own library - NONE, ANDDEP-785 finalized easy adapter extensions implements - NONE, ANDDEP-785 fix links in Readme - NONE, ANDDEP-785 fix link to sample - NONE, ANDDEP-785 added link from main.md user manual - NONE, ANDDEP-785 add user manual - NONE, ANDDEP-785 fixed PR notes - NONE, ANDDEP-785 has refactored package structure, finished chat sample - NONE, ANDDEP-785 Added date controller to Chat sample - NONE, ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss - NONE, ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. - NONE, ANDDEP-785 Cleared sample for CarouselDecoratorActivity - NONE, ANDDEP-785 Has added release notes - NONE, ANDDEP-785 Deleted extra changes - NONE, ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator - NONE, ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration - NONE, Increase global alpha version counter to 64 [skip ci] [version] - NONE]
 
@@ -528,10 +544,6 @@ NODE ANDDEP-785 added release notes fo sample-common
 NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 NODE Increase global alpha version counter to 81 [skip ci] [version]
 
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END]
-
-NODE Increase global alpha version counter to 79 [skip ci] [version]
-
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
 
 NODE Increase global alpha version counter to 79 [skip ci] [version]
@@ -568,6 +580,20 @@ NODE ANDDEP-785 Deleted extra changes
 NODE ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 NODE ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
 NODE Increase global alpha version counter to 64 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release notes fo sample-common - NONE, Increase global alpha version counter to 80 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 79 [skip ci] [version]
+NODE ANDDEP-785 added release note for docs module
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+NODE ANDDEP-785 added release note for docs module
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 updated licens
+NODE ANDDEP-785 added ui test, PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 added release notes fo sample-common
+NODE Increase global alpha version counter to 80 [skip ci] [version]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
 
@@ -614,5 +640,5 @@ commit SIMPLE ANDDEP-785 added release notes fo sample-common 2020-03-03T22:05:1
 commit MERGE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 2020-03-03T22:13:33
 commit SIMPLE Increase global alpha version counter to 81 [skip ci] [version] 2020-03-03T22:30:02
 
-BUILD SUCCESSFUL in 1m 20s
+BUILD SUCCESSFUL in 2m 0s
 1 actionable task: 1 executed
