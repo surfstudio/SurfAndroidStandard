@@ -21,6 +21,12 @@
             android:text="@string/open_tv_screen_btn_text" />
 
         <Button
+            android:id="@+id/open_shadow_screen_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/open_shadow_screen_btn_text"/>
+
+        <Button
             android:id="@+id/change_state_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

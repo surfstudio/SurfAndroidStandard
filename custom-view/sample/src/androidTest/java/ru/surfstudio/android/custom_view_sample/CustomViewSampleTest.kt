@@ -4,10 +4,8 @@ import android.view.View
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import org.hamcrest.Matcher
 import org.junit.Test
 import ru.surfstudio.android.custom.view.bottomsheet.BottomSheetView
@@ -36,6 +34,10 @@ class CustomViewSampleTest : BaseSampleTest<MainActivity>(MainActivity::class.ja
 
         performClick(R.id.open_tv_screen_btn)
         checkIfActivityIsVisible(TitleSubtitleViewDemoActivity::class.java)
+        Espresso.pressBack()
+
+        performClick(R.id.open_shadow_screen_btn)
+        checkIfActivityIsVisible(ShadowLayoutActivity::class.java)
         Espresso.pressBack()
 
         performClick(R.id.change_state_btn)
