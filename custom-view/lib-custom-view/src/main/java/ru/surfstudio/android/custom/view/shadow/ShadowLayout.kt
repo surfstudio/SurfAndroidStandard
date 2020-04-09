@@ -44,7 +44,7 @@ import ru.surfstudio.android.logger.Logger
  * Some shadow parameters could be modified from .xml (offsets, blur radius, shadow alpha, etc.).
  * For more information see /res/attrs.xml.
  */
-class ShadowLayout @JvmOverloads constructor(
+open class ShadowLayout @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null,
         defStyleAttr: Int = 0
