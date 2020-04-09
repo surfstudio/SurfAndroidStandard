@@ -72,7 +72,7 @@ class ShadowLayout @JvmOverloads constructor(
     private var shadowClippedToPadding: Boolean = DEFAULT_SHADOW_CLIP_TO_PADDING
     private var isAsync: Boolean = DEFAULT_IS_ASYNC
 
-    private var disposable = Disposables.disposed()
+    private var shadowCreationDisposable = Disposables.disposed()
 
     init {
         obtainAttrs(context, attrs)
@@ -109,7 +109,7 @@ class ShadowLayout @JvmOverloads constructor(
         super.onDetachedFromWindow()
         clearShadowBitmap()
         if (isAsync) {
-            disposable.dispose()
+            shadowCreationDisposable.dispose()
         }
     }
 
@@ -120,22 +120,9 @@ class ShadowLayout @JvmOverloads constructor(
             background?.draw(sourceCanvas)
             super.dispatchDraw(sourceCanvas)
 
-            if (isAsync) {
-                disposable.dispose()
-                disposable = Single.fromCallable { createShadowBitmap(sourceBitmap) }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe { bitmap: Bitmap?, error: Throwable? ->
-                            when {
-                                error != null -> Logger.e(error)
-                                bitmap != null -> {
-                                    shadowBitmap = bitmap
-                                    invalidate()
-                                }
-                            }
-                        }
-            } else {
-                shadowBitmap = createShadowBitmap(sourceBitmap)
+            when {
+                isAsync -> subscribeToShadowCreation(sourceBitmap)
+                else -> shadowBitmap = createShadowBitmap(sourceBitmap)
             }
         }
 
@@ -159,6 +146,22 @@ class ShadowLayout @JvmOverloads constructor(
     fun redrawShadow() {
         clearShadowBitmap()
         invalidate()
+    }
+
+    private fun subscribeToShadowCreation(sourceBitmap: Bitmap) {
+        shadowCreationDisposable.dispose()
+        shadowCreationDisposable = Single.fromCallable { createShadowBitmap(sourceBitmap) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { bitmap: Bitmap?, error: Throwable? ->
+                    when {
+                        error != null -> Logger.e(error)
+                        bitmap != null -> {
+                            shadowBitmap = bitmap
+                            invalidate()
+                        }
+                    }
+                }
     }
 
     private fun createShadowBitmap(sourceBitmap: Bitmap): Bitmap {
