@@ -1,5 +1,6 @@
 import ru.surfstudio.android.build.Components
 import ru.surfstudio.android.build.tasks.*
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.*
 import ru.surfstudio.android.build.tasks.artifactory_tasks.*
 import ru.surfstudio.android.build.tasks.bintray_tasks.*
 import ru.surfstudio.android.build.tasks.bintray_tasks.release.*
@@ -25,6 +26,8 @@ task checkDependencyForComponentUnstable(type: CheckDependencyForComponentUnstab
 task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
 
 task createProjectConfiguration(type: CreateProjectConfigurationTask)
+
+task checkScreenRoutes(type: CheckScreenRoutesTask)
 
 task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')
