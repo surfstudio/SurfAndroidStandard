@@ -43,6 +43,7 @@ import ru.surfstudio.android.easyadapter.diff.async.QueueAllAsyncDiffer;
 import ru.surfstudio.android.easyadapter.controller.BaseItemController;
 import ru.surfstudio.android.easyadapter.controller.BindableItemController;
 import ru.surfstudio.android.easyadapter.controller.NoDataItemController;
+import ru.surfstudio.android.easyadapter.diff.listener.DiffResultCalculationListener;
 import ru.surfstudio.android.easyadapter.holder.BaseViewHolder;
 import ru.surfstudio.android.easyadapter.item.BaseItem;
 import ru.surfstudio.android.easyadapter.item.NoDataItem;
@@ -72,6 +73,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
     private boolean isAsyncDiffCalculationEnabled = false;
     private Differ defaultDiffer = new DefaultDiffer(this::dispatchDiffResult, this::createDiffCallback);
     private AsyncDiffer asyncDiffer = new QueueAllAsyncDiffer(this::dispatchDiffResult, this::createDiffCallback);
+
+    private DiffResultCalculationListener diffResultCalculationListener;
 
     /**
      * @see RecyclerView.Adapter#onAttachedToRecyclerView(RecyclerView)
@@ -175,6 +178,17 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
+     * Set {@link DiffResultCalculationListener} which will be invoked after {@link DiffUtil.DiffResult} calculation.
+     *
+     * @param diffResultCalculationListener {@link DiffResultCalculationListener}
+     */
+    public final void setDiffResultCalculationListener(
+            DiffResultCalculationListener diffResultCalculationListener
+    ) {
+        this.diffResultCalculationListener = diffResultCalculationListener;
+    }
+
+    /**
      * Set if we should invoke {@link #autoNotify()} on each call to {@link #setItems(ItemList)}.
      *
      * @see #autoNotify()
@@ -193,10 +207,8 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     /**
-     *
-     * @see FirstInvisibleItemController
-     *
      * @return state of the property {@link FirstInvisibleItemController} enabled
+     * @see FirstInvisibleItemController
      */
     public boolean isFirstInvisibleItemEnabled() {
         return firstInvisibleItemEnabled;
@@ -293,6 +305,10 @@ public class EasyAdapter extends RecyclerView.Adapter {
     }
 
     private void dispatchDiffResult(DiffResultBundle diffResultBundle) {
+        if (diffResultCalculationListener != null) {
+            diffResultCalculationListener.onDiffResultCalculated();
+        }
+
         final ItemList newItems = diffResultBundle.getItems();
 
         items.clear();

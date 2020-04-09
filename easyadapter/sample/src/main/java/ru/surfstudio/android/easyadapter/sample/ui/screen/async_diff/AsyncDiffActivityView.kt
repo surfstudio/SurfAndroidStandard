@@ -53,9 +53,11 @@ class AsyncDiffActivityView : BaseRenderableActivityView<AsyncDiffScreenModel>()
 
     private fun initRecycler() {
         async_diff_rv.layoutManager = LinearLayoutManager(this)
-        async_diff_rv.adapter = adapter
-        adapter.setFirstInvisibleItemEnabled(true)
-        adapter.setAsyncDiffCalculationEnabled(true)
-        adapter.setAsyncDiffStrategy(AsyncDiffStrategy.APPLY_LATEST)
+        async_diff_rv.adapter = adapter.apply {
+            isFirstInvisibleItemEnabled = true
+            setAsyncDiffCalculationEnabled(true)
+            setDiffResultCalculationListener { toast("Diff calculated!") }
+            setAsyncDiffStrategy(AsyncDiffStrategy.APPLY_LATEST)
+        }
     }
 }
