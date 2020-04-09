@@ -85,7 +85,7 @@ class MirrorManager(
                 gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
                 applyGitTreeToMirror()
                 setBranches()
-                //mirrorRepository.push()
+                mirrorRepository.push()
                 return
             }
             throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
@@ -117,7 +117,6 @@ class MirrorManager(
      */
     private fun applyGitTreeToMirror() {
         gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
-            println("commit ${commit.type} ${commit.commit.shortMessage}")
             (when (commit.type) {
                 CommitType.SIMPLE -> commit(commit)
                 CommitType.MERGE -> merge(commit)

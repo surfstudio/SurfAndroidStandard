@@ -10,6 +10,9 @@
  in subscription methods of BaseRxViews.
 * Added description of two-way binding problem
 * Make State open for inheritance
+* **NO BACKWARD COMPATIBILITY** ANDDEP-997 Changed package of `Request.kt`.
+Added state checker methods to Request.
+`asRequest()` extensions moved to separate file `RequestRxExtension.kt`
 ## 0.3.0
 ##### Core-mvp-binding
 * Renamed `onViewDetached ()` -> `onViewDetach ()`
