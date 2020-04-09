@@ -9,10 +9,13 @@ import io.reactivex.Observable
 import io.reactivex.disposables.Disposables
 import io.reactivex.subjects.PublishSubject
 import leakcanary.LeakCanary
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import ru.surfstudio.android.activity.holder.ActiveActivityHolder
 import ru.surfstudio.android.core.ui.navigation.activity.route.ActivityRoute
 import ru.surfstudio.android.dagger.scope.PerApplication
+import ru.surfstudio.standard.f_debug.network.DelayInterceptor
 import ru.surfstudio.standard.f_debug.notification.DebugNotificationBuilder
 import ru.surfstudio.standard.f_debug.scalpel.DebugScalpelManager
 import ru.surfstudio.standard.f_debug.server_settings.reboot.interactor.DebugRebootInteractor
@@ -102,10 +105,7 @@ class DebugInteractor @Inject constructor(
             okHttpBuilder.addNetworkInterceptor(StethoInterceptor())
         }
 
-        okHttpBuilder.addInterceptor {
-            TimeUnit.MILLISECONDS.sleep(requestDelay)
-            it.proceed(it.request())
-        }
+        okHttpBuilder.addInterceptor(DelayInterceptor(requestDelay))
     }
     //endregion
 
