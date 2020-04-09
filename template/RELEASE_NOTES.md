@@ -29,6 +29,7 @@
 * ANDDEP-980 Fix template build
 * ANDDEP-1002 app module dependencies refactoring
 * ANDDEP-964 Refactored dependency imports in the project template
+* ANDDEP-982 `kotlin targetJvm` version raised: `1.6 -> 1.8`;
 * ANDDEP-982 `gradle-wrapper` version raised: `5.4.1 -> 5.6.4`;
 * ANDDEP-982 `kotlin` version raised: `1.3.31 -> 1.3.71`;
 * ANDDEP-982 `leakCanary` version raised: `1.6.2 -> 2.2`. Migration done;
