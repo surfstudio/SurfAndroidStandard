@@ -232,7 +232,9 @@ class GitTree(
             watchedHashed.clear()
             buildChain(mutableListOf(end))
         }
-                .filter { ends.contains(it.first()) && it.last() == rootNode }
+                //todo filter using unique commit condition
+                .filter { ends.contains(it.first()) && it.last() == rootNode
+                        || it.last().value.shortMessage.endsWith("64 [skip ci] [version]")}
     }
 
     /**
@@ -347,14 +349,19 @@ class GitTree(
         println("START BUILD CHAIN FOR NODE: ${node.value.shortMessage} hash = ${node.value.standardHash}")
         watchedHashed.add(node.value.standardHash)
         println("ADD HASH ${node.value.standardHash}")
+        val checkMessage = !node.value.shortMessage.endsWith("64 [skip ci] [version]")
+        if (!checkMessage) {
+            println("-------------------------- STOP ${node.value.shortMessage}")
+            result.add(chain)
+            return result
+        }
         result.add(chain)
 
         node.parents.forEach {
             //todo filter old parents
-            val checkMessage = !it.value.shortMessage.endsWith("64 [skip ci] [version]")
             //println("${it.value.shortMessage} " +
             //      "${mirrorNodes.map { it.value.standardHash }.contains(it.value.standardHash)}")
-            if (!watchedHashed.contains(it.value.standardHash) && it.state != END && checkMessage) {
+            if (!watchedHashed.contains(it.value.standardHash) && it.state != END) {
                 println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                 val newChain = chain.toMutableList()
                 newChain.add(it)
@@ -376,10 +383,9 @@ class GitTree(
                     println("NEXT PARENTS FOR: ${next.value.shortMessage}")
                     next.parents.forEach {
                         //todo filter old parents
-                        val checkMessage = !it.value.shortMessage.endsWith("64 [skip ci] [version]")
                         //println("${it.value.shortMessage} " +
                         //      "${mirrorNodes.map { it.value.standardHash }.contains(it.value.standardHash)}")
-                        if (!watchedHashed.contains(it.value.standardHash) && it.state != END && checkMessage) {
+                        if (!watchedHashed.contains(it.value.standardHash) && it.state != END) {
                             println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                             val newChain = chain.toMutableList()
                             newChain.add(it)
@@ -392,8 +398,7 @@ class GitTree(
                         }
                     }
 
-                    val checkMessage = !next.value.shortMessage.endsWith("64 [skip ci] [version]")
-                    if (next.state != END && !watchedHashed.contains(next.value.standardHash) && checkMessage) {
+                    if (next.state != END && !watchedHashed.contains(next.value.standardHash)) {
                         println("\nONLY CHILD = NEXT NODE: ${next.value.shortMessage} " +
                                 "hash = ${next.value.standardHash}")
                         chain.add(next)

@@ -4,6 +4,7 @@ import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gradle.api.GradleException
+import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
@@ -181,14 +182,20 @@ class MirrorManager(
      * @param commit commit
      */
     private fun checkoutMirrorBranchForCommit(commit: CommitWithBranch) {
-        with(mirrorRepository) {
-            val parent = gitTree.getParent(commit)
-            if (parent.mirrorCommitHash.isNotEmpty()) {
-                checkoutCommit(parent.mirrorCommitHash)
+        try {
+            with(mirrorRepository) {
+                //todo compare commit with start
+                val parent = gitTree.getParent(commit)
+                if (parent.mirrorCommitHash.isNotEmpty()) {
+                    checkoutCommit(parent.mirrorCommitHash)
+                }
+                if (commit.branch.isNotEmpty()) {
+                    checkoutBranch(commit.branch)
+                }
             }
-            if (commit.branch.isNotEmpty()) {
-                checkoutBranch(commit.branch)
-            }
+        } catch (e: GitNodeNotFoundException) {
+            //todo remove
+            println("SKIP EXCEPTION :(")
         }
     }
 

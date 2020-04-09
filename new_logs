@@ -1,4 +1,11 @@
+
 > Task :buildSrc:compileKotlin
+w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/DependencyConfigurator.kt: (32, 70): Unchecked cast: Any? to Map<String, String>
+w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/tasks/changed_components/ProjectConfigurationCreator.kt: (45, 54): Unchecked cast: Any? to kotlin.collections.LinkedHashMap<String, String> /* = java.util.LinkedHashMap<String, String> */
+w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/tasks/deploy_to_mirror/MirrorManager.kt: (122, 13): Variable 'index' is never used
+w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/tasks/deploy_to_mirror/MirrorManager.kt: (125, 13): Variable 'size' is never used
+w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/utils/ProjectExtensions.kt: (28, 31): Unchecked cast: Any? to T
+
 > Task :buildSrc:compileJava NO-SOURCE
 > Task :buildSrc:compileGroovy NO-SOURCE
 > Task :buildSrc:processResources NO-SOURCE
@@ -126,6 +133,14 @@ parent: ANDDEP-785 Has initialized library and sample modules for the RecyclerVi
 --------------------------------------------------------
 START BUILD CHAIN FOR NODE: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration hash = ffb0676c
 ADD HASH ffb0676c
+parent: Increase global alpha version counter to 64 [skip ci] [version] 624c40d7
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 64 [skip ci] [version] hash = 624c40d7
+ADD HASH 624c40d7
+-------------------------- STOP Increase global alpha version counter to 64 [skip ci] [version]
+PARENTS FOR: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
+NEXT PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+-------------------------- SKIP ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
 PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 NEXT PARENTS FOR: ANDDEP-785 Deleted extra changes
 -------------------------- SKIP ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
@@ -290,6 +305,14 @@ parent: ANDDEP-785 Has initialized library and sample modules for the RecyclerVi
 --------------------------------------------------------
 START BUILD CHAIN FOR NODE: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration hash = ffb0676c
 ADD HASH ffb0676c
+parent: Increase global alpha version counter to 64 [skip ci] [version] 624c40d7
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 64 [skip ci] [version] hash = 624c40d7
+ADD HASH 624c40d7
+-------------------------- STOP Increase global alpha version counter to 64 [skip ci] [version]
+PARENTS FOR: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
+NEXT PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+-------------------------- SKIP ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
 PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 NEXT PARENTS FOR: ANDDEP-785 Deleted extra changes
 -------------------------- SKIP ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
@@ -429,6 +452,36 @@ NODE ANDDEP-785 added release notes fo sample-common
 NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 NODE Increase global alpha version counter to 81 [skip ci] [version]
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 Decorator.Builder extensions moved to own library - NONE, ANDDEP-785 finalized easy adapter extensions implements - NONE, ANDDEP-785 fix links in Readme - NONE, ANDDEP-785 fix link to sample - NONE, ANDDEP-785 added link from main.md user manual - NONE, ANDDEP-785 add user manual - NONE, ANDDEP-785 fixed PR notes - NONE, ANDDEP-785 has refactored package structure, finished chat sample - NONE, ANDDEP-785 Added date controller to Chat sample - NONE, ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss - NONE, ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. - NONE, ANDDEP-785 Cleared sample for CarouselDecoratorActivity - NONE, ANDDEP-785 Has added release notes - NONE, ANDDEP-785 Deleted extra changes - NONE, ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator - NONE, ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration - NONE, Increase global alpha version counter to 64 [skip ci] [version] - NONE]
+
+NODE Increase global alpha version counter to 80 [skip ci] [version]
+NODE ANDDEP-785 added release notes fo sample-common
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 added ui test, PR fixes
+NODE ANDDEP-785 updated licens
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 PR fixes
+NODE ANDDEP-785 added release note for docs module
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+NODE ANDDEP-785 added release note for docs module
+NODE ANDDEP-785 Decorator.Builder extensions moved to own library
+NODE ANDDEP-785 finalized easy adapter extensions implements
+NODE ANDDEP-785 fix links in Readme
+NODE ANDDEP-785 fix link to sample
+NODE ANDDEP-785 added link from main.md user manual
+NODE ANDDEP-785 add user manual
+NODE ANDDEP-785 fixed PR notes
+NODE ANDDEP-785 has refactored package structure, finished chat sample
+NODE ANDDEP-785 Added date controller to Chat sample
+NODE ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+NODE ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+NODE ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+NODE ANDDEP-785 Has added release notes
+NODE ANDDEP-785 Deleted extra changes
+NODE ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+NODE ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
+NODE Increase global alpha version counter to 64 [skip ci] [version]
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
 
 NODE Increase global alpha version counter to 80 [skip ci] [version]
@@ -451,6 +504,28 @@ NODE ANDDEP-785 added release notes fo sample-common
 NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 NODE Increase global alpha version counter to 81 [skip ci] [version]
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 Decorator.Builder extensions moved to own library - NONE, ANDDEP-785 finalized easy adapter extensions implements - NONE, ANDDEP-785 fix links in Readme - NONE, ANDDEP-785 fix link to sample - NONE, ANDDEP-785 added link from main.md user manual - NONE, ANDDEP-785 add user manual - NONE, ANDDEP-785 fixed PR notes - NONE, ANDDEP-785 has refactored package structure, finished chat sample - NONE, ANDDEP-785 Added date controller to Chat sample - NONE, ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss - NONE, ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. - NONE, ANDDEP-785 Cleared sample for CarouselDecoratorActivity - NONE, ANDDEP-785 Has added release notes - NONE, ANDDEP-785 Deleted extra changes - NONE, ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator - NONE, ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration - NONE, Increase global alpha version counter to 64 [skip ci] [version] - NONE]
+
+NODE Increase global alpha version counter to 79 [skip ci] [version]
+NODE ANDDEP-785 added release note for docs module
+NODE ANDDEP-785 Decorator.Builder extensions moved to own library
+NODE ANDDEP-785 finalized easy adapter extensions implements
+NODE ANDDEP-785 fix links in Readme
+NODE ANDDEP-785 fix link to sample
+NODE ANDDEP-785 added link from main.md user manual
+NODE ANDDEP-785 add user manual
+NODE ANDDEP-785 fixed PR notes
+NODE ANDDEP-785 has refactored package structure, finished chat sample
+NODE ANDDEP-785 Added date controller to Chat sample
+NODE ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+NODE ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+NODE ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+NODE ANDDEP-785 Has added release notes
+NODE ANDDEP-785 Deleted extra changes
+NODE ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+NODE ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
+NODE Increase global alpha version counter to 64 [skip ci] [version]
+
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
 
 NODE Increase global alpha version counter to 79 [skip ci] [version]
@@ -466,7 +541,25 @@ NODE ANDDEP-785 added release notes fo sample-common
 NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 NODE Increase global alpha version counter to 81 [skip ci] [version]
 
+commit SIMPLE Increase global alpha version counter to 64 [skip ci] [version] 2020-01-24T18:15:43
+SKIP EXCEPTION :(
+commit SIMPLE ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration 2020-01-27T14:31:59
+commit SIMPLE ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator 2020-01-27T15:34:59
+commit SIMPLE ANDDEP-785 Deleted extra changes 2020-01-27T15:37:32
+commit SIMPLE ANDDEP-785 Has added release notes 2020-01-27T15:40:57
+commit SIMPLE ANDDEP-785 Cleared sample for CarouselDecoratorActivity 2020-01-27T15:54:15
+commit SIMPLE ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter. 2020-02-16T18:45:19
+commit SIMPLE ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss 2020-02-21T16:00:28
+commit SIMPLE ANDDEP-785 Added date controller to Chat sample 2020-02-25T20:32:21
+commit SIMPLE ANDDEP-785 has refactored package structure, finished chat sample 2020-02-29T20:53:11
+commit SIMPLE ANDDEP-785 fixed PR notes 2020-02-29T21:22:05
+commit SIMPLE ANDDEP-785 add user manual 2020-02-29T23:57:42
+commit SIMPLE ANDDEP-785 added link from main.md user manual 2020-03-01T00:05:58
+commit SIMPLE ANDDEP-785 fix link to sample 2020-03-01T00:09:50
+commit SIMPLE ANDDEP-785 fix links in Readme 2020-03-01T00:11:08
 commit MIRROR_START_POINT Increase global alpha version counter to 79 [skip ci] [version] 2020-03-02T13:07:24
+commit SIMPLE ANDDEP-785 finalized easy adapter extensions implements 2020-03-02T21:01:22
+commit SIMPLE ANDDEP-785 Decorator.Builder extensions moved to own library 2020-03-02T21:37:02
 commit SIMPLE ANDDEP-785 added release note for docs module 2020-03-03T12:06:12
 commit MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration 2020-03-03T12:09:51
 commit SIMPLE ANDDEP-785 added release note for docs module 2020-03-03T12:14:13
@@ -480,5 +573,5 @@ commit SIMPLE ANDDEP-785 added release notes fo sample-common 2020-03-03T22:05:1
 commit MERGE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 2020-03-03T22:13:33
 commit SIMPLE Increase global alpha version counter to 81 [skip ci] [version] 2020-03-03T22:30:02
 
-BUILD SUCCESSFUL in 1m 55s
+BUILD SUCCESSFUL in 1m 23s
 1 actionable task: 1 executed
