@@ -363,12 +363,7 @@ class GitTree(
         }
 
         node.parents.forEach {
-            if (!isWatched(it)) {
-                markAsWatched(it)
-                val newChain = chain.toMutableList()
-                newChain.add(it)
-                result.addAll(buildChain(newChain))
-            }
+            checkNode(it, chain, result)
         }
 
         while (true) {
@@ -377,12 +372,7 @@ class GitTree(
                     val next = node.children.first()
 
                     next.parents.forEach {
-                        if (!isWatched(it)) {
-                            markAsWatched(it)
-                            val newChain = chain.toMutableList()
-                            newChain.add(it)
-                            result.addAll(buildChain(newChain))
-                        }
+                        checkNode(it, chain, result)
                     }
 
                     if (!isWatched(next)) {
@@ -399,16 +389,20 @@ class GitTree(
                 }
                 else -> {
                     node.children.forEach {
-                        if (!isWatched(it)) {
-                            markAsWatched(it)
-                            val newChain = chain.toMutableList()
-                            newChain.add(it)
-                            result.addAll(buildChain(newChain))
-                        }
+                        checkNode(it, chain, result)
                     }
                     return result
                 }
             }
+        }
+    }
+
+    private fun checkNode(node: Node, chain: MutableList<Node>, result: MutableList<List<Node>> ) {
+        if (!isWatched(node)) {
+            markAsWatched(node)
+            val newChain = chain.toMutableList()
+            newChain.add(node)
+            result.addAll(buildChain(newChain))
         }
     }
 
