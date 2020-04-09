@@ -757,6 +757,10 @@
           {
             "name": "logger",
             "type": "implementation"
+          },
+          {
+            "name": "imageloader",
+            "type": "implementation"
           }
         ]
       }
