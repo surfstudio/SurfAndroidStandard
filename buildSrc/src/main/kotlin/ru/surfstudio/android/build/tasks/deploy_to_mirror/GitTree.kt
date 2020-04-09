@@ -4,6 +4,7 @@ import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
+import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.ManyBranchesFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.MirrorCommitNotFoundByStandardHashException
@@ -18,6 +19,8 @@ import ru.surfstudio.android.build.utils.extractBranchNames
 import ru.surfstudio.android.build.utils.mirrorStandardHash
 import ru.surfstudio.android.build.utils.standardHash
 import java.io.File
+
+private const val VERSION_LABEL = "[version]"
 
 /**
  * Data structure based on tree
@@ -36,6 +39,15 @@ class GitTree(
 
     lateinit var startMirrorRepositoryCommits: Set<CommitWithBranch>
     lateinit var standardRepositoryCommitsForMirror: List<CommitWithBranch>
+
+    private lateinit var stopEndNode: Node
+
+    /**
+     * Function which checks if commit should be skipped during mirroring
+     */
+    fun shouldSkipCommit(commit: RevCommit): Boolean =
+            commit.shortMessage.endsWith(VERSION_LABEL) &&
+                    commit.commitTime < stopEndNode.value.commitTime
 
     /**
      * Build GitTree representation of standard repository with correct structure
@@ -224,17 +236,19 @@ class GitTree(
      */
     private fun createLines(): List<List<Node>> {
         markEndNodes()
-
         val ends = standardNodes.filter { it.state == END }
+        stopEndNode = ends.minBy { it.value.commitTime }
+                ?: throw GradleException("Can't find a stop end node with min commit time")
 
         return ends.flatMap { end ->
             println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR ${end.value.shortMessage}")
             watchedHashed.clear()
             buildChain(mutableListOf(end))
         }
-                //todo filter using unique commit condition
-                .filter { ends.contains(it.first()) && it.last() == rootNode
-                        || it.last().value.shortMessage.endsWith("64 [skip ci] [version]")}
+                .filter {
+                    ends.contains(it.first()) && it.last() == rootNode
+                            || it.last().value.shortMessage.endsWith(VERSION_LABEL)
+                }
     }
 
     /**
@@ -293,10 +307,13 @@ class GitTree(
     }
 
     /**
+     * creates from lines standard repository commit for applying to mirror. For every line branch name is created
      * Marks every commit either as:
      * MIRROR_START_POINT - commits that are already in mirror repository and applying commits started from
      * SIMPLE - usual commit
      * MERGE - merge commit
+     *
+     * @param lines created lines in standard repository tree
      */
     private fun buildStandardCommitsForMirror(lines: List<List<Node>>) {
         val existedBranchNames = mirrorRepository.getAllBranches()
@@ -349,8 +366,8 @@ class GitTree(
         println("START BUILD CHAIN FOR NODE: ${node.value.shortMessage} hash = ${node.value.standardHash}")
         watchedHashed.add(node.value.standardHash)
         println("ADD HASH ${node.value.standardHash}")
-        val checkMessage = !node.value.shortMessage.endsWith("64 [skip ci] [version]")
-        if (!checkMessage) {
+        // every line starts and ends with [version] commit
+        if (chain.first() != node && node.value.shortMessage.contains(VERSION_LABEL)) {
             println("-------------------------- STOP ${node.value.shortMessage}")
             result.add(chain)
             return result
@@ -358,18 +375,12 @@ class GitTree(
         result.add(chain)
 
         node.parents.forEach {
-            //todo filter old parents
-            //println("${it.value.shortMessage} " +
-            //      "${mirrorNodes.map { it.value.standardHash }.contains(it.value.standardHash)}")
             if (!watchedHashed.contains(it.value.standardHash) && it.state != END) {
                 println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                 val newChain = chain.toMutableList()
                 newChain.add(it)
                 result.addAll(buildChain(newChain))
             } else {
-                if (!checkMessage) {
-                    return result
-                }
                 println("-------------------------- SKIP ${it.value.shortMessage}")
             }
         }
@@ -382,18 +393,12 @@ class GitTree(
 
                     println("NEXT PARENTS FOR: ${next.value.shortMessage}")
                     next.parents.forEach {
-                        //todo filter old parents
-                        //println("${it.value.shortMessage} " +
-                        //      "${mirrorNodes.map { it.value.standardHash }.contains(it.value.standardHash)}")
                         if (!watchedHashed.contains(it.value.standardHash) && it.state != END) {
                             println("parent: ${it.value.shortMessage} ${it.value.standardHash}")
                             val newChain = chain.toMutableList()
                             newChain.add(it)
                             result.addAll(buildChain(newChain))
                         } else {
-                            if (!checkMessage) {
-                                return result
-                            }
                             println("-------------------------- SKIP ${it.value.shortMessage}")
                         }
                     }
@@ -412,9 +417,7 @@ class GitTree(
                             println("children ${it.value.shortMessage} ${it.value.standardHash}")
                         }
                     } else {
-                        if (!checkMessage) {
-                            println("-------------------------- SKIP ${next.value.shortMessage}")
-                        }
+                        println("-------------------------- RETURN FOR ${next.value.shortMessage}")
                         return result
                     }
                 }

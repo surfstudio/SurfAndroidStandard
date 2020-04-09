@@ -4,17 +4,17 @@ import org.eclipse.jgit.diff.DiffEntry
 import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.gradle.api.GradleException
-import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.RevCommitNotFoundException
 import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitType
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.model.CommitWithBranch
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.MirrorRepository
 import ru.surfstudio.android.build.tasks.deploy_to_mirror.repository.StandardRepository
-import ru.surfstudio.android.build.utils.*
+import ru.surfstudio.android.build.utils.EMPTY_STRING
+import ru.surfstudio.android.build.utils.extractBranchNames
+import ru.surfstudio.android.build.utils.standardHash
+import ru.surfstudio.android.build.utils.type
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 private const val GET_MAIN_BRANCH_COMMAND = "git symbolic-ref refs/remotes/origin/HEAD"
@@ -119,14 +119,6 @@ class MirrorManager(
      * For all git tree commits apply them to mirror repository
      */
     private fun applyGitTreeToMirror() {
-        val index = gitTree.standardRepositoryCommitsForMirror.indexOfFirst {
-            it.type == CommitType.MIRROR_START_POINT
-        }
-        val size = gitTree.standardRepositoryCommitsForMirror.size
-        gitTree.standardRepositoryCommitsForMirror.forEach {
-            //println("sublist ${it.commit.shortMessage}")
-        }
-        println()
         gitTree.standardRepositoryCommitsForMirror.forEach { commit ->
             val date = Date(1000L * commit.commit.commitTime)
             val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
@@ -142,20 +134,6 @@ class MirrorManager(
     }
 
     /**
-     * creates start commit of git tree in mirror repository
-     *
-     * @param commit start commit
-     */
-    private fun createMirrorStartCommit(commit: CommitWithBranch): RevCommit {
-        val mirrorCommit = gitTree.getStartMirrorCommitByStandardHash(commit.commit.standardHash)
-        println("mirrorCommit ${mirrorCommit.commit.shortMessage}")
-        mirrorRepository.reset(mirrorCommit.commit)
-        mirrorRepository.checkoutBranch(mirrorCommit.branch)
-        commit.mirrorCommitHash = mirrorCommit.commit.name
-        return mirrorCommit.commit
-    }
-
-    /**
      * creates commit in mirror repository by
      * getting all changes for [commit]
      * in standard repository and applying them to mirror repository
@@ -163,6 +141,11 @@ class MirrorManager(
      * @param commit commit to apply
      */
     private fun commit(commit: CommitWithBranch): RevCommit? {
+        // for old branches a line could contain an old [version] commit
+        if (gitTree.shouldSkipCommit(commit.commit)) {
+            return null
+        }
+
         standardRepository.reset(commit.commit)
 
         val changes = standardRepository.getChanges(commit.commit).filter(::shouldMirror)
@@ -182,20 +165,14 @@ class MirrorManager(
      * @param commit commit
      */
     private fun checkoutMirrorBranchForCommit(commit: CommitWithBranch) {
-        try {
-            with(mirrorRepository) {
-                //todo compare commit with start
-                val parent = gitTree.getParent(commit)
-                if (parent.mirrorCommitHash.isNotEmpty()) {
-                    checkoutCommit(parent.mirrorCommitHash)
-                }
-                if (commit.branch.isNotEmpty()) {
-                    checkoutBranch(commit.branch)
-                }
+        with(mirrorRepository) {
+            val parent = gitTree.getParent(commit)
+            if (parent.mirrorCommitHash.isNotEmpty()) {
+                checkoutCommit(parent.mirrorCommitHash)
             }
-        } catch (e: GitNodeNotFoundException) {
-            //todo remove
-            println("SKIP EXCEPTION :(")
+            if (commit.branch.isNotEmpty()) {
+                checkoutBranch(commit.branch)
+            }
         }
     }
 

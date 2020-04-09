@@ -1,11 +1,4 @@
-
 > Task :buildSrc:compileKotlin
-w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/DependencyConfigurator.kt: (32, 70): Unchecked cast: Any? to Map<String, String>
-w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/tasks/changed_components/ProjectConfigurationCreator.kt: (45, 54): Unchecked cast: Any? to kotlin.collections.LinkedHashMap<String, String> /* = java.util.LinkedHashMap<String, String> */
-w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/tasks/deploy_to_mirror/MirrorManager.kt: (122, 13): Variable 'index' is never used
-w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/tasks/deploy_to_mirror/MirrorManager.kt: (125, 13): Variable 'size' is never used
-w: /Users/margarita/AndroidStudioProjects/android-standard/buildSrc/src/main/kotlin/ru/surfstudio/android/build/utils/ProjectExtensions.kt: (28, 31): Unchecked cast: Any? to T
-
 > Task :buildSrc:compileJava NO-SOURCE
 > Task :buildSrc:compileGroovy NO-SOURCE
 > Task :buildSrc:processResources NO-SOURCE
@@ -141,76 +134,100 @@ ADD HASH 624c40d7
 PARENTS FOR: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
 NEXT PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 -------------------------- SKIP ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
+-------------------------- RETURN FOR ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 NEXT PARENTS FOR: ANDDEP-785 Deleted extra changes
 -------------------------- SKIP ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+-------------------------- RETURN FOR ANDDEP-785 Deleted extra changes
 PARENTS FOR: ANDDEP-785 Deleted extra changes
 NEXT PARENTS FOR: ANDDEP-785 Has added release notes
 -------------------------- SKIP ANDDEP-785 Deleted extra changes
+-------------------------- RETURN FOR ANDDEP-785 Has added release notes
 PARENTS FOR: ANDDEP-785 Has added release notes
 NEXT PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
 -------------------------- SKIP ANDDEP-785 Has added release notes
+-------------------------- RETURN FOR ANDDEP-785 Cleared sample for CarouselDecoratorActivity
 PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
 NEXT PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
 -------------------------- SKIP ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+-------------------------- RETURN FOR ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
 PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
 NEXT PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
 -------------------------- SKIP ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+-------------------------- RETURN FOR ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
 PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
 NEXT PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
 -------------------------- SKIP ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+-------------------------- RETURN FOR ANDDEP-785 Added date controller to Chat sample
 PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
 NEXT PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
 -------------------------- SKIP ANDDEP-785 Added date controller to Chat sample
+-------------------------- RETURN FOR ANDDEP-785 has refactored package structure, finished chat sample
 PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
 NEXT PARENTS FOR: ANDDEP-785 fixed PR notes
 -------------------------- SKIP ANDDEP-785 has refactored package structure, finished chat sample
+-------------------------- RETURN FOR ANDDEP-785 fixed PR notes
 PARENTS FOR: ANDDEP-785 fixed PR notes
 NEXT PARENTS FOR: ANDDEP-785 add user manual
 -------------------------- SKIP ANDDEP-785 fixed PR notes
+-------------------------- RETURN FOR ANDDEP-785 add user manual
 PARENTS FOR: ANDDEP-785 add user manual
 NEXT PARENTS FOR: ANDDEP-785 added link from main.md user manual
 -------------------------- SKIP ANDDEP-785 add user manual
+-------------------------- RETURN FOR ANDDEP-785 added link from main.md user manual
 PARENTS FOR: ANDDEP-785 added link from main.md user manual
 NEXT PARENTS FOR: ANDDEP-785 fix link to sample
 -------------------------- SKIP ANDDEP-785 added link from main.md user manual
+-------------------------- RETURN FOR ANDDEP-785 fix link to sample
 PARENTS FOR: ANDDEP-785 fix link to sample
 NEXT PARENTS FOR: ANDDEP-785 fix links in Readme
 -------------------------- SKIP ANDDEP-785 fix link to sample
+-------------------------- RETURN FOR ANDDEP-785 fix links in Readme
 PARENTS FOR: ANDDEP-785 fix links in Readme
 NEXT PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
 -------------------------- SKIP ANDDEP-785 fix links in Readme
+-------------------------- RETURN FOR ANDDEP-785 finalized easy adapter extensions implements
 PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
 NEXT PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
 -------------------------- SKIP ANDDEP-785 finalized easy adapter extensions implements
+-------------------------- RETURN FOR ANDDEP-785 Decorator.Builder extensions moved to own library
 PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
 NEXT PARENTS FOR: ANDDEP-785 added release note for docs module
 -------------------------- SKIP ANDDEP-785 Decorator.Builder extensions moved to own library
+-------------------------- RETURN FOR ANDDEP-785 added release note for docs module
 PARENTS FOR: ANDDEP-785 added release note for docs module
 NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
 -------------------------- SKIP Increase global alpha version counter to 79 [skip ci] [version]
 -------------------------- SKIP ANDDEP-785 added release note for docs module
+-------------------------- RETURN FOR Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
 PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
 NEXT PARENTS FOR: ANDDEP-785 added release note for docs module
 -------------------------- SKIP Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
+-------------------------- RETURN FOR ANDDEP-785 added release note for docs module
 PARENTS FOR: ANDDEP-785 added release note for docs module
 NEXT PARENTS FOR: ANDDEP-785 PR fixes
 -------------------------- SKIP ANDDEP-785 added release note for docs module
+-------------------------- RETURN FOR ANDDEP-785 PR fixes
 PARENTS FOR: ANDDEP-785 PR fixes
 NEXT PARENTS FOR: ANDDEP-785 PR fixes
 -------------------------- SKIP ANDDEP-785 PR fixes
+-------------------------- RETURN FOR ANDDEP-785 PR fixes
 PARENTS FOR: ANDDEP-785 PR fixes
 NEXT PARENTS FOR: ANDDEP-785 updated licens
 -------------------------- SKIP ANDDEP-785 PR fixes
+-------------------------- RETURN FOR ANDDEP-785 updated licens
 PARENTS FOR: ANDDEP-785 updated licens
 NEXT PARENTS FOR: ANDDEP-785 added ui test, PR fixes
 -------------------------- SKIP ANDDEP-785 updated licens
+-------------------------- RETURN FOR ANDDEP-785 added ui test, PR fixes
 PARENTS FOR: ANDDEP-785 added ui test, PR fixes
 NEXT PARENTS FOR: ANDDEP-785 PR fixes
 -------------------------- SKIP ANDDEP-785 added ui test, PR fixes
+-------------------------- RETURN FOR ANDDEP-785 PR fixes
 PARENTS FOR: ANDDEP-785 PR fixes
 NEXT PARENTS FOR: ANDDEP-785 added release notes fo sample-common
 -------------------------- SKIP ANDDEP-785 PR fixes
+-------------------------- RETURN FOR ANDDEP-785 added release notes fo sample-common
 PARENTS FOR: ANDDEP-785 added release notes fo sample-common
 NEXT PARENTS FOR: Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 -------------------------- SKIP Increase global alpha version counter to 80 [skip ci] [version]
@@ -230,6 +247,7 @@ ADD HASH 34b1f0aa
 parents Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 47587636
 PARENTS FOR: Increase global alpha version counter to 81 [skip ci] [version]
 NO CHILDREN
+-------------------------- RETURN FOR Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 79 [skip ci] [version]
 --------------------------------------------------------
 START BUILD CHAIN FOR NODE: Increase global alpha version counter to 79 [skip ci] [version] hash = aef86338
@@ -313,51 +331,67 @@ ADD HASH 624c40d7
 PARENTS FOR: ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
 NEXT PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 -------------------------- SKIP ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration
+-------------------------- RETURN FOR ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 PARENTS FOR: ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
 NEXT PARENTS FOR: ANDDEP-785 Deleted extra changes
 -------------------------- SKIP ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator
+-------------------------- RETURN FOR ANDDEP-785 Deleted extra changes
 PARENTS FOR: ANDDEP-785 Deleted extra changes
 NEXT PARENTS FOR: ANDDEP-785 Has added release notes
 -------------------------- SKIP ANDDEP-785 Deleted extra changes
+-------------------------- RETURN FOR ANDDEP-785 Has added release notes
 PARENTS FOR: ANDDEP-785 Has added release notes
 NEXT PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
 -------------------------- SKIP ANDDEP-785 Has added release notes
+-------------------------- RETURN FOR ANDDEP-785 Cleared sample for CarouselDecoratorActivity
 PARENTS FOR: ANDDEP-785 Cleared sample for CarouselDecoratorActivity
 NEXT PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
 -------------------------- SKIP ANDDEP-785 Cleared sample for CarouselDecoratorActivity
+-------------------------- RETURN FOR ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
 PARENTS FOR: ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
 NEXT PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
 -------------------------- SKIP ANDDEP-785 Added extensions and classes for use decorator with EasyAdapter.
+-------------------------- RETURN FOR ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
 PARENTS FOR: ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
 NEXT PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
 -------------------------- SKIP ANDDEP-785 fix crash in BaseItemControllerDecoration and BaseItemControllerOffset. Add complex sample for use EasyAdapter Decor extensionssssss
+-------------------------- RETURN FOR ANDDEP-785 Added date controller to Chat sample
 PARENTS FOR: ANDDEP-785 Added date controller to Chat sample
 NEXT PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
 -------------------------- SKIP ANDDEP-785 Added date controller to Chat sample
+-------------------------- RETURN FOR ANDDEP-785 has refactored package structure, finished chat sample
 PARENTS FOR: ANDDEP-785 has refactored package structure, finished chat sample
 NEXT PARENTS FOR: ANDDEP-785 fixed PR notes
 -------------------------- SKIP ANDDEP-785 has refactored package structure, finished chat sample
+-------------------------- RETURN FOR ANDDEP-785 fixed PR notes
 PARENTS FOR: ANDDEP-785 fixed PR notes
 NEXT PARENTS FOR: ANDDEP-785 add user manual
 -------------------------- SKIP ANDDEP-785 fixed PR notes
+-------------------------- RETURN FOR ANDDEP-785 add user manual
 PARENTS FOR: ANDDEP-785 add user manual
 NEXT PARENTS FOR: ANDDEP-785 added link from main.md user manual
 -------------------------- SKIP ANDDEP-785 add user manual
+-------------------------- RETURN FOR ANDDEP-785 added link from main.md user manual
 PARENTS FOR: ANDDEP-785 added link from main.md user manual
 NEXT PARENTS FOR: ANDDEP-785 fix link to sample
 -------------------------- SKIP ANDDEP-785 added link from main.md user manual
+-------------------------- RETURN FOR ANDDEP-785 fix link to sample
 PARENTS FOR: ANDDEP-785 fix link to sample
 NEXT PARENTS FOR: ANDDEP-785 fix links in Readme
 -------------------------- SKIP ANDDEP-785 fix link to sample
+-------------------------- RETURN FOR ANDDEP-785 fix links in Readme
 PARENTS FOR: ANDDEP-785 fix links in Readme
 NEXT PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
 -------------------------- SKIP ANDDEP-785 fix links in Readme
+-------------------------- RETURN FOR ANDDEP-785 finalized easy adapter extensions implements
 PARENTS FOR: ANDDEP-785 finalized easy adapter extensions implements
 NEXT PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
 -------------------------- SKIP ANDDEP-785 finalized easy adapter extensions implements
+-------------------------- RETURN FOR ANDDEP-785 Decorator.Builder extensions moved to own library
 PARENTS FOR: ANDDEP-785 Decorator.Builder extensions moved to own library
 NEXT PARENTS FOR: ANDDEP-785 added release note for docs module
 -------------------------- SKIP ANDDEP-785 Decorator.Builder extensions moved to own library
+-------------------------- RETURN FOR ANDDEP-785 added release note for docs module
 PARENTS FOR: ANDDEP-785 added release note for docs module
 NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
 -------------------------- SKIP Increase global alpha version counter to 79 [skip ci] [version]
@@ -443,7 +477,12 @@ ADD HASH 34b1f0aa
 parents Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 47587636
 PARENTS FOR: Increase global alpha version counter to 81 [skip ci] [version]
 NO CHILDREN
+-------------------------- RETURN FOR Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration
 ---------------------------------------------
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 80 [skip ci] [version]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 80 [skip ci] [version] - END, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
 
@@ -488,6 +527,10 @@ NODE Increase global alpha version counter to 80 [skip ci] [version]
 NODE ANDDEP-785 added release notes fo sample-common
 NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 79 [skip ci] [version]
 
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 79 [skip ci] [version] - END, ANDDEP-785 added release note for docs module - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-785-universal-recycler-item-decoration - NONE, ANDDEP-785 added release note for docs module - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 updated licens - NONE, ANDDEP-785 added ui test, PR fixes - NONE, ANDDEP-785 PR fixes - NONE, ANDDEP-785 added release notes fo sample-common - NONE, Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - ROOT]
 
@@ -540,9 +583,7 @@ NODE ANDDEP-785 PR fixes
 NODE ANDDEP-785 added release notes fo sample-common
 NODE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755)
 NODE Increase global alpha version counter to 81 [skip ci] [version]
-
 commit SIMPLE Increase global alpha version counter to 64 [skip ci] [version] 2020-01-24T18:15:43
-SKIP EXCEPTION :(
 commit SIMPLE ANDDEP-785 Has initialized library and sample modules for the RecyclerView ItemDecoration 2020-01-27T14:31:59
 commit SIMPLE ANDDEP-785 Has added Builder for RecyclerView.ItemDecoration and added show cases of using opportunities of this ItemDecorator 2020-01-27T15:34:59
 commit SIMPLE ANDDEP-785 Deleted extra changes 2020-01-27T15:37:32
@@ -573,5 +614,5 @@ commit SIMPLE ANDDEP-785 added release notes fo sample-common 2020-03-03T22:05:1
 commit MERGE Объединено в ANDDEP-785-universal-recycler-item-decoration (pull-запрос #755) 2020-03-03T22:13:33
 commit SIMPLE Increase global alpha version counter to 81 [skip ci] [version] 2020-03-03T22:30:02
 
-BUILD SUCCESSFUL in 1m 23s
+BUILD SUCCESSFUL in 1m 20s
 1 actionable task: 1 executed
