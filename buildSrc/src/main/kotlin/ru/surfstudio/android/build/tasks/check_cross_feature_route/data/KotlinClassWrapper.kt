@@ -7,4 +7,6 @@ open class KotlinClassWrapper(
         val baseClassPackageName: String,
         val implementations: List<String>,
         val classBody: String
-)
+) {
+    val fullName: String = "$packageName.$className"
+}

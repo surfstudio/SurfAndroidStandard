@@ -18,5 +18,5 @@ class KotlinCrossFeatureRouteClassWrapper(
 ) {
 
     val targetClassName: String = targetClassPath.substringAfterLast('.')
-    val targetPackageName: String = targetClassPath.substringBeforeLast('.')
+    val targetClassPackageName: String = targetClassPath.substringBeforeLast('.')
 }

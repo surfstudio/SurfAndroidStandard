@@ -14,23 +14,36 @@ class KotlinCrossFeatureRouteVerifier(
 ) : GradleLogger by DefaultGradleLogger("KotlinRouteVerifier", isDebugEnabled) {
 
     fun verify(route: KotlinCrossFeatureRouteClassWrapper): Boolean {
-        val targetView = views.find {
-            it.className == route.targetClassName && it.packageName == route.targetPackageName
+        "${route.fullName} verifying".logd()
+        val targetView = findViewClass(route.targetClassName, route.targetClassPackageName)
+        if (targetView == null) {
+            "Unable to find view (${route.targetClassPath}) for route ${route.fullName}".loge()
+            return false
         }
+        val isViewImplementsCrossFeature = checkIsCrossFeature(targetView)
+        if (!isViewImplementsCrossFeature) {
+            "${targetView.className} is not implements CrossFeatureFragment".loge()
+            return false
+        }
+        "${route.fullName} verified".logd()
+        return true
+    }
 
+    private fun checkIsCrossFeature(view: KotlinViewClassWrapper): Boolean {
         return when {
-            targetView == null -> {
-                "Unable to find targetClass (${route.targetClassPath}) for route ${route.className}".loge()
-                return false
+            view.isImplementsCrossFeature -> true
+            else -> {
+                val targetView = findViewClass(view.baseClassName, view.baseClassPackageName)
+                targetView?.let(::checkIsCrossFeature) ?: false
             }
-
-            !targetView.isImplementsCrossFeature -> {
-                "${route.targetClassPath} is not implements CrossFeatureFragment".loge()
-                return false
-            }
-
-            else -> true
         }
     }
+
+    private fun findViewClass(className: String, packageName: String): KotlinViewClassWrapper? {
+        return views.find {
+            it.className == className && it.packageName == packageName
+        }
+    }
+
 
 }
