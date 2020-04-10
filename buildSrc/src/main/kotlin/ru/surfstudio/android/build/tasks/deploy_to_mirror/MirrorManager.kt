@@ -85,11 +85,7 @@ class MirrorManager(
                 gitTree.buildGitTree(rootCommit, standardCommits, mirrorCommits)
                 applyGitTreeToMirror()
                 setBranches()
-                CommandLineRunner.runCommandWithResult(
-                        command = "git push",
-                        workingDir = mirrorRepository.repositoryPath
-                )
-                //mirrorRepository.push()
+                mirrorRepository.push()
                 return
             }
             throw GradleException("Can't get latest commit in branch $mainBranchFullName " +
