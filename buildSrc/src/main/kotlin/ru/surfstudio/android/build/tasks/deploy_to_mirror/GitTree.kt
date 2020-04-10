@@ -83,11 +83,20 @@ class GitTree(
      *
      * @return parent for commit
      */
-    fun getParent(commit: CommitWithBranch): CommitWithBranch {
+    fun getParent(commit: CommitWithBranch): CommitWithBranch? {
+        if (commit.commit.shortMessage.endsWith("Add release notes")) {
+            println("parents")
+            commit.commit.parents.forEach {
+                println("${it.shortMessage} ${it.standardHash}")
+            }
+        }
         val node = standardNodes.find { it.value == commit.commit }
                 ?: throw GitNodeNotFoundException(commit.commit)
-        return standardRepositoryCommitsForMirror.find { it.commit == node.parents.firstOrNull()?.value }
-                ?: throw GitNodeNotFoundException(node.value)
+
+        // for a big git tree we can't always find a node parent with a search depth limit
+        return standardRepositoryCommitsForMirror.find {
+            it.commit == node.parents.firstOrNull()?.value
+        }
     }
 
     /**
@@ -236,11 +245,15 @@ class GitTree(
      */
     private fun createLines(): List<List<Node>> {
         markEndNodes()
-        val ends = standardNodes.filter { it.state == END }
-        stopEndNode = ends.minBy { it.value.commitTime }
-                ?: throw GradleException("Can't find a stop end node with min commit time")
+        val ends = standardNodes
+                .filter { it.state == END && it.value.shortMessage.endsWith(VERSION_LABEL) }
+
+        stopEndNode = ends.maxBy { it.value.commitTime }
+                ?: throw GradleException("Can't find a stop end node with a min commit time")
+        println("stopEndNode ${stopEndNode.value.shortMessage} ${stopEndNode.value.standardHash}")
 
         return ends.flatMap { end ->
+            println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR ${end.value.shortMessage}")
             watchedHashed.clear()
             buildChain(mutableListOf(end))
         }
@@ -337,13 +350,16 @@ class GitTree(
                 .sortedBy { it.commit.commitTime }
 
         lines.forEach { line ->
+            //println("\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE $line\n")
             line.forEach { node ->
+               // println("NODE ${node.value.shortMessage}")
                 val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
                 if (commit?.branch?.isEmpty() == true) {
                     commit.branch = branchName
                 }
             }
         }
+//        println()
 
         standardRepositoryCommitsForMirror = standardRepositoryCommitsForMirror.filter { it.branch.isNotEmpty() }
     }

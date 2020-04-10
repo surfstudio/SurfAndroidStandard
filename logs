@@ -1,0 +1,92 @@
+> Task :buildSrc:compileKotlin
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC
+> Task :buildSrc:jar
+> Task :buildSrc:assemble
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build
+Remote build cache DISABLED. Need specify 'GRADLE_BUILD_CACHE_USER' and 'GRADLE_BUILD_CACHE_PASS' global variables
+
+> Task :deployToMirror
+latestMirrorCommit Increase global alpha version counter to 72 [skip ci] [version] (9fc795ff)
+stopEndNode Increase global alpha version counter to 72 [skip ci] [version] 9fc795ff
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 72 [skip ci] [version]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 70 [skip ci] [version]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 66 [skip ci] [version]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 59 [skip ci] [version]
+standard SIMPLE Add release notes e8575f18
+standard MIRROR_START_POINT Increase global alpha version counter to 59 [skip ci] [version] 4f6d34b2
+standard SIMPLE ANDDEP-568_codestyle_doc bae33e34
+standard SIMPLE ANDDEP-392 Add firebase app distribution migration instruction 5f0c1067
+standard SIMPLE ANDDEP-392 Add deprecated label to fabric instruction 2f90d9a9
+standard SIMPLE ANDDEP-392 kotlin and build tools version update 31cb78f8
+standard MIRROR_START_POINT Increase global alpha version counter to 66 [skip ci] [version] 91c0184e
+standard MERGE Merged in ANDDEP-568_codestyle_focumentation (pull request #743) 72b74033
+standard MERGE Merged in fix-extras-names (pull request #726) fa5df5b5
+standard MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-migration-instruction c224c49b
+standard MERGE Merge branch 'ANDDEP-392-firebase-app-distribution-migration-instruction' into ANDDEP-392-firebase-app-distribution-for-template e9cf1691
+standard MIRROR_START_POINT Increase global alpha version counter to 70 [skip ci] [version] 658fb0be
+standard SIMPLE Add logs 3ebbca4c
+standard MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-for-template a9ae9238
+standard MIRROR_START_POINT Increase global alpha version counter to 72 [skip ci] [version] 9fc795ff
+standard SIMPLE ANDDEP-392 Remove logs 003ed6d1
+standard SIMPLE ANDDEP-392 Add JenkinsfileTagJob 0a037e2c
+standard SIMPLE ANDDEP-392 Add multiDexEnabled option for android standard module 23d9ab6d
+standard SIMPLE ANDDEP-392 Fix template build types 671054b0
+standard SIMPLE ANDDEP-392 Fix template proguard rules 51d61e2f
+standard SIMPLE ANDDEP-392 Fix android standard configs 03774c97
+standard SIMPLE Remove comments fc051c01
+standard SIMPLE ANDDEP-392 Fix template a7af8e91
+standard SIMPLE ANDDEP-392 Remove old firebase dependencies c4023650
+standard SIMPLE ANDDEP-392 Disable R8 for template c51c9151
+standard SIMPLE ANDDEP-392 Fix backward compatibility for RemoteLoggingStrategy 8c1fd395
+standard SIMPLE ANDDEP-392 Add default keys for setUser params 7972e2e1
+standard SIMPLE ANDDEP-392 Add removing TEMP_FOLDER_NAME 2afab851
+standard MERGE Merged in ANDDEP-392-firebase-app-distribution-for-template (pull request #751) 0e7ec143
+standard SIMPLE Increase global alpha version counter to 73 [skip ci] [version] dbfe7bf7
+
+commit SIMPLE Add release notes e8575f18
+parents
+Fix extra name for negative button in DefaultSettingsRationalActivity 88684e88
+commit MIRROR_START_POINT Increase global alpha version counter to 59 [skip ci] [version] 4f6d34b2
+commit SIMPLE ANDDEP-568_codestyle_doc bae33e34
+commit SIMPLE ANDDEP-392 Add firebase app distribution migration instruction 5f0c1067
+commit SIMPLE ANDDEP-392 Add deprecated label to fabric instruction 2f90d9a9
+commit SIMPLE ANDDEP-392 kotlin and build tools version update 31cb78f8
+commit MIRROR_START_POINT Increase global alpha version counter to 66 [skip ci] [version] 91c0184e
+commit MERGE Merged in ANDDEP-568_codestyle_focumentation (pull request #743) 72b74033
+commit MERGE Merged in fix-extras-names (pull request #726) fa5df5b5
+commit MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-migration-instruction c224c49b
+commit MERGE Merge branch 'ANDDEP-392-firebase-app-distribution-migration-instruction' into ANDDEP-392-firebase-app-distribution-for-template e9cf1691
+commit MIRROR_START_POINT Increase global alpha version counter to 70 [skip ci] [version] 658fb0be
+commit SIMPLE Add logs 3ebbca4c
+commit MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-for-template a9ae9238
+commit MIRROR_START_POINT Increase global alpha version counter to 72 [skip ci] [version] 9fc795ff
+commit SIMPLE ANDDEP-392 Remove logs 003ed6d1
+commit SIMPLE ANDDEP-392 Add JenkinsfileTagJob 0a037e2c
+commit SIMPLE ANDDEP-392 Add multiDexEnabled option for android standard module 23d9ab6d
+commit SIMPLE ANDDEP-392 Fix template build types 671054b0
+commit SIMPLE ANDDEP-392 Fix template proguard rules 51d61e2f
+commit SIMPLE ANDDEP-392 Fix android standard configs 03774c97
+commit SIMPLE Remove comments fc051c01
+commit SIMPLE ANDDEP-392 Fix template a7af8e91
+commit SIMPLE ANDDEP-392 Remove old firebase dependencies c4023650
+commit SIMPLE ANDDEP-392 Disable R8 for template c51c9151
+commit SIMPLE ANDDEP-392 Fix backward compatibility for RemoteLoggingStrategy 8c1fd395
+commit SIMPLE ANDDEP-392 Add default keys for setUser params 7972e2e1
+commit SIMPLE ANDDEP-392 Add removing TEMP_FOLDER_NAME 2afab851
+commit MERGE Merged in ANDDEP-392-firebase-app-distribution-for-template (pull request #751) 0e7ec143
+commit SIMPLE Increase global alpha version counter to 73 [skip ci] [version] dbfe7bf7
+https://margarita-v:deepsix2015@github.com/surfstudio/Core-ui.git
+
+BUILD SUCCESSFUL in 46s
+1 actionable task: 1 executed
