@@ -17,76 +17,537 @@
 Remote build cache DISABLED. Need specify 'GRADLE_BUILD_CACHE_USER' and 'GRADLE_BUILD_CACHE_PASS' global variables
 
 > Task :deployToMirror
-latestMirrorCommit Increase global alpha version counter to 72 [skip ci] [version] (9fc795ff)
-stopEndNode Increase global alpha version counter to 72 [skip ci] [version] 9fc795ff
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 72 [skip ci] [version]
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 70 [skip ci] [version]
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 66 [skip ci] [version]
-!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 59 [skip ci] [version]
-standard SIMPLE Add release notes e8575f18
-standard MIRROR_START_POINT Increase global alpha version counter to 59 [skip ci] [version] 4f6d34b2
-standard SIMPLE ANDDEP-568_codestyle_doc bae33e34
-standard SIMPLE ANDDEP-392 Add firebase app distribution migration instruction 5f0c1067
-standard SIMPLE ANDDEP-392 Add deprecated label to fabric instruction 2f90d9a9
-standard SIMPLE ANDDEP-392 kotlin and build tools version update 31cb78f8
-standard MIRROR_START_POINT Increase global alpha version counter to 66 [skip ci] [version] 91c0184e
-standard MERGE Merged in ANDDEP-568_codestyle_focumentation (pull request #743) 72b74033
-standard MERGE Merged in fix-extras-names (pull request #726) fa5df5b5
-standard MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-migration-instruction c224c49b
-standard MERGE Merge branch 'ANDDEP-392-firebase-app-distribution-migration-instruction' into ANDDEP-392-firebase-app-distribution-for-template e9cf1691
-standard MIRROR_START_POINT Increase global alpha version counter to 70 [skip ci] [version] 658fb0be
-standard SIMPLE Add logs 3ebbca4c
-standard MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-for-template a9ae9238
-standard MIRROR_START_POINT Increase global alpha version counter to 72 [skip ci] [version] 9fc795ff
-standard SIMPLE ANDDEP-392 Remove logs 003ed6d1
-standard SIMPLE ANDDEP-392 Add JenkinsfileTagJob 0a037e2c
-standard SIMPLE ANDDEP-392 Add multiDexEnabled option for android standard module 23d9ab6d
-standard SIMPLE ANDDEP-392 Fix template build types 671054b0
-standard SIMPLE ANDDEP-392 Fix template proguard rules 51d61e2f
-standard SIMPLE ANDDEP-392 Fix android standard configs 03774c97
-standard SIMPLE Remove comments fc051c01
-standard SIMPLE ANDDEP-392 Fix template a7af8e91
-standard SIMPLE ANDDEP-392 Remove old firebase dependencies c4023650
-standard SIMPLE ANDDEP-392 Disable R8 for template c51c9151
-standard SIMPLE ANDDEP-392 Fix backward compatibility for RemoteLoggingStrategy 8c1fd395
-standard SIMPLE ANDDEP-392 Add default keys for setUser params 7972e2e1
-standard SIMPLE ANDDEP-392 Add removing TEMP_FOLDER_NAME 2afab851
-standard MERGE Merged in ANDDEP-392-firebase-app-distribution-for-template (pull request #751) 0e7ec143
-standard SIMPLE Increase global alpha version counter to 73 [skip ci] [version] dbfe7bf7
+latestMirrorCommit Increase global alpha version counter to 84 [skip ci] [version] (73ff7aba)
+stopEndNode Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 84 [skip ci] [version]
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 84 [skip ci] [version] hash = 73ff7aba
+NEXT PARENTS FOR: Merged in ANDDEP-950-bintray-deploy (pull request #788)
+parent: Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+-------------------------- SKIP Increase global alpha version counter to 84 [skip ci] [version]
+parent: ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray hash = 26f45b45
+parent: ANDDEP-950 Исправлен деплой в бинтрей 5d0e197c
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Исправлен деплой в бинтрей hash = 5d0e197c
+parent: ANDDEP-950 Remove redundant release notes 3261aaed
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Remove redundant release notes hash = 3261aaed
+parent: ANDDEP-950 Add skipIncrementVersion parameter 9d36563d
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add skipIncrementVersion parameter hash = 9d36563d
+parent: Fix docs bca17898
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Fix docs hash = bca17898
+parent: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy 93804a29
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy hash = 93804a29
+parent: Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Merged in ANDDEP-953-fix-deploy-messages (pull request #789) hash = 782ada52
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 81 [skip ci] [version] hash = 34b1f0aa
+-------------------------- STOP Increase global alpha version counter to 81 [skip ci] [version]
+parent: ANDDEP-953 Fixes 1838d7b5
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-953 Fixes hash = 1838d7b5
+parent: ANDDEP-953 Fix deploy error message b8af69d3
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-953 Fix deploy error message hash = b8af69d3
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+-------------------------- ADD NODE AND SKIP Increase global alpha version counter to 81 [skip ci] [version]
+NEXT PARENTS FOR: ANDDEP-953 Fixes
+parent: ANDDEP-953 Fix deploy error message b8af69d3
+-------------------------- SKIP ANDDEP-953 Fix deploy error message
+-------------------------- RETURN FOR ANDDEP-953 Fixes
+NEXT PARENTS FOR: Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+-------------------------- ADD NODE AND SKIP Increase global alpha version counter to 81 [skip ci] [version]
+parent: ANDDEP-953 Fixes 1838d7b5
+-------------------------- SKIP ANDDEP-953 Fixes
+-------------------------- RETURN FOR Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+parent: Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+-------------------------- SKIP Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+parent: ANDDEP-950 Fix for new modules 1b3b6304
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Fix for new modules hash = 1b3b6304
+parent: ANDDEP-950 Remove debug code 0e1a4ebb
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Remove debug code hash = 0e1a4ebb
+parent: ANDDEP-950 Fix deploy tasks 085a3742
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Fix deploy tasks hash = 085a3742
+parent: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask c229e110
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask hash = c229e110
+parent: ANDDEP-950 Add doFirst for deploy tasks 833226ab
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add doFirst for deploy tasks hash = 833226ab
+parent: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere 4b28a717
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere hash = 4b28a717
+parent: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask 96d46131
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask hash = 96d46131
+parent: ANDDEP-950 Add doLast for deploy tasks cb0f1cd6
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add doLast for deploy tasks hash = cb0f1cd6
+parent: ANDDEP-950 Add distributeArtifactsToBintray task 6f140d2f
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add distributeArtifactsToBintray task hash = 6f140d2f
+parent: ANDDEP-950 Add different gradle script for modules without deploy 56d82688
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add different gradle script for modules without deploy hash = 56d82688
+parent: ANDDEP-950 Add bintrayDeploy for project snapshot job 2b64b670
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add bintrayDeploy for project snapshot job hash = 2b64b670
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+-------------------------- ADD NODE AND SKIP Increase global alpha version counter to 81 [skip ci] [version]
+NEXT PARENTS FOR: ANDDEP-950 Add different gradle script for modules without deploy
+parent: ANDDEP-950 Add bintrayDeploy for project snapshot job 2b64b670
+-------------------------- SKIP ANDDEP-950 Add bintrayDeploy for project snapshot job
+-------------------------- RETURN FOR ANDDEP-950 Add different gradle script for modules without deploy
+NEXT PARENTS FOR: ANDDEP-950 Add distributeArtifactsToBintray task
+parent: ANDDEP-950 Add different gradle script for modules without deploy 56d82688
+-------------------------- SKIP ANDDEP-950 Add different gradle script for modules without deploy
+-------------------------- RETURN FOR ANDDEP-950 Add distributeArtifactsToBintray task
+NEXT PARENTS FOR: ANDDEP-950 Add doLast for deploy tasks
+parent: ANDDEP-950 Add distributeArtifactsToBintray task 6f140d2f
+-------------------------- SKIP ANDDEP-950 Add distributeArtifactsToBintray task
+-------------------------- RETURN FOR ANDDEP-950 Add doLast for deploy tasks
+NEXT PARENTS FOR: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask
+parent: ANDDEP-950 Add doLast for deploy tasks cb0f1cd6
+-------------------------- SKIP ANDDEP-950 Add doLast for deploy tasks
+-------------------------- RETURN FOR ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask
+NEXT PARENTS FOR: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere
+parent: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask 96d46131
+-------------------------- SKIP ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask
+-------------------------- RETURN FOR ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere
+NEXT PARENTS FOR: ANDDEP-950 Add doFirst for deploy tasks
+parent: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere 4b28a717
+-------------------------- SKIP ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere
+-------------------------- RETURN FOR ANDDEP-950 Add doFirst for deploy tasks
+NEXT PARENTS FOR: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask
+parent: ANDDEP-950 Add doFirst for deploy tasks 833226ab
+-------------------------- SKIP ANDDEP-950 Add doFirst for deploy tasks
+-------------------------- RETURN FOR ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask
+NEXT PARENTS FOR: ANDDEP-950 Fix deploy tasks
+parent: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask c229e110
+-------------------------- SKIP ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask
+-------------------------- RETURN FOR ANDDEP-950 Fix deploy tasks
+NEXT PARENTS FOR: ANDDEP-950 Remove debug code
+parent: ANDDEP-950 Fix deploy tasks 085a3742
+-------------------------- SKIP ANDDEP-950 Fix deploy tasks
+-------------------------- RETURN FOR ANDDEP-950 Remove debug code
+NEXT PARENTS FOR: ANDDEP-950 Fix for new modules
+parent: ANDDEP-950 Remove debug code 0e1a4ebb
+-------------------------- SKIP ANDDEP-950 Remove debug code
+-------------------------- RETURN FOR ANDDEP-950 Fix for new modules
+NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+parent: Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+-------------------------- SKIP Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+parent: ANDDEP-950 Fix for new modules 1b3b6304
+-------------------------- SKIP ANDDEP-950 Fix for new modules
+-------------------------- RETURN FOR Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+-------------------------- RETURN FOR Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+parent: ANDDEP-950 Fix for new modules 1b3b6304
+-------------------------- SKIP ANDDEP-950 Fix for new modules
+NEXT PARENTS FOR: Fix docs
+parent: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy 93804a29
+-------------------------- SKIP Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+-------------------------- RETURN FOR Fix docs
+NEXT PARENTS FOR: ANDDEP-950 Add skipIncrementVersion parameter
+parent: Fix docs bca17898
+-------------------------- SKIP Fix docs
+-------------------------- RETURN FOR ANDDEP-950 Add skipIncrementVersion parameter
+NEXT PARENTS FOR: ANDDEP-950 Remove redundant release notes
+parent: ANDDEP-950 Add skipIncrementVersion parameter 9d36563d
+-------------------------- SKIP ANDDEP-950 Add skipIncrementVersion parameter
+-------------------------- RETURN FOR ANDDEP-950 Remove redundant release notes
+NEXT PARENTS FOR: ANDDEP-950 Исправлен деплой в бинтрей
+parent: ANDDEP-950 Remove redundant release notes 3261aaed
+-------------------------- SKIP ANDDEP-950 Remove redundant release notes
+-------------------------- RETURN FOR ANDDEP-950 Исправлен деплой в бинтрей
+NEXT PARENTS FOR: ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+parent: ANDDEP-950 Исправлен деплой в бинтрей 5d0e197c
+-------------------------- SKIP ANDDEP-950 Исправлен деплой в бинтрей
+-------------------------- RETURN FOR ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NEXT PARENTS FOR: Merged in ANDDEP-950-bintray-deploy (pull request #788)
+parent: Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+-------------------------- SKIP Increase global alpha version counter to 84 [skip ci] [version]
+parent: ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+-------------------------- SKIP ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
 
-commit SIMPLE Add release notes e8575f18
-parents
-Fix extra name for negative button in DefaultSettingsRationalActivity 88684e88
-commit MIRROR_START_POINT Increase global alpha version counter to 59 [skip ci] [version] 4f6d34b2
-commit SIMPLE ANDDEP-568_codestyle_doc bae33e34
-commit SIMPLE ANDDEP-392 Add firebase app distribution migration instruction 5f0c1067
-commit SIMPLE ANDDEP-392 Add deprecated label to fabric instruction 2f90d9a9
-commit SIMPLE ANDDEP-392 kotlin and build tools version update 31cb78f8
-commit MIRROR_START_POINT Increase global alpha version counter to 66 [skip ci] [version] 91c0184e
-commit MERGE Merged in ANDDEP-568_codestyle_focumentation (pull request #743) 72b74033
-commit MERGE Merged in fix-extras-names (pull request #726) fa5df5b5
-commit MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-migration-instruction c224c49b
-commit MERGE Merge branch 'ANDDEP-392-firebase-app-distribution-migration-instruction' into ANDDEP-392-firebase-app-distribution-for-template e9cf1691
-commit MIRROR_START_POINT Increase global alpha version counter to 70 [skip ci] [version] 658fb0be
-commit SIMPLE Add logs 3ebbca4c
-commit MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-392-firebase-app-distribution-for-template a9ae9238
-commit MIRROR_START_POINT Increase global alpha version counter to 72 [skip ci] [version] 9fc795ff
-commit SIMPLE ANDDEP-392 Remove logs 003ed6d1
-commit SIMPLE ANDDEP-392 Add JenkinsfileTagJob 0a037e2c
-commit SIMPLE ANDDEP-392 Add multiDexEnabled option for android standard module 23d9ab6d
-commit SIMPLE ANDDEP-392 Fix template build types 671054b0
-commit SIMPLE ANDDEP-392 Fix template proguard rules 51d61e2f
-commit SIMPLE ANDDEP-392 Fix android standard configs 03774c97
-commit SIMPLE Remove comments fc051c01
-commit SIMPLE ANDDEP-392 Fix template a7af8e91
-commit SIMPLE ANDDEP-392 Remove old firebase dependencies c4023650
-commit SIMPLE ANDDEP-392 Disable R8 for template c51c9151
-commit SIMPLE ANDDEP-392 Fix backward compatibility for RemoteLoggingStrategy 8c1fd395
-commit SIMPLE ANDDEP-392 Add default keys for setUser params 7972e2e1
-commit SIMPLE ANDDEP-392 Add removing TEMP_FOLDER_NAME 2afab851
-commit MERGE Merged in ANDDEP-392-firebase-app-distribution-for-template (pull request #751) 0e7ec143
-commit SIMPLE Increase global alpha version counter to 73 [skip ci] [version] dbfe7bf7
-https://margarita-v:deepsix2015@github.com/surfstudio/Core-ui.git
+ONLY CHILD = NEXT NODE: Merged in ANDDEP-950-bintray-deploy (pull request #788) hash = 088a8590
+parents Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+parents ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+children Increase global alpha version counter to 85 [skip ci] [version] 4da918a9
+NEXT PARENTS FOR: Increase global alpha version counter to 85 [skip ci] [version]
+parent: Merged in ANDDEP-950-bintray-deploy (pull request #788) 088a8590
+-------------------------- SKIP Merged in ANDDEP-950-bintray-deploy (pull request #788)
 
-BUILD SUCCESSFUL in 46s
+ONLY CHILD = NEXT NODE: Increase global alpha version counter to 85 [skip ci] [version] hash = 4da918a9
+parents Merged in ANDDEP-950-bintray-deploy (pull request #788) 088a8590
+NO CHILDREN
+-------------------------- RETURN FOR Merged in ANDDEP-950-bintray-deploy (pull request #788)
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BUILD CHAIN FOR Increase global alpha version counter to 81 [skip ci] [version]
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 81 [skip ci] [version] hash = 34b1f0aa
+HAS CHILDREN
+child: forMerged in ANDDEP-953-fix-deploy-messages (pull request #789)
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Merged in ANDDEP-953-fix-deploy-messages (pull request #789) hash = 782ada52
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+-------------------------- SKIP Increase global alpha version counter to 81 [skip ci] [version]
+parent: ANDDEP-953 Fixes 1838d7b5
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-953 Fixes hash = 1838d7b5
+parent: ANDDEP-953 Fix deploy error message b8af69d3
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-953 Fix deploy error message hash = b8af69d3
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+-------------------------- SKIP Increase global alpha version counter to 81 [skip ci] [version]
+NEXT PARENTS FOR: ANDDEP-953 Fixes
+parent: ANDDEP-953 Fix deploy error message b8af69d3
+-------------------------- SKIP ANDDEP-953 Fix deploy error message
+-------------------------- RETURN FOR ANDDEP-953 Fixes
+NEXT PARENTS FOR: Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+-------------------------- SKIP Increase global alpha version counter to 81 [skip ci] [version]
+parent: ANDDEP-953 Fixes 1838d7b5
+-------------------------- SKIP ANDDEP-953 Fixes
+-------------------------- RETURN FOR Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+parent: Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+-------------------------- SKIP Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+parent: ANDDEP-950 Fix for new modules 1b3b6304
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Fix for new modules hash = 1b3b6304
+parent: ANDDEP-950 Remove debug code 0e1a4ebb
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Remove debug code hash = 0e1a4ebb
+parent: ANDDEP-950 Fix deploy tasks 085a3742
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Fix deploy tasks hash = 085a3742
+parent: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask c229e110
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask hash = c229e110
+parent: ANDDEP-950 Add doFirst for deploy tasks 833226ab
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add doFirst for deploy tasks hash = 833226ab
+parent: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere 4b28a717
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere hash = 4b28a717
+parent: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask 96d46131
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask hash = 96d46131
+parent: ANDDEP-950 Add doLast for deploy tasks cb0f1cd6
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add doLast for deploy tasks hash = cb0f1cd6
+parent: ANDDEP-950 Add distributeArtifactsToBintray task 6f140d2f
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add distributeArtifactsToBintray task hash = 6f140d2f
+parent: ANDDEP-950 Add different gradle script for modules without deploy 56d82688
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add different gradle script for modules without deploy hash = 56d82688
+parent: ANDDEP-950 Add bintrayDeploy for project snapshot job 2b64b670
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: ANDDEP-950 Add bintrayDeploy for project snapshot job hash = 2b64b670
+parent: Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+-------------------------- SKIP Increase global alpha version counter to 81 [skip ci] [version]
+NEXT PARENTS FOR: ANDDEP-950 Add different gradle script for modules without deploy
+parent: ANDDEP-950 Add bintrayDeploy for project snapshot job 2b64b670
+-------------------------- SKIP ANDDEP-950 Add bintrayDeploy for project snapshot job
+-------------------------- RETURN FOR ANDDEP-950 Add different gradle script for modules without deploy
+NEXT PARENTS FOR: ANDDEP-950 Add distributeArtifactsToBintray task
+parent: ANDDEP-950 Add different gradle script for modules without deploy 56d82688
+-------------------------- SKIP ANDDEP-950 Add different gradle script for modules without deploy
+-------------------------- RETURN FOR ANDDEP-950 Add distributeArtifactsToBintray task
+NEXT PARENTS FOR: ANDDEP-950 Add doLast for deploy tasks
+parent: ANDDEP-950 Add distributeArtifactsToBintray task 6f140d2f
+-------------------------- SKIP ANDDEP-950 Add distributeArtifactsToBintray task
+-------------------------- RETURN FOR ANDDEP-950 Add doLast for deploy tasks
+NEXT PARENTS FOR: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask
+parent: ANDDEP-950 Add doLast for deploy tasks cb0f1cd6
+-------------------------- SKIP ANDDEP-950 Add doLast for deploy tasks
+-------------------------- RETURN FOR ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask
+NEXT PARENTS FOR: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere
+parent: ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask 96d46131
+-------------------------- SKIP ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask
+-------------------------- RETURN FOR ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere
+NEXT PARENTS FOR: ANDDEP-950 Add doFirst for deploy tasks
+parent: ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere 4b28a717
+-------------------------- SKIP ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere
+-------------------------- RETURN FOR ANDDEP-950 Add doFirst for deploy tasks
+NEXT PARENTS FOR: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask
+parent: ANDDEP-950 Add doFirst for deploy tasks 833226ab
+-------------------------- SKIP ANDDEP-950 Add doFirst for deploy tasks
+-------------------------- RETURN FOR ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask
+NEXT PARENTS FOR: ANDDEP-950 Fix deploy tasks
+parent: ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask c229e110
+-------------------------- SKIP ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask
+-------------------------- RETURN FOR ANDDEP-950 Fix deploy tasks
+NEXT PARENTS FOR: ANDDEP-950 Remove debug code
+parent: ANDDEP-950 Fix deploy tasks 085a3742
+-------------------------- SKIP ANDDEP-950 Fix deploy tasks
+-------------------------- RETURN FOR ANDDEP-950 Remove debug code
+NEXT PARENTS FOR: ANDDEP-950 Fix for new modules
+parent: ANDDEP-950 Remove debug code 0e1a4ebb
+-------------------------- SKIP ANDDEP-950 Remove debug code
+-------------------------- RETURN FOR ANDDEP-950 Fix for new modules
+NEXT PARENTS FOR: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+parent: Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+-------------------------- SKIP Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+parent: ANDDEP-950 Fix for new modules 1b3b6304
+-------------------------- SKIP ANDDEP-950 Fix for new modules
+
+ONLY CHILD = NEXT NODE: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy hash = 93804a29
+parents ANDDEP-950 Fix for new modules 1b3b6304
+parents Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+children Fix docs bca17898
+NEXT PARENTS FOR: Fix docs
+parent: Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy 93804a29
+-------------------------- SKIP Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+
+ONLY CHILD = NEXT NODE: Fix docs hash = bca17898
+parents Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy 93804a29
+children ANDDEP-950 Add skipIncrementVersion parameter 9d36563d
+NEXT PARENTS FOR: ANDDEP-950 Add skipIncrementVersion parameter
+parent: Fix docs bca17898
+-------------------------- SKIP Fix docs
+
+ONLY CHILD = NEXT NODE: ANDDEP-950 Add skipIncrementVersion parameter hash = 9d36563d
+parents Fix docs bca17898
+children ANDDEP-950 Remove redundant release notes 3261aaed
+NEXT PARENTS FOR: ANDDEP-950 Remove redundant release notes
+parent: ANDDEP-950 Add skipIncrementVersion parameter 9d36563d
+-------------------------- SKIP ANDDEP-950 Add skipIncrementVersion parameter
+
+ONLY CHILD = NEXT NODE: ANDDEP-950 Remove redundant release notes hash = 3261aaed
+parents ANDDEP-950 Add skipIncrementVersion parameter 9d36563d
+children ANDDEP-950 Исправлен деплой в бинтрей 5d0e197c
+NEXT PARENTS FOR: ANDDEP-950 Исправлен деплой в бинтрей
+parent: ANDDEP-950 Remove redundant release notes 3261aaed
+-------------------------- SKIP ANDDEP-950 Remove redundant release notes
+
+ONLY CHILD = NEXT NODE: ANDDEP-950 Исправлен деплой в бинтрей hash = 5d0e197c
+parents ANDDEP-950 Remove redundant release notes 3261aaed
+children ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+NEXT PARENTS FOR: ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+parent: ANDDEP-950 Исправлен деплой в бинтрей 5d0e197c
+-------------------------- SKIP ANDDEP-950 Исправлен деплой в бинтрей
+
+ONLY CHILD = NEXT NODE: ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray hash = 26f45b45
+parents ANDDEP-950 Исправлен деплой в бинтрей 5d0e197c
+children Merged in ANDDEP-950-bintray-deploy (pull request #788) 088a8590
+NEXT PARENTS FOR: Merged in ANDDEP-950-bintray-deploy (pull request #788)
+parent: Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+--------------------------------------------------------
+START BUILD CHAIN FOR NODE: Increase global alpha version counter to 84 [skip ci] [version] hash = 73ff7aba
+-------------------------- STOP Increase global alpha version counter to 84 [skip ci] [version]
+parent: ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+-------------------------- SKIP ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+
+ONLY CHILD = NEXT NODE: Merged in ANDDEP-950-bintray-deploy (pull request #788) hash = 088a8590
+parents Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+parents ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+children Increase global alpha version counter to 85 [skip ci] [version] 4da918a9
+NEXT PARENTS FOR: Increase global alpha version counter to 85 [skip ci] [version]
+parent: Merged in ANDDEP-950-bintray-deploy (pull request #788) 088a8590
+-------------------------- SKIP Merged in ANDDEP-950-bintray-deploy (pull request #788)
+
+ONLY CHILD = NEXT NODE: Increase global alpha version counter to 85 [skip ci] [version] hash = 4da918a9
+parents Merged in ANDDEP-950-bintray-deploy (pull request #788) 088a8590
+NO CHILDREN
+-------------------------- RETURN FOR Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+child: forANDDEP-953 Fix deploy error message
+-------------------------- SKIP ANDDEP-953 Fix deploy error message
+child: forANDDEP-950 Add bintrayDeploy for project snapshot job
+-------------------------- SKIP ANDDEP-950 Add bintrayDeploy for project snapshot job
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 84 [skip ci] [version] - END, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, Merged in ANDDEP-950-bintray-deploy (pull request #788) - NONE, Increase global alpha version counter to 85 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 84 [skip ci] [version]
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE Merged in ANDDEP-950-bintray-deploy (pull request #788)
+NODE Increase global alpha version counter to 85 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 84 [skip ci] [version] - END, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, ANDDEP-950 Исправлен деплой в бинтрей - NONE, ANDDEP-950 Remove redundant release notes - NONE, ANDDEP-950 Add skipIncrementVersion parameter - NONE, Fix docs - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy - NONE, Merged in ANDDEP-953-fix-deploy-messages (pull request #789) - NONE, Increase global alpha version counter to 81 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 84 [skip ci] [version]
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE ANDDEP-950 Исправлен деплой в бинтрей
+NODE ANDDEP-950 Remove redundant release notes
+NODE ANDDEP-950 Add skipIncrementVersion parameter
+NODE Fix docs
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+NODE Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 84 [skip ci] [version] - END, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, ANDDEP-950 Исправлен деплой в бинтрей - NONE, ANDDEP-950 Remove redundant release notes - NONE, ANDDEP-950 Add skipIncrementVersion parameter - NONE, Fix docs - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy - NONE, Merged in ANDDEP-953-fix-deploy-messages (pull request #789) - NONE, ANDDEP-953 Fixes - NONE, ANDDEP-953 Fix deploy error message - NONE, Increase global alpha version counter to 81 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 84 [skip ci] [version]
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE ANDDEP-950 Исправлен деплой в бинтрей
+NODE ANDDEP-950 Remove redundant release notes
+NODE ANDDEP-950 Add skipIncrementVersion parameter
+NODE Fix docs
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+NODE Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NODE ANDDEP-953 Fixes
+NODE ANDDEP-953 Fix deploy error message
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 84 [skip ci] [version] - END, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, ANDDEP-950 Исправлен деплой в бинтрей - NONE, ANDDEP-950 Remove redundant release notes - NONE, ANDDEP-950 Add skipIncrementVersion parameter - NONE, Fix docs - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy - NONE, Merged in ANDDEP-953-fix-deploy-messages (pull request #789) - NONE, ANDDEP-953 Fixes - NONE, Increase global alpha version counter to 81 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 84 [skip ci] [version]
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE ANDDEP-950 Исправлен деплой в бинтрей
+NODE ANDDEP-950 Remove redundant release notes
+NODE ANDDEP-950 Add skipIncrementVersion parameter
+NODE Fix docs
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+NODE Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NODE ANDDEP-953 Fixes
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 84 [skip ci] [version] - END, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, ANDDEP-950 Исправлен деплой в бинтрей - NONE, ANDDEP-950 Remove redundant release notes - NONE, ANDDEP-950 Add skipIncrementVersion parameter - NONE, Fix docs - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy - NONE, Merged in ANDDEP-953-fix-deploy-messages (pull request #789) - NONE, ANDDEP-950 Fix for new modules - NONE, ANDDEP-950 Remove debug code - NONE, ANDDEP-950 Fix deploy tasks - NONE, ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask - NONE, ANDDEP-950 Add doFirst for deploy tasks - NONE, ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere - NONE, ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask - NONE, ANDDEP-950 Add doLast for deploy tasks - NONE, ANDDEP-950 Add distributeArtifactsToBintray task - NONE, ANDDEP-950 Add different gradle script for modules without deploy - NONE, ANDDEP-950 Add bintrayDeploy for project snapshot job - NONE, Increase global alpha version counter to 81 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 84 [skip ci] [version]
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE ANDDEP-950 Исправлен деплой в бинтрей
+NODE ANDDEP-950 Remove redundant release notes
+NODE ANDDEP-950 Add skipIncrementVersion parameter
+NODE Fix docs
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+NODE Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NODE ANDDEP-950 Fix for new modules
+NODE ANDDEP-950 Remove debug code
+NODE ANDDEP-950 Fix deploy tasks
+NODE ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask
+NODE ANDDEP-950 Add doFirst for deploy tasks
+NODE ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere
+NODE ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask
+NODE ANDDEP-950 Add doLast for deploy tasks
+NODE ANDDEP-950 Add distributeArtifactsToBintray task
+NODE ANDDEP-950 Add different gradle script for modules without deploy
+NODE ANDDEP-950 Add bintrayDeploy for project snapshot job
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 84 [skip ci] [version] - END, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, Merged in ANDDEP-950-bintray-deploy (pull request #788) - NONE, Increase global alpha version counter to 85 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 84 [skip ci] [version]
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE Merged in ANDDEP-950-bintray-deploy (pull request #788)
+NODE Increase global alpha version counter to 85 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 81 [skip ci] [version] - END, Merged in ANDDEP-953-fix-deploy-messages (pull request #789) - NONE, ANDDEP-950 Fix for new modules - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy - NONE, Fix docs - NONE, ANDDEP-950 Add skipIncrementVersion parameter - NONE, ANDDEP-950 Remove redundant release notes - NONE, ANDDEP-950 Исправлен деплой в бинтрей - NONE, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, Merged in ANDDEP-950-bintray-deploy (pull request #788) - NONE, Increase global alpha version counter to 85 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+NODE Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NODE ANDDEP-950 Fix for new modules
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+NODE Fix docs
+NODE ANDDEP-950 Add skipIncrementVersion parameter
+NODE ANDDEP-950 Remove redundant release notes
+NODE ANDDEP-950 Исправлен деплой в бинтрей
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE Merged in ANDDEP-950-bintray-deploy (pull request #788)
+NODE Increase global alpha version counter to 85 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 81 [skip ci] [version] - END, Merged in ANDDEP-953-fix-deploy-messages (pull request #789) - NONE, ANDDEP-950 Fix for new modules - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy - NONE, Fix docs - NONE, ANDDEP-950 Add skipIncrementVersion parameter - NONE, ANDDEP-950 Remove redundant release notes - NONE, ANDDEP-950 Исправлен деплой в бинтрей - NONE, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, Increase global alpha version counter to 84 [skip ci] [version] - END]
+
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+NODE Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NODE ANDDEP-950 Fix for new modules
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+NODE Fix docs
+NODE ANDDEP-950 Add skipIncrementVersion parameter
+NODE ANDDEP-950 Remove redundant release notes
+NODE ANDDEP-950 Исправлен деплой в бинтрей
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE Increase global alpha version counter to 84 [skip ci] [version]
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! LINE [Increase global alpha version counter to 81 [skip ci] [version] - END, Merged in ANDDEP-953-fix-deploy-messages (pull request #789) - NONE, ANDDEP-950 Fix for new modules - NONE, Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy - NONE, Fix docs - NONE, ANDDEP-950 Add skipIncrementVersion parameter - NONE, ANDDEP-950 Remove redundant release notes - NONE, ANDDEP-950 Исправлен деплой в бинтрей - NONE, ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray - NONE, Merged in ANDDEP-950-bintray-deploy (pull request #788) - NONE, Increase global alpha version counter to 85 [skip ci] [version] - ROOT]
+
+NODE Increase global alpha version counter to 81 [skip ci] [version]
+NODE Merged in ANDDEP-953-fix-deploy-messages (pull request #789)
+NODE ANDDEP-950 Fix for new modules
+NODE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy
+NODE Fix docs
+NODE ANDDEP-950 Add skipIncrementVersion parameter
+NODE ANDDEP-950 Remove redundant release notes
+NODE ANDDEP-950 Исправлен деплой в бинтрей
+NODE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray
+NODE Merged in ANDDEP-950-bintray-deploy (pull request #788)
+NODE Increase global alpha version counter to 85 [skip ci] [version]
+
+standard MIRROR_START_POINT Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+standard SIMPLE ANDDEP-953 Fix deploy error message b8af69d3
+standard SIMPLE ANDDEP-950 Add bintrayDeploy for project snapshot job 2b64b670
+standard SIMPLE ANDDEP-950 Add different gradle script for modules without deploy 56d82688
+standard SIMPLE ANDDEP-950 Add distributeArtifactsToBintray task 6f140d2f
+standard SIMPLE ANDDEP-950 Add doLast for deploy tasks cb0f1cd6
+standard SIMPLE ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask 96d46131
+standard SIMPLE ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere 4b28a717
+standard SIMPLE ANDDEP-950 Add doFirst for deploy tasks 833226ab
+standard SIMPLE ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask c229e110
+standard SIMPLE ANDDEP-950 Fix deploy tasks 085a3742
+standard SIMPLE ANDDEP-950 Remove debug code 0e1a4ebb
+standard SIMPLE ANDDEP-950 Fix for new modules 1b3b6304
+standard SIMPLE ANDDEP-953 Fixes 1838d7b5
+standard MERGE Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+standard MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy 93804a29
+standard SIMPLE Fix docs bca17898
+standard SIMPLE ANDDEP-950 Add skipIncrementVersion parameter 9d36563d
+standard SIMPLE ANDDEP-950 Remove redundant release notes 3261aaed
+standard MIRROR_START_POINT Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+standard SIMPLE ANDDEP-950 Исправлен деплой в бинтрей 5d0e197c
+standard SIMPLE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+standard MERGE Merged in ANDDEP-950-bintray-deploy (pull request #788) 088a8590
+standard SIMPLE Increase global alpha version counter to 85 [skip ci] [version] 4da918a9
+
+commit MIRROR_START_POINT Increase global alpha version counter to 81 [skip ci] [version] 34b1f0aa
+commit SIMPLE ANDDEP-953 Fix deploy error message b8af69d3
+commit SIMPLE ANDDEP-950 Add bintrayDeploy for project snapshot job 2b64b670
+has parent
+commit SIMPLE ANDDEP-950 Add different gradle script for modules without deploy 56d82688
+has parent
+commit SIMPLE ANDDEP-950 Add distributeArtifactsToBintray task 6f140d2f
+has parent
+commit SIMPLE ANDDEP-950 Add doLast for deploy tasks cb0f1cd6
+has parent
+commit SIMPLE ANDDEP-950 Add DistributeArtifactsToBintrayComponentsTask 96d46131
+has parent
+commit SIMPLE ANDDEP-950 Add uploadArchivesComponentsTask and distributeArtifactsToBintrayComponentsTask usage everywhere 4b28a717
+has parent
+commit SIMPLE ANDDEP-950 Add doFirst for deploy tasks 833226ab
+has parent
+commit SIMPLE ANDDEP-950 Remove UploadArchivesComponentsTask и DistributeArtifactsToBintrayComponentsTask c229e110
+has parent
+commit SIMPLE ANDDEP-950 Fix deploy tasks 085a3742
+has parent
+commit SIMPLE ANDDEP-950 Remove debug code 0e1a4ebb
+has parent
+commit SIMPLE ANDDEP-950 Fix for new modules 1b3b6304
+commit SIMPLE ANDDEP-953 Fixes 1838d7b5
+commit MERGE Merged in ANDDEP-953-fix-deploy-messages (pull request #789) 782ada52
+commit MERGE Merge branch 'dev/G-0.5.0' into ANDDEP-950-bintray-deploy 93804a29
+commit SIMPLE Fix docs bca17898
+commit SIMPLE ANDDEP-950 Add skipIncrementVersion parameter 9d36563d
+commit SIMPLE ANDDEP-950 Remove redundant release notes 3261aaed
+has parent
+commit MIRROR_START_POINT Increase global alpha version counter to 84 [skip ci] [version] 73ff7aba
+commit SIMPLE ANDDEP-950 Исправлен деплой в бинтрей 5d0e197c
+has parent
+commit SIMPLE ANDDEP-950 Remove redundant paramater for distributeArtifactsToBintray 26f45b45
+has parent
+commit MERGE Merged in ANDDEP-950-bintray-deploy (pull request #788) 088a8590
+commit SIMPLE Increase global alpha version counter to 85 [skip ci] [version] 4da918a9
+has parent
+
+BUILD SUCCESSFUL in 35s
 1 actionable task: 1 executed

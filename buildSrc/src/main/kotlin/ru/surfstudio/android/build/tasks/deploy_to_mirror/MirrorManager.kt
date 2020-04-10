@@ -180,6 +180,7 @@ class MirrorManager(
     private fun checkoutMirrorBranchForCommit(commit: CommitWithBranch) {
         with(mirrorRepository) {
             gitTree.getParent(commit)?.also { safeParent ->
+                println("has parent")
                 if (safeParent.mirrorCommitHash.isNotEmpty()) {
                     checkoutCommit(safeParent.mirrorCommitHash)
                 }
