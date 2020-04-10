@@ -1,6 +1,5 @@
+COMMIT_HASH=263a8da4c9cc09fb154330b3d4f45c5d6df2c764
 rm -rf _mirror temp
 git clone https://github.com/surfstudio/Core-ui _mirror
 git clone --single-branch --branch dev/G-0.5.0 https://gitlab.com/surfstudio/projects/standard/android-standard temp
-# easy adpater test commit
-#./gradlew deployToMirror -Pcomponent=core-ui -Pcommit=34b1f0aa3a3991423a4e79df58a2465de0c425da -PmirrorDir=_mirror -PdepthLimit=100 -PsearchLimit=100 -PmirrorUrl=https://github.com/surfstudio/Core-ui
-./gradlew deployToMirror -Pcomponent=core-ui -Pcommit=dbfe7bf791245e46122cac5fd2f1a248a4a4bf12 -PmirrorDir=_mirror -PdepthLimit=100 -PsearchLimit=100 -PmirrorUrl=https://github.com/surfstudio/Core-ui
+./gradlew deployToMirror -Pcomponent=core-ui -Pcommit=$COMMIT_HASH -PmirrorDir=_mirror -PdepthLimit=100 -PsearchLimit=100 -PmirrorUrl=https://github.com/surfstudio/Core-ui
