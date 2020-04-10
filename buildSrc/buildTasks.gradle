@@ -27,7 +27,7 @@ task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
 
 task createProjectConfiguration(type: CreateProjectConfigurationTask)
 
-task checkScreenRoutes(type: CheckScreenRoutesTask)
+task checkCrossFeatureRoute(type: CheckCrossFeatureRouteTask)
 
 task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')
