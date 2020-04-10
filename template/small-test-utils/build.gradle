@@ -12,7 +12,6 @@ dependencies {
     implementation test.junit
     implementation test.robolectric
     implementation test.shadowsMultidex
-    implementation leakCanary.coreNoOp
     implementation di.dagger
     kapt di.daggerKapt
 }
