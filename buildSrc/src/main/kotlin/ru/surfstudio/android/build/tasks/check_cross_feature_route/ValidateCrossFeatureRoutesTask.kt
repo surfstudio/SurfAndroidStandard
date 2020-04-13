@@ -8,16 +8,13 @@ import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCr
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureRouteValidator
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureViewParser
 import java.io.File
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
 /**
  * Task validate's all of CrossFeatureRoute's in project.
- *
- * @param skipValidation skip validation of routes and return immediately.
- * @param ignoredFileNames list of file names which gonna be ignored on project scan.
  * */
 open class ValidateCrossFeatureRoutesTask : DefaultTask() {
-    val shouldSkipValidation: Boolean = false
-    val ignoredFileNames: List<String> = listOf("build")
 
     /**
      * Result of the directory scanning.
@@ -28,15 +25,37 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
     private data class DirectoryScanResult(val routes: List<File>, val views: List<File>)
 
     /**
+     * Flag: true -> skip validation of routes and return immediately.
+     * */
+    var shouldSkipValidation: Boolean = false
+
+    /**
+     * List of file names which gonna be ignored on project scan.
+     * */
+    var ignoredFileNames: List<String> = listOf("build")
+
+    /**
+     * Flag: true -> time taken by this task gonna be logged in after routes verification.
+     * */
+    var shouldMeasurePerformanceImpact: Boolean = true
+
+    /**
      * Validate all of CrossFeatureRoute's in project.
      * */
+    @ExperimentalTime
     @TaskAction
-    fun check() {
-        if (shouldSkipValidation) {
-            logger.warn("Validation of CrossFeatureRoutes disabled.")
-            return
+    fun validate() {
+        when {
+            shouldSkipValidation -> logger.warn("Validation of CrossFeatureRoutes disabled.")
+            shouldMeasurePerformanceImpact -> {
+                val timeTaken = measureTime { validateInternal() }
+                logger.lifecycle("Time taken: ${timeTaken.inSeconds}")
+            }
+            else -> validateInternal()
         }
+    }
 
+    private fun validateInternal() {
         logger.lifecycle("Validating CrossFeatureRoute's...")
         val directoryScanResult = scanDirectory(project.rootDir)
         val routeParser = KClassCrossFeatureRouteParser(logger)
