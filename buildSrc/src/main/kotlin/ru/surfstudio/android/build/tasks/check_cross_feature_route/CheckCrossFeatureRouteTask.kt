@@ -2,11 +2,11 @@ package ru.surfstudio.android.build.tasks.check_cross_feature_route
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KotlinCrossFeatureRouteClassWrapper
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KotlinViewClassWrapper
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.parser.KotlinCrossFeatureRouteClassParser
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.parser.KotlinViewClassParser
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KotlinCrossFeatureRouteVerifier
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureRouteWrapper
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureViewWrapper
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.parser.KClassCrossFeatureRouteParser
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.parser.KClassCrossFeatureViewParser
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.verifier.KClassCrossFeatureRouteVerifier
 import ru.surfstudio.android.build.utils.DefaultGradleLogger
 import ru.surfstudio.android.build.utils.GradleLogger
 import java.io.File
@@ -15,8 +15,8 @@ import kotlin.time.measureTime
 
 @ExperimentalTime
 open class CheckCrossFeatureRouteTask :
-        DefaultTask(),
-        GradleLogger by DefaultGradleLogger("CheckCrossFeatureRouteTask", true) {
+    DefaultTask(),
+    GradleLogger by DefaultGradleLogger("CheckCrossFeatureRouteTask") {
 
     private data class ScanResult(val routes: List<File>, val views: List<File>)
 
@@ -28,23 +28,23 @@ open class CheckCrossFeatureRouteTask :
     @TaskAction
     fun check() {
         if (!isCheckRequired) {
-            "task execution disabled.".logi()
+            "Task execution disabled.".logi()
             return
         }
 
         val timeTaken = measureTime {
             "Scanning project...".logi()
-            val scanResult = scanDirectory(project.projectDir)
-            val routeClassParser = KotlinCrossFeatureRouteClassParser(isDebugEnabled)
-            val viewClassParser = KotlinViewClassParser(isDebugEnabled)
+            val scanResult = scanDirectory(project.rootDir)
+            val routeParser = KClassCrossFeatureRouteParser()
+            val viewParser = KClassCrossFeatureViewParser()
 
             val crossFeatureRouteWrappers = scanResult.routes
-                    .mapNotNull { routeClassParser.parse(it) }
-                    .filterIsInstance<KotlinCrossFeatureRouteClassWrapper>()
+                .mapNotNull { routeParser.parse(it) }
+                .filterIsInstance<KClassCrossFeatureRouteWrapper>()
 
             val viewWrappers = scanResult.views
-                    .mapNotNull { viewClassParser.parse(it) }
-                    .filterIsInstance<KotlinViewClassWrapper>()
+                .mapNotNull { viewParser.parse(it) }
+                .filterIsInstance<KClassCrossFeatureViewWrapper>()
 
             if (isDebugEnabled) {
                 "Found CrossFeatureRoutes: ${crossFeatureRouteWrappers.size}".logd()
@@ -54,16 +54,16 @@ open class CheckCrossFeatureRouteTask :
                 crossFeatureRouteWrappers.forEachIndexed { index, item -> "${index + 1}. ${item.className}".logd() }
             }
 
-            "Verifying routes...".logi()
-            val routeVerifier = KotlinCrossFeatureRouteVerifier(viewWrappers, isDebugEnabled)
-            crossFeatureRouteWrappers.forEach { routeVerifier.verify(it) }
+            "Project scanning done. Verifying routes...".logi()
+            val crossFeatureRouteVerifier = KClassCrossFeatureRouteVerifier(viewWrappers)
+            crossFeatureRouteWrappers.forEach { crossFeatureRouteVerifier.verify(it) }
         }
-        "task executed. Time taken: ${timeTaken.inSeconds}".logi()
+        "Task executed. Time taken: ${timeTaken.inSeconds}".logi()
     }
 
     private fun scanDirectory(dir: File): ScanResult {
         val filteredFiles = dir.listFiles()?.filter { !scanExcludedNames.contains(it.name) }
-                ?: arrayListOf()
+            ?: arrayListOf()
 
         val kotlinFiles = filteredFiles.filter { it.extension == "kt" }
         val directories = filteredFiles.filter { it.isDirectory }

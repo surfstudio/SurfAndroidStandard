@@ -21,9 +21,9 @@ interface GradleLogger {
 }
 
 /** Реализация логгера по-умолчанию. */
-class DefaultGradleLogger(
+open class DefaultGradleLogger(
         override var tag: String = EMPTY_STRING,
-        override var isDebugEnabled: Boolean = true,
+        override var isDebugEnabled: Boolean = false,
         override var isInfoEnabled: Boolean = true,
         override var isWarningsEnabled: Boolean = true,
         override var isErrorsEnabled: Boolean = true
@@ -42,6 +42,20 @@ class DefaultGradleLogger(
     }
 
     override fun logError(message: String) {
-        if (isErrorsEnabled) println("\n[ERROR] $tag: $message")
+        if (isErrorsEnabled) println("\n[ERROR] $tag: $message\n")
+    }
+}
+
+/** Реализация логгера, который выкидывает исключения при ошибке. */
+class ThrowableGradleLogger(
+        tag: String = EMPTY_STRING,
+        isDebugEnabled: Boolean = false,
+        isInfoEnabled: Boolean = true,
+        isWarningsEnabled: Boolean = true,
+        isErrorsEnabled: Boolean = true
+) : DefaultGradleLogger(tag, isDebugEnabled, isInfoEnabled, isWarningsEnabled, isErrorsEnabled) {
+
+    override fun logError(message: String) {
+        error(message)
     }
 }
