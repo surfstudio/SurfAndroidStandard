@@ -36,13 +36,6 @@ task validateCrossFeatureRoutes(type: ValidateCrossFeatureRoutesTask) {
             config.hasProperty("androidStandard") &&
             config.androidStandard.hasProperty("skipCrossFeatureRouteValidation") &&
             config.androidStandard.skipCrossFeatureRouteValidation
-
-    // Включение измерения времени, затраченного на выполнение таска,
-    // происходит в androidStandard.properties, флагом measureTimeCrossFeatureRouteValidation
-    shouldMeasureTime = config != null &&
-            config.hasProperty("androidStandard") &&
-            config.androidStandard.hasProperty("measureTimeCrossFeatureRouteValidation") &&
-            config.androidStandard.measureTimeCrossFeatureRouteValidation
 }
 tasks.whenTaskAdded { Task task ->
     def isPreBuild = task.name.contains("pre") && task.name.contains("Build")

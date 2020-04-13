@@ -8,8 +8,6 @@ import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCr
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureRouteValidator
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureViewParser
 import java.io.File
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 
 /**
  * Task validate's all of CrossFeatureRoute's in project.
@@ -35,27 +33,15 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
     var ignoredFileNames: List<String> = listOf("build")
 
     /**
-     * Flag: true -> time taken by this task gonna be logged-in after verification.
-     * */
-    var shouldMeasureTime: Boolean = true
-
-    /**
      * Validate all of CrossFeatureRoute's in project.
      * */
-    @ExperimentalTime
     @TaskAction
     fun validate() {
-        when {
-            shouldSkipValidation -> logger.warn("Validation of CrossFeatureRoutes disabled.")
-            shouldMeasureTime -> {
-                val timeTaken = measureTime { validateInternal() }
-                logger.lifecycle("Time taken: ${timeTaken.inSeconds}")
-            }
-            else -> validateInternal()
+        if (shouldSkipValidation) {
+            logger.warn("Validation of CrossFeatureRoutes disabled.")
+            return
         }
-    }
 
-    private fun validateInternal() {
         logger.lifecycle("Validating CrossFeatureRoute's...")
         val directoryScanResult = scanDirectory(project.rootDir)
         val routeParser = KClassCrossFeatureRouteParser(logger)

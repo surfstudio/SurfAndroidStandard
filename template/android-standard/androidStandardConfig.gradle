@@ -7,17 +7,14 @@ def androidStandardDebugDir = null
 // Флаг для включения режима локальной загрузки
 def androidStandardDebugMode = false
 // Флаг для выключения валидации CrossFeatureRoute'ов в проекте
-def skipCrossFeatureRouteValidation = false
-// Флаг для включения логгирования времени, затраченного на таск валидации CrossFeatureRoute'ов в проекте
-def measureTimeCrossFeatureRouteValidation = false
+def shouldSkipCrossFeatureRouteValidation = false
 
 Properties properties = new Properties()
 
 try {
     properties.load(file('androidStandard.properties').newDataInputStream())
 
-    skipCrossFeatureRouteValidation = properties.getProperty("skipCrossFeatureRouteValidation").toBoolean()
-    measureTimeCrossFeatureRouteValidation = properties.getProperty("measureTimeCrossFeatureRouteValidation").toBoolean()
+    shouldSkipCrossFeatureRouteValidation = properties.getProperty("skipCrossFeatureRouteValidation").toBoolean()
 
     androidStandardDebugDir = properties.getProperty('androidStandardDebugDir')
     if (androidStandardDebugDir == null) {
@@ -38,10 +35,9 @@ try {
 
 gradle.ext {
     androidStandard = [
-            debugDir                               : androidStandardDebugDir,
-            debugMode                              : androidStandardDebugMode,
-            skipCrossFeatureRouteValidation        : skipCrossFeatureRouteValidation,
-            measureTimeCrossFeatureRouteValidation : measureTimeCrossFeatureRouteValidation
+            debugDir                        : androidStandardDebugDir,
+            debugMode                       : androidStandardDebugMode,
+            skipCrossFeatureRouteValidation : shouldSkipCrossFeatureRouteValidation
     ]
 
     // Флаг, проверяющий, активирован ли режим локальной загрузки модулей android-standard
