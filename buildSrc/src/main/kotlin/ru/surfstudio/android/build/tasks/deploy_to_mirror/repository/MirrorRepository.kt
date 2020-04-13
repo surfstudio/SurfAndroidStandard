@@ -1,11 +1,8 @@
 package ru.surfstudio.android.build.tasks.deploy_to_mirror.repository
 
-import org.eclipse.jgit.api.Status
 import org.eclipse.jgit.dircache.DirCache
 import org.eclipse.jgit.revwalk.RevCommit
-import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.MirrorCommitNotFoundByStandardHashException
-import ru.surfstudio.android.build.tasks.changed_components.CommandLineRunner
 import ru.surfstudio.android.build.utils.STANDARD_COMMIT_HASH_POSTFIX
 import ru.surfstudio.android.build.utils.STANDARD_COMMIT_HASH_PREFIX
 import ru.surfstudio.android.build.utils.mirrorStandardHash
@@ -41,17 +38,6 @@ class MirrorRepository(
                 .setAll(true)
                 .setMessage("${commit.shortMessage} $STANDARD_COMMIT_HASH_PREFIX${commit.shortHash}$STANDARD_COMMIT_HASH_POSTFIX")
                 .call()
-    }
-
-    fun amend(message: String): RevCommit? {
-        return git.commit()
-                .setAmend(true)
-                .setMessage(message)
-                .call()
-    }
-
-    fun status(): Status {
-        return git.status().call()
     }
 
     fun push() {

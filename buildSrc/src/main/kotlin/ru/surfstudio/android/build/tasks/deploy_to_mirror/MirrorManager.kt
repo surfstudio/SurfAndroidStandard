@@ -133,15 +133,6 @@ class MirrorManager(
                 else -> null
             })?.let { commit.tags.forEach { tag -> mirrorRepository.tag(it, tag) } }
         }
-
-        /*
-        // In case of untracked files add them to the last commit
-        with(mirrorRepository) {
-            if (status().untracked.isNotEmpty()) {
-                add()
-                amend(gitTree.standardRepositoryCommitsForMirror.last().commit.shortMessage)
-            }
-        }*/
     }
 
     /**
@@ -165,7 +156,7 @@ class MirrorManager(
 
         checkoutMirrorBranchForCommit(commit)
         applyChanges(changes)
-        //mirrorRepository.add()
+        mirrorRepository.add()
         val newCommit = mirrorRepository.commit(commit.commit)
         commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
         commit.type = CommitType.COMMITED
@@ -218,7 +209,7 @@ class MirrorManager(
             diffManager.modify(filePath)
         }
 
-       // mirrorRepository.add()
+        mirrorRepository.add()
         val newCommit = mirrorRepository.commit(commit.commit)
         commit.mirrorCommitHash = newCommit?.name ?: EMPTY_STRING
         commit.type = CommitType.COMMITED
