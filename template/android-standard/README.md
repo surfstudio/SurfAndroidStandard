@@ -88,3 +88,18 @@ buildTypes {
 
 Это необходимо сделать для успешной сборки проекта. Так как android-standard содержит 2 buildTypes,
 при его подключении необходимо сопоставить кастомные buildTypes к тем, какие определены в android-standard.
+
+## Проверка валидности CrossFeatureRoute в проекте
+Перед сборкой проекта выполняется Gradle Task, проверяющий:
+1. Правильность пути к целевой View, на которую выполняется навигация;
+2. (Опционально) Если эта View - Fragment, то импелментирует ли она CrossFeatureFragment-интерфейс (либо ее базовые классы, уровня проекта).
+
+Если появились проблемы при сборке и/или проверке Route'ов, то можно отключить этот таск, прописав в `androidStandard.properties`:
+```
+skipCrossFeatureRouteValidation=true
+```
+
+Также, если сборка проекта заметно замедлилась, то можно замерить длительность выполнения таска, провисав в `androidStandard.properties`:
+```
+measureTimeCrossFeatureRouteValidation=true
+```
