@@ -2,9 +2,7 @@ package ru.surfstudio.android.build.tasks.check_cross_feature_route.util
 
 import org.gradle.api.logging.Logger
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassWrapper
-import ru.surfstudio.android.build.utils.DefaultGradleLogger
 import ru.surfstudio.android.build.utils.EMPTY_STRING
-import ru.surfstudio.android.build.utils.GradleLogger
 import java.io.File
 
 /**
