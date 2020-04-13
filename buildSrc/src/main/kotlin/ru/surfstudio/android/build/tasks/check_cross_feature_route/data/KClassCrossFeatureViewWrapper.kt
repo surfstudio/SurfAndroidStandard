@@ -1,6 +1,8 @@
 package ru.surfstudio.android.build.tasks.check_cross_feature_route.data
 
-// TODO doc
+/**
+ * Wrapper that contains parsed information of kotlin class file.
+ * */
 class KClassCrossFeatureViewWrapper(
         packageName: String,
         className: String,

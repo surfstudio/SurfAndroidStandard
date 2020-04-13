@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks.check_cross_feature_route.verifier
+package ru.surfstudio.android.build.tasks.check_cross_feature_route.util
 
 import org.gradle.api.logging.Logger
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureRouteWrapper

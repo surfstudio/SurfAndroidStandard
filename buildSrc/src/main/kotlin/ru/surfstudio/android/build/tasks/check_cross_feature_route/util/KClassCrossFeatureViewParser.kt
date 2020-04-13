@@ -1,18 +1,17 @@
-package ru.surfstudio.android.build.tasks.check_cross_feature_route.parser
+package ru.surfstudio.android.build.tasks.check_cross_feature_route.util
 
+import org.gradle.api.logging.Logger
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureViewWrapper
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassWrapper
 import java.io.File
 
 /**
- * Парсер View-классов.
+ * Kotlin class file parser.
  *
- * Парсит все вью без исключения, т.к. `CrossFeatureRoute-интерфейс` может быть
- * имплементирован в базовых классах, к которым мы должны иметь доступ.
+ * Parses all of views without any filtration because CrossFeatureRoute can be implemented
+ * in base classуs and we must have possibility to reach those base classes.
  * */
-class KClassCrossFeatureViewParser : KClassParser() {
-
-    override var tag = "KClassCrossFeatureViewParser"
+class KClassCrossFeatureViewParser(logger: Logger) : KClassParser(logger) {
 
     override fun parse(file: File): KClassWrapper? {
         val parsingResult = super.parse(file) ?: return null
@@ -43,7 +42,7 @@ class KClassCrossFeatureViewParser : KClassParser() {
             isDialog -> "DialogView"
             else -> "View"
         }
-        "$entityName parsed: $parsingResult".logi()
+        logger.info("$entityName parsed: $parsingResult")
 
         return result
     }

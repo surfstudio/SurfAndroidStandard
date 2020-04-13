@@ -1,17 +1,16 @@
-package ru.surfstudio.android.build.tasks.check_cross_feature_route.parser
+package ru.surfstudio.android.build.tasks.check_cross_feature_route.util
 
+import org.gradle.api.logging.Logger
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureRouteWrapper
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassWrapper
 import java.io.File
 
 /**
- * Парсер Route-классов.
+ * Kotlin class file parser.
  *
- * Парсит только роуты, которые являются финальными `CrossFeatureRoute`.
+ * Parses only routes that implements CrossFeatureRoute.
  * */
-class KClassCrossFeatureRouteParser : KClassParser() {
-
-    override var tag = "KClassCrossFeatureRouteParser"
+class KClassCrossFeatureRouteParser(logger: Logger) : KClassParser(logger) {
 
     override fun parse(file: File): KClassWrapper? {
         val parsingResult = super.parse(file) ?: return null
@@ -46,8 +45,8 @@ class KClassCrossFeatureRouteParser : KClassParser() {
         }
 
         when (result) {
-            null -> "$entityName ignored: $parsingResult".logi()
-            else -> "$entityName parsed: $parsingResult".logi()
+            null -> logger.info("$entityName ignored: $parsingResult")
+            else -> logger.info("$entityName parsed: $parsingResult")
         }
 
         return result

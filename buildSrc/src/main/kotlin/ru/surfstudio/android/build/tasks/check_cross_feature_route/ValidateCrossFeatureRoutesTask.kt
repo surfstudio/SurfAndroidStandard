@@ -4,9 +4,9 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureRouteWrapper
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureViewWrapper
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.parser.KClassCrossFeatureRouteParser
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.parser.KClassCrossFeatureViewParser
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.verifier.KClassCrossFeatureRouteValidator
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureRouteParser
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureViewParser
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureRouteValidator
 import java.io.File
 
 /**
@@ -15,10 +15,9 @@ import java.io.File
  * @param skipValidation skip validation of routes and return immediately.
  * @param ignoredFileNames list of file names which gonna be ignored on project scan.
  * */
-open class ValidateCrossFeatureRoutes(
-        private val skipValidation: Boolean = false,
-        private val ignoredFileNames: List<String> = listOf("build")
-) : DefaultTask() {
+open class ValidateCrossFeatureRoutesTask : DefaultTask() {
+    val shouldSkipValidation: Boolean = false
+    val ignoredFileNames: List<String> = listOf("build")
 
     /**
      * Result of the directory scanning.
@@ -33,15 +32,15 @@ open class ValidateCrossFeatureRoutes(
      * */
     @TaskAction
     fun check() {
-        if (skipValidation) {
+        if (shouldSkipValidation) {
             logger.warn("Validation of CrossFeatureRoutes disabled.")
             return
         }
 
-        logger.info("Validating CrossFeatureRoute's...")
+        logger.lifecycle("Validating CrossFeatureRoute's...")
         val directoryScanResult = scanDirectory(project.rootDir)
-        val routeParser = KClassCrossFeatureRouteParser()
-        val viewParser = KClassCrossFeatureViewParser()
+        val routeParser = KClassCrossFeatureRouteParser(logger)
+        val viewParser = KClassCrossFeatureViewParser(logger)
 
         val crossFeatureRouteWrappers = directoryScanResult.routes
                 .mapNotNull { routeParser.parse(it) }
@@ -56,6 +55,7 @@ open class ValidateCrossFeatureRoutes(
 
         val routeValidator = KClassCrossFeatureRouteValidator(logger, crossFeatureViewWrappers)
         crossFeatureRouteWrappers.forEach { routeValidator.validate(it) }
+        logger.lifecycle("All CrossFeatureRoute's validated.")
     }
 
     /**

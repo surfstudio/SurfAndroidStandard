@@ -1,53 +1,18 @@
-package ru.surfstudio.android.build.tasks.check_cross_feature_route.parser
+package ru.surfstudio.android.build.tasks.check_cross_feature_route.util
 
+import org.gradle.api.logging.Logger
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassWrapper
 import ru.surfstudio.android.build.utils.DefaultGradleLogger
 import ru.surfstudio.android.build.utils.EMPTY_STRING
 import ru.surfstudio.android.build.utils.GradleLogger
 import java.io.File
 
-// todo doc
-open class KClassParser : GradleLogger {
-
-    open protected val logger = DefaultGradleLogger("KClassParser", isDebugEnabled = false)
-
-    override var tag: String
-        get() = logger.tag
-        set(value) {
-            logger.tag = value
-        }
-
-    override var isDebugEnabled: Boolean
-        get() = logger.isDebugEnabled
-        set(value) {
-            logger.isDebugEnabled = value
-        }
-
-    override var isInfoEnabled: Boolean
-        get() = logger.isInfoEnabled
-        set(value) {
-            logger.isInfoEnabled = value
-        }
-
-    override var isWarningsEnabled: Boolean
-        get() = logger.isWarningsEnabled
-        set(value) {
-            logger.isWarningsEnabled = value
-        }
-
-    override var isErrorsEnabled: Boolean
-        get() = logger.isErrorsEnabled
-        set(value) {
-            logger.isErrorsEnabled = value
-        }
-
-    override fun logDebug(message: String) = logger.logDebug(message)
-
-    override fun logInfo(message: String) = logger.logInfo(message)
-
-    override fun logWarning(message: String) = logger.logWarning(message)
-
-    override fun logError(message: String) = logger.logError(message)
+/**
+ * Kotlin class file parser.
+ *
+ * @param logger entity to log messages in to.
+ * */
+open class KClassParser(protected val logger: Logger) {
 
     open fun parse(file: File): KClassWrapper? {
         val fileContent = file.readText()
@@ -73,22 +38,48 @@ open class KClassParser : GradleLogger {
 
         when (result) {
             null -> {
-                "------------------------------".logd()
-                "file: ${file.absolutePath}".logd()
-                "UNABLE TO PARSE FILE".logd()
+                logger.debug("------------------------------")
+                logger.debug("UNABLE TO PARSE FILE: ${file.absolutePath}")
             }
             else -> {
-                "------------------------------".logd()
-                "file: ${file.absolutePath}".logd()
-                "className: $className".logd()
-                "baseClassName: $baseClassName".logd()
-                "implements: ${implementations.joinToString(", ")}".logd()
-                "classPackageName: $packageName".logd()
-                "baseClassPackageName: $baseClassPackageName".logd()
+                logger.debug("------------------------------")
+                logger.debug("file: ${file.absolutePath}")
+                logger.debug("className: $className")
+                logger.debug("baseClassName: $baseClassName")
+                logger.debug("implements: ${implementations.joinToString(", ")}")
+                logger.debug("classPackageName: $packageName")
+                logger.debug("baseClassPackageName: $baseClassPackageName")
             }
         }
 
         return result
+    }
+
+    private fun parsePackageName(target: String): String {
+        return target.substringSafe(findPackageNameRange(target))
+    }
+
+    private fun parseClassName(target: String): String {
+        return target.substringSafe(findClassNameRange(target))
+    }
+
+    private fun parseImplementations(target: String): List<String> {
+        return target.substringSafe(findImplementationsRange(target))
+                .split(',')
+                .map { it.trim() }
+    }
+
+    private fun parseBaseClassName(target: String): String {
+        return target.substringSafe(findBaseClassNameRange(target))
+    }
+
+    private fun parseBaseClassPackageName(target: String): String {
+        val baseClassName = parseBaseClassName(target)
+        return target.substringSafe(findBaseClassPackageNameRange(target, baseClassName))
+    }
+
+    private fun parseClassBody(target: String): String {
+        return target.substringSafe(findClassBodyRange(target))
     }
 
     protected fun findPackageNameRange(target: String): IntRange {
@@ -180,32 +171,5 @@ open class KClassParser : GradleLogger {
     protected fun String.indexBefore(target: Char): Int {
         val index = indexOf(target)
         return if (index >= 0) index - 1 else index
-    }
-
-    private fun parsePackageName(target: String): String {
-        return target.substringSafe(findPackageNameRange(target))
-    }
-
-    private fun parseClassName(target: String): String {
-        return target.substringSafe(findClassNameRange(target))
-    }
-
-    private fun parseImplementations(target: String): List<String> {
-        return target.substringSafe(findImplementationsRange(target))
-                .split(',')
-                .map { it.trim() }
-    }
-
-    private fun parseBaseClassName(target: String): String {
-        return target.substringSafe(findBaseClassNameRange(target))
-    }
-
-    private fun parseBaseClassPackageName(target: String): String {
-        val baseClassName = parseBaseClassName(target)
-        return target.substringSafe(findBaseClassPackageNameRange(target, baseClassName))
-    }
-
-    private fun parseClassBody(target: String): String {
-        return target.substringSafe(findClassBodyRange(target))
     }
 }
