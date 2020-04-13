@@ -35,9 +35,9 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
     var ignoredFileNames: List<String> = listOf("build")
 
     /**
-     * Flag: true -> time taken by this task gonna be logged in after routes verification.
+     * Flag: true -> time taken by this task gonna be logged-in after verification.
      * */
-    var shouldMeasurePerformanceImpact: Boolean = true
+    var shouldMeasureTime: Boolean = true
 
     /**
      * Validate all of CrossFeatureRoute's in project.
@@ -47,7 +47,7 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
     fun validate() {
         when {
             shouldSkipValidation -> logger.warn("Validation of CrossFeatureRoutes disabled.")
-            shouldMeasurePerformanceImpact -> {
+            shouldMeasureTime -> {
                 val timeTaken = measureTime { validateInternal() }
                 logger.lifecycle("Time taken: ${timeTaken.inSeconds}")
             }

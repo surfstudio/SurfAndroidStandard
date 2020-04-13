@@ -28,17 +28,27 @@ task checkStableComponentsChanged(type: CheckStableComponentsChangedTask) //pr
 task createProjectConfiguration(type: CreateProjectConfigurationTask)
 
 task validateCrossFeatureRoutes(type: ValidateCrossFeatureRoutesTask) {
-    // Включение/выключение выполнения таска происходит в androidStandard.properties флагом skipCrossFeatureRouteValidation
     def config = project.extensions.hasProperty("ext") ? project.extensions.ext : null
+
+    // Включение/выключение выполнения таска происходит в androidStandard.properties,
+    // флагом skipCrossFeatureRouteValidation
     shouldSkipValidation = config != null &&
             config.hasProperty("androidStandard") &&
             config.androidStandard.hasProperty("skipCrossFeatureRouteValidation") &&
             config.androidStandard.skipCrossFeatureRouteValidation
+
+    // Включение измерения времени, затраченного на выполнение таска,
+    // происходит в androidStandard.properties, флагом measureTimeCrossFeatureRouteValidation
+    shouldMeasureTime = config != null &&
+            config.hasProperty("androidStandard") &&
+            config.androidStandard.hasProperty("measureTimeCrossFeatureRouteValidation") &&
+            config.androidStandard.measureTimeCrossFeatureRouteValidation
 }
 tasks.whenTaskAdded { Task task ->
     def isPreBuild = task.name.contains("pre") && task.name.contains("Build")
     if (isPreBuild) task.dependsOn(tasks.named("validateCrossFeatureRoutes"))
 }
+
 task runCreateProjectConfigurationFromTemp(type: GradleBuild) {
     dir = file('./temp')
     tasks = ['CreateProjectConfiguration']
