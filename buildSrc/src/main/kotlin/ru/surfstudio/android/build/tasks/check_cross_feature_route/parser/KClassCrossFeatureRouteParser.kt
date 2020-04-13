@@ -1,7 +1,7 @@
 package ru.surfstudio.android.build.tasks.check_cross_feature_route.parser
 
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassWrapper
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureRouteWrapper
+import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassWrapper
 import java.io.File
 
 /**
@@ -26,13 +26,13 @@ class KClassCrossFeatureRouteParser : KClassParser() {
         val result = when (isCrossFeatureRoute) {
             true -> {
                 KClassCrossFeatureRouteWrapper(
-                    parsingResult.packageName,
-                    parsingResult.className,
-                    parsingResult.baseClassPackageName,
-                    parsingResult.baseClassName,
-                    parsingResult.implementations,
-                    parsingResult.classBody,
-                    targetClassPath
+                        parsingResult.packageName,
+                        parsingResult.className,
+                        parsingResult.baseClassPackageName,
+                        parsingResult.baseClassName,
+                        parsingResult.implementations,
+                        parsingResult.classBody,
+                        targetClassPath
                 )
             }
             else -> null

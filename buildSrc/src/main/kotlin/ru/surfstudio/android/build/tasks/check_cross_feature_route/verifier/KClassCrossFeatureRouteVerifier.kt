@@ -2,7 +2,6 @@ package ru.surfstudio.android.build.tasks.check_cross_feature_route.verifier
 
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureRouteWrapper
 import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureViewWrapper
-import ru.surfstudio.android.build.utils.DefaultGradleLogger
 import ru.surfstudio.android.build.utils.GradleLogger
 import ru.surfstudio.android.build.utils.ThrowableGradleLogger
 

@@ -28,13 +28,13 @@ class KClassCrossFeatureViewParser : KClassParser() {
         }
 
         val result = KClassCrossFeatureViewWrapper(
-            parsingResult.packageName,
-            parsingResult.className,
-            parsingResult.baseClassPackageName,
-            parsingResult.baseClassName,
-            parsingResult.implementations,
-            parsingResult.classBody,
-            isImplementsCrossFeature
+                parsingResult.packageName,
+                parsingResult.className,
+                parsingResult.baseClassPackageName,
+                parsingResult.baseClassName,
+                parsingResult.implementations,
+                parsingResult.classBody,
+                isImplementsCrossFeature
         )
 
         val entityName = when {

@@ -60,12 +60,12 @@ open class KClassParser : GradleLogger {
         val result = when {
             className.isNotBlank() -> {
                 KClassWrapper(
-                    packageName,
-                    className,
-                    baseClassPackageName,
-                    baseClassName,
-                    implementations,
-                    classBody
+                        packageName,
+                        className,
+                        baseClassPackageName,
+                        baseClassName,
+                        implementations,
+                        classBody
                 )
             }
             else -> null
@@ -134,7 +134,7 @@ open class KClassParser : GradleLogger {
 
     protected fun findBaseClassPackageNameRange(target: String, baseClassName: String): IntRange {
         val line = target.lines()
-            .find { it.contains("import ") && it.contains(baseClassName) } ?: EMPTY_STRING
+                .find { it.contains("import ") && it.contains(baseClassName) } ?: EMPTY_STRING
 
         val packageNameLineEnd = line.indexBefore(baseClassName) - 1 // because of dot -> "import com.MyClass"
         val packageNameLineStart = line.indexAfter("import ")
@@ -192,8 +192,8 @@ open class KClassParser : GradleLogger {
 
     private fun parseImplementations(target: String): List<String> {
         return target.substringSafe(findImplementationsRange(target))
-            .split(',')
-            .map { it.trim() }
+                .split(',')
+                .map { it.trim() }
     }
 
     private fun parseBaseClassName(target: String): String {

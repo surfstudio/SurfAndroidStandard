@@ -15,8 +15,8 @@ import kotlin.time.measureTime
 
 @ExperimentalTime
 open class CheckCrossFeatureRouteTask :
-    DefaultTask(),
-    GradleLogger by DefaultGradleLogger("CheckCrossFeatureRouteTask") {
+        DefaultTask(),
+        GradleLogger by DefaultGradleLogger("CheckCrossFeatureRouteTask") {
 
     private data class ScanResult(val routes: List<File>, val views: List<File>)
 
@@ -39,12 +39,12 @@ open class CheckCrossFeatureRouteTask :
             val viewParser = KClassCrossFeatureViewParser()
 
             val crossFeatureRouteWrappers = scanResult.routes
-                .mapNotNull { routeParser.parse(it) }
-                .filterIsInstance<KClassCrossFeatureRouteWrapper>()
+                    .mapNotNull { routeParser.parse(it) }
+                    .filterIsInstance<KClassCrossFeatureRouteWrapper>()
 
             val viewWrappers = scanResult.views
-                .mapNotNull { viewParser.parse(it) }
-                .filterIsInstance<KClassCrossFeatureViewWrapper>()
+                    .mapNotNull { viewParser.parse(it) }
+                    .filterIsInstance<KClassCrossFeatureViewWrapper>()
 
             if (isDebugEnabled) {
                 "Found CrossFeatureRoutes: ${crossFeatureRouteWrappers.size}".logd()
@@ -63,7 +63,7 @@ open class CheckCrossFeatureRouteTask :
 
     private fun scanDirectory(dir: File): ScanResult {
         val filteredFiles = dir.listFiles()?.filter { !scanExcludedNames.contains(it.name) }
-            ?: arrayListOf()
+                ?: arrayListOf()
 
         val kotlinFiles = filteredFiles.filter { it.extension == "kt" }
         val directories = filteredFiles.filter { it.isDirectory }
