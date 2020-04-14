@@ -1,6 +1,15 @@
 tasks.register<ValidateCrossFeatureRoutesTask>("validateCrossFeatureRoutesTask") {
     shouldSkipValidation = false
-    ignoredFileNames = listOf("build")
+    ignoredDirectories = listOf("build")
+    routeFilterCondition = { file ->
+        file.name.contains("Route")
+    }
+    viewFilterCondition = { file ->
+        file.name.contains("View") ||
+                file.name.contains("Activity") ||
+                file.name.contains("Fragment") ||
+                file.name.contains("Dialog")
+    }
 }
 
 tasks.whenTaskAdded {
@@ -16,26 +25,25 @@ tasks.whenTaskAdded {
 open class ValidateCrossFeatureRoutesTask : DefaultTask() {
 
     /**
-     * Result of the directory scanning.
-     *
-     * @param routes list of routes found in this directory and it's sub-directories.
-     * @param views list of views found in this directory and it's sub-directories.
-     * */
-    private data class DirectoryScanResult(val routes: List<File>, val views: List<File>)
-
-    /**
      * Whenever this value is true -> this task gonna be skipped with console warning.
      * */
     var shouldSkipValidation: Boolean = false
-    
-    /**
-     * List of file/directory names which gonna be ignored on project scan.
-     * */
-    var ignoredFileNames: List<String> = emptyList()
 
     /**
-     * Validate all of CrossFeatureRoute's in this project.
+     * List of directory names which gonna be ignored on project scan.
      * */
+    var ignoredDirectories: List<String> = emptyList()
+
+    /**
+     * Condition used to find routes.
+     * */
+    var routeFilterCondition: (File) -> Boolean = { false }
+
+    /**
+     * Condition used to find views that can be Route target.
+     * */
+    var viewFilterCondition: (File) -> Boolean = { false }
+
     @TaskAction
     fun validate() {
         if (shouldSkipValidation) {
@@ -44,132 +52,66 @@ open class ValidateCrossFeatureRoutesTask : DefaultTask() {
         }
 
         logger.info("Validating CrossFeatureRoute's...")
-        val directoryScanResult = scanDirectory(project.rootDir)
-        val routeParser = KClassCrossFeatureRouteParser(logger)
-        val viewParser = KClassCrossFeatureViewParser(logger)
+        val foundFiles = ProjectFileTreeScanner().scan(project.rootDir, ignoredDirectories) {
+            it.extension == "kt" && (routeFilterCondition(it) || viewFilterCondition(it))
+        }
 
-        val crossFeatureRouteWrappers = directoryScanResult.routes
+        val foundRoutes = foundFiles.filter { routeFilterCondition(it) }
+        val foundViews = foundFiles.filter { viewFilterCondition(it) }
+
+        val routeParser = CrossFeatureRouteParser(logger)
+        val viewParser = CrossFeatureViewParser(logger)
+
+        val crossFeatureRouteFiles = foundRoutes
                 .mapNotNull { routeParser.parse(it) }
-                .filterIsInstance<KClassCrossFeatureRouteWrapper>()
+                .filterIsInstance<CrossFeatureRouteFile>()
 
-        val crossFeatureViewWrappers = directoryScanResult.views
+        val crossFeatureViewFiles = foundViews
                 .mapNotNull { viewParser.parse(it) }
-                .filterIsInstance<KClassCrossFeatureViewWrapper>()
+                .filterIsInstance<CrossFeatureViewFile>()
 
-        logger.info("Count of CrossFeatureRoute's to validate: ${crossFeatureRouteWrappers.size}")
-        logger.info("Count of found views, used in CrossFeatureRoute validation: ${crossFeatureViewWrappers.size}")
+        logger.info("Count of CrossFeatureRoute's to validate: ${crossFeatureRouteFiles.size}")
+        logger.info("Count of found views, used in CrossFeatureRoute validation: ${crossFeatureViewFiles.size}")
 
-        val routeValidator = KClassCrossFeatureRouteValidator(logger, crossFeatureViewWrappers)
-        crossFeatureRouteWrappers.forEach { routeValidator.validate(it) }
+        val routeValidator = CrossFeatureRouteValidator(crossFeatureViewFiles, logger)
+        crossFeatureRouteFiles.forEach { routeValidator.validate(it) }
         logger.info("All CrossFeatureRoute's validated.")
     }
-
-    /**
-     * Scan directory and fetch all of sub-directories and files from it.
-     * */
-    private fun scanDirectory(dir: File): DirectoryScanResult {
-        val filteredFiles = dir.listFiles()
-                ?.filter { !ignoredFileNames.contains(it.name) } ?: arrayListOf()
-
-        val kotlinFiles = filteredFiles.filter { it.extension == "kt" }
-        val directories = filteredFiles.filter { it.isDirectory }
-
-        val directoryRouteFiles = kotlinFiles.filter { it.name.contains("Route") }
-        val directoryViewFiles = kotlinFiles.filter { it.name.contains("View") }
-
-        val scanResults = mutableListOf<DirectoryScanResult>().apply {
-            add(DirectoryScanResult(directoryRouteFiles, directoryViewFiles))
-        }
-
-        directories.forEach { directory ->
-            scanDirectory(directory).also { scanResults.add(it) }
-        }
-
-        val allRouteFiles = scanResults.flatMap { it.routes }
-        val allViewFiles = scanResults.flatMap { it.views }
-        return DirectoryScanResult(allRouteFiles, allViewFiles)
-    }
 }
-
-//region data
-
-/**
- * Wrapper that contains parsed information of kotlin class file.
- * */
-open class KClassWrapper(
-        val packageName: String,
-        val className: String,
-        val baseClassPackageName: String,
-        val baseClassName: String,
-        val implementations: List<String>,
-        val classBody: String
-) {
-    val fullName: String = "$packageName.$className"
-
-    override fun toString(): String {
-        return "$className (package $packageName)"
-    }
-}
-
-/**
- * Wrapper that contains parsed information of kotlin class file.
- * */
-class KClassCrossFeatureViewWrapper(
-        packageName: String,
-        className: String,
-        baseClassPackageName: String,
-        baseClassName: String,
-        implementations: List<String>,
-        classBody: String,
-        val isImplementsCrossFeature: Boolean
-) : KClassWrapper(
-        packageName,
-        className,
-        baseClassPackageName,
-        baseClassName,
-        implementations,
-        classBody
-)
-
-/**
- * Wrapper that contains parsed information of kotlin class file.
- * */
-class KClassCrossFeatureRouteWrapper(
-        packageName: String,
-        className: String,
-        baseClassPackageName: String,
-        baseClassName: String,
-        implementations: List<String>,
-        classBody: String,
-        val targetClassPath: String
-) : KClassWrapper(
-        packageName,
-        className,
-        baseClassPackageName,
-        baseClassName,
-        implementations,
-        classBody
-) {
-    val targetClassName: String = targetClassPath.substringAfterLast('.')
-    val targetClassPackageName: String = targetClassPath.substringBeforeLast('.')
-
-    override fun toString(): String {
-        return "${super.toString()} (target = $targetClassPath)"
-    }
-}
-
-//endregion
 
 //region utils
 
-/**
- * Kotlin class file parser.
- *
- * @param logger entity to log messages in to.
- * */
-open class KClassParser(protected val logger: Logger) {
+private class ProjectFileTreeScanner {
+
+    fun scan(
+            directory: File,
+            ignoredDirectories: List<String> = emptyList(),
+            filterCondition: (File) -> Boolean
+    ): List<File> {
+        val content = directory.listFiles() ?: emptyArray()
+        val files = content.filter { !it.isDirectory }
+        val directories = content.filter { it.isDirectory && !ignoredDirectories.contains(it.name) }
+        val filteredFiles = files.filter { filterCondition(it) }
+
+        val scanResult = mutableListOf<File>().apply {
+            addAll(filteredFiles)
+        }
+
+        directories.forEach { nestedDirectory ->
+            scan(nestedDirectory, ignoredDirectories, filterCondition).also {
+                scanResult.addAll(it)
+            }
+        }
+
+        return scanResult
+    }
+}
+
+private open class KClassParser(protected val logger: Logger? = null) {
 
     open fun parse(file: File): KClassWrapper? {
+        logger?.debug("------------------------------")
+        logger?.debug("Parsing file: ${file.absolutePath}")
         val fileContent = file.readText()
         val packageName = parsePackageName(fileContent)
         val className = parseClassName(fileContent)
@@ -177,6 +119,7 @@ open class KClassParser(protected val logger: Logger) {
         val baseClassPackageName = parseBaseClassPackageName(fileContent)
         val implementations = parseImplementations(fileContent)
         val classBody = parseClassBody(fileContent)
+
         val result = when {
             className.isNotBlank() -> {
                 KClassWrapper(
@@ -193,101 +136,19 @@ open class KClassParser(protected val logger: Logger) {
 
         when (result) {
             null -> {
-                logger.debug("------------------------------")
-                logger.debug("UNABLE TO PARSE FILE: ${file.absolutePath}")
+                logger?.debug("Parsing failed.")
             }
             else -> {
-                logger.debug("------------------------------")
-                logger.debug("file: ${file.absolutePath}")
-                logger.debug("className: $className")
-                logger.debug("baseClassName: $baseClassName")
-                logger.debug("implements: ${implementations.joinToString(", ")}")
-                logger.debug("classPackageName: $packageName")
-                logger.debug("baseClassPackageName: $baseClassPackageName")
+                logger?.debug("Parsing succeed. Additional info:")
+                logger?.debug("className: $className")
+                logger?.debug("baseClassName: $baseClassName")
+                logger?.debug("implements: ${implementations.joinToString(", ")}")
+                logger?.debug("classPackageName: $packageName")
+                logger?.debug("baseClassPackageName: $baseClassPackageName")
             }
         }
 
         return result
-    }
-
-    private fun parsePackageName(target: String): String {
-        return target.substringSafe(findPackageNameRange(target))
-    }
-
-    private fun parseClassName(target: String): String {
-        return target.substringSafe(findClassNameRange(target))
-    }
-
-    private fun parseImplementations(target: String): List<String> {
-        return target.substringSafe(findImplementationsRange(target))
-                .split(',')
-                .map { it.trim() }
-    }
-
-    private fun parseBaseClassName(target: String): String {
-        return target.substringSafe(findBaseClassNameRange(target))
-    }
-
-    private fun parseBaseClassPackageName(target: String): String {
-        val baseClassName = parseBaseClassName(target)
-        return target.substringSafe(findBaseClassPackageNameRange(target, baseClassName))
-    }
-
-    private fun parseClassBody(target: String): String {
-        return target.substringSafe(findClassBodyRange(target))
-    }
-
-    protected fun findPackageNameRange(target: String): IntRange {
-        val packageNameStart = target.indexAfter("package ")
-        val packageNameSlice = target.substringSafe(packageNameStart..target.lastIndex)
-        val packageNameLen = packageNameSlice.takeWhile { !it.isWhitespace() }.lastIndex
-        val packageNameEnd = packageNameStart + packageNameLen
-        return packageNameStart..packageNameEnd
-    }
-
-    protected fun findClassNameRange(target: String): IntRange {
-        val classNameStart = target.indexAfter("class ")
-        val classNameSlice = target.substringSafe(classNameStart..target.lastIndex)
-        val classNameLen = classNameSlice.takeWhile { it.isLetterOrDigit() }.lastIndex
-        val classNameEnd = classNameStart + classNameLen
-        return classNameStart..classNameEnd
-    }
-
-    protected fun findBaseClassNameRange(target: String): IntRange {
-        val implsRange = findImplementationsRange(target)
-        val implsSlice = target.substringSafe(implsRange)
-        val baseClassNameImplsEnd = implsSlice.indexBefore('(')
-        val baseClassNameImplsSlice = implsSlice.substringSafe(0..baseClassNameImplsEnd)
-        val baseClassNameLen = baseClassNameImplsSlice.takeLastWhile { it.isLetterOrDigit() }.lastIndex
-        val baseClassNameImplsStart = baseClassNameImplsEnd - baseClassNameLen
-        val baseClassNameStart = implsRange.first + baseClassNameImplsStart
-        val baseClassNameEnd = implsRange.first + baseClassNameImplsEnd
-        return baseClassNameStart..baseClassNameEnd
-    }
-
-    protected fun findImplementationsRange(target: String): IntRange {
-        val implsEnd = target.indexBefore('{')
-        val implsSlice = target.substringSafe(0..implsEnd)
-        val implsStart = implsSlice.lastIndexAfter(':')
-        return implsStart..implsEnd
-    }
-
-    protected fun findClassBodyRange(target: String): IntRange {
-        val classBodyStart = target.indexAfter('{')
-        val classBodyEnd = target.lastIndexOf('}')
-        return classBodyStart..classBodyEnd
-    }
-
-    protected fun findBaseClassPackageNameRange(target: String, baseClassName: String): IntRange {
-        val line = target.lines()
-                .find { it.contains("import ") && it.contains(baseClassName) } ?: ""
-
-        val packageNameLineEnd = line.indexBefore(baseClassName) - 1 // because of dot -> "import com.MyClass"
-        val packageNameLineStart = line.indexAfter("import ")
-        val importStart = target.indexOf(line)
-        val packageNameStart = importStart + packageNameLineStart
-        val packageNameEnd = importStart + packageNameLineEnd
-        return packageNameStart..packageNameEnd
     }
 
     protected fun String.substringSafe(range: IntRange): String {
@@ -327,36 +188,112 @@ open class KClassParser(protected val logger: Logger) {
         val index = indexOf(target)
         return if (index >= 0) index - 1 else index
     }
+
+    private fun parsePackageName(target: String): String {
+        return target.substringSafe(findPackageNameRange(target))
+    }
+
+    private fun parseClassName(target: String): String {
+        return target.substringSafe(findClassNameRange(target))
+    }
+
+    private fun parseImplementations(target: String): List<String> {
+        return target.substringSafe(findImplementationsRange(target))
+                .split(',')
+                .map { it.trim() }
+    }
+
+    private fun parseBaseClassName(target: String): String {
+        return target.substringSafe(findBaseClassNameRange(target))
+    }
+
+    private fun parseBaseClassPackageName(target: String): String {
+        val baseClassName = parseBaseClassName(target)
+        return target.substringSafe(findBaseClassPackageNameRange(target, baseClassName))
+    }
+
+    private fun parseClassBody(target: String): String {
+        return target.substringSafe(findClassBodyRange(target))
+    }
+
+    private fun findPackageNameRange(target: String): IntRange {
+        val packageNameStart = target.indexAfter("package ")
+        val packageNameSlice = target.substringSafe(packageNameStart..target.lastIndex)
+        val packageNameLen = packageNameSlice.takeWhile { !it.isWhitespace() }.lastIndex
+        val packageNameEnd = packageNameStart + packageNameLen
+        return packageNameStart..packageNameEnd
+    }
+
+    private fun findClassNameRange(target: String): IntRange {
+        val classNameStart = target.indexAfter("class ")
+        val classNameSlice = target.substringSafe(classNameStart..target.lastIndex)
+        val classNameLen = classNameSlice.takeWhile { it.isLetterOrDigit() }.lastIndex
+        val classNameEnd = classNameStart + classNameLen
+        return classNameStart..classNameEnd
+    }
+
+    private fun findBaseClassNameRange(target: String): IntRange {
+        val implsRange = findImplementationsRange(target)
+        val implsSlice = target.substringSafe(implsRange)
+        val baseClassNameImplsEnd = implsSlice.indexBefore('(')
+        val baseClassNameImplsSlice = implsSlice.substringSafe(0..baseClassNameImplsEnd)
+        val baseClassNameLen = baseClassNameImplsSlice.takeLastWhile { it.isLetterOrDigit() }.lastIndex
+        val baseClassNameImplsStart = baseClassNameImplsEnd - baseClassNameLen
+        val baseClassNameStart = implsRange.first + baseClassNameImplsStart
+        val baseClassNameEnd = implsRange.first + baseClassNameImplsEnd
+        return baseClassNameStart..baseClassNameEnd
+    }
+
+    private fun findImplementationsRange(target: String): IntRange {
+        val implsEnd = target.indexBefore('{').let { index ->
+            if (index == -1) target.lastIndex else index
+        }
+        val implsSlice = target.substringSafe(0..implsEnd)
+        val implsStart = implsSlice.lastIndexAfter(':')
+        return implsStart..implsEnd
+    }
+
+    private fun findClassBodyRange(target: String): IntRange {
+        val classBodyStart = target.indexAfter('{')
+        val classBodyEnd = target.lastIndexOf('}')
+        return classBodyStart..classBodyEnd
+    }
+
+    private fun findBaseClassPackageNameRange(target: String, baseClassName: String): IntRange {
+        val line = target.lines()
+                .find { it.contains("import ") && it.contains(baseClassName) } ?: ""
+
+        val packageNameLineEnd = line.indexBefore(baseClassName) - 1 // because of dot -> "import com.MyClass"
+        val packageNameLineStart = line.indexAfter("import ")
+        val importStart = target.indexOf(line)
+        val packageNameStart = importStart + packageNameLineStart
+        val packageNameEnd = importStart + packageNameLineEnd
+        return packageNameStart..packageNameEnd
+    }
 }
 
-/**
- * Kotlin class file parser.
- *
- * Parses all of views without any filtration because CrossFeatureRoute can be implemented
- * in base classуs and we must have possibility to reach those base classes.
- * */
-class KClassCrossFeatureViewParser(logger: Logger) : KClassParser(logger) {
+private class CrossFeatureViewParser(logger: Logger?) : KClassParser(logger) {
 
     override fun parse(file: File): KClassWrapper? {
-        val parsingResult = super.parse(file) ?: return null
+        val parsedFile = super.parse(file) ?: return null
 
-        val names = listOf(parsingResult.className, parsingResult.baseClassName)
+        val names = listOf(parsedFile.className, parsedFile.baseClassName)
         val isActivity: Boolean = names.any { it.contains("Activity") }
         val isFragment: Boolean = names.any { it.contains("Fragment") }
         val isDialog: Boolean = names.any { it.contains("Dialog") }
         val isImplementsCrossFeature: Boolean = when {
             isActivity -> true
-            isFragment || isDialog -> parsingResult.implementations.contains("CrossFeatureFragment")
+            isFragment || isDialog -> parsedFile.implementations.contains("CrossFeatureFragment")
             else -> false
         }
 
-        val result = KClassCrossFeatureViewWrapper(
-                parsingResult.packageName,
-                parsingResult.className,
-                parsingResult.baseClassPackageName,
-                parsingResult.baseClassName,
-                parsingResult.implementations,
-                parsingResult.classBody,
+        val result = CrossFeatureViewFile(
+                parsedFile.packageName,
+                parsedFile.className,
+                parsedFile.baseClassPackageName,
+                parsedFile.baseClassName,
+                parsedFile.implementations,
+                parsedFile.classBody,
                 isImplementsCrossFeature
         )
 
@@ -366,38 +303,33 @@ class KClassCrossFeatureViewParser(logger: Logger) : KClassParser(logger) {
             isDialog -> "DialogView"
             else -> "View"
         }
-        logger.info("$entityName parsed: $parsingResult")
+        logger?.info("$entityName parsed: $parsedFile")
 
         return result
     }
 }
 
-/**
- * Kotlin class file parser.
- *
- * Parses only routes that implements CrossFeatureRoute.
- * */
-class KClassCrossFeatureRouteParser(logger: Logger) : KClassParser(logger) {
+private class CrossFeatureRouteParser(logger: Logger?) : KClassParser(logger) {
 
     override fun parse(file: File): KClassWrapper? {
-        val parsingResult = super.parse(file) ?: return null
+        val parsedFile = super.parse(file) ?: return null
 
-        val names = listOf(parsingResult.className, parsingResult.baseClassName)
+        val names = listOf(parsedFile.className, parsedFile.baseClassName)
         val isActivity: Boolean = names.any { it.contains("Activity") }
         val isFragment: Boolean = names.any { it.contains("Fragment") }
         val isDialog: Boolean = names.any { it.contains("Dialog") }
-        val targetClassPath = parseTargetClassPath(parsingResult.classBody)
+        val targetClassPath = parseTargetClassPath(parsedFile.classBody)
         val isCrossFeatureRoute = targetClassPath.isNotBlank()
 
         val result = when (isCrossFeatureRoute) {
             true -> {
-                KClassCrossFeatureRouteWrapper(
-                        parsingResult.packageName,
-                        parsingResult.className,
-                        parsingResult.baseClassPackageName,
-                        parsingResult.baseClassName,
-                        parsingResult.implementations,
-                        parsingResult.classBody,
+                CrossFeatureRouteFile(
+                        parsedFile.packageName,
+                        parsedFile.className,
+                        parsedFile.baseClassPackageName,
+                        parsedFile.baseClassName,
+                        parsedFile.implementations,
+                        parsedFile.classBody,
                         targetClassPath
                 )
             }
@@ -412,8 +344,8 @@ class KClassCrossFeatureRouteParser(logger: Logger) : KClassParser(logger) {
         }
 
         when (result) {
-            null -> logger.info("$entityName ignored: $parsingResult")
-            else -> logger.info("$entityName parsed: $parsingResult")
+            null -> logger?.info("$entityName ignored: $parsedFile")
+            else -> logger?.info("$entityName parsed: $parsedFile")
         }
 
         return result
@@ -434,23 +366,12 @@ class KClassCrossFeatureRouteParser(logger: Logger) : KClassParser(logger) {
 
 }
 
-/**
- * Validate's CrossFeatureRoute by following steps:
- * 1. Check is target view exist;
- * 2. Check is target view Activity or implements CrossFeatureFragment;
- *
- * @param logger entity to log message in to.
- * @param views list of views, used to validate CrossFeatureRoute.
- * */
-class KClassCrossFeatureRouteValidator(
-        private val logger: Logger,
-        private val views: List<KClassCrossFeatureViewWrapper>
+private class CrossFeatureRouteValidator(
+        private val views: List<CrossFeatureViewFile>,
+        private val logger: Logger? = null
 ) {
 
-    /**
-     * Validate CrossFeatureRoute.
-     * */
-    fun validate(route: KClassCrossFeatureRouteWrapper) {
+    fun validate(route: CrossFeatureRouteFile) {
         val routeTargetView = findViewClass(route.targetClassPackageName, route.targetClassName)
                 ?: error("Unable to find view for $route")
 
@@ -459,10 +380,10 @@ class KClassCrossFeatureRouteValidator(
             error("$routeTargetView is not implements CrossFeatureFragment for $route")
         }
 
-        logger.info("Verified: $route")
+        logger?.info("Verified: $route")
     }
 
-    private fun checkIsImplementsCrossFeature(view: KClassCrossFeatureViewWrapper): Boolean {
+    private fun checkIsImplementsCrossFeature(view: CrossFeatureViewFile): Boolean {
         return when {
             view.isImplementsCrossFeature -> true
             else -> {
@@ -472,8 +393,71 @@ class KClassCrossFeatureRouteValidator(
         }
     }
 
-    private fun findViewClass(packageName: String, className: String): KClassCrossFeatureViewWrapper? {
+    private fun findViewClass(packageName: String, className: String): CrossFeatureViewFile? {
         return views.find { it.className == className && it.packageName == packageName }
+    }
+}
+
+//endregion
+
+//region data
+
+/**
+ * Wrapper that contains parsed information of kotlin class file.
+ * */
+private open class KClassWrapper(
+        val packageName: String,
+        val className: String,
+        val baseClassPackageName: String,
+        val baseClassName: String,
+        val implementations: List<String>,
+        val classBody: String
+) {
+    val fullName: String = "$packageName.$className"
+
+    override fun toString(): String {
+        return "$className (package $packageName)"
+    }
+}
+
+private class CrossFeatureViewFile(
+        packageName: String,
+        className: String,
+        baseClassPackageName: String,
+        baseClassName: String,
+        implementations: List<String>,
+        classBody: String,
+        val isImplementsCrossFeature: Boolean
+) : KClassWrapper(
+        packageName,
+        className,
+        baseClassPackageName,
+        baseClassName,
+        implementations,
+        classBody
+)
+
+private class CrossFeatureRouteFile(
+        packageName: String,
+        className: String,
+        baseClassPackageName: String,
+        baseClassName: String,
+        implementations: List<String>,
+        classBody: String,
+        val targetClassPath: String
+) : KClassWrapper(
+        packageName,
+        className,
+        baseClassPackageName,
+        baseClassName,
+        implementations,
+        classBody
+) {
+    val targetClassName: String = targetClassPath.substringAfterLast('.')
+    val targetClassPackageName: String = targetClassPath.substringBeforeLast('.')
+
+    override fun toString(): String {
+        return "${super.toString()} (target = $targetClassPath)"
     }
 }
 
