@@ -1,4 +1,4 @@
-package ru.surfstudio.android.build.tasks.check_cross_feature_route.data
+package ru.surfstudio.android.build.tasks.validate_cross_feature_routes.data
 
 /**
  * Wrapper that contains parsed information of kotlin class file.

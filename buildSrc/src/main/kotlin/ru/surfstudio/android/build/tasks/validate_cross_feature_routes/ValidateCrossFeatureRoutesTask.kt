@@ -1,12 +1,12 @@
-package ru.surfstudio.android.build.tasks.check_cross_feature_route
+package ru.surfstudio.android.build.tasks.validate_cross_feature_routes
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureRouteWrapper
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.data.KClassCrossFeatureViewWrapper
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureRouteParser
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureRouteValidator
-import ru.surfstudio.android.build.tasks.check_cross_feature_route.util.KClassCrossFeatureViewParser
+import ru.surfstudio.android.build.tasks.validate_cross_feature_routes.data.KClassCrossFeatureRouteWrapper
+import ru.surfstudio.android.build.tasks.validate_cross_feature_routes.data.KClassCrossFeatureViewWrapper
+import ru.surfstudio.android.build.tasks.validate_cross_feature_routes.util.KClassCrossFeatureRouteParser
+import ru.surfstudio.android.build.tasks.validate_cross_feature_routes.util.KClassCrossFeatureRouteValidator
+import ru.surfstudio.android.build.tasks.validate_cross_feature_routes.util.KClassCrossFeatureViewParser
 import java.io.File
 
 /**
