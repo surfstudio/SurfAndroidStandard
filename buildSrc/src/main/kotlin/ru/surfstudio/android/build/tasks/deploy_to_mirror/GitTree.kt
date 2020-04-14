@@ -4,6 +4,7 @@ import org.eclipse.jgit.lib.Ref
 import org.eclipse.jgit.revwalk.RevCommit
 import org.eclipse.jgit.revwalk.RevWalk
 import org.eclipse.jgit.storage.file.FileRepositoryBuilder
+import org.gradle.api.GradleException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.GitNodeNotFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.ManyBranchesFoundException
 import ru.surfstudio.android.build.exceptions.deploy_to_mirror.MirrorCommitNotFoundByStandardHashException
@@ -19,6 +20,8 @@ import ru.surfstudio.android.build.utils.mirrorStandardHash
 import ru.surfstudio.android.build.utils.standardHash
 import java.io.File
 
+private const val VERSION_LABEL = "[version]"
+
 /**
  * Data structure based on tree
  * Use it to build tree, set root and ends elements and delete other
@@ -32,8 +35,19 @@ class GitTree(
     private val mirrorNodes: MutableSet<Node> = mutableSetOf()
     private val standardNodes: MutableSet<Node> = mutableSetOf()
 
+    private val watchedHashed = mutableSetOf<String>()
+
     lateinit var startMirrorRepositoryCommits: Set<CommitWithBranch>
     lateinit var standardRepositoryCommitsForMirror: List<CommitWithBranch>
+
+    private lateinit var stopEndNode: Node
+
+    /**
+     * Function which checks if commit should be skipped during mirroring
+     */
+    fun shouldSkipCommit(commit: RevCommit): Boolean =
+            commit.shortMessage.endsWith(VERSION_LABEL) &&
+                    commit.commitTime < stopEndNode.value.commitTime
 
     /**
      * Build GitTree representation of standard repository with correct structure
@@ -222,11 +236,18 @@ class GitTree(
      */
     private fun createLines(): List<List<Node>> {
         markEndNodes()
-
         val ends = standardNodes.filter { it.state == END }
+        stopEndNode = ends.minBy { it.value.commitTime }
+                ?: throw GradleException("Can't find a stop end node with min commit time")
 
-        return ends.flatMap { end -> buildChain(mutableListOf(end)) }
-                .filter { ends.contains(it.first()) && it.last() == rootNode }
+        return ends.flatMap { end ->
+            watchedHashed.clear()
+            buildChain(mutableListOf(end))
+        }
+                .filter {
+                    ends.contains(it.first()) && it.last() == rootNode
+                            || it.size > 1 && it.last().value.shortMessage.endsWith(VERSION_LABEL)
+                }
     }
 
     /**
@@ -297,6 +318,7 @@ class GitTree(
         val existedBranchNames = mirrorRepository.getAllBranches()
                 .map { it.name }
                 .extractBranchNames()
+        val branchName = BranchCreator.generateBranchName(existedBranchNames)
 
         val mirrorStartCommitsStandardHashes = startMirrorRepositoryCommits.map { it.commit.mirrorStandardHash }
 
@@ -315,7 +337,6 @@ class GitTree(
                 .sortedBy { it.commit.commitTime }
 
         lines.forEach { line ->
-            val branchName = BranchCreator.generateBranchName(existedBranchNames)
             line.forEach { node ->
                 val commit = standardRepositoryCommitsForMirror.find { it.commit == node.value }
                 if (commit?.branch?.isEmpty() == true) {
@@ -333,13 +354,34 @@ class GitTree(
     private fun buildChain(chain: MutableList<Node>): List<List<Node>> {
         val result: MutableList<List<Node>> = mutableListOf()
         var node = chain.last()
+        markAsWatched(node)
+        result.add(chain)
+
+        // every line starts and ends with [version] commit
+        if (chain.first() != node && node.value.shortMessage.contains(VERSION_LABEL)) {
+            return result
+        }
+
+        node.parents.forEach {
+            checkNode(it, chain, result)
+        }
 
         while (true) {
             when (node.children.size) {
                 1 -> {
                     val next = node.children.first()
-                    chain.add(next)
-                    node = next
+
+                    next.parents.forEach {
+                        checkNode(it, chain, result)
+                    }
+
+                    if (!isWatched(next)) {
+                        markAsWatched(next)
+                        chain.add(next)
+                        node = next
+                    } else {
+                        return result
+                    }
                 }
                 0 -> {
                     result.add(chain)
@@ -347,14 +389,28 @@ class GitTree(
                 }
                 else -> {
                     node.children.forEach {
-                        val newChain = chain.toMutableList()
-                        newChain.add(it)
-                        result.addAll(buildChain(newChain))
+                        checkNode(it, chain, result)
                     }
                     return result
                 }
             }
         }
+    }
+
+    private fun checkNode(node: Node, chain: MutableList<Node>, result: MutableList<List<Node>> ) {
+        if (!isWatched(node)) {
+            markAsWatched(node)
+            val newChain = chain.toMutableList()
+            newChain.add(node)
+            result.addAll(buildChain(newChain))
+        }
+    }
+
+    private fun isWatched(node: Node): Boolean =
+            watchedHashed.contains(node.value.standardHash)
+
+    private fun markAsWatched(node: Node) {
+        watchedHashed.add(node.value.standardHash)
     }
 
     /**

@@ -3,4 +3,5 @@
     <string name="open_tv_screen_btn_text">TitleSubtitleView demonstration</string>
     <string name="change_state_btn_text">Сменить состояние</string>
     <string name="pv_error_title">Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок Очень длинный заголовок </string>
+    <string name="open_shadow_screen_btn_text">ShadowLayout demonstration</string>
 </resources>
