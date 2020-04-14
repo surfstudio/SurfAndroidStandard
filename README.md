@@ -5,6 +5,9 @@
 [![License][license_icon]][license_link]
 [![Download][build_version_icon]][build_version_link] 
 
+**!!! Это старый репозиторий.**
+**[Новый репозиторий](https://gitlab.com/surfstudio/public/android-standard)**
+
 Фреймворк для разработки android приложений [студии Surf](http://www.surfstudio.ru/).
 Содержит модули и стандарты разработки, с помощью которых можно построить качественное приложение
 в короткие сроки.
